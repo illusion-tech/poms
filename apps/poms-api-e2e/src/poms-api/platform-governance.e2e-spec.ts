@@ -1,4 +1,4 @@
-import { createApiClient, loginAsAdmin, loginAsViewer, VIEWER_CREDENTIALS } from '../support/api-client';
+import { createApiClient, createCsrfBootstrapClient, loginAsAdmin, loginAsViewer, VIEWER_CREDENTIALS } from '../support/api-client';
 import { expectErrorStatus, expectStatus } from '../support/http';
 import {
     activateOrgUnit,
@@ -58,7 +58,7 @@ describe('poms-api platform governance e2e', () => {
             const staleSessionResponse = await viewerSession.client.get('/auth/profile');
             expectErrorStatus(staleSessionResponse, 401);
 
-            const loginResponse = await createApiClient().post('/auth/sessions', VIEWER_CREDENTIALS);
+            const loginResponse = await (await createCsrfBootstrapClient()).post('/auth/sessions', VIEWER_CREDENTIALS);
             expectErrorStatus(loginResponse, 401, '用户名或密码错误');
         } finally {
             await activatePlatformUser(adminClient, viewer.id);
@@ -459,7 +459,7 @@ describe('poms-api platform governance e2e', () => {
             displayOrder: 100
         });
 
-        const failedLoginResponse = await createApiClient().post('/auth/sessions', {
+        const failedLoginResponse = await (await createCsrfBootstrapClient()).post('/auth/sessions', {
             username: 'admin',
             password: 'wrong-password'
         });

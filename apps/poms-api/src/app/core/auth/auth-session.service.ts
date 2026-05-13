@@ -29,6 +29,13 @@ export type ResolvedAuthSession = {
     user: UserPayload;
 };
 
+export type CreatedCsrfToken = {
+    session: AuthSession | null;
+    user: UserPayload | null;
+    csrfToken: string;
+    expiresAt: Date;
+};
+
 export const AuthSessionErrorCodeValue = {
     SessionMissing: 'session_missing',
     SessionExpired: 'session_expired',
@@ -123,6 +130,35 @@ export class AuthSessionService {
 
     revokeActiveUserSessions(userId: string, reason: AuthSessionRevokedReason, options: AuthSessionLifecycleOptions = {}): Promise<number> {
         return this.authSessionRepository.revokeActiveSessionsForUser(userId, reason, options.now ?? new Date());
+    }
+
+    async refreshCsrfToken(sessionToken: string | null, requestInfo: AuthSessionRequestInfo = {}, options: AuthSessionLifecycleOptions = {}): Promise<CreatedCsrfToken> {
+        if (!sessionToken) {
+            return this.createAnonymousCsrfToken(options);
+        }
+
+        const resolved = await this.resolveSessionToken(sessionToken, requestInfo, options);
+        const csrfToken = createOpaqueToken();
+        resolved.session.csrfTokenHash = hashToken(csrfToken);
+        await this.authSessionRepository.saveAll([resolved.session]);
+
+        return {
+            session: resolved.session,
+            user: resolved.user,
+            csrfToken,
+            expiresAt: minDate(resolved.session.idleExpiresAt, resolved.session.absoluteExpiresAt)
+        };
+    }
+
+    createAnonymousCsrfToken(options: AuthSessionLifecycleOptions = {}): CreatedCsrfToken {
+        const now = options.now ?? new Date();
+        const lifecycle = this.#getLifecycleOptions(options);
+        return {
+            session: null,
+            user: null,
+            csrfToken: createOpaqueToken(),
+            expiresAt: addSeconds(now, lifecycle.idleTimeoutSeconds)
+        };
     }
 
     verifyCsrfToken(session: AuthSession, csrfToken: string): boolean {

@@ -22,6 +22,7 @@ describe('AuthController', () => {
         createSession: jest.Mock;
         resolveSessionToken: jest.Mock;
         revokeSessionToken: jest.Mock;
+        refreshCsrfToken: jest.Mock;
     };
     let authSessionCookieService: {
         createSessionCookieHeader: jest.Mock;
@@ -52,7 +53,8 @@ describe('AuthController', () => {
         authSessionService = {
             createSession: jest.fn().mockResolvedValue(createdSession()),
             resolveSessionToken: jest.fn(),
-            revokeSessionToken: jest.fn()
+            revokeSessionToken: jest.fn(),
+            refreshCsrfToken: jest.fn()
         };
         authSessionCookieService = {
             createSessionCookieHeader: jest.fn().mockReturnValue('poms_session=session-token; HttpOnly'),
@@ -177,6 +179,45 @@ describe('AuthController', () => {
         });
         expect(result.authenticated).toBe(true);
         expect(result.expiresAt).toBe('2026-05-13T01:15:00.000Z');
+    });
+
+    it('refreshes a CSRF token and sets the readable CSRF cookie', async () => {
+        authSessionCookieService.getSessionTokenFromCookieHeader.mockReturnValue('raw-session-token');
+        authSessionService.refreshCsrfToken.mockResolvedValue({
+            session: createdSession().session,
+            user: {
+                sub: '00000000-0000-4000-8000-000000000001',
+                username: 'admin',
+                permissions: ['platform:users:manage']
+            },
+            csrfToken: 'new-csrf-token',
+            expiresAt: new Date('2026-05-13T01:15:00.000Z')
+        });
+        authSessionCookieService.createCsrfCookieHeader.mockReturnValue('poms_csrf=new-csrf-token');
+        const response = responseMock();
+
+        await expect(
+            controller.getCsrfToken(
+                {
+                    headers: {
+                        cookie: 'poms_session=raw-session-token',
+                        'user-agent': 'jest'
+                    }
+                },
+                response
+            )
+        ).resolves.toEqual({
+            token: 'new-csrf-token',
+            cookieName: 'poms_csrf',
+            headerName: 'X-CSRF-Token',
+            expiresAt: '2026-05-13T01:15:00.000Z'
+        });
+
+        expect(authSessionService.refreshCsrfToken).toHaveBeenCalledWith('raw-session-token', {
+            ip: null,
+            userAgent: 'jest'
+        });
+        expect(response.setHeader).toHaveBeenCalledWith('Set-Cookie', 'poms_csrf=new-csrf-token');
     });
 
     it('delegates external login provider listing and authorization', async () => {

@@ -396,6 +396,11 @@
             }
           }
         },
+        "security": [
+          {
+            "pomsCsrf": []
+          }
+        ],
         "summary": "创建账号密码认证会话",
         "tags": [
           "Auth"
@@ -419,6 +424,28 @@
           }
         },
         "summary": "获取当前认证会话",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/csrf-token": {
+      "get": {
+        "operationId": "AuthController_getCsrfToken",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CsrfTokenView"
+                }
+              }
+            }
+          }
+        },
+        "summary": "获取 CSRF token",
         "tags": [
           "Auth"
         ]
@@ -451,6 +478,9 @@
           }
         },
         "security": [
+          {
+            "pomsCsrf": []
+          },
           {
             "pomsSession": []
           }
@@ -603,6 +633,11 @@
             }
           }
         },
+        "security": [
+          {
+            "pomsCsrf": []
+          }
+        ],
         "summary": "使用外部登录一次性票据创建认证会话",
         "tags": [
           "Auth"
@@ -661,6 +696,9 @@
           }
         },
         "security": [
+          {
+            "pomsCsrf": []
+          },
           {
             "pomsSession": []
           }
@@ -11044,6 +11082,11 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "poms_session"
+      },
+      "pomsCsrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token"
       }
     },
     "schemas": {
@@ -11593,6 +11636,34 @@
           "permissions",
           "expiresAt",
           "csrf"
+        ]
+      },
+      "CsrfTokenView": {
+        "type": "object",
+        "properties": {
+          "cookieName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "headerName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "token": {
+            "type": "string",
+            "minLength": 32
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "cookieName",
+          "headerName",
+          "token",
+          "expiresAt"
         ]
       },
       "LogoutAuthSessionRequest": {

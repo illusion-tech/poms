@@ -200,6 +200,7 @@ export * from './create-receipt-record-request';
 export * from './create-role-request';
 export * from './create-sales-discovery-record-request';
 export * from './create-sales-follow-up-record-request';
+export * from './csrf-token-view';
 export * from './current-auth-session-status';
 export * from './current-auth-session-view';
 export * from './customer-alias-summary';

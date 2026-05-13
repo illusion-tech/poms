@@ -8,6 +8,7 @@ import { AuthSession } from './auth-session.entity';
 import { AuthSessionCookieService } from './auth-session-cookie.service';
 import { AuthSessionRepository } from './auth-session.repository';
 import { AuthSessionService } from './auth-session.service';
+import { AuthCsrfGuard } from './guards/auth-csrf.guard';
 import { PermissionsGuard } from './guards/permissions.guard';
 import { SessionAuthGuard } from './guards/session-auth.guard';
 
@@ -23,9 +24,11 @@ import { SessionAuthGuard } from './guards/session-auth.guard';
         AuthSessionService,
         AuthSessionCookieService,
         SessionAuthGuard,
+        AuthCsrfGuard,
         { provide: APP_GUARD, useClass: SessionAuthGuard },
+        { provide: APP_GUARD, useClass: AuthCsrfGuard },
         { provide: APP_GUARD, useClass: PermissionsGuard }
     ],
-    exports: [AuthSessionService, AuthSessionCookieService, SessionAuthGuard]
+    exports: [AuthSessionService, AuthSessionCookieService, SessionAuthGuard, AuthCsrfGuard]
 })
 export class AuthModule {}

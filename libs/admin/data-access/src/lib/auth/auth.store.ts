@@ -12,6 +12,7 @@ import type {
 } from '@poms/shared-api-client';
 import { ApprovalApi, AuthApi, NavigationApi, NavigationItemType, TodoStatus } from '@poms/shared-api-client';
 import { catchError, firstValueFrom, of } from 'rxjs';
+import { PomsCsrfTokenStore } from '../poms-api/poms-csrf-token.store';
 
 export interface MenuItem {
     label?: string;
@@ -29,6 +30,7 @@ export class AuthStore {
     readonly #authApi = inject(AuthApi);
     readonly #navApi = inject(NavigationApi);
     readonly #approvalApi = inject(ApprovalApi);
+    readonly #csrfTokenStore = inject(PomsCsrfTokenStore);
 
     readonly currentUser = signal<SanitizedUserWithOrgUnits | null>(null);
     readonly navigationTree = signal<NavigationItem[]>([]);
@@ -44,6 +46,7 @@ export class AuthStore {
     }
 
     async login(username: string, password: string): Promise<void> {
+        await this.#ensureCsrfToken();
         const response = await firstValueFrom(this.#authApi.authControllerCreatePasswordAuthSession({ createPasswordAuthSessionRequest: { username, password } }));
         await this.#acceptAuthSession(response);
     }
@@ -65,6 +68,7 @@ export class AuthStore {
                 errorDescription: input.errorDescription
             })
         );
+        await this.#ensureCsrfToken();
         const session = await firstValueFrom(
             this.#authApi.authControllerCreateExternalLoginSession({
                 createExternalLoginSessionRequest: {
@@ -84,6 +88,7 @@ export class AuthStore {
     }
 
     #clearSessionState(): void {
+        this.#csrfTokenStore.clear();
         this.currentUser.set(null);
         this.navigationTree.set([]);
         this.myTodos.set([]);
@@ -122,6 +127,7 @@ export class AuthStore {
             throw new Error('Current user is not authenticated.');
         }
 
+        await this.#ensureCsrfToken();
         const user = await firstValueFrom(
             this.#authApi.authControllerUpdateProfile({
                 updateCurrentUserProfileRequest: request
@@ -151,7 +157,13 @@ export class AuthStore {
             this.#clearSessionState();
             return;
         }
+        await this.#ensureCsrfToken();
         await this.#loadUserData(session.user);
+    }
+
+    async #ensureCsrfToken(): Promise<void> {
+        const csrf = await firstValueFrom(this.#authApi.authControllerGetCsrfToken());
+        this.#csrfTokenStore.setToken(csrf.token);
     }
 
     #toMenuModel(items: NavigationItem[], isRoot = false): MenuItem[] {

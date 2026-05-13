@@ -44,6 +44,7 @@ describe('AuthStore', () => {
         authControllerHandleExternalLoginCallback: jest.Mock;
         authControllerCreateExternalLoginSession: jest.Mock;
         authControllerGetCurrentAuthSession: jest.Mock;
+        authControllerGetCsrfToken: jest.Mock;
         authControllerLogoutCurrentAuthSession: jest.Mock;
         authControllerGetProfile: jest.Mock;
         authControllerUpdateProfile: jest.Mock;
@@ -65,6 +66,7 @@ describe('AuthStore', () => {
             authControllerHandleExternalLoginCallback: jest.fn(),
             authControllerCreateExternalLoginSession: jest.fn(),
             authControllerGetCurrentAuthSession: jest.fn(),
+            authControllerGetCsrfToken: jest.fn().mockReturnValue(of({ token: 'csrf-token', cookieName: 'poms_csrf', headerName: 'X-CSRF-Token', expiresAt: '2026-05-07T08:30:00.000Z' })),
             authControllerLogoutCurrentAuthSession: jest.fn(),
             authControllerGetProfile: jest.fn(),
             authControllerUpdateProfile: jest.fn()
@@ -199,6 +201,7 @@ describe('AuthStore', () => {
                 ticket: 'external-login-ticket-value-1234567890'
             }
         });
+        expect(authApiMock.authControllerGetCsrfToken).toHaveBeenCalled();
         expect(store.currentUser()).toEqual(user);
     });
 

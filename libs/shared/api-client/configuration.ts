@@ -102,6 +102,17 @@ constructor({ accessToken, apiKeys, basePath, credentials, encodeParam, encoder,
                 }
             };
         }
+
+        // init default pomsCsrf credential
+        if (!this.credentials['pomsCsrf']) {
+            this.credentials['pomsCsrf'] = () => {
+                if (this.apiKeys === null || this.apiKeys === undefined) {
+                    return undefined;
+                } else {
+                    return this.apiKeys['pomsCsrf'] || this.apiKeys['X-CSRF-Token'];
+                }
+            };
+        }
     }
 
     /**

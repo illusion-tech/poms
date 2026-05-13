@@ -56,6 +56,7 @@ describe('SessionAuthGuard', () => {
         });
         expect(request).toMatchObject({
             authSessionId: 'session-1',
+            authSession: { id: 'session-1' },
             user: {
                 username: 'admin',
                 permissions: ['customer:read']

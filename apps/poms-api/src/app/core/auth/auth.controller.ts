@@ -1,8 +1,9 @@
-import type { AuthSessionLogoutResult, CurrentAuthSessionView, EnabledLoginProviderList, ExternalLoginAuthorizeResult, ExternalLoginCallbackQuery, ExternalLoginCallbackResult, SanitizedUserWithOrgUnits, UserPayload } from '@poms/shared-contracts';
+import type { AuthSessionLogoutResult, CsrfTokenView, CurrentAuthSessionView, EnabledLoginProviderList, ExternalLoginAuthorizeResult, ExternalLoginCallbackQuery, ExternalLoginCallbackResult, SanitizedUserWithOrgUnits, UserPayload } from '@poms/shared-contracts';
 import {
     AuthSessionLogoutResultDto,
     CreateExternalLoginSessionRequestDto,
     CreatePasswordAuthSessionRequestDto,
+    CsrfTokenViewDto,
     CurrentAuthSessionViewDto,
     EnabledLoginProviderListDto,
     ExternalLoginAuthorizeResultDto,
@@ -13,7 +14,7 @@ import {
     UpdateCurrentUserProfileRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request, Res, UnauthorizedException } from '@nestjs/common';
-import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { RuntimeAuditService } from '../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../runtime-audit/runtime-audit-request.utils';
 import { findDevUserById } from '../platform/dev-platform.fixtures';
@@ -48,6 +49,7 @@ export class AuthController {
     @Post('sessions')
     @Public()
     @HttpCode(HttpStatus.OK)
+    @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '创建账号密码认证会话' })
     @ApiOkResponse({ type: CurrentAuthSessionViewDto })
     async createPasswordAuthSession(
@@ -91,10 +93,36 @@ export class AuthController {
         }
     }
 
+    @Get('csrf-token')
+    @Public()
+    @ApiOperation({ summary: '获取 CSRF token' })
+    @ApiOkResponse({ type: CsrfTokenViewDto })
+    async getCsrfToken(@Request() req: RuntimeAuditRequestLike, @Res({ passthrough: true }) res: HeaderResponse): Promise<CsrfTokenView> {
+        const sessionToken = this.authSessionCookieService.getSessionTokenFromCookieHeader(req.headers?.['cookie']);
+        try {
+            const result = await this.authSessionService.refreshCsrfToken(sessionToken, this.#requestInfo(req));
+            res.setHeader('Set-Cookie', this.authSessionCookieService.createCsrfCookieHeader(result.csrfToken, result.expiresAt));
+            return {
+                token: result.csrfToken,
+                cookieName: this.authSessionCookieService.csrfCookieName,
+                headerName: this.authSessionCookieService.csrfHeaderName,
+                expiresAt: result.expiresAt.toISOString()
+            };
+        } catch (error) {
+            if (error instanceof AuthSessionAuthenticationError) {
+                this.#clearAuthCookies(res);
+                throw createUnauthorized(error.code);
+            }
+
+            throw error;
+        }
+    }
+
     @Post('session\\:logout')
     @Authenticated()
     @HttpCode(HttpStatus.OK)
     @ApiCookieAuth('pomsSession')
+    @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '登出当前认证会话' })
     @ApiOkResponse({ type: AuthSessionLogoutResultDto })
     async logoutCurrentAuthSession(
@@ -145,6 +173,7 @@ export class AuthController {
     @Post('external-login-sessions')
     @Public()
     @HttpCode(HttpStatus.OK)
+    @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '使用外部登录一次性票据创建认证会话' })
     @ApiOkResponse({ type: CurrentAuthSessionViewDto })
     async createExternalLoginSession(
@@ -177,6 +206,7 @@ export class AuthController {
     @Patch('profile')
     @Authenticated()
     @ApiCookieAuth('pomsSession')
+    @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '更新当前登录用户基础资料' })
     @ApiOkResponse({ type: SanitizedUserWithOrgUnitsDto })
     async updateProfile(@Body() body: UpdateCurrentUserProfileRequestDto, @Request() req: { user: UserPayload }): Promise<SanitizedUserWithOrgUnitsDto> {
@@ -276,6 +306,7 @@ export class AuthController {
 
 function invalidCredentials(): UnauthorizedException {
     return new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
         code: 'invalid_credentials',
         message: '用户名或密码错误'
     });
@@ -283,6 +314,7 @@ function invalidCredentials(): UnauthorizedException {
 
 function createUnauthorized(code: AuthSessionErrorCode): UnauthorizedException {
     return new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
         code,
         message: 'Authentication required'
     });

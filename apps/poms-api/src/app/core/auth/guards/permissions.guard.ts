@@ -1,5 +1,5 @@
 import type { PermissionKey, UserPayload } from '@poms/shared-contracts';
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RuntimeAuditService } from '../../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../../runtime-audit/runtime-audit-request.utils';
@@ -68,6 +68,10 @@ export class PermissionsGuard implements CanActivate {
                       userPermissions
                   }
         });
-        throw new ForbiddenException('Insufficient permissions');
+        throw new ForbiddenException({
+            statusCode: HttpStatus.FORBIDDEN,
+            code: 'permission_denied',
+            message: 'Insufficient permissions'
+        });
     }
 }

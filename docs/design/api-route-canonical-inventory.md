@@ -448,7 +448,7 @@
 | `auth` | `createPasswordAuthSession` | `POST /auth/sessions`       | `POST /auth/sessions`       | `POST /auth/sessions`       | `ADR-017` + `EX-66A` | `N/A`      | `EX-66C` 已完成 direct cutover；账号密码登录创建 HttpOnly Cookie 服务端 session，不再返回 Admin Web `accessToken`。 | `B15` | `aligned` |
 | `auth` | `getCurrentAuthSession`     | `GET /auth/session`         | `GET /auth/session`         | `GET /auth/session`         | `ADR-017` + `EX-66A` | `N/A`      | `EX-66C` 已落地；返回当前 session 状态、用户摘要、CSRF bootstrap 信息，不返回 bearer token。                        | `B15` | `aligned` |
 | `auth` | `logoutCurrentAuthSession`  | `POST /auth/session:logout` | `POST /auth/session:logout` | `POST /auth/session:logout` | `ADR-017` + `EX-66A` | `N/A`      | `EX-66C` 已落地；撤销服务端 session 并清理 cookie。                                                                 | `B15` | `aligned` |
-| `auth` | `getCsrfToken`              | `GET /auth/csrf-token`      | `N/A`                       | `GET /auth/csrf-token`      | `ADR-017` + `EX-66A` | `N/A`      | `EX-66D` planned；为当前 session 或登录前浏览器上下文发放 CSRF token，unsafe methods 必须携带。                     | `B15` | `planned` |
+| `auth` | `getCsrfToken`              | `GET /auth/csrf-token`      | `GET /auth/csrf-token`      | `GET /auth/csrf-token`      | `ADR-017` + `EX-66A` | `N/A`      | `EX-66D` 已落地；为当前 session 或登录前浏览器上下文发放 CSRF token，unsafe methods 必须携带。                      | `B15` | `aligned` |
 
 ## 7. 批次推进原则
 

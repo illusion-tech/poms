@@ -132,6 +132,40 @@ describe('AuthSessionService', () => {
         expect(service.verifyCsrfToken(session, 'csrf-token')).toBe(true);
         expect(service.verifyCsrfToken(session, 'wrong')).toBe(false);
     });
+
+    it('refreshes the session-bound CSRF token hash', async () => {
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            idleExpiresAt: new Date('2026-05-13T02:00:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+
+        const result = await service.refreshCsrfToken(token, {}, { now: new Date('2026-05-13T01:05:00.000Z'), lastSeenThrottleSeconds: 3600 });
+
+        expect(result.csrfToken).toHaveLength(43);
+        expect(result.expiresAt).toEqual(new Date('2026-05-13T02:00:00.000Z'));
+        expect(session.csrfTokenHash).toBe(hashToken(result.csrfToken));
+        expect(repository.saveAll).toHaveBeenLastCalledWith([session]);
+    });
+
+    it('creates an anonymous CSRF token with idle timeout expiry', () => {
+        const result = service.createAnonymousCsrfToken({
+            now: new Date('2026-05-13T01:00:00.000Z'),
+            idleTimeoutSeconds: 900
+        });
+
+        expect(result.session).toBeNull();
+        expect(result.user).toBeNull();
+        expect(result.csrfToken).toHaveLength(43);
+        expect(result.expiresAt).toEqual(new Date('2026-05-13T01:15:00.000Z'));
+    });
 });
 
 function createSession(overrides: Partial<Record<string, unknown>> = {}) {

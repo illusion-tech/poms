@@ -564,6 +564,7 @@
 81. 2026-05-13 `EX-66A` 已完成 `G1`：新增 `ex-66a-admin-web-cookie-session-auth-baseline.md`，冻结 Admin Web `HttpOnly Cookie + 服务端 opaque session` 目标态、`poms_session` / `poms_csrf` cookie、`X-CSRF-Token`、session 生命周期、结构化认证错误、OpenAPI security scheme 和“不保留旧 bearer / localStorage 兼容”的 direct cutover 边界；`api-route-canonical-inventory.md` 已登记 `B15` planned / drift routes，下一步进入 `EX-66B` session store。
 82. 2026-05-13 `EX-66B` 已完成 `G4 / Done`：新增 `auth_session` persistence、`AuthSessionService`、Cookie lifecycle helper 和 `SessionAuthGuard` 后端基础，覆盖 opaque token / CSRF token hash、idle / absolute timeout、revoke、last seen throttle、结构化认证错误和安全事件；本片未激活全局 session guard、未改登录响应或 OpenAPI，`EX-66C` 可开始登录 / 外部登录 / 当前会话契约 direct cutover。
 83. 2026-05-13 `EX-66C` 已完成 `G4 / Done`：账号密码登录和飞书外部登录 ticket exchange 已 direct cutover 到服务端 Cookie session，新增当前会话 bootstrap 与登出撤销契约，OpenAPI / generated client 全面切到 `pomsSession` cookie scheme 并清退 `LoginRequest` / `LoginResponse` / `authControllerLogin`；Admin AuthStore 最小登录链路改为 `withCredentials` + current session，后续 `EX-66D` 继续收口 unsafe method CSRF 与认证错误语义。
+84. 2026-05-14 `EX-66D` 已完成 `G4 / Done`：新增 `GET /auth/csrf-token`、全局 `AuthCsrfGuard`、session-bound CSRF 校验、匿名登录前 double-submit bootstrap、credentials CORS 显式 origin 配置和 `statusCode + code + message` 结构化认证 / 权限错误；OpenAPI / generated client 新增 `pomsCsrf` 与 `CsrfTokenView`，Admin data-access 已拉入最小 CSRF token store / interceptor 保持登录和写操作可用。后续 `FE-62A/B` 继续收口前端 Cookie session hardening 与 AFK / session expired UX，`EX-66E` 负责最终 E2E helper 和文档闭环。
 
 ---
 

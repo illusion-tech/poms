@@ -3,6 +3,7 @@ import {
     AssignUserOrgMembershipsRequestSchema,
     AssignUserRolesRequestSchema,
     AuthSessionLogoutResultSchema,
+    CsrfTokenViewSchema,
     CreatePasswordAuthSessionRequestSchema,
     CreateOrgUnitRequestSchema,
     CreatePlatformUserRequestSchema,
@@ -63,6 +64,8 @@ export class CurrentAuthSessionViewDto extends createZodDto(CurrentAuthSessionVi
 export class LogoutAuthSessionRequestDto extends createZodDto(LogoutAuthSessionRequestSchema) {}
 
 export class AuthSessionLogoutResultDto extends createZodDto(AuthSessionLogoutResultSchema) {}
+
+export class CsrfTokenViewDto extends createZodDto(CsrfTokenViewSchema) {}
 
 export class PlatformUserSummaryDto extends createZodDto(PlatformUserSummarySchema) {}
 

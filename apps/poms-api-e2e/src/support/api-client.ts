@@ -34,20 +34,29 @@ export const FINANCE_MANAGER_CREDENTIALS: TestCredentials = {
 };
 
 export function createApiClient(cookieHeader?: string): AxiosInstance {
+    const csrfToken = cookieHeader ? extractCookieValue(cookieHeader, 'poms_csrf') : null;
     return axios.create({
         baseURL: axios.defaults.baseURL,
         validateStatus: () => true,
         proxy: false,
         headers: cookieHeader
             ? {
-                  Cookie: cookieHeader
+                  Cookie: cookieHeader,
+                  ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {})
               }
             : undefined
     });
 }
 
-export async function loginWithCredentials(credentials: TestCredentials): Promise<AuthSession> {
+export async function createCsrfBootstrapClient(): Promise<AxiosInstance> {
     const anonymousClient = createApiClient();
+    const csrfResponse = await anonymousClient.get('/auth/csrf-token');
+    expectStatus(csrfResponse, 200);
+    return createApiClient(extractCookieHeader(csrfResponse.headers['set-cookie']));
+}
+
+export async function loginWithCredentials(credentials: TestCredentials): Promise<AuthSession> {
+    const anonymousClient = await createCsrfBootstrapClient();
     const loginResponse = await anonymousClient.post<CurrentAuthSessionView>('/auth/sessions', credentials);
     const session = expectStatus(loginResponse, 200);
     const cookieHeader = extractCookieHeader(loginResponse.headers['set-cookie']);
@@ -70,6 +79,15 @@ function extractCookieHeader(setCookie: unknown): string {
         throw new Error('Auth session response did not set cookies.');
     }
     return cookieHeader;
+}
+
+function extractCookieValue(cookieHeader: string, name: string): string | null {
+    const prefix = `${name}=`;
+    const pair = cookieHeader
+        .split(';')
+        .map((cookie) => cookie.trim())
+        .find((cookie) => cookie.startsWith(prefix));
+    return pair ? decodeURIComponent(pair.slice(prefix.length)) : null;
 }
 
 export function loginAsAdmin(): Promise<AuthSession> {

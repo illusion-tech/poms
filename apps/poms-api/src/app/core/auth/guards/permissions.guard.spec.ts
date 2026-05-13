@@ -39,7 +39,12 @@ describe('PermissionsGuard', () => {
                     }
                 })
             )
-        ).rejects.toThrow(ForbiddenException);
+        ).rejects.toMatchObject<ForbiddenException>({
+            response: {
+                code: 'permission_denied',
+                message: 'Insufficient permissions'
+            }
+        });
 
         expect(runtimeAuditService.recordSecurityEvent).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -121,7 +126,12 @@ describe('PermissionsGuard', () => {
                     }
                 })
             )
-        ).rejects.toThrow(ForbiddenException);
+        ).rejects.toMatchObject<ForbiddenException>({
+            response: {
+                code: 'permission_denied',
+                message: 'Insufficient permissions'
+            }
+        });
 
         expect(runtimeAuditService.recordSecurityEvent).toHaveBeenCalledWith(
             expect.objectContaining({

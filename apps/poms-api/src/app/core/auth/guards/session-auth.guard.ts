@@ -1,8 +1,9 @@
 import type { UserPayload } from '@poms/shared-contracts';
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RuntimeAuditService } from '../../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../../runtime-audit/runtime-audit-request.utils';
+import type { AuthSession } from '../auth-session.entity';
 import { AuthSessionCookieService } from '../auth-session-cookie.service';
 import { AuthSessionAuthenticationError, AuthSessionErrorCodeValue, AuthSessionService, type AuthSessionErrorCode } from '../auth-session.service';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
@@ -10,6 +11,7 @@ import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 type SessionAuthRequest = RuntimeAuditRequestLike & {
     user?: UserPayload;
     authSessionId?: string;
+    authSession?: AuthSession;
 };
 
 @Injectable()
@@ -38,6 +40,7 @@ export class SessionAuthGuard implements CanActivate {
             });
             request.user = resolved.user;
             request.authSessionId = resolved.session.id;
+            request.authSession = resolved.session;
             return true;
         } catch (error) {
             if (error instanceof AuthSessionAuthenticationError) {
@@ -68,6 +71,7 @@ export class SessionAuthGuard implements CanActivate {
 
 function createUnauthorized(code: AuthSessionErrorCode): UnauthorizedException {
     return new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
         code,
         message: 'Authentication required'
     });

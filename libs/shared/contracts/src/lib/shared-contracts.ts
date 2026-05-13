@@ -1196,6 +1196,13 @@ export const AuthSessionCsrfHintSchema = z
 
 export type AuthSessionCsrfHint = z.infer<typeof AuthSessionCsrfHintSchema>;
 
+export const CsrfTokenViewSchema = AuthSessionCsrfHintSchema.extend({
+    token: z.string().min(32),
+    expiresAt: z.iso.datetime()
+}).meta({ id: 'CsrfTokenView' });
+
+export type CsrfTokenView = z.infer<typeof CsrfTokenViewSchema>;
+
 export const CurrentAuthSessionViewSchema = z
     .object({
         authenticated: z.boolean(),
