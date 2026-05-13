@@ -67,6 +67,7 @@ interface LeadSummaryItem {
 }
 
 interface LeadDistributionItem extends LeadSummaryItem {
+    status: LeadStatus;
     color: string;
     shadowColor: string;
     flexValue: number;
@@ -271,14 +272,19 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     <div class="flex gap-1">
                         @for (item of leadDistributionItems(); track item.label) {
                             <div class="group relative min-w-0" [style.flex]="item.flexValue">
-                                <div
-                                    class="h-4 cursor-help rounded-lg outline-none ring-primary-300 transition-[filter] hover:brightness-105 focus-visible:ring-2"
-                                    [ngClass]="item.color"
+                                <button
+                                    type="button"
+                                    class="block h-4 w-full cursor-pointer rounded-lg outline-none transition-[box-shadow,filter] hover:brightness-105 focus-visible:ring-2 focus-visible:ring-primary-300"
+                                    [ngClass]="[item.color, statusFilter() === item.status ? 'ring-2 ring-primary-400 ring-offset-2 ring-offset-surface-0 brightness-105 dark:ring-offset-surface-900' : '']"
                                     [style.box-shadow]="'0px 5px 10px 0px ' + item.shadowColor"
-                                    tabindex="0"
-                                    [attr.aria-label]="item.tooltip"
-                                ></div>
-                                <div class="pointer-events-none invisible absolute bottom-full left-1/2 z-20 mb-2 min-w-max -translate-x-1/2 rounded-md border border-surface-200 bg-surface-0 px-3 py-2 text-xs leading-5 text-surface-700 opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200">
+                                    [attr.aria-label]="'筛选' + item.label + '线索，' + item.tooltip"
+                                    [attr.aria-pressed]="statusFilter() === item.status"
+                                    [attr.data-lead-distribution-status]="item.status"
+                                    (click)="filterByDistributionStatus(item.status)"
+                                ></button>
+                                <div
+                                    class="pointer-events-none invisible absolute bottom-full left-1/2 z-20 mb-2 min-w-max -translate-x-1/2 rounded-md border border-surface-200 bg-surface-0 px-3 py-2 text-xs leading-5 text-surface-700 opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200"
+                                >
                                     <div class="flex items-center gap-2">
                                         <span class="h-2 w-2 rounded-sm" [ngClass]="item.color"></span>
                                         <span class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</span>
@@ -292,10 +298,17 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                     <div class="grid grid-cols-4 gap-2 rounded-lg bg-surface-50 p-3 shadow-v1 dark:bg-white/10">
                         @for (item of leadDistributionItems(); track item.label) {
-                            <div class="flex min-w-0 items-center">
+                            <button
+                                type="button"
+                                class="flex min-w-0 items-center rounded-md px-2 py-1 text-left transition-colors hover:bg-surface-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 dark:hover:bg-surface-800"
+                                [ngClass]="statusFilter() === item.status ? 'bg-primary-50 dark:bg-primary-950/40' : ''"
+                                [attr.aria-label]="'筛选' + item.label + '线索'"
+                                [attr.aria-pressed]="statusFilter() === item.status"
+                                (click)="filterByDistributionStatus(item.status)"
+                            >
                                 <div class="h-4 w-1 shrink-0 rounded-full shadow-[0px_3px_1px_0px_rgba(0,0,0,0.00),0px_2px_1px_0px_rgba(0,0,0,0.01),0px_1px_1px_0px_rgba(0,0,0,0.02),0px_0px_1px_0px_rgba(0,0,0,0.03)]" [ngClass]="item.color"></div>
                                 <span class="ml-2 truncate text-xs text-surface-950 dark:text-surface-0 sm:ml-3 sm:text-sm">{{ item.label }}</span>
-                            </div>
+                            </button>
                         }
                     </div>
                 </div>
@@ -1566,10 +1579,10 @@ export class LeadList implements OnInit {
         const total = this.totalLeadCount();
 
         return [
-            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Registered], this.#leadStore.registeredLeadCount(), '需要判断', 'bg-orange-500', 'rgba(249,115,22,0.16)', total),
-            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Qualified], this.#leadStore.qualifiedLeadCount(), '可转项目', 'bg-green-500', 'rgba(34,197,94,0.16)', total),
-            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Converted], this.#leadStore.convertedLeadCount(), '已有来源链', 'bg-primary-500', 'rgba(59,130,246,0.16)', total),
-            this.buildLeadDistributionItem(LEAD_STATUS_LABELS[LeadStatus.Closed], this.#leadStore.closedLeadCount(), '不再推进', 'bg-rose-500', 'rgba(244,63,94,0.16)', total)
+            this.buildLeadDistributionItem(LeadStatus.Registered, LEAD_STATUS_LABELS[LeadStatus.Registered], this.#leadStore.registeredLeadCount(), '需要判断', 'bg-orange-500', 'rgba(249,115,22,0.16)', total),
+            this.buildLeadDistributionItem(LeadStatus.Qualified, LEAD_STATUS_LABELS[LeadStatus.Qualified], this.#leadStore.qualifiedLeadCount(), '可转项目', 'bg-green-500', 'rgba(34,197,94,0.16)', total),
+            this.buildLeadDistributionItem(LeadStatus.Converted, LEAD_STATUS_LABELS[LeadStatus.Converted], this.#leadStore.convertedLeadCount(), '已有来源链', 'bg-primary-500', 'rgba(59,130,246,0.16)', total),
+            this.buildLeadDistributionItem(LeadStatus.Closed, LEAD_STATUS_LABELS[LeadStatus.Closed], this.#leadStore.closedLeadCount(), '不再推进', 'bg-rose-500', 'rgba(244,63,94,0.16)', total)
         ];
     });
 
@@ -1695,6 +1708,10 @@ export class LeadList implements OnInit {
     setStatusFilter(value: LeadStatus | LeadAllFilterValue | null | undefined) {
         this.statusFilter.set(value ?? ALL_FILTER_VALUE);
         this.first = 0;
+    }
+
+    filterByDistributionStatus(status: LeadStatus) {
+        this.setStatusFilter(status);
     }
 
     setRatingFilter(value: LeadRating | LeadAllFilterValue | null | undefined) {
@@ -2548,10 +2565,11 @@ export class LeadList implements OnInit {
         }).format(amount);
     }
 
-    private buildLeadDistributionItem(label: string, value: number, hint: string, color: string, shadowColor: string, total: number): LeadDistributionItem {
+    private buildLeadDistributionItem(status: LeadStatus, label: string, value: number, hint: string, color: string, shadowColor: string, total: number): LeadDistributionItem {
         const percentageLabel = this.formatPercentage(value, total);
 
         return {
+            status,
             label,
             value,
             hint,

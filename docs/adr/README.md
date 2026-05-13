@@ -29,6 +29,7 @@
 - `ADR-014`: 设计-执行状态模型与治理闸口
 - `ADR-015`: API 资源标识、查询投影与命令路径 canonical grammar
 - `ADR-016`: union request body 的 schema-first 建模与工具链约束
+- `ADR-017`: Admin Web Cookie + HttpOnly 服务端会话认证
 
 ## ADR 适用范围
 

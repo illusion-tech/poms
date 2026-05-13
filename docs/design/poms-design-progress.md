@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-05-07
+**最后更新**: 2026-05-13
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -182,24 +182,25 @@
 
 ### 4.7 ADR 清单
 
-| ADR                                            | 当前状态          | 结论摘要                                                                                |
-| ---------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------- |
-| `ADR-001` 平台权限模型与授权边界               | 已接受 (Accepted) | 第一版以平台级 RBAC 为主，后端为授权单一可信源                                          |
-| `ADR-002` 组织单元建模与授权关系               | 已接受 (Accepted) | 第一版组织单元采用树结构，授权仍以平台级 RBAC 为主                                      |
-| `ADR-003` 导航菜单单一可信源策略               | 已接受 (Accepted) | 后端导航为单一可信源，前端忠实渲染                                                      |
-| `ADR-004` 合同资金域后端模块边界               | 已接受 (Accepted) | 后端一期独立拆出 `contract-finance` 模块                                                |
-| `ADR-005` 一期审批流实现策略                   | 已接受 (Accepted) | 模块内审批流 + 统一待办聚合                                                             |
-| `ADR-006` 第一阶段主对象正式命名为 Project     | 已接受 (Accepted) | 主对象统一命名为 `Project`                                                              |
-| `ADR-007` 第一期财务联动与业务登记边界         | 已接受 (Accepted) | 一期只做业务登记与确认，不做强财务联动                                                  |
-| `ADR-008` 当前用户资料输出契约                 | 已接受 (Accepted) | 当前用户资料保留 `orgUnits[]`，并采用专用关系化轻量类型表达组织归属                     |
-| `ADR-009` 平台导航父组可见性规则               | 已接受 (Accepted) | `group` 类型父组默认由可见子项派生可见性，平台父组不再要求独立导航权限                  |
-| `ADR-010` 平台用户管理路由桥接状态             | 已接受 (Accepted) | `platform.users` 在真实页面承载未就位前维持 `planned`，不提前记为 `bridged`             |
-| `ADR-011` 招投标与 Project 生命周期的建模关系  | 已接受 (Accepted) | 采用 `Project` 主生命周期 + `BidProcess` 第一类受控子流程的分层建模口径                 |
-| `ADR-012` 数据持久层技术选型                   | 已接受 (Accepted) | 第一阶段采用 `PostgreSQL + SQL-first migration + MikroORM` 作为持久层路线               |
-| `ADR-013` 平台治理域物理 Schema 边界           | 已接受 (Accepted) | 第一阶段平台治理域继续使用 `poms` schema，不单独拆出 `core` schema                      |
-| `ADR-014` 设计-执行状态模型与治理闸口          | 已接受 (Accepted) | 统一文档状态、任务状态与 gate 状态三层模型，并以正式迁移替代长期映射                    |
-| `ADR-015` API 路由 canonical grammar           | 已接受 (Accepted) | 已固定 `resource-first + colon-action`、稳定名词型子资源与“默认直接切换”原则            |
-| `ADR-016` union request body schema-first 建模 | 已接受 (Accepted) | union body 正式采用 schema-first + `oneOf/discriminator`，不再长期保留大对象 workaround |
+| ADR                                            | 当前状态          | 结论摘要                                                                                             |
+| ---------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------- |
+| `ADR-001` 平台权限模型与授权边界               | 已接受 (Accepted) | 第一版以平台级 RBAC 为主，后端为授权单一可信源                                                       |
+| `ADR-002` 组织单元建模与授权关系               | 已接受 (Accepted) | 第一版组织单元采用树结构，授权仍以平台级 RBAC 为主                                                   |
+| `ADR-003` 导航菜单单一可信源策略               | 已接受 (Accepted) | 后端导航为单一可信源，前端忠实渲染                                                                   |
+| `ADR-004` 合同资金域后端模块边界               | 已接受 (Accepted) | 后端一期独立拆出 `contract-finance` 模块                                                             |
+| `ADR-005` 一期审批流实现策略                   | 已接受 (Accepted) | 模块内审批流 + 统一待办聚合                                                                          |
+| `ADR-006` 第一阶段主对象正式命名为 Project     | 已接受 (Accepted) | 主对象统一命名为 `Project`                                                                           |
+| `ADR-007` 第一期财务联动与业务登记边界         | 已接受 (Accepted) | 一期只做业务登记与确认，不做强财务联动                                                               |
+| `ADR-008` 当前用户资料输出契约                 | 已接受 (Accepted) | 当前用户资料保留 `orgUnits[]`，并采用专用关系化轻量类型表达组织归属                                  |
+| `ADR-009` 平台导航父组可见性规则               | 已接受 (Accepted) | `group` 类型父组默认由可见子项派生可见性，平台父组不再要求独立导航权限                               |
+| `ADR-010` 平台用户管理路由桥接状态             | 已接受 (Accepted) | `platform.users` 在真实页面承载未就位前维持 `planned`，不提前记为 `bridged`                          |
+| `ADR-011` 招投标与 Project 生命周期的建模关系  | 已接受 (Accepted) | 采用 `Project` 主生命周期 + `BidProcess` 第一类受控子流程的分层建模口径                              |
+| `ADR-012` 数据持久层技术选型                   | 已接受 (Accepted) | 第一阶段采用 `PostgreSQL + SQL-first migration + MikroORM` 作为持久层路线                            |
+| `ADR-013` 平台治理域物理 Schema 边界           | 已接受 (Accepted) | 第一阶段平台治理域继续使用 `poms` schema，不单独拆出 `core` schema                                   |
+| `ADR-014` 设计-执行状态模型与治理闸口          | 已接受 (Accepted) | 统一文档状态、任务状态与 gate 状态三层模型，并以正式迁移替代长期映射                                 |
+| `ADR-015` API 路由 canonical grammar           | 已接受 (Accepted) | 已固定 `resource-first + colon-action`、稳定名词型子资源与“默认直接切换”原则                         |
+| `ADR-016` union request body schema-first 建模 | 已接受 (Accepted) | union body 正式采用 schema-first + `oneOf/discriminator`，不再长期保留大对象 workaround              |
+| `ADR-017` Admin Web Cookie 会话认证            | 已接受 (Accepted) | 管理端长期目标态采用 `HttpOnly Cookie + 服务端 opaque session + CSRF`，不再让浏览器持有 access token |
 
 ---
 

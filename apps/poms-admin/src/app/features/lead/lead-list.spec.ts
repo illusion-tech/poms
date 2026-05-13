@@ -889,6 +889,30 @@ describe('LeadList', () => {
         );
     });
 
+    it('filters the lead table when clicking a lead distribution status segment', () => {
+        leads.set([
+            createLead({ id: 'lead-registered', status: LeadStatus.Registered }),
+            createLead({ id: 'lead-qualified', status: LeadStatus.Qualified }),
+            createLead({ id: 'lead-converted', status: LeadStatus.Converted }),
+            createLead({ id: 'lead-closed', status: LeadStatus.Closed })
+        ]);
+        component.first = 10;
+        fixture.detectChanges();
+
+        const convertedSegment = fixture.nativeElement.querySelector(`[data-lead-distribution-status="${LeadStatus.Converted}"]`) as HTMLButtonElement | null;
+
+        expect(convertedSegment).not.toBeNull();
+
+        convertedSegment?.click();
+        fixture.detectChanges();
+
+        const activeSegment = fixture.nativeElement.querySelector(`[data-lead-distribution-status="${LeadStatus.Converted}"]`) as HTMLButtonElement | null;
+        expect(component.statusFilter()).toBe(LeadStatus.Converted);
+        expect(component.first).toBe(0);
+        expect(component.visibleLeads().map((lead) => lead.id)).toEqual(['lead-converted']);
+        expect(activeSegment?.getAttribute('aria-pressed')).toBe('true');
+    });
+
     it('loads shared sales follow-up records when opening a lead detail', async () => {
         await component.openLeadDetail(createLead());
         fixture.detectChanges();
