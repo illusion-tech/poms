@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -164,12 +165,14 @@ describe('AttachmentStorageProviderList', () => {
                 'OBS Endpoint 配置说明',
                 'OBS Region 配置说明',
                 'OBS Bucket 配置说明',
+                'OBS 路径样式访问配置说明',
                 'OBS Access Key ID 配置说明',
                 'OBS Secret Access Key 配置说明',
                 'Key Prefix 配置说明'
             ])
         );
         expect(component.storageTip('secretAccessKey')).toContain('不会回显明文');
+        expect(component.storageTip('forcePathStyle')).toContain('path-style 请求');
     });
 
     it('creates a Huawei OBS config through the generated-client store', async () => {
@@ -201,6 +204,25 @@ describe('AttachmentStorageProviderList', () => {
         expect(component.createDialogVisible).toBe(false);
     });
 
+    it('shows login expired feedback instead of OBS validation feedback when create is unauthorized', async () => {
+        storeMock.createConfig.mockRejectedValueOnce(new HttpErrorResponse({ status: 401 }));
+
+        component.showCreateDialog(AttachmentStorageProviderType.HuaweiObsS3);
+        component.updateText('displayName', '华为云 OBS 正式');
+        component.updateText('endpoint', 'https://obs.cn-north-4.myhuaweicloud.com');
+        component.updateText('region', 'cn-north-4');
+        component.updateText('bucket', 'poms-prod');
+        component.updateText('accessKeyId', 'ak-value');
+        component.updateText('secretAccessKey', 'sk-value');
+        component.updateToggle('enabled', true);
+
+        await component.createConfig();
+
+        expect(component.formError()).toBe('登录已过期，请重新登录后再操作。');
+        expect(component.formError()).not.toContain('OBS 字段');
+        expect(component.createDialogVisible).toBe(true);
+    });
+
     it('updates a provider config without overwriting credentials when credential fields are blank', async () => {
         const config = createStorageProviderConfig({ rowVersion: 8, accessKeyConfigured: true, secretAccessKeyConfigured: true });
 
@@ -220,6 +242,21 @@ describe('AttachmentStorageProviderList', () => {
         );
         expect(storeMock.updateConfig.mock.calls[0][1]).not.toHaveProperty('accessKeyId');
         expect(storeMock.updateConfig.mock.calls[0][1]).not.toHaveProperty('secretAccessKey');
+    });
+
+    it('saves and tests the persisted provider config from the edit dialog', async () => {
+        const config = createStorageProviderConfig({ rowVersion: 8 });
+        const updatedConfig = createStorageProviderConfig({ id: config.id, rowVersion: 9, displayName: '华为云 OBS 正式更新' });
+        storeMock.updateConfig.mockResolvedValueOnce(updatedConfig);
+
+        component.showEditDialog(config);
+        component.updateText('displayName', '华为云 OBS 正式更新');
+
+        await component.updateAndTestConfig();
+
+        expect(storeMock.updateConfig).toHaveBeenCalledWith(config.id, expect.objectContaining({ displayName: '华为云 OBS 正式更新', expectedVersion: 8 }));
+        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, { expectedVersion: 9 });
+        expect(component.testResults()[config.id]?.status).toBe(AttachmentStorageProviderConnectionTestStatus.Success);
     });
 
     it('tests provider connection with optimistic version evidence', async () => {

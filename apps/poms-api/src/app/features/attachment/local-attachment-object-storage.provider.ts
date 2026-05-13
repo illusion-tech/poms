@@ -49,7 +49,8 @@ export class LocalAttachmentObjectStorageProvider implements AttachmentObjectSto
                 sizeBytes: fileStat.size,
                 eTag: null,
                 lastModified: fileStat.mtime.toISOString(),
-                contentType: null
+                contentType: null,
+                checksumSha256: null
             };
         } catch {
             throw new NotFoundException(`Attachment file ${location.storageKey} not found`);

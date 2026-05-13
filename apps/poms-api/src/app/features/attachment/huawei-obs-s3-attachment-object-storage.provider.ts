@@ -1,6 +1,7 @@
 import { BadGatewayException, Injectable, NotFoundException } from '@nestjs/common';
 import { createHash, createHmac } from 'node:crypto';
 import { Readable } from 'node:stream';
+import { setTimeout as sleep } from 'node:timers/promises';
 import type { ReadableStream as WebReadableStream } from 'node:stream/web';
 import { AttachmentStorageProviderConnectionTestStatusValue, AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
 import type {
@@ -20,6 +21,9 @@ interface SignedRequestInput {
     body?: Buffer;
     contentType?: string | null;
 }
+
+const SIGNED_REQUEST_MAX_ATTEMPTS = 3;
+const SIGNED_REQUEST_RETRY_DELAY_MS = 250;
 
 @Injectable()
 export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObjectStorageProvider {
@@ -67,7 +71,8 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
             sizeBytes: Number.isFinite(sizeBytes) ? sizeBytes : 0,
             eTag: response.headers.get('etag'),
             lastModified: response.headers.get('last-modified'),
-            contentType: response.headers.get('content-type')
+            contentType: response.headers.get('content-type'),
+            checksumSha256: response.headers.get('x-amz-meta-sha256') ?? response.headers.get('x-obs-meta-sha256')
         };
     }
 
@@ -82,7 +87,7 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
     async createPresignedPutTarget(
         config: AttachmentStorageProviderRuntimeConfig,
         location: AttachmentObjectLocation,
-        input: { contentType?: string | null; expiresAt: Date }
+        input: { contentType?: string | null; checksumSha256?: string | null; expiresAt: Date }
     ): Promise<AttachmentPresignedPutTarget> {
         const url = this.buildObjectUrl(config, location.storageKey);
         const now = new Date();
@@ -90,7 +95,19 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
         const dateStamp = amzDate.slice(0, 8);
         const credentialScope = `${dateStamp}/${this.requireRegion(config)}/s3/aws4_request`;
         const expiresInSeconds = Math.max(1, Math.min(3600, Math.floor((input.expiresAt.getTime() - now.getTime()) / 1000)));
-        const signedHeaders = 'host';
+        const headers = new Map<string, string>([['host', url.host]]);
+        const uploadHeaders = new Map<string, string>();
+
+        if (input.contentType) {
+            headers.set('content-type', input.contentType);
+            uploadHeaders.set('content-type', input.contentType);
+        }
+        if (input.checksumSha256) {
+            headers.set('x-amz-meta-sha256', input.checksumSha256);
+            uploadHeaders.set('x-amz-meta-sha256', input.checksumSha256);
+        }
+
+        const signedHeaders = [...headers.keys()].sort().join(';');
 
         url.searchParams.set('X-Amz-Algorithm', 'AWS4-HMAC-SHA256');
         url.searchParams.set('X-Amz-Credential', `${this.requireAccessKeyId(config)}/${credentialScope}`);
@@ -98,7 +115,10 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
         url.searchParams.set('X-Amz-Expires', String(expiresInSeconds));
         url.searchParams.set('X-Amz-SignedHeaders', signedHeaders);
 
-        const canonicalHeaders = `host:${url.host}\n`;
+        const canonicalHeaders = [...headers.entries()]
+            .sort(([left], [right]) => left.localeCompare(right))
+            .map(([key, value]) => `${key}:${value.trim()}\n`)
+            .join('');
         const canonicalRequest = ['PUT', url.pathname || '/', this.canonicalQueryString(url.searchParams), canonicalHeaders, signedHeaders, 'UNSIGNED-PAYLOAD'].join('\n');
         const stringToSign = ['AWS4-HMAC-SHA256', amzDate, credentialScope, createHash('sha256').update(canonicalRequest).digest('hex')].join('\n');
         const signingKey = this.signingKey(this.requireSecretAccessKey(config), dateStamp, this.requireRegion(config));
@@ -108,7 +128,7 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
         return {
             method: 'PUT',
             url: url.toString(),
-            headers: input.contentType ? { 'content-type': input.contentType } : {},
+            headers: Object.fromEntries(uploadHeaders.entries()),
             expiresAt: input.expiresAt.toISOString()
         };
     }
@@ -163,7 +183,7 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
         if (input.method === 'PUT') {
             requestInit.body = body as unknown as BodyInit;
         }
-        const response = await fetch(url, requestInit);
+        const response = await this.fetchWithRetry(url, requestInit, input);
 
         if (response.status === 404) {
             throw new NotFoundException(`Attachment storage object ${input.key ?? this.requireBucket(input.config)} not found`);
@@ -174,6 +194,36 @@ export class HuaweiObsS3AttachmentObjectStorageProvider implements AttachmentObj
         }
 
         return response;
+    }
+
+    private async fetchWithRetry(url: URL, requestInit: RequestInit, input: SignedRequestInput): Promise<Response> {
+        let lastError: unknown;
+
+        for (let attempt = 1; attempt <= SIGNED_REQUEST_MAX_ATTEMPTS; attempt += 1) {
+            try {
+                return await fetch(url, requestInit);
+            } catch (error) {
+                lastError = error;
+                if (attempt >= SIGNED_REQUEST_MAX_ATTEMPTS) break;
+                await sleep(SIGNED_REQUEST_RETRY_DELAY_MS * attempt);
+            }
+        }
+
+        throw new BadGatewayException(`Attachment storage provider request failed: ${input.method} ${url.pathname} could not connect to endpoint: ${this.describeFetchError(lastError)}`);
+    }
+
+    private describeFetchError(error: unknown): string {
+        if (!error) return 'unknown network error';
+
+        const errorRecord = error as { message?: unknown; cause?: unknown };
+        const cause = errorRecord.cause as { code?: unknown; message?: unknown } | undefined;
+        const parts = [
+            typeof errorRecord.message === 'string' ? errorRecord.message : null,
+            typeof cause?.code === 'string' ? cause.code : null,
+            typeof cause?.message === 'string' ? cause.message : null
+        ].filter((part): part is string => Boolean(part));
+
+        return parts.length > 0 ? parts.join(' / ') : 'unknown network error';
     }
 
     private buildObjectUrl(config: AttachmentStorageProviderRuntimeConfig, key: string | null): URL {

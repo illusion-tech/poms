@@ -14,6 +14,7 @@ import {
 } from '../../shared/ui/attachment-storage-provider-presentation';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger';
 
@@ -27,7 +28,7 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
 @Component({
     selector: 'app-attachment-storage-provider-card',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TagModule],
+    imports: [CommonModule, ButtonModule, TagModule, TooltipModule],
     template: `
         <article class="flex h-full min-h-[28rem] flex-col rounded border border-surface-200 bg-surface-0 p-6 dark:border-surface-700 dark:bg-surface-900">
             <div class="flex items-start justify-between gap-4">
@@ -146,7 +147,12 @@ const STATUS_LABELS: Record<AttachmentStorageProviderConfigStatus, string> = {
                         />
                     </div>
                 } @else {
-                    <p-button icon="pi pi-cog" label="配置" severity="primary" styleClass="w-full rounded-md!" (onClick)="configureRequested.emit(providerType())" />
+                    <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                        <p-button icon="pi pi-cog" label="配置" severity="primary" styleClass="w-full rounded-md!" (onClick)="configureRequested.emit(providerType())" />
+                        <span class="w-full" pTooltip="先完成配置后才能测试连接" tooltipPosition="top">
+                            <p-button icon="pi pi-bolt" label="测试连接" severity="secondary" [outlined]="true" styleClass="w-full rounded-md!" [disabled]="true" />
+                        </span>
+                    </div>
                 }
             </div>
         </article>
@@ -197,8 +203,8 @@ export class AttachmentStorageProviderCard {
     }
 
     accessModeLabel(config: AttachmentStorageProviderConfigSummary): string {
-        if (config.providerType === AttachmentStorageProviderType.Local) return 'Proxy';
-        return config.forcePathStyle ? 'Path-style' : 'Virtual-hosted';
+        if (config.providerType === AttachmentStorageProviderType.Local) return '本地代理';
+        return config.forcePathStyle ? '路径样式' : '虚拟主机样式';
     }
 
     endpointFallback(providerType: AttachmentStorageProviderType): string {

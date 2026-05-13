@@ -47,7 +47,8 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
                     'content-length': '42',
                     etag: '"etag-value"',
                     'last-modified': 'Mon, 11 May 2026 00:00:00 GMT',
-                    'content-type': 'application/pdf'
+                    'content-type': 'application/pdf',
+                    'x-amz-meta-sha256': 'a'.repeat(64)
                 }
             })
         );
@@ -62,7 +63,8 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
             sizeBytes: 42,
             eTag: '"etag-value"',
             lastModified: 'Mon, 11 May 2026 00:00:00 GMT',
-            contentType: 'application/pdf'
+            contentType: 'application/pdf',
+            checksumSha256: 'a'.repeat(64)
         });
     });
 
@@ -76,17 +78,21 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
             },
             {
                 contentType: 'application/pdf',
+                checksumSha256: 'a'.repeat(64),
                 expiresAt: new Date('2099-05-11T00:00:00.000Z')
             }
         );
 
         const url = new URL(target.url);
         expect(target.method).toBe('PUT');
-        expect(target.headers).toEqual({ 'content-type': 'application/pdf' });
         expect(url.searchParams.get('X-Amz-Algorithm')).toBe('AWS4-HMAC-SHA256');
         expect(url.searchParams.get('X-Amz-Credential')).toContain('AK/');
-        expect(url.searchParams.get('X-Amz-SignedHeaders')).toBe('host');
+        expect(url.searchParams.get('X-Amz-SignedHeaders')).toBe('content-type;host;x-amz-meta-sha256');
         expect(url.searchParams.get('X-Amz-Signature')).toHaveLength(64);
+        expect(target.headers).toEqual({
+            'content-type': 'application/pdf',
+            'x-amz-meta-sha256': 'a'.repeat(64)
+        });
         expect(target.headers).not.toHaveProperty('authorization');
     });
 
@@ -97,6 +103,43 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
         expect(String(url)).toBe('https://obs.cn-south-1.myhuaweicloud.com/poms-prod');
         expect(init?.method).toBe('HEAD');
         expect(result.status).toBe(AttachmentStorageProviderConnectionTestStatusValue.Success);
+    });
+
+    it('retries transient OBS network failures before returning metadata', async () => {
+        fetchMock
+            .mockRejectedValueOnce(Object.assign(new TypeError('fetch failed'), { cause: { code: 'UND_ERR_CONNECT_TIMEOUT', message: 'Connect Timeout Error' } }))
+            .mockResolvedValueOnce(
+                new Response(null, {
+                    status: 200,
+                    headers: {
+                        'content-length': '42',
+                        'x-amz-meta-sha256': 'b'.repeat(64)
+                    }
+                })
+            );
+
+        const metadata = await provider.headObject(config(), {
+            storageProvider: AttachmentStorageProviderTypeValue.HuaweiObsS3,
+            storageBucket: 'poms-prod',
+            storageKey: 'attachments/file.pdf'
+        });
+
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(metadata.sizeBytes).toBe(42);
+        expect(metadata.checksumSha256).toBe('b'.repeat(64));
+    });
+
+    it('maps repeated OBS network failures to a storage gateway error', async () => {
+        fetchMock.mockRejectedValue(Object.assign(new TypeError('fetch failed'), { cause: { code: 'UND_ERR_CONNECT_TIMEOUT', message: 'Connect Timeout Error' } }));
+
+        await expect(
+            provider.headObject(config(), {
+                storageProvider: AttachmentStorageProviderTypeValue.HuaweiObsS3,
+                storageBucket: 'poms-prod',
+                storageKey: 'attachments/file.pdf'
+            })
+        ).rejects.toThrow('could not connect to endpoint: fetch failed / UND_ERR_CONNECT_TIMEOUT / Connect Timeout Error');
+        expect(fetchMock).toHaveBeenCalledTimes(3);
     });
 
     function config(): AttachmentStorageProviderRuntimeConfig {

@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -102,6 +103,12 @@ const FEISHU_CONFIG_TIPS = {
     searchGrantMode: '第一版选择“管理员授权”。每个管理员用自己的飞书授权进行搜索，不使用全局通讯录同步。',
     tenantAllowlist: '限制允许登录或绑定的飞书租户 ID。默认租户可留空；多租户场景每行填写一个外部租户 ID。'
 } as const;
+
+const AUTH_EXPIRED_MESSAGE = '登录已过期，请重新登录后再操作。';
+
+function isAuthExpiredError(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === 401;
+}
 
 const EMPTY_FORM: IdentityProviderForm = {
     id: '',
@@ -280,6 +287,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
                         <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="editDialogVisible = false" />
+                        <p-button icon="pi pi-bolt" label="保存并测试" severity="secondary" [outlined]="true" [loading]="store.saving() || isEditDialogTesting()" [disabled]="!canSubmitEdit()" styleClass="rounded-md!" (onClick)="updateAndTestConfig()" />
                         <p-button label="保存" [loading]="store.saving()" [disabled]="!canSubmitEdit()" styleClass="rounded-md!" (onClick)="updateConfig()" />
                     </div>
                 </ng-template>
@@ -552,8 +560,8 @@ export class IdentityProviderList {
                 provider: provider === ALL_FILTER_VALUE ? undefined : provider,
                 status: status === ALL_FILTER_VALUE ? undefined : status
             });
-        } catch {
-            this.pageError.set('提供商配置没有读取成功，请确认权限或稍后重试。');
+        } catch (error) {
+            this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有读取成功，请确认权限或稍后重试。');
         }
     }
 
@@ -667,17 +675,17 @@ export class IdentityProviderList {
             this.createDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '创建成功', detail: `${form.displayName.trim()} 已创建` });
             await this.reload();
-        } catch {
-            this.formError.set('提供商配置没有创建成功，请确认租户未重复、secret 和 redirect URI 满足启用条件。');
+        } catch (error) {
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有创建成功，请确认租户未重复、secret 和 redirect URI 满足启用条件。');
         }
     }
 
-    async updateConfig(): Promise<void> {
-        if (!this.validateForm(true, true)) return;
+    async updateConfig(): Promise<IdentityProviderConfigSummary | null> {
+        if (!this.validateForm(true, true)) return null;
 
         const form = this.form();
         try {
-            await this.store.updateConfig(form.id, {
+            const updatedConfig = await this.store.updateConfig(form.id, {
                 displayName: form.displayName.trim(),
                 enabled: form.enabled,
                 loginEnabled: form.loginEnabled,
@@ -697,9 +705,18 @@ export class IdentityProviderList {
             this.editDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: `${form.displayName.trim()} 已更新` });
             await this.reload();
-        } catch {
-            this.formError.set('提供商配置没有保存成功，请刷新后重试。');
+            return updatedConfig;
+        } catch (error) {
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有保存成功，请刷新后重试。');
+            return null;
         }
+    }
+
+    async updateAndTestConfig(): Promise<void> {
+        const updatedConfig = await this.updateConfig();
+        if (!updatedConfig) return;
+
+        await this.testConnection(updatedConfig);
     }
 
     async testConnection(config: IdentityProviderConfigSummary): Promise<void> {
@@ -711,8 +728,8 @@ export class IdentityProviderList {
                 summary: result.status === IdentityProviderConnectionTestStatus.Success ? '测试通过' : '测试失败',
                 detail: result.message
             });
-        } catch {
-            this.pageError.set('测试连接没有完成，请刷新配置后重试。');
+        } catch (error) {
+            this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '测试连接没有完成，请刷新配置后重试。');
         }
     }
 
@@ -722,6 +739,10 @@ export class IdentityProviderList {
 
     isCardTesting(card: IdentityProviderCardSlot): boolean {
         return Boolean(card.config && this.store.testingConfigId() === card.config.id);
+    }
+
+    isEditDialogTesting(): boolean {
+        return Boolean(this.form().id && this.store.testingConfigId() === this.form().id);
     }
 
     testResultForCard(card: IdentityProviderCardSlot): IdentityProviderConnectionTestResult | null {

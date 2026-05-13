@@ -1,4 +1,4 @@
-import { HttpBackend, HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
     AttachmentApi,
@@ -99,6 +99,52 @@ class AttachmentUploadAbortedError extends Error {
     constructor() {
         super('Attachment upload was aborted.');
     }
+}
+
+function describeAttachmentUploadError(error: unknown): string {
+    if (error instanceof AttachmentUploadAbortedError) {
+        return error.message;
+    }
+
+    if (error instanceof HttpErrorResponse) {
+        const responseMessage = extractHttpErrorMessage(error.error);
+        if (responseMessage) {
+            return responseMessage;
+        }
+        if (error.status === 0) {
+            return '无法连接到上传目标，请检查对象存储 CORS、网络或证书配置。';
+        }
+        if (error.status) {
+            return `上传请求失败（HTTP ${error.status}）：${error.statusText || error.message}`;
+        }
+        return error.message || 'Attachment upload failed.';
+    }
+
+    return error instanceof Error ? error.message : 'Attachment upload failed.';
+}
+
+function extractHttpErrorMessage(errorBody: unknown): string | null {
+    if (!errorBody) return null;
+    if (typeof errorBody === 'string') return normalizeErrorMessage(errorBody);
+    if (typeof errorBody !== 'object') return null;
+
+    const body = errorBody as Record<string, unknown>;
+    const message = body['message'];
+    if (Array.isArray(message)) {
+        return normalizeErrorMessage(message.filter((item): item is string => typeof item === 'string').join('；'));
+    }
+    if (typeof message === 'string') {
+        return normalizeErrorMessage(message);
+    }
+    if (typeof body['error'] === 'string') {
+        return normalizeErrorMessage(body['error']);
+    }
+    return null;
+}
+
+function normalizeErrorMessage(message: string): string | null {
+    const normalized = message.replace(/\s+/g, ' ').trim();
+    return normalized ? normalized.slice(0, 300) : null;
 }
 
 @Injectable()
@@ -349,15 +395,26 @@ export class AttachmentStore {
             operationType: request.operationType,
             fileName: file.name,
             totalBytes: file.size,
-            message: '正在创建上传会话',
+            message: '正在计算文件校验和',
             canAbort: true
         });
 
         let session: AttachmentUploadSessionSummary | null = null;
         try {
+            const checksumSha256 = await this.calculateSha256(file);
+            const uploadRequest: CreateAttachmentUploadSessionRequest = {
+                ...request,
+                ...(checksumSha256 ? { checksumSha256 } : {})
+            };
+
+            this.#uploadProgress.update((current) => ({
+                ...current,
+                message: '正在创建上传会话'
+            }));
+
             session = await firstValueFrom(
                 this.#attachmentUploadSessionApi.attachmentUploadSessionControllerCreate({
-                    createAttachmentUploadSessionRequest: request
+                    createAttachmentUploadSessionRequest: uploadRequest
                 })
             );
             this.#activeUploadSession = session;
@@ -391,7 +448,7 @@ export class AttachmentStore {
             const attachment = await firstValueFrom(
                 this.#attachmentUploadSessionApi.attachmentUploadSessionControllerComplete({
                     id: session.id,
-                    completeAttachmentUploadSessionRequest: {}
+                    completeAttachmentUploadSessionRequest: checksumSha256 ? { checksumSha256 } : {}
                 })
             );
 
@@ -420,7 +477,7 @@ export class AttachmentStore {
                 phase: 'failed',
                 message: '上传失败，可保留当前文件后重试',
                 canAbort: false,
-                error: error instanceof Error ? error.message : 'Attachment upload failed.'
+                error: describeAttachmentUploadError(error)
             }));
             throw error;
         }
@@ -443,6 +500,17 @@ export class AttachmentStore {
             canAbort: true
         }));
         return target;
+    }
+
+    private async calculateSha256(file: File): Promise<string | null> {
+        if (!globalThis.crypto?.subtle) {
+            return null;
+        }
+
+        const digest = await globalThis.crypto.subtle.digest('SHA-256', await file.arrayBuffer());
+        return Array.from(new Uint8Array(digest))
+            .map((value) => value.toString(16).padStart(2, '0'))
+            .join('');
     }
 
     private async uploadObjectToTarget(target: AttachmentUploadTarget, file: File): Promise<AttachmentUploadTargetResult | null> {
@@ -535,7 +603,6 @@ export class AttachmentStore {
                 this.#attachmentUploadSessionApi.attachmentUploadSessionControllerAbort({
                     id: session.id,
                     abortAttachmentUploadSessionRequest: {
-                        expectedVersion: session.rowVersion,
                         reason
                     }
                 })

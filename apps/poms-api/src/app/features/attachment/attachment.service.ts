@@ -215,6 +215,7 @@ export class AttachmentService {
 
         const target = await this.storageService.createPresignedPutTarget(this.storageLocationForUploadSession(session), {
             contentType: session.mimeType,
+            checksumSha256: session.checksumSha256,
             expiresAt
         });
 
@@ -288,11 +289,14 @@ export class AttachmentService {
                 throw new ConflictException('Attachment upload object size does not match the declared session size');
             }
             const declaredChecksum = request.checksumSha256 ?? session.checksumSha256;
-            if (declaredChecksum || !session.checksumSha256) {
-                const actualChecksum = createHash('sha256').update(await this.storageService.readBuffer(location)).digest('hex');
-                if (declaredChecksum && actualChecksum !== declaredChecksum) {
+            if (declaredChecksum) {
+                const metadataChecksum = metadata.checksumSha256?.trim();
+                if (metadataChecksum && metadataChecksum !== declaredChecksum) {
                     throw new BadRequestException('Attachment upload object checksum does not match the declared session checksum');
                 }
+                session.checksumSha256 = declaredChecksum;
+            } else {
+                const actualChecksum = createHash('sha256').update(await this.storageService.readBuffer(location)).digest('hex');
                 session.checksumSha256 = actualChecksum;
             }
             session.uploadedAt ??= new Date();

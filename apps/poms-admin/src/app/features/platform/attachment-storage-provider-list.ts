@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -77,10 +78,16 @@ const ATTACHMENT_STORAGE_TIPS = {
     region: '填写 OBS bucket 所在 region，用于后端签发 S3-compatible 请求。',
     bucket: '填写用于保存附件对象的 OBS bucket 名称。POMS 只保存对象元数据，不会把 bucket 写权限暴露给用户。',
     keyPrefix: '可选。用于把 POMS 附件对象统一写入指定目录前缀，例如 poms/attachments。',
-    forcePathStyle: '如 endpoint 或网关要求 path-style 访问则开启；大多数 OBS S3-compatible endpoint 可保持关闭。',
+    forcePathStyle: '开启后后端会使用 https://endpoint/bucket/key 的 path-style 请求；关闭时使用 https://bucket.endpoint/key 的 virtual-hosted 请求。只有 OBS endpoint、私有网关或兼容 S3 服务要求 path-style 时开启，华为云 OBS 公网 endpoint 通常保持关闭。',
     accessKeyId: '填写 OBS 访问密钥 ID。保存后只保留加密密文，页面不会回显明文。',
     secretAccessKey: '填写 OBS 访问密钥 Secret。保存后只保留加密密文，页面不会回显明文，编辑时留空不会覆盖已有 secret。'
 } as const;
+
+const AUTH_EXPIRED_MESSAGE = '登录已过期，请重新登录后再操作。';
+
+function isAuthExpiredError(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === 401;
+}
 
 const EMPTY_FORM: AttachmentStorageProviderForm = {
     id: '',
@@ -226,6 +233,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
                         <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="editDialogVisible = false" />
+                        <p-button icon="pi pi-bolt" label="保存并测试" severity="secondary" [outlined]="true" [loading]="store.saving() || isEditDialogTesting()" [disabled]="!canSubmitEdit()" styleClass="rounded-md!" (onClick)="updateAndTestConfig()" />
                         <p-button label="保存" [loading]="store.saving()" [disabled]="!canSubmitEdit()" styleClass="rounded-md!" (onClick)="updateConfig()" />
                     </div>
                 </ng-template>
@@ -263,10 +271,15 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
                             <span class="text-sm font-medium text-surface-800 dark:text-surface-100">启用</span>
                             <p-toggleswitch [ngModel]="form().enabled" (ngModelChange)="updateToggle('enabled', $event)" />
                         </label>
-                        <label class="flex items-center justify-between gap-3 rounded-[8px] border border-surface-200 px-3 py-3 dark:border-surface-700">
-                            <span class="text-sm font-medium text-surface-800 dark:text-surface-100">Path-style</span>
+                        <div class="flex items-center justify-between gap-3 rounded-[8px] border border-surface-200 px-3 py-3 dark:border-surface-700">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-medium text-surface-800 dark:text-surface-100">路径样式访问</span>
+                                <button type="button" class="provider-help-trigger" [pTooltip]="storageTip('forcePathStyle')" tooltipPosition="top" aria-label="OBS 路径样式访问配置说明">
+                                    <i class="pi pi-question provider-help-icon"></i>
+                                </button>
+                            </div>
                             <p-toggleswitch [ngModel]="form().forcePathStyle" (ngModelChange)="updateToggle('forcePathStyle', $event)" [disabled]="!isHuaweiObsForm()" />
-                        </label>
+                        </div>
                         @if (mode === 'edit') {
                             <div class="flex flex-col gap-2">
                                 <label for="attachmentStorageStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
@@ -421,8 +434,8 @@ export class AttachmentStorageProviderList {
         this.pageError.set(null);
         try {
             await this.store.loadConfigs();
-        } catch {
-            this.pageError.set('附件存储提供商配置没有读取成功，请确认权限或稍后重试。');
+        } catch (error) {
+            this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '附件存储提供商配置没有读取成功，请确认权限或稍后重试。');
         }
     }
 
@@ -505,24 +518,33 @@ export class AttachmentStorageProviderList {
             this.createDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '创建成功', detail: `${form.displayName.trim()} 已创建` });
             await this.reload();
-        } catch {
-            this.formError.set('附件存储提供商配置没有创建成功，请确认提供商未重复且 OBS 字段满足启用条件。');
+        } catch (error) {
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '附件存储提供商配置没有创建成功，请确认提供商未重复且 OBS 字段满足启用条件。');
         }
     }
 
-    async updateConfig(): Promise<void> {
-        if (!this.validateForm(true, true)) return;
+    async updateConfig(): Promise<AttachmentStorageProviderConfigSummary | null> {
+        if (!this.validateForm(true, true)) return null;
 
         const form = this.form();
         const request = this.updateRequestFromForm(form);
         try {
-            await this.store.updateConfig(form.id, request);
+            const updatedConfig = await this.store.updateConfig(form.id, request);
             this.editDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: `${form.displayName.trim()} 已更新` });
             await this.reload();
-        } catch {
-            this.formError.set('附件存储提供商配置没有保存成功，请刷新后重试。');
+            return updatedConfig;
+        } catch (error) {
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '附件存储提供商配置没有保存成功，请刷新后重试。');
+            return null;
         }
+    }
+
+    async updateAndTestConfig(): Promise<void> {
+        const updatedConfig = await this.updateConfig();
+        if (!updatedConfig) return;
+
+        await this.testConnection(updatedConfig);
     }
 
     async testConnection(config: AttachmentStorageProviderConfigSummary): Promise<void> {
@@ -534,8 +556,8 @@ export class AttachmentStorageProviderList {
                 summary: result.status === AttachmentStorageProviderConnectionTestStatus.Success ? '测试通过' : '测试失败',
                 detail: result.message
             });
-        } catch {
-            this.pageError.set('测试连接没有完成，请刷新配置后重试。');
+        } catch (error) {
+            this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '测试连接没有完成，请刷新配置后重试。');
         }
     }
 
@@ -544,8 +566,8 @@ export class AttachmentStorageProviderList {
             await this.store.setDefaultConfig(config.id, { expectedVersion: config.rowVersion });
             this.#messageService.add({ severity: 'success', summary: '默认存储已更新', detail: `${config.displayName} 已设为默认` });
             await this.reload();
-        } catch {
-            this.pageError.set('默认存储没有更新成功，只能将已启用且已激活的配置设为默认。');
+        } catch (error) {
+            this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '默认存储没有更新成功，只能将已启用且已激活的配置设为默认。');
         }
     }
 
@@ -555,6 +577,10 @@ export class AttachmentStorageProviderList {
 
     isCardTesting(card: AttachmentStorageProviderCardSlot): boolean {
         return Boolean(card.config && this.store.testingConfigId() === card.config.id);
+    }
+
+    isEditDialogTesting(): boolean {
+        return Boolean(this.form().id && this.store.testingConfigId() === this.form().id);
     }
 
     isCardSettingDefault(card: AttachmentStorageProviderCardSlot): boolean {

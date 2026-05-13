@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -229,6 +230,24 @@ describe('IdentityProviderList', () => {
         expect(component.createDialogVisible).toBe(false);
     });
 
+    it('shows login expired feedback instead of provider validation feedback when create is unauthorized', async () => {
+        storeMock.createConfig.mockRejectedValueOnce(new HttpErrorResponse({ status: 401 }));
+
+        component.showCreateDialog();
+        component.updateText('displayName', '飞书正式');
+        component.updateText('clientId', 'cli_feishu');
+        component.updateText('clientSecret', 'secret-value');
+        component.updateText('redirectUri', 'https://poms.example.com/auth/identity-providers:callback');
+        component.updateToggle('enabled', true);
+        component.updateToggle('loginEnabled', true);
+
+        await component.createConfig();
+
+        expect(component.formError()).toBe('登录已过期，请重新登录后再操作。');
+        expect(component.formError()).not.toContain('redirect URI');
+        expect(component.createDialogVisible).toBe(true);
+    });
+
     it('updates a provider config without overwriting secret when secret field is blank', async () => {
         const config = createIdentityProviderConfig({ rowVersion: 8, secretConfigured: true });
 
@@ -246,6 +265,21 @@ describe('IdentityProviderList', () => {
             })
         );
         expect(storeMock.updateConfig.mock.calls[0][1]).not.toHaveProperty('clientSecret');
+    });
+
+    it('saves and tests the persisted provider config from the edit dialog', async () => {
+        const config = createIdentityProviderConfig({ rowVersion: 8 });
+        const updatedConfig = createIdentityProviderConfig({ id: config.id, rowVersion: 9, displayName: '飞书正式更新' });
+        storeMock.updateConfig.mockResolvedValueOnce(updatedConfig);
+
+        component.showEditDialog(config);
+        component.updateText('displayName', '飞书正式更新');
+
+        await component.updateAndTestConfig();
+
+        expect(storeMock.updateConfig).toHaveBeenCalledWith(config.id, expect.objectContaining({ displayName: '飞书正式更新', expectedVersion: 8 }));
+        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, { expectedVersion: 9 });
+        expect(component.testResults()[config.id]?.status).toBe(IdentityProviderConnectionTestStatus.Success);
     });
 
     it('tests provider connection with optimistic version evidence', async () => {

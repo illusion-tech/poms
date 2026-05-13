@@ -56,6 +56,15 @@ describe('DictionaryList', () => {
                 description: '线上或线下会议沟通',
                 usageCount: 1,
                 sortOrder: 20
+            }),
+            createDictionaryItem({
+                id: 'dictionary-3',
+                code: 'legacy-document',
+                name: '旧资料',
+                description: '已停用的历史附件分类',
+                status: ActiveInactiveStatus.Inactive,
+                usageCount: 0,
+                sortOrder: 90
             })
         ]);
 
@@ -66,7 +75,7 @@ describe('DictionaryList', () => {
             saving: signal(false),
             loaded: signal(true),
             loadItems: jest.fn().mockResolvedValue(items()),
-            createItem: jest.fn().mockResolvedValue(createDictionaryItem({ id: 'dictionary-3', code: 'customer-visit', name: '客户拜访' })),
+            createItem: jest.fn().mockResolvedValue(createDictionaryItem({ id: 'dictionary-4', code: 'customer-visit', name: '客户拜访' })),
             updateItem: jest.fn().mockResolvedValue(createDictionaryItem()),
             clearItems: jest.fn(() => items.set([]))
         };
@@ -104,9 +113,44 @@ describe('DictionaryList', () => {
         });
         expect(text).toContain('业务字典');
         expect(text).toContain('附件分类');
+        expect(text).toContain('费用分类');
         expect(text).toContain('需求资料');
         expect(text).toContain('会议');
         expect(text).toContain('v3');
+        expect(text).not.toContain('旧资料');
+    });
+
+    it('groups dictionary items by domain cards and expands inactive items per domain', () => {
+        expect(component.domainCards()).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    domain: DictionaryDomain.AttachmentCategory,
+                    activeCount: 1,
+                    inactiveCount: 1,
+                    visibleItems: [expect.objectContaining({ code: 'demand' })]
+                }),
+                expect.objectContaining({
+                    domain: DictionaryDomain.SalesFollowUpType,
+                    activeCount: 1,
+                    inactiveCount: 0,
+                    visibleItems: [expect.objectContaining({ code: 'meeting' })]
+                })
+            ])
+        );
+
+        component.toggleInactiveVisibility(DictionaryDomain.AttachmentCategory);
+        fixture.detectChanges();
+
+        const attachmentCard = component.domainCards().find((card) => card.domain === DictionaryDomain.AttachmentCategory);
+        expect(attachmentCard?.visibleItems.map((item) => item.code)).toEqual(['demand', 'legacy-document']);
+        expect(fixture.nativeElement.textContent).toContain('旧资料');
+    });
+
+    it('preselects the card domain when creating an item from a dictionary card', () => {
+        component.showCreateDialog(DictionaryDomain.ExpenseCategory);
+
+        expect(component.createDialogVisible).toBe(true);
+        expect(component.createForm().domain).toBe(DictionaryDomain.ExpenseCategory);
     });
 
     it('reloads dictionary items with selected filters', async () => {

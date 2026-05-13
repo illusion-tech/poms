@@ -14,9 +14,9 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 
 type DictionaryFilterValue = DictionaryDomain | 'all';
@@ -54,6 +54,18 @@ const DICTIONARY_DOMAIN_LABELS: Record<DictionaryDomain, string> = {
     [DictionaryDomain.AttachmentCategory]: '附件分类',
     [DictionaryDomain.SalesFollowUpType]: '销售跟进方式',
     [DictionaryDomain.ExpenseCategory]: '费用分类'
+};
+
+const DICTIONARY_DOMAIN_DESCRIPTIONS: Record<DictionaryDomain, string> = {
+    [DictionaryDomain.AttachmentCategory]: '客户、线索、项目和合同附件的业务分类。',
+    [DictionaryDomain.SalesFollowUpType]: '销售跟进记录的沟通方式和动作类型。',
+    [DictionaryDomain.ExpenseCategory]: '项目成本、费用登记和分析使用的分类。'
+};
+
+const DICTIONARY_DOMAIN_ICONS: Record<DictionaryDomain, string> = {
+    [DictionaryDomain.AttachmentCategory]: 'pi pi-paperclip',
+    [DictionaryDomain.SalesFollowUpType]: 'pi pi-comments',
+    [DictionaryDomain.ExpenseCategory]: 'pi pi-wallet'
 };
 
 const DICTIONARY_DOMAIN_OPTIONS: DictionaryOption<DictionaryDomain>[] = (Object.values(DictionaryDomain) as DictionaryDomain[]).map((domain) => ({
@@ -106,7 +118,6 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
     imports: [
         CommonModule,
         FormsModule,
-        TableModule,
         ButtonModule,
         DialogModule,
         InputTextModule,
@@ -115,6 +126,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
         SelectModule,
         TagModule,
         TextareaModule,
+        TooltipModule,
         ToastModule
     ],
     providers: [DictionaryStore, MessageService],
@@ -129,7 +141,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                         <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">维护附件分类、销售跟进方式和费用分类等可运营选项。停用后历史记录仍可读取，新写入不可继续使用。</p>
                     </div>
 
-                    <p-button label="新增字典项" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                    <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
                 </div>
 
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-4">
@@ -156,132 +168,111 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                 <div class="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{{ pageError() }}</div>
             }
 
-            <section class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
-                <p-table
-                    [value]="items()"
-                    [loading]="store.loading()"
-                    [rowHover]="true"
-                    [showGridlines]="true"
-                    [paginator]="true"
-                    [rows]="10"
-                    dataKey="id"
-                    responsiveLayout="scroll"
-                    [tableStyle]="{ width: '100%', 'min-width': '82rem' }"
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                    currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个字典项"
-                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                >
-                    <ng-template #caption>
-                        <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                            <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                                <p-select
-                                    [ngModel]="domainFilter()"
-                                    (ngModelChange)="setDomainFilter($event)"
-                                    [options]="domainFilterOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    ariaLabel="按字典域筛选"
-                                    class="w-full md:w-48 rounded-md!"
-                                />
+            <section class="rounded-[8px] border border-surface-200 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900">
+                <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-center">
+                        <p-iconfield class="w-full md:w-96">
+                            <p-inputicon class="pi pi-search" />
+                            <input pInputText [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" (keydown.enter)="reload()" placeholder="搜索 code、名称或说明" class="w-full! rounded-md! py-2!" />
+                        </p-iconfield>
 
-                                <p-select
-                                    [ngModel]="statusFilter()"
-                                    (ngModelChange)="setStatusFilter($event)"
-                                    [options]="statusFilterOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    ariaLabel="按状态筛选"
-                                    class="w-full md:w-36 rounded-md!"
-                                />
+                        <p-button label="查询" icon="pi pi-search" severity="primary" [outlined]="true" class="rounded-md!" (onClick)="reload()" />
+                        <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="resetFilters()" />
+                    </div>
 
-                                <p-iconfield class="w-full md:w-80">
-                                    <p-inputicon class="pi pi-search" />
-                                    <input pInputText [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" (keydown.enter)="reload()" placeholder="搜索 code、名称或说明" class="w-full! rounded-md! py-2!" />
-                                </p-iconfield>
-
-                                <p-button label="查询" icon="pi pi-search" severity="primary" [outlined]="true" styleClass="rounded-md!" (onClick)="reload()" />
-                                <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="resetFilters()" />
-                            </div>
-
-                            <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
-                        </div>
-                    </ng-template>
-
-                    <ng-template #header>
-                        <tr>
-                            <th class="min-w-56">字典域</th>
-                            <th class="min-w-48">Code</th>
-                            <th class="min-w-56">名称</th>
-                            <th class="min-w-64">说明</th>
-                            <th class="min-w-32">状态</th>
-                            <th class="min-w-28">排序</th>
-                            <th class="min-w-28">引用</th>
-                            <th class="min-w-28">版本</th>
-                            <th class="min-w-44">操作</th>
-                        </tr>
-                    </ng-template>
-
-                    <ng-template #body let-item>
-                        <tr>
-                            <td>
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ domainLabel(item.domain) }}</span>
-                                    <span class="text-xs font-mono text-surface-500">{{ item.domain }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="text-xs font-mono text-surface-700 dark:text-surface-200">{{ item.code }}</span>
-                            </td>
-                            <td>
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ item.name }}</span>
-                                    @if (item.isSystem) {
-                                        <p-tag value="系统项" severity="contrast" class="rounded-[6px]" />
-                                    }
-                                </div>
-                            </td>
-                            <td>
-                                <span class="text-sm text-surface-600 dark:text-surface-300">{{ item.description || '—' }}</span>
-                            </td>
-                            <td>
-                                <p-tag [value]="statusLabel(item.status)" [severity]="statusSeverity(item.status)" class="rounded-[6px]" />
-                            </td>
-                            <td>{{ item.sortOrder }}</td>
-                            <td>
-                                <span class="rounded-[6px] bg-surface-100 px-2 py-1 text-xs text-surface-700 dark:bg-surface-800 dark:text-surface-200">{{ item.usageCount }} 条</span>
-                            </td>
-                            <td>
-                                <span class="text-xs font-mono text-surface-600 dark:text-surface-300">v{{ item.rowVersion }}</span>
-                            </td>
-                            <td>
-                                <div class="flex flex-wrap gap-2">
-                                    <p-button icon="pi pi-pencil" label="编辑" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditDialog(item)" />
-                                    <p-button
-                                        [icon]="item.status === ActiveInactiveStatus.Active ? 'pi pi-ban' : 'pi pi-check-circle'"
-                                        [label]="item.status === ActiveInactiveStatus.Active ? '停用' : '启用'"
-                                        size="small"
-                                        [severity]="item.status === ActiveInactiveStatus.Active ? 'warn' : 'success'"
-                                        [outlined]="true"
-                                        styleClass="rounded-md!"
-                                        [disabled]="store.saving()"
-                                        (onClick)="toggleStatus(item)"
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    </ng-template>
-
-                    <ng-template #emptymessage>
-                        <tr>
-                            <td colspan="9" class="px-6 py-12 text-center text-surface-500 dark:text-surface-400">{{ store.loading() ? '正在读取业务字典' : '暂无匹配字典项' }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                    <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+                </div>
             </section>
 
-            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新增字典项" [style]="{ width: 'min(34rem, 92vw)' }" styleClass="p-fluid" (onHide)="resetCreateDialog()">
+            <section class="grid grid-cols-1 gap-4 xl:grid-cols-3">
+                @for (card of domainCards(); track card.domain) {
+                    <article class="flex min-h-[29rem] flex-col rounded-[8px] border border-surface-200 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900">
+                        <header class="flex items-start justify-between gap-4">
+                            <div class="flex min-w-0 gap-3">
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] border border-surface-200 bg-surface-50 text-surface-600 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-300">
+                                    <i [class]="domainIcon(card.domain)"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <h2 class="m-0 text-base font-semibold leading-6 text-surface-950 dark:text-surface-0">{{ card.label }}</h2>
+                                    <p class="mt-1 text-sm leading-5 text-surface-500 dark:text-surface-400">{{ domainDescription(card.domain) }}</p>
+                                    <div class="mt-2 font-mono text-xs text-surface-400 dark:text-surface-500">{{ card.domain }}</div>
+                                </div>
+                            </div>
+
+                            <p-button icon="pi pi-plus" label="新增" size="small" severity="primary" [outlined]="true" class="rounded-md!" (onClick)="showCreateDialog(card.domain)" />
+                        </header>
+
+                        <div class="mt-4 flex flex-wrap items-center gap-2">
+                            <p-tag [value]="'启用 ' + card.activeCount" severity="success" class="rounded-[6px]" />
+                            <p-tag [value]="'停用 ' + card.inactiveCount" severity="warn" class="rounded-[6px]" />
+                            <p-tag [value]="'系统项 ' + card.systemCount" severity="contrast" class="rounded-[6px]" />
+                            @if (card.inactiveCount) {
+                                <p-button
+                                    [label]="card.showInactive ? '隐藏停用项' : '显示停用项'"
+                                    [icon]="card.showInactive ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                                    size="small"
+                                    severity="secondary"
+                                    [text]="true"
+                                    class="rounded-md!"
+                                    (onClick)="toggleInactiveVisibility(card.domain)"
+                                />
+                            }
+                        </div>
+
+                        <div class="mt-4 flex flex-1 flex-col rounded-[8px] border border-surface-100 dark:border-surface-800">
+                            @if (store.loading()) {
+                                <div class="p-5 text-sm text-surface-500 dark:text-surface-400">正在读取业务字典。</div>
+                            } @else if (card.visibleItems.length) {
+                                @for (item of card.visibleItems; track item.id) {
+                                    <div class="flex items-start gap-3 border-t border-surface-100 p-3 first:border-t-0 dark:border-surface-800">
+                                        <div class="min-w-0 flex-1">
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <h3 class="m-0 min-w-0 truncate text-sm font-semibold leading-6 text-surface-950 dark:text-surface-0">{{ item.name }}</h3>
+                                                <p-tag [value]="statusLabel(item.status)" [severity]="statusSeverity(item.status)" class="rounded-[6px]" />
+                                                @if (item.isSystem) {
+                                                    <p-tag value="系统项" severity="contrast" class="rounded-[6px]" />
+                                                }
+                                            </div>
+                                            <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                                <span class="font-mono text-surface-700 dark:text-surface-200">{{ item.code }}</span>
+                                                <span>排序 {{ item.sortOrder }}</span>
+                                                <span>引用 {{ item.usageCount }} 条</span>
+                                                <span class="font-mono">v{{ item.rowVersion }}</span>
+                                            </div>
+                                            @if (item.description) {
+                                                <p class="mt-2 text-sm leading-6 text-surface-600 dark:text-surface-300">{{ item.description }}</p>
+                                            }
+                                        </div>
+
+                                        <div class="grid shrink-0 grid-cols-2 gap-1.5">
+                                            <p-button icon="pi pi-pencil" size="small" severity="secondary" [text]="true" [rounded]="true" ariaLabel="编辑字典项" pTooltip="编辑" tooltipPosition="left" class="h-8! w-8! p-0!" (onClick)="showEditDialog(item)" />
+                                            <p-button
+                                                [icon]="item.status === ActiveInactiveStatus.Active ? 'pi pi-ban' : 'pi pi-check-circle'"
+                                                size="small"
+                                                [severity]="item.status === ActiveInactiveStatus.Active ? 'warn' : 'success'"
+                                                [text]="true"
+                                                [rounded]="true"
+                                                [attr.aria-label]="item.status === ActiveInactiveStatus.Active ? '停用字典项' : '启用字典项'"
+                                                [pTooltip]="item.status === ActiveInactiveStatus.Active ? '停用' : '启用'"
+                                                tooltipPosition="left"
+                                                class="h-8! w-8! p-0!"
+                                                [disabled]="store.saving()"
+                                                (onClick)="toggleStatus(item)"
+                                            />
+                                        </div>
+                                    </div>
+                                }
+                            } @else {
+                                <div class="flex flex-1 items-center justify-center p-5 text-center text-sm text-surface-500 dark:text-surface-400">
+                                    {{ card.totalCount ? '当前停用项已隐藏。' : '暂无匹配字典项。' }}
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+            </section>
+
+            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新增字典项" [style]="{ width: 'min(34rem, 92vw)' }" class="p-fluid" (onHide)="resetCreateDialog()">
                 <div class="flex flex-col gap-4 py-2">
                     @if (formError()) {
                         <div class="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{{ formError() }}</div>
@@ -315,13 +306,13 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                 </div>
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="createDialogVisible = false" />
-                        <p-button label="创建" [loading]="store.saving()" [disabled]="!canCreate()" styleClass="rounded-md!" (onClick)="createItem()" />
+                        <p-button label="取消" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="createDialogVisible = false" />
+                        <p-button label="创建" [loading]="store.saving()" [disabled]="!canCreate()" class="rounded-md!" (onClick)="createItem()" />
                     </div>
                 </ng-template>
             </p-dialog>
 
-            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑字典项" [style]="{ width: 'min(34rem, 92vw)' }" styleClass="p-fluid" (onHide)="resetEditDialog()">
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑字典项" [style]="{ width: 'min(34rem, 92vw)' }" class="p-fluid" (onHide)="resetEditDialog()">
                 <div class="flex flex-col gap-4 py-2">
                     @if (formError()) {
                         <div class="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{{ formError() }}</div>
@@ -361,8 +352,8 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                 </div>
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="editDialogVisible = false" />
-                        <p-button label="保存" [loading]="store.saving()" [disabled]="!canUpdate()" styleClass="rounded-md!" (onClick)="updateItem()" />
+                        <p-button label="取消" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="editDialogVisible = false" />
+                        <p-button label="保存" [loading]="store.saving()" [disabled]="!canUpdate()" class="rounded-md!" (onClick)="updateItem()" />
                     </div>
                 </ng-template>
             </p-dialog>
@@ -386,6 +377,7 @@ export class DictionaryList {
     readonly formError = signal<string | null>(null);
     readonly createForm = signal<DictionaryCreateForm>({ ...EMPTY_CREATE_FORM });
     readonly editForm = signal<DictionaryEditForm>({ ...EMPTY_EDIT_FORM });
+    readonly showInactiveDomains = signal<ReadonlySet<DictionaryDomain>>(new Set());
 
     createDialogVisible = false;
     editDialogVisible = false;
@@ -394,6 +386,25 @@ export class DictionaryList {
     readonly activeCount = computed(() => this.items().filter((item) => item.status === ActiveInactiveStatus.Active).length);
     readonly inactiveCount = computed(() => this.items().filter((item) => item.status === ActiveInactiveStatus.Inactive).length);
     readonly systemCount = computed(() => this.items().filter((item) => item.isSystem).length);
+    readonly domainCards = computed(() =>
+        this.domainOptions.map((option) => {
+            const showInactive = this.showInactiveDomains().has(option.value);
+            const domainItems = this.items()
+                .filter((item) => item.domain === option.value)
+                .sort((left, right) => left.sortOrder - right.sortOrder || left.name.localeCompare(right.name, 'zh-Hans-CN') || left.code.localeCompare(right.code));
+
+            return {
+                domain: option.value,
+                label: option.label,
+                activeCount: domainItems.filter((item) => item.status === ActiveInactiveStatus.Active).length,
+                inactiveCount: domainItems.filter((item) => item.status === ActiveInactiveStatus.Inactive).length,
+                systemCount: domainItems.filter((item) => item.isSystem).length,
+                totalCount: domainItems.length,
+                showInactive,
+                visibleItems: domainItems.filter((item) => item.status === ActiveInactiveStatus.Active || showInactive)
+            };
+        })
+    );
 
     constructor() {
         void this.reload();
@@ -431,8 +442,8 @@ export class DictionaryList {
         void this.reload();
     }
 
-    showCreateDialog(): void {
-        this.createForm.set({ ...EMPTY_CREATE_FORM });
+    showCreateDialog(domain: DictionaryDomain = DictionaryDomain.AttachmentCategory): void {
+        this.createForm.set({ ...EMPTY_CREATE_FORM, domain });
         this.formError.set(null);
         this.createDialogVisible = true;
     }
@@ -560,8 +571,28 @@ export class DictionaryList {
         }
     }
 
+    toggleInactiveVisibility(domain: DictionaryDomain): void {
+        this.showInactiveDomains.update((current) => {
+            const next = new Set(current);
+            if (next.has(domain)) {
+                next.delete(domain);
+            } else {
+                next.add(domain);
+            }
+            return next;
+        });
+    }
+
     domainLabel(domain: DictionaryDomain): string {
         return DICTIONARY_DOMAIN_LABELS[domain] ?? domain;
+    }
+
+    domainDescription(domain: DictionaryDomain): string {
+        return DICTIONARY_DOMAIN_DESCRIPTIONS[domain] ?? '业务字典配置项。';
+    }
+
+    domainIcon(domain: DictionaryDomain): string {
+        return DICTIONARY_DOMAIN_ICONS[domain] ?? 'pi pi-list';
     }
 
     statusLabel(status: ActiveInactiveStatus): string {

@@ -130,7 +130,8 @@ describe('AttachmentService', () => {
             sizeBytes: buffer.length,
             eTag: null,
             lastModified: baseDate.toISOString(),
-            contentType: 'application/pdf'
+            contentType: 'application/pdf',
+            checksumSha256
         });
         storageService.readBuffer.mockResolvedValue(buffer);
 
@@ -168,6 +169,45 @@ describe('AttachmentService', () => {
         expect(completed.links).toHaveLength(1);
         expect(session.status).toBe('completed');
         expect(session.completedAttachmentId).toBe(completed.id);
+    });
+
+    it('completes a presigned upload from checksum metadata without downloading the object', async () => {
+        const buffer = Buffer.from('attachment bytes');
+        const checksumSha256 = createHash('sha256').update(buffer).digest('hex');
+        const session = createUploadSession({
+            status: 'uploading',
+            uploadMode: 'presigned-put',
+            providerType: 'huawei-obs-s3',
+            storageBucket: 'poms',
+            sizeBytes: buffer.length,
+            checksumSha256
+        });
+        repository.findUploadSessionById.mockResolvedValue(session);
+        storageService.headObject.mockResolvedValue({
+            sizeBytes: buffer.length,
+            eTag: null,
+            lastModified: baseDate.toISOString(),
+            contentType: 'application/pdf',
+            checksumSha256
+        });
+
+        const completed = await service.completeAttachmentUploadSession(session.id, { checksumSha256 }, user(['lead:write']), 'request-complete');
+
+        expect(storageService.headObject).toHaveBeenCalledWith(
+            expect.objectContaining({
+                storageProvider: 'huawei-obs-s3',
+                storageBucket: 'poms',
+                storageKey: session.storageKey
+            })
+        );
+        expect(storageService.readBuffer).not.toHaveBeenCalled();
+        expect(repository.createAttachment).toHaveBeenCalledWith(
+            expect.objectContaining({
+                checksumSha256,
+                status: 'active'
+            })
+        );
+        expect(completed.links).toHaveLength(1);
     });
 
     it('uploads attachment metadata, stores the file, links the target and audits the action', async () => {

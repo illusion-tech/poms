@@ -96,6 +96,9 @@ describe('AttachmentStorageProviderCard', () => {
         expect(text).toContain('待配置');
         expect(text).toContain('AK/SK 未配置');
         expect(text).toContain('配置');
+        expect(text).toContain('测试连接');
+        const testButton = (Array.from(fixture.nativeElement.querySelectorAll('button')) as HTMLButtonElement[]).find((button) => button.textContent?.includes('测试连接'));
+        expect(testButton?.disabled).toBe(true);
         expect(card?.className).not.toContain('border-dashed');
     });
 

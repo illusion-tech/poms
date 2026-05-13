@@ -20,6 +20,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { TooltipModule } from 'primeng/tooltip';
 import { WorkspaceFeedback } from './workspace-feedback';
 
 interface AttachmentOption<T extends string> {
@@ -61,7 +62,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
 @Component({
     selector: 'app-attachment-panel',
     standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TagModule, TextareaModule, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TagModule, TextareaModule, TooltipModule, WorkspaceFeedback],
     providers: [AttachmentStore, DictionaryStore],
     template: `
         <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
@@ -86,53 +87,51 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                 } @else if (store.attachments().length) {
                     @for (attachment of store.attachments(); track attachment.id) {
                         <article class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
-                            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                                <div class="flex min-w-0 gap-3">
-                                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] border border-surface-200 bg-surface-50 text-surface-500 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-300">
-                                        <i class="pi text-lg" [ngClass]="fileIcon(attachment)"></i>
-                                    </div>
-                                    <div class="min-w-0">
-                                        <div class="flex flex-wrap items-center gap-2">
-                                            <span class="max-w-full truncate text-sm font-semibold text-surface-950 dark:text-surface-0">{{ attachment.displayName }}</span>
-                                            <p-tag [value]="categoryLabel(attachment.category)" severity="secondary" class="rounded-[6px]" />
-                                            <p-tag [value]="securityLabel(attachment.securityLevel)" [severity]="securitySeverity(attachment.securityLevel)" class="rounded-[6px]" />
-                                            <p-tag [value]="'v' + attachment.versionNo" severity="info" class="rounded-[6px]" />
-                                            @if (attachment.isLatest) {
-                                                <p-tag value="最新" severity="success" class="rounded-[6px]" />
-                                            }
-                                            @if (attachment.isFinal) {
-                                                <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
-                                            }
-                                        </div>
-                                        <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-surface-500 dark:text-surface-400">
-                                            <span>{{ attachment.extension | uppercase }}</span>
-                                            <span>{{ formatSize(attachment.sizeBytes) }}</span>
-                                            <span>{{ attachment.uploadedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
-                                            <span>{{ attachment.uploadedByName || '未知上传人' }}</span>
-                                            @if (!attachment.previewSupported) {
-                                                <span>不支持预览</span>
-                                            }
-                                        </div>
-                                        @if (attachment.description) {
-                                            <p class="mt-2 whitespace-pre-line text-sm leading-6 text-surface-600 dark:text-surface-300">{{ attachment.description }}</p>
-                                        }
-                                        @if (attachment.changeNote) {
-                                            <p class="mt-2 text-xs leading-5 text-surface-500 dark:text-surface-400">版本说明：{{ attachment.changeNote }}</p>
-                                        }
-                                    </div>
+                            <div class="flex min-w-0 items-start gap-3">
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] border border-surface-200 bg-surface-50 text-surface-500 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-300">
+                                    <i class="pi text-lg" [ngClass]="fileIcon(attachment)"></i>
                                 </div>
-                                <div class="flex shrink-0 flex-wrap gap-2">
-                                    <p-button icon="pi pi-eye" label="预览" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!attachment.previewSupported" (onClick)="openPreview(attachment)" />
-                                    <p-button icon="pi pi-history" label="版本" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openVersions(attachment)" />
-                                    <p-button icon="pi pi-download" label="下载" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="download(attachment)" />
-                                    @if (canWrite) {
-                                        <p-button icon="pi pi-upload" label="新版本" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="showVersionUploadDialog(attachment)" />
-                                        @if (attachment.isFinal) {
-                                            <p-button icon="pi pi-undo" label="撤销最终版" size="small" severity="warn" [outlined]="true" styleClass="rounded-md!" (onClick)="showClearFinalDialog(attachment)" />
-                                        } @else {
-                                            <p-button icon="pi pi-check-circle" label="标记最终版" size="small" severity="success" [outlined]="true" styleClass="rounded-md!" (onClick)="showMarkFinalDialog(attachment)" />
+                                <div class="min-w-0 flex-1">
+                                    <h4 class="m-0 truncate text-sm font-semibold leading-6 text-surface-950 dark:text-surface-0">{{ attachment.displayName }}</h4>
+                                    <div class="mt-2 flex flex-wrap gap-1.5">
+                                        <p-tag [value]="categoryLabel(attachment.category)" severity="secondary" class="rounded-[6px]" />
+                                        <p-tag [value]="securityLabel(attachment.securityLevel)" [severity]="securitySeverity(attachment.securityLevel)" class="rounded-[6px]" />
+                                        <p-tag [value]="'v' + attachment.versionNo" severity="info" class="rounded-[6px]" />
+                                        @if (attachment.isLatest) {
+                                            <p-tag value="最新" severity="success" class="rounded-[6px]" />
                                         }
-                                        <p-button icon="pi pi-ban" label="作废" size="small" severity="danger" [outlined]="true" styleClass="rounded-md!" (onClick)="voidAttachment(attachment)" />
+                                        @if (attachment.isFinal) {
+                                            <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
+                                        }
+                                    </div>
+                                    <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                        <span class="whitespace-nowrap">{{ attachment.extension | uppercase }}</span>
+                                        <span class="whitespace-nowrap">{{ formatSize(attachment.sizeBytes) }}</span>
+                                        <span class="whitespace-nowrap">{{ attachment.uploadedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                        <span class="whitespace-nowrap">{{ attachment.uploadedByName || '未知上传人' }}</span>
+                                        @if (!attachment.previewSupported) {
+                                            <span class="whitespace-nowrap">不支持预览</span>
+                                        }
+                                    </div>
+                                    @if (attachment.description) {
+                                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-surface-600 dark:text-surface-300">{{ attachment.description }}</p>
+                                    }
+                                    @if (attachment.changeNote) {
+                                        <p class="mt-2 text-xs leading-5 text-surface-500 dark:text-surface-400">版本说明：{{ attachment.changeNote }}</p>
+                                    }
+                                </div>
+                                <div class="attachment-actions ml-auto grid shrink-0 grid-cols-3 gap-1.5">
+                                    <p-button icon="pi pi-eye" size="small" severity="secondary" [text]="true" [rounded]="true" ariaLabel="预览附件" [pTooltip]="attachment.previewSupported ? '预览' : '当前文件不支持预览'" tooltipPosition="left" [disabled]="!attachment.previewSupported" styleClass="h-8! w-8! p-0!" (onClick)="openPreview(attachment)" />
+                                    <p-button icon="pi pi-history" size="small" severity="secondary" [text]="true" [rounded]="true" ariaLabel="查看版本" pTooltip="版本" tooltipPosition="left" styleClass="h-8! w-8! p-0!" (onClick)="openVersions(attachment)" />
+                                    <p-button icon="pi pi-download" size="small" severity="secondary" [text]="true" [rounded]="true" ariaLabel="下载附件" [pTooltip]="isDownloading(attachment.id) ? '正在准备下载' : '下载'" tooltipPosition="left" [loading]="isDownloading(attachment.id)" [disabled]="isDownloading(attachment.id)" styleClass="h-8! w-8! p-0!" (onClick)="download(attachment)" />
+                                    @if (canWrite) {
+                                        <p-button icon="pi pi-upload" size="small" severity="secondary" [text]="true" [rounded]="true" ariaLabel="上传新版本" pTooltip="新版本" tooltipPosition="left" styleClass="h-8! w-8! p-0!" (onClick)="showVersionUploadDialog(attachment)" />
+                                        @if (attachment.isFinal) {
+                                            <p-button icon="pi pi-undo" size="small" severity="warn" [text]="true" [rounded]="true" ariaLabel="撤销最终版" pTooltip="撤销最终版" tooltipPosition="left" styleClass="h-8! w-8! p-0!" (onClick)="showClearFinalDialog(attachment)" />
+                                        } @else {
+                                            <p-button icon="pi pi-check-circle" size="small" severity="success" [text]="true" [rounded]="true" ariaLabel="标记最终版" pTooltip="标记最终版" tooltipPosition="left" styleClass="h-8! w-8! p-0!" (onClick)="showMarkFinalDialog(attachment)" />
+                                        }
+                                        <p-button icon="pi pi-ban" size="small" severity="danger" [text]="true" [rounded]="true" ariaLabel="作废附件" pTooltip="作废" tooltipPosition="left" styleClass="h-8! w-8! p-0!" (onClick)="voidAttachment(attachment)" />
                                     }
                                 </div>
                             </div>
@@ -198,7 +197,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
             <ng-template #footer>
                 <div class="flex justify-end gap-2">
                     @if (selectedPreviewAttachment(); as attachment) {
-                        <p-button icon="pi pi-download" label="下载" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="download(attachment)" />
+                        <p-button icon="pi pi-download" label="下载" severity="secondary" [outlined]="true" [loading]="isDownloading(attachment.id)" [disabled]="isDownloading(attachment.id)" styleClass="rounded-md!" (onClick)="download(attachment)" />
                     }
                     <p-button label="关闭" severity="secondary" styleClass="rounded-md!" (onClick)="previewDialogVisible = false" />
                 </div>
@@ -237,7 +236,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                                 </div>
                                 <div class="flex shrink-0 flex-wrap gap-2">
                                     <p-button icon="pi pi-eye" label="预览" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!version.previewSupported" (onClick)="openPreview(version)" />
-                                    <p-button icon="pi pi-download" label="下载" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="download(version)" />
+                                    <p-button icon="pi pi-download" label="下载" size="small" severity="secondary" [outlined]="true" [loading]="isDownloading(version.id)" [disabled]="isDownloading(version.id)" styleClass="rounded-md!" (onClick)="download(version)" />
                                     @if (canWrite) {
                                         @if (version.isFinal) {
                                             <p-button icon="pi pi-undo" label="撤销" size="small" severity="warn" [outlined]="true" styleClass="rounded-md!" (onClick)="showClearFinalDialog(version)" />
@@ -449,6 +448,7 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
     readonly previewMimeType = signal<string | null>(null);
     readonly previewLoading = signal(false);
     readonly previewError = signal<string | null>(null);
+    readonly downloadingAttachmentIds = signal<ReadonlySet<string>>(new Set());
     readonly previewKind = computed<PreviewKind>(() => {
         const mimeType = this.previewMimeType() ?? this.selectedPreviewAttachment()?.previewMimeType ?? '';
         if (mimeType.startsWith('image/')) return 'image';
@@ -594,7 +594,7 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
             await this.reload();
         } catch {
             if (this.store.uploadProgress().phase !== 'aborted') {
-                this.uploadError.set('请确认文件类型、大小、存储 provider 和当前权限后重试。');
+                this.uploadError.set(this.store.uploadProgress().error ?? '请确认文件类型、大小、存储 provider 和当前权限后重试。');
             }
         }
     }
@@ -730,7 +730,7 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
             }
         } catch {
             if (this.store.uploadProgress().phase !== 'aborted') {
-                this.versionUploadError.set('请确认新版本文件、版本说明、存储 provider 和当前权限后重试。');
+                this.versionUploadError.set(this.store.uploadProgress().error ?? '请确认新版本文件、版本说明、存储 provider 和当前权限后重试。');
             }
         }
     }
@@ -809,17 +809,24 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
     }
 
     async download(attachment: AttachmentSummary): Promise<void> {
+        if (this.isDownloading(attachment.id)) {
+            return;
+        }
+
+        this.error.set(null);
+        this.setAttachmentDownloading(attachment.id, true);
         try {
             const result = await this.store.downloadAttachment(attachment.id);
-            const url = URL.createObjectURL(result.blob);
-            const anchor = document.createElement('a');
-            anchor.href = url;
-            anchor.download = result.fileName || attachment.originalName;
-            anchor.click();
-            URL.revokeObjectURL(url);
+            this.triggerBrowserDownload(result.blob, result.fileName || attachment.originalName);
         } catch {
             this.error.set('附件下载没有成功，请稍后重试。');
+        } finally {
+            this.setAttachmentDownloading(attachment.id, false);
         }
+    }
+
+    isDownloading(attachmentId: string): boolean {
+        return this.downloadingAttachmentIds().has(attachmentId);
     }
 
     async voidAttachment(attachment: AttachmentSummary): Promise<void> {
@@ -960,5 +967,30 @@ export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
         this.previewObjectUrl.set(null);
         this.safePreviewUrl.set(null);
         this.previewMimeType.set(null);
+    }
+
+    private setAttachmentDownloading(attachmentId: string, downloading: boolean): void {
+        this.downloadingAttachmentIds.update((current) => {
+            const next = new Set(current);
+            if (downloading) {
+                next.add(attachmentId);
+            } else {
+                next.delete(attachmentId);
+            }
+            return next;
+        });
+    }
+
+    private triggerBrowserDownload(blob: Blob, fileName: string): void {
+        const objectUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = objectUrl;
+        anchor.download = fileName;
+        anchor.rel = 'noopener';
+        anchor.style.display = 'none';
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
     }
 }

@@ -197,6 +197,85 @@ describe('AttachmentPanel', () => {
         expect(fixture.nativeElement.textContent).toContain('张销售');
     });
 
+    it('keeps attachment actions in a compact two-row toolbar on the right side inside narrow dialogs', () => {
+        const card = fixture.nativeElement.querySelector('article') as HTMLElement;
+        const title = card.querySelector('h4') as HTMLElement;
+        const actionGrid = card.querySelector('.attachment-actions') as HTMLElement;
+
+        expect(card.textContent).toContain('需求确认.pdf');
+        expect(card.innerHTML).not.toContain('lg:flex-row');
+        expect(title.className).toContain('truncate');
+        expect(actionGrid).not.toBeNull();
+        expect(actionGrid.className).toContain('ml-auto');
+        expect(actionGrid.className).toContain('grid-cols-3');
+        expect(actionGrid.className).not.toContain('grid-cols-2');
+        expect(actionGrid.textContent?.trim()).toBe('');
+        expect(actionGrid.querySelectorAll('p-button')).toHaveLength(6);
+    });
+
+    it('downloads attachments through a mounted link and delays object URL cleanup', async () => {
+        jest.useFakeTimers();
+        const originalCreateObjectUrl = URL.createObjectURL;
+        const originalRevokeObjectUrl = URL.revokeObjectURL;
+        const createObjectUrl = jest.fn(() => 'blob:poms-download');
+        const revokeObjectUrl = jest.fn();
+        const anchor = document.createElement('a');
+        const click = jest.spyOn(anchor, 'click').mockImplementation();
+        const remove = jest.spyOn(anchor, 'remove');
+        const createElement = jest.spyOn(document, 'createElement').mockReturnValue(anchor);
+        const appendChild = jest.spyOn(document.body, 'appendChild');
+        let resolveDownload!: (value: { blob: Blob; fileName: string }) => void;
+        storeMock.downloadAttachment.mockReturnValueOnce(
+            new Promise((resolve) => {
+                resolveDownload = resolve;
+            })
+        );
+        Object.defineProperty(URL, 'createObjectURL', { configurable: true, value: createObjectUrl });
+        Object.defineProperty(URL, 'revokeObjectURL', { configurable: true, value: revokeObjectUrl });
+
+        try {
+            const downloadPromise = component.download(createAttachment());
+
+            expect(component.isDownloading('attachment-1')).toBe(true);
+
+            resolveDownload({ blob: new Blob(['pdf'], { type: 'application/pdf' }), fileName: '客户资料.pdf' });
+            await downloadPromise;
+
+            expect(storeMock.downloadAttachment).toHaveBeenCalledWith('attachment-1');
+            expect(createObjectUrl).toHaveBeenCalledWith(expect.any(Blob));
+            expect(appendChild).toHaveBeenCalledWith(anchor);
+            expect(anchor.href).toBe('blob:poms-download');
+            expect(anchor.download).toBe('客户资料.pdf');
+            expect(anchor.rel).toBe('noopener');
+            expect(anchor.style.display).toBe('none');
+            expect(click).toHaveBeenCalledTimes(1);
+            expect(remove).toHaveBeenCalledTimes(1);
+            expect(component.isDownloading('attachment-1')).toBe(false);
+            expect(revokeObjectUrl).not.toHaveBeenCalled();
+
+            jest.advanceTimersByTime(1000);
+
+            expect(revokeObjectUrl).toHaveBeenCalledWith('blob:poms-download');
+        } finally {
+            Object.defineProperty(URL, 'createObjectURL', { configurable: true, value: originalCreateObjectUrl });
+            Object.defineProperty(URL, 'revokeObjectURL', { configurable: true, value: originalRevokeObjectUrl });
+            appendChild.mockRestore();
+            createElement.mockRestore();
+            remove.mockRestore();
+            click.mockRestore();
+            jest.useRealTimers();
+        }
+    });
+
+    it('shows visible feedback and clears loading when attachment download fails', async () => {
+        storeMock.downloadAttachment.mockRejectedValueOnce(new Error('storage unavailable'));
+
+        await component.download(createAttachment());
+
+        expect(component.isDownloading('attachment-1')).toBe(false);
+        expect(component.error()).toBe('附件下载没有成功，请稍后重试。');
+    });
+
     it('uploads an attachment with the selected category, security level and relation', async () => {
         const file = new File(['hello'], '会议纪要.pdf', { type: 'application/pdf' });
 
@@ -270,6 +349,31 @@ describe('AttachmentPanel', () => {
 
         expect(storeMock.uploadAttachment).toHaveBeenCalledTimes(2);
         expect(component.uploadDialogVisible).toBe(false);
+    });
+
+    it('shows the upload session failure detail when the store records one', async () => {
+        const file = new File(['hello'], '会议纪要.pdf', { type: 'application/pdf' });
+        storeMock.uploadAttachment.mockImplementationOnce(async () => {
+            storeMock.uploadProgress.set(
+                uploadProgress({
+                    phase: 'failed',
+                    operationType: AttachmentUploadSessionOperationType.CreateAttachment,
+                    sessionId: 'upload-session-1',
+                    uploadMode: AttachmentUploadMode.PresignedPut,
+                    providerType: AttachmentStorageProviderType.HuaweiObsS3,
+                    error: 'Attachment storage provider request failed: HEAD returned 502 fetch failed'
+                })
+            );
+            throw new Error('upload failed');
+        });
+
+        component.showUploadDialog();
+        component.selectedFile.set(file);
+        component.updateUploadField('category', COMMUNICATION_ATTACHMENT_CATEGORY);
+
+        await component.upload();
+
+        expect(component.uploadError()).toBe('Attachment storage provider request failed: HEAD returned 502 fetch failed');
     });
 
     it('loads attachment versions for the selected attachment', async () => {

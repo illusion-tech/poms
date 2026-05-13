@@ -29,6 +29,7 @@ export interface AttachmentObjectMetadata {
     eTag: string | null;
     lastModified: string | null;
     contentType: string | null;
+    checksumSha256: string | null;
 }
 
 export interface AttachmentObjectUploadPlan extends AttachmentObjectLocation {
@@ -66,7 +67,7 @@ export interface AttachmentObjectStorageProvider {
     createPresignedPutTarget?(
         config: AttachmentStorageProviderRuntimeConfig,
         location: AttachmentObjectLocation,
-        input: { contentType?: string | null; expiresAt: Date }
+        input: { contentType?: string | null; checksumSha256?: string | null; expiresAt: Date }
     ): Promise<AttachmentPresignedPutTarget>;
     testConnection(config: AttachmentStorageProviderRuntimeConfig): Promise<AttachmentStorageProviderConnectionTestResult>;
 }

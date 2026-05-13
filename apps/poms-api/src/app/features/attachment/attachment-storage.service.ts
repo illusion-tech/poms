@@ -33,7 +33,7 @@ export class AttachmentStorageService {
         });
     }
 
-    async createPresignedPutTarget(location: AttachmentObjectLocation, input: { contentType?: string | null; expiresAt: Date }): Promise<AttachmentPresignedPutTarget> {
+    async createPresignedPutTarget(location: AttachmentObjectLocation, input: { contentType?: string | null; checksumSha256?: string | null; expiresAt: Date }): Promise<AttachmentPresignedPutTarget> {
         return this.storageProviderRegistry.createPresignedPutTarget(location, input);
     }
 
