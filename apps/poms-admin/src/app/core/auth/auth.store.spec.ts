@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ApprovalApi, AuthApi, AuthStore, IdentityProvider, NavigationApi, type CurrentAuthSessionView, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { PomsCsrfTokenStore } from '@poms/admin-data-access/lib/poms-api/poms-csrf-token.store';
 import { of } from 'rxjs';
 
 function createUser(overrides: Partial<SanitizedUserWithOrgUnits> = {}): SanitizedUserWithOrgUnits {
@@ -55,10 +56,9 @@ describe('AuthStore', () => {
     let approvalApiMock: {
         approvalControllerGetMyTodos: jest.Mock;
     };
+    let csrfTokenStore: PomsCsrfTokenStore;
 
     beforeEach(() => {
-        localStorage.clear();
-
         authApiMock = {
             authControllerCreatePasswordAuthSession: jest.fn(),
             authControllerListEnabledLoginProviders: jest.fn(),
@@ -97,10 +97,101 @@ describe('AuthStore', () => {
         });
 
         store = TestBed.inject(AuthStore);
+        csrfTokenStore = TestBed.inject(PomsCsrfTokenStore);
     });
 
-    afterEach(() => {
-        localStorage.clear();
+    it('creates password sessions through Cookie credentials and refreshes CSRF token', async () => {
+        const user = createUser();
+        const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+        authApiMock.authControllerCreatePasswordAuthSession.mockReturnValue(of(createSession(user)));
+        navigationApiMock.navigationControllerGetNavigation.mockReturnValue(of([]));
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(of([]));
+
+        await expect(store.login('viewer', 'secret')).resolves.toBeUndefined();
+
+        expect(authApiMock.authControllerGetCsrfToken).toHaveBeenCalledTimes(2);
+        expect(authApiMock.authControllerCreatePasswordAuthSession).toHaveBeenCalledWith({
+            createPasswordAuthSessionRequest: {
+                username: 'viewer',
+                password: 'secret'
+            }
+        });
+        expect(store.currentUser()).toEqual(user);
+        expect(csrfTokenStore.token).toBe('csrf-token');
+        expect(localStorage.getItem('poms_access_token')).toBeNull();
+        expect(setItemSpy).not.toHaveBeenCalledWith('poms_access_token', expect.anything());
+
+        setItemSpy.mockRestore();
+    });
+
+    it('initializes from the current auth session without falling back to profile token reads', async () => {
+        const user = createUser();
+        authApiMock.authControllerGetCurrentAuthSession.mockReturnValue(of(createSession(user)));
+        navigationApiMock.navigationControllerGetNavigation.mockReturnValue(of([]));
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(of([]));
+
+        await expect(store.initialize()).resolves.toBeUndefined();
+
+        expect(authApiMock.authControllerGetCurrentAuthSession).toHaveBeenCalledWith();
+        expect(authApiMock.authControllerGetCsrfToken).toHaveBeenCalledTimes(1);
+        expect(authApiMock.authControllerGetProfile).not.toHaveBeenCalled();
+        expect(store.currentUser()).toEqual(user);
+        expect(csrfTokenStore.token).toBe('csrf-token');
+    });
+
+    it('clears local session state when the current auth session is anonymous', async () => {
+        const user = createUser();
+        csrfTokenStore.setToken('stale-csrf-token');
+        store.currentUser.set(user);
+        store.navigationTree.set([
+            {
+                id: 'nav-dashboard',
+                key: 'dashboard',
+                type: 'basic',
+                title: '工作台',
+                icon: 'pi pi-home',
+                link: '/dashboard',
+                order: 1,
+                isHidden: false,
+                isDisabled: false,
+                disabledReason: null,
+                children: []
+            }
+        ]);
+        store.myTodos.set([
+            {
+                id: 'todo-1',
+                type: 'approval',
+                status: 'open',
+                priority: 'normal',
+                title: '待处理审批',
+                targetTitle: '合同审批',
+                targetRoute: '/contracts/1',
+                dueAt: null,
+                createdAt: '2026-05-07T08:30:00.000Z'
+            }
+        ]);
+        authApiMock.authControllerGetCurrentAuthSession.mockReturnValue(
+            of({
+                authenticated: false,
+                status: null,
+                user: null,
+                permissions: [],
+                expiresAt: null,
+                csrf: {
+                    cookieName: 'poms_csrf',
+                    headerName: 'X-CSRF-Token'
+                }
+            } satisfies CurrentAuthSessionView)
+        );
+
+        await expect(store.initialize()).resolves.toBeUndefined();
+
+        expect(authApiMock.authControllerGetCsrfToken).not.toHaveBeenCalled();
+        expect(csrfTokenStore.token).toBeNull();
+        expect(store.currentUser()).toBeNull();
+        expect(store.navigationTree()).toEqual([]);
+        expect(store.myTodos()).toEqual([]);
     });
 
     it('updates currentUser from profile self-service response', async () => {
@@ -130,6 +221,7 @@ describe('AuthStore', () => {
                 phone: '13900001111'
             }
         });
+        expect(authApiMock.authControllerGetCsrfToken).toHaveBeenCalledTimes(1);
         expect(store.currentUser()).toEqual(updatedUser);
     });
 
@@ -203,6 +295,49 @@ describe('AuthStore', () => {
         });
         expect(authApiMock.authControllerGetCsrfToken).toHaveBeenCalled();
         expect(store.currentUser()).toEqual(user);
+    });
+
+    it('revokes the current Cookie session and clears local aggregate state on logout', () => {
+        const user = createUser();
+        csrfTokenStore.setToken('session-csrf-token');
+        store.currentUser.set(user);
+        store.navigationTree.set([
+            {
+                id: 'nav-dashboard',
+                key: 'dashboard',
+                type: 'basic',
+                title: '工作台',
+                icon: 'pi pi-home',
+                link: '/dashboard',
+                order: 1,
+                isHidden: false,
+                isDisabled: false,
+                disabledReason: null,
+                children: []
+            }
+        ]);
+        store.myTodos.set([
+            {
+                id: 'todo-1',
+                type: 'approval',
+                status: 'open',
+                priority: 'normal',
+                title: '待处理审批',
+                targetTitle: '合同审批',
+                targetRoute: '/contracts/1',
+                dueAt: null,
+                createdAt: '2026-05-07T08:30:00.000Z'
+            }
+        ]);
+        authApiMock.authControllerLogoutCurrentAuthSession.mockReturnValue(of({ success: true }));
+
+        store.logout();
+
+        expect(authApiMock.authControllerLogoutCurrentAuthSession).toHaveBeenCalledWith({ body: {} });
+        expect(csrfTokenStore.token).toBeNull();
+        expect(store.currentUser()).toBeNull();
+        expect(store.navigationTree()).toEqual([]);
+        expect(store.myTodos()).toEqual([]);
     });
 
     it('rejects profile self-service update when the user is not authenticated', async () => {
