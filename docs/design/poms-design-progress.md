@@ -562,6 +562,7 @@
 79. 2026-05-13 `FE-61` 已推进到本地 `G3 / Ready for Review`：业务字典主视图已改为三张字典域卡片和域内紧凑列表，停用项按域展开，卡片新增入口会预选对应字典域；验证通过 dictionary-list focused spec、`poms-admin` lint/build、markdown format check 和 `git diff --check`。因尚未提交，tracker 暂不标记 `Done / G4`。
 80. 2026-05-13 `FE-61` 已完成 `G4 / Done`：实现提交 `f9b0be1` 落地业务字典卡片化维护界面，随后补齐 G3/G4 closeout、将 FE-61 baseline 迁入 `docs/design/archive/slices/` 并回写 tracker。后端 API、OpenAPI、generated client、migration 和字典数据模型均未改变；后续如需拖拽排序或更高等级浏览器 smoke，另拆前端增强切片。
 81. 2026-05-13 `EX-66A` 已完成 `G1`：新增 `ex-66a-admin-web-cookie-session-auth-baseline.md`，冻结 Admin Web `HttpOnly Cookie + 服务端 opaque session` 目标态、`poms_session` / `poms_csrf` cookie、`X-CSRF-Token`、session 生命周期、结构化认证错误、OpenAPI security scheme 和“不保留旧 bearer / localStorage 兼容”的 direct cutover 边界；`api-route-canonical-inventory.md` 已登记 `B15` planned / drift routes，下一步进入 `EX-66B` session store。
+82. 2026-05-13 `EX-66B` 已完成 `G4 / Done`：新增 `auth_session` persistence、`AuthSessionService`、Cookie lifecycle helper 和 `SessionAuthGuard` 后端基础，覆盖 opaque token / CSRF token hash、idle / absolute timeout、revoke、last seen throttle、结构化认证错误和安全事件；本片未激活全局 session guard、未改登录响应或 OpenAPI，`EX-66C` 可开始登录 / 外部登录 / 当前会话契约 direct cutover。
 
 ---
 

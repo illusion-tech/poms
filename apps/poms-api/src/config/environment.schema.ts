@@ -14,6 +14,11 @@ const rawEnvironmentSchema = z.object({
     HOST: z.string().default('127.0.0.1'),
     CORS_ORIGIN: z.string().default('http://localhost:4200'),
     JWT_SECRET: z.string().default('poms-dev-secret-change-in-production'),
+    AUTH_SESSION_IDLE_TIMEOUT_SECONDS: z.coerce.number().int().positive().default(900),
+    AUTH_SESSION_ABSOLUTE_TIMEOUT_SECONDS: z.coerce.number().int().positive().default(28800),
+    AUTH_SESSION_LAST_SEEN_THROTTLE_SECONDS: z.coerce.number().int().nonnegative().default(60),
+    AUTH_COOKIE_PATH: z.string().default('/api'),
+    AUTH_COOKIE_SECURE: z.coerce.boolean().optional(),
 
     DB_CONNECT: z.coerce.boolean().default(false),
     DATABASE_URL: optionalString,
