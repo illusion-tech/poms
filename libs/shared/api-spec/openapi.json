@@ -109,7 +109,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "查询单个业务对象的审计日志",
@@ -215,7 +215,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "查询统一运行时审计日志",
@@ -331,7 +331,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "查询结构化安全事件",
@@ -361,7 +361,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "记录前端权限路由守卫拒绝事件",
@@ -370,16 +370,16 @@
         ]
       }
     },
-    "/api/auth/login": {
+    "/api/auth/sessions": {
       "post": {
-        "operationId": "AuthController_login",
+        "operationId": "AuthController_createPasswordAuthSession",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/CreatePasswordAuthSessionRequest"
               }
             }
           }
@@ -390,13 +390,72 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/CurrentAuthSessionView"
                 }
               }
             }
           }
         },
-        "summary": "登录并获取 JWT",
+        "summary": "创建账号密码认证会话",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/session": {
+      "get": {
+        "operationId": "AuthController_getCurrentAuthSession",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentAuthSessionView"
+                }
+              }
+            }
+          }
+        },
+        "summary": "获取当前认证会话",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/session:logout": {
+      "post": {
+        "operationId": "AuthController_logoutCurrentAuthSession",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutAuthSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionLogoutResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "登出当前认证会话",
         "tags": [
           "Auth"
         ]
@@ -538,13 +597,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/CurrentAuthSessionView"
                 }
               }
             }
           }
         },
-        "summary": "使用外部登录一次性票据交换 POMS JWT",
+        "summary": "使用外部登录一次性票据创建认证会话",
         "tags": [
           "Auth"
         ]
@@ -568,7 +627,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取当前登录用户信息",
@@ -603,7 +662,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新当前登录用户基础资料",
@@ -630,7 +689,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台用户列表",
@@ -665,7 +724,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建平台用户",
@@ -692,7 +751,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取销售主责候选只读列表",
@@ -728,7 +787,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台用户详情",
@@ -772,7 +831,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新平台用户基本信息",
@@ -818,7 +877,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "启用平台用户",
@@ -864,7 +923,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "停用平台用户",
@@ -910,7 +969,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "分配用户角色",
@@ -956,7 +1015,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "分配用户组织关系",
@@ -983,7 +1042,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台角色列表（基础查询）",
@@ -1018,7 +1077,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建平台角色",
@@ -1045,7 +1104,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取权限字典（只读）",
@@ -1081,7 +1140,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台角色详情",
@@ -1125,7 +1184,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新平台角色基本信息",
@@ -1171,7 +1230,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "启用平台角色",
@@ -1217,7 +1276,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "停用平台角色",
@@ -1263,7 +1322,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "分配角色权限（全量替换）",
@@ -1290,7 +1349,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台组织列表（基础查询）",
@@ -1325,7 +1384,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建组织单元",
@@ -1352,7 +1411,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台组织树",
@@ -1388,7 +1447,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取组织单元详情",
@@ -1432,7 +1491,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新组织单元基本信息",
@@ -1478,7 +1537,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "启用组织单元",
@@ -1524,7 +1583,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "停用组织单元",
@@ -1570,7 +1629,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "移动组织单元并调整排序",
@@ -1597,7 +1656,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取完整导航树（平台管理员只读视图）",
@@ -1624,7 +1683,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "记录当前导航 SSOT 的同步审计快照",
@@ -1651,7 +1710,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取当前用户可见的导航菜单树",
@@ -1695,7 +1754,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取外部身份提供商配置列表",
@@ -1730,7 +1789,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建外部身份提供商配置",
@@ -1766,7 +1825,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取外部身份提供商配置详情",
@@ -1810,7 +1869,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新外部身份提供商配置",
@@ -1856,7 +1915,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "测试外部身份提供商配置完整性",
@@ -1912,7 +1971,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按姓名模糊搜索外部身份提供商用户",
@@ -1948,7 +2007,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取平台用户外部身份绑定列表",
@@ -1992,7 +2051,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "绑定平台用户外部身份",
@@ -2038,7 +2097,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "解绑外部身份",
@@ -2074,7 +2133,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取当前管理员的外部身份提供商搜索授权状态",
@@ -2110,7 +2169,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "生成当前管理员的外部身份提供商搜索授权 URL",
@@ -2235,7 +2294,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按业务对象获取附件列表",
@@ -2271,7 +2330,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取附件元数据",
@@ -2315,7 +2374,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新附件元数据",
@@ -2344,7 +2403,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "预览附件",
@@ -2373,7 +2432,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取附件缩略图",
@@ -2402,7 +2461,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "下载附件",
@@ -2438,7 +2497,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取附件版本历史",
@@ -2484,7 +2543,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "作废附件",
@@ -2530,7 +2589,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "标记附件最终版",
@@ -2576,7 +2635,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "撤销附件最终版标记",
@@ -2622,7 +2681,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "新增附件业务对象关联",
@@ -2666,7 +2725,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "取消附件业务对象关联",
@@ -2702,7 +2761,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目移交附件清单",
@@ -2748,7 +2807,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "刷新项目移交附件清单",
@@ -2794,7 +2853,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目移交附件批量下载包",
@@ -2830,7 +2889,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取附件下载包状态",
@@ -2859,7 +2918,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "下载附件批量包",
@@ -2911,10 +2970,10 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
-        "summary": "获取附件存储 Provider 配置列表",
+        "summary": "获取附件存储提供商配置列表",
         "tags": [
           "Attachment Storage Provider"
         ]
@@ -2946,10 +3005,10 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
-        "summary": "创建附件存储 Provider 配置",
+        "summary": "创建附件存储提供商配置",
         "tags": [
           "Attachment Storage Provider"
         ]
@@ -2982,10 +3041,10 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
-        "summary": "获取附件存储 Provider 配置详情",
+        "summary": "获取附件存储提供商配置详情",
         "tags": [
           "Attachment Storage Provider"
         ]
@@ -3026,10 +3085,10 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
-        "summary": "更新附件存储 Provider 配置",
+        "summary": "更新附件存储提供商配置",
         "tags": [
           "Attachment Storage Provider"
         ]
@@ -3072,10 +3131,10 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
-        "summary": "测试附件存储 Provider 配置完整性",
+        "summary": "测试附件存储提供商配置完整性",
         "tags": [
           "Attachment Storage Provider"
         ]
@@ -3118,10 +3177,10 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
-        "summary": "设为默认附件存储 Provider",
+        "summary": "设为默认附件存储提供商",
         "tags": [
           "Attachment Storage Provider"
         ]
@@ -3155,7 +3214,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建附件上传会话",
@@ -3191,7 +3250,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取附件上传会话",
@@ -3237,7 +3296,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建附件上传目标",
@@ -3284,7 +3343,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "通过 POMS 后端代理上传附件对象",
@@ -3330,7 +3389,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "完成附件上传会话并创建附件记录",
@@ -3376,7 +3435,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "中止附件上传会话",
@@ -3430,7 +3489,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取业务配置字典项列表",
@@ -3465,7 +3524,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建业务配置字典项",
@@ -3511,7 +3570,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新业务配置字典项",
@@ -3567,7 +3626,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取客户列表",
@@ -3602,7 +3661,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建客户主数据",
@@ -3638,7 +3697,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取客户别名列表",
@@ -3682,7 +3741,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建客户别名",
@@ -3718,7 +3777,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取客户详情",
@@ -3762,7 +3821,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新客户基础信息",
@@ -3870,7 +3929,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取线索列表",
@@ -3905,7 +3964,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记线索",
@@ -3941,7 +4000,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取线索详情",
@@ -3985,7 +4044,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新线索基础信息",
@@ -4021,7 +4080,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取线索评分历史与人工覆盖状态",
@@ -4067,7 +4126,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "提交线索评分人工覆盖申请",
@@ -4113,7 +4172,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "申领公共池线索",
@@ -4159,7 +4218,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "分配或改派线索销售主责",
@@ -4205,7 +4264,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认线索有效",
@@ -4251,7 +4310,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "关闭线索",
@@ -4297,7 +4356,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "将有效线索转为项目",
@@ -4343,7 +4402,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "批准线索评分人工覆盖",
@@ -4389,7 +4448,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "驳回线索评分人工覆盖",
@@ -4435,7 +4494,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "撤销线索评分人工覆盖",
@@ -4481,7 +4540,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取线索来源列表",
@@ -4516,7 +4575,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建线索来源",
@@ -4562,7 +4621,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新线索来源",
@@ -4626,7 +4685,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目列表",
@@ -4661,7 +4720,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目基础台账",
@@ -4697,7 +4756,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按项目编码获取项目详情",
@@ -4733,7 +4792,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目工作区引导",
@@ -4769,7 +4828,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目生命周期里程碑",
@@ -4805,7 +4864,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目验收确认记录",
@@ -4849,7 +4908,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目验收确认记录",
@@ -4885,7 +4944,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目完成确认记录",
@@ -4929,7 +4988,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目完成确认记录",
@@ -4965,7 +5024,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目归档记录",
@@ -5009,7 +5068,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目归档记录",
@@ -5045,7 +5104,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目签约前招投标与商务竞标过程列表",
@@ -5089,7 +5148,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目签约前招投标与商务竞标过程版本",
@@ -5125,7 +5184,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目签约前招投标与商务竞标工作区",
@@ -5161,7 +5220,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目签约前报价与毛利评审列表",
@@ -5205,7 +5264,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目签约前报价与毛利评审版本",
@@ -5241,7 +5300,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目签约前报价与毛利评审工作区",
@@ -5277,7 +5336,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目签约前技术与成本版本包列表",
@@ -5321,7 +5380,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目签约前技术与成本版本包",
@@ -5357,7 +5416,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目签约前技术与成本工作区",
@@ -5393,7 +5452,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按 ID 获取项目详情",
@@ -5437,7 +5496,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新项目基础信息",
@@ -5483,7 +5542,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "变更项目销售主责",
@@ -5529,7 +5588,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "替代项目归档记录",
@@ -5575,7 +5634,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "撤销项目归档记录",
@@ -5605,7 +5664,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "发布内部成本率版本",
@@ -5671,7 +5730,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目统一实际成本记录",
@@ -5705,7 +5764,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目实际成本记录列表",
@@ -5735,7 +5794,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "生效项目经营基线包",
@@ -5771,7 +5830,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取当前项目经营基线包",
@@ -5801,7 +5860,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目经营快照",
@@ -5837,7 +5896,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目经营快照",
@@ -5867,7 +5926,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建期末冻结经营快照",
@@ -5903,7 +5962,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取期末冻结经营快照",
@@ -5933,7 +5992,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建经营快照重述记录",
@@ -5969,7 +6028,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目经营重述记录列表",
@@ -6005,7 +6064,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取经营重述记录详情",
@@ -6035,7 +6094,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建共享成本分摊依据与项目分摊结果",
@@ -6071,7 +6130,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取共享成本分摊依据详情",
@@ -6107,7 +6166,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取共享成本分摊结果列表",
@@ -6146,7 +6205,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "替代共享成本分摊结果",
@@ -6185,7 +6244,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建成本阶段归属快照",
@@ -6224,7 +6283,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "重分类成本阶段归属快照",
@@ -6260,7 +6319,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取成本阶段归属历史",
@@ -6296,7 +6355,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取成本阶段归属快照详情",
@@ -6335,7 +6394,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目税务处理快照",
@@ -6369,7 +6428,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目税务处理快照列表",
@@ -6408,7 +6467,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "替代项目税务处理快照",
@@ -6444,7 +6503,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取税务处理快照详情",
@@ -6490,7 +6549,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "人工复核经营信号评价结果",
@@ -6526,7 +6585,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取经营信号评价详情",
@@ -6572,7 +6631,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "人工复核经营反馈 gate 绑定结果",
@@ -6608,7 +6667,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取经营反馈 gate 绑定详情",
@@ -6644,7 +6703,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目经营结果总览",
@@ -6680,7 +6739,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目统一核算视图",
@@ -6716,7 +6775,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目偏差与风险解释",
@@ -6752,7 +6811,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目经营核算反哺视图",
@@ -6788,7 +6847,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目费用记录列表",
@@ -6832,7 +6891,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建费用记录",
@@ -6868,7 +6927,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取费用记录详情",
@@ -6912,7 +6971,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新费用记录",
@@ -6958,7 +7017,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认费用记录",
@@ -7004,7 +7063,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "作废费用记录",
@@ -7040,7 +7099,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目实际成本记录详情",
@@ -7079,7 +7138,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "替代/重算人力成本记录候选",
@@ -7115,7 +7174,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取合同回款记录列表",
@@ -7159,7 +7218,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记合同回款记录",
@@ -7205,7 +7264,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认合同回款记录生效",
@@ -7241,7 +7300,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目采购承诺记录列表",
@@ -7285,7 +7344,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记项目采购承诺记录",
@@ -7321,7 +7380,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取采购承诺记录详情",
@@ -7365,7 +7424,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新采购承诺记录",
@@ -7411,7 +7470,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "关闭采购承诺记录",
@@ -7457,7 +7516,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "作废采购承诺记录",
@@ -7493,7 +7552,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目发票记录列表",
@@ -7537,7 +7596,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记项目发票记录",
@@ -7573,7 +7632,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取发票记录详情",
@@ -7617,7 +7676,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新发票记录",
@@ -7663,7 +7722,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "标记发票异常",
@@ -7709,7 +7768,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "解决发票异常",
@@ -7755,7 +7814,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "关闭发票记录",
@@ -7791,7 +7850,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目付款记录列表",
@@ -7835,7 +7894,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记项目付款记录",
@@ -7881,7 +7940,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认项目付款记录生效",
@@ -7917,7 +7976,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目合同承接摘要",
@@ -7953,7 +8012,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目最新移交详情",
@@ -7989,7 +8048,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取指定移交详情",
@@ -8035,7 +8094,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认项目移交",
@@ -8072,7 +8131,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "发起合同移交前再基线化",
@@ -8108,7 +8167,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取审批记录详情",
@@ -8154,7 +8213,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "审批通过",
@@ -8200,7 +8259,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "审批驳回",
@@ -8227,7 +8286,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取当前用户的统一待办列表",
@@ -8283,7 +8342,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取合同列表",
@@ -8318,7 +8377,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建合同基础台账",
@@ -8354,7 +8413,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按合同编号获取详情",
@@ -8390,7 +8449,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按 ID 获取合同详情",
@@ -8434,7 +8493,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新合同基础信息",
@@ -8470,7 +8529,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取合同当前审批摘要",
@@ -8516,7 +8575,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "提交合同审核",
@@ -8562,7 +8621,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认合同生效",
@@ -8598,7 +8657,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "按 ID 获取合同条款快照",
@@ -8635,7 +8694,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建商业放行基线与当前差异结果",
@@ -8671,7 +8730,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取商业放行基线详情",
@@ -8707,7 +8766,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取商业放行差异复核历史",
@@ -8753,7 +8812,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "复核商业放行差异结果",
@@ -8790,7 +8849,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建签约就绪承接包",
@@ -8826,7 +8885,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取签约就绪承接详情",
@@ -8862,7 +8921,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目当前签约就绪承接包",
@@ -8908,7 +8967,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "基于承接包初始化合同条款快照引用",
@@ -8954,7 +9013,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "基于承接包初始化应收计划引用",
@@ -9020,7 +9079,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取销售跟进记录列表",
@@ -9055,7 +9114,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记销售跟进记录",
@@ -9101,7 +9160,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "替代销售跟进记录",
@@ -9147,7 +9206,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "作废销售跟进记录",
@@ -9185,7 +9244,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取客户联系人列表",
@@ -9220,7 +9279,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建客户联系人",
@@ -9266,7 +9325,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新客户联系人",
@@ -9314,7 +9373,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取机会关系人列表",
@@ -9349,7 +9408,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建机会关系人",
@@ -9395,7 +9454,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新机会关系人",
@@ -9443,7 +9502,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取竞争态势记录列表",
@@ -9478,7 +9537,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建竞争态势记录",
@@ -9524,7 +9583,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新竞争态势记录",
@@ -9572,7 +9631,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取销售情报记录列表",
@@ -9607,7 +9666,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建销售情报记录",
@@ -9653,7 +9712,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "更新销售情报记录",
@@ -9701,7 +9760,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取销售情报缺口",
@@ -9759,7 +9818,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取业务对象讨论列表",
@@ -9794,7 +9853,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建业务对象讨论",
@@ -9821,7 +9880,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取提成规则版本列表",
@@ -9856,7 +9915,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建提成规则版本（草稿）",
@@ -9892,7 +9951,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "激活提成规则版本（草稿→激活）",
@@ -9928,7 +9987,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "停用提成规则版本（激活→停用）",
@@ -9964,7 +10023,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目当前提成角色分配",
@@ -10000,7 +10059,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目最终结算与质保金结算视图",
@@ -10036,7 +10095,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目统一提成规则解释视图",
@@ -10082,7 +10141,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "新建项目提成角色分配（新版本）",
@@ -10118,7 +10177,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目提成计算结果列表",
@@ -10162,7 +10221,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "触发项目提成计算",
@@ -10208,7 +10267,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "确认提成计算结果生效",
@@ -10254,7 +10313,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "触发提成重算并生成新版本",
@@ -10290,7 +10349,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目提成发放记录列表",
@@ -10334,7 +10393,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目提成发放草稿",
@@ -10397,7 +10456,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "提交提成发放审批",
@@ -10443,7 +10502,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "批准提成发放",
@@ -10506,7 +10565,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "登记提成业务发放",
@@ -10542,7 +10601,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取项目提成调整列表",
@@ -10586,7 +10645,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目提成调整草稿",
@@ -10632,7 +10691,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "提交提成调整审批",
@@ -10678,7 +10737,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "执行已批准的提成调整",
@@ -10714,7 +10773,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取提成角色冻结详情视图",
@@ -10760,7 +10819,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "冻结提成角色分配并绑定移交收口链",
@@ -10806,7 +10865,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "创建项目离职 / 特例结论并形成当前有效版本",
@@ -10843,7 +10902,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "提交提成冻结后争议",
@@ -10879,7 +10938,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取提成冻结争议详情",
@@ -10925,7 +10984,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "仲裁提成冻结争议并生成受控变更链",
@@ -10961,7 +11020,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "pomsSession": []
           }
         ],
         "summary": "获取提成冻结受控变更详情",
@@ -10981,10 +11040,10 @@
   "servers": [],
   "components": {
     "securitySchemes": {
-      "bearer": {
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "type": "http"
+      "pomsSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "poms_session"
       }
     },
     "schemas": {
@@ -11256,7 +11315,7 @@
           "requiredPermissions"
         ]
       },
-      "LoginRequest": {
+      "CreatePasswordAuthSessionRequest": {
         "type": "object",
         "properties": {
           "username": {
@@ -11273,165 +11332,10 @@
           "password"
         ]
       },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "accessToken": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "accessToken"
-        ]
-      },
-      "EnabledLoginProviderSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "provider": {
-            "$ref": "#/components/schemas/IdentityProvider"
-          },
-          "tenantId": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "loginScopes": {
-            "maxItems": 32,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            }
-          }
-        },
-        "required": [
-          "id",
-          "provider",
-          "tenantId",
-          "displayName",
-          "loginScopes"
-        ]
-      },
-      "IdentityProvider": {
+      "CurrentAuthSessionStatus": {
         "type": "string",
         "enum": [
-          "feishu"
-        ]
-      },
-      "EnabledLoginProviderList": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/EnabledLoginProviderSummary"
-        }
-      },
-      "ExternalLoginAuthorizeResult": {
-        "type": "object",
-        "properties": {
-          "authorizeUrl": {
-            "type": "string",
-            "format": "uri"
-          },
-          "stateExpiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-          }
-        },
-        "required": [
-          "authorizeUrl",
-          "stateExpiresAt"
-        ]
-      },
-      "ExternalLoginCallbackResult": {
-        "type": "object",
-        "properties": {
-          "ticket": {
-            "type": "string"
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-          },
-          "provider": {
-            "$ref": "#/components/schemas/IdentityProvider"
-          },
-          "identityProviderConfigId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "pomsUserId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          }
-        },
-        "required": [
-          "ticket",
-          "expiresAt",
-          "provider",
-          "identityProviderConfigId",
-          "pomsUserId"
-        ]
-      },
-      "CreateExternalLoginSessionRequest": {
-        "type": "object",
-        "properties": {
-          "ticket": {
-            "type": "string",
-            "minLength": 32,
-            "maxLength": 4096
-          }
-        },
-        "required": [
-          "ticket"
-        ]
-      },
-      "UserOrgUnitSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "name": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "membershipType": {
-            "$ref": "#/components/schemas/UserOrgUnitMembershipType"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "code",
-          "description",
-          "membershipType"
-        ]
-      },
-      "UserOrgUnitMembershipType": {
-        "type": "string",
-        "enum": [
-          "primary",
-          "secondary"
+          "active"
         ]
       },
       "SanitizedUserWithOrgUnits": {
@@ -11549,6 +11453,288 @@
           "phoneVerified",
           "phone",
           "orgUnits"
+        ]
+      },
+      "UserOrgUnitSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "membershipType": {
+            "$ref": "#/components/schemas/UserOrgUnitMembershipType"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "description",
+          "membershipType"
+        ]
+      },
+      "UserOrgUnitMembershipType": {
+        "type": "string",
+        "enum": [
+          "primary",
+          "secondary"
+        ]
+      },
+      "AuthSessionCsrfHint": {
+        "type": "object",
+        "properties": {
+          "cookieName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "headerName": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "cookieName",
+          "headerName"
+        ]
+      },
+      "CurrentAuthSessionView": {
+        "type": "object",
+        "properties": {
+          "authenticated": {
+            "type": "boolean"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CurrentAuthSessionStatus"
+              }
+            ],
+            "nullable": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+              }
+            ],
+            "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "platform:users:manage",
+                "platform:roles:manage",
+                "platform:navigation:manage",
+                "platform:org-units:manage",
+                "platform:dictionaries:manage",
+                "platform:identity-providers:manage",
+                "platform:attachment-storage-providers:manage",
+                "customer:read",
+                "customer:write",
+                "commission:rule-versions:manage",
+                "commission:assignments:manage",
+                "commission:calculations:manage",
+                "commission:payouts:manage",
+                "commission:adjustments:manage",
+                "contract:finance:manage",
+                "contract:finance:sensitive:read",
+                "operating:finance:sensitive:read",
+                "commission:amount:sensitive:read",
+                "labor-cost-rate:sensitive:read",
+                "exception-approval-opinion:sensitive:read",
+                "lead:read",
+                "lead:write",
+                "lead:assign",
+                "lead:score:override",
+                "lead:source:manage",
+                "project:read",
+                "project:write",
+                "project:delete",
+                "nav:dashboard:view",
+                "nav:customers:view",
+                "nav:platform:view",
+                "nav:leads:view",
+                "nav:attachments:view",
+                "nav:projects:view",
+                "nav:contracts:view",
+                "nav:profile:view"
+              ]
+            }
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "csrf": {
+            "$ref": "#/components/schemas/AuthSessionCsrfHint"
+          }
+        },
+        "required": [
+          "authenticated",
+          "status",
+          "user",
+          "permissions",
+          "expiresAt",
+          "csrf"
+        ]
+      },
+      "LogoutAuthSessionRequest": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "AuthSessionLogoutResult": {
+        "type": "object",
+        "properties": {
+          "authenticated": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "resultStatus": {
+            "type": "string",
+            "enum": [
+              "logged-out"
+            ]
+          },
+          "revoked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "authenticated",
+          "resultStatus",
+          "revoked"
+        ]
+      },
+      "EnabledLoginProviderSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/IdentityProvider"
+          },
+          "tenantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "loginScopes": {
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "tenantId",
+          "displayName",
+          "loginScopes"
+        ]
+      },
+      "IdentityProvider": {
+        "type": "string",
+        "enum": [
+          "feishu"
+        ]
+      },
+      "EnabledLoginProviderList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/EnabledLoginProviderSummary"
+        }
+      },
+      "ExternalLoginAuthorizeResult": {
+        "type": "object",
+        "properties": {
+          "authorizeUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "stateExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "authorizeUrl",
+          "stateExpiresAt"
+        ]
+      },
+      "ExternalLoginCallbackResult": {
+        "type": "object",
+        "properties": {
+          "ticket": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/IdentityProvider"
+          },
+          "identityProviderConfigId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "pomsUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "ticket",
+          "expiresAt",
+          "provider",
+          "identityProviderConfigId",
+          "pomsUserId"
+        ]
+      },
+      "CreateExternalLoginSessionRequest": {
+        "type": "object",
+        "properties": {
+          "ticket": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 4096
+          }
+        },
+        "required": [
+          "ticket"
         ]
       },
       "UpdateCurrentUserProfileRequest": {

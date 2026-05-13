@@ -1,10 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { PermissionKey } from '@poms/shared-contracts';
 import type {
+    CurrentAuthSessionView,
     EnabledLoginProviderSummary,
     ExternalLoginAuthorizeResult,
     ExternalLoginCallbackResult,
-    LoginResponse,
     NavigationItem,
     SanitizedUserWithOrgUnits,
     TodoItemSummary,
@@ -24,20 +24,17 @@ export interface MenuItem {
     disabled?: boolean;
 }
 
-const TOKEN_STORAGE_KEY = 'poms_access_token';
-
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
     readonly #authApi = inject(AuthApi);
     readonly #navApi = inject(NavigationApi);
     readonly #approvalApi = inject(ApprovalApi);
 
-    readonly token = signal(typeof localStorage !== 'undefined' ? localStorage.getItem(TOKEN_STORAGE_KEY) : null);
     readonly currentUser = signal<SanitizedUserWithOrgUnits | null>(null);
     readonly navigationTree = signal<NavigationItem[]>([]);
     readonly myTodos = signal<TodoItemSummary[]>([]);
 
-    readonly isAuthenticated = computed(() => this.token() !== null);
+    readonly isAuthenticated = computed(() => this.currentUser() !== null);
     readonly menuModel = computed(() => this.#toMenuModel(this.navigationTree(), true));
     readonly openTodosCount = computed(() => this.myTodos().filter((t) => t.status === TodoStatus.Open).length);
 
@@ -47,8 +44,8 @@ export class AuthStore {
     }
 
     async login(username: string, password: string): Promise<void> {
-        const response = await firstValueFrom(this.#authApi.authControllerLogin({ loginRequest: { username, password } }));
-        await this.#acceptLoginResponse(response);
+        const response = await firstValueFrom(this.#authApi.authControllerCreatePasswordAuthSession({ createPasswordAuthSessionRequest: { username, password } }));
+        await this.#acceptAuthSession(response);
     }
 
     async loadEnabledLoginProviders(): Promise<EnabledLoginProviderSummary[]> {
@@ -68,32 +65,50 @@ export class AuthStore {
                 errorDescription: input.errorDescription
             })
         );
-        const loginResponse = await firstValueFrom(
+        const session = await firstValueFrom(
             this.#authApi.authControllerCreateExternalLoginSession({
                 createExternalLoginSessionRequest: {
                     ticket: callbackResult.ticket
                 }
             })
         );
-        await this.#acceptLoginResponse(loginResponse);
+        await this.#acceptAuthSession(session);
         return callbackResult;
     }
 
     logout(): void {
-        localStorage.removeItem(TOKEN_STORAGE_KEY);
-        this.token.set(null);
+        if (this.isAuthenticated()) {
+            void firstValueFrom(this.#authApi.authControllerLogoutCurrentAuthSession({ body: {} })).catch(() => undefined);
+        }
+        this.#clearSessionState();
+    }
+
+    #clearSessionState(): void {
         this.currentUser.set(null);
         this.navigationTree.set([]);
         this.myTodos.set([]);
     }
 
     async initialize(): Promise<void> {
-        if (!this.token()) return;
-        await this.#loadUserData();
+        const session = await firstValueFrom(
+            this.#authApi.authControllerGetCurrentAuthSession().pipe(
+                catchError(() =>
+                    of({
+                        authenticated: false,
+                        status: null,
+                        user: null,
+                        permissions: [],
+                        expiresAt: null,
+                        csrf: { cookieName: 'poms_csrf', headerName: 'X-CSRF-Token' }
+                    } satisfies CurrentAuthSessionView)
+                )
+            )
+        );
+        await this.#acceptAuthSession(session);
     }
 
     async refreshTodos(): Promise<void> {
-        if (!this.token()) {
+        if (!this.isAuthenticated()) {
             this.myTodos.set([]);
             return;
         }
@@ -103,7 +118,7 @@ export class AuthStore {
     }
 
     async updateCurrentUserProfile(request: UpdateCurrentUserProfileRequest): Promise<SanitizedUserWithOrgUnits> {
-        if (!this.token()) {
+        if (!this.isAuthenticated()) {
             throw new Error('Current user is not authenticated.');
         }
 
@@ -116,15 +131,14 @@ export class AuthStore {
         return user;
     }
 
-    async #loadUserData(): Promise<void> {
+    async #loadUserData(sessionUser?: SanitizedUserWithOrgUnits): Promise<void> {
         const [user, nav, todos] = await Promise.all([
-            firstValueFrom(this.#authApi.authControllerGetProfile().pipe(catchError(() => of(null)))),
+            sessionUser ? Promise.resolve(sessionUser) : firstValueFrom(this.#authApi.authControllerGetProfile().pipe(catchError(() => of(null)))),
             firstValueFrom(this.#navApi.navigationControllerGetNavigation().pipe(catchError(() => of([])))),
             firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))))
         ]);
         if (!user) {
-            // Token 失效，清除本地状态
-            this.logout();
+            this.#clearSessionState();
             return;
         }
         this.currentUser.set(user);
@@ -132,11 +146,12 @@ export class AuthStore {
         this.myTodos.set(todos ?? []);
     }
 
-    async #acceptLoginResponse(response: LoginResponse): Promise<void> {
-        const { accessToken } = response;
-        localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
-        this.token.set(accessToken);
-        await this.#loadUserData();
+    async #acceptAuthSession(session: CurrentAuthSessionView): Promise<void> {
+        if (!session.authenticated || !session.user) {
+            this.#clearSessionState();
+            return;
+        }
+        await this.#loadUserData(session.user);
     }
 
     #toMenuModel(items: NavigationItem[], isRoot = false): MenuItem[] {

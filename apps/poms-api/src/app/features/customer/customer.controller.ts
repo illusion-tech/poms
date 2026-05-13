@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CreateCustomerAliasRequestDto,
     CreateCustomerRequestDto,
@@ -16,7 +16,7 @@ import { HasPermissions } from '../../core/auth/decorators/has-permissions.decor
 import { CustomerService } from './customer.service';
 
 @ApiTags('customer')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('customers')
 export class CustomerController {
     constructor(private readonly customerService: CustomerService) {}

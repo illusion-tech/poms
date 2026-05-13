@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CreateSalesFollowUpRecordRequestDto,
     ReplaceSalesFollowUpRecordRequestDto,
@@ -14,7 +14,7 @@ import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-a
 import { SalesFollowUpService } from './sales-follow-up.service';
 
 @ApiTags('SalesFollowUp')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('sales-follow-up-records')
 export class SalesFollowUpController {
     constructor(private readonly salesFollowUpService: SalesFollowUpService) {}

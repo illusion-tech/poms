@@ -176,8 +176,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -250,8 +249,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -324,8 +322,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -398,8 +395,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -468,8 +464,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -538,8 +533,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -598,8 +592,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -746,8 +739,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -811,8 +803,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -885,8 +876,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -959,8 +949,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1033,8 +1022,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1107,8 +1095,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1181,8 +1168,7 @@ export class LeadApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

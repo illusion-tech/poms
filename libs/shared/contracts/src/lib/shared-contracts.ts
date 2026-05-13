@@ -1167,25 +1167,61 @@ export interface NavigationItem {
 }
 
 // ---------------------------------------------------------------------------
-// Auth — Login
+// Auth — Session
 // ---------------------------------------------------------------------------
 
-export const LoginRequestSchema = z
+export const CreatePasswordAuthSessionRequestSchema = z
     .object({
         username: z.string().min(1),
         password: z.string().min(1)
     })
-    .meta({ id: 'LoginRequest' });
+    .meta({ id: 'CreatePasswordAuthSessionRequest' });
 
-export type LoginRequest = z.infer<typeof LoginRequestSchema>;
+export type CreatePasswordAuthSessionRequest = z.infer<typeof CreatePasswordAuthSessionRequestSchema>;
 
-export const LoginResponseSchema = z
+export const CurrentAuthSessionStatusValue = {
+    Active: 'active'
+} as const;
+
+export const CURRENT_AUTH_SESSION_STATUSES = enumObjectValues(CurrentAuthSessionStatusValue);
+export type CurrentAuthSessionStatus = (typeof CURRENT_AUTH_SESSION_STATUSES)[number];
+export const CurrentAuthSessionStatusSchema = z.enum(CURRENT_AUTH_SESSION_STATUSES).meta({ id: 'CurrentAuthSessionStatus' });
+
+export const AuthSessionCsrfHintSchema = z
     .object({
-        accessToken: z.string()
+        cookieName: z.string().min(1),
+        headerName: z.string().min(1)
     })
-    .meta({ id: 'LoginResponse' });
+    .meta({ id: 'AuthSessionCsrfHint' });
 
-export type LoginResponse = z.infer<typeof LoginResponseSchema>;
+export type AuthSessionCsrfHint = z.infer<typeof AuthSessionCsrfHintSchema>;
+
+export const CurrentAuthSessionViewSchema = z
+    .object({
+        authenticated: z.boolean(),
+        status: CurrentAuthSessionStatusSchema.nullable(),
+        user: SanitizedUserWithOrgUnitsSchema.nullable(),
+        permissions: z.array(z.enum(PERMISSION_KEYS)),
+        expiresAt: z.iso.datetime().nullable(),
+        csrf: AuthSessionCsrfHintSchema
+    })
+    .meta({ id: 'CurrentAuthSessionView' });
+
+export type CurrentAuthSessionView = z.infer<typeof CurrentAuthSessionViewSchema>;
+
+export const LogoutAuthSessionRequestSchema = z.object({}).strict().meta({ id: 'LogoutAuthSessionRequest' });
+
+export type LogoutAuthSessionRequest = z.infer<typeof LogoutAuthSessionRequestSchema>;
+
+export const AuthSessionLogoutResultSchema = z
+    .object({
+        authenticated: z.literal(false),
+        resultStatus: z.literal('logged-out'),
+        revoked: z.boolean()
+    })
+    .meta({ id: 'AuthSessionLogoutResult' });
+
+export type AuthSessionLogoutResult = z.infer<typeof AuthSessionLogoutResultSchema>;
 
 // ---------------------------------------------------------------------------
 // Runtime Audit

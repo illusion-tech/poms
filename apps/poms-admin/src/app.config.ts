@@ -118,8 +118,7 @@ export const appConfig: ApplicationConfig = {
             withEnabledBlockingInitialNavigation()
         ),
         providePomsApiClient({
-            basePath: resolveApiBasePath(),
-            getAccessToken: () => inject(AuthStore).token() ?? undefined
+            basePath: resolveApiBasePath()
         }),
         provideAppInitializer(() => inject(AuthStore).initialize()),
         PlatformStore,

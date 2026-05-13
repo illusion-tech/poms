@@ -16,12 +16,12 @@ import type {
     UserPayload
 } from '@poms/shared-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
 
 @ApiTags('Attachment Storage Provider')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('platform/attachment-storage-providers')
 export class AttachmentStorageProviderController {
     constructor(private readonly storageProviderService: AttachmentStorageProviderService) {}

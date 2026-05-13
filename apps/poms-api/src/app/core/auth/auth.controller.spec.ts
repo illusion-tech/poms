@@ -3,12 +3,8 @@ import { AuthController } from './auth.controller';
 
 describe('AuthController', () => {
     let controller: AuthController;
-    let jwtService: {
-        sign: jest.Mock;
-    };
     let platformService: {
         verifyCredentials: jest.Mock;
-        isKnownPlatformUsername: jest.Mock;
         getSanitizedUserProfile: jest.Mock;
         updateCurrentUserProfile: jest.Mock;
         resolveActiveAuthUser: jest.Mock;
@@ -22,15 +18,25 @@ describe('AuthController', () => {
     let runtimeAuditService: {
         recordSecurityEvent: jest.Mock;
     };
+    let authSessionService: {
+        createSession: jest.Mock;
+        resolveSessionToken: jest.Mock;
+        revokeSessionToken: jest.Mock;
+    };
+    let authSessionCookieService: {
+        createSessionCookieHeader: jest.Mock;
+        createCsrfCookieHeader: jest.Mock;
+        createClearSessionCookieHeader: jest.Mock;
+        createClearCsrfCookieHeader: jest.Mock;
+        getSessionTokenFromCookieHeader: jest.Mock;
+        csrfCookieName: string;
+        csrfHeaderName: string;
+    };
 
     beforeEach(() => {
-        jwtService = {
-            sign: jest.fn().mockReturnValue('signed-token')
-        };
         platformService = {
             verifyCredentials: jest.fn(),
-            isKnownPlatformUsername: jest.fn(),
-            getSanitizedUserProfile: jest.fn(),
+            getSanitizedUserProfile: jest.fn().mockResolvedValue(userProfile()),
             updateCurrentUserProfile: jest.fn(),
             resolveActiveAuthUser: jest.fn()
         };
@@ -43,26 +49,40 @@ describe('AuthController', () => {
         runtimeAuditService = {
             recordSecurityEvent: jest.fn().mockResolvedValue(undefined)
         };
+        authSessionService = {
+            createSession: jest.fn().mockResolvedValue(createdSession()),
+            resolveSessionToken: jest.fn(),
+            revokeSessionToken: jest.fn()
+        };
+        authSessionCookieService = {
+            createSessionCookieHeader: jest.fn().mockReturnValue('poms_session=session-token; HttpOnly'),
+            createCsrfCookieHeader: jest.fn().mockReturnValue('poms_csrf=csrf-token'),
+            createClearSessionCookieHeader: jest.fn().mockReturnValue('poms_session=; Max-Age=0; HttpOnly'),
+            createClearCsrfCookieHeader: jest.fn().mockReturnValue('poms_csrf=; Max-Age=0'),
+            getSessionTokenFromCookieHeader: jest.fn(),
+            csrfCookieName: 'poms_csrf',
+            csrfHeaderName: 'X-CSRF-Token'
+        };
 
-        controller = new AuthController(jwtService as never, platformService as never, runtimeAuditService as never, identityProviderService as never);
+        controller = new AuthController(platformService as never, runtimeAuditService as never, identityProviderService as never, authSessionService as never, authSessionCookieService as never);
     });
 
-    it('records a security event when a known platform username fails login', async () => {
+    it('records a security event when password session creation fails', async () => {
         platformService.verifyCredentials.mockResolvedValue(null);
-        platformService.isKnownPlatformUsername.mockResolvedValue(true);
 
         await expect(
-            controller.login(
+            controller.createPasswordAuthSession(
                 { username: 'admin', password: 'wrong-password' },
                 {
                     method: 'POST',
-                    originalUrl: '/auth/login',
+                    originalUrl: '/auth/sessions',
                     ip: '127.0.0.1',
                     headers: {
                         'user-agent': 'jest',
                         'x-request-id': 'req-login-failed'
                     }
-                }
+                },
+                responseMock()
             )
         ).rejects.toThrow(UnauthorizedException);
 
@@ -71,7 +91,7 @@ describe('AuthController', () => {
                 eventType: 'auth.login.failed',
                 principal: 'admin',
                 requestId: 'req-login-failed',
-                path: '/auth/login',
+                path: '/auth/sessions',
                 method: 'POST',
                 result: 'failed',
                 details: { reason: 'invalid_credentials' }
@@ -79,24 +99,84 @@ describe('AuthController', () => {
         );
     });
 
-    it('does not record a failure event when login succeeds', async () => {
+    it('creates a password auth session and sets session cookies', async () => {
         platformService.verifyCredentials.mockResolvedValue({
             userId: '00000000-0000-4000-8000-000000000001',
             username: 'admin',
             permissions: ['platform:users:manage']
         });
+        const response = responseMock();
 
-        const result = await controller.login(
+        const result = await controller.createPasswordAuthSession(
             { username: 'admin', password: 'correct-password' },
             {
                 method: 'POST',
-                originalUrl: '/auth/login',
+                originalUrl: '/auth/sessions',
                 headers: {}
-            }
+            },
+            response
         );
 
-        expect(result).toEqual({ accessToken: 'signed-token' });
+        expect(result).toMatchObject({
+            authenticated: true,
+            status: 'active',
+            user: expect.objectContaining({ username: 'admin' }),
+            permissions: ['platform:users:manage'],
+            csrf: {
+                cookieName: 'poms_csrf',
+                headerName: 'X-CSRF-Token'
+            }
+        });
+        expect(authSessionService.createSession).toHaveBeenCalledWith('00000000-0000-4000-8000-000000000001', {
+            ip: null,
+            userAgent: null
+        });
+        expect(response.setHeader).toHaveBeenCalledWith('Set-Cookie', ['poms_session=session-token; HttpOnly', 'poms_csrf=csrf-token']);
         expect(runtimeAuditService.recordSecurityEvent).not.toHaveBeenCalled();
+    });
+
+    it('returns unauthenticated current session when cookie is missing', async () => {
+        authSessionCookieService.getSessionTokenFromCookieHeader.mockReturnValue(null);
+
+        await expect(controller.getCurrentAuthSession({ headers: {} }, responseMock())).resolves.toEqual({
+            authenticated: false,
+            status: null,
+            user: null,
+            permissions: [],
+            expiresAt: null,
+            csrf: {
+                cookieName: 'poms_csrf',
+                headerName: 'X-CSRF-Token'
+            }
+        });
+    });
+
+    it('resolves the current session from cookie', async () => {
+        authSessionCookieService.getSessionTokenFromCookieHeader.mockReturnValue('raw-session-token');
+        authSessionService.resolveSessionToken.mockResolvedValue({
+            session: createdSession().session,
+            user: {
+                sub: '00000000-0000-4000-8000-000000000001',
+                username: 'admin',
+                permissions: ['platform:users:manage']
+            }
+        });
+
+        const result = await controller.getCurrentAuthSession(
+            {
+                headers: {
+                    cookie: 'poms_session=raw-session-token'
+                }
+            },
+            responseMock()
+        );
+
+        expect(authSessionService.resolveSessionToken).toHaveBeenCalledWith('raw-session-token', {
+            ip: null,
+            userAgent: null
+        });
+        expect(result.authenticated).toBe(true);
+        expect(result.expiresAt).toBe('2026-05-13T01:15:00.000Z');
     });
 
     it('delegates external login provider listing and authorization', async () => {
@@ -120,7 +200,7 @@ describe('AuthController', () => {
         });
     });
 
-    it('handles external login callback and exchanges the one-time ticket for a POMS JWT', async () => {
+    it('handles external login callback and exchanges the one-time ticket for a session cookie', async () => {
         identityProviderService.handleExternalLoginCallback.mockResolvedValue({
             ticket: 'ticket-value',
             expiresAt: '2026-05-07T00:02:00.000Z',
@@ -138,9 +218,13 @@ describe('AuthController', () => {
             username: 'admin',
             permissions: ['platform:users:manage']
         });
+        const response = responseMock();
 
         await expect(controller.handleExternalLoginCallback({ code: 'auth-code', state: 'state' })).resolves.toMatchObject({ ticket: 'ticket-value' });
-        await expect(controller.createExternalLoginSession({ ticket: 'ticket-value' })).resolves.toEqual({ accessToken: 'signed-token' });
+        await expect(controller.createExternalLoginSession({ ticket: 'ticket-value' }, { headers: {} }, response)).resolves.toMatchObject({
+            authenticated: true,
+            user: expect.objectContaining({ username: 'admin' })
+        });
 
         expect(identityProviderService.handleExternalLoginCallback).toHaveBeenCalledWith({
             code: 'auth-code',
@@ -149,14 +233,35 @@ describe('AuthController', () => {
             error_description: undefined
         });
         expect(identityProviderService.consumeExternalLoginSession).toHaveBeenCalledWith('ticket-value');
-        expect(jwtService.sign).toHaveBeenCalledWith({
-            sub: '00000000-0000-4000-8000-000000000001',
-            username: 'admin',
-            permissions: ['platform:users:manage']
-        });
+        expect(response.setHeader).toHaveBeenCalledWith('Set-Cookie', ['poms_session=session-token; HttpOnly', 'poms_csrf=csrf-token']);
     });
 
-    it('delegates current-user profile update to PlatformService using JWT subject', async () => {
+    it('logs out current auth session and clears cookies', async () => {
+        authSessionCookieService.getSessionTokenFromCookieHeader.mockReturnValue('raw-session-token');
+        authSessionService.revokeSessionToken.mockResolvedValue(true);
+        const response = responseMock();
+
+        await expect(
+            controller.logoutCurrentAuthSession(
+                {},
+                {
+                    headers: {
+                        cookie: 'poms_session=raw-session-token'
+                    }
+                },
+                response
+            )
+        ).resolves.toEqual({
+            authenticated: false,
+            resultStatus: 'logged-out',
+            revoked: true
+        });
+
+        expect(authSessionService.revokeSessionToken).toHaveBeenCalledWith('raw-session-token');
+        expect(response.setHeader).toHaveBeenCalledWith('Set-Cookie', ['poms_session=; Max-Age=0; HttpOnly', 'poms_csrf=; Max-Age=0']);
+    });
+
+    it('delegates current-user profile update to PlatformService using session subject', async () => {
         platformService.updateCurrentUserProfile.mockResolvedValue({
             id: '00000000-0000-4000-8000-000000000001',
             username: 'viewer',
@@ -197,3 +302,40 @@ describe('AuthController', () => {
         expect(result.emailVerified).toBe(false);
     });
 });
+
+function createdSession() {
+    return {
+        session: {
+            id: 'session-id',
+            userId: '00000000-0000-4000-8000-000000000001',
+            idleExpiresAt: new Date('2026-05-13T01:15:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T08:00:00.000Z')
+        },
+        sessionToken: 'raw-session-token',
+        csrfToken: 'raw-csrf-token'
+    };
+}
+
+function userProfile() {
+    return {
+        id: '00000000-0000-4000-8000-000000000001',
+        username: 'admin',
+        displayName: '平台管理员',
+        roles: ['平台管理员'],
+        permissions: ['platform:users:manage'],
+        email: null,
+        avatarUrl: null,
+        isActive: true,
+        lastLoginAt: null,
+        emailVerified: false,
+        phoneVerified: false,
+        phone: null,
+        orgUnits: []
+    };
+}
+
+function responseMock(): { setHeader: jest.Mock } {
+    return {
+        setHeader: jest.fn()
+    };
+}

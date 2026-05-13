@@ -1,5 +1,5 @@
 import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     AcceptanceRecordDto,
     AcceptanceRecordListDto,
@@ -71,7 +71,7 @@ import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
 
 @ApiTags('project')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('projects')
 export class ProjectController {
     constructor(
@@ -357,7 +357,7 @@ export class ProjectController {
 }
 
 @ApiTags('project')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('project-archive-records')
 export class ProjectArchiveRecordController {
     constructor(private readonly projectService: ProjectService) {}

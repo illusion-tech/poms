@@ -42,7 +42,7 @@ import {
     SubmitRetentionCommissionPayoutApprovalRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiBody, ApiExtraModels, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -55,7 +55,7 @@ interface AuthenticatedRequest extends RuntimeAuditRequestLike {
 }
 
 @ApiTags('Commission')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class CommissionController {
     constructor(

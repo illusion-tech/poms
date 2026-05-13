@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CompetitorIntelligenceRecordDto,
     CompetitorIntelligenceRecordListDto,
@@ -35,7 +35,7 @@ import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-a
 import { SalesIntelligenceService } from './sales-intelligence.service';
 
 @ApiTags('SalesIntelligence')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('customer-contacts')
 export class CustomerContactController {
     constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
@@ -79,7 +79,7 @@ export class CustomerContactController {
 }
 
 @ApiTags('SalesIntelligence')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('opportunity-stakeholders')
 export class OpportunityStakeholderController {
     constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
@@ -128,7 +128,7 @@ export class OpportunityStakeholderController {
 }
 
 @ApiTags('SalesIntelligence')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('competitor-intelligence-records')
 export class CompetitorIntelligenceRecordController {
     constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
@@ -178,7 +178,7 @@ export class CompetitorIntelligenceRecordController {
 }
 
 @ApiTags('SalesIntelligence')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('sales-discovery-records')
 export class SalesDiscoveryRecordController {
     constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
@@ -225,7 +225,7 @@ export class SalesDiscoveryRecordController {
 }
 
 @ApiTags('SalesIntelligence')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('sales-intelligence-gaps')
 export class SalesIntelligenceGapController {
     constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}

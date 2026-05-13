@@ -79,7 +79,7 @@ export class AttachmentStorageProviderApi extends BaseService {
     }
 
     /**
-     * 创建附件存储 Provider 配置
+     * 创建附件存储提供商配置
      * @endpoint post /api/platform/attachment-storage-providers
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -97,8 +97,7 @@ export class AttachmentStorageProviderApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -149,7 +148,7 @@ export class AttachmentStorageProviderApi extends BaseService {
     }
 
     /**
-     * 获取附件存储 Provider 配置详情
+     * 获取附件存储提供商配置详情
      * @endpoint get /api/platform/attachment-storage-providers/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -167,8 +166,7 @@ export class AttachmentStorageProviderApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -209,7 +207,7 @@ export class AttachmentStorageProviderApi extends BaseService {
     }
 
     /**
-     * 获取附件存储 Provider 配置列表
+     * 获取附件存储提供商配置列表
      * @endpoint get /api/platform/attachment-storage-providers
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -255,8 +253,7 @@ export class AttachmentStorageProviderApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -298,7 +295,7 @@ export class AttachmentStorageProviderApi extends BaseService {
     }
 
     /**
-     * 设为默认附件存储 Provider
+     * 设为默认附件存储提供商
      * @endpoint post /api/platform/attachment-storage-providers/{id}:set-default
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -320,8 +317,7 @@ export class AttachmentStorageProviderApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -372,7 +368,7 @@ export class AttachmentStorageProviderApi extends BaseService {
     }
 
     /**
-     * 测试附件存储 Provider 配置完整性
+     * 测试附件存储提供商配置完整性
      * @endpoint post /api/platform/attachment-storage-providers/{id}:testConnection
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -394,8 +390,7 @@ export class AttachmentStorageProviderApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -446,7 +441,7 @@ export class AttachmentStorageProviderApi extends BaseService {
     }
 
     /**
-     * 更新附件存储 Provider 配置
+     * 更新附件存储提供商配置
      * @endpoint patch /api/platform/attachment-storage-providers/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -468,8 +463,7 @@ export class AttachmentStorageProviderApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

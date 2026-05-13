@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ApprovalRecordDto,
     ApproveRecordRequestDto,
@@ -13,7 +13,7 @@ import { HasPermissions } from '../../core/auth/decorators/has-permissions.decor
 import { ApprovalService } from './approval.service';
 
 @ApiTags('Approval')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class ApprovalController {
     constructor(private readonly approvalService: ApprovalService) {}

@@ -92,12 +92,14 @@ constructor({ accessToken, apiKeys, basePath, credentials, encodeParam, encoder,
         this.encodeParam = encodeParam ?? (param => this.defaultEncodeParam(param));
         this.credentials = credentials ?? {};
 
-        // init default bearer credential
-        if (!this.credentials['bearer']) {
-            this.credentials['bearer'] = () => {
-                return typeof this.accessToken === 'function'
-                    ? this.accessToken()
-                    : this.accessToken;
+        // init default pomsSession credential
+        if (!this.credentials['pomsSession']) {
+            this.credentials['pomsSession'] = () => {
+                if (this.apiKeys === null || this.apiKeys === undefined) {
+                    return undefined;
+                } else {
+                    return this.apiKeys['pomsSession'] || this.apiKeys['poms_session'];
+                }
             };
         }
     }

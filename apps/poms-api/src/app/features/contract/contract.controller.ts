@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ActivateContractRequestDto,
     ApprovalRecordDto,
@@ -25,7 +25,7 @@ import { ContractService } from './contract.service';
 import { ContractTermSnapshotRepository } from './contract.repository';
 
 @ApiTags('contract')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('contracts')
 export class ContractController {
     constructor(

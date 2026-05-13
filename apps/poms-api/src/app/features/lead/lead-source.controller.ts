@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CreateLeadSourceRequestDto,
     LeadSourceDto,
@@ -14,7 +14,7 @@ import { LeadQueryService } from './lead-query.service';
 import { LeadService } from './lead.service';
 
 @ApiTags('LeadSource')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('lead-sources')
 export class LeadSourceController {
     constructor(

@@ -1,12 +1,12 @@
 import type { CommissionFreezeChangeRequestDetailView } from '@poms/shared-contracts';
 import { CommissionFreezeChangeRequestDetailViewDto } from '@poms/api-contracts';
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { CommissionService } from './commission.service';
 
 @ApiTags('Commission Freeze Change Requests')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('commission-freeze-change-requests')
 export class CommissionFreezeChangeRequestController {
     constructor(private readonly commissionService: CommissionService) {}

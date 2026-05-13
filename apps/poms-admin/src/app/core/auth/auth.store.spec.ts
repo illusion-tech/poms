@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ApprovalApi, AuthApi, AuthStore, IdentityProvider, NavigationApi, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { ApprovalApi, AuthApi, AuthStore, IdentityProvider, NavigationApi, type CurrentAuthSessionView, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { of } from 'rxjs';
 
 function createUser(overrides: Partial<SanitizedUserWithOrgUnits> = {}): SanitizedUserWithOrgUnits {
@@ -21,14 +21,30 @@ function createUser(overrides: Partial<SanitizedUserWithOrgUnits> = {}): Sanitiz
     };
 }
 
+function createSession(user: SanitizedUserWithOrgUnits): CurrentAuthSessionView {
+    return {
+        authenticated: true,
+        status: 'active',
+        user,
+        permissions: user.permissions as CurrentAuthSessionView['permissions'],
+        expiresAt: '2026-05-07T08:30:00.000Z',
+        csrf: {
+            cookieName: 'poms_csrf',
+            headerName: 'X-CSRF-Token'
+        }
+    };
+}
+
 describe('AuthStore', () => {
     let store: AuthStore;
     let authApiMock: {
-        authControllerLogin: jest.Mock;
+        authControllerCreatePasswordAuthSession: jest.Mock;
         authControllerListEnabledLoginProviders: jest.Mock;
         authControllerAuthorizeExternalLogin: jest.Mock;
         authControllerHandleExternalLoginCallback: jest.Mock;
         authControllerCreateExternalLoginSession: jest.Mock;
+        authControllerGetCurrentAuthSession: jest.Mock;
+        authControllerLogoutCurrentAuthSession: jest.Mock;
         authControllerGetProfile: jest.Mock;
         authControllerUpdateProfile: jest.Mock;
     };
@@ -43,11 +59,13 @@ describe('AuthStore', () => {
         localStorage.clear();
 
         authApiMock = {
-            authControllerLogin: jest.fn(),
+            authControllerCreatePasswordAuthSession: jest.fn(),
             authControllerListEnabledLoginProviders: jest.fn(),
             authControllerAuthorizeExternalLogin: jest.fn(),
             authControllerHandleExternalLoginCallback: jest.fn(),
             authControllerCreateExternalLoginSession: jest.fn(),
+            authControllerGetCurrentAuthSession: jest.fn(),
+            authControllerLogoutCurrentAuthSession: jest.fn(),
             authControllerGetProfile: jest.fn(),
             authControllerUpdateProfile: jest.fn()
         };
@@ -92,7 +110,6 @@ describe('AuthStore', () => {
             phoneVerified: false
         });
 
-        store.token.set('token');
         store.currentUser.set(createUser());
         authApiMock.authControllerUpdateProfile.mockReturnValue(of(updatedUser));
 
@@ -158,8 +175,7 @@ describe('AuthStore', () => {
                 pomsUserId: user.id
             })
         );
-        authApiMock.authControllerCreateExternalLoginSession.mockReturnValue(of({ accessToken: 'external-jwt' }));
-        authApiMock.authControllerGetProfile.mockReturnValue(of(user));
+        authApiMock.authControllerCreateExternalLoginSession.mockReturnValue(of(createSession(user)));
         navigationApiMock.navigationControllerGetNavigation.mockReturnValue(of([]));
         approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(of([]));
 
@@ -183,8 +199,6 @@ describe('AuthStore', () => {
                 ticket: 'external-login-ticket-value-1234567890'
             }
         });
-        expect(localStorage.getItem('poms_access_token')).toBe('external-jwt');
-        expect(store.token()).toBe('external-jwt');
         expect(store.currentUser()).toEqual(user);
     });
 

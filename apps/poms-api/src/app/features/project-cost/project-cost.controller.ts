@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import {
-    ApiBearerAuth,
+    ApiCookieAuth,
     ApiBody,
     ApiCreatedResponse,
     ApiExtraModels,
@@ -106,7 +106,7 @@ interface ProjectActualCostRecordListQuery {
 }
 
 @ApiTags('Project Cost')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class ProjectCostController {
     constructor(private readonly projectCostService: ProjectCostService) {}

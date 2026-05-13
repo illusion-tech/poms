@@ -9,8 +9,6 @@ export * from './lib/contract/contract.store';
 export * from './lib/customer/customer.store';
 export * from './lib/dictionary/dictionary.store';
 export * from './lib/identity-provider/identity-provider.store';
-export * from './lib/poms-api/poms-api.tokens';
-export * from './lib/poms-api/poms-auth.interceptor';
 export * from './lib/poms-api/provide-poms-api-client';
 export * from './lib/platform/platform.store';
 export * from './lib/project/project.store';
@@ -199,6 +197,7 @@ export type {
     CommissionRuleExplanationView,
     ConfirmCommissionCalculationRequest,
     ContractSummary,
+    CurrentAuthSessionView,
     BusinessDiscussionCommentSummary,
     CreateCustomerAliasRequest,
     CreateBusinessDiscussionCommentRequest,

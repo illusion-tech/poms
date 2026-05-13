@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BusinessDiscussionCommentDto, BusinessDiscussionCommentListDto, BusinessDiscussionListQueryDto, CreateBusinessDiscussionCommentRequestDto } from '@poms/api-contracts';
 import type { BusinessDiscussionCommentSummary, BusinessDiscussionListQuery, UserPayload } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { BusinessDiscussionService } from './business-discussion.service';
 
 @ApiTags('BusinessDiscussion')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('business-discussions')
 export class BusinessDiscussionController {
     constructor(private readonly businessDiscussionService: BusinessDiscussionService) {}

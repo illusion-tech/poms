@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CommercialDiffReviewResultDto,
     CommercialReleaseBaselineDto,
@@ -24,7 +24,7 @@ import { HasPermissions } from '../../core/auth/decorators/has-permissions.decor
 import { ContractReadinessService } from './contract-readiness.service';
 
 @ApiTags('ContractReadiness')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class ContractReadinessController {
     constructor(private readonly contractReadinessService: ContractReadinessService) {}

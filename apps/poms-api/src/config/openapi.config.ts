@@ -7,6 +7,6 @@ export function buildOpenApiConfig() {
         .setTitle('POMS API')
         .setDescription('Project Oriented Management System API')
         .setVersion('0.1.0')
-        .addBearerAuth()
+        .addCookieAuth('poms_session', { type: 'apiKey' }, 'pomsSession')
         .build();
 }

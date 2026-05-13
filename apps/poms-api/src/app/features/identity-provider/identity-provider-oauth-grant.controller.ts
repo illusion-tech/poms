@@ -1,7 +1,7 @@
 import { IdentityProviderOAuthAuthorizeResultDto, IdentityProviderOAuthCallbackQueryDto, IdentityProviderOAuthGrantDto } from '@poms/api-contracts';
 import type { IdentityProviderOAuthAuthorizeResult, IdentityProviderOAuthCallbackQuery, IdentityProviderOAuthGrantSummary, UserPayload } from '@poms/shared-contracts';
 import { Controller, Get, Param, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Public } from '../../core/auth/decorators/public.decorator';
 import { IdentityProviderService } from './identity-provider.service';
@@ -12,7 +12,7 @@ export class IdentityProviderOAuthGrantController {
     constructor(private readonly identityProviderService: IdentityProviderService) {}
 
     @Get('identity-provider-oauth-grants/:identityProviderId')
-    @ApiBearerAuth()
+    @ApiCookieAuth('pomsSession')
     @HasPermissions('platform:users:manage')
     @ApiOperation({ summary: '获取当前管理员的外部身份提供商搜索授权状态' })
     @ApiOkResponse({ type: IdentityProviderOAuthGrantDto })
@@ -21,7 +21,7 @@ export class IdentityProviderOAuthGrantController {
     }
 
     @Get('identity-provider-oauth-grants/:identityProviderId\\:authorize')
-    @ApiBearerAuth()
+    @ApiCookieAuth('pomsSession')
     @HasPermissions('platform:users:manage')
     @ApiOperation({ summary: '生成当前管理员的外部身份提供商搜索授权 URL' })
     @ApiOkResponse({ type: IdentityProviderOAuthAuthorizeResultDto })

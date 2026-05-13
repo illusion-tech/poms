@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CreateDictionaryItemRequestDto,
     DictionaryItemDto,
@@ -13,7 +13,7 @@ import { HasPermissions } from '../../core/auth/decorators/has-permissions.decor
 import { DictionaryService } from './dictionary.service';
 
 @ApiTags('Dictionary')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('dictionaries')
 export class DictionaryController {
     constructor(private readonly dictionaryService: DictionaryService) {}

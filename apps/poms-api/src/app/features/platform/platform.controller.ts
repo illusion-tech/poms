@@ -45,7 +45,7 @@ import {
     UpdatePlatformUserRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -53,7 +53,7 @@ import { NavigationService } from '../navigation/navigation.service';
 import { PlatformService } from './platform.service';
 
 @ApiTags('Platform')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('platform')
 export class PlatformController {
     constructor(

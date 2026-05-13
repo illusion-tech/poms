@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ConfirmProjectHandoverRequestDto,
     ConfirmProjectHandoverResultDto,
@@ -22,7 +22,7 @@ import { ProjectHandoverCommandService } from './project-handover-command.servic
 import { ProjectHandoverQueryService } from './project-handover-query.service';
 
 @ApiTags('Project Handover')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class ProjectHandoverController {
     constructor(

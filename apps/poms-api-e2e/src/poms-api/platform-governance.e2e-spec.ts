@@ -58,7 +58,7 @@ describe('poms-api platform governance e2e', () => {
             const staleSessionResponse = await viewerSession.client.get('/auth/profile');
             expectErrorStatus(staleSessionResponse, 401);
 
-            const loginResponse = await createApiClient().post('/auth/login', VIEWER_CREDENTIALS);
+            const loginResponse = await createApiClient().post('/auth/sessions', VIEWER_CREDENTIALS);
             expectErrorStatus(loginResponse, 401, '用户名或密码错误');
         } finally {
             await activatePlatformUser(adminClient, viewer.id);
@@ -459,15 +459,15 @@ describe('poms-api platform governance e2e', () => {
             displayOrder: 100
         });
 
-        const failedLoginResponse = await createApiClient().post('/auth/login', {
+        const failedLoginResponse = await createApiClient().post('/auth/sessions', {
             username: 'admin',
             password: 'wrong-password'
         });
         expectErrorStatus(failedLoginResponse, 401, '用户名或密码错误');
 
-        const invalidTokenClient = createApiClient('malformed-token');
-        const invalidTokenResponse = await invalidTokenClient.get('/auth/profile');
-        expectErrorStatus(invalidTokenResponse, 401);
+        const invalidSessionClient = createApiClient('poms_session=malformed-token');
+        const invalidSessionResponse = await invalidSessionClient.get('/auth/profile');
+        expectErrorStatus(invalidSessionResponse, 401);
 
         const auditLogs = await listAuditLogs(adminClient, {
             from,
@@ -515,16 +515,16 @@ describe('poms-api platform governance e2e', () => {
             )
         ).toBe(true);
 
-        const invalidTokenEvents = await listSecurityEvents(adminClient, {
+        const invalidSessionEvents = await listSecurityEvents(adminClient, {
             from,
-            eventType: 'auth.token.invalid',
+            eventType: 'auth.session.invalid',
             path: '/api/auth/profile',
             limit: 5
         });
         expect(
-            invalidTokenEvents.some(
+            invalidSessionEvents.some(
                 (event) =>
-                    event.eventType === 'auth.token.invalid' &&
+                    event.eventType === 'auth.session.invalid' &&
                     event.path === '/api/auth/profile' &&
                     (event.result === 'failed' || event.result === 'expired')
             )

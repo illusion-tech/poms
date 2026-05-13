@@ -12,12 +12,12 @@ import {
     SubmitCommissionFreezeDisputeResultDto
 } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { CommissionService } from './commission.service';
 
 @ApiTags('Commission Freeze Disputes')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('commission-freeze-disputes')
 export class CommissionFreezeDisputeController {
     constructor(private readonly commissionService: CommissionService) {}

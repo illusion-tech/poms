@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type {
     InvoiceRecordDetailView,
     InvoiceRecordSummary,
@@ -38,7 +38,7 @@ import { HasPermissions } from '../../core/auth/decorators/has-permissions.decor
 import { ContractFinanceService } from './contract-finance.service';
 
 @ApiTags('ContractFinance')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class ContractFinanceController {
     constructor(private readonly contractFinanceService: ContractFinanceService) {}

@@ -9,6 +9,7 @@
  */
 
 
-export interface LoginResponse {
-    accessToken: string;
+export enum CurrentAuthSessionStatus {
+
+    Active = 'active'
 }

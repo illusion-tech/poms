@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Req, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { IncomingMessage } from 'node:http';
 import {
     AbortAttachmentUploadSessionRequestDto,
@@ -17,7 +17,7 @@ import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-a
 import { AttachmentService } from './attachment.service';
 
 @ApiTags('AttachmentUploadSession')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('attachment-upload-sessions')
 export class AttachmentUploadSessionController {
     constructor(private readonly attachmentService: AttachmentService) {}

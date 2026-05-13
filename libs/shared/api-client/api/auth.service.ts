@@ -17,17 +17,19 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { AuthSessionLogoutResult } from '../model/auth-session-logout-result';
+// @ts-ignore
 import { CreateExternalLoginSessionRequest } from '../model/create-external-login-session-request';
+// @ts-ignore
+import { CreatePasswordAuthSessionRequest } from '../model/create-password-auth-session-request';
+// @ts-ignore
+import { CurrentAuthSessionView } from '../model/current-auth-session-view';
 // @ts-ignore
 import { EnabledLoginProviderSummary } from '../model/enabled-login-provider-summary';
 // @ts-ignore
 import { ExternalLoginAuthorizeResult } from '../model/external-login-authorize-result';
 // @ts-ignore
 import { ExternalLoginCallbackResult } from '../model/external-login-callback-result';
-// @ts-ignore
-import { LoginRequest } from '../model/login-request';
-// @ts-ignore
-import { LoginResponse } from '../model/login-response';
 // @ts-ignore
 import { SanitizedUserWithOrgUnits } from '../model/sanitized-user-with-org-units';
 // @ts-ignore
@@ -47,6 +49,10 @@ export interface AuthControllerCreateExternalLoginSessionRequestParams {
     createExternalLoginSessionRequest: CreateExternalLoginSessionRequest;
 }
 
+export interface AuthControllerCreatePasswordAuthSessionRequestParams {
+    createPasswordAuthSessionRequest: CreatePasswordAuthSessionRequest;
+}
+
 export interface AuthControllerHandleExternalLoginCallbackRequestParams {
     state: string;
     code?: string;
@@ -54,8 +60,8 @@ export interface AuthControllerHandleExternalLoginCallbackRequestParams {
     errorDescription?: string;
 }
 
-export interface AuthControllerLoginRequestParams {
-    loginRequest: LoginRequest;
+export interface AuthControllerLogoutCurrentAuthSessionRequestParams {
+    body: object;
 }
 
 export interface AuthControllerUpdateProfileRequestParams {
@@ -130,16 +136,16 @@ export class AuthApi extends BaseService {
     }
 
     /**
-     * 使用外部登录一次性票据交换 POMS JWT
+     * 使用外部登录一次性票据创建认证会话
      * @endpoint post /api/auth/external-login-sessions
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LoginResponse>;
-    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LoginResponse>>;
-    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LoginResponse>>;
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CurrentAuthSessionView>;
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CurrentAuthSessionView>>;
+    public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CurrentAuthSessionView>>;
     public authControllerCreateExternalLoginSession(requestParameters: AuthControllerCreateExternalLoginSessionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const createExternalLoginSessionRequest = requestParameters?.createExternalLoginSessionRequest;
         if (createExternalLoginSessionRequest === null || createExternalLoginSessionRequest === undefined) {
@@ -182,10 +188,129 @@ export class AuthApi extends BaseService {
 
         let localVarPath = `/api/auth/external-login-sessions`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<LoginResponse>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CurrentAuthSessionView>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createExternalLoginSessionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 创建账号密码认证会话
+     * @endpoint post /api/auth/sessions
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerCreatePasswordAuthSession(requestParameters: AuthControllerCreatePasswordAuthSessionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CurrentAuthSessionView>;
+    public authControllerCreatePasswordAuthSession(requestParameters: AuthControllerCreatePasswordAuthSessionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CurrentAuthSessionView>>;
+    public authControllerCreatePasswordAuthSession(requestParameters: AuthControllerCreatePasswordAuthSessionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CurrentAuthSessionView>>;
+    public authControllerCreatePasswordAuthSession(requestParameters: AuthControllerCreatePasswordAuthSessionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const createPasswordAuthSessionRequest = requestParameters?.createPasswordAuthSessionRequest;
+        if (createPasswordAuthSessionRequest === null || createPasswordAuthSessionRequest === undefined) {
+            throw new Error('Required parameter createPasswordAuthSessionRequest was null or undefined when calling authControllerCreatePasswordAuthSession.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/sessions`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CurrentAuthSessionView>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createPasswordAuthSessionRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取当前认证会话
+     * @endpoint get /api/auth/session
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public authControllerGetCurrentAuthSession(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CurrentAuthSessionView>;
+    public authControllerGetCurrentAuthSession(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CurrentAuthSessionView>>;
+    public authControllerGetCurrentAuthSession(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CurrentAuthSessionView>>;
+    public authControllerGetCurrentAuthSession(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/session`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CurrentAuthSessionView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -210,8 +335,7 @@ export class AuthApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -403,23 +527,25 @@ export class AuthApi extends BaseService {
     }
 
     /**
-     * 登录并获取 JWT
-     * @endpoint post /api/auth/login
+     * 登出当前认证会话
+     * @endpoint post /api/auth/session:logout
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public authControllerLogin(requestParameters: AuthControllerLoginRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LoginResponse>;
-    public authControllerLogin(requestParameters: AuthControllerLoginRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LoginResponse>>;
-    public authControllerLogin(requestParameters: AuthControllerLoginRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LoginResponse>>;
-    public authControllerLogin(requestParameters: AuthControllerLoginRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const loginRequest = requestParameters?.loginRequest;
-        if (loginRequest === null || loginRequest === undefined) {
-            throw new Error('Required parameter loginRequest was null or undefined when calling authControllerLogin.');
+    public authControllerLogoutCurrentAuthSession(requestParameters: AuthControllerLogoutCurrentAuthSessionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AuthSessionLogoutResult>;
+    public authControllerLogoutCurrentAuthSession(requestParameters: AuthControllerLogoutCurrentAuthSessionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AuthSessionLogoutResult>>;
+    public authControllerLogoutCurrentAuthSession(requestParameters: AuthControllerLogoutCurrentAuthSessionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AuthSessionLogoutResult>>;
+    public authControllerLogoutCurrentAuthSession(requestParameters: AuthControllerLogoutCurrentAuthSessionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const body = requestParameters?.body;
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling authControllerLogoutCurrentAuthSession.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -453,12 +579,12 @@ export class AuthApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/auth/login`;
+        let localVarPath = `/api/auth/session:logout`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<LoginResponse>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<AuthSessionLogoutResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: loginRequest,
+                body: body,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -488,8 +614,7 @@ export class AuthApi extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (bearer) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

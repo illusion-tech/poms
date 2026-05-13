@@ -1,7 +1,7 @@
 import { ENTITY_AUDIT_TARGET_TYPES, type AuditLogListQuery, type AuditLogSummary, type EntityAuditLogListQuery, type SecurityEventListQuery, type SecurityEventSummary, type UserPayload } from '@poms/shared-contracts';
 import { AuditLogListDto, AuditLogListQueryDto, EntityAuditLogListQueryDto, RecordRouteDeniedSecurityEventRequestDto, SecurityEventListDto, SecurityEventListQueryDto } from '@poms/api-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Authenticated } from '../auth/decorators/authenticated.decorator';
 import { HasAnyPermissions } from '../auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../auth/decorators/has-permissions.decorator';
@@ -9,7 +9,7 @@ import { getRequestId, getRequestIp, getRequestUserAgent, type RuntimeAuditReque
 import { RuntimeAuditService } from './runtime-audit.service';
 
 @ApiTags('RuntimeAudit')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller()
 export class RuntimeAuditController {
     constructor(private readonly runtimeAuditService: RuntimeAuditService) {}

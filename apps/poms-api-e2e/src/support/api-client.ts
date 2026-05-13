@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
 import { expectStatus } from './http';
-import type { LoginResponse, SanitizedUserWithOrgUnits } from './types';
+import type { CurrentAuthSessionView, SanitizedUserWithOrgUnits } from './types';
 
 export interface TestCredentials {
     username: string;
@@ -8,7 +8,7 @@ export interface TestCredentials {
 }
 
 export interface AuthSession {
-    accessToken: string;
+    cookieHeader: string;
     client: AxiosInstance;
     profile: SanitizedUserWithOrgUnits;
 }
@@ -33,14 +33,14 @@ export const FINANCE_MANAGER_CREDENTIALS: TestCredentials = {
     password: 'finance_mgr123'
 };
 
-export function createApiClient(accessToken?: string): AxiosInstance {
+export function createApiClient(cookieHeader?: string): AxiosInstance {
     return axios.create({
         baseURL: axios.defaults.baseURL,
         validateStatus: () => true,
         proxy: false,
-        headers: accessToken
+        headers: cookieHeader
             ? {
-                  Authorization: `Bearer ${accessToken}`
+                  Cookie: cookieHeader
               }
             : undefined
     });
@@ -48,18 +48,28 @@ export function createApiClient(accessToken?: string): AxiosInstance {
 
 export async function loginWithCredentials(credentials: TestCredentials): Promise<AuthSession> {
     const anonymousClient = createApiClient();
-    const loginResponse = await anonymousClient.post<LoginResponse>('/auth/login', credentials);
-    const login = expectStatus(loginResponse, 200);
+    const loginResponse = await anonymousClient.post<CurrentAuthSessionView>('/auth/sessions', credentials);
+    const session = expectStatus(loginResponse, 200);
+    const cookieHeader = extractCookieHeader(loginResponse.headers['set-cookie']);
 
-    const client = createApiClient(login.accessToken);
+    const client = createApiClient(cookieHeader);
     const profileResponse = await client.get<SanitizedUserWithOrgUnits>('/auth/profile');
     const profile = expectStatus(profileResponse, 200);
 
     return {
-        accessToken: login.accessToken,
+        cookieHeader,
         client,
-        profile
+        profile: session.user ?? profile
     };
+}
+
+function extractCookieHeader(setCookie: unknown): string {
+    const cookies = Array.isArray(setCookie) ? setCookie : typeof setCookie === 'string' ? [setCookie] : [];
+    const cookieHeader = cookies.map((cookie) => cookie.split(';')[0]).filter(Boolean).join('; ');
+    if (!cookieHeader) {
+        throw new Error('Auth session response did not set cookies.');
+    }
+    return cookieHeader;
 }
 
 export function loginAsAdmin(): Promise<AuthSession> {

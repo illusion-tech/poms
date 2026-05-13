@@ -7,12 +7,12 @@ import {
     CreateCommissionDepartureExceptionDecisionRequestDto
 } from '@poms/api-contracts';
 import { Body, Controller, Param, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { CommissionService } from './commission.service';
 
 @ApiTags('Commission Departure Exception Decisions')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('projects/:projectId/commission-departure-exception-decisions')
 export class CommissionDepartureExceptionDecisionController {
     constructor(private readonly commissionService: CommissionService) {}

@@ -2,11 +2,13 @@ import {
     AssignRolePermissionsRequestSchema,
     AssignUserOrgMembershipsRequestSchema,
     AssignUserRolesRequestSchema,
+    AuthSessionLogoutResultSchema,
+    CreatePasswordAuthSessionRequestSchema,
     CreateOrgUnitRequestSchema,
     CreatePlatformUserRequestSchema,
     CreateRoleRequestSchema,
-    LoginRequestSchema,
-    LoginResponseSchema,
+    CurrentAuthSessionViewSchema,
+    LogoutAuthSessionRequestSchema,
     NavigationItemSchema,
     NavigationSyncSummarySchema,
     MoveOrgUnitRequestSchema,
@@ -54,9 +56,13 @@ export class NavigationListDto extends createZodDto(
 
 export class NavigationSyncSummaryDto extends createZodDto(NavigationSyncSummarySchema) {}
 
-export class LoginRequestDto extends createZodDto(LoginRequestSchema) {}
+export class CreatePasswordAuthSessionRequestDto extends createZodDto(CreatePasswordAuthSessionRequestSchema) {}
 
-export class LoginResponseDto extends createZodDto(LoginResponseSchema) {}
+export class CurrentAuthSessionViewDto extends createZodDto(CurrentAuthSessionViewSchema) {}
+
+export class LogoutAuthSessionRequestDto extends createZodDto(LogoutAuthSessionRequestSchema) {}
+
+export class AuthSessionLogoutResultDto extends createZodDto(AuthSessionLogoutResultSchema) {}
 
 export class PlatformUserSummaryDto extends createZodDto(PlatformUserSummarySchema) {}
 

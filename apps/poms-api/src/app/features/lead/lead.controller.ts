@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     AssignLeadOwnerRequestDto,
     ApproveLeadScoreOverrideRequestDto,
@@ -31,7 +31,7 @@ import { LeadService } from './lead.service';
 import { Project } from '../project/project.entity';
 
 @ApiTags('lead')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('leads')
 export class LeadController {
     constructor(
@@ -233,7 +233,7 @@ export class LeadController {
 }
 
 @ApiTags('lead')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('lead-score-overrides')
 export class LeadScoreOverrideController {
     constructor(private readonly leadScoreService: LeadScoreService) {}

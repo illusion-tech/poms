@@ -62,7 +62,7 @@ export type {
     LeadOwnerAssignmentResult,
     LeadSourceSummary,
     LeadSummary,
-    LoginResponse,
+    CurrentAuthSessionView,
     ContractSummary,
     CloseInvoiceRecordRequest,
     ClosePayableRecordRequest,

@@ -1,5 +1,5 @@
 import { Controller, Get, NotFoundException, Param, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ContractTermSnapshotSummaryDto } from '@poms/api-contracts';
 import type { ContractTermSnapshotSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
@@ -10,7 +10,7 @@ import { mapSnapshotToSummary } from './contract.controller';
 import { ContractTermSnapshotRepository } from './contract.repository';
 
 @ApiTags('contract')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('contract-term-snapshots')
 export class ContractTermSnapshotController {
     constructor(

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Patch, Post, Query, Request, StreamableFile } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     AttachmentDto,
     AttachmentListDto,
@@ -17,7 +17,7 @@ import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-a
 import { AttachmentService } from './attachment.service';
 
 @ApiTags('Attachment')
-@ApiBearerAuth()
+@ApiCookieAuth('pomsSession')
 @Controller('attachments')
 export class AttachmentController {
     constructor(private readonly attachmentService: AttachmentService) {}
