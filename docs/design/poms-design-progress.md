@@ -559,6 +559,7 @@
 77. 2026-05-12 `FE-60B` 已完成 `G4`，`FE-60` parent 同步关闭：附件面板上传附件 / 上传新版本统一走 upload session，展示 local proxy / OBS presigned PUT 上传进度、失败保留重试和用户 abort；验证通过 poms-admin full tests、poms-admin/admin-data-access lint、poms-admin production build，真实 OBS 租户与浏览器文件上传 smoke 留给生产启用前检查。
 78. 2026-05-13 `FE-61` 已进入 `G1 / Doing`：新增 `fe-61-dictionary-card-list-frontend-baseline.md`，冻结业务字典默认维护界面卡片化改造范围；本片只调整 `/platform/dictionaries` Admin 前端交互，把宽表主视图改为按字典域分组的卡片列表，保留搜索、新增、编辑、启停和 focused tests，不新增或修改后端 route、OpenAPI、generated client、migration 或字典数据模型。
 79. 2026-05-13 `FE-61` 已推进到本地 `G3 / Ready for Review`：业务字典主视图已改为三张字典域卡片和域内紧凑列表，停用项按域展开，卡片新增入口会预选对应字典域；验证通过 dictionary-list focused spec、`poms-admin` lint/build、markdown format check 和 `git diff --check`。因尚未提交，tracker 暂不标记 `Done / G4`。
+80. 2026-05-13 `FE-61` 已完成 `G4 / Done`：实现提交 `f9b0be1` 落地业务字典卡片化维护界面，随后补齐 G3/G4 closeout、将 FE-61 baseline 迁入 `docs/design/archive/slices/` 并回写 tracker。后端 API、OpenAPI、generated client、migration 和字典数据模型均未改变；后续如需拖拽排序或更高等级浏览器 smoke，另拆前端增强切片。
 
 ---
 
