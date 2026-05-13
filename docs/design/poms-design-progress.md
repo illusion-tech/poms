@@ -561,6 +561,7 @@
 78. 2026-05-13 `FE-61` 已进入 `G1 / Doing`：新增 `fe-61-dictionary-card-list-frontend-baseline.md`，冻结业务字典默认维护界面卡片化改造范围；本片只调整 `/platform/dictionaries` Admin 前端交互，把宽表主视图改为按字典域分组的卡片列表，保留搜索、新增、编辑、启停和 focused tests，不新增或修改后端 route、OpenAPI、generated client、migration 或字典数据模型。
 79. 2026-05-13 `FE-61` 已推进到本地 `G3 / Ready for Review`：业务字典主视图已改为三张字典域卡片和域内紧凑列表，停用项按域展开，卡片新增入口会预选对应字典域；验证通过 dictionary-list focused spec、`poms-admin` lint/build、markdown format check 和 `git diff --check`。因尚未提交，tracker 暂不标记 `Done / G4`。
 80. 2026-05-13 `FE-61` 已完成 `G4 / Done`：实现提交 `f9b0be1` 落地业务字典卡片化维护界面，随后补齐 G3/G4 closeout、将 FE-61 baseline 迁入 `docs/design/archive/slices/` 并回写 tracker。后端 API、OpenAPI、generated client、migration 和字典数据模型均未改变；后续如需拖拽排序或更高等级浏览器 smoke，另拆前端增强切片。
+81. 2026-05-13 `EX-66A` 已完成 `G1`：新增 `ex-66a-admin-web-cookie-session-auth-baseline.md`，冻结 Admin Web `HttpOnly Cookie + 服务端 opaque session` 目标态、`poms_session` / `poms_csrf` cookie、`X-CSRF-Token`、session 生命周期、结构化认证错误、OpenAPI security scheme 和“不保留旧 bearer / localStorage 兼容”的 direct cutover 边界；`api-route-canonical-inventory.md` 已登记 `B15` planned / drift routes，下一步进入 `EX-66B` session store。
 
 ---
 
