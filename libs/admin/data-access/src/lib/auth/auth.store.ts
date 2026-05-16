@@ -84,10 +84,10 @@ export class AuthStore {
         if (this.isAuthenticated()) {
             void firstValueFrom(this.#authApi.authControllerLogoutCurrentAuthSession({ body: {} })).catch(() => undefined);
         }
-        this.#clearSessionState();
+        this.clearSessionState();
     }
 
-    #clearSessionState(): void {
+    clearSessionState(): void {
         this.#csrfTokenStore.clear();
         this.currentUser.set(null);
         this.navigationTree.set([]);
@@ -144,7 +144,7 @@ export class AuthStore {
             firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))))
         ]);
         if (!user) {
-            this.#clearSessionState();
+            this.clearSessionState();
             return;
         }
         this.currentUser.set(user);
@@ -154,7 +154,7 @@ export class AuthStore {
 
     async #acceptAuthSession(session: CurrentAuthSessionView): Promise<void> {
         if (!session.authenticated || !session.user) {
-            this.#clearSessionState();
+            this.clearSessionState();
             return;
         }
         await this.#ensureCsrfToken();

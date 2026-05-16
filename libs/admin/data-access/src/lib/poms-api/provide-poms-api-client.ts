@@ -1,10 +1,11 @@
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, type HttpInterceptorFn, withFetch, withInterceptors } from '@angular/common/http';
 import { EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
 import { BASE_PATH, PomsApiConfiguration } from '@poms/shared-api-client';
 import { pomsCsrfInterceptor } from './poms-csrf.interceptor';
 
 export interface ProvidePomsApiClientOptions {
     basePath: string;
+    interceptors?: HttpInterceptorFn[];
 }
 
 export function providePomsApiClient(options: ProvidePomsApiClientOptions): EnvironmentProviders {
@@ -20,7 +21,7 @@ export function providePomsApiClient(options: ProvidePomsApiClientOptions): Envi
     ];
 
     return makeEnvironmentProviders([
-        provideHttpClient(withFetch(), withInterceptors([pomsCsrfInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([pomsCsrfInterceptor, ...(options.interceptors ?? [])])),
         ...providers
     ]);
 }

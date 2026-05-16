@@ -101,3 +101,55 @@ describe('Login external providers', () => {
         expect(sessionStorage.getItem('poms_external_login_return_url')).toBe('/');
     });
 });
+
+describe('Login session notice', () => {
+    let authStoreMock: {
+        loadEnabledLoginProviders: jest.Mock;
+        authorizeExternalLogin: jest.Mock;
+        login: jest.Mock;
+    };
+
+    beforeEach(async () => {
+        authStoreMock = {
+            loadEnabledLoginProviders: jest.fn().mockResolvedValue([]),
+            authorizeExternalLogin: jest.fn(),
+            login: jest.fn().mockResolvedValue(undefined)
+        };
+
+        await TestBed.configureTestingModule({
+            imports: [Login],
+            providers: [
+                {
+                    provide: AuthStore,
+                    useValue: authStoreMock
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: {
+                            queryParams: {
+                                returnUrl: '/customers',
+                                reason: 'session_expired'
+                            }
+                        }
+                    }
+                },
+                {
+                    provide: Router,
+                    useValue: {
+                        navigateByUrl: jest.fn()
+                    }
+                }
+            ]
+        }).compileComponents();
+    });
+
+    it('shows a clear session expired prompt on the login page', async () => {
+        const fixture = TestBed.createComponent(Login);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('登录已过期，请重新登录后继续。');
+    });
+});

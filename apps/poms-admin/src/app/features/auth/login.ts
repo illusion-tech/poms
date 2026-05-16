@@ -4,6 +4,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthStore, type EnabledLoginProviderSummary } from '@poms/admin-data-access';
+import { resolveAuthSessionNotice } from '../../core/auth/auth-session-expired';
 import { identityProviderIcon, identityProviderLabel, identityProviderLogo } from '../../shared/ui/identity-provider-presentation';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -122,6 +123,11 @@ function resolveExternalLoginError(err: unknown): string {
                         @if (error()) {
                             <p class="text-red-500 text-sm text-center -mt-4">{{ error() }}</p>
                         }
+                        @if (sessionNotice()) {
+                            <p class="-mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm text-amber-700 dark:border-amber-700/60 dark:bg-amber-950/30 dark:text-amber-200">
+                                {{ sessionNotice() }}
+                            </p>
+                        }
                         <p-button type="submit" styleClass="w-full" rounded [loading]="loading()">登录</p-button>
                         <div class="flex items-center justify-center gap-2 mt-8">
                             <span class="text-surface-500 dark:text-white/64">还没有账号？</span>
@@ -145,6 +151,7 @@ export class Login {
     externalProvidersError = signal<string | null>(null);
     externalProviderLoadingId = signal<string | null>(null);
     externalProviderAreaVisible = computed(() => this.externalProvidersLoading() || this.externalProviders().length > 0 || this.externalProvidersError() !== null);
+    sessionNotice = computed(() => resolveAuthSessionNotice(this.#route.snapshot.queryParams['reason']));
 
     readonly providerLabel = identityProviderLabel;
     readonly providerLogo = identityProviderLogo;

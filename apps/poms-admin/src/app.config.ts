@@ -7,6 +7,7 @@ import { providePomsApiClient } from '@poms/admin-data-access/lib/poms-api/provi
 import type { Translation } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
+import { authSessionExpiredInterceptor } from './app/core/auth/auth-session-expired.interceptor';
 import { definePreset } from '@primeuix/themes';
 
 const MyPreset = definePreset(Aura, {
@@ -118,7 +119,8 @@ export const appConfig: ApplicationConfig = {
             withEnabledBlockingInitialNavigation()
         ),
         providePomsApiClient({
-            basePath: resolveApiBasePath()
+            basePath: resolveApiBasePath(),
+            interceptors: [authSessionExpiredInterceptor]
         }),
         provideAppInitializer(() => inject(AuthStore).initialize()),
         PlatformStore,

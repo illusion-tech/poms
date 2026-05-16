@@ -567,6 +567,8 @@
 84. 2026-05-14 `EX-66D` 已完成 `G4 / Done`：新增 `GET /auth/csrf-token`、全局 `AuthCsrfGuard`、session-bound CSRF 校验、匿名登录前 double-submit bootstrap、credentials CORS 显式 origin 配置和 `statusCode + code + message` 结构化认证 / 权限错误；OpenAPI / generated client 新增 `pomsCsrf` 与 `CsrfTokenView`，Admin data-access 已拉入最小 CSRF token store / interceptor 保持登录和写操作可用。后续 `FE-62A/B` 继续收口前端 Cookie session hardening 与 AFK / session expired UX，`EX-66E` 负责最终 E2E helper 和文档闭环。
 85. 2026-05-14 `FE-62A` 已进入 `G1 / Doing`：新增 `fe-62a-admin-cookie-session-client-baseline.md`，冻结 Admin Web 前端 Cookie session hardening 范围；本片只收口 `AuthStore`、Admin API client credentials、CSRF token store / interceptor、登录 / 外部登录 callback / profile update focused tests 和运行时代码旧 token 假设，不新增后端 route、OpenAPI、migration 或 AFK 会话过期 UX。
 86. 2026-05-14 `FE-62A` 已完成 `G4 / Done`：新增 `poms-csrf.interceptor.spec.ts` 并补强 `auth.store.spec.ts`，覆盖 Cookie session 登录、当前会话初始化、匿名清空、profile update CSRF、logout 清理和 unsafe method CSRF header 逻辑；验证通过 focused Admin tests、full Admin tests、poms-admin/admin-data-access lint、poms-admin build 与 runtime token scan。`FE-62B` 继续负责 AFK / session expired UX。
+87. 2026-05-14 `FE-62B` 已进入 `G1 / Doing`：新增 `fe-62b-session-expired-ux-baseline.md`，冻结 Admin Web 会话过期 UX 范围；本片识别结构化 `session_missing` / `session_expired` / `session_revoked` / `account_disabled`，清理本地会话状态并跳转登录页展示明确原因和安全 `returnUrl`，不改后端 route、OpenAPI、migration 或浏览器 E2E helper。
+88. 2026-05-14 `FE-62B` 已完成 `G4 / Done`，`FE-62` parent 同步关闭：新增全局 `authSessionExpiredInterceptor`、auth returnUrl 清洗和登录页 reason 提示；业务 API 返回结构化 session 失效 401 时会清理本地会话状态并跳转 `/auth/login?returnUrl=...&reason=...`，不再停留在普通业务列表读取失败反馈。验证通过 focused Admin tests、full Admin tests、poms-admin/admin-data-access lint 与 poms-admin build；浏览器 E2E helper 和最终矩阵留给 `EX-66E`。
 
 ---
 
