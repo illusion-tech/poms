@@ -571,6 +571,7 @@
 88. 2026-05-14 `FE-62B` 已完成 `G4 / Done`，`FE-62` parent 同步关闭：新增全局 `authSessionExpiredInterceptor`、auth returnUrl 清洗和登录页 reason 提示；业务 API 返回结构化 session 失效 401 时会清理本地会话状态并跳转 `/auth/login?returnUrl=...&reason=...`，不再停留在普通业务列表读取失败反馈。验证通过 focused Admin tests、full Admin tests、poms-admin/admin-data-access lint 与 poms-admin build；浏览器 E2E helper 和最终矩阵留给 `EX-66E`。
 89. 2026-05-16 `EX-66E` 已进入 `G1 / Doing`：新增 `ex-66e-cookie-session-cutover-validation-baseline.md`，冻结 Cookie 会话 direct cutover 最终收口范围；本片清退 Admin browser E2E 中的 `localStorage.poms_access_token`、`Authorization: Bearer` 和 `/api/auth/login` 旧假设，改用 `GET /auth/csrf-token` + `POST /auth/sessions` + Cookie session，并完成外部登录、CSRF、会话失效、登出、权限不足和文档回写矩阵。
 90. 2026-05-16 `EX-66E` 已推进到 `G3` corrective checkpoint：browser smoke 发现 route guard 在整页刷新后先按本地空状态跳登录、没有等待 Cookie session bootstrap 的真实漂移；已修复 `authGuard` / `permissionGuard` 初始化顺序，更新 Admin E2E helper 为 Cookie + CSRF，并通过 guard focused tests、poms-admin full tests/lint/build、external-login mocked E2E、project-workspace smoke E2E 和 platform-governance focused E2E。
+91. 2026-05-16 `EX-66E` 已完成 `G4 / Done`，`EX-66` parent 同步关闭：新增 `ex-66e-cookie-session-cutover-closeout.md`，确认 Admin Web Cookie + HttpOnly 服务端会话认证 direct cutover 完成；浏览器端旧 bearer / localStorage token / `POST /auth/login` 假设已从 Admin browser E2E 清退，`authGuard` / `permissionGuard` Cookie session bootstrap 漂移已修复，`current-drift-inventory.md` 中 `D-20260513-001` auth planned contract drift 已关闭。
 
 ---
 
