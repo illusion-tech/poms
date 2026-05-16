@@ -28,7 +28,6 @@ function createUser(permissions: PermissionKey[]): SanitizedUserWithOrgUnits {
 
 describe('permissionGuard', () => {
     let currentUser: ReturnType<typeof signal<SanitizedUserWithOrgUnits | null>>;
-    let token: ReturnType<typeof signal<string | null>>;
     let initialize: jest.Mock<Promise<void>, []>;
     let authStoreMock: Pick<AuthStore, 'currentUser' | 'isAuthenticated' | 'initialize' | 'hasAnyPermission'>;
     let httpClientMock: { post: jest.Mock };
@@ -49,11 +48,10 @@ describe('permissionGuard', () => {
 
     beforeEach(() => {
         currentUser = signal<SanitizedUserWithOrgUnits | null>(null);
-        token = signal<string | null>(null);
         initialize = jest.fn(async () => undefined);
         authStoreMock = {
             currentUser,
-            isAuthenticated: computed(() => token() !== null),
+            isAuthenticated: computed(() => currentUser() !== null),
             initialize,
             hasAnyPermission: (requiredPermissions: readonly PermissionKey[]) => {
                 const permissions = currentUser()?.permissions ?? [];
@@ -86,12 +84,11 @@ describe('permissionGuard', () => {
 
         expect(result instanceof UrlTree).toBe(true);
         expect(router.serializeUrl(result as UrlTree)).toBe('/auth/login?returnUrl=%2Fplatform%2Fusers');
-        expect(initialize).not.toHaveBeenCalled();
+        expect(initialize).toHaveBeenCalledTimes(1);
         expect(httpClientMock.post).not.toHaveBeenCalled();
     });
 
     it('allows access when the current user has the required permission', async () => {
-        token.set('jwt-token');
         currentUser.set(createUser(['platform:users:manage']));
 
         const result = await runGuard(['platform:users:manage']);
@@ -101,7 +98,6 @@ describe('permissionGuard', () => {
     });
 
     it('redirects authenticated users without the required permission to the access page', async () => {
-        token.set('jwt-token');
         currentUser.set(createUser(['project:read']));
 
         const result = await runGuard(['platform:users:manage']);
@@ -115,8 +111,7 @@ describe('permissionGuard', () => {
         });
     });
 
-    it('reloads auth context before permission checks when only a token is present', async () => {
-        token.set('jwt-token');
+    it('reloads auth context before permission checks when local user state is empty', async () => {
         initialize.mockImplementation(async () => {
             currentUser.set(createUser(['platform:roles:manage']));
         });
@@ -128,7 +123,6 @@ describe('permissionGuard', () => {
     });
 
     it('requires every declared permission when the route uses all mode', async () => {
-        token.set('jwt-token');
         currentUser.set(createUser(['project:read']));
 
         const result = await runGuard(['project:read', 'contract:finance:manage'], '/projects/1/workspace/operating-overview', 'all');

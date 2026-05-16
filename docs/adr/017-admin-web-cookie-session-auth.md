@@ -331,3 +331,13 @@ Admin E2E 不应再通过读取 `localStorage.poms_access_token` 作为主要测
 - **Admin Web**: `HttpOnly Cookie + 服务端 opaque session + CSRF`
 - **外部 API / CLI / 第三方接入**: 独立 bearer / OAuth / service token 体系，后续另行治理
 - **外部身份提供商**: 只作为身份断言来源，最终统一落到 POMS 本地 session
+
+---
+
+## 12. 实施记录
+
+- 2026-05-16: `EX-66A/B/C/D`、`FE-62A/B` 与 `EX-66E` 已将 Admin Web 主链路切到 Cookie session + CSRF：
+  - 登录、外部登录、当前会话、登出、CSRF token 和 OpenAPI / generated client 已完成 direct cutover。
+  - Admin Web runtime 已清退 `localStorage.poms_access_token`、browser bearer header 和旧 `POST /auth/login` 依赖。
+  - `authGuard` / `permissionGuard` 已改为先 bootstrap Cookie session 再判定登录和权限，避免整页刷新后误跳登录。
+  - Admin browser E2E helper 已改为 `GET /auth/csrf-token` + `POST /auth/sessions`，不再依赖读取 localStorage token。

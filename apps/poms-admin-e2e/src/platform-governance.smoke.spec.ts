@@ -1,14 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
-import { ADMIN_CREDENTIALS, login, VIEWER_CREDENTIALS } from './support/auth';
-
-async function loginForApi(page: Page, credentials: { username: string; password: string }): Promise<string> {
-    const response = await page.request.post('/api/auth/login', {
-        data: credentials
-    });
-    expect(response.status()).toBe(200);
-    const payload = (await response.json()) as { accessToken: string };
-    return payload.accessToken;
-}
+import { expect, test } from '@playwright/test';
+import { ADMIN_CREDENTIALS, csrfHeaders, getCurrentProfile, login, loginForApi, VIEWER_CREDENTIALS } from './support/auth';
 
 test.describe('poms-admin platform governance smoke', () => {
     test('admin can submit a real platform governance form', async ({ page }) => {
@@ -186,7 +177,6 @@ test.describe('poms-admin platform governance smoke', () => {
         const updatedEmail = `viewer+${unique.toLowerCase()}@example.com`;
         const updatedPhone = `139${Date.now().toString().slice(-8)}`;
 
-        let viewerToken: string | null = null;
         let originalProfile:
             | {
                   displayName: string;
@@ -199,17 +189,7 @@ test.describe('poms-admin platform governance smoke', () => {
             await login(page, VIEWER_CREDENTIALS);
             await expect(page).toHaveURL(/\/dashboard$/);
 
-            viewerToken = await page.evaluate(() => globalThis.localStorage.getItem('poms_access_token'));
-            expect(viewerToken).toBeTruthy();
-            if (!viewerToken) {
-                throw new Error('viewer token not found after login');
-            }
-
-            const originalProfileResponse = await page.request.get('/api/auth/profile', {
-                headers: {
-                    Authorization: `Bearer ${viewerToken}`
-                }
-            });
+            const originalProfileResponse = await page.request.get('/api/auth/profile');
             expect(originalProfileResponse.status()).toBe(200);
             originalProfile = (await originalProfileResponse.json()) as {
                 displayName: string;
@@ -239,11 +219,9 @@ test.describe('poms-admin platform governance smoke', () => {
             const profileMenu = page.locator('.profile-item .list-none').last();
             await expect(profileMenu.getByText(updatedDisplayName, { exact: true })).toBeVisible();
         } finally {
-            if (viewerToken && originalProfile) {
+            if (originalProfile) {
                 const restoreResponse = await page.request.patch('/api/auth/profile', {
-                    headers: {
-                        Authorization: `Bearer ${viewerToken}`
-                    },
+                    headers: await csrfHeaders(page),
                     data: {
                         displayName: originalProfile.displayName,
                         email: originalProfile.email,
@@ -276,26 +254,11 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.getByRole('heading', { name: '无权访问' })).toBeVisible();
         await expect(page.getByText('当前账号不能打开这个页面。请返回工作台，或联系管理员调整权限。')).toBeVisible();
 
-        const viewerToken = await page.evaluate(() => globalThis.localStorage.getItem('poms_access_token'));
-        expect(viewerToken).toBeTruthy();
-        if (!viewerToken) {
-            throw new Error('viewer token not found after login');
-        }
-        const viewerProfileResponse = await page.request.get('/api/auth/profile', {
-            headers: {
-                Authorization: `Bearer ${viewerToken}`
-            }
-        });
-        expect(viewerProfileResponse.status()).toBe(200);
-        const viewerProfile = (await viewerProfileResponse.json()) as { id: string };
-
-        const adminToken = await loginForApi(page, ADMIN_CREDENTIALS);
+        const viewerProfile = await getCurrentProfile(page);
+        await loginForApi(page, ADMIN_CREDENTIALS);
         await expect
             .poll(async () => {
                 const response = await page.request.get('/api/security-events', {
-                    headers: {
-                        Authorization: `Bearer ${adminToken}`
-                    },
                     params: {
                         from,
                         eventType: 'authz.route.denied',

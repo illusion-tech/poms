@@ -1,5 +1,33 @@
 import { expect, test, type Page, type Route } from '@playwright/test';
 
+const MOCK_USER = {
+    id: 'user-1',
+    username: 'admin',
+    displayName: '管理员',
+    roles: ['平台管理员'],
+    permissions: ['nav:dashboard:view', 'nav:profile:view'],
+    email: 'admin@example.com',
+    avatarUrl: null,
+    isActive: true,
+    lastLoginAt: '2026-05-07T08:32:00.000Z',
+    emailVerified: true,
+    phoneVerified: true,
+    phone: '13800000000',
+    orgUnits: []
+};
+
+const MOCK_SESSION = {
+    authenticated: true,
+    status: 'active',
+    user: MOCK_USER,
+    permissions: MOCK_USER.permissions,
+    expiresAt: '2026-05-07T09:32:00.000Z',
+    csrf: {
+        cookieName: 'poms_csrf',
+        headerName: 'X-CSRF-Token'
+    }
+};
+
 async function fulfillJson(route: Route, body: unknown): Promise<void> {
     await route.fulfill({
         status: 200,
@@ -26,6 +54,21 @@ async function installExternalLoginMocks(page: Page): Promise<void> {
             return;
         }
 
+        if (request.method() === 'GET' && url.pathname === '/api/auth/csrf-token') {
+            await fulfillJson(route, {
+                token: 'mocked-csrf-token',
+                cookieName: 'poms_csrf',
+                headerName: 'X-CSRF-Token',
+                expiresAt: '2026-05-07T08:31:00.000Z'
+            });
+            return;
+        }
+
+        if (request.method() === 'GET' && url.pathname === '/api/auth/session') {
+            await fulfillJson(route, MOCK_SESSION);
+            return;
+        }
+
         if (request.method() === 'GET' && url.pathname === '/api/auth/identity-providers/identity-provider-1:authorize') {
             const authorizeUrl = `${url.origin}/auth/identity-providers:callback?code=auth-code&state=callback-state`;
             await fulfillJson(route, {
@@ -49,26 +92,13 @@ async function installExternalLoginMocks(page: Page): Promise<void> {
         }
 
         if (request.method() === 'POST' && url.pathname === '/api/auth/external-login-sessions') {
-            await fulfillJson(route, { accessToken: 'mocked-external-jwt' });
+            expect(request.headers()['x-csrf-token']).toBe('mocked-csrf-token');
+            await fulfillJson(route, MOCK_SESSION);
             return;
         }
 
         if (request.method() === 'GET' && url.pathname === '/api/auth/profile') {
-            await fulfillJson(route, {
-                id: 'user-1',
-                username: 'admin',
-                displayName: '管理员',
-                roles: ['平台管理员'],
-                permissions: ['nav:dashboard:view', 'nav:profile:view'],
-                email: 'admin@example.com',
-                avatarUrl: null,
-                isActive: true,
-                lastLoginAt: '2026-05-07T08:32:00.000Z',
-                emailVerified: true,
-                phoneVerified: true,
-                phone: '13800000000',
-                orgUnits: []
-            });
+            await fulfillJson(route, MOCK_USER);
             return;
         }
 
@@ -91,8 +121,5 @@ test.describe('external login frontend journey', () => {
         await page.getByRole('button', { name: '使用 飞书生产租户 登录' }).click();
 
         await expect(page).toHaveURL(/\/profile$/);
-        await expect
-            .poll(() => page.evaluate(() => globalThis.localStorage.getItem('poms_access_token')))
-            .toBe('mocked-external-jwt');
     });
 });

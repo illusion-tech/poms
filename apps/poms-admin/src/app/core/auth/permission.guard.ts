@@ -41,12 +41,6 @@ export const permissionGuard: CanActivateFn = async (route, state) => {
 
     if (requiredPermissions.length === 0) return true;
 
-    if (!authStore.isAuthenticated()) {
-        return router.createUrlTree(['/auth/login'], {
-            queryParams: { returnUrl: state.url }
-        });
-    }
-
     if (!authStore.currentUser()) {
         await authStore.initialize();
     }
