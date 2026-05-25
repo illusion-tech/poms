@@ -4,6 +4,7 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
+import { HealthModule } from './core/health/health.module';
 import { PersistenceModule } from './core/persistence/persistence.module';
 import { RuntimeAuditModule } from './core/runtime-audit/runtime-audit.module';
 import { SecretCipherModule } from './core/secret/secret-cipher.module';
@@ -34,6 +35,7 @@ import { SalesIntelligenceModule } from './features/sales-intelligence/sales-int
         RuntimeAuditModule,
         SecretCipherModule,
         SensitiveFieldProjectionModule,
+        HealthModule,
         AuthModule,
         NavigationModule,
         PlatformModule,

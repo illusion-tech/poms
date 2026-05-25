@@ -450,6 +450,13 @@
 | `auth` | `logoutCurrentAuthSession`  | `POST /auth/session:logout` | `POST /auth/session:logout` | `POST /auth/session:logout` | `ADR-017` + `EX-66A` | `N/A`      | `EX-66C` 已落地；撤销服务端 session 并清理 cookie。                                                                 | `B15` | `aligned` |
 | `auth` | `getCsrfToken`              | `GET /auth/csrf-token`      | `GET /auth/csrf-token`      | `GET /auth/csrf-token`      | `ADR-017` + `EX-66A` | `N/A`      | `EX-66D` 已落地；为当前 session 或登录前浏览器上下文发放 CSRF token，unsafe methods 必须携带。                      | `B15` | `aligned` |
 
+### 6.21 OPS Health Checks
+
+| Domain | Capability     | Canonical Route         | Current Implemented Route | Current Design Route    | Authority                        | Drift Type | Action                                              | Batch | Status    |
+| ------ | -------------- | ----------------------- | ------------------------- | ----------------------- | -------------------------------- | ---------- | --------------------------------------------------- | ----- | --------- |
+| `ops`  | `getLiveness`  | `GET /health`           | `GET /health`             | `GET /health`           | `deployment-readiness hardening` | `N/A`      | 新增公开 liveness 路由，用于 Nginx / ELB 存活检查。 | `B16` | `aligned` |
+| `ops`  | `getReadiness` | `GET /health/readiness` | `GET /health/readiness`   | `GET /health/readiness` | `deployment-readiness hardening` | `N/A`      | 新增公开 readiness 路由，数据库检查失败时返回 503。 | `B16` | `aligned` |
+
 ## 7. 批次推进原则
 
 1. `B1` 先处理 `EX-08`、`EX-09` 与 commission 相关高优先级能力。

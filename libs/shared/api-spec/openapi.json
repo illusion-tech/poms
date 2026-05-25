@@ -370,6 +370,60 @@
         ]
       }
     },
+    "/api/health": {
+      "get": {
+        "operationId": "HealthController_getLiveness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "API liveness check",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/health/readiness": {
+      "get": {
+        "operationId": "HealthController_getReadiness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "API readiness check",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
     "/api/auth/sessions": {
       "post": {
         "operationId": "AuthController_createPasswordAuthSession",
@@ -11356,6 +11410,79 @@
         "required": [
           "path",
           "requiredPermissions"
+        ]
+      },
+      "HealthDependencyCheckDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "durationMs"
+        ]
+      },
+      "HealthChecksDto": {
+        "type": "object",
+        "properties": {
+          "process": {
+            "$ref": "#/components/schemas/HealthDependencyCheckDto"
+          },
+          "database": {
+            "$ref": "#/components/schemas/HealthDependencyCheckDto"
+          }
+        },
+        "required": [
+          "process"
+        ]
+      },
+      "HealthCheckDto": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string",
+            "enum": [
+              "poms-api"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "ready",
+              "not_ready"
+            ]
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uptimeSeconds": {
+            "type": "number"
+          },
+          "checks": {
+            "$ref": "#/components/schemas/HealthChecksDto"
+          }
+        },
+        "required": [
+          "service",
+          "status",
+          "checkedAt",
+          "uptimeSeconds",
+          "checks"
         ]
       },
       "CreatePasswordAuthSessionRequest": {
