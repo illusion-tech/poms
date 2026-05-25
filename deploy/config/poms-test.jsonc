@@ -1,0 +1,20 @@
+{
+    // 测试环境非敏感部署配置。不要在这里放数据库密码、JWT secret、OBS AK/SK。
+    "env": "test",
+    "domain": "poms-test.illusiontech.cn",
+    "baseDir": "/srv/poms/test",
+    "apiPort": 3333,
+    "pm2Name": "poms-api-test",
+    "archivePrefix": "poms-test",
+
+    "adminBrowserDistDir": "dist/apps/poms-admin/browser",
+    "apiDistDir": "dist/apps/poms-api",
+    "releaseArchiveDir": "dist/releases",
+    "stagingDir": "dist/deploy-stage",
+
+    "pm2ConfigPath": "deploy/pm2/poms-api-test.ecosystem.config.cjs",
+    "nginxSiteName": "poms-test.conf",
+    "nginxSiteTemplatePath": "deploy/nginx/sites-available/poms-test.conf",
+    "nginxSitesAvailableDir": "/etc/nginx/sites-available",
+    "nginxSitesEnabledDir": "/etc/nginx/sites-enabled"
+}

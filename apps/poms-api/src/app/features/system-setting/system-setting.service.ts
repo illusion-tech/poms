@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { SystemSettingKeySchema, SystemSettingKeyValue, type SystemSettingKey, type SystemSettingList, type SystemSettingSummary, type UpdateSystemSettingRequest } from '@poms/shared-contracts';
+import { AuditLogResultValue, SystemSettingKeySchema, SystemSettingKeyValue, type SystemSettingKey, type SystemSettingList, type SystemSettingSummary, type UpdateSystemSettingRequest } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SystemSetting } from './system-setting.entity';
 import {
@@ -10,6 +10,8 @@ import {
     type SystemSettingDefinition
 } from './system-setting.registry';
 import { SystemSettingRepository } from './system-setting.repository';
+
+const SYSTEM_SETTING_AUDIT_TARGET_TYPE = 'SystemSetting';
 
 @Injectable()
 export class SystemSettingService {
@@ -141,11 +143,11 @@ export class SystemSettingService {
     ): Promise<void> {
         await this.runtimeAuditService.recordAuditLog({
             eventType: 'platform.system_setting.updated',
-            targetType: 'SystemSetting',
+            targetType: SYSTEM_SETTING_AUDIT_TARGET_TYPE,
             targetId: definition.key,
             operatorId: operatorId ?? null,
             requestId: requestId ?? null,
-            result: 'success',
+            result: AuditLogResultValue.Success,
             beforeSnapshot,
             afterSnapshot: this.toSummary(definition, setting)
         });

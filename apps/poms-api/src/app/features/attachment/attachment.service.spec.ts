@@ -1,6 +1,7 @@
 import { BadRequestException, ForbiddenException, UnsupportedMediaTypeException } from '@nestjs/common';
 import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
+import { AuditLogResultValue } from '@poms/shared-contracts';
 import type { UserPayload } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { DictionaryService } from '../dictionary/dictionary.service';
@@ -14,6 +15,7 @@ import { AttachmentStorageService } from './attachment-storage.service';
 import { AttachmentService } from './attachment.service';
 
 describe('AttachmentService', () => {
+    const attachmentAuditTargetType = 'attachment';
     const attachmentId = '60000000-0000-4000-8000-000000000001';
     const leadId = '50000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
@@ -297,10 +299,10 @@ describe('AttachmentService', () => {
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
                 eventType: 'attachment.uploaded',
-                targetType: 'attachment',
+                targetType: attachmentAuditTargetType,
                 operatorId: userId,
                 requestId: 'request-1',
-                result: 'success'
+                result: AuditLogResultValue.Success
             })
         );
         expect(result.category).toBe('demand');

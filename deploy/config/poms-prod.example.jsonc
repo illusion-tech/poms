@@ -1,0 +1,21 @@
+{
+    // 正式环境示例。复制为 poms-prod.jsonc 后再替换域名、路径和进程名。
+    // 不要在正式配置中放数据库密码、JWT secret、OBS AK/SK。
+    "env": "prod",
+    "domain": "<replace-me>",
+    "baseDir": "/srv/poms/prod",
+    "apiPort": 3333,
+    "pm2Name": "poms-api-prod",
+    "archivePrefix": "poms-prod",
+
+    "adminBrowserDistDir": "dist/apps/poms-admin/browser",
+    "apiDistDir": "dist/apps/poms-api",
+    "releaseArchiveDir": "dist/releases",
+    "stagingDir": "dist/deploy-stage",
+
+    "pm2ConfigPath": "deploy/pm2/poms-api-prod.ecosystem.config.cjs",
+    "nginxSiteName": "poms-prod.conf",
+    "nginxSiteTemplatePath": "deploy/nginx/sites-available/poms-prod.conf",
+    "nginxSitesAvailableDir": "/etc/nginx/sites-available",
+    "nginxSitesEnabledDir": "/etc/nginx/sites-enabled"
+}

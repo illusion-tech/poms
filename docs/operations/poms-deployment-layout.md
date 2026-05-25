@@ -73,7 +73,13 @@ API 进程的 PM2 reload。
 
 回滚时不要移动 release 目录内的文件。只需把 `current` 指回上一版 release，重载 PM2，Nginx 保持不变。
 
-示例：
+建议使用部署脚本：
+
+```bash
+deno task deploy:rollback-test --previous
+```
+
+手工示例：
 
 ```bash
 ln -sfn /srv/poms/test/releases/<previous-timestamp> /srv/poms/test/current

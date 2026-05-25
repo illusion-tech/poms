@@ -9,6 +9,33 @@
 - `nginx/sites-available/poms-test.conf`：测试环境 Nginx 站点模板。
 - `pm2/poms-api-test.ecosystem.config.cjs`：测试环境 `poms-api` 的 PM2 进程模板。
 - `env/poms-api.env.example`：`/srv/poms/test/shared/poms-api.env` 的环境变量示例。
+- `config/poms-test.jsonc`：测试环境非敏感部署配置。
+- `scripts/`：Deno 发布、安装、回滚和验证脚本。
+
+## 脚本组织
+
+部署相关脚本统一放在 `deploy/scripts/`，仓库维护工具继续放在 `tools/`。Deno 任务入口集中在根
+`deno.jsonc`，根 `package.json` 只保留常用短命令。
+
+本地构建测试环境 release：
+
+```bash
+deno task deploy:build-test
+```
+
+服务器安装 release：
+
+```bash
+deno task deploy:install-test --archive /tmp/poms-test-20260526-120000.tar.gz
+```
+
+服务器回滚：
+
+```bash
+deno task deploy:rollback-test --previous
+```
+
+更多脚本说明见 `deploy/scripts/README.md`。
 
 ## 服务器目录
 
@@ -84,10 +111,7 @@ pm2 save
 nginx -t
 systemctl reload nginx
 pm2 status poms-api-test
-curl -k https://poms-test.illusiontech.cn/api/health
-curl -k https://poms-test.illusiontech.cn/api/health/readiness
-curl -k -I https://poms-test.illusiontech.cn/api-docs/
-curl -k -I https://poms-test.illusiontech.cn/projects
+deno task deploy:verify-test
 ```
 
 完整发布与回滚步骤见 `docs/operations/poms-test-deployment-runbook.md`。

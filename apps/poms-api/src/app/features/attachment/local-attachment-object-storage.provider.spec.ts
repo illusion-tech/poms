@@ -1,7 +1,7 @@
 import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { AttachmentStorageProviderConnectionTestStatusValue, AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
+import { AttachmentStorageProviderConfigStatusValue, AttachmentStorageProviderConnectionTestStatusValue, AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
 import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-storage.provider';
 import type { AttachmentStorageProviderRuntimeConfig } from './attachment-object-storage-provider.types';
 
@@ -69,7 +69,7 @@ describe('LocalAttachmentObjectStorageProvider', () => {
             id: null,
             providerType: AttachmentStorageProviderTypeValue.Local,
             displayName: 'Local',
-            status: 'active',
+            status: AttachmentStorageProviderConfigStatusValue.Active,
             enabled: true,
             endpoint: null,
             region: null,

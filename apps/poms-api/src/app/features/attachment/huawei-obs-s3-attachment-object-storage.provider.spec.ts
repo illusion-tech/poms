@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
-import { AttachmentStorageProviderConnectionTestStatusValue, AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
+import { AttachmentStorageProviderConfigStatusValue, AttachmentStorageProviderConnectionTestStatusValue, AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
 import { HuaweiObsS3AttachmentObjectStorageProvider } from './huawei-obs-s3-attachment-object-storage.provider';
-import type { AttachmentStorageProviderRuntimeConfig } from './attachment-object-storage-provider.types';
+import type { AttachmentHttpHeaders, AttachmentStorageProviderRuntimeConfig } from './attachment-object-storage-provider.types';
 
 describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
     let provider: HuaweiObsS3AttachmentObjectStorageProvider;
@@ -26,7 +26,7 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
         });
 
         const [url, init] = fetchMock.mock.calls[0];
-        const headers = init?.headers as Record<string, string>;
+        const headers = init?.headers as AttachmentHttpHeaders;
         expect(String(url)).toBe('https://obs.cn-south-1.myhuaweicloud.com/poms-prod/attachments/2026/%E9%9C%80%E6%B1%82.pdf');
         expect(init?.method).toBe('PUT');
         expect(headers['authorization']).toContain('AWS4-HMAC-SHA256 Credential=AK/');
@@ -147,7 +147,7 @@ describe('HuaweiObsS3AttachmentObjectStorageProvider', () => {
             id: '95000000-0000-4000-8000-000000000001',
             providerType: AttachmentStorageProviderTypeValue.HuaweiObsS3,
             displayName: '华为云 OBS',
-            status: 'active',
+            status: AttachmentStorageProviderConfigStatusValue.Active,
             enabled: true,
             endpoint: 'https://obs.cn-south-1.myhuaweicloud.com',
             region: 'cn-south-1',

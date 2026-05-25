@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
-import { SystemSettingKeyValue, SystemSettingValueTypeValue } from '@poms/shared-contracts';
+import { AuditLogResultValue, SystemSettingKeyValue, SystemSettingValueTypeValue } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SystemSetting } from './system-setting.entity';
 import { BYTES_PER_MB } from './system-setting.registry';
@@ -7,6 +7,7 @@ import { SystemSettingRepository } from './system-setting.repository';
 import { SystemSettingService } from './system-setting.service';
 
 describe('SystemSettingService', () => {
+    const systemSettingAuditTargetType = 'SystemSetting';
     const operatorId = '00000000-0000-4000-8000-000000000001';
     let repository: {
         findAll: jest.Mock;
@@ -64,11 +65,11 @@ describe('SystemSettingService', () => {
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
             expect.objectContaining({
                 eventType: 'platform.system_setting.updated',
-                targetType: 'SystemSetting',
+                targetType: systemSettingAuditTargetType,
                 targetId: SystemSettingKeyValue.AttachmentMaxUploadSizeMb,
                 operatorId,
                 requestId: 'request-1',
-                result: 'success',
+                result: AuditLogResultValue.Success,
                 beforeSnapshot: expect.objectContaining({ value: 50 }),
                 afterSnapshot: expect.objectContaining({ value: 128 })
             })

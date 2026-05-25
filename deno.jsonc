@@ -1,0 +1,11 @@
+{
+    "tasks": {
+        "format:md": "deno run --allow-read --allow-write tools/format-md-tables.ts docs/",
+        "format:md:check": "deno run --allow-read tools/format-md-tables.ts --check docs/",
+        "check:enum-like-strings": "deno run --allow-read tools/check-enum-like-strings.ts",
+        "deploy:build-test": "deno run --allow-read --allow-write --allow-run --allow-env deploy/scripts/build-release.ts --config deploy/config/poms-test.jsonc",
+        "deploy:install-test": "deno run --allow-read --allow-write --allow-run --allow-env deploy/scripts/install-release.ts --config deploy/config/poms-test.jsonc",
+        "deploy:rollback-test": "deno run --allow-read --allow-write --allow-run --allow-env deploy/scripts/rollback-release.ts --config deploy/config/poms-test.jsonc",
+        "deploy:verify-test": "deno run --allow-read --allow-run --allow-env deploy/scripts/verify-release.ts --config deploy/config/poms-test.jsonc"
+    }
+}

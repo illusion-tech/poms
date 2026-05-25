@@ -9,9 +9,9 @@
         "watch": "nx build poms-admin --watch --configuration development",
         "lint": "nx lint poms-admin",
         "format": "prettier --write \"**/*.{js,mjs,ts,mts,d.ts,html}\" --cache",
-        "format:md": "deno run --allow-read --allow-write tools/format-md-tables.ts docs/",
-        "format:md:check": "deno run --allow-read tools/format-md-tables.ts --check docs/",
-        "check:enum-like-strings": "deno run --allow-read tools/check-enum-like-strings.ts",
+        "format:md": "deno task format:md",
+        "format:md:check": "deno task format:md:check",
+        "check:enum-like-strings": "deno task check:enum-like-strings",
         "test": "nx test poms-admin"
     },
     "private": true,

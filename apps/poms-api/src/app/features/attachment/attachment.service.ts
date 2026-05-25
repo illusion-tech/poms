@@ -89,6 +89,11 @@ export type UploadAttachmentVersionMetadata = CreateAttachmentVersionRequest;
 
 const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'webp', 'txt', 'md', 'zip']);
 const SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read', 'operating:finance:sensitive:read', 'commission:amount:sensitive:read', 'platform:roles:manage'];
+const ATTACHMENT_ACCESS_MODE_READ = 'read';
+const ATTACHMENT_ACCESS_MODE_WRITE = 'write';
+const ATTACHMENT_AUDIT_TARGET_TYPE = 'attachment';
+
+type AttachmentAccessMode = typeof ATTACHMENT_ACCESS_MODE_READ | typeof ATTACHMENT_ACCESS_MODE_WRITE;
 const RESTRICTED_ATTACHMENT_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Confidential, AttachmentSecurityLevelValue.Restricted];
 const SENSITIVE_ATTACHMENT_CATEGORIES: readonly AttachmentCategory[] = ['quotation', 'contract', 'finance', 'internal-assessment'];
 const BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Normal, AttachmentSecurityLevelValue.Internal];
@@ -1381,7 +1386,7 @@ export class AttachmentService {
         return session;
     }
 
-    private async requireUploadSessionAccess(session: AttachmentUploadSession, user: UserPayload, mode: 'read' | 'write'): Promise<void> {
+    private async requireUploadSessionAccess(session: AttachmentUploadSession, user: UserPayload, mode: AttachmentAccessMode): Promise<void> {
         if (session.createdBy && session.createdBy !== user.sub) {
             throw new ForbiddenException('Attachment upload session belongs to another user');
         }
@@ -1397,7 +1402,7 @@ export class AttachmentService {
 
         const attachment = await this.requireAttachment(session.baseAttachmentId);
         const links = await this.attachmentRepository.findActiveLinksByAttachmentId(attachment.id);
-        if (mode === 'write') {
+        if (mode === ATTACHMENT_ACCESS_MODE_WRITE) {
             this.assertCanMutateAttachment(attachment, links, user);
             return;
         }
@@ -1406,7 +1411,7 @@ export class AttachmentService {
             throw new ForbiddenException('Insufficient attachment security permission');
         }
 
-        if (attachment.uploadedBy !== user.sub && !(await this.canAccessAnyLink(links, user, 'read'))) {
+        if (attachment.uploadedBy !== user.sub && !(await this.canAccessAnyLink(links, user, ATTACHMENT_ACCESS_MODE_READ))) {
             throw new ForbiddenException('Insufficient attachment target permission');
         }
     }
@@ -1981,8 +1986,8 @@ export class AttachmentService {
         }
     }
 
-    private hasTargetPermission(targetType: AttachmentTargetType, permissions: Set<PermissionKey>, mode: 'read' | 'write'): boolean {
-        const permission = mode === 'read' ? 'read' : 'write';
+    private hasTargetPermission(targetType: AttachmentTargetType, permissions: Set<PermissionKey>, mode: AttachmentAccessMode): boolean {
+        const permission = mode === ATTACHMENT_ACCESS_MODE_READ ? ATTACHMENT_ACCESS_MODE_READ : ATTACHMENT_ACCESS_MODE_WRITE;
 
         switch (targetType) {
             case AttachmentTargetTypeValue.Customer:
@@ -2102,7 +2107,7 @@ export class AttachmentService {
     private async recordAudit(eventType: string, targetId: string, operatorId: string | null, requestId: string | null | undefined, result: 'success' | 'rejected' | 'failed', metadata: Record<string, unknown>): Promise<void> {
         await this.runtimeAuditService.recordAuditLog({
             eventType,
-            targetType: 'attachment',
+            targetType: ATTACHMENT_AUDIT_TARGET_TYPE,
             targetId,
             operatorId,
             requestId: requestId ?? null,

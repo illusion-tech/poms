@@ -36,10 +36,12 @@ export interface AttachmentObjectUploadPlan extends AttachmentObjectLocation {
     uploadMode: AttachmentUploadMode;
 }
 
+export type AttachmentHttpHeaders = Readonly<{ [name: string]: string }>;
+
 export interface AttachmentPresignedPutTarget {
     method: 'PUT';
     url: string;
-    headers: Record<string, string>;
+    headers: AttachmentHttpHeaders;
     expiresAt: string;
 }
 

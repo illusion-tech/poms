@@ -9,7 +9,7 @@
 - TLS 证书文件已放在服务器：
   - `/etc/nginx/ssl/poms-test/fullchain.pem`
   - `/etc/nginx/ssl/poms-test/privkey.pem`
-- 服务器已安装 Node.js、Corepack、pnpm 和 PM2。
+- 服务器已安装 Node.js、Corepack、pnpm、PM2 和 Deno。
 - 服务器可以访问 PostgreSQL/RDS。
 - 如果使用华为云 OBS，负责配置 POMS 平台附件存储 Provider 的运维人员需要拿到 endpoint、region、bucket、AK 和 SK。
 - 健康检查端点已存在：
@@ -21,14 +21,14 @@
 在仓库根目录执行：
 
 ```bash
-corepack pnpm nx build poms-admin
-corepack pnpm nx build poms-api
+deno task deploy:build-test
 ```
 
 预期构建产物：
 
 - 前端：`dist/apps/poms-admin/browser`
 - API: `dist/apps/poms-api/main.js`
+- release 包：`dist/releases/poms-test-<timestamp>.tar.gz`
 
 ## 创建服务器目录
 
@@ -40,19 +40,20 @@ mkdir -p "$release/admin" "$release/api"
 mkdir -p /srv/poms/test/shared/logs /srv/poms/test/shared/uploads
 ```
 
-上传或复制构建产物：
-
-```text
-dist/apps/poms-admin/browser -> $release/admin/browser
-dist/apps/poms-api/*         -> $release/api/
-```
-
-进入 `$release/api`，使用生成的 `package.json` 和 `pnpm-lock.yaml` 安装生产依赖：
+上传 release 包到服务器，例如：
 
 ```bash
-cd "$release/api"
-corepack pnpm install --prod --frozen-lockfile
+scp dist/releases/poms-test-<timestamp>.tar.gz root@121.36.34.169:/tmp/
 ```
+
+在服务器仓库目录执行安装脚本：
+
+```bash
+deno task deploy:install-test --archive /tmp/poms-test-<timestamp>.tar.gz
+```
+
+脚本会解包到 `/srv/poms/test/releases/<timestamp>/`，检查 `admin/browser/index.html` 和 `api/main.js`，如
+API 产物包含 `package.json` 则安装生产依赖，然后切换 `/srv/poms/test/current` 并重载 PM2。
 
 ## 配置 API 环境变量
 
@@ -114,13 +115,10 @@ corepack pnpm nx run poms-api:migration-up
 
 ## 切换发布版本
 
+如果不用脚本，手工切换方式为：
+
 ```bash
 ln -sfn "$release" /srv/poms/test/current
-```
-
-确认：
-
-```bash
 readlink -f /srv/poms/test/current
 test -f /srv/poms/test/current/admin/browser/index.html
 test -f /srv/poms/test/current/api/main.js
@@ -141,6 +139,14 @@ pm2 save
 
 ## 安装或重载 Nginx
 
+首次安装站点，或 Nginx 模板发生变化时，可以让安装脚本复制站点配置并 reload Nginx：
+
+```bash
+deno task deploy:install-test --archive /tmp/poms-test-<timestamp>.tar.gz --install-nginx
+```
+
+手工安装方式为：
+
 ```bash
 cp deploy/nginx/sites-available/poms-test.conf /etc/nginx/sites-available/poms-test.conf
 ln -s /etc/nginx/sites-available/poms-test.conf /etc/nginx/sites-enabled/poms-test.conf
@@ -153,10 +159,7 @@ systemctl reload nginx
 ## 健康检查与路由验证
 
 ```bash
-curl -k https://poms-test.illusiontech.cn/api/health
-curl -k https://poms-test.illusiontech.cn/api/health/readiness
-curl -k -I https://poms-test.illusiontech.cn/api-docs/
-curl -k -I https://poms-test.illusiontech.cn/projects
+deno task deploy:verify-test
 ```
 
 预期结果：
@@ -167,6 +170,8 @@ curl -k -I https://poms-test.illusiontech.cn/projects
 - `/projects` 返回 SPA `index.html`。
 
 ## 缓存验证
+
+`deno task deploy:verify-test` 会检查 `/index.html` 与 `/api/health` 的 `Cache-Control`。也可以手工执行：
 
 ```bash
 curl -k -I https://poms-test.illusiontech.cn/index.html
@@ -190,8 +195,13 @@ ls -1 /srv/poms/test/releases
 将 `current` 切回上一版 release：
 
 ```bash
-ln -sfn /srv/poms/test/releases/<previous-timestamp> /srv/poms/test/current
-pm2 reload poms-api-test --update-env
+deno task deploy:rollback-test --previous
+```
+
+切回指定 release：
+
+```bash
+deno task deploy:rollback-test --to <previous-timestamp>
 ```
 
 正常发布回滚不需要改 Nginx 配置，因为 Nginx 服务的是 `/srv/poms/test/current/admin/browser`。
