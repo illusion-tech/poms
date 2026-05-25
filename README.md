@@ -37,7 +37,7 @@ pnpm build
 # 等价于：pnpm nx build poms-admin
 ```
 
-构建产物会输出到 `dist/poms-admin` 目录。
+构建产物会输出到 `dist/apps/poms-admin/browser` 目录。
 
 ### 单元测试
 
@@ -45,6 +45,15 @@ pnpm build
 pnpm test
 # 等价于：pnpm nx test poms-admin
 ```
+
+### 部署配置与运维文档
+
+部署模板位于 `deploy/`，运维运行手册位于 `docs/operations/`：
+
+- `deploy/README.md`：Nginx、PM2、环境变量模板的使用说明
+- `docs/operations/README.md`：测试环境部署、目录布局、发布与回滚入口
+
+仓库只保存模板和文档，不保存真实证书、私钥、数据库密码、JWT secret 或 OBS AK/SK。
 
 ### 结构说明（Nx 工作区）
 

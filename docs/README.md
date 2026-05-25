@@ -22,6 +22,7 @@ docs/
     poms-hld.md                     # 系统高层设计
     poms-design-progress.md         # 设计进度跟踪与治理看板
   modules/                          # 模块详细设计
+  operations/                       # 部署、发布、回滚与运行手册
   reference/                        # 参考资料、术语、字典、模板
 ```
 
@@ -58,6 +59,11 @@ docs/
   - 预留给后续更细粒度的模块实现设计或独立模块设计沉淀
   - 当某一业务域或平台治理子设计继续细化到实现层时，可逐步从 `docs/design/` 下沉到此目录
 
+- `docs/operations/`：
+  - 存放部署、发布、回滚、运行验证和故障处理手册
+  - 用于承接仓库内 `deploy/` 模板到服务器实际路径的操作说明
+  - 不存放真实证书、私钥、数据库密码、JWT secret 或 OBS AK/SK
+
 - `docs/reference/`：
   - 存放术语表、状态字典、角色字典、手工测试账号矩阵、模板、设计约定等辅助材料
 
@@ -70,6 +76,7 @@ docs/
 5. `docs/design/poms-design-progress.md`
 6. `docs/design/README.md` 与对应业务域或治理子目录入口
 7. `docs/modules/`
+8. `docs/operations/README.md`
 
 ## 推荐编写顺序
 
@@ -86,3 +93,4 @@ docs/
 - `docs/design/poms-design-progress.md`：当前设计成熟度、文档状态和下一步治理动作
 - `docs/adr/README.md`：已接受 ADR 索引和 ADR 使用约定
 - `docs/reference/README.md`：术语、状态、角色、模板与实施治理参考资料入口
+- `docs/operations/README.md`：部署、发布、回滚与运行验证入口
