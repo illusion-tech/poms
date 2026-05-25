@@ -31,6 +31,7 @@ export interface AttachmentUploadSessionSummary {
     extension: string;
     mimeType: string;
     sizeBytes: number;
+    maxSizeBytes: number;
     checksumSha256: string | null;
     category: string | null;
     securityLevel: AttachmentSecurityLevel | null;

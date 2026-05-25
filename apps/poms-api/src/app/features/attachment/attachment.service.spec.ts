@@ -1,4 +1,4 @@
-import { ForbiddenException, UnsupportedMediaTypeException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, UnsupportedMediaTypeException } from '@nestjs/common';
 import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
 import type { UserPayload } from '@poms/shared-contracts';
@@ -6,6 +6,7 @@ import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.serv
 import { DictionaryService } from '../dictionary/dictionary.service';
 import { Lead } from '../lead/lead.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
+import { SystemSettingService } from '../system-setting/system-setting.service';
 import { Attachment, AttachmentLink } from './attachment.entity';
 import { AttachmentUploadSession } from './attachment-upload-session.entity';
 import { AttachmentRepository } from './attachment.repository';
@@ -24,6 +25,7 @@ describe('AttachmentService', () => {
     let storageService: jest.Mocked<AttachmentStorageService>;
     let runtimeAuditService: jest.Mocked<RuntimeAuditService>;
     let dictionaryService: jest.Mocked<Pick<DictionaryService, 'requireActiveItem'>>;
+    let systemSettingService: jest.Mocked<Pick<SystemSettingService, 'getAttachmentMaxUploadSizeBytes'>>;
 
     beforeEach(() => {
         repository = {
@@ -77,8 +79,11 @@ describe('AttachmentService', () => {
         dictionaryService = {
             requireActiveItem: jest.fn().mockResolvedValue(undefined)
         };
+        systemSettingService = {
+            getAttachmentMaxUploadSizeBytes: jest.fn().mockResolvedValue(50 * 1024 * 1024)
+        };
 
-        service = new AttachmentService(repository, storageService, runtimeAuditService, dictionaryService as never);
+        service = new AttachmentService(repository, storageService, runtimeAuditService, dictionaryService as never, systemSettingService as never);
     });
 
     it('creates an upload session without creating an attachment row', async () => {
@@ -109,13 +114,45 @@ describe('AttachmentService', () => {
                 uploadMode: 'proxy',
                 targetType: 'lead',
                 targetId: leadId,
-                category: 'demand'
+                category: 'demand',
+                maxSizeBytes: 50 * 1024 * 1024
             })
         );
         expect(repository.createAttachment).not.toHaveBeenCalled();
         expect(repository.saveUploadSession).toHaveBeenCalledWith(expect.any(AttachmentUploadSession));
         expect(result.status).toBe('pending');
         expect(result.uploadMode).toBe('proxy');
+        expect(result.maxSizeBytes).toBe(50 * 1024 * 1024);
+    });
+
+    it('rejects upload sessions above the system setting limit', async () => {
+        systemSettingService.getAttachmentMaxUploadSizeBytes.mockResolvedValueOnce(8);
+
+        await expect(
+            service.createAttachmentUploadSession(
+                {
+                    operationType: 'create-attachment',
+                    targetType: 'lead',
+                    targetId: leadId,
+                    category: 'demand',
+                    originalName: '需求确认.pdf',
+                    sizeBytes: 9
+                },
+                user(['lead:write'])
+            )
+        ).rejects.toThrow(BadRequestException);
+
+        expect(repository.createUploadSession).not.toHaveBeenCalled();
+    });
+
+    it('returns upload target with the upload session frozen max size', async () => {
+        const session = createUploadSession({ maxSizeBytes: 8 });
+        repository.findUploadSessionById.mockResolvedValue(session);
+
+        const result = await service.createAttachmentUploadTarget(session.id, {}, user(['lead:write']));
+
+        expect(result.maxSizeBytes).toBe(8);
+        expect(systemSettingService.getAttachmentMaxUploadSizeBytes).not.toHaveBeenCalled();
     });
 
     it('stores a proxy upload object and creates the attachment only when the session completes', async () => {
@@ -649,6 +686,7 @@ describe('AttachmentService', () => {
             extension: 'pdf',
             mimeType: 'application/pdf',
             sizeBytes: 16,
+            maxSizeBytes: 50 * 1024 * 1024,
             checksumSha256: null,
             category: 'demand',
             securityLevel: 'internal',

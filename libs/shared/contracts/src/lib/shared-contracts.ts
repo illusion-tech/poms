@@ -79,6 +79,7 @@ export const PERMISSION_KEYS = [
     'platform:dictionaries:manage',
     'platform:identity-providers:manage',
     'platform:attachment-storage-providers:manage',
+    'platform:system-settings:manage',
     // 客户主数据
     'customer:read',
     'customer:write',
@@ -131,6 +132,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:dictionaries:manage': { description: '管理业务配置字典', group: '平台管理' },
     'platform:identity-providers:manage': { description: '管理外部身份提供商配置', group: '平台管理' },
     'platform:attachment-storage-providers:manage': { description: '管理附件存储 Provider 配置', group: '平台管理' },
+    'platform:system-settings:manage': { description: '管理系统设置', group: '平台管理' },
     'customer:read': { description: '查看客户主数据', group: '客户' },
     'customer:write': { description: '创建/维护客户主数据', group: '客户' },
     'commission:rule-versions:manage': { description: '管理提成规则版本', group: '提成治理' },
@@ -161,6 +163,59 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'nav:contracts:view': { description: '查看合同菜单', group: '导航' },
     'nav:profile:view': { description: '查看个人中心菜单', group: '导航' }
 };
+
+// ---------------------------------------------------------------------------
+// System Settings
+// ---------------------------------------------------------------------------
+
+export const SystemSettingKeyValue = {
+    AttachmentMaxUploadSizeMb: 'attachment.max-upload-size-mb'
+} as const;
+
+export const SYSTEM_SETTING_KEYS = enumObjectValues(SystemSettingKeyValue);
+export type SystemSettingKey = (typeof SYSTEM_SETTING_KEYS)[number];
+export const SystemSettingKeySchema = z.enum(SYSTEM_SETTING_KEYS).meta({ id: 'SystemSettingKey' });
+
+export const SystemSettingValueTypeValue = {
+    Integer: 'integer'
+} as const;
+
+export const SYSTEM_SETTING_VALUE_TYPES = enumObjectValues(SystemSettingValueTypeValue);
+export type SystemSettingValueType = (typeof SYSTEM_SETTING_VALUE_TYPES)[number];
+export const SystemSettingValueTypeSchema = z.enum(SYSTEM_SETTING_VALUE_TYPES).meta({ id: 'SystemSettingValueType' });
+
+export const SystemSettingSummarySchema = z
+    .object({
+        key: SystemSettingKeySchema,
+        displayName: z.string(),
+        description: z.string(),
+        group: z.string(),
+        valueType: SystemSettingValueTypeSchema,
+        value: z.number().int(),
+        defaultValue: z.number().int(),
+        minValue: z.number().int().nullable(),
+        maxValue: z.number().int().nullable(),
+        unit: z.string().nullable(),
+        rowVersion: z.number().int().nonnegative(),
+        updatedAt: z.iso.datetime().nullable(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'SystemSettingSummary' });
+
+export type SystemSettingSummary = z.infer<typeof SystemSettingSummarySchema>;
+
+export const SystemSettingListSchema = z.array(SystemSettingSummarySchema).meta({ id: 'SystemSettingList' });
+
+export type SystemSettingList = z.infer<typeof SystemSettingListSchema>;
+
+export const UpdateSystemSettingRequestSchema = z
+    .object({
+        value: z.number().int(),
+        expectedVersion: z.number().int().nonnegative().optional()
+    })
+    .meta({ id: 'UpdateSystemSettingRequest' });
+
+export type UpdateSystemSettingRequest = z.infer<typeof UpdateSystemSettingRequestSchema>;
 
 // ---------------------------------------------------------------------------
 // Sensitive Field Projection
@@ -3511,6 +3566,7 @@ export const AttachmentUploadSessionSummarySchema = z
         extension: z.string(),
         mimeType: z.string(),
         sizeBytes: z.number().int().positive(),
+        maxSizeBytes: z.number().int().positive(),
         checksumSha256: z.string().length(64).nullable(),
         category: AttachmentCategorySchema.nullable(),
         securityLevel: AttachmentSecurityLevelSchema.nullable(),

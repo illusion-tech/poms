@@ -312,6 +312,15 @@ export const appRoutes: Routes = [
                 }
             },
             {
+                path: 'platform/system-settings',
+                loadComponent: () => import('./app/features/platform/system-setting-list').then((c) => c.SystemSettingList),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '系统设置',
+                    requiredPermissions: ['platform:system-settings:manage']
+                }
+            },
+            {
                 path: 'platform/navigation',
                 loadComponent: () => import('./app/features/platform/navigation-governance').then((c) => c.NavigationGovernance),
                 canActivate: [permissionGuard],

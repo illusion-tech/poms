@@ -16,3 +16,4 @@ export * from './lib/project-cost/project-cost.dto';
 export * from './lib/runtime-audit/runtime-audit.dto';
 export * from './lib/sales-follow-up/sales-follow-up.dto';
 export * from './lib/sensitive-field-projection/sensitive-field-projection.dto';
+export * from './lib/system-setting/system-setting.dto';

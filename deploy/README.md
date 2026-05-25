@@ -1,24 +1,18 @@
-# POMS Deployment Templates
+# POMS 部署模板
 
-This directory contains versioned deployment templates for POMS environments.
-Copy these files to the server paths documented here before enabling them.
+本目录保存 POMS 各环境可版本化管理的部署模板。启用前，先将模板复制到本文档约定的服务器路径。
 
-Do not commit real certificates, private keys, database passwords, JWT secrets,
-attachment storage credentials, or production environment files to this
-directory.
+不要把真实证书、私钥、数据库密码、JWT secret、附件存储凭据或生产环境配置文件提交到本目录。
 
-## Files
+## 文件说明
 
-- `nginx/sites-available/poms-test.conf`: Nginx site template for the test
-  environment.
-- `pm2/poms-api-test.ecosystem.config.cjs`: PM2 process template for
-  `poms-api` in the test environment.
-- `env/poms-api.env.example`: environment variable example for
-  `/srv/poms/test/shared/poms-api.env`.
+- `nginx/sites-available/poms-test.conf`：测试环境 Nginx 站点模板。
+- `pm2/poms-api-test.ecosystem.config.cjs`：测试环境 `poms-api` 的 PM2 进程模板。
+- `env/poms-api.env.example`：`/srv/poms/test/shared/poms-api.env` 的环境变量示例。
 
-## Server Layout
+## 服务器目录
 
-POMS runtime files should live under `/srv/poms/<env>`:
+POMS 运行时文件统一放在 `/srv/poms/<env>` 下：
 
 ```text
 /srv/poms/
@@ -41,13 +35,13 @@ POMS runtime files should live under `/srv/poms/<env>`:
       uploads/
 ```
 
-The test environment uses:
+测试环境使用：
 
-- frontend root: `/srv/poms/test/current/admin/browser`
-- API cwd: `/srv/poms/test/current/api`
-- API env file: `/srv/poms/test/shared/poms-api.env`
+- 前端根目录：`/srv/poms/test/current/admin/browser`
+- API 工作目录：`/srv/poms/test/current/api`
+- API 环境变量文件：`/srv/poms/test/shared/poms-api.env`
 
-## Install Nginx Site
+## 安装 Nginx 站点
 
 ```bash
 cp deploy/nginx/sites-available/poms-test.conf /etc/nginx/sites-available/poms-test.conf
@@ -56,9 +50,9 @@ nginx -t
 systemctl reload nginx
 ```
 
-If the symlink already exists, verify the target before replacing it.
+如果软链接已经存在，替换前先确认它当前指向的目标。
 
-## Install API Environment
+## 安装 API 环境变量
 
 ```bash
 mkdir -p /srv/poms/test/shared/logs /srv/poms/test/shared/uploads
@@ -66,26 +60,25 @@ cp deploy/env/poms-api.env.example /srv/poms/test/shared/poms-api.env
 chmod 600 /srv/poms/test/shared/poms-api.env
 ```
 
-Then edit `/srv/poms/test/shared/poms-api.env` on the server and replace every
-`<replace-me>` placeholder with the real value.
+随后在服务器上编辑 `/srv/poms/test/shared/poms-api.env`，把所有 `<replace-me>` 占位符替换为真实值。
 
-Attachment storage provider credentials are managed through POMS platform
-configuration after the API is running. Do not add `HUAWEI_OBS_*` credentials to
-the API environment file unless a future bootstrap tool explicitly consumes
-them.
+附件存储 Provider 凭据在 API 启动后通过 POMS 平台配置管理。除非未来明确新增启动引导工具并消费
+`HUAWEI_OBS_*`，否则不要把这类凭据写入 API 环境变量文件。
 
-## Start Or Reload API
+附件上传大小上限是 POMS Admin 系统设置（`attachment.max-upload-size-mb`），不是环境变量。每个站点模板中的
+Nginx `client_max_body_size` 必须大于或等于系统设置允许的最大值。
+
+## 启动或重载 API
 
 ```bash
 pm2 startOrReload deploy/pm2/poms-api-test.ecosystem.config.cjs --env production
 pm2 save
 ```
 
-Use the server-local copy of this repository or copy the PM2 template to a
-server release tooling directory. The template reads secrets from
-`/srv/poms/test/shared/poms-api.env`; it does not embed them.
+可以使用服务器本地仓库副本，也可以把 PM2 模板复制到服务器发布工具目录。模板从
+`/srv/poms/test/shared/poms-api.env` 读取敏感配置，不内联真实密钥。
 
-## Validation
+## 验证
 
 ```bash
 nginx -t
@@ -97,5 +90,4 @@ curl -k -I https://poms-test.illusiontech.cn/api-docs/
 curl -k -I https://poms-test.illusiontech.cn/projects
 ```
 
-See `docs/operations/poms-test-deployment-runbook.md` for the full release and
-rollback procedure.
+完整发布与回滚步骤见 `docs/operations/poms-test-deployment-runbook.md`。

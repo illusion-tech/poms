@@ -28,6 +28,7 @@ import { ProjectCostModule } from './features/project-cost/project-cost.module';
 import { ProjectHandoverModule } from './features/project-handover/project-handover.module';
 import { SalesFollowUpModule } from './features/sales-follow-up/sales-follow-up.module';
 import { SalesIntelligenceModule } from './features/sales-intelligence/sales-intelligence.module';
+import { SystemSettingModule } from './features/system-setting/system-setting.module';
 
 @Module({
     imports: [
@@ -49,6 +50,7 @@ import { SalesIntelligenceModule } from './features/sales-intelligence/sales-int
         ProjectHandoverModule,
         SalesFollowUpModule,
         SalesIntelligenceModule,
+        SystemSettingModule,
         BusinessDiscussionModule,
         ApprovalModule,
         ApprovalSummaryModule,

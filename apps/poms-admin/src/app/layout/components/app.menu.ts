@@ -107,6 +107,11 @@ export class AppMenu {
                     routerLink: ['/platform/attachment-storage-providers']
                 },
                 {
+                    label: '系统设置',
+                    icon: 'pi pi-sliders-h',
+                    routerLink: ['/platform/system-settings']
+                },
+                {
                     label: '导航菜单',
                     icon: 'pi pi-bars',
                     routerLink: ['/platform/navigation']

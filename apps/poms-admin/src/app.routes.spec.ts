@@ -91,6 +91,14 @@ describe('appRoutes project permissions', () => {
         expect(route.data?.['requiredPermissions']).toEqual(['platform:attachment-storage-providers:manage']);
     });
 
+    it('guards platform system settings with system settings manage permission', () => {
+        const route = getAppRoute('platform/system-settings');
+
+        expect(route.canActivate).toContain(permissionGuard);
+        expect(route.data?.['breadcrumb']).toBe('系统设置');
+        expect(route.data?.['requiredPermissions']).toEqual(['platform:system-settings:manage']);
+    });
+
     it('exposes the public external identity provider callback route under auth layout', () => {
         const route = getAuthRoute('identity-providers:callback');
 

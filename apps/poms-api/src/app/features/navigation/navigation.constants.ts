@@ -233,6 +233,21 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 children: null
             },
             {
+                id: 'nav-platform-system-settings',
+                key: 'platform.system-settings',
+                type: NavigationItemTypeValue.Basic,
+                title: '系统设置',
+                subtitle: null,
+                link: '/platform/system-settings',
+                icon: 'pi pi-sliders-h',
+                displayOrder: 38,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: ['platform:system-settings:manage'],
+                meta: null,
+                children: null
+            },
+            {
                 id: 'nav-platform-navigation',
                 key: 'platform.navigation',
                 type: 'basic',

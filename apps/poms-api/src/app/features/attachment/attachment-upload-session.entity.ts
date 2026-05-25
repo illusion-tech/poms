@@ -40,6 +40,7 @@ export const AttachmentUploadSessionSchema = defineEntity({
         { name: 'chk_attachment_upload_session_status', expression: `"status" in (${toSqlStringList(ATTACHMENT_UPLOAD_SESSION_STATUSES)})` },
         { name: 'chk_attachment_upload_session_upload_mode', expression: `"upload_mode" in (${toSqlStringList(ATTACHMENT_UPLOAD_MODES)})` },
         { name: 'chk_attachment_upload_session_provider_type', expression: `"provider_type" in (${toSqlStringList(ATTACHMENT_STORAGE_PROVIDER_TYPES)})` },
+        { name: 'chk_attachment_upload_session_max_size_bytes', expression: `"max_size_bytes" > 0` },
         { name: 'chk_attachment_upload_session_target_type', expression: `"target_type" is null or "target_type" = any (${toSqlVarcharArray(ATTACHMENT_TARGET_TYPES)})` },
         { name: 'chk_attachment_upload_session_security_level', expression: `"security_level" is null or "security_level" = any (${toSqlVarcharArray(ATTACHMENT_SECURITY_LEVELS)})` },
         { name: 'chk_attachment_upload_session_relation_type', expression: `"relation_type" is null or "relation_type" = any (${toSqlVarcharArray(ATTACHMENT_RELATION_TYPES)})` }
@@ -79,6 +80,7 @@ export const AttachmentUploadSessionSchema = defineEntity({
         extension: p.string().length(32).comment('文件扩展名'),
         mimeType: p.string().length(255).fieldName('mime_type').comment('MIME 类型'),
         sizeBytes: p.integer().fieldName('size_bytes').comment('声明文件大小，单位字节'),
+        maxSizeBytes: p.integer().fieldName('max_size_bytes').comment('创建上传会话时冻结的最大上传大小，单位字节'),
         checksumSha256: p.string().length(64).nullable().fieldName('checksum_sha256').comment('客户端声明的 sha256 校验和'),
         category: p.string().$type<AttachmentCategory>().length(64).nullable().comment('附件业务分类'),
         securityLevel: p.string().$type<AttachmentSecurityLevel>().length(32).nullable().fieldName('security_level').comment('附件安全等级'),

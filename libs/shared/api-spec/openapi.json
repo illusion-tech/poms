@@ -3671,6 +3671,113 @@
         ]
       }
     },
+    "/api/platform/system-settings": {
+      "get": {
+        "operationId": "SystemSettingController_listSystemSettings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemSettingList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取系统设置列表",
+        "tags": [
+          "System Setting"
+        ]
+      }
+    },
+    "/api/platform/system-settings/{key}": {
+      "get": {
+        "operationId": "SystemSettingController_getSystemSetting",
+        "parameters": [
+          {
+            "name": "key",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemSettingSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取单个系统设置",
+        "tags": [
+          "System Setting"
+        ]
+      },
+      "patch": {
+        "operationId": "SystemSettingController_updateSystemSetting",
+        "parameters": [
+          {
+            "name": "key",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSystemSettingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemSettingSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新单个系统设置",
+        "tags": [
+          "System Setting"
+        ]
+      }
+    },
     "/api/customers": {
       "get": {
         "operationId": "CustomerController_list",
@@ -11374,6 +11481,7 @@
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
                 "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -11540,6 +11648,7 @@
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
                 "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -11714,6 +11823,7 @@
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
                 "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -12424,6 +12534,7 @@
               "platform:dictionaries:manage",
               "platform:identity-providers:manage",
               "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
               "customer:read",
               "customer:write",
               "commission:rule-versions:manage",
@@ -12483,6 +12594,7 @@
               "platform:dictionaries:manage",
               "platform:identity-providers:manage",
               "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
               "customer:read",
               "customer:write",
               "commission:rule-versions:manage",
@@ -12598,6 +12710,7 @@
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
                 "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -12732,6 +12845,7 @@
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
                 "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -13145,6 +13259,7 @@
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
                 "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
                 "customer:read",
                 "customer:write",
                 "commission:rule-versions:manage",
@@ -15315,6 +15430,11 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           },
+          "maxSizeBytes": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
           "checksumSha256": {
             "type": "string",
             "minLength": 64,
@@ -15417,6 +15537,7 @@
           "extension",
           "mimeType",
           "sizeBytes",
+          "maxSizeBytes",
           "checksumSha256",
           "category",
           "securityLevel",
@@ -15728,6 +15849,120 @@
             "maximum": 9007199254740991
           }
         }
+      },
+      "SystemSettingSummary": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "$ref": "#/components/schemas/SystemSettingKey"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/SystemSettingValueType"
+          },
+          "value": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "defaultValue": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "minValue": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "maxValue": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "key",
+          "displayName",
+          "description",
+          "group",
+          "valueType",
+          "value",
+          "defaultValue",
+          "minValue",
+          "maxValue",
+          "unit",
+          "rowVersion",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "SystemSettingKey": {
+        "type": "string",
+        "enum": [
+          "attachment.max-upload-size-mb"
+        ]
+      },
+      "SystemSettingValueType": {
+        "type": "string",
+        "enum": [
+          "integer"
+        ]
+      },
+      "SystemSettingList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SystemSettingSummary"
+        }
+      },
+      "UpdateSystemSettingRequest": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "value"
+        ]
       },
       "CustomerListView": {
         "type": "object",

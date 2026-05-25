@@ -16,6 +16,7 @@ export * from './lib/project/project-workspace.store';
 export * from './lib/lead/lead.store';
 export * from './lib/sales-follow-up/sales-follow-up.store';
 export * from './lib/sales-intelligence/sales-intelligence.store';
+export * from './lib/system-setting/system-setting.store';
 
 export {
     ActiveInactiveStatus,
@@ -131,6 +132,9 @@ export {
     SalesIntelligenceApi,
     SalesIntelligenceGapItem,
     SalesIntelligenceGapSeverity,
+    SystemSettingApi,
+    SystemSettingKey,
+    SystemSettingValueType,
     SensitiveProjectionMode,
     TargetObjectType,
     TodoPriority,
@@ -222,12 +226,14 @@ export type {
     CreateSalesDiscoveryRecordRequest,
     CreateSalesFollowUpRecordRequest,
     ReplaceSalesFollowUpRecordRequest,
+    SystemSettingSummary,
     LeadGateCheck,
     LeadGateSummary,
     ConvertLeadToProjectRequest,
     CreateProjectBidCommercialProcessRequest,
     CreateProjectPricingMarginReviewRequest,
     CreateProjectRequest,
+    UpdateSystemSettingRequest,
     CompetitorIntelligenceRecordSummary,
     CustomerAliasSummary,
     CustomerContactSummary,

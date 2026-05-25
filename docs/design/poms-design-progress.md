@@ -572,6 +572,8 @@
 89. 2026-05-16 `EX-66E` 已进入 `G1 / Doing`：新增 `ex-66e-cookie-session-cutover-validation-baseline.md`，冻结 Cookie 会话 direct cutover 最终收口范围；本片清退 Admin browser E2E 中的 `localStorage.poms_access_token`、`Authorization: Bearer` 和 `/api/auth/login` 旧假设，改用 `GET /auth/csrf-token` + `POST /auth/sessions` + Cookie session，并完成外部登录、CSRF、会话失效、登出、权限不足和文档回写矩阵。
 90. 2026-05-16 `EX-66E` 已推进到 `G3` corrective checkpoint：browser smoke 发现 route guard 在整页刷新后先按本地空状态跳登录、没有等待 Cookie session bootstrap 的真实漂移；已修复 `authGuard` / `permissionGuard` 初始化顺序，更新 Admin E2E helper 为 Cookie + CSRF，并通过 guard focused tests、poms-admin full tests/lint/build、external-login mocked E2E、project-workspace smoke E2E 和 platform-governance focused E2E。
 91. 2026-05-16 `EX-66E` 已完成 `G4 / Done`，`EX-66` parent 同步关闭：新增 `ex-66e-cookie-session-cutover-closeout.md`，确认 Admin Web Cookie + HttpOnly 服务端会话认证 direct cutover 完成；浏览器端旧 bearer / localStorage token / `POST /auth/login` 假设已从 Admin browser E2E 清退，`authGuard` / `permissionGuard` Cookie session bootstrap 漂移已修复，`current-drift-inventory.md` 中 `D-20260513-001` auth planned contract drift 已关闭。
+92. 2026-05-26 `EX-67A` 已进入 `G1 / Doing` 并推进到本地实施：新增 `ex-67a-system-settings-attachment-upload-limit-baseline.md`，冻结平台通用系统设置最小闭环；首个 key 为 `attachment.max-upload-size-mb`，由 Admin 后台维护并替代 API 环境变量，附件上传会话冻结 `max_size_bytes`，Nginx `client_max_body_size` 仅作为网关硬上限。
+93. 2026-05-26 `EX-67A` 已完成 `G4 / Done`，`EX-67` parent 同步关闭：新增 `ex-67a-system-settings-attachment-upload-limit-closeout.md`，落地 `system_setting` 表、注册表、`platform:system-settings:manage`、系统设置 API / Admin 页面、OpenAPI / 生成客户端和部署文档回写；附件上传上限不再读取环境变量，新上传会话按系统设置冻结 `max_size_bytes`。
 
 ---
 

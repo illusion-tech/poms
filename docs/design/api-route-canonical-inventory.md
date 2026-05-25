@@ -450,7 +450,15 @@
 | `auth` | `logoutCurrentAuthSession`  | `POST /auth/session:logout` | `POST /auth/session:logout` | `POST /auth/session:logout` | `ADR-017` + `EX-66A` | `N/A`      | `EX-66C` 已落地；撤销服务端 session 并清理 cookie。                                                                 | `B15` | `aligned` |
 | `auth` | `getCsrfToken`              | `GET /auth/csrf-token`      | `GET /auth/csrf-token`      | `GET /auth/csrf-token`      | `ADR-017` + `EX-66A` | `N/A`      | `EX-66D` 已落地；为当前 session 或登录前浏览器上下文发放 CSRF token，unsafe methods 必须携带。                      | `B15` | `aligned` |
 
-### 6.21 OPS Health Checks
+### 6.21 EX-67 平台系统设置
+
+| Domain                     | Capability            | Canonical Route                         | Current Implemented Route               | Current Design Route                    | Authority            | Drift Type | Action                                                                          | Batch | Status    |
+| -------------------------- | --------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- | -------------------- | ---------- | ------------------------------------------------------------------------------- | ----- | --------- |
+| `platform-system-settings` | `listSystemSettings`  | `GET /platform/system-settings`         | `GET /platform/system-settings`         | `GET /platform/system-settings`         | `ADR-015` + `EX-67A` | `N/A`      | `EX-67A` 已实现；返回注册表声明的系统设置摘要，不返回 secret 或任意未注册 key。 | `B17` | `aligned` |
+| `platform-system-settings` | `getSystemSetting`    | `GET /platform/system-settings/{key}`   | `GET /platform/system-settings/{key}`   | `GET /platform/system-settings/{key}`   | `ADR-015` + `EX-67A` | `N/A`      | `EX-67A` 已实现；读取单个注册设置，未知 key 返回 `404`。                        | `B17` | `aligned` |
+| `platform-system-settings` | `updateSystemSetting` | `PATCH /platform/system-settings/{key}` | `PATCH /platform/system-settings/{key}` | `PATCH /platform/system-settings/{key}` | `ADR-015` + `EX-67A` | `N/A`      | `EX-67A` 已实现；只允许更新注册表 key，按类型、范围和 `expectedVersion` 校验。  | `B17` | `aligned` |
+
+### 6.22 OPS Health Checks
 
 | Domain | Capability     | Canonical Route         | Current Implemented Route | Current Design Route    | Authority                        | Drift Type | Action                                              | Batch | Status    |
 | ------ | -------------- | ----------------------- | ------------------------- | ----------------------- | -------------------------------- | ---------- | --------------------------------------------------- | ----- | --------- |

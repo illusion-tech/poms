@@ -8,6 +8,7 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
+import { SystemSettingModule } from '../system-setting/system-setting.module';
 import { AttachmentHandoverController } from './attachment-handover.controller';
 import { AttachmentStorageProviderConfig } from './attachment-storage-provider-config.entity';
 import { AttachmentStorageProviderController } from './attachment-storage-provider.controller';
@@ -48,7 +49,8 @@ import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-
             ProjectHandover,
             PlatformUser
         ]),
-        DictionaryModule
+        DictionaryModule,
+        SystemSettingModule
     ],
     controllers: [AttachmentController, AttachmentHandoverController, AttachmentStorageProviderController, AttachmentUploadSessionController],
     providers: [

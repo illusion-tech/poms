@@ -74,6 +74,7 @@ export function mapAttachmentUploadSessionToSummary(session: AttachmentUploadSes
         extension: session.extension,
         mimeType: session.mimeType,
         sizeBytes: session.sizeBytes,
+        maxSizeBytes: session.maxSizeBytes,
         checksumSha256: session.checksumSha256 ?? null,
         category: session.category ?? null,
         securityLevel: session.securityLevel ?? null,

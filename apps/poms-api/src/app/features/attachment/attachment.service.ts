@@ -59,6 +59,7 @@ import { Lead } from '../lead/lead.entity';
 import { Project } from '../project/project.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
+import { SystemSettingService } from '../system-setting/system-setting.service';
 import { Attachment, AttachmentDownloadPackage, ProjectHandoverAttachmentSelection, AttachmentLink } from './attachment.entity';
 import { AttachmentUploadSession } from './attachment-upload-session.entity';
 import { mapAttachmentToSummary, mapAttachmentUploadSessionToSummary } from './attachment.mapper';
@@ -86,7 +87,6 @@ export interface UploadAttachmentMetadata {
 
 export type UploadAttachmentVersionMetadata = CreateAttachmentVersionRequest;
 
-const MAX_ATTACHMENT_SIZE_BYTES = 50 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'webp', 'txt', 'md', 'zip']);
 const SENSITIVE_READ_PERMISSIONS: PermissionKey[] = ['contract:finance:sensitive:read', 'operating:finance:sensitive:read', 'commission:amount:sensitive:read', 'platform:roles:manage'];
 const RESTRICTED_ATTACHMENT_SECURITY_LEVELS: readonly AttachmentSecurityLevel[] = [AttachmentSecurityLevelValue.Confidential, AttachmentSecurityLevelValue.Restricted];
@@ -114,11 +114,13 @@ export class AttachmentService {
         private readonly attachmentRepository: AttachmentRepository,
         private readonly storageService: AttachmentStorageService,
         private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly dictionaryService: DictionaryService
+        private readonly dictionaryService: DictionaryService,
+        private readonly systemSettingService: SystemSettingService
     ) {}
 
     async createAttachmentUploadSession(request: CreateAttachmentUploadSessionRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentUploadSessionSummary> {
-        if (request.sizeBytes > this.maxAttachmentSizeBytes()) {
+        const maxSizeBytes = await this.maxAttachmentSizeBytes();
+        if (request.sizeBytes > maxSizeBytes) {
             throw new BadRequestException('Attachment file exceeds size limit');
         }
 
@@ -152,6 +154,7 @@ export class AttachmentService {
             extension,
             mimeType: request.mimeType?.trim() || 'application/octet-stream',
             sizeBytes: request.sizeBytes,
+            maxSizeBytes,
             checksumSha256: request.checksumSha256?.trim() || null,
             category: normalized.category,
             securityLevel: normalized.securityLevel,
@@ -176,7 +179,8 @@ export class AttachmentService {
             targetType: session.targetType,
             targetId: session.targetId,
             baseAttachmentId: session.baseAttachmentId,
-            sizeBytes: session.sizeBytes
+            sizeBytes: session.sizeBytes,
+            maxSizeBytes: session.maxSizeBytes
         });
 
         return mapAttachmentUploadSessionToSummary(session);
@@ -209,7 +213,7 @@ export class AttachmentService {
                 headers: { 'content-type': session.mimeType },
                 expiresAt: expiresAt.toISOString(),
                 providerType: session.providerType,
-                maxSizeBytes: this.maxAttachmentSizeBytes()
+                maxSizeBytes: session.maxSizeBytes
             };
         }
 
@@ -227,7 +231,7 @@ export class AttachmentService {
             headers: target.headers,
             expiresAt: target.expiresAt,
             providerType: session.providerType,
-            maxSizeBytes: this.maxAttachmentSizeBytes()
+            maxSizeBytes: session.maxSizeBytes
         };
     }
 
@@ -349,7 +353,7 @@ export class AttachmentService {
             throw new BadRequestException('Attachment file is required');
         }
 
-        if (file.size > this.maxAttachmentSizeBytes()) {
+        if (file.size > (await this.maxAttachmentSizeBytes())) {
             throw new BadRequestException('Attachment file exceeds size limit');
         }
 
@@ -531,7 +535,7 @@ export class AttachmentService {
             throw new BadRequestException('Attachment file is required');
         }
 
-        if (file.size > this.maxAttachmentSizeBytes()) {
+        if (file.size > (await this.maxAttachmentSizeBytes())) {
             throw new BadRequestException('Attachment file exceeds size limit');
         }
 
@@ -2071,13 +2075,8 @@ export class AttachmentService {
         }
     }
 
-    private maxAttachmentSizeBytes(): number {
-        const configured = Number(process.env['POMS_ATTACHMENT_MAX_SIZE_MB']);
-        if (Number.isFinite(configured) && configured > 0) {
-            return configured * 1024 * 1024;
-        }
-
-        return MAX_ATTACHMENT_SIZE_BYTES;
+    private maxAttachmentSizeBytes(): Promise<number> {
+        return this.systemSettingService.getAttachmentMaxUploadSizeBytes();
     }
 
     private async loadUploaderMap(attachments: Attachment[]) {

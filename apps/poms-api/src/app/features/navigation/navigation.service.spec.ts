@@ -79,6 +79,14 @@ describe('NavigationService', () => {
         expect(platform?.children?.some((c) => c.key === 'platform.attachment-storage-providers')).toBe(true);
     });
 
+    it('shows platform system settings menu when system settings manage permission is satisfied', () => {
+        const result = service.getNavigationForUser(['platform:system-settings:manage']);
+
+        const platform = result.find((item) => item.key === 'platform');
+        expect(platform).toBeDefined();
+        expect(platform?.children?.some((c) => c.key === 'platform.system-settings')).toBe(true);
+    });
+
     it('filters out children whose permissions are not satisfied within a visible group', () => {
         const result = service.getNavigationForUser(['platform:users:manage']);
 
@@ -107,6 +115,7 @@ describe('NavigationService', () => {
             'platform:dictionaries:manage',
             'platform:identity-providers:manage',
             'platform:attachment-storage-providers:manage',
+            'platform:system-settings:manage',
             'platform:navigation:manage'
         ]);
 
@@ -121,6 +130,7 @@ describe('NavigationService', () => {
         expect(keys).toContain('platform.dictionaries');
         expect(keys).toContain('platform.identity-providers');
         expect(keys).toContain('platform.attachment-storage-providers');
+        expect(keys).toContain('platform.system-settings');
         expect(keys).toContain('my_profile');
     });
 
@@ -168,6 +178,7 @@ describe('NavigationService', () => {
             expect(snapshot.routeLinks).toContain('/platform/dictionaries');
             expect(snapshot.routeLinks).toContain('/platform/identity-providers');
             expect(snapshot.routeLinks).toContain('/platform/attachment-storage-providers');
+            expect(snapshot.routeLinks).toContain('/platform/system-settings');
         });
     });
 });
