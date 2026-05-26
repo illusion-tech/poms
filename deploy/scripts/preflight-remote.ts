@@ -24,7 +24,7 @@ require_command readlink
 require_command systemctl
 
 test -f ${remoteQuote(config.apiEnvFile)} || { echo "API env file not found: ${config.apiEnvFile}" >&2; exit 1; }
-if grep -q '<replace-me>' ${remoteQuote(config.apiEnvFile)}; then
+if grep -Ev '^[[:space:]]*(#|$)' ${remoteQuote(config.apiEnvFile)} | grep -q '<replace-me>'; then
     echo "API env file still contains <replace-me>: ${config.apiEnvFile}" >&2
     exit 1
 fi

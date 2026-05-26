@@ -60,7 +60,7 @@ mkdir -p ${remoteQuote(posix.dirname(config.remotePm2ConfigPath))}
 test -f "$archive_path" || { echo "Release archive not found: $archive_path" >&2; exit 1; }
 test -f "$pm2_config_path" || { echo "PM2 config not found: $pm2_config_path" >&2; exit 1; }
 test -f "$api_env_file" || { echo "API env file not found: $api_env_file" >&2; exit 1; }
-if grep -q '<replace-me>' "$api_env_file"; then
+if grep -Ev '^[[:space:]]*(#|$)' "$api_env_file" | grep -q '<replace-me>'; then
     echo "API env file still contains <replace-me>: $api_env_file" >&2
     exit 1
 fi
