@@ -1,4 +1,6 @@
-import { isAbsolute, join, resolve } from "jsr:@std/path@^1";
+import { parse } from "@std/jsonc";
+import { isAbsolute, resolve } from "@std/path";
+import * as posix from "@std/path/posix";
 
 export interface DeployConfig {
     env: string;
@@ -7,6 +9,14 @@ export interface DeployConfig {
     apiPort: number;
     pm2Name: string;
     archivePrefix: string;
+    remoteHost: string;
+    remoteTmpDir: string;
+    remoteDeployDir: string;
+    remotePm2ConfigPath: string;
+    remoteNginxAvailablePath: string;
+    remoteNginxEnabledPath: string;
+    remoteSslCertPath: string;
+    remoteSslKeyPath: string;
     adminBrowserDistDir: string;
     apiDistDir: string;
     releaseArchiveDir: string;
@@ -27,76 +37,6 @@ export interface DeployConfig {
 
 type RawConfig = Partial<Omit<DeployConfig, "repoRoot" | "releasesDir" | "currentPath" | "sharedDir" | "apiEnvFile" | "sharedLogsDir" | "sharedUploadsDir">>;
 
-function stripJsonComments(input: string): string {
-    let output = "";
-    let inString = false;
-    let stringQuote = "";
-    let escaped = false;
-    let inLineComment = false;
-    let inBlockComment = false;
-
-    for (let i = 0; i < input.length; i++) {
-        const current = input[i];
-        const next = input[i + 1];
-
-        if (inLineComment) {
-            if (current === "\n") {
-                inLineComment = false;
-                output += current;
-            }
-            continue;
-        }
-
-        if (inBlockComment) {
-            if (current === "*" && next === "/") {
-                inBlockComment = false;
-                i++;
-            }
-            continue;
-        }
-
-        if (inString) {
-            output += current;
-            if (escaped) {
-                escaped = false;
-                continue;
-            }
-            if (current === "\\") {
-                escaped = true;
-                continue;
-            }
-            if (current === stringQuote) {
-                inString = false;
-                stringQuote = "";
-            }
-            continue;
-        }
-
-        if (current === '"' || current === "'") {
-            inString = true;
-            stringQuote = current;
-            output += current;
-            continue;
-        }
-
-        if (current === "/" && next === "/") {
-            inLineComment = true;
-            i++;
-            continue;
-        }
-
-        if (current === "/" && next === "*") {
-            inBlockComment = true;
-            i++;
-            continue;
-        }
-
-        output += current;
-    }
-
-    return output;
-}
-
 function requireString(config: RawConfig, key: keyof RawConfig): string {
     const value = config[key];
     if (typeof value !== "string" || value.trim() === "") {
@@ -111,7 +51,7 @@ function repoPath(repoRoot: string, path: string): string {
 
 export async function loadDeployConfig(configPath: string): Promise<DeployConfig> {
     const repoRoot = Deno.cwd();
-    const raw = JSON.parse(stripJsonComments(await Deno.readTextFile(configPath))) as RawConfig;
+    const raw = parse(await Deno.readTextFile(configPath)) as RawConfig;
 
     const env = requireString(raw, "env");
     const domain = requireString(raw, "domain");
@@ -120,6 +60,14 @@ export async function loadDeployConfig(configPath: string): Promise<DeployConfig
 
     const apiPort = typeof raw.apiPort === "number" ? raw.apiPort : 3333;
     const archivePrefix = raw.archivePrefix ?? `poms-${env}`;
+    const remoteHost = raw.remoteHost ?? "";
+    const remoteTmpDir = raw.remoteTmpDir ?? "/tmp/poms";
+    const remoteDeployDir = raw.remoteDeployDir ?? "/opt/poms/deploy";
+    const remotePm2ConfigPath = raw.remotePm2ConfigPath ?? posix.join(remoteDeployDir, "pm2", `poms-api-${env}.ecosystem.config.cjs`);
+    const remoteNginxAvailablePath = raw.remoteNginxAvailablePath ?? `/etc/nginx/sites-available/poms-${env}.conf`;
+    const remoteNginxEnabledPath = raw.remoteNginxEnabledPath ?? `/etc/nginx/sites-enabled/poms-${env}.conf`;
+    const remoteSslCertPath = raw.remoteSslCertPath ?? `/etc/nginx/ssl/poms-${env}/fullchain.pem`;
+    const remoteSslKeyPath = raw.remoteSslKeyPath ?? `/etc/nginx/ssl/poms-${env}/privkey.pem`;
     const adminBrowserDistDir = repoPath(repoRoot, raw.adminBrowserDistDir ?? "dist/apps/poms-admin/browser");
     const apiDistDir = repoPath(repoRoot, raw.apiDistDir ?? "dist/apps/poms-api");
     const releaseArchiveDir = repoPath(repoRoot, raw.releaseArchiveDir ?? "dist/releases");
@@ -137,6 +85,14 @@ export async function loadDeployConfig(configPath: string): Promise<DeployConfig
         apiPort,
         pm2Name,
         archivePrefix,
+        remoteHost,
+        remoteTmpDir,
+        remoteDeployDir,
+        remotePm2ConfigPath,
+        remoteNginxAvailablePath,
+        remoteNginxEnabledPath,
+        remoteSslCertPath,
+        remoteSslKeyPath,
         adminBrowserDistDir,
         apiDistDir,
         releaseArchiveDir,
@@ -147,11 +103,11 @@ export async function loadDeployConfig(configPath: string): Promise<DeployConfig
         nginxSitesAvailableDir,
         nginxSitesEnabledDir,
         repoRoot,
-        releasesDir: join(baseDir, "releases"),
-        currentPath: join(baseDir, "current"),
-        sharedDir: join(baseDir, "shared"),
-        apiEnvFile: join(baseDir, "shared", "poms-api.env"),
-        sharedLogsDir: join(baseDir, "shared", "logs"),
-        sharedUploadsDir: join(baseDir, "shared", "uploads")
+        releasesDir: posix.join(baseDir, "releases"),
+        currentPath: posix.join(baseDir, "current"),
+        sharedDir: posix.join(baseDir, "shared"),
+        apiEnvFile: posix.join(baseDir, "shared", "poms-api.env"),
+        sharedLogsDir: posix.join(baseDir, "shared", "logs"),
+        sharedUploadsDir: posix.join(baseDir, "shared", "uploads")
     };
 }

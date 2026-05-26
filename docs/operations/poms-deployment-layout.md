@@ -1,6 +1,8 @@
 # POMS 部署目录规范
 
 POMS 运行时文件统一放在 `/srv/poms/<env>` 下，让测试环境、正式环境和未来新增环境共享同一套可预期结构。
+服务器不保留完整 POMS 仓库目录，也不需要安装 Deno；Deno 部署脚本只在本地执行，通过 `scp` 和 `ssh`
+编排远程安装、回滚和验证。
 
 ## 目录结构
 
@@ -25,6 +27,15 @@ POMS 运行时文件统一放在 `/srv/poms/<env>` 下，让测试环境、正�
       uploads/
 ```
 
+部署脚本和进程模板在服务器侧的固定落点为：
+
+```text
+/opt/poms/
+  deploy/
+    pm2/
+      poms-api-test.ecosystem.config.cjs
+```
+
 ## 目录职责
 
 - `releases/<timestamp>/`：单次部署的不可变发布包。
@@ -32,6 +43,7 @@ POMS 运行时文件统一放在 `/srv/poms/<env>` 下，让测试环境、正�
 - `shared/poms-api.env`：仅服务器保存的 API 环境变量文件。
 - `shared/logs/`：当前环境的 PM2 日志目录。
 - `shared/uploads/`：部署模式需要本地共享存储时使用的目录。
+- `/opt/poms/deploy/`：本地编排脚本上传的非敏感部署模板，例如 PM2 ecosystem 文件。
 
 Nginx 和 PM2 都指向 `current`，不直接指向带时间戳的 release。发布切换因此只需要一次原子软链接更新，以及一次
 API 进程的 PM2 reload。
@@ -79,9 +91,8 @@ API 进程的 PM2 reload。
 deno task deploy:rollback-test --previous
 ```
 
-手工示例：
+手工示例需要通过 SSH 在服务器执行：
 
 ```bash
-ln -sfn /srv/poms/test/releases/<previous-timestamp> /srv/poms/test/current
-pm2 reload poms-api-test --update-env
+ssh root@121.36.34.169 'ln -sfn /srv/poms/test/releases/<previous-timestamp> /srv/poms/test/current && pm2 startOrReload /opt/poms/deploy/pm2/poms-api-test.ecosystem.config.cjs --env production'
 ```

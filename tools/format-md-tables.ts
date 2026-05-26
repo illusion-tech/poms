@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write
 // Usage: deno run --allow-read --allow-write tools/format-md-tables.ts [--check] <path...>
 
-import { join } from "jsr:@std/path@^1";
+import { join } from "@std/path";
 
 type Alignment = "left" | "right" | "center" | "none";
 

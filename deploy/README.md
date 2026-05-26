@@ -1,6 +1,7 @@
 # POMS 部署模板
 
-本目录保存 POMS 各环境可版本化管理的部署模板。启用前，先将模板复制到本文档约定的服务器路径。
+本目录保存 POMS 各环境可版本化管理的部署模板和本地编排式部署脚本。Deno 只在本地执行；服务器不需要 POMS
+仓库目录，也不需要安装 Deno。
 
 不要把真实证书、私钥、数据库密码、JWT secret、附件存储凭据或生产环境配置文件提交到本目录。
 
@@ -10,7 +11,7 @@
 - `pm2/poms-api-test.ecosystem.config.cjs`：测试环境 `poms-api` 的 PM2 进程模板。
 - `env/poms-api.env.example`：`/srv/poms/test/shared/poms-api.env` 的环境变量示例。
 - `config/poms-test.jsonc`：测试环境非敏感部署配置。
-- `scripts/`：Deno 发布、安装、回滚和验证脚本。
+- `scripts/`：Deno 本地编排式发布、推送、回滚和验证脚本。
 
 ## 脚本组织
 
@@ -23,13 +24,19 @@
 deno task deploy:build-test
 ```
 
-服务器安装 release：
+远程前置检查：
 
 ```bash
-deno task deploy:install-test --archive /tmp/poms-test-20260526-120000.tar.gz
+deno task deploy:preflight-test
 ```
 
-服务器回滚：
+推送并安装 release：
+
+```bash
+deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz
+```
+
+远程回滚：
 
 ```bash
 deno task deploy:rollback-test --previous
@@ -67,24 +74,34 @@ POMS 运行时文件统一放在 `/srv/poms/<env>` 下：
 - 前端根目录：`/srv/poms/test/current/admin/browser`
 - API 工作目录：`/srv/poms/test/current/api`
 - API 环境变量文件：`/srv/poms/test/shared/poms-api.env`
+- 远程部署模板目录：`/opt/poms/deploy`
+- 远程 PM2 模板路径：`/opt/poms/deploy/pm2/poms-api-test.ecosystem.config.cjs`
 
 ## 安装 Nginx 站点
 
+优先使用本地编排脚本上传模板并 reload Nginx：
+
 ```bash
-cp deploy/nginx/sites-available/poms-test.conf /etc/nginx/sites-available/poms-test.conf
-ln -s /etc/nginx/sites-available/poms-test.conf /etc/nginx/sites-enabled/poms-test.conf
-nginx -t
-systemctl reload nginx
+deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz --install-nginx
+```
+
+手工安装时，才在服务器执行：
+
+```bash
+scp deploy/nginx/sites-available/poms-test.conf root@121.36.34.169:/etc/nginx/sites-available/poms-test.conf
+ssh root@121.36.34.169 'ln -sfn /etc/nginx/sites-available/poms-test.conf /etc/nginx/sites-enabled/poms-test.conf && nginx -t && systemctl reload nginx'
 ```
 
 如果软链接已经存在，替换前先确认它当前指向的目标。
 
 ## 安装 API 环境变量
 
+该文件只存在于服务器，首次部署前手工创建并填入真实值：
+
 ```bash
-mkdir -p /srv/poms/test/shared/logs /srv/poms/test/shared/uploads
-cp deploy/env/poms-api.env.example /srv/poms/test/shared/poms-api.env
-chmod 600 /srv/poms/test/shared/poms-api.env
+ssh root@121.36.34.169 'mkdir -p /srv/poms/test/shared/logs /srv/poms/test/shared/uploads'
+scp deploy/env/poms-api.env.example root@121.36.34.169:/srv/poms/test/shared/poms-api.env
+ssh root@121.36.34.169 'chmod 600 /srv/poms/test/shared/poms-api.env'
 ```
 
 随后在服务器上编辑 `/srv/poms/test/shared/poms-api.env`，把所有 `<replace-me>` 占位符替换为真实值。
@@ -97,20 +114,18 @@ Nginx `client_max_body_size` 必须大于或等于系统设置允许的最大值
 
 ## 启动或重载 API
 
+正常部署时由 `deploy:push-test` 自动上传 PM2 模板并执行：
+
 ```bash
-pm2 startOrReload deploy/pm2/poms-api-test.ecosystem.config.cjs --env production
-pm2 save
+ssh root@121.36.34.169 'pm2 startOrReload /opt/poms/deploy/pm2/poms-api-test.ecosystem.config.cjs --env production && pm2 save'
 ```
 
-可以使用服务器本地仓库副本，也可以把 PM2 模板复制到服务器发布工具目录。模板从
-`/srv/poms/test/shared/poms-api.env` 读取敏感配置，不内联真实密钥。
+PM2 模板从 `/srv/poms/test/shared/poms-api.env` 读取敏感配置，不内联真实密钥。
 
 ## 验证
 
 ```bash
-nginx -t
-systemctl reload nginx
-pm2 status poms-api-test
+ssh root@121.36.34.169 'nginx -t && systemctl reload nginx && pm2 status poms-api-test'
 deno task deploy:verify-test
 ```
 

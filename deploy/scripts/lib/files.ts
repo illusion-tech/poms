@@ -1,4 +1,4 @@
-import { dirname } from "jsr:@std/path@^1";
+import { dirname } from "@std/path";
 
 export async function exists(path: string): Promise<boolean> {
     try {

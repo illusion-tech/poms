@@ -1,10 +1,11 @@
 # POMS 部署脚本
 
-本目录保存 POMS 发布、安装、回滚和验证脚本。脚本使用 Deno 执行，部署配置来自 `deploy/config/*.jsonc`。
+本目录保存 POMS 本地编排式发布脚本。脚本只在本地使用 Deno 2.8 执行，服务器不需要 POMS 仓库目录，也不需要安装
+Deno。部署配置来自 `deploy/config/*.jsonc`。
 
 ## 边界
 
-- `deploy/scripts/`：会影响发布包、服务器 release、PM2 或 Nginx 的部署脚本。
+- `deploy/scripts/`：会影响发布包、远程 release、PM2 或 Nginx 的部署脚本。
 - `deploy/config/`：非敏感部署配置，例如域名、目录、进程名和模板路径。
 - `tools/`：仓库维护工具，不放服务器部署逻辑。
 
@@ -18,16 +19,28 @@
 deno task deploy:build-test
 ```
 
-服务器安装 release：
+远程前置检查：
 
 ```bash
-deno task deploy:install-test --archive /tmp/poms-test-20260526-120000.tar.gz
+deno task deploy:preflight-test
+```
+
+推送并安装 release：
+
+```bash
+deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz
 ```
 
 首次安装或 Nginx 模板变化时：
 
 ```bash
-deno task deploy:install-test --archive /tmp/poms-test-20260526-120000.tar.gz --install-nginx
+deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz --install-nginx
+```
+
+预演远程操作，不执行 `ssh` 或 `scp`：
+
+```bash
+deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz --dry-run --install-nginx
 ```
 
 回滚到上一版：
@@ -46,4 +59,10 @@ deno task deploy:rollback-test --to 20260526-110000
 
 ```bash
 deno task deploy:verify-test
+```
+
+临时证书阶段需要跳过 TLS 校验时，才使用：
+
+```bash
+deno task deploy:verify-test --insecure
 ```

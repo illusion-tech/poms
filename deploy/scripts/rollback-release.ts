@@ -1,48 +1,68 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write --allow-run --allow-env
+#!/usr/bin/env -S deno run --allow-read --allow-run
 
-import { join } from "jsr:@std/path@^1";
 import { booleanArg, optionalStringArg, parseArgs, stringArg } from "./lib/args.ts";
-import { runCommand, shellQuote } from "./lib/command.ts";
 import { loadDeployConfig } from "./lib/config.ts";
-import { assertExists } from "./lib/files.ts";
+import { remoteHost, remoteQuote, sshScript } from "./lib/remote.ts";
+import { assertReleaseId } from "./lib/release.ts";
 
-async function previousReleaseId(releasesDir: string, currentPath: string): Promise<string> {
-    const currentRealPath = await Deno.realPath(currentPath).catch(() => null);
-    const releases: string[] = [];
+function rollbackScript(config: Awaited<ReturnType<typeof loadDeployConfig>>, input: { previous: boolean; releaseId?: string }): string {
+    const explicitRelease = input.releaseId ? remoteQuote(input.releaseId) : "''";
 
-    for await (const entry of Deno.readDir(releasesDir)) {
-        if (!entry.isDirectory || entry.name.startsWith(".")) continue;
-        const releasePath = join(releasesDir, entry.name);
-        const realPath = await Deno.realPath(releasePath).catch(() => releasePath);
-        if (currentRealPath && realPath === currentRealPath) continue;
-        releases.push(entry.name);
-    }
+    return `set -euo pipefail
 
-    releases.sort().reverse();
-    const previous = releases[0];
-    if (!previous) {
-        throw new Error(`No previous release found in ${releasesDir}`);
-    }
-    return previous;
+release_id=${explicitRelease}
+releases_dir=${remoteQuote(config.releasesDir)}
+current_path=${remoteQuote(config.currentPath)}
+pm2_config_path=${remoteQuote(config.remotePm2ConfigPath)}
+
+test -d "$releases_dir" || { echo "Releases directory not found: $releases_dir" >&2; exit 1; }
+test -f "$pm2_config_path" || { echo "PM2 config not found: $pm2_config_path" >&2; exit 1; }
+
+if [ ${input.previous ? "1" : "0"} -eq 1 ]; then
+    current_real="$(readlink -f "$current_path" 2>/dev/null || true)"
+    release_id=""
+    for candidate in $(ls -1 "$releases_dir" | sort -r); do
+        case "$candidate" in
+            .*) continue ;;
+        esac
+        candidate_path="$releases_dir/$candidate"
+        [ -d "$candidate_path" ] || continue
+        candidate_real="$(readlink -f "$candidate_path")"
+        if [ -z "$current_real" ] || [ "$candidate_real" != "$current_real" ]; then
+            release_id="$candidate"
+            break
+        fi
+    done
+fi
+
+[ -n "$release_id" ] || { echo "No rollback release selected" >&2; exit 1; }
+release_dir="$releases_dir/$release_id"
+
+test -f "$release_dir/admin/browser/index.html" || { echo "Rollback Admin index not found: $release_dir" >&2; exit 1; }
+test -f "$release_dir/api/main.js" || { echo "Rollback API entry not found: $release_dir" >&2; exit 1; }
+
+ln -sfn "$release_dir" "$current_path"
+pm2 startOrReload "$pm2_config_path" --env production
+pm2 save
+
+echo "Rolled back to release: $release_id"
+`;
 }
 
 const args = parseArgs();
 const config = await loadDeployConfig(stringArg(args, "config", "deploy/config/poms-test.jsonc"));
-const releaseId = booleanArg(args, "previous")
-    ? await previousReleaseId(config.releasesDir, config.currentPath)
-    : optionalStringArg(args, "to");
+const host = remoteHost(config, optionalStringArg(args, "host"));
+const dryRun = booleanArg(args, "dry-run");
+const previous = booleanArg(args, "previous");
+const releaseId = optionalStringArg(args, "to");
+const checkedReleaseId = releaseId ? assertReleaseId(releaseId) : undefined;
 
-if (!releaseId) {
+if (!previous && !releaseId) {
     throw new Error("Pass --to <release-id> or --previous");
 }
 
-const releaseDir = join(config.releasesDir, releaseId);
-await assertExists(join(releaseDir, "admin", "browser", "index.html"), "Rollback Admin index");
-await assertExists(join(releaseDir, "api", "main.js"), "Rollback API entry");
-await assertExists(config.pm2ConfigPath, "PM2 config template");
+if (previous && releaseId) {
+    throw new Error("Use either --previous or --to, not both");
+}
 
-await runCommand(`ln -sfn ${shellQuote(releaseDir)} ${shellQuote(config.currentPath)}`);
-await runCommand(`pm2 startOrReload ${shellQuote(config.pm2ConfigPath)} --env production`);
-await runCommand("pm2 save");
-
-console.log(`Rolled back to release: ${releaseId}`);
+await sshScript(host, rollbackScript(config, { previous, releaseId: checkedReleaseId }), { dryRun });

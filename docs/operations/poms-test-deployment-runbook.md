@@ -9,8 +9,10 @@
 - TLS 证书文件已放在服务器：
   - `/etc/nginx/ssl/poms-test/fullchain.pem`
   - `/etc/nginx/ssl/poms-test/privkey.pem`
-- 服务器已安装 Node.js、Corepack、pnpm、PM2 和 Deno。
+- 本地已安装 Deno 2.8，并可通过 SSH 登录 `root@121.36.34.169`。
+- 服务器已安装 Node.js、Corepack、pnpm、PM2、Nginx、tar 和 readlink。
 - 服务器可以访问 PostgreSQL/RDS。
+- 服务器不需要 POMS 仓库目录，也不需要安装 Deno。
 - 如果使用华为云 OBS，负责配置 POMS 平台附件存储 Provider 的运维人员需要拿到 endpoint、region、bucket、AK 和 SK。
 - 健康检查端点已存在：
   - `/api/health`
@@ -30,38 +32,52 @@ deno task deploy:build-test
 - API: `dist/apps/poms-api/main.js`
 - release 包：`dist/releases/poms-test-<timestamp>.tar.gz`
 
-## 创建服务器目录
+## 远程前置检查
+
+正式推送前先检查远程依赖、env 文件和证书文件：
 
 ```bash
-stamp=$(date +%Y%m%d-%H%M%S)
-release=/srv/poms/test/releases/$stamp
-
-mkdir -p "$release/admin" "$release/api"
-mkdir -p /srv/poms/test/shared/logs /srv/poms/test/shared/uploads
+deno task deploy:preflight-test
 ```
 
-上传 release 包到服务器，例如：
+只查看将要执行的 SSH 脚本时：
 
 ```bash
-scp dist/releases/poms-test-<timestamp>.tar.gz root@121.36.34.169:/tmp/
+deno task deploy:preflight-test --dry-run
 ```
 
-在服务器仓库目录执行安装脚本：
+## 推送并安装 release
+
+本地脚本会上传 release 包和 PM2 模板，再通过 SSH 在服务器执行安装：
 
 ```bash
-deno task deploy:install-test --archive /tmp/poms-test-<timestamp>.tar.gz
+deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz
 ```
 
-脚本会解包到 `/srv/poms/test/releases/<timestamp>/`，检查 `admin/browser/index.html` 和 `api/main.js`，如
-API 产物包含 `package.json` 则安装生产依赖，然后切换 `/srv/poms/test/current` 并重载 PM2。
+脚本会执行这些动作：
+
+- 上传 release 到 `/tmp/poms/releases/`。
+- 上传 PM2 模板到 `/opt/poms/deploy/pm2/poms-api-test.ecosystem.config.cjs`。
+- 创建 `/srv/poms/test/releases`、`shared/logs` 和 `shared/uploads`。
+- 检查 `/srv/poms/test/shared/poms-api.env` 存在、权限可收敛且没有 `<replace-me>`。
+- 解包到 `.incoming-<timestamp>`，检查 `admin/browser/index.html` 和 `api/main.js`。
+- 如 API release 内包含 `package.json`，在远程执行 `corepack pnpm install --prod --frozen-lockfile`。
+- 原子切换 `/srv/poms/test/current`，执行 `pm2 startOrReload` 和 `pm2 save`。
+
+预演推送计划，不执行 `scp` 或 `ssh`：
+
+```bash
+deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz --dry-run
+```
 
 ## 配置 API 环境变量
 
 创建仅服务器保存的环境变量文件：
 
 ```bash
-cp deploy/env/poms-api.env.example /srv/poms/test/shared/poms-api.env
-chmod 600 /srv/poms/test/shared/poms-api.env
+ssh root@121.36.34.169 'mkdir -p /srv/poms/test/shared/logs /srv/poms/test/shared/uploads'
+scp deploy/env/poms-api.env.example root@121.36.34.169:/srv/poms/test/shared/poms-api.env
+ssh root@121.36.34.169 'chmod 600 /srv/poms/test/shared/poms-api.env'
 ```
 
 编辑 `/srv/poms/test/shared/poms-api.env` 并替换所有占位符。测试环境必要默认值：
@@ -118,40 +134,40 @@ corepack pnpm nx run poms-api:migration-up
 如果不用脚本，手工切换方式为：
 
 ```bash
-ln -sfn "$release" /srv/poms/test/current
-readlink -f /srv/poms/test/current
-test -f /srv/poms/test/current/admin/browser/index.html
-test -f /srv/poms/test/current/api/main.js
+ssh root@121.36.34.169 'ln -sfn /srv/poms/test/releases/<timestamp> /srv/poms/test/current && readlink -f /srv/poms/test/current && test -f /srv/poms/test/current/admin/browser/index.html && test -f /srv/poms/test/current/api/main.js'
 ```
 
 ## 启动或重载 API
 
 ```bash
-pm2 startOrReload deploy/pm2/poms-api-test.ecosystem.config.cjs --env production
-pm2 status poms-api-test
+ssh root@121.36.34.169 'pm2 startOrReload /opt/poms/deploy/pm2/poms-api-test.ecosystem.config.cjs --env production && pm2 status poms-api-test'
 ```
 
 进程健康后保存 PM2 状态：
 
 ```bash
-pm2 save
+ssh root@121.36.34.169 'pm2 save'
 ```
 
 ## 安装或重载 Nginx
 
-首次安装站点，或 Nginx 模板发生变化时，可以让安装脚本复制站点配置并 reload Nginx：
+首次安装站点，或 Nginx 模板发生变化时，可以让本地编排脚本上传站点配置并 reload Nginx：
 
 ```bash
-deno task deploy:install-test --archive /tmp/poms-test-<timestamp>.tar.gz --install-nginx
+deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz --install-nginx
 ```
 
-手工安装方式为：
+只需要 reload Nginx 但不重新安装站点 symlink 时：
 
 ```bash
-cp deploy/nginx/sites-available/poms-test.conf /etc/nginx/sites-available/poms-test.conf
-ln -s /etc/nginx/sites-available/poms-test.conf /etc/nginx/sites-enabled/poms-test.conf
-nginx -t
-systemctl reload nginx
+deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz --reload-nginx
+```
+
+手工安装时，先把模板上传到服务器，再在服务器执行：
+
+```bash
+scp deploy/nginx/sites-available/poms-test.conf root@121.36.34.169:/etc/nginx/sites-available/poms-test.conf
+ssh root@121.36.34.169 'ln -sfn /etc/nginx/sites-available/poms-test.conf /etc/nginx/sites-enabled/poms-test.conf && nginx -t && systemctl reload nginx'
 ```
 
 如果软链接已经存在，先确认它指向 `/etc/nginx/sites-available/poms-test.conf`。
@@ -189,7 +205,7 @@ curl -k -I https://poms-test.illusiontech.cn/api/health
 列出发布版本：
 
 ```bash
-ls -1 /srv/poms/test/releases
+ssh root@121.36.34.169 'ls -1 /srv/poms/test/releases'
 ```
 
 将 `current` 切回上一版 release：

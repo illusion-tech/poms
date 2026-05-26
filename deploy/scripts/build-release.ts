@@ -1,10 +1,11 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-run --allow-env
 
-import { join, resolve } from "jsr:@std/path@^1";
+import { join, resolve } from "@std/path";
 import { booleanArg, optionalStringArg, parseArgs, stringArg } from "./lib/args.ts";
-import { commandOutput, runCommand, runProgram } from "./lib/command.ts";
+import { programOutput, runProgram } from "./lib/command.ts";
 import { loadDeployConfig } from "./lib/config.ts";
 import { assertExists, copyDir, ensureParentDir, removeIfExists } from "./lib/files.ts";
+import { assertReleaseId } from "./lib/release.ts";
 
 function timestamp(): string {
     const now = new Date();
@@ -22,7 +23,7 @@ function timestamp(): string {
 
 async function gitShortSha(): Promise<string | null> {
     try {
-        return (await commandOutput("git rev-parse --short HEAD", { quiet: true })).trim();
+        return (await programOutput("git", ["rev-parse", "--short", "HEAD"], { quiet: true })).trim();
     } catch {
         return null;
     }
@@ -30,7 +31,7 @@ async function gitShortSha(): Promise<string | null> {
 
 const args = parseArgs();
 const config = await loadDeployConfig(stringArg(args, "config", "deploy/config/poms-test.jsonc"));
-const releaseId = optionalStringArg(args, "release") ?? timestamp();
+const releaseId = assertReleaseId(optionalStringArg(args, "release") ?? timestamp());
 const archivePath = resolve(optionalStringArg(args, "out") ?? join(config.releaseArchiveDir, `${config.archivePrefix}-${releaseId}.tar.gz`));
 const stageDir = join(config.stagingDir, `${config.archivePrefix}-${releaseId}`);
 const skipBuild = booleanArg(args, "skip-build");
@@ -38,8 +39,8 @@ const keepStage = booleanArg(args, "keep-stage");
 const force = booleanArg(args, "force");
 
 if (!skipBuild) {
-    await runCommand("corepack pnpm nx build poms-admin");
-    await runCommand("corepack pnpm nx build poms-api");
+    await runProgram("corepack", ["pnpm", "nx", "build", "poms-admin"]);
+    await runProgram("corepack", ["pnpm", "nx", "build", "poms-api"]);
 }
 
 await assertExists(join(config.adminBrowserDistDir, "index.html"), "Admin browser build output");
