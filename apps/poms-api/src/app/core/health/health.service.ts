@@ -51,7 +51,12 @@ export class HealthService {
         const startedAt = Date.now();
 
         try {
-            const result = await this.orm.checkConnection();
+            let result = await this.orm.checkConnection();
+            if (!result.ok && result.reason === 'Connection not established') {
+                await this.orm.connect();
+                result = await this.orm.checkConnection();
+            }
+
             if (result.ok) {
                 return {
                     status: 'pass',

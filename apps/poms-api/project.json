@@ -134,6 +134,28 @@
             },
             "dependsOn": ["migration-up"]
         },
+        "seed-platform-bootstrap": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "corepack pnpm exec mikro-orm seeder:run",
+                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts", "--class", "PlatformBootstrapSeeder"],
+                "env": {
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                }
+            },
+            "dependsOn": ["migration-up"]
+        },
+        "seed-business-trial": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "corepack pnpm exec mikro-orm seeder:run",
+                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts", "--class", "BusinessTrialSeeder"],
+                "env": {
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                }
+            },
+            "dependsOn": ["seed-platform-bootstrap"]
+        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "options": {

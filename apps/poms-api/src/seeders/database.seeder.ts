@@ -1218,6 +1218,8 @@ async function seedProjectHandoverE2EFixtures(
             "updated_at" = now();
     `);
 
+    await seedOperatingSignalSummaryPackageDefinition(connection, schema);
+
     for (const fixture of [...HANDOVER_E2E_FIXTURES, ...COMMISSION_E2E_FIXTURES]) {
         await seedProjectHandoverE2EFixture(connection, schema, fixture);
     }
@@ -1227,6 +1229,14 @@ async function seedOperatingSignalE2EFixtures(
     connection: { execute(sql: string): Promise<unknown> },
     schema: string
 ): Promise<void> {
+    await seedOperatingSignalSummaryPackageDefinition(connection, schema);
+
+    for (const fixture of OPERATING_SIGNAL_E2E_FIXTURES) {
+        await seedOperatingSignalE2EFixture(connection, schema, fixture);
+    }
+}
+
+async function seedOperatingSignalSummaryPackageDefinition(connection: { execute(sql: string): Promise<unknown> }, schema: string): Promise<void> {
     await connection.execute(`
         insert into "${schema}"."approval_summary_package_definition" (
             "id",
@@ -1256,10 +1266,6 @@ async function seedOperatingSignalE2EFixtures(
             "updated_by" = excluded."updated_by",
             "updated_at" = now();
     `);
-
-    for (const fixture of OPERATING_SIGNAL_E2E_FIXTURES) {
-        await seedOperatingSignalE2EFixture(connection, schema, fixture);
-    }
 }
 
 function hasPreparedHandoverFixture(fixture: HandoverE2EFixture): fixture is PreparedHandoverE2EFixture {
@@ -1774,7 +1780,6 @@ async function seedOperatingSignalEvidenceState(
     schema: string,
     fixture: OperatingSignalE2EFixture
 ): Promise<void> {
-
     await connection.execute(`
         insert into "${schema}"."operating_baseline_package" (
             "id",

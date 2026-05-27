@@ -129,6 +129,18 @@ corepack pnpm nx run poms-api:migration-up
 
 切换 `current` 前记录迁移结果。
 
+## 业务试用初始化
+
+共享测试环境面向业务人员试用时，不执行开发 / E2E 专用的 `poms-api:seeder-run`。首次发放账号前按
+`docs/operations/poms-business-trial-initialization-runbook.md` 执行：
+
+```bash
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:seed-platform-bootstrap
+POMS_ENV_FILE=deploy/private/poms-test.env POMS_TRIAL_USERS_CSV=deploy/private/poms-test-trial-users.csv corepack pnpm nx run poms-api:seed-business-trial
+```
+
+业务试用账号必须来自未提交的本地 CSV，不能使用 `admin123`、`sales_rep123` 等开发默认密码。
+
 ## 切换发布版本
 
 如果不用脚本，手工切换方式为：

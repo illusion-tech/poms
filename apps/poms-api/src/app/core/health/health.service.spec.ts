@@ -2,12 +2,13 @@ import type { MikroORM } from '@mikro-orm/core';
 import { HealthService } from './health.service';
 
 describe('HealthService', () => {
-    let orm: jest.Mocked<Pick<MikroORM, 'checkConnection'>>;
+    let orm: jest.Mocked<Pick<MikroORM, 'checkConnection' | 'connect'>>;
     let service: HealthService;
 
     beforeEach(() => {
         orm = {
-            checkConnection: jest.fn()
+            checkConnection: jest.fn(),
+            connect: jest.fn()
         };
         service = new HealthService(orm as never as MikroORM);
     });
@@ -46,6 +47,19 @@ describe('HealthService', () => {
                 durationMs: expect.any(Number)
             })
         );
+        expect(orm.connect).not.toHaveBeenCalled();
+    });
+
+    it('connects before retrying an unestablished database connection', async () => {
+        orm.checkConnection
+            .mockResolvedValueOnce({ ok: false, reason: 'Connection not established' })
+            .mockResolvedValueOnce({ ok: true });
+
+        const result = await service.getReadiness();
+
+        expect(orm.connect).toHaveBeenCalledTimes(1);
+        expect(orm.checkConnection).toHaveBeenCalledTimes(2);
+        expect(result.status).toBe('ready');
     });
 
     it('returns not_ready when the database connection check fails', async () => {

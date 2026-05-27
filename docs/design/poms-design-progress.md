@@ -574,6 +574,7 @@
 91. 2026-05-16 `EX-66E` 已完成 `G4 / Done`，`EX-66` parent 同步关闭：新增 `ex-66e-cookie-session-cutover-closeout.md`，确认 Admin Web Cookie + HttpOnly 服务端会话认证 direct cutover 完成；浏览器端旧 bearer / localStorage token / `POST /auth/login` 假设已从 Admin browser E2E 清退，`authGuard` / `permissionGuard` Cookie session bootstrap 漂移已修复，`current-drift-inventory.md` 中 `D-20260513-001` auth planned contract drift 已关闭。
 92. 2026-05-26 `EX-67A` 已进入 `G1 / Doing` 并推进到本地实施：新增 `ex-67a-system-settings-attachment-upload-limit-baseline.md`，冻结平台通用系统设置最小闭环；首个 key 为 `attachment.max-upload-size-mb`，由 Admin 后台维护并替代 API 环境变量，附件上传会话冻结 `max_size_bytes`，Nginx `client_max_body_size` 仅作为网关硬上限。
 93. 2026-05-26 `EX-67A` 已完成 `G4 / Done`，`EX-67` parent 同步关闭：新增 `ex-67a-system-settings-attachment-upload-limit-closeout.md`，落地 `system_setting` 表、注册表、`platform:system-settings:manage`、系统设置 API / Admin 页面、OpenAPI / 生成客户端和部署文档回写；附件上传上限不再读取环境变量，新上传会话按系统设置冻结 `max_size_bytes`。
+94. 2026-05-27 `EX-68A` 已完成 `G4 / Done`：新增 `ex-68a-business-trial-seed-baseline.md` 与 `ex-68a-business-trial-seed-closeout.md`，将共享测试环境初始化从开发 / E2E `DatabaseSeeder` 中拆出；新增平台 bootstrap seed、未提交 CSV 驱动的实名业务试用账号 seed、`TRIAL-*` 演示数据和业务试用初始化 runbook，旧 `poms-api:seeder-run` 仍保留给本地开发 / E2E。
 
 ---
 

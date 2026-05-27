@@ -6,6 +6,7 @@
 
 - `poms-deployment-layout.md`：服务器目录结构、发布模型和环境命名规则。
 - `poms-test-deployment-runbook.md`：测试环境发布、验证和回滚流程。
+- `poms-business-trial-initialization-runbook.md`：业务试用前的测试库重置、账号 seed 和演示数据初始化流程。
 
 ## 相关模板
 
@@ -13,6 +14,7 @@
 - `deploy/nginx/sites-available/poms-test.conf`
 - `deploy/pm2/poms-api-test.ecosystem.config.cjs`
 - `deploy/env/poms-api.env.example`
+- `deploy/env/poms-test-trial-users.csv.example`
 
 ## 敏感信息处理
 
