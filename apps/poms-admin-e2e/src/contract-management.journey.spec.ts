@@ -106,14 +106,14 @@ test.describe('poms-admin contract management journey', () => {
 
         await page.getByRole('link', { name: '合同管理' }).click();
         await expect(page).toHaveURL(/\/contracts$/);
-        await expect(page.getByRole('button', { name: '清空筛选' })).toBeVisible();
+        await expect(page.getByRole('button', { name: '重置' })).toBeVisible();
         await expect(page.getByPlaceholder('搜索合同、项目、客户')).toBeVisible();
         await expect(page.getByText('CT-E2E-LIST')).toBeVisible();
 
         await page.getByPlaceholder('搜索合同、项目、客户').fill('KH-E2E-LIST');
         await expect(page.getByPlaceholder('搜索合同、项目、客户')).toHaveValue('KH-E2E-LIST');
         await expect(page.getByText('KH-E2E-LIST')).toBeVisible();
-        await page.getByRole('button', { name: '清空筛选' }).click();
+        await page.getByRole('button', { name: '重置' }).click();
         await expect(page.getByPlaceholder('搜索合同、项目、客户')).toHaveValue('');
 
         await page.getByRole('button', { name: '新建合同' }).click();

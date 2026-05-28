@@ -13,8 +13,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
-import { AdminListShell } from '../../shared/ui/admin-list-shell';
+import { TooltipModule } from 'primeng/tooltip';
+import { AdminTableCard } from '../../shared/ui/admin-table-card';
 import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
@@ -27,215 +27,206 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
 @Component({
     selector: 'app-contract-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MessageModule, AutoCompleteModule, AdminListShell, AdminListToolbar],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MessageModule, AutoCompleteModule, TooltipModule, AdminTableCard],
     providers: [ContractStore, ProjectStore],
     template: `
         <div class="flex flex-col gap-5">
-            <app-admin-list-toolbar>
-                <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
-                    <p-iconfield class="w-full sm:w-80">
-                        <p-inputicon class="pi pi-search" />
-                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索合同、项目、客户" class="w-full! rounded-md! py-2!" />
-                    </p-iconfield>
-                </div>
+            <app-admin-table-card>
+                @if (canManageContractFinance()) {
+                    <p-button adminToolbarStart icon="pi pi-plus" class="mr-2" severity="secondary" text ariaLabel="新建合同" pTooltip="新建合同" tooltipPosition="top" (onClick)="showCreateDialog()" />
+                }
 
-                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
-                    <span>当前共 {{ contracts().length }} 份合同</span>
-                    @if (canManageContractFinance()) {
-                        <p-button icon="pi pi-plus" label="新建合同" severity="primary" styleClass="w-full sm:w-auto rounded-md!" class="w-full sm:w-auto cursor-pointer" (onClick)="showCreateDialog()" />
-                    }
-                </div>
-            </app-admin-list-toolbar>
+                <p-iconfield adminToolbarCenter class="w-full sm:w-80">
+                    <p-inputicon class="pi pi-search" />
+                    <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索合同、项目、客户" class="w-full! rounded-md! py-2!" />
+                </p-iconfield>
 
-            <app-admin-list-shell>
-                <!-- Table -->
-                <div class="flex-1 px-6 py-5">
-                    <p-table
-                        #dt
-                        [value]="contracts()"
-                        [loading]="loading()"
-                        [paginator]="true"
-                        [rows]="rows"
-                        [first]="first"
-                        [rowHover]="true"
-                        dataKey="id"
-                        sortMode="multiple"
-                        responsiveLayout="scroll"
-                        [tableStyle]="{ width: '100%', 'min-width': '70rem' }"
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                        currentPageReportTemplate="显示 {first} 到 {last} 共 {totalRecords} 条"
-                        [globalFilterFields]="['contractNo', 'customerContractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
-                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                    >
-                        <ng-template #header>
-                            <tr>
-                                <th pSortableColumn="contractNo" class="w-[30%] min-w-72">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">合同/项目 <p-sortIcon field="contractNo" /></span>
-                                        <p-columnFilter type="text" field="contractNo" display="menu" placeholder="按 POMS 编号筛选" />
-                                    </div>
-                                </th>
-                                <th pSortableColumn="customerName" class="w-[20%] min-w-48">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
-                                        <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
-                                    </div>
-                                </th>
-                                <th pSortableColumn="signedAmount" class="w-[22%] min-w-56">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">金额/状态 <p-sortIcon field="signedAmount" /></span>
-                                        <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                                            <ng-template #filter let-value let-filter="filterCallback">
-                                                <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" class="w-44" />
-                                            </ng-template>
-                                        </p-columnFilter>
-                                    </div>
-                                </th>
-                                <th pSortableColumn="signedAt" class="w-[16%] min-w-44">
-                                    <span class="flex items-center gap-2">签约信息 <p-sortIcon field="signedAt" /></span>
-                                </th>
-                                <th class="w-40 min-w-40">继续处理</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template #body let-contract>
-                            <tr>
-                                <td>
-                                    <button type="button" class="text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="navigateToDetail(contract)">{{ contract.contractNo }}</button>
-                                    <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
-                                        <span>客户合同：{{ displayText(contract.customerContractNo, '未填写') }}</span>
-                                        <span class="text-surface-700 dark:text-surface-200">{{ contract.projectName }}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="text-sm leading-5 text-surface-800 dark:text-surface-100">{{ displayText(contract.customerName, '未绑定客户') }}</span>
-                                </td>
-                                <td>
-                                    <div class="flex flex-col gap-2 text-sm leading-5">
-                                        <span class="font-medium text-surface-950 dark:text-surface-0">{{ formatSensitiveAmountProjection(contract.signedAmountProjection, contract.currencyCode) }}</span>
-                                        <p-tag [value]="getStatusName(contract.status)" [severity]="getStatusSeverity(contract.status)" class="w-fit rounded-[6px] px-2 py-1" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
-                                        <span>签约：{{ contract.signedAt ? (contract.signedAt | date: 'yyyy-MM-dd') : '未登记' }}</span>
-                                        <span>更新：{{ contract.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex flex-wrap justify-start gap-2">
-                                        <p-button label="详情" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="navigateToDetail(contract)" />
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template #emptymessage>
-                            <tr>
-                                <td colspan="5" class="text-center py-8">
-                                    <i class="pi pi-inbox text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
-                                    <span class="text-surface-500 dark:text-surface-400">暂无匹配合同</span>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template #loadingbody>
-                            <tr>
-                                <td colspan="5" class="py-8 text-center text-surface-500 dark:text-surface-400">正在读取合同列表</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
+                <span adminToolbarEnd class="text-sm text-surface-500 dark:text-surface-400">当前共 {{ contracts().length }} 份合同</span>
 
-                <!-- Create Contract Dialog -->
-                <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
-                    <div class="flex flex-col gap-4 py-4">
-                        <div class="flex flex-col gap-2">
-                            <label for="contractProjectSelector" class="text-surface-900 dark:text-surface-0 font-medium">关联项目 <span class="text-red-500">*</span></label>
-                            <p-autocomplete
-                                inputId="contractProjectSelector"
-                                [(ngModel)]="selectedProject"
-                                [suggestions]="projectSuggestions"
-                                optionLabel="projectName"
-                                [dropdown]="true"
-                                [forceSelection]="true"
-                                [showClear]="true"
-                                [completeOnFocus]="true"
-                                emptyMessage="没有匹配项目"
-                                placeholder="搜索项目编号、项目名称或客户"
-                                styleClass="w-full"
-                                inputStyleClass="w-full"
-                                appendTo="body"
-                                (completeMethod)="filterProjects($event)"
-                                (onSelect)="selectProject($event.value)"
-                                (onClear)="selectProject(null)"
-                            >
-                                <ng-template #selecteditem let-project>
-                                    <span>{{ project.projectNo }} · {{ project.projectName }}</span>
-                                </ng-template>
-                                <ng-template #item let-project>
-                                    <div class="flex flex-col gap-1 py-1">
-                                        <div class="flex items-center gap-2">
-                                            <span class="font-medium text-surface-950 dark:text-surface-0">{{ project.projectNo }}</span>
-                                            <span class="text-sm text-surface-700 dark:text-surface-200">{{ project.projectName }}</span>
-                                        </div>
-                                        <div class="text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }} · {{ getProjectStageName(project.currentStage) }} · {{ getProjectStatusName(project.status) }}</div>
-                                    </div>
-                                </ng-template>
-                            </p-autocomplete>
-                            @if (createSubmitAttempted && !selectedProject) {
-                                <span class="text-red-500 text-xs">请选择关联项目</span>
-                            }
-                        </div>
-
-                        @if (selectedProject; as project) {
-                            <div class="rounded-[8px] border border-surface-200 bg-surface-50 px-3 py-3 dark:border-surface-700 dark:bg-surface-800">
-                                <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                                    <div>
-                                        <div class="text-xs text-surface-500 dark:text-surface-400">已选择项目</div>
-                                        <div class="mt-1 text-sm font-semibold text-surface-950 dark:text-surface-0">{{ project.projectNo }} · {{ project.projectName }}</div>
-                                        <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }}</div>
-                                    </div>
-                                    <div class="flex flex-wrap gap-2">
-                                        <p-tag [value]="getProjectStageName(project.currentStage)" [severity]="getProjectStageSeverity(project.currentStage)" class="rounded-[6px]!" />
-                                        <p-tag [value]="getProjectStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" class="rounded-[6px]!" />
-                                    </div>
+                <p-table
+                    #dt
+                    [value]="contracts()"
+                    [loading]="loading()"
+                    [paginator]="true"
+                    [rows]="rows"
+                    [first]="first"
+                    [rowHover]="true"
+                    dataKey="id"
+                    sortMode="multiple"
+                    responsiveLayout="scroll"
+                    [tableStyle]="{ width: '100%', 'min-width': '70rem' }"
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                    currentPageReportTemplate="显示 {first} 到 {last} 共 {totalRecords} 条"
+                    [globalFilterFields]="['contractNo', 'customerContractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                >
+                    <ng-template #header>
+                        <tr>
+                            <th pSortableColumn="contractNo" class="w-[30%] min-w-72">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">合同/项目 <p-sortIcon field="contractNo" /></span>
+                                    <p-columnFilter type="text" field="contractNo" display="menu" placeholder="按 POMS 编号筛选" />
                                 </div>
-                                @if (project.customerProjectNo) {
-                                    <div class="mt-2 text-xs text-surface-500 dark:text-surface-400">客户项目编号：{{ project.customerProjectNo }}</div>
-                                }
-                            </div>
-                        } @else if (!loadingProjects() && projects().length === 0) {
-                            <p-message severity="warn" text="当前没有可选择的项目，请先完成项目创建或刷新后重试。" styleClass="w-full" />
+                            </th>
+                            <th pSortableColumn="customerName" class="w-[20%] min-w-48">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
+                                    <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
+                                </div>
+                            </th>
+                            <th pSortableColumn="signedAmount" class="w-[22%] min-w-56">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="flex items-center gap-2">金额/状态 <p-sortIcon field="signedAmount" /></span>
+                                    <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template #filter let-value let-filter="filterCallback">
+                                            <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" class="w-44" />
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+                            <th pSortableColumn="signedAt" class="w-[16%] min-w-44">
+                                <span class="flex items-center gap-2">签约信息 <p-sortIcon field="signedAt" /></span>
+                            </th>
+                            <th class="w-40 min-w-40">继续处理</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-contract>
+                        <tr>
+                            <td>
+                                <button type="button" class="text-left text-sm font-semibold leading-5 text-primary hover:underline" (click)="navigateToDetail(contract)">{{ contract.contractNo }}</button>
+                                <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                    <span>客户合同：{{ displayText(contract.customerContractNo, '未填写') }}</span>
+                                    <span class="text-surface-700 dark:text-surface-200">{{ contract.projectName }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="text-sm leading-5 text-surface-800 dark:text-surface-100">{{ displayText(contract.customerName, '未绑定客户') }}</span>
+                            </td>
+                            <td>
+                                <div class="flex flex-col gap-2 text-sm leading-5">
+                                    <span class="font-medium text-surface-950 dark:text-surface-0">{{ formatSensitiveAmountProjection(contract.signedAmountProjection, contract.currencyCode) }}</span>
+                                    <p-tag [value]="getStatusName(contract.status)" [severity]="getStatusSeverity(contract.status)" class="w-fit rounded-[6px] px-2 py-1" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
+                                    <span>签约：{{ contract.signedAt ? (contract.signedAt | date: 'yyyy-MM-dd') : '未登记' }}</span>
+                                    <span>更新：{{ contract.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex flex-wrap justify-start gap-2">
+                                    <p-button label="详情" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="navigateToDetail(contract)" />
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #emptymessage>
+                        <tr>
+                            <td colspan="5" class="text-center py-8">
+                                <i class="pi pi-inbox text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
+                                <span class="text-surface-500 dark:text-surface-400">暂无匹配合同</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #loadingbody>
+                        <tr>
+                            <td colspan="5" class="py-8 text-center text-surface-500 dark:text-surface-400">正在读取合同列表</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </app-admin-table-card>
+
+            <!-- Create Contract Dialog -->
+            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="contractProjectSelector" class="text-surface-900 dark:text-surface-0 font-medium">关联项目 <span class="text-red-500">*</span></label>
+                        <p-autocomplete
+                            inputId="contractProjectSelector"
+                            [(ngModel)]="selectedProject"
+                            [suggestions]="projectSuggestions"
+                            optionLabel="projectName"
+                            [dropdown]="true"
+                            [forceSelection]="true"
+                            [showClear]="true"
+                            [completeOnFocus]="true"
+                            emptyMessage="没有匹配项目"
+                            placeholder="搜索项目编号、项目名称或客户"
+                            styleClass="w-full"
+                            inputStyleClass="w-full"
+                            appendTo="body"
+                            (completeMethod)="filterProjects($event)"
+                            (onSelect)="selectProject($event.value)"
+                            (onClear)="selectProject(null)"
+                        >
+                            <ng-template #selecteditem let-project>
+                                <span>{{ project.projectNo }} · {{ project.projectName }}</span>
+                            </ng-template>
+                            <ng-template #item let-project>
+                                <div class="flex flex-col gap-1 py-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-medium text-surface-950 dark:text-surface-0">{{ project.projectNo }}</span>
+                                        <span class="text-sm text-surface-700 dark:text-surface-200">{{ project.projectName }}</span>
+                                    </div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }} · {{ getProjectStageName(project.currentStage) }} · {{ getProjectStatusName(project.status) }}</div>
+                                </div>
+                            </ng-template>
+                        </p-autocomplete>
+                        @if (createSubmitAttempted && !selectedProject) {
+                            <span class="text-red-500 text-xs">请选择关联项目</span>
                         }
-
-                        <p-message severity="info" text="POMS 合同编号将在创建成功后由系统生成。" styleClass="w-full" />
-
-                        <div class="flex flex-col gap-2">
-                            <label for="customerContractNo" class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>
-                            <input pInputText id="customerContractNo" [(ngModel)]="createForm.customerContractNo" class="w-full" placeholder="客户或甲方法务系统编号，可为空" />
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label for="signedAmount" class="text-surface-900 dark:text-surface-0 font-medium">签约金额 <span class="text-red-500">*</span></label>
-                            <input pInputText id="signedAmount" [(ngModel)]="createForm.signedAmount" class="w-full" [class.border-red-500]="createSubmitAttempted && !isValidAmount(createForm.signedAmount)" placeholder="正数，最多两位小数" />
-                            @if (createSubmitAttempted && !isValidAmount(createForm.signedAmount)) {
-                                <span class="text-red-500 text-xs">请输入大于 0 的有效金额，最多两位小数</span>
-                            }
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label for="currencyCode" class="text-surface-900 dark:text-surface-0 font-medium">币种</label>
-                            <p-select id="currencyCode" [(ngModel)]="createForm.currencyCode" [options]="currencyOptions" optionLabel="label" optionValue="value" placeholder="选择币种" class="w-full" appendTo="body" />
-                        </div>
                     </div>
 
-                    <ng-template #footer>
-                        <div class="flex justify-end gap-2">
-                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="cancelCreate()" />
-                            <p-button label="创建" (onClick)="createContract()" [loading]="creating()" />
+                    @if (selectedProject; as project) {
+                        <div class="rounded-[8px] border border-surface-200 bg-surface-50 px-3 py-3 dark:border-surface-700 dark:bg-surface-800">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                <div>
+                                    <div class="text-xs text-surface-500 dark:text-surface-400">已选择项目</div>
+                                    <div class="mt-1 text-sm font-semibold text-surface-950 dark:text-surface-0">{{ project.projectNo }} · {{ project.projectName }}</div>
+                                    <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ project.customerName || '待补充客户' }}</div>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    <p-tag [value]="getProjectStageName(project.currentStage)" [severity]="getProjectStageSeverity(project.currentStage)" class="rounded-[6px]!" />
+                                    <p-tag [value]="getProjectStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" class="rounded-[6px]!" />
+                                </div>
+                            </div>
+                            @if (project.customerProjectNo) {
+                                <div class="mt-2 text-xs text-surface-500 dark:text-surface-400">客户项目编号：{{ project.customerProjectNo }}</div>
+                            }
                         </div>
-                    </ng-template>
-                </p-dialog>
-            </app-admin-list-shell>
+                    } @else if (!loadingProjects() && projects().length === 0) {
+                        <p-message severity="warn" text="当前没有可选择的项目，请先完成项目创建或刷新后重试。" styleClass="w-full" />
+                    }
+
+                    <p-message severity="info" text="POMS 合同编号将在创建成功后由系统生成。" styleClass="w-full" />
+
+                    <div class="flex flex-col gap-2">
+                        <label for="customerContractNo" class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>
+                        <input pInputText id="customerContractNo" [(ngModel)]="createForm.customerContractNo" class="w-full" placeholder="客户或甲方法务系统编号，可为空" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="signedAmount" class="text-surface-900 dark:text-surface-0 font-medium">签约金额 <span class="text-red-500">*</span></label>
+                        <input pInputText id="signedAmount" [(ngModel)]="createForm.signedAmount" class="w-full" [class.border-red-500]="createSubmitAttempted && !isValidAmount(createForm.signedAmount)" placeholder="正数，最多两位小数" />
+                        @if (createSubmitAttempted && !isValidAmount(createForm.signedAmount)) {
+                            <span class="text-red-500 text-xs">请输入大于 0 的有效金额，最多两位小数</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="currencyCode" class="text-surface-900 dark:text-surface-0 font-medium">币种</label>
+                        <p-select id="currencyCode" [(ngModel)]="createForm.currencyCode" [options]="currencyOptions" optionLabel="label" optionValue="value" placeholder="选择币种" class="w-full" appendTo="body" />
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="cancelCreate()" />
+                        <p-button label="创建" (onClick)="createContract()" [loading]="creating()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
         </div>
     `
 })
@@ -280,12 +271,6 @@ export class ContractList implements OnInit {
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
         this.first = 0;
-    }
-
-    clearFilters(table: Table) {
-        this.searchValue = '';
-        this.first = 0;
-        table.clear();
     }
 
     navigateToDetail(contract: ContractSummary) {

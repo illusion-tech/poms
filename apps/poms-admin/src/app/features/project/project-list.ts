@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
@@ -11,8 +11,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { AdminListShell } from '../../shared/ui/admin-list-shell';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { AdminTableCard } from '../../shared/ui/admin-table-card';
 import { AdminMetricGrid } from '../../shared/ui/admin-metric-grid';
 import { PROJECT_STAGE_LABELS, PROJECT_STATUS_LABELS, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
@@ -79,44 +79,41 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, AdminListShell, AdminListToolbar, AdminMetricGrid, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TooltipModule, AdminTableCard, AdminMetricGrid, WorkspaceFeedback],
     providers: [ProjectStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
             <app-admin-metric-grid [items]="summaryItems()" />
 
-            <section class="flex flex-col gap-4">
-                <app-admin-list-toolbar>
-                    <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                        <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
-
-                        <p-iconfield class="w-full md:w-80">
-                            <p-inputicon class="pi pi-search" />
-                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" class="w-full! rounded-md! py-2!" />
-                        </p-iconfield>
-
-                        <p-select [ngModel]="stageFilter()" (ngModelChange)="setStageFilter($event)" [options]="stageOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按阶段筛选" class="w-full md:w-44 rounded-md!" />
-
-                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+            <section>
+                <app-admin-table-card>
+                    <div adminToolbarStart class="flex items-center">
+                        @if (canCreateLead()) {
+                            <p-button icon="pi pi-compass" class="mr-2" severity="secondary" text ariaLabel="选择线索转项目" pTooltip="选择线索转项目" tooltipPosition="top" (onClick)="navigateToLeadEntry()" />
+                        } @else if (!canCreateProject()) {
+                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">当前账号只能查看项目。</span>
+                        }
                     </div>
 
-                    <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                    <div adminToolbarCenter class="flex items-center gap-3">
+                        <p-iconfield>
+                            <p-inputicon class="pi pi-search" />
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" />
+                        </p-iconfield>
+
+                        <p-select [ngModel]="stageFilter()" (ngModelChange)="setStageFilter($event)" [options]="stageOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按阶段筛选" />
+
+                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" />
+                    </div>
+
+                    <div adminToolbarEnd class="flex items-center gap-3 text-sm text-surface-500 dark:text-surface-400">
                         <span>当前筛出 {{ visibleProjects().length }} 个项目</span>
-                        @if (canCreateLead()) {
-                            <p-button label="选择线索转项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
-                        }
 
                         @if (!canCreateLead() && canCreateProject()) {
                             <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">正式项目入口需要从已确认有效线索转入。</span>
                         }
-
-                        @if (!canCreateLead() && !canCreateProject()) {
-                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看项目。</span>
-                        }
                     </div>
-                </app-admin-list-toolbar>
 
-                <app-admin-list-shell>
                     <p-table
                         #dt
                         [value]="visibleProjects()"
@@ -211,7 +208,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                             </tr>
                         </ng-template>
                     </p-table>
-                </app-admin-list-shell>
+                </app-admin-table-card>
             </section>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建项目" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
@@ -271,8 +268,6 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
     `
 })
 export class ProjectList implements OnInit {
-    @ViewChild('dt') dt!: Table;
-
     readonly #authStore = inject(AuthStore);
     readonly #customerStore = inject(CustomerStore);
     readonly #projectStore = inject(ProjectStore);
@@ -378,14 +373,6 @@ export class ProjectList implements OnInit {
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
         this.first = 0;
-    }
-
-    clearFilters(table: Table) {
-        this.searchValue.set('');
-        this.stageFilter.set(ALL_FILTER_VALUE);
-        this.statusFilter.set(ALL_FILTER_VALUE);
-        this.first = 0;
-        table.clear();
     }
 
     setStageFilter(value: ProjectStage | ProjectAllFilterValue | null | undefined) {

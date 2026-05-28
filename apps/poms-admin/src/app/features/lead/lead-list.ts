@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,13 +42,13 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { TooltipModule } from 'primeng/tooltip';
 import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
-import { AdminListShell } from '../../shared/ui/admin-list-shell';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminTableCard } from '../../shared/ui/admin-table-card';
 import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -170,8 +170,6 @@ const LEAD_SCORE_OVERRIDE_STATUS_LABELS: Record<LeadScoreOverrideStatus, string>
 
 const LEAD_STATUS_VALUES = [LeadStatus.Registered, LeadStatus.Qualified, LeadStatus.Converted, LeadStatus.Closed] as const satisfies readonly LeadStatus[];
 
-const LEAD_STATUS_OPTIONS: Array<LeadFilterOption<LeadStatus | LeadAllFilterValue>> = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...LEAD_STATUS_VALUES.map((value) => ({ label: LEAD_STATUS_LABELS[value], value }))];
-
 const LEAD_STATUS_COLUMN_FILTER_OPTIONS: Array<LeadColumnFilterOption<LeadStatus>> = [{ label: '任意状态', value: null }, ...LEAD_STATUS_VALUES.map((value) => ({ label: LEAD_STATUS_LABELS[value], value }))];
 
 const LEAD_RATING_OPTIONS: Array<LeadFilterOption<LeadRating | LeadAllFilterValue>> = [{ label: '全部评级', value: ALL_FILTER_VALUE }, ...leadFilterOptions(LeadRatingOptions as ReadonlyArray<LeadFilterOption<LeadRating>>)];
@@ -254,8 +252,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
         BusinessDiscussionPanel,
         SalesFollowUpPanel,
         SalesIntelligencePanel,
-        AdminListShell,
-        AdminListToolbar,
+        TooltipModule,
+        AdminTableCard,
         WorkspaceFeedback
     ],
     providers: [LeadStore, CustomerStore],
@@ -337,49 +335,36 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                 </section>
             }
 
-            <section class="flex flex-col gap-4">
-                <app-admin-list-toolbar>
-                    <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                        <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+            <section>
+                <app-admin-table-card>
+                    <div adminToolbarStart class="flex items-center">
+                        @if (canWriteLead()) {
+                            <p-button icon="pi pi-plus" class="mr-2" severity="secondary" text ariaLabel="登记线索" pTooltip="登记线索" tooltipPosition="top" (onClick)="showCreateDialog()" />
+                        } @else {
+                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">当前账号只能查看线索。</span>
+                        }
+                    </div>
 
-                        <p-iconfield class="w-full md:w-80">
+                    <div adminToolbarCenter class="flex items-center gap-3">
+                        <p-iconfield>
                             <p-inputicon class="pi pi-search" />
-                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" class="w-full! rounded-md! py-2!" />
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" />
                         </p-iconfield>
 
-                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+                        <p-select [ngModel]="ratingFilter()" (ngModelChange)="setRatingFilter($event)" [options]="ratingOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按评级筛选" />
 
-                        <p-select [ngModel]="ratingFilter()" (ngModelChange)="setRatingFilter($event)" [options]="ratingOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按评级筛选" class="w-full md:w-36 rounded-md!" />
-
-                        <p-select
-                            [ngModel]="ownershipFilter()"
-                            (ngModelChange)="setOwnershipFilter($event)"
-                            [options]="ownershipOptions"
-                            optionLabel="label"
-                            optionValue="value"
-                            appendTo="body"
-                            ariaLabel="按归属筛选"
-                            class="w-full md:w-36 rounded-md!"
-                        />
+                        <p-select [ngModel]="ownershipFilter()" (ngModelChange)="setOwnershipFilter($event)" [options]="ownershipOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按归属筛选" />
                     </div>
 
-                    <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+                    <div adminToolbarEnd class="flex items-center gap-3 text-sm text-surface-500 dark:text-surface-400">
                         <span>当前筛出 {{ visibleLeads().length }} 条线索</span>
-                        <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToProjects()" />
+                        <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="goToProjects()" />
 
                         @if (canManageLeadSources()) {
-                            <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showSourceDialog()" />
-                        }
-
-                        @if (canWriteLead()) {
-                            <p-button label="登记线索" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                        } @else {
-                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看线索。</span>
+                            <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" (onClick)="showSourceDialog()" />
                         }
                     </div>
-                </app-admin-list-toolbar>
 
-                <app-admin-list-shell>
                     <p-table
                         #dt
                         [value]="visibleLeads()"
@@ -517,7 +502,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             </tr>
                         </ng-template>
                     </p-table>
-                </app-admin-list-shell>
+                </app-admin-table-card>
             </section>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="登记线索" [style]="{ width: '36rem' }" styleClass="p-fluid" (onHide)="resetCreateDialog()">
@@ -1453,8 +1438,6 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
     `
 })
 export class LeadList implements OnInit {
-    @ViewChild('dt') dt!: Table;
-
     readonly #authStore = inject(AuthStore);
     readonly #customerStore = inject(CustomerStore);
     readonly #leadStore = inject(LeadStore);
@@ -1523,8 +1506,6 @@ export class LeadList implements OnInit {
     convertDialogVisible = false;
     closeDialogVisible = false;
     scoreHistoryDialogVisible = false;
-
-    readonly statusOptions = LEAD_STATUS_OPTIONS;
 
     readonly ratingOptions = LEAD_RATING_OPTIONS;
 
@@ -1704,21 +1685,6 @@ export class LeadList implements OnInit {
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
         this.first = 0;
-    }
-
-    clearFilters(table: Table) {
-        const shouldClearConversionGuide = this.conversionGuideActive();
-        this.searchValue.set('');
-        this.statusFilter.set(ALL_FILTER_VALUE);
-        this.ratingFilter.set(ALL_FILTER_VALUE);
-        this.ownershipFilter.set(DEFAULT_OWNERSHIP_SCOPE);
-        this.conversionGuideActive.set(false);
-        this.first = 0;
-        table.clear();
-        if (shouldClearConversionGuide) {
-            this.clearConversionGuideQuery();
-        }
-        void this.loadLeads();
     }
 
     clearConversionGuide() {

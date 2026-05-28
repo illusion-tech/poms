@@ -105,38 +105,6 @@
     .button {
         @apply flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-white dark:bg-white/10 hover:bg-surface-50 dark:hover:bg-white/20 text-surface-700 dark:text-white font-medium shadow-custom-shadow transition-all;
     }
-    .poms-admin-list-toolbar {
-        width: 100%;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.75rem;
-        border: 0 !important;
-        background: transparent !important;
-        padding: 0 !important;
-    }
-    .poms-admin-list-toolbar .p-toolbar-start {
-        min-width: 0;
-        flex: 1 1 20rem;
-    }
-    .poms-admin-list-toolbar .p-toolbar-start > * {
-        width: 100%;
-    }
-    .poms-admin-list-toolbar .p-toolbar-end {
-        margin-left: auto;
-    }
-    @media (max-width: 767px) {
-        .poms-admin-list-toolbar {
-            align-items: stretch;
-        }
-        .poms-admin-list-toolbar .p-toolbar-start,
-        .poms-admin-list-toolbar .p-toolbar-end {
-            width: 100%;
-            flex-basis: 100%;
-        }
-        .poms-admin-list-toolbar .p-toolbar-end {
-            margin-left: 0;
-        }
-    }
 }
 
 .pattern {

@@ -10,7 +10,7 @@ import { LayoutService } from '../service/layout.service';
                 <img src="/layout/images/logo-{{ isDarkTheme() ? 'white' : 'dark' }}.svg" alt="poseidon-layout" />
                 <span class="footer-app-name">Poseidon</span>
             </div>
-            <span class="footer-copyright">&#169; Your Organization - 2026</span>
+            <span class="footer-copyright">&#169; Illusiontech - 2026</span>
         </div>
     `
 })

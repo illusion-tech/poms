@@ -10,8 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { AdminListShell } from '../../shared/ui/admin-list-shell';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminTableCard } from '../../shared/ui/admin-table-card';
 import { AdminMetricGrid, type AdminMetricItem } from '../../shared/ui/admin-metric-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -53,7 +52,7 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
 @Component({
     selector: 'app-attachment-center',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, AdminListShell, AdminListToolbar, AdminMetricGrid, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, AdminTableCard, AdminMetricGrid, WorkspaceFeedback],
     providers: [AttachmentCenterStore, DictionaryStore],
     template: `
         <div class="flex flex-col gap-5">
@@ -67,8 +66,8 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
                 <app-workspace-feedback severity="warn" summary="部分范围读取失败" [detail]="store.errors().join(' ')" />
             }
 
-            <app-admin-list-toolbar>
-                <div adminToolbarStart class="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-[minmax(18rem,1fr)_repeat(3,minmax(10rem,12rem))_repeat(2,minmax(9rem,10rem))_auto]">
+            <app-admin-table-card>
+                <div adminToolbarCenter class="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-[minmax(18rem,1fr)_repeat(3,minmax(10rem,12rem))_repeat(2,minmax(9rem,10rem))]">
                     <p-iconfield>
                         <p-inputicon class="pi pi-search" />
                         <input pInputText class="w-full rounded-md!" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" placeholder="搜索文件名、业务对象、上传人" />
@@ -88,87 +87,84 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
                         [ngModel]="uploadedTo()"
                         (ngModelChange)="uploadedTo.set($event)"
                     />
-                    <p-button label="刷新" icon="pi pi-refresh" severity="secondary" [outlined]="true" styleClass="w-full rounded-md! 2xl:w-auto" [loading]="store.loading()" (onClick)="reload()" />
                 </div>
-            </app-admin-list-toolbar>
 
-            <app-admin-list-shell>
-                <div class="px-6 py-5">
-                    <p-table
-                        [value]="filteredRecords()"
-                        [loading]="store.loading()"
-                        [paginator]="true"
-                        [rows]="10"
-                        sortMode="multiple"
-                        dataKey="id"
-                        tableStyleClass="min-w-[72rem]"
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                        currentPageReportTemplate="当前 {first} - {last} / 共 {totalRecords} 个附件"
-                        responsiveLayout="scroll"
-                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                    >
-                        <ng-template #header>
-                            <tr>
-                                <th pSortableColumn="attachment.displayName">文件 <p-sortIcon field="attachment.displayName" /></th>
-                                <th pSortableColumn="targetName">业务对象 <p-sortIcon field="targetName" /></th>
-                                <th>分类</th>
-                                <th pSortableColumn="attachment.uploadedByName">上传人 <p-sortIcon field="attachment.uploadedByName" /></th>
-                                <th pSortableColumn="attachment.uploadedAt">上传时间 <p-sortIcon field="attachment.uploadedAt" /></th>
-                                <th>版本</th>
-                                <th>操作</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template #body let-record>
-                            <tr>
-                                <td>
-                                    <div class="flex min-w-0 items-center gap-3">
-                                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] border border-surface-200 bg-surface-50 text-surface-500 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-300">
-                                            <i class="pi" [ngClass]="fileIcon(record)"></i>
-                                        </div>
-                                        <div class="min-w-0">
-                                            <div class="truncate font-medium text-surface-950 dark:text-surface-0">{{ record.attachment.displayName }}</div>
-                                            <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ record.attachment.extension | uppercase }} · {{ formatSize(record.attachment.sizeBytes) }}</div>
-                                        </div>
+                <p-button adminToolbarEnd label="刷新" icon="pi pi-refresh" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+
+                <p-table
+                    [value]="filteredRecords()"
+                    [loading]="store.loading()"
+                    [paginator]="true"
+                    [rows]="10"
+                    sortMode="multiple"
+                    dataKey="id"
+                    tableStyleClass="min-w-[72rem]"
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                    currentPageReportTemplate="当前 {first} - {last} / 共 {totalRecords} 个附件"
+                    responsiveLayout="scroll"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                >
+                    <ng-template #header>
+                        <tr>
+                            <th pSortableColumn="attachment.displayName">文件 <p-sortIcon field="attachment.displayName" /></th>
+                            <th pSortableColumn="targetName">业务对象 <p-sortIcon field="targetName" /></th>
+                            <th>分类</th>
+                            <th pSortableColumn="attachment.uploadedByName">上传人 <p-sortIcon field="attachment.uploadedByName" /></th>
+                            <th pSortableColumn="attachment.uploadedAt">上传时间 <p-sortIcon field="attachment.uploadedAt" /></th>
+                            <th>版本</th>
+                            <th>操作</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-record>
+                        <tr>
+                            <td>
+                                <div class="flex min-w-0 items-center gap-3">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] border border-surface-200 bg-surface-50 text-surface-500 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-300">
+                                        <i class="pi" [ngClass]="fileIcon(record)"></i>
                                     </div>
-                                </td>
-                                <td>
-                                    <div class="flex flex-col gap-1">
-                                        <div class="flex items-center gap-2">
-                                            <p-tag [value]="targetTypeLabel(record.targetType)" [severity]="targetTypeSeverity(record.targetType)" class="rounded-[6px]" />
-                                            <span class="font-medium text-surface-900 dark:text-surface-0">{{ record.targetName }}</span>
-                                        </div>
-                                        <span class="text-xs text-surface-500 dark:text-surface-400">{{ record.targetNo }}</span>
+                                    <div class="min-w-0">
+                                        <div class="truncate font-medium text-surface-950 dark:text-surface-0">{{ record.attachment.displayName }}</div>
+                                        <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ record.attachment.extension | uppercase }} · {{ formatSize(record.attachment.sizeBytes) }}</div>
                                     </div>
-                                </td>
-                                <td>{{ categoryLabel(record.attachment.category) }}</td>
-                                <td>{{ record.attachment.uploadedByName || '未知上传人' }}</td>
-                                <td>{{ record.attachment.uploadedAt | date: 'yyyy-MM-dd HH:mm' }}</td>
-                                <td>
-                                    <div class="flex flex-wrap gap-2">
-                                        <p-tag [value]="'v' + record.attachment.versionNo" severity="info" class="rounded-[6px]" />
-                                        @if (record.attachment.isFinal) {
-                                            <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
-                                        }
-                                        @if (record.attachment.previewSupported) {
-                                            <p-tag value="可预览" severity="success" class="rounded-[6px]" />
-                                        }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex flex-col gap-1">
+                                    <div class="flex items-center gap-2">
+                                        <p-tag [value]="targetTypeLabel(record.targetType)" [severity]="targetTypeSeverity(record.targetType)" class="rounded-[6px]" />
+                                        <span class="font-medium text-surface-900 dark:text-surface-0">{{ record.targetName }}</span>
                                     </div>
-                                </td>
-                                <td>
-                                    <p-button icon="pi pi-arrow-right" label="查看来源" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="navigateToSource(record)" />
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template #emptymessage>
-                            <tr>
-                                <td colspan="7" class="py-8 text-center text-surface-500 dark:text-surface-400">
-                                    {{ store.loading() ? '正在读取附件...' : '当前筛选条件下没有附件。' }}
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </app-admin-list-shell>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ record.targetNo }}</span>
+                                </div>
+                            </td>
+                            <td>{{ categoryLabel(record.attachment.category) }}</td>
+                            <td>{{ record.attachment.uploadedByName || '未知上传人' }}</td>
+                            <td>{{ record.attachment.uploadedAt | date: 'yyyy-MM-dd HH:mm' }}</td>
+                            <td>
+                                <div class="flex flex-wrap gap-2">
+                                    <p-tag [value]="'v' + record.attachment.versionNo" severity="info" class="rounded-[6px]" />
+                                    @if (record.attachment.isFinal) {
+                                        <p-tag value="最终版" severity="warn" class="rounded-[6px]" />
+                                    }
+                                    @if (record.attachment.previewSupported) {
+                                        <p-tag value="可预览" severity="success" class="rounded-[6px]" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <p-button icon="pi pi-arrow-right" label="查看来源" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="navigateToSource(record)" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #emptymessage>
+                        <tr>
+                            <td colspan="7" class="py-8 text-center text-surface-500 dark:text-surface-400">
+                                {{ store.loading() ? '正在读取附件...' : '当前筛选条件下没有附件。' }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </app-admin-table-card>
         </div>
     `
 })

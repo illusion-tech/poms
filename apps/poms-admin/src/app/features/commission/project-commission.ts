@@ -50,11 +50,7 @@ import {
 } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
-import {
-    formatSensitiveAmountProjection,
-    sensitiveProjectionDisplayText,
-    type SensitiveStringFieldProjectionView
-} from '../../shared/ui/sensitive-visibility';
+import { formatSensitiveAmountProjection, sensitiveProjectionDisplayText, type SensitiveStringFieldProjectionView } from '../../shared/ui/sensitive-visibility';
 import { buildCommissionTodoDeepLinkContext, type CommissionTodoDeepLinkQuery } from './commission-todo-deeplink';
 
 type CommissionPayoutRow = ReturnType<CommissionStore['payouts']>[number];
@@ -154,7 +150,7 @@ const TEMPLATE = `
                     >
                         <ng-template #caption>
                             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(calculationTable, calculationSearchValue)"></button>
+                                <button pButton type="button" label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(calculationTable, calculationSearchValue)"></button>
                                 <p-iconfield class="w-full sm:w-64">
                                     <p-inputicon class="pi pi-search" />
                                     <input pInputText [ngModel]="calculationSearchValue()" (ngModelChange)="calculationSearchValue.set($event)" (input)="onGlobalFilter(calculationTable, $event)" placeholder="搜索版本或状态" class="w-full! rounded-md! py-2!" />
@@ -201,7 +197,7 @@ const TEMPLATE = `
                     >
                         <ng-template #caption>
                             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(payoutTable, payoutSearchValue)"></button>
+                                <button pButton type="button" label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(payoutTable, payoutSearchValue)"></button>
                                 <p-iconfield class="w-full sm:w-72">
                                     <p-inputicon class="pi pi-search" />
                                     <input pInputText [ngModel]="payoutSearchValue()" (ngModelChange)="payoutSearchValue.set($event)" (input)="onGlobalFilter(payoutTable, $event)" placeholder="搜索阶段、档位或状态" class="w-full! rounded-md! py-2!" />
@@ -247,7 +243,7 @@ const TEMPLATE = `
                 >
                     <ng-template #caption>
                         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(adjustmentTable, adjustmentSearchValue)"></button>
+                            <button pButton type="button" label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearTable(adjustmentTable, adjustmentSearchValue)"></button>
                             <p-iconfield class="w-full sm:w-72">
                                 <p-inputicon class="pi pi-search" />
                                 <input pInputText [ngModel]="adjustmentSearchValue()" (ngModelChange)="adjustmentSearchValue.set($event)" (input)="onGlobalFilter(adjustmentTable, $event)" placeholder="搜索类型、状态或原因" class="w-full! rounded-md! py-2!" />
@@ -829,14 +825,7 @@ export class ProjectCommission implements OnInit, OnDestroy {
                 label: '登记发放',
                 icon: 'pi pi-wallet',
                 disabled: saving,
-                command: () =>
-                    this.openRegisterDialog(
-                        item.id,
-                        item.stageType,
-                        this.sensitiveProjectionValue(item.approvedAmountProjection) ||
-                            this.sensitiveProjectionValue(item.theoreticalCapAmountProjection),
-                        item.rowVersion
-                    )
+                command: () => this.openRegisterDialog(item.id, item.stageType, this.sensitiveProjectionValue(item.approvedAmountProjection) || this.sensitiveProjectionValue(item.theoreticalCapAmountProjection), item.rowVersion)
             });
         }
 

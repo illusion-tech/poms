@@ -13,13 +13,13 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { ToolbarModule } from 'primeng/toolbar';
+import { Tooltip } from 'primeng/tooltip';
 import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
-import { AdminListShell } from '../../shared/ui/admin-list-shell';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
 import { AdminMetricGrid, type AdminMetricItem } from '../../shared/ui/admin-metric-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -52,20 +52,11 @@ interface FollowUpReminderEntry {
 
 type EditableCustomerStatus = CustomerStatus.Active | CustomerStatus.Inactive;
 
-const ALL_FILTER_VALUE = 'all';
-
 const CUSTOMER_STATUS_LABELS: Record<CustomerStatus, string> = {
     [CustomerStatus.Active]: '启用',
     [CustomerStatus.Inactive]: '停用',
     [CustomerStatus.Merged]: '已合并'
 };
-
-const CUSTOMER_STATUS_OPTIONS: CustomerFilterOption[] = [
-    { label: '全部状态', value: ALL_FILTER_VALUE },
-    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Active], value: CustomerStatus.Active },
-    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Inactive], value: CustomerStatus.Inactive },
-    { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Merged], value: CustomerStatus.Merged }
-];
 
 const EDITABLE_STATUS_OPTIONS: CustomerFilterOption[] = [
     { label: CUSTOMER_STATUS_LABELS[CustomerStatus.Active], value: CustomerStatus.Active },
@@ -113,15 +104,15 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
         SelectModule,
         TagModule,
         TextareaModule,
+        ToolbarModule,
         AuditHistoryPanel,
         AttachmentPanel,
         BusinessDiscussionPanel,
         SalesFollowUpPanel,
         SalesIntelligencePanel,
-        AdminListShell,
-        AdminListToolbar,
         AdminMetricGrid,
-        WorkspaceFeedback
+        WorkspaceFeedback,
+        Tooltip
     ],
     providers: [CustomerStore],
     template: `
@@ -132,25 +123,26 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                 <app-workspace-feedback severity="error" summary="客户暂时无法处理" [detail]="pageError()" />
             }
 
-            <app-admin-list-toolbar>
-                <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+            <div class="card">
+                <p-toolbar class="p-component p-toolbar mb-4">
+                    <ng-template #start>
+                        <p-button icon="pi pi-plus" class="mr-2" severity="secondary" text ariaLabel="新建客户" pTooltip="新建客户" tooltipPosition="top" (onClick)="showCreateDialog()" />
+                    </ng-template>
 
-                    <p-iconfield class="w-full md:w-80">
-                        <p-inputicon class="pi pi-search" />
-                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索客户、编号、主责" class="w-full! rounded-md! py-2!" />
-                    </p-iconfield>
+                    <ng-template #center>
+                        <p-iconfield>
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索客户、编号、主责" />
+                        </p-iconfield>
+                    </ng-template>
 
-                    <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
-                </div>
+                    <ng-template #end>
+                        <span class="text-sm text-surface-500 dark:text-surface-400">当前筛出 {{ visibleCustomers().length }} 个客户</span>
+                    </ng-template>
+                </p-toolbar>
 
-                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
-                    <span>当前筛出 {{ visibleCustomers().length }} 个客户</span>
-                    <p-button label="新建客户" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                </div>
-            </app-admin-list-toolbar>
-
-            <app-admin-list-shell>
                 <p-table
                     #dt
                     [value]="visibleCustomers()"
@@ -226,7 +218,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                         </tr>
                     </ng-template>
                 </p-table>
-            </app-admin-list-shell>
+            </div>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建客户" [style]="{ width: 'min(34rem, 92vw)' }" styleClass="p-fluid" (onHide)="resetCreateDialog()">
                 <ng-container *ngTemplateOutlet="customerForm; context: { form: createForm(), mode: 'create' }" />
@@ -410,7 +402,6 @@ export class CustomerList implements OnInit {
     ]);
 
     readonly searchValue = signal('');
-    readonly statusFilter = signal(ALL_FILTER_VALUE);
     readonly createForm = signal<CustomerCreateForm>({ ...EMPTY_CREATE_FORM });
     readonly editForm = signal<CustomerEditForm>({ ...EMPTY_EDIT_FORM });
     readonly aliasForm = signal<CustomerAliasForm>({ ...EMPTY_ALIAS_FORM });
@@ -426,7 +417,6 @@ export class CustomerList implements OnInit {
     editDialogVisible = false;
     detailDialogVisible = false;
 
-    readonly statusOptions = CUSTOMER_STATUS_OPTIONS;
     readonly editableStatusOptions = EDITABLE_STATUS_OPTIONS;
     readonly aliasTypeOptions = CUSTOMER_ALIAS_TYPE_OPTIONS;
     readonly customerAttachmentTargetType = AttachmentTargetType.Customer;
@@ -434,13 +424,8 @@ export class CustomerList implements OnInit {
 
     readonly visibleCustomers = computed(() => {
         const keyword = this.normalize(this.searchValue());
-        const selectedStatus = this.statusFilter();
 
         return this.customers().filter((customer) => {
-            if (selectedStatus !== ALL_FILTER_VALUE && customer.status !== selectedStatus) {
-                return false;
-            }
-
             if (!keyword) {
                 return true;
             }
@@ -478,18 +463,6 @@ export class CustomerList implements OnInit {
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-        this.first = 0;
-    }
-
-    clearFilters(table: Table) {
-        this.searchValue.set('');
-        this.statusFilter.set(ALL_FILTER_VALUE);
-        this.first = 0;
-        table.clear();
-    }
-
-    setStatusFilter(value: string) {
-        this.statusFilter.set(value);
         this.first = 0;
     }
 

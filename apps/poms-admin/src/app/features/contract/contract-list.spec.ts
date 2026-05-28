@@ -2,7 +2,6 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthStore, ContractStatus, ContractStore, ProjectStage, ProjectStatus, ProjectStore, type ContractSummary, type ProjectListView } from '@poms/admin-data-access';
-import type { Table } from 'primeng/table';
 import { ContractList } from './contract-list';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -133,7 +132,6 @@ describe('ContractList', () => {
 
         expect(contractStoreMock.loadContracts).toHaveBeenCalled();
         expect(projectStoreMock.loadProjects).toHaveBeenCalled();
-        expect(text).toContain('清空筛选');
         expect(fixture.nativeElement.querySelector('input[placeholder="搜索合同、项目、客户"]')).not.toBeNull();
         expect(text).toContain('合同/项目');
         expect(text).toContain('金额/状态');
@@ -172,18 +170,6 @@ describe('ContractList', () => {
         expect(text).toContain('经营敏感字段已隐藏');
         expect(text).not.toContain('1,200,000.00 CNY');
         expect(text).not.toContain('新建合同');
-    });
-
-    it('clears table filters and resets pagination state', () => {
-        const table = { clear: jest.fn() } as unknown as Table;
-        component.searchValue = 'KH-HT';
-        component.first = 10;
-
-        component.clearFilters(table);
-
-        expect(component.searchValue).toBe('');
-        expect(component.first).toBe(0);
-        expect(table.clear).toHaveBeenCalled();
     });
 
     it('renders project picker context without exposing a raw project UUID input', () => {

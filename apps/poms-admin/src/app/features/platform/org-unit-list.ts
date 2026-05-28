@@ -14,228 +14,206 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
-import { AdminListShell } from '../../shared/ui/admin-list-shell';
+import { AdminTableCard } from '../../shared/ui/admin-table-card';
 
 @Component({
     selector: 'app-org-unit-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule, TagModule, AdminListShell, AdminListToolbar],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule, TagModule, AdminTableCard],
     providers: [MessageService],
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
-            <app-admin-list-toolbar>
-                <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
-                    <p-button label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="w-full md:w-auto rounded-md!" (onClick)="clearFilters(dt)" />
+            <app-admin-table-card>
+                <p-button adminToolbarStart icon="pi pi-plus" class="mr-2" severity="secondary" text ariaLabel="新建组织" pTooltip="新建组织" tooltipPosition="top" (onClick)="openCreateDialog()" />
 
-                    <p-iconfield class="w-full md:w-80">
-                        <p-inputicon class="pi pi-search" />
-                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索组织、编码" class="w-full! rounded-md! py-2!" />
-                    </p-iconfield>
-                </div>
+                <p-iconfield adminToolbarCenter class="w-full md:w-80">
+                    <p-inputicon class="pi pi-search" />
+                    <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索组织、编码" class="w-full! rounded-md! py-2!" />
+                </p-iconfield>
 
-                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
-                    <span>共 {{ platformStore.orgUnits().length }} 个组织</span>
-                    <p-button icon="pi pi-plus" label="新建组织" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="openCreateDialog()" class="w-full sm:w-auto cursor-pointer" />
-                </div>
-            </app-admin-list-toolbar>
+                <span adminToolbarEnd class="text-sm text-surface-500 dark:text-surface-400">共 {{ platformStore.orgUnits().length }} 个组织</span>
 
-            <app-admin-list-shell>
-                <!-- Table -->
-                <div class="flex-1 px-6 py-5">
-                    <p-table
-                        #dt
-                        [value]="platformStore.orgUnits()"
-                        [paginator]="true"
-                        [rows]="rows"
-                        [first]="first"
-                        dataKey="id"
-                        [rowHover]="true"
-                        sortMode="multiple"
-                        responsiveLayout="scroll"
-                        [globalFilterFields]="['name', 'code']"
-                        [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                        currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
-                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                    >
-                        <ng-template #header>
-                            <tr>
-                                <th pSortableColumn="name">
-                                    <span class="flex items-center gap-2">组织名称 <p-sortIcon field="name" /></span>
-                                </th>
-                                <th pSortableColumn="code">
-                                    <span class="flex items-center gap-2">组织编码 <p-sortIcon field="code" /></span>
-                                </th>
-                                <th>上级组织</th>
-                                <th pSortableColumn="displayOrder">
-                                    <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
-                                </th>
-                                <th>状态</th>
-                                <th>描述</th>
-                                <th style="width: 12rem">操作</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template #body let-unit>
-                            <tr>
-                                <td>
-                                    <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ unit.name }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-surface-400 text-xs font-mono">{{ unit.code ?? '—' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-surface-500 text-sm">{{ getParentName(unit.parentId) }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-surface-500 text-sm">{{ unit.displayOrder }}</span>
-                                </td>
-                                <td>
-                                    <p-tag [value]="unit.isActive ? '启用' : '停用'" [severity]="unit.isActive ? 'success' : 'warn'" />
-                                </td>
-                                <td>
-                                    <span class="text-surface-500 text-sm">{{ unit.description ?? '—' }}</span>
-                                </td>
-                                <td>
-                                    <div class="flex items-center gap-1">
-                                        <p-button
-                                            icon="pi pi-pencil"
-                                            [rounded]="true"
-                                            [text]="true"
-                                            size="small"
-                                            severity="secondary"
-                                            pTooltip="编辑"
-                                            tooltipPosition="top"
-                                            (onClick)="openEditDialog(unit)"
-                                            class="cursor-pointer"
-                                            ariaLabel="编辑组织"
-                                        />
-                                        <p-button
-                                            icon="pi pi-share-alt"
-                                            [rounded]="true"
-                                            [text]="true"
-                                            size="small"
-                                            severity="secondary"
-                                            pTooltip="移动"
-                                            tooltipPosition="top"
-                                            (onClick)="openMoveDialog(unit)"
-                                            class="cursor-pointer"
-                                            ariaLabel="移动组织"
-                                        />
-                                        <p-button
-                                            [icon]="unit.isActive ? 'pi pi-ban' : 'pi pi-check'"
-                                            [rounded]="true"
-                                            [text]="true"
-                                            size="small"
-                                            [severity]="unit.isActive ? 'danger' : 'success'"
-                                            [pTooltip]="unit.isActive ? '停用' : '启用'"
-                                            tooltipPosition="top"
-                                            (onClick)="toggleOrgUnit(unit)"
-                                            class="cursor-pointer"
-                                            [ariaLabel]="unit.isActive ? '停用组织' : '启用组织'"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template #emptymessage>
-                            <tr>
-                                <td colspan="7" class="text-center py-8 text-surface-400">{{ platformStore.loadingOrgUnits() ? '加载中...' : '暂无组织' }}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-
-                <!-- Create Dialog -->
-                <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
-                    <div class="flex flex-col gap-4 py-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">组织名称 *</label>
-                            <input pInputText [(ngModel)]="createForm.name" placeholder="如 华北销售部" class="w-full" aria-label="新建组织名称" />
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">组织编码 *</label>
-                            <input pInputText [(ngModel)]="createForm.code" placeholder="如 SALES-NORTH" class="w-full" aria-label="新建组织编码" />
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">描述</label>
-                            <textarea pTextarea [(ngModel)]="createForm.description" rows="3" placeholder="组织简介（可选）" class="w-full" aria-label="新建组织描述"></textarea>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">上级组织</label>
-                            <select [(ngModel)]="createForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2" aria-label="新建组织上级组织">
-                                <option [ngValue]="null">作为根节点</option>
-                                @for (unit of selectableParents(); track unit.id) {
-                                    <option [ngValue]="unit.id">{{ unit.name }}</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">排序</label>
-                            <input pInputText type="number" [(ngModel)]="createForm.displayOrder" class="w-full" aria-label="新建组织排序" />
-                        </div>
-                    </div>
-                    <ng-template #footer>
-                        <div class="flex justify-end gap-2">
-                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="createDialogVisible = false" />
-                            <p-button label="创建" [loading]="platformStore.savingOrgUnit()" (onClick)="createOrgUnit()" />
-                        </div>
+                <p-table
+                    #dt
+                    [value]="platformStore.orgUnits()"
+                    [paginator]="true"
+                    [rows]="rows"
+                    [first]="first"
+                    dataKey="id"
+                    [rowHover]="true"
+                    sortMode="multiple"
+                    responsiveLayout="scroll"
+                    [globalFilterFields]="['name', 'code']"
+                    [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                    currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                >
+                    <ng-template #header>
+                        <tr>
+                            <th pSortableColumn="name">
+                                <span class="flex items-center gap-2">组织名称 <p-sortIcon field="name" /></span>
+                            </th>
+                            <th pSortableColumn="code">
+                                <span class="flex items-center gap-2">组织编码 <p-sortIcon field="code" /></span>
+                            </th>
+                            <th>上级组织</th>
+                            <th pSortableColumn="displayOrder">
+                                <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
+                            </th>
+                            <th>状态</th>
+                            <th>描述</th>
+                            <th style="width: 12rem">操作</th>
+                        </tr>
                     </ng-template>
-                </p-dialog>
-
-                <!-- Edit Dialog -->
-                <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
-                    <div class="flex flex-col gap-4 py-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">组织名称 *</label>
-                            <input pInputText [(ngModel)]="editForm.name" class="w-full" aria-label="编辑组织名称" />
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">组织编码</label>
-                            <input pInputText [(ngModel)]="editForm.code" class="w-full" aria-label="编辑组织编码" />
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">描述</label>
-                            <textarea pTextarea [(ngModel)]="editForm.description" rows="3" class="w-full" aria-label="编辑组织描述"></textarea>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">排序</label>
-                            <input pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" aria-label="编辑组织排序" />
-                        </div>
-                    </div>
-                    <ng-template #footer>
-                        <div class="flex justify-end gap-2">
-                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="editDialogVisible = false" />
-                            <p-button label="保存" [loading]="platformStore.savingOrgUnit()" (onClick)="saveOrgUnit()" />
-                        </div>
+                    <ng-template #body let-unit>
+                        <tr>
+                            <td>
+                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ unit.name }}</span>
+                            </td>
+                            <td>
+                                <span class="text-surface-400 text-xs font-mono">{{ unit.code ?? '—' }}</span>
+                            </td>
+                            <td>
+                                <span class="text-surface-500 text-sm">{{ getParentName(unit.parentId) }}</span>
+                            </td>
+                            <td>
+                                <span class="text-surface-500 text-sm">{{ unit.displayOrder }}</span>
+                            </td>
+                            <td>
+                                <p-tag [value]="unit.isActive ? '启用' : '停用'" [severity]="unit.isActive ? 'success' : 'warn'" />
+                            </td>
+                            <td>
+                                <span class="text-surface-500 text-sm">{{ unit.description ?? '—' }}</span>
+                            </td>
+                            <td>
+                                <div class="flex items-center gap-1">
+                                    <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="编辑" tooltipPosition="top" (onClick)="openEditDialog(unit)" class="cursor-pointer" ariaLabel="编辑组织" />
+                                    <p-button
+                                        icon="pi pi-share-alt"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        severity="secondary"
+                                        pTooltip="移动"
+                                        tooltipPosition="top"
+                                        (onClick)="openMoveDialog(unit)"
+                                        class="cursor-pointer"
+                                        ariaLabel="移动组织"
+                                    />
+                                    <p-button
+                                        [icon]="unit.isActive ? 'pi pi-ban' : 'pi pi-check'"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        [severity]="unit.isActive ? 'danger' : 'success'"
+                                        [pTooltip]="unit.isActive ? '停用' : '启用'"
+                                        tooltipPosition="top"
+                                        (onClick)="toggleOrgUnit(unit)"
+                                        class="cursor-pointer"
+                                        [ariaLabel]="unit.isActive ? '停用组织' : '启用组织'"
+                                    />
+                                </div>
+                            </td>
+                        </tr>
                     </ng-template>
-                </p-dialog>
-
-                <p-dialog [(visible)]="moveDialogVisible" [modal]="true" header="移动组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
-                    <div class="flex flex-col gap-4 py-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">上级组织</label>
-                            <select [(ngModel)]="moveForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2" aria-label="移动组织上级组织">
-                                <option [ngValue]="null">移动到根节点</option>
-                                @for (unit of selectableParents(movingId()); track unit.id) {
-                                    <option [ngValue]="unit.id">{{ unit.name }}</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium">排序</label>
-                            <input pInputText type="number" [(ngModel)]="moveForm.displayOrder" class="w-full" aria-label="移动组织排序" />
-                        </div>
-                    </div>
-                    <ng-template #footer>
-                        <div class="flex justify-end gap-2">
-                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="moveDialogVisible = false" />
-                            <p-button label="保存位置" [loading]="platformStore.savingOrgUnit()" (onClick)="moveOrgUnit()" />
-                        </div>
+                    <ng-template #emptymessage>
+                        <tr>
+                            <td colspan="7" class="text-center py-8 text-surface-400">{{ platformStore.loadingOrgUnits() ? '加载中...' : '暂无组织' }}</td>
+                        </tr>
                     </ng-template>
-                </p-dialog>
-            </app-admin-list-shell>
+                </p-table>
+            </app-admin-table-card>
+
+            <!-- Create Dialog -->
+            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">组织名称 *</label>
+                        <input pInputText [(ngModel)]="createForm.name" placeholder="如 华北销售部" class="w-full" aria-label="新建组织名称" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">组织编码 *</label>
+                        <input pInputText [(ngModel)]="createForm.code" placeholder="如 SALES-NORTH" class="w-full" aria-label="新建组织编码" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">描述</label>
+                        <textarea pTextarea [(ngModel)]="createForm.description" rows="3" placeholder="组织简介（可选）" class="w-full" aria-label="新建组织描述"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">上级组织</label>
+                        <select [(ngModel)]="createForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2" aria-label="新建组织上级组织">
+                            <option [ngValue]="null">作为根节点</option>
+                            @for (unit of selectableParents(); track unit.id) {
+                                <option [ngValue]="unit.id">{{ unit.name }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">排序</label>
+                        <input pInputText type="number" [(ngModel)]="createForm.displayOrder" class="w-full" aria-label="新建组织排序" />
+                    </div>
+                </div>
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="createDialogVisible = false" />
+                        <p-button label="创建" [loading]="platformStore.savingOrgUnit()" (onClick)="createOrgUnit()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <!-- Edit Dialog -->
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">组织名称 *</label>
+                        <input pInputText [(ngModel)]="editForm.name" class="w-full" aria-label="编辑组织名称" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">组织编码</label>
+                        <input pInputText [(ngModel)]="editForm.code" class="w-full" aria-label="编辑组织编码" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">描述</label>
+                        <textarea pTextarea [(ngModel)]="editForm.description" rows="3" class="w-full" aria-label="编辑组织描述"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">排序</label>
+                        <input pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" aria-label="编辑组织排序" />
+                    </div>
+                </div>
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="editDialogVisible = false" />
+                        <p-button label="保存" [loading]="platformStore.savingOrgUnit()" (onClick)="saveOrgUnit()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="moveDialogVisible" [modal]="true" header="移动组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">上级组织</label>
+                        <select [(ngModel)]="moveForm.parentId" class="w-full rounded-xl border border-surface-300 px-3 py-2" aria-label="移动组织上级组织">
+                            <option [ngValue]="null">移动到根节点</option>
+                            @for (unit of selectableParents(movingId()); track unit.id) {
+                                <option [ngValue]="unit.id">{{ unit.name }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">排序</label>
+                        <input pInputText type="number" [(ngModel)]="moveForm.displayOrder" class="w-full" aria-label="移动组织排序" />
+                    </div>
+                </div>
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="moveDialogVisible = false" />
+                        <p-button label="保存位置" [loading]="platformStore.savingOrgUnit()" (onClick)="moveOrgUnit()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
         </div>
     `
 })
@@ -361,12 +339,6 @@ export class OrgUnitList {
     onGlobalFilter(table: Table, event: Event) {
         this.first = 0;
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    }
-
-    clearFilters(table: Table) {
-        this.searchValue = '';
-        this.first = 0;
-        table.clear();
     }
 
     getParentName(parentId: string | null): string {

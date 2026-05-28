@@ -13,7 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
-import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { ToolbarModule } from 'primeng/toolbar';
 import { AdminMetricGrid, type AdminMetricItem } from '../../shared/ui/admin-metric-grid';
 
 type DictionaryFilterValue = DictionaryDomain | 'all';
@@ -106,7 +106,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
 @Component({
     selector: 'app-dictionary-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, TooltipModule, ToastModule, AdminListToolbar, AdminMetricGrid],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, TooltipModule, ToastModule, ToolbarModule, AdminMetricGrid],
     providers: [DictionaryStore, MessageService],
     template: `
         <p-toast />
@@ -117,22 +117,28 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                 <div class="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{{ pageError() }}</div>
             }
 
-            <app-admin-list-toolbar>
-                <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
-                    <p-iconfield class="w-full md:w-96">
-                        <p-inputicon class="pi pi-search" />
-                        <input pInputText [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" (keydown.enter)="reload()" placeholder="搜索 code、名称或说明" class="w-full! rounded-md! py-2!" />
-                    </p-iconfield>
+            <div class="card">
+                <p-toolbar class="p-component p-toolbar">
+                    <ng-template #start>
+                        <div class="flex flex-col gap-3 md:flex-row md:items-center">
+                            <p-iconfield class="w-full md:w-96">
+                                <p-inputicon class="pi pi-search" />
+                                <input pInputText [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" (keydown.enter)="reload()" placeholder="搜索 code、名称或说明" class="w-full! rounded-md! py-2!" />
+                            </p-iconfield>
 
-                    <p-button label="查询" icon="pi pi-search" severity="primary" [outlined]="true" class="rounded-md!" (onClick)="reload()" />
-                    <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="resetFilters()" />
-                </div>
+                            <p-button label="查询" icon="pi pi-search" severity="primary" [outlined]="true" class="rounded-md!" (onClick)="reload()" />
+                            <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="resetFilters()" />
+                        </div>
+                    </ng-template>
 
-                <div adminToolbarEnd class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
-                    <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                </div>
-            </app-admin-list-toolbar>
+                    <ng-template #end>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+                            <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                        </div>
+                    </ng-template>
+                </p-toolbar>
+            </div>
 
             <section class="grid grid-cols-1 gap-4 xl:grid-cols-3">
                 @for (card of domainCards(); track card.domain) {

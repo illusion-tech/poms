@@ -181,11 +181,12 @@ describe('ProjectList', () => {
     });
 
     it('uses the lead conversion chain as the visible project creation entry', () => {
+        const leadConversionButton = fixture.nativeElement.querySelector('button[aria-label="选择线索转项目"]') as HTMLButtonElement | null;
         const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button'))
             .map((button) => (button as HTMLButtonElement).textContent ?? '')
             .join(' ');
 
-        expect(buttonText).toContain('选择线索转项目');
+        expect(leadConversionButton).not.toBeNull();
         expect(buttonText).not.toContain('新建项目');
 
         component.navigateToLeadEntry();

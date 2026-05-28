@@ -47,7 +47,7 @@
 | ---------------------------------------------------------------------- | ---------------------- | -------------------------------------------------------- |
 | 用户本轮表格统一诉求                                                   | frozen                 | 明确视觉统一目标和共享组件方向                           |
 | `apps/poms-admin/src/app/demo/crud/crud.ts`                            | reference              | 借鉴 `p-toolbar` start / end 组织方式                    |
-| `apps/poms-admin/src/app/demo/uikit/tabledemo.ts`                      | reference              | 借鉴 table caption、搜索和清空筛选位置                   |
+| `apps/poms-admin/src/app/demo/uikit/tabledemo.ts`                      | reference              | 借鉴 table caption、搜索和重置位置                       |
 | `docs/design/archive/slices/fe-41-contract-list-tabledemo-baseline.md` | accepted reference     | 既有 TableDemo 交互基线                                  |
 | `apps/poms-admin/src/app/features/user-management/user-list.ts`        | current implementation | 首批迁移页面                                             |
 | `apps/poms-admin/src/app/features/platform/role-list.ts`               | current implementation | 首批迁移页面                                             |
@@ -64,42 +64,41 @@
 
 ## 5. 视觉与交互基线
 
-| 项           | 冻结口径                                                                                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------ |
-| 页面形态     | 顶栏 / 面包屑承担模块标题；内容区第一层是工具栏、摘要事实或数据 sheet，不再重复放模块大标题                  |
-| 圆角         | 主 surface 使用 Poseidon `.card`，跟随 `rounded-2xl lg:rounded-3xl`；局部输入、标签和内嵌小块仍可使用 8px    |
-| 页面头部     | 不新增内容区标题 header；业务管理可保留真正有决策价值的统计摘要和流程提示                                    |
-| 列表 toolbar | 借鉴业务字典和 CRUD `p-toolbar`，作为独立 `.card` surface 承载清空筛选、搜索、局部筛选、刷新、新建和右侧计数 |
-| 表格本体     | 继续使用 PrimeNG `p-table`，启用 row hover、paginator、responsive layout 和稳定 `dataKey`                    |
-| 分隔线       | 默认不使用业务页当前较重的 gridline；后续复杂业务表可按字段密度申请例外                                      |
-| 行操作       | 第一阶段保留现有页面操作形态；后续再抽象 row action primitive                                                |
-| 空状态       | 保持现有空状态文案，不在本片引入新反馈态组件                                                                 |
+| 项           | 冻结口径                                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------------------------- |
+| 页面形态     | 顶栏 / 面包屑承担模块标题；内容区第一层是工具栏、摘要事实或数据 sheet，不再重复放模块大标题               |
+| 圆角         | 主 surface 使用 Poseidon `.card`，跟随 `rounded-2xl lg:rounded-3xl`；局部输入、标签和内嵌小块仍可使用 8px |
+| 页面头部     | 不新增内容区标题 header；业务管理可保留真正有决策价值的统计摘要和流程提示                                 |
+| 列表 toolbar | 借鉴业务字典和 CRUD `p-toolbar`，作为独立 `.card` surface 承载重置、搜索、局部筛选、刷新、新建和右侧计数  |
+| 表格本体     | 继续使用 PrimeNG `p-table`，启用 row hover、paginator、responsive layout 和稳定 `dataKey`                 |
+| 分隔线       | 默认不使用业务页当前较重的 gridline；后续复杂业务表可按字段密度申请例外                                   |
+| 行操作       | 第一阶段保留现有页面操作形态；后续再抽象 row action primitive                                             |
+| 空状态       | 保持现有空状态文案，不在本片引入新反馈态组件                                                              |
 
 ## 6. 共享组件边界
 
-| 组件               | 责任                                                     | 不承担                       |
-| ------------------ | -------------------------------------------------------- | ---------------------------- |
-| `AdminListShell`   | 提供统一 data sheet surface，并复用 Poseidon `.card`     | 不读取数据、不控制表格状态   |
-| `AdminListToolbar` | 基于 PrimeNG `p-toolbar` 提供独立 `.card` 工具条 surface | 不实现具体筛选逻辑           |
-| `AdminMetricGrid`  | 统一统计指标条 markup、surface、响应式网格和数值样式     | 不计算业务指标、不读取 store |
+| 组件 / 结构               | 责任                                                                  | 不承担                       |
+| ------------------------- | --------------------------------------------------------------------- | ---------------------------- |
+| `AdminTableCard`          | 为标准 `p-table` 页面提供 Poseidon `.card` surface 和内置 `p-toolbar` | 不读取数据、不控制表格状态   |
+| `.card` + PrimeNG toolbar | 为业务字典等非表格主视图保留独立多功能工具条 surface                  | 不抽象业务筛选或卡片流布局   |
+| `AdminMetricGrid`         | 统一统计指标条 markup、surface、响应式网格和数值样式                  | 不计算业务指标、不读取 store |
 
 ## 7. 代码边界
 
-| 类型       | 路径                                                                 | 预期变更                                    |
-| ---------- | -------------------------------------------------------------------- | ------------------------------------------- |
-| Shared UI  | `apps/poms-admin/src/app/shared/ui/admin-list-shell.ts`              | 新增                                        |
-| Shared UI  | `apps/poms-admin/src/app/shared/ui/admin-list-toolbar.ts`            | 新增                                        |
-| Shared UI  | `apps/poms-admin/src/app/shared/ui/admin-metric-grid.ts`             | 新增                                        |
-| Feature UI | `apps/poms-admin/src/app/features/user-management/user-list.ts`      | 迁移共享 toolbar / shell                    |
-| Feature UI | `apps/poms-admin/src/app/features/platform/role-list.ts`             | 迁移共享 toolbar / shell                    |
-| Feature UI | `apps/poms-admin/src/app/features/platform/org-unit-list.ts`         | 迁移共享 toolbar / shell                    |
-| Feature UI | `apps/poms-admin/src/app/features/customer/customer-list.ts`         | 迁移主列表共享 toolbar / shell              |
-| Feature UI | `apps/poms-admin/src/app/features/lead/lead-list.ts`                 | 迁移主列表共享 toolbar / shell              |
-| Feature UI | `apps/poms-admin/src/app/features/project/project-list.ts`           | 迁移主列表共享 toolbar / shell              |
-| Feature UI | `apps/poms-admin/src/app/features/contract/contract-list.ts`         | 迁移共享 toolbar / shell                    |
-| Feature UI | `apps/poms-admin/src/app/features/platform/dictionary-list.ts`       | 指标 / 工具栏抽共享组件，保留卡片维护主视图 |
-| Feature UI | `apps/poms-admin/src/app/features/platform/navigation-governance.ts` | 迁移共享 toolbar / shell                    |
-| Feature UI | `apps/poms-admin/src/app/features/attachment/attachment-center.ts`   | 移除重复标题，迁移共享指标 / 工具栏 / sheet |
+| 类型       | 路径                                                                 | 预期变更                                 |
+| ---------- | -------------------------------------------------------------------- | ---------------------------------------- |
+| Shared UI  | `apps/poms-admin/src/app/shared/ui/admin-table-card.ts`              | 标准表格卡片 + toolbar surface           |
+| Shared UI  | `apps/poms-admin/src/app/shared/ui/admin-metric-grid.ts`             | 新增                                     |
+| Feature UI | `apps/poms-admin/src/app/features/user-management/user-list.ts`      | 迁移到 `AdminTableCard`                  |
+| Feature UI | `apps/poms-admin/src/app/features/platform/role-list.ts`             | 迁移到 `AdminTableCard`                  |
+| Feature UI | `apps/poms-admin/src/app/features/platform/org-unit-list.ts`         | 迁移到 `AdminTableCard`                  |
+| Feature UI | `apps/poms-admin/src/app/features/customer/customer-list.ts`         | 迁移主列表 table card                    |
+| Feature UI | `apps/poms-admin/src/app/features/lead/lead-list.ts`                 | 迁移主列表 table card                    |
+| Feature UI | `apps/poms-admin/src/app/features/project/project-list.ts`           | 迁移主列表 table card                    |
+| Feature UI | `apps/poms-admin/src/app/features/contract/contract-list.ts`         | 迁移到 `AdminTableCard`                  |
+| Feature UI | `apps/poms-admin/src/app/features/platform/dictionary-list.ts`       | 指标 + 原生 `.card` / `p-toolbar` 主视图 |
+| Feature UI | `apps/poms-admin/src/app/features/platform/navigation-governance.ts` | 迁移到 `AdminTableCard`                  |
+| Feature UI | `apps/poms-admin/src/app/features/attachment/attachment-center.ts`   | 移除重复标题，迁移共享指标 / table card  |
 
 ## 8. 验证计划
 
@@ -138,16 +137,16 @@
 
 ## 12. G3 本地验证结果（第二轮）
 
-| 检查                         | 命令                                                                                                                                                                                                                                                                                                                                                                                      | 结果 | 备注                                                                                              |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------------------------------------------------------------------------------------------------- |
-| Admin focused tests          | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-list --testPathPatterns=project-list --testPathPatterns=lead-list --testPathPatterns=contract-list --testPathPatterns=user-list --testPathPatterns=role-list --testPathPatterns=org-unit-list --testPathPatterns=dictionary-list --testPathPatterns=navigation-governance --testPathPatterns=attachment-center` | Pass | 7 suites / 46 tests passed                                                                        |
-| Attachment responsive retest | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=attachment-center`                                                                                                                                                                                                                                                                                                       | Pass | 1 suite / 3 tests passed after toolbar grid correction                                            |
-| Admin lint                   | `corepack pnpm nx lint poms-admin`                                                                                                                                                                                                                                                                                                                                                        | Pass | No lint errors                                                                                    |
-| Admin build                  | `corepack pnpm nx build poms-admin`                                                                                                                                                                                                                                                                                                                                                       | Pass | Production build pass                                                                             |
-| Browser visual QA            | in-app browser desktop + 390px mobile for dictionaries / navigation / attachments / leads / projects / users                                                                                                                                                                                                                                                                              | Pass | 内容区 `h1` 为 0；`AdminListToolbar` 不嵌套在 `AdminListShell` 内；附件中心修正后无页面级横向溢出 |
-| Markdown format              | `corepack pnpm run format:md:check`                                                                                                                                                                                                                                                                                                                                                       | Pass | Docs table formatting pass                                                                        |
-| Diff sanity                  | `git diff --check`                                                                                                                                                                                                                                                                                                                                                                        | Pass | No whitespace errors                                                                              |
+| 检查                         | 命令                                                                                                                                                                                                                                                                                                                                                                                      | 结果 | 备注                                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------------------------------------------------------------------------------------ |
+| Admin focused tests          | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-list --testPathPatterns=project-list --testPathPatterns=lead-list --testPathPatterns=contract-list --testPathPatterns=user-list --testPathPatterns=role-list --testPathPatterns=org-unit-list --testPathPatterns=dictionary-list --testPathPatterns=navigation-governance --testPathPatterns=attachment-center` | Pass | 7 suites / 46 tests passed                                                           |
+| Attachment responsive retest | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=attachment-center`                                                                                                                                                                                                                                                                                                       | Pass | 1 suite / 3 tests passed after toolbar grid correction                               |
+| Admin lint                   | `corepack pnpm nx lint poms-admin`                                                                                                                                                                                                                                                                                                                                                        | Pass | No lint errors                                                                       |
+| Admin build                  | `corepack pnpm nx build poms-admin`                                                                                                                                                                                                                                                                                                                                                       | Pass | Production build pass                                                                |
+| Browser visual QA            | in-app browser desktop + 390px mobile for dictionaries / navigation / attachments / leads / projects / users                                                                                                                                                                                                                                                                              | Pass | 内容区 `h1` 为 0；标准表格页使用同卡 toolbar + table；附件中心修正后无页面级横向溢出 |
+| Markdown format              | `corepack pnpm run format:md:check`                                                                                                                                                                                                                                                                                                                                                       | Pass | Docs table formatting pass                                                           |
+| Diff sanity                  | `git diff --check`                                                                                                                                                                                                                                                                                                                                                                        | Pass | No whitespace errors                                                                 |
 
 ## 13. G3 结论
 
-`FE-63` 已推进到本地 `G3 / Ready for Review`。共享组件、用户管理、角色管理、组织管理、业务字典、导航治理，以及客户、线索、项目、合同主列表表格均完成第一阶段视觉收敛；内容区重复大标题已移除，模块身份交给顶栏 / 面包屑表达，列表动作统一进入多功能工具栏。移动端继续使用表格内部横向滚动而不是压缩列内容。后续仅将内嵌或专用表格按 `FE63-E1-SPECIALIZED-TABLES-DEFERRED` 保留为独立评估工作。
+`FE-63` 已推进到本地 `G3 / Ready for Review`。标准表格页统一到 `AdminTableCard`，业务字典保留原生 `.card` + PrimeNG toolbar 的非表格主视图；用户管理、角色管理、组织管理、业务字典、导航治理，以及客户、线索、项目、合同主列表表格均完成第一阶段视觉收敛。内容区重复大标题已移除，模块身份交给顶栏 / 面包屑表达，列表动作统一进入多功能工具栏。移动端继续使用表格内部横向滚动而不是压缩列内容。后续仅将内嵌或专用表格按 `FE63-E1-SPECIALIZED-TABLES-DEFERRED` 保留为独立评估工作。
