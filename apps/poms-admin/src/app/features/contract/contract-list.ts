@@ -13,6 +13,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
 import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
@@ -25,20 +27,26 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
 @Component({
     selector: 'app-contract-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MessageModule, AutoCompleteModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MessageModule, AutoCompleteModule, AdminListShell, AdminListToolbar],
     providers: [ContractStore, ProjectStore],
     template: `
-        <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
-            <!-- Header -->
-            <div class="px-6 py-5 border-b border-surface-200 dark:border-surface-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 class="text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">合同管理</h1>
+        <app-admin-list-shell>
+            <app-admin-list-toolbar>
+                <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+                    <p-iconfield class="w-full sm:w-80">
+                        <p-inputicon class="pi pi-search" />
+                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索合同、项目、客户" class="w-full! rounded-md! py-2!" />
+                    </p-iconfield>
+                </div>
 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                    <span>当前共 {{ contracts().length }} 份合同</span>
                     @if (canManageContractFinance()) {
-                        <p-button icon="pi pi-plus" label="新建合同" severity="primary" [rounded]="true" class="w-full sm:w-auto cursor-pointer" (onClick)="showCreateDialog()" />
+                        <p-button icon="pi pi-plus" label="新建合同" severity="primary" styleClass="w-full sm:w-auto rounded-md!" class="w-full sm:w-auto cursor-pointer" (onClick)="showCreateDialog()" />
                     }
                 </div>
-            </div>
+            </app-admin-list-toolbar>
 
             <!-- Table -->
             <div class="flex-1 px-6 py-5">
@@ -50,29 +58,15 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                     [rows]="rows"
                     [first]="first"
                     [rowHover]="true"
-                    [showGridlines]="true"
                     dataKey="id"
                     sortMode="multiple"
                     responsiveLayout="scroll"
-                    [tableStyle]="{ width: '100%' }"
+                    [tableStyle]="{ width: '100%', 'min-width': '70rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示 {first} 到 {last} 共 {totalRecords} 条"
                     [globalFilterFields]="['contractNo', 'customerContractNo', 'projectName', 'customerName', 'status', 'currencyCode']"
-                    class="bg-surface-0 dark:bg-surface-800 overflow-hidden"
                     [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
-                    <ng-template #caption>
-                        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearFilters(dt)"></button>
-                                <p-iconfield class="w-full sm:w-80">
-                                    <p-inputicon class="pi pi-search" />
-                                    <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索合同、项目、客户" class="w-full! rounded-md! py-2!" />
-                                </p-iconfield>
-                            </div>
-                            <div class="text-sm text-surface-500 dark:text-surface-400">当前共 {{ contracts().length }} 份合同</div>
-                        </div>
-                    </ng-template>
                     <ng-template #header>
                         <tr>
                             <th pSortableColumn="contractNo" class="w-[30%] min-w-72">
@@ -240,7 +234,7 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                     </div>
                 </ng-template>
             </p-dialog>
-        </div>
+        </app-admin-list-shell>
     `
 })
 export class ContractList implements OnInit {

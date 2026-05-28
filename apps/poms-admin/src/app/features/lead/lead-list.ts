@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -47,6 +47,8 @@ import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
 import { LEAD_STATUS_LABELS, leadStatusLabelOrFallback, leadStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -233,33 +235,33 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 @Component({
     selector: 'app-lead-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DatePickerModule, InputTextModule, InputNumberModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TextareaModule, AuditHistoryPanel, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
+    imports: [
+        CommonModule,
+        FormsModule,
+        TableModule,
+        ButtonModule,
+        DatePickerModule,
+        InputTextModule,
+        InputNumberModule,
+        IconFieldModule,
+        InputIconModule,
+        SelectModule,
+        TagModule,
+        DialogModule,
+        TextareaModule,
+        AuditHistoryPanel,
+        AttachmentPanel,
+        BusinessDiscussionPanel,
+        SalesFollowUpPanel,
+        SalesIntelligencePanel,
+        AdminListShell,
+        AdminListToolbar,
+        WorkspaceFeedback
+    ],
     providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
-            <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="flex min-w-0 flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                    <div class="min-w-0">
-                        <p class="text-sm font-medium text-surface-500 dark:text-surface-400">签约前入口</p>
-                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">线索管理</h1>
-                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">先登记客户机会，确认有效后再进入正式项目推进。</p>
-                    </div>
-
-                    <div class="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto lg:justify-end">
-                        <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToProjects()" />
-
-                        @if (canManageLeadSources()) {
-                            <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showSourceDialog()" />
-                        }
-
-                        @if (canWriteLead()) {
-                            <p-button label="登记线索" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                        } @else {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">当前账号只能查看线索。</div>
-                        }
-                    </div>
-                </div>
-
+            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
                 <div class="flex flex-col gap-[18px] overflow-visible rounded-[8px] border border-surface-200 bg-surface-0 p-5 dark:border-surface-700 dark:bg-surface-900">
                     <div class="flex h-8 min-w-0 items-center justify-between gap-4">
                         <h2 class="truncate text-xl font-medium leading-7 text-surface-900 dark:text-surface-0">线索分布</h2>
@@ -319,7 +321,9 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
             }
 
             @if (conversionGuideActive()) {
-                <section class="flex flex-col gap-3 rounded-[8px] border border-primary-200 bg-primary-50 px-4 py-3 text-sm text-primary-900 dark:border-primary-700 dark:bg-primary-950/30 dark:text-primary-100 sm:flex-row sm:items-center sm:justify-between">
+                <section
+                    class="flex flex-col gap-3 rounded-[8px] border border-primary-200 bg-primary-50 px-4 py-3 text-sm text-primary-900 dark:border-primary-700 dark:bg-primary-950/30 dark:text-primary-100 sm:flex-row sm:items-center sm:justify-between"
+                >
                     <div class="min-w-0">
                         <div class="flex items-center gap-2 font-semibold">
                             <i class="pi pi-arrow-right"></i>
@@ -336,13 +340,53 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
             }
 
             <section class="flex flex-col gap-4">
-                <div class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
+                <app-admin-list-shell>
+                    <app-admin-list-toolbar>
+                        <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                            <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+
+                            <p-iconfield class="w-full md:w-80">
+                                <p-inputicon class="pi pi-search" />
+                                <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" class="w-full! rounded-md! py-2!" />
+                            </p-iconfield>
+
+                            <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+
+                            <p-select [ngModel]="ratingFilter()" (ngModelChange)="setRatingFilter($event)" [options]="ratingOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按评级筛选" class="w-full md:w-36 rounded-md!" />
+
+                            <p-select
+                                [ngModel]="ownershipFilter()"
+                                (ngModelChange)="setOwnershipFilter($event)"
+                                [options]="ownershipOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                ariaLabel="按归属筛选"
+                                class="w-full md:w-36 rounded-md!"
+                            />
+                        </div>
+
+                        <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+                            <span>当前筛出 {{ visibleLeads().length }} 条线索</span>
+                            <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToProjects()" />
+
+                            @if (canManageLeadSources()) {
+                                <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showSourceDialog()" />
+                            }
+
+                            @if (canWriteLead()) {
+                                <p-button label="登记线索" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                            } @else {
+                                <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看线索。</span>
+                            }
+                        </div>
+                    </app-admin-list-toolbar>
+
                     <p-table
                         #dt
                         [value]="visibleLeads()"
                         [loading]="loading()"
                         [rowHover]="true"
-                        [showGridlines]="true"
                         [paginator]="true"
                         [rows]="rows"
                         [first]="first"
@@ -350,59 +394,11 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                         sortMode="multiple"
                         responsiveLayout="scroll"
                         [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'rating', 'effectiveRating', 'status', 'ownerName', 'ownerOrgName']"
-                        [tableStyle]="{ width: '100%' }"
+                        [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
                         [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                     >
-                        <ng-template #caption>
-                            <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                                <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearFilters(dt)"></button>
-
-                                    <p-iconfield class="w-full md:w-80">
-                                        <p-inputicon class="pi pi-search" />
-                                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" class="w-full! rounded-md! py-2!" />
-                                    </p-iconfield>
-
-                                    <p-select
-                                        [ngModel]="statusFilter()"
-                                        (ngModelChange)="setStatusFilter($event)"
-                                        [options]="statusOptions"
-                                        optionLabel="label"
-                                        optionValue="value"
-                                        appendTo="body"
-                                        ariaLabel="按状态筛选"
-                                        class="w-full md:w-40 rounded-md!"
-                                    />
-
-                                    <p-select
-                                        [ngModel]="ratingFilter()"
-                                        (ngModelChange)="setRatingFilter($event)"
-                                        [options]="ratingOptions"
-                                        optionLabel="label"
-                                        optionValue="value"
-                                        appendTo="body"
-                                        ariaLabel="按评级筛选"
-                                        class="w-full md:w-36 rounded-md!"
-                                    />
-
-                                    <p-select
-                                        [ngModel]="ownershipFilter()"
-                                        (ngModelChange)="setOwnershipFilter($event)"
-                                        [options]="ownershipOptions"
-                                        optionLabel="label"
-                                        optionValue="value"
-                                        appendTo="body"
-                                        ariaLabel="按归属筛选"
-                                        class="w-full md:w-36 rounded-md!"
-                                    />
-                                </div>
-
-                                <div class="text-sm text-surface-500 dark:text-surface-400">当前筛出 {{ visibleLeads().length }} 条线索</div>
-                            </div>
-                        </ng-template>
-
                         <ng-template #header>
                             <tr>
                                 <th pSortableColumn="leadName" class="w-[30%] min-w-72">
@@ -523,7 +519,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             </tr>
                         </ng-template>
                     </p-table>
-                </div>
+                </app-admin-list-shell>
             </section>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="登记线索" [style]="{ width: '36rem' }" styleClass="p-fluid" (onHide)="resetCreateDialog()">
@@ -639,15 +635,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                         <div class="flex flex-col gap-2">
                             <label for="estimatedAmount" class="text-sm font-medium text-surface-900 dark:text-surface-0">预计金额</label>
-                            <input
-                                pInputText
-                                id="estimatedAmount"
-                                inputmode="decimal"
-                                [ngModel]="createForm().estimatedAmount"
-                                (ngModelChange)="updateCreateField('estimatedAmount', $event)"
-                                placeholder="例如：1000000"
-                                class="w-full rounded-md!"
-                            />
+                            <input pInputText id="estimatedAmount" inputmode="decimal" [ngModel]="createForm().estimatedAmount" (ngModelChange)="updateCreateField('estimatedAmount', $event)" placeholder="例如：1000000" class="w-full rounded-md!" />
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -753,7 +741,16 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                         <div class="flex flex-col gap-2">
                             <label for="editLeadUrgency" class="text-sm font-medium text-surface-900 dark:text-surface-0">紧迫程度</label>
-                            <p-select inputId="editLeadUrgency" [ngModel]="editForm().urgency" (ngModelChange)="updateEditUrgency($event)" [options]="urgencyOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                            <p-select
+                                inputId="editLeadUrgency"
+                                [ngModel]="editForm().urgency"
+                                (ngModelChange)="updateEditUrgency($event)"
+                                [options]="urgencyOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                class="w-full rounded-md!"
+                            />
                         </div>
                     </div>
 
@@ -768,7 +765,16 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                         <div class="flex flex-col gap-2">
                             <label for="editBudgetStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">预算情况</label>
-                            <p-select inputId="editBudgetStatus" [ngModel]="editForm().budgetStatus" (ngModelChange)="updateEditBudgetStatus($event)" [options]="budgetStatusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                            <p-select
+                                inputId="editBudgetStatus"
+                                [ngModel]="editForm().budgetStatus"
+                                (ngModelChange)="updateEditBudgetStatus($event)"
+                                [options]="budgetStatusOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                class="w-full rounded-md!"
+                            />
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -849,9 +855,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                             <span class="text-xs text-surface-500 dark:text-surface-400">{{ source.code }}</span>
                                             <p-tag [value]="getSourceStatusName(source.status)" [severity]="getSourceStatusSeverity(source.status)" class="rounded-[6px]" />
                                         </div>
-                                        <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
-                                            已引用 {{ source.usageCount }} 条<span class="mx-1">·</span>{{ displayText(source.description, '无描述') }}
-                                        </div>
+                                        <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">已引用 {{ source.usageCount }} 条<span class="mx-1">·</span>{{ displayText(source.description, '无描述') }}</div>
                                     </div>
                                     <p-button
                                         [label]="source.status === LeadSourceStatus.Active ? '停用' : '启用'"
@@ -1101,7 +1105,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                                 <p-tag [value]="getScoreOverrideStatusName(pendingOverride.status)" [severity]="getScoreOverrideStatusSeverity(pendingOverride.status)" class="rounded-[6px]" />
                                             </div>
                                             <p class="mt-2 text-sm leading-6 text-amber-800 dark:text-amber-100">
-                                                申请 {{ pendingOverride.requestedScore }} / {{ getLeadRatingName(pendingOverride.requestedRating) }}，提交时系统 {{ pendingOverride.systemScoreAtRequest }} / {{ getLeadRatingName(pendingOverride.systemRatingAtRequest) }}。
+                                                申请 {{ pendingOverride.requestedScore }} / {{ getLeadRatingName(pendingOverride.requestedRating) }}，提交时系统 {{ pendingOverride.systemScoreAtRequest }} /
+                                                {{ getLeadRatingName(pendingOverride.systemRatingAtRequest) }}。
                                             </p>
                                             <p class="mt-1 text-xs leading-5 text-amber-700 dark:text-amber-200">{{ pendingOverride.reason }}</p>
                                             @if (hasSystemScoreDrift(pendingOverride, history)) {
@@ -1114,7 +1119,17 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                                 <textarea pTextarea rows="2" [ngModel]="scoreOverrideRejectReason()" (ngModelChange)="scoreOverrideRejectReason.set($event)" class="w-full rounded-md!" placeholder="驳回原因"></textarea>
                                                 <div class="flex flex-wrap justify-end gap-2">
                                                     <p-button label="批准" icon="pi pi-check" size="small" severity="success" [loading]="saving()" styleClass="rounded-md!" (onClick)="approveScoreOverride(pendingOverride)" />
-                                                    <p-button label="驳回" icon="pi pi-times" size="small" severity="danger" [outlined]="true" [disabled]="!scoreOverrideRejectReason().trim()" [loading]="saving()" styleClass="rounded-md!" (onClick)="rejectScoreOverride(pendingOverride)" />
+                                                    <p-button
+                                                        label="驳回"
+                                                        icon="pi pi-times"
+                                                        size="small"
+                                                        severity="danger"
+                                                        [outlined]="true"
+                                                        [disabled]="!scoreOverrideRejectReason().trim()"
+                                                        [loading]="saving()"
+                                                        styleClass="rounded-md!"
+                                                        (onClick)="rejectScoreOverride(pendingOverride)"
+                                                    />
                                                 </div>
                                             </div>
                                         }
@@ -1137,7 +1152,17 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                             <div class="flex min-w-60 flex-col gap-2">
                                                 <textarea pTextarea rows="2" [ngModel]="scoreOverrideRevokeReason()" (ngModelChange)="scoreOverrideRevokeReason.set($event)" class="w-full rounded-md!" placeholder="撤销原因"></textarea>
                                                 <div class="flex justify-end">
-                                                    <p-button label="撤销覆盖" icon="pi pi-undo" size="small" severity="danger" [outlined]="true" [disabled]="!scoreOverrideRevokeReason().trim()" [loading]="saving()" styleClass="rounded-md!" (onClick)="revokeScoreOverride(activeOverride)" />
+                                                    <p-button
+                                                        label="撤销覆盖"
+                                                        icon="pi pi-undo"
+                                                        size="small"
+                                                        severity="danger"
+                                                        [outlined]="true"
+                                                        [disabled]="!scoreOverrideRevokeReason().trim()"
+                                                        [loading]="saving()"
+                                                        styleClass="rounded-md!"
+                                                        (onClick)="revokeScoreOverride(activeOverride)"
+                                                    />
                                                 </div>
                                             </div>
                                         }
@@ -1154,11 +1179,28 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                     <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-[10rem_1fr]">
                                         <div class="flex flex-col gap-2">
                                             <label for="scoreOverrideScore" class="text-sm font-medium text-surface-900 dark:text-surface-0">覆盖分数</label>
-                                            <p-inputnumber inputId="scoreOverrideScore" [ngModel]="scoreOverrideForm().score" (ngModelChange)="updateScoreOverrideScore($event)" [min]="0" [max]="100" [useGrouping]="false" styleClass="w-full" inputStyleClass="w-full rounded-md!" />
+                                            <p-inputnumber
+                                                inputId="scoreOverrideScore"
+                                                [ngModel]="scoreOverrideForm().score"
+                                                (ngModelChange)="updateScoreOverrideScore($event)"
+                                                [min]="0"
+                                                [max]="100"
+                                                [useGrouping]="false"
+                                                styleClass="w-full"
+                                                inputStyleClass="w-full rounded-md!"
+                                            />
                                         </div>
                                         <div class="flex flex-col gap-2">
                                             <label for="scoreOverrideReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">覆盖原因</label>
-                                            <textarea pTextarea id="scoreOverrideReason" rows="3" [ngModel]="scoreOverrideForm().reason" (ngModelChange)="updateScoreOverrideReason($event)" class="w-full rounded-md!" placeholder="说明为什么系统评分无法表达当前业务判断"></textarea>
+                                            <textarea
+                                                pTextarea
+                                                id="scoreOverrideReason"
+                                                rows="3"
+                                                [ngModel]="scoreOverrideForm().reason"
+                                                (ngModelChange)="updateScoreOverrideReason($event)"
+                                                class="w-full rounded-md!"
+                                                placeholder="说明为什么系统评分无法表达当前业务判断"
+                                            ></textarea>
                                         </div>
                                     </div>
                                     <div class="mt-3 flex justify-end">
@@ -1274,15 +1316,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                     <div class="flex flex-col gap-2">
                         <label for="assignmentReason" class="text-sm font-medium text-surface-900 dark:text-surface-0">分配原因</label>
-                        <textarea
-                            pTextarea
-                            id="assignmentReason"
-                            rows="3"
-                            [ngModel]="assignmentForm().reason"
-                            (ngModelChange)="updateAssignmentReason($event)"
-                            placeholder="说明申领、分配或改派原因"
-                            class="w-full rounded-md!"
-                        ></textarea>
+                        <textarea pTextarea id="assignmentReason" rows="3" [ngModel]="assignmentForm().reason" (ngModelChange)="updateAssignmentReason($event)" placeholder="说明申领、分配或改派原因" class="w-full rounded-md!"></textarea>
                         @if (assignmentAttempted() && !assignmentForm().reason.trim()) {
                             <span class="text-xs text-red-600 dark:text-red-300">请填写分配原因。</span>
                         }
@@ -1421,6 +1455,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
     `
 })
 export class LeadList implements OnInit {
+    @ViewChild('dt') dt!: Table;
+
     readonly #authStore = inject(AuthStore);
     readonly #customerStore = inject(CustomerStore);
     readonly #leadStore = inject(LeadStore);
@@ -2000,7 +2036,7 @@ export class LeadList implements OnInit {
                 urgency: form.urgency,
                 expectedDecisionDate: form.expectedDecisionDate ? this.toIsoDate(form.expectedDecisionDate) : null,
                 ownerUserId: form.ownerUserId,
-                ownerOrgId: form.ownerUserId ? form.ownerOrgId ?? null : null
+                ownerOrgId: form.ownerUserId ? (form.ownerOrgId ?? null) : null
             });
             this.closeCreateDialog();
         } catch {
@@ -2622,7 +2658,25 @@ export class LeadList implements OnInit {
     }
 
     private leadSearchText(lead: LeadListView): string {
-        return this.normalize([lead.leadNo, lead.leadName, lead.customerName, lead.sourceName, lead.sourceChannel, this.getBudgetStatusName(lead.budgetStatus), this.getUrgencyName(lead.urgency), this.getLeadRatingName(lead.rating), this.getLeadRatingName(this.getEffectiveRating(lead)), this.getEffectiveScoreSourceName(this.getEffectiveScoreSource(lead)), String(lead.score), String(this.getEffectiveScore(lead)), lead.ownerName, lead.ownerOrgName, this.getStatusName(lead.status)].join(' '));
+        return this.normalize(
+            [
+                lead.leadNo,
+                lead.leadName,
+                lead.customerName,
+                lead.sourceName,
+                lead.sourceChannel,
+                this.getBudgetStatusName(lead.budgetStatus),
+                this.getUrgencyName(lead.urgency),
+                this.getLeadRatingName(lead.rating),
+                this.getLeadRatingName(this.getEffectiveRating(lead)),
+                this.getEffectiveScoreSourceName(this.getEffectiveScoreSource(lead)),
+                String(lead.score),
+                String(this.getEffectiveScore(lead)),
+                lead.ownerName,
+                lead.ownerOrgName,
+                this.getStatusName(lead.status)
+            ].join(' ')
+        );
     }
 
     private normalize(value: string): string {

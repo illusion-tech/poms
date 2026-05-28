@@ -10,30 +10,36 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
 
 @Component({
     selector: 'app-org-unit-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule, TagModule, AdminListShell, AdminListToolbar],
     providers: [MessageService],
     template: `
         <p-toast />
-        <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
-            <!-- Header -->
-            <div class="px-6 py-5 border-b border-surface-200 dark:border-surface-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 class="text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">组织管理</h1>
+        <app-admin-list-shell>
+            <app-admin-list-toolbar>
+                <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
+                    <p-button label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="w-full md:w-auto rounded-md!" (onClick)="clearFilters(dt)" />
 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                    <p-iconfield class="w-full sm:w-[217px]">
+                    <p-iconfield class="w-full md:w-80">
                         <p-inputicon class="pi pi-search" />
-                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索组织" class="w-full! py-2! rounded-xl!" />
+                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索组织、编码" class="w-full! rounded-md! py-2!" />
                     </p-iconfield>
-                    <p-button icon="pi pi-plus" label="新建组织" severity="primary" [rounded]="true" (onClick)="openCreateDialog()" class="w-full sm:w-auto cursor-pointer" />
                 </div>
-            </div>
+
+                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                    <span>共 {{ platformStore.orgUnits().length }} 个组织</span>
+                    <p-button icon="pi pi-plus" label="新建组织" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="openCreateDialog()" class="w-full sm:w-auto cursor-pointer" />
+                </div>
+            </app-admin-list-toolbar>
 
             <!-- Table -->
             <div class="flex-1 px-6 py-5">
@@ -41,12 +47,17 @@ import { TooltipModule } from 'primeng/tooltip';
                     #dt
                     [value]="platformStore.orgUnits()"
                     [paginator]="true"
-                    [rows]="10"
+                    [rows]="rows"
+                    [first]="first"
+                    dataKey="id"
+                    [rowHover]="true"
+                    sortMode="multiple"
+                    responsiveLayout="scroll"
                     [globalFilterFields]="['name', 'code']"
-                    [tableStyle]="{ width: '100%' }"
+                    [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
-                    [pt]="{ pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
                     <ng-template #header>
                         <tr>
@@ -80,12 +91,7 @@ import { TooltipModule } from 'primeng/tooltip';
                                 <span class="text-surface-500 text-sm">{{ unit.displayOrder }}</span>
                             </td>
                             <td>
-                                <span
-                                    class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
-                                    [class]="unit.isActive ? 'bg-green-100 text-green-700' : 'bg-surface-200 text-surface-700'"
-                                >
-                                    {{ unit.isActive ? '启用' : '停用' }}
-                                </span>
+                                <p-tag [value]="unit.isActive ? '启用' : '停用'" [severity]="unit.isActive ? 'success' : 'warn'" />
                             </td>
                             <td>
                                 <span class="text-surface-500 text-sm">{{ unit.description ?? '—' }}</span>
@@ -93,7 +99,18 @@ import { TooltipModule } from 'primeng/tooltip';
                             <td>
                                 <div class="flex items-center gap-1">
                                     <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="编辑" tooltipPosition="top" (onClick)="openEditDialog(unit)" class="cursor-pointer" ariaLabel="编辑组织" />
-                                    <p-button icon="pi pi-share-alt" [rounded]="true" [text]="true" size="small" severity="secondary" pTooltip="移动" tooltipPosition="top" (onClick)="openMoveDialog(unit)" class="cursor-pointer" ariaLabel="移动组织" />
+                                    <p-button
+                                        icon="pi pi-share-alt"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        severity="secondary"
+                                        pTooltip="移动"
+                                        tooltipPosition="top"
+                                        (onClick)="openMoveDialog(unit)"
+                                        class="cursor-pointer"
+                                        ariaLabel="移动组织"
+                                    />
                                     <p-button
                                         [icon]="unit.isActive ? 'pi pi-ban' : 'pi pi-check'"
                                         [rounded]="true"
@@ -206,7 +223,7 @@ import { TooltipModule } from 'primeng/tooltip';
                     </div>
                 </ng-template>
             </p-dialog>
-        </div>
+        </app-admin-list-shell>
     `
 })
 export class OrgUnitList {
@@ -217,6 +234,8 @@ export class OrgUnitList {
     @ViewChild('dt') dt!: Table;
 
     searchValue = '';
+    first = 0;
+    rows = 10;
 
     // ── Create ─────────────────────────────────────────────────────────────
 
@@ -327,7 +346,14 @@ export class OrgUnitList {
     // ── Helpers ────────────────────────────────────────────────────────────
 
     onGlobalFilter(table: Table, event: Event) {
+        this.first = 0;
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    clearFilters(table: Table) {
+        this.searchValue = '';
+        this.first = 0;
+        table.clear();
     }
 
     getParentName(parentId: string | null): string {

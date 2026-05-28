@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-    ActiveInactiveStatus,
-    DictionaryDomain,
-    DictionaryStore,
-    type DictionaryItemSummary
-} from '@poms/admin-data-access';
+import { ActiveInactiveStatus, DictionaryDomain, DictionaryStore, type DictionaryItemSummary } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -73,10 +68,7 @@ const DICTIONARY_DOMAIN_OPTIONS: DictionaryOption<DictionaryDomain>[] = (Object.
     value: domain
 }));
 
-const DICTIONARY_FILTER_OPTIONS: DictionaryOption<DictionaryFilterValue>[] = [
-    { label: '全部字典域', value: ALL_FILTER_VALUE },
-    ...DICTIONARY_DOMAIN_OPTIONS
-];
+const DICTIONARY_FILTER_OPTIONS: DictionaryOption<DictionaryFilterValue>[] = [{ label: '全部字典域', value: ALL_FILTER_VALUE }, ...DICTIONARY_DOMAIN_OPTIONS];
 
 const DICTIONARY_STATUS_LABELS: Record<ActiveInactiveStatus, string> = {
     [ActiveInactiveStatus.Active]: '启用',
@@ -88,10 +80,7 @@ const DICTIONARY_STATUS_OPTIONS: DictionaryOption<ActiveInactiveStatus>[] = [
     { label: DICTIONARY_STATUS_LABELS[ActiveInactiveStatus.Inactive], value: ActiveInactiveStatus.Inactive }
 ];
 
-const STATUS_FILTER_OPTIONS: DictionaryOption<StatusFilterValue>[] = [
-    { label: '全部状态', value: ALL_FILTER_VALUE },
-    ...DICTIONARY_STATUS_OPTIONS
-];
+const STATUS_FILTER_OPTIONS: DictionaryOption<StatusFilterValue>[] = [{ label: '全部状态', value: ALL_FILTER_VALUE }, ...DICTIONARY_STATUS_OPTIONS];
 
 const EMPTY_CREATE_FORM: DictionaryCreateForm = {
     domain: DictionaryDomain.AttachmentCategory,
@@ -115,35 +104,12 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
 @Component({
     selector: 'app-dictionary-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ButtonModule,
-        DialogModule,
-        InputTextModule,
-        IconFieldModule,
-        InputIconModule,
-        SelectModule,
-        TagModule,
-        TextareaModule,
-        TooltipModule,
-        ToastModule
-    ],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, TooltipModule, ToastModule],
     providers: [DictionaryStore, MessageService],
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
-            <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="min-w-0">
-                        <p class="text-sm font-medium text-surface-500 dark:text-surface-400">平台配置</p>
-                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">业务字典</h1>
-                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">维护附件分类、销售跟进方式和费用分类等可运营选项。停用后历史记录仍可读取，新写入不可继续使用。</p>
-                    </div>
-
-                    <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                </div>
-
+            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-4">
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
                         <div class="text-sm text-surface-500 dark:text-surface-400">当前结果</div>
@@ -180,7 +146,10 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                         <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="resetFilters()" />
                     </div>
 
-                    <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+                        <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                    </div>
                 </div>
             </section>
 
@@ -245,7 +214,18 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                                         </div>
 
                                         <div class="grid shrink-0 grid-cols-2 gap-1.5">
-                                            <p-button icon="pi pi-pencil" size="small" severity="secondary" [text]="true" [rounded]="true" ariaLabel="编辑字典项" pTooltip="编辑" tooltipPosition="left" class="h-8! w-8! p-0!" (onClick)="showEditDialog(item)" />
+                                            <p-button
+                                                icon="pi pi-pencil"
+                                                size="small"
+                                                severity="secondary"
+                                                [text]="true"
+                                                [rounded]="true"
+                                                ariaLabel="编辑字典项"
+                                                pTooltip="编辑"
+                                                tooltipPosition="left"
+                                                class="h-8! w-8! p-0!"
+                                                (onClick)="showEditDialog(item)"
+                                            />
                                             <p-button
                                                 [icon]="item.status === ActiveInactiveStatus.Active ? 'pi pi-ban' : 'pi pi-check-circle'"
                                                 size="small"
@@ -280,7 +260,16 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
 
                     <div class="flex flex-col gap-2">
                         <label for="dictionaryCreateDomain" class="text-sm font-medium text-surface-900 dark:text-surface-0">字典域 *</label>
-                        <p-select inputId="dictionaryCreateDomain" [ngModel]="createForm().domain" (ngModelChange)="updateCreateDomain($event)" [options]="domainOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                        <p-select
+                            inputId="dictionaryCreateDomain"
+                            [ngModel]="createForm().domain"
+                            (ngModelChange)="updateCreateDomain($event)"
+                            [options]="domainOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            appendTo="body"
+                            class="w-full rounded-md!"
+                        />
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -342,7 +331,16 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="flex flex-col gap-2">
                             <label for="dictionaryEditStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
-                            <p-select inputId="dictionaryEditStatus" [ngModel]="editForm().status" (ngModelChange)="updateEditStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                            <p-select
+                                inputId="dictionaryEditStatus"
+                                [ngModel]="editForm().status"
+                                (ngModelChange)="updateEditStatus($event)"
+                                [options]="statusOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                class="w-full rounded-md!"
+                            />
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="dictionaryEditSortOrder" class="text-sm font-medium text-surface-900 dark:text-surface-0">排序</label>

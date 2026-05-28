@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -18,6 +18,8 @@ import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface CustomerFilterOption {
@@ -98,21 +100,31 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
 @Component({
     selector: 'app-customer-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, AuditHistoryPanel, AttachmentPanel, BusinessDiscussionPanel, SalesFollowUpPanel, SalesIntelligencePanel, WorkspaceFeedback],
+    imports: [
+        CommonModule,
+        FormsModule,
+        TableModule,
+        ButtonModule,
+        DialogModule,
+        InputTextModule,
+        IconFieldModule,
+        InputIconModule,
+        SelectModule,
+        TagModule,
+        TextareaModule,
+        AuditHistoryPanel,
+        AttachmentPanel,
+        BusinessDiscussionPanel,
+        SalesFollowUpPanel,
+        SalesIntelligencePanel,
+        AdminListShell,
+        AdminListToolbar,
+        WorkspaceFeedback
+    ],
     providers: [CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
-            <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="min-w-0">
-                        <p class="text-sm font-medium text-surface-500 dark:text-surface-400">客户主数据</p>
-                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">客户管理</h1>
-                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">客户身份作为线索和项目的统一入口，业务对象保留创建时名称快照。</p>
-                    </div>
-
-                    <p-button label="新建客户" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                </div>
-
+            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
                     <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
                         <div class="text-sm text-surface-500 dark:text-surface-400">全部客户</div>
@@ -133,13 +145,30 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                 <app-workspace-feedback severity="error" summary="客户暂时无法处理" [detail]="pageError()" />
             }
 
-            <section class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
+            <app-admin-list-shell>
+                <app-admin-list-toolbar>
+                    <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                        <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+
+                        <p-iconfield class="w-full md:w-80">
+                            <p-inputicon class="pi pi-search" />
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索客户、编号、主责" class="w-full! rounded-md! py-2!" />
+                        </p-iconfield>
+
+                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+                    </div>
+
+                    <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                        <span>当前筛出 {{ visibleCustomers().length }} 个客户</span>
+                        <p-button label="新建客户" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                    </div>
+                </app-admin-list-toolbar>
+
                 <p-table
                     #dt
                     [value]="visibleCustomers()"
                     [loading]="loading()"
                     [rowHover]="true"
-                    [showGridlines]="true"
                     [paginator]="true"
                     [rows]="rows"
                     [first]="first"
@@ -147,37 +176,11 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                     sortMode="multiple"
                     responsiveLayout="scroll"
                     [globalFilterFields]="['customerNo', 'displayName', 'legalName', 'shortName', 'ownerName', 'ownerOrgName', 'status']"
-                    [tableStyle]="{ width: '100%' }"
+                    [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个客户"
                     [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
-                    <ng-template #caption>
-                        <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                            <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                                <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearFilters(dt)"></button>
-
-                                <p-iconfield class="w-full md:w-80">
-                                    <p-inputicon class="pi pi-search" />
-                                    <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索客户、编号、主责" class="w-full! rounded-md! py-2!" />
-                                </p-iconfield>
-
-                                <p-select
-                                    [ngModel]="statusFilter()"
-                                    (ngModelChange)="setStatusFilter($event)"
-                                    [options]="statusOptions"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    appendTo="body"
-                                    ariaLabel="按状态筛选"
-                                    class="w-full md:w-40 rounded-md!"
-                                />
-                            </div>
-
-                            <div class="text-sm text-surface-500 dark:text-surface-400">当前筛出 {{ visibleCustomers().length }} 个客户</div>
-                        </div>
-                    </ng-template>
-
                     <ng-template #header>
                         <tr>
                             <th pSortableColumn="displayName" class="w-[36%] min-w-72">
@@ -236,7 +239,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                         </tr>
                     </ng-template>
                 </p-table>
-            </section>
+            </app-admin-list-shell>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建客户" [style]="{ width: 'min(34rem, 92vw)' }" styleClass="p-fluid" (onHide)="resetCreateDialog()">
                 <ng-container *ngTemplateOutlet="customerForm; context: { form: createForm(), mode: 'create' }" />
@@ -368,12 +371,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方客户销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />
                         }
 
-                        <app-sales-intelligence-panel
-                            [customerId]="customer.id"
-                            [canWrite]="canWriteCustomerFollowUp()"
-                            title="客户销售情报"
-                            description="维护业务必要联系人，并作为线索和项目决策链的联系人来源。"
-                        />
+                        <app-sales-intelligence-panel [customerId]="customer.id" [canWrite]="canWriteCustomerFollowUp()" title="客户销售情报" description="维护业务必要联系人，并作为线索和项目决策链的联系人来源。" />
 
                         <app-business-discussion-panel
                             [customerId]="customer.id"
@@ -393,13 +391,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             createContextDetail="本次记录会挂到当前客户，用于跨线索和跨项目查看客户销售过程。"
                         />
 
-                        <app-attachment-panel
-                            [targetType]="customerAttachmentTargetType"
-                            [targetId]="customer.id"
-                            [canWrite]="canWriteCustomerAttachment()"
-                            title="客户附件"
-                            description="保存客户资质、开票资料、采购制度、框架协议和长期合作资料。"
-                        />
+                        <app-attachment-panel [targetType]="customerAttachmentTargetType" [targetId]="customer.id" [canWrite]="canWriteCustomerAttachment()" title="客户附件" description="保存客户资质、开票资料、采购制度、框架协议和长期合作资料。" />
                     </div>
                 }
             </p-dialog>
@@ -407,6 +399,8 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
     `
 })
 export class CustomerList implements OnInit {
+    @ViewChild('dt') dt!: Table;
+
     readonly #customerStore = inject(CustomerStore);
     readonly #authStore = inject(AuthStore);
     readonly #route = inject(ActivatedRoute);

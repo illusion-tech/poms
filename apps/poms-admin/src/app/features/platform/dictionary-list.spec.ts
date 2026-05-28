@@ -1,11 +1,6 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-    ActiveInactiveStatus,
-    DictionaryDomain,
-    DictionaryStore,
-    type DictionaryItemSummary
-} from '@poms/admin-data-access';
+import { ActiveInactiveStatus, DictionaryDomain, DictionaryStore, type DictionaryItemSummary } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { DictionaryList } from './dictionary-list';
 
@@ -111,7 +106,7 @@ describe('DictionaryList', () => {
             status: undefined,
             keyword: undefined
         });
-        expect(text).toContain('业务字典');
+        expect(text).toContain('新增字典项');
         expect(text).toContain('附件分类');
         expect(text).toContain('费用分类');
         expect(text).toContain('需求资料');

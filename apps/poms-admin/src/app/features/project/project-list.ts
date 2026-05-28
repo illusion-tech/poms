@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
@@ -11,6 +11,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
 import { PROJECT_STAGE_LABELS, PROJECT_STATUS_LABELS, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -44,7 +46,18 @@ const ALL_FILTER_VALUE = 'all';
 type ProjectAllFilterValue = typeof ALL_FILTER_VALUE;
 const ATTENTION_PROJECT_STATUSES: readonly ProjectStatus[] = [ProjectStatus.Blocked, ProjectStatus.OnHold, ProjectStatus.PendingApproval];
 
-const PROJECT_STAGE_VALUES = [ProjectStage.Assessment, ProjectStage.ScopeConfirmation, ProjectStage.CommercialClosure, ProjectStage.Contracting, ProjectStage.Handover, ProjectStage.Execution, ProjectStage.Acceptance, ProjectStage.Completed, ProjectStage.ClosedLost, ProjectStage.ClosedTerminated] as const satisfies readonly ProjectStage[];
+const PROJECT_STAGE_VALUES = [
+    ProjectStage.Assessment,
+    ProjectStage.ScopeConfirmation,
+    ProjectStage.CommercialClosure,
+    ProjectStage.Contracting,
+    ProjectStage.Handover,
+    ProjectStage.Execution,
+    ProjectStage.Acceptance,
+    ProjectStage.Completed,
+    ProjectStage.ClosedLost,
+    ProjectStage.ClosedTerminated
+] as const satisfies readonly ProjectStage[];
 
 const PROJECT_STATUS_VALUES = [ProjectStatus.Active, ProjectStatus.PendingApproval, ProjectStatus.Blocked, ProjectStatus.OnHold, ProjectStatus.Completed, ProjectStatus.Closed] as const satisfies readonly ProjectStatus[];
 
@@ -65,33 +78,11 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, AdminListShell, AdminListToolbar, WorkspaceFeedback],
     providers: [ProjectStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
-            <section class="flex flex-col gap-4 border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="min-w-0">
-                        <p class="text-sm font-medium text-surface-500 dark:text-surface-400">项目入口</p>
-                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">项目管理</h1>
-                        <p class="mt-2 max-w-3xl text-sm leading-6 text-surface-600 dark:text-surface-300">先确认客户、负责人和阶段，再进入详情或工作区继续处理。</p>
-                    </div>
-
-                    <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-                        @if (canCreateLead()) {
-                            <p-button label="选择线索转项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
-                        }
-
-                        @if (!canCreateLead() && canCreateProject()) {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">正式项目入口需要从已确认有效线索转入。</div>
-                        }
-
-                        @if (!canCreateLead() && !canCreateProject()) {
-                            <div class="rounded-[8px] border border-surface-200 px-3 py-2 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">当前账号只能查看项目。</div>
-                        }
-                    </div>
-                </div>
-
+            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
                     @for (item of summaryItems(); track item.label) {
                         <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
@@ -106,13 +97,42 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
             </section>
 
             <section class="flex flex-col gap-4">
-                <div class="overflow-hidden rounded-[8px] border border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900">
+                <app-admin-list-shell>
+                    <app-admin-list-toolbar>
+                        <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                            <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+
+                            <p-iconfield class="w-full md:w-80">
+                                <p-inputicon class="pi pi-search" />
+                                <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" class="w-full! rounded-md! py-2!" />
+                            </p-iconfield>
+
+                            <p-select [ngModel]="stageFilter()" (ngModelChange)="setStageFilter($event)" [options]="stageOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按阶段筛选" class="w-full md:w-44 rounded-md!" />
+
+                            <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+                        </div>
+
+                        <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                            <span>当前筛出 {{ visibleProjects().length }} 个项目</span>
+                            @if (canCreateLead()) {
+                                <p-button label="选择线索转项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
+                            }
+
+                            @if (!canCreateLead() && canCreateProject()) {
+                                <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">正式项目入口需要从已确认有效线索转入。</span>
+                            }
+
+                            @if (!canCreateLead() && !canCreateProject()) {
+                                <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看项目。</span>
+                            }
+                        </div>
+                    </app-admin-list-toolbar>
+
                     <p-table
                         #dt
                         [value]="visibleProjects()"
                         [loading]="loading()"
                         [rowHover]="true"
-                        [showGridlines]="true"
                         [paginator]="true"
                         [rows]="rows"
                         [first]="first"
@@ -120,47 +140,11 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                         sortMode="multiple"
                         responsiveLayout="scroll"
                         [globalFilterFields]="['projectNo', 'projectName', 'customerName', 'customerProjectNo', 'ownerName', 'ownerOrgName', 'currentStage', 'status']"
-                        [tableStyle]="{ width: '100%' }"
+                        [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 个项目"
                         [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                     >
-                        <ng-template #caption>
-                            <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                                <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (click)="clearFilters(dt)"></button>
-
-                                    <p-iconfield class="w-full md:w-80">
-                                        <p-inputicon class="pi pi-search" />
-                                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" class="w-full! rounded-md! py-2!" />
-                                    </p-iconfield>
-
-                                    <p-select
-                                        [ngModel]="stageFilter()"
-                                        (ngModelChange)="setStageFilter($event)"
-                                        [options]="stageOptions"
-                                        optionLabel="label"
-                                        optionValue="value"
-                                        appendTo="body"
-                                        ariaLabel="按阶段筛选"
-                                        class="w-full md:w-44 rounded-md!"
-                                    />
-
-                                    <p-select
-                                        [ngModel]="statusFilter()"
-                                        (ngModelChange)="setStatusFilter($event)"
-                                        [options]="statusOptions"
-                                        optionLabel="label"
-                                        optionValue="value"
-                                        appendTo="body"
-                                        ariaLabel="按状态筛选"
-                                        class="w-full md:w-40 rounded-md!"
-                                    />
-                                </div>
-
-                                <div class="text-sm text-surface-500 dark:text-surface-400">当前筛出 {{ visibleProjects().length }} 个项目</div>
-                            </div>
-                        </ng-template>
                         <ng-template #header>
                             <tr>
                                 <th pSortableColumn="projectName" class="w-[34%] min-w-72">
@@ -238,7 +222,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                             </tr>
                         </ng-template>
                     </p-table>
-                </div>
+                </app-admin-list-shell>
             </section>
 
             <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建项目" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
@@ -298,6 +282,8 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
     `
 })
 export class ProjectList implements OnInit {
+    @ViewChild('dt') dt!: Table;
+
     readonly #authStore = inject(AuthStore);
     readonly #customerStore = inject(CustomerStore);
     readonly #projectStore = inject(ProjectStore);

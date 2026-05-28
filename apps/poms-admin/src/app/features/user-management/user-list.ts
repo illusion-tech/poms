@@ -17,6 +17,8 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
 import { UserExternalIdentityPanel } from './user-external-identity-panel';
 
 @Component({
@@ -38,25 +40,29 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
         MenuModule,
         ConfirmDialogModule,
         ToastModule,
+        AdminListShell,
+        AdminListToolbar,
         UserExternalIdentityPanel
     ],
     providers: [ConfirmationService, MessageService],
     template: `
         <p-toast />
-        <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
-            <!-- Header -->
-            <div class="px-6 py-5 border-b border-surface-200 dark:border-surface-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 class="text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">用户管理</h1>
+        <app-admin-list-shell>
+            <app-admin-list-toolbar>
+                <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
+                    <p-button label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="w-full md:w-auto rounded-md!" (onClick)="clearFilters(dt)" />
 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                    <p-iconfield class="w-full sm:w-[217px]">
+                    <p-iconfield class="w-full md:w-80">
                         <p-inputicon class="pi pi-search" />
-                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索用户" class="w-full! py-2! rounded-xl!" />
+                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索用户、用户名、组织" class="w-full! rounded-md! py-2!" />
                     </p-iconfield>
-
-                    <p-button icon="pi pi-plus" label="新建用户" severity="primary" [rounded]="true" class="w-full sm:w-auto cursor-pointer" (onClick)="openCreateDialog()" />
                 </div>
-            </div>
+
+                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                    <span>共 {{ platformStore.users().length }} 个用户</span>
+                    <p-button icon="pi pi-plus" label="新建用户" severity="primary" styleClass="w-full sm:w-auto rounded-md!" class="w-full sm:w-auto cursor-pointer" (onClick)="openCreateDialog()" />
+                </div>
+            </app-admin-list-toolbar>
 
             <!-- Table -->
             <div class="flex-1 px-6 py-5">
@@ -66,13 +72,15 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
                     [paginator]="true"
                     [rows]="rows"
                     [first]="first"
+                    dataKey="id"
+                    [rowHover]="true"
                     sortMode="multiple"
-                    [tableStyle]="{ width: '100%' }"
+                    responsiveLayout="scroll"
+                    [tableStyle]="{ width: '100%', 'min-width': '56rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
                     [globalFilterFields]="['displayName', 'username', 'primaryOrgUnitName']"
-                    class="bg-surface-0 dark:bg-surface-800 overflow-hidden"
-                    [pt]="{ pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
                     <ng-template #header>
                         <tr>
@@ -162,7 +170,9 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
             <!-- Assign Roles Dialog -->
             <p-dialog [(visible)]="assignRolesDialogVisible" [modal]="true" header="分配角色" [style]="{ width: '28rem' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-4">
-                    <p class="text-surface-600">为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配角色（全量替换）</p>
+                    <p class="text-surface-600">
+                        为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配角色（全量替换）
+                    </p>
                     <p-multiselect [(ngModel)]="assignRolesForm.roleIds" [options]="roleOptions()" optionLabel="label" optionValue="value" placeholder="选择角色" class="w-full" appendTo="body" />
                 </div>
                 <ng-template #footer>
@@ -176,7 +186,9 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
             <!-- Assign Org Dialog -->
             <p-dialog [(visible)]="assignOrgDialogVisible" [modal]="true" header="分配组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-4">
-                    <p class="text-surface-600">为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配所属组织</p>
+                    <p class="text-surface-600">
+                        为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配所属组织
+                    </p>
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">主组织</label>
                         <p-select [(ngModel)]="assignOrgForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择主组织" class="w-full" appendTo="body" />
@@ -240,7 +252,9 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
                                         <div class="flex items-center gap-2">
                                             <p-tag [value]="org.membershipType === 'primary' ? '主' : '副'" [severity]="org.membershipType === 'primary' ? 'info' : 'secondary'" />
                                             <span class="text-sm">{{ org.name }}</span>
-                                            @if (org.code) { <span class="text-surface-400 text-xs">({{ org.code }})</span> }
+                                            @if (org.code) {
+                                                <span class="text-surface-400 text-xs">({{ org.code }})</span>
+                                            }
                                         </div>
                                     }
                                 </div>
@@ -292,7 +306,7 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
             </p-dialog>
 
             <p-confirmdialog [style]="{ width: '450px' }" />
-        </div>
+        </app-admin-list-shell>
     `
 })
 export class UserList {
@@ -308,13 +322,9 @@ export class UserList {
     rows = 10;
     selectedUserId = signal<string | null>(null);
 
-    roleOptions = computed(() =>
-        this.platformStore.roles().map((r: PlatformRoleSummary) => ({ label: r.name, value: r.id }))
-    );
+    roleOptions = computed(() => this.platformStore.roles().map((r: PlatformRoleSummary) => ({ label: r.name, value: r.id })));
 
-    orgUnitOptions = computed(() =>
-        this.platformStore.orgUnits().map((o: PlatformOrgUnitSummary) => ({ label: o.name, value: o.id }))
-    );
+    orgUnitOptions = computed(() => this.platformStore.orgUnits().map((o: PlatformOrgUnitSummary) => ({ label: o.name, value: o.id })));
 
     selectedUserDisplayName = computed(() => {
         const id = this.selectedUserId();
@@ -348,9 +358,7 @@ export class UserList {
                 command: () => void this.openAssignOrgDialog(userId)
             },
             { separator: true },
-            user?.isActive
-                ? { label: '停用', icon: 'pi pi-ban', command: () => this.confirmDeactivate(userId) }
-                : { label: '启用', icon: 'pi pi-check-circle', command: () => this.activateUser(userId) }
+            user?.isActive ? { label: '停用', icon: 'pi pi-ban', command: () => this.confirmDeactivate(userId) } : { label: '启用', icon: 'pi pi-check-circle', command: () => this.activateUser(userId) }
         ];
     });
 
@@ -393,7 +401,8 @@ export class UserList {
     openAssignRolesDialog(userId: string) {
         this.selectedUserId.set(userId);
         const user = this.platformStore.users().find((u) => u.id === userId);
-        const currentRoleIds = this.platformStore.roles()
+        const currentRoleIds = this.platformStore
+            .roles()
             .filter((r) => user?.roleNames.includes(r.name))
             .map((r) => r.id);
         this.assignRolesForm = { roleIds: currentRoleIds };
@@ -551,7 +560,14 @@ export class UserList {
     }
 
     onGlobalFilter(table: Table, event: Event) {
+        this.first = 0;
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    clearFilters(table: Table) {
+        this.searchValue = '';
+        this.first = 0;
+        table.clear();
     }
 
     constructor() {

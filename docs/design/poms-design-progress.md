@@ -575,6 +575,8 @@
 92. 2026-05-26 `EX-67A` 已进入 `G1 / Doing` 并推进到本地实施：新增 `ex-67a-system-settings-attachment-upload-limit-baseline.md`，冻结平台通用系统设置最小闭环；首个 key 为 `attachment.max-upload-size-mb`，由 Admin 后台维护并替代 API 环境变量，附件上传会话冻结 `max_size_bytes`，Nginx `client_max_body_size` 仅作为网关硬上限。
 93. 2026-05-26 `EX-67A` 已完成 `G4 / Done`，`EX-67` parent 同步关闭：新增 `ex-67a-system-settings-attachment-upload-limit-closeout.md`，落地 `system_setting` 表、注册表、`platform:system-settings:manage`、系统设置 API / Admin 页面、OpenAPI / 生成客户端和部署文档回写；附件上传上限不再读取环境变量，新上传会话按系统设置冻结 `max_size_bytes`。
 94. 2026-05-27 `EX-68A` 已完成 `G4 / Done`：新增 `ex-68a-business-trial-seed-baseline.md` 与 `ex-68a-business-trial-seed-closeout.md`，将共享测试环境初始化从开发 / E2E `DatabaseSeeder` 中拆出；新增平台 bootstrap seed、未提交 CSV 驱动的实名业务试用账号 seed、`TRIAL-*` 演示数据和业务试用初始化 runbook，旧 `poms-api:seeder-run` 仍保留给本地开发 / E2E。
+95. 2026-05-28 `FE-63` 已进入 `G1 / Doing`：新增 `fe-63-admin-table-visual-system-baseline.md`，冻结 Admin 表格视觉统一第一阶段范围；本片新增共享 table sheet 和多功能列表工具栏，迁移用户管理、角色管理、组织管理，不改后端 API、OpenAPI、generated client、权限或业务行为。
+96. 2026-05-28 `FE-63` 已推进到本地 `G3 / Ready for Review`：新增 `AdminListShell`、`AdminListToolbar`，用户管理、角色管理、组织管理、业务字典、导航治理，以及客户、线索、项目、合同主列表表格已迁移到统一 table sheet 与多功能工具栏；内容区重复大标题已移除，模块身份交给顶栏 / 面包屑表达；移动端继续确认右侧操作列可通过表格内部横向滚动访问。验证通过 focused tests、`poms-admin` lint/build、browser visual QA、Markdown format check 和 `git diff --check`。因尚未提交，tracker 暂不标记 `Done / G4`。
 
 ---
 

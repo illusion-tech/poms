@@ -14,10 +14,10 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminListShell } from '../../shared/ui/admin-list-shell';
 
-const assignablePermissionKeyMap = Object.values(AssignRolePermissionsRequestPermissionKeysEnum).reduce<
-    Record<string, AssignRolePermissionsRequestPermissionKeysEnum>
->((map, value) => {
+const assignablePermissionKeyMap = Object.values(AssignRolePermissionsRequestPermissionKeysEnum).reduce<Record<string, AssignRolePermissionsRequestPermissionKeysEnum>>((map, value) => {
     map[value] = value;
     return map;
 }, {});
@@ -29,47 +29,43 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
 @Component({
     selector: 'app-role-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        TableModule,
-        ButtonModule,
-        InputTextModule,
-        IconFieldModule,
-        InputIconModule,
-        ChipModule,
-        DialogModule,
-        ToastModule,
-        TagModule,
-        TooltipModule
-    ],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, ChipModule, DialogModule, ToastModule, TagModule, TooltipModule, AdminListShell, AdminListToolbar],
     providers: [MessageService],
     template: `
         <p-toast />
-        <div class="flex flex-col bg-surface-0 dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-700 overflow-hidden">
-            <div class="px-6 py-5 border-b border-surface-200 dark:border-surface-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 class="text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">角色管理</h1>
+        <app-admin-list-shell>
+            <app-admin-list-toolbar>
+                <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
+                    <p-button label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="w-full md:w-auto rounded-md!" (onClick)="clearFilters(dt)" />
 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                    <p-iconfield class="w-full sm:w-[217px]">
+                    <p-iconfield class="w-full md:w-80">
                         <p-inputicon class="pi pi-search" />
-                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索角色" class="w-full! py-2! rounded-xl!" />
+                        <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索角色、Key、说明" class="w-full! rounded-md! py-2!" />
                     </p-iconfield>
-                    <p-button icon="pi pi-plus" label="新建角色" severity="primary" [rounded]="true" (onClick)="openCreateDialog()" class="w-full sm:w-auto cursor-pointer" />
                 </div>
-            </div>
+
+                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                    <span>共 {{ platformStore.roles().length }} 个角色</span>
+                    <p-button icon="pi pi-plus" label="新建角色" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="openCreateDialog()" class="w-full sm:w-auto cursor-pointer" />
+                </div>
+            </app-admin-list-toolbar>
 
             <div class="flex-1 px-6 py-5">
                 <p-table
                     #dt
                     [value]="platformStore.roles()"
                     [paginator]="true"
-                    [rows]="10"
+                    [rows]="rows"
+                    [first]="first"
+                    dataKey="id"
+                    [rowHover]="true"
+                    sortMode="multiple"
+                    responsiveLayout="scroll"
                     [globalFilterFields]="['name', 'roleKey', 'description']"
-                    [tableStyle]="{ width: '100%' }"
+                    [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
-                    [pt]="{ pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                 >
                     <ng-template #header>
                         <tr>
@@ -110,42 +106,42 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
                             </td>
                             <td>
                                 <div class="flex items-center gap-1">
-                                     <p-button
-                                         icon="pi pi-pencil"
-                                         [rounded]="true"
-                                         [text]="true"
-                                         size="small"
-                                         severity="secondary"
-                                         pTooltip="编辑角色"
-                                         tooltipPosition="top"
-                                         [ariaLabel]="'编辑角色 ' + role.name"
-                                         (onClick)="openEditDialog(role)"
-                                         class="cursor-pointer"
-                                     />
-                                     <p-button
-                                         icon="pi pi-key"
-                                         [rounded]="true"
-                                         [text]="true"
-                                         size="small"
-                                         severity="secondary"
-                                         pTooltip="分配权限"
-                                         tooltipPosition="top"
-                                         [ariaLabel]="'分配权限 ' + role.name"
-                                         (onClick)="openAssignPermissionsDialog(role)"
-                                         class="cursor-pointer"
-                                     />
-                                     <p-button
-                                         [icon]="role.isActive ? 'pi pi-ban' : 'pi pi-check-circle'"
-                                         [rounded]="true"
-                                         [text]="true"
-                                         size="small"
-                                         [severity]="role.isActive ? 'danger' : 'success'"
-                                         [pTooltip]="role.isActive ? '停用角色' : '启用角色'"
-                                         tooltipPosition="top"
-                                         [ariaLabel]="(role.isActive ? '停用角色 ' : '启用角色 ') + role.name"
-                                         (onClick)="toggleRoleActivation(role)"
-                                         class="cursor-pointer"
-                                     />
+                                    <p-button
+                                        icon="pi pi-pencil"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        severity="secondary"
+                                        pTooltip="编辑角色"
+                                        tooltipPosition="top"
+                                        [ariaLabel]="'编辑角色 ' + role.name"
+                                        (onClick)="openEditDialog(role)"
+                                        class="cursor-pointer"
+                                    />
+                                    <p-button
+                                        icon="pi pi-key"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        severity="secondary"
+                                        pTooltip="分配权限"
+                                        tooltipPosition="top"
+                                        [ariaLabel]="'分配权限 ' + role.name"
+                                        (onClick)="openAssignPermissionsDialog(role)"
+                                        class="cursor-pointer"
+                                    />
+                                    <p-button
+                                        [icon]="role.isActive ? 'pi pi-ban' : 'pi pi-check-circle'"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        [severity]="role.isActive ? 'danger' : 'success'"
+                                        [pTooltip]="role.isActive ? '停用角色' : '启用角色'"
+                                        tooltipPosition="top"
+                                        [ariaLabel]="(role.isActive ? '停用角色 ' : '启用角色 ') + role.name"
+                                        (onClick)="toggleRoleActivation(role)"
+                                        class="cursor-pointer"
+                                    />
                                 </div>
                             </td>
                         </tr>
@@ -213,12 +209,7 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
                             <div class="flex flex-col gap-2">
                                 @for (permission of group.permissions; track permission.key) {
                                     <label class="flex items-start gap-2 cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            [checked]="selectedPermissions().has(permission.key)"
-                                            (change)="togglePermission(permission.key)"
-                                            class="mt-1 rounded"
-                                        />
+                                        <input type="checkbox" [checked]="selectedPermissions().has(permission.key)" (change)="togglePermission(permission.key)" class="mt-1 rounded" />
                                         <span class="flex flex-col">
                                             <span class="text-xs font-mono">{{ permission.key }}</span>
                                             <span class="text-xs text-surface-500">{{ permission.description }}</span>
@@ -236,7 +227,7 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
                     </div>
                 </ng-template>
             </p-dialog>
-        </div>
+        </app-admin-list-shell>
     `
 })
 export class RoleList {
@@ -246,6 +237,8 @@ export class RoleList {
     @ViewChild('dt') dt!: Table;
 
     searchValue = '';
+    first = 0;
+    rows = 10;
 
     readonly permissionGroups = signal<Array<{ group: string; permissions: Array<{ key: AssignRolePermissionsRequestPermissionKeysEnum; description: string }> }>>([]);
 
@@ -333,11 +326,7 @@ export class RoleList {
             this.assigningRoleId.set(role.id);
             this.assigningRoleName.set(role.name);
             this.selectedPermissions.set(
-                new Set(
-                    detail.permissionKeys
-                        .map((permissionKey) => toAssignablePermissionKey(permissionKey))
-                        .filter((permissionKey): permissionKey is AssignRolePermissionsRequestPermissionKeysEnum => permissionKey !== null)
-                )
+                new Set(detail.permissionKeys.map((permissionKey) => toAssignablePermissionKey(permissionKey)).filter((permissionKey): permissionKey is AssignRolePermissionsRequestPermissionKeysEnum => permissionKey !== null))
             );
             this.assignPermDialogVisible = true;
         } catch {
@@ -387,7 +376,14 @@ export class RoleList {
     }
 
     onGlobalFilter(table: Table, event: Event) {
+        this.first = 0;
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    clearFilters(table: Table) {
+        this.searchValue = '';
+        this.first = 0;
+        table.clear();
     }
 
     constructor() {
