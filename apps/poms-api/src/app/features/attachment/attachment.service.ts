@@ -20,6 +20,7 @@ import {
     DictionaryDomainValue,
     ProjectHandoverAttachmentChecklistItemStatusValue,
     type AbortAttachmentUploadSessionRequest,
+    type AttachmentCenterRecord,
     type AttachmentCategory,
     type AttachmentDownloadPackageManifestSummary,
     type AttachmentDownloadPackageSummary,
@@ -272,12 +273,7 @@ export class AttachmentService {
         return this.mapUploadTargetResult(session);
     }
 
-    async completeAttachmentUploadSession(
-        id: string,
-        request: CompleteAttachmentUploadSessionRequest,
-        user: UserPayload,
-        requestId?: string | null
-    ): Promise<AttachmentSummary> {
+    async completeAttachmentUploadSession(id: string, request: CompleteAttachmentUploadSessionRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
         const session = await this.requireUploadSession(id);
         await this.requireUploadSessionAccess(session, user, 'write');
         this.assertExpectedUploadSessionVersion(session, request.expectedVersion);
@@ -305,7 +301,9 @@ export class AttachmentService {
                 }
                 session.checksumSha256 = declaredChecksum;
             } else {
-                const actualChecksum = createHash('sha256').update(await this.storageService.readBuffer(location)).digest('hex');
+                const actualChecksum = createHash('sha256')
+                    .update(await this.storageService.readBuffer(location))
+                    .digest('hex');
                 session.checksumSha256 = actualChecksum;
             }
             session.uploadedAt ??= new Date();
@@ -446,16 +444,40 @@ export class AttachmentService {
 
         return visibleRows.map(({ attachment, links }) =>
             mapAttachmentToSummary(attachment, links, {
-                uploadedBy: attachment.uploadedBy ? uploaderMap.get(attachment.uploadedBy) ?? null : null
+                uploadedBy: attachment.uploadedBy ? (uploaderMap.get(attachment.uploadedBy) ?? null) : null
             })
         );
+    }
+
+    async listAttachmentCenterRecords(user: UserPayload): Promise<AttachmentCenterRecord[]> {
+        const targetTypes = this.readableAttachmentCenterTargetTypes(user.permissions);
+        const rows = await this.attachmentRepository.findAttachmentCenterRows({ targetTypes });
+        const visibleRows = rows.filter(({ attachment }) => this.canReadAttachmentSecurity(attachment, user.permissions));
+        const uploaderMap = await this.loadUploaderMap(visibleRows.map(({ attachment }) => attachment));
+        const targetLookup = await this.loadAttachmentCenterTargetLookup(visibleRows.map(({ link }) => link));
+
+        return visibleRows.flatMap(({ attachment, link, links }) => {
+            const target = targetLookup.get(this.attachmentCenterTargetKey(link.targetType, link.targetId));
+            if (!target) {
+                return [];
+            }
+
+            return [
+                {
+                    ...target,
+                    attachment: mapAttachmentToSummary(attachment, links, {
+                        uploadedBy: attachment.uploadedBy ? (uploaderMap.get(attachment.uploadedBy) ?? null) : null
+                    })
+                }
+            ];
+        });
     }
 
     async getAttachment(id: string, user: UserPayload): Promise<AttachmentSummary> {
         const { attachment, links } = await this.requireReadableAttachment(id, user);
         const uploaderMap = await this.loadUploaderMap([attachment]);
         return mapAttachmentToSummary(attachment, links, {
-            uploadedBy: attachment.uploadedBy ? uploaderMap.get(attachment.uploadedBy) ?? null : null
+            uploadedBy: attachment.uploadedBy ? (uploaderMap.get(attachment.uploadedBy) ?? null) : null
         });
     }
 
@@ -523,19 +545,13 @@ export class AttachmentService {
             visibleVersions.map(async (version) => {
                 const links = await this.attachmentRepository.findActiveLinksByAttachmentId(version.id);
                 return mapAttachmentToSummary(version, links, {
-                    uploadedBy: version.uploadedBy ? uploaderMap.get(version.uploadedBy) ?? null : null
+                    uploadedBy: version.uploadedBy ? (uploaderMap.get(version.uploadedBy) ?? null) : null
                 });
             })
         );
     }
 
-    async uploadAttachmentVersion(
-        id: string,
-        file: UploadedAttachmentFile | undefined,
-        metadata: UploadAttachmentVersionMetadata,
-        user: UserPayload,
-        requestId?: string | null
-    ): Promise<AttachmentSummary> {
+    async uploadAttachmentVersion(id: string, file: UploadedAttachmentFile | undefined, metadata: UploadAttachmentVersionMetadata, user: UserPayload, requestId?: string | null): Promise<AttachmentSummary> {
         if (!file?.buffer?.length) {
             throw new BadRequestException('Attachment file is required');
         }
@@ -775,7 +791,7 @@ export class AttachmentService {
 
         const uploaderMap = await this.loadUploaderMap([attachment]);
         return mapAttachmentToSummary(attachment, links, {
-            uploadedBy: attachment.uploadedBy ? uploaderMap.get(attachment.uploadedBy) ?? null : null
+            uploadedBy: attachment.uploadedBy ? (uploaderMap.get(attachment.uploadedBy) ?? null) : null
         });
     }
 
@@ -814,7 +830,7 @@ export class AttachmentService {
         const activeLinks = await this.attachmentRepository.findActiveLinksByAttachmentId(id);
         const uploaderMap = await this.loadUploaderMap([attachment]);
         return mapAttachmentToSummary(attachment, activeLinks, {
-            uploadedBy: attachment.uploadedBy ? uploaderMap.get(attachment.uploadedBy) ?? null : null
+            uploadedBy: attachment.uploadedBy ? (uploaderMap.get(attachment.uploadedBy) ?? null) : null
         });
     }
 
@@ -925,17 +941,9 @@ export class AttachmentService {
         return this.buildChecklistViewFromCandidates(handover, candidates);
     }
 
-    async refreshProjectHandoverAttachmentChecklist(
-        handoverId: string,
-        input: RefreshProjectHandoverAttachmentChecklistRequest,
-        user: UserPayload,
-        requestId?: string | null
-    ): Promise<ProjectHandoverAttachmentChecklistView> {
+    async refreshProjectHandoverAttachmentChecklist(handoverId: string, input: RefreshProjectHandoverAttachmentChecklistRequest, user: UserPayload, requestId?: string | null): Promise<ProjectHandoverAttachmentChecklistView> {
         const { handover, project } = await this.requireProjectHandoverContext(handoverId, user, 'write');
-        const [existingSelections, candidates] = await Promise.all([
-            this.attachmentRepository.findHandoverSelectionsByHandoverId(handoverId),
-            this.collectHandoverAttachmentCandidates(handover, project)
-        ]);
+        const [existingSelections, candidates] = await Promise.all([this.attachmentRepository.findHandoverSelectionsByHandoverId(handoverId), this.collectHandoverAttachmentCandidates(handover, project)]);
         const existingByVersionGroupId = new Map(existingSelections.filter((selection) => selection.versionGroupId).map((selection) => [selection.versionGroupId, selection]));
         const preserveManualExclusions = input.preserveManualExclusions ?? true;
         const entitiesToSave: Array<AttachmentLink | ProjectHandoverAttachmentSelection> = [];
@@ -1013,22 +1021,12 @@ export class AttachmentService {
         return this.buildChecklistViewFromSelections(handover, refreshedSelections);
     }
 
-    async createProjectHandoverAttachmentDownloadPackage(
-        handoverId: string,
-        input: CreateProjectHandoverAttachmentDownloadPackageRequest,
-        user: UserPayload,
-        requestId?: string | null
-    ): Promise<AttachmentDownloadPackageSummary> {
+    async createProjectHandoverAttachmentDownloadPackage(handoverId: string, input: CreateProjectHandoverAttachmentDownloadPackageRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentDownloadPackageSummary> {
         const { handover, project } = await this.requireProjectHandoverContext(handoverId, user, 'read');
         let selections = await this.attachmentRepository.findHandoverSelectionsByHandoverId(handoverId);
 
         if (selections.length === 0) {
-            const refreshed = await this.refreshProjectHandoverAttachmentChecklist(
-                handoverId,
-                { preserveManualExclusions: true, includeHistoricalSelections: true },
-                user,
-                requestId
-            );
+            const refreshed = await this.refreshProjectHandoverAttachmentChecklist(handoverId, { preserveManualExclusions: true, includeHistoricalSelections: true }, user, requestId);
             const refreshedIds = refreshed.items.flatMap((item) => (item.selectionId ? [item.selectionId] : []));
             selections = await this.attachmentRepository.findHandoverSelectionsByIds(refreshedIds);
         }
@@ -1042,11 +1040,7 @@ export class AttachmentService {
         this.assertExpectedSelectionVersions(selectedSelections, input.expectedSelectionVersions ?? []);
 
         const includedSelections = selectedSelections.filter(
-            (selection) =>
-                selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included &&
-                selection.attachmentId &&
-                selection.securityLevel &&
-                BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(selection.securityLevel)
+            (selection) => selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included && selection.attachmentId && selection.securityLevel && BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(selection.securityLevel)
         );
         const excludedSelections = selections.filter((selection) => selection.status !== ProjectHandoverAttachmentChecklistItemStatusValue.Included);
 
@@ -1141,11 +1135,7 @@ export class AttachmentService {
         return this.mapDownloadPackageToSummary(downloadPackage);
     }
 
-    async openAttachmentDownloadPackage(
-        packageId: string,
-        user: UserPayload,
-        requestId?: string | null
-    ): Promise<{ downloadPackage: AttachmentDownloadPackage; stream: Readable }> {
+    async openAttachmentDownloadPackage(packageId: string, user: UserPayload, requestId?: string | null): Promise<{ downloadPackage: AttachmentDownloadPackage; stream: Readable }> {
         const downloadPackage = await this.requireDownloadPackageAccess(packageId, user, 'read');
 
         if (downloadPackage.status === AttachmentDownloadPackageStatusValue.Ready && downloadPackage.expiresAt.getTime() <= Date.now()) {
@@ -1576,10 +1566,7 @@ export class AttachmentService {
         return `Security level ${attachment.securityLevel} is excluded from ordinary handover download packages`;
     }
 
-    private buildSourceRefs(
-        links: AttachmentLink[],
-        fallback: { targetType: AttachmentTargetType; targetId: string; label: string }
-    ): ProjectHandoverAttachmentSourceRef[] {
+    private buildSourceRefs(links: AttachmentLink[], fallback: { targetType: AttachmentTargetType; targetId: string; label: string }): ProjectHandoverAttachmentSourceRef[] {
         const matchingLinks = links.filter((link) => link.targetType === fallback.targetType && link.targetId === fallback.targetId);
         const sourceRefs = matchingLinks.length > 0 ? matchingLinks : [null];
 
@@ -1664,9 +1651,7 @@ export class AttachmentService {
             selectionReason: selection.selectionReason ?? null,
             exclusionReason: selection.exclusionReason ?? null,
             downloadEligible:
-                selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included &&
-                Boolean(selection.attachmentId) &&
-                Boolean(selection.securityLevel && BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(selection.securityLevel)),
+                selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.Included && Boolean(selection.attachmentId) && Boolean(selection.securityLevel && BATCH_DOWNLOAD_ALLOWED_SECURITY_LEVELS.includes(selection.securityLevel)),
             staleVersion: selection.status === ProjectHandoverAttachmentChecklistItemStatusValue.StaleVersion,
             sourceRefs: selection.sourceRefs,
             rowVersion: selection.rowVersion,
@@ -1701,11 +1686,7 @@ export class AttachmentService {
         };
     }
 
-    private async createDownloadPackageArchive(
-        downloadPackage: AttachmentDownloadPackage,
-        includedSelections: ProjectHandoverAttachmentSelection[],
-        manifestSummary: AttachmentDownloadPackageManifestSummary
-    ): Promise<Buffer> {
+    private async createDownloadPackageArchive(downloadPackage: AttachmentDownloadPackage, includedSelections: ProjectHandoverAttachmentSelection[], manifestSummary: AttachmentDownloadPackageManifestSummary): Promise<Buffer> {
         const entries: ZipArchiveEntry[] = [
             {
                 name: 'manifest.json',
@@ -1763,7 +1744,12 @@ export class AttachmentService {
     }
 
     private sanitizeArchiveEntryName(name: string): string {
-        return name.replace(/[\\/:*?"<>|]+/g, '_').trim().slice(0, 180) || 'attachment.bin';
+        return (
+            name
+                .replace(/[\\/:*?"<>|]+/g, '_')
+                .trim()
+                .slice(0, 180) || 'attachment.bin'
+        );
     }
 
     private buildZipArchive(entries: ZipArchiveEntry[]): Buffer {
@@ -2001,6 +1987,93 @@ export class AttachmentService {
             case AttachmentTargetTypeValue.SalesFollowUp:
                 return permissions.has(`customer:${permission}` as PermissionKey) || permissions.has(`lead:${permission}` as PermissionKey) || permissions.has(`project:${permission}` as PermissionKey);
         }
+    }
+
+    private readableAttachmentCenterTargetTypes(permissions: PermissionKey[]): AttachmentTargetType[] {
+        const permissionSet = new Set(permissions);
+        const targetTypes: AttachmentTargetType[] = [];
+
+        if (permissionSet.has('customer:read')) {
+            targetTypes.push(AttachmentTargetTypeValue.Customer);
+        }
+        if (permissionSet.has('lead:read')) {
+            targetTypes.push(AttachmentTargetTypeValue.Lead);
+        }
+        if (permissionSet.has('project:read')) {
+            targetTypes.push(AttachmentTargetTypeValue.Project, AttachmentTargetTypeValue.Contract);
+        }
+
+        return targetTypes;
+    }
+
+    private async loadAttachmentCenterTargetLookup(links: AttachmentLink[]): Promise<Map<string, Omit<AttachmentCenterRecord, 'attachment'>>> {
+        const idsByType = new Map<AttachmentTargetType, Set<string>>();
+        for (const link of links) {
+            const set = idsByType.get(link.targetType) ?? new Set<string>();
+            set.add(link.targetId);
+            idsByType.set(link.targetType, set);
+        }
+
+        const [customers, leads, contracts] = await Promise.all([
+            this.attachmentRepository.findCustomersByIds([...(idsByType.get(AttachmentTargetTypeValue.Customer) ?? [])]),
+            this.attachmentRepository.findLeadsByIds([...(idsByType.get(AttachmentTargetTypeValue.Lead) ?? [])]),
+            this.attachmentRepository.findContractsByIds([...(idsByType.get(AttachmentTargetTypeValue.Contract) ?? [])])
+        ]);
+
+        const projectIds = new Set(idsByType.get(AttachmentTargetTypeValue.Project) ?? []);
+        for (const contract of contracts) {
+            projectIds.add(contract.projectId);
+        }
+        const projects = await this.attachmentRepository.findProjectsByIds([...projectIds]);
+        const projectsById = new Map(projects.map((project) => [project.id, project]));
+
+        const lookup = new Map<string, Omit<AttachmentCenterRecord, 'attachment'>>();
+        for (const customer of customers) {
+            lookup.set(this.attachmentCenterTargetKey(AttachmentTargetTypeValue.Customer, customer.id), {
+                targetType: AttachmentTargetTypeValue.Customer,
+                targetId: customer.id,
+                targetNo: customer.customerNo,
+                targetName: customer.displayName,
+                targetOwnerName: null
+            });
+        }
+        for (const lead of leads) {
+            lookup.set(this.attachmentCenterTargetKey(AttachmentTargetTypeValue.Lead, lead.id), {
+                targetType: AttachmentTargetTypeValue.Lead,
+                targetId: lead.id,
+                targetNo: lead.leadNo,
+                targetName: lead.leadName,
+                targetOwnerName: null
+            });
+        }
+        for (const project of projects) {
+            if (!idsByType.get(AttachmentTargetTypeValue.Project)?.has(project.id)) {
+                continue;
+            }
+
+            lookup.set(this.attachmentCenterTargetKey(AttachmentTargetTypeValue.Project, project.id), {
+                targetType: AttachmentTargetTypeValue.Project,
+                targetId: project.id,
+                targetNo: project.projectNo,
+                targetName: project.projectName,
+                targetOwnerName: null
+            });
+        }
+        for (const contract of contracts) {
+            lookup.set(this.attachmentCenterTargetKey(AttachmentTargetTypeValue.Contract, contract.id), {
+                targetType: AttachmentTargetTypeValue.Contract,
+                targetId: contract.id,
+                targetNo: contract.contractNo,
+                targetName: projectsById.get(contract.projectId)?.projectName ?? contract.contractNo,
+                targetOwnerName: null
+            });
+        }
+
+        return lookup;
+    }
+
+    private attachmentCenterTargetKey(targetType: AttachmentTargetType, targetId: string): string {
+        return `${targetType}:${targetId}`;
     }
 
     private canReadAttachmentSecurity(attachment: Attachment, permissions: PermissionKey[]): boolean {

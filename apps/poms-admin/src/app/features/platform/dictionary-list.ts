@@ -13,6 +13,8 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
+import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminMetricGrid, type AdminMetricItem } from '../../shared/ui/admin-metric-grid';
 
 type DictionaryFilterValue = DictionaryDomain | 'all';
 type StatusFilterValue = ActiveInactiveStatus | 'all';
@@ -104,58 +106,37 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
 @Component({
     selector: 'app-dictionary-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, TooltipModule, ToastModule],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, TooltipModule, ToastModule, AdminListToolbar, AdminMetricGrid],
     providers: [DictionaryStore, MessageService],
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
-            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-4">
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">当前结果</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ items().length }}</div>
-                    </div>
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">启用项</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-emerald-700 dark:text-emerald-300">{{ activeCount() }}</div>
-                    </div>
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">停用项</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-amber-700 dark:text-amber-300">{{ inactiveCount() }}</div>
-                    </div>
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">系统项</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ systemCount() }}</div>
-                    </div>
-                </div>
-            </section>
+            <app-admin-metric-grid [items]="dictionaryMetricItems()" />
 
             @if (pageError()) {
                 <div class="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{{ pageError() }}</div>
             }
 
-            <section class="rounded-[8px] border border-surface-200 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900">
-                <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                    <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                        <p-iconfield class="w-full md:w-96">
-                            <p-inputicon class="pi pi-search" />
-                            <input pInputText [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" (keydown.enter)="reload()" placeholder="搜索 code、名称或说明" class="w-full! rounded-md! py-2!" />
-                        </p-iconfield>
+            <app-admin-list-toolbar>
+                <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
+                    <p-iconfield class="w-full md:w-96">
+                        <p-inputicon class="pi pi-search" />
+                        <input pInputText [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" (keydown.enter)="reload()" placeholder="搜索 code、名称或说明" class="w-full! rounded-md! py-2!" />
+                    </p-iconfield>
 
-                        <p-button label="查询" icon="pi pi-search" severity="primary" [outlined]="true" class="rounded-md!" (onClick)="reload()" />
-                        <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="resetFilters()" />
-                    </div>
-
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
-                        <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                    </div>
+                    <p-button label="查询" icon="pi pi-search" severity="primary" [outlined]="true" class="rounded-md!" (onClick)="reload()" />
+                    <p-button label="重置" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="rounded-md!" (onClick)="resetFilters()" />
                 </div>
-            </section>
+
+                <div adminToolbarEnd class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" class="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
+                    <p-button label="新增字典项" icon="pi pi-plus" severity="primary" class="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                </div>
+            </app-admin-list-toolbar>
 
             <section class="grid grid-cols-1 gap-4 xl:grid-cols-3">
                 @for (card of domainCards(); track card.domain) {
-                    <article class="flex min-h-[29rem] flex-col rounded-[8px] border border-surface-200 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900">
+                    <article class="card flex min-h-[29rem] flex-col p-4!">
                         <header class="flex items-start justify-between gap-4">
                             <div class="flex min-w-0 gap-3">
                                 <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] border border-surface-200 bg-surface-50 text-surface-600 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-300">
@@ -384,6 +365,12 @@ export class DictionaryList {
     readonly activeCount = computed(() => this.items().filter((item) => item.status === ActiveInactiveStatus.Active).length);
     readonly inactiveCount = computed(() => this.items().filter((item) => item.status === ActiveInactiveStatus.Inactive).length);
     readonly systemCount = computed(() => this.items().filter((item) => item.isSystem).length);
+    readonly dictionaryMetricItems = computed<AdminMetricItem[]>(() => [
+        { label: '当前结果', value: this.items().length },
+        { label: '启用项', value: this.activeCount(), valueClass: 'text-emerald-700 dark:text-emerald-300' },
+        { label: '停用项', value: this.inactiveCount(), valueClass: 'text-amber-700 dark:text-amber-300' },
+        { label: '系统项', value: this.systemCount() }
+    ]);
     readonly domainCards = computed(() =>
         this.domainOptions.map((option) => {
             const showInactive = this.showInactiveDomains().has(option.value);

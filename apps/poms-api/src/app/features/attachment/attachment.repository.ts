@@ -10,13 +10,7 @@ import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
 import { ProjectHandover } from '../project-handover/project-handover.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
-import {
-    Attachment,
-    AttachmentDownloadPackage,
-    AttachmentDownloadPackageItem,
-    AttachmentLink,
-    ProjectHandoverAttachmentSelection
-} from './attachment.entity';
+import { Attachment, AttachmentDownloadPackage, AttachmentDownloadPackageItem, AttachmentLink, ProjectHandoverAttachmentSelection } from './attachment.entity';
 import { AttachmentUploadSession } from './attachment-upload-session.entity';
 
 export interface AttachmentListFilters {
@@ -25,6 +19,19 @@ export interface AttachmentListFilters {
     category?: AttachmentCategory;
     status?: AttachmentStatus;
     includeVersions?: boolean;
+}
+
+export interface AttachmentCenterListFilters {
+    targetTypes: AttachmentTargetType[];
+    category?: AttachmentCategory;
+    status?: AttachmentStatus;
+    includeVersions?: boolean;
+}
+
+export interface AttachmentCenterRepositoryRow {
+    attachment: Attachment;
+    link: AttachmentLink;
+    links: AttachmentLink[];
 }
 
 @Injectable()
@@ -158,6 +165,71 @@ export class AttachmentRepository {
         }));
     }
 
+    async findAttachmentCenterRows(filters: AttachmentCenterListFilters): Promise<AttachmentCenterRepositoryRow[]> {
+        if (filters.targetTypes.length === 0) {
+            return [];
+        }
+
+        const targetLinks = await this.attachmentLinkRepository.find(
+            {
+                targetType: { $in: filters.targetTypes },
+                status: AttachmentLinkStatusValue.Active
+            },
+            { orderBy: { linkedAt: QueryOrder.DESC } }
+        );
+
+        const attachmentIds = [...new Set(targetLinks.map((link) => link.attachmentId))];
+        if (attachmentIds.length === 0) {
+            return [];
+        }
+
+        const where: FilterQuery<Attachment> = {
+            id: { $in: attachmentIds },
+            status: filters.status ?? AttachmentStatusValue.Active,
+            ...(filters.includeVersions ? {} : { isLatest: true }),
+            ...(filters.category ? { category: filters.category } : {})
+        };
+        const attachments = await this.attachmentRepository.find(where, { orderBy: { uploadedAt: QueryOrder.DESC } });
+        if (attachments.length === 0) {
+            return [];
+        }
+
+        const attachmentsById = new Map(attachments.map((attachment) => [attachment.id, attachment]));
+        const activeLinks = await this.attachmentLinkRepository.find(
+            {
+                attachmentId: { $in: attachments.map((attachment) => attachment.id) },
+                status: AttachmentLinkStatusValue.Active
+            },
+            { orderBy: { linkedAt: QueryOrder.DESC } }
+        );
+        const linksByAttachmentId = new Map<string, AttachmentLink[]>();
+
+        for (const link of activeLinks) {
+            const list = linksByAttachmentId.get(link.attachmentId) ?? [];
+            list.push(link);
+            linksByAttachmentId.set(link.attachmentId, list);
+        }
+
+        const rows: AttachmentCenterRepositoryRow[] = [];
+        const seen = new Set<string>();
+        for (const link of targetLinks) {
+            const attachment = attachmentsById.get(link.attachmentId);
+            if (!attachment) continue;
+
+            const key = `${link.targetType}:${link.targetId}:${link.attachmentId}`;
+            if (seen.has(key)) continue;
+
+            seen.add(key);
+            rows.push({
+                attachment,
+                link,
+                links: linksByAttachmentId.get(link.attachmentId) ?? []
+            });
+        }
+
+        return rows.sort((a, b) => b.attachment.uploadedAt.getTime() - a.attachment.uploadedAt.getTime());
+    }
+
     async findAttachmentsByVersionGroupId(versionGroupId: string): Promise<Attachment[]> {
         return this.attachmentRepository.find(
             { versionGroupId },
@@ -199,16 +271,48 @@ export class AttachmentRepository {
         return this.customerRepository.findOne({ id });
     }
 
+    async findCustomersByIds(ids: string[]): Promise<Customer[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.customerRepository.find({ id: { $in: ids } });
+    }
+
     async findLeadById(id: string): Promise<Lead | null> {
         return this.leadRepository.findOne({ id });
+    }
+
+    async findLeadsByIds(ids: string[]): Promise<Lead[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.leadRepository.find({ id: { $in: ids } });
     }
 
     async findProjectById(id: string): Promise<Project | null> {
         return this.projectRepository.findOne({ id });
     }
 
+    async findProjectsByIds(ids: string[]): Promise<Project[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.projectRepository.find({ id: { $in: ids } });
+    }
+
     async findContractById(id: string): Promise<Contract | null> {
         return this.contractRepository.findOne({ id });
+    }
+
+    async findContractsByIds(ids: string[]): Promise<Contract[]> {
+        if (ids.length === 0) {
+            return [];
+        }
+
+        return this.contractRepository.find({ id: { $in: ids } });
     }
 
     async findContractsByProjectId(projectId: string): Promise<Contract[]> {

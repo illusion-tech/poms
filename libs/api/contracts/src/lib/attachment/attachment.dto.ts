@@ -1,6 +1,7 @@
 import {
     AttachmentListQuerySchema,
     AttachmentListSchema,
+    AttachmentCenterRecordListSchema,
     AttachmentStorageProviderConfigDetailSchema,
     AttachmentStorageProviderConfigListQuerySchema,
     AttachmentStorageProviderConfigListSchema,
@@ -34,6 +35,8 @@ import { createZodDto } from 'nestjs-zod';
 export class AttachmentDto extends createZodDto(AttachmentSummarySchema) {}
 
 export class AttachmentListDto extends createZodDto(AttachmentListSchema) {}
+
+export class AttachmentCenterRecordListDto extends createZodDto(AttachmentCenterRecordListSchema) {}
 
 export class AttachmentListQueryDto extends createZodDto(AttachmentListQuerySchema) {}
 

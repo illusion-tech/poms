@@ -372,6 +372,12 @@
 | `attachment` | `linkAttachmentToTarget`   | `POST /attachments/{id}/links`            | `POST /attachments/{id}/links`            | `POST /attachments/{id}/links`            | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增附件复用关联，用于线索转项目来源附件挂接。                                                   | `B9`  | `aligned` |
 | `attachment` | `unlinkAttachment`         | `DELETE /attachments/{id}/links/{linkId}` | `DELETE /attachments/{id}/links/{linkId}` | `DELETE /attachments/{id}/links/{linkId}` | `ADR-015` + `EX-45` G1 baseline | `N/A`      | 新增取消业务对象关联；不删除文件本体。                                                           | `B9`  | `aligned` |
 
+### 6.14A EX-69A Attachment Center Aggregate Query
+
+| Domain              | Capability                    | Canonical Route                  | Current Implemented Route        | Current Design Route             | Authority                                 | Drift Type | Action                                                                                   | Batch | Status    |
+| ------------------- | ----------------------------- | -------------------------------- | -------------------------------- | -------------------------------- | ----------------------------------------- | ---------- | ---------------------------------------------------------------------------------------- | ----- | --------- |
+| `attachment-center` | `listAttachmentCenterRecords` | `GET /attachment-center-records` | `GET /attachment-center-records` | `GET /attachment-center-records` | `ADR-015` + `FE-49` + `EX-69A` checkpoint | `N/A`      | 将 FE-49 前端聚合留白纠偏为受控后端读模型；只返回可读业务对象的 latest active 附件记录。 | `B18` | `aligned` |
+
 ### 6.15 EX-50 Attachment Preview / Version / Final Governance
 
 | Domain       | Capability                | Canonical Route                      | Current Implemented Route            | Current Design Route                 | Authority                                | Drift Type | Action                                                                                   | Batch | Status    |

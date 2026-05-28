@@ -14,6 +14,9 @@ import { ToolbarModule } from 'primeng/toolbar';
                 <ng-content select="[adminToolbarEnd]" />
             </ng-template>
         </p-toolbar>
-    `
+    `,
+    host: {
+        class: 'card block p-4!'
+    }
 })
 export class AdminListToolbar {}

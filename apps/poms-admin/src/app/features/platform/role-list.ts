@@ -33,7 +33,7 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
     providers: [MessageService],
     template: `
         <p-toast />
-        <app-admin-list-shell>
+        <div class="flex flex-col gap-5">
             <app-admin-list-toolbar>
                 <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
                     <p-button label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="w-full md:w-auto rounded-md!" (onClick)="clearFilters(dt)" />
@@ -50,184 +50,186 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
                 </div>
             </app-admin-list-toolbar>
 
-            <div class="flex-1 px-6 py-5">
-                <p-table
-                    #dt
-                    [value]="platformStore.roles()"
-                    [paginator]="true"
-                    [rows]="rows"
-                    [first]="first"
-                    dataKey="id"
-                    [rowHover]="true"
-                    sortMode="multiple"
-                    responsiveLayout="scroll"
-                    [globalFilterFields]="['name', 'roleKey', 'description']"
-                    [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                    currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
-                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                >
-                    <ng-template #header>
-                        <tr>
-                            <th pSortableColumn="name">
-                                <span class="flex items-center gap-2">角色名称 <p-sortIcon field="name" /></span>
-                            </th>
-                            <th pSortableColumn="roleKey">
-                                <span class="flex items-center gap-2">角色 Key <p-sortIcon field="roleKey" /></span>
-                            </th>
-                            <th>说明</th>
-                            <th>状态</th>
-                            <th>类型</th>
-                            <th pSortableColumn="displayOrder">
-                                <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
-                            </th>
-                            <th style="width: 12rem">操作</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template #body let-role>
-                        <tr>
-                            <td>
-                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ role.name }}</span>
-                            </td>
-                            <td>
-                                <span class="text-surface-400 text-xs font-mono">{{ role.roleKey }}</span>
-                            </td>
-                            <td>
-                                <span class="text-sm text-surface-600 dark:text-surface-300">{{ role.description || '—' }}</span>
-                            </td>
-                            <td>
-                                <p-tag [value]="role.isActive ? '启用' : '停用'" [severity]="role.isActive ? 'success' : 'warn'" />
-                            </td>
-                            <td>
-                                <p-tag [value]="role.isSystemRole ? '系统角色' : '自定义角色'" [severity]="role.isSystemRole ? 'contrast' : 'info'" />
-                            </td>
-                            <td>
-                                <span class="text-sm">{{ role.displayOrder }}</span>
-                            </td>
-                            <td>
-                                <div class="flex items-center gap-1">
-                                    <p-button
-                                        icon="pi pi-pencil"
-                                        [rounded]="true"
-                                        [text]="true"
-                                        size="small"
-                                        severity="secondary"
-                                        pTooltip="编辑角色"
-                                        tooltipPosition="top"
-                                        [ariaLabel]="'编辑角色 ' + role.name"
-                                        (onClick)="openEditDialog(role)"
-                                        class="cursor-pointer"
-                                    />
-                                    <p-button
-                                        icon="pi pi-key"
-                                        [rounded]="true"
-                                        [text]="true"
-                                        size="small"
-                                        severity="secondary"
-                                        pTooltip="分配权限"
-                                        tooltipPosition="top"
-                                        [ariaLabel]="'分配权限 ' + role.name"
-                                        (onClick)="openAssignPermissionsDialog(role)"
-                                        class="cursor-pointer"
-                                    />
-                                    <p-button
-                                        [icon]="role.isActive ? 'pi pi-ban' : 'pi pi-check-circle'"
-                                        [rounded]="true"
-                                        [text]="true"
-                                        size="small"
-                                        [severity]="role.isActive ? 'danger' : 'success'"
-                                        [pTooltip]="role.isActive ? '停用角色' : '启用角色'"
-                                        tooltipPosition="top"
-                                        [ariaLabel]="(role.isActive ? '停用角色 ' : '启用角色 ') + role.name"
-                                        (onClick)="toggleRoleActivation(role)"
-                                        class="cursor-pointer"
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    </ng-template>
-                    <ng-template #emptymessage>
-                        <tr>
-                            <td colspan="7" class="text-center py-8 text-surface-400">{{ platformStore.loadingRoles() ? '加载中...' : '暂无角色' }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-
-            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建角色" [style]="{ width: '28rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium" for="create-role-key">角色 Key *</label>
-                        <input id="create-role-key" pInputText [(ngModel)]="createForm.roleKey" placeholder="如 sales-manager（英文、连字符）" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium" for="create-role-name">角色名称 *</label>
-                        <input id="create-role-name" pInputText [(ngModel)]="createForm.name" placeholder="如 销售经理" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium" for="create-role-description">角色说明</label>
-                        <input id="create-role-description" pInputText [(ngModel)]="createForm.description" placeholder="用于说明角色用途（可选）" class="w-full" />
-                    </div>
+            <app-admin-list-shell>
+                <div class="flex-1 px-6 py-5">
+                    <p-table
+                        #dt
+                        [value]="platformStore.roles()"
+                        [paginator]="true"
+                        [rows]="rows"
+                        [first]="first"
+                        dataKey="id"
+                        [rowHover]="true"
+                        sortMode="multiple"
+                        responsiveLayout="scroll"
+                        [globalFilterFields]="['name', 'roleKey', 'description']"
+                        [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                        currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
+                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    >
+                        <ng-template #header>
+                            <tr>
+                                <th pSortableColumn="name">
+                                    <span class="flex items-center gap-2">角色名称 <p-sortIcon field="name" /></span>
+                                </th>
+                                <th pSortableColumn="roleKey">
+                                    <span class="flex items-center gap-2">角色 Key <p-sortIcon field="roleKey" /></span>
+                                </th>
+                                <th>说明</th>
+                                <th>状态</th>
+                                <th>类型</th>
+                                <th pSortableColumn="displayOrder">
+                                    <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
+                                </th>
+                                <th style="width: 12rem">操作</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-role>
+                            <tr>
+                                <td>
+                                    <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ role.name }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-surface-400 text-xs font-mono">{{ role.roleKey }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-sm text-surface-600 dark:text-surface-300">{{ role.description || '—' }}</span>
+                                </td>
+                                <td>
+                                    <p-tag [value]="role.isActive ? '启用' : '停用'" [severity]="role.isActive ? 'success' : 'warn'" />
+                                </td>
+                                <td>
+                                    <p-tag [value]="role.isSystemRole ? '系统角色' : '自定义角色'" [severity]="role.isSystemRole ? 'contrast' : 'info'" />
+                                </td>
+                                <td>
+                                    <span class="text-sm">{{ role.displayOrder }}</span>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        <p-button
+                                            icon="pi pi-pencil"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            size="small"
+                                            severity="secondary"
+                                            pTooltip="编辑角色"
+                                            tooltipPosition="top"
+                                            [ariaLabel]="'编辑角色 ' + role.name"
+                                            (onClick)="openEditDialog(role)"
+                                            class="cursor-pointer"
+                                        />
+                                        <p-button
+                                            icon="pi pi-key"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            size="small"
+                                            severity="secondary"
+                                            pTooltip="分配权限"
+                                            tooltipPosition="top"
+                                            [ariaLabel]="'分配权限 ' + role.name"
+                                            (onClick)="openAssignPermissionsDialog(role)"
+                                            class="cursor-pointer"
+                                        />
+                                        <p-button
+                                            [icon]="role.isActive ? 'pi pi-ban' : 'pi pi-check-circle'"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            size="small"
+                                            [severity]="role.isActive ? 'danger' : 'success'"
+                                            [pTooltip]="role.isActive ? '停用角色' : '启用角色'"
+                                            tooltipPosition="top"
+                                            [ariaLabel]="(role.isActive ? '停用角色 ' : '启用角色 ') + role.name"
+                                            (onClick)="toggleRoleActivation(role)"
+                                            class="cursor-pointer"
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #emptymessage>
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-surface-400">{{ platformStore.loadingRoles() ? '加载中...' : '暂无角色' }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="createDialogVisible = false" />
-                        <p-button label="创建" [loading]="platformStore.savingRole()" (onClick)="createRole()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
 
-            <p-dialog [(visible)]="editDialogVisible" [modal]="true" [header]="'编辑角色 — ' + editingRoleName()" [style]="{ width: '32rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium" for="edit-role-name">角色名称 *</label>
-                        <input id="edit-role-name" pInputText [(ngModel)]="editForm.name" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium" for="edit-role-description">角色说明</label>
-                        <input id="edit-role-description" pInputText [(ngModel)]="editForm.description" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium" for="edit-role-order">角色排序</label>
-                        <input id="edit-role-order" pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" />
-                    </div>
-                </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeEditDialog()" />
-                        <p-button label="保存" [loading]="platformStore.savingRole()" (onClick)="saveRole()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
-
-            <p-dialog [(visible)]="assignPermDialogVisible" [modal]="true" [header]="'分配权限 — ' + assigningRoleName()" [style]="{ width: '40rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <p class="text-surface-500 text-sm">选中的权限将全量替换该角色现有权限。系统角色会保留其最小权限基线。</p>
-                    @for (group of permissionGroups(); track group.group) {
-                        <div>
-                            <p class="font-medium text-sm mb-2">{{ group.group }}</p>
-                            <div class="flex flex-col gap-2">
-                                @for (permission of group.permissions; track permission.key) {
-                                    <label class="flex items-start gap-2 cursor-pointer">
-                                        <input type="checkbox" [checked]="selectedPermissions().has(permission.key)" (change)="togglePermission(permission.key)" class="mt-1 rounded" />
-                                        <span class="flex flex-col">
-                                            <span class="text-xs font-mono">{{ permission.key }}</span>
-                                            <span class="text-xs text-surface-500">{{ permission.description }}</span>
-                                        </span>
-                                    </label>
-                                }
-                            </div>
+                <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建角色" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium" for="create-role-key">角色 Key *</label>
+                            <input id="create-role-key" pInputText [(ngModel)]="createForm.roleKey" placeholder="如 sales-manager（英文、连字符）" class="w-full" />
                         </div>
-                    }
-                </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeAssignPermissionsDialog()" />
-                        <p-button label="保存" [loading]="platformStore.savingRole()" (onClick)="savePermissions()" />
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium" for="create-role-name">角色名称 *</label>
+                            <input id="create-role-name" pInputText [(ngModel)]="createForm.name" placeholder="如 销售经理" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium" for="create-role-description">角色说明</label>
+                            <input id="create-role-description" pInputText [(ngModel)]="createForm.description" placeholder="用于说明角色用途（可选）" class="w-full" />
+                        </div>
                     </div>
-                </ng-template>
-            </p-dialog>
-        </app-admin-list-shell>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="createDialogVisible = false" />
+                            <p-button label="创建" [loading]="platformStore.savingRole()" (onClick)="createRole()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
+
+                <p-dialog [(visible)]="editDialogVisible" [modal]="true" [header]="'编辑角色 — ' + editingRoleName()" [style]="{ width: '32rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium" for="edit-role-name">角色名称 *</label>
+                            <input id="edit-role-name" pInputText [(ngModel)]="editForm.name" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium" for="edit-role-description">角色说明</label>
+                            <input id="edit-role-description" pInputText [(ngModel)]="editForm.description" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium" for="edit-role-order">角色排序</label>
+                            <input id="edit-role-order" pInputText type="number" [(ngModel)]="editForm.displayOrder" class="w-full" />
+                        </div>
+                    </div>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeEditDialog()" />
+                            <p-button label="保存" [loading]="platformStore.savingRole()" (onClick)="saveRole()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
+
+                <p-dialog [(visible)]="assignPermDialogVisible" [modal]="true" [header]="'分配权限 — ' + assigningRoleName()" [style]="{ width: '40rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <p class="text-surface-500 text-sm">选中的权限将全量替换该角色现有权限。系统角色会保留其最小权限基线。</p>
+                        @for (group of permissionGroups(); track group.group) {
+                            <div>
+                                <p class="font-medium text-sm mb-2">{{ group.group }}</p>
+                                <div class="flex flex-col gap-2">
+                                    @for (permission of group.permissions; track permission.key) {
+                                        <label class="flex items-start gap-2 cursor-pointer">
+                                            <input type="checkbox" [checked]="selectedPermissions().has(permission.key)" (change)="togglePermission(permission.key)" class="mt-1 rounded" />
+                                            <span class="flex flex-col">
+                                                <span class="text-xs font-mono">{{ permission.key }}</span>
+                                                <span class="text-xs text-surface-500">{{ permission.description }}</span>
+                                            </span>
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeAssignPermissionsDialog()" />
+                            <p-button label="保存" [loading]="platformStore.savingRole()" (onClick)="savePermissions()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
+            </app-admin-list-shell>
+        </div>
     `
 })
 export class RoleList {

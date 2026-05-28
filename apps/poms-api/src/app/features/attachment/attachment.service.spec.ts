@@ -42,13 +42,18 @@ describe('AttachmentService', () => {
             findLinkById: jest.fn(),
             findActiveLinksByAttachmentId: jest.fn(),
             findAttachmentsByTarget: jest.fn(),
+            findAttachmentCenterRows: jest.fn(),
             findAttachmentsByVersionGroupId: jest.fn().mockResolvedValue([]),
             findLatestAttachmentByVersionGroupId: jest.fn().mockResolvedValue(null),
             findExistingActiveLink: jest.fn(),
             findCustomerById: jest.fn(),
+            findCustomersByIds: jest.fn().mockResolvedValue([]),
             findLeadById: jest.fn().mockResolvedValue(Object.assign(new Lead(), { id: leadId })),
+            findLeadsByIds: jest.fn().mockResolvedValue([]),
             findProjectById: jest.fn(),
+            findProjectsByIds: jest.fn().mockResolvedValue([]),
             findContractById: jest.fn(),
+            findContractsByIds: jest.fn().mockResolvedValue([]),
             findSalesFollowUpById: jest.fn(),
             findPlatformUsersByIds: jest.fn()
         } as unknown as jest.Mocked<AttachmentRepository>;
@@ -348,6 +353,30 @@ describe('AttachmentService', () => {
 
         expect(result).toHaveLength(1);
         expect(result[0].securityLevel).toBe('confidential');
+    });
+
+    it('lists attachment center records through one aggregate repository read', async () => {
+        const attachment = createAttachment({ displayName: '需求确认.pdf' });
+        const link = createLink({ attachmentId: attachment.id, targetType: 'lead', targetId: leadId });
+        repository.findAttachmentCenterRows.mockResolvedValue([{ attachment, link, links: [link] }]);
+        repository.findLeadsByIds.mockResolvedValue([Object.assign(new Lead(), { id: leadId, leadNo: 'LEAD-001', leadName: '智慧校园' })]);
+        repository.findPlatformUsersByIds.mockResolvedValue([createPlatformUser()]);
+
+        const result = await service.listAttachmentCenterRecords(user(['lead:read']));
+
+        expect(repository.findAttachmentCenterRows).toHaveBeenCalledWith({ targetTypes: ['lead'] });
+        expect(result).toEqual([
+            expect.objectContaining({
+                targetType: 'lead',
+                targetId: leadId,
+                targetNo: 'LEAD-001',
+                targetName: '智慧校园',
+                attachment: expect.objectContaining({
+                    displayName: '需求确认.pdf',
+                    uploadedByName: '张销售'
+                })
+            })
+        ]);
     });
 
     it('blocks download when no linked target is readable', async () => {

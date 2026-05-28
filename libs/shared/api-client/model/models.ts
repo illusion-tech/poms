@@ -19,6 +19,7 @@ export * from './assign-lead-owner-request';
 export * from './assign-role-permissions-request';
 export * from './assign-user-org-memberships-request';
 export * from './assign-user-roles-request';
+export * from './attachment-center-record';
 export * from './attachment-download-package-manifest-summary';
 export * from './attachment-download-package-status';
 export * from './attachment-download-package-summary';

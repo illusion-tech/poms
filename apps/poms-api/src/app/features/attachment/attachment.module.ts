@@ -15,16 +15,11 @@ import { AttachmentStorageProviderController } from './attachment-storage-provid
 import { AttachmentStorageProviderRegistry } from './attachment-storage-provider-registry.service';
 import { AttachmentStorageProviderRepository } from './attachment-storage-provider.repository';
 import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
+import { AttachmentCenterRecordController } from './attachment-center-record.controller';
 import { AttachmentController } from './attachment.controller';
 import { AttachmentUploadSessionController } from './attachment-upload-session.controller';
 import { AttachmentUploadSession } from './attachment-upload-session.entity';
-import {
-    Attachment,
-    AttachmentDownloadPackage,
-    AttachmentDownloadPackageItem,
-    AttachmentLink,
-    ProjectHandoverAttachmentSelection
-} from './attachment.entity';
+import { Attachment, AttachmentDownloadPackage, AttachmentDownloadPackageItem, AttachmentLink, ProjectHandoverAttachmentSelection } from './attachment.entity';
 import { AttachmentRepository } from './attachment.repository';
 import { AttachmentService } from './attachment.service';
 import { AttachmentStorageService } from './attachment-storage.service';
@@ -52,7 +47,7 @@ import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-
         DictionaryModule,
         SystemSettingModule
     ],
-    controllers: [AttachmentController, AttachmentHandoverController, AttachmentStorageProviderController, AttachmentUploadSessionController],
+    controllers: [AttachmentController, AttachmentCenterRecordController, AttachmentHandoverController, AttachmentStorageProviderController, AttachmentUploadSessionController],
     providers: [
         AttachmentRepository,
         AttachmentService,

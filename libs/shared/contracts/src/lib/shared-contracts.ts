@@ -3450,6 +3450,23 @@ export const AttachmentListSchema = z.array(AttachmentSummarySchema).meta({ id: 
 
 export type AttachmentList = z.infer<typeof AttachmentListSchema>;
 
+export const AttachmentCenterRecordSchema = z
+    .object({
+        targetType: AttachmentTargetTypeSchema,
+        targetId: z.uuid(),
+        targetNo: z.string(),
+        targetName: z.string(),
+        targetOwnerName: z.string().nullable(),
+        attachment: AttachmentSummarySchema
+    })
+    .meta({ id: 'AttachmentCenterRecord' });
+
+export type AttachmentCenterRecord = z.infer<typeof AttachmentCenterRecordSchema>;
+
+export const AttachmentCenterRecordListSchema = z.array(AttachmentCenterRecordSchema).meta({ id: 'AttachmentCenterRecordList' });
+
+export type AttachmentCenterRecordList = z.infer<typeof AttachmentCenterRecordListSchema>;
+
 export const AttachmentVersionSummarySchema = AttachmentSummarySchema.meta({ id: 'AttachmentVersionSummary' });
 
 export type AttachmentVersionSummary = z.infer<typeof AttachmentVersionSummarySchema>;

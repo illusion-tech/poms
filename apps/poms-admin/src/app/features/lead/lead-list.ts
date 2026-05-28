@@ -261,58 +261,56 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
     providers: [LeadStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
-            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="flex flex-col gap-[18px] overflow-visible rounded-[8px] border border-surface-200 bg-surface-0 p-5 dark:border-surface-700 dark:bg-surface-900">
-                    <div class="flex h-8 min-w-0 items-center justify-between gap-4">
-                        <h2 class="truncate text-xl font-medium leading-7 text-surface-900 dark:text-surface-0">线索分布</h2>
-                        <div class="flex shrink-0 items-end gap-1">
-                            <span class="text-xl font-semibold leading-tight text-surface-950 dark:text-surface-0">{{ totalLeadCount().toLocaleString() }}</span>
-                            <span class="pb-0.5 text-sm leading-none text-surface-500 dark:text-surface-400">全部线索</span>
-                        </div>
+            <section class="card flex flex-col gap-[18px] overflow-visible p-5!">
+                <div class="flex h-8 min-w-0 items-center justify-between gap-4">
+                    <h2 class="truncate text-xl font-medium leading-7 text-surface-900 dark:text-surface-0">线索分布</h2>
+                    <div class="flex shrink-0 items-end gap-1">
+                        <span class="text-xl font-semibold leading-tight text-surface-950 dark:text-surface-0">{{ totalLeadCount().toLocaleString() }}</span>
+                        <span class="pb-0.5 text-sm leading-none text-surface-500 dark:text-surface-400">全部线索</span>
                     </div>
+                </div>
 
-                    <div class="flex gap-1">
-                        @for (item of leadDistributionItems(); track item.label) {
-                            <div class="group relative min-w-0" [style.flex]="item.flexValue">
-                                <button
-                                    type="button"
-                                    class="block h-4 w-full cursor-pointer rounded-lg outline-none transition-[box-shadow,filter] hover:brightness-105 focus-visible:ring-2 focus-visible:ring-primary-300"
-                                    [ngClass]="[item.color, statusFilter() === item.status ? 'ring-2 ring-primary-400 ring-offset-2 ring-offset-surface-0 brightness-105 dark:ring-offset-surface-900' : '']"
-                                    [style.box-shadow]="'0px 5px 10px 0px ' + item.shadowColor"
-                                    [attr.aria-label]="'筛选' + item.label + '线索，' + item.tooltip"
-                                    [attr.aria-pressed]="statusFilter() === item.status"
-                                    [attr.data-lead-distribution-status]="item.status"
-                                    (click)="filterByDistributionStatus(item.status)"
-                                ></button>
-                                <div
-                                    class="pointer-events-none invisible absolute bottom-full left-1/2 z-20 mb-2 min-w-max -translate-x-1/2 rounded-md border border-surface-200 bg-surface-0 px-3 py-2 text-xs leading-5 text-surface-700 opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200"
-                                >
-                                    <div class="flex items-center gap-2">
-                                        <span class="h-2 w-2 rounded-sm" [ngClass]="item.color"></span>
-                                        <span class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</span>
-                                    </div>
-                                    <div>{{ item.value.toLocaleString() }} 条 · {{ item.percentageLabel }}</div>
-                                    <div class="text-surface-500 dark:text-surface-400">{{ item.hint }}</div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="grid grid-cols-4 gap-2 rounded-lg bg-surface-50 p-3 shadow-v1 dark:bg-white/10">
-                        @for (item of leadDistributionItems(); track item.label) {
+                <div class="flex gap-1">
+                    @for (item of leadDistributionItems(); track item.label) {
+                        <div class="group relative min-w-0" [style.flex]="item.flexValue">
                             <button
                                 type="button"
-                                class="flex min-w-0 items-center rounded-md px-2 py-1 text-left transition-colors hover:bg-surface-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 dark:hover:bg-surface-800"
-                                [ngClass]="statusFilter() === item.status ? 'bg-primary-50 dark:bg-primary-950/40' : ''"
-                                [attr.aria-label]="'筛选' + item.label + '线索'"
+                                class="block h-4 w-full cursor-pointer rounded-lg outline-none transition-[box-shadow,filter] hover:brightness-105 focus-visible:ring-2 focus-visible:ring-primary-300"
+                                [ngClass]="[item.color, statusFilter() === item.status ? 'ring-2 ring-primary-400 ring-offset-2 ring-offset-surface-0 brightness-105 dark:ring-offset-surface-900' : '']"
+                                [style.box-shadow]="'0px 5px 10px 0px ' + item.shadowColor"
+                                [attr.aria-label]="'筛选' + item.label + '线索，' + item.tooltip"
                                 [attr.aria-pressed]="statusFilter() === item.status"
+                                [attr.data-lead-distribution-status]="item.status"
                                 (click)="filterByDistributionStatus(item.status)"
+                            ></button>
+                            <div
+                                class="pointer-events-none invisible absolute bottom-full left-1/2 z-20 mb-2 min-w-max -translate-x-1/2 rounded-md border border-surface-200 bg-surface-0 px-3 py-2 text-xs leading-5 text-surface-700 opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200"
                             >
-                                <div class="h-4 w-1 shrink-0 rounded-full shadow-[0px_3px_1px_0px_rgba(0,0,0,0.00),0px_2px_1px_0px_rgba(0,0,0,0.01),0px_1px_1px_0px_rgba(0,0,0,0.02),0px_0px_1px_0px_rgba(0,0,0,0.03)]" [ngClass]="item.color"></div>
-                                <span class="ml-2 truncate text-xs text-surface-950 dark:text-surface-0 sm:ml-3 sm:text-sm">{{ item.label }}</span>
-                            </button>
-                        }
-                    </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-2 w-2 rounded-sm" [ngClass]="item.color"></span>
+                                    <span class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</span>
+                                </div>
+                                <div>{{ item.value.toLocaleString() }} 条 · {{ item.percentageLabel }}</div>
+                                <div class="text-surface-500 dark:text-surface-400">{{ item.hint }}</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="grid grid-cols-4 gap-2 rounded-lg bg-surface-50 p-3 shadow-v1 dark:bg-white/10">
+                    @for (item of leadDistributionItems(); track item.label) {
+                        <button
+                            type="button"
+                            class="flex min-w-0 items-center rounded-md px-2 py-1 text-left transition-colors hover:bg-surface-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 dark:hover:bg-surface-800"
+                            [ngClass]="statusFilter() === item.status ? 'bg-primary-50 dark:bg-primary-950/40' : ''"
+                            [attr.aria-label]="'筛选' + item.label + '线索'"
+                            [attr.aria-pressed]="statusFilter() === item.status"
+                            (click)="filterByDistributionStatus(item.status)"
+                        >
+                            <div class="h-4 w-1 shrink-0 rounded-full shadow-[0px_3px_1px_0px_rgba(0,0,0,0.00),0px_2px_1px_0px_rgba(0,0,0,0.01),0px_1px_1px_0px_rgba(0,0,0,0.02),0px_0px_1px_0px_rgba(0,0,0,0.03)]" [ngClass]="item.color"></div>
+                            <span class="ml-2 truncate text-xs text-surface-950 dark:text-surface-0 sm:ml-3 sm:text-sm">{{ item.label }}</span>
+                        </button>
+                    }
                 </div>
             </section>
 
@@ -340,48 +338,48 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
             }
 
             <section class="flex flex-col gap-4">
+                <app-admin-list-toolbar>
+                    <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                        <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+
+                        <p-iconfield class="w-full md:w-80">
+                            <p-inputicon class="pi pi-search" />
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" class="w-full! rounded-md! py-2!" />
+                        </p-iconfield>
+
+                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+
+                        <p-select [ngModel]="ratingFilter()" (ngModelChange)="setRatingFilter($event)" [options]="ratingOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按评级筛选" class="w-full md:w-36 rounded-md!" />
+
+                        <p-select
+                            [ngModel]="ownershipFilter()"
+                            (ngModelChange)="setOwnershipFilter($event)"
+                            [options]="ownershipOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            appendTo="body"
+                            ariaLabel="按归属筛选"
+                            class="w-full md:w-36 rounded-md!"
+                        />
+                    </div>
+
+                    <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+                        <span>当前筛出 {{ visibleLeads().length }} 条线索</span>
+                        <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToProjects()" />
+
+                        @if (canManageLeadSources()) {
+                            <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showSourceDialog()" />
+                        }
+
+                        @if (canWriteLead()) {
+                            <p-button label="登记线索" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                        } @else {
+                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看线索。</span>
+                        }
+                    </div>
+                </app-admin-list-toolbar>
+
                 <app-admin-list-shell>
-                    <app-admin-list-toolbar>
-                        <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                            <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
-
-                            <p-iconfield class="w-full md:w-80">
-                                <p-inputicon class="pi pi-search" />
-                                <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" class="w-full! rounded-md! py-2!" />
-                            </p-iconfield>
-
-                            <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
-
-                            <p-select [ngModel]="ratingFilter()" (ngModelChange)="setRatingFilter($event)" [options]="ratingOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按评级筛选" class="w-full md:w-36 rounded-md!" />
-
-                            <p-select
-                                [ngModel]="ownershipFilter()"
-                                (ngModelChange)="setOwnershipFilter($event)"
-                                [options]="ownershipOptions"
-                                optionLabel="label"
-                                optionValue="value"
-                                appendTo="body"
-                                ariaLabel="按归属筛选"
-                                class="w-full md:w-36 rounded-md!"
-                            />
-                        </div>
-
-                        <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-                            <span>当前筛出 {{ visibleLeads().length }} 条线索</span>
-                            <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="goToProjects()" />
-
-                            @if (canManageLeadSources()) {
-                                <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showSourceDialog()" />
-                            }
-
-                            @if (canWriteLead()) {
-                                <p-button label="登记线索" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                            } @else {
-                                <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看线索。</span>
-                            }
-                        </div>
-                    </app-admin-list-toolbar>
-
                     <p-table
                         #dt
                         [value]="visibleLeads()"

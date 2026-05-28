@@ -13,6 +13,7 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { AdminListShell } from '../../shared/ui/admin-list-shell';
 import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminMetricGrid } from '../../shared/ui/admin-metric-grid';
 import { PROJECT_STAGE_LABELS, PROJECT_STATUS_LABELS, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
@@ -78,56 +79,44 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, AdminListShell, AdminListToolbar, WorkspaceFeedback],
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, AdminListShell, AdminListToolbar, AdminMetricGrid, WorkspaceFeedback],
     providers: [ProjectStore, CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
-            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                    @for (item of summaryItems(); track item.label) {
-                        <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                            <div class="text-sm text-surface-500 dark:text-surface-400">{{ item.label }}</div>
-                            <div class="mt-2 flex items-end justify-between gap-3">
-                                <span class="text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ item.value }}</span>
-                                <span class="text-xs leading-5 text-surface-500 dark:text-surface-400">{{ item.hint }}</span>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </section>
+            <app-admin-metric-grid [items]="summaryItems()" />
 
             <section class="flex flex-col gap-4">
+                <app-admin-list-toolbar>
+                    <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                        <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+
+                        <p-iconfield class="w-full md:w-80">
+                            <p-inputicon class="pi pi-search" />
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" class="w-full! rounded-md! py-2!" />
+                        </p-iconfield>
+
+                        <p-select [ngModel]="stageFilter()" (ngModelChange)="setStageFilter($event)" [options]="stageOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按阶段筛选" class="w-full md:w-44 rounded-md!" />
+
+                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+                    </div>
+
+                    <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                        <span>当前筛出 {{ visibleProjects().length }} 个项目</span>
+                        @if (canCreateLead()) {
+                            <p-button label="选择线索转项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
+                        }
+
+                        @if (!canCreateLead() && canCreateProject()) {
+                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">正式项目入口需要从已确认有效线索转入。</span>
+                        }
+
+                        @if (!canCreateLead() && !canCreateProject()) {
+                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看项目。</span>
+                        }
+                    </div>
+                </app-admin-list-toolbar>
+
                 <app-admin-list-shell>
-                    <app-admin-list-toolbar>
-                        <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                            <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
-
-                            <p-iconfield class="w-full md:w-80">
-                                <p-inputicon class="pi pi-search" />
-                                <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索项目、客户、负责人" class="w-full! rounded-md! py-2!" />
-                            </p-iconfield>
-
-                            <p-select [ngModel]="stageFilter()" (ngModelChange)="setStageFilter($event)" [options]="stageOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按阶段筛选" class="w-full md:w-44 rounded-md!" />
-
-                            <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
-                        </div>
-
-                        <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
-                            <span>当前筛出 {{ visibleProjects().length }} 个项目</span>
-                            @if (canCreateLead()) {
-                                <p-button label="选择线索转项目" icon="pi pi-compass" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="navigateToLeadEntry()" />
-                            }
-
-                            @if (!canCreateLead() && canCreateProject()) {
-                                <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">正式项目入口需要从已确认有效线索转入。</span>
-                            }
-
-                            @if (!canCreateLead() && !canCreateProject()) {
-                                <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">当前账号只能查看项目。</span>
-                            }
-                        </div>
-                    </app-admin-list-toolbar>
-
                     <p-table
                         #dt
                         [value]="visibleProjects()"

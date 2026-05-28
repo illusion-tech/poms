@@ -97,11 +97,7 @@ export class AttachmentController {
     @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
     @ApiOperation({ summary: '更新附件元数据' })
     @ApiOkResponse({ type: AttachmentDto })
-    update(
-        @Param('id') id: string,
-        @Body() body: UpdateAttachmentRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<AttachmentSummary> {
+    update(@Param('id') id: string, @Body() body: UpdateAttachmentRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {
         return this.attachmentService.updateAttachment(id, body, req.user, getRequestId(req));
     }
 
@@ -110,11 +106,7 @@ export class AttachmentController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '作废附件' })
     @ApiOkResponse({ type: AttachmentDto })
-    void(
-        @Param('id') id: string,
-        @Body() body: VoidAttachmentRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<AttachmentSummary> {
+    void(@Param('id') id: string, @Body() body: VoidAttachmentRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {
         return this.attachmentService.voidAttachment(id, body, req.user, getRequestId(req));
     }
 
@@ -123,11 +115,7 @@ export class AttachmentController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '标记附件最终版' })
     @ApiOkResponse({ type: AttachmentDto })
-    markFinal(
-        @Param('id') id: string,
-        @Body() body: MarkAttachmentFinalRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<AttachmentSummary> {
+    markFinal(@Param('id') id: string, @Body() body: MarkAttachmentFinalRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {
         return this.attachmentService.markAttachmentFinal(id, body, req.user, getRequestId(req));
     }
 
@@ -136,11 +124,7 @@ export class AttachmentController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '撤销附件最终版标记' })
     @ApiOkResponse({ type: AttachmentDto })
-    clearFinal(
-        @Param('id') id: string,
-        @Body() body: ClearAttachmentFinalRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<AttachmentSummary> {
+    clearFinal(@Param('id') id: string, @Body() body: ClearAttachmentFinalRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {
         return this.attachmentService.clearAttachmentFinal(id, body, req.user, getRequestId(req));
     }
 
@@ -149,11 +133,7 @@ export class AttachmentController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '新增附件业务对象关联' })
     @ApiOkResponse({ type: AttachmentDto })
-    link(
-        @Param('id') id: string,
-        @Body() body: CreateAttachmentLinkRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<AttachmentSummary> {
+    link(@Param('id') id: string, @Body() body: CreateAttachmentLinkRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {
         return this.attachmentService.linkAttachment(id, body, req.user, getRequestId(req));
     }
 
@@ -162,11 +142,7 @@ export class AttachmentController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '取消附件业务对象关联' })
     @ApiOkResponse({ type: AttachmentDto })
-    unlink(
-        @Param('id') id: string,
-        @Param('linkId') linkId: string,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<AttachmentSummary> {
+    unlink(@Param('id') id: string, @Param('linkId') linkId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {
         return this.attachmentService.unlinkAttachment(id, linkId, req.user, getRequestId(req));
     }
 }

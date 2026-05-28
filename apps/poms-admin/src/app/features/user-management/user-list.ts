@@ -47,7 +47,7 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
     providers: [ConfirmationService, MessageService],
     template: `
         <p-toast />
-        <app-admin-list-shell>
+        <div class="flex flex-col gap-5">
             <app-admin-list-toolbar>
                 <div adminToolbarStart class="flex flex-col gap-3 md:flex-row md:items-center">
                     <p-button label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" styleClass="w-full md:w-auto rounded-md!" (onClick)="clearFilters(dt)" />
@@ -64,249 +64,251 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
                 </div>
             </app-admin-list-toolbar>
 
-            <!-- Table -->
-            <div class="flex-1 px-6 py-5">
-                <p-table
-                    #dt
-                    [value]="platformStore.users()"
-                    [paginator]="true"
-                    [rows]="rows"
-                    [first]="first"
-                    dataKey="id"
-                    [rowHover]="true"
-                    sortMode="multiple"
-                    responsiveLayout="scroll"
-                    [tableStyle]="{ width: '100%', 'min-width': '56rem' }"
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                    currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
-                    [globalFilterFields]="['displayName', 'username', 'primaryOrgUnitName']"
-                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                >
-                    <ng-template #header>
-                        <tr>
-                            <th pSortableColumn="displayName" class="flex-1">
-                                <span class="flex items-center gap-2">姓名 <p-sortIcon field="displayName" /></span>
-                            </th>
-                            <th pSortableColumn="username" class="flex-1">
-                                <span class="flex items-center gap-2">用户名 <p-sortIcon field="username" /></span>
-                            </th>
-                            <th class="flex-1">角色</th>
-                            <th pSortableColumn="primaryOrgUnitName" class="flex-1">
-                                <span class="flex items-center gap-2">所属组织 <p-sortIcon field="primaryOrgUnitName" /></span>
-                            </th>
-                            <th pSortableColumn="isActive" class="flex-1">
-                                <span class="flex items-center gap-2">状态 <p-sortIcon field="isActive" /></span>
-                            </th>
-                            <th style="width: 6rem">操作</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template #body let-user>
-                        <tr>
-                            <td>
-                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ user.displayName }}</span>
-                            </td>
-                            <td>
-                                <span class="text-surface-500 dark:text-surface-400 text-sm">{{ user.username }}</span>
-                            </td>
-                            <td>
-                                <span class="text-surface-500 dark:text-surface-400 text-sm">{{ user.roleNames.join(' / ') || '未分配' }}</span>
-                            </td>
-                            <td>
-                                <span class="text-surface-500 dark:text-surface-400 text-sm">{{ user.primaryOrgUnitName ?? '未分配' }}</span>
-                            </td>
-                            <td>
-                                <p-tag [value]="user.isActive ? '启用' : '停用'" [severity]="user.isActive ? 'success' : 'danger'" class="px-2 py-1 rounded-[6px]" />
-                            </td>
-                            <td>
-                                <p-button (onClick)="toggleMenu($event, user.id)" [rounded]="true" [text]="true" icon="pi pi-ellipsis-h" size="small" severity="secondary" class="cursor-pointer" />
-                            </td>
-                        </tr>
-                    </ng-template>
-                    <ng-template #emptymessage>
-                        <tr>
-                            <td colspan="6" class="text-center py-8 text-surface-400">{{ platformStore.loadingUsers() ? '加载中...' : '暂无用户' }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-                <p-menu #actionMenu [model]="menuItems()" [popup]="true" styleClass="w-48!" appendTo="body" />
-            </div>
-
-            <!-- Create User Dialog -->
-            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建用户" [style]="{ width: '30rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">用户名 *</label>
-                        <input pInputText [(ngModel)]="createForm.username" placeholder="登录用户名" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">姓名 *</label>
-                        <input pInputText [(ngModel)]="createForm.displayName" placeholder="显示名称" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">邮箱</label>
-                        <input pInputText [(ngModel)]="createForm.email" placeholder="可选" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">手机</label>
-                        <input pInputText [(ngModel)]="createForm.phone" placeholder="可选" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">所属组织</label>
-                        <p-select [(ngModel)]="createForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择组织" class="w-full" appendTo="body" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">初始角色</label>
-                        <p-multiselect [(ngModel)]="createForm.initialRoleIds" [options]="roleOptions()" optionLabel="label" optionValue="value" placeholder="选择角色（可多选）" class="w-full" appendTo="body" />
-                    </div>
+            <app-admin-list-shell>
+                <!-- Table -->
+                <div class="flex-1 px-6 py-5">
+                    <p-table
+                        #dt
+                        [value]="platformStore.users()"
+                        [paginator]="true"
+                        [rows]="rows"
+                        [first]="first"
+                        dataKey="id"
+                        [rowHover]="true"
+                        sortMode="multiple"
+                        responsiveLayout="scroll"
+                        [tableStyle]="{ width: '100%', 'min-width': '56rem' }"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                        currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
+                        [globalFilterFields]="['displayName', 'username', 'primaryOrgUnitName']"
+                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    >
+                        <ng-template #header>
+                            <tr>
+                                <th pSortableColumn="displayName" class="flex-1">
+                                    <span class="flex items-center gap-2">姓名 <p-sortIcon field="displayName" /></span>
+                                </th>
+                                <th pSortableColumn="username" class="flex-1">
+                                    <span class="flex items-center gap-2">用户名 <p-sortIcon field="username" /></span>
+                                </th>
+                                <th class="flex-1">角色</th>
+                                <th pSortableColumn="primaryOrgUnitName" class="flex-1">
+                                    <span class="flex items-center gap-2">所属组织 <p-sortIcon field="primaryOrgUnitName" /></span>
+                                </th>
+                                <th pSortableColumn="isActive" class="flex-1">
+                                    <span class="flex items-center gap-2">状态 <p-sortIcon field="isActive" /></span>
+                                </th>
+                                <th style="width: 6rem">操作</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-user>
+                            <tr>
+                                <td>
+                                    <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ user.displayName }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-surface-500 dark:text-surface-400 text-sm">{{ user.username }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-surface-500 dark:text-surface-400 text-sm">{{ user.roleNames.join(' / ') || '未分配' }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-surface-500 dark:text-surface-400 text-sm">{{ user.primaryOrgUnitName ?? '未分配' }}</span>
+                                </td>
+                                <td>
+                                    <p-tag [value]="user.isActive ? '启用' : '停用'" [severity]="user.isActive ? 'success' : 'danger'" class="px-2 py-1 rounded-[6px]" />
+                                </td>
+                                <td>
+                                    <p-button (onClick)="toggleMenu($event, user.id)" [rounded]="true" [text]="true" icon="pi pi-ellipsis-h" size="small" severity="secondary" class="cursor-pointer" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #emptymessage>
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-surface-400">{{ platformStore.loadingUsers() ? '加载中...' : '暂无用户' }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <p-menu #actionMenu [model]="menuItems()" [popup]="true" styleClass="w-48!" appendTo="body" />
                 </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="createDialogVisible = false" />
-                        <p-button label="创建" [loading]="platformStore.savingUser()" (onClick)="createUser()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
 
-            <!-- Assign Roles Dialog -->
-            <p-dialog [(visible)]="assignRolesDialogVisible" [modal]="true" header="分配角色" [style]="{ width: '28rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <p class="text-surface-600">
-                        为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配角色（全量替换）
-                    </p>
-                    <p-multiselect [(ngModel)]="assignRolesForm.roleIds" [options]="roleOptions()" optionLabel="label" optionValue="value" placeholder="选择角色" class="w-full" appendTo="body" />
-                </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="assignRolesDialogVisible = false" />
-                        <p-button label="保存" [loading]="platformStore.savingUser()" (onClick)="saveUserRoles()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
-
-            <!-- Assign Org Dialog -->
-            <p-dialog [(visible)]="assignOrgDialogVisible" [modal]="true" header="分配组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <p class="text-surface-600">
-                        为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配所属组织
-                    </p>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">主组织</label>
-                        <p-select [(ngModel)]="assignOrgForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择主组织" class="w-full" appendTo="body" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">副组织</label>
-                        <p-multiselect [(ngModel)]="assignOrgForm.secondaryOrgUnitIds" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择副组织（可多选）" class="w-full" appendTo="body" />
-                    </div>
-                </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="assignOrgDialogVisible = false" />
-                        <p-button label="保存" [loading]="platformStore.savingUser()" (onClick)="saveUserOrg()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
-
-            <!-- User Detail Dialog -->
-            <p-dialog [(visible)]="userDetailDialogVisible" [modal]="true" header="用户详情" [style]="{ width: '42rem' }" styleClass="p-fluid" (onHide)="platformStore.clearActiveUserDetail()">
-                @if (platformStore.loadingUserDetail()) {
-                    <div class="flex justify-center py-8 text-surface-400">加载中...</div>
-                } @else if (platformStore.activeUserDetail(); as user) {
-                    <div class="flex flex-col gap-5 py-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="flex flex-col gap-1">
-                                <span class="text-surface-500 text-xs uppercase tracking-wide">用户名</span>
-                                <span class="font-medium">{{ user.username }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-surface-500 text-xs uppercase tracking-wide">姓名</span>
-                                <span class="font-medium">{{ user.displayName }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-surface-500 text-xs uppercase tracking-wide">邮箱</span>
-                                <span>{{ user.email || '未填写' }}</span>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-surface-500 text-xs uppercase tracking-wide">手机</span>
-                                <span>{{ user.phone || '未填写' }}</span>
-                            </div>
+                <!-- Create User Dialog -->
+                <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建用户" [style]="{ width: '30rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">用户名 *</label>
+                            <input pInputText [(ngModel)]="createForm.username" placeholder="登录用户名" class="w-full" />
                         </div>
                         <div class="flex flex-col gap-2">
-                            <span class="text-surface-500 text-xs uppercase tracking-wide">状态</span>
-                            <div class="flex gap-2 flex-wrap">
-                                <p-tag [value]="user.isActive ? '启用' : '停用'" [severity]="user.isActive ? 'success' : 'danger'" />
-                                <p-tag [value]="user.emailVerified ? '邮箱已验证' : '邮箱未验证'" [severity]="user.emailVerified ? 'success' : 'secondary'" />
-                                <p-tag [value]="user.phoneVerified ? '手机已验证' : '手机未验证'" [severity]="user.phoneVerified ? 'success' : 'secondary'" />
+                            <label class="font-medium">姓名 *</label>
+                            <input pInputText [(ngModel)]="createForm.displayName" placeholder="显示名称" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">邮箱</label>
+                            <input pInputText [(ngModel)]="createForm.email" placeholder="可选" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">手机</label>
+                            <input pInputText [(ngModel)]="createForm.phone" placeholder="可选" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">所属组织</label>
+                            <p-select [(ngModel)]="createForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择组织" class="w-full" appendTo="body" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">初始角色</label>
+                            <p-multiselect [(ngModel)]="createForm.initialRoleIds" [options]="roleOptions()" optionLabel="label" optionValue="value" placeholder="选择角色（可多选）" class="w-full" appendTo="body" />
+                        </div>
+                    </div>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="createDialogVisible = false" />
+                            <p-button label="创建" [loading]="platformStore.savingUser()" (onClick)="createUser()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
+
+                <!-- Assign Roles Dialog -->
+                <p-dialog [(visible)]="assignRolesDialogVisible" [modal]="true" header="分配角色" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <p class="text-surface-600">
+                            为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配角色（全量替换）
+                        </p>
+                        <p-multiselect [(ngModel)]="assignRolesForm.roleIds" [options]="roleOptions()" optionLabel="label" optionValue="value" placeholder="选择角色" class="w-full" appendTo="body" />
+                    </div>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="assignRolesDialogVisible = false" />
+                            <p-button label="保存" [loading]="platformStore.savingUser()" (onClick)="saveUserRoles()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
+
+                <!-- Assign Org Dialog -->
+                <p-dialog [(visible)]="assignOrgDialogVisible" [modal]="true" header="分配组织" [style]="{ width: '28rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <p class="text-surface-600">
+                            为用户 <strong>{{ selectedUserDisplayName() }}</strong> 分配所属组织
+                        </p>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">主组织</label>
+                            <p-select [(ngModel)]="assignOrgForm.primaryOrgUnitId" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择主组织" class="w-full" appendTo="body" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">副组织</label>
+                            <p-multiselect [(ngModel)]="assignOrgForm.secondaryOrgUnitIds" [options]="orgUnitOptions()" optionLabel="label" optionValue="value" placeholder="选择副组织（可多选）" class="w-full" appendTo="body" />
+                        </div>
+                    </div>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="assignOrgDialogVisible = false" />
+                            <p-button label="保存" [loading]="platformStore.savingUser()" (onClick)="saveUserOrg()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
+
+                <!-- User Detail Dialog -->
+                <p-dialog [(visible)]="userDetailDialogVisible" [modal]="true" header="用户详情" [style]="{ width: '42rem' }" styleClass="p-fluid" (onHide)="platformStore.clearActiveUserDetail()">
+                    @if (platformStore.loadingUserDetail()) {
+                        <div class="flex justify-center py-8 text-surface-400">加载中...</div>
+                    } @else if (platformStore.activeUserDetail(); as user) {
+                        <div class="flex flex-col gap-5 py-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-surface-500 text-xs uppercase tracking-wide">用户名</span>
+                                    <span class="font-medium">{{ user.username }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-surface-500 text-xs uppercase tracking-wide">姓名</span>
+                                    <span class="font-medium">{{ user.displayName }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-surface-500 text-xs uppercase tracking-wide">邮箱</span>
+                                    <span>{{ user.email || '未填写' }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-surface-500 text-xs uppercase tracking-wide">手机</span>
+                                    <span>{{ user.phone || '未填写' }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <span class="text-surface-500 text-xs uppercase tracking-wide">角色</span>
-                            <span>{{ user.roleNames.join(' / ') || '未分配' }}</span>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <span class="text-surface-500 text-xs uppercase tracking-wide">组织归属</span>
-                            @if (user.orgUnits.length === 0) {
-                                <span class="text-surface-400">未分配</span>
-                            } @else {
-                                <div class="flex flex-col gap-2">
-                                    @for (org of user.orgUnits; track org.id) {
-                                        <div class="flex items-center gap-2">
-                                            <p-tag [value]="org.membershipType === 'primary' ? '主' : '副'" [severity]="org.membershipType === 'primary' ? 'info' : 'secondary'" />
-                                            <span class="text-sm">{{ org.name }}</span>
-                                            @if (org.code) {
-                                                <span class="text-surface-400 text-xs">({{ org.code }})</span>
-                                            }
-                                        </div>
-                                    }
+                            <div class="flex flex-col gap-2">
+                                <span class="text-surface-500 text-xs uppercase tracking-wide">状态</span>
+                                <div class="flex gap-2 flex-wrap">
+                                    <p-tag [value]="user.isActive ? '启用' : '停用'" [severity]="user.isActive ? 'success' : 'danger'" />
+                                    <p-tag [value]="user.emailVerified ? '邮箱已验证' : '邮箱未验证'" [severity]="user.emailVerified ? 'success' : 'secondary'" />
+                                    <p-tag [value]="user.phoneVerified ? '手机已验证' : '手机未验证'" [severity]="user.phoneVerified ? 'success' : 'secondary'" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-surface-500 text-xs uppercase tracking-wide">角色</span>
+                                <span>{{ user.roleNames.join(' / ') || '未分配' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-surface-500 text-xs uppercase tracking-wide">组织归属</span>
+                                @if (user.orgUnits.length === 0) {
+                                    <span class="text-surface-400">未分配</span>
+                                } @else {
+                                    <div class="flex flex-col gap-2">
+                                        @for (org of user.orgUnits; track org.id) {
+                                            <div class="flex items-center gap-2">
+                                                <p-tag [value]="org.membershipType === 'primary' ? '主' : '副'" [severity]="org.membershipType === 'primary' ? 'info' : 'secondary'" />
+                                                <span class="text-sm">{{ org.name }}</span>
+                                                @if (org.code) {
+                                                    <span class="text-surface-400 text-xs">({{ org.code }})</span>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            <app-user-external-identity-panel [userId]="user.id" [userDisplayName]="user.displayName" />
+                            @if (user.lastLoginAt) {
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-surface-500 text-xs uppercase tracking-wide">最后登录</span>
+                                    <span class="text-sm">{{ user.lastLoginAt | date: 'yyyy-MM-dd HH:mm' }}</span>
                                 </div>
                             }
                         </div>
-                        <app-user-external-identity-panel [userId]="user.id" [userDisplayName]="user.displayName" />
-                        @if (user.lastLoginAt) {
-                            <div class="flex flex-col gap-1">
-                                <span class="text-surface-500 text-xs uppercase tracking-wide">最后登录</span>
-                                <span class="text-sm">{{ user.lastLoginAt | date: 'yyyy-MM-dd HH:mm' }}</span>
-                            </div>
-                        }
-                    </div>
-                }
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="关闭" severity="secondary" [outlined]="true" (onClick)="userDetailDialogVisible = false" />
-                        <p-button label="编辑信息" icon="pi pi-pencil" (onClick)="switchToEditInfo()" [disabled]="!platformStore.activeUserDetail()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
+                    }
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="关闭" severity="secondary" [outlined]="true" (onClick)="userDetailDialogVisible = false" />
+                            <p-button label="编辑信息" icon="pi pi-pencil" (onClick)="switchToEditInfo()" [disabled]="!platformStore.activeUserDetail()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
 
-            <!-- Edit Basic Info Dialog -->
-            <p-dialog [(visible)]="editInfoDialogVisible" [modal]="true" header="编辑用户信息" [style]="{ width: '30rem' }" styleClass="p-fluid">
-                <div class="flex flex-col gap-4 py-4">
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">姓名 *</label>
-                        <input pInputText [(ngModel)]="editInfoForm.displayName" placeholder="显示名称" class="w-full" />
+                <!-- Edit Basic Info Dialog -->
+                <p-dialog [(visible)]="editInfoDialogVisible" [modal]="true" header="编辑用户信息" [style]="{ width: '30rem' }" styleClass="p-fluid">
+                    <div class="flex flex-col gap-4 py-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">姓名 *</label>
+                            <input pInputText [(ngModel)]="editInfoForm.displayName" placeholder="显示名称" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">邮箱</label>
+                            <input pInputText [(ngModel)]="editInfoForm.email" placeholder="可选" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">手机</label>
+                            <input pInputText [(ngModel)]="editInfoForm.phone" placeholder="可选" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-medium">头像 URL</label>
+                            <input pInputText [(ngModel)]="editInfoForm.avatarUrl" placeholder="可选" class="w-full" />
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">邮箱</label>
-                        <input pInputText [(ngModel)]="editInfoForm.email" placeholder="可选" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">手机</label>
-                        <input pInputText [(ngModel)]="editInfoForm.phone" placeholder="可选" class="w-full" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="font-medium">头像 URL</label>
-                        <input pInputText [(ngModel)]="editInfoForm.avatarUrl" placeholder="可选" class="w-full" />
-                    </div>
-                </div>
-                <ng-template #footer>
-                    <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="editInfoDialogVisible = false" />
-                        <p-button label="保存" [loading]="platformStore.savingUserDetail()" (onClick)="saveUserInfo()" />
-                    </div>
-                </ng-template>
-            </p-dialog>
+                    <ng-template #footer>
+                        <div class="flex justify-end gap-2">
+                            <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="editInfoDialogVisible = false" />
+                            <p-button label="保存" [loading]="platformStore.savingUserDetail()" (onClick)="saveUserInfo()" />
+                        </div>
+                    </ng-template>
+                </p-dialog>
 
-            <p-confirmdialog [style]="{ width: '450px' }" />
-        </app-admin-list-shell>
+                <p-confirmdialog [style]="{ width: '450px' }" />
+            </app-admin-list-shell>
+        </div>
     `
 })
 export class UserList {

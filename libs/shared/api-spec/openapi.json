@@ -2826,6 +2826,33 @@
         ]
       }
     },
+    "/api/attachment-center-records": {
+      "get": {
+        "operationId": "AttachmentCenterRecordController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentCenterRecordList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件中心聚合记录列表",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
     "/api/project-handovers/{handoverId}/attachment-checklist": {
       "get": {
         "operationId": "AttachmentHandoverController_getChecklist",
@@ -11340,9 +11367,6 @@
       },
       "AuditSnapshot": {
         "type": "object",
-        "propertyNames": {
-          "type": "string"
-        },
         "additionalProperties": {}
       },
       "AuditLogList": {
@@ -12402,8 +12426,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -12424,8 +12449,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -12455,8 +12481,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -12623,7 +12650,8 @@
               "nav:attachments:view",
               "nav:projects:view",
               "nav:contracts:view",
-              "nav:profile:view"
+              "nav:profile:view",
+              null
             ],
             "nullable": true
           }
@@ -12825,8 +12853,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -13175,8 +13204,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -13200,8 +13230,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -13714,8 +13745,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -13724,8 +13756,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -14058,8 +14091,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -14246,8 +14280,9 @@
           },
           "versionNo": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isLatest": {
             "type": "boolean"
@@ -14550,6 +14585,46 @@
           "targetId"
         ]
       },
+      "AttachmentCenterRecord": {
+        "type": "object",
+        "properties": {
+          "targetType": {
+            "$ref": "#/components/schemas/AttachmentTargetType"
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetNo": {
+            "type": "string"
+          },
+          "targetName": {
+            "type": "string"
+          },
+          "targetOwnerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/AttachmentSummary"
+          }
+        },
+        "required": [
+          "targetType",
+          "targetId",
+          "targetNo",
+          "targetName",
+          "targetOwnerName",
+          "attachment"
+        ]
+      },
+      "AttachmentCenterRecordList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AttachmentCenterRecord"
+        }
+      },
       "ProjectHandoverAttachmentChecklistCounts": {
         "type": "object",
         "properties": {
@@ -14804,8 +14879,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -15216,8 +15292,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -15226,8 +15303,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -15264,8 +15342,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -15312,8 +15391,9 @@
           },
           "sizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "checksumSha256": {
             "type": "string",
@@ -15427,13 +15507,15 @@
           },
           "sizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "maxSizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "checksumSha256": {
             "type": "string",
@@ -15502,8 +15584,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -15560,8 +15643,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -15591,9 +15675,6 @@
           },
           "headers": {
             "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
             "additionalProperties": {
               "type": "string"
             }
@@ -15608,8 +15689,9 @@
           },
           "maxSizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -15642,8 +15724,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -15658,8 +15741,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "checksumSha256": {
             "type": "string",
@@ -15673,8 +15757,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "reason": {
             "type": "string",
@@ -15845,8 +15930,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -17244,8 +17330,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -17331,9 +17418,6 @@
           },
           "componentBreakdown": {
             "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
             "additionalProperties": {}
           },
           "gateSummarySnapshot": {
@@ -17785,8 +17869,9 @@
           },
           "expectedLeadRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -17800,8 +17885,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -17888,8 +17974,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -17939,8 +18026,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -18115,8 +18203,9 @@
         "properties": {
           "expectedOverrideRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "note": {
             "type": "string",
@@ -18139,8 +18228,9 @@
           },
           "expectedOverrideRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -18158,8 +18248,9 @@
           },
           "expectedOverrideRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -19023,8 +19114,9 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isCurrent": {
             "type": "boolean"
@@ -19402,8 +19494,9 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isCurrent": {
             "type": "boolean"
@@ -19622,8 +19715,9 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isCurrent": {
             "type": "boolean"
@@ -19684,7 +19778,8 @@
               "R1",
               "R2",
               "R3",
-              "R4"
+              "R4",
+              null
             ],
             "nullable": true
           },
@@ -20782,8 +20877,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21700,8 +21796,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21726,8 +21823,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21800,8 +21898,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21840,8 +21939,9 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21884,8 +21984,9 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21928,8 +22029,9 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -21972,8 +22074,9 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -22139,8 +22242,9 @@
           },
           "expectedCurrentPackageVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -22205,8 +22309,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -22465,8 +22570,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -22588,8 +22694,9 @@
           },
           "expectedCurrentSnapshotVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -22689,8 +22796,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -22842,8 +22950,9 @@
           },
           "expectedRestatesSnapshotVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -22905,8 +23014,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -23073,8 +23183,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -23146,8 +23257,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -23221,8 +23333,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -23268,8 +23381,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -23304,8 +23418,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -23365,8 +23480,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -23501,8 +23617,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -23570,8 +23687,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -23654,8 +23772,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -23845,8 +23964,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -24768,8 +24888,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -24778,8 +24899,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -24799,8 +24921,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -24979,8 +25102,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -25244,8 +25368,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "createdAt": {
             "type": "string",
@@ -25442,8 +25567,9 @@
           },
           "expectedSupersededRecordVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -25573,8 +25699,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -25983,8 +26110,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -26004,8 +26132,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -26028,8 +26157,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -26334,8 +26464,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -26355,8 +26486,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -26379,8 +26511,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -26403,8 +26536,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -26591,8 +26725,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -27437,8 +27572,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -27534,8 +27670,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -27757,8 +27894,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -27831,8 +27969,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -28438,8 +28577,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -28453,8 +28593,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -28894,8 +29035,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -29272,8 +29414,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -29334,8 +29477,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -29667,8 +29811,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -29695,8 +29840,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -31061,8 +31207,9 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "tierDefinitionJson": {
             "type": "object",
@@ -31183,8 +31330,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isCurrent": {
             "type": "boolean"
@@ -31622,8 +31770,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isCurrent": {
             "type": "boolean"
@@ -31733,8 +31882,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -31758,8 +31908,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -31786,8 +31937,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "stageType": {
             "$ref": "#/components/schemas/CommissionPayoutStage"
@@ -31940,8 +32092,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "payoutStage": {
             "type": "string",
@@ -32006,8 +32159,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "payoutStage": {
             "$ref": "#/components/schemas/NonRetentionCommissionPayoutStage"
@@ -32047,8 +32201,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -32077,8 +32232,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "payoutStage": {
             "type": "string",
@@ -32123,8 +32279,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "payoutStage": {
             "$ref": "#/components/schemas/NonRetentionCommissionPayoutStage"
@@ -32155,8 +32312,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "adjustmentType": {
             "$ref": "#/components/schemas/CommissionAdjustmentType"
@@ -32281,8 +32439,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -32291,8 +32450,9 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
@@ -32402,8 +32562,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -32546,13 +32707,15 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "isCurrent": {
             "type": "boolean"
@@ -32657,8 +32820,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [
@@ -32746,8 +32910,9 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "disputeReason": {
             "type": "string"
@@ -32887,8 +33052,9 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
-            "maximum": 9007199254740991
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         },
         "required": [

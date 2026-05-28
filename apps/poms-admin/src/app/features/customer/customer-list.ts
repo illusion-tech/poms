@@ -20,6 +20,7 @@ import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
 import { AdminListShell } from '../../shared/ui/admin-list-shell';
 import { AdminListToolbar } from '../../shared/ui/admin-list-toolbar';
+import { AdminMetricGrid, type AdminMetricItem } from '../../shared/ui/admin-metric-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 
 interface CustomerFilterOption {
@@ -119,51 +120,37 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
         SalesIntelligencePanel,
         AdminListShell,
         AdminListToolbar,
+        AdminMetricGrid,
         WorkspaceFeedback
     ],
     providers: [CustomerStore],
     template: `
         <div class="flex flex-col gap-5">
-            <section class="border-b border-surface-200 pb-5 dark:border-surface-700">
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">全部客户</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ customers().length }}</div>
-                    </div>
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">启用客户</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ activeCustomerCount() }}</div>
-                    </div>
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900">
-                        <div class="text-sm text-surface-500 dark:text-surface-400">停用客户</div>
-                        <div class="mt-2 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">{{ inactiveCustomerCount() }}</div>
-                    </div>
-                </div>
-            </section>
+            <app-admin-metric-grid [items]="customerMetricItems()" [columns]="3" />
 
             @if (pageError()) {
                 <app-workspace-feedback severity="error" summary="客户暂时无法处理" [detail]="pageError()" />
             }
 
+            <app-admin-list-toolbar>
+                <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+                    <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
+
+                    <p-iconfield class="w-full md:w-80">
+                        <p-inputicon class="pi pi-search" />
+                        <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索客户、编号、主责" class="w-full! rounded-md! py-2!" />
+                    </p-iconfield>
+
+                    <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
+                </div>
+
+                <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
+                    <span>当前筛出 {{ visibleCustomers().length }} 个客户</span>
+                    <p-button label="新建客户" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
+                </div>
+            </app-admin-list-toolbar>
+
             <app-admin-list-shell>
-                <app-admin-list-toolbar>
-                    <div adminToolbarStart class="flex w-full flex-col gap-3 md:flex-row md:items-center">
-                        <button pButton type="button" label="清空筛选" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" class="w-full rounded-md! md:w-auto" (click)="clearFilters(dt)"></button>
-
-                        <p-iconfield class="w-full md:w-80">
-                            <p-inputicon class="pi pi-search" />
-                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索客户、编号、主责" class="w-full! rounded-md! py-2!" />
-                        </p-iconfield>
-
-                        <p-select [ngModel]="statusFilter()" (ngModelChange)="setStatusFilter($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按状态筛选" class="w-full md:w-40 rounded-md!" />
-                    </div>
-
-                    <div adminToolbarEnd class="flex flex-col gap-3 text-sm text-surface-500 dark:text-surface-400 sm:flex-row sm:items-center">
-                        <span>当前筛出 {{ visibleCustomers().length }} 个客户</span>
-                        <p-button label="新建客户" icon="pi pi-plus" severity="primary" styleClass="w-full sm:w-auto rounded-md!" (onClick)="showCreateDialog()" />
-                    </div>
-                </app-admin-list-toolbar>
-
                 <p-table
                     #dt
                     [value]="visibleCustomers()"
@@ -415,6 +402,12 @@ export class CustomerList implements OnInit {
     readonly saving = this.#customerStore.saving;
     readonly activeCustomerCount = this.#customerStore.activeCustomerCount;
     readonly inactiveCustomerCount = this.#customerStore.inactiveCustomerCount;
+
+    readonly customerMetricItems = computed<AdminMetricItem[]>(() => [
+        { label: '全部客户', value: this.customers().length },
+        { label: '启用客户', value: this.activeCustomerCount() },
+        { label: '停用客户', value: this.inactiveCustomerCount() }
+    ]);
 
     readonly searchValue = signal('');
     readonly statusFilter = signal(ALL_FILTER_VALUE);
