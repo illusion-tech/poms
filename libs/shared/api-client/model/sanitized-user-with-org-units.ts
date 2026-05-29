@@ -51,7 +51,6 @@ export enum SanitizedUserWithOrgUnitsPermissionsEnum {
     LeadWrite = 'lead:write',
     LeadAssign = 'lead:assign',
     LeadScoreOverride = 'lead:score:override',
-    LeadSourceManage = 'lead:source:manage',
     ProjectRead = 'project:read',
     ProjectWrite = 'project:write',
     ProjectDelete = 'project:delete',

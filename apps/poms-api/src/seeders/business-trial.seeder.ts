@@ -32,8 +32,8 @@ interface TrialActorSet {
     salesOwnerId: string;
     businessAdminId: string;
     salesOrgId: string;
-    customerVisitSourceId: string;
-    bidNoticeSourceId: string;
+    customerVisitSourceCode: string;
+    bidNoticeSourceCode: string;
 }
 
 export class BusinessTrialSeeder extends Seeder {
@@ -124,8 +124,7 @@ async function seedTrialDemoData(connection: SqlConnection, schema: string, user
             "lead_name",
             "customer_id",
             "customer_name",
-            "source_id",
-            "source_channel",
+            "source_code",
             "demand_description",
             "budget_status",
             "estimated_amount",
@@ -144,15 +143,14 @@ async function seedTrialDemoData(connection: SqlConnection, schema: string, user
             "updated_by"
         )
         values
-            (${sqlValue('92000000-0000-4000-8000-000000000001')}, 'TRIAL-LD-2026-0001', '南城轨交综合运维平台线索', ${sqlUuid(customerIdByNo.get('TRIAL-CUST-2026-0001') ?? null)}, '南城轨道交通集团', ${sqlUuid(actors.customerVisitSourceId)}, '客户拜访', '客户计划统一运维项目立项，希望先评估售前范围、预算和交付风险。', 'rough-budget', '1800000.00', 'high', ${sqlDate('2026-06-30')}, 72, 'B', '试用演示数据：预算与需求已初步明确，等待售前补充范围。', 'qualified', ${sqlUuid(actors.salesOrgId)}, ${sqlUuid(actors.salesOwnerId)}, '客户已确认业务痛点和预算范围，进入有效线索。', ${sqlTimestamp('2026-05-20T09:30:00.000Z')}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)}),
-            (${sqlValue('92000000-0000-4000-8000-000000000002')}, 'TRIAL-LD-2026-0002', '智慧园区能源管理系统扩容', ${sqlUuid(customerIdByNo.get('TRIAL-CUST-2026-0002') ?? null)}, '华东智慧园区发展有限公司', ${sqlUuid(actors.bidNoticeSourceId)}, '招投标公告', '客户已有一期系统，二期扩容需要走商务竞标和合同流程。', 'budget-confirmed', '2600000.00', 'normal', ${sqlDate('2026-07-15')}, 81, 'A', '试用演示数据：预算已确认，已转入项目推进。', 'converted', ${sqlUuid(actors.salesOrgId)}, ${sqlUuid(actors.salesOwnerId)}, '公开招标信息匹配现有能力，已转项目。', ${sqlTimestamp('2026-05-18T10:00:00.000Z')}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)})
+            (${sqlValue('92000000-0000-4000-8000-000000000001')}, 'TRIAL-LD-2026-0001', '南城轨交综合运维平台线索', ${sqlUuid(customerIdByNo.get('TRIAL-CUST-2026-0001') ?? null)}, '南城轨道交通集团', ${sqlValue(actors.customerVisitSourceCode)}, '客户计划统一运维项目立项，希望先评估售前范围、预算和交付风险。', 'rough-budget', '1800000.00', 'high', ${sqlDate('2026-06-30')}, 72, 'B', '试用演示数据：预算与需求已初步明确，等待售前补充范围。', 'qualified', ${sqlUuid(actors.salesOrgId)}, ${sqlUuid(actors.salesOwnerId)}, '客户已确认业务痛点和预算范围，进入有效线索。', ${sqlTimestamp('2026-05-20T09:30:00.000Z')}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)}),
+            (${sqlValue('92000000-0000-4000-8000-000000000002')}, 'TRIAL-LD-2026-0002', '智慧园区能源管理系统扩容', ${sqlUuid(customerIdByNo.get('TRIAL-CUST-2026-0002') ?? null)}, '华东智慧园区发展有限公司', ${sqlValue(actors.bidNoticeSourceCode)}, '客户已有一期系统，二期扩容需要走商务竞标和合同流程。', 'budget-confirmed', '2600000.00', 'normal', ${sqlDate('2026-07-15')}, 81, 'A', '试用演示数据：预算已确认，已转入项目推进。', 'converted', ${sqlUuid(actors.salesOrgId)}, ${sqlUuid(actors.salesOwnerId)}, '公开招标信息匹配现有能力，已转项目。', ${sqlTimestamp('2026-05-18T10:00:00.000Z')}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)}, ${sqlUuid(actors.salesOwnerId)})
         on conflict ("lead_no") do update
         set
             "lead_name" = excluded."lead_name",
             "customer_id" = excluded."customer_id",
             "customer_name" = excluded."customer_name",
-            "source_id" = excluded."source_id",
-            "source_channel" = excluded."source_channel",
+            "source_code" = excluded."source_code",
             "demand_description" = excluded."demand_description",
             "budget_status" = excluded."budget_status",
             "estimated_amount" = excluded."estimated_amount",
@@ -524,15 +522,15 @@ async function resolveTrialActors(connection: SqlConnection, schema: string, use
     const businessAdmin = requireUserWithRole(users, 'business-admin');
     const userIdByUsername = await fetchUserIds(connection, schema, [platformAdmin.username, salesOwner.username, businessAdmin.username]);
     const orgIdByCode = await fetchOrgIds(connection, schema, [salesOwner.orgCode]);
-    const sourceIdByCode = await fetchLeadSourceIds(connection, schema, ['customer-visit', 'bid-notice']);
+    const sourceCodeByCode = await fetchDictionaryCodes(connection, schema, ['customer-visit', 'bid-notice']);
 
     return {
         platformAdminId: requireMapValue(userIdByUsername, platformAdmin.username, 'username'),
         salesOwnerId: requireMapValue(userIdByUsername, salesOwner.username, 'username'),
         businessAdminId: requireMapValue(userIdByUsername, businessAdmin.username, 'username'),
         salesOrgId: requireMapValue(orgIdByCode, salesOwner.orgCode, 'orgCode'),
-        customerVisitSourceId: requireMapValue(sourceIdByCode, 'customer-visit', 'leadSource'),
-        bidNoticeSourceId: requireMapValue(sourceIdByCode, 'bid-notice', 'leadSource')
+        customerVisitSourceCode: requireMapValue(sourceCodeByCode, 'customer-visit', 'leadSource'),
+        bidNoticeSourceCode: requireMapValue(sourceCodeByCode, 'bid-notice', 'leadSource')
     };
 }
 
@@ -594,11 +592,12 @@ async function fetchUserIds(connection: SqlConnection, schema: string, usernames
     return new Map(rows.map((row) => [row.key, row.id]));
 }
 
-async function fetchLeadSourceIds(connection: SqlConnection, schema: string, codes: string[]): Promise<Map<string, string>> {
+async function fetchDictionaryCodes(connection: SqlConnection, schema: string, codes: string[]): Promise<Map<string, string>> {
     const rows = await connection.execute<KeyIdRow[]>(`
-        select "id", "code" as "key"
-        from "${schema}"."lead_source"
-        where "code" in (${codes.map(sqlValue).join(', ')});
+        select "code" as "id", "code" as "key"
+        from "${schema}"."dictionary_item"
+        where "domain" = 'lead-source'
+          and "code" in (${codes.map(sqlValue).join(', ')});
     `);
     return new Map(rows.map((row) => [row.key, row.id]));
 }

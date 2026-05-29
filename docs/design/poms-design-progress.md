@@ -582,6 +582,8 @@
 99. 2026-05-28 `FE-63` 已完成第二轮本地 `G3`：Poseidon `.card` surface 和 `AdminMetricGrid` 已统一统计指标条，用户 / 角色 / 组织、客户 / 线索 / 项目 / 合同、业务字典、导航治理和附件中心均完成独立工具条与数据 surface 收口；附件中心默认宽度下的筛选工具条溢出已修正。验证通过 focused Admin tests、attachment focused retest、`poms-admin` lint/build、Markdown check、`git diff --check` 和 in-app browser 桌面 / 390px 视觉巡检；本片仍未提交，暂不标记 `G4 / Done`。
 100. 2026-05-28 `FE-63` 第三轮按用户确认继续推进旧列表组件退役：线索管理、项目管理迁移到 `AdminTableCard`，业务字典改用原生 `.card` + PrimeNG toolbar；旧列表 toolbar / shell 组件文件及专用 CSS 已删除，文档基线改为 table card / 非表格 toolbar surface 双轨口径。验证继续按 frontend-only refactor 要求执行。
 101. 2026-05-29 `FE-63` 补充客户管理样板漂移防线：主数据 / 基础资料页行尾列名统一为 `操作`，对象主文本承担详情入口，行尾只放编辑、启停等真实命令；`继续处理` 不作为通用表格列名，仅保留给线索等真实流程推进页。该补充为 frontend-only 视觉 / 交互基线回写，不新增或修改后端 API、OpenAPI、generated client、权限或数据语义。
+102. 2026-05-29 `EX-70A` 已进入 `G1 / Doing`：新增 `ex-70a-lead-source-dictionary-direct-cutover-baseline.md`，冻结线索来源并入业务字典的 direct cutover 边界；本片新增 `lead-source` 字典域，Lead 契约改为 `sourceCode`，清退 `lead_source`、`/lead-sources`、`LeadSourceApi`、`lead:source:manage`、`lead.source_id` 和线索域 `source_channel`，不保留兼容 alias、双写或历史包袱。
+103. 2026-05-29 `EX-70A` 已完成本地 `G3`：落地 `dictionary_item(domain='lead-source')` 迁移、Lead `sourceCode` 契约、字典使用量统计、线索读写 / 评分 / E2E / Admin 来源下拉切换和业务字典卡片；独立线索来源 API、实体、权限和 generated client 已清退。验证通过 migration-up / migration-check、OpenAPI、shared-api-client generate/check、API lead focused tests、Admin lead/dictionary focused tests、lead workflow E2E、API/Admin lint/build、Markdown format/check 和 `git diff --check`；尚未提交，暂不标记 `G4 / Done`。
 
 ---
 

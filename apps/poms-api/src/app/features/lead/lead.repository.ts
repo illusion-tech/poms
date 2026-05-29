@@ -2,11 +2,11 @@ import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { LeadStatus } from '@poms/shared-contracts';
-import type { LeadBudgetStatus, LeadRating, LeadSourceStatus, LeadUrgency } from '@poms/shared-contracts';
+import type { LeadBudgetStatus, LeadRating, LeadUrgency } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
-import { Lead, LeadSource } from './lead.entity';
+import { Lead } from './lead.entity';
 import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
 
 @Injectable()
@@ -14,8 +14,6 @@ export class LeadRepository {
     constructor(
         @InjectRepository(Lead)
         private readonly leadRepository: EntityRepository<Lead>,
-        @InjectRepository(LeadSource)
-        private readonly leadSourceRepository: EntityRepository<LeadSource>,
         @InjectRepository(LeadOwnerAssignmentRecord)
         private readonly leadOwnerAssignmentRecordRepository: EntityRepository<LeadOwnerAssignmentRecord>,
         @InjectRepository(Project)
@@ -28,7 +26,7 @@ export class LeadRepository {
 
     async findMany(input: {
         status?: LeadStatus;
-        sourceId?: string;
+        sourceCode?: string;
         budgetStatus?: LeadBudgetStatus;
         urgency?: LeadUrgency;
         rating?: LeadRating;
@@ -43,8 +41,8 @@ export class LeadRepository {
             where.status = input.status;
         }
 
-        if (input.sourceId) {
-            where.sourceId = input.sourceId;
+        if (input.sourceCode) {
+            where.sourceCode = input.sourceCode;
         }
 
         if (input.budgetStatus) {
@@ -76,7 +74,7 @@ export class LeadRepository {
                 { leadNo: { $ilike: `%${input.keyword}%` } },
                 { leadName: { $ilike: `%${input.keyword}%` } },
                 { customerName: { $ilike: `%${input.keyword}%` } },
-                { sourceChannel: { $ilike: `%${input.keyword}%` } }
+                { sourceCode: { $ilike: `%${input.keyword}%` } }
             ];
         }
 
@@ -91,54 +89,6 @@ export class LeadRepository {
 
     async findByNo(leadNo: string): Promise<Lead | null> {
         return this.leadRepository.findOne({ leadNo });
-    }
-
-    async findLeadSources(input: { status?: LeadSourceStatus; keyword?: string } = {}): Promise<LeadSource[]> {
-        const where: FilterQuery<LeadSource> = {};
-
-        if (input.status) {
-            where.status = input.status;
-        }
-
-        if (input.keyword) {
-            (where as FilterQuery<LeadSource> & { $or?: FilterQuery<LeadSource>[] }).$or = [
-                { code: { $ilike: `%${input.keyword}%` } },
-                { name: { $ilike: `%${input.keyword}%` } }
-            ];
-        }
-
-        return this.leadSourceRepository.find(where, {
-            orderBy: { sortOrder: QueryOrder.ASC, name: QueryOrder.ASC }
-        });
-    }
-
-    async findLeadSourceById(id: string): Promise<LeadSource | null> {
-        return this.leadSourceRepository.findOne({ id });
-    }
-
-    async findLeadSourceByCode(code: string): Promise<LeadSource | null> {
-        return this.leadSourceRepository.findOne({ code });
-    }
-
-    async countLeadsBySourceIds(sourceIds: string[]): Promise<Map<string, number>> {
-        if (sourceIds.length === 0) {
-            return new Map();
-        }
-
-        const rows = (await this.leadRepository
-            .getEntityManager()
-            .getConnection()
-            .execute(
-                `
-                    select "source_id", count(*)::text as "count"
-                    from "poms"."lead"
-                    where "source_id" in (?)
-                    group by "source_id"
-                `,
-                [sourceIds]
-            )) as Array<{ source_id: string; count: string }>;
-
-        return new Map(rows.map((row) => [row.source_id, Number(row.count)]));
     }
 
     async findProjectByNo(projectNo: string): Promise<Project | null> {
@@ -181,10 +131,6 @@ export class LeadRepository {
         return this.leadRepository.create(input);
     }
 
-    createLeadSource(input: ConstructorParameters<typeof LeadSource>[0]): LeadSource {
-        return this.leadSourceRepository.create(input);
-    }
-
     createProject(input: ConstructorParameters<typeof Project>[0]): Project {
         return this.projectRepository.create(input);
     }
@@ -195,10 +141,6 @@ export class LeadRepository {
 
     async save(lead: Lead): Promise<void> {
         await this.leadRepository.getEntityManager().persist(lead).flush();
-    }
-
-    async saveLeadSource(source: LeadSource): Promise<void> {
-        await this.leadSourceRepository.getEntityManager().persist(source).flush();
     }
 
     async saveLeadAndProject(lead: Lead, project: Project): Promise<void> {

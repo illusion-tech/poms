@@ -16,7 +16,7 @@ import {
 } from '@poms/shared-contracts';
 
 export interface LeadGateInput {
-    sourceId?: string | null;
+    sourceCode?: string | null;
     demandDescription?: string | null;
     budgetStatus: LeadBudgetStatus;
     estimatedAmount?: string | null;
@@ -150,7 +150,7 @@ export function calculateLeadScore(input: LeadGateInput, facts: LeadScoreV2FactS
 export function buildLeadScoreComponentBreakdown(input: LeadGateInput, facts: LeadScoreV2FactSummary = EMPTY_LEAD_SCORE_V2_FACT_SUMMARY): LeadScoreComponentBreakdown {
     const demandLength = input.demandDescription?.trim().length ?? 0;
     const baseFacts = {
-        source: input.sourceId ? 10 : 0,
+        source: input.sourceCode ? 10 : 0,
         demand: demandLength >= 30 ? 15 : demandLength > 0 ? 10 : 0,
         budget: resolveBudgetScore(input.budgetStatus),
         amount: parsePositiveAmount(input.estimatedAmount) ? 15 : 0,
@@ -206,7 +206,7 @@ export function collectLeadGateMissingItems(input: LeadGateInput, gate: 'qualifi
         }
     }
 
-    if (!input.sourceId) missing.push(LeadGateMissingItemValue.Source);
+    if (!input.sourceCode) missing.push(LeadGateMissingItemValue.Source);
     if (!input.demandDescription?.trim()) missing.push(LeadGateMissingItemValue.DemandDescription);
     if (input.budgetStatus === LeadBudgetStatusValue.Unknown || input.budgetStatus === LeadBudgetStatusValue.NoBudget) missing.push(LeadGateMissingItemValue.Budget);
     if (!parsePositiveAmount(input.estimatedAmount)) missing.push(LeadGateMissingItemValue.EstimatedAmount);

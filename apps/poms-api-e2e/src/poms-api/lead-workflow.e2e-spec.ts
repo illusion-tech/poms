@@ -3,24 +3,29 @@ import { createCustomer } from '../support/customer-api';
 import { expectErrorStatus, expectStatus } from '../support/http';
 import { assignLeadOwner, claimLeadOwner, convertLeadToProject, createLead, getLead, listLeads, qualifyLead } from '../support/lead-api';
 import { makeUniqueSuffix } from '../support/test-data';
-import type { CreateSalesFollowUpRecordRequest, LeadSourceSummary, ProjectDetailView, SalesFollowUpRecordSummary } from '../support/types';
+import type { CreateSalesFollowUpRecordRequest, DictionaryItemSummary, ProjectDetailView, SalesFollowUpRecordSummary } from '../support/types';
 
 jest.setTimeout(120_000);
 
 describe('poms-api lead workflow e2e', () => {
-    async function getActiveLeadSourceId(client: Awaited<ReturnType<typeof loginAsAdmin>>['client']): Promise<string> {
-        const sourceResponse = await client.get<LeadSourceSummary[]>('/lead-sources');
-        const leadSources = expectStatus(sourceResponse, 200);
-        const leadSource = leadSources.find((source) => source.status === 'active');
-        expect(leadSource).toBeDefined();
-        return leadSource!.id;
+    async function getActiveSourceCode(client: Awaited<ReturnType<typeof loginAsAdmin>>['client']): Promise<string> {
+        const sourceResponse = await client.get<DictionaryItemSummary[]>('/dictionaries', {
+            params: {
+                domain: 'lead-source',
+                status: 'active'
+            }
+        });
+        const sources = expectStatus(sourceResponse, 200);
+        const source = sources.find((item) => item.status === 'active');
+        expect(source).toBeDefined();
+        return source!.code;
     }
 
     it('converts a qualified lead into a project and exposes source summaries', async () => {
         const { client, profile } = await loginAsAdmin();
         const unique = makeUniqueSuffix('lead-convert');
         const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
-        const leadSourceId = await getActiveLeadSourceId(client);
+        const sourceCode = await getActiveSourceCode(client);
         const customer = await createCustomer(client, {
             displayName: `E2E 客户 ${unique}`,
             sourceChannel: 'e2e'
@@ -28,7 +33,7 @@ describe('poms-api lead workflow e2e', () => {
         const lead = await createLead(client, {
             leadName: `E2E 线索转项目 ${unique}`,
             customerId: customer.id,
-            sourceId: leadSourceId,
+            sourceCode,
             demandDescription: '客户需要验证预算、范围和转项目链路。',
             budgetStatus: 'budget-confirmed',
             estimatedAmount: '1200000.00',
@@ -190,7 +195,7 @@ describe('poms-api lead workflow e2e', () => {
         const { client, profile } = await loginAsAdmin();
         const unique = makeUniqueSuffix('lead-pool');
         const primaryOrgId = profile.orgUnits.find((orgUnit) => orgUnit.membershipType === 'primary')?.id ?? null;
-        const leadSourceId = await getActiveLeadSourceId(client);
+        const sourceCode = await getActiveSourceCode(client);
         const customer = await createCustomer(client, {
             displayName: `E2E 公共池客户 ${unique}`,
             sourceChannel: 'e2e'
@@ -199,7 +204,7 @@ describe('poms-api lead workflow e2e', () => {
         const publicLead = await createLead(client, {
             leadName: `E2E 公共池线索 ${unique}`,
             customerId: customer.id,
-            sourceId: leadSourceId,
+            sourceCode,
             demandDescription: '客户先登记为公共池线索，等待销售申领。',
             budgetStatus: 'rough-budget',
             estimatedAmount: '800000.00',
@@ -243,7 +248,7 @@ describe('poms-api lead workflow e2e', () => {
         const assignedLead = await createLead(client, {
             leadName: `E2E 主管分配线索 ${unique}`,
             customerId: customer.id,
-            sourceId: leadSourceId,
+            sourceCode,
             demandDescription: '客户由主管分配销售主责。',
             budgetStatus: 'budget-confirmed',
             estimatedAmount: '1000000.00',

@@ -5,9 +5,11 @@ import {
     AuditHistoryStore,
     AttachmentStore,
     AuthStore,
+    ActiveInactiveStatus,
     BusinessDiscussionStore,
     CustomerStatus,
     CustomerStore,
+    DictionaryDomain,
     DictionaryStore,
     LeadAllowedAction,
     LeadBudgetStatus,
@@ -18,7 +20,6 @@ import {
     LeadRating,
     LeadScoreOverrideStatus,
     LeadScoreSnapshotKind,
-    LeadSourceStatus,
     LeadStatus,
     LeadStore,
     LeadUrgency,
@@ -36,11 +37,11 @@ import {
     type CompetitorIntelligenceRecordSummary,
     type CustomerContactSummary,
     type CustomerListView,
+    type DictionaryItemSummary,
     type LeadDetailView,
     type LeadListView,
     type LeadScoreHistoryView,
     type LeadScoreOverrideSummary,
-    type LeadSourceSummary,
     type OwnerReferenceOrgUnit,
     type OwnerReferenceUser,
     type ProjectSummary,
@@ -109,9 +110,8 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         leadName: '华南地铁线索',
         customerId: 'customer-1',
         customerName: '华南地铁集团',
-        sourceId: 'source-1',
+        sourceCode: 'customer-visit',
         sourceName: '客户拜访',
-        sourceChannel: '客户拜访',
         demandDescription: '客户计划建设地铁运维数字化平台。',
         budgetStatus: LeadBudgetStatus.BudgetConfirmed,
         estimatedAmount: '1000000.00',
@@ -183,14 +183,16 @@ function blockedConversionGate(): LeadListView['gateSummary'] {
     };
 }
 
-function createLeadSource(overrides: Partial<LeadSourceSummary> = {}): LeadSourceSummary {
+function createLeadSourceDictionaryItem(overrides: Partial<DictionaryItemSummary> = {}): DictionaryItemSummary {
     return {
-        id: 'source-1',
+        id: 'dict-source-1',
+        domain: DictionaryDomain.LeadSource,
         code: 'customer-visit',
         name: '客户拜访',
         description: '客户现场拜访',
-        status: LeadSourceStatus.Active,
+        status: ActiveInactiveStatus.Active,
         sortOrder: 10,
+        isSystem: true,
         usageCount: 1,
         rowVersion: 1,
         createdAt: '2026-04-25T08:00:00.000Z',
@@ -377,7 +379,7 @@ describe('LeadList', () => {
     let fixture: ComponentFixture<LeadList>;
     let component: LeadList;
     let leads: ReturnType<typeof signal<LeadListView[]>>;
-    let leadSources: ReturnType<typeof signal<LeadSourceSummary[]>>;
+    let leadSourceItems: ReturnType<typeof signal<DictionaryItemSummary[]>>;
     let selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
     let followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
@@ -390,24 +392,18 @@ describe('LeadList', () => {
     let customers: ReturnType<typeof signal<CustomerListView[]>>;
     let leadStoreMock: {
         leads: ReturnType<typeof signal<LeadListView[]>>;
-        leadSources: ReturnType<typeof signal<LeadSourceSummary[]>>;
         selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
         loading: ReturnType<typeof signal<boolean>>;
-        loadingSources: ReturnType<typeof signal<boolean>>;
         loadingDetail: ReturnType<typeof signal<boolean>>;
         saving: ReturnType<typeof signal<boolean>>;
-        loadedSources: ReturnType<typeof signal<boolean>>;
         registeredLeadCount: ReturnType<typeof computed<number>>;
         qualifiedLeadCount: ReturnType<typeof computed<number>>;
         convertedLeadCount: ReturnType<typeof computed<number>>;
         closedLeadCount: ReturnType<typeof computed<number>>;
         loadLeads: jest.Mock;
-        loadLeadSources: jest.Mock;
         loadLead: jest.Mock;
         createLead: jest.Mock;
         updateLead: jest.Mock;
-        createLeadSource: jest.Mock;
-        updateLeadSource: jest.Mock;
         qualifyLead: jest.Mock;
         closeLead: jest.Mock;
         convertLeadToProject: jest.Mock;
@@ -502,7 +498,7 @@ describe('LeadList', () => {
         );
 
         leads = signal([createLead()]);
-        leadSources = signal([createLeadSource(), createLeadSource({ id: 'source-2', code: 'customer-referral', name: '老客户转介绍', usageCount: 0 })]);
+        leadSourceItems = signal([createLeadSourceDictionaryItem(), createLeadSourceDictionaryItem({ id: 'dict-source-2', code: 'customer-referral', name: '老客户转介绍', usageCount: 0 })]);
         selectedLead = signal<LeadDetailView | null>(null);
         followUps = signal<SalesFollowUpRecordSummary[]>([createFollowUp()]);
         canWriteLead = signal(true);
@@ -515,19 +511,15 @@ describe('LeadList', () => {
         routerMock = { navigate: jest.fn() };
         leadStoreMock = {
             leads,
-            leadSources,
             selectedLead,
             loading: signal(false),
-            loadingSources: signal(false),
             loadingDetail: signal(false),
             saving: signal(false),
-            loadedSources: signal(true),
             registeredLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Registered).length),
             qualifiedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Qualified).length),
             convertedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Converted).length),
             closedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Closed).length),
             loadLeads: jest.fn().mockResolvedValue(leads()),
-            loadLeadSources: jest.fn().mockResolvedValue(leadSources()),
             loadLead: jest.fn().mockImplementation(async () => {
                 const detail = createLeadDetail();
                 selectedLead.set(detail);
@@ -535,8 +527,6 @@ describe('LeadList', () => {
             }),
             createLead: jest.fn().mockResolvedValue(createLead()),
             updateLead: jest.fn().mockResolvedValue(createLead()),
-            createLeadSource: jest.fn().mockResolvedValue(createLeadSource()),
-            updateLeadSource: jest.fn().mockResolvedValue(createLeadSource({ status: LeadSourceStatus.Inactive })),
             qualifyLead: jest.fn().mockResolvedValue(createLead({ status: LeadStatus.Qualified })),
             closeLead: jest.fn().mockResolvedValue(createLead({ status: LeadStatus.Closed })),
             convertLeadToProject: jest.fn().mockResolvedValue(createProjectSummary()),
@@ -609,12 +599,12 @@ describe('LeadList', () => {
             clearComments: jest.fn()
         };
         const dictionaryStoreMock = {
-            items: signal([]),
-            activeItems: signal([]),
+            items: leadSourceItems,
+            activeItems: computed(() => leadSourceItems().filter((item) => item.status === ActiveInactiveStatus.Active)),
             loading: signal(false),
             saving: signal(false),
             loaded: signal(true),
-            loadItems: jest.fn().mockResolvedValue([]),
+            loadItems: jest.fn().mockResolvedValue(leadSourceItems()),
             clearItems: jest.fn()
         };
 
@@ -629,7 +619,7 @@ describe('LeadList', () => {
                             displayName: '张销售',
                             username: 'sales_rep',
                             roles: ['销售人员'],
-                            permissions: ['nav:leads:view', 'lead:read', 'lead:write', 'lead:source:manage', 'lead:score:override'],
+                            permissions: ['nav:leads:view', 'lead:read', 'lead:write', 'lead:score:override'],
                             email: 'sales@example.com',
                             avatarUrl: null,
                             isActive: true,
@@ -650,7 +640,7 @@ describe('LeadList', () => {
                         initialize: jest.fn(),
                         isAuthenticated: () => true,
                         hasAnyPermission: jest.fn((permissions: readonly string[]) =>
-                            permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:assign' ? canAssignLead() : permission === 'lead:score:override' ? canOverrideLeadScore() : permission === 'lead:source:manage'))
+                            permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:assign' ? canAssignLead() : permission === 'lead:score:override' ? canOverrideLeadScore() : false))
                         )
                     }
                 },
@@ -998,7 +988,7 @@ describe('LeadList', () => {
         component.showCreateDialog();
         component.updateCreateField('leadName', '  城市交通机会  ');
         component.updateCreateCustomer('customer-2');
-        component.updateCreateSource('source-2');
+        component.updateCreateSource('customer-referral');
         component.updateCreateField('demandDescription', '  客户需要补强枢纽站安防系统。  ');
         component.updateCreateBudgetStatus(LeadBudgetStatus.BudgetConfirmed);
         component.updateCreateField('estimatedAmount', '  2500000.00  ');
@@ -1010,7 +1000,7 @@ describe('LeadList', () => {
         expect(leadStoreMock.createLead).toHaveBeenCalledWith({
             leadName: '城市交通机会',
             customerId: 'customer-2',
-            sourceId: 'source-2',
+            sourceCode: 'customer-referral',
             demandDescription: '客户需要补强枢纽站安防系统。',
             budgetStatus: LeadBudgetStatus.BudgetConfirmed,
             estimatedAmount: '2500000.00',
@@ -1020,14 +1010,13 @@ describe('LeadList', () => {
             ownerOrgId: 'org-1'
         });
         expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
-        expect(leadStoreMock.loadLeadSources).toHaveBeenCalled();
     });
 
     it('can create a lead into public pool when owner is cleared', async () => {
         component.showCreateDialog();
         component.updateCreateField('leadName', '公共池机会');
         component.updateCreateCustomer('customer-1');
-        component.updateCreateSource('source-1');
+        component.updateCreateSource('customer-visit');
         component.updateCreateField('demandDescription', '客户先留下需求。');
         component.updateCreateOwnerUser(null);
 
@@ -1049,7 +1038,7 @@ describe('LeadList', () => {
 
         component.showEditLeadDialog(lead);
         component.updateEditField('leadName', '  更新后的线索名称  ');
-        component.updateEditSource('source-2');
+        component.updateEditSource('customer-referral');
         component.updateEditField('demandDescription', '  客户补充了运维平台范围。  ');
         component.updateEditBudgetStatus(LeadBudgetStatus.RoughBudget);
         component.updateEditField('estimatedAmount', '  1800000.00  ');
@@ -1060,7 +1049,7 @@ describe('LeadList', () => {
 
         expect(leadStoreMock.updateLead).toHaveBeenCalledWith('lead-1', {
             leadName: '更新后的线索名称',
-            sourceId: 'source-2',
+            sourceCode: 'customer-referral',
             demandDescription: '客户补充了运维平台范围。',
             budgetStatus: LeadBudgetStatus.RoughBudget,
             estimatedAmount: '1800000.00',
@@ -1115,7 +1104,7 @@ describe('LeadList', () => {
         component.showCreateDialog();
         component.updateCreateField('leadName', '城市交通机会');
         component.updateCreateCustomer('customer-1');
-        component.updateCreateSource('source-1');
+        component.updateCreateSource('customer-visit');
         component.updateCreateField('demandDescription', '客户需要补强枢纽站安防系统。');
         component.updateCreateOwnerUser('user-2');
 
@@ -1127,23 +1116,6 @@ describe('LeadList', () => {
                 ownerOrgId: 'org-2'
             })
         );
-    });
-
-    it('creates a managed lead source option', async () => {
-        component.showSourceDialog();
-        component.updateSourceField('code', '  partner-referral  ');
-        component.updateSourceField('name', '  合作伙伴推荐  ');
-        component.updateSourceField('description', '  合作伙伴渠道  ');
-        component.updateSourceSortOrder(20);
-
-        await component.createLeadSource();
-
-        expect(leadStoreMock.createLeadSource).toHaveBeenCalledWith({
-            code: 'partner-referral',
-            name: '合作伙伴推荐',
-            description: '合作伙伴渠道',
-            sortOrder: 20
-        });
     });
 
     it('does not expose write actions when the user only has read access', () => {

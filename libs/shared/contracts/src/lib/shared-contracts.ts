@@ -101,7 +101,6 @@ export const PERMISSION_KEYS = [
     'lead:write',
     'lead:assign',
     'lead:score:override',
-    'lead:source:manage',
     // 项目
     'project:read',
     'project:write',
@@ -150,7 +149,6 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'lead:write': { description: '登记/维护销售线索', group: '线索' },
     'lead:assign': { description: '分配/改派销售线索负责人', group: '线索' },
     'lead:score:override': { description: '审批线索评分人工覆盖', group: '线索' },
-    'lead:source:manage': { description: '管理线索来源字典', group: '线索' },
     'project:read': { description: '查看项目', group: '项目' },
     'project:write': { description: '创建/编辑项目', group: '项目' },
     'project:delete': { description: '删除项目', group: '项目' },
@@ -1642,17 +1640,6 @@ export const LeadStatusSeverity = enumDefinitionSeverities(LEAD_STATUS_DEFINITIO
 
 export const LeadStatusOptions = enumDefinitionOptions(LEAD_STATUS_DEFINITIONS);
 
-export const LEAD_SOURCE_STATUSES = ['active', 'inactive'] as const;
-
-export type LeadSourceStatus = (typeof LEAD_SOURCE_STATUSES)[number];
-
-export const LeadSourceStatusSchema = z.enum(LEAD_SOURCE_STATUSES).meta({ id: 'LeadSourceStatus' });
-
-export const LeadSourceStatusValue = {
-    Active: 'active',
-    Inactive: 'inactive'
-} as const satisfies Record<string, LeadSourceStatus>;
-
 export const LEAD_BUDGET_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
     { key: 'Unknown', value: 'unknown', label: '预算未知', severity: 'secondary', order: 10 },
     { key: 'NoBudget', value: 'no-budget', label: '暂无预算', severity: 'warn', order: 20 },
@@ -1920,67 +1907,15 @@ export const LeadGateSummarySchema = z
 
 export type LeadGateSummary = z.infer<typeof LeadGateSummarySchema>;
 
-export const LeadSourceSummarySchema = z
-    .object({
-        id: z.uuid(),
-        code: z.string(),
-        name: z.string(),
-        description: z.string().nullable(),
-        status: LeadSourceStatusSchema,
-        sortOrder: z.number().int(),
-        usageCount: z.number().int().nonnegative(),
-        rowVersion: z.number().int(),
-        createdAt: z.iso.datetime(),
-        createdBy: z.uuid().nullable(),
-        updatedAt: z.iso.datetime(),
-        updatedBy: z.uuid().nullable()
-    })
-    .meta({ id: 'LeadSourceSummary' });
+export const DictionaryCodeSchema = z
+    .string()
+    .trim()
+    .min(1)
+    .max(64)
+    .regex(/^[a-z][a-z0-9-]*$/, 'Dictionary code must use lower kebab-case')
+    .meta({ id: 'DictionaryCode' });
 
-export type LeadSourceSummary = z.infer<typeof LeadSourceSummarySchema>;
-
-export const LeadSourceListSchema = z.array(LeadSourceSummarySchema).meta({ id: 'LeadSourceList' });
-
-export type LeadSourceList = z.infer<typeof LeadSourceListSchema>;
-
-export const LeadSourceListQuerySchema = z
-    .object({
-        status: LeadSourceStatusSchema.optional(),
-        keyword: z.string().trim().min(1).max(128).optional()
-    })
-    .meta({ id: 'LeadSourceListQuery' });
-
-export type LeadSourceListQuery = z.infer<typeof LeadSourceListQuerySchema>;
-
-export const CreateLeadSourceRequestSchema = z
-    .object({
-        code: z
-            .string()
-            .trim()
-            .min(1)
-            .max(64)
-            .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/),
-        name: z.string().trim().min(1).max(128),
-        description: z.string().trim().min(1).max(1000).nullable().optional(),
-        sortOrder: z.number().int().min(0).max(9999).optional()
-    })
-    .meta({ id: 'CreateLeadSourceRequest' });
-
-export type CreateLeadSourceRequest = z.infer<typeof CreateLeadSourceRequestSchema>;
-
-export const UpdateLeadSourceRequestSchema = z
-    .object({
-        name: z.string().trim().min(1).max(128).optional(),
-        description: z.string().trim().min(1).max(1000).nullable().optional(),
-        status: LeadSourceStatusSchema.optional(),
-        sortOrder: z.number().int().min(0).max(9999).optional()
-    })
-    .refine((value) => value.name !== undefined || value.description !== undefined || value.status !== undefined || value.sortOrder !== undefined, {
-        message: 'At least one field is required for update'
-    })
-    .meta({ id: 'UpdateLeadSourceRequest' });
-
-export type UpdateLeadSourceRequest = z.infer<typeof UpdateLeadSourceRequestSchema>;
+export type DictionaryCode = z.infer<typeof DictionaryCodeSchema>;
 
 export const LeadSummarySchema = z
     .object({
@@ -1989,9 +1924,8 @@ export const LeadSummarySchema = z
         leadName: z.string(),
         customerId: z.uuid(),
         customerName: z.string(),
-        sourceId: z.uuid(),
+        sourceCode: DictionaryCodeSchema,
         sourceName: z.string().nullable(),
-        sourceChannel: z.string().nullable(),
         demandDescription: z.string().nullable(),
         budgetStatus: LeadBudgetStatusSchema,
         estimatedAmount: z.string().nullable(),
@@ -2036,9 +1970,8 @@ export const LeadListViewSchema = z
         leadName: z.string(),
         customerId: z.uuid(),
         customerName: z.string(),
-        sourceId: z.uuid(),
+        sourceCode: DictionaryCodeSchema,
         sourceName: z.string().nullable(),
-        sourceChannel: z.string().nullable(),
         demandDescription: z.string().nullable(),
         budgetStatus: LeadBudgetStatusSchema,
         estimatedAmount: z.string().nullable(),
@@ -2101,7 +2034,7 @@ export const CreateLeadRequestSchema = z
     .object({
         leadName: z.string().trim().min(1).max(255),
         customerId: z.uuid(),
-        sourceId: z.uuid(),
+        sourceCode: DictionaryCodeSchema,
         demandDescription: z.string().trim().min(1).max(4000),
         budgetStatus: LeadBudgetStatusSchema,
         estimatedAmount: LeadEstimatedAmountStringSchema.nullable().optional(),
@@ -2118,7 +2051,7 @@ export const UpdateLeadRequestSchema = z
     .object({
         leadName: z.string().trim().min(1).max(255).optional(),
         customerId: z.uuid().optional(),
-        sourceId: z.uuid().optional(),
+        sourceCode: DictionaryCodeSchema.optional(),
         demandDescription: z.string().trim().min(1).max(4000).optional(),
         budgetStatus: LeadBudgetStatusSchema.optional(),
         estimatedAmount: LeadEstimatedAmountStringSchema.nullable().optional(),
@@ -2130,7 +2063,7 @@ export const UpdateLeadRequestSchema = z
         (value) =>
             value.leadName !== undefined ||
             value.customerId !== undefined ||
-            value.sourceId !== undefined ||
+            value.sourceCode !== undefined ||
             value.demandDescription !== undefined ||
             value.budgetStatus !== undefined ||
             value.estimatedAmount !== undefined ||
@@ -2317,7 +2250,7 @@ export type RevokeLeadScoreOverrideRequest = z.infer<typeof RevokeLeadScoreOverr
 export const LeadListQuerySchema = z
     .object({
         status: LeadStatusSchema.optional(),
-        sourceId: z.uuid().optional(),
+        sourceCode: DictionaryCodeSchema.optional(),
         budgetStatus: LeadBudgetStatusSchema.optional(),
         urgency: LeadUrgencySchema.optional(),
         rating: LeadRatingSchema.optional(),
@@ -2334,7 +2267,7 @@ export type LeadListQuery = z.infer<typeof LeadListQuerySchema>;
 // Configurable Dictionaries
 // ---------------------------------------------------------------------------
 
-export const DICTIONARY_DOMAINS = ['attachment-category', 'sales-follow-up-type', 'expense-category'] as const;
+export const DICTIONARY_DOMAINS = ['attachment-category', 'sales-follow-up-type', 'expense-category', 'lead-source'] as const;
 
 export type DictionaryDomain = (typeof DICTIONARY_DOMAINS)[number];
 
@@ -2343,7 +2276,8 @@ export const DictionaryDomainSchema = z.enum(DICTIONARY_DOMAINS).meta({ id: 'Dic
 export const DictionaryDomainValue = {
     AttachmentCategory: 'attachment-category',
     SalesFollowUpType: 'sales-follow-up-type',
-    ExpenseCategory: 'expense-category'
+    ExpenseCategory: 'expense-category',
+    LeadSource: 'lead-source'
 } as const satisfies Record<string, DictionaryDomain>;
 
 export type DictionaryItemStatus = ActiveInactiveStatus;
@@ -2351,16 +2285,6 @@ export type DictionaryItemStatus = ActiveInactiveStatus;
 export const DictionaryItemStatusSchema = ActiveInactiveStatusSchema.meta({ id: 'DictionaryItemStatus' });
 
 export const DictionaryItemStatusValue = ActiveInactiveStatusValue;
-
-export const DictionaryCodeSchema = z
-    .string()
-    .trim()
-    .min(1)
-    .max(64)
-    .regex(/^[a-z][a-z0-9-]*$/, 'Dictionary code must use lower kebab-case')
-    .meta({ id: 'DictionaryCode' });
-
-export type DictionaryCode = z.infer<typeof DictionaryCodeSchema>;
 
 export const DictionaryItemSummarySchema = z
     .object({

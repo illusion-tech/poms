@@ -1,5 +1,6 @@
+import { ActiveInactiveStatusValue, DictionaryDomainValue, type DictionaryItemSummary, type LeadScoreOverrideSummary } from '@poms/shared-contracts';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Project } from '../project/project.entity';
-import type { LeadScoreOverrideSummary } from '@poms/shared-contracts';
 import { LeadController, LeadScoreOverrideController } from './lead.controller';
 import { Lead } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
@@ -12,7 +13,7 @@ describe('LeadController', () => {
     const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
-    const sourceId = '51000000-0000-4000-8000-000000000001';
+    const sourceCode = 'customer-visit';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
 
     let controller: LeadController;
@@ -20,6 +21,7 @@ describe('LeadController', () => {
     let leadQueryService: jest.Mocked<LeadQueryService>;
     let leadScoreService: jest.Mocked<LeadScoreService>;
     let leadService: jest.Mocked<LeadService>;
+    let dictionaryService: jest.Mocked<DictionaryService>;
 
     beforeEach(() => {
         leadQueryService = {
@@ -45,7 +47,11 @@ describe('LeadController', () => {
             closeLead: jest.fn()
         } as unknown as jest.Mocked<LeadService>;
 
-        controller = new LeadController(leadQueryService, leadScoreService, leadService);
+        dictionaryService = {
+            listItems: jest.fn().mockResolvedValue([createSourceItem()])
+        } as unknown as jest.Mocked<DictionaryService>;
+
+        controller = new LeadController(leadQueryService, leadScoreService, leadService, dictionaryService);
         overrideController = new LeadScoreOverrideController(leadScoreService);
     });
 
@@ -57,7 +63,7 @@ describe('LeadController', () => {
         await controller.list(
             {
                 status: 'registered',
-                sourceId,
+                sourceCode,
                 budgetStatus: 'budget-confirmed',
                 urgency: 'high',
                 rating: 'A',
@@ -71,7 +77,7 @@ describe('LeadController', () => {
         expect(leadQueryService.listLeads).toHaveBeenCalledWith(
             {
                 status: 'registered',
-                sourceId,
+                sourceCode,
                 budgetStatus: 'budget-confirmed',
                 urgency: 'high',
                 rating: 'A',
@@ -91,7 +97,7 @@ describe('LeadController', () => {
             {
                 leadName: '华南地铁线索',
                 customerId,
-                sourceId,
+                sourceCode,
                 demandDescription: '客户需要建设地铁运维平台。',
                 budgetStatus: 'budget-confirmed',
                 estimatedAmount: '1000000.00',
@@ -107,7 +113,7 @@ describe('LeadController', () => {
             {
                 leadName: '华南地铁线索',
                 customerId,
-                sourceId,
+                sourceCode,
                 demandDescription: '客户需要建设地铁运维平台。',
                 budgetStatus: 'budget-confirmed',
                 estimatedAmount: '1000000.00',
@@ -119,6 +125,8 @@ describe('LeadController', () => {
             userId
         );
         expect(result.id).toBe(leadId);
+        expect(result.sourceCode).toBe(sourceCode);
+        expect(result.sourceName).toBe('客户拜访');
         expect(result.createdAt).toBe('2026-04-25T10:00:00.000Z');
     });
 
@@ -291,8 +299,7 @@ describe('LeadController', () => {
             leadName: '华南地铁线索',
             customerId,
             customerName: '华南地铁集团',
-            sourceId,
-            sourceChannel: '展会',
+            sourceCode,
             demandDescription: '客户需要建设地铁运维平台。',
             budgetStatus: 'budget-confirmed',
             estimatedAmount: '1000000.00',
@@ -345,6 +352,26 @@ describe('LeadController', () => {
             updatedBy: userId,
             ...overrides
         });
+    }
+
+    function createSourceItem(overrides: Partial<DictionaryItemSummary> = {}): DictionaryItemSummary {
+        return {
+            id: '71000000-0000-4000-8000-000000000001',
+            domain: DictionaryDomainValue.LeadSource,
+            code: sourceCode,
+            name: '客户拜访',
+            description: '客户现场拜访',
+            status: ActiveInactiveStatusValue.Active,
+            sortOrder: 10,
+            isSystem: true,
+            usageCount: 1,
+            rowVersion: 1,
+            createdAt: '2026-04-25T08:00:00.000Z',
+            createdBy: userId,
+            updatedAt: '2026-04-25T08:00:00.000Z',
+            updatedBy: userId,
+            ...overrides
+        };
     }
 
     function createScoreOverrideSummary(overrides: Partial<LeadScoreOverrideSummary> = {}): LeadScoreOverrideSummary {

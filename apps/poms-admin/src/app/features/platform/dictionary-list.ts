@@ -50,19 +50,22 @@ const DICTIONARY_CODE_PATTERN = /^[a-z][a-z0-9-]*$/;
 const DICTIONARY_DOMAIN_LABELS: Record<DictionaryDomain, string> = {
     [DictionaryDomain.AttachmentCategory]: '附件分类',
     [DictionaryDomain.SalesFollowUpType]: '销售跟进方式',
-    [DictionaryDomain.ExpenseCategory]: '费用分类'
+    [DictionaryDomain.ExpenseCategory]: '费用分类',
+    [DictionaryDomain.LeadSource]: '线索来源'
 };
 
 const DICTIONARY_DOMAIN_DESCRIPTIONS: Record<DictionaryDomain, string> = {
     [DictionaryDomain.AttachmentCategory]: '客户、线索、项目和合同附件的业务分类。',
     [DictionaryDomain.SalesFollowUpType]: '销售跟进记录的沟通方式和动作类型。',
-    [DictionaryDomain.ExpenseCategory]: '项目成本、费用登记和分析使用的分类。'
+    [DictionaryDomain.ExpenseCategory]: '项目成本、费用登记和分析使用的分类。',
+    [DictionaryDomain.LeadSource]: '销售线索登记、筛选和转项目闸口使用的来源分类。'
 };
 
 const DICTIONARY_DOMAIN_ICONS: Record<DictionaryDomain, string> = {
     [DictionaryDomain.AttachmentCategory]: 'pi pi-paperclip',
     [DictionaryDomain.SalesFollowUpType]: 'pi pi-comments',
-    [DictionaryDomain.ExpenseCategory]: 'pi pi-wallet'
+    [DictionaryDomain.ExpenseCategory]: 'pi pi-wallet',
+    [DictionaryDomain.LeadSource]: 'pi pi-compass'
 };
 
 const DICTIONARY_DOMAIN_OPTIONS: DictionaryOption<DictionaryDomain>[] = (Object.values(DictionaryDomain) as DictionaryDomain[]).map((domain) => ({

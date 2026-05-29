@@ -22,9 +22,8 @@ export interface LeadListView {
     leadName: string;
     customerId: string;
     customerName: string;
-    sourceId: string;
+    sourceCode: string;
     sourceName: string | null;
-    sourceChannel: string | null;
     demandDescription: string | null;
     budgetStatus: LeadBudgetStatus;
     estimatedAmount: string | null;

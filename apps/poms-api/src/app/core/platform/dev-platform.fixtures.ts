@@ -9,7 +9,6 @@ const LEAD_READ_PERMISSIONS: PermissionKey[] = ['lead:read', ...LEAD_NAVIGATION_
 const LEAD_WRITE_PERMISSIONS: PermissionKey[] = ['lead:read', 'lead:write', ...LEAD_NAVIGATION_PERMISSIONS, ...ATTACHMENT_CENTER_NAVIGATION_PERMISSIONS];
 const LEAD_ASSIGN_PERMISSIONS: PermissionKey[] = ['lead:assign'];
 const LEAD_SCORE_OVERRIDE_PERMISSIONS: PermissionKey[] = ['lead:score:override'];
-const LEAD_SOURCE_MANAGE_PERMISSIONS: PermissionKey[] = ['lead:source:manage'];
 const DICTIONARY_MANAGE_PERMISSIONS: PermissionKey[] = ['platform:dictionaries:manage'];
 const PROJECT_READ_PERMISSIONS: PermissionKey[] = ['project:read', ...BUSINESS_NAVIGATION_PERMISSIONS];
 const PROJECT_WRITE_PERMISSIONS: PermissionKey[] = ['project:read', 'project:write', ...BUSINESS_NAVIGATION_PERMISSIONS];
@@ -110,7 +109,7 @@ export const DEV_ROLES: DevRoleFixture[] = [
         name: '销售负责人',
         description: '开发环境默认销售负责人角色',
         isSystemRole: false,
-        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, ...LEAD_ASSIGN_PERMISSIONS, ...LEAD_SCORE_OVERRIDE_PERMISSIONS, ...LEAD_SOURCE_MANAGE_PERMISSIONS, ...DICTIONARY_MANAGE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS, 'commission:assignments:manage']
+        permissions: [...PROJECT_WRITE_PERMISSIONS, ...LEAD_WRITE_PERMISSIONS, ...LEAD_ASSIGN_PERMISSIONS, ...LEAD_SCORE_OVERRIDE_PERMISSIONS, ...DICTIONARY_MANAGE_PERMISSIONS, ...CUSTOMER_WRITE_PERMISSIONS, 'commission:assignments:manage']
     },
     {
         id: '30000000-0000-4000-8000-000000000005',

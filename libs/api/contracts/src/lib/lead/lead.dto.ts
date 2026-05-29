@@ -4,7 +4,6 @@ import {
     ClaimLeadOwnerRequestSchema,
     CloseLeadRequestSchema,
     ConvertLeadToProjectRequestSchema,
-    CreateLeadSourceRequestSchema,
     CreateLeadRequestSchema,
     LeadDetailViewSchema,
     LeadListQuerySchema,
@@ -12,15 +11,11 @@ import {
     LeadOwnerAssignmentResultSchema,
     LeadScoreHistoryViewSchema,
     LeadScoreOverrideSummarySchema,
-    LeadSourceListQuerySchema,
-    LeadSourceListSchema,
-    LeadSourceSummarySchema,
     LeadSummarySchema,
     QualifyLeadRequestSchema,
     RejectLeadScoreOverrideRequestSchema,
     RevokeLeadScoreOverrideRequestSchema,
     SubmitLeadScoreOverrideRequestSchema,
-    UpdateLeadSourceRequestSchema,
     UpdateLeadRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
@@ -32,16 +27,6 @@ export class LeadListDto extends createZodDto(LeadListSchema) {}
 export class LeadDetailViewDto extends createZodDto(LeadDetailViewSchema) {}
 
 export class LeadListQueryDto extends createZodDto(LeadListQuerySchema) {}
-
-export class LeadSourceDto extends createZodDto(LeadSourceSummarySchema) {}
-
-export class LeadSourceListDto extends createZodDto(LeadSourceListSchema) {}
-
-export class LeadSourceListQueryDto extends createZodDto(LeadSourceListQuerySchema) {}
-
-export class CreateLeadSourceRequestDto extends createZodDto(CreateLeadSourceRequestSchema) {}
-
-export class UpdateLeadSourceRequestDto extends createZodDto(UpdateLeadSourceRequestSchema) {}
 
 export class CreateLeadRequestDto extends createZodDto(CreateLeadRequestSchema) {}
 

@@ -316,11 +316,11 @@
 
 ### 6.12 EX-43 Lead Source And Profile Enrichment
 
-| Domain        | Capability         | Canonical Route            | Current Implemented Route  | Current Design Route       | Authority                       | Drift Type | Action                                                   | Batch | Status    |
-| ------------- | ------------------ | -------------------------- | -------------------------- | -------------------------- | ------------------------------- | ---------- | -------------------------------------------------------- | ----- | --------- |
-| `lead-source` | `listLeadSources`  | `GET /lead-sources`        | `GET /lead-sources`        | `GET /lead-sources`        | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源字典集合查询，供线索登记和来源维护使用。     | `B7`  | `aligned` |
-| `lead-source` | `createLeadSource` | `POST /lead-sources`       | `POST /lead-sources`       | `POST /lead-sources`       | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源字典创建；code 作为稳定来源身份。            | `B7`  | `aligned` |
-| `lead-source` | `updateLeadSource` | `PATCH /lead-sources/{id}` | `PATCH /lead-sources/{id}` | `PATCH /lead-sources/{id}` | `ADR-015` + `EX-43` G1 baseline | `N/A`      | 新增线索来源基础信息与启停维护；不提供物理删除公共 API。 | `B7`  | `aligned` |
+| Domain        | Capability         | Canonical Route | Current Implemented Route | Current Design Route | Authority                     | Drift Type | Action                                                                                                 | Batch | Status    |
+| ------------- | ------------------ | --------------- | ------------------------- | -------------------- | ----------------------------- | ---------- | ------------------------------------------------------------------------------------------------------ | ----- | --------- |
+| `lead-source` | `listLeadSources`  | `N/A`           | `N/A`                     | `N/A`                | `ADR-015` + `EX-70A` baseline | `N/A`      | `EX-70A` direct cutover 清退独立来源 API；线索来源统一由 `GET /dictionaries?domain=lead-source` 查询。 | `B7`  | `removed` |
+| `lead-source` | `createLeadSource` | `N/A`           | `N/A`                     | `N/A`                | `ADR-015` + `EX-70A` baseline | `N/A`      | `EX-70A` direct cutover 清退独立来源 API；线索来源统一由 `POST /dictionaries` 创建。                   | `B7`  | `removed` |
+| `lead-source` | `updateLeadSource` | `N/A`           | `N/A`                     | `N/A`                | `ADR-015` + `EX-70A` baseline | `N/A`      | `EX-70A` direct cutover 清退独立来源 API；线索来源统一由 `PATCH /dictionaries/{id}` 更新。             | `B7`  | `removed` |
 
 ### 6.12A EX-58C Configurable Dictionaries
 

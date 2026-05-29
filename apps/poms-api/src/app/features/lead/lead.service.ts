@@ -4,15 +4,14 @@ import { randomUUID } from 'node:crypto';
 import {
     AttachmentRelationTypeValue,
     AttachmentTargetTypeValue,
+    DictionaryDomainValue,
     LeadOwnerAssignmentTypeValue,
-    LeadSourceStatusValue,
     LeadStatusValue,
     ProjectStageValue,
     ProjectStatusValue,
     type LeadBudgetStatus,
     type LeadOwnerAssignmentResult,
     type LeadOwnerAssignmentType,
-    type LeadSourceStatus,
     type LeadUrgency
 } from '@poms/shared-contracts';
 import { AttachmentService } from '../attachment/attachment.service';
@@ -20,9 +19,10 @@ import { BusinessNumberService } from '../business-number/business-number.servic
 import type { AuditSnapshot } from '../../core/runtime-audit/audit-log.entity';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { CustomerService } from '../customer/customer.service';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Project } from '../project/project.entity';
 import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
-import { Lead, LeadSource } from './lead.entity';
+import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 import { LeadScoreFactsService } from './lead-score-facts.service';
 import { LeadScoreService } from './lead-score.service';
@@ -33,8 +33,7 @@ const LEAD_FIELD_AUDIT_FIELDS = [
     'leadName',
     'customerId',
     'customerName',
-    'sourceId',
-    'sourceChannel',
+    'sourceCode',
     'demandDescription',
     'budgetStatus',
     'estimatedAmount',
@@ -46,24 +45,10 @@ type LeadFieldAuditField = typeof LEAD_FIELD_AUDIT_FIELDS[number];
 type LeadFieldAuditValues = Record<LeadFieldAuditField, unknown>;
 const LEAD_FIELD_AUDIT_REDACTED_FIELDS = new Set<LeadFieldAuditField>(['demandDescription']);
 
-export interface CreateLeadSourceRecord {
-    code: string;
-    name: string;
-    description?: string | null;
-    sortOrder?: number;
-}
-
-export interface UpdateLeadSourceRecord {
-    name?: string;
-    description?: string | null;
-    status?: LeadSourceStatus;
-    sortOrder?: number;
-}
-
 export interface CreateLeadRecord {
     leadName: string;
     customerId: string;
-    sourceId: string;
+    sourceCode: string;
     demandDescription: string;
     budgetStatus: LeadBudgetStatus;
     estimatedAmount?: string | null;
@@ -76,7 +61,7 @@ export interface CreateLeadRecord {
 export interface UpdateLeadRecord {
     leadName?: string;
     customerId?: string;
-    sourceId?: string;
+    sourceCode?: string;
     demandDescription?: string;
     budgetStatus?: LeadBudgetStatus;
     estimatedAmount?: string | null;
@@ -116,59 +101,12 @@ export class LeadService {
         private readonly leadRepository: LeadRepository,
         private readonly businessNumberService: BusinessNumberService,
         private readonly customerService: CustomerService,
+        private readonly dictionaryService: DictionaryService,
         private readonly attachmentService: AttachmentService,
         private readonly leadScoreFactsService: LeadScoreFactsService,
         private readonly leadScoreService: LeadScoreService,
         private readonly runtimeAuditService: RuntimeAuditService
     ) {}
-
-    async createLeadSource(input: CreateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
-        const code = input.code.trim();
-        const existing = await this.leadRepository.findLeadSourceByCode(code);
-        if (existing) {
-            throw new ConflictException(`Lead source code ${code} already exists`);
-        }
-
-        const source = this.leadRepository.createLeadSource({
-            code,
-            name: input.name.trim(),
-            description: input.description?.trim() || null,
-            status: LeadSourceStatusValue.Active,
-            sortOrder: input.sortOrder ?? 100,
-            createdBy: operatorUserId,
-            updatedBy: operatorUserId
-        });
-
-        await this.leadRepository.saveLeadSource(source);
-        return source;
-    }
-
-    async updateLeadSource(id: string, input: UpdateLeadSourceRecord, operatorUserId: string): Promise<LeadSource> {
-        const source = await this.leadRepository.findLeadSourceById(id);
-        if (!source) {
-            throw new NotFoundException(`Lead source ${id} not found`);
-        }
-
-        if (input.name !== undefined) {
-            source.name = input.name.trim();
-        }
-
-        if (input.description !== undefined) {
-            source.description = input.description?.trim() || null;
-        }
-
-        if (input.status !== undefined) {
-            source.status = input.status;
-        }
-
-        if (input.sortOrder !== undefined) {
-            source.sortOrder = input.sortOrder;
-        }
-
-        source.updatedBy = operatorUserId;
-        await this.leadRepository.saveLeadSource(source);
-        return source;
-    }
 
     async createLead(input: CreateLeadRecord, operatorUserId: string): Promise<Lead> {
         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
@@ -178,7 +116,7 @@ export class LeadService {
 
         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator);
         const customer = await this.customerService.requireActiveCustomer(input.customerId);
-        const source = await this.requireActiveLeadSource(input.sourceId);
+        const source = await this.requireActiveSourceDictionaryItem(input.sourceCode);
         return this.leadRepository.getEntityManager().transactional(async (em) => {
             const leadNo = await this.businessNumberService.next('lead', new Date(), em);
             const lead = em.create(Lead, {
@@ -187,8 +125,7 @@ export class LeadService {
                 leadName: input.leadName,
                 customerId: customer.id,
                 customerName: customer.displayName,
-                sourceId: source.id,
-                sourceChannel: source.name,
+                sourceCode: source.code,
                 demandDescription: input.demandDescription.trim(),
                 budgetStatus: input.budgetStatus,
                 estimatedAmount: this.normalizeEstimatedAmount(input.estimatedAmount),
@@ -220,7 +157,7 @@ export class LeadService {
 
     async updateLead(id: string, input: UpdateLeadRecord, operatorUserId: string, requestId?: string | null): Promise<Lead> {
         const customer = input.customerId !== undefined ? await this.customerService.requireActiveCustomer(input.customerId) : null;
-        const source = input.sourceId !== undefined ? await this.requireActiveLeadSource(input.sourceId) : null;
+        const source = input.sourceCode !== undefined ? await this.requireActiveSourceDictionaryItem(input.sourceCode) : null;
 
         return this.leadRepository.getEntityManager().transactional(async (em) => {
             const lead = await em.findOne(Lead, { id });
@@ -242,8 +179,7 @@ export class LeadService {
             }
 
             if (source) {
-                lead.sourceId = source.id;
-                lead.sourceChannel = source.name;
+                lead.sourceCode = source.code;
             }
 
             if (input.demandDescription !== undefined) {
@@ -476,17 +412,8 @@ export class LeadService {
         return lead;
     }
 
-    private async requireActiveLeadSource(id: string): Promise<LeadSource> {
-        const source = await this.leadRepository.findLeadSourceById(id);
-        if (!source) {
-            throw new NotFoundException(`Lead source ${id} not found`);
-        }
-
-        if (source.status !== LeadSourceStatusValue.Active) {
-            throw new ConflictException(`Lead source ${id} is inactive`);
-        }
-
-        return source;
+    private requireActiveSourceDictionaryItem(code: string) {
+        return this.dictionaryService.requireActiveItem(DictionaryDomainValue.LeadSource, code);
     }
 
     private assertLeadEditable(lead: Lead): void {
@@ -530,8 +457,7 @@ export class LeadService {
             leadName: lead.leadName,
             customerId: lead.customerId,
             customerName: lead.customerName,
-            sourceId: lead.sourceId,
-            sourceChannel: lead.sourceChannel ?? null,
+            sourceCode: lead.sourceCode,
             demandDescription: lead.demandDescription ?? null,
             budgetStatus: lead.budgetStatus,
             estimatedAmount: lead.estimatedAmount ?? null,

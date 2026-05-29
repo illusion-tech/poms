@@ -1,10 +1,10 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
-import { LeadAllowedActionValue, LeadOwnershipScopeValue, LeadStatusValue, type LeadAllowedAction, type LeadDetailView, type LeadListQuery, type LeadListView, type LeadSourceListQuery, type LeadSourceSummary, type UserPayload } from '@poms/shared-contracts';
+import { DictionaryDomainValue, LeadAllowedActionValue, LeadOwnershipScopeValue, LeadStatusValue, type DictionaryItemSummary, type LeadAllowedAction, type LeadDetailView, type LeadListQuery, type LeadListView, type UserPayload } from '@poms/shared-contracts';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
-import { mapLeadSourceToSummary, mapLeadToDetailView, mapLeadToListView } from './lead.mapper';
+import { mapLeadToDetailView, mapLeadToListView } from './lead.mapper';
 import { LeadRepository } from './lead.repository';
-import { LeadSource } from './lead.entity';
 import { LeadScoreService } from './lead-score.service';
 
 const LEAD_ASSIGNABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
@@ -13,20 +13,9 @@ const LEAD_ASSIGNABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered,
 export class LeadQueryService {
     constructor(
         private readonly leadRepository: LeadRepository,
+        private readonly dictionaryService: DictionaryService,
         private readonly leadScoreService: LeadScoreService
     ) {}
-
-    async listLeadSources(query: LeadSourceListQuery = {}): Promise<LeadSourceSummary[]> {
-        const sources = await this.leadRepository.findLeadSources(query);
-        const usageCounts = await this.leadRepository.countLeadsBySourceIds(sources.map((source) => source.id));
-
-        return sources.map((source) => mapLeadSourceToSummary(source, usageCounts.get(source.id) ?? 0));
-    }
-
-    async countLeadSourceUsage(sourceId: string): Promise<number> {
-        const usageCounts = await this.leadRepository.countLeadsBySourceIds([sourceId]);
-        return usageCounts.get(sourceId) ?? 0;
-    }
 
     async listLeads(query: LeadListQuery, user: UserPayload): Promise<LeadListView[]> {
         const leads = await this.leadRepository.findMany(this.resolveLeadListRepositoryQuery(query, user));
@@ -36,7 +25,7 @@ export class LeadQueryService {
         return leads.map((lead) =>
             mapLeadToListView(
                 lead,
-                context.sourceMap.get(lead.sourceId) ?? null,
+                context.sourceMap.get(lead.sourceCode) ?? null,
                 lead.ownerUserId ? context.userMap.get(lead.ownerUserId) ?? null : null,
                 lead.ownerOrgId ? context.orgUnitMap.get(lead.ownerOrgId) ?? null : null,
                 activeOverrideMap.get(lead.id) ?? null,
@@ -52,7 +41,7 @@ export class LeadQueryService {
         }
 
         const [source, owner, ownerOrg, convertedProjects, activeOverride] = await Promise.all([
-            this.leadRepository.findLeadSourceById(lead.sourceId),
+            this.loadSourceDictionaryMap([lead.sourceCode]).then((sourceMap) => sourceMap.get(lead.sourceCode) ?? null),
             lead.ownerUserId ? this.leadRepository.findPlatformUserById(lead.ownerUserId) : Promise.resolve(null),
             lead.ownerOrgId ? this.leadRepository.findOrgUnitById(lead.ownerOrgId) : Promise.resolve(null),
             lead.convertedProjectId ? this.leadRepository.findProjectsByIds([lead.convertedProjectId]) : Promise.resolve([]),
@@ -98,24 +87,34 @@ export class LeadQueryService {
         return actions;
     }
 
-    private async loadListContext(leads: { sourceId: string; ownerUserId?: string | null; ownerOrgId?: string | null }[]): Promise<{
-        sourceMap: Map<string, LeadSource>;
+    private async loadListContext(leads: { sourceCode: string; ownerUserId?: string | null; ownerOrgId?: string | null }[]): Promise<{
+        sourceMap: Map<string, DictionaryItemSummary>;
         userMap: Map<string, PlatformUser>;
         orgUnitMap: Map<string, OrgUnit>;
     }> {
-        const sourceIds = [...new Set(leads.map((lead) => lead.sourceId).filter((id): id is string => Boolean(id)))];
+        const sourceCodes = [...new Set(leads.map((lead) => lead.sourceCode).filter((code): code is string => Boolean(code)))];
         const ownerUserIds = [...new Set(leads.map((lead) => lead.ownerUserId).filter((id): id is string => Boolean(id)))];
         const ownerOrgIds = [...new Set(leads.map((lead) => lead.ownerOrgId).filter((id): id is string => Boolean(id)))];
-        const [sources, users, orgUnits] = await Promise.all([
-            Promise.all(sourceIds.map((id) => this.leadRepository.findLeadSourceById(id))).then((items) => items.filter((source): source is LeadSource => Boolean(source))),
+        const [sourceMap, users, orgUnits] = await Promise.all([
+            this.loadSourceDictionaryMap(sourceCodes),
             this.leadRepository.findPlatformUsersByIds(ownerUserIds),
             this.leadRepository.findOrgUnitsByIds(ownerOrgIds)
         ]);
 
         return {
-            sourceMap: new Map(sources.map((source) => [source.id, source])),
+            sourceMap,
             userMap: new Map(users.map((user) => [user.id, user])),
             orgUnitMap: new Map(orgUnits.map((orgUnit) => [orgUnit.id, orgUnit]))
         };
+    }
+
+    private async loadSourceDictionaryMap(sourceCodes: string[]): Promise<Map<string, DictionaryItemSummary>> {
+        if (sourceCodes.length === 0) {
+            return new Map();
+        }
+
+        const sourceCodeSet = new Set(sourceCodes);
+        const items = await this.dictionaryService.listItems({ domain: DictionaryDomainValue.LeadSource });
+        return new Map(items.filter((item) => sourceCodeSet.has(item.code)).map((item) => [item.code, item]));
     }
 }

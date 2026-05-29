@@ -4,11 +4,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+    ActiveInactiveStatus,
     AttachmentTargetType,
     AuthStore,
     BusinessDiscussionTargetObjectType,
     CustomerStatus,
     CustomerStore,
+    DictionaryDomain,
+    DictionaryStore,
     LeadAllowedAction,
     LeadBudgetStatus,
     LeadEffectiveScoreSource,
@@ -17,7 +20,6 @@ import {
     LeadRating,
     LeadScoreOverrideStatus,
     LeadScoreSnapshotKind,
-    LeadSourceStatus,
     LeadStatus,
     LeadStore,
     LeadUrgency,
@@ -27,7 +29,6 @@ import {
     type LeadListView,
     type LeadScoreHistoryView,
     type LeadScoreOverrideSummary,
-    type LeadSourceSummary,
     type OwnerReferenceUser
 } from '@poms/admin-data-access';
 import { LeadBudgetStatusLabel, LeadBudgetStatusOptions, LeadRatingLabel, LeadRatingOptions, LeadUrgencyLabel, LeadUrgencyOptions } from '@poms/shared-contracts';
@@ -88,7 +89,7 @@ interface CustomerOption extends LeadFilterOption {
 interface CreateLeadForm {
     leadName: string;
     customerId: string | null;
-    sourceId: string | null;
+    sourceCode: string | null;
     demandDescription: string;
     budgetStatus: LeadBudgetStatus;
     estimatedAmount: string;
@@ -100,19 +101,12 @@ interface CreateLeadForm {
 
 interface EditLeadForm {
     leadName: string;
-    sourceId: string | null;
+    sourceCode: string | null;
     demandDescription: string;
     budgetStatus: LeadBudgetStatus;
     estimatedAmount: string;
     urgency: LeadUrgency;
     expectedDecisionDate: Date | null;
-}
-
-interface LeadSourceForm {
-    code: string;
-    name: string;
-    description: string;
-    sortOrder: number;
 }
 
 interface ConvertProjectForm {
@@ -150,11 +144,6 @@ const LEAD_URGENCY_LABELS = LeadUrgencyLabel as Record<LeadUrgency, string>;
 
 const LEAD_RATING_LABELS = LeadRatingLabel as Record<LeadRating, string>;
 
-const LEAD_SOURCE_STATUS_LABELS: Record<LeadSourceStatus, string> = {
-    [LeadSourceStatus.Active]: '启用',
-    [LeadSourceStatus.Inactive]: '停用'
-};
-
 const LEAD_EFFECTIVE_SCORE_SOURCE_LABELS: Record<LeadEffectiveScoreSource, string> = {
     [LeadEffectiveScoreSource.System]: '系统评分',
     [LeadEffectiveScoreSource.ManualOverride]: '人工覆盖'
@@ -186,7 +175,7 @@ const CONVERSION_QUERY_VALUE = 'ready';
 const EMPTY_CREATE_FORM: CreateLeadForm = {
     leadName: '',
     customerId: null,
-    sourceId: null,
+    sourceCode: null,
     demandDescription: '',
     budgetStatus: DEFAULT_BUDGET_STATUS,
     estimatedAmount: '',
@@ -198,19 +187,12 @@ const EMPTY_CREATE_FORM: CreateLeadForm = {
 
 const EMPTY_EDIT_FORM: EditLeadForm = {
     leadName: '',
-    sourceId: null,
+    sourceCode: null,
     demandDescription: '',
     budgetStatus: DEFAULT_BUDGET_STATUS,
     estimatedAmount: '',
     urgency: DEFAULT_URGENCY,
     expectedDecisionDate: null
-};
-
-const EMPTY_SOURCE_FORM: LeadSourceForm = {
-    code: '',
-    name: '',
-    description: '',
-    sortOrder: 100
 };
 
 const EMPTY_CONVERT_FORM: ConvertProjectForm = {
@@ -256,7 +238,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
         AdminTableCard,
         WorkspaceFeedback
     ],
-    providers: [LeadStore, CustomerStore],
+    providers: [LeadStore, CustomerStore, DictionaryStore],
     template: `
         <div class="flex flex-col gap-5">
             <section class="card flex flex-col gap-[18px] overflow-visible p-5!">
@@ -360,9 +342,6 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                         <span>当前筛出 {{ visibleLeads().length }} 条线索</span>
                         <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="goToProjects()" />
 
-                        @if (canManageLeadSources()) {
-                            <p-button label="来源维护" icon="pi pi-sliders-h" severity="secondary" [outlined]="true" (onClick)="showSourceDialog()" />
-                        }
                     </div>
 
                     <p-table
@@ -376,7 +355,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
-                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceChannel', 'budgetStatus', 'urgency', 'rating', 'effectiveRating', 'status', 'ownerName', 'ownerOrgName']"
+                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceCode', 'budgetStatus', 'urgency', 'rating', 'effectiveRating', 'status', 'ownerName', 'ownerOrgName']"
                         [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
@@ -422,7 +401,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                     <div class="mt-2 flex flex-col gap-1 text-xs leading-5 text-surface-500 dark:text-surface-400">
                                         <span>{{ lead.leadNo }}</span>
                                         <span class="text-surface-700 dark:text-surface-200">{{ lead.customerName }}</span>
-                                        <span>来源：{{ getLeadSourceName(lead) }}</span>
+                                        <span>来源：{{ getSourceName(lead) }}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -545,28 +524,23 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <div class="flex items-center justify-between gap-3">
-                                <label for="leadSourceId" class="text-sm font-medium text-surface-900 dark:text-surface-0">来源渠道</label>
-                                @if (canManageLeadSources()) {
-                                    <button pButton type="button" label="维护" icon="pi pi-sliders-h" severity="secondary" [text]="true" class="rounded-md! px-2! py-1!" (click)="showSourceDialog()"></button>
-                                }
-                            </div>
+                            <label for="leadSourceCode" class="text-sm font-medium text-surface-900 dark:text-surface-0">线索来源</label>
                             <p-select
-                                inputId="leadSourceId"
-                                [ngModel]="createForm().sourceId"
+                                inputId="leadSourceCode"
+                                [ngModel]="createForm().sourceCode"
                                 (ngModelChange)="updateCreateSource($event)"
                                 [options]="leadSourceOptions()"
                                 optionLabel="label"
                                 optionValue="value"
                                 [filter]="true"
                                 filterBy="label"
-                                [loading]="loadingSources()"
+                                [loading]="loadingLeadSourceItems()"
                                 appendTo="body"
                                 placeholder="选择来源"
                                 class="w-full rounded-md!"
                             />
-                            @if (createAttempted() && !createForm().sourceId) {
-                                <span class="text-xs text-red-600 dark:text-red-300">请选择来源渠道。</span>
+                            @if (createAttempted() && !createForm().sourceCode) {
+                                <span class="text-xs text-red-600 dark:text-red-300">请选择线索来源。</span>
                             }
                         </div>
 
@@ -703,22 +677,22 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <label for="editLeadSourceId" class="text-sm font-medium text-surface-900 dark:text-surface-0">来源渠道</label>
+                            <label for="editLeadSourceCode" class="text-sm font-medium text-surface-900 dark:text-surface-0">线索来源</label>
                             <p-select
-                                inputId="editLeadSourceId"
-                                [ngModel]="editForm().sourceId"
+                                inputId="editLeadSourceCode"
+                                [ngModel]="editForm().sourceCode"
                                 (ngModelChange)="updateEditSource($event)"
                                 [options]="leadSourceOptions()"
                                 optionLabel="label"
                                 optionValue="value"
                                 [filter]="true"
                                 filterBy="label"
-                                [loading]="loadingSources()"
+                                [loading]="loadingLeadSourceItems()"
                                 appendTo="body"
                                 class="w-full rounded-md!"
                             />
-                            @if (editAttempted() && !editForm().sourceId) {
-                                <span class="text-xs text-red-600 dark:text-red-300">请选择来源渠道。</span>
+                            @if (editAttempted() && !editForm().sourceCode) {
+                                <span class="text-xs text-red-600 dark:text-red-300">请选择线索来源。</span>
                             }
                         </div>
 
@@ -790,80 +764,6 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                 </ng-template>
             </p-dialog>
 
-            <p-dialog [(visible)]="sourceDialogVisible" [modal]="true" header="线索来源维护" [style]="{ width: '44rem' }" styleClass="p-fluid" (onHide)="resetSourceDialog()">
-                <div class="flex flex-col gap-4 py-2">
-                    @if (sourceError()) {
-                        <app-workspace-feedback severity="error" summary="来源没有保存成功" [detail]="sourceError()" />
-                    }
-
-                    <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
-                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_1fr_7rem]">
-                            <div class="flex flex-col gap-2">
-                                <label for="sourceCode" class="text-sm font-medium text-surface-900 dark:text-surface-0">编码</label>
-                                <input pInputText id="sourceCode" [ngModel]="sourceForm().code" (ngModelChange)="updateSourceField('code', $event)" placeholder="partner-referral" class="w-full rounded-md!" />
-                                @if (sourceAttempted() && !sourceForm().code.trim()) {
-                                    <span class="text-xs text-red-600 dark:text-red-300">请填写编码。</span>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label for="sourceName" class="text-sm font-medium text-surface-900 dark:text-surface-0">名称</label>
-                                <input pInputText id="sourceName" [ngModel]="sourceForm().name" (ngModelChange)="updateSourceField('name', $event)" placeholder="合作伙伴推荐" class="w-full rounded-md!" />
-                                @if (sourceAttempted() && !sourceForm().name.trim()) {
-                                    <span class="text-xs text-red-600 dark:text-red-300">请填写名称。</span>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label for="sourceSortOrder" class="text-sm font-medium text-surface-900 dark:text-surface-0">排序</label>
-                                <input pInputText id="sourceSortOrder" type="number" [ngModel]="sourceForm().sortOrder" (ngModelChange)="updateSourceSortOrder($event)" class="w-full rounded-md!" />
-                            </div>
-                        </div>
-                        <div class="mt-3 flex flex-col gap-2">
-                            <label for="sourceDescription" class="text-sm font-medium text-surface-900 dark:text-surface-0">描述</label>
-                            <textarea pTextarea id="sourceDescription" rows="2" [ngModel]="sourceForm().description" (ngModelChange)="updateSourceField('description', $event)" class="w-full rounded-md!"></textarea>
-                        </div>
-                        <div class="mt-3 flex justify-end">
-                            <p-button label="新增来源" icon="pi pi-plus" [loading]="saving()" styleClass="rounded-md!" (onClick)="createLeadSource()" />
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        @if (loadingSources()) {
-                            <app-workspace-feedback severity="info" summary="正在读取来源" detail="请稍候。" />
-                        } @else {
-                            @for (source of leadSources(); track source.id) {
-                                <div class="flex flex-col gap-3 rounded-[8px] border border-surface-200 px-3 py-3 dark:border-surface-700 sm:flex-row sm:items-center sm:justify-between">
-                                    <div class="min-w-0">
-                                        <div class="flex flex-wrap items-center gap-2">
-                                            <span class="text-sm font-semibold text-surface-950 dark:text-surface-0">{{ source.name }}</span>
-                                            <span class="text-xs text-surface-500 dark:text-surface-400">{{ source.code }}</span>
-                                            <p-tag [value]="getSourceStatusName(source.status)" [severity]="getSourceStatusSeverity(source.status)" class="rounded-[6px]" />
-                                        </div>
-                                        <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">已引用 {{ source.usageCount }} 条<span class="mx-1">·</span>{{ displayText(source.description, '无描述') }}</div>
-                                    </div>
-                                    <p-button
-                                        [label]="source.status === LeadSourceStatus.Active ? '停用' : '启用'"
-                                        [icon]="source.status === LeadSourceStatus.Active ? 'pi pi-pause' : 'pi pi-play'"
-                                        severity="secondary"
-                                        [outlined]="true"
-                                        size="small"
-                                        styleClass="rounded-md!"
-                                        [loading]="saving()"
-                                        (onClick)="toggleLeadSourceStatus(source)"
-                                    />
-                                </div>
-                            } @empty {
-                                <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-center text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无来源选项</div>
-                            }
-                        }
-                    </div>
-                </div>
-                <ng-template #footer>
-                    <div class="flex justify-end">
-                        <p-button label="关闭" severity="secondary" styleClass="rounded-md!" (onClick)="sourceDialogVisible = false" />
-                    </div>
-                </ng-template>
-            </p-dialog>
-
             <p-dialog [(visible)]="detailDialogVisible" [modal]="true" header="线索详情" [style]="{ width: '42rem' }" (onHide)="clearDetail()">
                 @if (loadingDetail()) {
                     <app-workspace-feedback severity="info" summary="正在读取线索详情" detail="请稍候。" />
@@ -882,8 +782,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 
                         <dl class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
-                                <dt class="text-xs text-surface-500 dark:text-surface-400">来源渠道</dt>
-                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ getLeadSourceName(lead) }}</dd>
+                                <dt class="text-xs text-surface-500 dark:text-surface-400">线索来源</dt>
+                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ getSourceName(lead) }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">预算情况</dt>
@@ -1321,7 +1221,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                         <div class="grid grid-cols-1 gap-3 rounded-[8px] border border-surface-200 p-3 dark:border-surface-700 sm:grid-cols-2">
                             <div>
                                 <div class="text-xs text-surface-500 dark:text-surface-400">来源</div>
-                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ getLeadSourceName(lead) }}</div>
+                                <div class="mt-1 text-sm font-medium text-surface-950 dark:text-surface-0">{{ getSourceName(lead) }}</div>
                             </div>
                             <div>
                                 <div class="text-xs text-surface-500 dark:text-surface-400">预算与金额</div>
@@ -1440,6 +1340,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
 export class LeadList implements OnInit {
     readonly #authStore = inject(AuthStore);
     readonly #customerStore = inject(CustomerStore);
+    readonly #dictionaryStore = inject(DictionaryStore);
     readonly #leadStore = inject(LeadStore);
     readonly #platformStore = inject(PlatformStore);
     readonly #route = inject(ActivatedRoute);
@@ -1449,13 +1350,12 @@ export class LeadList implements OnInit {
     readonly LeadEffectiveScoreSource = LeadEffectiveScoreSource;
     readonly LeadGateStatus = LeadGateStatus;
     readonly LeadScoreOverrideStatus = LeadScoreOverrideStatus;
-    readonly LeadSourceStatus = LeadSourceStatus;
 
     readonly leads = this.#leadStore.leads;
-    readonly leadSources = this.#leadStore.leadSources;
+    readonly leadSourceItems = computed(() => this.#dictionaryStore.items().filter((item) => item.domain === DictionaryDomain.LeadSource));
     readonly selectedLead = this.#leadStore.selectedLead;
     readonly loading = this.#leadStore.loading;
-    readonly loadingSources = this.#leadStore.loadingSources;
+    readonly loadingLeadSourceItems = this.#dictionaryStore.loading;
     readonly loadingDetail = this.#leadStore.loadingDetail;
     readonly saving = this.#leadStore.saving;
     readonly customerLoading = this.#customerStore.loading;
@@ -1465,19 +1365,16 @@ export class LeadList implements OnInit {
     readonly ownershipFilter = signal<LeadOwnershipScope>(DEFAULT_OWNERSHIP_SCOPE);
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
     readonly editForm = signal<EditLeadForm>({ ...EMPTY_EDIT_FORM });
-    readonly sourceForm = signal<LeadSourceForm>(EMPTY_SOURCE_FORM);
     readonly convertForm = signal<ConvertProjectForm>(EMPTY_CONVERT_FORM);
     readonly assignmentForm = signal<AssignmentForm>({ ...EMPTY_ASSIGNMENT_FORM });
     readonly scoreOverrideForm = signal<ScoreOverrideForm>({ ...EMPTY_SCORE_OVERRIDE_FORM });
     readonly createAttempted = signal(false);
     readonly editAttempted = signal(false);
-    readonly sourceAttempted = signal(false);
     readonly assignmentAttempted = signal(false);
     readonly actionAttempted = signal(false);
     readonly scoreOverrideAttempted = signal(false);
     readonly createError = signal<string | null>(null);
     readonly editError = signal<string | null>(null);
-    readonly sourceError = signal<string | null>(null);
     readonly assignmentError = signal<string | null>(null);
     readonly qualificationError = signal<string | null>(null);
     readonly convertError = signal<string | null>(null);
@@ -1499,7 +1396,6 @@ export class LeadList implements OnInit {
     first = 0;
     createDialogVisible = false;
     editDialogVisible = false;
-    sourceDialogVisible = false;
     detailDialogVisible = false;
     assignOwnerDialogVisible = false;
     qualifyDialogVisible = false;
@@ -1557,15 +1453,14 @@ export class LeadList implements OnInit {
 
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
     readonly canAssignLead = computed(() => this.#authStore.hasAnyPermission(['lead:assign'] as const));
-    readonly canManageLeadSources = computed(() => this.#authStore.hasAnyPermission(['lead:source:manage'] as const));
     readonly canManageScoreOverrides = computed(() => this.#authStore.hasAnyPermission(['lead:score:override'] as const));
 
     readonly leadSourceOptions = computed<LeadFilterOption[]>(() =>
-        this.leadSources()
-            .filter((source) => source.status === LeadSourceStatus.Active)
+        this.leadSourceItems()
+            .filter((source) => source.status === ActiveInactiveStatus.Active)
             .map((source) => ({
                 label: source.name,
-                value: source.id
+                value: source.code
             }))
     );
 
@@ -1603,12 +1498,12 @@ export class LeadList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.leadName.trim() && form.customerId && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency);
+        return Boolean(form.leadName.trim() && form.customerId && form.sourceCode && form.demandDescription.trim() && form.budgetStatus && form.urgency);
     });
 
     readonly isEditFormValid = computed(() => {
         const form = this.editForm();
-        return Boolean(form.leadName.trim() && form.sourceId && form.demandDescription.trim() && form.budgetStatus && form.urgency);
+        return Boolean(form.leadName.trim() && form.sourceCode && form.demandDescription.trim() && form.budgetStatus && form.urgency);
     });
 
     readonly isAssignmentFormValid = computed(() => {
@@ -1640,7 +1535,7 @@ export class LeadList implements OnInit {
         void this.ensureAuthReady();
         void this.loadCustomers();
         void this.loadOwnerReferenceData();
-        void this.loadLeadSources();
+        void this.loadLeadSourceItems();
         void this.loadLeads();
     }
 
@@ -1660,9 +1555,9 @@ export class LeadList implements OnInit {
         }
     }
 
-    async loadLeadSources() {
+    async loadLeadSourceItems() {
         try {
-            await this.#leadStore.loadLeadSources();
+            await this.#dictionaryStore.loadItems({ domain: DictionaryDomain.LeadSource });
         } catch {
             this.pageError.set('线索来源没有读取成功，请稍后重试。');
         }
@@ -1731,8 +1626,8 @@ export class LeadList implements OnInit {
             return;
         }
 
-        if (!this.#leadStore.loadedSources()) {
-            void this.loadLeadSources();
+        if (!this.#dictionaryStore.loaded()) {
+            void this.loadLeadSourceItems();
         }
         this.createForm.set(this.defaultCreateForm());
         this.createAttempted.set(false);
@@ -1755,14 +1650,14 @@ export class LeadList implements OnInit {
             return;
         }
 
-        if (!this.#leadStore.loadedSources()) {
-            void this.loadLeadSources();
+        if (!this.#dictionaryStore.loaded()) {
+            void this.loadLeadSourceItems();
         }
 
         this.actionTarget.set(lead);
         this.editForm.set({
             leadName: lead.leadName,
-            sourceId: lead.sourceId,
+            sourceCode: lead.sourceCode,
             demandDescription: lead.demandDescription ?? '',
             budgetStatus: lead.budgetStatus,
             estimatedAmount: lead.estimatedAmount ?? '',
@@ -1778,93 +1673,6 @@ export class LeadList implements OnInit {
         this.editAttempted.set(false);
         this.editError.set(null);
         this.editForm.set({ ...EMPTY_EDIT_FORM });
-    }
-
-    showSourceDialog() {
-        if (!this.canManageLeadSources()) {
-            return;
-        }
-
-        this.sourceForm.set({ ...EMPTY_SOURCE_FORM });
-        this.sourceAttempted.set(false);
-        this.sourceError.set(null);
-        this.sourceDialogVisible = true;
-        void this.loadLeadSources();
-    }
-
-    resetSourceDialog() {
-        this.sourceAttempted.set(false);
-        this.sourceError.set(null);
-    }
-
-    updateSourceField(field: 'code' | 'name' | 'description', value: string) {
-        this.sourceForm.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.sourceError.set(null);
-    }
-
-    updateSourceSortOrder(value: string | number | null | undefined) {
-        const parsed = Number(value);
-        this.sourceForm.update((form) => ({
-            ...form,
-            sortOrder: Number.isFinite(parsed) ? parsed : EMPTY_SOURCE_FORM.sortOrder
-        }));
-        this.sourceError.set(null);
-    }
-
-    async createLeadSource() {
-        this.sourceAttempted.set(true);
-
-        if (!this.canManageLeadSources()) {
-            return;
-        }
-
-        const form = this.sourceForm();
-        const code = form.code.trim();
-        const name = form.name.trim();
-
-        if (!code || !name) {
-            return;
-        }
-
-        try {
-            await this.#leadStore.createLeadSource({
-                code,
-                name,
-                description: this.optionalText(form.description),
-                sortOrder: form.sortOrder
-            });
-            this.sourceForm.set({ ...EMPTY_SOURCE_FORM });
-            this.sourceAttempted.set(false);
-            this.createForm.update((createForm) => ({
-                ...createForm,
-                sourceId: createForm.sourceId ?? this.leadSourceOptions()[0]?.value ?? null
-            }));
-        } catch {
-            this.sourceError.set('请确认编码没有重复，且名称完整。');
-        }
-    }
-
-    async toggleLeadSourceStatus(source: LeadSourceSummary) {
-        if (!this.canManageLeadSources()) {
-            return;
-        }
-
-        const nextStatus = source.status === LeadSourceStatus.Active ? LeadSourceStatus.Inactive : LeadSourceStatus.Active;
-
-        try {
-            await this.#leadStore.updateLeadSource(source.id, { status: nextStatus });
-            if (this.createForm().sourceId === source.id && nextStatus === LeadSourceStatus.Inactive) {
-                this.createForm.update((form) => ({
-                    ...form,
-                    sourceId: this.leadSourceOptions().find((option) => option.value !== source.id)?.value ?? null
-                }));
-            }
-        } catch {
-            this.sourceError.set('来源状态没有更新成功，请稍后重试。');
-        }
     }
 
     updateCreateField(field: 'leadName' | 'demandDescription' | 'estimatedAmount', value: string) {
@@ -1886,7 +1694,7 @@ export class LeadList implements OnInit {
     updateEditSource(value: string | null | undefined) {
         this.editForm.update((form) => ({
             ...form,
-            sourceId: value ?? null
+            sourceCode: value ?? null
         }));
         this.editError.set(null);
     }
@@ -1918,7 +1726,7 @@ export class LeadList implements OnInit {
     updateCreateSource(value: string | null | undefined) {
         this.createForm.update((form) => ({
             ...form,
-            sourceId: value ?? null
+            sourceCode: value ?? null
         }));
         this.createError.set(null);
     }
@@ -1983,9 +1791,9 @@ export class LeadList implements OnInit {
 
         const form = this.createForm();
         const customerId = form.customerId;
-        const sourceId = form.sourceId;
+        const sourceCode = form.sourceCode;
 
-        if (!customerId || !sourceId) {
+        if (!customerId || !sourceCode) {
             return;
         }
 
@@ -1993,7 +1801,7 @@ export class LeadList implements OnInit {
             await this.#leadStore.createLead({
                 leadName: form.leadName.trim(),
                 customerId,
-                sourceId,
+                sourceCode,
                 demandDescription: form.demandDescription.trim(),
                 budgetStatus: form.budgetStatus,
                 estimatedAmount: this.optionalText(form.estimatedAmount),
@@ -2012,16 +1820,16 @@ export class LeadList implements OnInit {
         this.editAttempted.set(true);
         const target = this.actionTarget();
         const form = this.editForm();
-        const sourceId = form.sourceId;
+        const sourceCode = form.sourceCode;
 
-        if (!target || !this.canEditLead(target) || !this.isEditFormValid() || !sourceId) {
+        if (!target || !this.canEditLead(target) || !this.isEditFormValid() || !sourceCode) {
             return;
         }
 
         try {
             await this.#leadStore.updateLead(target.id, {
                 leadName: form.leadName.trim(),
-                sourceId,
+                sourceCode,
                 demandDescription: form.demandDescription.trim(),
                 budgetStatus: form.budgetStatus,
                 estimatedAmount: this.optionalText(form.estimatedAmount),
@@ -2031,7 +1839,7 @@ export class LeadList implements OnInit {
             });
             this.editDialogVisible = false;
         } catch {
-            this.editError.set('请确认线索仍处于可编辑状态，且来源渠道有效。');
+            this.editError.set('请确认线索仍处于可编辑状态，且线索来源有效。');
         }
     }
 
@@ -2472,8 +2280,8 @@ export class LeadList implements OnInit {
         return value?.trim() ? value : fallback;
     }
 
-    getLeadSourceName(lead: Pick<LeadActionTarget, 'sourceName' | 'sourceChannel'>): string {
-        return this.displayText(lead.sourceName ?? lead.sourceChannel, '未填写');
+    getSourceName(lead: Pick<LeadActionTarget, 'sourceName' | 'sourceCode'>): string {
+        return this.displayText(lead.sourceName ?? lead.sourceCode, '未填写');
     }
 
     getBudgetStatusName(status: LeadBudgetStatus | null | undefined): string {
@@ -2540,14 +2348,6 @@ export class LeadList implements OnInit {
         }
     }
 
-    getSourceStatusName(status: LeadSourceStatus): string {
-        return LEAD_SOURCE_STATUS_LABELS[status];
-    }
-
-    getSourceStatusSeverity(status: LeadSourceStatus) {
-        return status === LeadSourceStatus.Active ? 'success' : 'secondary';
-    }
-
     formatAmount(value: string | null | undefined): string {
         if (!value) {
             return '未填写';
@@ -2587,7 +2387,7 @@ export class LeadList implements OnInit {
 
         return {
             ...EMPTY_CREATE_FORM,
-            sourceId: this.leadSourceOptions()[0]?.value ?? null,
+            sourceCode: this.leadSourceOptions()[0]?.value ?? null,
             ownerUserId: currentUser?.id ?? null,
             ownerOrgId: primaryOrg?.id ?? null
         };
@@ -2628,7 +2428,7 @@ export class LeadList implements OnInit {
                 lead.leadName,
                 lead.customerName,
                 lead.sourceName,
-                lead.sourceChannel,
+                lead.sourceCode,
                 this.getBudgetStatusName(lead.budgetStatus),
                 this.getUrgencyName(lead.urgency),
                 this.getLeadRatingName(lead.rating),

@@ -33,7 +33,7 @@ const RESULT_SEVERITIES: Record<EntityAuditHistoryRecord['result'], UiTagSeverit
 
 const FIELD_LABELS: Record<string, string> = {
     leadName: '线索名称',
-    sourceId: '线索来源',
+    sourceCode: '线索来源',
     demandDescription: '需求描述',
     budgetStatus: '预算情况',
     estimatedAmount: '预计金额',

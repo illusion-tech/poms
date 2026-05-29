@@ -1,6 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
+import type { DictionaryItemSummary } from '@poms/shared-contracts';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Project } from '../project/project.entity';
-import { Lead, LeadSource } from './lead.entity';
+import { Lead } from './lead.entity';
 import { LeadQueryService } from './lead-query.service';
 import { LeadRepository } from './lead.repository';
 import { LeadScoreService } from './lead-score.service';
@@ -10,11 +12,12 @@ describe('LeadQueryService', () => {
     const customerId = '11000000-0000-4000-8000-000000000001';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
-    const sourceId = '51000000-0000-4000-8000-000000000001';
+    const sourceCode = 'customer-visit';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
 
     let service: LeadQueryService;
     let leadRepository: jest.Mocked<LeadRepository>;
+    let dictionaryService: jest.Mocked<Pick<DictionaryService, 'listItems'>>;
     let leadScoreService: jest.Mocked<LeadScoreService>;
     const currentUser = { sub: userId, username: 'sales_rep', permissions: ['lead:read', 'lead:write', 'lead:assign'] } as never;
 
@@ -22,7 +25,6 @@ describe('LeadQueryService', () => {
         leadRepository = {
             findMany: jest.fn(),
             findById: jest.fn(),
-            findLeadSourceById: jest.fn(),
             findPlatformUserById: jest.fn(),
             findPlatformUsersByIds: jest.fn(),
             findProjectsByIds: jest.fn(),
@@ -35,16 +37,20 @@ describe('LeadQueryService', () => {
             findActiveOverrideByLeadId: jest.fn().mockResolvedValue(null)
         } as unknown as jest.Mocked<LeadScoreService>;
 
-        service = new LeadQueryService(leadRepository, leadScoreService);
+        dictionaryService = {
+            listItems: jest.fn().mockResolvedValue([createSourceDictionaryItem()])
+        };
+
+        service = new LeadQueryService(leadRepository, dictionaryService as never, leadScoreService);
     });
 
     it('maps list leads with owner names and passes filters', async () => {
         const lead = createLeadEntity({
-            sourceChannel: '展会',
+            sourceCode: 'event',
             qualifiedAt: new Date('2026-04-25T11:00:00.000Z')
         });
         leadRepository.findMany.mockResolvedValue([lead]);
-        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity({ name: '展会' }));
+        dictionaryService.listItems.mockResolvedValue([createSourceDictionaryItem({ code: 'event', name: '展会' })]);
         leadRepository.findPlatformUsersByIds.mockResolvedValue([{ id: userId, displayName: '销售人员' }] as never);
         leadRepository.findOrgUnitsByIds.mockResolvedValue([{ id: orgId, name: '华南销售一部' }] as never);
 
@@ -69,9 +75,8 @@ describe('LeadQueryService', () => {
             expect.objectContaining({
                 id: leadId,
                 leadNo: 'LEAD-2026-001',
-                sourceId,
+                sourceCode: 'event',
                 sourceName: '展会',
-                sourceChannel: '展会',
                 demandDescription: '客户需要建设地铁运维平台。',
                 budgetStatus: 'budget-confirmed',
                 estimatedAmount: '1000000.00',
@@ -97,7 +102,6 @@ describe('LeadQueryService', () => {
             ownerOrgId: null
         });
         leadRepository.findMany.mockResolvedValue([lead]);
-        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity());
         leadRepository.findPlatformUsersByIds.mockResolvedValue([]);
         leadRepository.findOrgUnitsByIds.mockResolvedValue([]);
 
@@ -126,9 +130,9 @@ describe('LeadQueryService', () => {
     });
 
     it('returns detail view with source summary', async () => {
-        const lead = createLeadEntity({ sourceChannel: '转介绍' });
+        const lead = createLeadEntity({ sourceCode: 'customer-referral' });
         leadRepository.findById.mockResolvedValue(lead);
-        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity({ name: '转介绍' }));
+        dictionaryService.listItems.mockResolvedValue([createSourceDictionaryItem({ code: 'customer-referral', name: '转介绍' })]);
         leadRepository.findPlatformUserById.mockResolvedValue({ id: userId, displayName: '销售人员' } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
 
@@ -137,7 +141,7 @@ describe('LeadQueryService', () => {
         expect(leadScoreService.findActiveOverrideByLeadId).toHaveBeenCalledWith(leadId);
         expect(result.ownerName).toBe('销售人员');
         expect(result.ownerOrgName).toBe('华南销售一部');
-        expect(result.sourceSummary).toBe('来源渠道：转介绍');
+        expect(result.sourceSummary).toBe('来源：转介绍');
         expect(result.convertedProjectSummary).toBeNull();
     });
 
@@ -149,7 +153,6 @@ describe('LeadQueryService', () => {
             convertedBy: userId
         });
         leadRepository.findById.mockResolvedValue(lead);
-        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity());
         leadRepository.findPlatformUserById.mockResolvedValue({ id: userId, displayName: '销售人员' } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
         leadRepository.findProjectsByIds.mockResolvedValue([
@@ -186,8 +189,7 @@ describe('LeadQueryService', () => {
             leadName: '华南地铁线索',
             customerId,
             customerName: '华南地铁集团',
-            sourceId,
-            sourceChannel: null,
+            sourceCode,
             demandDescription: '客户需要建设地铁运维平台。',
             budgetStatus: 'budget-confirmed',
             estimatedAmount: '1000000.00',
@@ -218,21 +220,24 @@ describe('LeadQueryService', () => {
         });
     }
 
-    function createLeadSourceEntity(overrides: Partial<LeadSource> = {}): LeadSource {
-        return Object.assign(new LeadSource(), {
-            id: sourceId,
+    function createSourceDictionaryItem(overrides: Partial<DictionaryItemSummary> = {}): DictionaryItemSummary {
+        return {
+            id: '51000000-0000-4000-8000-000000000001',
+            domain: 'lead-source',
             code: 'customer-visit',
             name: '客户拜访',
             description: '客户拜访来源',
             status: 'active',
             sortOrder: 10,
+            isSystem: true,
+            usageCount: 1,
             rowVersion: 1,
-            createdAt: baseDate,
+            createdAt: baseDate.toISOString(),
             createdBy: userId,
-            updatedAt: baseDate,
+            updatedAt: baseDate.toISOString(),
             updatedBy: userId,
             ...overrides
-        });
+        };
     }
 
     function createProjectEntity(overrides: Partial<Project> = {}): Project {

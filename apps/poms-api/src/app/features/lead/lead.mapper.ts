@@ -1,30 +1,13 @@
-import { LeadEffectiveScoreSourceValue, type LeadAllowedAction, type LeadDetailView, type LeadListView, type LeadSourceSummary, type LeadSummary } from '@poms/shared-contracts';
+import { LeadEffectiveScoreSourceValue, type DictionaryItemSummary, type LeadAllowedAction, type LeadDetailView, type LeadListView, type LeadSummary } from '@poms/shared-contracts';
 import { toBusinessDateOnly } from '../../core/date/business-date.utils';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
-import { Lead, LeadSource } from './lead.entity';
+import { Lead } from './lead.entity';
 import type { ActiveLeadScoreOverride } from './lead-score.service';
 import { buildLeadGateSummary } from './lead-scoring';
 
-export function mapLeadSourceToSummary(source: LeadSource, usageCount = 0): LeadSourceSummary {
-    return {
-        id: source.id,
-        code: source.code,
-        name: source.name,
-        description: source.description ?? null,
-        status: source.status,
-        sortOrder: source.sortOrder,
-        usageCount,
-        rowVersion: source.rowVersion,
-        createdAt: source.createdAt.toISOString(),
-        createdBy: source.createdBy ?? null,
-        updatedAt: source.updatedAt.toISOString(),
-        updatedBy: source.updatedBy ?? null
-    };
-}
-
-export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null, activeScoreOverride: ActiveLeadScoreOverride | null = null): LeadSummary {
+export function mapLeadToSummary(lead: Lead, source: DictionaryItemSummary | null = null, activeScoreOverride: ActiveLeadScoreOverride | null = null): LeadSummary {
     const effectiveScore = resolveEffectiveScore(lead, activeScoreOverride);
 
     return {
@@ -33,9 +16,8 @@ export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null, a
         leadName: lead.leadName,
         customerId: lead.customerId,
         customerName: lead.customerName,
-        sourceId: lead.sourceId,
-        sourceName: source?.name ?? lead.sourceChannel ?? null,
-        sourceChannel: lead.sourceChannel ?? null,
+        sourceCode: lead.sourceCode,
+        sourceName: source?.name ?? null,
         demandDescription: lead.demandDescription ?? null,
         budgetStatus: lead.budgetStatus,
         estimatedAmount: lead.estimatedAmount ?? null,
@@ -73,7 +55,7 @@ export function mapLeadToSummary(lead: Lead, source: LeadSource | null = null, a
 
 export function mapLeadToListView(
     lead: Lead,
-    source: LeadSource | null,
+    source: DictionaryItemSummary | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
     activeScoreOverride: ActiveLeadScoreOverride | null,
@@ -87,9 +69,8 @@ export function mapLeadToListView(
         leadName: lead.leadName,
         customerId: lead.customerId,
         customerName: lead.customerName,
-        sourceId: lead.sourceId,
-        sourceName: source?.name ?? lead.sourceChannel ?? null,
-        sourceChannel: lead.sourceChannel ?? null,
+        sourceCode: lead.sourceCode,
+        sourceName: source?.name ?? null,
         demandDescription: lead.demandDescription ?? null,
         budgetStatus: lead.budgetStatus,
         estimatedAmount: lead.estimatedAmount ?? null,
@@ -121,7 +102,7 @@ export function mapLeadToListView(
 
 export function mapLeadToDetailView(
     lead: Lead,
-    source: LeadSource | null,
+    source: DictionaryItemSummary | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
     convertedProject: Project | null,
@@ -132,7 +113,7 @@ export function mapLeadToDetailView(
         ...mapLeadToSummary(lead, source, activeScoreOverride),
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
-        sourceSummary: lead.sourceChannel ? `来源渠道：${lead.sourceChannel}` : null,
+        sourceSummary: source?.name ? `来源：${source.name}` : null,
         convertedProjectSummary: convertedProject
             ? {
                   id: convertedProject.id,

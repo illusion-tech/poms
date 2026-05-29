@@ -2,17 +2,14 @@ import { defineEntity } from '@mikro-orm/core';
 import {
     LEAD_BUDGET_STATUSES,
     LEAD_RATINGS,
-    LEAD_SOURCE_STATUSES,
     LEAD_STATUSES,
     LEAD_URGENCIES,
     LeadBudgetStatusValue,
     LeadRatingValue,
-    LeadSourceStatusValue,
     LeadStatusValue,
     LeadUrgencyValue,
     type LeadBudgetStatus,
     type LeadRating,
-    type LeadSourceStatus,
     type LeadStatus,
     type LeadUrgency
 } from '@poms/shared-contracts';
@@ -22,44 +19,6 @@ const p = defineEntity.properties;
 
 const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
-export const LeadSourceSchema = defineEntity({
-    name: 'LeadSource',
-    tableName: 'lead_source',
-    schema: 'poms',
-    comment: '线索来源字典',
-    indexes: [{ name: 'idx_lead_source_status_sort', properties: ['status', 'sortOrder'] }],
-    checks: [
-        {
-            name: 'chk_lead_source_status',
-            expression: `"status" in (${toSqlStringList(LEAD_SOURCE_STATUSES)})`
-        }
-    ],
-    properties: {
-        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('线索来源主键'),
-        code: p.string().length(64).unique().comment('线索来源稳定编码'),
-        name: p.string().length(128).comment('线索来源名称'),
-        description: p.text().nullable().comment('线索来源说明'),
-        status: p.string().$type<LeadSourceStatus>().length(32).default(LeadSourceStatusValue.Active).comment('线索来源状态'),
-        sortOrder: p.integer().default(0).fieldName('sort_order').comment('排序号'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
-        createdAt: p
-            .datetime()
-            .defaultRaw('now()')
-            .onCreate(() => new Date())
-            .fieldName('created_at')
-            .comment('创建时间'),
-        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人标识'),
-        updatedAt: p
-            .datetime()
-            .defaultRaw('now()')
-            .onCreate(() => new Date())
-            .onUpdate(() => new Date())
-            .fieldName('updated_at')
-            .comment('最后更新时间'),
-        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')
-    }
-});
-
 export const LeadSchema = defineEntity({
     name: 'lead',
     tableName: 'lead',
@@ -68,7 +27,7 @@ export const LeadSchema = defineEntity({
     indexes: [
         { name: 'idx_lead_status', properties: ['status'] },
         { name: 'idx_lead_customer_id', properties: ['customerId'] },
-        { name: 'idx_lead_source_id', properties: ['sourceId'] },
+        { name: 'idx_lead_source_code', properties: ['sourceCode'] },
         { name: 'idx_lead_budget_status', properties: ['budgetStatus'] },
         { name: 'idx_lead_urgency', properties: ['urgency'] },
         { name: 'idx_lead_rating_score', properties: ['rating', 'score'] },
@@ -108,8 +67,7 @@ export const LeadSchema = defineEntity({
         leadName: p.string().length(255).fieldName('lead_name').comment('线索标题/机会名称'),
         customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('lead_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),
         customerName: p.string().length(255).fieldName('customer_name').comment('客户名称'),
-        sourceId: () => p.manyToOne(LeadSource).mapToPk().fieldName('source_id').foreignKeyName('lead_source_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索来源主数据标识'),
-        sourceChannel: p.string().length(64).nullable().fieldName('source_channel').comment('线索来源名称快照'),
+        sourceCode: p.string().length(64).fieldName('source_code').comment('线索来源字典编码'),
         demandDescription: p.text().nullable().fieldName('demand_description').comment('客户需求描述'),
         budgetStatus: p.string().$type<LeadBudgetStatus>().length(32).default(LeadBudgetStatusValue.Unknown).fieldName('budget_status').comment('预算状态'),
         estimatedAmount: p.string().columnType('numeric(18,2)').nullable().fieldName('estimated_amount').comment('预计金额'),
@@ -155,9 +113,6 @@ export const LeadSchema = defineEntity({
     }
 });
 
-export class LeadSource extends LeadSourceSchema.class {}
-
 export class Lead extends LeadSchema.class {}
 
-LeadSourceSchema.setClass(LeadSource);
 LeadSchema.setClass(Lead);

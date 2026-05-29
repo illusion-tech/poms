@@ -15,5 +15,7 @@ export enum DictionaryDomain {
 
     SalesFollowUpType = 'sales-follow-up-type',
 
-    ExpenseCategory = 'expense-category'
+    ExpenseCategory = 'expense-category',
+
+    LeadSource = 'lead-source'
 }

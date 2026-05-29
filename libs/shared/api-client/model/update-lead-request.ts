@@ -14,7 +14,7 @@ import { LeadBudgetStatus } from './lead-budget-status';
 export interface UpdateLeadRequest {
     leadName?: string;
     customerId?: string;
-    sourceId?: string;
+    sourceCode?: string;
     demandDescription?: string;
     budgetStatus?: LeadBudgetStatus;
     estimatedAmount?: string | null;

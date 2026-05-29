@@ -103,7 +103,7 @@ export interface LeadControllerGetScoreHistoryRequestParams {
 
 export interface LeadControllerListRequestParams {
     status?: LeadStatus;
-    sourceId?: string;
+    sourceCode?: string;
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
     rating?: LeadRating;
@@ -645,7 +645,7 @@ export class LeadApi extends BaseService {
     public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<LeadListView>>>;
     public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const status = requestParameters?.status;
-        const sourceId = requestParameters?.sourceId;
+        const sourceCode = requestParameters?.sourceCode;
         const budgetStatus = requestParameters?.budgetStatus;
         const urgency = requestParameters?.urgency;
         const rating = requestParameters?.rating;
@@ -667,8 +667,8 @@ export class LeadApi extends BaseService {
 
         localVarQueryParameters = this.addToHttpParams(
             localVarQueryParameters,
-            'sourceId',
-            <any>sourceId,
+            'sourceCode',
+            <any>sourceCode,
             QueryParamStyle.Form,
             true,
         );

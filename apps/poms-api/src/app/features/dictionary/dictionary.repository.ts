@@ -3,6 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import type { DictionaryDomain, DictionaryItemListQuery } from '@poms/shared-contracts';
 import { Attachment } from '../attachment/attachment.entity';
+import { Lead } from '../lead/lead.entity';
 import { ExpenseRecord } from '../project-cost/expense-record.entity';
 import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
 import { DictionaryItem } from './dictionary-item.entity';
@@ -17,7 +18,9 @@ export class DictionaryRepository {
         @InjectRepository(SalesFollowUpRecord)
         private readonly salesFollowUpRepository: EntityRepository<SalesFollowUpRecord>,
         @InjectRepository(ExpenseRecord)
-        private readonly expenseRecordRepository: EntityRepository<ExpenseRecord>
+        private readonly expenseRecordRepository: EntityRepository<ExpenseRecord>,
+        @InjectRepository(Lead)
+        private readonly leadRepository: EntityRepository<Lead>
     ) {}
 
     async findItems(query: DictionaryItemListQuery = {}): Promise<DictionaryItem[]> {
@@ -69,6 +72,8 @@ export class DictionaryRepository {
                 return this.salesFollowUpRepository.count({ followUpType: code });
             case 'expense-category':
                 return this.expenseRecordRepository.count({ expenseCategory: code });
+            case 'lead-source':
+                return this.leadRepository.count({ sourceCode: code });
         }
     }
 }

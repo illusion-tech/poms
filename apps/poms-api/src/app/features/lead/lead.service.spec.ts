@@ -3,8 +3,9 @@ import { AttachmentService } from '../attachment/attachment.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { CustomerService } from '../customer/customer.service';
+import { DictionaryService } from '../dictionary/dictionary.service';
 import { Project } from '../project/project.entity';
-import { Lead, LeadSource } from './lead.entity';
+import { Lead } from './lead.entity';
 import { LeadRepository } from './lead.repository';
 import { LeadScoreFactsService } from './lead-score-facts.service';
 import { LeadScoreService } from './lead-score.service';
@@ -15,7 +16,7 @@ describe('LeadService', () => {
     const leadId = '50000000-0000-4000-8000-000000000001';
     const projectId = '20000000-0000-4000-8000-000000000001';
     const customerId = '11000000-0000-4000-8000-000000000001';
-    const sourceId = '51000000-0000-4000-8000-000000000001';
+    const sourceCode = 'customer-visit';
     const userId = '00000000-0000-4000-8000-000000000003';
     const orgId = '10000000-0000-4000-8000-000000000002';
     const baseDate = new Date('2026-04-25T10:00:00.000Z');
@@ -24,6 +25,7 @@ describe('LeadService', () => {
     let leadRepository: jest.Mocked<LeadRepository>;
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let customerService: jest.Mocked<Pick<CustomerService, 'requireActiveCustomer'>>;
+    let dictionaryService: jest.Mocked<Pick<DictionaryService, 'requireActiveItem'>>;
     let attachmentService: jest.Mocked<Pick<AttachmentService, 'copyActiveLinksToTarget'>>;
     let leadScoreFactsService: jest.Mocked<Pick<LeadScoreFactsService, 'collectLeadScoreFacts'>>;
     let leadScoreService: jest.Mocked<Pick<LeadScoreService, 'recordSystemSnapshot'>>;
@@ -44,10 +46,6 @@ describe('LeadService', () => {
         };
         leadRepository = {
             findById: jest.fn(),
-            findLeadSourceById: jest.fn(),
-            findLeadSourceByCode: jest.fn(),
-            createLeadSource: jest.fn((input) => Object.assign(new LeadSource(), createLeadSourceEntity(input as Partial<LeadSource>))),
-            saveLeadSource: jest.fn(),
             createLeadOwnerAssignmentRecord: jest.fn((input) => input),
             saveLeadOwnerAssignment: jest.fn(),
             findPlatformUserById: jest.fn(),
@@ -62,6 +60,9 @@ describe('LeadService', () => {
         } as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
         customerService = {
             requireActiveCustomer: jest.fn(async () => ({ id: customerId, displayName: '华南地铁集团' }) as never)
+        };
+        dictionaryService = {
+            requireActiveItem: jest.fn(async () => createSourceDictionaryItem() as never)
         };
         attachmentService = {
             copyActiveLinksToTarget: jest.fn().mockResolvedValue(undefined)
@@ -81,12 +82,12 @@ describe('LeadService', () => {
             primaryOrgUnitId: orgId
         } as never);
         leadRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
-        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity() as never);
 
         service = new LeadService(
             leadRepository,
             businessNumberService as never,
             customerService as never,
+            dictionaryService as never,
             attachmentService as never,
             leadScoreFactsService as never,
             leadScoreService as never,
@@ -94,39 +95,12 @@ describe('LeadService', () => {
         );
     });
 
-    it('creates an active lead source dictionary item', async () => {
-        leadRepository.findLeadSourceByCode.mockResolvedValue(null);
-
-        const source = await service.createLeadSource(
-            {
-                code: 'industry-event',
-                name: '行业活动',
-                description: '行业活动来源',
-                sortOrder: 80
-            },
-            userId
-        );
-
-        expect(leadRepository.createLeadSource).toHaveBeenCalledWith(
-            expect.objectContaining({
-                code: 'industry-event',
-                name: '行业活动',
-                description: '行业活动来源',
-                status: 'active',
-                sortOrder: 80,
-                createdBy: userId,
-                updatedBy: userId
-            })
-        );
-        expect(leadRepository.saveLeadSource).toHaveBeenCalledWith(source);
-    });
-
     it('creates a registered lead with default owner from operator', async () => {
         const lead = await service.createLead(
             {
                 leadName: '华南地铁线索',
                 customerId,
-                sourceId,
+                sourceCode,
                 demandDescription: '客户需要站点设备更新',
                 budgetStatus: 'rough-budget',
                 estimatedAmount: '1200000.00',
@@ -144,8 +118,7 @@ describe('LeadService', () => {
                 status: 'registered',
                 customerId,
                 customerName: '华南地铁集团',
-                sourceId,
-                sourceChannel: '客户拜访',
+                sourceCode,
                 demandDescription: '客户需要站点设备更新',
                 budgetStatus: 'rough-budget',
                 estimatedAmount: '1200000.00',
@@ -169,7 +142,7 @@ describe('LeadService', () => {
             {
                 leadName: '公共池线索',
                 customerId,
-                sourceId,
+                sourceCode,
                 demandDescription: '客户先留下需求',
                 budgetStatus: 'rough-budget',
                 estimatedAmount: '1200000.00',
@@ -199,7 +172,7 @@ describe('LeadService', () => {
                 {
                     leadName: '重复线索',
                     customerId,
-                    sourceId,
+                    sourceCode,
                     demandDescription: '客户需要站点设备更新',
                     budgetStatus: 'rough-budget',
                     estimatedAmount: '1200000.00',
@@ -354,11 +327,10 @@ describe('LeadService', () => {
     });
 
     it('records a field audit log when updating mutable lead fields', async () => {
-        const replacementSourceId = '51000000-0000-4000-8000-000000000002';
+        const replacementSourceCode = 'event';
         const lead = createLeadEntity({
             rowVersion: 3,
             leadName: '原始线索名称',
-            sourceChannel: '客户拜访',
             demandDescription: '客户需求明确',
             budgetStatus: 'unknown',
             estimatedAmount: null,
@@ -366,16 +338,13 @@ describe('LeadService', () => {
             expectedDecisionDate: null
         });
         entityManager.findOne.mockResolvedValue(lead);
-        leadRepository.findLeadSourceById.mockResolvedValue(createLeadSourceEntity({
-            id: replacementSourceId,
-            name: '行业活动'
-        }) as never);
+        dictionaryService.requireActiveItem.mockResolvedValue(createSourceDictionaryItem({ code: replacementSourceCode, name: '行业活动' }) as never);
 
         const result = await service.updateLead(
             leadId,
             {
                 leadName: '更新后的线索名称',
-                sourceId: replacementSourceId,
+                sourceCode: replacementSourceCode,
                 demandDescription: '客户补充运维平台范围',
                 budgetStatus: 'rough-budget',
                 estimatedAmount: '1200000.00',
@@ -400,8 +369,7 @@ describe('LeadService', () => {
                 result: 'success',
                 beforeSnapshot: expect.objectContaining({
                     leadName: '原始线索名称',
-                    sourceId,
-                    sourceChannel: '客户拜访',
+                    sourceCode,
                     demandDescription: { changed: true, length: 6 },
                     budgetStatus: 'unknown',
                     estimatedAmount: null,
@@ -410,8 +378,7 @@ describe('LeadService', () => {
                 }),
                 afterSnapshot: expect.objectContaining({
                     leadName: '更新后的线索名称',
-                    sourceId: replacementSourceId,
-                    sourceChannel: '行业活动',
+                    sourceCode: replacementSourceCode,
                     demandDescription: { changed: true, length: 10 },
                     budgetStatus: 'rough-budget',
                     estimatedAmount: '1200000.00',
@@ -421,8 +388,7 @@ describe('LeadService', () => {
                 metadata: expect.objectContaining({
                     changedFields: expect.arrayContaining([
                         'leadName',
-                        'sourceId',
-                        'sourceChannel',
+                        'sourceCode',
                         'demandDescription',
                         'budgetStatus',
                         'estimatedAmount',
@@ -557,8 +523,7 @@ describe('LeadService', () => {
             leadName: '华南地铁线索',
             customerId,
             customerName: '华南地铁集团',
-            sourceChannel: null,
-            sourceId,
+            sourceCode,
             demandDescription: '客户需求明确',
             budgetStatus: 'budget-confirmed',
             estimatedAmount: '1000000.00',
@@ -613,20 +578,23 @@ describe('LeadService', () => {
         });
     }
 
-    function createLeadSourceEntity(overrides: Partial<LeadSource> = {}): LeadSource {
-        return Object.assign(new LeadSource(), {
-            id: sourceId,
+    function createSourceDictionaryItem(overrides: Record<string, unknown> = {}) {
+        return {
+            id: '51000000-0000-4000-8000-000000000001',
+            domain: 'lead-source',
             code: 'customer-visit',
             name: '客户拜访',
             description: '销售主动拜访或客户现场接触产生的线索',
             status: 'active',
             sortOrder: 10,
+            isSystem: true,
+            usageCount: 0,
             rowVersion: 1,
-            createdAt: baseDate,
+            createdAt: baseDate.toISOString(),
             createdBy: null,
-            updatedAt: baseDate,
+            updatedAt: baseDate.toISOString(),
             updatedBy: null,
             ...overrides
-        });
+        };
     }
 });

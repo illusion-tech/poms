@@ -3,7 +3,7 @@ import { buildLeadScoreComponentBreakdown, calculateLeadScore, EMPTY_LEAD_SCORE_
 
 describe('lead scoring v2', () => {
     const completeLead: LeadGateInput = {
-        sourceId: '51000000-0000-4000-8000-000000000001',
+        sourceCode: 'customer-visit',
         demandDescription: '客户需要建设跨站点设备运维平台，覆盖故障预警、巡检调度、预算审批和年度改造计划。',
         budgetStatus: LeadBudgetStatusValue.BudgetApproved,
         estimatedAmount: '1200000.00',

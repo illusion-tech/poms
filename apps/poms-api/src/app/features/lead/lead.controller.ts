@@ -21,14 +21,16 @@ import {
     SubmitLeadScoreOverrideRequestDto,
     UpdateLeadRequestDto
 } from '@poms/api-contracts';
-import type { LeadDetailView, LeadListQuery, LeadListView, LeadOwnerAssignmentResult, LeadScoreHistoryView, LeadScoreOverrideSummary, LeadSummary, ProjectSummary, UserPayload } from '@poms/shared-contracts';
+import { DictionaryDomainValue, type LeadDetailView, type LeadListQuery, type LeadListView, type LeadOwnerAssignmentResult, type LeadScoreHistoryView, type LeadScoreOverrideSummary, type LeadSummary, type ProjectSummary, type UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
+import { DictionaryService } from '../dictionary/dictionary.service';
+import { Project } from '../project/project.entity';
+import { Lead } from './lead.entity';
 import { mapLeadToSummary } from './lead.mapper';
 import { LeadQueryService } from './lead-query.service';
 import { LeadScoreService } from './lead-score.service';
 import { LeadService } from './lead.service';
-import { Project } from '../project/project.entity';
 
 @ApiTags('lead')
 @ApiCookieAuth('pomsSession')
@@ -37,7 +39,8 @@ export class LeadController {
     constructor(
         private readonly leadQueryService: LeadQueryService,
         private readonly leadScoreService: LeadScoreService,
-        private readonly leadService: LeadService
+        private readonly leadService: LeadService,
+        private readonly dictionaryService: DictionaryService
     ) {}
 
     @Get()
@@ -47,7 +50,7 @@ export class LeadController {
     async list(@Query() query: LeadListQueryDto, @Request() req: { user: UserPayload }): Promise<LeadListView[]> {
         const listQuery: LeadListQuery = {
             status: query.status,
-            sourceId: query.sourceId,
+            sourceCode: query.sourceCode,
             budgetStatus: query.budgetStatus,
             urgency: query.urgency,
             rating: query.rating,
@@ -87,7 +90,7 @@ export class LeadController {
         const lead = await this.leadService.createLead({
             leadName: body.leadName,
             customerId: body.customerId,
-            sourceId: body.sourceId,
+            sourceCode: body.sourceCode,
             demandDescription: body.demandDescription,
             budgetStatus: body.budgetStatus,
             estimatedAmount: body.estimatedAmount,
@@ -97,7 +100,7 @@ export class LeadController {
             ownerUserId: body.ownerUserId
         }, req.user.sub);
 
-        return mapLeadToSummary(lead);
+        return this.mapLeadCommandSummary(lead);
     }
 
     @Post(':id/score-overrides')
@@ -166,7 +169,7 @@ export class LeadController {
         const lead = await this.leadService.updateLead(id, {
             leadName: body.leadName,
             customerId: body.customerId,
-            sourceId: body.sourceId,
+            sourceCode: body.sourceCode,
             demandDescription: body.demandDescription,
             budgetStatus: body.budgetStatus,
             estimatedAmount: body.estimatedAmount,
@@ -175,7 +178,7 @@ export class LeadController {
             expectedVersion: body.expectedVersion
         }, req.user.sub, getRequestId(req));
 
-        return mapLeadToSummary(lead);
+        return this.mapLeadCommandSummary(lead);
     }
 
     @Post(':id\\:qualify')
@@ -192,7 +195,7 @@ export class LeadController {
             qualificationSummary: body.qualificationSummary
         }, req.user.sub);
 
-        return mapLeadToSummary(lead);
+        return this.mapLeadCommandSummary(lead);
     }
 
     @Post(':id\\:close')
@@ -209,7 +212,7 @@ export class LeadController {
             closedReason: body.closedReason
         }, req.user.sub);
 
-        return mapLeadToSummary(lead);
+        return this.mapLeadCommandSummary(lead);
     }
 
     @Post(':id\\:convertToProject')
@@ -229,6 +232,14 @@ export class LeadController {
         }, req.user.sub);
 
         return mapProjectToSummary(project);
+    }
+
+    private async mapLeadCommandSummary(lead: Lead): Promise<LeadSummary> {
+        const sourceItems = await this.dictionaryService.listItems({ domain: DictionaryDomainValue.LeadSource });
+        return mapLeadToSummary(
+            lead,
+            sourceItems.find((item) => item.code === lead.sourceCode) ?? null
+        );
     }
 }
 
