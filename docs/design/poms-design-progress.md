@@ -581,6 +581,7 @@
 98. 2026-05-28 `FE-63` 浏览器验收后回到 `G2 / Doing`：用户确认业务字典的独立多功能工具条更适合作为管理后台主列表工具区，而工作台 `SectionCard` / Poseidon `.card` 更适合作为 surface、圆角、阴影和间距基线。`FE-63` 范围补充为标准表格页 table card、非表格主视图独立 toolbar surface 和共享 `AdminMetricGrid`，迁移主列表、业务字典、附件中心与导航治理；继续保持 frontend-only，不新增后端 API、OpenAPI、generated client、权限或业务行为。
 99. 2026-05-28 `FE-63` 已完成第二轮本地 `G3`：Poseidon `.card` surface 和 `AdminMetricGrid` 已统一统计指标条，用户 / 角色 / 组织、客户 / 线索 / 项目 / 合同、业务字典、导航治理和附件中心均完成独立工具条与数据 surface 收口；附件中心默认宽度下的筛选工具条溢出已修正。验证通过 focused Admin tests、attachment focused retest、`poms-admin` lint/build、Markdown check、`git diff --check` 和 in-app browser 桌面 / 390px 视觉巡检；本片仍未提交，暂不标记 `G4 / Done`。
 100. 2026-05-28 `FE-63` 第三轮按用户确认继续推进旧列表组件退役：线索管理、项目管理迁移到 `AdminTableCard`，业务字典改用原生 `.card` + PrimeNG toolbar；旧列表 toolbar / shell 组件文件及专用 CSS 已删除，文档基线改为 table card / 非表格 toolbar surface 双轨口径。验证继续按 frontend-only refactor 要求执行。
+101. 2026-05-29 `FE-63` 补充客户管理样板漂移防线：主数据 / 基础资料页行尾列名统一为 `操作`，对象主文本承担详情入口，行尾只放编辑、启停等真实命令；`继续处理` 不作为通用表格列名，仅保留给线索等真实流程推进页。该补充为 frontend-only 视觉 / 交互基线回写，不新增或修改后端 API、OpenAPI、generated client、权限或数据语义。
 
 ---
 

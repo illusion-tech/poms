@@ -171,7 +171,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             <th pSortableColumn="updatedAt" class="w-[24%] min-w-56">
                                 <span class="flex items-center gap-2">责任/更新 <p-sortIcon field="updatedAt" /></span>
                             </th>
-                            <th class="w-52 min-w-52">继续处理</th>
+                            <th class="w-20 min-w-20">操作</th>
                         </tr>
                     </ng-template>
 
@@ -205,8 +205,7 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                             </td>
                             <td>
                                 <div class="flex flex-wrap justify-start gap-2">
-                                    <p-button label="详情" icon="pi pi-eye" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="openDetail(customer)" />
-                                    <p-button label="编辑" icon="pi pi-pencil" size="small" severity="primary" [outlined]="true" styleClass="rounded-md!" (onClick)="showEditDialog(customer)" />
+                                    <p-button icon="pi pi-pencil" size="small" severity="secondary" [outlined]="true" ariaLabel="编辑客户" pTooltip="编辑客户" tooltipPosition="top" styleClass="rounded-md!" (onClick)="showEditDialog(customer)" />
                                 </div>
                             </td>
                         </tr>

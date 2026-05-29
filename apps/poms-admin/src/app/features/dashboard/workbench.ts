@@ -38,13 +38,13 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
                     <ng-template #action>
                         <p-button label="查看全部" icon="pi pi-arrow-right" iconPos="right" [text]="true" severity="secondary" (onClick)="navigateTo('/projects')" class="cursor-pointer" />
                     </ng-template>
-                    <p-table [value]="recentProjects()" [loading]="loadingProjects()" class="mt-4" [pt]="{ root: { class: 'border-none!' } }">
+                    <p-table [value]="recentProjects()" [loading]="loadingProjects()" class="mt-4" responsiveLayout="scroll" [tableStyle]="{ width: '100%', 'min-width': '42rem' }" [pt]="{ root: { class: 'border-none!' } }">
                         <ng-template #header>
                             <tr>
                                 <th>项目编码</th>
                                 <th>项目名称</th>
-                                <th>阶段</th>
-                                <th>状态</th>
+                                <th class="whitespace-nowrap">阶段</th>
+                                <th class="whitespace-nowrap">状态</th>
                             </tr>
                         </ng-template>
                         <ng-template #body let-project>
@@ -55,11 +55,11 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
                                 <td>
                                     <span class="text-surface-950 dark:text-surface-0 text-sm">{{ project.projectName }}</span>
                                 </td>
-                                <td>
-                                    <p-tag [value]="getStageName(project.currentStage)" [severity]="getStageSeverity(project.currentStage)" />
+                                <td class="whitespace-nowrap">
+                                    <p-tag [value]="getStageName(project.currentStage)" [severity]="getStageSeverity(project.currentStage)" styleClass="whitespace-nowrap" />
                                 </td>
-                                <td>
-                                    <p-tag [value]="getStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" />
+                                <td class="whitespace-nowrap">
+                                    <p-tag [value]="getStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" styleClass="whitespace-nowrap" />
                                 </td>
                             </tr>
                         </ng-template>
