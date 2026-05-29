@@ -1,7 +1,7 @@
 import { loginAsAdmin } from '../support/api-client';
 import { createCustomer } from '../support/customer-api';
 import { expectErrorStatus, expectStatus } from '../support/http';
-import { assignLeadOwner, claimLeadOwner, convertLeadToProject, createLead, getLead, listLeads, qualifyLead } from '../support/lead-api';
+import { assignLeadOwner, claimLeadOwner, convertLeadToProject, createLead, getLead, listLeadResponse, listLeads, qualifyLead } from '../support/lead-api';
 import { makeUniqueSuffix } from '../support/test-data';
 import type { CreateSalesFollowUpRecordRequest, DictionaryItemSummary, ProjectDetailView, SalesFollowUpRecordSummary } from '../support/types';
 
@@ -215,8 +215,19 @@ describe('poms-api lead workflow e2e', () => {
         expect(publicLead.ownerUserId).toBeNull();
         expect(publicLead.ownerOrgId).toBeNull();
 
-        const publicPoolLeads = await listLeads(client, { ownershipScope: 'public-pool', keyword: unique });
-        expect(publicPoolLeads).toEqual(
+        const publicPoolLeadResponse = await listLeadResponse(client, { ownershipScope: 'public-pool', keyword: unique });
+        expect(publicPoolLeadResponse.scope).toBe('active');
+        expect(publicPoolLeadResponse.summary.registered).toBeGreaterThanOrEqual(1);
+        expect(publicPoolLeadResponse.facets).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    scope: 'registered',
+                    label: '待确认',
+                    count: expect.any(Number)
+                })
+            ])
+        );
+        expect(publicPoolLeadResponse.items).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     id: publicLead.id,

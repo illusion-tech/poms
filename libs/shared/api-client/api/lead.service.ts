@@ -33,7 +33,7 @@ import { LeadBudgetStatus } from '../model/lead-budget-status';
 // @ts-ignore
 import { LeadDetailView } from '../model/lead-detail-view';
 // @ts-ignore
-import { LeadListView } from '../model/lead-list-view';
+import { LeadListResponse } from '../model/lead-list-response';
 // @ts-ignore
 import { LeadOwnerAssignmentResult } from '../model/lead-owner-assignment-result';
 // @ts-ignore
@@ -45,11 +45,11 @@ import { LeadScoreHistoryView } from '../model/lead-score-history-view';
 // @ts-ignore
 import { LeadScoreOverrideSummary } from '../model/lead-score-override-summary';
 // @ts-ignore
-import { LeadStatus } from '../model/lead-status';
-// @ts-ignore
 import { LeadSummary } from '../model/lead-summary';
 // @ts-ignore
 import { LeadUrgency } from '../model/lead-urgency';
+// @ts-ignore
+import { LeadWorkbenchScope } from '../model/lead-workbench-scope';
 // @ts-ignore
 import { ProjectSummary } from '../model/project-summary';
 // @ts-ignore
@@ -102,7 +102,7 @@ export interface LeadControllerGetScoreHistoryRequestParams {
 }
 
 export interface LeadControllerListRequestParams {
-    status?: LeadStatus;
+    scope?: LeadWorkbenchScope;
     sourceCode?: string;
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
@@ -111,6 +111,8 @@ export interface LeadControllerListRequestParams {
     ownerUserId?: string;
     ownershipScope?: LeadOwnershipScope;
     keyword?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface LeadControllerQualifyRequestParams {
@@ -640,11 +642,11 @@ export class LeadApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<LeadListView>>;
-    public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<LeadListView>>>;
-    public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<LeadListView>>>;
+    public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LeadListResponse>;
+    public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LeadListResponse>>;
+    public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LeadListResponse>>;
     public leadControllerList(requestParameters?: LeadControllerListRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const status = requestParameters?.status;
+        const scope = requestParameters?.scope;
         const sourceCode = requestParameters?.sourceCode;
         const budgetStatus = requestParameters?.budgetStatus;
         const urgency = requestParameters?.urgency;
@@ -653,13 +655,15 @@ export class LeadApi extends BaseService {
         const ownerUserId = requestParameters?.ownerUserId;
         const ownershipScope = requestParameters?.ownershipScope;
         const keyword = requestParameters?.keyword;
+        const page = requestParameters?.page;
+        const pageSize = requestParameters?.pageSize;
 
         let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
 
         localVarQueryParameters = this.addToHttpParams(
             localVarQueryParameters,
-            'status',
-            <any>status,
+            'scope',
+            <any>scope,
             QueryParamStyle.Form,
             true,
         );
@@ -737,6 +741,24 @@ export class LeadApi extends BaseService {
         );
 
 
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'page',
+            <any>page,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'pageSize',
+            <any>pageSize,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (pomsSession) required
@@ -766,7 +788,7 @@ export class LeadApi extends BaseService {
 
         let localVarPath = `/api/leads`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<LeadListView>>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<LeadListResponse>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters.toHttpParams(),

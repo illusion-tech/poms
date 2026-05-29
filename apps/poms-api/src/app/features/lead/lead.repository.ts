@@ -1,7 +1,6 @@
 import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import type { LeadStatus } from '@poms/shared-contracts';
 import type { LeadBudgetStatus, LeadRating, LeadUrgency } from '@poms/shared-contracts';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -25,7 +24,6 @@ export class LeadRepository {
     ) {}
 
     async findMany(input: {
-        status?: LeadStatus;
         sourceCode?: string;
         budgetStatus?: LeadBudgetStatus;
         urgency?: LeadUrgency;
@@ -36,10 +34,6 @@ export class LeadRepository {
         keyword?: string;
     }): Promise<Lead[]> {
         const where: FilterQuery<Lead> = {};
-
-        if (input.status) {
-            where.status = input.status;
-        }
 
         if (input.sourceCode) {
             where.sourceCode = input.sourceCode;

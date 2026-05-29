@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LeadConvertedProjectSummary } from './lead-converted-project-summary';
 import { LeadRating } from './lead-rating';
 import { LeadAllowedAction } from './lead-allowed-action';
 import { LeadGateSummary } from './lead-gate-summary';
@@ -46,6 +47,8 @@ export interface LeadListView {
     ownerOrgName: string | null;
     qualifiedAt: string | null;
     convertedProjectId: string | null;
+    convertedAt: string | null;
+    convertedProjectSummary: LeadConvertedProjectSummary | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;

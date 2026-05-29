@@ -7,20 +7,35 @@ import type {
     ConvertLeadToProjectRequest,
     CreateLeadRequest,
     LeadDetailView,
+    LeadListResponse,
     LeadListView,
     LeadScoreHistoryView,
     LeadScoreOverrideSummary,
+    LeadWorkbenchFacet,
+    LeadWorkbenchScope,
+    LeadWorkbenchSummary,
     QualifyLeadRequest,
     RejectLeadScoreOverrideRequest,
     RevokeLeadScoreOverrideRequest,
     SubmitLeadScoreOverrideRequest,
     UpdateLeadRequest
 } from '@poms/shared-api-client';
-import { LeadApi, LeadBudgetStatus, LeadOwnershipScope, LeadRating, LeadStatus, LeadUrgency } from '@poms/shared-api-client';
+import { LeadApi, LeadBudgetStatus, LeadOwnershipScope, LeadRating, LeadWorkbenchScope as LeadWorkbenchScopeValue, LeadUrgency } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
+const EMPTY_LEAD_WORKBENCH_SUMMARY: LeadWorkbenchSummary = {
+    active: 0,
+    registered: 0,
+    qualified: 0,
+    'ready-to-convert': 0,
+    'blocked-conversion': 0,
+    converted: 0,
+    closed: 0,
+    all: 0
+};
+
 export interface LeadListFilters {
-    status?: LeadStatus;
+    scope?: LeadWorkbenchScope;
     sourceCode?: string;
     budgetStatus?: LeadBudgetStatus;
     urgency?: LeadUrgency;
@@ -29,6 +44,8 @@ export interface LeadListFilters {
     ownerUserId?: string;
     ownershipScope?: LeadOwnershipScope;
     keyword?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 @Injectable()
@@ -36,6 +53,7 @@ export class LeadStore {
     readonly #leadApi = inject(LeadApi);
 
     readonly #leads = signal<LeadListView[]>([]);
+    readonly #leadListResponse = signal<LeadListResponse | null>(null);
     readonly #selectedLead = signal<LeadDetailView | null>(null);
     readonly #loading = signal(false);
     readonly #loadingDetail = signal(false);
@@ -44,16 +62,22 @@ export class LeadStore {
     #lastLeadFilters: LeadListFilters = {};
 
     readonly leads = this.#leads.asReadonly();
+    readonly leadListResponse = this.#leadListResponse.asReadonly();
     readonly selectedLead = this.#selectedLead.asReadonly();
     readonly loading = this.#loading.asReadonly();
     readonly loadingDetail = this.#loadingDetail.asReadonly();
     readonly saving = this.#saving.asReadonly();
     readonly loaded = this.#loaded.asReadonly();
 
-    readonly registeredLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Registered).length);
-    readonly qualifiedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Qualified).length);
-    readonly convertedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Converted).length);
-    readonly closedLeadCount = computed(() => this.#leads().filter((lead) => lead.status === LeadStatus.Closed).length);
+    readonly workbenchSummary = computed<LeadWorkbenchSummary>(() => this.#leadListResponse()?.summary ?? EMPTY_LEAD_WORKBENCH_SUMMARY);
+    readonly workbenchFacets = computed<LeadWorkbenchFacet[]>(() => this.#leadListResponse()?.facets ?? []);
+    readonly currentScope = computed<LeadWorkbenchScope>(() => this.#leadListResponse()?.scope ?? LeadWorkbenchScopeValue.Active);
+    readonly totalLeadItems = computed(() => this.#leadListResponse()?.totalItems ?? this.#leads().length);
+
+    readonly registeredLeadCount = computed(() => this.workbenchSummary().registered);
+    readonly qualifiedLeadCount = computed(() => this.workbenchSummary().qualified);
+    readonly convertedLeadCount = computed(() => this.workbenchSummary().converted);
+    readonly closedLeadCount = computed(() => this.workbenchSummary().closed);
 
     async loadLeads(filters: LeadListFilters = this.#lastLeadFilters) {
         this.#lastLeadFilters = { ...filters };
@@ -61,7 +85,7 @@ export class LeadStore {
         try {
             const leads = await firstValueFrom(
                 this.#leadApi.leadControllerList({
-                    status: filters.status,
+                    scope: filters.scope,
                     sourceCode: filters.sourceCode,
                     budgetStatus: filters.budgetStatus,
                     urgency: filters.urgency,
@@ -69,12 +93,15 @@ export class LeadStore {
                     ownerOrgId: filters.ownerOrgId,
                     ownerUserId: filters.ownerUserId,
                     ownershipScope: filters.ownershipScope,
-                    keyword: filters.keyword
+                    keyword: filters.keyword,
+                    page: filters.page,
+                    pageSize: filters.pageSize
                 })
             );
-            this.#leads.set(leads ?? []);
+            this.#leadListResponse.set(leads ?? null);
+            this.#leads.set(leads?.items ?? []);
             this.#loaded.set(true);
-            return leads ?? [];
+            return leads;
         } finally {
             this.#loading.set(false);
         }

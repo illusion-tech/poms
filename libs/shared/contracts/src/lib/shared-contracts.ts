@@ -29,6 +29,10 @@ export type EnumSeverityMap<TDefinitions extends NonEmptyReadonlyArray<{ value: 
     readonly [TDefinition in TDefinitions[number] as TDefinition['value']]: TDefinition['severity'];
 };
 
+export type EnumHintMap<TDefinitions extends NonEmptyReadonlyArray<{ value: string; hint: string }>> = {
+    readonly [TDefinition in TDefinitions[number] as TDefinition['value']]: TDefinition['hint'];
+};
+
 export type EnumOption<TValue extends string = string> = {
     label: string;
     value: TValue;
@@ -64,6 +68,10 @@ export function enumDefinitionOptions<const TDefinitions extends NonEmptyReadonl
 
 export function enumDefinitionSeverities<const TDefinitions extends NonEmptyReadonlyArray<{ value: string; severity: string }>>(definitions: TDefinitions): EnumSeverityMap<TDefinitions> {
     return Object.fromEntries(definitions.map((definition) => [definition.value, definition.severity])) as EnumSeverityMap<TDefinitions>;
+}
+
+export function enumDefinitionHints<const TDefinitions extends NonEmptyReadonlyArray<{ value: string; hint: string }>>(definitions: TDefinitions): EnumHintMap<TDefinitions> {
+    return Object.fromEntries(definitions.map((definition) => [definition.value, definition.hint])) as EnumHintMap<TDefinitions>;
 }
 
 // ---------------------------------------------------------------------------
@@ -1640,6 +1648,33 @@ export const LeadStatusSeverity = enumDefinitionSeverities(LEAD_STATUS_DEFINITIO
 
 export const LeadStatusOptions = enumDefinitionOptions(LEAD_STATUS_DEFINITIONS);
 
+export const LEAD_WORKBENCH_SCOPE_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: 'Active', value: 'active', label: '处理中', severity: 'info', order: 10, hint: '待确认与已有效线索' },
+    { key: 'Registered', value: 'registered', label: '待确认', severity: 'secondary', order: 20, hint: '尚未确认有效的线索' },
+    { key: 'Qualified', value: 'qualified', label: '已有效', severity: 'success', order: 30, hint: '已确认有效且仍在推进的线索' },
+    { key: 'ReadyToConvert', value: 'ready-to-convert', label: '可转项目', severity: 'success', order: 40, hint: '已满足转项目硬闸口的线索' },
+    { key: 'BlockedConversion', value: 'blocked-conversion', label: '转化受阻', severity: 'warn', order: 50, hint: '已有效但缺少转项目必填条件的线索' },
+    { key: 'Converted', value: 'converted', label: '已转项目', severity: 'info', order: 60, hint: '已完成项目转化的历史线索' },
+    { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 70, hint: '已关闭且不再推进的线索' },
+    { key: 'All', value: 'all', label: '全部线索', severity: 'secondary', order: 80, hint: '包含处理中、已转项目和已关闭线索' }
+] as const);
+
+export const LeadWorkbenchScopeValue = enumDefinitionValueObject(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+
+export const LEAD_WORKBENCH_SCOPES = enumDefinitionValues(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+
+export type LeadWorkbenchScope = (typeof LEAD_WORKBENCH_SCOPES)[number];
+
+export const LeadWorkbenchScopeSchema = z.enum(LEAD_WORKBENCH_SCOPES).meta({ id: 'LeadWorkbenchScope' });
+
+export const LeadWorkbenchScopeLabel = enumDefinitionLabels(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+
+export const LeadWorkbenchScopeSeverity = enumDefinitionSeverities(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+
+export const LeadWorkbenchScopeHint = enumDefinitionHints(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+
+export const LeadWorkbenchScopeOptions = enumDefinitionOptions(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+
 export const LEAD_BUDGET_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
     { key: 'Unknown', value: 'unknown', label: '预算未知', severity: 'secondary', order: 10 },
     { key: 'NoBudget', value: 'no-budget', label: '暂无预算', severity: 'warn', order: 20 },
@@ -1963,6 +1998,19 @@ export const LeadSummarySchema = z
 
 export type LeadSummary = z.infer<typeof LeadSummarySchema>;
 
+export const LeadConvertedProjectSummarySchema = z
+    .object({
+        id: z.uuid(),
+        projectNo: z.string(),
+        projectName: z.string(),
+        customerId: z.uuid().nullable(),
+        status: ProjectStatusSchema,
+        currentStage: ProjectStageSchema
+    })
+    .meta({ id: 'LeadConvertedProjectSummary' });
+
+export type LeadConvertedProjectSummary = z.infer<typeof LeadConvertedProjectSummarySchema>;
+
 export const LeadListViewSchema = z
     .object({
         id: z.uuid(),
@@ -1994,6 +2042,8 @@ export const LeadListViewSchema = z
         ownerOrgName: z.string().nullable(),
         qualifiedAt: z.iso.datetime().nullable(),
         convertedProjectId: z.uuid().nullable(),
+        convertedAt: z.iso.datetime().nullable(),
+        convertedProjectSummary: LeadConvertedProjectSummarySchema.nullable(),
         rowVersion: z.number().int(),
         createdAt: z.iso.datetime(),
         updatedAt: z.iso.datetime(),
@@ -2003,22 +2053,47 @@ export const LeadListViewSchema = z
 
 export type LeadListView = z.infer<typeof LeadListViewSchema>;
 
-export const LeadListSchema = z.array(LeadListViewSchema).meta({ id: 'LeadList' });
-
-export type LeadList = z.infer<typeof LeadListSchema>;
-
-export const LeadConvertedProjectSummarySchema = z
+export const LeadWorkbenchSummarySchema = z
     .object({
-        id: z.uuid(),
-        projectNo: z.string(),
-        projectName: z.string(),
-        customerId: z.uuid().nullable(),
-        status: ProjectStatusSchema,
-        currentStage: ProjectStageSchema
+        active: z.number().int().nonnegative(),
+        registered: z.number().int().nonnegative(),
+        qualified: z.number().int().nonnegative(),
+        'ready-to-convert': z.number().int().nonnegative(),
+        'blocked-conversion': z.number().int().nonnegative(),
+        converted: z.number().int().nonnegative(),
+        closed: z.number().int().nonnegative(),
+        all: z.number().int().nonnegative()
     })
-    .meta({ id: 'LeadConvertedProjectSummary' });
+    .meta({ id: 'LeadWorkbenchSummary' });
 
-export type LeadConvertedProjectSummary = z.infer<typeof LeadConvertedProjectSummarySchema>;
+export type LeadWorkbenchSummary = z.infer<typeof LeadWorkbenchSummarySchema>;
+
+export const LeadWorkbenchFacetSchema = z
+    .object({
+        scope: LeadWorkbenchScopeSchema,
+        label: z.string(),
+        hint: z.string(),
+        severity: z.string(),
+        count: z.number().int().nonnegative(),
+        order: z.number().int()
+    })
+    .meta({ id: 'LeadWorkbenchFacet' });
+
+export type LeadWorkbenchFacet = z.infer<typeof LeadWorkbenchFacetSchema>;
+
+export const LeadListResponseSchema = z
+    .object({
+        scope: LeadWorkbenchScopeSchema,
+        items: z.array(LeadListViewSchema),
+        summary: LeadWorkbenchSummarySchema,
+        facets: z.array(LeadWorkbenchFacetSchema),
+        totalItems: z.number().int().nonnegative(),
+        page: z.number().int().positive(),
+        pageSize: z.number().int().positive()
+    })
+    .meta({ id: 'LeadListResponse' });
+
+export type LeadListResponse = z.infer<typeof LeadListResponseSchema>;
 
 export const LeadDetailViewSchema = LeadSummarySchema.extend({
     ownerName: z.string().nullable(),
@@ -2249,7 +2324,7 @@ export type RevokeLeadScoreOverrideRequest = z.infer<typeof RevokeLeadScoreOverr
 
 export const LeadListQuerySchema = z
     .object({
-        status: LeadStatusSchema.optional(),
+        scope: LeadWorkbenchScopeSchema.optional(),
         sourceCode: DictionaryCodeSchema.optional(),
         budgetStatus: LeadBudgetStatusSchema.optional(),
         urgency: LeadUrgencySchema.optional(),
@@ -2257,7 +2332,9 @@ export const LeadListQuerySchema = z
         ownerOrgId: z.uuid().optional(),
         ownerUserId: z.uuid().optional(),
         ownershipScope: LeadOwnershipScopeSchema.optional(),
-        keyword: z.string().trim().min(1).max(128).optional()
+        keyword: z.string().trim().min(1).max(128).optional(),
+        page: z.coerce.number().int().min(1).optional(),
+        pageSize: z.coerce.number().int().min(1).max(500).optional()
     })
     .meta({ id: 'LeadListQuery' });
 

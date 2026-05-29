@@ -56,27 +56,29 @@ describe('LeadController', () => {
     });
 
     it('passes list filters to query service', async () => {
-        leadQueryService.listLeads.mockResolvedValue([]);
+        leadQueryService.listLeads.mockResolvedValue(createLeadListResponse() as never);
 
         const req = { user: { sub: userId, username: 'sales_rep', permissions: ['lead:read', 'lead:write'] } } as never;
 
         await controller.list(
             {
-                status: 'registered',
+                scope: 'registered',
                 sourceCode,
                 budgetStatus: 'budget-confirmed',
                 urgency: 'high',
                 rating: 'A',
                 ownerOrgId: orgId,
                 ownershipScope: 'mine',
-                keyword: '地铁'
+                keyword: '地铁',
+                page: 2,
+                pageSize: 50
             },
             req
         );
 
         expect(leadQueryService.listLeads).toHaveBeenCalledWith(
             {
-                status: 'registered',
+                scope: 'registered',
                 sourceCode,
                 budgetStatus: 'budget-confirmed',
                 urgency: 'high',
@@ -84,7 +86,9 @@ describe('LeadController', () => {
                 ownerOrgId: orgId,
                 ownerUserId: undefined,
                 ownershipScope: 'mine',
-                keyword: '地铁'
+                keyword: '地铁',
+                page: 2,
+                pageSize: 50
             },
             expect.objectContaining({ sub: userId })
         );
@@ -371,6 +375,27 @@ describe('LeadController', () => {
             updatedAt: '2026-04-25T08:00:00.000Z',
             updatedBy: userId,
             ...overrides
+        };
+    }
+
+    function createLeadListResponse() {
+        return {
+            scope: 'active',
+            items: [],
+            summary: {
+                active: 0,
+                registered: 0,
+                qualified: 0,
+                'ready-to-convert': 0,
+                'blocked-conversion': 0,
+                converted: 0,
+                closed: 0,
+                all: 0
+            },
+            facets: [],
+            totalItems: 0,
+            page: 1,
+            pageSize: 500
         };
     }
 

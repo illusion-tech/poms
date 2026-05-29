@@ -6,6 +6,7 @@ import type {
     ConvertLeadToProjectRequest,
     CreateLeadRequest,
     LeadDetailView,
+    LeadListResponse,
     LeadListView,
     LeadOwnerAssignmentResult,
     LeadSummary,
@@ -37,8 +38,12 @@ export function getLead(client: AxiosInstance, leadId: string): Promise<LeadDeta
     return client.get<LeadDetailView>(`/leads/${leadId}`).then((response) => expectStatus(response, 200));
 }
 
+export function listLeadResponse(client: AxiosInstance, params: Record<string, string>): Promise<LeadListResponse> {
+    return client.get<LeadListResponse>('/leads', { params }).then((response) => expectStatus(response, 200));
+}
+
 export function listLeads(client: AxiosInstance, params: Record<string, string>): Promise<LeadListView[]> {
-    return client.get<LeadListView[]>('/leads', { params }).then((response) => expectStatus(response, 200));
+    return listLeadResponse(client, params).then((response) => response.items);
 }
 
 export function claimLeadOwner(

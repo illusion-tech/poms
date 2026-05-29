@@ -9,8 +9,8 @@ import {
     CreateLeadRequestDto,
     LeadDetailViewDto,
     LeadDto,
-    LeadListDto,
     LeadListQueryDto,
+    LeadListResponseDto,
     LeadOwnerAssignmentResultDto,
     LeadScoreHistoryViewDto,
     LeadScoreOverrideDto,
@@ -21,7 +21,7 @@ import {
     SubmitLeadScoreOverrideRequestDto,
     UpdateLeadRequestDto
 } from '@poms/api-contracts';
-import { DictionaryDomainValue, type LeadDetailView, type LeadListQuery, type LeadListView, type LeadOwnerAssignmentResult, type LeadScoreHistoryView, type LeadScoreOverrideSummary, type LeadSummary, type ProjectSummary, type UserPayload } from '@poms/shared-contracts';
+import { DictionaryDomainValue, type LeadDetailView, type LeadListQuery, type LeadListResponse, type LeadOwnerAssignmentResult, type LeadScoreHistoryView, type LeadScoreOverrideSummary, type LeadSummary, type ProjectSummary, type UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { DictionaryService } from '../dictionary/dictionary.service';
@@ -46,10 +46,10 @@ export class LeadController {
     @Get()
     @HasPermissions('lead:read')
     @ApiOperation({ summary: '获取线索列表' })
-    @ApiOkResponse({ type: LeadListDto })
-    async list(@Query() query: LeadListQueryDto, @Request() req: { user: UserPayload }): Promise<LeadListView[]> {
+    @ApiOkResponse({ type: LeadListResponseDto })
+    async list(@Query() query: LeadListQueryDto, @Request() req: { user: UserPayload }): Promise<LeadListResponse> {
         const listQuery: LeadListQuery = {
-            status: query.status,
+            scope: query.scope,
             sourceCode: query.sourceCode,
             budgetStatus: query.budgetStatus,
             urgency: query.urgency,
@@ -57,7 +57,9 @@ export class LeadController {
             ownerOrgId: query.ownerOrgId,
             ownerUserId: query.ownerUserId,
             ownershipScope: query.ownershipScope,
-            keyword: query.keyword
+            keyword: query.keyword,
+            page: query.page,
+            pageSize: query.pageSize
         };
 
         return this.leadQueryService.listLeads(listQuery, req.user);

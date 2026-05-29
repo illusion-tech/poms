@@ -1,6 +1,6 @@
 # EX-70A 线索来源并入业务字典 Direct Cutover 实施基线包
 
-- Gate Status: `G3 Pass / Doing`
+- Gate Status: `G4 Done`
 - Parent: `EX-58C` / `EX-43`
 - Owner: Codex
 - Slice Type: `cross-layer-high-risk`
@@ -138,3 +138,11 @@
   - `corepack pnpm nx lint poms-api`; `corepack pnpm nx lint poms-admin` -> Pass.
   - `corepack pnpm nx build poms-api`; `corepack pnpm nx build poms-admin` -> Pass.
   - `corepack pnpm run format:md`; `corepack pnpm run format:md:check`; `git diff --check` -> Pass.
+
+## 12. G4 结论
+
+- Gate Status: `Done`
+- Commit Evidence: local commit `e0267131 feat(platform): 线索来源并入业务字典并清退独立来源接口`.
+- Done Boundary: `lead_source` / `/lead-sources` / `LeadSourceApi` / `lead:source:manage` 已清退；线索来源由 `dictionary_item(domain='lead-source')` 统一维护。
+- Downstream Contract: Lead source identity is `sourceCode`; downstream consumers must not rely on legacy `sourceId` / `sourceChannel` / `/lead-sources`.
+- Residual Work: none for this slice.

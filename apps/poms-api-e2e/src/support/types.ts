@@ -59,6 +59,7 @@ export type {
     InvoiceRecordDetailView,
     InvoiceRecordSummary,
     LeadDetailView,
+    LeadListResponse,
     LeadListView,
     LeadOwnerAssignmentResult,
     LeadSummary,

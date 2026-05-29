@@ -27,7 +27,7 @@ describe('LeadQueryService', () => {
             findById: jest.fn(),
             findPlatformUserById: jest.fn(),
             findPlatformUsersByIds: jest.fn(),
-            findProjectsByIds: jest.fn(),
+            findProjectsByIds: jest.fn().mockResolvedValue([]),
             findOrgUnitById: jest.fn(),
             findOrgUnitsByIds: jest.fn()
         } as unknown as jest.Mocked<LeadRepository>;
@@ -47,6 +47,7 @@ describe('LeadQueryService', () => {
     it('maps list leads with owner names and passes filters', async () => {
         const lead = createLeadEntity({
             sourceCode: 'event',
+            status: 'qualified',
             qualifiedAt: new Date('2026-04-25T11:00:00.000Z')
         });
         leadRepository.findMany.mockResolvedValue([lead]);
@@ -56,7 +57,7 @@ describe('LeadQueryService', () => {
 
         const result = await service.listLeads(
             {
-                status: 'qualified',
+                scope: 'qualified',
                 ownerOrgId: orgId,
                 rating: 'A',
                 keyword: '地铁'
@@ -65,13 +66,22 @@ describe('LeadQueryService', () => {
         );
 
         expect(leadRepository.findMany).toHaveBeenCalledWith({
-            status: 'qualified',
             ownerOrgId: orgId,
             rating: 'A',
             keyword: '地铁'
         });
         expect(leadScoreService.findActiveOverridesByLeadIds).toHaveBeenCalledWith([leadId]);
-        expect(result).toEqual([
+        expect(result.scope).toBe('qualified');
+        expect(result.totalItems).toBe(1);
+        expect(result.summary).toEqual(
+            expect.objectContaining({
+                active: 1,
+                qualified: 1,
+                'ready-to-convert': 1,
+                all: 1
+            })
+        );
+        expect(result.items).toEqual([
             expect.objectContaining({
                 id: leadId,
                 leadNo: 'LEAD-2026-001',
@@ -86,6 +96,8 @@ describe('LeadQueryService', () => {
                 ownerName: '销售人员',
                 ownerOrgName: '华南销售一部',
                 qualifiedAt: '2026-04-25T11:00:00.000Z',
+                convertedAt: null,
+                convertedProjectSummary: null,
                 effectiveScore: 95,
                 effectiveRating: 'A',
                 effectiveScoreSource: 'system',
@@ -108,11 +120,10 @@ describe('LeadQueryService', () => {
         const result = await service.listLeads({ ownershipScope: 'public-pool' }, currentUser);
 
         expect(leadRepository.findMany).toHaveBeenCalledWith({
-            ownershipScope: 'public-pool',
             ownerUserId: undefined,
             unassignedOnly: true
         });
-        expect(result[0]).toEqual(
+        expect(result.items[0]).toEqual(
             expect.objectContaining({
                 ownerUserId: null,
                 ownerOrgId: null,
@@ -123,10 +134,79 @@ describe('LeadQueryService', () => {
 
         await service.listLeads({ ownershipScope: 'mine' }, currentUser);
         expect(leadRepository.findMany).toHaveBeenLastCalledWith({
-            ownershipScope: 'mine',
             ownerUserId: userId,
             unassignedOnly: false
         });
+    });
+
+    it('defaults to active scope and keeps converted and closed leads out of the working list', async () => {
+        const activeLead = createLeadEntity();
+        const convertedLead = createLeadEntity({
+            id: '50000000-0000-4000-8000-000000000002',
+            status: 'converted',
+            convertedProjectId: '20000000-0000-4000-8000-000000000001',
+            convertedAt: new Date('2026-04-25T12:00:00.000Z'),
+            convertedBy: userId
+        });
+        const closedLead = createLeadEntity({
+            id: '50000000-0000-4000-8000-000000000003',
+            status: 'closed',
+            closedAt: new Date('2026-04-25T13:00:00.000Z')
+        });
+        leadRepository.findMany.mockResolvedValue([activeLead, convertedLead, closedLead]);
+        leadRepository.findPlatformUsersByIds.mockResolvedValue([{ id: userId, displayName: '销售人员' }] as never);
+        leadRepository.findOrgUnitsByIds.mockResolvedValue([{ id: orgId, name: '华南销售一部' }] as never);
+
+        const result = await service.listLeads({}, currentUser);
+
+        expect(result.scope).toBe('active');
+        expect(result.items.map((lead) => lead.id)).toEqual([leadId]);
+        expect(result.summary).toEqual(
+            expect.objectContaining({
+                active: 1,
+                registered: 1,
+                converted: 1,
+                closed: 1,
+                all: 3
+            })
+        );
+    });
+
+    it('returns converted scope with converted project summary', async () => {
+        const convertedLead = createLeadEntity({
+            status: 'converted',
+            convertedProjectId: '20000000-0000-4000-8000-000000000001',
+            convertedAt: new Date('2026-04-25T12:00:00.000Z'),
+            convertedBy: userId
+        });
+        leadRepository.findMany.mockResolvedValue([convertedLead]);
+        leadRepository.findPlatformUsersByIds.mockResolvedValue([{ id: userId, displayName: '销售人员' }] as never);
+        leadRepository.findOrgUnitsByIds.mockResolvedValue([{ id: orgId, name: '华南销售一部' }] as never);
+        leadRepository.findProjectsByIds.mockResolvedValue([
+            createProjectEntity({
+                id: '20000000-0000-4000-8000-000000000001',
+                projectNo: 'PRJ-2026-101',
+                projectName: '华南地铁项目'
+            })
+        ]);
+
+        const result = await service.listLeads({ scope: 'converted' }, currentUser);
+
+        expect(leadRepository.findProjectsByIds).toHaveBeenCalledWith(['20000000-0000-4000-8000-000000000001']);
+        expect(result.items[0]).toEqual(
+            expect.objectContaining({
+                status: 'converted',
+                convertedAt: '2026-04-25T12:00:00.000Z',
+                convertedProjectSummary: {
+                    id: '20000000-0000-4000-8000-000000000001',
+                    projectNo: 'PRJ-2026-101',
+                    projectName: '华南地铁项目',
+                    customerId,
+                    status: 'active',
+                    currentStage: 'assessment'
+                }
+            })
+        );
     });
 
     it('returns detail view with source summary', async () => {

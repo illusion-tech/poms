@@ -23,6 +23,7 @@ import {
     LeadStatus,
     LeadStore,
     LeadUrgency,
+    LeadWorkbenchScope,
     PlatformStore,
     ProjectStage,
     ProjectStatus,
@@ -42,6 +43,8 @@ import {
     type LeadListView,
     type LeadScoreHistoryView,
     type LeadScoreOverrideSummary,
+    type LeadWorkbenchFacet,
+    type LeadWorkbenchSummary,
     type OwnerReferenceOrgUnit,
     type OwnerReferenceUser,
     type ProjectSummary,
@@ -145,6 +148,8 @@ function createLead(overrides: Partial<LeadListView> = {}): LeadListView {
         ownerOrgName: '华南销售一部',
         qualifiedAt: null,
         convertedProjectId: null,
+        convertedAt: null,
+        convertedProjectSummary: null,
         rowVersion: 1,
         createdAt: '2026-04-25T09:00:00.000Z',
         updatedAt: '2026-04-25T10:00:00.000Z',
@@ -201,6 +206,39 @@ function createLeadSourceDictionaryItem(overrides: Partial<DictionaryItemSummary
         updatedBy: 'user-1',
         ...overrides
     };
+}
+
+function createLeadWorkbenchSummary(leads: LeadListView[]): LeadWorkbenchSummary {
+    const registered = leads.filter((lead) => lead.status === LeadStatus.Registered).length;
+    const qualified = leads.filter((lead) => lead.status === LeadStatus.Qualified).length;
+    const converted = leads.filter((lead) => lead.status === LeadStatus.Converted || lead.convertedProjectId).length;
+    const closed = leads.filter((lead) => lead.status === LeadStatus.Closed).length;
+    const readyToConvert = leads.filter((lead) => lead.status === LeadStatus.Qualified && lead.gateSummary.conversion.status === LeadGateStatus.Ready).length;
+    const blockedConversion = leads.filter((lead) => lead.status === LeadStatus.Qualified && lead.gateSummary.conversion.status !== LeadGateStatus.Ready).length;
+
+    return {
+        active: registered + qualified,
+        registered,
+        qualified,
+        'ready-to-convert': readyToConvert,
+        'blocked-conversion': blockedConversion,
+        converted,
+        closed,
+        all: leads.length
+    };
+}
+
+function createLeadWorkbenchFacets(summary: LeadWorkbenchSummary): LeadWorkbenchFacet[] {
+    return [
+        { scope: LeadWorkbenchScope.Active, label: '处理中', hint: '待确认与已有效线索', severity: 'info', count: summary.active, order: 10 },
+        { scope: LeadWorkbenchScope.Registered, label: '待确认', hint: '尚未确认有效的线索', severity: 'secondary', count: summary.registered, order: 20 },
+        { scope: LeadWorkbenchScope.Qualified, label: '已有效', hint: '已确认有效且仍在推进的线索', severity: 'success', count: summary.qualified, order: 30 },
+        { scope: LeadWorkbenchScope.ReadyToConvert, label: '可转项目', hint: '已满足转项目硬闸口的线索', severity: 'success', count: summary['ready-to-convert'], order: 40 },
+        { scope: LeadWorkbenchScope.BlockedConversion, label: '转化受阻', hint: '已有效但缺少转项目必填条件的线索', severity: 'warn', count: summary['blocked-conversion'], order: 50 },
+        { scope: LeadWorkbenchScope.Converted, label: '已转项目', hint: '已完成项目转化的历史线索', severity: 'info', count: summary.converted, order: 60 },
+        { scope: LeadWorkbenchScope.Closed, label: '已关闭', hint: '已关闭且不再推进的线索', severity: 'contrast', count: summary.closed, order: 70 },
+        { scope: LeadWorkbenchScope.All, label: '全部线索', hint: '包含处理中、已转项目和已关闭线索', severity: 'secondary', count: summary.all, order: 80 }
+    ];
 }
 
 function createLeadDetail(overrides: Partial<LeadDetailView> = {}): LeadDetailView {
@@ -396,6 +434,10 @@ describe('LeadList', () => {
         loading: ReturnType<typeof signal<boolean>>;
         loadingDetail: ReturnType<typeof signal<boolean>>;
         saving: ReturnType<typeof signal<boolean>>;
+        workbenchSummary: ReturnType<typeof computed<LeadWorkbenchSummary>>;
+        workbenchFacets: ReturnType<typeof computed<LeadWorkbenchFacet[]>>;
+        currentScope: ReturnType<typeof computed<LeadWorkbenchScope>>;
+        totalLeadItems: ReturnType<typeof computed<number>>;
         registeredLeadCount: ReturnType<typeof computed<number>>;
         qualifiedLeadCount: ReturnType<typeof computed<number>>;
         convertedLeadCount: ReturnType<typeof computed<number>>;
@@ -515,11 +557,23 @@ describe('LeadList', () => {
             loading: signal(false),
             loadingDetail: signal(false),
             saving: signal(false),
+            workbenchSummary: computed(() => createLeadWorkbenchSummary(leads())),
+            workbenchFacets: computed(() => createLeadWorkbenchFacets(createLeadWorkbenchSummary(leads()))),
+            currentScope: computed(() => LeadWorkbenchScope.Active),
+            totalLeadItems: computed(() => leads().length),
             registeredLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Registered).length),
             qualifiedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Qualified).length),
             convertedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Converted).length),
             closedLeadCount: computed(() => leads().filter((lead) => lead.status === LeadStatus.Closed).length),
-            loadLeads: jest.fn().mockResolvedValue(leads()),
+            loadLeads: jest.fn().mockImplementation(async () => ({
+                scope: LeadWorkbenchScope.Active,
+                items: leads(),
+                summary: createLeadWorkbenchSummary(leads()),
+                facets: createLeadWorkbenchFacets(createLeadWorkbenchSummary(leads())),
+                totalItems: leads().length,
+                page: 1,
+                pageSize: 500
+            })),
             loadLead: jest.fn().mockImplementation(async () => {
                 const detail = createLeadDetail();
                 selectedLead.set(detail);
@@ -758,6 +812,7 @@ describe('LeadList', () => {
         expect(text).toContain('客户拜访');
         expect(text).toContain('张销售');
         expect(text).toContain('待确认');
+        expect(text).not.toContain('返回项目管理');
     });
 
     it('highlights effective score without hiding the system score source', () => {
@@ -852,21 +907,26 @@ describe('LeadList', () => {
         fixture.detectChanges();
 
         expect(component.conversionGuideActive()).toBe(true);
-        expect(component.statusFilter()).toBe(LeadStatus.Qualified);
+        expect(component.workbenchScope()).toBe(LeadWorkbenchScope.Qualified);
         expect(component.readyConversionLeadCount()).toBe(1);
         expect(component.blockedConversionLeadCount()).toBe(1);
         expect(fixture.nativeElement.textContent).toContain('选择一条可转项目线索');
         expect(fixture.nativeElement.textContent).toContain('1 条可转项目');
         expect(fixture.nativeElement.textContent).toContain('1 条待补齐');
+        expect(fixture.nativeElement.textContent).toContain('返回项目管理');
+        expect(fixture.nativeElement.textContent).toContain('退出选择模式');
         expect(fixture.nativeElement.textContent).toContain('转入项目');
         expect(fixture.nativeElement.textContent).toContain('补齐闸口');
         expect(fixture.nativeElement.textContent).toContain('缺少：预算情况');
         expect(fixture.nativeElement.textContent.match(/缺少：预算情况/g)).toHaveLength(1);
 
+        component.goToProjects();
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/projects']);
+
         component.clearConversionGuide();
 
         expect(component.conversionGuideActive()).toBe(false);
-        expect(component.statusFilter()).toBe('all');
+        expect(component.workbenchScope()).toBe(LeadWorkbenchScope.Active);
         expect(routerMock.navigate).toHaveBeenCalledWith(
             [],
             expect.objectContaining({
@@ -879,7 +939,7 @@ describe('LeadList', () => {
         );
     });
 
-    it('filters the lead table when clicking a lead distribution status segment', () => {
+    it('loads the selected lead workbench scope when clicking a distribution segment', () => {
         leads.set([
             createLead({ id: 'lead-registered', status: LeadStatus.Registered }),
             createLead({ id: 'lead-qualified', status: LeadStatus.Qualified }),
@@ -889,18 +949,37 @@ describe('LeadList', () => {
         component.first = 10;
         fixture.detectChanges();
 
-        const convertedSegment = fixture.nativeElement.querySelector(`[data-lead-distribution-status="${LeadStatus.Converted}"]`) as HTMLButtonElement | null;
+        const convertedSegment = fixture.nativeElement.querySelector(`[data-lead-distribution-scope="${LeadWorkbenchScope.Converted}"]`) as HTMLButtonElement | null;
 
         expect(convertedSegment).not.toBeNull();
 
         convertedSegment?.click();
         fixture.detectChanges();
 
-        const activeSegment = fixture.nativeElement.querySelector(`[data-lead-distribution-status="${LeadStatus.Converted}"]`) as HTMLButtonElement | null;
-        expect(component.statusFilter()).toBe(LeadStatus.Converted);
+        const activeSegment = fixture.nativeElement.querySelector(`[data-lead-distribution-scope="${LeadWorkbenchScope.Converted}"]`) as HTMLButtonElement | null;
+        expect(component.workbenchScope()).toBe(LeadWorkbenchScope.Converted);
         expect(component.first).toBe(0);
-        expect(component.visibleLeads().map((lead) => lead.id)).toEqual(['lead-converted']);
+        expect(leadStoreMock.loadLeads).toHaveBeenLastCalledWith({ scope: LeadWorkbenchScope.Converted, ownershipScope: LeadOwnershipScope.All });
         expect(activeSegment?.getAttribute('aria-pressed')).toBe('true');
+    });
+
+    it('renders converted leads as archived conversion results instead of conversion gaps', () => {
+        leads.set([
+            createLead({
+                id: 'lead-converted',
+                status: LeadStatus.Converted,
+                convertedProjectId: 'project-1',
+                convertedAt: '2026-04-26T10:00:00.000Z',
+                convertedProjectSummary: createProjectSummary()
+            })
+        ]);
+
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+        expect(text).toContain('已转入项目：华南地铁项目');
+        expect(text).toContain('查看项目');
+        expect(text).not.toContain('缺少：已确认有效状态');
     });
 
     it('loads shared sales follow-up records when opening a lead detail', async () => {
@@ -958,6 +1037,7 @@ describe('LeadList', () => {
             convertedProjectId: 'project-1',
             convertedProjectSummary: createProjectSummary()
         });
+        leads.set([convertedLead]);
         leadStoreMock.loadLead.mockImplementationOnce(async () => {
             selectedLead.set(convertedLead);
             return convertedLead;
@@ -982,6 +1062,10 @@ describe('LeadList', () => {
             leadId: 'lead-1',
             projectId: 'project-1'
         });
+        expect(fixture.nativeElement.textContent).toContain('已转入项目：华南地铁项目');
+        expect(fixture.nativeElement.textContent).toContain('已转项目');
+        expect(fixture.nativeElement.textContent).not.toContain('转项目前缺口');
+        expect(fixture.nativeElement.textContent).not.toContain('缺少：已确认有效状态');
     });
 
     it('creates a lead with the generated request shape', async () => {
@@ -1063,7 +1147,7 @@ describe('LeadList', () => {
     it('loads public pool scope and claims an unassigned lead', async () => {
         component.setOwnershipFilter(LeadOwnershipScope.PublicPool);
 
-        expect(leadStoreMock.loadLeads).toHaveBeenLastCalledWith({ ownershipScope: LeadOwnershipScope.PublicPool });
+        expect(leadStoreMock.loadLeads).toHaveBeenLastCalledWith({ scope: LeadWorkbenchScope.Active, ownershipScope: LeadOwnershipScope.PublicPool });
 
         const publicLead = createLead({
             ownerUserId: null,

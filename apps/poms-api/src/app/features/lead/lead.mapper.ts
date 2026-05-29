@@ -58,6 +58,7 @@ export function mapLeadToListView(
     source: DictionaryItemSummary | null,
     owner: PlatformUser | null,
     ownerOrg: OrgUnit | null,
+    convertedProject: Project | null,
     activeScoreOverride: ActiveLeadScoreOverride | null,
     allowedActions: LeadAllowedAction[] = []
 ): LeadListView {
@@ -93,6 +94,8 @@ export function mapLeadToListView(
         ownerOrgName: ownerOrg?.name ?? null,
         qualifiedAt: lead.qualifiedAt?.toISOString() ?? null,
         convertedProjectId: lead.convertedProjectId ?? null,
+        convertedAt: lead.convertedAt?.toISOString() ?? null,
+        convertedProjectSummary: mapConvertedProjectSummary(convertedProject),
         rowVersion: lead.rowVersion,
         createdAt: lead.createdAt.toISOString(),
         updatedAt: lead.updatedAt.toISOString(),
@@ -114,18 +117,22 @@ export function mapLeadToDetailView(
         ownerName: owner?.displayName ?? null,
         ownerOrgName: ownerOrg?.name ?? null,
         sourceSummary: source?.name ? `来源：${source.name}` : null,
-        convertedProjectSummary: convertedProject
-            ? {
-                  id: convertedProject.id,
-                  projectNo: convertedProject.projectNo,
-                  projectName: convertedProject.projectName,
-                  customerId: convertedProject.customerId ?? null,
-                  status: convertedProject.status,
-                  currentStage: convertedProject.currentStage
-              }
-            : null,
+        convertedProjectSummary: mapConvertedProjectSummary(convertedProject),
         allowedActions
     };
+}
+
+function mapConvertedProjectSummary(convertedProject: Project | null): LeadDetailView['convertedProjectSummary'] {
+    return convertedProject
+        ? {
+              id: convertedProject.id,
+              projectNo: convertedProject.projectNo,
+              projectName: convertedProject.projectName,
+              customerId: convertedProject.customerId ?? null,
+              status: convertedProject.status,
+              currentStage: convertedProject.currentStage
+          }
+        : null;
 }
 
 function resolveEffectiveScore(lead: Pick<Lead, 'score' | 'rating' | 'scoreReason'>, activeScoreOverride: ActiveLeadScoreOverride | null): Pick<LeadSummary, 'effectiveScore' | 'effectiveRating' | 'effectiveScoreReason' | 'effectiveScoreSource' | 'activeScoreOverrideId'> {

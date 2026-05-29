@@ -23,12 +23,14 @@ import {
     LeadStatus,
     LeadStore,
     LeadUrgency,
+    LeadWorkbenchScope,
     PlatformStore,
     type CustomerListView,
     type LeadDetailView,
     type LeadListView,
     type LeadScoreHistoryView,
     type LeadScoreOverrideSummary,
+    type LeadWorkbenchFacet,
     type OwnerReferenceUser
 } from '@poms/admin-data-access';
 import { LeadBudgetStatusLabel, LeadBudgetStatusOptions, LeadRatingLabel, LeadRatingOptions, LeadUrgencyLabel, LeadUrgencyOptions } from '@poms/shared-contracts';
@@ -40,7 +42,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { Table, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { TooltipModule } from 'primeng/tooltip';
@@ -70,7 +72,7 @@ interface LeadSummaryItem {
 }
 
 interface LeadDistributionItem extends LeadSummaryItem {
-    status: LeadStatus;
+    scope: LeadWorkbenchScope;
     color: string;
     shadowColor: string;
     flexValue: number;
@@ -256,12 +258,12 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             <button
                                 type="button"
                                 class="block h-4 w-full cursor-pointer rounded-lg outline-none transition-[box-shadow,filter] hover:brightness-105 focus-visible:ring-2 focus-visible:ring-primary-300"
-                                [ngClass]="[item.color, statusFilter() === item.status ? 'ring-2 ring-primary-400 ring-offset-2 ring-offset-surface-0 brightness-105 dark:ring-offset-surface-900' : '']"
+                                [ngClass]="[item.color, workbenchScope() === item.scope ? 'ring-2 ring-primary-400 ring-offset-2 ring-offset-surface-0 brightness-105 dark:ring-offset-surface-900' : '']"
                                 [style.box-shadow]="'0px 5px 10px 0px ' + item.shadowColor"
                                 [attr.aria-label]="'筛选' + item.label + '线索，' + item.tooltip"
-                                [attr.aria-pressed]="statusFilter() === item.status"
-                                [attr.data-lead-distribution-status]="item.status"
-                                (click)="filterByDistributionStatus(item.status)"
+                                [attr.aria-pressed]="workbenchScope() === item.scope"
+                                [attr.data-lead-distribution-scope]="item.scope"
+                                (click)="setWorkbenchScope(item.scope)"
                             ></button>
                             <div
                                 class="pointer-events-none invisible absolute bottom-full left-1/2 z-20 mb-2 min-w-max -translate-x-1/2 rounded-md border border-surface-200 bg-surface-0 px-3 py-2 text-xs leading-5 text-surface-700 opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-200"
@@ -277,15 +279,15 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     }
                 </div>
 
-                <div class="grid grid-cols-4 gap-2 rounded-lg bg-surface-50 p-3 shadow-v1 dark:bg-white/10">
+                <div class="grid grid-cols-2 gap-2 rounded-lg bg-surface-50 p-3 shadow-v1 dark:bg-white/10 md:grid-cols-4 xl:grid-cols-7">
                     @for (item of leadDistributionItems(); track item.label) {
                         <button
                             type="button"
                             class="flex min-w-0 items-center rounded-md px-2 py-1 text-left transition-colors hover:bg-surface-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 dark:hover:bg-surface-800"
-                            [ngClass]="statusFilter() === item.status ? 'bg-primary-50 dark:bg-primary-950/40' : ''"
+                            [ngClass]="workbenchScope() === item.scope ? 'bg-primary-50 dark:bg-primary-950/40' : ''"
                             [attr.aria-label]="'筛选' + item.label + '线索'"
-                            [attr.aria-pressed]="statusFilter() === item.status"
-                            (click)="filterByDistributionStatus(item.status)"
+                            [attr.aria-pressed]="workbenchScope() === item.scope"
+                            (click)="setWorkbenchScope(item.scope)"
                         >
                             <div class="h-4 w-1 shrink-0 rounded-full shadow-[0px_3px_1px_0px_rgba(0,0,0,0.00),0px_2px_1px_0px_rgba(0,0,0,0.01),0px_1px_1px_0px_rgba(0,0,0,0.02),0px_0px_1px_0px_rgba(0,0,0,0.03)]" [ngClass]="item.color"></div>
                             <span class="ml-2 truncate text-xs text-surface-950 dark:text-surface-0 sm:ml-3 sm:text-sm">{{ item.label }}</span>
@@ -312,7 +314,8 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     <div class="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
                         <span class="rounded-md bg-primary-100 px-3 py-2 text-sm font-medium text-primary-700 dark:bg-primary-900/60 dark:text-primary-100">{{ readyConversionLeadCount() }} 条可转项目</span>
                         <span class="rounded-md bg-amber-100 px-3 py-2 text-sm font-medium text-amber-700 dark:bg-amber-900/40 dark:text-amber-100">{{ blockedConversionLeadCount() }} 条待补齐</span>
-                        <p-button label="查看全部线索" icon="pi pi-list" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="clearConversionGuide()" />
+                        <p-button label="返回项目管理" icon="pi pi-arrow-left" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="goToProjects()" />
+                        <p-button label="退出选择模式" icon="pi pi-list" size="small" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="clearConversionGuide()" />
                     </div>
                 </section>
             }
@@ -330,7 +333,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     <div adminToolbarCenter class="flex items-center gap-3">
                         <p-iconfield>
                             <p-inputicon class="pi pi-search" />
-                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="searchValue.set($event)" (input)="onGlobalFilter(dt, $event)" placeholder="搜索线索、客户、销售主责" />
+                            <input pInputText [ngModel]="searchValue()" (ngModelChange)="setSearchValue($event)" placeholder="搜索线索、客户、销售主责" />
                         </p-iconfield>
 
                         <p-select [ngModel]="ratingFilter()" (ngModelChange)="setRatingFilter($event)" [options]="ratingOptions" optionLabel="label" optionValue="value" appendTo="body" ariaLabel="按评级筛选" />
@@ -339,14 +342,11 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                     </div>
 
                     <div adminToolbarEnd class="flex items-center gap-3 text-sm text-surface-500 dark:text-surface-400">
-                        <span>当前筛出 {{ visibleLeads().length }} 条线索</span>
-                        <p-button label="返回项目管理" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="goToProjects()" />
-
+                        <span>当前筛出 {{ totalLeadItems().toLocaleString() }} 条线索</span>
                     </div>
 
                     <p-table
-                        #dt
-                        [value]="visibleLeads()"
+                        [value]="leads()"
                         [loading]="loading()"
                         [rowHover]="true"
                         [paginator]="true"
@@ -355,7 +355,6 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                         dataKey="id"
                         sortMode="multiple"
                         responsiveLayout="scroll"
-                        [globalFilterFields]="['leadNo', 'leadName', 'customerName', 'sourceName', 'sourceCode', 'budgetStatus', 'urgency', 'rating', 'effectiveRating', 'status', 'ownerName', 'ownerOrgName']"
                         [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                         currentPageReportTemplate="显示 {first} 到 {last}，共 {totalRecords} 条线索"
@@ -414,10 +413,17 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                                     @if (isManualEffectiveScore(lead)) {
                                         <div class="mt-1 text-xs leading-5 text-surface-500 dark:text-surface-400">系统 {{ lead.score }} / {{ getLeadRatingName(lead.rating) }}</div>
                                     }
-                                    <div class="mt-2 flex items-start gap-1.5 text-xs leading-5" [ngClass]="canConvertLead(lead) ? 'text-green-600 dark:text-green-300' : 'text-amber-600 dark:text-amber-300'">
-                                        <i class="pi mt-0.5 text-[0.7rem]" [ngClass]="canConvertLead(lead) ? 'pi-check-circle' : 'pi-exclamation-triangle'"></i>
-                                        <span>{{ lead.gateSummary.conversion.explanation }}</span>
-                                    </div>
+                                    @if (isConvertedLead(lead)) {
+                                        <div class="mt-2 flex items-start gap-1.5 text-xs leading-5 text-blue-600 dark:text-blue-300">
+                                            <i class="pi pi-check-circle mt-0.5 text-[0.7rem]"></i>
+                                            <span>{{ getConvertedProjectLabel(lead) }}</span>
+                                        </div>
+                                    } @else {
+                                        <div class="mt-2 flex items-start gap-1.5 text-xs leading-5" [ngClass]="canConvertLead(lead) ? 'text-green-600 dark:text-green-300' : 'text-amber-600 dark:text-amber-300'">
+                                            <i class="pi mt-0.5 text-[0.7rem]" [ngClass]="canConvertLead(lead) ? 'pi-check-circle' : 'pi-exclamation-triangle'"></i>
+                                            <span>{{ lead.gateSummary.conversion.explanation }}</span>
+                                        </div>
+                                    }
                                 </td>
                                 <td>
                                     <div class="grid grid-cols-1 gap-1 text-sm leading-5">
@@ -805,7 +811,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">转项目闸口</dt>
-                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ lead.gateSummary.conversion.status === LeadGateStatus.Ready ? '已满足' : '待补齐' }}</dd>
+                                <dd class="mt-1 text-sm text-surface-900 dark:text-surface-0">{{ isConvertedLead(lead) ? '已转项目' : lead.gateSummary.conversion.status === LeadGateStatus.Ready ? '已满足' : '待补齐' }}</dd>
                             </div>
                             <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
                                 <dt class="text-xs text-surface-500 dark:text-surface-400">预计金额</dt>
@@ -839,7 +845,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             <app-workspace-feedback severity="secondary" summary="系统评分说明" [detail]="lead.scoreReason" />
                         }
 
-                        @if (lead.gateSummary.conversion.status === LeadGateStatus.Blocked) {
+                        @if (!isConvertedLead(lead) && lead.gateSummary.conversion.status === LeadGateStatus.Blocked) {
                             <app-workspace-feedback severity="warn" summary="转项目前缺口" [detail]="lead.gateSummary.conversion.explanation" />
                         }
 
@@ -1360,7 +1366,7 @@ export class LeadList implements OnInit {
     readonly saving = this.#leadStore.saving;
     readonly customerLoading = this.#customerStore.loading;
     readonly searchValue = signal('');
-    readonly statusFilter = signal<LeadStatus | LeadAllFilterValue>(ALL_FILTER_VALUE);
+    readonly workbenchScope = signal<LeadWorkbenchScope>(LeadWorkbenchScope.Active);
     readonly ratingFilter = signal<LeadRating | LeadAllFilterValue>(ALL_FILTER_VALUE);
     readonly ownershipFilter = signal<LeadOwnershipScope>(DEFAULT_OWNERSHIP_SCOPE);
     readonly createForm = signal<CreateLeadForm>(EMPTY_CREATE_FORM);
@@ -1464,36 +1470,19 @@ export class LeadList implements OnInit {
             }))
     );
 
-    readonly visibleLeads = computed(() => {
-        const keyword = this.normalize(this.searchValue());
-        const selectedStatus = this.statusFilter();
+    readonly totalLeadItems = this.#leadStore.totalLeadItems;
+    readonly readyConversionLeadCount = computed(() => this.#leadStore.workbenchSummary()['ready-to-convert']);
+    readonly blockedConversionLeadCount = computed(() => this.#leadStore.workbenchSummary()['blocked-conversion']);
 
-        return this.leads().filter((lead) => {
-            if (selectedStatus !== ALL_FILTER_VALUE && lead.status !== selectedStatus) {
-                return false;
-            }
-
-            if (!keyword) {
-                return true;
-            }
-
-            return this.leadSearchText(lead).includes(keyword);
-        });
-    });
-
-    readonly readyConversionLeadCount = computed(() => this.leads().filter((lead) => this.canConvertLead(lead)).length);
-    readonly blockedConversionLeadCount = computed(() => this.leads().filter((lead) => lead.status === LeadStatus.Qualified && !this.canConvertLead(lead)).length);
-
-    readonly totalLeadCount = computed(() => this.leads().length);
+    readonly totalLeadCount = computed(() => this.#leadStore.workbenchSummary().all);
     readonly leadDistributionItems = computed<LeadDistributionItem[]>(() => {
         const total = this.totalLeadCount();
 
-        return [
-            this.buildLeadDistributionItem(LeadStatus.Registered, LEAD_STATUS_LABELS[LeadStatus.Registered], this.#leadStore.registeredLeadCount(), '需要判断', 'bg-orange-500', 'rgba(249,115,22,0.16)', total),
-            this.buildLeadDistributionItem(LeadStatus.Qualified, LEAD_STATUS_LABELS[LeadStatus.Qualified], this.#leadStore.qualifiedLeadCount(), '可转项目', 'bg-green-500', 'rgba(34,197,94,0.16)', total),
-            this.buildLeadDistributionItem(LeadStatus.Converted, LEAD_STATUS_LABELS[LeadStatus.Converted], this.#leadStore.convertedLeadCount(), '已有来源链', 'bg-primary-500', 'rgba(59,130,246,0.16)', total),
-            this.buildLeadDistributionItem(LeadStatus.Closed, LEAD_STATUS_LABELS[LeadStatus.Closed], this.#leadStore.closedLeadCount(), '不再推进', 'bg-rose-500', 'rgba(244,63,94,0.16)', total)
-        ];
+        return this.#leadStore
+            .workbenchFacets()
+            .filter((facet) => facet.scope !== LeadWorkbenchScope.All)
+            .sort((left, right) => left.order - right.order)
+            .map((facet) => this.buildLeadDistributionItem(facet, total));
     });
 
     readonly isCreateFormValid = computed(() => {
@@ -1525,7 +1514,7 @@ export class LeadList implements OnInit {
             this.followUpReminderEntry.set(followUpId ? { followUpId, todoId: params.get('todoId') } : null);
             this.conversionGuideActive.set(conversionGuide);
             if (conversionGuide) {
-                this.statusFilter.set(LeadStatus.Qualified);
+                this.workbenchScope.set(LeadWorkbenchScope.Qualified);
                 this.first = 0;
             }
             if (leadId) {
@@ -1543,10 +1532,15 @@ export class LeadList implements OnInit {
         this.pageError.set(null);
         const rating = this.ratingFilter();
         const filters: Parameters<LeadStore['loadLeads']>[0] = {
+            scope: this.workbenchScope(),
             ownershipScope: this.ownershipFilter()
         };
+        const keyword = this.searchValue().trim();
         if (rating !== ALL_FILTER_VALUE) {
             filters.rating = rating;
+        }
+        if (keyword) {
+            filters.keyword = keyword;
         }
         try {
             await this.#leadStore.loadLeads(filters);
@@ -1577,16 +1571,18 @@ export class LeadList implements OnInit {
         }
     }
 
-    onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    setSearchValue(value: string) {
+        this.searchValue.set(value);
         this.first = 0;
+        void this.loadLeads();
     }
 
     clearConversionGuide() {
         this.conversionGuideActive.set(false);
-        this.statusFilter.set(ALL_FILTER_VALUE);
+        this.workbenchScope.set(LeadWorkbenchScope.Active);
         this.first = 0;
         this.clearConversionGuideQuery();
+        void this.loadLeads();
     }
 
     private clearConversionGuideQuery() {
@@ -1600,13 +1596,10 @@ export class LeadList implements OnInit {
         });
     }
 
-    setStatusFilter(value: LeadStatus | LeadAllFilterValue | null | undefined) {
-        this.statusFilter.set(value ?? ALL_FILTER_VALUE);
+    setWorkbenchScope(scope: LeadWorkbenchScope) {
+        this.workbenchScope.set(scope);
         this.first = 0;
-    }
-
-    filterByDistributionStatus(status: LeadStatus) {
-        this.setStatusFilter(status);
+        void this.loadLeads();
     }
 
     setRatingFilter(value: LeadRating | LeadAllFilterValue | null | undefined) {
@@ -2232,8 +2225,20 @@ export class LeadList implements OnInit {
         return this.canWriteLead() && (lead.status === LeadStatus.Registered || lead.status === LeadStatus.Qualified);
     }
 
+    isConvertedLead(lead: Pick<LeadActionTarget, 'status' | 'convertedProjectId'>): boolean {
+        return lead.status === LeadStatus.Converted || Boolean(lead.convertedProjectId);
+    }
+
+    getConvertedProjectLabel(lead: Pick<LeadActionTarget, 'convertedProjectSummary' | 'convertedProjectId'>): string {
+        if (lead.convertedProjectSummary) {
+            return `已转入项目：${lead.convertedProjectSummary.projectName}`;
+        }
+
+        return lead.convertedProjectId ? '已转入项目' : '';
+    }
+
     canConvertLead(lead: LeadActionTarget): boolean {
-        return this.canWriteLead() && lead.gateSummary.conversion.status === LeadGateStatus.Ready;
+        return this.canWriteLead() && lead.status === LeadStatus.Qualified && lead.gateSummary.conversion.status === LeadGateStatus.Ready;
     }
 
     canSubmitScoreOverride(lead: LeadActionTarget | null, history: LeadScoreHistoryView | null = this.scoreHistory()): boolean {
@@ -2365,20 +2370,60 @@ export class LeadList implements OnInit {
         }).format(amount);
     }
 
-    private buildLeadDistributionItem(status: LeadStatus, label: string, value: number, hint: string, color: string, shadowColor: string, total: number): LeadDistributionItem {
+    private buildLeadDistributionItem(facet: LeadWorkbenchFacet, total: number): LeadDistributionItem {
+        const value = facet.count;
         const percentageLabel = this.formatPercentage(value, total);
+        const color = this.getScopeColor(facet.scope);
 
         return {
-            status,
-            label,
+            scope: facet.scope,
+            label: facet.label,
             value,
-            hint,
+            hint: facet.hint,
             color,
-            shadowColor,
+            shadowColor: this.getScopeShadowColor(facet.scope),
             percentageLabel,
             flexValue: Math.max(value, 1),
-            tooltip: `${label}：${value.toLocaleString('zh-CN')} 条，占 ${percentageLabel}，${hint}`
+            tooltip: `${facet.label}：${value.toLocaleString('zh-CN')} 条，${facet.hint}`
         };
+    }
+
+    private getScopeColor(scope: LeadWorkbenchScope): string {
+        switch (scope) {
+            case LeadWorkbenchScope.Registered:
+                return 'bg-orange-500';
+            case LeadWorkbenchScope.Qualified:
+                return 'bg-green-500';
+            case LeadWorkbenchScope.ReadyToConvert:
+                return 'bg-emerald-500';
+            case LeadWorkbenchScope.BlockedConversion:
+                return 'bg-amber-500';
+            case LeadWorkbenchScope.Converted:
+                return 'bg-primary-500';
+            case LeadWorkbenchScope.Closed:
+                return 'bg-rose-500';
+            default:
+                return 'bg-sky-500';
+        }
+    }
+
+    private getScopeShadowColor(scope: LeadWorkbenchScope): string {
+        switch (scope) {
+            case LeadWorkbenchScope.Registered:
+                return 'rgba(249,115,22,0.16)';
+            case LeadWorkbenchScope.Qualified:
+                return 'rgba(34,197,94,0.16)';
+            case LeadWorkbenchScope.ReadyToConvert:
+                return 'rgba(16,185,129,0.16)';
+            case LeadWorkbenchScope.BlockedConversion:
+                return 'rgba(245,158,11,0.16)';
+            case LeadWorkbenchScope.Converted:
+                return 'rgba(59,130,246,0.16)';
+            case LeadWorkbenchScope.Closed:
+                return 'rgba(244,63,94,0.16)';
+            default:
+                return 'rgba(14,165,233,0.16)';
+        }
     }
 
     private defaultCreateForm(): CreateLeadForm {
@@ -2419,32 +2464,6 @@ export class LeadList implements OnInit {
 
     private findOwnerUser(id: string): OwnerReferenceUser | null {
         return this.#platformStore.ownerUsers().find((user) => user.id === id) ?? null;
-    }
-
-    private leadSearchText(lead: LeadListView): string {
-        return this.normalize(
-            [
-                lead.leadNo,
-                lead.leadName,
-                lead.customerName,
-                lead.sourceName,
-                lead.sourceCode,
-                this.getBudgetStatusName(lead.budgetStatus),
-                this.getUrgencyName(lead.urgency),
-                this.getLeadRatingName(lead.rating),
-                this.getLeadRatingName(this.getEffectiveRating(lead)),
-                this.getEffectiveScoreSourceName(this.getEffectiveScoreSource(lead)),
-                String(lead.score),
-                String(this.getEffectiveScore(lead)),
-                lead.ownerName,
-                lead.ownerOrgName,
-                this.getStatusName(lead.status)
-            ].join(' ')
-        );
-    }
-
-    private normalize(value: string): string {
-        return value.trim().toLowerCase();
     }
 
     private optionalText(value: string): string | null {

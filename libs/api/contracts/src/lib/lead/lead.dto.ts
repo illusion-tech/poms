@@ -7,7 +7,7 @@ import {
     CreateLeadRequestSchema,
     LeadDetailViewSchema,
     LeadListQuerySchema,
-    LeadListSchema,
+    LeadListResponseSchema,
     LeadOwnerAssignmentResultSchema,
     LeadScoreHistoryViewSchema,
     LeadScoreOverrideSummarySchema,
@@ -22,7 +22,7 @@ import { createZodDto } from 'nestjs-zod';
 
 export class LeadDto extends createZodDto(LeadSummarySchema) {}
 
-export class LeadListDto extends createZodDto(LeadListSchema) {}
+export class LeadListResponseDto extends createZodDto(LeadListResponseSchema) {}
 
 export class LeadDetailViewDto extends createZodDto(LeadDetailViewSchema) {}
 
