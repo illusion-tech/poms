@@ -107,6 +107,7 @@
 | Todo navigation tests      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=todo-navigation` | Pass | 1 suite / 9 tests passed；客户待办进入工作台 |
 | Admin lint                 | `corepack pnpm nx lint poms-admin`                                                | Pass | All files pass linting                       |
 | Admin build                | `corepack pnpm nx build poms-admin`                                               | Pass | Production build pass                        |
+| Browser visual QA          | `http://localhost:4200/customers` + `/customers/:id`                              | Pass | 客户列表和客户工作台桌面视口验收通过         |
 | Markdown format            | `corepack pnpm run format:md:check`                                               | Pass | Docs table formatting pass                   |
 | Diff sanity                | `git diff --check`                                                                | Pass | No whitespace errors                         |
 | OpenAPI / generated client | N/A                                                                               | N/A  | 本片不改 public API、DTO、OpenAPI 或 client  |
@@ -115,3 +116,12 @@
 ## 12. G3 结论
 
 `FE-64` 已达到本地 `G3 / Ready for Review`。客户列表已退出重型详情承载职责，客户名称进入 `/customers/:id` 工作台；客户工作台承载摘要、基础档案、客户别名、客户关系、讨论、跟进和附件。客户上下文文案已从“客户销售情报”收口为“客户关系”，机会级销售情报仍归属线索 / 项目上下文。
+
+## 13. G4 结论
+
+- Gate Status: `Done`
+- Commit Evidence: local commit `d4794d4b feat(admin): 将客户详情从列表弹窗迁移至独立工作台`.
+- Browser Evidence: `dist/screenshots/fe64-customers-list.png`, `dist/screenshots/fe64-customer-workspace.png`.
+- Done Boundary: `/customers/:id` 客户工作台、客户列表跳转入口、客户待办入口和客户关系文案均已完成 direct cutover；未新增后端 API、OpenAPI、generated client、数据库或权限变更。
+- Downstream Contract: 后续客户经营聚合读模型如需落地，应另开 `EX-71A` 或后续 cross-layer slice；不得把重型客户详情重新塞回客户列表弹窗。
+- Residual Work: none for this slice.
