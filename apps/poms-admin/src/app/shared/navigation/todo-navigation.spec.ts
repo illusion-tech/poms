@@ -66,7 +66,7 @@ describe('resolveTodoNavigationTarget', () => {
         });
     });
 
-    it('routes customer sales follow-up reminders to the customer list detail context', () => {
+    it('routes customer sales follow-up reminders to the customer workspace', () => {
         const result = resolveTodoNavigationTarget(
             createTodo({
                 id: 'todo-3',
@@ -80,9 +80,8 @@ describe('resolveTodoNavigationTarget', () => {
 
         expect(result).toEqual({
             navigable: true,
-            commands: ['/customers'],
+            commands: ['/customers', 'customer-1'],
             queryParams: {
-                customerId: 'customer-1',
                 followUpId: 'follow-up-3',
                 todoId: 'todo-3'
             }

@@ -33,8 +33,8 @@ export function resolveTodoNavigationTarget(todo: TodoNavigationInput): TodoNavi
         case TODO_TARGET_OBJECT_TYPE.Customer:
             return {
                 navigable: true,
-                commands: ['/customers'],
-                queryParams: salesFollowUpReminderQueryParams(todo, 'customerId')
+                commands: ['/customers', todo.targetObjectId],
+                queryParams: salesFollowUpReminderQueryParams(todo)
             };
         case TODO_TARGET_OBJECT_TYPE.Lead:
             return {
@@ -65,7 +65,7 @@ export function resolveTodoNavigationTarget(todo: TodoNavigationInput): TodoNavi
     }
 }
 
-function salesFollowUpReminderQueryParams(todo: TodoNavigationInput, targetQueryParam?: 'customerId' | 'leadId'): Record<string, string> | undefined {
+function salesFollowUpReminderQueryParams(todo: TodoNavigationInput, targetQueryParam?: 'leadId'): Record<string, string> | undefined {
     if (todo.sourceType !== SALES_FOLLOW_UP_RECORD_SOURCE_TYPE || todo.todoType !== SALES_FOLLOW_UP_REMINDER_TODO_TYPE) {
         return targetQueryParam ? { [targetQueryParam]: todo.targetObjectId } : undefined;
     }

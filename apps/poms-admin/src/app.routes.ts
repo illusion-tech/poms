@@ -19,6 +19,16 @@ export const appRoutes: Routes = [
                 data: { breadcrumb: '工作台' }
             },
             {
+                path: 'customers/:id',
+                loadComponent: () => import('./app/features/customer/customer-workspace').then((c) => c.CustomerWorkspace),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '客户工作台',
+                    requiredPermissions: ['customer:read'],
+                    requiredPermissionsMode: 'all'
+                }
+            },
+            {
                 path: 'customers',
                 loadComponent: () => import('./app/features/customer/customer-list').then((c) => c.CustomerList),
                 canActivate: [permissionGuard],
