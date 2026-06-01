@@ -8,6 +8,7 @@ import type {
     CustomerListQuery,
     CustomerListView,
     CustomerSummary,
+    CustomerWorkspaceActionItem,
     CustomerWorkspaceContractItem,
     CustomerWorkspaceDiscussionItem,
     CustomerWorkspaceFollowUpItem,
@@ -15,6 +16,7 @@ import type {
     CustomerWorkspaceOverviewView,
     CustomerWorkspaceProjectItem,
     CustomerWorkspaceSummary,
+    CustomerWorkspaceTimelineItem,
     UpdateCustomerRequest
 } from '@poms/shared-contracts';
 import { CustomerAliasTypeValue, CustomerStatusValue } from '@poms/shared-contracts';
@@ -46,8 +48,8 @@ export class CustomerService {
         return customers.map((customer) =>
             this.toListView(
                 customer,
-                customer.ownerUserId ? context.userMap.get(customer.ownerUserId) ?? null : null,
-                customer.ownerOrgId ? context.orgUnitMap.get(customer.ownerOrgId) ?? null : null,
+                customer.ownerUserId ? (context.userMap.get(customer.ownerUserId) ?? null) : null,
+                customer.ownerOrgId ? (context.orgUnitMap.get(customer.ownerOrgId) ?? null) : null,
                 context.leadCountByCustomerId.get(customer.id) ?? 0,
                 context.projectCountByCustomerId.get(customer.id) ?? 0,
                 context.contractCountByCustomerId.get(customer.id) ?? 0
@@ -57,15 +59,12 @@ export class CustomerService {
 
     async getCustomer(id: string): Promise<CustomerDetailView> {
         const customer = await this.requireCustomer(id);
-        const [aliases, context] = await Promise.all([
-            this.customerRepository.findAliasesByCustomerId(customer.id),
-            this.loadListContext([customer])
-        ]);
+        const [aliases, context] = await Promise.all([this.customerRepository.findAliasesByCustomerId(customer.id), this.loadListContext([customer])]);
 
         return this.toDetailView(
             customer,
-            customer.ownerUserId ? context.userMap.get(customer.ownerUserId) ?? null : null,
-            customer.ownerOrgId ? context.orgUnitMap.get(customer.ownerOrgId) ?? null : null,
+            customer.ownerUserId ? (context.userMap.get(customer.ownerUserId) ?? null) : null,
+            customer.ownerOrgId ? (context.orgUnitMap.get(customer.ownerOrgId) ?? null) : null,
             context.leadCountByCustomerId.get(customer.id) ?? 0,
             context.projectCountByCustomerId.get(customer.id) ?? 0,
             context.contractCountByCustomerId.get(customer.id) ?? 0,
@@ -84,14 +83,23 @@ export class CustomerService {
             this.customerRepository.findWorkspaceRecentDiscussions(customer.id)
         ]);
 
+        const workspaceSummary = this.toWorkspaceSummary(summary);
+        const workspaceLeads = activeLeads.map((row) => this.toWorkspaceLeadItem(row));
+        const workspaceProjects = activeProjects.map((row) => this.toWorkspaceProjectItem(row));
+        const workspaceContracts = recentContracts.map((row) => this.toWorkspaceContractItem(row));
+        const workspaceFollowUps = recentFollowUps.map((row) => this.toWorkspaceFollowUpItem(row));
+        const workspaceDiscussions = recentDiscussions.map((row) => this.toWorkspaceDiscussionItem(row));
+
         return {
             customerId: customer.id,
-            summary: this.toWorkspaceSummary(summary),
-            activeLeads: activeLeads.map((row) => this.toWorkspaceLeadItem(row)),
-            activeProjects: activeProjects.map((row) => this.toWorkspaceProjectItem(row)),
-            recentContracts: recentContracts.map((row) => this.toWorkspaceContractItem(row)),
-            recentFollowUps: recentFollowUps.map((row) => this.toWorkspaceFollowUpItem(row)),
-            recentDiscussions: recentDiscussions.map((row) => this.toWorkspaceDiscussionItem(row)),
+            summary: workspaceSummary,
+            activeLeads: workspaceLeads,
+            activeProjects: workspaceProjects,
+            recentContracts: workspaceContracts,
+            recentFollowUps: workspaceFollowUps,
+            recentDiscussions: workspaceDiscussions,
+            recommendedActions: this.buildWorkspaceRecommendedActions(customer, workspaceSummary, workspaceLeads, workspaceProjects, workspaceContracts, workspaceFollowUps, workspaceDiscussions),
+            timeline: this.buildWorkspaceTimeline(workspaceLeads, workspaceProjects, workspaceContracts, workspaceFollowUps, workspaceDiscussions),
             generatedAt: new Date().toISOString()
         };
     }
@@ -264,14 +272,7 @@ export class CustomerService {
         };
     }
 
-    private toListView(
-        customer: Customer,
-        owner: PlatformUser | null,
-        ownerOrg: OrgUnit | null,
-        leadCount: number,
-        projectCount: number,
-        contractCount: number
-    ): CustomerListView {
+    private toListView(customer: Customer, owner: PlatformUser | null, ownerOrg: OrgUnit | null, leadCount: number, projectCount: number, contractCount: number): CustomerListView {
         return {
             ...this.toSummary(customer),
             ownerName: owner?.displayName ?? null,
@@ -282,15 +283,7 @@ export class CustomerService {
         };
     }
 
-    private toDetailView(
-        customer: Customer,
-        owner: PlatformUser | null,
-        ownerOrg: OrgUnit | null,
-        leadCount: number,
-        projectCount: number,
-        contractCount: number,
-        aliases: CustomerAlias[]
-    ): CustomerDetailView {
+    private toDetailView(customer: Customer, owner: PlatformUser | null, ownerOrg: OrgUnit | null, leadCount: number, projectCount: number, contractCount: number, aliases: CustomerAlias[]): CustomerDetailView {
         return {
             ...this.toListView(customer, owner, ownerOrg, leadCount, projectCount, contractCount),
             aliases: aliases.map((alias) => this.toAliasSummary(alias))
@@ -389,6 +382,167 @@ export class CustomerService {
         };
     }
 
+    private buildWorkspaceRecommendedActions(
+        customer: Customer,
+        summary: CustomerWorkspaceSummary,
+        activeLeads: CustomerWorkspaceLeadItem[],
+        activeProjects: CustomerWorkspaceProjectItem[],
+        recentContracts: CustomerWorkspaceContractItem[],
+        recentFollowUps: CustomerWorkspaceFollowUpItem[],
+        recentDiscussions: CustomerWorkspaceDiscussionItem[]
+    ): CustomerWorkspaceActionItem[] {
+        const actions: CustomerWorkspaceActionItem[] = [];
+        const firstLead = activeLeads[0] ?? null;
+        const firstProject = activeProjects[0] ?? null;
+        const firstContract = recentContracts[0] ?? null;
+
+        if (summary.activeLeadCount > 0) {
+            actions.push({
+                key: 'review-active-leads',
+                intent: 'open-leads',
+                title: '处理活跃线索',
+                description: `当前有 ${summary.activeLeadCount} 条活跃线索需要推进，优先查看最近更新的线索。`,
+                targetObjectType: 'lead',
+                targetObjectId: firstLead?.id ?? null,
+                targetTitle: firstLead?.leadName ?? null,
+                priority: 10
+            });
+        }
+
+        if (summary.activeProjectCount > 0) {
+            actions.push({
+                key: 'advance-active-projects',
+                intent: 'open-project-workspace',
+                title: '推进进行中项目',
+                description: `当前有 ${summary.activeProjectCount} 个进行中项目，优先处理最近更新的项目。`,
+                targetObjectType: 'project',
+                targetObjectId: firstProject?.id ?? null,
+                targetTitle: firstProject?.projectName ?? null,
+                priority: 20
+            });
+        }
+
+        if (summary.contractCount > 0) {
+            actions.push({
+                key: 'review-recent-contracts',
+                intent: 'open-contract',
+                title: '复核近期合同',
+                description: `当前有 ${summary.contractCount} 份合同记录，查看最近合同状态与项目承接。`,
+                targetObjectType: 'contract',
+                targetObjectId: firstContract?.id ?? null,
+                targetTitle: firstContract?.contractNo ?? null,
+                priority: 30
+            });
+        }
+
+        actions.push({
+            key: 'record-follow-up',
+            intent: 'record-follow-up',
+            title: recentFollowUps.length > 0 ? '记录下一次跟进' : '补充客户跟进',
+            description: recentFollowUps.length > 0 ? '沿着最近一次客户沟通继续记录后续动作。' : '当前还没有客户级跟进记录，先补齐第一条互动事实。',
+            targetObjectType: 'customer',
+            targetObjectId: customer.id,
+            targetTitle: customer.displayName,
+            priority: 40
+        });
+
+        actions.push({
+            key: 'capture-discussion',
+            intent: 'capture-discussion',
+            title: recentDiscussions.length > 0 ? '沉淀关键讨论' : '补充客户讨论',
+            description: recentDiscussions.length > 0 ? '把最新共识沉淀到客户讨论，便于跨项目延续。' : '当前还没有客户级讨论记录，先补齐关键背景和共识。',
+            targetObjectType: 'customer',
+            targetObjectId: customer.id,
+            targetTitle: customer.displayName,
+            priority: 50
+        });
+
+        return actions.sort((left, right) => left.priority - right.priority).slice(0, 5);
+    }
+
+    private buildWorkspaceTimeline(
+        activeLeads: CustomerWorkspaceLeadItem[],
+        activeProjects: CustomerWorkspaceProjectItem[],
+        recentContracts: CustomerWorkspaceContractItem[],
+        recentFollowUps: CustomerWorkspaceFollowUpItem[],
+        recentDiscussions: CustomerWorkspaceDiscussionItem[]
+    ): CustomerWorkspaceTimelineItem[] {
+        const timeline: CustomerWorkspaceTimelineItem[] = [
+            ...activeLeads.map((lead) => ({
+                key: `lead:${lead.id}`,
+                eventType: 'lead-updated' as const,
+                sourceType: 'lead' as const,
+                sourceId: lead.id,
+                occurredAt: lead.updatedAt,
+                title: lead.leadName,
+                description: `${lead.leadNo} · ${lead.status} · ${lead.rating} · ${lead.urgency}`,
+                actorName: lead.ownerName,
+                targetObjectType: 'lead' as const,
+                targetObjectId: lead.id,
+                targetTitle: lead.leadName,
+                isKey: lead.rating === 'A' || lead.urgency === 'high'
+            })),
+            ...activeProjects.map((project) => ({
+                key: `project:${project.id}`,
+                eventType: 'project-updated' as const,
+                sourceType: 'project' as const,
+                sourceId: project.id,
+                occurredAt: project.updatedAt,
+                title: project.projectName,
+                description: `${project.projectNo} · ${project.status} · ${project.currentStage}`,
+                actorName: project.ownerName,
+                targetObjectType: 'project' as const,
+                targetObjectId: project.id,
+                targetTitle: project.projectName,
+                isKey: true
+            })),
+            ...recentContracts.map((contract) => ({
+                key: `contract:${contract.id}`,
+                eventType: 'contract-updated' as const,
+                sourceType: 'contract' as const,
+                sourceId: contract.id,
+                occurredAt: contract.updatedAt,
+                title: contract.contractNo,
+                description: `${contract.projectName} · ${contract.status}`,
+                actorName: null,
+                targetObjectType: 'contract' as const,
+                targetObjectId: contract.id,
+                targetTitle: contract.contractNo,
+                isKey: contract.status === 'active'
+            })),
+            ...recentFollowUps.map((followUp) => ({
+                key: `follow-up:${followUp.id}`,
+                eventType: 'follow-up-recorded' as const,
+                sourceType: 'follow-up' as const,
+                sourceId: followUp.id,
+                occurredAt: followUp.occurredAt,
+                title: followUp.summary,
+                description: followUp.nextFollowUpAt ? `下次跟进 ${followUp.nextFollowUpAt}` : null,
+                actorName: followUp.ownerName,
+                targetObjectType: 'follow-up' as const,
+                targetObjectId: followUp.id,
+                targetTitle: followUp.summary,
+                isKey: false
+            })),
+            ...recentDiscussions.map((discussion) => ({
+                key: `discussion:${discussion.id}`,
+                eventType: 'discussion-added' as const,
+                sourceType: 'discussion' as const,
+                sourceId: discussion.id,
+                occurredAt: discussion.createdAt,
+                title: discussion.targetTitle,
+                description: discussion.body,
+                actorName: null,
+                targetObjectType: 'discussion' as const,
+                targetObjectId: discussion.id,
+                targetTitle: discussion.targetTitle,
+                isKey: discussion.isKeyConclusion
+            }))
+        ];
+
+        return timeline.sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime()).slice(0, 12);
+    }
+
     private toNumber(value: number | string): number {
         return Number(value);
     }
@@ -401,13 +555,9 @@ export class CustomerService {
         return value ? this.toIsoDateTime(value) : null;
     }
 
-    private async resolveOwner(
-        ownerUserId: string | null | undefined,
-        ownerOrgId: string | null | undefined,
-        operator: PlatformUser
-    ): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
+    private async resolveOwner(ownerUserId: string | null | undefined, ownerOrgId: string | null | undefined, operator: PlatformUser): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
         if (ownerUserId === undefined) {
-            const resolvedOrgId = ownerOrgId === undefined ? operator.primaryOrgUnitId ?? null : ownerOrgId;
+            const resolvedOrgId = ownerOrgId === undefined ? (operator.primaryOrgUnitId ?? null) : ownerOrgId;
             await this.assertOrgExists(resolvedOrgId);
             return {
                 ownerUserId: operator.id,
@@ -420,7 +570,7 @@ export class CustomerService {
             throw new NotFoundException(`Platform user ${ownerUserId} not found`);
         }
 
-        const resolvedOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? null : ownerOrgId;
+        const resolvedOrgId = ownerOrgId === undefined ? (ownerUser?.primaryOrgUnitId ?? null) : ownerOrgId;
         await this.assertOrgExists(resolvedOrgId);
 
         return {
@@ -429,13 +579,9 @@ export class CustomerService {
         };
     }
 
-    private async resolveOwnerUpdate(
-        customer: Customer,
-        ownerUserId: string | null | undefined,
-        ownerOrgId: string | null | undefined
-    ): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
+    private async resolveOwnerUpdate(customer: Customer, ownerUserId: string | null | undefined, ownerOrgId: string | null | undefined): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
         if (ownerUserId === undefined) {
-            const resolvedOrgId = ownerOrgId === undefined ? customer.ownerOrgId ?? null : ownerOrgId;
+            const resolvedOrgId = ownerOrgId === undefined ? (customer.ownerOrgId ?? null) : ownerOrgId;
             await this.assertOrgExists(resolvedOrgId);
             return {
                 ownerUserId: customer.ownerUserId ?? null,
@@ -448,7 +594,7 @@ export class CustomerService {
             throw new NotFoundException(`Platform user ${ownerUserId} not found`);
         }
 
-        const resolvedOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? customer.ownerOrgId ?? null : ownerOrgId;
+        const resolvedOrgId = ownerOrgId === undefined ? (ownerUser?.primaryOrgUnitId ?? customer.ownerOrgId ?? null) : ownerOrgId;
         await this.assertOrgExists(resolvedOrgId);
 
         return {

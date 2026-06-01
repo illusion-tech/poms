@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,8 @@ import {
     BusinessDiscussionType,
     CustomerAliasType,
     CustomerStore,
+    type CustomerWorkspaceActionItem,
+    type CustomerWorkspaceTimelineItem,
     LeadRating,
     LeadUrgency,
     SalesFollowUpOutcome,
@@ -27,7 +29,16 @@ import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
-import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, leadStatusLabelOrFallback, leadStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
+import {
+    contractStatusLabelOrFallback,
+    contractStatusSeverityOrFallback,
+    leadStatusLabelOrFallback,
+    leadStatusSeverityOrFallback,
+    projectStageLabelOrFallback,
+    projectStageSeverityOrFallback,
+    projectStatusLabelOrFallback,
+    projectStatusSeverityOrFallback
+} from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { CustomerFormDialog, EMPTY_CUSTOMER_FORM_VALUE, type CustomerFormValue } from './customer-form-dialog';
 import { CUSTOMER_ALIAS_TYPE_OPTIONS, customerStatusLabel, customerStatusSeverity, displayText, optionalText, toCustomerFormValue } from './customer-view-model';
@@ -122,6 +133,23 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                     } @else if (loadingWorkspaceOverview()) {
                         <app-workspace-feedback severity="info" summary="正在读取经营概览" detail="请稍候。" />
                     } @else if (workspaceOverview(); as overview) {
+                        @if (overview.recommendedActions.length) {
+                            <div class="mb-6 border-y border-surface-200 py-4 dark:border-surface-700">
+                                <div class="mb-3 flex items-center justify-between gap-3">
+                                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">推荐动作</h4>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">基于当前客户经营事实生成</span>
+                                </div>
+                                <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-5">
+                                    @for (action of overview.recommendedActions; track action.key) {
+                                        <div class="min-w-0">
+                                            <p-button [icon]="getWorkspaceActionIcon(action)" [label]="action.title" severity="secondary" [outlined]="true" styleClass="w-full justify-start rounded-md!" (onClick)="executeWorkspaceAction(action)" />
+                                            <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ action.description }}</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
                         <div class="grid grid-cols-1 gap-6 xl:grid-cols-2 2xl:grid-cols-4">
                             <div class="min-w-0">
                                 <div class="flex items-center justify-between gap-3">
@@ -238,6 +266,41 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                                 </div>
                             </div>
                         </div>
+
+                        @if (overview.timeline.length) {
+                            <div class="mt-6 border-t border-surface-200 pt-5 dark:border-surface-700">
+                                <div class="mb-3 flex items-center justify-between gap-3">
+                                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">客户动态</h4>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">按发生时间倒序</span>
+                                </div>
+                                <div class="divide-y divide-surface-200 border-y border-surface-200 dark:divide-surface-700 dark:border-surface-700">
+                                    @for (item of overview.timeline; track item.key) {
+                                        <article class="flex items-start gap-3 py-3">
+                                            <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] bg-surface-100 text-surface-600 dark:bg-surface-800 dark:text-surface-200">
+                                                <i [class]="getTimelineIcon(item)"></i>
+                                            </span>
+                                            <div class="min-w-0 flex-1">
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ item.title }}</span>
+                                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ getTimelineEventName(item) }}</span>
+                                                    @if (item.isKey) {
+                                                        <p-tag value="关键" severity="success" class="rounded-[6px]" />
+                                                    }
+                                                </div>
+                                                <p class="mt-1 line-clamp-2 text-sm leading-6 text-surface-600 dark:text-surface-300">{{ displayText(item.description, '暂无说明') }}</p>
+                                                <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-surface-500 dark:text-surface-400">
+                                                    <span>{{ item.occurredAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                                    @if (item.actorName) {
+                                                        <span>{{ item.actorName }}</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p-button icon="pi pi-arrow-right" severity="secondary" [text]="true" [rounded]="true" ariaLabel="打开动态来源" (onClick)="openTimelineItem(item)" />
+                                        </article>
+                                    }
+                                </div>
+                            </div>
+                        }
                     } @else {
                         <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无经营概览。</div>
                     }
@@ -302,35 +365,31 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
 
                 <app-sales-intelligence-panel [customerId]="customer.id" [canWrite]="canWriteCustomer()" title="客户关系" description="维护客户联系人，并作为线索和项目决策链的联系人来源。" />
 
-                <app-business-discussion-panel
-                    [customerId]="customer.id"
-                    [targetObjectType]="customerDiscussionTargetType"
-                    [targetObjectId]="customer.id"
-                    [targetTitle]="customer.displayName"
-                    [canWrite]="canWriteCustomer()"
-                    title="客户业务讨论"
-                    description="沉淀客户长期信息、跨线索判断和协同结论。"
-                />
+                <div id="customer-business-discussions">
+                    <app-business-discussion-panel
+                        [customerId]="customer.id"
+                        [targetObjectType]="customerDiscussionTargetType"
+                        [targetObjectId]="customer.id"
+                        [targetTitle]="customer.displayName"
+                        [canWrite]="canWriteCustomer()"
+                        title="客户业务讨论"
+                        description="沉淀客户长期信息、跨线索判断和协同结论。"
+                    />
+                </div>
 
-                <app-sales-follow-up-panel
-                    [customerId]="customer.id"
-                    [canWrite]="canWriteCustomer()"
-                    title="客户销售跟进"
-                    description="沉淀客户级沟通、长期采购信息、合作机会和下一步动作。"
-                    createContextDetail="本次记录会挂到当前客户，用于跨线索和跨项目查看客户销售过程。"
-                />
+                <div id="customer-sales-follow-ups">
+                    <app-sales-follow-up-panel
+                        [customerId]="customer.id"
+                        [canWrite]="canWriteCustomer()"
+                        title="客户销售跟进"
+                        description="沉淀客户级沟通、长期采购信息、合作机会和下一步动作。"
+                        createContextDetail="本次记录会挂到当前客户，用于跨线索和跨项目查看客户销售过程。"
+                    />
+                </div>
 
                 <app-attachment-panel [targetType]="customerAttachmentTargetType" [targetId]="customer.id" [canWrite]="canWriteCustomer()" title="客户附件" description="保存客户资质、开票资料、采购制度、框架协议和长期合作资料。" />
 
-                <app-customer-form-dialog
-                    [visible]="editDialogVisible"
-                    mode="edit"
-                    [initialValue]="editFormInitial()"
-                    [saving]="saving()"
-                    [error]="formError()"
-                    (visibleChange)="editDialogVisible = $event"
-                    (save)="updateCustomer($event)"
-                />
+                <app-customer-form-dialog [visible]="editDialogVisible" mode="edit" [initialValue]="editFormInitial()" [saving]="saving()" [error]="formError()" (visibleChange)="editDialogVisible = $event" (save)="updateCustomer($event)" />
             }
         </div>
     `
@@ -341,6 +400,7 @@ export class CustomerWorkspace implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #destroyRef = inject(DestroyRef);
+    readonly #document = inject(DOCUMENT);
 
     readonly customer = this.#customerStore.selectedCustomer;
     readonly aliases = this.#customerStore.aliases;
@@ -407,6 +467,94 @@ export class CustomerWorkspace implements OnInit {
 
     backToList() {
         void this.#router.navigate(['/customers']);
+    }
+
+    executeWorkspaceAction(action: CustomerWorkspaceActionItem) {
+        switch (action.intent) {
+            case 'open-leads':
+                void this.#router.navigate(['/leads']);
+                return;
+            case 'open-project-workspace':
+                void this.#router.navigate(action.targetObjectId ? ['/projects', action.targetObjectId, 'workspace'] : ['/projects']);
+                return;
+            case 'open-contract':
+                void this.#router.navigate(action.targetObjectId ? ['/contracts', action.targetObjectId] : ['/contracts']);
+                return;
+            case 'record-follow-up':
+                this.scrollToWorkspaceSection('customer-sales-follow-ups');
+                return;
+            case 'capture-discussion':
+                this.scrollToWorkspaceSection('customer-business-discussions');
+                return;
+        }
+    }
+
+    openTimelineItem(item: CustomerWorkspaceTimelineItem) {
+        switch (item.sourceType) {
+            case 'lead':
+                void this.#router.navigate(['/leads']);
+                return;
+            case 'project':
+                void this.#router.navigate(['/projects', item.sourceId, 'workspace']);
+                return;
+            case 'contract':
+                void this.#router.navigate(['/contracts', item.sourceId]);
+                return;
+            case 'follow-up':
+                this.scrollToWorkspaceSection('customer-sales-follow-ups');
+                return;
+            case 'discussion':
+                this.scrollToWorkspaceSection('customer-business-discussions');
+                return;
+        }
+    }
+
+    getWorkspaceActionIcon(action: CustomerWorkspaceActionItem): string {
+        switch (action.intent) {
+            case 'open-leads':
+                return 'pi pi-compass';
+            case 'open-project-workspace':
+                return 'pi pi-briefcase';
+            case 'open-contract':
+                return 'pi pi-file-edit';
+            case 'record-follow-up':
+                return 'pi pi-calendar-plus';
+            case 'capture-discussion':
+                return 'pi pi-comments';
+        }
+        return 'pi pi-arrow-right';
+    }
+
+    getTimelineEventName(item: CustomerWorkspaceTimelineItem): string {
+        switch (item.eventType) {
+            case 'lead-updated':
+                return '线索更新';
+            case 'project-updated':
+                return '项目推进';
+            case 'contract-updated':
+                return '合同更新';
+            case 'follow-up-recorded':
+                return '跟进记录';
+            case 'discussion-added':
+                return '讨论沉淀';
+        }
+        return '客户动态';
+    }
+
+    getTimelineIcon(item: CustomerWorkspaceTimelineItem): string {
+        switch (item.sourceType) {
+            case 'lead':
+                return 'pi pi-compass';
+            case 'project':
+                return 'pi pi-briefcase';
+            case 'contract':
+                return 'pi pi-file-edit';
+            case 'follow-up':
+                return 'pi pi-calendar';
+            case 'discussion':
+                return 'pi pi-comments';
+        }
+        return 'pi pi-history';
     }
 
     showEditDialog(customer: CustomerDetailView) {
@@ -511,5 +659,9 @@ export class CustomerWorkspace implements OnInit {
 
     getDiscussionTypeName(type: BusinessDiscussionType): string {
         return DISCUSSION_TYPE_LABELS[type] ?? type;
+    }
+
+    private scrollToWorkspaceSection(sectionId: string) {
+        this.#document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }

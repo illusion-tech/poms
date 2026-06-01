@@ -16,29 +16,31 @@ describe('CustomerService', () => {
     const baseDate = new Date('2026-04-29T08:00:00.000Z');
 
     let service: CustomerService;
-    let customerRepository: jest.Mocked<Pick<
-        CustomerRepository,
-        | 'findById'
-        | 'findMany'
-        | 'findAliasesByCustomerId'
-        | 'findPlatformUserById'
-        | 'findPlatformUsersByIds'
-        | 'findOrgUnitById'
-        | 'findOrgUnitsByIds'
-        | 'countLeadsByCustomerIds'
-        | 'countProjectsByCustomerIds'
-        | 'countContractsByCustomerIds'
-        | 'getWorkspaceSummary'
-        | 'findWorkspaceActiveLeads'
-        | 'findWorkspaceActiveProjects'
-        | 'findWorkspaceRecentContracts'
-        | 'findWorkspaceRecentFollowUps'
-        | 'findWorkspaceRecentDiscussions'
-        | 'createAlias'
-        | 'save'
-        | 'saveAlias'
-        | 'getEntityManager'
-    >>;
+    let customerRepository: jest.Mocked<
+        Pick<
+            CustomerRepository,
+            | 'findById'
+            | 'findMany'
+            | 'findAliasesByCustomerId'
+            | 'findPlatformUserById'
+            | 'findPlatformUsersByIds'
+            | 'findOrgUnitById'
+            | 'findOrgUnitsByIds'
+            | 'countLeadsByCustomerIds'
+            | 'countProjectsByCustomerIds'
+            | 'countContractsByCustomerIds'
+            | 'getWorkspaceSummary'
+            | 'findWorkspaceActiveLeads'
+            | 'findWorkspaceActiveProjects'
+            | 'findWorkspaceRecentContracts'
+            | 'findWorkspaceRecentFollowUps'
+            | 'findWorkspaceRecentDiscussions'
+            | 'createAlias'
+            | 'save'
+            | 'saveAlias'
+            | 'getEntityManager'
+        >
+    >;
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
     let entityManager: {
         create: jest.Mock;
@@ -51,7 +53,7 @@ describe('CustomerService', () => {
         randomUUIDMock = jest.mocked(randomUUID);
         randomUUIDMock.mockReturnValue(customerId as ReturnType<typeof randomUUID>);
         entityManager = {
-            create: jest.fn((entity, input) => entity === Customer ? createCustomer(input as Partial<Customer>) : createAlias(input as Partial<CustomerAlias>)),
+            create: jest.fn((entity, input) => (entity === Customer ? createCustomer(input as Partial<Customer>) : createAlias(input as Partial<CustomerAlias>))),
             persist: jest.fn(),
             flush: jest.fn()
         };
@@ -153,10 +155,7 @@ describe('CustomerService', () => {
                 createdBy: userId
             })
         );
-        expect(entityManager.persist).toHaveBeenCalledWith([
-            expect.objectContaining({ id: customerId }),
-            expect.objectContaining({ customerId })
-        ]);
+        expect(entityManager.persist).toHaveBeenCalledWith([expect.objectContaining({ id: customerId }), expect.objectContaining({ customerId })]);
         expect(result).toEqual(
             expect.objectContaining({
                 id: customerId,
@@ -246,7 +245,7 @@ describe('CustomerService', () => {
                 targetObjectType: 'customer',
                 targetObjectId: customerId,
                 targetTitle: '华南地铁集团',
-                discussionType: 'key-conclusion',
+                discussionType: 'decision-chain',
                 body: '客户关注年度框架合作',
                 isKeyConclusion: true,
                 createdAt: new Date('2026-04-30T12:00:00.000Z')
@@ -277,8 +276,30 @@ describe('CustomerService', () => {
         expect(result.recentContracts[0]).not.toHaveProperty('signedAmount');
         expect(result.recentDiscussions[0]).toEqual(
             expect.objectContaining({
-                discussionType: 'key-conclusion',
+                discussionType: 'decision-chain',
                 isKeyConclusion: true
+            })
+        );
+        expect(result.recommendedActions.map((action) => action.key)).toEqual(['review-active-leads', 'advance-active-projects', 'review-recent-contracts', 'record-follow-up', 'capture-discussion']);
+        expect(result.recommendedActions[1]).toEqual(
+            expect.objectContaining({
+                intent: 'open-project-workspace',
+                targetObjectId: '22000000-0000-4000-8000-000000000001',
+                targetTitle: '智慧园区项目'
+            })
+        );
+        expect(result.timeline.map((item) => item.key)).toEqual([
+            'discussion:25000000-0000-4000-8000-000000000001',
+            'follow-up:24000000-0000-4000-8000-000000000001',
+            'contract:23000000-0000-4000-8000-000000000001',
+            'project:22000000-0000-4000-8000-000000000001',
+            'lead:21000000-0000-4000-8000-000000000001'
+        ]);
+        expect(result.timeline[0]).toEqual(
+            expect.objectContaining({
+                eventType: 'discussion-added',
+                sourceType: 'discussion',
+                isKey: true
             })
         );
     });

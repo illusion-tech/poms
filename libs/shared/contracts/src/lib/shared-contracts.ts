@@ -5157,6 +5157,64 @@ export const CustomerWorkspaceDiscussionItemSchema = z
 
 export type CustomerWorkspaceDiscussionItem = z.infer<typeof CustomerWorkspaceDiscussionItemSchema>;
 
+export const CUSTOMER_WORKSPACE_ACTION_INTENTS = ['open-leads', 'open-project-workspace', 'open-contract', 'record-follow-up', 'capture-discussion'] as const;
+
+export type CustomerWorkspaceActionIntent = (typeof CUSTOMER_WORKSPACE_ACTION_INTENTS)[number];
+
+export const CustomerWorkspaceActionIntentSchema = z.enum(CUSTOMER_WORKSPACE_ACTION_INTENTS).meta({ id: 'CustomerWorkspaceActionIntent' });
+
+export const CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES = ['customer', 'lead', 'project', 'contract', 'follow-up', 'discussion'] as const;
+
+export type CustomerWorkspaceTargetObjectType = (typeof CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES)[number];
+
+export const CustomerWorkspaceTargetObjectTypeSchema = z.enum(CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES).meta({ id: 'CustomerWorkspaceTargetObjectType' });
+
+export const CustomerWorkspaceActionItemSchema = z
+    .object({
+        key: z.string(),
+        intent: CustomerWorkspaceActionIntentSchema,
+        title: z.string(),
+        description: z.string(),
+        targetObjectType: CustomerWorkspaceTargetObjectTypeSchema,
+        targetObjectId: z.uuid().nullable(),
+        targetTitle: z.string().nullable(),
+        priority: z.number().int().positive()
+    })
+    .meta({ id: 'CustomerWorkspaceActionItem' });
+
+export type CustomerWorkspaceActionItem = z.infer<typeof CustomerWorkspaceActionItemSchema>;
+
+export const CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES = ['lead-updated', 'project-updated', 'contract-updated', 'follow-up-recorded', 'discussion-added'] as const;
+
+export type CustomerWorkspaceTimelineEventType = (typeof CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES)[number];
+
+export const CustomerWorkspaceTimelineEventTypeSchema = z.enum(CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES).meta({ id: 'CustomerWorkspaceTimelineEventType' });
+
+export const CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES = ['lead', 'project', 'contract', 'follow-up', 'discussion'] as const;
+
+export type CustomerWorkspaceTimelineSourceType = (typeof CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES)[number];
+
+export const CustomerWorkspaceTimelineSourceTypeSchema = z.enum(CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES).meta({ id: 'CustomerWorkspaceTimelineSourceType' });
+
+export const CustomerWorkspaceTimelineItemSchema = z
+    .object({
+        key: z.string(),
+        eventType: CustomerWorkspaceTimelineEventTypeSchema,
+        sourceType: CustomerWorkspaceTimelineSourceTypeSchema,
+        sourceId: z.uuid(),
+        occurredAt: z.iso.datetime(),
+        title: z.string(),
+        description: z.string().nullable(),
+        actorName: z.string().nullable(),
+        targetObjectType: CustomerWorkspaceTargetObjectTypeSchema,
+        targetObjectId: z.uuid().nullable(),
+        targetTitle: z.string().nullable(),
+        isKey: z.boolean()
+    })
+    .meta({ id: 'CustomerWorkspaceTimelineItem' });
+
+export type CustomerWorkspaceTimelineItem = z.infer<typeof CustomerWorkspaceTimelineItemSchema>;
+
 export const CustomerWorkspaceOverviewViewSchema = z
     .object({
         customerId: z.uuid(),
@@ -5166,6 +5224,8 @@ export const CustomerWorkspaceOverviewViewSchema = z
         recentContracts: z.array(CustomerWorkspaceContractItemSchema),
         recentFollowUps: z.array(CustomerWorkspaceFollowUpItemSchema),
         recentDiscussions: z.array(CustomerWorkspaceDiscussionItemSchema),
+        recommendedActions: z.array(CustomerWorkspaceActionItemSchema),
+        timeline: z.array(CustomerWorkspaceTimelineItemSchema),
         generatedAt: z.iso.datetime()
     })
     .meta({ id: 'CustomerWorkspaceOverviewView' });

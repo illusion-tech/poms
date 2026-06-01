@@ -7,12 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomerWorkspaceTimelineItem } from './customer-workspace-timeline-item';
 import { CustomerWorkspaceDiscussionItem } from './customer-workspace-discussion-item';
 import { CustomerWorkspaceProjectItem } from './customer-workspace-project-item';
 import { CustomerWorkspaceLeadItem } from './customer-workspace-lead-item';
 import { CustomerWorkspaceContractItem } from './customer-workspace-contract-item';
 import { CustomerWorkspaceSummary } from './customer-workspace-summary';
 import { CustomerWorkspaceFollowUpItem } from './customer-workspace-follow-up-item';
+import { CustomerWorkspaceActionItem } from './customer-workspace-action-item';
 
 
 export interface CustomerWorkspaceOverviewView {
@@ -23,5 +25,7 @@ export interface CustomerWorkspaceOverviewView {
     recentContracts: Array<CustomerWorkspaceContractItem>;
     recentFollowUps: Array<CustomerWorkspaceFollowUpItem>;
     recentDiscussions: Array<CustomerWorkspaceDiscussionItem>;
+    recommendedActions: Array<CustomerWorkspaceActionItem>;
+    timeline: Array<CustomerWorkspaceTimelineItem>;
     generatedAt: string;
 }

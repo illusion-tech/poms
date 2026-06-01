@@ -161,6 +161,68 @@ function createCustomerWorkspaceOverview(overrides: Partial<CustomerWorkspaceOve
                 createdAt: '2026-05-28T10:00:00.000Z'
             }
         ],
+        recommendedActions: [
+            {
+                key: 'review-active-leads',
+                intent: 'open-leads',
+                title: '处理活跃线索',
+                description: '当前有 1 条活跃线索需要推进。',
+                targetObjectType: 'lead',
+                targetObjectId: 'lead-1',
+                targetTitle: '智慧园区线索',
+                priority: 10
+            },
+            {
+                key: 'advance-active-projects',
+                intent: 'open-project-workspace',
+                title: '推进进行中项目',
+                description: '当前有 1 个进行中项目。',
+                targetObjectType: 'project',
+                targetObjectId: 'project-1',
+                targetTitle: '智慧园区项目',
+                priority: 20
+            },
+            {
+                key: 'record-follow-up',
+                intent: 'record-follow-up',
+                title: '记录下一次跟进',
+                description: '沿着最近一次客户沟通继续记录后续动作。',
+                targetObjectType: 'customer',
+                targetObjectId: 'customer-1',
+                targetTitle: '华南地铁集团',
+                priority: 40
+            }
+        ],
+        timeline: [
+            {
+                key: 'discussion:discussion-1',
+                eventType: 'discussion-added',
+                sourceType: 'discussion',
+                sourceId: 'discussion-1',
+                occurredAt: '2026-05-28T10:00:00.000Z',
+                title: '华南地铁集团',
+                description: '预算确认人需要销售总监同步跟进。',
+                actorName: null,
+                targetObjectType: 'discussion',
+                targetObjectId: 'discussion-1',
+                targetTitle: '华南地铁集团',
+                isKey: true
+            },
+            {
+                key: 'project:project-1',
+                eventType: 'project-updated',
+                sourceType: 'project',
+                sourceId: 'project-1',
+                occurredAt: '2026-05-28T10:00:00.000Z',
+                title: '智慧园区项目',
+                description: 'PRJ-2026-001 · active · handover',
+                actorName: '张销售',
+                targetObjectType: 'project',
+                targetObjectId: 'project-1',
+                targetTitle: '智慧园区项目',
+                isKey: true
+            }
+        ],
         generatedAt: '2026-05-28T10:05:00.000Z',
         ...overrides
     };
@@ -448,6 +510,10 @@ describe('CustomerWorkspace', () => {
         expect(customerStoreMock.loadCustomerWorkspaceOverview).toHaveBeenCalledWith('customer-1');
         expect(text).toContain('华南地铁集团');
         expect(text).toContain('经营概览');
+        expect(text).toContain('推荐动作');
+        expect(text).toContain('处理活跃线索');
+        expect(text).toContain('客户动态');
+        expect(text).toContain('项目推进');
         expect(text).toContain('智慧园区线索');
         expect(text).toContain('智慧园区项目');
         expect(text).toContain('确认预算窗口');
@@ -483,5 +549,13 @@ describe('CustomerWorkspace', () => {
 
         expect(component.followUpReminderEntry()).toEqual({ followUpId: 'follow-up-1', todoId: 'todo-1' });
         expect(fixture.nativeElement.textContent).toContain('从销售跟进待办进入');
+    });
+
+    it('maps workspace actions and timeline items to existing routes', () => {
+        component.executeWorkspaceAction(createCustomerWorkspaceOverview().recommendedActions[1]);
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/projects', 'project-1', 'workspace']);
+
+        component.openTimelineItem(createCustomerWorkspaceOverview().timeline[1]);
+        expect(routerMock.navigate).toHaveBeenLastCalledWith(['/projects', 'project-1', 'workspace']);
     });
 });
