@@ -31,6 +31,8 @@ import { CustomerStatus } from '../model/customer-status';
 // @ts-ignore
 import { CustomerSummary } from '../model/customer-summary';
 // @ts-ignore
+import { CustomerWorkspaceOverviewView } from '../model/customer-workspace-overview-view';
+// @ts-ignore
 import { UpdateCustomerRequest } from '../model/update-customer-request';
 
 // @ts-ignore
@@ -49,6 +51,10 @@ export interface CustomerControllerCreateAliasRequestParams {
 }
 
 export interface CustomerControllerGetByIdRequestParams {
+    id: string;
+}
+
+export interface CustomerControllerGetWorkspaceOverviewRequestParams {
     id: string;
 }
 
@@ -266,6 +272,65 @@ export class CustomerApi extends BaseService {
         let localVarPath = `/api/customers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<CustomerDetailView>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取客户工作台聚合概览
+     * @endpoint get /api/customers/{id}/workspace-overview
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public customerControllerGetWorkspaceOverview(requestParameters: CustomerControllerGetWorkspaceOverviewRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CustomerWorkspaceOverviewView>;
+    public customerControllerGetWorkspaceOverview(requestParameters: CustomerControllerGetWorkspaceOverviewRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CustomerWorkspaceOverviewView>>;
+    public customerControllerGetWorkspaceOverview(requestParameters: CustomerControllerGetWorkspaceOverviewRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CustomerWorkspaceOverviewView>>;
+    public customerControllerGetWorkspaceOverview(requestParameters: CustomerControllerGetWorkspaceOverviewRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling customerControllerGetWorkspaceOverview.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/customers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/workspace-overview`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CustomerWorkspaceOverviewView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

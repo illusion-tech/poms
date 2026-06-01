@@ -3,7 +3,20 @@ import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angula
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AttachmentTargetType, AuthStore, BusinessDiscussionTargetObjectType, CustomerAliasType, CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerDetailView } from '@poms/admin-data-access';
+import {
+    AttachmentTargetType,
+    AuthStore,
+    BusinessDiscussionTargetObjectType,
+    BusinessDiscussionType,
+    CustomerAliasType,
+    CustomerStore,
+    LeadRating,
+    LeadUrgency,
+    SalesFollowUpOutcome,
+    UpdateCustomerRequestStatusEnum,
+    type CustomerDetailView
+} from '@poms/admin-data-access';
+import { BusinessDiscussionTypeLabel, LeadRatingLabel, LeadUrgencyLabel, SalesFollowUpOutcomeLabel } from '@poms/shared-contracts';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -14,6 +27,7 @@ import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
+import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, leadStatusLabelOrFallback, leadStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { CustomerFormDialog, EMPTY_CUSTOMER_FORM_VALUE, type CustomerFormValue } from './customer-form-dialog';
 import { CUSTOMER_ALIAS_TYPE_OPTIONS, customerStatusLabel, customerStatusSeverity, displayText, optionalText, toCustomerFormValue } from './customer-view-model';
@@ -32,6 +46,11 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
     aliasName: '',
     aliasType: CustomerAliasType.Alias
 };
+
+const LEAD_RATING_LABELS = LeadRatingLabel as Record<LeadRating, string>;
+const LEAD_URGENCY_LABELS = LeadUrgencyLabel as Record<LeadUrgency, string>;
+const FOLLOW_UP_OUTCOME_LABELS = SalesFollowUpOutcomeLabel as Record<SalesFollowUpOutcome, string>;
+const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDiscussionType, string>;
 
 @Component({
     selector: 'app-customer-workspace',
@@ -86,6 +105,143 @@ const EMPTY_ALIAS_FORM: CustomerAliasForm = {
                 </section>
 
                 <app-admin-metric-grid [items]="customerMetricItems()" [columns]="3" />
+
+                <section class="card">
+                    <div class="mb-4 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
+                        <div>
+                            <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">经营概览</h3>
+                            <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">聚合客户名下活跃机会、项目推进、合同和近期协同动态。</p>
+                        </div>
+                        @if (workspaceOverview(); as overview) {
+                            <span class="shrink-0 text-xs text-surface-500 dark:text-surface-400">生成：{{ overview.generatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                        }
+                    </div>
+
+                    @if (overviewError()) {
+                        <app-workspace-feedback severity="warn" summary="经营概览没有读取成功" [detail]="overviewError()" />
+                    } @else if (loadingWorkspaceOverview()) {
+                        <app-workspace-feedback severity="info" summary="正在读取经营概览" detail="请稍候。" />
+                    } @else if (workspaceOverview(); as overview) {
+                        <div class="grid grid-cols-1 gap-6 xl:grid-cols-2 2xl:grid-cols-4">
+                            <div class="min-w-0">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">活跃线索</h4>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ overview.summary.activeLeadCount }} 条</span>
+                                </div>
+                                <div class="mt-3 divide-y divide-surface-200 border-y border-surface-200 dark:divide-surface-700 dark:border-surface-700">
+                                    @for (lead of overview.activeLeads; track lead.id) {
+                                        <article class="py-3">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div class="min-w-0">
+                                                    <div class="truncate text-sm font-medium text-primary">{{ lead.leadName }}</div>
+                                                    <div class="mt-1 truncate text-xs text-surface-500 dark:text-surface-400">{{ lead.leadNo }} · {{ displayText(lead.ownerName, '未指定') }}</div>
+                                                </div>
+                                                <p-tag [value]="getLeadStatusName(lead.status)" [severity]="getLeadStatusSeverity(lead.status)" class="rounded-[6px] shrink-0" />
+                                            </div>
+                                            <div class="mt-2 flex flex-wrap items-center gap-2 text-xs text-surface-500 dark:text-surface-400">
+                                                <span>{{ getLeadRatingName(lead.rating) }}</span>
+                                                <span>{{ getLeadUrgencyName(lead.urgency) }}</span>
+                                                <span>{{ lead.updatedAt | date: 'MM-dd HH:mm' }}</span>
+                                            </div>
+                                        </article>
+                                    } @empty {
+                                        <div class="py-3 text-sm text-surface-500 dark:text-surface-400">暂无活跃线索。</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="min-w-0">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">进行中项目</h4>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ overview.summary.activeProjectCount }} 个</span>
+                                </div>
+                                <div class="mt-3 divide-y divide-surface-200 border-y border-surface-200 dark:divide-surface-700 dark:border-surface-700">
+                                    @for (project of overview.activeProjects; track project.id) {
+                                        <article class="py-3">
+                                            <div class="min-w-0">
+                                                <div class="truncate text-sm font-medium text-primary">{{ project.projectName }}</div>
+                                                <div class="mt-1 truncate text-xs text-surface-500 dark:text-surface-400">{{ project.projectNo }} · {{ displayText(project.ownerName, '未指定') }}</div>
+                                            </div>
+                                            <div class="mt-2 flex flex-wrap items-center gap-2">
+                                                <p-tag [value]="getProjectStageName(project.currentStage)" [severity]="getProjectStageSeverity(project.currentStage)" class="rounded-[6px]" />
+                                                <p-tag [value]="getProjectStatusName(project.status)" [severity]="getProjectStatusSeverity(project.status)" class="rounded-[6px]" />
+                                                @if (project.plannedSignAt) {
+                                                    <span class="text-xs text-surface-500 dark:text-surface-400">计划签约 {{ project.plannedSignAt | date: 'MM-dd' }}</span>
+                                                }
+                                            </div>
+                                        </article>
+                                    } @empty {
+                                        <div class="py-3 text-sm text-surface-500 dark:text-surface-400">暂无进行中项目。</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="min-w-0">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">近期合同</h4>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ overview.summary.contractCount }} 份</span>
+                                </div>
+                                <div class="mt-3 divide-y divide-surface-200 border-y border-surface-200 dark:divide-surface-700 dark:border-surface-700">
+                                    @for (contract of overview.recentContracts; track contract.id) {
+                                        <article class="py-3">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div class="min-w-0">
+                                                    <div class="truncate text-sm font-medium text-surface-900 dark:text-surface-0">{{ contract.contractNo }}</div>
+                                                    <div class="mt-1 truncate text-xs text-surface-500 dark:text-surface-400">{{ contract.projectName }}</div>
+                                                </div>
+                                                <p-tag [value]="getContractStatusName(contract.status)" [severity]="getContractStatusSeverity(contract.status)" class="rounded-[6px] shrink-0" />
+                                            </div>
+                                            <div class="mt-2 text-xs text-surface-500 dark:text-surface-400">更新 {{ contract.updatedAt | date: 'MM-dd HH:mm' }}</div>
+                                        </article>
+                                    } @empty {
+                                        <div class="py-3 text-sm text-surface-500 dark:text-surface-400">暂无合同记录。</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="min-w-0">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">近期协同</h4>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">{{ overview.summary.recentFollowUpCount + overview.summary.recentDiscussionCount }} 条</span>
+                                </div>
+                                <div class="mt-3 divide-y divide-surface-200 border-y border-surface-200 dark:divide-surface-700 dark:border-surface-700">
+                                    @if (overview.recentFollowUps.length || overview.recentDiscussions.length) {
+                                        @for (followUp of overview.recentFollowUps; track followUp.id) {
+                                            <article class="py-3">
+                                                <div class="flex items-start justify-between gap-3">
+                                                    <div class="min-w-0">
+                                                        <div class="truncate text-sm font-medium text-surface-900 dark:text-surface-0">{{ followUp.summary }}</div>
+                                                        <div class="mt-1 truncate text-xs text-surface-500 dark:text-surface-400">跟进 · {{ displayText(followUp.ownerName, '未指定') }}</div>
+                                                    </div>
+                                                    <span class="shrink-0 text-xs text-surface-500 dark:text-surface-400">{{ followUp.occurredAt | date: 'MM-dd' }}</span>
+                                                </div>
+                                                <div class="mt-2 text-xs text-surface-500 dark:text-surface-400">{{ getFollowUpOutcomeName(followUp.outcome) }}</div>
+                                            </article>
+                                        }
+                                        @for (discussion of overview.recentDiscussions; track discussion.id) {
+                                            <article class="py-3">
+                                                <div class="flex items-start justify-between gap-3">
+                                                    <div class="min-w-0">
+                                                        <div class="line-clamp-2 text-sm font-medium text-surface-900 dark:text-surface-0">{{ discussion.body }}</div>
+                                                        <div class="mt-1 truncate text-xs text-surface-500 dark:text-surface-400">讨论 · {{ discussion.targetTitle }}</div>
+                                                    </div>
+                                                    @if (discussion.isKeyConclusion) {
+                                                        <p-tag value="关键结论" severity="success" class="rounded-[6px] shrink-0" />
+                                                    }
+                                                </div>
+                                                <div class="mt-2 text-xs text-surface-500 dark:text-surface-400">{{ getDiscussionTypeName(discussion.discussionType) }} · {{ discussion.createdAt | date: 'MM-dd HH:mm' }}</div>
+                                            </article>
+                                        }
+                                    } @else {
+                                        <div class="py-3 text-sm text-surface-500 dark:text-surface-400">暂无近期协同。</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    } @else {
+                        <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无经营概览。</div>
+                    }
+                </section>
 
                 <section class="card">
                     <div class="mb-4 flex items-center justify-between gap-3">
@@ -188,10 +344,13 @@ export class CustomerWorkspace implements OnInit {
 
     readonly customer = this.#customerStore.selectedCustomer;
     readonly aliases = this.#customerStore.aliases;
+    readonly workspaceOverview = this.#customerStore.customerWorkspaceOverview;
     readonly loadingDetail = this.#customerStore.loadingDetail;
+    readonly loadingWorkspaceOverview = this.#customerStore.loadingWorkspaceOverview;
     readonly saving = this.#customerStore.saving;
 
     readonly pageError = signal<string | null>(null);
+    readonly overviewError = signal<string | null>(null);
     readonly formError = signal<string | null>(null);
     readonly aliasForm = signal<CustomerAliasForm>({ ...EMPTY_ALIAS_FORM });
     readonly editFormInitial = signal<CustomerFormValue>({ ...EMPTY_CUSTOMER_FORM_VALUE });
@@ -203,10 +362,11 @@ export class CustomerWorkspace implements OnInit {
     readonly canWriteCustomer = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
     readonly customerMetricItems = computed<AdminMetricItem[]>(() => {
         const customer = this.customer();
+        const summary = this.workspaceOverview()?.summary;
         return [
-            { label: '线索', value: customer?.leadCount ?? 0 },
-            { label: '项目', value: customer?.projectCount ?? 0 },
-            { label: '合同', value: customer?.contractCount ?? 0 }
+            { label: '活跃线索', value: summary?.activeLeadCount ?? customer?.leadCount ?? 0 },
+            { label: '进行中项目', value: summary?.activeProjectCount ?? customer?.projectCount ?? 0 },
+            { label: '合同', value: summary?.contractCount ?? customer?.contractCount ?? 0 }
         ];
     });
 
@@ -231,9 +391,14 @@ export class CustomerWorkspace implements OnInit {
 
     async loadCustomer(customerId: string) {
         this.pageError.set(null);
+        this.overviewError.set(null);
         this.aliasForm.set({ ...EMPTY_ALIAS_FORM });
         try {
-            const customer = await this.#customerStore.loadCustomer(customerId);
+            const overviewLoad = this.#customerStore.loadCustomerWorkspaceOverview(customerId).catch(() => {
+                this.overviewError.set('客户经营聚合信息暂时无法读取，基础档案和各业务面板仍可继续使用。');
+                return null;
+            });
+            const [customer] = await Promise.all([this.#customerStore.loadCustomer(customerId), overviewLoad]);
             this.editFormInitial.set(toCustomerFormValue(customer));
         } catch {
             this.pageError.set('客户详情没有读取成功，请稍后重试。');
@@ -299,4 +464,52 @@ export class CustomerWorkspace implements OnInit {
     statusLabel = customerStatusLabel;
     statusSeverity = customerStatusSeverity;
     displayText = displayText;
+
+    getLeadStatusName(status: string): string {
+        return leadStatusLabelOrFallback(status);
+    }
+
+    getLeadStatusSeverity(status: string) {
+        return leadStatusSeverityOrFallback(status);
+    }
+
+    getLeadRatingName(rating: LeadRating | null | undefined): string {
+        return rating ? LEAD_RATING_LABELS[rating] : '未评级';
+    }
+
+    getLeadUrgencyName(urgency: LeadUrgency | null | undefined): string {
+        return urgency ? LEAD_URGENCY_LABELS[urgency] : '未确认紧急度';
+    }
+
+    getProjectStageName(stage: string): string {
+        return projectStageLabelOrFallback(stage);
+    }
+
+    getProjectStageSeverity(stage: string) {
+        return projectStageSeverityOrFallback(stage);
+    }
+
+    getProjectStatusName(status: string): string {
+        return projectStatusLabelOrFallback(status);
+    }
+
+    getProjectStatusSeverity(status: string) {
+        return projectStatusSeverityOrFallback(status);
+    }
+
+    getContractStatusName(status: string): string {
+        return contractStatusLabelOrFallback(status);
+    }
+
+    getContractStatusSeverity(status: string) {
+        return contractStatusSeverityOrFallback(status);
+    }
+
+    getFollowUpOutcomeName(outcome: SalesFollowUpOutcome): string {
+        return FOLLOW_UP_OUTCOME_LABELS[outcome] ?? outcome;
+    }
+
+    getDiscussionTypeName(type: BusinessDiscussionType): string {
+        return DISCUSSION_TYPE_LABELS[type] ?? type;
+    }
 }

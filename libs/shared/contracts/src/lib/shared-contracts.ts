@@ -5062,6 +5062,116 @@ export const ContractListSchema = z.array(ContractSummarySchema).meta({ id: 'Con
 
 export type ContractList = z.infer<typeof ContractListSchema>;
 
+// ---------------------------------------------------------------------------
+// Customer Workspace
+// ---------------------------------------------------------------------------
+
+export const CustomerWorkspaceSummarySchema = z
+    .object({
+        leadCount: z.number().int().nonnegative(),
+        activeLeadCount: z.number().int().nonnegative(),
+        convertedLeadCount: z.number().int().nonnegative(),
+        projectCount: z.number().int().nonnegative(),
+        activeProjectCount: z.number().int().nonnegative(),
+        contractCount: z.number().int().nonnegative(),
+        recentFollowUpCount: z.number().int().nonnegative(),
+        recentDiscussionCount: z.number().int().nonnegative(),
+        latestFollowUpAt: z.iso.datetime().nullable(),
+        latestDiscussionAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'CustomerWorkspaceSummary' });
+
+export type CustomerWorkspaceSummary = z.infer<typeof CustomerWorkspaceSummarySchema>;
+
+export const CustomerWorkspaceLeadItemSchema = z
+    .object({
+        id: z.uuid(),
+        leadNo: z.string(),
+        leadName: z.string(),
+        status: LeadStatusSchema,
+        rating: LeadRatingSchema,
+        urgency: LeadUrgencySchema,
+        ownerName: z.string().nullable(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CustomerWorkspaceLeadItem' });
+
+export type CustomerWorkspaceLeadItem = z.infer<typeof CustomerWorkspaceLeadItemSchema>;
+
+export const CustomerWorkspaceProjectItemSchema = z
+    .object({
+        id: z.uuid(),
+        projectNo: z.string(),
+        projectName: z.string(),
+        status: ProjectStatusSchema,
+        currentStage: ProjectStageSchema,
+        ownerName: z.string().nullable(),
+        plannedSignAt: z.iso.datetime().nullable(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CustomerWorkspaceProjectItem' });
+
+export type CustomerWorkspaceProjectItem = z.infer<typeof CustomerWorkspaceProjectItemSchema>;
+
+export const CustomerWorkspaceContractItemSchema = z
+    .object({
+        id: z.uuid(),
+        contractNo: z.string(),
+        customerContractNo: z.string().nullable(),
+        status: ContractStatusSchema,
+        projectId: z.uuid(),
+        projectName: z.string(),
+        signedAt: z.iso.datetime().nullable(),
+        updatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CustomerWorkspaceContractItem' });
+
+export type CustomerWorkspaceContractItem = z.infer<typeof CustomerWorkspaceContractItemSchema>;
+
+export const CustomerWorkspaceFollowUpItemSchema = z
+    .object({
+        id: z.uuid(),
+        summary: z.string(),
+        outcome: SalesFollowUpOutcomeSchema,
+        occurredAt: z.iso.datetime(),
+        nextFollowUpAt: z.iso.datetime().nullable(),
+        ownerName: z.string().nullable()
+    })
+    .meta({ id: 'CustomerWorkspaceFollowUpItem' });
+
+export type CustomerWorkspaceFollowUpItem = z.infer<typeof CustomerWorkspaceFollowUpItemSchema>;
+
+export const CustomerWorkspaceDiscussionItemSchema = z
+    .object({
+        id: z.uuid(),
+        threadId: z.uuid(),
+        targetObjectType: BusinessDiscussionTargetObjectTypeSchema,
+        targetObjectId: z.uuid(),
+        targetTitle: z.string(),
+        discussionType: BusinessDiscussionTypeSchema,
+        body: z.string(),
+        isKeyConclusion: z.boolean(),
+        createdAt: z.iso.datetime()
+    })
+    .meta({ id: 'CustomerWorkspaceDiscussionItem' });
+
+export type CustomerWorkspaceDiscussionItem = z.infer<typeof CustomerWorkspaceDiscussionItemSchema>;
+
+export const CustomerWorkspaceOverviewViewSchema = z
+    .object({
+        customerId: z.uuid(),
+        summary: CustomerWorkspaceSummarySchema,
+        activeLeads: z.array(CustomerWorkspaceLeadItemSchema),
+        activeProjects: z.array(CustomerWorkspaceProjectItemSchema),
+        recentContracts: z.array(CustomerWorkspaceContractItemSchema),
+        recentFollowUps: z.array(CustomerWorkspaceFollowUpItemSchema),
+        recentDiscussions: z.array(CustomerWorkspaceDiscussionItemSchema),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'CustomerWorkspaceOverviewView' });
+
+export type CustomerWorkspaceOverviewView = z.infer<typeof CustomerWorkspaceOverviewViewSchema>;
+
 export const ContractTermSnapshotSummarySchema = z
     .object({
         id: z.uuid(),

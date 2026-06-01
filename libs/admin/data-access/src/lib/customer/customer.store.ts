@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { CreateCustomerAliasRequest, CreateCustomerRequest, CustomerAliasSummary, CustomerDetailView, CustomerListView, UpdateCustomerRequest } from '@poms/shared-api-client';
+import type { CreateCustomerAliasRequest, CreateCustomerRequest, CustomerAliasSummary, CustomerDetailView, CustomerListView, CustomerWorkspaceOverviewView, UpdateCustomerRequest } from '@poms/shared-api-client';
 import { CustomerApi, CustomerStatus } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
@@ -16,16 +16,20 @@ export class CustomerStore {
     readonly #customers = signal<CustomerListView[]>([]);
     readonly #selectedCustomer = signal<CustomerDetailView | null>(null);
     readonly #aliases = signal<CustomerAliasSummary[]>([]);
+    readonly #customerWorkspaceOverview = signal<CustomerWorkspaceOverviewView | null>(null);
     readonly #loading = signal(false);
     readonly #loadingDetail = signal(false);
+    readonly #loadingWorkspaceOverview = signal(false);
     readonly #saving = signal(false);
     readonly #loaded = signal(false);
 
     readonly customers = this.#customers.asReadonly();
     readonly selectedCustomer = this.#selectedCustomer.asReadonly();
     readonly aliases = this.#aliases.asReadonly();
+    readonly customerWorkspaceOverview = this.#customerWorkspaceOverview.asReadonly();
     readonly loading = this.#loading.asReadonly();
     readonly loadingDetail = this.#loadingDetail.asReadonly();
+    readonly loadingWorkspaceOverview = this.#loadingWorkspaceOverview.asReadonly();
     readonly saving = this.#saving.asReadonly();
     readonly loaded = this.#loaded.asReadonly();
 
@@ -60,6 +64,17 @@ export class CustomerStore {
             return customer;
         } finally {
             this.#loadingDetail.set(false);
+        }
+    }
+
+    async loadCustomerWorkspaceOverview(id: string) {
+        this.#loadingWorkspaceOverview.set(true);
+        try {
+            const overview = await firstValueFrom(this.#customerApi.customerControllerGetWorkspaceOverview({ id }));
+            this.#customerWorkspaceOverview.set(overview);
+            return overview;
+        } finally {
+            this.#loadingWorkspaceOverview.set(false);
         }
     }
 
@@ -107,5 +122,6 @@ export class CustomerStore {
     clearSelectedCustomer() {
         this.#selectedCustomer.set(null);
         this.#aliases.set([]);
+        this.#customerWorkspaceOverview.set(null);
     }
 }

@@ -9,9 +9,10 @@ import {
     CustomerDto,
     CustomerListDto,
     CustomerListQueryDto,
+    CustomerWorkspaceOverviewViewDto,
     UpdateCustomerRequestDto
 } from '@poms/api-contracts';
-import type { CustomerAliasSummary, CustomerDetailView, CustomerListQuery, CustomerListView, CustomerSummary, UserPayload } from '@poms/shared-contracts';
+import type { CustomerAliasSummary, CustomerDetailView, CustomerListQuery, CustomerListView, CustomerSummary, CustomerWorkspaceOverviewView, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { CustomerService } from './customer.service';
 
@@ -57,6 +58,14 @@ export class CustomerController {
     @ApiCreatedResponse({ type: CustomerAliasDto })
     createAlias(@Param('id') id: string, @Body() body: CreateCustomerAliasRequestDto, @Request() req: { user: UserPayload }): Promise<CustomerAliasSummary> {
         return this.customerService.createAlias(id, body, req.user.sub);
+    }
+
+    @Get(':id/workspace-overview')
+    @HasPermissions('customer:read')
+    @ApiOperation({ summary: '获取客户工作台聚合概览' })
+    @ApiOkResponse({ type: CustomerWorkspaceOverviewViewDto })
+    getWorkspaceOverview(@Param('id') id: string): Promise<CustomerWorkspaceOverviewView> {
+        return this.customerService.getCustomerWorkspaceOverview(id);
     }
 
     @Get(':id')

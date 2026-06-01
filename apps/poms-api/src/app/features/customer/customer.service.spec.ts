@@ -28,6 +28,12 @@ describe('CustomerService', () => {
         | 'countLeadsByCustomerIds'
         | 'countProjectsByCustomerIds'
         | 'countContractsByCustomerIds'
+        | 'getWorkspaceSummary'
+        | 'findWorkspaceActiveLeads'
+        | 'findWorkspaceActiveProjects'
+        | 'findWorkspaceRecentContracts'
+        | 'findWorkspaceRecentFollowUps'
+        | 'findWorkspaceRecentDiscussions'
         | 'createAlias'
         | 'save'
         | 'saveAlias'
@@ -60,6 +66,12 @@ describe('CustomerService', () => {
             countLeadsByCustomerIds: jest.fn(),
             countProjectsByCustomerIds: jest.fn(),
             countContractsByCustomerIds: jest.fn(),
+            getWorkspaceSummary: jest.fn(),
+            findWorkspaceActiveLeads: jest.fn(),
+            findWorkspaceActiveProjects: jest.fn(),
+            findWorkspaceRecentContracts: jest.fn(),
+            findWorkspaceRecentFollowUps: jest.fn(),
+            findWorkspaceRecentDiscussions: jest.fn(),
             createAlias: jest.fn((input) => createAlias(input as Partial<CustomerAlias>)),
             save: jest.fn(),
             saveAlias: jest.fn(),
@@ -78,6 +90,23 @@ describe('CustomerService', () => {
         customerRepository.countLeadsByCustomerIds.mockResolvedValue(new Map([[customerId, 2]]));
         customerRepository.countProjectsByCustomerIds.mockResolvedValue(new Map([[customerId, 1]]));
         customerRepository.countContractsByCustomerIds.mockResolvedValue(new Map([[customerId, 0]]));
+        customerRepository.getWorkspaceSummary.mockResolvedValue({
+            leadCount: 3,
+            activeLeadCount: 2,
+            convertedLeadCount: 1,
+            projectCount: 1,
+            activeProjectCount: 1,
+            contractCount: 1,
+            recentFollowUpCount: 1,
+            recentDiscussionCount: 1,
+            latestFollowUpAt: new Date('2026-04-30T09:00:00.000Z'),
+            latestDiscussionAt: new Date('2026-04-30T10:00:00.000Z')
+        });
+        customerRepository.findWorkspaceActiveLeads.mockResolvedValue([]);
+        customerRepository.findWorkspaceActiveProjects.mockResolvedValue([]);
+        customerRepository.findWorkspaceRecentContracts.mockResolvedValue([]);
+        customerRepository.findWorkspaceRecentFollowUps.mockResolvedValue([]);
+        customerRepository.findWorkspaceRecentDiscussions.mockResolvedValue([]);
 
         service = new CustomerService(customerRepository as never, businessNumberService as never);
     });
@@ -160,6 +189,98 @@ describe('CustomerService', () => {
         customerRepository.findById.mockResolvedValue(createCustomer({ status: 'inactive' }));
 
         await expect(service.requireActiveCustomer(customerId)).rejects.toThrow(BadRequestException);
+    });
+
+    it('returns a customer workspace overview from read projections', async () => {
+        customerRepository.findById.mockResolvedValue(createCustomer());
+        customerRepository.findWorkspaceActiveLeads.mockResolvedValue([
+            {
+                id: '21000000-0000-4000-8000-000000000001',
+                leadNo: 'LD-2026-000001',
+                leadName: '智慧园区线索',
+                status: 'qualified',
+                rating: 'A',
+                urgency: 'high',
+                ownerName: '张销售',
+                updatedAt: new Date('2026-04-30T09:00:00.000Z')
+            }
+        ]);
+        customerRepository.findWorkspaceActiveProjects.mockResolvedValue([
+            {
+                id: '22000000-0000-4000-8000-000000000001',
+                projectNo: 'PRJ-2026-000001',
+                projectName: '智慧园区项目',
+                status: 'active',
+                currentStage: 'assessment',
+                ownerName: '张销售',
+                plannedSignAt: null,
+                updatedAt: new Date('2026-04-30T09:30:00.000Z')
+            }
+        ]);
+        customerRepository.findWorkspaceRecentContracts.mockResolvedValue([
+            {
+                id: '23000000-0000-4000-8000-000000000001',
+                contractNo: 'CTR-2026-000001',
+                customerContractNo: null,
+                status: 'active',
+                projectId: '22000000-0000-4000-8000-000000000001',
+                projectName: '智慧园区项目',
+                signedAt: new Date('2026-04-30T10:00:00.000Z'),
+                updatedAt: new Date('2026-04-30T10:10:00.000Z')
+            }
+        ]);
+        customerRepository.findWorkspaceRecentFollowUps.mockResolvedValue([
+            {
+                id: '24000000-0000-4000-8000-000000000001',
+                summary: '确认预算窗口',
+                outcome: 'progress',
+                occurredAt: new Date('2026-04-30T11:00:00.000Z'),
+                nextFollowUpAt: null,
+                ownerName: '张销售'
+            }
+        ]);
+        customerRepository.findWorkspaceRecentDiscussions.mockResolvedValue([
+            {
+                id: '25000000-0000-4000-8000-000000000001',
+                threadId: '26000000-0000-4000-8000-000000000001',
+                targetObjectType: 'customer',
+                targetObjectId: customerId,
+                targetTitle: '华南地铁集团',
+                discussionType: 'key-conclusion',
+                body: '客户关注年度框架合作',
+                isKeyConclusion: true,
+                createdAt: new Date('2026-04-30T12:00:00.000Z')
+            }
+        ]);
+
+        const result = await service.getCustomerWorkspaceOverview(customerId);
+
+        expect(customerRepository.getWorkspaceSummary).toHaveBeenCalledWith(customerId);
+        expect(customerRepository.findWorkspaceActiveLeads).toHaveBeenCalledWith(customerId);
+        expect(result.customerId).toBe(customerId);
+        expect(result.summary).toEqual(
+            expect.objectContaining({
+                leadCount: 3,
+                activeLeadCount: 2,
+                convertedLeadCount: 1,
+                activeProjectCount: 1,
+                latestFollowUpAt: '2026-04-30T09:00:00.000Z'
+            })
+        );
+        expect(result.activeLeads[0]).toEqual(
+            expect.objectContaining({
+                leadNo: 'LD-2026-000001',
+                status: 'qualified',
+                updatedAt: '2026-04-30T09:00:00.000Z'
+            })
+        );
+        expect(result.recentContracts[0]).not.toHaveProperty('signedAmount');
+        expect(result.recentDiscussions[0]).toEqual(
+            expect.objectContaining({
+                discussionType: 'key-conclusion',
+                isKeyConclusion: true
+            })
+        );
     });
 
     it('throws not found when creating a customer with a missing operator', async () => {

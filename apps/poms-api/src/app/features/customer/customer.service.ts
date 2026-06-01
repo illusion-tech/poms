@@ -8,6 +8,13 @@ import type {
     CustomerListQuery,
     CustomerListView,
     CustomerSummary,
+    CustomerWorkspaceContractItem,
+    CustomerWorkspaceDiscussionItem,
+    CustomerWorkspaceFollowUpItem,
+    CustomerWorkspaceLeadItem,
+    CustomerWorkspaceOverviewView,
+    CustomerWorkspaceProjectItem,
+    CustomerWorkspaceSummary,
     UpdateCustomerRequest
 } from '@poms/shared-contracts';
 import { CustomerAliasTypeValue, CustomerStatusValue } from '@poms/shared-contracts';
@@ -15,7 +22,15 @@ import { BusinessNumberService } from '../business-number/business-number.servic
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Customer, CustomerAlias } from './customer.entity';
-import { CustomerRepository } from './customer.repository';
+import {
+    CustomerRepository,
+    type CustomerWorkspaceContractRow,
+    type CustomerWorkspaceDiscussionRow,
+    type CustomerWorkspaceFollowUpRow,
+    type CustomerWorkspaceLeadRow,
+    type CustomerWorkspaceProjectRow,
+    type CustomerWorkspaceSummaryRow
+} from './customer.repository';
 
 @Injectable()
 export class CustomerService {
@@ -56,6 +71,29 @@ export class CustomerService {
             context.contractCountByCustomerId.get(customer.id) ?? 0,
             aliases
         );
+    }
+
+    async getCustomerWorkspaceOverview(id: string): Promise<CustomerWorkspaceOverviewView> {
+        const customer = await this.requireCustomer(id);
+        const [summary, activeLeads, activeProjects, recentContracts, recentFollowUps, recentDiscussions] = await Promise.all([
+            this.customerRepository.getWorkspaceSummary(customer.id),
+            this.customerRepository.findWorkspaceActiveLeads(customer.id),
+            this.customerRepository.findWorkspaceActiveProjects(customer.id),
+            this.customerRepository.findWorkspaceRecentContracts(customer.id),
+            this.customerRepository.findWorkspaceRecentFollowUps(customer.id),
+            this.customerRepository.findWorkspaceRecentDiscussions(customer.id)
+        ]);
+
+        return {
+            customerId: customer.id,
+            summary: this.toWorkspaceSummary(summary),
+            activeLeads: activeLeads.map((row) => this.toWorkspaceLeadItem(row)),
+            activeProjects: activeProjects.map((row) => this.toWorkspaceProjectItem(row)),
+            recentContracts: recentContracts.map((row) => this.toWorkspaceContractItem(row)),
+            recentFollowUps: recentFollowUps.map((row) => this.toWorkspaceFollowUpItem(row)),
+            recentDiscussions: recentDiscussions.map((row) => this.toWorkspaceDiscussionItem(row)),
+            generatedAt: new Date().toISOString()
+        };
     }
 
     async createCustomer(input: CreateCustomerRequest, operatorUserId: string): Promise<CustomerSummary> {
@@ -270,6 +308,97 @@ export class CustomerService {
             createdAt: alias.createdAt.toISOString(),
             createdBy: alias.createdBy ?? null
         };
+    }
+
+    private toWorkspaceSummary(row: CustomerWorkspaceSummaryRow): CustomerWorkspaceSummary {
+        return {
+            leadCount: this.toNumber(row.leadCount),
+            activeLeadCount: this.toNumber(row.activeLeadCount),
+            convertedLeadCount: this.toNumber(row.convertedLeadCount),
+            projectCount: this.toNumber(row.projectCount),
+            activeProjectCount: this.toNumber(row.activeProjectCount),
+            contractCount: this.toNumber(row.contractCount),
+            recentFollowUpCount: this.toNumber(row.recentFollowUpCount),
+            recentDiscussionCount: this.toNumber(row.recentDiscussionCount),
+            latestFollowUpAt: this.toOptionalIsoDateTime(row.latestFollowUpAt),
+            latestDiscussionAt: this.toOptionalIsoDateTime(row.latestDiscussionAt)
+        };
+    }
+
+    private toWorkspaceLeadItem(row: CustomerWorkspaceLeadRow): CustomerWorkspaceLeadItem {
+        return {
+            id: row.id,
+            leadNo: row.leadNo,
+            leadName: row.leadName,
+            status: row.status as CustomerWorkspaceLeadItem['status'],
+            rating: row.rating as CustomerWorkspaceLeadItem['rating'],
+            urgency: row.urgency as CustomerWorkspaceLeadItem['urgency'],
+            ownerName: row.ownerName ?? null,
+            updatedAt: this.toIsoDateTime(row.updatedAt)
+        };
+    }
+
+    private toWorkspaceProjectItem(row: CustomerWorkspaceProjectRow): CustomerWorkspaceProjectItem {
+        return {
+            id: row.id,
+            projectNo: row.projectNo,
+            projectName: row.projectName,
+            status: row.status as CustomerWorkspaceProjectItem['status'],
+            currentStage: row.currentStage as CustomerWorkspaceProjectItem['currentStage'],
+            ownerName: row.ownerName ?? null,
+            plannedSignAt: this.toOptionalIsoDateTime(row.plannedSignAt),
+            updatedAt: this.toIsoDateTime(row.updatedAt)
+        };
+    }
+
+    private toWorkspaceContractItem(row: CustomerWorkspaceContractRow): CustomerWorkspaceContractItem {
+        return {
+            id: row.id,
+            contractNo: row.contractNo,
+            customerContractNo: row.customerContractNo ?? null,
+            status: row.status as CustomerWorkspaceContractItem['status'],
+            projectId: row.projectId,
+            projectName: row.projectName,
+            signedAt: this.toOptionalIsoDateTime(row.signedAt),
+            updatedAt: this.toIsoDateTime(row.updatedAt)
+        };
+    }
+
+    private toWorkspaceFollowUpItem(row: CustomerWorkspaceFollowUpRow): CustomerWorkspaceFollowUpItem {
+        return {
+            id: row.id,
+            summary: row.summary,
+            outcome: row.outcome as CustomerWorkspaceFollowUpItem['outcome'],
+            occurredAt: this.toIsoDateTime(row.occurredAt),
+            nextFollowUpAt: this.toOptionalIsoDateTime(row.nextFollowUpAt),
+            ownerName: row.ownerName ?? null
+        };
+    }
+
+    private toWorkspaceDiscussionItem(row: CustomerWorkspaceDiscussionRow): CustomerWorkspaceDiscussionItem {
+        return {
+            id: row.id,
+            threadId: row.threadId,
+            targetObjectType: row.targetObjectType as CustomerWorkspaceDiscussionItem['targetObjectType'],
+            targetObjectId: row.targetObjectId,
+            targetTitle: row.targetTitle,
+            discussionType: row.discussionType as CustomerWorkspaceDiscussionItem['discussionType'],
+            body: row.body,
+            isKeyConclusion: Boolean(row.isKeyConclusion),
+            createdAt: this.toIsoDateTime(row.createdAt)
+        };
+    }
+
+    private toNumber(value: number | string): number {
+        return Number(value);
+    }
+
+    private toIsoDateTime(value: Date | string): string {
+        return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+    }
+
+    private toOptionalIsoDateTime(value: Date | string | null): string | null {
+        return value ? this.toIsoDateTime(value) : null;
     }
 
     private async resolveOwner(

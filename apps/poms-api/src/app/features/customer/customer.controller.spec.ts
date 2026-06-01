@@ -6,12 +6,13 @@ describe('CustomerController', () => {
     const userId = '00000000-0000-4000-8000-000000000001';
 
     let controller: CustomerController;
-    let customerService: jest.Mocked<Pick<CustomerService, 'listCustomers' | 'getCustomer' | 'createCustomer' | 'updateCustomer' | 'listAliases' | 'createAlias'>>;
+    let customerService: jest.Mocked<Pick<CustomerService, 'listCustomers' | 'getCustomer' | 'getCustomerWorkspaceOverview' | 'createCustomer' | 'updateCustomer' | 'listAliases' | 'createAlias'>>;
 
     beforeEach(() => {
         customerService = {
             listCustomers: jest.fn(),
             getCustomer: jest.fn(),
+            getCustomerWorkspaceOverview: jest.fn(),
             createCustomer: jest.fn(),
             updateCustomer: jest.fn(),
             listAliases: jest.fn(),
@@ -118,6 +119,35 @@ describe('CustomerController', () => {
             },
             userId
         );
+    });
+
+    it('returns the customer workspace overview', async () => {
+        customerService.getCustomerWorkspaceOverview.mockResolvedValue({
+            customerId,
+            summary: {
+                leadCount: 3,
+                activeLeadCount: 2,
+                convertedLeadCount: 1,
+                projectCount: 1,
+                activeProjectCount: 1,
+                contractCount: 1,
+                recentFollowUpCount: 1,
+                recentDiscussionCount: 1,
+                latestFollowUpAt: '2026-04-30T09:00:00.000Z',
+                latestDiscussionAt: '2026-04-30T10:00:00.000Z'
+            },
+            activeLeads: [],
+            activeProjects: [],
+            recentContracts: [],
+            recentFollowUps: [],
+            recentDiscussions: [],
+            generatedAt: '2026-04-30T10:00:00.000Z'
+        });
+
+        const result = await controller.getWorkspaceOverview(customerId);
+
+        expect(customerService.getCustomerWorkspaceOverview).toHaveBeenCalledWith(customerId);
+        expect(result.summary.activeLeadCount).toBe(2);
     });
 
     it('creates customer aliases under the selected customer', async () => {
