@@ -1,19 +1,33 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, computed, inject, signal } from '@angular/core';
-import { DomSanitizer, type SafeResourceUrl } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import {
-    ActiveInactiveStatus,
-    AttachmentRelationType,
-    AttachmentSecurityLevel,
-    AttachmentStore,
-    AttachmentUploadMode,
-    DictionaryDomain,
-    DictionaryStore,
-    type AttachmentSummary,
-    type AttachmentTargetType
+  Component,
+  computed,
+  Input,
+  inject,
+  type OnChanges,
+  type OnDestroy,
+  type OnInit,
+  type SimpleChanges,
+  signal,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DomSanitizer, type SafeResourceUrl } from '@angular/platform-browser';
+import {
+  ActiveInactiveStatus,
+  AttachmentRelationType,
+  AttachmentSecurityLevel,
+  AttachmentStore,
+  type AttachmentSummary,
+  type AttachmentTargetType,
+  AttachmentUploadMode,
+  DictionaryDomain,
+  DictionaryStore,
 } from '@poms/admin-data-access';
-import { AttachmentSecurityLevelLabel, AttachmentSecurityLevelOptions, AttachmentSecurityLevelSeverity } from '@poms/shared-contracts';
+import {
+  AttachmentSecurityLevelLabel,
+  AttachmentSecurityLevelOptions,
+  AttachmentSecurityLevelSeverity,
+} from '@poms/shared-contracts';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,63 +35,79 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { TooltipModule } from 'primeng/tooltip';
+import { SectionCard } from './sectioncard';
 import { WorkspaceFeedback } from './workspace-feedback';
 
 interface AttachmentOption<T extends string> {
-    label: string;
-    value: T;
+  label: string;
+  value: T;
 }
 
 interface AttachmentUploadForm {
-    category: string;
-    securityLevel: AttachmentSecurityLevel;
-    displayName: string;
-    description: string;
+  category: string;
+  securityLevel: AttachmentSecurityLevel;
+  displayName: string;
+  description: string;
 }
 
 interface AttachmentVersionUploadForm extends AttachmentUploadForm {
-    changeNote: string;
+  changeNote: string;
 }
 
 type PreviewKind = 'image' | 'pdf' | 'unsupported';
 
 const ATTACHMENT_SECURITY_LABELS = AttachmentSecurityLevelLabel as Record<AttachmentSecurityLevel, string>;
 
-const ATTACHMENT_SECURITY_SEVERITY = AttachmentSecurityLevelSeverity as Record<AttachmentSecurityLevel, 'secondary' | 'info' | 'warn' | 'danger'>;
+const ATTACHMENT_SECURITY_SEVERITY = AttachmentSecurityLevelSeverity as Record<
+  AttachmentSecurityLevel,
+  'secondary' | 'info' | 'warn' | 'danger'
+>;
 
 const DEFAULT_UPLOAD_FORM: AttachmentUploadForm = {
-    category: '',
-    securityLevel: AttachmentSecurityLevel.Internal,
-    displayName: '',
-    description: ''
+  category: '',
+  securityLevel: AttachmentSecurityLevel.Internal,
+  displayName: '',
+  description: '',
 };
 
 const DEFAULT_VERSION_UPLOAD_FORM: AttachmentVersionUploadForm = {
-    ...DEFAULT_UPLOAD_FORM,
-    changeNote: ''
+  ...DEFAULT_UPLOAD_FORM,
+  changeNote: '',
 };
 
-const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as ReadonlyArray<AttachmentOption<AttachmentSecurityLevel>>)];
+const ATTACHMENT_SECURITY_OPTIONS = [
+  ...(AttachmentSecurityLevelOptions as ReadonlyArray<AttachmentOption<AttachmentSecurityLevel>>),
+];
 
 @Component({
-    selector: 'app-attachment-panel',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TagModule, TextareaModule, TooltipModule, WorkspaceFeedback],
-    providers: [AttachmentStore, DictionaryStore],
-    template: `
-        <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                    <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">{{ title }}</h3>
-                    <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">{{ description }}</p>
-                </div>
+  selector: 'app-attachment-panel',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonModule,
+    DialogModule,
+    InputTextModule,
+    SelectModule,
+    SectionCard,
+    TagModule,
+    TextareaModule,
+    TooltipModule,
+    WorkspaceFeedback,
+  ],
+  providers: [AttachmentStore, DictionaryStore],
+  template: `
+        <section-card>
+            <ng-template #title>{{ heading }}</ng-template>
+            <ng-template #description>{{ descriptionText }}</ng-template>
+            <ng-template #action>
                 <div class="flex shrink-0 flex-wrap gap-2">
                     <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" (onClick)="reload()" />
                     @if (canWrite) {
                         <p-button icon="pi pi-upload" label="上传附件" severity="primary" [outlined]="true" styleClass="rounded-md!" [disabled]="!targetId" (onClick)="showUploadDialog()" />
                     }
                 </div>
-            </div>
+            </ng-template>
 
             <div class="mt-4 flex flex-col gap-3">
                 @if (error()) {
@@ -141,7 +171,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                     <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无附件。</div>
                 }
             </div>
-        </section>
+        </section-card>
 
         <p-dialog [(visible)]="uploadDialogVisible" [modal]="true" header="上传附件" [style]="{ width: '34rem' }" styleClass="p-fluid" [closable]="!store.saving()" [closeOnEscape]="!store.saving()" (onHide)="resetUploadDialog()">
             <div class="flex flex-col gap-4 py-2">
@@ -424,573 +454,582 @@ const ATTACHMENT_SECURITY_OPTIONS = [...(AttachmentSecurityLevelOptions as Reado
                 ></textarea>
             </div>
         </ng-template>
-    `
+    `,
 })
 export class AttachmentPanel implements OnChanges, OnDestroy, OnInit {
-    readonly store = inject(AttachmentStore);
-    readonly dictionaryStore = inject(DictionaryStore);
-    readonly #sanitizer = inject(DomSanitizer);
+  readonly store = inject(AttachmentStore);
+  readonly dictionaryStore = inject(DictionaryStore);
+  readonly #sanitizer = inject(DomSanitizer);
 
-    @Input({ required: true }) targetType!: AttachmentTargetType;
-    @Input({ required: true }) targetId!: string;
-    @Input() canWrite = false;
-    @Input() title = '附件';
-    @Input() description = '沉淀当前业务对象的关键资料和过程证据。';
+  @Input({ required: true }) targetType!: AttachmentTargetType;
+  @Input({ required: true }) targetId!: string;
+  @Input() canWrite = false;
+  @Input('title') heading = '附件';
+  @Input('description') descriptionText = '沉淀当前业务对象的关键资料和过程证据。';
 
-    readonly error = signal<string | null>(null);
-    readonly uploadError = signal<string | null>(null);
-    readonly selectedFile = signal<File | null>(null);
-    readonly uploadForm = signal<AttachmentUploadForm>({ ...DEFAULT_UPLOAD_FORM });
+  readonly error = signal<string | null>(null);
+  readonly uploadError = signal<string | null>(null);
+  readonly selectedFile = signal<File | null>(null);
+  readonly uploadForm = signal<AttachmentUploadForm>({ ...DEFAULT_UPLOAD_FORM });
 
-    readonly selectedPreviewAttachment = signal<AttachmentSummary | null>(null);
-    readonly previewObjectUrl = signal<string | null>(null);
-    readonly safePreviewUrl = signal<SafeResourceUrl | null>(null);
-    readonly previewMimeType = signal<string | null>(null);
-    readonly previewLoading = signal(false);
-    readonly previewError = signal<string | null>(null);
-    readonly downloadingAttachmentIds = signal<ReadonlySet<string>>(new Set());
-    readonly previewKind = computed<PreviewKind>(() => {
-        const mimeType = this.previewMimeType() ?? this.selectedPreviewAttachment()?.previewMimeType ?? '';
-        if (mimeType.startsWith('image/')) return 'image';
-        if (mimeType === 'application/pdf') return 'pdf';
-        return 'unsupported';
+  readonly selectedPreviewAttachment = signal<AttachmentSummary | null>(null);
+  readonly previewObjectUrl = signal<string | null>(null);
+  readonly safePreviewUrl = signal<SafeResourceUrl | null>(null);
+  readonly previewMimeType = signal<string | null>(null);
+  readonly previewLoading = signal(false);
+  readonly previewError = signal<string | null>(null);
+  readonly downloadingAttachmentIds = signal<ReadonlySet<string>>(new Set());
+  readonly previewKind = computed<PreviewKind>(() => {
+    const mimeType = this.previewMimeType() ?? this.selectedPreviewAttachment()?.previewMimeType ?? '';
+    if (mimeType.startsWith('image/')) return 'image';
+    if (mimeType === 'application/pdf') return 'pdf';
+    return 'unsupported';
+  });
+
+  readonly versionRootAttachment = signal<AttachmentSummary | null>(null);
+  readonly versions = signal<AttachmentSummary[]>([]);
+  readonly versionsLoading = signal(false);
+  readonly versionsError = signal<string | null>(null);
+  readonly versionUploadTarget = signal<AttachmentSummary | null>(null);
+  readonly selectedVersionFile = signal<File | null>(null);
+  readonly versionUploadForm = signal<AttachmentVersionUploadForm>({ ...DEFAULT_VERSION_UPLOAD_FORM });
+  readonly versionUploadError = signal<string | null>(null);
+
+  readonly finalTarget = signal<AttachmentSummary | null>(null);
+  readonly markFinalNote = signal('');
+  readonly clearFinalReason = signal('业务确认状态变更，撤销最终版标记。');
+  readonly finalDialogError = signal<string | null>(null);
+
+  uploadDialogVisible = false;
+  previewDialogVisible = false;
+  versionsDialogVisible = false;
+  versionUploadDialogVisible = false;
+  markFinalDialogVisible = false;
+  clearFinalDialogVisible = false;
+
+  readonly categoryOptions = computed<AttachmentOption<string>[]>(() =>
+    this.dictionaryStore.activeItems().map(item => ({ label: item.name, value: item.code })),
+  );
+  readonly categoryLookup = computed(() => new Map(this.dictionaryStore.items().map(item => [item.code, item.name])));
+  readonly securityOptions = ATTACHMENT_SECURITY_OPTIONS;
+
+  ngOnInit(): void {
+    void this.loadCategoryOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ((changes['targetType'] || changes['targetId']) && this.targetType && this.targetId) {
+      void this.reload();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.revokePreviewUrl();
+  }
+
+  async reload(): Promise<void> {
+    if (!this.targetType || !this.targetId) {
+      this.store.clearAttachments();
+      return;
+    }
+
+    this.error.set(null);
+    try {
+      await this.store.loadAttachments({
+        targetType: this.targetType,
+        targetId: this.targetId,
+      });
+    } catch {
+      this.error.set('附件列表没有读取成功，请稍后重试。');
+    }
+  }
+
+  async loadCategoryOptions(): Promise<void> {
+    try {
+      const items = await this.dictionaryStore.loadItems({
+        domain: DictionaryDomain.AttachmentCategory,
+        status: ActiveInactiveStatus.Active,
+      });
+      this.ensureUploadCategory(items.map(item => item.code));
+    } catch {
+      this.error.set('附件分类没有读取成功，请稍后重试。');
+    }
+  }
+
+  showUploadDialog(): void {
+    this.uploadDialogVisible = true;
+    this.uploadError.set(null);
+    this.store.clearUploadProgress();
+  }
+
+  resetUploadDialog(): void {
+    if (this.store.saving()) {
+      return;
+    }
+    this.selectedFile.set(null);
+    this.uploadForm.set({
+      ...DEFAULT_UPLOAD_FORM,
+      category: this.defaultCategory(),
     });
+    this.uploadError.set(null);
+    this.store.clearUploadProgress();
+  }
 
-    readonly versionRootAttachment = signal<AttachmentSummary | null>(null);
-    readonly versions = signal<AttachmentSummary[]>([]);
-    readonly versionsLoading = signal(false);
-    readonly versionsError = signal<string | null>(null);
-    readonly versionUploadTarget = signal<AttachmentSummary | null>(null);
-    readonly selectedVersionFile = signal<File | null>(null);
-    readonly versionUploadForm = signal<AttachmentVersionUploadForm>({ ...DEFAULT_VERSION_UPLOAD_FORM });
-    readonly versionUploadError = signal<string | null>(null);
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.selectedFile.set(file);
+    this.store.clearUploadProgress();
+    if (file && !this.uploadForm().displayName) {
+      this.updateUploadField('displayName', file.name);
+    }
+    input.value = '';
+  }
 
-    readonly finalTarget = signal<AttachmentSummary | null>(null);
-    readonly markFinalNote = signal('');
-    readonly clearFinalReason = signal('业务确认状态变更，撤销最终版标记。');
-    readonly finalDialogError = signal<string | null>(null);
+  updateUploadField<K extends keyof AttachmentUploadForm>(field: K, value: AttachmentUploadForm[K]): void {
+    this.uploadForm.update(form => ({
+      ...form,
+      [field]: value,
+    }));
+    this.uploadError.set(null);
+  }
 
-    uploadDialogVisible = false;
-    previewDialogVisible = false;
-    versionsDialogVisible = false;
-    versionUploadDialogVisible = false;
-    markFinalDialogVisible = false;
-    clearFinalDialogVisible = false;
+  updateVersionUploadField<K extends keyof AttachmentVersionUploadForm>(
+    field: K,
+    value: AttachmentVersionUploadForm[K],
+  ): void {
+    this.versionUploadForm.update(form => ({
+      ...form,
+      [field]: value,
+    }));
+    this.versionUploadError.set(null);
+  }
 
-    readonly categoryOptions = computed<AttachmentOption<string>[]>(() => this.dictionaryStore.activeItems().map((item) => ({ label: item.name, value: item.code })));
-    readonly categoryLookup = computed(() => new Map(this.dictionaryStore.items().map((item) => [item.code, item.name])));
-    readonly securityOptions = ATTACHMENT_SECURITY_OPTIONS;
-
-    ngOnInit(): void {
-        void this.loadCategoryOptions();
+  async upload(): Promise<void> {
+    const file = this.selectedFile();
+    if (!file || !this.targetType || !this.targetId) {
+      return;
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if ((changes['targetType'] || changes['targetId']) && this.targetType && this.targetId) {
-            void this.reload();
-        }
+    const form = this.uploadForm();
+    this.uploadError.set(null);
+    try {
+      await this.store.uploadAttachment({
+        targetType: this.targetType,
+        targetId: this.targetId,
+        file,
+        category: form.category,
+        securityLevel: form.securityLevel,
+        relationType: AttachmentRelationType.Normal,
+        displayName: form.displayName.trim() || undefined,
+        description: form.description.trim() || null,
+      });
+      this.uploadDialogVisible = false;
+      this.resetUploadDialog();
+      await this.reload();
+    } catch {
+      if (this.store.uploadProgress().phase !== 'aborted') {
+        this.uploadError.set(
+          this.store.uploadProgress().error ?? '请确认文件类型、大小、存储 provider 和当前权限后重试。',
+        );
+      }
+    }
+  }
+
+  async openPreview(attachment: AttachmentSummary): Promise<void> {
+    this.previewDialogVisible = true;
+    this.selectedPreviewAttachment.set(attachment);
+    this.previewLoading.set(true);
+    this.previewError.set(null);
+    this.revokePreviewUrl();
+
+    if (!attachment.previewSupported) {
+      this.previewLoading.set(false);
+      this.previewError.set('该文件类型暂不支持在线预览。');
+      return;
     }
 
-    ngOnDestroy(): void {
-        this.revokePreviewUrl();
+    try {
+      const preview = await this.store.previewAttachment(attachment.id);
+      const objectUrl = URL.createObjectURL(preview.blob);
+      this.previewObjectUrl.set(objectUrl);
+      this.previewMimeType.set(preview.mimeType);
+      this.safePreviewUrl.set(this.#sanitizer.bypassSecurityTrustResourceUrl(objectUrl));
+    } catch {
+      this.previewError.set('附件预览没有打开成功，请稍后重试或下载查看。');
+    } finally {
+      this.previewLoading.set(false);
+    }
+  }
+
+  closePreview(): void {
+    this.revokePreviewUrl();
+    this.selectedPreviewAttachment.set(null);
+    this.previewError.set(null);
+    this.previewLoading.set(false);
+  }
+
+  async openVersions(attachment: AttachmentSummary): Promise<void> {
+    this.versionRootAttachment.set(attachment);
+    this.versionsDialogVisible = true;
+    await this.refreshVersions();
+  }
+
+  async refreshVersions(): Promise<void> {
+    const attachment = this.versionRootAttachment();
+    if (!attachment) {
+      this.versions.set([]);
+      return;
     }
 
-    async reload(): Promise<void> {
-        if (!this.targetType || !this.targetId) {
-            this.store.clearAttachments();
-            return;
-        }
+    this.versionsLoading.set(true);
+    this.versionsError.set(null);
+    try {
+      const versions = await this.store.loadAttachmentVersions(attachment.id);
+      this.versions.set(versions);
+    } catch {
+      this.versionsError.set('附件版本历史没有读取成功，请稍后重试。');
+    } finally {
+      this.versionsLoading.set(false);
+    }
+  }
 
-        this.error.set(null);
-        try {
-            await this.store.loadAttachments({
-                targetType: this.targetType,
-                targetId: this.targetId
-            });
-        } catch {
-            this.error.set('附件列表没有读取成功，请稍后重试。');
-        }
+  resetVersionsDialog(): void {
+    this.versionRootAttachment.set(null);
+    this.versions.set([]);
+    this.versionsError.set(null);
+  }
+
+  showVersionUploadDialog(attachment: AttachmentSummary): void {
+    this.versionUploadTarget.set(attachment);
+    this.selectedVersionFile.set(null);
+    this.store.clearUploadProgress();
+    this.versionUploadForm.set({
+      category: attachment.category || this.defaultCategory(),
+      securityLevel: attachment.securityLevel,
+      displayName: attachment.displayName,
+      description: attachment.description ?? '',
+      changeNote: '',
+    });
+    this.versionUploadError.set(null);
+    this.versionUploadDialogVisible = true;
+  }
+
+  resetVersionUploadDialog(): void {
+    if (this.store.saving()) {
+      return;
+    }
+    this.versionUploadTarget.set(null);
+    this.selectedVersionFile.set(null);
+    this.versionUploadForm.set({
+      ...DEFAULT_VERSION_UPLOAD_FORM,
+      category: this.defaultCategory(),
+    });
+    this.versionUploadError.set(null);
+    this.store.clearUploadProgress();
+  }
+
+  onVersionFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.selectedVersionFile.set(file);
+    this.store.clearUploadProgress();
+    if (file && !this.versionUploadForm().displayName) {
+      this.updateVersionUploadField('displayName', file.name);
+    }
+    input.value = '';
+  }
+
+  async uploadVersion(): Promise<void> {
+    const target = this.versionUploadTarget();
+    const file = this.selectedVersionFile();
+    const form = this.versionUploadForm();
+    if (!target || !file || !form.changeNote.trim()) {
+      return;
     }
 
-    async loadCategoryOptions(): Promise<void> {
-        try {
-            const items = await this.dictionaryStore.loadItems({
-                domain: DictionaryDomain.AttachmentCategory,
-                status: ActiveInactiveStatus.Active
-            });
-            this.ensureUploadCategory(items.map((item) => item.code));
-        } catch {
-            this.error.set('附件分类没有读取成功，请稍后重试。');
-        }
-    }
-
-    showUploadDialog(): void {
-        this.uploadDialogVisible = true;
-        this.uploadError.set(null);
-        this.store.clearUploadProgress();
-    }
-
-    resetUploadDialog(): void {
-        if (this.store.saving()) {
-            return;
-        }
-        this.selectedFile.set(null);
-        this.uploadForm.set({
-            ...DEFAULT_UPLOAD_FORM,
-            category: this.defaultCategory()
-        });
-        this.uploadError.set(null);
-        this.store.clearUploadProgress();
-    }
-
-    onFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        const file = input.files?.[0] ?? null;
-        this.selectedFile.set(file);
-        this.store.clearUploadProgress();
-        if (file && !this.uploadForm().displayName) {
-            this.updateUploadField('displayName', file.name);
-        }
-        input.value = '';
-    }
-
-    updateUploadField<K extends keyof AttachmentUploadForm>(field: K, value: AttachmentUploadForm[K]): void {
-        this.uploadForm.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.uploadError.set(null);
-    }
-
-    updateVersionUploadField<K extends keyof AttachmentVersionUploadForm>(field: K, value: AttachmentVersionUploadForm[K]): void {
-        this.versionUploadForm.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.versionUploadError.set(null);
-    }
-
-    async upload(): Promise<void> {
-        const file = this.selectedFile();
-        if (!file || !this.targetType || !this.targetId) {
-            return;
-        }
-
-        const form = this.uploadForm();
-        this.uploadError.set(null);
-        try {
-            await this.store.uploadAttachment({
-                targetType: this.targetType,
-                targetId: this.targetId,
-                file,
-                category: form.category,
-                securityLevel: form.securityLevel,
-                relationType: AttachmentRelationType.Normal,
-                displayName: form.displayName.trim() || undefined,
-                description: form.description.trim() || null
-            });
-            this.uploadDialogVisible = false;
-            this.resetUploadDialog();
-            await this.reload();
-        } catch {
-            if (this.store.uploadProgress().phase !== 'aborted') {
-                this.uploadError.set(this.store.uploadProgress().error ?? '请确认文件类型、大小、存储 provider 和当前权限后重试。');
-            }
-        }
-    }
-
-    async openPreview(attachment: AttachmentSummary): Promise<void> {
-        this.previewDialogVisible = true;
-        this.selectedPreviewAttachment.set(attachment);
-        this.previewLoading.set(true);
-        this.previewError.set(null);
-        this.revokePreviewUrl();
-
-        if (!attachment.previewSupported) {
-            this.previewLoading.set(false);
-            this.previewError.set('该文件类型暂不支持在线预览。');
-            return;
-        }
-
-        try {
-            const preview = await this.store.previewAttachment(attachment.id);
-            const objectUrl = URL.createObjectURL(preview.blob);
-            this.previewObjectUrl.set(objectUrl);
-            this.previewMimeType.set(preview.mimeType);
-            this.safePreviewUrl.set(this.#sanitizer.bypassSecurityTrustResourceUrl(objectUrl));
-        } catch {
-            this.previewError.set('附件预览没有打开成功，请稍后重试或下载查看。');
-        } finally {
-            this.previewLoading.set(false);
-        }
-    }
-
-    closePreview(): void {
-        this.revokePreviewUrl();
-        this.selectedPreviewAttachment.set(null);
-        this.previewError.set(null);
-        this.previewLoading.set(false);
-    }
-
-    async openVersions(attachment: AttachmentSummary): Promise<void> {
-        this.versionRootAttachment.set(attachment);
-        this.versionsDialogVisible = true;
+    this.versionUploadError.set(null);
+    try {
+      await this.store.uploadAttachmentVersion({
+        id: target.id,
+        file,
+        changeNote: form.changeNote.trim(),
+        displayName: form.displayName.trim() || undefined,
+        category: form.category || undefined,
+        securityLevel: form.securityLevel,
+        description: form.description.trim() || null,
+      });
+      this.versionUploadDialogVisible = false;
+      this.resetVersionUploadDialog();
+      await this.reload();
+      if (this.versionsDialogVisible) {
         await this.refreshVersions();
+      }
+    } catch {
+      if (this.store.uploadProgress().phase !== 'aborted') {
+        this.versionUploadError.set(
+          this.store.uploadProgress().error ?? '请确认新版本文件、版本说明、存储 provider 和当前权限后重试。',
+        );
+      }
+    }
+  }
+
+  async abortUpload(): Promise<void> {
+    try {
+      await this.store.abortCurrentUpload('用户在附件面板中止附件上传。');
+    } catch {
+      const message = '上传会话没有中止成功，请稍后重试。';
+      if (this.versionUploadDialogVisible) {
+        this.versionUploadError.set(message);
+      } else {
+        this.uploadError.set(message);
+      }
+    }
+  }
+
+  showMarkFinalDialog(attachment: AttachmentSummary): void {
+    this.finalTarget.set(attachment);
+    this.markFinalNote.set('');
+    this.finalDialogError.set(null);
+    this.markFinalDialogVisible = true;
+  }
+
+  showClearFinalDialog(attachment: AttachmentSummary): void {
+    this.finalTarget.set(attachment);
+    this.clearFinalReason.set('业务确认状态变更，撤销最终版标记。');
+    this.finalDialogError.set(null);
+    this.clearFinalDialogVisible = true;
+  }
+
+  resetFinalDialogs(): void {
+    this.finalTarget.set(null);
+    this.markFinalNote.set('');
+    this.clearFinalReason.set('业务确认状态变更，撤销最终版标记。');
+    this.finalDialogError.set(null);
+  }
+
+  async confirmMarkFinal(): Promise<void> {
+    const attachment = this.finalTarget();
+    if (!attachment) {
+      return;
     }
 
-    async refreshVersions(): Promise<void> {
-        const attachment = this.versionRootAttachment();
-        if (!attachment) {
-            this.versions.set([]);
-            return;
-        }
+    try {
+      await this.store.markAttachmentFinal(attachment.id, { note: this.markFinalNote().trim() || null });
+      this.markFinalDialogVisible = false;
+      this.resetFinalDialogs();
+      await this.reload();
+      if (this.versionsDialogVisible) {
+        await this.refreshVersions();
+      }
+    } catch {
+      this.finalDialogError.set('请确认当前权限后重试。');
+    }
+  }
 
-        this.versionsLoading.set(true);
-        this.versionsError.set(null);
-        try {
-            const versions = await this.store.loadAttachmentVersions(attachment.id);
-            this.versions.set(versions);
-        } catch {
-            this.versionsError.set('附件版本历史没有读取成功，请稍后重试。');
-        } finally {
-            this.versionsLoading.set(false);
-        }
+  async confirmClearFinal(): Promise<void> {
+    const attachment = this.finalTarget();
+    const reason = this.clearFinalReason().trim();
+    if (!attachment || !reason) {
+      return;
     }
 
-    resetVersionsDialog(): void {
-        this.versionRootAttachment.set(null);
-        this.versions.set([]);
-        this.versionsError.set(null);
+    try {
+      await this.store.clearAttachmentFinal(attachment.id, { reason });
+      this.clearFinalDialogVisible = false;
+      this.resetFinalDialogs();
+      await this.reload();
+      if (this.versionsDialogVisible) {
+        await this.refreshVersions();
+      }
+    } catch {
+      this.finalDialogError.set('请确认当前权限后重试。');
+    }
+  }
+
+  async download(attachment: AttachmentSummary): Promise<void> {
+    if (this.isDownloading(attachment.id)) {
+      return;
     }
 
-    showVersionUploadDialog(attachment: AttachmentSummary): void {
-        this.versionUploadTarget.set(attachment);
-        this.selectedVersionFile.set(null);
-        this.store.clearUploadProgress();
-        this.versionUploadForm.set({
-            category: attachment.category || this.defaultCategory(),
-            securityLevel: attachment.securityLevel,
-            displayName: attachment.displayName,
-            description: attachment.description ?? '',
-            changeNote: ''
-        });
-        this.versionUploadError.set(null);
-        this.versionUploadDialogVisible = true;
+    this.error.set(null);
+    this.setAttachmentDownloading(attachment.id, true);
+    try {
+      const result = await this.store.downloadAttachment(attachment.id);
+      this.triggerBrowserDownload(result.blob, result.fileName || attachment.originalName);
+    } catch {
+      this.error.set('附件下载没有成功，请稍后重试。');
+    } finally {
+      this.setAttachmentDownloading(attachment.id, false);
+    }
+  }
+
+  isDownloading(attachmentId: string): boolean {
+    return this.downloadingAttachmentIds().has(attachmentId);
+  }
+
+  async voidAttachment(attachment: AttachmentSummary): Promise<void> {
+    try {
+      await this.store.voidAttachment(attachment.id, {
+        reason: '用户在附件面板中作废附件。',
+      });
+      await this.reload();
+    } catch {
+      this.error.set('附件没有作废成功，请确认权限后重试。');
+    }
+  }
+
+  categoryLabel(category: string): string {
+    return this.categoryLookup().get(category) ?? category;
+  }
+
+  securityLabel(securityLevel: AttachmentSecurityLevel): string {
+    return ATTACHMENT_SECURITY_LABELS[securityLevel];
+  }
+
+  securitySeverity(securityLevel: AttachmentSecurityLevel): 'secondary' | 'info' | 'warn' | 'danger' {
+    return ATTACHMENT_SECURITY_SEVERITY[securityLevel];
+  }
+
+  fileIcon(attachment: AttachmentSummary): string {
+    const mimeType = attachment.mimeType;
+    if (mimeType.startsWith('image/')) return 'pi-image';
+    if (mimeType === 'application/pdf') return 'pi-file-pdf';
+    if (['xls', 'xlsx', 'csv'].includes(attachment.extension.toLowerCase())) return 'pi-file-excel';
+    if (['zip', 'rar', '7z'].includes(attachment.extension.toLowerCase())) return 'pi-box';
+    return 'pi-file';
+  }
+
+  formatSize(sizeBytes: number): string {
+    if (sizeBytes < 1024) {
+      return `${sizeBytes} B`;
     }
 
-    resetVersionUploadDialog(): void {
-        if (this.store.saving()) {
-            return;
-        }
-        this.versionUploadTarget.set(null);
-        this.selectedVersionFile.set(null);
-        this.versionUploadForm.set({
-            ...DEFAULT_VERSION_UPLOAD_FORM,
-            category: this.defaultCategory()
-        });
-        this.versionUploadError.set(null);
-        this.store.clearUploadProgress();
+    const units = ['KB', 'MB', 'GB'];
+    let value = sizeBytes / 1024;
+    let unitIndex = 0;
+    while (value >= 1024 && unitIndex < units.length - 1) {
+      value /= 1024;
+      unitIndex += 1;
     }
 
-    onVersionFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        const file = input.files?.[0] ?? null;
-        this.selectedVersionFile.set(file);
-        this.store.clearUploadProgress();
-        if (file && !this.versionUploadForm().displayName) {
-            this.updateVersionUploadField('displayName', file.name);
-        }
-        input.value = '';
+    return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[unitIndex]}`;
+  }
+
+  uploadPhaseLabel(): string {
+    switch (this.store.uploadProgress().phase) {
+      case 'creating-session':
+        return '创建上传会话';
+      case 'creating-target':
+        return '准备上传目标';
+      case 'uploading':
+        return '正在上传';
+      case 'completing':
+        return '正在完成';
+      case 'completed':
+        return '上传完成';
+      case 'aborting':
+        return '正在中止';
+      case 'aborted':
+        return '已中止';
+      case 'failed':
+        return '上传失败';
+      default:
+        return '等待上传';
+    }
+  }
+
+  uploadModeLabel(): string {
+    const state = this.store.uploadProgress();
+    if (!state.uploadMode) {
+      return 'Session';
+    }
+    if (state.uploadMode === AttachmentUploadMode.Proxy) {
+      return 'POMS Proxy';
+    }
+    if (state.uploadMode === AttachmentUploadMode.PresignedPut) {
+      return 'OBS Direct';
+    }
+    return 'Multipart';
+  }
+
+  uploadProgressSeverity(): 'success' | 'secondary' | 'info' | 'warn' | 'danger' {
+    const phase = this.store.uploadProgress().phase;
+    if (phase === 'completed') return 'success';
+    if (phase === 'failed') return 'danger';
+    if (phase === 'aborted' || phase === 'aborting') return 'warn';
+    if (phase === 'idle') return 'secondary';
+    return 'info';
+  }
+
+  uploadProgressDetail(): string {
+    const state = this.store.uploadProgress();
+    if (state.phase === 'failed' && state.error) {
+      return state.error;
+    }
+    if (state.loadedBytes || state.totalBytes) {
+      return `${this.formatSize(state.loadedBytes)} / ${this.formatSize(state.totalBytes || state.loadedBytes)}`;
+    }
+    return state.fileName ?? '等待上传文件';
+  }
+
+  private ensureUploadCategory(codes: string[]): void {
+    if (!codes.length) {
+      return;
     }
 
-    async uploadVersion(): Promise<void> {
-        const target = this.versionUploadTarget();
-        const file = this.selectedVersionFile();
-        const form = this.versionUploadForm();
-        if (!target || !file || !form.changeNote.trim()) {
-            return;
-        }
-
-        this.versionUploadError.set(null);
-        try {
-            await this.store.uploadAttachmentVersion({
-                id: target.id,
-                file,
-                changeNote: form.changeNote.trim(),
-                displayName: form.displayName.trim() || undefined,
-                category: form.category || undefined,
-                securityLevel: form.securityLevel,
-                description: form.description.trim() || null
-            });
-            this.versionUploadDialogVisible = false;
-            this.resetVersionUploadDialog();
-            await this.reload();
-            if (this.versionsDialogVisible) {
-                await this.refreshVersions();
-            }
-        } catch {
-            if (this.store.uploadProgress().phase !== 'aborted') {
-                this.versionUploadError.set(this.store.uploadProgress().error ?? '请确认新版本文件、版本说明、存储 provider 和当前权限后重试。');
-            }
-        }
+    const currentCategory = this.uploadForm().category;
+    if (codes.includes(currentCategory)) {
+      return;
     }
 
-    async abortUpload(): Promise<void> {
-        try {
-            await this.store.abortCurrentUpload('用户在附件面板中止附件上传。');
-        } catch {
-            const message = '上传会话没有中止成功，请稍后重试。';
-            if (this.versionUploadDialogVisible) {
-                this.versionUploadError.set(message);
-            } else {
-                this.uploadError.set(message);
-            }
-        }
+    this.uploadForm.update(form => ({
+      ...form,
+      category: this.defaultCategory(),
+    }));
+    this.versionUploadForm.update(form => ({
+      ...form,
+      category: this.defaultCategory(),
+    }));
+  }
+
+  private defaultCategory(): string {
+    const options = this.categoryOptions();
+    return options[0]?.value ?? DEFAULT_UPLOAD_FORM.category;
+  }
+
+  private revokePreviewUrl(): void {
+    const currentUrl = this.previewObjectUrl();
+    if (currentUrl) {
+      URL.revokeObjectURL(currentUrl);
     }
+    this.previewObjectUrl.set(null);
+    this.safePreviewUrl.set(null);
+    this.previewMimeType.set(null);
+  }
 
-    showMarkFinalDialog(attachment: AttachmentSummary): void {
-        this.finalTarget.set(attachment);
-        this.markFinalNote.set('');
-        this.finalDialogError.set(null);
-        this.markFinalDialogVisible = true;
-    }
+  private setAttachmentDownloading(attachmentId: string, downloading: boolean): void {
+    this.downloadingAttachmentIds.update(current => {
+      const next = new Set(current);
+      if (downloading) {
+        next.add(attachmentId);
+      } else {
+        next.delete(attachmentId);
+      }
+      return next;
+    });
+  }
 
-    showClearFinalDialog(attachment: AttachmentSummary): void {
-        this.finalTarget.set(attachment);
-        this.clearFinalReason.set('业务确认状态变更，撤销最终版标记。');
-        this.finalDialogError.set(null);
-        this.clearFinalDialogVisible = true;
-    }
-
-    resetFinalDialogs(): void {
-        this.finalTarget.set(null);
-        this.markFinalNote.set('');
-        this.clearFinalReason.set('业务确认状态变更，撤销最终版标记。');
-        this.finalDialogError.set(null);
-    }
-
-    async confirmMarkFinal(): Promise<void> {
-        const attachment = this.finalTarget();
-        if (!attachment) {
-            return;
-        }
-
-        try {
-            await this.store.markAttachmentFinal(attachment.id, { note: this.markFinalNote().trim() || null });
-            this.markFinalDialogVisible = false;
-            this.resetFinalDialogs();
-            await this.reload();
-            if (this.versionsDialogVisible) {
-                await this.refreshVersions();
-            }
-        } catch {
-            this.finalDialogError.set('请确认当前权限后重试。');
-        }
-    }
-
-    async confirmClearFinal(): Promise<void> {
-        const attachment = this.finalTarget();
-        const reason = this.clearFinalReason().trim();
-        if (!attachment || !reason) {
-            return;
-        }
-
-        try {
-            await this.store.clearAttachmentFinal(attachment.id, { reason });
-            this.clearFinalDialogVisible = false;
-            this.resetFinalDialogs();
-            await this.reload();
-            if (this.versionsDialogVisible) {
-                await this.refreshVersions();
-            }
-        } catch {
-            this.finalDialogError.set('请确认当前权限后重试。');
-        }
-    }
-
-    async download(attachment: AttachmentSummary): Promise<void> {
-        if (this.isDownloading(attachment.id)) {
-            return;
-        }
-
-        this.error.set(null);
-        this.setAttachmentDownloading(attachment.id, true);
-        try {
-            const result = await this.store.downloadAttachment(attachment.id);
-            this.triggerBrowserDownload(result.blob, result.fileName || attachment.originalName);
-        } catch {
-            this.error.set('附件下载没有成功，请稍后重试。');
-        } finally {
-            this.setAttachmentDownloading(attachment.id, false);
-        }
-    }
-
-    isDownloading(attachmentId: string): boolean {
-        return this.downloadingAttachmentIds().has(attachmentId);
-    }
-
-    async voidAttachment(attachment: AttachmentSummary): Promise<void> {
-        try {
-            await this.store.voidAttachment(attachment.id, {
-                reason: '用户在附件面板中作废附件。'
-            });
-            await this.reload();
-        } catch {
-            this.error.set('附件没有作废成功，请确认权限后重试。');
-        }
-    }
-
-    categoryLabel(category: string): string {
-        return this.categoryLookup().get(category) ?? category;
-    }
-
-    securityLabel(securityLevel: AttachmentSecurityLevel): string {
-        return ATTACHMENT_SECURITY_LABELS[securityLevel];
-    }
-
-    securitySeverity(securityLevel: AttachmentSecurityLevel): 'secondary' | 'info' | 'warn' | 'danger' {
-        return ATTACHMENT_SECURITY_SEVERITY[securityLevel];
-    }
-
-    fileIcon(attachment: AttachmentSummary): string {
-        const mimeType = attachment.mimeType;
-        if (mimeType.startsWith('image/')) return 'pi-image';
-        if (mimeType === 'application/pdf') return 'pi-file-pdf';
-        if (['xls', 'xlsx', 'csv'].includes(attachment.extension.toLowerCase())) return 'pi-file-excel';
-        if (['zip', 'rar', '7z'].includes(attachment.extension.toLowerCase())) return 'pi-box';
-        return 'pi-file';
-    }
-
-    formatSize(sizeBytes: number): string {
-        if (sizeBytes < 1024) {
-            return `${sizeBytes} B`;
-        }
-
-        const units = ['KB', 'MB', 'GB'];
-        let value = sizeBytes / 1024;
-        let unitIndex = 0;
-        while (value >= 1024 && unitIndex < units.length - 1) {
-            value /= 1024;
-            unitIndex += 1;
-        }
-
-        return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[unitIndex]}`;
-    }
-
-    uploadPhaseLabel(): string {
-        switch (this.store.uploadProgress().phase) {
-            case 'creating-session':
-                return '创建上传会话';
-            case 'creating-target':
-                return '准备上传目标';
-            case 'uploading':
-                return '正在上传';
-            case 'completing':
-                return '正在完成';
-            case 'completed':
-                return '上传完成';
-            case 'aborting':
-                return '正在中止';
-            case 'aborted':
-                return '已中止';
-            case 'failed':
-                return '上传失败';
-            default:
-                return '等待上传';
-        }
-    }
-
-    uploadModeLabel(): string {
-        const state = this.store.uploadProgress();
-        if (!state.uploadMode) {
-            return 'Session';
-        }
-        if (state.uploadMode === AttachmentUploadMode.Proxy) {
-            return 'POMS Proxy';
-        }
-        if (state.uploadMode === AttachmentUploadMode.PresignedPut) {
-            return 'OBS Direct';
-        }
-        return 'Multipart';
-    }
-
-    uploadProgressSeverity(): 'success' | 'secondary' | 'info' | 'warn' | 'danger' {
-        const phase = this.store.uploadProgress().phase;
-        if (phase === 'completed') return 'success';
-        if (phase === 'failed') return 'danger';
-        if (phase === 'aborted' || phase === 'aborting') return 'warn';
-        if (phase === 'idle') return 'secondary';
-        return 'info';
-    }
-
-    uploadProgressDetail(): string {
-        const state = this.store.uploadProgress();
-        if (state.phase === 'failed' && state.error) {
-            return state.error;
-        }
-        if (state.loadedBytes || state.totalBytes) {
-            return `${this.formatSize(state.loadedBytes)} / ${this.formatSize(state.totalBytes || state.loadedBytes)}`;
-        }
-        return state.fileName ?? '等待上传文件';
-    }
-
-    private ensureUploadCategory(codes: string[]): void {
-        if (!codes.length) {
-            return;
-        }
-
-        const currentCategory = this.uploadForm().category;
-        if (codes.includes(currentCategory)) {
-            return;
-        }
-
-        this.uploadForm.update((form) => ({
-            ...form,
-            category: this.defaultCategory()
-        }));
-        this.versionUploadForm.update((form) => ({
-            ...form,
-            category: this.defaultCategory()
-        }));
-    }
-
-    private defaultCategory(): string {
-        const options = this.categoryOptions();
-        return options[0]?.value ?? DEFAULT_UPLOAD_FORM.category;
-    }
-
-    private revokePreviewUrl(): void {
-        const currentUrl = this.previewObjectUrl();
-        if (currentUrl) {
-            URL.revokeObjectURL(currentUrl);
-        }
-        this.previewObjectUrl.set(null);
-        this.safePreviewUrl.set(null);
-        this.previewMimeType.set(null);
-    }
-
-    private setAttachmentDownloading(attachmentId: string, downloading: boolean): void {
-        this.downloadingAttachmentIds.update((current) => {
-            const next = new Set(current);
-            if (downloading) {
-                next.add(attachmentId);
-            } else {
-                next.delete(attachmentId);
-            }
-            return next;
-        });
-    }
-
-    private triggerBrowserDownload(blob: Blob, fileName: string): void {
-        const objectUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = objectUrl;
-        anchor.download = fileName;
-        anchor.rel = 'noopener';
-        anchor.style.display = 'none';
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-        window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
-    }
+  private triggerBrowserDownload(blob: Blob, fileName: string): void {
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = fileName;
+    anchor.rel = 'noopener';
+    anchor.style.display = 'none';
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  }
 }

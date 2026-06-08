@@ -33,6 +33,7 @@ import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { BusinessDiscussionPanel } from '../../shared/ui/business-discussion-panel';
 import { SalesFollowUpPanel } from '../../shared/ui/sales-follow-up-panel';
 import { SalesIntelligencePanel } from '../../shared/ui/sales-intelligence-panel';
+import { SectionCard } from '../../shared/ui/sectioncard';
 import {
   contractStatusLabelOrFallback,
   contractStatusSeverityOrFallback,
@@ -110,6 +111,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
     BusinessDiscussionPanel,
     SalesFollowUpPanel,
     SalesIntelligencePanel,
+    SectionCard,
     WorkspaceFeedback,
     CustomerFormDialog,
   ],
@@ -166,49 +168,48 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                     </div>
                 </nav>
 
-                <section id="customer-workspace-overview" class="card">
-                    <div class="mb-4 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
-                        <div>
-                            <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">经营工作台</h3>
-                            <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">优先处理动作、近期动态和核心经营事实。</p>
-                        </div>
+                <section-card id="customer-workspace-overview">
+                    <ng-template #title>经营工作台</ng-template>
+                    <ng-template #description>优先处理动作、近期动态和核心经营事实。</ng-template>
+                    <ng-template #action>
                         @if (workspaceOverview(); as overview) {
                             <span class="shrink-0 text-xs text-surface-500 dark:text-surface-400">生成：{{ overview.generatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
                         }
-                    </div>
+                    </ng-template>
 
-                    @if (overviewError()) {
-                        <app-workspace-feedback severity="warn" summary="经营概览没有读取成功" [detail]="overviewError()" />
-                    } @else if (loadingWorkspaceOverview()) {
-                        <app-workspace-feedback severity="info" summary="正在读取经营概览" detail="请稍候。" />
-                    } @else if (workspaceOverview(); as overview) {
-                        <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)]">
-                            <div class="min-w-0">
-                                <div class="border-y border-surface-200 py-4 dark:border-surface-700">
-                                    <div class="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                                        <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">下一步动作</h4>
-                                        <span class="text-xs text-surface-500 dark:text-surface-400">基于当前客户经营事实生成</span>
-                                    </div>
-                                    @if (overview.recommendedActions.length) {
-                                        <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
-                                            @for (action of overview.recommendedActions; track action.key) {
-                                                <div class="min-w-0">
-                                                    <p-button
-                                                        [icon]="getWorkspaceActionIcon(action)"
-                                                        [label]="action.title"
-                                                        severity="secondary"
-                                                        [outlined]="true"
-                                                        styleClass="w-full justify-start rounded-md!"
-                                                        (onClick)="executeWorkspaceAction(action)"
-                                                    />
-                                                    <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ action.description }}</p>
-                                                </div>
-                                            }
+                    <div class="mt-4">
+                        @if (overviewError()) {
+                            <app-workspace-feedback severity="warn" summary="经营概览没有读取成功" [detail]="overviewError()" />
+                        } @else if (loadingWorkspaceOverview()) {
+                            <app-workspace-feedback severity="info" summary="正在读取经营概览" detail="请稍候。" />
+                        } @else if (workspaceOverview(); as overview) {
+                            <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)]">
+                                <div class="min-w-0">
+                                    <div class="border-y border-surface-200 py-4 dark:border-surface-700">
+                                        <div class="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                                            <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">下一步动作</h4>
+                                            <span class="text-xs text-surface-500 dark:text-surface-400">基于当前客户经营事实生成</span>
                                         </div>
-                                    } @else {
-                                        <div class="text-sm text-surface-500 dark:text-surface-400">暂无推荐动作。</div>
-                                    }
-                                </div>
+                                        @if (overview.recommendedActions.length) {
+                                            <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                                                @for (action of overview.recommendedActions; track action.key) {
+                                                    <div class="min-w-0">
+                                                        <p-button
+                                                            [icon]="getWorkspaceActionIcon(action)"
+                                                            [label]="action.title"
+                                                            severity="secondary"
+                                                            [outlined]="true"
+                                                            styleClass="w-full justify-start rounded-md!"
+                                                            (onClick)="executeWorkspaceAction(action)"
+                                                        />
+                                                        <p class="mt-2 line-clamp-2 text-xs leading-5 text-surface-500 dark:text-surface-400">{{ action.description }}</p>
+                                                    </div>
+                                                }
+                                            </div>
+                                        } @else {
+                                            <div class="text-sm text-surface-500 dark:text-surface-400">暂无推荐动作。</div>
+                                        }
+                                    </div>
 
                                 <div class="mt-6">
                                     <div class="mb-3 flex items-center justify-between gap-3">
@@ -370,20 +371,18 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                                     <div class="border-y border-surface-200 py-3 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无客户动态。</div>
                                 }
                             </aside>
-                        </div>
-                    } @else {
-                        <div class="rounded-lg border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无经营概览。</div>
-                    }
-                </section>
-
-                <section id="customer-profile" class="card">
-                    <div class="mb-4 flex items-center justify-between gap-3">
-                        <div>
-                            <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">客户档案</h3>
-                            <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">客户主档身份、长期备注和常用别名。</p>
-                        </div>
+                            </div>
+                        } @else {
+                            <div class="rounded-lg border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无经营概览。</div>
+                        }
                     </div>
-                    <h4 class="m-0 text-sm font-semibold text-surface-900 dark:text-surface-0">基础信息</h4>
+                </section-card>
+
+                <section-card id="customer-profile">
+                    <ng-template #title>客户档案</ng-template>
+                    <ng-template #description>客户主档身份、长期备注和常用别名。</ng-template>
+
+                    <h4 class="mt-4 text-sm font-semibold text-surface-900 dark:text-surface-0">基础信息</h4>
                     <dl class="grid grid-cols-1 gap-4 text-sm md:grid-cols-2 xl:grid-cols-4">
                         <div>
                             <dt class="text-surface-500 dark:text-surface-400">法定名称</dt>
@@ -428,7 +427,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                             }
                         </div>
                     </div>
-                </section>
+                </section-card>
 
                 @if (followUpReminderEntry()) {
                     <app-workspace-feedback severity="info" summary="从销售跟进待办进入" detail="请在下方客户销售跟进中登记本次处理结果，系统会据此关闭或刷新提醒。" />

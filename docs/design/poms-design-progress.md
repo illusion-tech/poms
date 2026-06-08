@@ -588,6 +588,8 @@
 105. 2026-05-30 `EX-70B` 已进入 `G1 / Doing`：新增 `ex-70b-lead-workbench-query-scope-baseline.md`，冻结线索管理从全量表格升级为后端驱动工作台查询的 direct cutover 边界；`GET /leads` 将返回 `LeadListResponse`，默认 `scope=active` 只展示待推进线索，`converted` / `all` 作为已转项目来源链归档视图；DRY/SOLID 约束要求 scope 归类复用 `buildLeadGateSummary()`，Admin 不重复实现可转项目 / 待补齐判断，不保留旧数组响应兼容。
 106. 2026-05-30 `EX-70B` 已完成本地 `G3`：后端新增线索工作台 scope 解析与 summary / facets 读模型，`GET /leads` direct cutover 为 `LeadListResponse`；Admin 线索页改为消费后端工作台数据，默认只显示处理中线索，已转项目进入归档 scope 并展示已转入项目信息，不再显示转化缺口。验证通过 OpenAPI / generated client、API lead focused tests、lead workflow E2E、Admin lead-list focused tests、API/Admin lint/build、浏览器 smoke、Markdown format/check 和 `git diff --check`；G4 由后续记录收口。
 107. 2026-05-30 `EX-70B` 已完成本地 `G4`：线索工作台查询 direct cutover 已提交，tracker 标记 `Done`；后续消费者应依赖 `LeadListResponse` 的 `scope`、`items`、`summary`、`facets`、分页字段和已转项目摘要，不再依赖旧数组响应或前端全量列表过滤。
+108. 2026-06-08 `FE-65` 已进入 `G1 / Doing`：新增 `fe-65-admin-page-surface-unification-baseline.md`，冻结 Admin 页面级 surface 与共享面板卡片统一范围；本片将销售情报、业务讨论、销售跟进、附件共享面板根容器和客户工作台主业务区块收敛到 `SectionCard` / Poseidon `.card`，同时明确弹窗、内部列表、空状态和评分信息组不作为页面级 surface 处理；不改 API、OpenAPI、generated client、权限、路由或业务行为。
+109. 2026-06-08 `FE-65` 已完成本地 `G3`：共享业务面板根容器与客户工作台主业务区块已统一到 `SectionCard` / Poseidon `.card`；浏览器验收发现并修正 `#title` / `#description` 模板引用变量遮蔽组件输入导致的 `[object Object]` 漂移，四个共享面板 focused specs 已增加标题 / 说明回归断言；focused tests、Admin lint/build、Markdown check、diff check 和浏览器 smoke 均通过；不涉及 API、OpenAPI、generated client、migration、权限或路由变更。
 
 ---
 

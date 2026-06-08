@@ -1,17 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  Input,
+  inject,
+  type OnChanges,
+  type OnInit,
+  type SimpleChanges,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-    ActiveInactiveStatus,
-    DictionaryDomain,
-    DictionaryStore,
-    SalesFollowUpOutcome,
-    SalesFollowUpRecordLifecycleScope,
-    SalesFollowUpRecordStatus,
-    SalesFollowUpStore,
-    type SalesFollowUpRecordSummary
+  ActiveInactiveStatus,
+  DictionaryDomain,
+  DictionaryStore,
+  SalesFollowUpOutcome,
+  SalesFollowUpRecordLifecycleScope,
+  SalesFollowUpRecordStatus,
+  type SalesFollowUpRecordSummary,
+  SalesFollowUpStore,
 } from '@poms/admin-data-access';
-import { SalesFollowUpOutcomeLabel, SalesFollowUpOutcomeOptions, SalesFollowUpRecordStatusLabel } from '@poms/shared-contracts';
+import {
+  SalesFollowUpOutcomeLabel,
+  SalesFollowUpOutcomeOptions,
+  SalesFollowUpRecordStatusLabel,
+} from '@poms/shared-contracts';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -20,20 +33,21 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { SectionCard } from './sectioncard';
 import { WorkspaceFeedback } from './workspace-feedback';
 
 interface SalesFollowUpOption<T extends string> {
-    label: string;
-    value: T;
+  label: string;
+  value: T;
 }
 
 interface SalesFollowUpForm {
-    followUpType: string;
-    occurredAt: Date | null;
-    summary: string;
-    detail: string;
-    outcome: SalesFollowUpOutcome;
-    nextFollowUpAt: Date | null;
+  followUpType: string;
+  occurredAt: Date | null;
+  summary: string;
+  detail: string;
+  outcome: SalesFollowUpOutcome;
+  nextFollowUpAt: Date | null;
 }
 
 type SalesFollowUpDialogMode = 'create' | 'replace';
@@ -45,29 +59,42 @@ const SALES_FOLLOW_UP_STATUS_LABELS = SalesFollowUpRecordStatusLabel as Record<S
 const DEFAULT_FOLLOW_UP_TYPE = 'meeting';
 const DEFAULT_FOLLOW_UP_OUTCOME = SalesFollowUpOutcome.Progress;
 
-const SALES_FOLLOW_UP_OUTCOME_OPTIONS = [...(SalesFollowUpOutcomeOptions as ReadonlyArray<SalesFollowUpOption<SalesFollowUpOutcome>>)];
+const SALES_FOLLOW_UP_OUTCOME_OPTIONS = [
+  ...(SalesFollowUpOutcomeOptions as ReadonlyArray<SalesFollowUpOption<SalesFollowUpOutcome>>),
+];
 
 const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
-    followUpType: DEFAULT_FOLLOW_UP_TYPE,
-    occurredAt: null,
-    summary: '',
-    detail: '',
-    outcome: DEFAULT_FOLLOW_UP_OUTCOME,
-    nextFollowUpAt: null
+  followUpType: DEFAULT_FOLLOW_UP_TYPE,
+  occurredAt: null,
+  summary: '',
+  detail: '',
+  outcome: DEFAULT_FOLLOW_UP_OUTCOME,
+  nextFollowUpAt: null,
 };
 
 @Component({
-    selector: 'app-sales-follow-up-panel',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, DatePickerModule, DialogModule, InputTextModule, SelectModule, TagModule, TextareaModule, ToggleSwitchModule, WorkspaceFeedback],
-    providers: [SalesFollowUpStore, DictionaryStore],
-    template: `
-        <section class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                    <h3 class="m-0 text-base font-semibold text-surface-950 dark:text-surface-0">{{ title }}</h3>
-                    <p class="mt-1 text-sm text-surface-500 dark:text-surface-400">{{ description }}</p>
-                </div>
+  selector: 'app-sales-follow-up-panel',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonModule,
+    DatePickerModule,
+    DialogModule,
+    InputTextModule,
+    SelectModule,
+    SectionCard,
+    TagModule,
+    TextareaModule,
+    ToggleSwitchModule,
+    WorkspaceFeedback,
+  ],
+  providers: [SalesFollowUpStore, DictionaryStore],
+  template: `
+        <section-card>
+            <ng-template #title>{{ heading }}</ng-template>
+            <ng-template #description>{{ descriptionText }}</ng-template>
+            <ng-template #action>
                 <div class="flex shrink-0 flex-wrap items-center gap-3">
                     <label class="flex items-center gap-2 text-xs text-surface-500 dark:text-surface-400">
                         <span>显示历史</span>
@@ -78,7 +105,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                         <p-button icon="pi pi-plus" label="记录跟进" severity="primary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateContext()" (onClick)="showDialog()" />
                     }
                 </div>
-            </div>
+            </ng-template>
 
             <div class="mt-4 flex flex-col gap-3">
                 @if (!canReadContext()) {
@@ -135,7 +162,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                     <div class="rounded-[8px] border border-dashed border-surface-300 p-4 text-sm text-surface-500 dark:border-surface-700 dark:text-surface-400">暂无销售跟进记录。</div>
                 }
             </div>
-        </section>
+        </section-card>
 
         <p-dialog [(visible)]="dialogVisible" [modal]="true" appendTo="body" [header]="dialogTitle()" [style]="{ width: '36rem' }" styleClass="p-fluid" (onHide)="resetDialog()">
             <div class="flex flex-col gap-4 py-2">
@@ -308,387 +335,397 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
                 </div>
             </ng-template>
         </p-dialog>
-    `
+    `,
 })
 export class SalesFollowUpPanel implements OnChanges, OnInit {
-    readonly store = inject(SalesFollowUpStore);
-    readonly dictionaryStore = inject(DictionaryStore);
-    readonly SalesFollowUpRecordStatus = SalesFollowUpRecordStatus;
+  readonly store = inject(SalesFollowUpStore);
+  readonly dictionaryStore = inject(DictionaryStore);
+  readonly SalesFollowUpRecordStatus = SalesFollowUpRecordStatus;
 
-    @Input({ required: true }) customerId!: string | null;
-    @Input() leadId: string | null = null;
-    @Input() projectId: string | null = null;
-    @Input() canWrite = false;
-    @Input() title = '销售跟进';
-    @Input() description = '记录客户沟通、风险、承诺事项和下一步动作。';
-    @Input() createContextDetail = '本次记录会挂到当前业务对象，同时保留客户维度。';
+  @Input({ required: true }) customerId!: string | null;
+  @Input() leadId: string | null = null;
+  @Input() projectId: string | null = null;
+  @Input() canWrite = false;
+  @Input('title') heading = '销售跟进';
+  @Input('description') descriptionText = '记录客户沟通、风险、承诺事项和下一步动作。';
+  @Input() createContextDetail = '本次记录会挂到当前业务对象，同时保留客户维度。';
 
-    readonly error = signal<string | null>(null);
-    readonly attempted = signal(false);
-    readonly form = signal<SalesFollowUpForm>({ ...EMPTY_FOLLOW_UP_FORM });
-    readonly dialogMode = signal<SalesFollowUpDialogMode>('create');
-    readonly replaceTarget = signal<SalesFollowUpRecordSummary | null>(null);
-    readonly replacementReason = signal('');
-    readonly includeHistory = signal(false);
-    readonly voidTarget = signal<SalesFollowUpRecordSummary | null>(null);
-    readonly voidReason = signal('');
-    readonly voidComment = signal('');
-    readonly voidAttempted = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly attempted = signal(false);
+  readonly form = signal<SalesFollowUpForm>({ ...EMPTY_FOLLOW_UP_FORM });
+  readonly dialogMode = signal<SalesFollowUpDialogMode>('create');
+  readonly replaceTarget = signal<SalesFollowUpRecordSummary | null>(null);
+  readonly replacementReason = signal('');
+  readonly includeHistory = signal(false);
+  readonly voidTarget = signal<SalesFollowUpRecordSummary | null>(null);
+  readonly voidReason = signal('');
+  readonly voidComment = signal('');
+  readonly voidAttempted = signal(false);
 
-    dialogVisible = false;
-    voidDialogVisible = false;
+  dialogVisible = false;
+  voidDialogVisible = false;
 
-    readonly typeOptions = computed<SalesFollowUpOption<string>[]>(() => this.dictionaryStore.activeItems().map((item) => ({ label: item.name, value: item.code })));
-    readonly typeLookup = computed(() => new Map(this.dictionaryStore.items().map((item) => [item.code, item.name])));
-    readonly outcomeOptions = SALES_FOLLOW_UP_OUTCOME_OPTIONS;
+  readonly typeOptions = computed<SalesFollowUpOption<string>[]>(() =>
+    this.dictionaryStore.activeItems().map(item => ({ label: item.name, value: item.code })),
+  );
+  readonly typeLookup = computed(() => new Map(this.dictionaryStore.items().map(item => [item.code, item.name])));
+  readonly outcomeOptions = SALES_FOLLOW_UP_OUTCOME_OPTIONS;
 
-    ngOnInit(): void {
-        void this.loadTypeOptions();
+  ngOnInit(): void {
+    void this.loadTypeOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['customerId'] || changes['leadId'] || changes['projectId']) {
+      void this.reload();
+    }
+  }
+
+  async reload(): Promise<void> {
+    if (!this.canReadContext()) {
+      this.store.clearFollowUps();
+      return;
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['customerId'] || changes['leadId'] || changes['projectId']) {
-            void this.reload();
-        }
+    this.error.set(null);
+    try {
+      await this.store.loadFollowUps({
+        customerId: this.customerId ?? undefined,
+        leadId: this.leadId ?? undefined,
+        projectId: this.projectId ?? undefined,
+        lifecycleScope: this.includeHistory()
+          ? SalesFollowUpRecordLifecycleScope.All
+          : SalesFollowUpRecordLifecycleScope.Active,
+      });
+    } catch {
+      this.error.set('销售跟进记录没有读取成功，请稍后重试。');
+    }
+  }
+
+  async loadTypeOptions(): Promise<void> {
+    try {
+      const items = await this.dictionaryStore.loadItems({
+        domain: DictionaryDomain.SalesFollowUpType,
+        status: ActiveInactiveStatus.Active,
+      });
+      this.ensureFollowUpType(items.map(item => item.code));
+    } catch {
+      this.error.set('跟进方式没有读取成功，请稍后重试。');
+    }
+  }
+
+  showDialog(): void {
+    if (!this.canWrite || !this.canCreateContext()) {
+      return;
     }
 
-    async reload(): Promise<void> {
-        if (!this.canReadContext()) {
-            this.store.clearFollowUps();
-            return;
-        }
+    this.form.set(this.defaultForm());
+    this.dialogMode.set('create');
+    this.replaceTarget.set(null);
+    this.replacementReason.set('');
+    this.attempted.set(false);
+    this.error.set(null);
+    this.dialogVisible = true;
+  }
 
-        this.error.set(null);
-        try {
-            await this.store.loadFollowUps({
-                customerId: this.customerId ?? undefined,
-                leadId: this.leadId ?? undefined,
-                projectId: this.projectId ?? undefined,
-                lifecycleScope: this.includeHistory() ? SalesFollowUpRecordLifecycleScope.All : SalesFollowUpRecordLifecycleScope.Active
-            });
-        } catch {
-            this.error.set('销售跟进记录没有读取成功，请稍后重试。');
-        }
+  showReplaceDialog(record: SalesFollowUpRecordSummary): void {
+    if (!this.canWrite || record.status !== SalesFollowUpRecordStatus.Active) {
+      return;
     }
 
-    async loadTypeOptions(): Promise<void> {
-        try {
-            const items = await this.dictionaryStore.loadItems({
-                domain: DictionaryDomain.SalesFollowUpType,
-                status: ActiveInactiveStatus.Active
-            });
-            this.ensureFollowUpType(items.map((item) => item.code));
-        } catch {
-            this.error.set('跟进方式没有读取成功，请稍后重试。');
-        }
+    this.form.set({
+      followUpType: record.followUpType,
+      occurredAt: new Date(record.occurredAt),
+      summary: record.summary,
+      detail: record.detail ?? '',
+      outcome: record.outcome,
+      nextFollowUpAt: record.nextFollowUpAt ? new Date(record.nextFollowUpAt) : null,
+    });
+    this.dialogMode.set('replace');
+    this.replaceTarget.set(record);
+    this.replacementReason.set('');
+    this.attempted.set(false);
+    this.error.set(null);
+    this.dialogVisible = true;
+  }
+
+  showVoidDialog(record: SalesFollowUpRecordSummary): void {
+    if (!this.canWrite || record.status !== SalesFollowUpRecordStatus.Active) {
+      return;
     }
 
-    showDialog(): void {
-        if (!this.canWrite || !this.canCreateContext()) {
-            return;
-        }
+    this.voidTarget.set(record);
+    this.voidReason.set('');
+    this.voidComment.set('');
+    this.voidAttempted.set(false);
+    this.error.set(null);
+    this.voidDialogVisible = true;
+  }
 
-        this.form.set(this.defaultForm());
-        this.dialogMode.set('create');
-        this.replaceTarget.set(null);
-        this.replacementReason.set('');
-        this.attempted.set(false);
-        this.error.set(null);
-        this.dialogVisible = true;
+  resetDialog(): void {
+    this.attempted.set(false);
+    this.error.set(null);
+  }
+
+  resetVoidDialog(): void {
+    this.voidAttempted.set(false);
+    this.error.set(null);
+  }
+
+  updateType(value: string | null | undefined): void {
+    this.form.update(form => ({
+      ...form,
+      followUpType: value ?? DEFAULT_FOLLOW_UP_TYPE,
+    }));
+    this.error.set(null);
+  }
+
+  updateOutcome(value: SalesFollowUpOutcome | null | undefined): void {
+    this.form.update(form => ({
+      ...form,
+      outcome: value ?? DEFAULT_FOLLOW_UP_OUTCOME,
+    }));
+    this.error.set(null);
+  }
+
+  updateText(field: 'summary' | 'detail', value: string): void {
+    this.form.update(form => ({
+      ...form,
+      [field]: value,
+    }));
+    this.error.set(null);
+  }
+
+  updateDate(field: 'occurredAt' | 'nextFollowUpAt', value: Date | null): void {
+    this.form.update(form => ({
+      ...form,
+      [field]: value,
+    }));
+    this.error.set(null);
+  }
+
+  updateReplacementReason(value: string): void {
+    this.replacementReason.set(value);
+    this.error.set(null);
+  }
+
+  updateVoidReason(value: string): void {
+    this.voidReason.set(value);
+    this.error.set(null);
+  }
+
+  updateVoidComment(value: string): void {
+    this.voidComment.set(value);
+    this.error.set(null);
+  }
+
+  toggleHistory(value: boolean): void {
+    this.includeHistory.set(Boolean(value));
+    void this.reload();
+  }
+
+  async createFollowUp(): Promise<void> {
+    this.attempted.set(true);
+    const form = this.form();
+
+    if (!this.canWrite || !this.canSubmitDialog() || !form.occurredAt) {
+      return;
     }
 
-    showReplaceDialog(record: SalesFollowUpRecordSummary): void {
-        if (!this.canWrite || record.status !== SalesFollowUpRecordStatus.Active) {
-            return;
+    try {
+      if (this.dialogMode() === 'replace') {
+        const target = this.replaceTarget();
+        if (!target) {
+          return;
         }
 
-        this.form.set({
-            followUpType: record.followUpType,
-            occurredAt: new Date(record.occurredAt),
-            summary: record.summary,
-            detail: record.detail ?? '',
-            outcome: record.outcome,
-            nextFollowUpAt: record.nextFollowUpAt ? new Date(record.nextFollowUpAt) : null
+        await this.store.replaceFollowUp(target.id, {
+          followUpType: form.followUpType,
+          occurredAt: form.occurredAt.toISOString(),
+          summary: form.summary.trim(),
+          detail: this.optionalText(form.detail),
+          outcome: form.outcome,
+          nextFollowUpAt: form.nextFollowUpAt ? form.nextFollowUpAt.toISOString() : null,
+          ownerOrgId: target.ownerOrgId,
+          ownerUserId: target.ownerUserId,
+          replacementReason: this.replacementReason().trim(),
+          expectedVersion: target.rowVersion,
         });
-        this.dialogMode.set('replace');
-        this.replaceTarget.set(record);
-        this.replacementReason.set('');
-        this.attempted.set(false);
-        this.error.set(null);
-        this.dialogVisible = true;
-    }
-
-    showVoidDialog(record: SalesFollowUpRecordSummary): void {
-        if (!this.canWrite || record.status !== SalesFollowUpRecordStatus.Active) {
-            return;
+      } else {
+        if (!this.customerId) {
+          return;
         }
 
-        this.voidTarget.set(record);
-        this.voidReason.set('');
-        this.voidComment.set('');
-        this.voidAttempted.set(false);
-        this.error.set(null);
-        this.voidDialogVisible = true;
+        const createProjectId = this.projectId ?? null;
+        const createLeadId = createProjectId ? null : this.leadId;
+
+        await this.store.createFollowUp({
+          customerId: this.customerId,
+          leadId: createLeadId,
+          projectId: createProjectId,
+          followUpType: form.followUpType,
+          occurredAt: form.occurredAt.toISOString(),
+          summary: form.summary.trim(),
+          detail: this.optionalText(form.detail),
+          outcome: form.outcome,
+          nextFollowUpAt: form.nextFollowUpAt ? form.nextFollowUpAt.toISOString() : null,
+        });
+      }
+      await this.reload();
+      this.dialogVisible = false;
+    } catch {
+      this.error.set(
+        this.dialogMode() === 'replace'
+          ? '跟进记录没有更正成功，请刷新后重试。'
+          : '请确认客户、线索或项目仍然有效，或稍后重试。',
+      );
+    }
+  }
+
+  async voidFollowUp(): Promise<void> {
+    this.voidAttempted.set(true);
+    const target = this.voidTarget();
+
+    if (!this.canWrite || !target || !this.canSubmitVoid()) {
+      return;
     }
 
-    resetDialog(): void {
-        this.attempted.set(false);
-        this.error.set(null);
+    try {
+      await this.store.voidFollowUp(target.id, {
+        reason: this.voidReason().trim(),
+        comment: this.optionalText(this.voidComment()),
+        expectedVersion: target.rowVersion,
+      });
+      await this.reload();
+      this.voidDialogVisible = false;
+    } catch {
+      this.error.set('跟进记录没有作废成功，请刷新后重试。');
+    }
+  }
+
+  isFormValid(): boolean {
+    const form = this.form();
+    return Boolean(form.followUpType && form.occurredAt && form.summary.trim());
+  }
+
+  canSubmitDialog(): boolean {
+    if (!this.isFormValid()) {
+      return false;
     }
 
-    resetVoidDialog(): void {
-        this.voidAttempted.set(false);
-        this.error.set(null);
+    if (this.dialogMode() === 'replace') {
+      return Boolean(this.replaceTarget() && this.replacementReason().trim());
     }
 
-    updateType(value: string | null | undefined): void {
-        this.form.update((form) => ({
-            ...form,
-            followUpType: value ?? DEFAULT_FOLLOW_UP_TYPE
-        }));
-        this.error.set(null);
+    return this.canCreateContext();
+  }
+
+  canSubmitVoid(): boolean {
+    return Boolean(this.voidTarget() && this.voidReason().trim());
+  }
+
+  canReadContext(): boolean {
+    return Boolean(this.customerId || this.leadId || this.projectId);
+  }
+
+  canCreateContext(): boolean {
+    return Boolean(this.customerId);
+  }
+
+  getTypeName(type: string): string {
+    return this.typeLookup().get(type) ?? type;
+  }
+
+  getOutcomeName(outcome: SalesFollowUpOutcome): string {
+    return SALES_FOLLOW_UP_OUTCOME_LABELS[outcome];
+  }
+
+  getStatusName(status: SalesFollowUpRecordStatus): string {
+    return SALES_FOLLOW_UP_STATUS_LABELS[status];
+  }
+
+  getStatusSeverity(status: SalesFollowUpRecordStatus): 'success' | 'secondary' | 'danger' {
+    if (status === SalesFollowUpRecordStatus.Active) {
+      return 'success';
     }
 
-    updateOutcome(value: SalesFollowUpOutcome | null | undefined): void {
-        this.form.update((form) => ({
-            ...form,
-            outcome: value ?? DEFAULT_FOLLOW_UP_OUTCOME
-        }));
-        this.error.set(null);
+    if (status === SalesFollowUpRecordStatus.Voided) {
+      return 'danger';
     }
 
-    updateText(field: 'summary' | 'detail', value: string): void {
-        this.form.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.error.set(null);
+    return 'secondary';
+  }
+
+  getRecordCardClass(record: SalesFollowUpRecordSummary): string {
+    const base = 'rounded-[8px] border p-3';
+    if (record.status === SalesFollowUpRecordStatus.Active) {
+      return `${base} border-surface-200 dark:border-surface-700`;
     }
 
-    updateDate(field: 'occurredAt' | 'nextFollowUpAt', value: Date | null): void {
-        this.form.update((form) => ({
-            ...form,
-            [field]: value
-        }));
-        this.error.set(null);
+    return `${base} border-surface-200 bg-surface-50/70 opacity-80 dark:border-surface-700 dark:bg-surface-900/40`;
+  }
+
+  dialogTitle(): string {
+    return this.dialogMode() === 'replace' ? '更正销售跟进' : '记录销售跟进';
+  }
+
+  dialogSubmitLabel(): string {
+    return this.dialogMode() === 'replace' ? '保存新版本' : '保存跟进';
+  }
+
+  dialogContextDetail(): string {
+    if (this.dialogMode() === 'replace') {
+      return '更正会生成一条新的当前记录，原记录保留为已替代历史。';
     }
 
-    updateReplacementReason(value: string): void {
-        this.replacementReason.set(value);
-        this.error.set(null);
+    return this.createContextDetail;
+  }
+
+  contextLabel(record: Pick<SalesFollowUpRecordSummary, 'leadId' | 'projectId'>): string {
+    if (record.projectId) {
+      return '项目跟进';
     }
 
-    updateVoidReason(value: string): void {
-        this.voidReason.set(value);
-        this.error.set(null);
+    if (record.leadId) {
+      return '线索跟进';
     }
 
-    updateVoidComment(value: string): void {
-        this.voidComment.set(value);
-        this.error.set(null);
+    return '客户跟进';
+  }
+
+  private defaultForm(): SalesFollowUpForm {
+    return {
+      ...EMPTY_FOLLOW_UP_FORM,
+      followUpType: this.defaultFollowUpType(),
+      occurredAt: new Date(),
+    };
+  }
+
+  private optionalText(value: string): string | null {
+    const normalized = value.trim();
+    return normalized.length ? normalized : null;
+  }
+
+  private ensureFollowUpType(codes: string[]): void {
+    if (!codes.length) {
+      return;
     }
 
-    toggleHistory(value: boolean): void {
-        this.includeHistory.set(Boolean(value));
-        void this.reload();
+    const currentType = this.form().followUpType;
+    if (codes.includes(currentType)) {
+      return;
     }
 
-    async createFollowUp(): Promise<void> {
-        this.attempted.set(true);
-        const form = this.form();
+    this.form.update(form => ({
+      ...form,
+      followUpType: codes.includes(DEFAULT_FOLLOW_UP_TYPE) ? DEFAULT_FOLLOW_UP_TYPE : codes[0],
+    }));
+  }
 
-        if (!this.canWrite || !this.canSubmitDialog() || !form.occurredAt) {
-            return;
-        }
-
-        try {
-            if (this.dialogMode() === 'replace') {
-                const target = this.replaceTarget();
-                if (!target) {
-                    return;
-                }
-
-                await this.store.replaceFollowUp(target.id, {
-                    followUpType: form.followUpType,
-                    occurredAt: form.occurredAt.toISOString(),
-                    summary: form.summary.trim(),
-                    detail: this.optionalText(form.detail),
-                    outcome: form.outcome,
-                    nextFollowUpAt: form.nextFollowUpAt ? form.nextFollowUpAt.toISOString() : null,
-                    ownerOrgId: target.ownerOrgId,
-                    ownerUserId: target.ownerUserId,
-                    replacementReason: this.replacementReason().trim(),
-                    expectedVersion: target.rowVersion
-                });
-            } else {
-                if (!this.customerId) {
-                    return;
-                }
-
-                const createProjectId = this.projectId ?? null;
-                const createLeadId = createProjectId ? null : this.leadId;
-
-                await this.store.createFollowUp({
-                    customerId: this.customerId,
-                    leadId: createLeadId,
-                    projectId: createProjectId,
-                    followUpType: form.followUpType,
-                    occurredAt: form.occurredAt.toISOString(),
-                    summary: form.summary.trim(),
-                    detail: this.optionalText(form.detail),
-                    outcome: form.outcome,
-                    nextFollowUpAt: form.nextFollowUpAt ? form.nextFollowUpAt.toISOString() : null
-                });
-            }
-            await this.reload();
-            this.dialogVisible = false;
-        } catch {
-            this.error.set(this.dialogMode() === 'replace' ? '跟进记录没有更正成功，请刷新后重试。' : '请确认客户、线索或项目仍然有效，或稍后重试。');
-        }
-    }
-
-    async voidFollowUp(): Promise<void> {
-        this.voidAttempted.set(true);
-        const target = this.voidTarget();
-
-        if (!this.canWrite || !target || !this.canSubmitVoid()) {
-            return;
-        }
-
-        try {
-            await this.store.voidFollowUp(target.id, {
-                reason: this.voidReason().trim(),
-                comment: this.optionalText(this.voidComment()),
-                expectedVersion: target.rowVersion
-            });
-            await this.reload();
-            this.voidDialogVisible = false;
-        } catch {
-            this.error.set('跟进记录没有作废成功，请刷新后重试。');
-        }
-    }
-
-    isFormValid(): boolean {
-        const form = this.form();
-        return Boolean(form.followUpType && form.occurredAt && form.summary.trim());
-    }
-
-    canSubmitDialog(): boolean {
-        if (!this.isFormValid()) {
-            return false;
-        }
-
-        if (this.dialogMode() === 'replace') {
-            return Boolean(this.replaceTarget() && this.replacementReason().trim());
-        }
-
-        return this.canCreateContext();
-    }
-
-    canSubmitVoid(): boolean {
-        return Boolean(this.voidTarget() && this.voidReason().trim());
-    }
-
-    canReadContext(): boolean {
-        return Boolean(this.customerId || this.leadId || this.projectId);
-    }
-
-    canCreateContext(): boolean {
-        return Boolean(this.customerId);
-    }
-
-    getTypeName(type: string): string {
-        return this.typeLookup().get(type) ?? type;
-    }
-
-    getOutcomeName(outcome: SalesFollowUpOutcome): string {
-        return SALES_FOLLOW_UP_OUTCOME_LABELS[outcome];
-    }
-
-    getStatusName(status: SalesFollowUpRecordStatus): string {
-        return SALES_FOLLOW_UP_STATUS_LABELS[status];
-    }
-
-    getStatusSeverity(status: SalesFollowUpRecordStatus): 'success' | 'secondary' | 'danger' {
-        if (status === SalesFollowUpRecordStatus.Active) {
-            return 'success';
-        }
-
-        if (status === SalesFollowUpRecordStatus.Voided) {
-            return 'danger';
-        }
-
-        return 'secondary';
-    }
-
-    getRecordCardClass(record: SalesFollowUpRecordSummary): string {
-        const base = 'rounded-[8px] border p-3';
-        if (record.status === SalesFollowUpRecordStatus.Active) {
-            return `${base} border-surface-200 dark:border-surface-700`;
-        }
-
-        return `${base} border-surface-200 bg-surface-50/70 opacity-80 dark:border-surface-700 dark:bg-surface-900/40`;
-    }
-
-    dialogTitle(): string {
-        return this.dialogMode() === 'replace' ? '更正销售跟进' : '记录销售跟进';
-    }
-
-    dialogSubmitLabel(): string {
-        return this.dialogMode() === 'replace' ? '保存新版本' : '保存跟进';
-    }
-
-    dialogContextDetail(): string {
-        if (this.dialogMode() === 'replace') {
-            return '更正会生成一条新的当前记录，原记录保留为已替代历史。';
-        }
-
-        return this.createContextDetail;
-    }
-
-    contextLabel(record: Pick<SalesFollowUpRecordSummary, 'leadId' | 'projectId'>): string {
-        if (record.projectId) {
-            return '项目跟进';
-        }
-
-        if (record.leadId) {
-            return '线索跟进';
-        }
-
-        return '客户跟进';
-    }
-
-    private defaultForm(): SalesFollowUpForm {
-        return {
-            ...EMPTY_FOLLOW_UP_FORM,
-            followUpType: this.defaultFollowUpType(),
-            occurredAt: new Date()
-        };
-    }
-
-    private optionalText(value: string): string | null {
-        const normalized = value.trim();
-        return normalized.length ? normalized : null;
-    }
-
-    private ensureFollowUpType(codes: string[]): void {
-        if (!codes.length) {
-            return;
-        }
-
-        const currentType = this.form().followUpType;
-        if (codes.includes(currentType)) {
-            return;
-        }
-
-        this.form.update((form) => ({
-            ...form,
-            followUpType: codes.includes(DEFAULT_FOLLOW_UP_TYPE) ? DEFAULT_FOLLOW_UP_TYPE : codes[0]
-        }));
-    }
-
-    private defaultFollowUpType(): string {
-        const options = this.typeOptions();
-        return options.some((option) => option.value === DEFAULT_FOLLOW_UP_TYPE) ? DEFAULT_FOLLOW_UP_TYPE : options[0]?.value ?? DEFAULT_FOLLOW_UP_TYPE;
-    }
+  private defaultFollowUpType(): string {
+    const options = this.typeOptions();
+    return options.some(option => option.value === DEFAULT_FOLLOW_UP_TYPE)
+      ? DEFAULT_FOLLOW_UP_TYPE
+      : (options[0]?.value ?? DEFAULT_FOLLOW_UP_TYPE);
+  }
 }
