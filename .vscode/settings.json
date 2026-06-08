@@ -1,4 +1,17 @@
 {
+    "biome.enabled": true,
+    "biome.requireConfiguration": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.biome": "explicit",
+        "source.organizeImports.biome": "explicit"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
     "deno.enable": false,
     "deno.config": "./deno.jsonc",
     "deno.enablePaths": [
@@ -10,6 +23,7 @@
         "atts",
         "authlayout",
         "blockviewer",
+        "chartjs",
         "chrr",
         "clawback",
         "collapsable",
@@ -31,13 +45,17 @@
         "loadingbody",
         "LOWSTOCK",
         "middot",
+        "openapitools",
         "OUTOFSTOCK",
         "overlaybadge",
         "pgcrypto",
         "pipefail",
         "presales",
         "presigning",
+        "primeclt",
+        "primeicons",
         "primeng",
+        "primeui",
         "primeuix",
         "privkey",
         "radiobutton",
