@@ -5,6 +5,13 @@
   "sourceRoot": "libs/shared/api-client",
   "tags": ["scope:shared", "type:generated"],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/out-tsc/libs/shared/api-client"],
+      "options": {
+        "command": "pnpm exec tsc -b libs/shared/api-client/tsconfig.lib.json --pretty false"
+      }
+    },
     "generate": {
       "executor": "nx:run-commands",
       "dependsOn": ["poms-api:openapi"],

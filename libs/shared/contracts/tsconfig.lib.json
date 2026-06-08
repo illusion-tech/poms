@@ -1,7 +1,10 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "outDir": "../../../dist/out-tsc",
+        "composite": true,
+        "rootDir": "src",
+        "outDir": "../../../dist/out-tsc/libs/shared/contracts",
+        "tsBuildInfoFile": "../../../dist/out-tsc/libs/shared/contracts/tsconfig.lib.tsbuildinfo",
         "declaration": true,
         "types": ["node"]
     },

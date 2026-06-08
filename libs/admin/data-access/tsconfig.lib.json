@@ -1,11 +1,28 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "outDir": "../../../dist/out-tsc",
+        "composite": true,
+        "rootDir": "src",
+        "outDir": "../../../dist/out-tsc/libs/admin/data-access",
+        "tsBuildInfoFile": "../../../dist/out-tsc/libs/admin/data-access/tsconfig.lib.tsbuildinfo",
+        "disableSourceOfProjectReferenceRedirect": true,
         "declaration": true,
         "declarationMap": true,
         "types": []
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts"
+    ],
+    "references": [
+        {
+            "path": "../../shared/api-client/tsconfig.lib.json"
+        },
+        {
+            "path": "../../shared/contracts/tsconfig.lib.json"
+        }
+    ]
 }

@@ -2,18 +2,11 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "forceConsistentCasingInFileNames": true,
+        "rootDir": "../..",
         "outDir": "../../dist/out-tsc/apps/poms-admin"
     },
     "files": [],
     "include": [
         "src/**/*.ts"
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.app.json"
-        },
-        {
-            "path": "./tsconfig.spec.json"
-        }
     ]
 }
