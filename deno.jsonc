@@ -12,7 +12,7 @@
         "deploy:lint": "deno lint deploy/scripts tools",
         "deploy:build-test": "deno run --allow-read=deploy,dist --allow-write=dist --allow-run=corepack,git,tar --allow-env deploy/scripts/build-release.ts --config deploy/config/poms-test.jsonc",
         "deploy:preflight-test": "deno run --allow-read=deploy --allow-run=ssh deploy/scripts/preflight-remote.ts --config deploy/config/poms-test.jsonc",
-        "deploy:push-test": "deno run --allow-read=deploy,dist --allow-run=scp,ssh deploy/scripts/push-release.ts --config deploy/config/poms-test.jsonc",
+        "deploy:push-test": "deno run --allow-read=deploy,dist --allow-run=scp,ssh,corepack --allow-env deploy/scripts/push-release.ts --config deploy/config/poms-test.jsonc",
         "deploy:rollback-test": "deno run --allow-read=deploy --allow-run=ssh deploy/scripts/rollback-release.ts --config deploy/config/poms-test.jsonc",
         "deploy:verify-test": "deno run --allow-read=deploy --allow-net=poms-test.illusiontech.cn --allow-run=curl deploy/scripts/verify-release.ts --config deploy/config/poms-test.jsonc",
         "deploy:ci": "deno task deploy:check && deno task deploy:lint"

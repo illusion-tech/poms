@@ -31,6 +31,16 @@ deno task deploy:preflight-test
 deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz
 ```
 
+默认会在远端 release staging 完成后、远端切换 `current` 前执行：
+
+```bash
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-up --skip-nx-cache
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-check --skip-nx-cache
+```
+
+只有 migration gate 通过后，脚本才会激活 release 并 reload PM2。确认本次不需要迁移时，才显式传
+`--skip-migration`。
+
 首次安装或 Nginx 模板变化时：
 
 ```bash

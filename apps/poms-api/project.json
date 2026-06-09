@@ -74,7 +74,7 @@
                 "command": "corepack pnpm exec mikro-orm migration:check",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
@@ -85,7 +85,7 @@
                 "command": "corepack pnpm exec mikro-orm migration:create",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
@@ -96,7 +96,7 @@
                 "command": "corepack pnpm exec mikro-orm migration:up",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
@@ -107,7 +107,7 @@
                 "command": "corepack pnpm exec mikro-orm migration:down",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
@@ -118,7 +118,7 @@
                 "command": "corepack pnpm exec mikro-orm migration:list",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
@@ -129,7 +129,7 @@
                 "command": "corepack pnpm exec mikro-orm seeder:run",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "dependsOn": ["migration-up"]
@@ -140,7 +140,7 @@
                 "command": "corepack pnpm exec mikro-orm seeder:run",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts", "--class", "PlatformBootstrapSeeder"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "dependsOn": ["migration-up"]
@@ -151,7 +151,7 @@
                 "command": "corepack pnpm exec mikro-orm seeder:run",
                 "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts", "--class", "BusinessTrialSeeder"],
                 "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "apps/poms-api/tsconfig.app.json"
+                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
                 }
             },
             "dependsOn": ["seed-platform-bootstrap"]

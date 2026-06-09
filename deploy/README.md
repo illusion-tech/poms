@@ -37,6 +37,10 @@ deno task deploy:preflight-test
 deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz
 ```
 
+推送脚本会先把 release 解包到远端 `.incoming-*`，再用本地 `deploy/private/poms-test.env` 执行
+`poms-api:migration-up` 和 `migration-check`。只有 migration gate 通过后，才切换 `/srv/poms/test/current` 并
+reload PM2。
+
 远程回滚：
 
 ```bash
@@ -123,6 +127,7 @@ cp deploy/env/poms-test-trial-users.csv.example deploy/private/poms-test-trial-u
 ```
 
 然后按 `docs/operations/poms-business-trial-initialization-runbook.md` 执行数据库迁移、平台 bootstrap 和业务试用 seed。
+正常 release 发布不需要手工执行数据库迁移；`deploy:push-test` 会在切换版本前自动执行 migration gate。
 
 ## 启动或重载 API
 

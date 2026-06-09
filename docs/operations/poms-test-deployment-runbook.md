@@ -62,7 +62,11 @@ deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz
 - 检查 `/srv/poms/test/shared/poms-api.env` 存在、权限可收敛且没有 `<replace-me>`。
 - 解包到 `.incoming-<timestamp>`，检查 `admin/browser/index.html` 和 `api/main.js`。
 - 如 API release 内包含 `package.json`，在远程执行 `corepack pnpm install --prod --frozen-lockfile`。
-- 原子切换 `/srv/poms/test/current`，执行 `pm2 startOrReload` 和 `pm2 save`。
+- 在本地 checkout / CI 使用 `deploy/private/poms-test.env` 执行 `poms-api:migration-up` 和 `migration-check`。
+- migration 通过后才把 `.incoming-<timestamp>` 移为正式 release，原子切换 `/srv/poms/test/current`，执行
+  `pm2 startOrReload` 和 `pm2 save`。
+
+如果 migration 失败，脚本不会切换 `/srv/poms/test/current`，也不会 reload PM2。线上会继续运行旧 release。
 
 预演推送计划，不执行 `scp` 或 `ssh`：
 
@@ -118,16 +122,29 @@ API 启动且运维人员可以登录后：
 
 ## 数据库迁移
 
-迁移应从拥有完整源码和 TypeScript 工具链的本地 checkout 或 CI 任务执行。不要依赖服务器上纯
+正常发布时，`deploy:push-test` 会从拥有完整源码和 TypeScript 工具链的本地 checkout 或 CI 任务执行数据库迁移。不要依赖服务器上纯
 `dist/apps/poms-api` 运行时产物执行迁移。
 
-使用指向测试 RDS 的生产形态数据库环境变量后执行：
+默认读取本地未提交的生产形态环境变量文件：
 
-```bash
-corepack pnpm nx run poms-api:migration-up
+```text
+deploy/private/poms-test.env
 ```
 
-切换 `current` 前记录迁移结果。
+发布脚本会在切换 `current` 前执行：
+
+```bash
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-up --skip-nx-cache
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-check --skip-nx-cache
+```
+
+只有确认同一份 migration 已经人工执行过，或本次发布是纯 PM2 / Nginx 修复时，才显式跳过 migration gate：
+
+```bash
+deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz --skip-migration
+```
+
+不要把 release rollback 和 `migration-down` 绑定在一起。回滚默认只切换 release symlink；需要数据库回退时单独评估。
 
 ## 业务试用初始化
 

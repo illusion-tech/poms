@@ -1,5 +1,6 @@
 export interface CommandOptions {
     cwd?: string;
+    env?: Record<string, string>;
     quiet?: boolean;
     stdin?: string;
 }
@@ -27,8 +28,9 @@ export async function runCommand(command: string, options: CommandOptions = {}):
     const result = await new Deno.Command(shell.command, {
         args: shell.args,
         cwd: options.cwd,
+        env: options.env,
         stdout: "inherit",
-        stderr: "inherit"
+        stderr: "inherit",
     }).output();
 
     if (result.code !== 0) {
@@ -37,14 +39,15 @@ export async function runCommand(command: string, options: CommandOptions = {}):
 }
 
 export async function runProgram(command: string, args: string[], options: CommandOptions = {}): Promise<void> {
-    if (!options.quiet) console.log(`$ ${[command, ...args].map((part) => part.includes(" ") ? shellQuote(part) : part).join(" ")}`);
+    if (!options.quiet) console.log(`$ ${[command, ...args].map(part => (part.includes(" ") ? shellQuote(part) : part)).join(" ")}`);
 
     const child = new Deno.Command(command, {
         args,
         cwd: options.cwd,
+        env: options.env,
         stdin: options.stdin === undefined ? "null" : "piped",
         stdout: "inherit",
-        stderr: "inherit"
+        stderr: "inherit",
     }).spawn();
 
     if (options.stdin !== undefined) {
@@ -61,13 +64,14 @@ export async function runProgram(command: string, args: string[], options: Comma
 }
 
 export async function programOutput(command: string, args: string[], options: CommandOptions = {}): Promise<string> {
-    if (!options.quiet) console.log(`$ ${[command, ...args].map((part) => part.includes(" ") ? shellQuote(part) : part).join(" ")}`);
+    if (!options.quiet) console.log(`$ ${[command, ...args].map(part => (part.includes(" ") ? shellQuote(part) : part)).join(" ")}`);
 
     const result = await new Deno.Command(command, {
         args,
         cwd: options.cwd,
+        env: options.env,
         stdout: "piped",
-        stderr: "piped"
+        stderr: "piped",
     }).output();
 
     const decoder = new TextDecoder();
@@ -89,8 +93,9 @@ export async function commandOutput(command: string, options: CommandOptions = {
     const result = await new Deno.Command(shell.command, {
         args: shell.args,
         cwd: options.cwd,
+        env: options.env,
         stdout: "piped",
-        stderr: "piped"
+        stderr: "piped",
     }).output();
 
     const decoder = new TextDecoder();

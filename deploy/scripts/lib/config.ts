@@ -26,6 +26,8 @@ export interface DeployConfig {
     nginxSiteTemplatePath: string;
     nginxSitesAvailableDir: string;
     nginxSitesEnabledDir: string;
+    migrationEnvFile: string;
+    migrationCheckAfterUp: boolean;
     repoRoot: string;
     releasesDir: string;
     currentPath: string;
@@ -77,6 +79,8 @@ export async function loadDeployConfig(configPath: string): Promise<DeployConfig
     const nginxSiteTemplatePath = repoPath(repoRoot, raw.nginxSiteTemplatePath ?? `deploy/nginx/sites-available/${nginxSiteName}`);
     const nginxSitesAvailableDir = raw.nginxSitesAvailableDir ?? "/etc/nginx/sites-available";
     const nginxSitesEnabledDir = raw.nginxSitesEnabledDir ?? "/etc/nginx/sites-enabled";
+    const migrationEnvFile = repoPath(repoRoot, raw.migrationEnvFile ?? `deploy/private/poms-${env}.env`);
+    const migrationCheckAfterUp = typeof raw.migrationCheckAfterUp === "boolean" ? raw.migrationCheckAfterUp : true;
 
     return {
         env,
@@ -102,12 +106,14 @@ export async function loadDeployConfig(configPath: string): Promise<DeployConfig
         nginxSiteTemplatePath,
         nginxSitesAvailableDir,
         nginxSitesEnabledDir,
+        migrationEnvFile,
+        migrationCheckAfterUp,
         repoRoot,
         releasesDir: posix.join(baseDir, "releases"),
         currentPath: posix.join(baseDir, "current"),
         sharedDir: posix.join(baseDir, "shared"),
         apiEnvFile: posix.join(baseDir, "shared", "poms-api.env"),
         sharedLogsDir: posix.join(baseDir, "shared", "logs"),
-        sharedUploadsDir: posix.join(baseDir, "shared", "uploads")
+        sharedUploadsDir: posix.join(baseDir, "shared", "uploads"),
     };
 }
