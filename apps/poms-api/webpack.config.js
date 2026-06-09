@@ -9,12 +9,19 @@ module.exports = {
             devtoolModuleFilenameTemplate: '[absolute-resource-path]'
         })
     },
+    resolve: {
+        alias: {
+            '@poms/api-contracts': join(__dirname, '../../libs/api/contracts/src/index.ts'),
+            '@poms/shared-contracts': join(__dirname, '../../libs/shared/contracts/src/index.ts')
+        }
+    },
     plugins: [
         new NxAppWebpackPlugin({
             target: 'node',
             compiler: 'tsc',
-            main: './src/main.ts',
-            tsConfig: './tsconfig.app.json',
+            main: 'apps/poms-api/src/main.ts',
+            tsConfig: 'apps/poms-api/tsconfig.app.json',
+            useTsconfigPaths: true,
             assets: ['./src/assets'],
             optimization: false,
             outputHashing: 'none',
