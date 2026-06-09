@@ -2,11 +2,14 @@
 
 ## Gate Status
 
-- Gate: G3
+- Gate: G4
 - Slice Type: frontend-only
 - Owner: Codex
 - G1 Date: 2026-06-08
 - G3 Date: 2026-06-08
+- G4 Date: 2026-06-09
+- Runtime Commit: `c17dcf66`
+- Build Graph Follow-up Commit: `6317eca0`
 - Tracker Link / Row: `docs/design/phase2-development-execution-tracker.md` / `FE-65`
 - Parent Inputs: 用户对客户工作台卡片样式不一致的反馈、`FE-63` Admin 表格视觉系统、`FE-64` 客户工作台信息架构、`EX-71C` 客户工作台页面信息架构打磨
 
@@ -99,3 +102,10 @@
 - Browser smoke: `/customers/1e9a4b68-886b-4077-9a9e-f61537e59749` 显示经营工作台、客户档案、客户关系、客户业务讨论、客户销售跟进、客户附件；`section-card` computed style 为 `display: block`，使用 `.card` 圆角、背景和阴影；无 runtime errors。截图证据：`dist/playwright/fe65-customer-workspace-surface.png`。
 
 `FE-65` 本地 G3 验证通过；提交前保持 `Doing`，暂不标记 G4 / Done。
+
+## G4 Closeout
+
+- Runtime commit `c17dcf66` 已提交，承载共享面板根容器 `SectionCard` 迁移、客户工作台主业务区块 surface 统一和四个共享面板标题 / 说明回归断言。
+- Follow-up commit `6317eca0` 已提交，补齐 Admin 与 shared 库 TypeScript 构建图，支撑后续构建验证。
+- Tracker 已标记 `Done / G4`；本片为 frontend-only 视觉系统收敛，未新增或修改 API、OpenAPI、generated client、migration、权限或路由。
+- 下游可依赖 `SectionCard` / Poseidon `.card` 作为客户工作台主业务区块和共享业务面板根容器的页面级 surface 基线；弹窗、内部信息组、列表项和空状态仍按 G1 exclusion 保持局部结构。

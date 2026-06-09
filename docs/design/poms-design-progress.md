@@ -590,6 +590,7 @@
 107. 2026-05-30 `EX-70B` 已完成本地 `G4`：线索工作台查询 direct cutover 已提交，tracker 标记 `Done`；后续消费者应依赖 `LeadListResponse` 的 `scope`、`items`、`summary`、`facets`、分页字段和已转项目摘要，不再依赖旧数组响应或前端全量列表过滤。
 108. 2026-06-08 `FE-65` 已进入 `G1 / Doing`：新增 `fe-65-admin-page-surface-unification-baseline.md`，冻结 Admin 页面级 surface 与共享面板卡片统一范围；本片将销售情报、业务讨论、销售跟进、附件共享面板根容器和客户工作台主业务区块收敛到 `SectionCard` / Poseidon `.card`，同时明确弹窗、内部列表、空状态和评分信息组不作为页面级 surface 处理；不改 API、OpenAPI、generated client、权限、路由或业务行为。
 109. 2026-06-08 `FE-65` 已完成本地 `G3`：共享业务面板根容器与客户工作台主业务区块已统一到 `SectionCard` / Poseidon `.card`；浏览器验收发现并修正 `#title` / `#description` 模板引用变量遮蔽组件输入导致的 `[object Object]` 漂移，四个共享面板 focused specs 已增加标题 / 说明回归断言；focused tests、Admin lint/build、Markdown check、diff check 和浏览器 smoke 均通过；不涉及 API、OpenAPI、generated client、migration、权限或路由变更。
+110. 2026-06-09 `FE-65` 已完成本地 `G4`：runtime commit `c17dcf66` 已提交，build graph follow-up `6317eca0` 已提交；tracker 标记 `Done`，客户工作台主业务区块和共享业务面板根容器的页面级 surface 基线正式收口到 `SectionCard` / Poseidon `.card`；后续页面级卡片不应重新复制手写圆角、阴影和间距，弹窗、内部信息组、列表项和空状态仍按 G1 exclusion 保持局部结构。
 
 ---
 
