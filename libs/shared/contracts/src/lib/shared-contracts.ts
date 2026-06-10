@@ -783,6 +783,226 @@ export const ORG_SYNC_DIFF_ITEM_STATUSES = enumObjectValues(OrgSyncDiffItemStatu
 export type OrgSyncDiffItemStatus = (typeof ORG_SYNC_DIFF_ITEM_STATUSES)[number];
 export const OrgSyncDiffItemStatusSchema = z.enum(ORG_SYNC_DIFF_ITEM_STATUSES).meta({ id: 'OrgSyncDiffItemStatus' });
 
+export const ExternalOrgSyncJsonObjectSchema = z.record(z.string(), z.unknown());
+export const ExternalOrgSyncScopeListSchema = z.array(z.string().trim().min(1).max(128)).max(32);
+
+export const ExternalOrgSourceSummarySchema = z
+    .object({
+        id: z.uuid(),
+        provider: ExternalOrgProviderSchema,
+        externalTenantId: z.string().nullable(),
+        displayName: z.string(),
+        status: ExternalOrgSourceStatusSchema,
+        providerConfigId: z.uuid().nullable(),
+        authoritativeOrgUnitId: z.uuid().nullable(),
+        externalRootDepartmentId: z.string().nullable(),
+        syncScopes: ExternalOrgSyncScopeListSchema,
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'ExternalOrgSourceSummary' });
+
+export type ExternalOrgSourceSummary = z.infer<typeof ExternalOrgSourceSummarySchema>;
+
+export const ExternalOrgSourceDetailSchema = ExternalOrgSourceSummarySchema.meta({ id: 'ExternalOrgSourceDetail' });
+
+export type ExternalOrgSourceDetail = z.infer<typeof ExternalOrgSourceDetailSchema>;
+
+export const ExternalOrgSourceListSchema = z.array(ExternalOrgSourceSummarySchema).meta({ id: 'ExternalOrgSourceList' });
+
+export type ExternalOrgSourceList = z.infer<typeof ExternalOrgSourceListSchema>;
+
+export const ExternalOrgSourceListQuerySchema = z
+    .object({
+        provider: ExternalOrgProviderSchema.optional(),
+        status: ExternalOrgSourceStatusSchema.optional()
+    })
+    .meta({ id: 'ExternalOrgSourceListQuery' });
+
+export type ExternalOrgSourceListQuery = z.infer<typeof ExternalOrgSourceListQuerySchema>;
+
+export const CreateExternalOrgSourceRequestSchema = z
+    .object({
+        provider: ExternalOrgProviderSchema,
+        externalTenantId: z.string().trim().min(1).max(128).nullable().optional(),
+        displayName: z.string().trim().min(1).max(128),
+        status: ExternalOrgSourceStatusSchema.optional(),
+        providerConfigId: z.uuid().nullable().optional(),
+        authoritativeOrgUnitId: z.uuid().nullable().optional(),
+        externalRootDepartmentId: z.string().trim().min(1).max(255).nullable().optional(),
+        syncScopes: ExternalOrgSyncScopeListSchema.optional()
+    })
+    .meta({ id: 'CreateExternalOrgSourceRequest' });
+
+export type CreateExternalOrgSourceRequest = z.infer<typeof CreateExternalOrgSourceRequestSchema>;
+
+export const UpdateExternalOrgSourceRequestSchema = z
+    .object({
+        displayName: z.string().trim().min(1).max(128).optional(),
+        status: ExternalOrgSourceStatusSchema.optional(),
+        providerConfigId: z.uuid().nullable().optional(),
+        authoritativeOrgUnitId: z.uuid().nullable().optional(),
+        externalRootDepartmentId: z.string().trim().min(1).max(255).nullable().optional(),
+        syncScopes: ExternalOrgSyncScopeListSchema.optional(),
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .refine(
+        (value) =>
+            value.displayName !== undefined ||
+            value.status !== undefined ||
+            value.providerConfigId !== undefined ||
+            value.authoritativeOrgUnitId !== undefined ||
+            value.externalRootDepartmentId !== undefined ||
+            value.syncScopes !== undefined,
+        { message: 'At least one updatable field is required' }
+    )
+    .meta({ id: 'UpdateExternalOrgSourceRequest' });
+
+export type UpdateExternalOrgSourceRequest = z.infer<typeof UpdateExternalOrgSourceRequestSchema>;
+
+export const ExternalDepartmentMappingSummarySchema = z
+    .object({
+        id: z.uuid(),
+        sourceId: z.uuid(),
+        externalDepartmentId: z.string(),
+        externalParentDepartmentId: z.string().nullable(),
+        externalDepartmentName: z.string(),
+        orgUnitId: z.uuid().nullable(),
+        status: ExternalDepartmentMappingStatusSchema,
+        externalSnapshot: ExternalOrgSyncJsonObjectSchema,
+        lastSeenAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'ExternalDepartmentMappingSummary' });
+
+export type ExternalDepartmentMappingSummary = z.infer<typeof ExternalDepartmentMappingSummarySchema>;
+
+export const ExternalDepartmentMappingListSchema = z.array(ExternalDepartmentMappingSummarySchema).meta({ id: 'ExternalDepartmentMappingList' });
+
+export type ExternalDepartmentMappingList = z.infer<typeof ExternalDepartmentMappingListSchema>;
+
+export const ExternalDepartmentMappingListQuerySchema = z
+    .object({
+        status: ExternalDepartmentMappingStatusSchema.optional(),
+        externalDepartmentId: z.string().trim().min(1).max(255).optional(),
+        orgUnitId: z.uuid().optional()
+    })
+    .meta({ id: 'ExternalDepartmentMappingListQuery' });
+
+export type ExternalDepartmentMappingListQuery = z.infer<typeof ExternalDepartmentMappingListQuerySchema>;
+
+export const ExternalDepartmentMappingReplacementItemSchema = z
+    .object({
+        externalDepartmentId: z.string().trim().min(1).max(255),
+        externalParentDepartmentId: z.string().trim().min(1).max(255).nullable().optional(),
+        externalDepartmentName: z.string().trim().min(1).max(255),
+        orgUnitId: z.uuid().nullable().optional(),
+        status: ExternalDepartmentMappingStatusSchema.optional(),
+        externalSnapshot: ExternalOrgSyncJsonObjectSchema.optional()
+    })
+    .meta({ id: 'ExternalDepartmentMappingReplacementItem' });
+
+export type ExternalDepartmentMappingReplacementItem = z.infer<typeof ExternalDepartmentMappingReplacementItemSchema>;
+
+export const ReplaceExternalDepartmentMappingsRequestSchema = z
+    .object({
+        expectedSourceVersion: z.number().int().positive().optional(),
+        items: z.array(ExternalDepartmentMappingReplacementItemSchema).max(1000)
+    })
+    .meta({ id: 'ReplaceExternalDepartmentMappingsRequest' });
+
+export type ReplaceExternalDepartmentMappingsRequest = z.infer<typeof ReplaceExternalDepartmentMappingsRequestSchema>;
+
+export const OrgSyncRunSummarySchema = z
+    .object({
+        id: z.uuid(),
+        sourceId: z.uuid(),
+        status: OrgSyncRunStatusSchema,
+        requestedBy: z.uuid().nullable(),
+        startedAt: z.iso.datetime(),
+        finishedAt: z.iso.datetime().nullable(),
+        totalItemCount: z.number().int().nonnegative(),
+        approvedItemCount: z.number().int().nonnegative(),
+        skippedItemCount: z.number().int().nonnegative(),
+        failedItemCount: z.number().int().nonnegative(),
+        errorSummary: z.string().nullable(),
+        requestSnapshot: ExternalOrgSyncJsonObjectSchema,
+        resultSummary: ExternalOrgSyncJsonObjectSchema,
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'OrgSyncRunSummary' });
+
+export type OrgSyncRunSummary = z.infer<typeof OrgSyncRunSummarySchema>;
+
+export const OrgSyncRunDetailSchema = OrgSyncRunSummarySchema.meta({ id: 'OrgSyncRunDetail' });
+
+export type OrgSyncRunDetail = z.infer<typeof OrgSyncRunDetailSchema>;
+
+export const CreateOrgSyncRunRequestSchema = z
+    .object({
+        expectedSourceVersion: z.number().int().positive().optional(),
+        requestSnapshot: ExternalOrgSyncJsonObjectSchema.optional()
+    })
+    .meta({ id: 'CreateOrgSyncRunRequest' });
+
+export type CreateOrgSyncRunRequest = z.infer<typeof CreateOrgSyncRunRequestSchema>;
+
+export const OrgSyncDiffItemSummarySchema = z
+    .object({
+        id: z.uuid(),
+        runId: z.uuid(),
+        externalDepartmentId: z.string(),
+        action: OrgSyncDiffActionSchema,
+        status: OrgSyncDiffItemStatusSchema,
+        orgUnitId: z.uuid().nullable(),
+        beforeSnapshot: ExternalOrgSyncJsonObjectSchema.nullable(),
+        candidateSnapshot: ExternalOrgSyncJsonObjectSchema,
+        errorMessage: z.string().nullable(),
+        appliedAt: z.iso.datetime().nullable(),
+        rowVersion: z.number().int(),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid().nullable(),
+        updatedAt: z.iso.datetime(),
+        updatedBy: z.uuid().nullable()
+    })
+    .meta({ id: 'OrgSyncDiffItemSummary' });
+
+export type OrgSyncDiffItemSummary = z.infer<typeof OrgSyncDiffItemSummarySchema>;
+
+export const OrgSyncDiffItemListSchema = z.array(OrgSyncDiffItemSummarySchema).meta({ id: 'OrgSyncDiffItemList' });
+
+export type OrgSyncDiffItemList = z.infer<typeof OrgSyncDiffItemListSchema>;
+
+export const OrgSyncDiffItemListQuerySchema = z
+    .object({
+        action: OrgSyncDiffActionSchema.optional(),
+        status: OrgSyncDiffItemStatusSchema.optional()
+    })
+    .meta({ id: 'OrgSyncDiffItemListQuery' });
+
+export type OrgSyncDiffItemListQuery = z.infer<typeof OrgSyncDiffItemListQuerySchema>;
+
+export const ApplyOrgSyncRunRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional(),
+        approvedDiffItemIds: z.array(z.uuid()).optional(),
+        skippedDiffItemIds: z.array(z.uuid()).optional()
+    })
+    .meta({ id: 'ApplyOrgSyncRunRequest' });
+
+export type ApplyOrgSyncRunRequest = z.infer<typeof ApplyOrgSyncRunRequestSchema>;
+
 export const IdentityProviderOAuthGrantStatusValue = {
     Missing: 'missing',
     Active: 'active',

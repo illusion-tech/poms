@@ -23,7 +23,7 @@ $ErrorActionPreference = 'Stop'
 
 $tempDir = Join-Path ([System.IO.Path]::GetTempPath()) 'poms-shared-api-client-generate'
 $targetDir = (Resolve-Path -LiteralPath 'libs/shared/api-client').Path
-$projectFile = Join-Path $targetDir 'project.json'
+$projectMetadataFiles = @('project.json', 'tsconfig.json', 'tsconfig.lib.json')
 $generatorConfig = 'tools/openapi/typescript-angular.config.json'
 $normalizeScript = 'tools/openapi/normalize-line-endings.ps1'
 
@@ -48,8 +48,10 @@ try {
         throw "OpenAPI Generator 失败，退出码: $LASTEXITCODE"
     }
 
-    # project.json 属于 Nx 项目元数据，不由 generator 输出，因此显式带入临时工作树。
-    Copy-Item $projectFile (Join-Path $tempDir 'project.json') -Force
+    # Nx 项目元数据不由 generator 输出，因此显式带入临时工作树。
+    foreach ($metadataFile in $projectMetadataFiles) {
+        Copy-Item (Join-Path $targetDir $metadataFile) (Join-Path $tempDir $metadataFile) -Force
+    }
 
     Write-Host '统一临时生成物的行尾为 LF...' -ForegroundColor Green
 

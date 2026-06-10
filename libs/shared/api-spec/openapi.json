@@ -3805,6 +3805,453 @@
         ]
       }
     },
+    "/api/platform/external-org-sources": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_listExternalOrgSources",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ExternalOrgProvider"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ExternalOrgSourceStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取外部组织同步源列表",
+        "tags": [
+          "External Org Sync"
+        ]
+      },
+      "post": {
+        "operationId": "ExternalOrgSyncController_createExternalOrgSource",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExternalOrgSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建外部组织同步源",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-org-sources/{id}": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_getExternalOrgSource",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取外部组织同步源详情",
+        "tags": [
+          "External Org Sync"
+        ]
+      },
+      "patch": {
+        "operationId": "ExternalOrgSyncController_updateExternalOrgSource",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExternalOrgSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新外部组织同步源",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-org-sources/{sourceId}/department-mappings": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_listExternalDepartmentMappings",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ExternalDepartmentMappingStatus"
+            }
+          },
+          {
+            "name": "externalDepartmentId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
+          {
+            "name": "orgUnitId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalDepartmentMappingList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取外部部门映射列表",
+        "tags": [
+          "External Org Sync"
+        ]
+      },
+      "put": {
+        "operationId": "ExternalOrgSyncController_replaceExternalDepartmentMappings",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceExternalDepartmentMappingsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalDepartmentMappingList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "替换外部部门映射",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-org-sources/{sourceId}/org-sync-runs": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_createOrgSyncRun",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrgSyncRunRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgSyncRunDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建组织同步预览运行",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/org-sync-runs/{id}": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_getOrgSyncRun",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgSyncRunDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取组织同步运行详情",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/org-sync-runs/{id}/diff-items": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_listOrgSyncDiffItems",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "action",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OrgSyncDiffAction"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OrgSyncDiffItemStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgSyncDiffItemList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取组织同步差异项列表",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/org-sync-runs/{id}:apply": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_applyOrgSyncRun",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyOrgSyncRunRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgSyncRunDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "应用组织同步运行",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
     "/api/customers": {
       "get": {
         "operationId": "CustomerController_list",
@@ -11294,6 +11741,9 @@
       },
       "AuditSnapshot": {
         "type": "object",
+        "propertyNames": {
+          "type": "string"
+        },
         "additionalProperties": {}
       },
       "AuditLogList": {
@@ -11431,6 +11881,7 @@
                 "platform:org-units:manage",
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
+                "platform:org-sync:manage",
                 "platform:attachment-storage-providers:manage",
                 "platform:system-settings:manage",
                 "customer:read",
@@ -11597,6 +12048,7 @@
                 "platform:org-units:manage",
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
+                "platform:org-sync:manage",
                 "platform:attachment-storage-providers:manage",
                 "platform:system-settings:manage",
                 "customer:read",
@@ -11771,6 +12223,7 @@
                 "platform:org-units:manage",
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
+                "platform:org-sync:manage",
                 "platform:attachment-storage-providers:manage",
                 "platform:system-settings:manage",
                 "customer:read",
@@ -12350,9 +12803,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -12373,9 +12825,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -12405,9 +12856,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -12484,6 +12934,7 @@
               "platform:org-units:manage",
               "platform:dictionaries:manage",
               "platform:identity-providers:manage",
+              "platform:org-sync:manage",
               "platform:attachment-storage-providers:manage",
               "platform:system-settings:manage",
               "customer:read",
@@ -12543,6 +12994,7 @@
               "platform:org-units:manage",
               "platform:dictionaries:manage",
               "platform:identity-providers:manage",
+              "platform:org-sync:manage",
               "platform:attachment-storage-providers:manage",
               "platform:system-settings:manage",
               "customer:read",
@@ -12572,8 +13024,7 @@
               "nav:attachments:view",
               "nav:projects:view",
               "nav:contracts:view",
-              "nav:profile:view",
-              null
+              "nav:profile:view"
             ],
             "nullable": true
           }
@@ -12659,6 +13110,7 @@
                 "platform:org-units:manage",
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
+                "platform:org-sync:manage",
                 "platform:attachment-storage-providers:manage",
                 "platform:system-settings:manage",
                 "customer:read",
@@ -12774,9 +13226,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -12794,6 +13245,7 @@
                 "platform:org-units:manage",
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
+                "platform:org-sync:manage",
                 "platform:attachment-storage-providers:manage",
                 "platform:system-settings:manage",
                 "customer:read",
@@ -13124,9 +13576,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -13150,9 +13601,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -13209,6 +13659,7 @@
                 "platform:org-units:manage",
                 "platform:dictionaries:manage",
                 "platform:identity-providers:manage",
+                "platform:org-sync:manage",
                 "platform:attachment-storage-providers:manage",
                 "platform:system-settings:manage",
                 "customer:read",
@@ -13664,9 +14115,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -13675,9 +14125,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -14010,9 +14459,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -14199,9 +14647,8 @@
           },
           "versionNo": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isLatest": {
             "type": "boolean"
@@ -14798,9 +15245,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -15211,9 +15657,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -15222,9 +15667,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -15261,9 +15705,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -15310,9 +15753,8 @@
           },
           "sizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "checksumSha256": {
             "type": "string",
@@ -15426,15 +15868,13 @@
           },
           "sizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "maxSizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "checksumSha256": {
             "type": "string",
@@ -15503,9 +15943,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -15562,9 +16001,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -15594,6 +16032,9 @@
           },
           "headers": {
             "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
             "additionalProperties": {
               "type": "string"
             }
@@ -15608,9 +16049,8 @@
           },
           "maxSizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -15643,9 +16083,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -15660,9 +16099,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "checksumSha256": {
             "type": "string",
@@ -15676,9 +16114,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "reason": {
             "type": "string",
@@ -15850,9 +16287,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -15969,6 +16405,691 @@
         "required": [
           "value"
         ]
+      },
+      "ExternalOrgSourceSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/ExternalOrgProvider"
+          },
+          "externalTenantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ExternalOrgSourceStatus"
+          },
+          "providerConfigId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "authoritativeOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "externalRootDepartmentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "syncScopes": {
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "externalTenantId",
+          "displayName",
+          "status",
+          "providerConfigId",
+          "authoritativeOrgUnitId",
+          "externalRootDepartmentId",
+          "syncScopes",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "ExternalOrgProvider": {
+        "type": "string",
+        "enum": [
+          "feishu",
+          "dingtalk",
+          "wecom"
+        ]
+      },
+      "ExternalOrgSourceStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "paused",
+          "archived"
+        ]
+      },
+      "ExternalOrgSourceList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ExternalOrgSourceSummary"
+        }
+      },
+      "CreateExternalOrgSourceRequest": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/ExternalOrgProvider"
+          },
+          "externalTenantId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "status": {
+            "$ref": "#/components/schemas/ExternalOrgSourceStatus"
+          },
+          "providerConfigId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "authoritativeOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "externalRootDepartmentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "nullable": true
+          },
+          "syncScopes": {
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        },
+        "required": [
+          "provider",
+          "displayName"
+        ]
+      },
+      "ExternalOrgSourceDetail": {
+        "$ref": "#/components/schemas/ExternalOrgSourceSummary"
+      },
+      "UpdateExternalOrgSourceRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "status": {
+            "$ref": "#/components/schemas/ExternalOrgSourceStatus"
+          },
+          "providerConfigId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "authoritativeOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "externalRootDepartmentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "nullable": true
+          },
+          "syncScopes": {
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "ExternalDepartmentMappingSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "externalDepartmentId": {
+            "type": "string"
+          },
+          "externalParentDepartmentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalDepartmentName": {
+            "type": "string"
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ExternalDepartmentMappingStatus"
+          },
+          "externalSnapshot": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "lastSeenAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "sourceId",
+          "externalDepartmentId",
+          "externalParentDepartmentId",
+          "externalDepartmentName",
+          "orgUnitId",
+          "status",
+          "externalSnapshot",
+          "lastSeenAt",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "ExternalDepartmentMappingStatus": {
+        "type": "string",
+        "enum": [
+          "unmapped",
+          "mapped",
+          "conflict",
+          "ignored"
+        ]
+      },
+      "ExternalDepartmentMappingList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ExternalDepartmentMappingSummary"
+        }
+      },
+      "ExternalDepartmentMappingReplacementItem": {
+        "type": "object",
+        "properties": {
+          "externalDepartmentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "externalParentDepartmentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "nullable": true
+          },
+          "externalDepartmentName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ExternalDepartmentMappingStatus"
+          },
+          "externalSnapshot": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "externalDepartmentId",
+          "externalDepartmentName"
+        ]
+      },
+      "ReplaceExternalDepartmentMappingsRequest": {
+        "type": "object",
+        "properties": {
+          "expectedSourceVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "items": {
+            "maxItems": 1000,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalDepartmentMappingReplacementItem"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "CreateOrgSyncRunRequest": {
+        "type": "object",
+        "properties": {
+          "expectedSourceVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "requestSnapshot": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        }
+      },
+      "OrgSyncRunStatus": {
+        "type": "string",
+        "enum": [
+          "previewing",
+          "previewed",
+          "applying",
+          "applied",
+          "failed",
+          "cancelled"
+        ]
+      },
+      "OrgSyncRunSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrgSyncRunStatus"
+          },
+          "requestedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "totalItemCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "approvedItemCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "skippedItemCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "failedItemCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "errorSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestSnapshot": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "resultSummary": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "sourceId",
+          "status",
+          "requestedBy",
+          "startedAt",
+          "finishedAt",
+          "totalItemCount",
+          "approvedItemCount",
+          "skippedItemCount",
+          "failedItemCount",
+          "errorSummary",
+          "requestSnapshot",
+          "resultSummary",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "OrgSyncRunDetail": {
+        "$ref": "#/components/schemas/OrgSyncRunSummary"
+      },
+      "OrgSyncDiffItemSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "runId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "externalDepartmentId": {
+            "type": "string"
+          },
+          "action": {
+            "$ref": "#/components/schemas/OrgSyncDiffAction"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrgSyncDiffItemStatus"
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "beforeSnapshot": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {},
+            "nullable": true
+          },
+          "candidateSnapshot": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "appliedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "runId",
+          "externalDepartmentId",
+          "action",
+          "status",
+          "orgUnitId",
+          "beforeSnapshot",
+          "candidateSnapshot",
+          "errorMessage",
+          "appliedAt",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "OrgSyncDiffAction": {
+        "type": "string",
+        "enum": [
+          "create_org_unit",
+          "update_org_unit",
+          "move_org_unit",
+          "disable_org_unit",
+          "map_existing_org_unit",
+          "ignore",
+          "conflict"
+        ]
+      },
+      "OrgSyncDiffItemStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "approved",
+          "skipped",
+          "applied",
+          "failed"
+        ]
+      },
+      "OrgSyncDiffItemList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OrgSyncDiffItemSummary"
+        }
+      },
+      "ApplyOrgSyncRunRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "approvedDiffItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "skippedDiffItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        }
       },
       "CustomerListView": {
         "type": "object",
@@ -16760,9 +17881,8 @@
           },
           "priority": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -17585,15 +18705,13 @@
           },
           "page": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "pageSize": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -17962,9 +19080,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -18050,6 +19167,9 @@
           },
           "componentBreakdown": {
             "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
             "additionalProperties": {}
           },
           "gateSummarySnapshot": {
@@ -18492,9 +19612,8 @@
           },
           "expectedLeadRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -18508,9 +19627,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -18597,9 +19715,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -18647,9 +19764,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -18824,9 +19940,8 @@
         "properties": {
           "expectedOverrideRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "note": {
             "type": "string",
@@ -18849,9 +19964,8 @@
           },
           "expectedOverrideRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -18869,9 +19983,8 @@
           },
           "expectedOverrideRowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -19593,9 +20706,8 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isCurrent": {
             "type": "boolean"
@@ -19973,9 +21085,8 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isCurrent": {
             "type": "boolean"
@@ -20194,9 +21305,8 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isCurrent": {
             "type": "boolean"
@@ -20257,8 +21367,7 @@
               "R1",
               "R2",
               "R3",
-              "R4",
-              null
+              "R4"
             ],
             "nullable": true
           },
@@ -21356,9 +22465,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22275,9 +23383,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22302,9 +23409,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22377,9 +23483,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22418,9 +23523,8 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22463,9 +23567,8 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22508,9 +23611,8 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22553,9 +23655,8 @@
           },
           "expectedSourceVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22721,9 +23822,8 @@
           },
           "expectedCurrentPackageVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -22788,9 +23888,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -23049,9 +24148,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -23173,9 +24271,8 @@
           },
           "expectedCurrentSnapshotVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -23275,9 +24372,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -23429,9 +24525,8 @@
           },
           "expectedRestatesSnapshotVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -23493,9 +24588,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -23662,9 +24756,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -23736,9 +24829,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -23812,9 +24904,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -23860,9 +24951,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -23897,9 +24987,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -23959,9 +25048,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -24096,9 +25184,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -24166,9 +25253,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -24251,9 +25337,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -24443,9 +25528,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -25367,9 +26451,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -25378,9 +26461,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -25400,9 +26482,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -25581,9 +26662,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -25847,9 +26927,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "createdAt": {
             "type": "string",
@@ -26046,9 +27125,8 @@
           },
           "expectedSupersededRecordVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -26178,9 +27256,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -26589,9 +27666,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -26611,9 +27687,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -26636,9 +27711,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -26943,9 +28017,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -26965,9 +28038,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -26990,9 +28062,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -27015,9 +28086,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -27204,9 +28274,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -28041,9 +29110,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -28139,9 +29207,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -28363,9 +29430,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -28438,9 +29504,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -29046,9 +30111,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -29062,9 +30126,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -29504,9 +30567,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -29883,9 +30945,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -29946,9 +31007,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -30268,9 +31328,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -30297,9 +31356,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -31645,9 +32703,8 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "tierDefinitionJson": {
             "type": "object",
@@ -31768,9 +32825,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isCurrent": {
             "type": "boolean"
@@ -32208,9 +33264,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isCurrent": {
             "type": "boolean"
@@ -32320,9 +33375,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -32346,9 +33400,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -32375,9 +33428,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "stageType": {
             "$ref": "#/components/schemas/CommissionPayoutStage"
@@ -32530,9 +33582,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "payoutStage": {
             "type": "string",
@@ -32597,9 +33648,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "payoutStage": {
             "$ref": "#/components/schemas/NonRetentionCommissionPayoutStage"
@@ -32639,9 +33689,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -32670,9 +33719,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "payoutStage": {
             "type": "string",
@@ -32717,9 +33765,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "payoutStage": {
             "$ref": "#/components/schemas/NonRetentionCommissionPayoutStage"
@@ -32750,9 +33797,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "adjustmentType": {
             "$ref": "#/components/schemas/CommissionAdjustmentType"
@@ -32877,9 +33923,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -32888,9 +33933,8 @@
         "properties": {
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         }
       },
@@ -33000,9 +34044,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -33145,15 +34188,13 @@
           },
           "version": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "isCurrent": {
             "type": "boolean"
@@ -33258,9 +34299,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
@@ -33348,9 +34388,8 @@
           },
           "rowVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           },
           "disputeReason": {
             "type": "string"
@@ -33490,9 +34529,8 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
           }
         },
         "required": [
