@@ -86,6 +86,7 @@ export const PERMISSION_KEYS = [
     'platform:org-units:manage',
     'platform:dictionaries:manage',
     'platform:identity-providers:manage',
+    'platform:org-sync:manage',
     'platform:attachment-storage-providers:manage',
     'platform:system-settings:manage',
     // 客户主数据
@@ -138,6 +139,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     'platform:org-units:manage': { description: '管理组织单元', group: '平台管理' },
     'platform:dictionaries:manage': { description: '管理业务配置字典', group: '平台管理' },
     'platform:identity-providers:manage': { description: '管理外部身份提供商配置', group: '平台管理' },
+    'platform:org-sync:manage': { description: '管理外部组织同步', group: '平台管理' },
     'platform:attachment-storage-providers:manage': { description: '管理附件存储 Provider 配置', group: '平台管理' },
     'platform:system-settings:manage': { description: '管理系统设置', group: '平台管理' },
     'customer:read': { description: '查看客户主数据', group: '客户' },
@@ -705,6 +707,81 @@ export const IdentityProviderConnectionTestResultSchema = z
     .meta({ id: 'IdentityProviderConnectionTestResult' });
 
 export type IdentityProviderConnectionTestResult = z.infer<typeof IdentityProviderConnectionTestResultSchema>;
+
+// ---------------------------------------------------------------------------
+// External Organization Sync
+// ---------------------------------------------------------------------------
+
+export const ExternalOrgProviderValue = {
+    Feishu: 'feishu',
+    DingTalk: 'dingtalk',
+    WeCom: 'wecom'
+} as const;
+
+export const EXTERNAL_ORG_PROVIDERS = enumObjectValues(ExternalOrgProviderValue);
+export type ExternalOrgProvider = (typeof EXTERNAL_ORG_PROVIDERS)[number];
+export const ExternalOrgProviderSchema = z.enum(EXTERNAL_ORG_PROVIDERS).meta({ id: 'ExternalOrgProvider' });
+
+export const ExternalOrgSourceStatusValue = {
+    Draft: 'draft',
+    Active: 'active',
+    Paused: 'paused',
+    Archived: 'archived'
+} as const;
+
+export const EXTERNAL_ORG_SOURCE_STATUSES = enumObjectValues(ExternalOrgSourceStatusValue);
+export type ExternalOrgSourceStatus = (typeof EXTERNAL_ORG_SOURCE_STATUSES)[number];
+export const ExternalOrgSourceStatusSchema = z.enum(EXTERNAL_ORG_SOURCE_STATUSES).meta({ id: 'ExternalOrgSourceStatus' });
+
+export const ExternalDepartmentMappingStatusValue = {
+    Unmapped: 'unmapped',
+    Mapped: 'mapped',
+    Conflict: 'conflict',
+    Ignored: 'ignored'
+} as const;
+
+export const EXTERNAL_DEPARTMENT_MAPPING_STATUSES = enumObjectValues(ExternalDepartmentMappingStatusValue);
+export type ExternalDepartmentMappingStatus = (typeof EXTERNAL_DEPARTMENT_MAPPING_STATUSES)[number];
+export const ExternalDepartmentMappingStatusSchema = z.enum(EXTERNAL_DEPARTMENT_MAPPING_STATUSES).meta({ id: 'ExternalDepartmentMappingStatus' });
+
+export const OrgSyncRunStatusValue = {
+    Previewing: 'previewing',
+    Previewed: 'previewed',
+    Applying: 'applying',
+    Applied: 'applied',
+    Failed: 'failed',
+    Cancelled: 'cancelled'
+} as const;
+
+export const ORG_SYNC_RUN_STATUSES = enumObjectValues(OrgSyncRunStatusValue);
+export type OrgSyncRunStatus = (typeof ORG_SYNC_RUN_STATUSES)[number];
+export const OrgSyncRunStatusSchema = z.enum(ORG_SYNC_RUN_STATUSES).meta({ id: 'OrgSyncRunStatus' });
+
+export const OrgSyncDiffActionValue = {
+    CreateOrgUnit: 'create_org_unit',
+    UpdateOrgUnit: 'update_org_unit',
+    MoveOrgUnit: 'move_org_unit',
+    DisableOrgUnit: 'disable_org_unit',
+    MapExistingOrgUnit: 'map_existing_org_unit',
+    Ignore: 'ignore',
+    Conflict: 'conflict'
+} as const;
+
+export const ORG_SYNC_DIFF_ACTIONS = enumObjectValues(OrgSyncDiffActionValue);
+export type OrgSyncDiffAction = (typeof ORG_SYNC_DIFF_ACTIONS)[number];
+export const OrgSyncDiffActionSchema = z.enum(ORG_SYNC_DIFF_ACTIONS).meta({ id: 'OrgSyncDiffAction' });
+
+export const OrgSyncDiffItemStatusValue = {
+    Pending: 'pending',
+    Approved: 'approved',
+    Skipped: 'skipped',
+    Applied: 'applied',
+    Failed: 'failed'
+} as const;
+
+export const ORG_SYNC_DIFF_ITEM_STATUSES = enumObjectValues(OrgSyncDiffItemStatusValue);
+export type OrgSyncDiffItemStatus = (typeof ORG_SYNC_DIFF_ITEM_STATUSES)[number];
+export const OrgSyncDiffItemStatusSchema = z.enum(ORG_SYNC_DIFF_ITEM_STATUSES).meta({ id: 'OrgSyncDiffItemStatus' });
 
 export const IdentityProviderOAuthGrantStatusValue = {
     Missing: 'missing',

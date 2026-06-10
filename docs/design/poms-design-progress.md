@@ -595,6 +595,9 @@
 112. 2026-06-10 `FE-66` 已完成本地 `G3 / Ready for Review`：动态导航 SSOT 和 Admin fallback 菜单已按人员与权限、组织架构、集成与连接、业务配置、系统治理重组；路由面包屑、企业协同接入 / 文件存储接入页面标题、导航设计与路由对照表已同步；`AuthStore` 为容器节点补齐菜单 `path` 适配，避免三级菜单展开态不稳定。验证通过 API navigation、Admin route / page / AuthStore focused tests、poms-api / poms-admin / admin-data-access lint、API/Admin build、Markdown format check 和 diff check；尚未提交，暂不标记 `G4 / Done`。
 113. 2026-06-10 `FE-66` 已完成本地 `G4 / Done`：本提交承载平台配置集成与连接导航 IA 重组运行时代码、fallback 菜单、页面命名、focused tests 和治理文档回写；tracker 标记 `Done`。后续组织同步、部门映射、多 OA 权威源、差异预览和同步应用仍需独立 cross-layer 切片冻结后实施，不由 `FE-66` 暗含完成。
 114. 2026-06-10 `EX-72A` 已完成 `G1` 基线冻结：新增 `ex-72a-external-org-sync-governance-baseline.md`，明确外部组织同步属于组织架构工作流，部门映射是同步源下的关系数据；冻结 `ExternalOrgSource`、`ExternalDepartmentMapping`、`OrgSyncRun`、`OrgSyncDiffItem`、多 OA 权威源规则、权限口径和 B18 planned route inventory。本片不写 runtime code、migration、OpenAPI 或 generated client，后续由 `EX-72B/C/D` 与 `FE-67` 消费。
+115. 2026-06-10 `EX-72B` 已进入 `G1 / Doing`：新增 `ex-72b-external-org-sync-persistence-baseline.md`，冻结外部组织同步持久化范围；本片只新增 shared-contract enum / permission SSOT、四个 entity、feature module 注册和 migration，并将 `platform:org-sync:manage` 授予平台管理员，不实现 controller、service、OpenAPI、generated client、Feishu adapter 或 Admin UI。
+116. 2026-06-10 `EX-72B` 已推进到 `G3 Blocked`：shared-contract enum / permission SSOT、四个 entity、`ExternalOrgSyncModule`、AppModule 注册、EX-72B migration 和 `@poms/shared-contracts` zod dependency 已写入；验证通过 poms-api lint、shared-contracts eslint、poms-api build、Markdown format check 和 diff check。`migration-check` 因当前环境无 `.env` / `POMS_ENV_FILE` / `DATABASE_URL` 且默认 `postgres` 密码认证失败而阻塞，记录为 `EX72B-E1-LOCAL-DB-AUTH`，本片暂不标记 Done。
+117. 2026-06-10 `EX-72B` 已解除本地 DB 验证阻塞并完成 `G4 / Done`：使用本地 `edb_v2` 凭据执行 `migration-up` 和 `migration-check`，schema up-to-date；`EX72B-E1-LOCAL-DB-AUTH` 已关闭。外部组织同步持久化基础现在可被后续 `EX-72C/D` 和 `FE-67` 消费，runtime API、adapter、差异预览 / 应用和 Admin UI 仍按后续切片推进。
 
 ---
 
