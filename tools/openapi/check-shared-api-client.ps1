@@ -80,14 +80,16 @@ try {
 
     Write-Host "API客户端生成完成，开始配置项目文件..." -ForegroundColor Green
 
-    # 复制project.json文件到临时目录，保持项目结构完整性
-    # Copy project configuration to temp directory for complete project structure
+    # 复制 Nx 项目元数据文件到临时目录，保持项目结构完整性
+    # Copy project configuration files to temp directory for complete project structure
     # This ensures git diff compares against a complete, valid Nx project
-    Copy-Item 'libs/shared/api-client/project.json' (Join-Path $tempDir 'project.json') -Force
+    foreach ($metadataFile in @('project.json', 'tsconfig.json', 'tsconfig.lib.json')) {
+        Copy-Item (Join-Path 'libs/shared/api-client' $metadataFile) (Join-Path $tempDir $metadataFile) -Force
+    }
 
     Write-Host "统一临时工作树的行尾为LF..." -ForegroundColor Green
 
-    # 在补齐project.json之后再统一行尾，确保整个临时工作树都遵守同一文本规范
+    # 在补齐项目元数据之后再统一行尾，确保整个临时工作树都遵守同一文本规范
     # Normalize after the temp tree is complete so generated files and copied config
     # follow the same line-ending convention before diffing.
     & powershell -NoProfile -File tools/openapi/normalize-line-endings.ps1 -Path $tempDir

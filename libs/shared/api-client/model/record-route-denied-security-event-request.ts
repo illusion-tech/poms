@@ -21,6 +21,7 @@ export enum RecordRouteDeniedSecurityEventRequestRequiredPermissionsEnum {
     PlatformOrgUnitsManage = 'platform:org-units:manage',
     PlatformDictionariesManage = 'platform:dictionaries:manage',
     PlatformIdentityProvidersManage = 'platform:identity-providers:manage',
+    PlatformOrgSyncManage = 'platform:org-sync:manage',
     PlatformAttachmentStorageProvidersManage = 'platform:attachment-storage-providers:manage',
     PlatformSystemSettingsManage = 'platform:system-settings:manage',
     CustomerRead = 'customer:read',

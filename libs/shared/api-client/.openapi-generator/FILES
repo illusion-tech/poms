@@ -23,6 +23,7 @@ api/contract.service.ts
 api/customer.service.ts
 api/dictionary.service.ts
 api/external-identity.service.ts
+api/external-org-sync.service.ts
 api/health.service.ts
 api/identity-provider-o-auth-grant.service.ts
 api/identity-provider.service.ts
@@ -48,6 +49,7 @@ model/activate-contract-request.ts
 model/activate-operating-baseline-package-request-change-packages-inner.ts
 model/activate-operating-baseline-package-request.ts
 model/active-inactive-status.ts
+model/apply-org-sync-run-request.ts
 model/approval-decision.ts
 model/approval-record-summary.ts
 model/approval-status.ts
@@ -213,6 +215,7 @@ model/create-dictionary-item-request.ts
 model/create-expense-project-actual-cost-record-request.ts
 model/create-expense-record-request.ts
 model/create-external-login-session-request.ts
+model/create-external-org-source-request.ts
 model/create-identity-provider-config-request.ts
 model/create-invoice-project-actual-cost-record-request.ts
 model/create-invoice-record-request.ts
@@ -221,6 +224,7 @@ model/create-lead-request.ts
 model/create-operating-restatement-request-restated-values.ts
 model/create-operating-restatement-request.ts
 model/create-opportunity-stakeholder-request.ts
+model/create-org-sync-run-request.ts
 model/create-org-unit-request.ts
 model/create-password-auth-session-request.ts
 model/create-payable-record-request.ts
@@ -276,10 +280,16 @@ model/expense-record-detail-view.ts
 model/expense-record-status.ts
 model/expense-record-summary.ts
 model/expense-source-type.ts
+model/external-department-mapping-replacement-item.ts
+model/external-department-mapping-status.ts
+model/external-department-mapping-summary.ts
 model/external-identity-binding-status.ts
 model/external-identity-binding-summary.ts
 model/external-login-authorize-result.ts
 model/external-login-callback-result.ts
+model/external-org-provider.ts
+model/external-org-source-status.ts
+model/external-org-source-summary.ts
 model/external-user-candidate.ts
 model/external-user-search-result.ts
 model/freeze-commission-role-assignment-request.ts
@@ -358,6 +368,11 @@ model/opportunity-stakeholder-attitude.ts
 model/opportunity-stakeholder-influence-level.ts
 model/opportunity-stakeholder-role.ts
 model/opportunity-stakeholder-summary.ts
+model/org-sync-diff-action.ts
+model/org-sync-diff-item-status.ts
+model/org-sync-diff-item-summary.ts
+model/org-sync-run-status.ts
+model/org-sync-run-summary.ts
 model/org-unit-tree-node.ts
 model/owner-reference-data.ts
 model/owner-reference-org-unit.ts
@@ -455,6 +470,7 @@ model/register-retention-commission-payout-request.ts
 model/reject-approval-record-request.ts
 model/reject-lead-score-override-request.ts
 model/replace-accounting-tax-treatment-request.ts
+model/replace-external-department-mappings-request.ts
 model/replace-labor-cost-record-request.ts
 model/replace-project-archive-record-request.ts
 model/replace-sales-follow-up-record-request.ts
@@ -515,6 +531,7 @@ model/update-customer-contact-request.ts
 model/update-customer-request.ts
 model/update-dictionary-item-request.ts
 model/update-expense-record-request.ts
+model/update-external-org-source-request.ts
 model/update-identity-provider-config-request.ts
 model/update-invoice-record-request.ts
 model/update-lead-request.ts
