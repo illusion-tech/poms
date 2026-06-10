@@ -5,16 +5,18 @@ import { IdentityProviderConfig } from '../identity-provider/identity-provider-c
 import { OrgUnit } from '../platform/org-unit.entity';
 import { ExternalDepartmentMapping } from './external-department-mapping.entity';
 import { ExternalOrgSyncController } from './external-org-sync.controller';
+import { ExternalOrgDirectoryAdapterRegistry } from './external-org-directory-adapter.registry';
 import { ExternalOrgSource } from './external-org-source.entity';
 import { ExternalOrgSyncRepository } from './external-org-sync.repository';
 import { ExternalOrgSyncService } from './external-org-sync.service';
+import { FeishuExternalOrgDirectoryAdapter } from './feishu-external-org-directory.adapter';
 import { OrgSyncDiffItem } from './org-sync-diff-item.entity';
 import { OrgSyncRun } from './org-sync-run.entity';
 
 @Module({
     imports: [MikroOrmModule.forFeature([ExternalOrgSource, ExternalDepartmentMapping, OrgSyncRun, OrgSyncDiffItem, IdentityProviderConfig, OrgUnit]), RuntimeAuditModule],
     controllers: [ExternalOrgSyncController],
-    providers: [ExternalOrgSyncRepository, ExternalOrgSyncService],
+    providers: [ExternalOrgSyncRepository, FeishuExternalOrgDirectoryAdapter, ExternalOrgDirectoryAdapterRegistry, ExternalOrgSyncService],
     exports: [MikroOrmModule, ExternalOrgSyncService]
 })
 export class ExternalOrgSyncModule {}

@@ -61,6 +61,14 @@ export class ExternalOrgSyncRepository {
         return this.orgUnitRepository.find({ id: { $in: ids } });
     }
 
+    findAllOrgUnits(): Promise<OrgUnit[]> {
+        return this.orgUnitRepository.findAll({ orderBy: { displayOrder: QueryOrder.ASC, createdAt: QueryOrder.ASC } });
+    }
+
+    createOrgUnit(input: ConstructorParameters<typeof OrgUnit>[0]): OrgUnit {
+        return this.orgUnitRepository.create(input);
+    }
+
     findMappings(sourceId: string, query: ExternalDepartmentMappingListQuery = {}): Promise<ExternalDepartmentMapping[]> {
         return this.mappingRepository.find(
             {
@@ -107,6 +115,10 @@ export class ExternalOrgSyncRepository {
             },
             { orderBy: { createdAt: QueryOrder.ASC } }
         );
+    }
+
+    createDiffItem(input: ConstructorParameters<typeof OrgSyncDiffItem>[0]): OrgSyncDiffItem {
+        return this.diffItemRepository.create(input);
     }
 
     async saveAll(entities: object[]): Promise<void> {
