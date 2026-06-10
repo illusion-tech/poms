@@ -181,10 +181,23 @@ export class AuthSessionService {
             return;
         }
 
-        session.lastSeenAt = now;
-        session.lastIp = requestInfo.ip ?? session.lastIp;
-        session.idleExpiresAt = minDate(addSeconds(now, lifecycle.idleTimeoutSeconds), session.absoluteExpiresAt);
-        await this.authSessionRepository.saveAll([session]);
+        const touchedSession = await this.authSessionRepository.touchLastSeenIfDue({
+            sessionId: session.id,
+            now,
+            ip: requestInfo.ip,
+            idleTimeoutSeconds: lifecycle.idleTimeoutSeconds,
+            lastSeenThrottleSeconds: lifecycle.lastSeenThrottleSeconds
+        });
+
+        if (!touchedSession) {
+            return;
+        }
+
+        session.lastSeenAt = touchedSession.lastSeenAt;
+        session.lastIp = touchedSession.lastIp;
+        session.idleExpiresAt = touchedSession.idleExpiresAt;
+        session.rowVersion = touchedSession.rowVersion;
+        session.updatedAt = touchedSession.updatedAt;
     }
 
     async #markExpired(session: AuthSession, now: Date): Promise<void> {
