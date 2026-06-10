@@ -591,6 +591,9 @@
 108. 2026-06-08 `FE-65` 已进入 `G1 / Doing`：新增 `fe-65-admin-page-surface-unification-baseline.md`，冻结 Admin 页面级 surface 与共享面板卡片统一范围；本片将销售情报、业务讨论、销售跟进、附件共享面板根容器和客户工作台主业务区块收敛到 `SectionCard` / Poseidon `.card`，同时明确弹窗、内部列表、空状态和评分信息组不作为页面级 surface 处理；不改 API、OpenAPI、generated client、权限、路由或业务行为。
 109. 2026-06-08 `FE-65` 已完成本地 `G3`：共享业务面板根容器与客户工作台主业务区块已统一到 `SectionCard` / Poseidon `.card`；浏览器验收发现并修正 `#title` / `#description` 模板引用变量遮蔽组件输入导致的 `[object Object]` 漂移，四个共享面板 focused specs 已增加标题 / 说明回归断言；focused tests、Admin lint/build、Markdown check、diff check 和浏览器 smoke 均通过；不涉及 API、OpenAPI、generated client、migration、权限或路由变更。
 110. 2026-06-09 `FE-65` 已完成本地 `G4`：runtime commit `c17dcf66` 已提交，build graph follow-up `6317eca0` 已提交；tracker 标记 `Done`，客户工作台主业务区块和共享业务面板根容器的页面级 surface 基线正式收口到 `SectionCard` / Poseidon `.card`；后续页面级卡片不应重新复制手写圆角、阴影和间距，弹窗、内部信息组、列表项和空状态仍按 G1 exclusion 保持局部结构。
+111. 2026-06-10 `FE-66` 已进入 `G1 / Doing`：新增 `fe-66-platform-config-integration-navigation-ia-baseline.md`，冻结平台配置导航 IA 重组边界；本片将平台配置组织为人员与权限、组织架构、集成与连接、业务配置、系统治理，并将既有身份提供商入口重命名为企业协同接入、附件存储 provider 入口重命名为文件存储接入；保留既有 route path、permission key、OpenAPI、generated client、数据库和 OBS / 飞书运行时模型，组织同步运行时、部门映射和多 OA 权威源治理另开后续切片。
+112. 2026-06-10 `FE-66` 已完成本地 `G3 / Ready for Review`：动态导航 SSOT 和 Admin fallback 菜单已按人员与权限、组织架构、集成与连接、业务配置、系统治理重组；路由面包屑、企业协同接入 / 文件存储接入页面标题、导航设计与路由对照表已同步；`AuthStore` 为容器节点补齐菜单 `path` 适配，避免三级菜单展开态不稳定。验证通过 API navigation、Admin route / page / AuthStore focused tests、poms-api / poms-admin / admin-data-access lint、API/Admin build、Markdown format check 和 diff check；尚未提交，暂不标记 `G4 / Done`。
+113. 2026-06-10 `FE-66` 已完成本地 `G4 / Done`：本提交承载平台配置集成与连接导航 IA 重组运行时代码、fallback 菜单、页面命名、focused tests 和治理文档回写；tracker 标记 `Done`。后续组织同步、部门映射、多 OA 权威源、差异预览和同步应用仍需独立 cross-layer 切片冻结后实施，不由 `FE-66` 暗含完成。
 
 ---
 

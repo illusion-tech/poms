@@ -1,7 +1,7 @@
 # POMS 导航菜单详细设计
 
 **文档状态**: Active
-**最后更新**: 2026-03-28
+**最后更新**: 2026-06-10
 **适用范围**: `POMS` 第一阶段平台治理域中的导航菜单模块
 **关联文档**:
 
@@ -75,7 +75,7 @@
 - 后端已存在 `NAVIGATION_TREE` 作为内置导航树
 - 当前 `requiredPermissions` 在后端常量中已按 AND 语义解释
 - `poms-admin` 前端通过 `AuthStore` 将 `NavigationItem[]` 转换为模板 `MenuItem[]`
-- 当前后台左侧菜单信息架构已收敛为“一级 `group`、二级 `basic` 页面入口”，不再把根层叶子节点混用为分组标题
+- 当前后台左侧菜单的业务管理仍以“一级 `group`、二级 `basic` 页面入口”为主；平台配置已因平台能力增多调整为“一级 `group`、二级 `collapsable` / `basic`、三级 `basic` 页面入口”
 - 当前动态菜单转换已覆盖 `title -> label`、`icon -> icon`、`link -> routerLink`、`children -> items`、`divider -> separator`
 - 当前动态菜单尚未完整覆盖父级菜单激活与展开所需的 `path` 语义
 - 平台治理正式入口已收敛到 `/platform/*`；`/profile` 仅承接个人中心语义，历史 `/profile/*` 用户管理模板入口已清理
@@ -83,7 +83,7 @@
 当前缺口判断：
 
 - 导航虽已有真实只读接口，但底层仍是 `NAVIGATION_TREE` 常量树
-- 导航过滤已与真实 `User` / `Role` / `OrgUnit` 关系收敛，`/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/navigation` 均已有真实页面或只读治理入口
+- 导航过滤已与真实 `User` / `Role` / `OrgUnit` 关系收敛，`/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/dictionaries`、`/platform/identity-providers`、`/platform/attachment-storage-providers`、`/platform/system-settings`、`/platform/navigation` 均已有真实页面或只读治理入口
 - `/platform/navigation` 当前仍是只读治理页，第一阶段不再追加运行时导航 CRUD
 - 当前剩余需要收敛的不再是页面落点，而是“受控代码/seed 维护 + 运行时 `audit_log` 写入 + 文档同步 + 构建/smoke”的闭环
 
@@ -173,7 +173,7 @@
 - 可包含 `children`
 - 第一阶段默认不依赖自身 `link` 跳转
 - 若确需同时存在 `link`，必须在 `navigation-route-mapping.md` 中单独注明场景、跳转语义与匹配规则
-- 当前如无真实业务需求，可暂不在平台导航第一批节点中大量使用
+- 平台配置在 `FE-66` 后使用 `collapsable` 承载人员与权限、集成与连接、业务配置、系统治理等中间层分组
 
 ### 6.4 `divider`
 
@@ -242,6 +242,33 @@
 - 不得重新引入以 `/profile/*` 承载平台治理页的历史捷径
 - 若后续再出现旧路径与新路径并行，必须先记录在对照表中再启用导航
 
+### 8.4 平台配置 IA 树
+
+平台配置在 `FE-66` 后按管理员任务组织，而不是继续把所有平台能力平铺在同一层。
+
+```text
+平台配置
+├─ 人员与权限
+│  ├─ 用户管理
+│  └─ 角色与权限
+├─ 组织架构
+├─ 集成与连接
+│  ├─ 企业协同接入
+│  └─ 文件存储接入
+├─ 业务配置
+│  ├─ 业务字典
+│  └─ 系统设置
+└─ 系统治理
+   └─ 导航菜单
+```
+
+说明：
+
+- `人员与权限`、`集成与连接`、`业务配置`、`系统治理` 是信息架构容器，不单独分配真实路由。
+- `企业协同接入` 当前复用既有 `/platform/identity-providers` 路由和 `platform.identity-providers` 导航 key，承接飞书身份认证、账号绑定和用户搜索配置；后续组织同步能力另开切片。
+- `文件存储接入` 当前复用既有 `/platform/attachment-storage-providers` 路由和 `platform.attachment-storage-providers` 导航 key，承接 local / OBS 存储配置；不并入企业协同后端模型。
+- `组织架构` 当前仍是正式组织树维护入口；后续若实现外部组织同步，应在组织架构工作流下表达“同步源、部门映射、差异预览、同步记录”，而不是把组织事实维护塞进连接配置页。
+
 ### 8.5 与补齐计划的衔接
 
 本模块属于 `P1-S09` 的核心范围，并依赖 `P1-S08` 提供真实用户、角色和组织事实源。
@@ -254,22 +281,29 @@
 - `navigation-route-mapping.md` 与真实前端路由保持一致
 - 写侧治理收敛为受控代码/seed 维护，不额外要求运行时导航 CRUD；变更必须附带文档同步、构建 / smoke 校验，并在同步到运行时后写入统一 `audit_log`
 
-### 8.4 第一阶段建议路由对照表
+### 8.6 第一阶段建议路由对照表
 
-| 导航键                | 目标导航链接           | 当前前端现状                                             | 第一阶段处理建议                                           |
-| --------------------- | ---------------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
-| `dashboard`           | `/dashboard`           | 已有真实工作台页，根路径默认重定向到 `/dashboard`        | 保持为正式首页入口                                         |
-| `projects`            | `/projects`            | 已有真实业务页                                           | 可按当前链接正式启用                                       |
-| `contracts`           | `/contracts`           | 已有真实业务页                                           | 可按当前链接正式启用                                       |
-| `platform.users`      | `/platform/users`      | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
-| `platform.roles`      | `/platform/roles`      | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
-| `platform.org-units`  | `/platform/org-units`  | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
-| `platform.navigation` | `/platform/navigation` | 已有只读治理页，可查看完整导航树与路由对齐结果           | 可按当前链接正式启用；写侧治理按受控代码/seed 维护口径执行 |
-| `my_profile`          | `/profile`             | 已有独立个人中心页，直接消费真实 `auth/profile` 聚合输出 | 可保留为当前阶段正式入口                                   |
+| 导航键                                  | 目标导航链接                             | 当前前端现状                                             | 第一阶段处理建议                                           |
+| --------------------------------------- | ---------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
+| `dashboard`                             | `/dashboard`                             | 已有真实工作台页，根路径默认重定向到 `/dashboard`        | 保持为正式首页入口                                         |
+| `customers`                             | `/customers`                             | 已有真实客户管理页                                       | 可按当前链接正式启用                                       |
+| `leads`                                 | `/leads`                                 | 已有真实线索管理页                                       | 可按当前链接正式启用                                       |
+| `projects`                              | `/projects`                              | 已有真实项目管理页                                       | 可按当前链接正式启用                                       |
+| `contracts`                             | `/contracts`                             | 已有真实合同管理页                                       | 可按当前链接正式启用                                       |
+| `attachments`                           | `/attachments`                           | 已有真实附件中心页                                       | 可按当前链接正式启用                                       |
+| `platform.users`                        | `/platform/users`                        | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
+| `platform.roles`                        | `/platform/roles`                        | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
+| `platform.org-units`                    | `/platform/org-units`                    | 已有真实页面、真实 API 与权限守卫                        | 以“组织架构”作为用户可见名称启用                           |
+| `platform.dictionaries`                 | `/platform/dictionaries`                 | 已有真实业务字典页与权限守卫                             | 可按当前链接正式启用                                       |
+| `platform.identity-providers`           | `/platform/identity-providers`           | 已有真实企业协同接入配置页与权限守卫                     | 以“企业协同接入”作为用户可见名称启用                       |
+| `platform.attachment-storage-providers` | `/platform/attachment-storage-providers` | 已有真实文件存储接入配置页与权限守卫                     | 以“文件存储接入”作为用户可见名称启用                       |
+| `platform.system-settings`              | `/platform/system-settings`              | 已有真实系统设置页与权限守卫                             | 可按当前链接正式启用                                       |
+| `platform.navigation`                   | `/platform/navigation`                   | 已有只读治理页，可查看完整导航树与路由对齐结果           | 可按当前链接正式启用；写侧治理按受控代码/seed 维护口径执行 |
+| `my_profile`                            | `/profile`                               | 已有独立个人中心页，直接消费真实 `auth/profile` 聚合输出 | 可保留为当前阶段正式入口                                   |
 
 说明：
 
-- 当前后台左侧菜单已按“一级分组、二级页面入口”收敛；本表只记录真实可跳转的叶子节点，不单独为分组容器分配路由
+- 当前后台左侧菜单允许平台配置使用中间层 `collapsable` 容器；本表只记录真实可跳转的叶子节点，不单独为分组容器分配路由
 - 当前 `/platform/*` 平台治理路由均已具备真实页面承载或只读治理入口，后续导航变更仍需同步维护本对照表
 - 当前 `/profile` 仅承接个人中心语义，不等价于平台治理页的替代入口；旧 `/profile/*` 模板流程不得再作为正式用户管理入口
 

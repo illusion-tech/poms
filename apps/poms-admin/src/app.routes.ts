@@ -281,7 +281,7 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/role-list').then((c) => c.RoleList),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '角色管理',
+                    breadcrumb: '角色与权限',
                     requiredPermissions: ['platform:roles:manage']
                 }
             },
@@ -290,7 +290,7 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/org-unit-list').then((c) => c.OrgUnitList),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '组织管理',
+                    breadcrumb: '组织架构',
                     requiredPermissions: ['platform:org-units:manage']
                 }
             },
@@ -308,7 +308,7 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/identity-provider-list').then((c) => c.IdentityProviderList),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '外部身份提供商',
+                    breadcrumb: '企业协同接入',
                     requiredPermissions: ['platform:identity-providers:manage']
                 }
             },
@@ -317,7 +317,7 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/attachment-storage-provider-list').then((c) => c.AttachmentStorageProviderList),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '附件存储提供商',
+                    breadcrumb: '文件存储接入',
                     requiredPermissions: ['platform:attachment-storage-providers:manage']
                 }
             },
@@ -335,7 +335,7 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/navigation-governance').then((c) => c.NavigationGovernance),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '导航治理',
+                    breadcrumb: '导航菜单',
                     requiredPermissions: ['platform:navigation:manage']
                 }
             }

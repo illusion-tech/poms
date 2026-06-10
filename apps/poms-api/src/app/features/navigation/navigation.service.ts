@@ -58,8 +58,8 @@ export class NavigationService {
 
             if (item.children && item.children.length > 0) {
                 const visibleChildren = this.#filterTree(item.children, userPermissions);
-                // 对 group 类型：如果子项全被过滤掉，则隐藏该组
-                if (item.type === 'group' && visibleChildren.length === 0) continue;
+                // 信息架构容器如果子项全被过滤掉，则隐藏该容器。
+                if ((item.type === 'group' || item.type === 'collapsable') && visibleChildren.length === 0) continue;
                 filteredItem.children = visibleChildren.length > 0 ? visibleChildren : null;
             }
 

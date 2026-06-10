@@ -20,6 +20,7 @@ export interface MenuItem {
     routerLink?: string[];
     url?: string;
     target?: string;
+    path?: string;
     items?: MenuItem[];
     separator?: boolean;
     disabled?: boolean;
@@ -187,6 +188,8 @@ export class AuthStore {
 
             if (item.type === NavigationItemType.Basic && item.link) {
                 menuItem.routerLink = [item.link];
+            } else {
+                menuItem.path = this.#toMenuPath(item);
             }
 
             if (item.children && item.children.length > 0) {
@@ -201,5 +204,13 @@ export class AuthStore {
             result.push(menuItem);
         }
         return result;
+    }
+
+    #toMenuPath(item: NavigationItem): string {
+        const activeMatchPath = item.meta?.['activeMatchPath'];
+        if (typeof activeMatchPath === 'string' && activeMatchPath.length > 0) {
+            return activeMatchPath;
+        }
+        return item.link ?? item.key;
     }
 }

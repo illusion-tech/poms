@@ -191,7 +191,7 @@ export class NavigationGovernance {
             this.#messageService.add({
                 severity: 'error',
                 summary: '加载失败',
-                detail: '未能获取导航治理数据，请检查管理员权限或后端服务状态'
+                detail: '未能获取导航菜单数据，请检查管理员权限或后端服务状态'
             });
         }
     }

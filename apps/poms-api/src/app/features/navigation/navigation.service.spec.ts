@@ -51,48 +51,61 @@ describe('NavigationService', () => {
         const result = service.getNavigationForUser(['platform:users:manage']);
 
         const platform = result.find((item) => item.key === 'platform');
+        const platformKeys = collectKeys(platform?.children ?? []);
         expect(platform).toBeDefined();
-        expect(platform?.children?.some((c) => c.key === 'platform.users')).toBe(true);
+        expect(platform?.children?.some((c) => c.key === 'platform.people-access')).toBe(true);
+        expect(platform?.children?.some((c) => c.key === 'platform.integrations')).toBe(false);
+        expect(platformKeys).toContain('platform.users');
     });
 
     it('shows platform dictionary menu when dictionary manage permission is satisfied', () => {
         const result = service.getNavigationForUser(['platform:dictionaries:manage']);
 
         const platform = result.find((item) => item.key === 'platform');
+        const platformKeys = collectKeys(platform?.children ?? []);
         expect(platform).toBeDefined();
-        expect(platform?.children?.some((c) => c.key === 'platform.dictionaries')).toBe(true);
+        expect(platform?.children?.some((c) => c.key === 'platform.business-config')).toBe(true);
+        expect(platformKeys).toContain('platform.dictionaries');
     });
 
     it('shows platform identity provider menu when identity provider manage permission is satisfied', () => {
         const result = service.getNavigationForUser(['platform:identity-providers:manage']);
 
         const platform = result.find((item) => item.key === 'platform');
+        const platformKeys = collectKeys(platform?.children ?? []);
         expect(platform).toBeDefined();
-        expect(platform?.children?.some((c) => c.key === 'platform.identity-providers')).toBe(true);
+        expect(platform?.children?.some((c) => c.key === 'platform.integrations')).toBe(true);
+        expect(platformKeys).toContain('platform.identity-providers');
     });
 
     it('shows platform attachment storage provider menu when attachment storage provider manage permission is satisfied', () => {
         const result = service.getNavigationForUser(['platform:attachment-storage-providers:manage']);
 
         const platform = result.find((item) => item.key === 'platform');
+        const platformKeys = collectKeys(platform?.children ?? []);
         expect(platform).toBeDefined();
-        expect(platform?.children?.some((c) => c.key === 'platform.attachment-storage-providers')).toBe(true);
+        expect(platform?.children?.some((c) => c.key === 'platform.integrations')).toBe(true);
+        expect(platformKeys).toContain('platform.attachment-storage-providers');
     });
 
     it('shows platform system settings menu when system settings manage permission is satisfied', () => {
         const result = service.getNavigationForUser(['platform:system-settings:manage']);
 
         const platform = result.find((item) => item.key === 'platform');
+        const platformKeys = collectKeys(platform?.children ?? []);
         expect(platform).toBeDefined();
-        expect(platform?.children?.some((c) => c.key === 'platform.system-settings')).toBe(true);
+        expect(platform?.children?.some((c) => c.key === 'platform.business-config')).toBe(true);
+        expect(platformKeys).toContain('platform.system-settings');
     });
 
     it('filters out children whose permissions are not satisfied within a visible group', () => {
         const result = service.getNavigationForUser(['platform:users:manage']);
 
         const platform = result.find((item) => item.key === 'platform');
-        expect(platform?.children?.some((c) => c.key === 'platform.roles')).toBe(false);
-        expect(platform?.children?.some((c) => c.key === 'platform.org-units')).toBe(false);
+        const platformKeys = collectKeys(platform?.children ?? []);
+        expect(platformKeys).not.toContain('platform.roles');
+        expect(platformKeys).not.toContain('platform.org-units');
+        expect(platformKeys).not.toContain('platform.integrations');
     });
 
     it('returns empty array when user has no permissions', () => {
@@ -127,6 +140,10 @@ describe('NavigationService', () => {
         expect(keys).toContain('projects');
         expect(keys).toContain('contracts');
         expect(keys).toContain('platform');
+        expect(keys).toContain('platform.people-access');
+        expect(keys).toContain('platform.integrations');
+        expect(keys).toContain('platform.business-config');
+        expect(keys).toContain('platform.system-governance');
         expect(keys).toContain('platform.dictionaries');
         expect(keys).toContain('platform.identity-providers');
         expect(keys).toContain('platform.attachment-storage-providers');
