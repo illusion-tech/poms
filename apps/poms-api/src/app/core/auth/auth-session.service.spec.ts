@@ -6,6 +6,7 @@ describe('AuthSessionService', () => {
         createSession: jest.Mock;
         findByTokenHash: jest.Mock;
         saveAll: jest.Mock;
+        touchLastSeenIfDue: jest.Mock;
         revokeActiveSessionsForUser: jest.Mock;
     };
     let platformService: {
@@ -18,6 +19,7 @@ describe('AuthSessionService', () => {
             createSession: jest.fn((input) => ({ id: 'session-1', rowVersion: 1, ...input })),
             findByTokenHash: jest.fn(),
             saveAll: jest.fn().mockResolvedValue(undefined),
+            touchLastSeenIfDue: jest.fn().mockResolvedValue(null),
             revokeActiveSessionsForUser: jest.fn().mockResolvedValue(2)
         };
         platformService = {
@@ -63,6 +65,13 @@ describe('AuthSessionService', () => {
             absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
         });
         repository.findByTokenHash.mockResolvedValue(session);
+        repository.touchLastSeenIfDue.mockResolvedValue({
+            lastSeenAt: new Date('2026-05-13T01:10:01.000Z'),
+            lastIp: '10.0.0.2',
+            idleExpiresAt: new Date('2026-05-13T01:25:01.000Z'),
+            rowVersion: 2,
+            updatedAt: new Date('2026-05-13T01:10:01.000Z')
+        });
         platformService.resolveActiveAuthUser.mockResolvedValue({
             userId: session.userId,
             username: 'admin',
@@ -81,6 +90,13 @@ describe('AuthSessionService', () => {
         );
 
         expect(repository.findByTokenHash).toHaveBeenCalledWith(hashToken(token));
+        expect(repository.touchLastSeenIfDue).toHaveBeenCalledWith({
+            sessionId: session.id,
+            now: new Date('2026-05-13T01:10:01.000Z'),
+            ip: '10.0.0.2',
+            idleTimeoutSeconds: 900,
+            lastSeenThrottleSeconds: 60
+        });
         expect(result.user).toEqual({
             sub: session.userId,
             username: 'admin',
@@ -89,7 +105,75 @@ describe('AuthSessionService', () => {
         expect(session.lastSeenAt).toEqual(new Date('2026-05-13T01:10:01.000Z'));
         expect(session.lastIp).toBe('10.0.0.2');
         expect(session.idleExpiresAt).toEqual(new Date('2026-05-13T01:25:01.000Z'));
-        expect(repository.saveAll).toHaveBeenCalledWith([session]);
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('keeps authenticated requests alive when another concurrent request already touched last seen', async () => {
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            lastSeenAt: new Date('2026-05-13T01:00:00.000Z'),
+            idleExpiresAt: new Date('2026-05-13T01:15:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        repository.touchLastSeenIfDue.mockResolvedValue(null);
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+
+        const result = await service.resolveSessionToken(
+            token,
+            { ip: '10.0.0.3', userAgent: 'jest' },
+            {
+                now: new Date('2026-05-13T01:10:01.000Z'),
+                idleTimeoutSeconds: 900,
+                absoluteTimeoutSeconds: 28800,
+                lastSeenThrottleSeconds: 60
+            }
+        );
+
+        expect(result.user.sub).toBe(session.userId);
+        expect(repository.touchLastSeenIfDue).toHaveBeenCalledWith({
+            sessionId: session.id,
+            now: new Date('2026-05-13T01:10:01.000Z'),
+            ip: '10.0.0.3',
+            idleTimeoutSeconds: 900,
+            lastSeenThrottleSeconds: 60
+        });
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('does not touch last seen before the throttle window is due', async () => {
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            lastSeenAt: new Date('2026-05-13T01:09:30.000Z'),
+            idleExpiresAt: new Date('2026-05-13T01:24:30.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+
+        await service.resolveSessionToken(
+            token,
+            { ip: '10.0.0.2', userAgent: 'jest' },
+            {
+                now: new Date('2026-05-13T01:10:01.000Z'),
+                idleTimeoutSeconds: 900,
+                absoluteTimeoutSeconds: 28800,
+                lastSeenThrottleSeconds: 60
+            }
+        );
+
+        expect(repository.touchLastSeenIfDue).not.toHaveBeenCalled();
+        expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
     it('marks an expired active session and throws session_expired', async () => {
