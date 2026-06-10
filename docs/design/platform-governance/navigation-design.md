@@ -252,6 +252,8 @@
 │  ├─ 用户管理
 │  └─ 角色与权限
 ├─ 组织架构
+│  ├─ 组织单元
+│  └─ 外部组织同步
 ├─ 集成与连接
 │  ├─ 企业协同接入
 │  └─ 文件存储接入
@@ -264,10 +266,11 @@
 
 说明：
 
-- `人员与权限`、`集成与连接`、`业务配置`、`系统治理` 是信息架构容器，不单独分配真实路由。
-- `企业协同接入` 当前复用既有 `/platform/identity-providers` 路由和 `platform.identity-providers` 导航 key，承接飞书身份认证、账号绑定和用户搜索配置；后续组织同步能力另开切片。
+- `人员与权限`、`组织架构`、`集成与连接`、`业务配置`、`系统治理` 是信息架构容器，不单独分配真实路由。
+- `企业协同接入` 当前复用既有 `/platform/identity-providers` 路由和 `platform.identity-providers` 导航 key，承接飞书身份认证、账号绑定和用户搜索配置；组织结构同步不放在连接配置页。
 - `文件存储接入` 当前复用既有 `/platform/attachment-storage-providers` 路由和 `platform.attachment-storage-providers` 导航 key，承接 local / OBS 存储配置；不并入企业协同后端模型。
-- `组织架构` 当前仍是正式组织树维护入口；后续若实现外部组织同步，应在组织架构工作流下表达“同步源、部门映射、差异预览、同步记录”，而不是把组织事实维护塞进连接配置页。
+- `组织单元` 当前复用既有 `/platform/org-units` 路由和 `platform.org-units` 导航 key，继续承接 POMS 正式组织树维护。
+- `外部组织同步` 使用 `/platform/external-org-sync` 路由和 `platform.external-org-sync` 导航 key，承接同步源、部门映射、差异预览和应用；provider 连接密钥仍由企业协同接入页维护。
 
 ### 8.5 与补齐计划的衔接
 
@@ -293,7 +296,8 @@
 | `attachments`                           | `/attachments`                           | 已有真实附件中心页                                       | 可按当前链接正式启用                                       |
 | `platform.users`                        | `/platform/users`                        | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
 | `platform.roles`                        | `/platform/roles`                        | 已有真实页面、真实 API 与权限守卫                        | 可按当前链接正式启用                                       |
-| `platform.org-units`                    | `/platform/org-units`                    | 已有真实页面、真实 API 与权限守卫                        | 以“组织架构”作为用户可见名称启用                           |
+| `platform.org-units`                    | `/platform/org-units`                    | 已有真实页面、真实 API 与权限守卫                        | 以“组织单元”作为用户可见名称启用                           |
+| `platform.external-org-sync`            | `/platform/external-org-sync`            | 已有真实工作台，消费外部组织同步 API                     | 以“外部组织同步”作为用户可见名称启用                       |
 | `platform.dictionaries`                 | `/platform/dictionaries`                 | 已有真实业务字典页与权限守卫                             | 可按当前链接正式启用                                       |
 | `platform.identity-providers`           | `/platform/identity-providers`           | 已有真实企业协同接入配置页与权限守卫                     | 以“企业协同接入”作为用户可见名称启用                       |
 | `platform.attachment-storage-providers` | `/platform/attachment-storage-providers` | 已有真实文件存储接入配置页与权限守卫                     | 以“文件存储接入”作为用户可见名称启用                       |

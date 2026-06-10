@@ -73,8 +73,10 @@ export type {
   DictionaryItemSummary,
   EnabledLoginProviderSummary,
   ExternalIdentityBindingSummary,
+  ExternalDepartmentMappingSummary,
   ExternalLoginAuthorizeResult,
   ExternalLoginCallbackResult,
+  ExternalOrgSourceSummary,
   ExternalUserCandidate,
   IdentityProviderConfigSummary,
   IdentityProviderConnectionTestResult,
@@ -93,6 +95,8 @@ export type {
   LeadWorkbenchFacet,
   LeadWorkbenchSummary,
   OpportunityStakeholderSummary,
+  OrgSyncDiffItemSummary,
+  OrgSyncRunSummary,
   OwnerReferenceOrgUnit,
   OwnerReferenceUser,
   PlatformOrgUnitSummary,
@@ -253,6 +257,9 @@ export {
   ExpenseSourceType,
   ExternalIdentityApi,
   ExternalIdentityBindingStatus,
+  ExternalDepartmentMappingStatus,
+  ExternalOrgProvider,
+  ExternalOrgSourceStatus,
   IdentityProvider,
   IdentityProviderApi,
   IdentityProviderConfigStatus,
@@ -287,6 +294,9 @@ export {
   OpportunityStakeholderAttitude,
   OpportunityStakeholderInfluenceLevel,
   OpportunityStakeholderRole,
+  OrgSyncDiffAction,
+  OrgSyncDiffItemStatus,
+  OrgSyncRunStatus,
   PayableRecordStatus,
   PaymentRecordStatus,
   PlatformApi,
@@ -362,6 +372,7 @@ export * from './lib/commission/commission.store';
 export * from './lib/contract/contract.store';
 export * from './lib/customer/customer.store';
 export * from './lib/dictionary/dictionary.store';
+export * from './lib/external-org-sync/external-org-sync.store';
 export * from './lib/identity-provider/identity-provider.store';
 export * from './lib/lead/lead.store';
 export * from './lib/platform/platform.store';

@@ -290,8 +290,18 @@ export const appRoutes: Routes = [
                 loadComponent: () => import('./app/features/platform/org-unit-list').then((c) => c.OrgUnitList),
                 canActivate: [permissionGuard],
                 data: {
-                    breadcrumb: '组织架构',
+                    breadcrumb: '组织单元',
                     requiredPermissions: ['platform:org-units:manage']
+                }
+            },
+            {
+                path: 'platform/external-org-sync',
+                loadComponent: () => import('./app/features/platform/external-org-sync-workbench').then((c) => c.ExternalOrgSyncWorkbench),
+                canActivate: [permissionGuard],
+                data: {
+                    breadcrumb: '外部组织同步',
+                    requiredPermissions: ['platform:org-units:manage', 'platform:org-sync:manage'],
+                    requiredPermissionsMode: 'all'
                 }
             },
             {

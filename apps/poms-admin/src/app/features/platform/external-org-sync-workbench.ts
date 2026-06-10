@@ -1,0 +1,772 @@
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {
+    ExternalDepartmentMappingStatus,
+    ExternalOrgProvider,
+    ExternalOrgSourceStatus,
+    ExternalOrgSyncStore,
+    type ExternalOrgSourceSummary,
+    IdentityProvider,
+    IdentityProviderConfigStatus,
+    IdentityProviderStore,
+    type IdentityProviderConfigSummary,
+    OrgSyncDiffAction,
+    type OrgSyncDiffItemSummary,
+    OrgSyncDiffItemStatus,
+    OrgSyncRunStatus,
+    PlatformStore,
+    type PlatformOrgUnitSummary,
+} from '@poms/admin-data-access';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
+import { AdminTableCard } from '../../shared/ui/admin-table-card';
+
+interface SelectOption<T> {
+    label: string;
+    value: T;
+}
+
+interface ExternalOrgSourceForm {
+    provider: ExternalOrgProvider;
+    externalTenantId: string;
+    displayName: string;
+    status: ExternalOrgSourceStatus;
+    providerConfigId: string | null;
+    authoritativeOrgUnitId: string | null;
+    externalRootDepartmentId: string;
+    syncScopesText: string;
+}
+
+@Component({
+    selector: 'app-external-org-sync-workbench',
+    standalone: true,
+    imports: [CommonModule, FormsModule, ButtonModule, CheckboxModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TextareaModule, ToastModule, TooltipModule, AdminTableCard],
+    providers: [ExternalOrgSyncStore, IdentityProviderStore, MessageService],
+    template: `
+        <p-toast />
+        <div class="flex flex-col gap-5">
+            <section class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                <div>
+                    <h1 class="text-2xl font-semibold text-surface-950 dark:text-surface-0">外部组织同步</h1>
+                    <div class="mt-2 flex flex-wrap items-center gap-2">
+                        <p-tag value="组织架构" severity="secondary" />
+                        <p-tag [value]="'同步源 ' + syncStore.sources().length" severity="info" />
+                        <p-tag [value]="'映射 ' + syncStore.mappings().length" severity="success" />
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <p-button icon="pi pi-refresh" severity="secondary" [text]="true" pTooltip="刷新" tooltipPosition="top" ariaLabel="刷新同步源" [loading]="syncStore.loadingSources()" (onClick)="refresh()" />
+                    <p-button icon="pi pi-plus" label="新建同步源" severity="secondary" (onClick)="openCreateSourceDialog()" />
+                    <p-button
+                        icon="pi pi-play"
+                        label="生成预览"
+                        [disabled]="!canCreatePreview()"
+                        [loading]="syncStore.creatingRun()"
+                        pTooltip="根据当前同步源生成差异预览"
+                        tooltipPosition="top"
+                        (onClick)="createPreviewRun()"
+                    />
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(22rem,28rem)_minmax(0,1fr)]">
+                <app-admin-table-card>
+                    <div adminToolbarStart class="flex items-center gap-2">
+                        <i class="pi pi-database text-primary"></i>
+                        <span class="font-medium text-surface-950 dark:text-surface-0">同步源</span>
+                    </div>
+                    <p-table
+                        [value]="syncStore.sources()"
+                        dataKey="id"
+                        [rowHover]="true"
+                        responsiveLayout="scroll"
+                        [tableStyle]="{ width: '100%', 'min-width': '28rem' }"
+                        [pt]="{ root: { class: 'border-none!' } }"
+                    >
+                        <ng-template #header>
+                            <tr>
+                                <th>名称</th>
+                                <th>状态</th>
+                                <th style="width: 7rem">操作</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-source>
+                            <tr [ngClass]="{ 'bg-primary-50 dark:bg-primary-900': source.id === syncStore.selectedSourceId() }">
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="flex w-full flex-col items-start gap-1 text-left"
+                                        (click)="selectSource(source)"
+                                        [attr.aria-label]="'选择同步源 ' + source.displayName"
+                                    >
+                                        <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.displayName }}</span>
+                                        <span class="text-xs text-surface-500">{{ providerLabel(source.provider) }} · {{ source.externalRootDepartmentId ?? '0' }}</span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <p-tag [value]="sourceStatusLabel(source.status)" [severity]="sourceStatusSeverity(source.status)" />
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="secondary" size="small" pTooltip="编辑" tooltipPosition="top" ariaLabel="编辑同步源" (onClick)="openEditSourceDialog(source)" />
+                                        <p-button
+                                            [icon]="source.status === externalOrgSourceStatus.Active ? 'pi pi-pause' : 'pi pi-check'"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            size="small"
+                                            [severity]="source.status === externalOrgSourceStatus.Active ? 'warn' : 'success'"
+                                            [pTooltip]="source.status === externalOrgSourceStatus.Active ? '暂停' : '启用'"
+                                            tooltipPosition="top"
+                                            [ariaLabel]="source.status === externalOrgSourceStatus.Active ? '暂停同步源' : '启用同步源'"
+                                            (onClick)="toggleSourceStatus(source)"
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #emptymessage>
+                            <tr>
+                                <td colspan="3" class="py-8 text-center text-surface-400">{{ syncStore.loadingSources() ? '加载中...' : '暂无同步源' }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </app-admin-table-card>
+
+                <div class="flex min-w-0 flex-col gap-5">
+                    <section class="card rounded-[8px] border border-surface-200 bg-white p-5 shadow-sm dark:border-surface-800 dark:bg-surface-900">
+                        <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                            <div>
+                                <div class="text-sm font-medium text-surface-500">当前同步源</div>
+                                <div class="mt-1 text-xl font-semibold text-surface-950 dark:text-surface-0">{{ syncStore.selectedSource()?.displayName ?? '未选择' }}</div>
+                            </div>
+                            @if (syncStore.selectedSource(); as source) {
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <p-tag [value]="providerLabel(source.provider)" severity="info" />
+                                    <p-tag [value]="sourceStatusLabel(source.status)" [severity]="sourceStatusSeverity(source.status)" />
+                                    <p-tag [value]="'v' + source.rowVersion" severity="secondary" />
+                                </div>
+                            }
+                        </div>
+                        @if (syncStore.selectedSource(); as source) {
+                            <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                                <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-800">
+                                    <div class="text-xs text-surface-500">租户</div>
+                                    <div class="mt-2 truncate text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.externalTenantId ?? '—' }}</div>
+                                </div>
+                                <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-800">
+                                    <div class="text-xs text-surface-500">根部门</div>
+                                    <div class="mt-2 truncate text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.externalRootDepartmentId ?? '0' }}</div>
+                                </div>
+                                <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-800">
+                                    <div class="text-xs text-surface-500">权威组织</div>
+                                    <div class="mt-2 truncate text-sm font-medium text-surface-950 dark:text-surface-0">{{ orgUnitName(source.authoritativeOrgUnitId) }}</div>
+                                </div>
+                                <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-800">
+                                    <div class="text-xs text-surface-500">范围</div>
+                                    <div class="mt-2 truncate text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.syncScopes.join(', ') || '—' }}</div>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="mt-5 rounded-[8px] border border-dashed border-surface-300 px-4 py-8 text-center text-sm text-surface-500 dark:border-surface-700">请选择或新建同步源</div>
+                        }
+                    </section>
+
+                    <app-admin-table-card>
+                        <div adminToolbarStart class="flex items-center gap-2">
+                            <i class="pi pi-sitemap text-primary"></i>
+                            <span class="font-medium text-surface-950 dark:text-surface-0">飞书部门映射</span>
+                        </div>
+                        <span adminToolbarEnd class="text-sm text-surface-500">共 {{ syncStore.mappings().length }} 条</span>
+                        <p-table
+                            [value]="syncStore.mappings()"
+                            [paginator]="true"
+                            [rows]="8"
+                            dataKey="id"
+                            [rowHover]="true"
+                            responsiveLayout="scroll"
+                            [tableStyle]="{ width: '100%', 'min-width': '58rem' }"
+                            [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                        >
+                            <ng-template #header>
+                                <tr>
+                                    <th>外部部门</th>
+                                    <th>上级外部部门</th>
+                                    <th>POMS 组织</th>
+                                    <th>状态</th>
+                                    <th>最近发现</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template #body let-mapping>
+                                <tr>
+                                    <td>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ mapping.externalDepartmentName }}</span>
+                                            <span class="font-mono text-xs text-surface-400">{{ mapping.externalDepartmentId }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="font-mono text-xs text-surface-500">{{ mapping.externalParentDepartmentId ?? '—' }}</td>
+                                    <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(mapping.orgUnitId) }}</td>
+                                    <td><p-tag [value]="mappingStatusLabel(mapping.status)" [severity]="mappingStatusSeverity(mapping.status)" /></td>
+                                    <td class="text-sm text-surface-500">{{ formatDateTime(mapping.lastSeenAt) }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template #emptymessage>
+                                <tr>
+                                    <td colspan="5" class="py-8 text-center text-surface-400">{{ syncStore.loadingMappings() ? '加载中...' : '暂无部门映射' }}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </app-admin-table-card>
+                </div>
+            </div>
+
+            <app-admin-table-card>
+                <div adminToolbarStart class="flex items-center gap-2">
+                    <i class="pi pi-list-check text-primary"></i>
+                    <span class="font-medium text-surface-950 dark:text-surface-0">同步预览</span>
+                    @if (syncStore.activeRun(); as run) {
+                        <p-tag [value]="runStatusLabel(run.status)" [severity]="runStatusSeverity(run.status)" />
+                    }
+                </div>
+                <div adminToolbarEnd class="flex items-center gap-2">
+                    @if (syncStore.activeRun(); as run) {
+                        <span class="hidden text-sm text-surface-500 md:inline">差异 {{ syncStore.diffItems().length }} 条</span>
+                        <p-button icon="pi pi-check" label="应用选中" [disabled]="!canApplyRun()" [loading]="syncStore.applyingRun()" (onClick)="applySelectedDiffItems(run.id)" />
+                    }
+                </div>
+                <p-table
+                    [value]="syncStore.diffItems()"
+                    [paginator]="true"
+                    [rows]="10"
+                    dataKey="id"
+                    [rowHover]="true"
+                    responsiveLayout="scroll"
+                    [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
+                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                >
+                    <ng-template #header>
+                        <tr>
+                            <th style="width: 4rem">
+                                <p-checkbox [binary]="true" [ngModel]="allSelectableDiffItemsSelected()" (ngModelChange)="toggleAllDiffItems($event)" inputId="selectAllOrgSyncDiffItems" />
+                            </th>
+                            <th>动作</th>
+                            <th>外部部门</th>
+                            <th>目标组织</th>
+                            <th>状态</th>
+                            <th>错误</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-item>
+                        <tr>
+                            <td>
+                                <p-checkbox
+                                    [binary]="true"
+                                    [ngModel]="isDiffItemSelected(item.id)"
+                                    (ngModelChange)="toggleDiffItem(item.id, $event)"
+                                    [disabled]="!isSelectableDiffItem(item)"
+                                    [inputId]="'diffItem' + item.id"
+                                />
+                            </td>
+                            <td><p-tag [value]="diffActionLabel(item.action)" [severity]="diffActionSeverity(item.action)" /></td>
+                            <td>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ candidateName(item) }}</span>
+                                    <span class="font-mono text-xs text-surface-400">{{ item.externalDepartmentId }}</span>
+                                </div>
+                            </td>
+                            <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(item.orgUnitId) }}</td>
+                            <td><p-tag [value]="diffStatusLabel(item.status)" [severity]="diffStatusSeverity(item.status)" /></td>
+                            <td class="max-w-80 truncate text-sm text-surface-500">{{ item.errorMessage ?? '—' }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #emptymessage>
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-surface-400">{{ syncStore.loadingDiffItems() ? '加载中...' : '暂无预览差异' }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </app-admin-table-card>
+
+            <p-dialog [(visible)]="sourceDialogVisible" [modal]="true" [header]="editingSourceId() ? '编辑同步源' : '新建同步源'" [style]="{ width: '34rem' }" styleClass="p-fluid">
+                <div class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
+                    <div class="flex flex-col gap-2">
+                        <label for="externalOrgProvider" class="font-medium">外部平台</label>
+                        <p-select inputId="externalOrgProvider" [(ngModel)]="sourceForm.provider" [options]="providerOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" [disabled]="!!editingSourceId()" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="externalOrgStatus" class="font-medium">状态</label>
+                        <p-select inputId="externalOrgStatus" [(ngModel)]="sourceForm.status" [options]="sourceStatusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label for="externalOrgDisplayName" class="font-medium">名称 *</label>
+                        <input id="externalOrgDisplayName" pInputText [(ngModel)]="sourceForm.displayName" placeholder="如 飞书通讯录" class="w-full" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="externalOrgTenantId" class="font-medium">外部租户</label>
+                        <input id="externalOrgTenantId" pInputText [(ngModel)]="sourceForm.externalTenantId" placeholder="tenant key" class="w-full" [disabled]="!!editingSourceId()" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="externalOrgRootDepartmentId" class="font-medium">根部门</label>
+                        <input id="externalOrgRootDepartmentId" pInputText [(ngModel)]="sourceForm.externalRootDepartmentId" placeholder="0" class="w-full" />
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label for="externalOrgProviderConfig" class="font-medium">接入配置</label>
+                        <p-select
+                            inputId="externalOrgProviderConfig"
+                            [(ngModel)]="sourceForm.providerConfigId"
+                            [options]="providerConfigOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            appendTo="body"
+                            placeholder="选择企业协同接入"
+                            class="w-full rounded-md!"
+                        />
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label for="externalOrgAuthoritativeUnit" class="font-medium">权威组织</label>
+                        <p-select
+                            inputId="externalOrgAuthoritativeUnit"
+                            [(ngModel)]="sourceForm.authoritativeOrgUnitId"
+                            [options]="orgUnitOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            appendTo="body"
+                            placeholder="不限制"
+                            class="w-full rounded-md!"
+                        />
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label for="externalOrgSyncScopes" class="font-medium">同步范围</label>
+                        <textarea id="externalOrgSyncScopes" pTextarea [(ngModel)]="sourceForm.syncScopesText" rows="3" placeholder="每行一个 scope" class="w-full"></textarea>
+                    </div>
+                </div>
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="sourceDialogVisible = false" />
+                        <p-button label="保存" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+        </div>
+    `,
+})
+export class ExternalOrgSyncWorkbench {
+    readonly syncStore = inject(ExternalOrgSyncStore);
+    readonly identityProviderStore = inject(IdentityProviderStore);
+    readonly platformStore = inject(PlatformStore);
+    readonly #messageService = inject(MessageService);
+
+    readonly externalOrgSourceStatus = ExternalOrgSourceStatus;
+    readonly providerOptions: SelectOption<ExternalOrgProvider>[] = [
+        { label: '飞书', value: ExternalOrgProvider.Feishu },
+        { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
+        { label: '企业微信', value: ExternalOrgProvider.Wecom },
+    ];
+    readonly sourceStatusOptions: SelectOption<ExternalOrgSourceStatus>[] = [
+        { label: '草稿', value: ExternalOrgSourceStatus.Draft },
+        { label: '启用', value: ExternalOrgSourceStatus.Active },
+        { label: '暂停', value: ExternalOrgSourceStatus.Paused },
+        { label: '归档', value: ExternalOrgSourceStatus.Archived },
+    ];
+    readonly providerConfigOptions = computed<SelectOption<string | null>[]>(() => [
+        { label: '不绑定', value: null },
+        ...this.identityProviderStore.configs()
+            .filter((config) => this.isCompatibleProviderConfig(config))
+            .map((config) => ({
+                label: `${config.displayName} · ${this.providerConfigStatusLabel(config.status)}`,
+                value: config.id,
+            })),
+    ]);
+    readonly orgUnitOptions = computed<SelectOption<string | null>[]>(() => [
+        { label: '不限制', value: null },
+        ...this.platformStore.orgUnits().map((unit) => ({
+            label: this.indentedOrgUnitLabel(unit),
+            value: unit.id,
+        })),
+    ]);
+
+    sourceDialogVisible = false;
+    readonly editingSourceId = signal<string | null>(null);
+    readonly selectedDiffItemIds = signal<Set<string>>(new Set());
+    sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
+
+    constructor() {
+        void this.refresh();
+        void this.platformStore.loadOrgUnits();
+        void this.identityProviderStore.loadConfigs({ provider: IdentityProvider.Feishu });
+    }
+
+    async refresh(): Promise<void> {
+        try {
+            await this.syncStore.loadSources();
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '加载失败', detail: '同步源加载失败' });
+        }
+    }
+
+    async selectSource(source: ExternalOrgSourceSummary): Promise<void> {
+        await this.syncStore.selectSource(source.id);
+        this.selectedDiffItemIds.set(new Set());
+    }
+
+    openCreateSourceDialog(): void {
+        this.editingSourceId.set(null);
+        this.sourceForm = this.createEmptySourceForm();
+        this.sourceDialogVisible = true;
+    }
+
+    openEditSourceDialog(source: ExternalOrgSourceSummary): void {
+        this.editingSourceId.set(source.id);
+        this.sourceForm = {
+            provider: source.provider,
+            externalTenantId: source.externalTenantId ?? '',
+            displayName: source.displayName,
+            status: source.status,
+            providerConfigId: source.providerConfigId,
+            authoritativeOrgUnitId: source.authoritativeOrgUnitId,
+            externalRootDepartmentId: source.externalRootDepartmentId ?? '0',
+            syncScopesText: source.syncScopes.join('\n'),
+        };
+        this.sourceDialogVisible = true;
+    }
+
+    async saveSource(): Promise<void> {
+        const displayName = this.sourceForm.displayName.trim();
+        if (!displayName) {
+            this.#messageService.add({ severity: 'warn', summary: '请填写名称', detail: '同步源名称不能为空' });
+            return;
+        }
+        const scopes = this.sourceForm.syncScopesText
+            .split(/\r?\n|,/)
+            .map((scope) => scope.trim())
+            .filter(Boolean);
+        const externalRootDepartmentId = this.sourceForm.externalRootDepartmentId.trim() || '0';
+        const editingId = this.editingSourceId();
+        try {
+            if (editingId) {
+                const selected = this.syncStore.sources().find((source) => source.id === editingId);
+                await this.syncStore.updateSource(editingId, {
+                    displayName,
+                    status: this.sourceForm.status,
+                    providerConfigId: this.sourceForm.providerConfigId,
+                    authoritativeOrgUnitId: this.sourceForm.authoritativeOrgUnitId,
+                    externalRootDepartmentId,
+                    syncScopes: scopes,
+                    expectedVersion: selected?.rowVersion,
+                });
+            } else {
+                await this.syncStore.createSource({
+                    provider: this.sourceForm.provider,
+                    externalTenantId: this.sourceForm.externalTenantId.trim() || null,
+                    displayName,
+                    status: this.sourceForm.status,
+                    providerConfigId: this.sourceForm.providerConfigId,
+                    authoritativeOrgUnitId: this.sourceForm.authoritativeOrgUnitId,
+                    externalRootDepartmentId,
+                    syncScopes: scopes,
+                });
+            }
+            this.sourceDialogVisible = false;
+            this.#messageService.add({ severity: 'success', summary: '保存成功', detail: '同步源已保存' });
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '保存失败', detail: '请检查接入配置和版本状态' });
+        }
+    }
+
+    async toggleSourceStatus(source: ExternalOrgSourceSummary): Promise<void> {
+        const nextStatus = source.status === ExternalOrgSourceStatus.Active ? ExternalOrgSourceStatus.Paused : ExternalOrgSourceStatus.Active;
+        try {
+            await this.syncStore.updateSource(source.id, {
+                status: nextStatus,
+                expectedVersion: source.rowVersion,
+            });
+            this.#messageService.add({ severity: 'success', summary: '状态已更新', detail: `同步源已${nextStatus === ExternalOrgSourceStatus.Active ? '启用' : '暂停'}` });
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '状态更新失败', detail: '请刷新后重试' });
+        }
+    }
+
+    canCreatePreview(): boolean {
+        return this.syncStore.selectedSource()?.status === ExternalOrgSourceStatus.Active && !this.syncStore.creatingRun();
+    }
+
+    async createPreviewRun(): Promise<void> {
+        const source = this.syncStore.selectedSource();
+        if (!source || !this.canCreatePreview()) return;
+        try {
+            const run = await this.syncStore.createPreviewRun(source.id, {
+                expectedSourceVersion: source.rowVersion,
+                requestSnapshot: { triggeredFrom: 'poms-admin' },
+            });
+            this.selectedDiffItemIds.set(new Set(this.syncStore.diffItems().filter((item) => this.isSelectableDiffItem(item)).map((item) => item.id)));
+            this.#messageService.add({ severity: 'success', summary: '预览已生成', detail: `发现 ${run.totalItemCount} 条差异` });
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '预览失败', detail: '外部组织拉取或差异生成失败' });
+        }
+    }
+
+    canApplyRun(): boolean {
+        const run = this.syncStore.activeRun();
+        return !!run && run.status === OrgSyncRunStatus.Previewed && this.selectedDiffItemIds().size > 0 && !this.syncStore.applyingRun();
+    }
+
+    async applySelectedDiffItems(runId: string): Promise<void> {
+        const run = this.syncStore.activeRun();
+        if (!run || !this.canApplyRun()) return;
+        const approvedDiffItemIds = Array.from(this.selectedDiffItemIds());
+        const skippedDiffItemIds = this.syncStore
+            .diffItems()
+            .filter((item) => this.isSelectableDiffItem(item) && !this.selectedDiffItemIds().has(item.id))
+            .map((item) => item.id);
+        try {
+            await this.syncStore.applyRun(runId, {
+                expectedVersion: run.rowVersion,
+                approvedDiffItemIds,
+                skippedDiffItemIds,
+            });
+            this.selectedDiffItemIds.set(new Set());
+            this.#messageService.add({ severity: 'success', summary: '应用完成', detail: '组织结构已按选中差异更新' });
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '应用失败', detail: '请检查差异状态和同步运行版本' });
+        }
+    }
+
+    toggleDiffItem(id: string, selected: boolean): void {
+        this.selectedDiffItemIds.update((current) => {
+            const next = new Set(current);
+            if (selected) {
+                next.add(id);
+            } else {
+                next.delete(id);
+            }
+            return next;
+        });
+    }
+
+    toggleAllDiffItems(selected: boolean): void {
+        this.selectedDiffItemIds.set(selected ? new Set(this.syncStore.diffItems().filter((item) => this.isSelectableDiffItem(item)).map((item) => item.id)) : new Set());
+    }
+
+    isDiffItemSelected(id: string): boolean {
+        return this.selectedDiffItemIds().has(id);
+    }
+
+    allSelectableDiffItemsSelected(): boolean {
+        const selectableIds = this.syncStore.diffItems().filter((item) => this.isSelectableDiffItem(item)).map((item) => item.id);
+        return selectableIds.length > 0 && selectableIds.every((id) => this.selectedDiffItemIds().has(id));
+    }
+
+    isSelectableDiffItem(item: OrgSyncDiffItemSummary): boolean {
+        return item.status === OrgSyncDiffItemStatus.Pending && item.action !== OrgSyncDiffAction.Conflict && item.action !== OrgSyncDiffAction.Ignore;
+    }
+
+    providerLabel(provider: ExternalOrgProvider): string {
+        return (
+            {
+                [ExternalOrgProvider.Feishu]: '飞书',
+                [ExternalOrgProvider.Dingtalk]: '钉钉',
+                [ExternalOrgProvider.Wecom]: '企业微信',
+            } satisfies Record<ExternalOrgProvider, string>
+        )[provider];
+    }
+
+    sourceStatusLabel(status: ExternalOrgSourceStatus): string {
+        return (
+            {
+                [ExternalOrgSourceStatus.Draft]: '草稿',
+                [ExternalOrgSourceStatus.Active]: '启用',
+                [ExternalOrgSourceStatus.Paused]: '暂停',
+                [ExternalOrgSourceStatus.Archived]: '归档',
+            } satisfies Record<ExternalOrgSourceStatus, string>
+        )[status];
+    }
+
+    sourceStatusSeverity(status: ExternalOrgSourceStatus): 'success' | 'secondary' | 'warn' | 'danger' {
+        return (
+            {
+                [ExternalOrgSourceStatus.Draft]: 'secondary',
+                [ExternalOrgSourceStatus.Active]: 'success',
+                [ExternalOrgSourceStatus.Paused]: 'warn',
+                [ExternalOrgSourceStatus.Archived]: 'danger',
+            } satisfies Record<ExternalOrgSourceStatus, 'success' | 'secondary' | 'warn' | 'danger'>
+        )[status];
+    }
+
+    mappingStatusLabel(status: ExternalDepartmentMappingStatus): string {
+        return (
+            {
+                [ExternalDepartmentMappingStatus.Unmapped]: '未映射',
+                [ExternalDepartmentMappingStatus.Mapped]: '已映射',
+                [ExternalDepartmentMappingStatus.Conflict]: '冲突',
+                [ExternalDepartmentMappingStatus.Ignored]: '忽略',
+            } satisfies Record<ExternalDepartmentMappingStatus, string>
+        )[status];
+    }
+
+    mappingStatusSeverity(status: ExternalDepartmentMappingStatus): 'success' | 'secondary' | 'warn' | 'danger' {
+        return (
+            {
+                [ExternalDepartmentMappingStatus.Unmapped]: 'warn',
+                [ExternalDepartmentMappingStatus.Mapped]: 'success',
+                [ExternalDepartmentMappingStatus.Conflict]: 'danger',
+                [ExternalDepartmentMappingStatus.Ignored]: 'secondary',
+            } satisfies Record<ExternalDepartmentMappingStatus, 'success' | 'secondary' | 'warn' | 'danger'>
+        )[status];
+    }
+
+    runStatusLabel(status: OrgSyncRunStatus): string {
+        return (
+            {
+                [OrgSyncRunStatus.Previewing]: '预览中',
+                [OrgSyncRunStatus.Previewed]: '待应用',
+                [OrgSyncRunStatus.Applying]: '应用中',
+                [OrgSyncRunStatus.Applied]: '已应用',
+                [OrgSyncRunStatus.Failed]: '失败',
+                [OrgSyncRunStatus.Cancelled]: '已取消',
+            } satisfies Record<OrgSyncRunStatus, string>
+        )[status];
+    }
+
+    runStatusSeverity(status: OrgSyncRunStatus): 'success' | 'secondary' | 'warn' | 'danger' | 'info' {
+        return (
+            {
+                [OrgSyncRunStatus.Previewing]: 'info',
+                [OrgSyncRunStatus.Previewed]: 'warn',
+                [OrgSyncRunStatus.Applying]: 'info',
+                [OrgSyncRunStatus.Applied]: 'success',
+                [OrgSyncRunStatus.Failed]: 'danger',
+                [OrgSyncRunStatus.Cancelled]: 'secondary',
+            } satisfies Record<OrgSyncRunStatus, 'success' | 'secondary' | 'warn' | 'danger' | 'info'>
+        )[status];
+    }
+
+    diffActionLabel(action: OrgSyncDiffAction): string {
+        return (
+            {
+                [OrgSyncDiffAction.CreateOrgUnit]: '新建组织',
+                [OrgSyncDiffAction.UpdateOrgUnit]: '更新组织',
+                [OrgSyncDiffAction.MoveOrgUnit]: '移动组织',
+                [OrgSyncDiffAction.DisableOrgUnit]: '停用组织',
+                [OrgSyncDiffAction.MapExistingOrgUnit]: '映射已有',
+                [OrgSyncDiffAction.Ignore]: '忽略',
+                [OrgSyncDiffAction.Conflict]: '冲突',
+            } satisfies Record<OrgSyncDiffAction, string>
+        )[action];
+    }
+
+    diffActionSeverity(action: OrgSyncDiffAction): 'success' | 'secondary' | 'warn' | 'danger' | 'info' {
+        return (
+            {
+                [OrgSyncDiffAction.CreateOrgUnit]: 'success',
+                [OrgSyncDiffAction.UpdateOrgUnit]: 'info',
+                [OrgSyncDiffAction.MoveOrgUnit]: 'warn',
+                [OrgSyncDiffAction.DisableOrgUnit]: 'danger',
+                [OrgSyncDiffAction.MapExistingOrgUnit]: 'info',
+                [OrgSyncDiffAction.Ignore]: 'secondary',
+                [OrgSyncDiffAction.Conflict]: 'danger',
+            } satisfies Record<OrgSyncDiffAction, 'success' | 'secondary' | 'warn' | 'danger' | 'info'>
+        )[action];
+    }
+
+    diffStatusLabel(status: OrgSyncDiffItemStatus): string {
+        return (
+            {
+                [OrgSyncDiffItemStatus.Pending]: '待处理',
+                [OrgSyncDiffItemStatus.Approved]: '已批准',
+                [OrgSyncDiffItemStatus.Skipped]: '已跳过',
+                [OrgSyncDiffItemStatus.Applied]: '已应用',
+                [OrgSyncDiffItemStatus.Failed]: '失败',
+            } satisfies Record<OrgSyncDiffItemStatus, string>
+        )[status];
+    }
+
+    diffStatusSeverity(status: OrgSyncDiffItemStatus): 'success' | 'secondary' | 'warn' | 'danger' {
+        return (
+            {
+                [OrgSyncDiffItemStatus.Pending]: 'warn',
+                [OrgSyncDiffItemStatus.Approved]: 'secondary',
+                [OrgSyncDiffItemStatus.Skipped]: 'secondary',
+                [OrgSyncDiffItemStatus.Applied]: 'success',
+                [OrgSyncDiffItemStatus.Failed]: 'danger',
+            } satisfies Record<OrgSyncDiffItemStatus, 'success' | 'secondary' | 'warn' | 'danger'>
+        )[status];
+    }
+
+    orgUnitName(orgUnitId: string | null): string {
+        if (!orgUnitId) return '—';
+        return this.platformStore.orgUnits().find((unit) => unit.id === orgUnitId)?.name ?? '—';
+    }
+
+    candidateName(item: OrgSyncDiffItemSummary): string {
+        const snapshot = item.candidateSnapshot ?? {};
+        const name = snapshot['name'] ?? snapshot['externalDepartmentName'] ?? snapshot['departmentName'];
+        return typeof name === 'string' && name.trim() ? name : '—';
+    }
+
+    formatDateTime(value: string | null): string {
+        if (!value) return '—';
+        return new Intl.DateTimeFormat('zh-CN', {
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        }).format(new Date(value));
+    }
+
+    private createEmptySourceForm(): ExternalOrgSourceForm {
+        return {
+            provider: ExternalOrgProvider.Feishu,
+            externalTenantId: '',
+            displayName: '',
+            status: ExternalOrgSourceStatus.Draft,
+            providerConfigId: null,
+            authoritativeOrgUnitId: null,
+            externalRootDepartmentId: '0',
+            syncScopesText: 'contact:department.base:readonly',
+        };
+    }
+
+    private isCompatibleProviderConfig(config: IdentityProviderConfigSummary): boolean {
+        return config.provider === IdentityProvider.Feishu;
+    }
+
+    private providerConfigStatusLabel(status: IdentityProviderConfigStatus): string {
+        return (
+            {
+                [IdentityProviderConfigStatus.Draft]: '草稿',
+                [IdentityProviderConfigStatus.Active]: '启用',
+                [IdentityProviderConfigStatus.Disabled]: '停用',
+                [IdentityProviderConfigStatus.Misconfigured]: '配置异常',
+            } satisfies Record<IdentityProviderConfigStatus, string>
+        )[status];
+    }
+
+    private indentedOrgUnitLabel(unit: PlatformOrgUnitSummary): string {
+        const depth = this.orgUnitDepth(unit);
+        return `${'· '.repeat(depth)}${unit.name}`;
+    }
+
+    private orgUnitDepth(unit: PlatformOrgUnitSummary): number {
+        let depth = 0;
+        let parentId = unit.parentId;
+        const seen = new Set<string>();
+        while (parentId && !seen.has(parentId)) {
+            seen.add(parentId);
+            const parent = this.platformStore.orgUnits().find((candidate) => candidate.id === parentId);
+            if (!parent) break;
+            depth += 1;
+            parentId = parent.parentId;
+        }
+        return depth;
+    }
+}
