@@ -306,7 +306,7 @@ test.describe('poms-admin frontend permission and sensitive visibility matrix', 
         await expect(page.getByRole('link', { name: '项目管理' })).toBeVisible();
         await expect(page.getByRole('link', { name: '合同管理' })).toBeVisible();
         await expect(page.getByRole('link', { name: '线索管理' })).toHaveCount(0);
-        await expect(page.getByRole('link', { name: /用户管理|角色与权限|组织单元|导航菜单/ })).toHaveCount(0);
+        await expect(page.getByRole('link', { name: /用户管理|角色与权限|组织架构|导航菜单/ })).toHaveCount(0);
     });
 
     test('admin can see contract finance fields from the contract menu entrance', async ({ page }) => {

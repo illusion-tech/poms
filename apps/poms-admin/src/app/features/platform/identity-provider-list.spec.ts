@@ -125,7 +125,7 @@ describe('IdentityProviderList', () => {
             provider: undefined,
             status: undefined
         });
-        expect(text).toContain('外部身份提供商');
+        expect(text).toContain('企业协同接入');
         expect(text).toContain('飞书生产租户');
         expect(text).toContain('secret 已配置');
         expect(text).toContain('飞书测试租户');

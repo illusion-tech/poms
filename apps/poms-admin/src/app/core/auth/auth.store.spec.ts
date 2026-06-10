@@ -242,6 +242,69 @@ describe('AuthStore', () => {
         expect(authApiMock.authControllerListEnabledLoginProviders).toHaveBeenCalledWith();
     });
 
+    it('maps navigation containers to menu paths for nested platform groups', () => {
+        const navigationTree = [
+            {
+                id: 'nav-platform',
+                key: 'platform',
+                type: 'group',
+                title: '平台配置',
+                subtitle: null,
+                link: null,
+                icon: 'pi pi-cog',
+                displayOrder: 200,
+                isHidden: false,
+                isDisabled: false,
+                requiredPermissions: null,
+                meta: null,
+                children: [
+                    {
+                        id: 'nav-platform-integrations',
+                        key: 'platform.integrations',
+                        type: 'collapsable',
+                        title: '集成与连接',
+                        subtitle: null,
+                        link: null,
+                        icon: 'pi pi-link',
+                        displayOrder: 20,
+                        isHidden: false,
+                        isDisabled: false,
+                        requiredPermissions: null,
+                        meta: null,
+                        children: [
+                            {
+                                id: 'nav-platform-identity-providers',
+                                key: 'platform.identity-providers',
+                                type: 'basic',
+                                title: '企业协同接入',
+                                subtitle: null,
+                                link: '/platform/identity-providers',
+                                icon: 'pi pi-id-card',
+                                displayOrder: 0,
+                                isHidden: false,
+                                isDisabled: false,
+                                requiredPermissions: null,
+                                meta: null,
+                                children: null
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        store.navigationTree.set(navigationTree as unknown as Parameters<typeof store.navigationTree.set>[0]);
+
+        const platform = store.menuModel().find((item) => item.label === '平台配置');
+        const integrations = platform?.items?.find((item) => item.label === '集成与连接');
+        const enterpriseCollaboration = integrations?.items?.find((item) => item.label === '企业协同接入');
+
+        expect(platform?.path).toBe('platform');
+        expect(integrations?.path).toBe('platform.integrations');
+        expect(enterpriseCollaboration?.routerLink).toEqual(['/platform/identity-providers']);
+        expect(enterpriseCollaboration?.path).toBeUndefined();
+    });
+
     it('starts external login authorization for the selected provider config', async () => {
         authApiMock.authControllerAuthorizeExternalLogin.mockReturnValue(
             of({

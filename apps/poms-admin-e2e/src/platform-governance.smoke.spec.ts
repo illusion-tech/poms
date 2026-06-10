@@ -147,21 +147,23 @@ test.describe('poms-admin platform governance smoke', () => {
         await page.getByRole('link', { name: '合同管理' }).click();
         await expect(page).toHaveURL(/\/contracts$/);
 
+        await page.getByRole('link', { name: '人员与权限' }).click();
         await page.getByRole('link', { name: '用户管理' }).click();
         await expect(page).toHaveURL(/\/platform\/users$/);
         await expect(page.getByRole('heading', { name: '用户管理' })).toBeVisible();
 
         await page.getByRole('link', { name: '角色与权限' }).click();
         await expect(page).toHaveURL(/\/platform\/roles$/);
-        await expect(page.getByRole('heading', { name: '角色管理' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '角色与权限' })).toBeVisible();
 
-        await page.getByRole('link', { name: '组织单元' }).click();
+        await page.getByRole('link', { name: '组织架构' }).click();
         await expect(page).toHaveURL(/\/platform\/org-units$/);
-        await expect(page.getByRole('heading', { name: '组织管理' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '组织架构' })).toBeVisible();
 
+        await page.getByRole('link', { name: '系统治理' }).click();
         await page.getByRole('link', { name: '导航菜单' }).click();
         await expect(page).toHaveURL(/\/platform\/navigation$/);
-        await expect(page.getByRole('heading', { name: '导航治理' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '导航菜单' })).toBeVisible();
         await page.getByRole('button', { name: '记录同步审计' }).click();
         await expect(page.getByText('已记录同步审计')).toBeVisible();
 
@@ -238,8 +240,8 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page).toHaveURL(/\/dashboard$/);
 
         await expect(page.getByRole('link', { name: '用户管理' })).toHaveCount(0);
-        await expect(page.getByRole('link', { name: '角色管理' })).toHaveCount(0);
-        await expect(page.getByRole('link', { name: '组织管理' })).toHaveCount(0);
+        await expect(page.getByRole('link', { name: '角色与权限' })).toHaveCount(0);
+        await expect(page.getByRole('link', { name: '组织架构' })).toHaveCount(0);
         await expect(page.getByRole('link', { name: '导航菜单' })).toHaveCount(0);
     });
 

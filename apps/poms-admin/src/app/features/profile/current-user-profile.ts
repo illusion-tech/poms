@@ -348,7 +348,7 @@ export class CurrentUserProfile {
             },
             {
                 label: '平台治理',
-                description: '进入用户、角色、组织和导航治理页面。',
+                description: '进入用户、角色、组织和导航菜单页面。',
                 enabled:
                     permissions.has('platform:users:manage') ||
                     permissions.has('platform:roles:manage') ||

@@ -79,7 +79,7 @@ describe('appRoutes project permissions', () => {
         const route = getAppRoute('platform/identity-providers');
 
         expect(route.canActivate).toContain(permissionGuard);
-        expect(route.data?.['breadcrumb']).toBe('外部身份提供商');
+        expect(route.data?.['breadcrumb']).toBe('企业协同接入');
         expect(route.data?.['requiredPermissions']).toEqual(['platform:identity-providers:manage']);
     });
 
@@ -87,7 +87,7 @@ describe('appRoutes project permissions', () => {
         const route = getAppRoute('platform/attachment-storage-providers');
 
         expect(route.canActivate).toContain(permissionGuard);
-        expect(route.data?.['breadcrumb']).toBe('附件存储提供商');
+        expect(route.data?.['breadcrumb']).toBe('文件存储接入');
         expect(route.data?.['requiredPermissions']).toEqual(['platform:attachment-storage-providers:manage']);
     });
 

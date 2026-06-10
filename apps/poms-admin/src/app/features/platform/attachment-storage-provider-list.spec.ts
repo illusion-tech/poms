@@ -119,7 +119,7 @@ describe('AttachmentStorageProviderList', () => {
         const text = fixture.nativeElement.textContent;
 
         expect(storeMock.loadConfigs).toHaveBeenCalledWith();
-        expect(text).toContain('附件存储提供商');
+        expect(text).toContain('文件存储接入');
         expect(text).toContain('本地附件存储');
         expect(text).toContain('华为云 OBS 生产');
         expect(text).toContain('无需 AK/SK');

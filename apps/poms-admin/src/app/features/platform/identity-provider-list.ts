@@ -192,7 +192,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                 <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-surface-500 dark:text-surface-400">平台配置</p>
-                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">外部身份提供商</h1>
+                        <h1 class="mt-1 text-2xl font-semibold leading-8 text-surface-950 dark:text-surface-0">企业协同接入</h1>
                     </div>
                 </div>
 
@@ -250,7 +250,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                 </div>
 
                 @if (store.loading()) {
-                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取外部身份提供商配置</div>
+                    <div class="rounded-[8px] border border-surface-200 bg-surface-0 px-6 py-12 text-center text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:text-surface-400">正在读取企业协同接入配置</div>
                 } @else if (providerCards().length === 0) {
                     <div class="rounded-[8px] border border-dashed border-surface-300 bg-surface-0 px-6 py-12 text-center dark:border-surface-700 dark:bg-surface-900">
                         <p class="text-base font-medium text-surface-900 dark:text-surface-0">没有符合筛选条件的提供商配置</p>

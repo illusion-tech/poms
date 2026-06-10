@@ -36,6 +36,7 @@ export class AppMenu {
         {
             label: '总览',
             icon: 'pi pi-th-large',
+            path: 'overview',
             items: [
                 {
                     label: '工作台',
@@ -48,6 +49,7 @@ export class AppMenu {
         {
             label: '业务管理',
             icon: 'pi pi-briefcase',
+            path: 'business',
             items: [
                 {
                     label: '线索管理',
@@ -75,46 +77,75 @@ export class AppMenu {
         {
             label: '平台配置',
             icon: 'pi pi-cog',
+            path: 'platform',
             items: [
                 {
-                    label: '用户管理',
+                    label: '人员与权限',
                     icon: 'pi pi-users',
-                    routerLink: ['/platform/users']
+                    path: 'platform/people-access',
+                    items: [
+                        {
+                            label: '用户管理',
+                            icon: 'pi pi-users',
+                            routerLink: ['/platform/users']
+                        },
+                        {
+                            label: '角色与权限',
+                            icon: 'pi pi-shield',
+                            routerLink: ['/platform/roles']
+                        }
+                    ]
                 },
                 {
-                    label: '角色管理',
-                    icon: 'pi pi-shield',
-                    routerLink: ['/platform/roles']
-                },
-                {
-                    label: '组织管理',
-                    icon: 'pi pi-building',
+                    label: '组织架构',
+                    icon: 'pi pi-sitemap',
                     routerLink: ['/platform/org-units']
                 },
                 {
-                    label: '业务字典',
-                    icon: 'pi pi-book',
-                    routerLink: ['/platform/dictionaries']
+                    label: '集成与连接',
+                    icon: 'pi pi-link',
+                    path: 'platform/integrations',
+                    items: [
+                        {
+                            label: '企业协同接入',
+                            icon: 'pi pi-id-card',
+                            routerLink: ['/platform/identity-providers']
+                        },
+                        {
+                            label: '文件存储接入',
+                            icon: 'pi pi-cloud',
+                            routerLink: ['/platform/attachment-storage-providers']
+                        }
+                    ]
                 },
                 {
-                    label: '外部身份提供商',
-                    icon: 'pi pi-id-card',
-                    routerLink: ['/platform/identity-providers']
-                },
-                {
-                    label: '附件存储提供商',
-                    icon: 'pi pi-cloud',
-                    routerLink: ['/platform/attachment-storage-providers']
-                },
-                {
-                    label: '系统设置',
+                    label: '业务配置',
                     icon: 'pi pi-sliders-h',
-                    routerLink: ['/platform/system-settings']
+                    path: 'platform/business-config',
+                    items: [
+                        {
+                            label: '业务字典',
+                            icon: 'pi pi-book',
+                            routerLink: ['/platform/dictionaries']
+                        },
+                        {
+                            label: '系统设置',
+                            icon: 'pi pi-sliders-h',
+                            routerLink: ['/platform/system-settings']
+                        }
+                    ]
                 },
                 {
-                    label: '导航菜单',
-                    icon: 'pi pi-bars',
-                    routerLink: ['/platform/navigation']
+                    label: '系统治理',
+                    icon: 'pi pi-cog',
+                    path: 'platform/system-governance',
+                    items: [
+                        {
+                            label: '导航菜单',
+                            icon: 'pi pi-bars',
+                            routerLink: ['/platform/navigation']
+                        }
+                    ]
                 }
             ]
         },
@@ -122,6 +153,7 @@ export class AppMenu {
         {
             label: '个人设置',
             icon: 'pi pi-user',
+            path: 'account',
             items: [
                 {
                     label: '个人中心',
