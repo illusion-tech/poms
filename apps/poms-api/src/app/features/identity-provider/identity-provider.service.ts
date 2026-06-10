@@ -29,7 +29,7 @@ import {
     type UpdateIdentityProviderConfigRequest
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
-import { SecretCipherService, type SecretCipherOptions } from '../../core/secret/secret-cipher.service';
+import { SecretCipherService } from '../../core/secret/secret-cipher.service';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterError, type ProviderOAuthTokenSet } from './identity-provider.adapter';
@@ -37,12 +37,7 @@ import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.reg
 import { IdentityProviderConfig } from './identity-provider-config.entity';
 import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.entity';
 import { IdentityProviderRepository } from './identity-provider.repository';
-
-const IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS: SecretCipherOptions = {
-    envKeys: ['IDENTITY_PROVIDER_SECRET_KEY', 'JWT_SECRET'],
-    defaultValue: 'poms-dev-secret-change-in-production',
-    unreadableMessage: 'Identity provider secret is not readable.'
-};
+import { IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS } from './identity-provider-secret.constants';
 
 @Injectable()
 export class IdentityProviderService {

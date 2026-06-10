@@ -1,17 +1,26 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { ExternalDepartmentMappingStatusValue, ExternalOrgProviderValue, ExternalOrgSourceStatusValue, OrgSyncRunStatusValue } from '@poms/shared-contracts';
+import { ExternalDepartmentMappingStatusValue, ExternalOrgProviderValue, ExternalOrgSourceStatusValue, OrgSyncDiffActionValue, OrgSyncDiffItemStatusValue, OrgSyncRunStatusValue } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+import { SecretCipherService } from '../../core/secret/secret-cipher.service';
+import { IdentityProviderConfig } from '../identity-provider/identity-provider-config.entity';
+import { IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS } from '../identity-provider/identity-provider-secret.constants';
+import { OrgUnit } from '../platform/org-unit.entity';
 import { ExternalDepartmentMapping } from './external-department-mapping.entity';
+import { ExternalOrgDirectoryAdapterRegistry } from './external-org-directory-adapter.registry';
 import { ExternalOrgSource } from './external-org-source.entity';
 import { ExternalOrgSyncRepository } from './external-org-sync.repository';
 import { ExternalOrgSyncService } from './external-org-sync.service';
+import { OrgSyncDiffItem } from './org-sync-diff-item.entity';
 import { OrgSyncRun } from './org-sync-run.entity';
 
 describe('ExternalOrgSyncService', () => {
     const operatorId = '00000000-0000-4000-8000-000000000001';
     const sourceId = '97000000-0000-4000-8000-000000000001';
+    const providerConfigId = '97000000-0000-4000-8000-000000000031';
+    const rootOrgUnitId = '97000000-0000-4000-8000-000000000020';
     const orgUnitId = '97000000-0000-4000-8000-000000000021';
     const runId = '97000000-0000-4000-8000-000000000011';
+    const diffItemId = '97000000-0000-4000-8000-000000000201';
     let repository: {
         findSources: jest.Mock;
         findSourceById: jest.Mock;
@@ -20,6 +29,8 @@ describe('ExternalOrgSyncService', () => {
         findProviderConfigById: jest.Mock;
         findOrgUnitById: jest.Mock;
         findOrgUnitsByIds: jest.Mock;
+        findAllOrgUnits: jest.Mock;
+        createOrgUnit: jest.Mock;
         findMappings: jest.Mock;
         findMappingsBySourceId: jest.Mock;
         createMapping: jest.Mock;
@@ -27,11 +38,19 @@ describe('ExternalOrgSyncService', () => {
         createRun: jest.Mock;
         findRunById: jest.Mock;
         findDiffItems: jest.Mock;
+        createDiffItem: jest.Mock;
         saveAll: jest.Mock;
+    };
+    let adapterRegistry: {
+        get: jest.Mock;
+    };
+    let feishuAdapter: {
+        fetchDepartmentTree: jest.Mock;
     };
     let runtimeAuditService: {
         recordAuditLog: jest.Mock;
     };
+    let secretCipherService: SecretCipherService;
     let service: ExternalOrgSyncService;
 
     beforeEach(() => {
@@ -43,6 +62,8 @@ describe('ExternalOrgSyncService', () => {
             findProviderConfigById: jest.fn(),
             findOrgUnitById: jest.fn(),
             findOrgUnitsByIds: jest.fn(),
+            findAllOrgUnits: jest.fn(),
+            createOrgUnit: jest.fn((input) => createOrgUnit(input)),
             findMappings: jest.fn(),
             findMappingsBySourceId: jest.fn(),
             createMapping: jest.fn((input) => createMapping(input)),
@@ -50,12 +71,20 @@ describe('ExternalOrgSyncService', () => {
             createRun: jest.fn((input) => createRun(input)),
             findRunById: jest.fn(),
             findDiffItems: jest.fn(),
+            createDiffItem: jest.fn((input) => createDiffItem(input)),
             saveAll: jest.fn().mockResolvedValue(undefined)
+        };
+        feishuAdapter = {
+            fetchDepartmentTree: jest.fn()
+        };
+        adapterRegistry = {
+            get: jest.fn().mockReturnValue(feishuAdapter)
         };
         runtimeAuditService = {
             recordAuditLog: jest.fn().mockResolvedValue(undefined)
         };
-        service = new ExternalOrgSyncService(repository as never as ExternalOrgSyncRepository, runtimeAuditService as never as RuntimeAuditService);
+        secretCipherService = new SecretCipherService();
+        service = new ExternalOrgSyncService(repository as never as ExternalOrgSyncRepository, runtimeAuditService as never as RuntimeAuditService, adapterRegistry as never as ExternalOrgDirectoryAdapterRegistry, secretCipherService);
     });
 
     it('creates an active source with external root department and records audit', async () => {
@@ -171,45 +200,101 @@ describe('ExternalOrgSyncService', () => {
         expect(repository.replaceMappings).not.toHaveBeenCalled();
     });
 
-    it('creates an empty preview run shell for active sources', async () => {
-        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, externalRootDepartmentId: '0' }));
+    it('creates a preview run with Feishu department snapshots and create diff items', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
+        repository.findMappingsBySourceId.mockResolvedValue([]);
+        repository.findAllOrgUnits.mockResolvedValue([createOrgUnit({ id: rootOrgUnitId, name: '总部', code: 'HQ' })]);
+        feishuAdapter.fetchDepartmentTree.mockResolvedValue([
+            {
+                externalDepartmentId: 'od-sales',
+                externalParentDepartmentId: '0',
+                externalDepartmentName: '销售部',
+                isActive: true,
+                displayOrder: 7,
+                raw: { open_department_id: 'od-sales', name: '销售部' }
+            }
+        ]);
 
         const result = await service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3, requestSnapshot: { requestedByUi: true } }, operatorId);
 
-        expect(repository.createRun).toHaveBeenCalledWith(
+        expect(adapterRegistry.get).toHaveBeenCalledWith(ExternalOrgProviderValue.Feishu);
+        expect(feishuAdapter.fetchDepartmentTree).toHaveBeenCalledWith(
             expect.objectContaining({
-                sourceId,
-                status: OrgSyncRunStatusValue.Previewed,
-                requestedBy: operatorId,
-                totalItemCount: 0,
-                requestSnapshot: expect.objectContaining({
-                    requestedByUi: true,
-                    adapterStatus: 'pending_ex72d'
+                source: expect.objectContaining({ id: sourceId }),
+                providerConfig: expect.objectContaining({ id: providerConfigId }),
+                clientSecret: 'client-secret'
+            })
+        );
+        expect(repository.createDiffItem).toHaveBeenCalledWith(
+            expect.objectContaining({
+                runId,
+                externalDepartmentId: 'od-sales',
+                action: OrgSyncDiffActionValue.CreateOrgUnit,
+                status: OrgSyncDiffItemStatusValue.Pending,
+                candidateSnapshot: expect.objectContaining({
+                    targetName: '销售部',
+                    targetParentOrgUnitId: rootOrgUnitId
                 })
             })
         );
         expect(result).toMatchObject({
             id: runId,
             status: OrgSyncRunStatusValue.Previewed,
-            totalItemCount: 0
+            totalItemCount: 1
         });
     });
 
-    it('rejects apply while the adapter-backed workflow is still in EX-72D', async () => {
-        repository.findRunById.mockResolvedValue(createRun({ status: OrgSyncRunStatusValue.Previewed, rowVersion: 1 }));
+    it('applies approved create diff items and maps the external department to the new org unit', async () => {
+        const run = createRun({ status: OrgSyncRunStatusValue.Previewed, rowVersion: 1, totalItemCount: 1 });
+        const mapping = createMapping({ externalDepartmentId: 'od-sales', externalDepartmentName: '销售部' });
+        const diffItem = createDiffItem({
+            externalDepartmentId: 'od-sales',
+            action: OrgSyncDiffActionValue.CreateOrgUnit,
+            status: OrgSyncDiffItemStatusValue.Pending,
+            candidateSnapshot: {
+                externalDepartmentId: 'od-sales',
+                externalParentDepartmentId: '0',
+                externalDepartmentName: '销售部',
+                targetName: '销售部',
+                targetCode: 'EXT-FS-OD-SALES-12345678',
+                targetParentOrgUnitId: rootOrgUnitId,
+                targetParentExternalDepartmentId: null,
+                displayOrder: 7,
+                externalSnapshot: { open_department_id: 'od-sales' }
+            }
+        });
+        repository.findRunById.mockResolvedValue(run);
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
+        repository.findMappingsBySourceId.mockResolvedValue([mapping]);
+        repository.findAllOrgUnits.mockResolvedValue([createOrgUnit({ id: rootOrgUnitId, name: '总部', code: 'HQ' })]);
+        repository.findDiffItems.mockResolvedValue([diffItem]);
 
-        await expect(service.applyOrgSyncRun(runId, { expectedVersion: 1 }, operatorId)).rejects.toThrow(ConflictException);
+        const result = await service.applyOrgSyncRun(runId, { expectedVersion: 1, approvedDiffItemIds: [diffItemId] }, operatorId);
 
-        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+        expect(repository.createOrgUnit).toHaveBeenCalledWith(
             expect.objectContaining({
-                eventType: 'org-sync-run.apply.rejected',
-                targetType: 'OrgSyncRun',
-                targetId: runId,
-                operatorId,
-                result: 'rejected',
-                reason: 'apply-workflow-pending-ex72d'
+                name: '销售部',
+                code: 'EXT-FS-OD-SALES-12345678',
+                parentId: rootOrgUnitId,
+                displayOrder: 7,
+                createdBy: operatorId,
+                updatedBy: operatorId
             })
         );
+        expect(mapping).toMatchObject({
+            orgUnitId,
+            status: ExternalDepartmentMappingStatusValue.Mapped
+        });
+        expect(diffItem).toMatchObject({
+            status: OrgSyncDiffItemStatusValue.Applied,
+            orgUnitId
+        });
+        expect(result).toMatchObject({
+            status: OrgSyncRunStatusValue.Applied,
+            approvedItemCount: 1,
+            failedItemCount: 0
+        });
     });
 
     function createSource(overrides: Partial<ExternalOrgSource> = {}): ExternalOrgSource {
@@ -232,6 +317,53 @@ describe('ExternalOrgSyncService', () => {
         } as ExternalOrgSource;
     }
 
+    function createProviderConfig(overrides: Partial<IdentityProviderConfig> = {}): IdentityProviderConfig {
+        return {
+            id: providerConfigId,
+            provider: ExternalOrgProviderValue.Feishu,
+            tenantId: null,
+            displayName: '飞书',
+            status: 'active',
+            enabled: true,
+            loginEnabled: true,
+            bindingEnabled: true,
+            searchEnabled: true,
+            clientId: 'cli_a',
+            encryptedClientSecret: secretCipherService.encrypt('client-secret', IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS),
+            secretUpdatedAt: new Date('2026-06-10T00:00:00.000Z'),
+            redirectUri: null,
+            searchRedirectUri: null,
+            loginScopes: [],
+            searchScopes: [],
+            tenantAllowlist: [],
+            searchGrantMode: 'per-admin',
+            rowVersion: 1,
+            createdAt: new Date('2026-06-10T00:00:00.000Z'),
+            createdBy: operatorId,
+            updatedAt: new Date('2026-06-10T00:00:00.000Z'),
+            updatedBy: operatorId,
+            ...overrides
+        } as IdentityProviderConfig;
+    }
+
+    function createOrgUnit(overrides: Partial<OrgUnit> = {}): OrgUnit {
+        return {
+            id: orgUnitId,
+            name: '销售部',
+            code: 'SALES',
+            description: null,
+            parentId: null,
+            isActive: true,
+            displayOrder: 0,
+            rowVersion: 1,
+            createdAt: new Date('2026-06-10T00:00:00.000Z'),
+            createdBy: operatorId,
+            updatedAt: new Date('2026-06-10T00:00:00.000Z'),
+            updatedBy: operatorId,
+            ...overrides
+        } as OrgUnit;
+    }
+
     function createMapping(overrides: Partial<ExternalDepartmentMapping> = {}): ExternalDepartmentMapping {
         return {
             id: '97000000-0000-4000-8000-000000000102',
@@ -250,6 +382,27 @@ describe('ExternalOrgSyncService', () => {
             updatedBy: operatorId,
             ...overrides
         } as ExternalDepartmentMapping;
+    }
+
+    function createDiffItem(overrides: Partial<OrgSyncDiffItem> = {}): OrgSyncDiffItem {
+        return {
+            id: diffItemId,
+            runId,
+            externalDepartmentId: 'od-sales',
+            action: OrgSyncDiffActionValue.CreateOrgUnit,
+            status: OrgSyncDiffItemStatusValue.Pending,
+            orgUnitId: null,
+            beforeSnapshot: null,
+            candidateSnapshot: {},
+            errorMessage: null,
+            appliedAt: null,
+            rowVersion: 1,
+            createdAt: new Date('2026-06-10T00:00:00.000Z'),
+            createdBy: operatorId,
+            updatedAt: new Date('2026-06-10T00:00:00.000Z'),
+            updatedBy: operatorId,
+            ...overrides
+        } as OrgSyncDiffItem;
     }
 
     function createRun(overrides: Partial<OrgSyncRun> = {}): OrgSyncRun {
