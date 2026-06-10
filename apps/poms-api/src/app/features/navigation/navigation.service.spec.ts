@@ -78,6 +78,26 @@ describe('NavigationService', () => {
         expect(platformKeys).toContain('platform.identity-providers');
     });
 
+    it('shows organization container and external org sync only when all sync permissions are satisfied', () => {
+        const orgOnlyResult = service.getNavigationForUser(['platform:org-units:manage']);
+        const syncOnlyResult = service.getNavigationForUser(['platform:org-sync:manage']);
+        const syncManageResult = service.getNavigationForUser(['platform:org-units:manage', 'platform:org-sync:manage']);
+
+        const orgOnlyPlatform = orgOnlyResult.find((item) => item.key === 'platform');
+        const orgOnlyKeys = collectKeys(orgOnlyPlatform?.children ?? []);
+        const syncOnlyKeys = collectKeys(syncOnlyResult);
+        const syncManagePlatform = syncManageResult.find((item) => item.key === 'platform');
+        const syncManageKeys = collectKeys(syncManagePlatform?.children ?? []);
+
+        expect(orgOnlyKeys).toContain('platform.organization');
+        expect(orgOnlyKeys).toContain('platform.org-units');
+        expect(orgOnlyKeys).not.toContain('platform.external-org-sync');
+        expect(syncOnlyKeys).not.toContain('platform.organization');
+        expect(syncOnlyKeys).not.toContain('platform.external-org-sync');
+        expect(syncManageKeys).toContain('platform.organization');
+        expect(syncManageKeys).toContain('platform.external-org-sync');
+    });
+
     it('shows platform attachment storage provider menu when attachment storage provider manage permission is satisfied', () => {
         const result = service.getNavigationForUser(['platform:attachment-storage-providers:manage']);
 
@@ -125,6 +145,7 @@ describe('NavigationService', () => {
             'platform:users:manage',
             'platform:roles:manage',
             'platform:org-units:manage',
+            'platform:org-sync:manage',
             'platform:dictionaries:manage',
             'platform:identity-providers:manage',
             'platform:attachment-storage-providers:manage',
@@ -141,6 +162,8 @@ describe('NavigationService', () => {
         expect(keys).toContain('contracts');
         expect(keys).toContain('platform');
         expect(keys).toContain('platform.people-access');
+        expect(keys).toContain('platform.organization');
+        expect(keys).toContain('platform.external-org-sync');
         expect(keys).toContain('platform.integrations');
         expect(keys).toContain('platform.business-config');
         expect(keys).toContain('platform.system-governance');
@@ -192,6 +215,7 @@ describe('NavigationService', () => {
             expect(snapshot.routeLinks).toContain('/attachments');
             expect(snapshot.routeLinks).toContain('/projects');
             expect(snapshot.routeLinks).toContain('/platform/users');
+            expect(snapshot.routeLinks).toContain('/platform/external-org-sync');
             expect(snapshot.routeLinks).toContain('/platform/dictionaries');
             expect(snapshot.routeLinks).toContain('/platform/identity-providers');
             expect(snapshot.routeLinks).toContain('/platform/attachment-storage-providers');

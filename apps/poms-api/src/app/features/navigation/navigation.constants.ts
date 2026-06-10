@@ -189,19 +189,50 @@ export const NAVIGATION_TREE: NavigationItem[] = [
                 ]
             },
             {
-                id: 'nav-platform-org-units',
-                key: 'platform.org-units',
-                type: NavigationItemTypeValue.Basic,
+                id: 'nav-platform-organization',
+                key: 'platform.organization',
+                type: NavigationItemTypeValue.Collapsable,
                 title: '组织架构',
                 subtitle: null,
-                link: '/platform/org-units',
+                link: null,
                 icon: 'pi pi-sitemap',
                 displayOrder: 10,
                 isHidden: false,
                 isDisabled: false,
-                requiredPermissions: ['platform:org-units:manage'],
+                requiredPermissions: null,
                 meta: null,
-                children: null
+                children: [
+                    {
+                        id: 'nav-platform-org-units',
+                        key: 'platform.org-units',
+                        type: NavigationItemTypeValue.Basic,
+                        title: '组织单元',
+                        subtitle: null,
+                        link: '/platform/org-units',
+                        icon: 'pi pi-sitemap',
+                        displayOrder: 0,
+                        isHidden: false,
+                        isDisabled: false,
+                        requiredPermissions: ['platform:org-units:manage'],
+                        meta: null,
+                        children: null
+                    },
+                    {
+                        id: 'nav-platform-external-org-sync',
+                        key: 'platform.external-org-sync',
+                        type: NavigationItemTypeValue.Basic,
+                        title: '外部组织同步',
+                        subtitle: null,
+                        link: '/platform/external-org-sync',
+                        icon: 'pi pi-sync',
+                        displayOrder: 10,
+                        isHidden: false,
+                        isDisabled: false,
+                        requiredPermissions: ['platform:org-units:manage', 'platform:org-sync:manage'],
+                        meta: null,
+                        children: null
+                    }
+                ]
             },
             {
                 id: 'nav-platform-integrations',

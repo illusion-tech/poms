@@ -52,7 +52,8 @@
 | `attachments`                           | `/attachments`                           | 已有真实附件中心页                                       | `implemented` | 继续保持启用，并与权限、导航同步校验                                               |
 | `platform.users`                        | `/platform/users`                        | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 继续保持为正式入口，并持续用 smoke 覆盖可达性与拦截                                |
 | `platform.roles`                        | `/platform/roles`                        | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 继续保持为正式入口                                                                 |
-| `platform.org-units`                    | `/platform/org-units`                    | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 以“组织架构”作为用户可见名称启用                                                   |
+| `platform.org-units`                    | `/platform/org-units`                    | 已有真实页面、真实 API 与权限守卫                        | `implemented` | 以“组织单元”作为用户可见名称启用                                                   |
+| `platform.external-org-sync`            | `/platform/external-org-sync`            | 已有真实工作台，消费外部组织同步 API                     | `implemented` | 以“外部组织同步”作为用户可见名称启用；provider 连接配置仍由企业协同接入维护        |
 | `platform.dictionaries`                 | `/platform/dictionaries`                 | 已有真实业务字典页与权限守卫                             | `implemented` | 继续保持为正式入口                                                                 |
 | `platform.identity-providers`           | `/platform/identity-providers`           | 已有真实企业协同接入配置页与权限守卫                     | `implemented` | 以“企业协同接入”作为用户可见名称启用；保留既有 route path 与权限 key               |
 | `platform.attachment-storage-providers` | `/platform/attachment-storage-providers` | 已有真实文件存储接入配置页与权限守卫                     | `implemented` | 以“文件存储接入”作为用户可见名称启用；保留既有 route path 与权限 key               |
@@ -66,6 +67,7 @@
 
 ```text
 platform.people-access
+platform.organization
 platform.integrations
 platform.business-config
 platform.system-governance
@@ -79,12 +81,12 @@ platform.system-governance
 
 当前阶段，平台导航应分两层理解：
 
-1. **消费层与页面落点已跑通**：当前用户导航树已能通过真实接口下发，前端已支持平台配置中间层 `collapsable` 容器，并已有 `/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/dictionaries`、`/platform/identity-providers`、`/platform/attachment-storage-providers`、`/platform/system-settings`、`/platform/navigation` 等平台治理入口。
+1. **消费层与页面落点已跑通**：当前用户导航树已能通过真实接口下发，前端已支持平台配置中间层 `collapsable` 容器，并已有 `/platform/users`、`/platform/roles`、`/platform/org-units`、`/platform/external-org-sync`、`/platform/dictionaries`、`/platform/identity-providers`、`/platform/attachment-storage-providers`、`/platform/system-settings`、`/platform/navigation` 等平台治理入口。
 2. **运行时审计已收口**：`/platform/navigation` 当前除只读治理页外，还具备显式同步命令，可把导航事实源同步结果写入统一 `audit_log`。
 
 因此第一阶段补齐要求如下：
 
-- `platform.users`、`platform.roles`、`platform.org-units`、`platform.dictionaries`、`platform.identity-providers`、`platform.attachment-storage-providers`、`platform.system-settings`、`platform.navigation` 当前均已具备真实落点，可按当前链接正式启用
+- `platform.users`、`platform.roles`、`platform.org-units`、`platform.external-org-sync`、`platform.dictionaries`、`platform.identity-providers`、`platform.attachment-storage-providers`、`platform.system-settings`、`platform.navigation` 当前均已具备真实落点，可按当前链接正式启用
 - `navigation-route-mapping.md` 需继续与真实前端路由同步维护，避免再次漂移
 - 平台导航的一级分组和中间层容器不单独承担真实路由，对照表继续只维护可跳转叶子节点
 

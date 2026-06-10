@@ -99,7 +99,19 @@ export class AppMenu {
                 {
                     label: '组织架构',
                     icon: 'pi pi-sitemap',
-                    routerLink: ['/platform/org-units']
+                    path: 'platform/organization',
+                    items: [
+                        {
+                            label: '组织单元',
+                            icon: 'pi pi-sitemap',
+                            routerLink: ['/platform/org-units']
+                        },
+                        {
+                            label: '外部组织同步',
+                            icon: 'pi pi-sync',
+                            routerLink: ['/platform/external-org-sync']
+                        }
+                    ]
                 },
                 {
                     label: '集成与连接',

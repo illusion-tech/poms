@@ -83,6 +83,17 @@ describe('appRoutes project permissions', () => {
         expect(route.data?.['requiredPermissions']).toEqual(['platform:identity-providers:manage']);
     });
 
+    it('guards platform organization pages with organization permissions', () => {
+        const orgUnitsRoute = getAppRoute('platform/org-units');
+        const externalOrgSyncRoute = getAppRoute('platform/external-org-sync');
+
+        expect(orgUnitsRoute.canActivate).toContain(permissionGuard);
+        expect(orgUnitsRoute.data?.['breadcrumb']).toBe('组织单元');
+        expect(orgUnitsRoute.data?.['requiredPermissions']).toEqual(['platform:org-units:manage']);
+        expectAllModePermissions(externalOrgSyncRoute, ['platform:org-units:manage', 'platform:org-sync:manage']);
+        expect(externalOrgSyncRoute.data?.['breadcrumb']).toBe('外部组织同步');
+    });
+
     it('guards platform attachment storage provider management with provider manage permission', () => {
         const route = getAppRoute('platform/attachment-storage-providers');
 
