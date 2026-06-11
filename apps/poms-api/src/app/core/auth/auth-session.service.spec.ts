@@ -5,8 +5,12 @@ describe('AuthSessionService', () => {
     let repository: {
         createSession: jest.Mock;
         findByTokenHash: jest.Mock;
+        findWriteSnapshotById: jest.Mock;
         saveAll: jest.Mock;
         touchLastSeenIfDue: jest.Mock;
+        rotateCsrfTokenForActiveSession: jest.Mock;
+        expireActiveSession: jest.Mock;
+        revokeActiveSession: jest.Mock;
         revokeActiveSessionsForUser: jest.Mock;
     };
     let platformService: {
@@ -18,8 +22,12 @@ describe('AuthSessionService', () => {
         repository = {
             createSession: jest.fn((input) => ({ id: 'session-1', rowVersion: 1, ...input })),
             findByTokenHash: jest.fn(),
+            findWriteSnapshotById: jest.fn(),
             saveAll: jest.fn().mockResolvedValue(undefined),
             touchLastSeenIfDue: jest.fn().mockResolvedValue(null),
+            rotateCsrfTokenForActiveSession: jest.fn(),
+            expireActiveSession: jest.fn(),
+            revokeActiveSession: jest.fn(),
             revokeActiveSessionsForUser: jest.fn().mockResolvedValue(2)
         };
         platformService = {
@@ -177,37 +185,59 @@ describe('AuthSessionService', () => {
     });
 
     it('marks an expired active session and throws session_expired', async () => {
+        const now = new Date('2026-05-13T01:15:00.000Z');
         const session = createSession({
             idleExpiresAt: new Date('2026-05-13T01:15:00.000Z'),
             absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
         });
         repository.findByTokenHash.mockResolvedValue(session);
+        repository.expireActiveSession.mockResolvedValue(
+            createSessionWriteSnapshot(session, {
+                status: AuthSessionStatusValue.Expired,
+                revokedAt: now,
+                rowVersion: 2,
+                updatedAt: now
+            })
+        );
 
-        await expect(
-            service.resolveSessionToken('expired-token', {}, { now: new Date('2026-05-13T01:15:00.000Z') })
-        ).rejects.toMatchObject<AuthSessionAuthenticationError>({
+        await expect(service.resolveSessionToken('expired-token', {}, { now })).rejects.toMatchObject<AuthSessionAuthenticationError>({
             code: AuthSessionErrorCodeValue.SessionExpired
         });
 
         expect(session.status).toBe(AuthSessionStatusValue.Expired);
-        expect(session.revokedAt).toEqual(new Date('2026-05-13T01:15:00.000Z'));
-        expect(repository.saveAll).toHaveBeenCalledWith([session]);
+        expect(session.revokedAt).toEqual(now);
+        expect(session.rowVersion).toBe(2);
+        expect(repository.expireActiveSession).toHaveBeenCalledWith({ sessionId: session.id, now });
+        expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
     it('revokes the session when the bound platform user is inactive or missing', async () => {
+        const now = new Date('2026-05-13T01:30:00.000Z');
         const session = createSession();
         repository.findByTokenHash.mockResolvedValue(session);
         platformService.resolveActiveAuthUser.mockResolvedValue(null);
+        repository.revokeActiveSession.mockResolvedValue(
+            createSessionWriteSnapshot(session, {
+                status: AuthSessionStatusValue.Revoked,
+                revokedAt: now,
+                revokedReason: AuthSessionRevokedReasonValue.AccountDisabled,
+                rowVersion: 2,
+                updatedAt: now
+            })
+        );
 
-        await expect(
-            service.resolveSessionToken('active-token', {}, { now: new Date('2026-05-13T01:30:00.000Z') })
-        ).rejects.toMatchObject<AuthSessionAuthenticationError>({
+        await expect(service.resolveSessionToken('active-token', {}, { now })).rejects.toMatchObject<AuthSessionAuthenticationError>({
             code: AuthSessionErrorCodeValue.AccountDisabled
         });
 
         expect(session.status).toBe(AuthSessionStatusValue.Revoked);
         expect(session.revokedReason).toBe(AuthSessionRevokedReasonValue.AccountDisabled);
-        expect(repository.saveAll).toHaveBeenCalledWith([session]);
+        expect(repository.revokeActiveSession).toHaveBeenCalledWith({
+            sessionId: session.id,
+            reason: AuthSessionRevokedReasonValue.AccountDisabled,
+            now
+        });
+        expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
     it('verifies CSRF token by hash', () => {
@@ -218,6 +248,7 @@ describe('AuthSessionService', () => {
     });
 
     it('refreshes the session-bound CSRF token hash', async () => {
+        const now = new Date('2026-05-13T01:05:00.000Z');
         const token = 'session-token';
         const session = createSession({
             tokenHash: hashToken(token),
@@ -230,13 +261,119 @@ describe('AuthSessionService', () => {
             username: 'admin',
             permissions: ['platform:users:manage']
         });
+        repository.rotateCsrfTokenForActiveSession.mockImplementation(({ csrfTokenHash }) =>
+            Promise.resolve(
+                createSessionWriteSnapshot(session, {
+                    csrfTokenHash,
+                    rowVersion: 2,
+                    updatedAt: now
+                })
+            )
+        );
 
-        const result = await service.refreshCsrfToken(token, {}, { now: new Date('2026-05-13T01:05:00.000Z'), lastSeenThrottleSeconds: 3600 });
+        const result = await service.refreshCsrfToken(token, {}, { now, lastSeenThrottleSeconds: 3600 });
 
         expect(result.csrfToken).toHaveLength(43);
         expect(result.expiresAt).toEqual(new Date('2026-05-13T02:00:00.000Z'));
         expect(session.csrfTokenHash).toBe(hashToken(result.csrfToken));
-        expect(repository.saveAll).toHaveBeenLastCalledWith([session]);
+        expect(session.rowVersion).toBe(2);
+        expect(repository.rotateCsrfTokenForActiveSession).toHaveBeenCalledWith({
+            sessionId: session.id,
+            csrfTokenHash: hashToken(result.csrfToken),
+            now
+        });
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('refreshes CSRF after another concurrent request already touched the session', async () => {
+        const now = new Date('2026-05-13T01:10:01.000Z');
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            lastSeenAt: new Date('2026-05-13T01:00:00.000Z'),
+            idleExpiresAt: new Date('2026-05-13T01:15:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        repository.touchLastSeenIfDue.mockResolvedValue(null);
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+        repository.rotateCsrfTokenForActiveSession.mockImplementation(({ csrfTokenHash }) =>
+            Promise.resolve(
+                createSessionWriteSnapshot(session, {
+                    csrfTokenHash,
+                    lastSeenAt: new Date('2026-05-13T01:10:00.000Z'),
+                    lastIp: '10.0.0.2',
+                    idleExpiresAt: new Date('2026-05-13T01:25:00.000Z'),
+                    rowVersion: 3,
+                    updatedAt: now
+                })
+            )
+        );
+
+        const result = await service.refreshCsrfToken(
+            token,
+            { ip: '10.0.0.3', userAgent: 'jest' },
+            {
+                now,
+                idleTimeoutSeconds: 900,
+                absoluteTimeoutSeconds: 28800,
+                lastSeenThrottleSeconds: 60
+            }
+        );
+
+        expect(result.csrfToken).toHaveLength(43);
+        expect(repository.touchLastSeenIfDue).toHaveBeenCalledWith({
+            sessionId: session.id,
+            now,
+            ip: '10.0.0.3',
+            idleTimeoutSeconds: 900,
+            lastSeenThrottleSeconds: 60
+        });
+        expect(repository.rotateCsrfTokenForActiveSession).toHaveBeenCalledWith({
+            sessionId: session.id,
+            csrfTokenHash: hashToken(result.csrfToken),
+            now
+        });
+        expect(session.csrfTokenHash).toBe(hashToken(result.csrfToken));
+        expect(session.rowVersion).toBe(3);
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('classifies a failed CSRF rotation without saving the stale session entity', async () => {
+        const now = new Date('2026-05-13T01:05:00.000Z');
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            idleExpiresAt: new Date('2026-05-13T02:00:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        repository.rotateCsrfTokenForActiveSession.mockResolvedValue(null);
+        repository.findWriteSnapshotById.mockResolvedValue(
+            createSessionWriteSnapshot(session, {
+                status: AuthSessionStatusValue.Revoked,
+                revokedAt: now,
+                revokedReason: AuthSessionRevokedReasonValue.Logout,
+                rowVersion: 2,
+                updatedAt: now
+            })
+        );
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+
+        await expect(service.refreshCsrfToken(token, {}, { now, lastSeenThrottleSeconds: 3600 })).rejects.toMatchObject<AuthSessionAuthenticationError>({
+            code: AuthSessionErrorCodeValue.SessionRevoked
+        });
+
+        expect(repository.findWriteSnapshotById).toHaveBeenCalledWith(session.id);
+        expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
     it('creates an anonymous CSRF token with idle timeout expiry', () => {
@@ -270,6 +407,22 @@ function createSession(overrides: Partial<Record<string, unknown>> = {}) {
         rowVersion: 1,
         createdAt: new Date('2026-05-13T01:00:00.000Z'),
         updatedAt: new Date('2026-05-13T01:00:00.000Z'),
+        ...overrides
+    };
+}
+
+function createSessionWriteSnapshot(session: ReturnType<typeof createSession>, overrides: Partial<Record<string, unknown>> = {}) {
+    return {
+        status: session.status,
+        csrfTokenHash: session.csrfTokenHash,
+        idleExpiresAt: session.idleExpiresAt,
+        absoluteExpiresAt: session.absoluteExpiresAt,
+        lastSeenAt: session.lastSeenAt,
+        lastIp: session.lastIp,
+        revokedAt: session.revokedAt,
+        revokedReason: session.revokedReason,
+        rowVersion: session.rowVersion,
+        updatedAt: session.updatedAt,
         ...overrides
     };
 }

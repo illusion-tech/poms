@@ -4,7 +4,7 @@ import type { UserPayload } from '@poms/shared-contracts';
 import { loadValidatedEnv } from '../../../config/load-env';
 import { PlatformService } from '../../features/platform/platform.service';
 import { AuthSession, AuthSessionRevokedReasonValue, AuthSessionStatusValue, type AuthSessionRevokedReason } from './auth-session.entity';
-import { AuthSessionRepository } from './auth-session.repository';
+import { AuthSessionRepository, type AuthSessionWriteSnapshot } from './auth-session.repository';
 
 export type AuthSessionRequestInfo = {
     ip?: string | null;
@@ -124,8 +124,7 @@ export class AuthSessionService {
             return false;
         }
 
-        await this.#revokeSession(session, reason, options.now ?? new Date());
-        return true;
+        return this.#revokeSession(session, reason, options.now ?? new Date());
     }
 
     revokeActiveUserSessions(userId: string, reason: AuthSessionRevokedReason, options: AuthSessionLifecycleOptions = {}): Promise<number> {
@@ -137,10 +136,19 @@ export class AuthSessionService {
             return this.createAnonymousCsrfToken(options);
         }
 
-        const resolved = await this.resolveSessionToken(sessionToken, requestInfo, options);
+        const now = options.now ?? new Date();
+        const resolved = await this.resolveSessionToken(sessionToken, requestInfo, { ...options, now });
         const csrfToken = createOpaqueToken();
-        resolved.session.csrfTokenHash = hashToken(csrfToken);
-        await this.authSessionRepository.saveAll([resolved.session]);
+        const rotatedSession = await this.authSessionRepository.rotateCsrfTokenForActiveSession({
+            sessionId: resolved.session.id,
+            csrfTokenHash: hashToken(csrfToken),
+            now
+        });
+        if (!rotatedSession) {
+            await this.#throwCurrentSessionAuthenticationError(resolved.session.id, now);
+        } else {
+            applySessionWriteSnapshot(resolved.session, rotatedSession);
+        }
 
         return {
             session: resolved.session,
@@ -205,16 +213,37 @@ export class AuthSessionService {
             return;
         }
 
-        session.status = AuthSessionStatusValue.Expired;
-        session.revokedAt = now;
-        await this.authSessionRepository.saveAll([session]);
+        const expiredSession = await this.authSessionRepository.expireActiveSession({ sessionId: session.id, now });
+        if (expiredSession) {
+            applySessionWriteSnapshot(session, expiredSession);
+        }
     }
 
-    async #revokeSession(session: AuthSession, reason: AuthSessionRevokedReason, now: Date): Promise<void> {
-        session.status = AuthSessionStatusValue.Revoked;
-        session.revokedAt = now;
-        session.revokedReason = reason;
-        await this.authSessionRepository.saveAll([session]);
+    async #revokeSession(session: AuthSession, reason: AuthSessionRevokedReason, now: Date): Promise<boolean> {
+        const revokedSession = await this.authSessionRepository.revokeActiveSession({ sessionId: session.id, reason, now });
+        if (!revokedSession) {
+            return false;
+        }
+
+        applySessionWriteSnapshot(session, revokedSession);
+        return true;
+    }
+
+    async #throwCurrentSessionAuthenticationError(sessionId: string, now: Date): Promise<never> {
+        const currentSession = await this.authSessionRepository.findWriteSnapshotById(sessionId);
+        if (!currentSession) {
+            throw new AuthSessionAuthenticationError(AuthSessionErrorCodeValue.SessionMissing);
+        }
+
+        if (currentSession.status === AuthSessionStatusValue.Revoked) {
+            throw new AuthSessionAuthenticationError(AuthSessionErrorCodeValue.SessionRevoked);
+        }
+
+        if (currentSession.status === AuthSessionStatusValue.Expired || isExpired(currentSession, now)) {
+            throw new AuthSessionAuthenticationError(AuthSessionErrorCodeValue.SessionExpired);
+        }
+
+        throw new AuthSessionAuthenticationError(AuthSessionErrorCodeValue.SessionRevoked);
     }
 }
 
@@ -234,6 +263,19 @@ function minDate(left: Date, right: Date): Date {
     return left.getTime() <= right.getTime() ? left : right;
 }
 
-function isExpired(session: AuthSession, now: Date): boolean {
+function applySessionWriteSnapshot(session: AuthSession, snapshot: AuthSessionWriteSnapshot): void {
+    session.status = snapshot.status;
+    session.csrfTokenHash = snapshot.csrfTokenHash;
+    session.idleExpiresAt = snapshot.idleExpiresAt;
+    session.absoluteExpiresAt = snapshot.absoluteExpiresAt;
+    session.lastSeenAt = snapshot.lastSeenAt;
+    session.lastIp = snapshot.lastIp;
+    session.revokedAt = snapshot.revokedAt;
+    session.revokedReason = snapshot.revokedReason;
+    session.rowVersion = snapshot.rowVersion;
+    session.updatedAt = snapshot.updatedAt;
+}
+
+function isExpired(session: { idleExpiresAt: Date; absoluteExpiresAt: Date }, now: Date): boolean {
     return session.idleExpiresAt.getTime() <= now.getTime() || session.absoluteExpiresAt.getTime() <= now.getTime();
 }
