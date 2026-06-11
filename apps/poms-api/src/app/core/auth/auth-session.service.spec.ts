@@ -116,6 +116,48 @@ describe('AuthSessionService', () => {
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
+    it('normalizes raw touch timestamp strings before mutating the session entity', async () => {
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            lastSeenAt: new Date('2026-05-13T01:00:00.000Z'),
+            idleExpiresAt: new Date('2026-05-13T01:15:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        repository.touchLastSeenIfDue.mockResolvedValue({
+            lastSeenAt: '2026-05-13T01:10:01.000Z',
+            lastIp: '10.0.0.2',
+            idleExpiresAt: '2026-05-13T01:25:01.000Z',
+            rowVersion: 2,
+            updatedAt: '2026-05-13T01:10:01.000Z'
+        });
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+
+        await service.resolveSessionToken(
+            token,
+            { ip: '10.0.0.2', userAgent: 'jest' },
+            {
+                now: new Date('2026-05-13T01:10:01.000Z'),
+                idleTimeoutSeconds: 900,
+                absoluteTimeoutSeconds: 28800,
+                lastSeenThrottleSeconds: 60
+            }
+        );
+
+        expect(session.lastSeenAt).toBeInstanceOf(Date);
+        expect(session.lastSeenAt).toEqual(new Date('2026-05-13T01:10:01.000Z'));
+        expect(session.idleExpiresAt).toBeInstanceOf(Date);
+        expect(session.idleExpiresAt).toEqual(new Date('2026-05-13T01:25:01.000Z'));
+        expect(session.updatedAt).toBeInstanceOf(Date);
+        expect(session.updatedAt).toEqual(new Date('2026-05-13T01:10:01.000Z'));
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
     it('keeps authenticated requests alive when another concurrent request already touched last seen', async () => {
         const token = 'session-token';
         const session = createSession({
@@ -285,6 +327,47 @@ describe('AuthSessionService', () => {
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
+    it('normalizes raw write snapshot timestamp strings during CSRF refresh', async () => {
+        const now = new Date('2026-05-13T01:05:00.000Z');
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            idleExpiresAt: new Date('2026-05-13T02:00:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+        repository.rotateCsrfTokenForActiveSession.mockImplementation(({ csrfTokenHash }) =>
+            Promise.resolve({
+                ...createSessionWriteSnapshot(session, {
+                    csrfTokenHash,
+                    rowVersion: 2
+                }),
+                idleExpiresAt: '2026-05-13T02:00:00.000Z',
+                absoluteExpiresAt: '2026-05-13T09:00:00.000Z',
+                lastSeenAt: '2026-05-13T01:05:00.000Z',
+                updatedAt: '2026-05-13T01:05:00.000Z'
+            })
+        );
+
+        const result = await service.refreshCsrfToken(token, {}, { now, lastSeenThrottleSeconds: 3600 });
+
+        expect(result.expiresAt).toEqual(new Date('2026-05-13T02:00:00.000Z'));
+        expect(session.idleExpiresAt).toBeInstanceOf(Date);
+        expect(session.idleExpiresAt).toEqual(new Date('2026-05-13T02:00:00.000Z'));
+        expect(session.absoluteExpiresAt).toBeInstanceOf(Date);
+        expect(session.absoluteExpiresAt).toEqual(new Date('2026-05-13T09:00:00.000Z'));
+        expect(session.lastSeenAt).toBeInstanceOf(Date);
+        expect(session.lastSeenAt).toEqual(new Date('2026-05-13T01:05:00.000Z'));
+        expect(session.updatedAt).toBeInstanceOf(Date);
+        expect(session.updatedAt).toEqual(new Date('2026-05-13T01:05:00.000Z'));
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
     it('refreshes CSRF after another concurrent request already touched the session', async () => {
         const now = new Date('2026-05-13T01:10:01.000Z');
         const token = 'session-token';
@@ -370,6 +453,39 @@ describe('AuthSessionService', () => {
 
         await expect(service.refreshCsrfToken(token, {}, { now, lastSeenThrottleSeconds: 3600 })).rejects.toMatchObject<AuthSessionAuthenticationError>({
             code: AuthSessionErrorCodeValue.SessionRevoked
+        });
+
+        expect(repository.findWriteSnapshotById).toHaveBeenCalledWith(session.id);
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('classifies expired raw snapshot strings when CSRF rotation is lost', async () => {
+        const now = new Date('2026-05-13T01:05:00.000Z');
+        const token = 'session-token';
+        const session = createSession({
+            tokenHash: hashToken(token),
+            idleExpiresAt: new Date('2026-05-13T02:00:00.000Z'),
+            absoluteExpiresAt: new Date('2026-05-13T09:00:00.000Z')
+        });
+        repository.findByTokenHash.mockResolvedValue(session);
+        repository.rotateCsrfTokenForActiveSession.mockResolvedValue(null);
+        repository.findWriteSnapshotById.mockResolvedValue({
+            ...createSessionWriteSnapshot(session, {
+                rowVersion: 2
+            }),
+            idleExpiresAt: '2026-05-13T01:00:00.000Z',
+            absoluteExpiresAt: '2026-05-13T09:00:00.000Z',
+            lastSeenAt: '2026-05-13T01:00:00.000Z',
+            updatedAt: '2026-05-13T01:05:00.000Z'
+        });
+        platformService.resolveActiveAuthUser.mockResolvedValue({
+            userId: session.userId,
+            username: 'admin',
+            permissions: ['platform:users:manage']
+        });
+
+        await expect(service.refreshCsrfToken(token, {}, { now, lastSeenThrottleSeconds: 3600 })).rejects.toMatchObject<AuthSessionAuthenticationError>({
+            code: AuthSessionErrorCodeValue.SessionExpired
         });
 
         expect(repository.findWriteSnapshotById).toHaveBeenCalledWith(session.id);
