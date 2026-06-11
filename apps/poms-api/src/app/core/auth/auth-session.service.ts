@@ -4,7 +4,7 @@ import type { UserPayload } from '@poms/shared-contracts';
 import { loadValidatedEnv } from '../../../config/load-env';
 import { PlatformService } from '../../features/platform/platform.service';
 import { AuthSession, AuthSessionRevokedReasonValue, AuthSessionStatusValue, type AuthSessionRevokedReason } from './auth-session.entity';
-import { AuthSessionRepository, type AuthSessionWriteSnapshot } from './auth-session.repository';
+import { AuthSessionRepository, type AuthSessionWriteSnapshot, type RawAuthSessionTimestamp } from './auth-session.repository';
 
 export type AuthSessionRequestInfo = {
     ip?: string | null;
@@ -184,7 +184,7 @@ export class AuthSessionService {
 
     async #touchSession(session: AuthSession, requestInfo: AuthSessionRequestInfo, options: AuthSessionLifecycleOptions, now: Date): Promise<void> {
         const lifecycle = this.#getLifecycleOptions(options);
-        const elapsedSeconds = Math.floor((now.getTime() - session.lastSeenAt.getTime()) / 1000);
+        const elapsedSeconds = Math.floor((now.getTime() - toDate(session.lastSeenAt).getTime()) / 1000);
         if (elapsedSeconds < lifecycle.lastSeenThrottleSeconds) {
             return;
         }
@@ -201,11 +201,11 @@ export class AuthSessionService {
             return;
         }
 
-        session.lastSeenAt = touchedSession.lastSeenAt;
+        session.lastSeenAt = toDate(touchedSession.lastSeenAt);
         session.lastIp = touchedSession.lastIp;
-        session.idleExpiresAt = touchedSession.idleExpiresAt;
+        session.idleExpiresAt = toDate(touchedSession.idleExpiresAt);
         session.rowVersion = touchedSession.rowVersion;
-        session.updatedAt = touchedSession.updatedAt;
+        session.updatedAt = toDate(touchedSession.updatedAt);
     }
 
     async #markExpired(session: AuthSession, now: Date): Promise<void> {
@@ -259,23 +259,33 @@ function addSeconds(date: Date, seconds: number): Date {
     return new Date(date.getTime() + seconds * 1000);
 }
 
-function minDate(left: Date, right: Date): Date {
-    return left.getTime() <= right.getTime() ? left : right;
+function minDate(left: RawAuthSessionTimestamp, right: RawAuthSessionTimestamp): Date {
+    const leftDate = toDate(left);
+    const rightDate = toDate(right);
+    return leftDate.getTime() <= rightDate.getTime() ? leftDate : rightDate;
 }
 
 function applySessionWriteSnapshot(session: AuthSession, snapshot: AuthSessionWriteSnapshot): void {
     session.status = snapshot.status;
     session.csrfTokenHash = snapshot.csrfTokenHash;
-    session.idleExpiresAt = snapshot.idleExpiresAt;
-    session.absoluteExpiresAt = snapshot.absoluteExpiresAt;
-    session.lastSeenAt = snapshot.lastSeenAt;
+    session.idleExpiresAt = toDate(snapshot.idleExpiresAt);
+    session.absoluteExpiresAt = toDate(snapshot.absoluteExpiresAt);
+    session.lastSeenAt = toDate(snapshot.lastSeenAt);
     session.lastIp = snapshot.lastIp;
-    session.revokedAt = snapshot.revokedAt;
+    session.revokedAt = snapshot.revokedAt === null ? null : toDate(snapshot.revokedAt);
     session.revokedReason = snapshot.revokedReason;
     session.rowVersion = snapshot.rowVersion;
-    session.updatedAt = snapshot.updatedAt;
+    session.updatedAt = toDate(snapshot.updatedAt);
 }
 
-function isExpired(session: { idleExpiresAt: Date; absoluteExpiresAt: Date }, now: Date): boolean {
-    return session.idleExpiresAt.getTime() <= now.getTime() || session.absoluteExpiresAt.getTime() <= now.getTime();
+function isExpired(session: { idleExpiresAt: RawAuthSessionTimestamp; absoluteExpiresAt: RawAuthSessionTimestamp }, now: Date): boolean {
+    return toDate(session.idleExpiresAt).getTime() <= now.getTime() || toDate(session.absoluteExpiresAt).getTime() <= now.getTime();
+}
+
+function toDate(value: RawAuthSessionTimestamp): Date {
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) {
+        throw new Error('Invalid auth session timestamp');
+    }
+    return date;
 }

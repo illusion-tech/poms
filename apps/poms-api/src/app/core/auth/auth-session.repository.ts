@@ -28,17 +28,19 @@ export interface RevokeSessionInput {
     now: Date;
 }
 
+export type RawAuthSessionTimestamp = Date | string;
+
 export interface AuthSessionWriteSnapshot {
     status: AuthSessionStatus;
     csrfTokenHash: string | null;
-    idleExpiresAt: Date;
-    absoluteExpiresAt: Date;
-    lastSeenAt: Date;
+    idleExpiresAt: RawAuthSessionTimestamp;
+    absoluteExpiresAt: RawAuthSessionTimestamp;
+    lastSeenAt: RawAuthSessionTimestamp;
     lastIp: string | null;
-    revokedAt: Date | null;
+    revokedAt: RawAuthSessionTimestamp | null;
     revokedReason: AuthSessionRevokedReason | null;
     rowVersion: number;
-    updatedAt: Date;
+    updatedAt: RawAuthSessionTimestamp;
 }
 
 export type TouchedAuthSession = Pick<AuthSessionWriteSnapshot, 'lastSeenAt' | 'lastIp' | 'idleExpiresAt' | 'rowVersion' | 'updatedAt'>;
