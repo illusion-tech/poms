@@ -619,15 +619,15 @@ export class IdentityProviderList {
     }
 
     canSubmitCreate(): boolean {
-        return this.validateForm(false, false);
+        return this.validateForm(false);
     }
 
     canSubmitEdit(): boolean {
-        return this.validateForm(true, false);
+        return this.validateForm(false);
     }
 
     async createConfig(): Promise<void> {
-        if (!this.validateForm(false, true)) return;
+        if (!this.validateForm(true)) return;
 
         const form = this.form();
         try {
@@ -652,12 +652,12 @@ export class IdentityProviderList {
             this.#messageService.add({ severity: 'success', summary: '创建成功', detail: `${form.displayName.trim()} 已创建` });
             await this.reload();
         } catch (error) {
-            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有创建成功，请确认租户未重复、secret 和 redirect URI 满足启用条件。');
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有创建成功，请确认租户未重复后重试。');
         }
     }
 
     async updateConfig(): Promise<IdentityProviderConfigSummary | null> {
-        if (!this.validateForm(true, true)) return null;
+        if (!this.validateForm(true)) return null;
 
         const form = this.form();
         try {
@@ -767,22 +767,14 @@ export class IdentityProviderList {
         return this.testResults()[configId] ?? null;
     }
 
-    private validateForm(isEdit: boolean, setError: boolean): boolean {
+    private validateForm(setError: boolean): boolean {
         const form = this.form();
-        const hasSecret = Boolean(form.clientSecret.trim()) || (isEdit && form.secretConfigured);
-        const requiresSecret = form.enabled || form.loginEnabled || form.bindingEnabled || form.searchEnabled;
 
         let error: string | null = null;
         if (!form.displayName.trim()) {
             error = '请填写显示名称。';
         } else if (!form.clientId.trim()) {
             error = '请填写 Client ID。';
-        } else if (requiresSecret && !hasSecret) {
-            error = '启用 provider、登录、绑定、搜索或激活状态前必须配置 Client Secret。';
-        } else if (form.loginEnabled && !form.redirectUri.trim()) {
-            error = '启用登录前必须配置 Redirect URI。';
-        } else if (form.searchEnabled && !form.searchRedirectUri.trim()) {
-            error = '启用搜索前必须配置 Search Redirect URI。';
         }
 
         if (setError) {

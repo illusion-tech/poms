@@ -416,6 +416,10 @@ export class ExternalOrgSyncService {
 
     private async requireProviderConfigIfPresent(id: string | null): Promise<IdentityProviderConfig | null> {
         if (!id) return null;
+        return this.requireProviderConfig(id);
+    }
+
+    private async requireProviderConfig(id: string): Promise<IdentityProviderConfig> {
         const config = await this.repository.findProviderConfigById(id);
         if (!config) throw new BadRequestException(`Identity provider config ${id} not found`);
         return config;
@@ -463,10 +467,7 @@ export class ExternalOrgSyncService {
             throw new BadRequestException('Active external org source requires a provider config before creating sync runs.');
         }
 
-        const providerConfig = await this.requireProviderConfigIfPresent(source.providerConfigId);
-        if (!providerConfig) {
-            throw new BadRequestException(`Identity provider config ${source.providerConfigId} not found`);
-        }
+        const providerConfig = await this.requireProviderConfig(source.providerConfigId);
         this.assertProviderConfigMatchesSource(source.provider, providerConfig);
         this.assertProviderConfigReadyForOrgSync(providerConfig);
 

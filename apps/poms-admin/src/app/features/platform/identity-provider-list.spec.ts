@@ -223,6 +223,39 @@ describe('IdentityProviderList', () => {
         expect(component.createDialogVisible).toBe(false);
     });
 
+    it('allows saving enabled incomplete configs so the server can derive misconfigured status', async () => {
+        component.showCreateDialog();
+        component.updateText('displayName', '飞书待完善');
+        component.updateText('clientId', 'cli_feishu_incomplete');
+        component.updateToggle('enabled', true);
+        component.updateToggle('loginEnabled', true);
+        component.updateToggle('searchEnabled', true);
+
+        expect(component.canSubmitCreate()).toBe(true);
+
+        await component.createConfig();
+
+        expect(storeMock.createConfig).toHaveBeenCalledWith({
+            provider: IdentityProvider.Feishu,
+            tenantId: null,
+            displayName: '飞书待完善',
+            enabled: true,
+            loginEnabled: true,
+            bindingEnabled: false,
+            searchEnabled: true,
+            clientId: 'cli_feishu_incomplete',
+            clientSecret: undefined,
+            redirectUri: null,
+            searchRedirectUri: null,
+            loginScopes: [],
+            searchScopes: [],
+            tenantAllowlist: [],
+            searchGrantMode: IdentityProviderSearchGrantMode.PerAdmin
+        });
+        expect(component.formError()).toBeNull();
+        expect(component.createDialogVisible).toBe(false);
+    });
+
     it('shows login expired feedback instead of provider validation feedback when create is unauthorized', async () => {
         storeMock.createConfig.mockRejectedValueOnce(new HttpErrorResponse({ status: 401 }));
 
