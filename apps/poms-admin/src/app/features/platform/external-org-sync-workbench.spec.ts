@@ -17,7 +17,7 @@ import {
     OrgSyncRunStatus,
     type OrgSyncRunSummary,
     PlatformStore,
-    type PlatformOrgUnitSummary,
+    type PlatformOrgUnitSummary
 } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { ExternalOrgSyncWorkbench } from './external-org-sync-workbench';
@@ -38,7 +38,7 @@ function createSource(overrides: Partial<ExternalOrgSourceSummary> = {}): Extern
         createdBy: 'admin',
         updatedAt: '2026-06-10T08:00:00.000Z',
         updatedBy: 'admin',
-        ...overrides,
+        ...overrides
     };
 }
 
@@ -58,7 +58,7 @@ function createMapping(overrides: Partial<ExternalDepartmentMappingSummary> = {}
         createdBy: 'admin',
         updatedAt: '2026-06-10T08:30:00.000Z',
         updatedBy: 'admin',
-        ...overrides,
+        ...overrides
     };
 }
 
@@ -82,7 +82,7 @@ function createRun(overrides: Partial<OrgSyncRunSummary> = {}): OrgSyncRunSummar
         createdBy: 'admin',
         updatedAt: '2026-06-10T09:00:03.000Z',
         updatedBy: 'admin',
-        ...overrides,
+        ...overrides
     };
 }
 
@@ -103,7 +103,7 @@ function createDiffItem(overrides: Partial<OrgSyncDiffItemSummary> = {}): OrgSyn
         createdBy: 'admin',
         updatedAt: '2026-06-10T09:00:00.000Z',
         updatedBy: 'admin',
-        ...overrides,
+        ...overrides
     };
 }
 
@@ -118,7 +118,7 @@ function createOrgUnit(overrides: Partial<PlatformOrgUnitSummary> = {}): Platfor
         description: null,
         createdAt: '2026-06-10T08:00:00.000Z',
         updatedAt: '2026-06-10T08:00:00.000Z',
-        ...overrides,
+        ...overrides
     };
 }
 
@@ -146,7 +146,7 @@ function createProviderConfig(overrides: Partial<IdentityProviderConfigSummary> 
         createdBy: 'admin',
         updatedAt: '2026-06-10T08:00:00.000Z',
         updatedBy: 'admin',
-        ...overrides,
+        ...overrides
     } as IdentityProviderConfigSummary;
 }
 
@@ -215,15 +215,15 @@ describe('ExternalOrgSyncWorkbench', () => {
             createSource: jest.fn().mockResolvedValue(createSource({ id: 'external-org-source-2' })),
             updateSource: jest.fn().mockResolvedValue(createSource()),
             createPreviewRun: jest.fn().mockResolvedValue(createRun()),
-            applyRun: jest.fn().mockResolvedValue(createRun({ status: OrgSyncRunStatus.Applied })),
+            applyRun: jest.fn().mockResolvedValue(createRun({ status: OrgSyncRunStatus.Applied }))
         };
         identityProviderStoreMock = {
             configs: signal<IdentityProviderConfigSummary[]>([createProviderConfig()]),
-            loadConfigs: jest.fn().mockResolvedValue([createProviderConfig()]),
+            loadConfigs: jest.fn().mockResolvedValue([createProviderConfig()])
         };
         platformStoreMock = {
             orgUnits: signal<PlatformOrgUnitSummary[]>([createOrgUnit()]),
-            loadOrgUnits: jest.fn().mockResolvedValue([createOrgUnit()]),
+            loadOrgUnits: jest.fn().mockResolvedValue([createOrgUnit()])
         };
 
         await TestBed.configureTestingModule({
@@ -231,24 +231,24 @@ describe('ExternalOrgSyncWorkbench', () => {
             providers: [
                 {
                     provide: PlatformStore,
-                    useValue: platformStoreMock,
-                },
-            ],
+                    useValue: platformStoreMock
+                }
+            ]
         })
             .overrideComponent(ExternalOrgSyncWorkbench, {
                 set: {
                     providers: [
                         {
                             provide: ExternalOrgSyncStore,
-                            useValue: syncStoreMock,
+                            useValue: syncStoreMock
                         },
                         {
                             provide: IdentityProviderStore,
-                            useValue: identityProviderStoreMock,
+                            useValue: identityProviderStoreMock
                         },
-                        MessageService,
-                    ],
-                },
+                        MessageService
+                    ]
+                }
             })
             .compileComponents();
 
@@ -291,9 +291,45 @@ describe('ExternalOrgSyncWorkbench', () => {
             providerConfigId: 'identity-provider-1',
             authoritativeOrgUnitId: 'org-root',
             externalRootDepartmentId: '0',
-            syncScopes: ['contact:department.base:readonly', 'contact:department:readonly'],
+            syncScopes: ['contact:department.base:readonly', 'contact:department:readonly']
         });
         expect(component.sourceDialogVisible).toBe(false);
+    });
+
+    it('marks provider configs that are not ready for org sync as disabled options', () => {
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({
+                id: 'identity-provider-draft',
+                displayName: '飞书草稿',
+                status: IdentityProviderConfigStatus.Draft,
+                enabled: false,
+                secretConfigured: false
+            })
+        ]);
+
+        const option = component.providerConfigOptions().find((candidate) => candidate.value === 'identity-provider-draft');
+
+        expect(option).toEqual(expect.objectContaining({ disabled: true }));
+        expect(option?.label).toContain('接入未启用');
+    });
+
+    it('prevents saving an active source with a provider config that is not ready', async () => {
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({
+                id: 'identity-provider-draft',
+                status: IdentityProviderConfigStatus.Draft,
+                enabled: false,
+                secretConfigured: false
+            })
+        ]);
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.sourceForm.status = ExternalOrgSourceStatus.Active;
+        component.sourceForm.providerConfigId = 'identity-provider-draft';
+
+        await component.saveSource();
+
+        expect(syncStoreMock.createSource).not.toHaveBeenCalled();
     });
 
     it('creates preview run with optimistic source version and selects pending actionable diff items', async () => {
@@ -301,17 +337,13 @@ describe('ExternalOrgSyncWorkbench', () => {
 
         expect(syncStoreMock.createPreviewRun).toHaveBeenCalledWith('external-org-source-1', {
             expectedSourceVersion: 3,
-            requestSnapshot: { triggeredFrom: 'poms-admin' },
+            requestSnapshot: { triggeredFrom: 'poms-admin' }
         });
         expect(component.selectedDiffItemIds().has('diff-item-1')).toBe(true);
     });
 
     it('applies selected diff items and skips unselected actionable items', async () => {
-        diffItems.set([
-            createDiffItem({ id: 'diff-item-1' }),
-            createDiffItem({ id: 'diff-item-2', externalDepartmentId: 'od-service' }),
-            createDiffItem({ id: 'diff-item-conflict', action: OrgSyncDiffAction.Conflict }),
-        ]);
+        diffItems.set([createDiffItem({ id: 'diff-item-1' }), createDiffItem({ id: 'diff-item-2', externalDepartmentId: 'od-service' }), createDiffItem({ id: 'diff-item-conflict', action: OrgSyncDiffAction.Conflict })]);
         component.selectedDiffItemIds.set(new Set(['diff-item-1']));
 
         await component.applySelectedDiffItems('org-sync-run-1');
@@ -319,7 +351,7 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(syncStoreMock.applyRun).toHaveBeenCalledWith('org-sync-run-1', {
             expectedVersion: 2,
             approvedDiffItemIds: ['diff-item-1'],
-            skippedDiffItemIds: ['diff-item-2'],
+            skippedDiffItemIds: ['diff-item-2']
         });
     });
 });

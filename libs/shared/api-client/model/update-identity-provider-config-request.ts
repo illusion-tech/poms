@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { IdentityProviderConfigStatus } from './identity-provider-config-status';
 import { IdentityProviderSearchGrantMode } from './identity-provider-search-grant-mode';
 
 
@@ -25,6 +24,5 @@ export interface UpdateIdentityProviderConfigRequest {
     searchScopes?: Array<string>;
     tenantAllowlist?: Array<string>;
     searchGrantMode?: IdentityProviderSearchGrantMode;
-    status?: IdentityProviderConfigStatus;
     expectedVersion?: number;
 }

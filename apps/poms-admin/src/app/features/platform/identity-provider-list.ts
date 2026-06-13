@@ -135,20 +135,7 @@ const EMPTY_FORM: IdentityProviderForm = {
 @Component({
     selector: 'app-identity-provider-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ButtonModule,
-        DialogModule,
-        InputTextModule,
-        SelectModule,
-        TextareaModule,
-        ToastModule,
-        ToggleSwitchModule,
-        TooltipModule,
-        IdentityProviderCard,
-        ProviderCardGrid
-    ],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TextareaModule, ToastModule, ToggleSwitchModule, TooltipModule, IdentityProviderCard, ProviderCardGrid],
     providers: [IdentityProviderStore, MessageService],
     styles: [
         `
@@ -287,7 +274,16 @@ const EMPTY_FORM: IdentityProviderForm = {
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
                         <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="editDialogVisible = false" />
-                        <p-button icon="pi pi-bolt" label="保存并测试" severity="secondary" [outlined]="true" [loading]="store.saving() || isEditDialogTesting()" [disabled]="!canSubmitEdit()" styleClass="rounded-md!" (onClick)="updateAndTestConfig()" />
+                        <p-button
+                            icon="pi pi-bolt"
+                            label="保存并测试"
+                            severity="secondary"
+                            [outlined]="true"
+                            [loading]="store.saving() || isEditDialogTesting()"
+                            [disabled]="!canSubmitEdit()"
+                            styleClass="rounded-md!"
+                            (onClick)="updateAndTestConfig()"
+                        />
                         <p-button label="保存" [loading]="store.saving()" [disabled]="!canSubmitEdit()" styleClass="rounded-md!" (onClick)="updateConfig()" />
                     </div>
                 </ng-template>
@@ -325,13 +321,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderClientId" class="text-sm font-medium text-surface-900 dark:text-surface-0">Client ID *</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('clientId')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 AppID 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('clientId')" tooltipPosition="top" aria-label="飞书 AppID 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
@@ -340,13 +330,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderClientSecret" class="text-sm font-medium text-surface-900 dark:text-surface-0">Client Secret</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('clientSecret')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 AppSecret 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('clientSecret')" tooltipPosition="top" aria-label="飞书 AppSecret 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
@@ -366,28 +350,23 @@ const EMPTY_FORM: IdentityProviderForm = {
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderRedirectUri" class="text-sm font-medium text-surface-900 dark:text-surface-0">Redirect URI</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('redirectUri')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 Redirect URI 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('redirectUri')" tooltipPosition="top" aria-label="飞书 Redirect URI 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
-                            <input pInputText id="identityProviderRedirectUri" [ngModel]="form().redirectUri" (ngModelChange)="updateText('redirectUri', $event)" placeholder="https://poms.example.com/auth/identity-providers:callback" class="w-full rounded-md!" />
+                            <input
+                                pInputText
+                                id="identityProviderRedirectUri"
+                                [ngModel]="form().redirectUri"
+                                (ngModelChange)="updateText('redirectUri', $event)"
+                                placeholder="https://poms.example.com/auth/identity-providers:callback"
+                                class="w-full rounded-md!"
+                            />
                         </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderSearchRedirectUri" class="text-sm font-medium text-surface-900 dark:text-surface-0">Search Redirect URI</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('searchRedirectUri')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 Search Redirect URI 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('searchRedirectUri')" tooltipPosition="top" aria-label="飞书 Search Redirect URI 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
@@ -425,71 +404,74 @@ const EMPTY_FORM: IdentityProviderForm = {
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderSearchMode" class="text-sm font-medium text-surface-900 dark:text-surface-0">搜索授权模式</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('searchGrantMode')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书搜索授权模式配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('searchGrantMode')" tooltipPosition="top" aria-label="飞书搜索授权模式配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
-                            <p-select inputId="identityProviderSearchMode" [ngModel]="form().searchGrantMode" (ngModelChange)="updateSearchGrantMode($event)" [options]="searchGrantModeOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                            <p-select
+                                inputId="identityProviderSearchMode"
+                                [ngModel]="form().searchGrantMode"
+                                (ngModelChange)="updateSearchGrantMode($event)"
+                                [options]="searchGrantModeOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                class="w-full rounded-md!"
+                            />
                         </div>
-                        @if (mode === 'edit') {
-                            <div class="flex flex-col gap-2">
-                                <label for="identityProviderStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
-                                <p-select inputId="identityProviderStatus" [ngModel]="form().status" (ngModelChange)="updateStatus($event)" [options]="statusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
-                            </div>
-                        }
                     </div>
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderLoginScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Login scopes</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('loginScopes')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 Login scopes 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('loginScopes')" tooltipPosition="top" aria-label="飞书 Login scopes 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
-                            <textarea pTextarea id="identityProviderLoginScopes" rows="3" [ngModel]="form().loginScopesText" (ngModelChange)="updateText('loginScopesText', $event)" placeholder="每行或空格分隔一个 scope" class="w-full rounded-md!"></textarea>
+                            <textarea
+                                pTextarea
+                                id="identityProviderLoginScopes"
+                                rows="3"
+                                [ngModel]="form().loginScopesText"
+                                (ngModelChange)="updateText('loginScopesText', $event)"
+                                placeholder="每行或空格分隔一个 scope"
+                                class="w-full rounded-md!"
+                            ></textarea>
                         </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderSearchScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Search scopes</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('searchScopes')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 Search scopes 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('searchScopes')" tooltipPosition="top" aria-label="飞书 Search scopes 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
-                            <textarea pTextarea id="identityProviderSearchScopes" rows="3" [ngModel]="form().searchScopesText" (ngModelChange)="updateText('searchScopesText', $event)" placeholder="每行或空格分隔一个 scope" class="w-full rounded-md!"></textarea>
+                            <textarea
+                                pTextarea
+                                id="identityProviderSearchScopes"
+                                rows="3"
+                                [ngModel]="form().searchScopesText"
+                                (ngModelChange)="updateText('searchScopesText', $event)"
+                                placeholder="每行或空格分隔一个 scope"
+                                class="w-full rounded-md!"
+                            ></textarea>
                         </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
                                 <label for="identityProviderTenantAllowlist" class="text-sm font-medium text-surface-900 dark:text-surface-0">Tenant allowlist</label>
-                                <button
-                                    type="button"
-                                    class="provider-help-trigger"
-                                    [pTooltip]="feishuConfigTip('tenantAllowlist')"
-                                    tooltipPosition="top"
-                                    aria-label="飞书 Tenant allowlist 配置说明"
-                                >
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('tenantAllowlist')" tooltipPosition="top" aria-label="飞书 Tenant allowlist 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
-                            <textarea pTextarea id="identityProviderTenantAllowlist" rows="3" [ngModel]="form().tenantAllowlistText" (ngModelChange)="updateText('tenantAllowlistText', $event)" placeholder="每行一个外部租户 ID" class="w-full rounded-md!"></textarea>
+                            <textarea
+                                pTextarea
+                                id="identityProviderTenantAllowlist"
+                                rows="3"
+                                [ngModel]="form().tenantAllowlistText"
+                                (ngModelChange)="updateText('tenantAllowlistText', $event)"
+                                placeholder="每行一个外部租户 ID"
+                                class="w-full rounded-md!"
+                            ></textarea>
                         </div>
                     </div>
                 </div>
@@ -503,7 +485,6 @@ export class IdentityProviderList {
 
     readonly providerOptions = PROVIDER_OPTIONS;
     readonly providerFilterOptions = PROVIDER_FILTER_OPTIONS;
-    readonly statusOptions = STATUS_OPTIONS;
     readonly statusFilterOptions = STATUS_FILTER_OPTIONS;
     readonly searchGrantModeOptions = SEARCH_GRANT_MODE_OPTIONS;
 
@@ -622,11 +603,6 @@ export class IdentityProviderList {
         this.formError.set(null);
     }
 
-    updateStatus(value: IdentityProviderConfigStatus | null | undefined): void {
-        this.form.update((form) => ({ ...form, status: value ?? IdentityProviderConfigStatus.Draft }));
-        this.formError.set(null);
-    }
-
     updateSearchGrantMode(value: IdentityProviderSearchGrantMode | null | undefined): void {
         this.form.update((form) => ({ ...form, searchGrantMode: value ?? IdentityProviderSearchGrantMode.PerAdmin }));
         this.formError.set(null);
@@ -699,7 +675,6 @@ export class IdentityProviderList {
                 searchScopes: this.toList(form.searchScopesText),
                 tenantAllowlist: this.toList(form.tenantAllowlistText),
                 searchGrantMode: form.searchGrantMode,
-                status: form.status,
                 expectedVersion: form.expectedVersion
             });
             this.editDialogVisible = false;
@@ -795,7 +770,7 @@ export class IdentityProviderList {
     private validateForm(isEdit: boolean, setError: boolean): boolean {
         const form = this.form();
         const hasSecret = Boolean(form.clientSecret.trim()) || (isEdit && form.secretConfigured);
-        const requiresSecret = form.enabled || form.loginEnabled || form.bindingEnabled || form.searchEnabled || form.status === IdentityProviderConfigStatus.Active;
+        const requiresSecret = form.enabled || form.loginEnabled || form.bindingEnabled || form.searchEnabled;
 
         let error: string | null = null;
         if (!form.displayName.trim()) {
@@ -808,8 +783,6 @@ export class IdentityProviderList {
             error = '启用登录前必须配置 Redirect URI。';
         } else if (form.searchEnabled && !form.searchRedirectUri.trim()) {
             error = '启用搜索前必须配置 Search Redirect URI。';
-        } else if (form.status === IdentityProviderConfigStatus.Active && !form.enabled) {
-            error = '激活状态必须同时打开总开关。';
         }
 
         if (setError) {

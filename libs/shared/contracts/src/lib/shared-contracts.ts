@@ -665,7 +665,6 @@ export const UpdateIdentityProviderConfigRequestSchema = z
         searchScopes: IdentityProviderScopeListSchema.optional(),
         tenantAllowlist: IdentityProviderTenantAllowlistSchema.optional(),
         searchGrantMode: IdentityProviderSearchGrantModeSchema.optional(),
-        status: IdentityProviderConfigStatusSchema.optional(),
         expectedVersion: z.number().int().positive().optional()
     })
     .refine(
@@ -682,8 +681,7 @@ export const UpdateIdentityProviderConfigRequestSchema = z
             value.loginScopes !== undefined ||
             value.searchScopes !== undefined ||
             value.tenantAllowlist !== undefined ||
-            value.searchGrantMode !== undefined ||
-            value.status !== undefined,
+            value.searchGrantMode !== undefined,
         { message: 'At least one updatable field is required' }
     )
     .meta({ id: 'UpdateIdentityProviderConfigRequest' });
@@ -850,13 +848,7 @@ export const UpdateExternalOrgSourceRequestSchema = z
         expectedVersion: z.number().int().positive().optional()
     })
     .refine(
-        (value) =>
-            value.displayName !== undefined ||
-            value.status !== undefined ||
-            value.providerConfigId !== undefined ||
-            value.authoritativeOrgUnitId !== undefined ||
-            value.externalRootDepartmentId !== undefined ||
-            value.syncScopes !== undefined,
+        (value) => value.displayName !== undefined || value.status !== undefined || value.providerConfigId !== undefined || value.authoritativeOrgUnitId !== undefined || value.externalRootDepartmentId !== undefined || value.syncScopes !== undefined,
         { message: 'At least one updatable field is required' }
     )
     .meta({ id: 'UpdateExternalOrgSourceRequest' });

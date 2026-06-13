@@ -1,14 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-    IdentityProvider,
-    IdentityProviderConfigStatus,
-    IdentityProviderConnectionTestStatus,
-    IdentityProviderSearchGrantMode,
-    IdentityProviderStore,
-    type IdentityProviderConfigSummary
-} from '@poms/admin-data-access';
+import { IdentityProvider, IdentityProviderConfigStatus, IdentityProviderConnectionTestStatus, IdentityProviderSearchGrantMode, IdentityProviderStore, type IdentityProviderConfigSummary } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { IdentityProviderList } from './identity-provider-list';
 
@@ -265,6 +258,14 @@ describe('IdentityProviderList', () => {
             })
         );
         expect(storeMock.updateConfig.mock.calls[0][1]).not.toHaveProperty('clientSecret');
+        expect(storeMock.updateConfig.mock.calls[0][1]).not.toHaveProperty('status');
+    });
+
+    it('does not expose lifecycle status as an editable form field', () => {
+        component.showEditDialog(createIdentityProviderConfig());
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('#identityProviderStatus')).toBeNull();
     });
 
     it('saves and tests the persisted provider config from the edit dialog', async () => {

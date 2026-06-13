@@ -1,5 +1,14 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { ExternalDepartmentMappingStatusValue, ExternalOrgProviderValue, ExternalOrgSourceStatusValue, OrgSyncDiffActionValue, OrgSyncDiffItemStatusValue, OrgSyncRunStatusValue } from '@poms/shared-contracts';
+import {
+    ExternalDepartmentMappingStatusValue,
+    ExternalOrgProviderValue,
+    ExternalOrgSourceStatusValue,
+    IdentityProviderConfigStatusValue,
+    IdentityProviderSearchGrantModeValue,
+    OrgSyncDiffActionValue,
+    OrgSyncDiffItemStatusValue,
+    OrgSyncRunStatusValue
+} from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SecretCipherService } from '../../core/secret/secret-cipher.service';
 import { IdentityProviderConfig } from '../identity-provider/identity-provider-config.entity';
@@ -89,12 +98,14 @@ describe('ExternalOrgSyncService', () => {
 
     it('creates an active source with external root department and records audit', async () => {
         repository.findSourceByProviderTenant.mockResolvedValue(null);
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
 
         const result = await service.createExternalOrgSource(
             {
                 provider: ExternalOrgProviderValue.Feishu,
                 displayName: '飞书通讯录',
                 status: ExternalOrgSourceStatusValue.Active,
+                providerConfigId,
                 externalRootDepartmentId: '0',
                 syncScopes: ['department.read']
             },
@@ -106,6 +117,7 @@ describe('ExternalOrgSyncService', () => {
                 provider: ExternalOrgProviderValue.Feishu,
                 displayName: '飞书通讯录',
                 status: ExternalOrgSourceStatusValue.Active,
+                providerConfigId,
                 externalRootDepartmentId: '0',
                 syncScopes: ['department.read'],
                 createdBy: operatorId,
@@ -125,11 +137,12 @@ describe('ExternalOrgSyncService', () => {
         expect(result).toMatchObject({
             id: sourceId,
             status: ExternalOrgSourceStatusValue.Active,
+            providerConfigId,
             externalRootDepartmentId: '0'
         });
     });
 
-    it('rejects active sources without provider config or external root department', async () => {
+    it('rejects active sources without a ready provider config', async () => {
         repository.findSourceByProviderTenant.mockResolvedValue(null);
 
         await expect(
@@ -137,6 +150,22 @@ describe('ExternalOrgSyncService', () => {
                 provider: ExternalOrgProviderValue.Feishu,
                 displayName: '飞书通讯录',
                 status: ExternalOrgSourceStatusValue.Active
+            })
+        ).rejects.toThrow(BadRequestException);
+
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('rejects active sources when the selected provider config is not active', async () => {
+        repository.findSourceByProviderTenant.mockResolvedValue(null);
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ status: IdentityProviderConfigStatusValue.Draft }));
+
+        await expect(
+            service.createExternalOrgSource({
+                provider: ExternalOrgProviderValue.Feishu,
+                displayName: '飞书通讯录',
+                status: ExternalOrgSourceStatusValue.Active,
+                providerConfigId
             })
         ).rejects.toThrow(BadRequestException);
 
@@ -245,6 +274,16 @@ describe('ExternalOrgSyncService', () => {
         });
     });
 
+    it('rejects preview runs when provider config is not ready for org sync', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, externalRootDepartmentId: '0' }));
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ status: IdentityProviderConfigStatusValue.Draft }));
+
+        await expect(service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3 }, operatorId)).rejects.toThrow(BadRequestException);
+
+        expect(repository.createRun).not.toHaveBeenCalled();
+        expect(feishuAdapter.fetchDepartmentTree).not.toHaveBeenCalled();
+    });
+
     it('applies approved create diff items and maps the external department to the new org unit', async () => {
         const run = createRun({ status: OrgSyncRunStatusValue.Previewed, rowVersion: 1, totalItemCount: 1 });
         const mapping = createMapping({ externalDepartmentId: 'od-sales', externalDepartmentName: '销售部' });
@@ -323,7 +362,7 @@ describe('ExternalOrgSyncService', () => {
             provider: ExternalOrgProviderValue.Feishu,
             tenantId: null,
             displayName: '飞书',
-            status: 'active',
+            status: IdentityProviderConfigStatusValue.Active,
             enabled: true,
             loginEnabled: true,
             bindingEnabled: true,
@@ -336,7 +375,7 @@ describe('ExternalOrgSyncService', () => {
             loginScopes: [],
             searchScopes: [],
             tenantAllowlist: [],
-            searchGrantMode: 'per-admin',
+            searchGrantMode: IdentityProviderSearchGrantModeValue.PerAdmin,
             rowVersion: 1,
             createdAt: new Date('2026-06-10T00:00:00.000Z'),
             createdBy: operatorId,

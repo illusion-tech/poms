@@ -4,6 +4,7 @@ import {
     ExternalDepartmentMappingStatusValue,
     ExternalOrgProviderValue,
     ExternalOrgSourceStatusValue,
+    IdentityProviderConfigStatusValue,
     OrgSyncDiffActionValue,
     OrgSyncDiffItemStatusValue,
     OrgSyncRunStatusValue,
@@ -106,7 +107,7 @@ export class ExternalOrgSyncService {
             createdBy: operatorId ?? null,
             updatedBy: operatorId ?? null
         });
-        this.assertSourceState(source);
+        this.assertSourceState(source, providerConfig);
 
         await this.repository.saveAll([source]);
         await this.recordAudit('external-org-source.created', 'ExternalOrgSource', source.id, operatorId, null, this.sourceAuditSnapshot(source));
@@ -128,8 +129,9 @@ export class ExternalOrgSyncService {
 
         if (request.displayName !== undefined) source.displayName = request.displayName;
         if (request.status !== undefined) source.status = request.status;
+        let providerConfig: IdentityProviderConfig | null = null;
         if (request.providerConfigId !== undefined) {
-            const providerConfig = await this.requireProviderConfigIfPresent(request.providerConfigId);
+            providerConfig = await this.requireProviderConfigIfPresent(request.providerConfigId);
             this.assertProviderConfigMatchesSource(source.provider, providerConfig);
             source.providerConfigId = providerConfig?.id ?? null;
         }
@@ -141,7 +143,10 @@ export class ExternalOrgSyncService {
         if (request.syncScopes !== undefined) source.syncScopes = request.syncScopes;
         source.updatedBy = operatorId ?? null;
 
-        this.assertSourceState(source);
+        if (source.status === ExternalOrgSourceStatusValue.Active && request.providerConfigId === undefined) {
+            providerConfig = await this.requireProviderConfigIfPresent(source.providerConfigId ?? null);
+        }
+        this.assertSourceState(source, providerConfig);
         await this.repository.saveAll([source]);
         await this.recordAudit('external-org-source.updated', 'ExternalOrgSource', source.id, operatorId, beforeSnapshot, this.sourceAuditSnapshot(source));
 
@@ -187,18 +192,11 @@ export class ExternalOrgSyncService {
         );
 
         await this.repository.replaceMappings(existingMappings, nextMappings);
-        await this.recordAudit(
-            'external-department-mapping.replaced',
-            'ExternalOrgSource',
+        await this.recordAudit('external-department-mapping.replaced', 'ExternalOrgSource', sourceId, operatorId, beforeSnapshot, {
             sourceId,
-            operatorId,
-            beforeSnapshot,
-            {
-                sourceId,
-                itemCount: nextMappings.length,
-                items: nextMappings.map((mapping) => this.mappingAuditSnapshot(mapping))
-            }
-        );
+            itemCount: nextMappings.length,
+            items: nextMappings.map((mapping) => this.mappingAuditSnapshot(mapping))
+        });
 
         return nextMappings.map((mapping) => this.toMappingSummary(mapping));
     }
@@ -337,11 +335,7 @@ export class ExternalOrgSyncService {
 
         for (const item of this.sortDiffItemsForApply(diffItems)) {
             const shouldSkip =
-                skippedIds.has(item.id) ||
-                item.status !== OrgSyncDiffItemStatusValue.Pending ||
-                item.action === OrgSyncDiffActionValue.Conflict ||
-                item.action === OrgSyncDiffActionValue.Ignore ||
-                (explicitApproval && !approvedIds.has(item.id));
+                skippedIds.has(item.id) || item.status !== OrgSyncDiffItemStatusValue.Pending || item.action === OrgSyncDiffActionValue.Conflict || item.action === OrgSyncDiffActionValue.Ignore || (explicitApproval && !approvedIds.has(item.id));
 
             if (shouldSkip) {
                 item.status = OrgSyncDiffItemStatusValue.Skipped;
@@ -448,10 +442,16 @@ export class ExternalOrgSyncService {
         }
     }
 
-    private assertSourceState(source: ExternalOrgSource): void {
-        if (source.status === ExternalOrgSourceStatusValue.Active && !source.providerConfigId && !source.externalRootDepartmentId) {
-            throw new BadRequestException('Active external org source requires a provider config or external root department id.');
+    private assertSourceState(source: ExternalOrgSource, providerConfig: IdentityProviderConfig | null): void {
+        if (source.status !== ExternalOrgSourceStatusValue.Active) return;
+        if (source.provider !== ExternalOrgProviderValue.Feishu) {
+            throw new BadRequestException('当前外部平台尚未支持组织同步，请先保持为草稿。');
         }
+        if (!source.providerConfigId || !providerConfig) {
+            throw new BadRequestException('启用外部组织同步源前，请先选择已启用且已配置 Client Secret 的企业协同接入。');
+        }
+
+        this.assertProviderConfigReadyForOrgSync(providerConfig);
     }
 
     private async requireProviderConfigForSync(source: ExternalOrgSource): Promise<IdentityProviderConfig> {
@@ -467,11 +467,18 @@ export class ExternalOrgSyncService {
             throw new BadRequestException(`Identity provider config ${source.providerConfigId} not found`);
         }
         this.assertProviderConfigMatchesSource(source.provider, providerConfig);
-        if (!providerConfig.encryptedClientSecret) {
-            throw new BadRequestException('Identity provider client secret is required before external org sync.');
-        }
+        this.assertProviderConfigReadyForOrgSync(providerConfig);
 
         return providerConfig;
+    }
+
+    private assertProviderConfigReadyForOrgSync(providerConfig: IdentityProviderConfig): void {
+        if (!providerConfig.enabled || providerConfig.status !== IdentityProviderConfigStatusValue.Active) {
+            throw new BadRequestException('所选企业协同接入尚未启用，不能用于外部组织同步。');
+        }
+        if (!providerConfig.encryptedClientSecret) {
+            throw new BadRequestException('所选企业协同接入缺少 Client Secret，不能用于外部组织同步。');
+        }
     }
 
     private decryptProviderSecret(providerConfig: IdentityProviderConfig): string {
@@ -502,18 +509,20 @@ export class ExternalOrgSyncService {
         const plannedCreateExternalDepartmentIds = new Set<string>();
 
         for (const department of departments) {
-            const mapping = mappingByExternalDepartmentId.get(department.externalDepartmentId) ?? this.repository.createMapping({
-                sourceId: source.id,
-                externalDepartmentId: department.externalDepartmentId,
-                externalParentDepartmentId: department.externalParentDepartmentId,
-                externalDepartmentName: department.externalDepartmentName,
-                orgUnitId: null,
-                status: ExternalDepartmentMappingStatusValue.Unmapped,
-                externalSnapshot: department.raw,
-                lastSeenAt: now,
-                createdBy: operatorId,
-                updatedBy: operatorId
-            });
+            const mapping =
+                mappingByExternalDepartmentId.get(department.externalDepartmentId) ??
+                this.repository.createMapping({
+                    sourceId: source.id,
+                    externalDepartmentId: department.externalDepartmentId,
+                    externalParentDepartmentId: department.externalParentDepartmentId,
+                    externalDepartmentName: department.externalDepartmentName,
+                    orgUnitId: null,
+                    status: ExternalDepartmentMappingStatusValue.Unmapped,
+                    externalSnapshot: department.raw,
+                    lastSeenAt: now,
+                    createdBy: operatorId,
+                    updatedBy: operatorId
+                });
 
             mapping.externalParentDepartmentId = department.externalParentDepartmentId;
             mapping.externalDepartmentName = department.externalDepartmentName;
@@ -675,7 +684,7 @@ export class ExternalOrgSyncService {
             });
         }
 
-        if ((orgUnit.parentId ?? null) !== parentResolution.parentOrgUnitId || department.displayOrder !== null && department.displayOrder !== orgUnit.displayOrder) {
+        if ((orgUnit.parentId ?? null) !== parentResolution.parentOrgUnitId || (department.displayOrder !== null && department.displayOrder !== orgUnit.displayOrder)) {
             return this.repository.createDiffItem({
                 runId: run.id,
                 externalDepartmentId: department.externalDepartmentId,
@@ -774,7 +783,7 @@ export class ExternalOrgSyncService {
 
     private applyCreateOrgUnitDiff(input: ApplyDiffItemInput): void {
         const candidate = this.createCandidateSnapshot(input.item.candidateSnapshot);
-        const parentId = candidate.targetParentOrgUnitId ?? (candidate.targetParentExternalDepartmentId ? input.createdOrgUnitIdsByExternalDepartmentId.get(candidate.targetParentExternalDepartmentId) ?? null : null);
+        const parentId = candidate.targetParentOrgUnitId ?? (candidate.targetParentExternalDepartmentId ? (input.createdOrgUnitIdsByExternalDepartmentId.get(candidate.targetParentExternalDepartmentId) ?? null) : null);
         this.assertNoSiblingNameConflict(input.orgUnits, parentId, candidate.targetName);
         this.assertOrgUnitCodeAvailable(input.orgUnits, candidate.targetCode);
 
@@ -817,12 +826,12 @@ export class ExternalOrgSyncService {
     private applyMoveOrgUnitDiff(input: ApplyDiffItemInput): void {
         const orgUnit = this.requireMappedOrgUnit(input);
         const candidate = this.updateCandidateSnapshot(input.item.candidateSnapshot);
-        const parentId = candidate.targetParentOrgUnitId ?? (candidate.targetParentExternalDepartmentId ? input.createdOrgUnitIdsByExternalDepartmentId.get(candidate.targetParentExternalDepartmentId) ?? null : null);
+        const parentId = candidate.targetParentOrgUnitId ?? (candidate.targetParentExternalDepartmentId ? (input.createdOrgUnitIdsByExternalDepartmentId.get(candidate.targetParentExternalDepartmentId) ?? null) : null);
         if (parentId === orgUnit.id) throw new ConflictException(`OrgUnit ${orgUnit.id} cannot move under itself.`);
         if (parentId && this.collectDescendantIds(input.orgUnits, orgUnit.id).has(parentId)) {
             throw new ConflictException(`OrgUnit ${orgUnit.id} cannot move under its own descendant.`);
         }
-        const parent = parentId ? input.orgUnits.find((candidateOrgUnit) => candidateOrgUnit.id === parentId) ?? null : null;
+        const parent = parentId ? (input.orgUnits.find((candidateOrgUnit) => candidateOrgUnit.id === parentId) ?? null) : null;
         if (parentId && !parent) throw new NotFoundException(`Parent OrgUnit ${parentId} not found`);
         if (parent && !parent.isActive) throw new ConflictException(`Parent OrgUnit ${parent.id} is inactive`);
         this.assertNoSiblingNameConflict(input.orgUnits, parentId, orgUnit.name, orgUnit.id);
@@ -877,7 +886,10 @@ export class ExternalOrgSyncService {
 
     private buildExternalOrgUnitCode(source: ExternalOrgSource, externalDepartmentId: string): string {
         const providerPrefix = source.provider === ExternalOrgProviderValue.Feishu ? 'FS' : source.provider.toUpperCase().slice(0, 6);
-        const normalized = externalDepartmentId.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '').toUpperCase();
+        const normalized = externalDepartmentId
+            .replace(/[^a-zA-Z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .toUpperCase();
         const digest = createHash('sha1').update(`${source.id}:${externalDepartmentId}`).digest('hex').slice(0, 8).toUpperCase();
         const prefix = `EXT-${providerPrefix}`;
         const bodyLength = Math.max(1, 64 - prefix.length - digest.length - 2);
@@ -984,12 +996,7 @@ export class ExternalOrgSyncService {
 
     private assertNoSiblingNameConflict(orgUnits: OrgUnit[], parentId: string | null, name: string, excludedOrgUnitId?: string): void {
         const normalizedName = name.trim().toLocaleLowerCase();
-        const conflict = orgUnits.find(
-            (candidate) =>
-                candidate.id !== excludedOrgUnitId &&
-                (candidate.parentId ?? null) === parentId &&
-                candidate.name.trim().toLocaleLowerCase() === normalizedName
-        );
+        const conflict = orgUnits.find((candidate) => candidate.id !== excludedOrgUnitId && (candidate.parentId ?? null) === parentId && candidate.name.trim().toLocaleLowerCase() === normalizedName);
         if (conflict) {
             throw new ConflictException(`OrgUnit name ${name} already exists under the same parent.`);
         }
