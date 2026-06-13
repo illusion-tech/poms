@@ -68,7 +68,7 @@ export class IdentityProviderService {
             provider: request.provider,
             tenantId: request.tenantId ?? null,
             displayName: request.displayName,
-            status: this.resolveInitialStatus(enabled, encryptedClientSecret),
+            status: IdentityProviderConfigStatusValue.Draft,
             enabled,
             loginEnabled: request.loginEnabled ?? false,
             bindingEnabled: request.bindingEnabled ?? false,
@@ -86,6 +86,7 @@ export class IdentityProviderService {
             updatedBy: operatorId ?? null
         });
 
+        this.normalizeConfigStatus(config);
         this.assertConfigState(config);
         await this.identityProviderRepository.saveAll([config]);
         await this.recordConfigAudit('identity-provider.config.created', config, operatorId, null, this.auditSnapshot(config));
@@ -578,14 +579,8 @@ export class IdentityProviderService {
         if (config.status === IdentityProviderConfigStatusValue.Active && !config.enabled) {
             throw new BadRequestException('Active identity provider config must be enabled.');
         }
-        if ((config.enabled || config.loginEnabled || config.bindingEnabled || config.searchEnabled || config.status === IdentityProviderConfigStatusValue.Active) && !config.encryptedClientSecret) {
-            throw new BadRequestException('Enabled identity provider config requires a client secret.');
-        }
-        if (config.loginEnabled && !config.redirectUri) {
-            throw new BadRequestException('Login enabled identity provider config requires a redirect URI.');
-        }
-        if (config.searchEnabled && !config.searchRedirectUri) {
-            throw new BadRequestException('Search enabled identity provider config requires a search redirect URI.');
+        if (config.status === IdentityProviderConfigStatusValue.Active && !this.hasMinimumActiveConfig(config)) {
+            throw new BadRequestException('Active identity provider config requires complete client credentials and enabled capability redirect URIs.');
         }
     }
 
@@ -655,11 +650,6 @@ export class IdentityProviderService {
             throw new BadRequestException('Identity provider search redirect URI is required before starting provider authorization.');
         }
         return config.searchRedirectUri;
-    }
-
-    private resolveInitialStatus(enabled: boolean, encryptedClientSecret: string | null): string {
-        if (!enabled) return IdentityProviderConfigStatusValue.Draft;
-        return encryptedClientSecret ? IdentityProviderConfigStatusValue.Active : IdentityProviderConfigStatusValue.Misconfigured;
     }
 
     private toDetail(config: IdentityProviderConfig): IdentityProviderConfigDetail {

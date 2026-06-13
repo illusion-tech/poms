@@ -172,6 +172,28 @@ describe('ExternalOrgSyncService', () => {
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
+    it('rejects activating a source when existing provider config no longer matches the source provider', async () => {
+        const source = createSource({
+            status: ExternalOrgSourceStatusValue.Draft,
+            providerConfigId
+        });
+        repository.findSourceById.mockResolvedValue(source);
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ provider: ExternalOrgProviderValue.DingTalk as IdentityProviderConfig['provider'] }));
+
+        await expect(
+            service.updateExternalOrgSource(
+                sourceId,
+                {
+                    status: ExternalOrgSourceStatusValue.Active,
+                    expectedVersion: 1
+                },
+                operatorId
+            )
+        ).rejects.toThrow(`Identity provider config provider ${ExternalOrgProviderValue.DingTalk} does not match external org source provider ${ExternalOrgProviderValue.Feishu}`);
+
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
     it('replaces mappings after validating source version, duplicate external departments, and org units', async () => {
         const source = createSource({ rowVersion: 2 });
         const existingMapping = createMapping({ id: '97000000-0000-4000-8000-000000000101', externalDepartmentId: 'old-dept' });

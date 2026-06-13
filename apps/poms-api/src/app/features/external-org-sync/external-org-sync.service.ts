@@ -451,6 +451,7 @@ export class ExternalOrgSyncService {
             throw new BadRequestException('启用外部组织同步源前，请先选择已启用且已配置 Client Secret 的企业协同接入。');
         }
 
+        this.assertProviderConfigMatchesSource(source.provider, providerConfig);
         this.assertProviderConfigReadyForOrgSync(providerConfig);
     }
 
