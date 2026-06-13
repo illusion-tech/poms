@@ -100,6 +100,7 @@ export class IdentityProviderService {
         }
 
         const beforeSnapshot = this.auditSnapshot(config);
+        const previousStatus = config.status;
 
         if (request.displayName !== undefined) config.displayName = request.displayName;
         if (request.enabled !== undefined) config.enabled = request.enabled;
@@ -120,7 +121,7 @@ export class IdentityProviderService {
             this.assertSupportedSearchGrantMode(request.searchGrantMode);
             config.searchGrantMode = request.searchGrantMode;
         }
-        if (request.status !== undefined) config.status = request.status;
+        this.normalizeConfigStatus(config, previousStatus);
         config.updatedBy = operatorId ?? null;
 
         this.assertConfigState(config);
@@ -406,7 +407,7 @@ export class IdentityProviderService {
         grant.tenantId = config.tenantId ?? null;
         grant.encryptedAccessToken = this.encryptSecret(tokenSet.accessToken);
         grant.encryptedRefreshToken = tokenSet.refreshToken ? this.encryptSecret(tokenSet.refreshToken) : null;
-        grant.scopes = tokenSet.scopes.length > 0 ? tokenSet.scopes : config.searchScopes ?? [];
+        grant.scopes = tokenSet.scopes.length > 0 ? tokenSet.scopes : (config.searchScopes ?? []);
         grant.status = IdentityProviderOAuthGrantStatusValue.Active;
         grant.grantedAt = now;
         grant.expiresAt = this.expiresAtFromNow(tokenSet.expiresInSeconds);
@@ -586,6 +587,22 @@ export class IdentityProviderService {
         if (config.searchEnabled && !config.searchRedirectUri) {
             throw new BadRequestException('Search enabled identity provider config requires a search redirect URI.');
         }
+    }
+
+    private normalizeConfigStatus(config: IdentityProviderConfig, previousStatus = config.status): void {
+        if (!config.enabled) {
+            config.status = previousStatus === IdentityProviderConfigStatusValue.Draft ? IdentityProviderConfigStatusValue.Draft : IdentityProviderConfigStatusValue.Disabled;
+            return;
+        }
+
+        config.status = this.hasMinimumActiveConfig(config) ? IdentityProviderConfigStatusValue.Active : IdentityProviderConfigStatusValue.Misconfigured;
+    }
+
+    private hasMinimumActiveConfig(config: IdentityProviderConfig): boolean {
+        if (!config.clientId || !config.encryptedClientSecret) return false;
+        if (config.loginEnabled && !config.redirectUri) return false;
+        if (config.searchEnabled && !config.searchRedirectUri) return false;
+        return true;
     }
 
     private assertBindingAllowed(config: IdentityProviderConfig): void {

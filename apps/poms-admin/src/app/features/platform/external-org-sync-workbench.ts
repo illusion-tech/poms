@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
     ExternalDepartmentMappingStatus,
     ExternalOrgProvider,
@@ -16,7 +18,7 @@ import {
     OrgSyncDiffItemStatus,
     OrgSyncRunStatus,
     PlatformStore,
-    type PlatformOrgUnitSummary,
+    type PlatformOrgUnitSummary
 } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -34,6 +36,7 @@ import { AdminTableCard } from '../../shared/ui/admin-table-card';
 interface SelectOption<T> {
     label: string;
     value: T;
+    disabled?: boolean;
 }
 
 interface ExternalOrgSourceForm {
@@ -47,10 +50,24 @@ interface ExternalOrgSourceForm {
     syncScopesText: string;
 }
 
+function apiErrorMessage(error: unknown, fallback: string): string {
+    if (error instanceof HttpErrorResponse) {
+        const body = error.error as { message?: unknown } | string | null;
+        if (typeof body === 'string' && body.trim()) return body;
+        if (body && typeof body === 'object') {
+            const message = body.message;
+            if (Array.isArray(message)) return message.filter((item): item is string => typeof item === 'string' && item.trim().length > 0).join('；') || fallback;
+            if (typeof message === 'string' && message.trim()) return message;
+        }
+    }
+    if (error instanceof Error && error.message) return error.message;
+    return fallback;
+}
+
 @Component({
     selector: 'app-external-org-sync-workbench',
     standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, CheckboxModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TextareaModule, ToastModule, TooltipModule, AdminTableCard],
+    imports: [CommonModule, FormsModule, RouterLink, ButtonModule, CheckboxModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TextareaModule, ToastModule, TooltipModule, AdminTableCard],
     providers: [ExternalOrgSyncStore, IdentityProviderStore, MessageService],
     template: `
         <p-toast />
@@ -67,15 +84,7 @@ interface ExternalOrgSourceForm {
                 <div class="flex flex-wrap items-center gap-2">
                     <p-button icon="pi pi-refresh" severity="secondary" [text]="true" pTooltip="刷新" tooltipPosition="top" ariaLabel="刷新同步源" [loading]="syncStore.loadingSources()" (onClick)="refresh()" />
                     <p-button icon="pi pi-plus" label="新建同步源" severity="secondary" (onClick)="openCreateSourceDialog()" />
-                    <p-button
-                        icon="pi pi-play"
-                        label="生成预览"
-                        [disabled]="!canCreatePreview()"
-                        [loading]="syncStore.creatingRun()"
-                        pTooltip="根据当前同步源生成差异预览"
-                        tooltipPosition="top"
-                        (onClick)="createPreviewRun()"
-                    />
+                    <p-button icon="pi pi-play" label="生成预览" [disabled]="!canCreatePreview()" [loading]="syncStore.creatingRun()" pTooltip="根据当前同步源生成差异预览" tooltipPosition="top" (onClick)="createPreviewRun()" />
                 </div>
             </section>
 
@@ -85,14 +94,7 @@ interface ExternalOrgSourceForm {
                         <i class="pi pi-database text-primary"></i>
                         <span class="font-medium text-surface-950 dark:text-surface-0">同步源</span>
                     </div>
-                    <p-table
-                        [value]="syncStore.sources()"
-                        dataKey="id"
-                        [rowHover]="true"
-                        responsiveLayout="scroll"
-                        [tableStyle]="{ width: '100%', 'min-width': '28rem' }"
-                        [pt]="{ root: { class: 'border-none!' } }"
-                    >
+                    <p-table [value]="syncStore.sources()" dataKey="id" [rowHover]="true" responsiveLayout="scroll" [tableStyle]="{ width: '100%', 'min-width': '28rem' }" [pt]="{ root: { class: 'border-none!' } }">
                         <ng-template #header>
                             <tr>
                                 <th>名称</th>
@@ -103,12 +105,7 @@ interface ExternalOrgSourceForm {
                         <ng-template #body let-source>
                             <tr [ngClass]="{ 'bg-primary-50 dark:bg-primary-900': source.id === syncStore.selectedSourceId() }">
                                 <td>
-                                    <button
-                                        type="button"
-                                        class="flex w-full flex-col items-start gap-1 text-left"
-                                        (click)="selectSource(source)"
-                                        [attr.aria-label]="'选择同步源 ' + source.displayName"
-                                    >
+                                    <button type="button" class="flex w-full flex-col items-start gap-1 text-left" (click)="selectSource(source)" [attr.aria-label]="'选择同步源 ' + source.displayName">
                                         <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.displayName }}</span>
                                         <span class="text-xs text-surface-500">{{ providerLabel(source.provider) }} · {{ source.externalRootDepartmentId ?? '0' }}</span>
                                     </button>
@@ -269,13 +266,7 @@ interface ExternalOrgSourceForm {
                     <ng-template #body let-item>
                         <tr>
                             <td>
-                                <p-checkbox
-                                    [binary]="true"
-                                    [ngModel]="isDiffItemSelected(item.id)"
-                                    (ngModelChange)="toggleDiffItem(item.id, $event)"
-                                    [disabled]="!isSelectableDiffItem(item)"
-                                    [inputId]="'diffItem' + item.id"
-                                />
+                                <p-checkbox [binary]="true" [ngModel]="isDiffItemSelected(item.id)" (ngModelChange)="toggleDiffItem(item.id, $event)" [disabled]="!isSelectableDiffItem(item)" [inputId]="'diffItem' + item.id" />
                             </td>
                             <td><p-tag [value]="diffActionLabel(item.action)" [severity]="diffActionSeverity(item.action)" /></td>
                             <td>
@@ -327,10 +318,20 @@ interface ExternalOrgSourceForm {
                             [options]="providerConfigOptions()"
                             optionLabel="label"
                             optionValue="value"
+                            optionDisabled="disabled"
                             appendTo="body"
                             placeholder="选择企业协同接入"
                             class="w-full rounded-md!"
                         />
+                        @if (selectedProviderConfigIssue(); as issue) {
+                            <div class="rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+                                <div>{{ issue }}</div>
+                                <a routerLink="/platform/identity-providers" class="mt-1 inline-flex items-center gap-1 font-medium text-primary">
+                                    <i class="pi pi-arrow-right text-xs"></i>
+                                    前往企业协同接入
+                                </a>
+                            </div>
+                        }
                     </div>
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgAuthoritativeUnit" class="font-medium">权威组织</label>
@@ -358,7 +359,7 @@ interface ExternalOrgSourceForm {
                 </ng-template>
             </p-dialog>
         </div>
-    `,
+    `
 })
 export class ExternalOrgSyncWorkbench {
     readonly syncStore = inject(ExternalOrgSyncStore);
@@ -370,29 +371,34 @@ export class ExternalOrgSyncWorkbench {
     readonly providerOptions: SelectOption<ExternalOrgProvider>[] = [
         { label: '飞书', value: ExternalOrgProvider.Feishu },
         { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
-        { label: '企业微信', value: ExternalOrgProvider.Wecom },
+        { label: '企业微信', value: ExternalOrgProvider.Wecom }
     ];
     readonly sourceStatusOptions: SelectOption<ExternalOrgSourceStatus>[] = [
         { label: '草稿', value: ExternalOrgSourceStatus.Draft },
         { label: '启用', value: ExternalOrgSourceStatus.Active },
         { label: '暂停', value: ExternalOrgSourceStatus.Paused },
-        { label: '归档', value: ExternalOrgSourceStatus.Archived },
+        { label: '归档', value: ExternalOrgSourceStatus.Archived }
     ];
     readonly providerConfigOptions = computed<SelectOption<string | null>[]>(() => [
         { label: '不绑定', value: null },
-        ...this.identityProviderStore.configs()
+        ...this.identityProviderStore
+            .configs()
             .filter((config) => this.isCompatibleProviderConfig(config))
-            .map((config) => ({
-                label: `${config.displayName} · ${this.providerConfigStatusLabel(config.status)}`,
-                value: config.id,
-            })),
+            .map((config) => {
+                const issue = this.providerConfigIssue(config);
+                return {
+                    label: issue ? `${config.displayName} · ${this.providerConfigStatusLabel(config.status)} · ${issue}` : `${config.displayName} · 可用于组织同步`,
+                    value: config.id,
+                    disabled: Boolean(issue)
+                };
+            })
     ]);
     readonly orgUnitOptions = computed<SelectOption<string | null>[]>(() => [
         { label: '不限制', value: null },
         ...this.platformStore.orgUnits().map((unit) => ({
             label: this.indentedOrgUnitLabel(unit),
-            value: unit.id,
-        })),
+            value: unit.id
+        }))
     ]);
 
     sourceDialogVisible = false;
@@ -435,7 +441,7 @@ export class ExternalOrgSyncWorkbench {
             providerConfigId: source.providerConfigId,
             authoritativeOrgUnitId: source.authoritativeOrgUnitId,
             externalRootDepartmentId: source.externalRootDepartmentId ?? '0',
-            syncScopesText: source.syncScopes.join('\n'),
+            syncScopesText: source.syncScopes.join('\n')
         };
         this.sourceDialogVisible = true;
     }
@@ -452,6 +458,11 @@ export class ExternalOrgSyncWorkbench {
             .filter(Boolean);
         const externalRootDepartmentId = this.sourceForm.externalRootDepartmentId.trim() || '0';
         const editingId = this.editingSourceId();
+        const sourceIssue = this.sourceFormIssue();
+        if (sourceIssue) {
+            this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
+            return;
+        }
         try {
             if (editingId) {
                 const selected = this.syncStore.sources().find((source) => source.id === editingId);
@@ -462,7 +473,7 @@ export class ExternalOrgSyncWorkbench {
                     authoritativeOrgUnitId: this.sourceForm.authoritativeOrgUnitId,
                     externalRootDepartmentId,
                     syncScopes: scopes,
-                    expectedVersion: selected?.rowVersion,
+                    expectedVersion: selected?.rowVersion
                 });
             } else {
                 await this.syncStore.createSource({
@@ -473,31 +484,37 @@ export class ExternalOrgSyncWorkbench {
                     providerConfigId: this.sourceForm.providerConfigId,
                     authoritativeOrgUnitId: this.sourceForm.authoritativeOrgUnitId,
                     externalRootDepartmentId,
-                    syncScopes: scopes,
+                    syncScopes: scopes
                 });
             }
             this.sourceDialogVisible = false;
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: '同步源已保存' });
-        } catch {
-            this.#messageService.add({ severity: 'error', summary: '保存失败', detail: '请检查接入配置和版本状态' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '保存失败', detail: apiErrorMessage(error, '请检查接入配置和版本状态') });
         }
     }
 
     async toggleSourceStatus(source: ExternalOrgSourceSummary): Promise<void> {
         const nextStatus = source.status === ExternalOrgSourceStatus.Active ? ExternalOrgSourceStatus.Paused : ExternalOrgSourceStatus.Active;
+        const sourceIssue = nextStatus === ExternalOrgSourceStatus.Active ? this.sourceActivationIssue(source.provider, source.providerConfigId) : null;
+        if (sourceIssue) {
+            this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
+            return;
+        }
         try {
             await this.syncStore.updateSource(source.id, {
                 status: nextStatus,
-                expectedVersion: source.rowVersion,
+                expectedVersion: source.rowVersion
             });
             this.#messageService.add({ severity: 'success', summary: '状态已更新', detail: `同步源已${nextStatus === ExternalOrgSourceStatus.Active ? '启用' : '暂停'}` });
-        } catch {
-            this.#messageService.add({ severity: 'error', summary: '状态更新失败', detail: '请刷新后重试' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '状态更新失败', detail: apiErrorMessage(error, '请刷新后重试') });
         }
     }
 
     canCreatePreview(): boolean {
-        return this.syncStore.selectedSource()?.status === ExternalOrgSourceStatus.Active && !this.syncStore.creatingRun();
+        const source = this.syncStore.selectedSource();
+        return !!source && source.status === ExternalOrgSourceStatus.Active && !this.sourceActivationIssue(source.provider, source.providerConfigId) && !this.syncStore.creatingRun();
     }
 
     async createPreviewRun(): Promise<void> {
@@ -506,12 +523,19 @@ export class ExternalOrgSyncWorkbench {
         try {
             const run = await this.syncStore.createPreviewRun(source.id, {
                 expectedSourceVersion: source.rowVersion,
-                requestSnapshot: { triggeredFrom: 'poms-admin' },
+                requestSnapshot: { triggeredFrom: 'poms-admin' }
             });
-            this.selectedDiffItemIds.set(new Set(this.syncStore.diffItems().filter((item) => this.isSelectableDiffItem(item)).map((item) => item.id)));
+            this.selectedDiffItemIds.set(
+                new Set(
+                    this.syncStore
+                        .diffItems()
+                        .filter((item) => this.isSelectableDiffItem(item))
+                        .map((item) => item.id)
+                )
+            );
             this.#messageService.add({ severity: 'success', summary: '预览已生成', detail: `发现 ${run.totalItemCount} 条差异` });
-        } catch {
-            this.#messageService.add({ severity: 'error', summary: '预览失败', detail: '外部组织拉取或差异生成失败' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '预览失败', detail: apiErrorMessage(error, '外部组织拉取或差异生成失败') });
         }
     }
 
@@ -532,7 +556,7 @@ export class ExternalOrgSyncWorkbench {
             await this.syncStore.applyRun(runId, {
                 expectedVersion: run.rowVersion,
                 approvedDiffItemIds,
-                skippedDiffItemIds,
+                skippedDiffItemIds
             });
             this.selectedDiffItemIds.set(new Set());
             this.#messageService.add({ severity: 'success', summary: '应用完成', detail: '组织结构已按选中差异更新' });
@@ -554,7 +578,16 @@ export class ExternalOrgSyncWorkbench {
     }
 
     toggleAllDiffItems(selected: boolean): void {
-        this.selectedDiffItemIds.set(selected ? new Set(this.syncStore.diffItems().filter((item) => this.isSelectableDiffItem(item)).map((item) => item.id)) : new Set());
+        this.selectedDiffItemIds.set(
+            selected
+                ? new Set(
+                      this.syncStore
+                          .diffItems()
+                          .filter((item) => this.isSelectableDiffItem(item))
+                          .map((item) => item.id)
+                  )
+                : new Set()
+        );
     }
 
     isDiffItemSelected(id: string): boolean {
@@ -562,7 +595,10 @@ export class ExternalOrgSyncWorkbench {
     }
 
     allSelectableDiffItemsSelected(): boolean {
-        const selectableIds = this.syncStore.diffItems().filter((item) => this.isSelectableDiffItem(item)).map((item) => item.id);
+        const selectableIds = this.syncStore
+            .diffItems()
+            .filter((item) => this.isSelectableDiffItem(item))
+            .map((item) => item.id);
         return selectableIds.length > 0 && selectableIds.every((id) => this.selectedDiffItemIds().has(id));
     }
 
@@ -575,7 +611,7 @@ export class ExternalOrgSyncWorkbench {
             {
                 [ExternalOrgProvider.Feishu]: '飞书',
                 [ExternalOrgProvider.Dingtalk]: '钉钉',
-                [ExternalOrgProvider.Wecom]: '企业微信',
+                [ExternalOrgProvider.Wecom]: '企业微信'
             } satisfies Record<ExternalOrgProvider, string>
         )[provider];
     }
@@ -586,7 +622,7 @@ export class ExternalOrgSyncWorkbench {
                 [ExternalOrgSourceStatus.Draft]: '草稿',
                 [ExternalOrgSourceStatus.Active]: '启用',
                 [ExternalOrgSourceStatus.Paused]: '暂停',
-                [ExternalOrgSourceStatus.Archived]: '归档',
+                [ExternalOrgSourceStatus.Archived]: '归档'
             } satisfies Record<ExternalOrgSourceStatus, string>
         )[status];
     }
@@ -597,7 +633,7 @@ export class ExternalOrgSyncWorkbench {
                 [ExternalOrgSourceStatus.Draft]: 'secondary',
                 [ExternalOrgSourceStatus.Active]: 'success',
                 [ExternalOrgSourceStatus.Paused]: 'warn',
-                [ExternalOrgSourceStatus.Archived]: 'danger',
+                [ExternalOrgSourceStatus.Archived]: 'danger'
             } satisfies Record<ExternalOrgSourceStatus, 'success' | 'secondary' | 'warn' | 'danger'>
         )[status];
     }
@@ -608,7 +644,7 @@ export class ExternalOrgSyncWorkbench {
                 [ExternalDepartmentMappingStatus.Unmapped]: '未映射',
                 [ExternalDepartmentMappingStatus.Mapped]: '已映射',
                 [ExternalDepartmentMappingStatus.Conflict]: '冲突',
-                [ExternalDepartmentMappingStatus.Ignored]: '忽略',
+                [ExternalDepartmentMappingStatus.Ignored]: '忽略'
             } satisfies Record<ExternalDepartmentMappingStatus, string>
         )[status];
     }
@@ -619,7 +655,7 @@ export class ExternalOrgSyncWorkbench {
                 [ExternalDepartmentMappingStatus.Unmapped]: 'warn',
                 [ExternalDepartmentMappingStatus.Mapped]: 'success',
                 [ExternalDepartmentMappingStatus.Conflict]: 'danger',
-                [ExternalDepartmentMappingStatus.Ignored]: 'secondary',
+                [ExternalDepartmentMappingStatus.Ignored]: 'secondary'
             } satisfies Record<ExternalDepartmentMappingStatus, 'success' | 'secondary' | 'warn' | 'danger'>
         )[status];
     }
@@ -632,7 +668,7 @@ export class ExternalOrgSyncWorkbench {
                 [OrgSyncRunStatus.Applying]: '应用中',
                 [OrgSyncRunStatus.Applied]: '已应用',
                 [OrgSyncRunStatus.Failed]: '失败',
-                [OrgSyncRunStatus.Cancelled]: '已取消',
+                [OrgSyncRunStatus.Cancelled]: '已取消'
             } satisfies Record<OrgSyncRunStatus, string>
         )[status];
     }
@@ -645,7 +681,7 @@ export class ExternalOrgSyncWorkbench {
                 [OrgSyncRunStatus.Applying]: 'info',
                 [OrgSyncRunStatus.Applied]: 'success',
                 [OrgSyncRunStatus.Failed]: 'danger',
-                [OrgSyncRunStatus.Cancelled]: 'secondary',
+                [OrgSyncRunStatus.Cancelled]: 'secondary'
             } satisfies Record<OrgSyncRunStatus, 'success' | 'secondary' | 'warn' | 'danger' | 'info'>
         )[status];
     }
@@ -659,7 +695,7 @@ export class ExternalOrgSyncWorkbench {
                 [OrgSyncDiffAction.DisableOrgUnit]: '停用组织',
                 [OrgSyncDiffAction.MapExistingOrgUnit]: '映射已有',
                 [OrgSyncDiffAction.Ignore]: '忽略',
-                [OrgSyncDiffAction.Conflict]: '冲突',
+                [OrgSyncDiffAction.Conflict]: '冲突'
             } satisfies Record<OrgSyncDiffAction, string>
         )[action];
     }
@@ -673,7 +709,7 @@ export class ExternalOrgSyncWorkbench {
                 [OrgSyncDiffAction.DisableOrgUnit]: 'danger',
                 [OrgSyncDiffAction.MapExistingOrgUnit]: 'info',
                 [OrgSyncDiffAction.Ignore]: 'secondary',
-                [OrgSyncDiffAction.Conflict]: 'danger',
+                [OrgSyncDiffAction.Conflict]: 'danger'
             } satisfies Record<OrgSyncDiffAction, 'success' | 'secondary' | 'warn' | 'danger' | 'info'>
         )[action];
     }
@@ -685,7 +721,7 @@ export class ExternalOrgSyncWorkbench {
                 [OrgSyncDiffItemStatus.Approved]: '已批准',
                 [OrgSyncDiffItemStatus.Skipped]: '已跳过',
                 [OrgSyncDiffItemStatus.Applied]: '已应用',
-                [OrgSyncDiffItemStatus.Failed]: '失败',
+                [OrgSyncDiffItemStatus.Failed]: '失败'
             } satisfies Record<OrgSyncDiffItemStatus, string>
         )[status];
     }
@@ -697,7 +733,7 @@ export class ExternalOrgSyncWorkbench {
                 [OrgSyncDiffItemStatus.Approved]: 'secondary',
                 [OrgSyncDiffItemStatus.Skipped]: 'secondary',
                 [OrgSyncDiffItemStatus.Applied]: 'success',
-                [OrgSyncDiffItemStatus.Failed]: 'danger',
+                [OrgSyncDiffItemStatus.Failed]: 'danger'
             } satisfies Record<OrgSyncDiffItemStatus, 'success' | 'secondary' | 'warn' | 'danger'>
         )[status];
     }
@@ -719,8 +755,16 @@ export class ExternalOrgSyncWorkbench {
             month: '2-digit',
             day: '2-digit',
             hour: '2-digit',
-            minute: '2-digit',
+            minute: '2-digit'
         }).format(new Date(value));
+    }
+
+    selectedProviderConfigIssue(): string | null {
+        if (this.sourceForm.status === ExternalOrgSourceStatus.Active) {
+            return this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
+        }
+        if (!this.sourceForm.providerConfigId) return null;
+        return this.sourceConfigIssue(this.sourceForm.providerConfigId);
     }
 
     private createEmptySourceForm(): ExternalOrgSourceForm {
@@ -732,12 +776,36 @@ export class ExternalOrgSyncWorkbench {
             providerConfigId: null,
             authoritativeOrgUnitId: null,
             externalRootDepartmentId: '0',
-            syncScopesText: 'contact:department.base:readonly',
+            syncScopesText: 'contact:department.base:readonly'
         };
     }
 
     private isCompatibleProviderConfig(config: IdentityProviderConfigSummary): boolean {
         return config.provider === IdentityProvider.Feishu;
+    }
+
+    private sourceFormIssue(): string | null {
+        if (this.sourceForm.status !== ExternalOrgSourceStatus.Active) return null;
+        return this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
+    }
+
+    private sourceActivationIssue(provider: ExternalOrgProvider, providerConfigId: string | null): string | null {
+        if (provider !== ExternalOrgProvider.Feishu) return '当前外部平台尚未支持组织同步，请先保持为草稿。';
+        return this.sourceConfigIssue(providerConfigId);
+    }
+
+    private sourceConfigIssue(providerConfigId: string | null): string | null {
+        if (!providerConfigId) return '启用同步源前需要选择一个已启用且已配置 Client Secret 的企业协同接入。';
+        const config = this.identityProviderStore.configs().find((candidate) => candidate.id === providerConfigId);
+        if (!config) return '接入配置不存在或尚未加载，请先刷新，或到企业协同接入检查。';
+        return this.providerConfigIssue(config);
+    }
+
+    private providerConfigIssue(config: IdentityProviderConfigSummary): string | null {
+        if (config.provider !== IdentityProvider.Feishu) return '当前只支持飞书组织同步。';
+        if (!config.enabled || config.status !== IdentityProviderConfigStatus.Active) return '接入未启用。';
+        if (!config.secretConfigured) return 'Client Secret 未配置。';
+        return null;
     }
 
     private providerConfigStatusLabel(status: IdentityProviderConfigStatus): string {
@@ -746,7 +814,7 @@ export class ExternalOrgSyncWorkbench {
                 [IdentityProviderConfigStatus.Draft]: '草稿',
                 [IdentityProviderConfigStatus.Active]: '启用',
                 [IdentityProviderConfigStatus.Disabled]: '停用',
-                [IdentityProviderConfigStatus.Misconfigured]: '配置异常',
+                [IdentityProviderConfigStatus.Misconfigured]: '配置异常'
             } satisfies Record<IdentityProviderConfigStatus, string>
         )[status];
     }

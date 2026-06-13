@@ -114,12 +114,7 @@ describe('IdentityProviderService', () => {
         adapterRegistry = {
             get: jest.fn().mockReturnValue(adapter)
         };
-        service = new IdentityProviderService(
-            repository as never as IdentityProviderRepository,
-            runtimeAuditService as never as RuntimeAuditService,
-            adapterRegistry as never as IdentityProviderAdapterRegistry,
-            new SecretCipherService()
-        );
+        service = new IdentityProviderService(repository as never as IdentityProviderRepository, runtimeAuditService as never as RuntimeAuditService, adapterRegistry as never as IdentityProviderAdapterRegistry, new SecretCipherService());
     });
 
     it('creates an enabled Feishu config with encrypted write-only secret and audit redaction', async () => {
@@ -256,6 +251,34 @@ describe('IdentityProviderService', () => {
                 metadata: { secretRedacted: true }
             })
         );
+    });
+
+    it('derives active status when a complete config is enabled', async () => {
+        const existing = createConfig({
+            enabled: false,
+            status: IdentityProviderConfigStatusValue.Draft,
+            encryptedClientSecret: encryptedSecret('client-secret')
+        });
+        repository.findConfigById.mockResolvedValue(existing);
+
+        const result = await service.updateIdentityProviderConfig(providerConfigId, { enabled: true }, operatorId);
+
+        expect(existing.status).toBe(IdentityProviderConfigStatusValue.Active);
+        expect(result.status).toBe(IdentityProviderConfigStatusValue.Active);
+    });
+
+    it('derives disabled status when a previously active config is turned off', async () => {
+        const existing = createConfig({
+            enabled: true,
+            status: IdentityProviderConfigStatusValue.Active,
+            encryptedClientSecret: encryptedSecret('client-secret')
+        });
+        repository.findConfigById.mockResolvedValue(existing);
+
+        const result = await service.updateIdentityProviderConfig(providerConfigId, { enabled: false }, operatorId);
+
+        expect(existing.status).toBe(IdentityProviderConfigStatusValue.Disabled);
+        expect(result.status).toBe(IdentityProviderConfigStatusValue.Disabled);
     });
 
     it('rejects update version conflicts before mutating the entity', async () => {
@@ -759,7 +782,9 @@ describe('IdentityProviderService', () => {
     }
 
     function encryptedSecret(secret: string): string {
-        const key = createHash('sha256').update(process.env['IDENTITY_PROVIDER_SECRET_KEY'] ?? process.env['JWT_SECRET'] ?? 'poms-dev-secret-change-in-production').digest();
+        const key = createHash('sha256')
+            .update(process.env['IDENTITY_PROVIDER_SECRET_KEY'] ?? process.env['JWT_SECRET'] ?? 'poms-dev-secret-change-in-production')
+            .digest();
         const iv = randomBytes(12);
         const cipher = createCipheriv('aes-256-gcm', key, iv);
         const encrypted = Buffer.concat([cipher.update(secret, 'utf8'), cipher.final()]);
