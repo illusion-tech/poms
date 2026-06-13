@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -381,6 +382,30 @@ describe('ExternalOrgSyncWorkbench', () => {
             requestSnapshot: { triggeredFrom: 'poms-admin' }
         });
         expect(component.selectedDiffItemIds().has('diff-item-1')).toBe(true);
+    });
+
+    it('uses the fallback toast detail for HttpErrorResponse without a server message', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+        syncStoreMock.createPreviewRun.mockRejectedValueOnce(
+            new HttpErrorResponse({
+                status: 500,
+                statusText: 'Internal Server Error',
+                url: '/api/platform/external-org-sync/sources/external-org-source-1/runs',
+                error: null
+            })
+        );
+
+        await component.createPreviewRun();
+
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'error',
+                summary: '预览失败',
+                detail: '外部组织拉取或差异生成失败'
+            })
+        );
+        expect(addMessage.mock.calls.at(-1)?.[0].detail).not.toContain('Http failure response');
     });
 
     it('applies selected diff items and skips unselected actionable items', async () => {

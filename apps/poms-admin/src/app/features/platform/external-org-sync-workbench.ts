@@ -59,9 +59,10 @@ function apiErrorMessage(error: unknown, fallback: string): string {
             if (Array.isArray(message)) return message.filter((item): item is string => typeof item === 'string' && item.trim().length > 0).join('；') || fallback;
             if (typeof message === 'string' && message.trim()) return message;
         }
+        return fallback;
     }
-    if (error instanceof Error && error.message) return error.message;
-    return fallback;
+    const message = error instanceof Error ? error.message.trim() : '';
+    return message || fallback;
 }
 
 @Component({
