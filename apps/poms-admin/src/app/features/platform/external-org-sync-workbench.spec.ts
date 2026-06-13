@@ -332,6 +332,29 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(syncStoreMock.createSource).not.toHaveBeenCalled();
     });
 
+    it('prevents saving a draft non-feishu source with a provider config binding', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '钉钉通讯录';
+        component.sourceForm.provider = ExternalOrgProvider.Dingtalk;
+        component.sourceForm.status = ExternalOrgSourceStatus.Draft;
+        component.sourceForm.providerConfigId = 'identity-provider-1';
+
+        expect(component.selectedProviderConfigIssue()).toContain('尚未支持绑定企业协同接入');
+
+        await component.saveSource();
+
+        expect(syncStoreMock.createSource).not.toHaveBeenCalled();
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'warn',
+                summary: '不能保存同步源',
+                detail: '当前外部平台尚未支持绑定企业协同接入，请先选择“不绑定”，或切换为飞书。'
+            })
+        );
+    });
+
     it('creates preview run with optimistic source version and selects pending actionable diff items', async () => {
         await component.createPreviewRun();
 
