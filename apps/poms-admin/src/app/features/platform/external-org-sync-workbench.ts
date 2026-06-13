@@ -460,7 +460,7 @@ export class ExternalOrgSyncWorkbench {
         const editingId = this.editingSourceId();
         const sourceIssue = this.sourceFormIssue();
         if (sourceIssue) {
-            this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
+            this.#messageService.add({ severity: 'warn', summary: this.sourceForm.status === ExternalOrgSourceStatus.Active ? '不能启用同步源' : '不能保存同步源', detail: sourceIssue });
             return;
         }
         try {
@@ -760,9 +760,8 @@ export class ExternalOrgSyncWorkbench {
     }
 
     selectedProviderConfigIssue(): string | null {
-        if (this.sourceForm.status === ExternalOrgSourceStatus.Active) {
-            return this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
-        }
+        const formIssue = this.sourceFormIssue();
+        if (formIssue) return formIssue;
         if (!this.sourceForm.providerConfigId) return null;
         return this.sourceConfigIssue(this.sourceForm.providerConfigId);
     }
@@ -785,8 +784,13 @@ export class ExternalOrgSyncWorkbench {
     }
 
     private sourceFormIssue(): string | null {
-        if (this.sourceForm.status !== ExternalOrgSourceStatus.Active) return null;
-        return this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
+        if (this.sourceForm.status === ExternalOrgSourceStatus.Active) {
+            return this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
+        }
+        if (this.sourceForm.provider !== ExternalOrgProvider.Feishu && this.sourceForm.providerConfigId) {
+            return '当前外部平台尚未支持绑定企业协同接入，请先选择“不绑定”，或切换为飞书。';
+        }
+        return null;
     }
 
     private sourceActivationIssue(provider: ExternalOrgProvider, providerConfigId: string | null): string | null {
