@@ -388,7 +388,7 @@ export class ExternalOrgSyncWorkbench {
             .map((config) => {
                 const issue = this.providerConfigIssue(config);
                 return {
-                    label: issue ? `${config.displayName} · ${this.providerConfigStatusLabel(config.status)} · ${issue}` : `${config.displayName} · 可用于组织同步`,
+                    label: issue ? `${config.displayName} · ${issue}` : `${config.displayName} · 可用于组织同步`,
                     value: config.id,
                     disabled: Boolean(issue)
                 };

@@ -328,7 +328,8 @@ describe('ExternalOrgSyncWorkbench', () => {
         const option = component.providerConfigOptions().find((candidate) => candidate.value === 'identity-provider-misconfigured');
 
         expect(option).toEqual(expect.objectContaining({ disabled: true }));
-        expect(option?.label).toContain('状态为「配置异常」，尚未就绪');
+        expect(option?.label).toBe('飞书配置异常 · 状态为「配置异常」，尚未就绪。');
+        expect(option?.label).not.toContain('配置异常 · 配置异常 · 状态为「配置异常」');
         expect(option?.label).not.toContain('接入未启用');
     });
 
