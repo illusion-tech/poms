@@ -310,7 +310,25 @@ describe('ExternalOrgSyncWorkbench', () => {
         const option = component.providerConfigOptions().find((candidate) => candidate.value === 'identity-provider-draft');
 
         expect(option).toEqual(expect.objectContaining({ disabled: true }));
-        expect(option?.label).toContain('接入未启用');
+        expect(option?.label).toContain('总开关未启用');
+    });
+
+    it('marks misconfigured provider configs with a status-specific issue', () => {
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({
+                id: 'identity-provider-misconfigured',
+                displayName: '飞书配置异常',
+                status: IdentityProviderConfigStatus.Misconfigured,
+                enabled: true,
+                secretConfigured: true
+            })
+        ]);
+
+        const option = component.providerConfigOptions().find((candidate) => candidate.value === 'identity-provider-misconfigured');
+
+        expect(option).toEqual(expect.objectContaining({ disabled: true }));
+        expect(option?.label).toContain('状态为「配置异常」，尚未就绪');
+        expect(option?.label).not.toContain('接入未启用');
     });
 
     it('prevents saving an active source with a provider config that is not ready', async () => {

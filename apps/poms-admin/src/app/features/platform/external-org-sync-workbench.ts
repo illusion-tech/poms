@@ -807,8 +807,9 @@ export class ExternalOrgSyncWorkbench {
 
     private providerConfigIssue(config: IdentityProviderConfigSummary): string | null {
         if (config.provider !== IdentityProvider.Feishu) return '当前只支持飞书组织同步。';
-        if (!config.enabled || config.status !== IdentityProviderConfigStatus.Active) return '接入未启用。';
+        if (!config.enabled) return '总开关未启用。';
         if (!config.secretConfigured) return 'Client Secret 未配置。';
+        if (config.status !== IdentityProviderConfigStatus.Active) return `状态为「${this.providerConfigStatusLabel(config.status)}」，尚未就绪。`;
         return null;
     }
 

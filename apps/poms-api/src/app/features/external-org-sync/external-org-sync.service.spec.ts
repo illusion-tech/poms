@@ -167,7 +167,7 @@ describe('ExternalOrgSyncService', () => {
                 status: ExternalOrgSourceStatusValue.Active,
                 providerConfigId
             })
-        ).rejects.toThrow(BadRequestException);
+        ).rejects.toThrow('所选企业协同接入状态为「草稿」，尚未就绪，不能用于外部组织同步。');
 
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
@@ -276,9 +276,9 @@ describe('ExternalOrgSyncService', () => {
 
     it('rejects preview runs when provider config is not ready for org sync', async () => {
         repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, externalRootDepartmentId: '0' }));
-        repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ status: IdentityProviderConfigStatusValue.Draft }));
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ status: IdentityProviderConfigStatusValue.Misconfigured }));
 
-        await expect(service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3 }, operatorId)).rejects.toThrow(BadRequestException);
+        await expect(service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3 }, operatorId)).rejects.toThrow('所选企业协同接入状态为「配置异常」，尚未就绪，不能用于外部组织同步。');
 
         expect(repository.createRun).not.toHaveBeenCalled();
         expect(feishuAdapter.fetchDepartmentTree).not.toHaveBeenCalled();

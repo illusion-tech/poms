@@ -473,12 +473,25 @@ export class ExternalOrgSyncService {
     }
 
     private assertProviderConfigReadyForOrgSync(providerConfig: IdentityProviderConfig): void {
-        if (!providerConfig.enabled || providerConfig.status !== IdentityProviderConfigStatusValue.Active) {
-            throw new BadRequestException('所选企业协同接入尚未启用，不能用于外部组织同步。');
+        if (!providerConfig.enabled) {
+            throw new BadRequestException('所选企业协同接入总开关未启用，不能用于外部组织同步。');
         }
         if (!providerConfig.encryptedClientSecret) {
             throw new BadRequestException('所选企业协同接入缺少 Client Secret，不能用于外部组织同步。');
         }
+        if (providerConfig.status !== IdentityProviderConfigStatusValue.Active) {
+            throw new BadRequestException(`所选企业协同接入状态为「${this.providerConfigStatusLabel(providerConfig.status)}」，尚未就绪，不能用于外部组织同步。`);
+        }
+    }
+
+    private providerConfigStatusLabel(status: string): string {
+        const labels: Record<string, string> = {
+            [IdentityProviderConfigStatusValue.Draft]: '草稿',
+            [IdentityProviderConfigStatusValue.Active]: '启用',
+            [IdentityProviderConfigStatusValue.Disabled]: '停用',
+            [IdentityProviderConfigStatusValue.Misconfigured]: '配置异常'
+        };
+        return labels[status] ?? status;
     }
 
     private decryptProviderSecret(providerConfig: IdentityProviderConfig): string {
