@@ -189,34 +189,44 @@ describe('IdentityProviderService', () => {
         ).rejects.toThrow(BadRequestException);
     });
 
-    it('rejects enabling login without a redirect URI', async () => {
+    it('saves enabled login configs without a redirect URI as misconfigured', async () => {
         repository.findConfigByProviderTenant.mockResolvedValue(null);
 
-        await expect(
-            service.createIdentityProviderConfig({
+        const result = await service.createIdentityProviderConfig(
+            {
                 provider: IdentityProviderValue.Feishu,
                 displayName: '飞书',
                 enabled: true,
                 loginEnabled: true,
                 clientId: 'cli_a',
                 clientSecret: 'raw-secret'
-            })
-        ).rejects.toThrow(BadRequestException);
+            },
+            operatorId
+        );
+
+        const saved = repository.saveAll.mock.calls[0][0][0] as IdentityProviderConfig;
+        expect(saved.status).toBe(IdentityProviderConfigStatusValue.Misconfigured);
+        expect(result.status).toBe(IdentityProviderConfigStatusValue.Misconfigured);
     });
 
-    it('rejects enabling search without a search redirect URI', async () => {
+    it('saves enabled search configs without a search redirect URI as misconfigured', async () => {
         repository.findConfigByProviderTenant.mockResolvedValue(null);
 
-        await expect(
-            service.createIdentityProviderConfig({
+        const result = await service.createIdentityProviderConfig(
+            {
                 provider: IdentityProviderValue.Feishu,
                 displayName: '飞书',
                 enabled: true,
                 searchEnabled: true,
                 clientId: 'cli_a',
                 clientSecret: 'raw-secret'
-            })
-        ).rejects.toThrow(BadRequestException);
+            },
+            operatorId
+        );
+
+        const saved = repository.saveAll.mock.calls[0][0][0] as IdentityProviderConfig;
+        expect(saved.status).toBe(IdentityProviderConfigStatusValue.Misconfigured);
+        expect(result.status).toBe(IdentityProviderConfigStatusValue.Misconfigured);
     });
 
     it('updates config with optimistic lock and redacted audit snapshots', async () => {
@@ -265,6 +275,21 @@ describe('IdentityProviderService', () => {
 
         expect(existing.status).toBe(IdentityProviderConfigStatusValue.Active);
         expect(result.status).toBe(IdentityProviderConfigStatusValue.Active);
+    });
+
+    it('derives misconfigured status when an incomplete config is enabled', async () => {
+        const existing = createConfig({
+            enabled: false,
+            status: IdentityProviderConfigStatusValue.Draft,
+            encryptedClientSecret: null
+        });
+        repository.findConfigById.mockResolvedValue(existing);
+
+        const result = await service.updateIdentityProviderConfig(providerConfigId, { enabled: true }, operatorId);
+
+        expect(existing.status).toBe(IdentityProviderConfigStatusValue.Misconfigured);
+        expect(result.status).toBe(IdentityProviderConfigStatusValue.Misconfigured);
+        expect(repository.saveAll).toHaveBeenCalledWith([existing]);
     });
 
     it('derives disabled status when a previously active config is turned off', async () => {
