@@ -12,7 +12,7 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
 
     async fetchDepartmentTree(input: FetchExternalDepartmentTreeInput): Promise<ExternalDepartmentSnapshot[]> {
         const accessToken = await this.fetchTenantAccessToken(input.providerConfig.clientId, input.clientSecret);
-        const rootDepartmentId = input.source.externalRootDepartmentId ?? '0';
+        const rootDepartmentId = this.normalizeRootDepartmentId(input.source.externalRootDepartmentId);
         const snapshots: ExternalDepartmentSnapshot[] = [];
         const visited = new Set<string>();
         const queue = [rootDepartmentId];
@@ -34,7 +34,7 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
 
     async testDepartmentReadAccess(input: TestExternalDepartmentReadAccessInput): Promise<ExternalDepartmentReadAccessResult> {
         const accessToken = await this.fetchTenantAccessToken(input.providerConfig.clientId, input.clientSecret);
-        const rootDepartmentId = input.rootDepartmentId ?? '0';
+        const rootDepartmentId = this.normalizeRootDepartmentId(input.rootDepartmentId);
         const children = await this.fetchChildren(accessToken, rootDepartmentId);
 
         return {
@@ -106,6 +106,10 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         const template = process.env['FEISHU_DEPARTMENT_CHILDREN_URL_TEMPLATE'];
         if (template) return template.replace('{departmentId}', encodedDepartmentId);
         return `${this.baseUrl()}/open-apis/contact/v3/departments/${encodedDepartmentId}/children`;
+    }
+
+    private normalizeRootDepartmentId(value: string | null | undefined): string {
+        return value?.trim() || '0';
     }
 
     private toDepartmentSnapshot(raw: unknown, fallbackParentDepartmentId: string): ExternalDepartmentSnapshot | null {

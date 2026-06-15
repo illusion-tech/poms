@@ -114,7 +114,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                 <td>
                                     <button type="button" class="flex w-full flex-col items-start gap-1 text-left" (click)="selectSource(source)" [attr.aria-label]="'选择同步源 ' + source.displayName">
                                         <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.displayName }}</span>
-                                        <span class="text-xs text-surface-500">{{ providerLabel(source.provider) }} · {{ source.externalRootDepartmentId ?? '0' }}</span>
+                                        <span class="text-xs text-surface-500">{{ providerLabel(source.provider) }} · {{ rootDepartmentLabel(source.externalRootDepartmentId) }}</span>
                                     </button>
                                 </td>
                                 <td>
@@ -193,7 +193,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                 </div>
                                 <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-800">
                                     <div class="text-xs text-surface-500">根部门</div>
-                                    <div class="mt-2 truncate text-sm font-medium text-surface-950 dark:text-surface-0">{{ source.externalRootDepartmentId ?? '0' }}</div>
+                                    <div class="mt-2 truncate text-sm font-medium text-surface-950 dark:text-surface-0">{{ rootDepartmentLabel(source.externalRootDepartmentId) }}</div>
                                 </div>
                                 <div class="rounded-[8px] border border-surface-200 p-4 dark:border-surface-800">
                                     <div class="text-xs text-surface-500">权威组织</div>
@@ -506,7 +506,7 @@ export class ExternalOrgSyncWorkbench {
             displayName: source.displayName,
             providerConfigId: source.providerConfigId,
             authoritativeOrgUnitId: source.authoritativeOrgUnitId,
-            externalRootDepartmentId: source.externalRootDepartmentId ?? '0',
+            externalRootDepartmentId: this.normalizeExternalRootDepartmentId(source.externalRootDepartmentId),
             syncScopesText: source.syncScopes.join('\n')
         };
         this.sourceDialogVisible = true;
@@ -611,7 +611,7 @@ export class ExternalOrgSyncWorkbench {
                 this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
                 return;
             }
-            const orgSyncReadinessIssue = await this.ensureProviderConfigOrgSyncReady(source.providerConfigId, source.externalRootDepartmentId ?? '0');
+            const orgSyncReadinessIssue = await this.ensureProviderConfigOrgSyncReady(source.providerConfigId, this.normalizeExternalRootDepartmentId(source.externalRootDepartmentId));
             if (orgSyncReadinessIssue) {
                 this.#messageService.add({ severity: 'warn', summary: '组织同步不可用', detail: orgSyncReadinessIssue });
                 return;
@@ -950,6 +950,10 @@ export class ExternalOrgSyncWorkbench {
         }).format(new Date(value));
     }
 
+    rootDepartmentLabel(value: string | null | undefined): string {
+        return this.normalizeExternalRootDepartmentId(value);
+    }
+
     selectedProviderConfigIssue(): string | null {
         const formIssue = this.sourceFormIssue();
         if (formIssue) return formIssue;
@@ -1026,12 +1030,12 @@ export class ExternalOrgSyncWorkbench {
 
     private async testSelectedProviderConfigForOrgSync(): Promise<IdentityProviderConnectionTestResult | null> {
         if (this.selectedProviderConfigIssue() || !this.sourceForm.providerConfigId) return null;
-        return this.testProviderConfigForOrgSync(this.sourceForm.providerConfigId, this.sourceForm.externalRootDepartmentId.trim() || '0');
+        return this.testProviderConfigForOrgSync(this.sourceForm.providerConfigId, this.normalizeExternalRootDepartmentId(this.sourceForm.externalRootDepartmentId));
     }
 
     private async ensureSelectedProviderConfigOrgSyncReady(): Promise<string | null> {
         if (!this.sourceForm.providerConfigId) return '启用同步源前需要选择一个已启用且已配置 Client Secret 的企业协同接入。';
-        return this.ensureProviderConfigOrgSyncReady(this.sourceForm.providerConfigId, this.sourceForm.externalRootDepartmentId.trim() || '0');
+        return this.ensureProviderConfigOrgSyncReady(this.sourceForm.providerConfigId, this.normalizeExternalRootDepartmentId(this.sourceForm.externalRootDepartmentId));
     }
 
     private async ensureProviderConfigOrgSyncReady(providerConfigId: string | null, rootDepartmentId: string): Promise<string | null> {
@@ -1049,7 +1053,7 @@ export class ExternalOrgSyncWorkbench {
         try {
             const result = await this.identityProviderStore.testConnection(providerConfigId, {
                 capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
-                externalRootDepartmentId: rootDepartmentId,
+                externalRootDepartmentId: this.normalizeExternalRootDepartmentId(rootDepartmentId),
                 expectedVersion: config.rowVersion
             });
             this.providerConfigDiagnostics.update((current) => ({ ...current, [providerConfigId]: result }));
@@ -1058,6 +1062,10 @@ export class ExternalOrgSyncWorkbench {
             this.#messageService.add({ severity: 'error', summary: '检查失败', detail: apiErrorMessage(error, '组织同步可用性检查没有完成') });
             return null;
         }
+    }
+
+    private normalizeExternalRootDepartmentId(value: string | null | undefined): string {
+        return value?.trim() || '0';
     }
 
     private providerConfigIssue(config: IdentityProviderConfigSummary): string | null {
