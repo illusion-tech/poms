@@ -37,9 +37,9 @@ deno task deploy:preflight-test
 deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar.gz
 ```
 
-推送脚本会先把 release 解包到远端 `.incoming-*`，再用本地 `deploy/private/poms-test.env` 执行
-`poms-api:migration-up` 和 `migration-check`。只有 migration gate 通过后，才切换 `/srv/poms/test/current` 并
-reload PM2。
+推送脚本会先把 release 解包到远端 `.incoming-*`，再用本地 `deploy/private/poms-test.env` 执行直接
+MikroORM migration gate：先检查 pending，再执行 `migration:up`，随后确认 pending 为空并执行
+`migration:check`。只有 migration gate 通过后，才切换 `/srv/poms/test/current` 并 reload PM2。
 
 远程回滚：
 
@@ -129,6 +129,12 @@ cp deploy/env/poms-test-trial-users.csv.example deploy/private/poms-test-trial-u
 然后按 `docs/operations/poms-business-trial-initialization-runbook.md` 执行数据库迁移、平台 bootstrap 和业务试用 seed。
 正常 release 发布不需要手工执行数据库迁移；`deploy:push-test` 会在切换版本前自动执行 migration gate。
 
+只验证测试库 migration 状态时执行：
+
+```bash
+deno task deploy:schema-gate-test --pending-only
+```
+
 ## 启动或重载 API
 
 正常部署时由 `deploy:push-test` 自动上传 PM2 模板并执行：
@@ -145,5 +151,8 @@ PM2 模板从 `/srv/poms/test/shared/poms-api.env` 读取敏感配置，不内�
 ssh root@121.36.34.169 'nginx -t && systemctl reload nginx && pm2 status poms-api-test'
 deno task deploy:verify-test
 ```
+
+`deploy:verify-test` 默认会同时验证 HTTP 路由与目标库 pending migration。只排查 HTTP 层时可临时追加
+`--skip-migration-gate`。
 
 完整发布与回滚步骤见 `docs/operations/poms-test-deployment-runbook.md`。

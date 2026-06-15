@@ -1,8 +1,10 @@
-#!/usr/bin/env -S deno run --allow-read --allow-net
+#!/usr/bin/env -S deno run --allow-read --allow-net --allow-run --allow-env
 
+import { resolve } from "@std/path";
 import { booleanArg, optionalStringArg, parseArgs, stringArg } from "./lib/args.ts";
 import { programOutput } from "./lib/command.ts";
 import { loadDeployConfig } from "./lib/config.ts";
+import { runMigrationGate } from "./lib/migration-gate.ts";
 
 interface HttpResult {
     status: number;
@@ -66,6 +68,8 @@ const args = parseArgs();
 const config = await loadDeployConfig(stringArg(args, "config", "deploy/config/poms-test.jsonc"));
 const origin = optionalStringArg(args, "origin") ?? `https://${config.domain}`;
 const insecure = booleanArg(args, "insecure");
+const skipMigrationGate = booleanArg(args, "skip-migration-gate");
+const migrationEnvFile = resolve(optionalStringArg(args, "migration-env") ?? config.migrationEnvFile);
 
 assertOk(await request(`${origin}/api/health`, { insecure }), "/api/health");
 assertOk(await request(`${origin}/api/health/readiness`, { insecure }), "/api/health/readiness");
@@ -79,5 +83,12 @@ assertHeaderIncludes(indexHeaders, "Cache-Control", "no-store");
 const apiHeaders = await request(`${origin}/api/health`, { head: true, insecure });
 assertOk(apiHeaders, "/api/health headers");
 assertHeaderIncludes(apiHeaders, "Cache-Control", "no-store");
+
+if (!skipMigrationGate) {
+    await runMigrationGate(config, {
+        envFile: migrationEnvFile,
+        pendingOnly: true,
+    });
+}
 
 console.log(`Deployment verification passed: ${origin}`);

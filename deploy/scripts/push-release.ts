@@ -3,9 +3,9 @@
 import { basename, resolve } from "@std/path";
 import * as posix from "@std/path/posix";
 import { booleanArg, optionalStringArg, parseArgs, stringArg } from "./lib/args.ts";
-import { runProgram } from "./lib/command.ts";
 import { loadDeployConfig } from "./lib/config.ts";
 import { assertExists } from "./lib/files.ts";
+import { runMigrationGate } from "./lib/migration-gate.ts";
 import { assertReleaseId } from "./lib/release.ts";
 import { remoteArchivePath, remoteHost, remoteQuote, remoteTmpReleaseDir, scpFile, sshScript } from "./lib/remote.ts";
 
@@ -153,48 +153,6 @@ ${reloadNginx ? "nginx -t\nsystemctl reload nginx" : ":"}
 
 echo "Release installed: $release_dir"
 `;
-}
-
-async function runMigrationGate(
-    config: Awaited<ReturnType<typeof loadDeployConfig>>,
-    input: {
-        dryRun: boolean;
-        envFile: string;
-        skipMigration: boolean;
-        skipMigrationCheck: boolean;
-    },
-): Promise<void> {
-    if (input.skipMigration) {
-        console.warn("Skipping database migration gate because --skip-migration was passed.");
-        return;
-    }
-
-    if (input.dryRun) {
-        console.log(`[dry-run] require migration env file: ${input.envFile}`);
-        console.log(
-            `[dry-run] POMS_ENV_FILE=${input.envFile} NODE_ENV=production NX_TUI=false corepack pnpm nx run poms-api:migration-up --skip-nx-cache`,
-        );
-        if (config.migrationCheckAfterUp && !input.skipMigrationCheck) {
-            console.log(
-                `[dry-run] POMS_ENV_FILE=${input.envFile} NODE_ENV=production NX_TUI=false corepack pnpm nx run poms-api:migration-check --skip-nx-cache`,
-            );
-        }
-        return;
-    }
-
-    await assertExists(input.envFile, "Migration env file");
-
-    const env = {
-        POMS_ENV_FILE: input.envFile,
-        NODE_ENV: "production",
-        NX_TUI: "false",
-    };
-
-    await runProgram("corepack", ["pnpm", "nx", "run", "poms-api:migration-up", "--skip-nx-cache"], { env });
-
-    if (config.migrationCheckAfterUp && !input.skipMigrationCheck) {
-        await runProgram("corepack", ["pnpm", "nx", "run", "poms-api:migration-check", "--skip-nx-cache"], { env });
-    }
 }
 
 const args = parseArgs();

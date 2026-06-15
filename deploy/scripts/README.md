@@ -34,12 +34,20 @@ deno task deploy:push-test --archive dist/releases/poms-test-20260526-120000.tar
 默认会在远端 release staging 完成后、远端切换 `current` 前执行：
 
 ```bash
-POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-up --skip-nx-cache
-POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-check --skip-nx-cache
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:pending --config apps/poms-api/src/mikro-orm.config.ts
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:up --config apps/poms-api/src/mikro-orm.config.ts
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:pending --config apps/poms-api/src/mikro-orm.config.ts
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:check --config apps/poms-api/src/mikro-orm.config.ts
 ```
 
 只有 migration gate 通过后，脚本才会激活 release 并 reload PM2。确认本次不需要迁移时，才显式传
 `--skip-migration`。
+
+只需要验证目标库是否还有 pending migration 时：
+
+```bash
+deno task deploy:schema-gate-test --pending-only
+```
 
 首次安装或 Nginx 模板变化时：
 
@@ -70,6 +78,9 @@ deno task deploy:rollback-test --to 20260526-110000
 ```bash
 deno task deploy:verify-test
 ```
+
+`deploy:verify-test` 默认也会执行 pending-only migration gate。只排查 HTTP 层时可临时追加
+`--skip-migration-gate`。
 
 临时证书阶段需要跳过 TLS 校验时，才使用：
 
