@@ -1,4 +1,6 @@
 import {
+    ActivateExternalOrgSourceRequestSchema,
+    ArchiveExternalOrgSourceRequestSchema,
     ApplyOrgSyncRunRequestSchema,
     CreateExternalOrgSourceRequestSchema,
     CreateOrgSyncRunRequestSchema,
@@ -10,6 +12,7 @@ import {
     OrgSyncDiffItemListQuerySchema,
     OrgSyncDiffItemListSchema,
     OrgSyncRunDetailSchema,
+    PauseExternalOrgSourceRequestSchema,
     ReplaceExternalDepartmentMappingsRequestSchema,
     UpdateExternalOrgSourceRequestSchema
 } from '@poms/shared-contracts';
@@ -24,6 +27,12 @@ export class ExternalOrgSourceListQueryDto extends createZodDto(ExternalOrgSourc
 export class CreateExternalOrgSourceRequestDto extends createZodDto(CreateExternalOrgSourceRequestSchema) {}
 
 export class UpdateExternalOrgSourceRequestDto extends createZodDto(UpdateExternalOrgSourceRequestSchema) {}
+
+export class ActivateExternalOrgSourceRequestDto extends createZodDto(ActivateExternalOrgSourceRequestSchema) {}
+
+export class PauseExternalOrgSourceRequestDto extends createZodDto(PauseExternalOrgSourceRequestSchema) {}
+
+export class ArchiveExternalOrgSourceRequestDto extends createZodDto(ArchiveExternalOrgSourceRequestSchema) {}
 
 export class ExternalDepartmentMappingListDto extends createZodDto(ExternalDepartmentMappingListSchema) {}
 

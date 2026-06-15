@@ -20,9 +20,10 @@ import {
     PlatformStore,
     type PlatformOrgUnitSummary
 } from '@poms/admin-data-access';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -43,7 +44,6 @@ interface ExternalOrgSourceForm {
     provider: ExternalOrgProvider;
     externalTenantId: string;
     displayName: string;
-    status: ExternalOrgSourceStatus;
     providerConfigId: string | null;
     authoritativeOrgUnitId: string | null;
     externalRootDepartmentId: string;
@@ -68,10 +68,11 @@ function apiErrorMessage(error: unknown, fallback: string): string {
 @Component({
     selector: 'app-external-org-sync-workbench',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterLink, ButtonModule, CheckboxModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TextareaModule, ToastModule, TooltipModule, AdminTableCard],
-    providers: [ExternalOrgSyncStore, IdentityProviderStore, MessageService],
+    imports: [CommonModule, FormsModule, RouterLink, ButtonModule, CheckboxModule, ConfirmDialogModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TextareaModule, ToastModule, TooltipModule, AdminTableCard],
+    providers: [ExternalOrgSyncStore, IdentityProviderStore, ConfirmationService, MessageService],
     template: `
         <p-toast />
+        <p-confirmDialog />
         <div class="flex flex-col gap-5">
             <section class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                 <div>
@@ -100,7 +101,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                             <tr>
                                 <th>名称</th>
                                 <th>状态</th>
-                                <th style="width: 7rem">操作</th>
+                                <th style="width: 10rem">操作</th>
                             </tr>
                         </ng-template>
                         <ng-template #body let-source>
@@ -116,7 +117,18 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-1">
-                                        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="secondary" size="small" pTooltip="编辑" tooltipPosition="top" ariaLabel="编辑同步源" (onClick)="openEditSourceDialog(source)" />
+                                        <p-button
+                                            icon="pi pi-pencil"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            severity="secondary"
+                                            size="small"
+                                            [pTooltip]="source.status === externalOrgSourceStatus.Archived ? '已归档，不能编辑' : '编辑'"
+                                            tooltipPosition="top"
+                                            ariaLabel="编辑同步源"
+                                            [disabled]="source.status === externalOrgSourceStatus.Archived"
+                                            (onClick)="openEditSourceDialog(source)"
+                                        />
                                         <p-button
                                             [icon]="source.status === externalOrgSourceStatus.Active ? 'pi pi-pause' : 'pi pi-check'"
                                             [rounded]="true"
@@ -126,7 +138,20 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                             [pTooltip]="source.status === externalOrgSourceStatus.Active ? '暂停' : '启用'"
                                             tooltipPosition="top"
                                             [ariaLabel]="source.status === externalOrgSourceStatus.Active ? '暂停同步源' : '启用同步源'"
+                                            [disabled]="source.status === externalOrgSourceStatus.Archived || syncStore.savingSource()"
                                             (onClick)="toggleSourceStatus(source)"
+                                        />
+                                        <p-button
+                                            icon="pi pi-archive"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            severity="danger"
+                                            size="small"
+                                            [pTooltip]="archiveSourceTooltip(source)"
+                                            tooltipPosition="top"
+                                            ariaLabel="归档同步源"
+                                            [disabled]="!canArchiveSource(source) || syncStore.savingSource()"
+                                            (onClick)="confirmArchiveSource(source)"
                                         />
                                     </div>
                                 </td>
@@ -291,13 +316,9 @@ function apiErrorMessage(error: unknown, fallback: string): string {
 
             <p-dialog [(visible)]="sourceDialogVisible" [modal]="true" [header]="editingSourceId() ? '编辑同步源' : '新建同步源'" [style]="{ width: '34rem' }" styleClass="p-fluid">
                 <div class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
-                    <div class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgProvider" class="font-medium">外部平台</label>
                         <p-select inputId="externalOrgProvider" [(ngModel)]="sourceForm.provider" [options]="providerOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" [disabled]="!!editingSourceId()" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label for="externalOrgStatus" class="font-medium">状态</label>
-                        <p-select inputId="externalOrgStatus" [(ngModel)]="sourceForm.status" [options]="sourceStatusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgDisplayName" class="font-medium">名称 *</label>
@@ -355,7 +376,12 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
                         <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="sourceDialogVisible = false" />
-                        <p-button label="保存" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
+                        @if (editingSourceId()) {
+                            <p-button icon="pi pi-save" label="保存" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
+                        } @else {
+                            <p-button icon="pi pi-save" label="保存草稿" severity="secondary" [outlined]="true" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
+                            <p-button icon="pi pi-play" label="保存并启用" [loading]="syncStore.savingSource()" (onClick)="saveSource({ activateAfterCreate: true })" />
+                        }
                     </div>
                 </ng-template>
             </p-dialog>
@@ -367,6 +393,7 @@ export class ExternalOrgSyncWorkbench {
     readonly identityProviderStore = inject(IdentityProviderStore);
     readonly platformStore = inject(PlatformStore);
     readonly #messageService = inject(MessageService);
+    readonly #confirmationService = inject(ConfirmationService);
 
     readonly externalOrgSourceStatus = ExternalOrgSourceStatus;
     readonly providerOptions: SelectOption<ExternalOrgProvider>[] = [
@@ -374,26 +401,6 @@ export class ExternalOrgSyncWorkbench {
         { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
         { label: '企业微信', value: ExternalOrgProvider.Wecom }
     ];
-    readonly sourceStatusOptions: SelectOption<ExternalOrgSourceStatus>[] = [
-        { label: '草稿', value: ExternalOrgSourceStatus.Draft },
-        { label: '启用', value: ExternalOrgSourceStatus.Active },
-        { label: '暂停', value: ExternalOrgSourceStatus.Paused },
-        { label: '归档', value: ExternalOrgSourceStatus.Archived }
-    ];
-    readonly providerConfigOptions = computed<SelectOption<string | null>[]>(() => [
-        { label: '不绑定', value: null },
-        ...this.identityProviderStore
-            .configs()
-            .filter((config) => this.isCompatibleProviderConfig(config))
-            .map((config) => {
-                const issue = this.providerConfigIssue(config);
-                return {
-                    label: issue ? `${config.displayName} · ${issue}` : `${config.displayName} · 可用于组织同步`,
-                    value: config.id,
-                    disabled: Boolean(issue)
-                };
-            })
-    ]);
     readonly orgUnitOptions = computed<SelectOption<string | null>[]>(() => [
         { label: '不限制', value: null },
         ...this.platformStore.orgUnits().map((unit) => ({
@@ -433,12 +440,15 @@ export class ExternalOrgSyncWorkbench {
     }
 
     openEditSourceDialog(source: ExternalOrgSourceSummary): void {
+        if (source.status === ExternalOrgSourceStatus.Archived) {
+            this.#messageService.add({ severity: 'warn', summary: '不能编辑同步源', detail: '已归档的同步源不可编辑。' });
+            return;
+        }
         this.editingSourceId.set(source.id);
         this.sourceForm = {
             provider: source.provider,
             externalTenantId: source.externalTenantId ?? '',
             displayName: source.displayName,
-            status: source.status,
             providerConfigId: source.providerConfigId,
             authoritativeOrgUnitId: source.authoritativeOrgUnitId,
             externalRootDepartmentId: source.externalRootDepartmentId ?? '0',
@@ -447,7 +457,25 @@ export class ExternalOrgSyncWorkbench {
         this.sourceDialogVisible = true;
     }
 
-    async saveSource(): Promise<void> {
+    providerConfigOptions(): SelectOption<string | null>[] {
+        const sourceProviderIssue = this.sourceForm.provider === ExternalOrgProvider.Feishu ? null : '当前外部平台尚未支持绑定企业协同接入。';
+        return [
+            { label: '不绑定', value: null },
+            ...this.identityProviderStore
+                .configs()
+                .filter((config) => this.isCompatibleProviderConfig(config))
+                .map((config) => {
+                    const issue = sourceProviderIssue ?? this.providerConfigIssue(config);
+                    return {
+                        label: issue ? `${config.displayName} · ${issue}` : `${config.displayName} · 可用于组织同步`,
+                        value: config.id,
+                        disabled: Boolean(issue)
+                    };
+                })
+        ];
+    }
+
+    async saveSource(options: { activateAfterCreate?: boolean } = {}): Promise<void> {
         const displayName = this.sourceForm.displayName.trim();
         if (!displayName) {
             this.#messageService.add({ severity: 'warn', summary: '请填写名称', detail: '同步源名称不能为空' });
@@ -461,7 +489,18 @@ export class ExternalOrgSyncWorkbench {
         const editingId = this.editingSourceId();
         const sourceIssue = this.sourceFormIssue();
         if (sourceIssue) {
-            this.#messageService.add({ severity: 'warn', summary: this.sourceForm.status === ExternalOrgSourceStatus.Active ? '不能启用同步源' : '不能保存同步源', detail: sourceIssue });
+            this.#messageService.add({ severity: 'warn', summary: '不能保存同步源', detail: sourceIssue });
+            return;
+        }
+        if (options.activateAfterCreate) {
+            const activationIssue = this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
+            if (activationIssue) {
+                this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: activationIssue });
+                return;
+            }
+        }
+        if (editingId && options.activateAfterCreate) {
+            this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: '请先保存配置，再从同步源列表执行启用。' });
             return;
         }
         try {
@@ -469,7 +508,6 @@ export class ExternalOrgSyncWorkbench {
                 const selected = this.syncStore.sources().find((source) => source.id === editingId);
                 await this.syncStore.updateSource(editingId, {
                     displayName,
-                    status: this.sourceForm.status,
                     providerConfigId: this.sourceForm.providerConfigId,
                     authoritativeOrgUnitId: this.sourceForm.authoritativeOrgUnitId,
                     externalRootDepartmentId,
@@ -477,37 +515,82 @@ export class ExternalOrgSyncWorkbench {
                     expectedVersion: selected?.rowVersion
                 });
             } else {
-                await this.syncStore.createSource({
+                const created = await this.syncStore.createSource({
                     provider: this.sourceForm.provider,
                     externalTenantId: this.sourceForm.externalTenantId.trim() || null,
                     displayName,
-                    status: this.sourceForm.status,
                     providerConfigId: this.sourceForm.providerConfigId,
                     authoritativeOrgUnitId: this.sourceForm.authoritativeOrgUnitId,
                     externalRootDepartmentId,
                     syncScopes: scopes
                 });
+                if (options.activateAfterCreate) {
+                    await this.syncStore.activateSource(created.id, { expectedVersion: created.rowVersion });
+                }
             }
             this.sourceDialogVisible = false;
-            this.#messageService.add({ severity: 'success', summary: '保存成功', detail: '同步源已保存' });
+            const detail = options.activateAfterCreate ? '同步源已保存并启用' : editingId ? '同步源配置已保存' : '同步源草稿已保存';
+            this.#messageService.add({ severity: 'success', summary: '保存成功', detail });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '保存失败', detail: apiErrorMessage(error, '请检查接入配置和版本状态') });
         }
     }
 
     async toggleSourceStatus(source: ExternalOrgSourceSummary): Promise<void> {
-        const nextStatus = source.status === ExternalOrgSourceStatus.Active ? ExternalOrgSourceStatus.Paused : ExternalOrgSourceStatus.Active;
-        const sourceIssue = nextStatus === ExternalOrgSourceStatus.Active ? this.sourceActivationIssue(source.provider, source.providerConfigId) : null;
-        if (sourceIssue) {
-            this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
+        if (source.status === ExternalOrgSourceStatus.Archived) return;
+        const isPausing = source.status === ExternalOrgSourceStatus.Active;
+        if (!isPausing) {
+            const sourceIssue = this.sourceActivationIssue(source.provider, source.providerConfigId);
+            if (sourceIssue) {
+                this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
+                return;
+            }
+        }
+        try {
+            if (isPausing) {
+                await this.syncStore.pauseSource(source.id, { expectedVersion: source.rowVersion });
+            } else {
+                await this.syncStore.activateSource(source.id, { expectedVersion: source.rowVersion });
+            }
+            this.#messageService.add({ severity: 'success', summary: '状态已更新', detail: `同步源已${isPausing ? '暂停' : '启用'}` });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '状态更新失败', detail: apiErrorMessage(error, '请刷新后重试') });
+        }
+    }
+
+    canArchiveSource(source: ExternalOrgSourceSummary): boolean {
+        return source.status === ExternalOrgSourceStatus.Draft || source.status === ExternalOrgSourceStatus.Paused;
+    }
+
+    archiveSourceTooltip(source: ExternalOrgSourceSummary): string {
+        if (source.status === ExternalOrgSourceStatus.Active) return '暂停后可归档';
+        if (source.status === ExternalOrgSourceStatus.Archived) return '已归档';
+        return '归档';
+    }
+
+    confirmArchiveSource(source: ExternalOrgSourceSummary): void {
+        if (!this.canArchiveSource(source)) return;
+        this.#confirmationService.confirm({
+            header: '归档同步源',
+            message: '归档后同步源将不可编辑，也不能再生成预览。',
+            icon: 'pi pi-archive',
+            acceptLabel: '归档',
+            rejectLabel: '取消',
+            acceptButtonStyleClass: 'p-button-danger',
+            accept: () => {
+                void this.archiveSource(source);
+            }
+        });
+    }
+
+    async archiveSource(source: ExternalOrgSourceSummary): Promise<void> {
+        if (!this.canArchiveSource(source)) {
+            this.#messageService.add({ severity: 'warn', summary: '不能归档同步源', detail: this.archiveSourceTooltip(source) });
             return;
         }
         try {
-            await this.syncStore.updateSource(source.id, {
-                status: nextStatus,
-                expectedVersion: source.rowVersion
-            });
-            this.#messageService.add({ severity: 'success', summary: '状态已更新', detail: `同步源已${nextStatus === ExternalOrgSourceStatus.Active ? '启用' : '暂停'}` });
+            await this.syncStore.archiveSource(source.id, { expectedVersion: source.rowVersion });
+            this.#messageService.add({ severity: 'success', summary: '状态已更新', detail: '同步源已归档' });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '状态更新失败', detail: apiErrorMessage(error, '请刷新后重试') });
         }
@@ -772,7 +855,6 @@ export class ExternalOrgSyncWorkbench {
             provider: ExternalOrgProvider.Feishu,
             externalTenantId: '',
             displayName: '',
-            status: ExternalOrgSourceStatus.Draft,
             providerConfigId: null,
             authoritativeOrgUnitId: null,
             externalRootDepartmentId: '0',
@@ -785,9 +867,6 @@ export class ExternalOrgSyncWorkbench {
     }
 
     private sourceFormIssue(): string | null {
-        if (this.sourceForm.status === ExternalOrgSourceStatus.Active) {
-            return this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
-        }
         if (this.sourceForm.provider !== ExternalOrgProvider.Feishu && this.sourceForm.providerConfigId) {
             return '当前外部平台尚未支持绑定企业协同接入，请先选择“不绑定”，或切换为飞书。';
         }
@@ -795,7 +874,7 @@ export class ExternalOrgSyncWorkbench {
     }
 
     private sourceActivationIssue(provider: ExternalOrgProvider, providerConfigId: string | null): string | null {
-        if (provider !== ExternalOrgProvider.Feishu) return '当前外部平台尚未支持组织同步，请先保持为草稿。';
+        if (provider !== ExternalOrgProvider.Feishu) return '当前外部平台尚未支持组织同步，请先保存为草稿。';
         return this.sourceConfigIssue(providerConfigId);
     }
 

@@ -96,7 +96,7 @@ describe('ExternalOrgSyncService', () => {
         service = new ExternalOrgSyncService(repository as never as ExternalOrgSyncRepository, runtimeAuditService as never as RuntimeAuditService, adapterRegistry as never as ExternalOrgDirectoryAdapterRegistry, secretCipherService);
     });
 
-    it('creates an active source with external root department and records audit', async () => {
+    it('creates a draft source with external root department and records audit', async () => {
         repository.findSourceByProviderTenant.mockResolvedValue(null);
         repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
 
@@ -104,7 +104,6 @@ describe('ExternalOrgSyncService', () => {
             {
                 provider: ExternalOrgProviderValue.Feishu,
                 displayName: '飞书通讯录',
-                status: ExternalOrgSourceStatusValue.Active,
                 providerConfigId,
                 externalRootDepartmentId: '0',
                 syncScopes: ['department.read']
@@ -116,7 +115,7 @@ describe('ExternalOrgSyncService', () => {
             expect.objectContaining({
                 provider: ExternalOrgProviderValue.Feishu,
                 displayName: '飞书通讯录',
-                status: ExternalOrgSourceStatusValue.Active,
+                status: ExternalOrgSourceStatusValue.Draft,
                 providerConfigId,
                 externalRootDepartmentId: '0',
                 syncScopes: ['department.read'],
@@ -136,37 +135,49 @@ describe('ExternalOrgSyncService', () => {
         );
         expect(result).toMatchObject({
             id: sourceId,
-            status: ExternalOrgSourceStatusValue.Active,
+            status: ExternalOrgSourceStatusValue.Draft,
             providerConfigId,
             externalRootDepartmentId: '0'
         });
     });
 
-    it('rejects active sources without a ready provider config', async () => {
-        repository.findSourceByProviderTenant.mockResolvedValue(null);
+    it('activates a draft source with a ready provider config and records audit', async () => {
+        const source = createSource({ status: ExternalOrgSourceStatusValue.Draft, providerConfigId, rowVersion: 3 });
+        repository.findSourceById.mockResolvedValue(source);
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
+
+        const result = await service.activateExternalOrgSource(sourceId, { expectedVersion: 3 }, operatorId);
+
+        expect(source.status).toBe(ExternalOrgSourceStatusValue.Active);
+        expect(repository.saveAll).toHaveBeenCalledWith([source]);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'external-org-source.activated',
+                targetType: 'ExternalOrgSource',
+                targetId: sourceId,
+                operatorId,
+                result: 'success'
+            })
+        );
+        expect(result.status).toBe(ExternalOrgSourceStatusValue.Active);
+    });
+
+    it('rejects activating sources without a ready provider config', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Draft }));
 
         await expect(
-            service.createExternalOrgSource({
-                provider: ExternalOrgProviderValue.Feishu,
-                displayName: '飞书通讯录',
-                status: ExternalOrgSourceStatusValue.Active
-            })
+            service.activateExternalOrgSource(sourceId, { expectedVersion: 1 }, operatorId)
         ).rejects.toThrow(BadRequestException);
 
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
-    it('rejects active sources when the selected provider config is not active', async () => {
-        repository.findSourceByProviderTenant.mockResolvedValue(null);
+    it('rejects activating sources when the selected provider config is not active', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Draft, providerConfigId }));
         repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ status: IdentityProviderConfigStatusValue.Draft }));
 
         await expect(
-            service.createExternalOrgSource({
-                provider: ExternalOrgProviderValue.Feishu,
-                displayName: '飞书通讯录',
-                status: ExternalOrgSourceStatusValue.Active,
-                providerConfigId
-            })
+            service.activateExternalOrgSource(sourceId, { expectedVersion: 1 }, operatorId)
         ).rejects.toThrow('所选企业协同接入状态为「草稿」，尚未就绪，不能用于外部组织同步。');
 
         expect(repository.saveAll).not.toHaveBeenCalled();
@@ -181,17 +192,36 @@ describe('ExternalOrgSyncService', () => {
         repository.findProviderConfigById.mockResolvedValue(createProviderConfig({ provider: ExternalOrgProviderValue.DingTalk as IdentityProviderConfig['provider'] }));
 
         await expect(
-            service.updateExternalOrgSource(
-                sourceId,
-                {
-                    status: ExternalOrgSourceStatusValue.Active,
-                    expectedVersion: 1
-                },
-                operatorId
-            )
+            service.activateExternalOrgSource(sourceId, { expectedVersion: 1 }, operatorId)
         ).rejects.toThrow(`Identity provider config provider ${ExternalOrgProviderValue.DingTalk} does not match external org source provider ${ExternalOrgProviderValue.Feishu}`);
 
         expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('pauses active sources and archives paused sources through lifecycle commands', async () => {
+        const source = createSource({ status: ExternalOrgSourceStatusValue.Active, providerConfigId, rowVersion: 4 });
+        repository.findSourceById.mockResolvedValue(source);
+
+        const paused = await service.pauseExternalOrgSource(sourceId, { expectedVersion: 4 }, operatorId);
+
+        expect(paused.status).toBe(ExternalOrgSourceStatusValue.Paused);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'external-org-source.paused' }));
+
+        source.rowVersion = 5;
+        const archived = await service.archiveExternalOrgSource(sourceId, { expectedVersion: 5 }, operatorId);
+
+        expect(archived.status).toBe(ExternalOrgSourceStatusValue.Archived);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'external-org-source.archived' }));
+    });
+
+    it('rejects archiving active sources and editing archived sources', async () => {
+        repository.findSourceById.mockResolvedValueOnce(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 1 }));
+
+        await expect(service.archiveExternalOrgSource(sourceId, { expectedVersion: 1 }, operatorId)).rejects.toThrow('Active external org sources must be paused before archiving.');
+
+        repository.findSourceById.mockResolvedValueOnce(createSource({ status: ExternalOrgSourceStatusValue.Archived, rowVersion: 1 }));
+
+        await expect(service.updateExternalOrgSource(sourceId, { displayName: '归档源更新', expectedVersion: 1 }, operatorId)).rejects.toThrow('Archived external org sources are read-only.');
     });
 
     it('replaces mappings after validating source version, duplicate external departments, and org units', async () => {

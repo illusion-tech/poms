@@ -827,7 +827,6 @@ export const CreateExternalOrgSourceRequestSchema = z
         provider: ExternalOrgProviderSchema,
         externalTenantId: z.string().trim().min(1).max(128).nullable().optional(),
         displayName: z.string().trim().min(1).max(128),
-        status: ExternalOrgSourceStatusSchema.optional(),
         providerConfigId: z.uuid().nullable().optional(),
         authoritativeOrgUnitId: z.uuid().nullable().optional(),
         externalRootDepartmentId: z.string().trim().min(1).max(255).nullable().optional(),
@@ -840,7 +839,6 @@ export type CreateExternalOrgSourceRequest = z.infer<typeof CreateExternalOrgSou
 export const UpdateExternalOrgSourceRequestSchema = z
     .object({
         displayName: z.string().trim().min(1).max(128).optional(),
-        status: ExternalOrgSourceStatusSchema.optional(),
         providerConfigId: z.uuid().nullable().optional(),
         authoritativeOrgUnitId: z.uuid().nullable().optional(),
         externalRootDepartmentId: z.string().trim().min(1).max(255).nullable().optional(),
@@ -848,12 +846,36 @@ export const UpdateExternalOrgSourceRequestSchema = z
         expectedVersion: z.number().int().positive().optional()
     })
     .refine(
-        (value) => value.displayName !== undefined || value.status !== undefined || value.providerConfigId !== undefined || value.authoritativeOrgUnitId !== undefined || value.externalRootDepartmentId !== undefined || value.syncScopes !== undefined,
+        (value) => value.displayName !== undefined || value.providerConfigId !== undefined || value.authoritativeOrgUnitId !== undefined || value.externalRootDepartmentId !== undefined || value.syncScopes !== undefined,
         { message: 'At least one updatable field is required' }
     )
     .meta({ id: 'UpdateExternalOrgSourceRequest' });
 
 export type UpdateExternalOrgSourceRequest = z.infer<typeof UpdateExternalOrgSourceRequestSchema>;
+
+export const ActivateExternalOrgSourceRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ActivateExternalOrgSourceRequest' });
+
+export type ActivateExternalOrgSourceRequest = z.infer<typeof ActivateExternalOrgSourceRequestSchema>;
+
+export const PauseExternalOrgSourceRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'PauseExternalOrgSourceRequest' });
+
+export type PauseExternalOrgSourceRequest = z.infer<typeof PauseExternalOrgSourceRequestSchema>;
+
+export const ArchiveExternalOrgSourceRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive().optional()
+    })
+    .meta({ id: 'ArchiveExternalOrgSourceRequest' });
+
+export type ArchiveExternalOrgSourceRequest = z.infer<typeof ArchiveExternalOrgSourceRequestSchema>;
 
 export const ExternalDepartmentMappingSummarySchema = z
     .object({

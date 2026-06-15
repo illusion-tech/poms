@@ -8,14 +8,12 @@
  * Do not edit the class manually.
  */
 import { ExternalOrgProvider } from './external-org-provider';
-import { ExternalOrgSourceStatus } from './external-org-source-status';
 
 
 export interface CreateExternalOrgSourceRequest {
     provider: ExternalOrgProvider;
     externalTenantId?: string | null;
     displayName: string;
-    status?: ExternalOrgSourceStatus;
     providerConfigId?: string | null;
     authoritativeOrgUnitId?: string | null;
     externalRootDepartmentId?: string | null;

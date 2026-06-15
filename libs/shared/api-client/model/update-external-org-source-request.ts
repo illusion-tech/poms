@@ -7,12 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ExternalOrgSourceStatus } from './external-org-source-status';
 
 
 export interface UpdateExternalOrgSourceRequest {
     displayName?: string;
-    status?: ExternalOrgSourceStatus;
     providerConfigId?: string | null;
     authoritativeOrgUnitId?: string | null;
     externalRootDepartmentId?: string | null;

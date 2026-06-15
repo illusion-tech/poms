@@ -1,4 +1,6 @@
 import {
+    ActivateExternalOrgSourceRequestDto,
+    ArchiveExternalOrgSourceRequestDto,
     ApplyOrgSyncRunRequestDto,
     CreateExternalOrgSourceRequestDto,
     CreateOrgSyncRunRequestDto,
@@ -10,6 +12,7 @@ import {
     OrgSyncDiffItemListDto,
     OrgSyncDiffItemListQueryDto,
     OrgSyncRunDto,
+    PauseExternalOrgSourceRequestDto,
     ReplaceExternalDepartmentMappingsRequestDto,
     UpdateExternalOrgSourceRequestDto
 } from '@poms/api-contracts';
@@ -65,6 +68,33 @@ export class ExternalOrgSyncController {
     @ApiOkResponse({ type: ExternalOrgSourceDto })
     updateExternalOrgSource(@Param('id') id: string, @Body() body: UpdateExternalOrgSourceRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalOrgSourceDetail> {
         return this.externalOrgSyncService.updateExternalOrgSource(id, body, req.user.sub);
+    }
+
+    @Post('external-org-sources/:id\\:activate')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '启用外部组织同步源' })
+    @ApiOkResponse({ type: ExternalOrgSourceDto })
+    activateExternalOrgSource(@Param('id') id: string, @Body() body: ActivateExternalOrgSourceRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalOrgSourceDetail> {
+        return this.externalOrgSyncService.activateExternalOrgSource(id, body, req.user.sub);
+    }
+
+    @Post('external-org-sources/:id\\:pause')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '暂停外部组织同步源' })
+    @ApiOkResponse({ type: ExternalOrgSourceDto })
+    pauseExternalOrgSource(@Param('id') id: string, @Body() body: PauseExternalOrgSourceRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalOrgSourceDetail> {
+        return this.externalOrgSyncService.pauseExternalOrgSource(id, body, req.user.sub);
+    }
+
+    @Post('external-org-sources/:id\\:archive')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '归档外部组织同步源' })
+    @ApiOkResponse({ type: ExternalOrgSourceDto })
+    archiveExternalOrgSource(@Param('id') id: string, @Body() body: ArchiveExternalOrgSourceRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalOrgSourceDetail> {
+        return this.externalOrgSyncService.archiveExternalOrgSource(id, body, req.user.sub);
     }
 
     @Get('external-org-sources/:sourceId/department-mappings')
