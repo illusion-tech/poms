@@ -1,11 +1,13 @@
 # EX-73D 企业协同接入组织同步可用性诊断基线
 
-- Gate Status: `G1 Pass`
+- Gate Status: `G3 Ready for Review`
 - Parent: `EX-73`
 - Owner: `Codex`
 - Slice Type: `cross-layer-high-risk`
 - G1 Reviewer: `Codex`
 - G1 Date: 2026-06-16
+- G3 Reviewer: `Codex`
+- G3 Date: 2026-06-16
 - Tracker Link / Row: `docs/design/phase2-development-execution-tracker.md` / `EX-73D`
 - GitHub Issue: `#11`
 
@@ -60,7 +62,7 @@
 | Route / Controller                                      | Command / Service                  | Request DTO / Contract                         | Response DTO / Contract                | Guard / Permission                   | Design Source | Result  |
 | ------------------------------------------------------- | ---------------------------------- | ---------------------------------------------- | -------------------------------------- | ------------------------------------ | ------------- | ------- |
 | `POST /platform/identity-providers/{id}:testConnection` | `testIdentityProviderConnection()` | `TestIdentityProviderConnectionRequest`        | `IdentityProviderConnectionTestResult` | `platform:identity-providers:manage` | B13 / `#11`   | aligned |
-| same route                                              | same command                       | `capability='external-org-sync'` optional root | structured checks and next actions     | same                                 | `#11`         | planned |
+| same route                                              | same command                       | `capability='external-org-sync'` optional root | structured checks and next actions     | same                                 | `#11`         | aligned |
 
 ### 4.1 公共路由补充信息
 
@@ -73,10 +75,10 @@
 
 ## 5. 读侧边界
 
-| Query / View                 | Consumer           | Fields                                           | Filter / Sort | Permission Boundary                  | Design Source | Result  |
-| ---------------------------- | ------------------ | ------------------------------------------------ | ------------- | ------------------------------------ | ------------- | ------- |
-| Identity provider card       | 企业协同接入页     | `status/message/checks/nextActions/checkedAt`    | N/A           | `platform:identity-providers:manage` | `#11`         | planned |
-| Provider config option state | 外部组织同步工作台 | latest org-sync diagnostic result and issue text | N/A           | page route permissions               | `#11`         | planned |
+| Query / View                 | Consumer           | Fields                                           | Filter / Sort | Permission Boundary                  | Design Source | Result    |
+| ---------------------------- | ------------------ | ------------------------------------------------ | ------------- | ------------------------------------ | ------------- | --------- |
+| Identity provider card       | 企业协同接入页     | `status/message/checks/nextActions/checkedAt`    | N/A           | `platform:identity-providers:manage` | `#11`         | delivered |
+| Provider config option state | 外部组织同步工作台 | latest org-sync diagnostic result and issue text | N/A           | page route permissions               | `#11`         | delivered |
 
 ## 6. 持久化边界
 
@@ -101,16 +103,16 @@
 
 ## 8. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                                        | Result  | Gap / Reason                           |
-| -------------------------------- | -------- | ----------------------------------------------------------------------------------------- | ------- | -------------------------------------- |
-| API focused tests                | Yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=identity-provider.service` | Pending | 覆盖 basic 与 external-org-sync 诊断。 |
-| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=identity-provider`       | Pending | 覆盖诊断展示和 CTA。                   |
-| External org workbench tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync`       | Pending | 覆盖选择接入配置时的诊断结果。         |
-| Lint                             | Yes      | `corepack pnpm nx lint poms-api` / `corepack pnpm nx lint poms-admin`                     | Pending | cross-layer touched projects。         |
-| Build                            | Yes      | `corepack pnpm nx build poms-api` / `corepack pnpm nx build poms-admin`                   | Pending | API + Admin compile。                  |
-| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` / `corepack pnpm nx run shared-api-client:check`  | Pending | DTO contract changes expected。        |
-| Migration / schema check         | No       | `N/A`                                                                                     | N/A     | 不改 persistence。                     |
-| Markdown / diff sanity           | Yes      | `pnpm run format:md:check` / `git diff --check`                                           | Pending | 文档与 whitespace 检查。               |
+| Check                            | Required | Command / Evidence                                                                                                                                           | Result | Gap / Reason                                                            |
+| -------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----------------------------------------------------------------------- |
+| API focused tests                | Yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=identity-provider.service` / `identity-provider.controller` / `feishu-external-org-directory` | Pass   | 覆盖 basic、external-org-sync 诊断、controller 契约和 Feishu 只读探测。 |
+| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=identity-provider-card` / `identity-provider-list`                                          | Pass   | 覆盖诊断展示、基础测试和组织同步测试 CTA。                              |
+| External org workbench tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench`                                                                | Pass   | 覆盖选择接入配置时的诊断触发和启用前阻断。                              |
+| Lint                             | Yes      | `corepack pnpm nx lint poms-api` / `corepack pnpm nx lint poms-admin` / `corepack pnpm nx lint admin-data-access`                                            | Pass   | `shared-contracts` 无 lint target，契约经 API/Admin build 覆盖。        |
+| Build                            | Yes      | `corepack pnpm nx build poms-api` / `corepack pnpm nx build poms-admin`                                                                                      | Pass   | API + Admin compile。                                                   |
+| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` / `corepack pnpm nx run shared-api-client:generate` / `shared-api-client:check`                                      | Pass   | DTO contract changes 已同步 OpenAPI 与 generated client。               |
+| Migration / schema check         | No       | `N/A`                                                                                                                                                        | N/A    | 不改 persistence。                                                      |
+| Markdown / diff sanity           | Yes      | `pnpm run format:md:check` / `git diff --check`                                                                                                              | Pass   | 文档格式和 whitespace 检查通过。                                        |
 
 ## 9. 例外与风险
 
@@ -127,3 +129,17 @@
   - 诊断错误不得泄露 client secret、tenant token、user access token 或 OAuth code。
   - `external-org-sync` 诊断只做最小只读探测，不写入同步运行记录。
   - 如果 Feishu 网络探测失败，必须回传 provider code/message 的安全摘要和可行动提示。
+
+## 11. G3 结论
+
+- Gate Status: `Ready for Review`
+- Reviewed By: `Codex`
+- Reviewed At: 2026-06-16
+- Drift Classification: `design-aligned`
+- Delivered:
+  - B13 `testConnection` 已支持 `basic` 与 `external-org-sync` capability，返回结构化 checks、nextActions 和 capability。
+  - Feishu adapter 复用 tenant token，并以根部门 children 读取作为组织同步只读可用性探测；诊断不写同步运行记录。
+  - 企业协同接入卡片展示诊断明细与修复提示，外部组织同步工作台在选择接入配置和启用前复用同一诊断能力。
+  - Shared contracts、OpenAPI、generated client 和 Admin data-access export 已同步。
+- Deferred:
+  - DingTalk / WeCom 诊断、配置向导、运行历史、映射冲突工作台和持续健康监控继续由后续切片承接。

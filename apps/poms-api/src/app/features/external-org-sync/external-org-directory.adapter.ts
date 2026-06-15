@@ -17,9 +17,21 @@ export interface FetchExternalDepartmentTreeInput {
     clientSecret: string;
 }
 
+export interface TestExternalDepartmentReadAccessInput {
+    providerConfig: IdentityProviderConfig;
+    clientSecret: string;
+    rootDepartmentId: string | null;
+}
+
+export interface ExternalDepartmentReadAccessResult {
+    rootDepartmentId: string;
+    childDepartmentCount: number;
+}
+
 export interface ExternalOrgDirectoryAdapter {
     readonly provider: ExternalOrgProvider;
     fetchDepartmentTree(input: FetchExternalDepartmentTreeInput): Promise<ExternalDepartmentSnapshot[]>;
+    testDepartmentReadAccess(input: TestExternalDepartmentReadAccessInput): Promise<ExternalDepartmentReadAccessResult>;
 }
 
 export class ExternalOrgDirectoryAdapterError extends Error {

@@ -7,8 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { IdentityProviderConnectionTestCapability } from './identity-provider-connection-test-capability';
 
 
 export interface TestIdentityProviderConnectionRequest {
     expectedVersion?: number;
+    capability?: IdentityProviderConnectionTestCapability;
+    externalRootDepartmentId?: string;
 }

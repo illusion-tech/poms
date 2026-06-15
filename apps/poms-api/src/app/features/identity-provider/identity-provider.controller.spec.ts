@@ -1,4 +1,4 @@
-import { IdentityProviderConfigStatusValue, IdentityProviderValue } from '@poms/shared-contracts';
+import { IdentityProviderConfigStatusValue, IdentityProviderConnectionTestCapabilityValue, IdentityProviderValue } from '@poms/shared-contracts';
 import { IdentityProviderController } from './identity-provider.controller';
 import { IdentityProviderService } from './identity-provider.service';
 
@@ -56,8 +56,11 @@ describe('IdentityProviderController', () => {
         service.updateIdentityProviderConfig.mockResolvedValue({ ...detail, displayName: '飞书正式环境' });
         service.testIdentityProviderConnection.mockResolvedValue({
             status: 'success',
+            capability: IdentityProviderConnectionTestCapabilityValue.Basic,
             message: 'Local configuration is complete.',
-            checkedAt: '2026-05-07T00:00:00.000Z'
+            checkedAt: '2026-05-07T00:00:00.000Z',
+            checks: [],
+            nextActions: []
         });
 
         await expect(controller.getIdentityProviderConfig(configId)).resolves.toBe(detail);

@@ -11,8 +11,12 @@ import {
     type ExternalOrgSourceSummary,
     IdentityProvider,
     IdentityProviderConfigStatus,
+    IdentityProviderConnectionDiagnosticStatus,
+    IdentityProviderConnectionTestCapability,
+    IdentityProviderConnectionTestStatus,
     IdentityProviderStore,
     type IdentityProviderConfigSummary,
+    type IdentityProviderConnectionTestResult,
     OrgSyncDiffAction,
     type OrgSyncDiffItemSummary,
     OrgSyncDiffItemStatus,
@@ -353,7 +357,8 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                         <label for="externalOrgProviderConfig" class="font-medium">接入配置</label>
                         <p-select
                             inputId="externalOrgProviderConfig"
-                            [(ngModel)]="sourceForm.providerConfigId"
+                            [ngModel]="sourceForm.providerConfigId"
+                            (ngModelChange)="updateProviderConfigId($event)"
                             [options]="providerConfigOptions()"
                             optionLabel="label"
                             optionValue="value"
@@ -366,6 +371,36 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                             <div class="rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
                                 <div>{{ issue }}</div>
                                 <a routerLink="/platform/identity-providers" class="mt-1 inline-flex items-center gap-1 font-medium text-primary">
+                                    <i class="pi pi-arrow-right text-xs"></i>
+                                    前往企业协同接入
+                                </a>
+                            </div>
+                        }
+                        @if (isTestingSelectedProviderConfig()) {
+                            <div class="rounded-[8px] border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/30 dark:text-blue-100">正在检查飞书组织同步可用性...</div>
+                        }
+                        @if (selectedProviderConfigDiagnostic(); as diagnostic) {
+                            <div
+                                class="rounded-[8px] border px-3 py-2 text-sm"
+                                [ngClass]="
+                                    diagnostic.status === identityProviderConnectionTestStatus.Success
+                                        ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100'
+                                        : 'border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-100'
+                                "
+                            >
+                                <div class="font-medium">{{ diagnostic.message }}</div>
+                                <div class="mt-2 grid grid-cols-1 gap-1">
+                                    @for (check of diagnostic.checks; track check.key) {
+                                        <div class="flex items-start justify-between gap-2 rounded bg-white/70 px-2 py-1 dark:bg-surface-900/60">
+                                            <span class="min-w-0">{{ check.label }}：{{ check.message }}</span>
+                                            <p-tag [value]="diagnosticStatusLabel(check.status)" [severity]="diagnosticStatusSeverity(check.status)" />
+                                        </div>
+                                    }
+                                </div>
+                                @if (diagnostic.nextActions.length) {
+                                    <div class="mt-2 text-xs">{{ diagnostic.nextActions[0] }}</div>
+                                }
+                                <a routerLink="/platform/identity-providers" class="mt-2 inline-flex items-center gap-1 font-medium text-primary">
                                     <i class="pi pi-arrow-right text-xs"></i>
                                     前往企业协同接入
                                 </a>
@@ -414,6 +449,7 @@ export class ExternalOrgSyncWorkbench {
 
     readonly externalOrgSourceStatus = ExternalOrgSourceStatus;
     readonly orgSyncRunStatus = OrgSyncRunStatus;
+    readonly identityProviderConnectionTestStatus = IdentityProviderConnectionTestStatus;
     readonly providerOptions: SelectOption<ExternalOrgProvider>[] = [
         { label: '飞书', value: ExternalOrgProvider.Feishu },
         { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
@@ -430,6 +466,7 @@ export class ExternalOrgSyncWorkbench {
     sourceDialogVisible = false;
     readonly editingSourceId = signal<string | null>(null);
     readonly selectedDiffItemIds = signal<Set<string>>(new Set());
+    readonly providerConfigDiagnostics = signal<Record<string, IdentityProviderConnectionTestResult>>({});
     sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
 
     constructor() {
@@ -473,6 +510,7 @@ export class ExternalOrgSyncWorkbench {
             syncScopesText: source.syncScopes.join('\n')
         };
         this.sourceDialogVisible = true;
+        void this.testSelectedProviderConfigForOrgSync();
     }
 
     providerConfigOptions(): SelectOption<string | null>[] {
@@ -491,6 +529,11 @@ export class ExternalOrgSyncWorkbench {
                     };
                 })
         ];
+    }
+
+    updateProviderConfigId(value: string | null | undefined): void {
+        this.sourceForm.providerConfigId = value ?? null;
+        void this.testSelectedProviderConfigForOrgSync();
     }
 
     async saveSource(options: { activateAfterCreate?: boolean } = {}): Promise<void> {
@@ -514,6 +557,11 @@ export class ExternalOrgSyncWorkbench {
             const activationIssue = this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
             if (activationIssue) {
                 this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: activationIssue });
+                return;
+            }
+            const orgSyncReadinessIssue = await this.ensureSelectedProviderConfigOrgSyncReady();
+            if (orgSyncReadinessIssue) {
+                this.#messageService.add({ severity: 'warn', summary: '组织同步不可用', detail: orgSyncReadinessIssue });
                 return;
             }
         }
@@ -561,6 +609,11 @@ export class ExternalOrgSyncWorkbench {
             const sourceIssue = this.sourceActivationIssue(source.provider, source.providerConfigId);
             if (sourceIssue) {
                 this.#messageService.add({ severity: 'warn', summary: '不能启用同步源', detail: sourceIssue });
+                return;
+            }
+            const orgSyncReadinessIssue = await this.ensureProviderConfigOrgSyncReady(source.providerConfigId, source.externalRootDepartmentId ?? '0');
+            if (orgSyncReadinessIssue) {
+                this.#messageService.add({ severity: 'warn', summary: '组织同步不可用', detail: orgSyncReadinessIssue });
                 return;
             }
         }
@@ -904,6 +957,38 @@ export class ExternalOrgSyncWorkbench {
         return this.sourceConfigIssue(this.sourceForm.providerConfigId);
     }
 
+    selectedProviderConfigDiagnostic(): IdentityProviderConnectionTestResult | null {
+        const providerConfigId = this.sourceForm.providerConfigId;
+        return providerConfigId ? (this.providerConfigDiagnostics()[providerConfigId] ?? null) : null;
+    }
+
+    isTestingSelectedProviderConfig(): boolean {
+        const providerConfigId = this.sourceForm.providerConfigId;
+        return Boolean(providerConfigId && this.identityProviderStore.testingConfigId() === providerConfigId);
+    }
+
+    diagnosticStatusLabel(status: IdentityProviderConnectionDiagnosticStatus): string {
+        return (
+            {
+                [IdentityProviderConnectionDiagnosticStatus.Passed]: '通过',
+                [IdentityProviderConnectionDiagnosticStatus.Failed]: '失败',
+                [IdentityProviderConnectionDiagnosticStatus.Warning]: '提醒',
+                [IdentityProviderConnectionDiagnosticStatus.Skipped]: '跳过'
+            } satisfies Record<IdentityProviderConnectionDiagnosticStatus, string>
+        )[status];
+    }
+
+    diagnosticStatusSeverity(status: IdentityProviderConnectionDiagnosticStatus): 'success' | 'secondary' | 'warn' | 'danger' {
+        return (
+            {
+                [IdentityProviderConnectionDiagnosticStatus.Passed]: 'success',
+                [IdentityProviderConnectionDiagnosticStatus.Failed]: 'danger',
+                [IdentityProviderConnectionDiagnosticStatus.Warning]: 'warn',
+                [IdentityProviderConnectionDiagnosticStatus.Skipped]: 'secondary'
+            } satisfies Record<IdentityProviderConnectionDiagnosticStatus, 'success' | 'secondary' | 'warn' | 'danger'>
+        )[status];
+    }
+
     private createEmptySourceForm(): ExternalOrgSourceForm {
         return {
             provider: ExternalOrgProvider.Feishu,
@@ -937,6 +1022,42 @@ export class ExternalOrgSyncWorkbench {
         const config = this.identityProviderStore.configs().find((candidate) => candidate.id === providerConfigId);
         if (!config) return '接入配置不存在或尚未加载，请先刷新，或到企业协同接入检查。';
         return this.providerConfigIssue(config);
+    }
+
+    private async testSelectedProviderConfigForOrgSync(): Promise<IdentityProviderConnectionTestResult | null> {
+        if (this.selectedProviderConfigIssue() || !this.sourceForm.providerConfigId) return null;
+        return this.testProviderConfigForOrgSync(this.sourceForm.providerConfigId, this.sourceForm.externalRootDepartmentId.trim() || '0');
+    }
+
+    private async ensureSelectedProviderConfigOrgSyncReady(): Promise<string | null> {
+        if (!this.sourceForm.providerConfigId) return '启用同步源前需要选择一个已启用且已配置 Client Secret 的企业协同接入。';
+        return this.ensureProviderConfigOrgSyncReady(this.sourceForm.providerConfigId, this.sourceForm.externalRootDepartmentId.trim() || '0');
+    }
+
+    private async ensureProviderConfigOrgSyncReady(providerConfigId: string | null, rootDepartmentId: string): Promise<string | null> {
+        const staticIssue = this.sourceConfigIssue(providerConfigId);
+        if (staticIssue) return staticIssue;
+        if (!providerConfigId) return '启用同步源前需要选择企业协同接入。';
+        const diagnostic = await this.testProviderConfigForOrgSync(providerConfigId, rootDepartmentId);
+        if (!diagnostic) return '组织同步可用性检查没有完成，请稍后重试。';
+        return diagnostic.status === IdentityProviderConnectionTestStatus.Success ? null : diagnostic.message;
+    }
+
+    private async testProviderConfigForOrgSync(providerConfigId: string, rootDepartmentId: string): Promise<IdentityProviderConnectionTestResult | null> {
+        const config = this.identityProviderStore.configs().find((candidate) => candidate.id === providerConfigId);
+        if (!config) return null;
+        try {
+            const result = await this.identityProviderStore.testConnection(providerConfigId, {
+                capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+                externalRootDepartmentId: rootDepartmentId,
+                expectedVersion: config.rowVersion
+            });
+            this.providerConfigDiagnostics.update((current) => ({ ...current, [providerConfigId]: result }));
+            return result;
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '检查失败', detail: apiErrorMessage(error, '组织同步可用性检查没有完成') });
+            return null;
+        }
     }
 
     private providerConfigIssue(config: IdentityProviderConfigSummary): string | null {

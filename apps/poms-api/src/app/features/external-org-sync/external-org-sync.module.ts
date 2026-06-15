@@ -17,6 +17,6 @@ import { OrgSyncRun } from './org-sync-run.entity';
     imports: [MikroOrmModule.forFeature([ExternalOrgSource, ExternalDepartmentMapping, OrgSyncRun, OrgSyncDiffItem, IdentityProviderConfig, OrgUnit]), RuntimeAuditModule],
     controllers: [ExternalOrgSyncController],
     providers: [ExternalOrgSyncRepository, FeishuExternalOrgDirectoryAdapter, ExternalOrgDirectoryAdapterRegistry, ExternalOrgSyncService],
-    exports: [MikroOrmModule, ExternalOrgSyncService]
+    exports: [MikroOrmModule, ExternalOrgSyncService, ExternalOrgDirectoryAdapterRegistry]
 })
 export class ExternalOrgSyncModule {}

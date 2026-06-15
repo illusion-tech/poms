@@ -1,8 +1,18 @@
 import { createCipheriv, createHash, randomBytes } from 'node:crypto';
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
-import { ExternalIdentityBindingStatusValue, IdentityProviderConfigStatusValue, IdentityProviderOAuthGrantStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
+import {
+    ExternalIdentityBindingStatusValue,
+    IdentityProviderConfigStatusValue,
+    IdentityProviderConnectionDiagnosticStatusValue,
+    IdentityProviderConnectionTestCapabilityValue,
+    IdentityProviderOAuthGrantStatusValue,
+    IdentityProviderSearchGrantModeValue,
+    IdentityProviderValue
+} from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SecretCipherService } from '../../core/secret/secret-cipher.service';
+import { ExternalOrgDirectoryAdapterError } from '../external-org-sync/external-org-directory.adapter';
+import { ExternalOrgDirectoryAdapterRegistry } from '../external-org-sync/external-org-directory-adapter.registry';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicket, ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.registry';
@@ -41,6 +51,12 @@ describe('IdentityProviderService', () => {
     };
     let adapterRegistry: {
         get: jest.Mock;
+    };
+    let externalOrgDirectoryAdapterRegistry: {
+        get: jest.Mock;
+    };
+    let externalOrgDirectoryAdapter: {
+        testDepartmentReadAccess: jest.Mock;
     };
     let adapter: {
         buildAdminGrantAuthorizeUrl: jest.Mock;
@@ -114,7 +130,22 @@ describe('IdentityProviderService', () => {
         adapterRegistry = {
             get: jest.fn().mockReturnValue(adapter)
         };
-        service = new IdentityProviderService(repository as never as IdentityProviderRepository, runtimeAuditService as never as RuntimeAuditService, adapterRegistry as never as IdentityProviderAdapterRegistry, new SecretCipherService());
+        externalOrgDirectoryAdapter = {
+            testDepartmentReadAccess: jest.fn().mockResolvedValue({
+                rootDepartmentId: '0',
+                childDepartmentCount: 2
+            })
+        };
+        externalOrgDirectoryAdapterRegistry = {
+            get: jest.fn().mockReturnValue(externalOrgDirectoryAdapter)
+        };
+        service = new IdentityProviderService(
+            repository as never as IdentityProviderRepository,
+            runtimeAuditService as never as RuntimeAuditService,
+            adapterRegistry as never as IdentityProviderAdapterRegistry,
+            new SecretCipherService(),
+            externalOrgDirectoryAdapterRegistry as never as ExternalOrgDirectoryAdapterRegistry
+        );
     });
 
     it('creates an enabled Feishu config with encrypted write-only secret and audit redaction', async () => {
@@ -322,19 +353,22 @@ describe('IdentityProviderService', () => {
         await expect(service.getIdentityProviderConfig(providerConfigId)).rejects.toThrow(NotFoundException);
     });
 
-    it('tests local connection state without provider network calls in this slice', async () => {
+    it('tests local connection state without provider network calls by default', async () => {
         repository.findConfigById.mockResolvedValue(
             createConfig({
                 enabled: true,
                 status: IdentityProviderConfigStatusValue.Active,
-                encryptedClientSecret: 'v1:secret'
+                encryptedClientSecret: encryptedSecret('client-secret')
             })
         );
 
         const result = await service.testIdentityProviderConnection(providerConfigId, { expectedVersion: 1 });
 
         expect(result.status).toBe('success');
+        expect(result.capability).toBe(IdentityProviderConnectionTestCapabilityValue.Basic);
         expect(result.message).toContain('Local configuration is complete');
+        expect(result.checks).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'enabled', status: IdentityProviderConnectionDiagnosticStatusValue.Passed })]));
+        expect(externalOrgDirectoryAdapterRegistry.get).not.toHaveBeenCalled();
     });
 
     it('fails connection test when config is disabled', async () => {
@@ -346,6 +380,85 @@ describe('IdentityProviderService', () => {
             status: 'failed',
             message: 'Identity provider is disabled.'
         });
+        expect(result.checks).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'enabled', status: IdentityProviderConnectionDiagnosticStatusValue.Failed })]));
+    });
+
+    it('checks Feishu organization sync readiness with a read-only department probe', async () => {
+        const config = createConfig({
+            enabled: true,
+            status: IdentityProviderConfigStatusValue.Active,
+            encryptedClientSecret: encryptedSecret('client-secret')
+        });
+        repository.findConfigById.mockResolvedValue(config);
+
+        const result = await service.testIdentityProviderConnection(providerConfigId, {
+            capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync,
+            externalRootDepartmentId: 'od-root',
+            expectedVersion: 1
+        });
+
+        expect(externalOrgDirectoryAdapterRegistry.get).toHaveBeenCalledWith('feishu');
+        expect(externalOrgDirectoryAdapter.testDepartmentReadAccess).toHaveBeenCalledWith({
+            providerConfig: config,
+            clientSecret: 'client-secret',
+            rootDepartmentId: 'od-root'
+        });
+        expect(result).toMatchObject({
+            status: 'success',
+            capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync,
+            message: '组织同步可用性检查通过，飞书通讯录读取正常。'
+        });
+        expect(result.checks).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ key: 'tenantAccessToken', status: IdentityProviderConnectionDiagnosticStatusValue.Passed }),
+                expect.objectContaining({ key: 'departmentReadAccess', status: IdentityProviderConnectionDiagnosticStatusValue.Passed })
+            ])
+        );
+    });
+
+    it('does not call Feishu when organization sync local readiness fails', async () => {
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                status: IdentityProviderConfigStatusValue.Misconfigured,
+                encryptedClientSecret: null
+            })
+        );
+
+        const result = await service.testIdentityProviderConnection(providerConfigId, {
+            capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync
+        });
+
+        expect(result.status).toBe('failed');
+        expect(result.message).toContain('组织同步可用性检查未通过');
+        expect(result.nextActions).toEqual(expect.arrayContaining(['完善 Client Secret 或已启用能力的回调地址，使接入状态恢复为已激活。']));
+        expect(result.checks).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ key: 'configStatus', status: IdentityProviderConnectionDiagnosticStatusValue.Failed }),
+                expect.objectContaining({ key: 'tenantAccessToken', status: IdentityProviderConnectionDiagnosticStatusValue.Skipped })
+            ])
+        );
+        expect(externalOrgDirectoryAdapter.testDepartmentReadAccess).not.toHaveBeenCalled();
+    });
+
+    it('returns actionable organization sync diagnostics when Feishu department read fails', async () => {
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                status: IdentityProviderConfigStatusValue.Active,
+                encryptedClientSecret: encryptedSecret('client-secret')
+            })
+        );
+        externalOrgDirectoryAdapter.testDepartmentReadAccess.mockRejectedValueOnce(new ExternalOrgDirectoryAdapterError('飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。（飞书返回：permission denied，code 99991663）'));
+
+        const result = await service.testIdentityProviderConnection(providerConfigId, {
+            capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync
+        });
+
+        expect(result.status).toBe('failed');
+        expect(result.message).toContain('飞书应用身份通讯录权限未开通');
+        expect(result.nextActions).toEqual(expect.arrayContaining(['在飞书开放平台开通应用身份通讯录部门读取权限，并发布应用后重试。']));
+        expect(result.checks).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'departmentReadAccess', status: IdentityProviderConnectionDiagnosticStatusValue.Failed })]));
     });
 
     it('lists enabled login providers without secrets', async () => {
