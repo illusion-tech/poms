@@ -967,7 +967,7 @@ export class ExternalOrgSyncService {
     }
 
     private sourceRootDepartmentId(source: ExternalOrgSource): string {
-        return source.externalRootDepartmentId ?? FEISHU_ROOT_DEPARTMENT_ID;
+        return source.externalRootDepartmentId?.trim() || FEISHU_ROOT_DEPARTMENT_ID;
     }
 
     private buildExternalOrgUnitCode(source: ExternalOrgSource, externalDepartmentId: string): string {

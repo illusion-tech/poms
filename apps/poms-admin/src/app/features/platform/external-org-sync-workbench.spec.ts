@@ -480,6 +480,19 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(syncStoreMock.updateSource).not.toHaveBeenCalled();
     });
 
+    it('normalizes blank persisted root department id before activate diagnostics', async () => {
+        const pausedSource = createSource({ status: ExternalOrgSourceStatus.Paused, rowVersion: 4, externalRootDepartmentId: '' });
+
+        await component.toggleSourceStatus(pausedSource);
+
+        expect(identityProviderStoreMock.testConnection).toHaveBeenCalledWith('identity-provider-1', {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: '0',
+            expectedVersion: 1
+        });
+        expect(syncStoreMock.activateSource).toHaveBeenCalledWith(pausedSource.id, { expectedVersion: 4 });
+    });
+
     it('creates preview run with optimistic source version and selects pending actionable diff items', async () => {
         await component.createPreviewRun();
 

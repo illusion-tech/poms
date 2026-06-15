@@ -185,6 +185,39 @@ describe('FeishuExternalOrgDirectoryAdapter', () => {
         expect(mockedAxios.get).toHaveBeenCalledWith('https://open.feishu.cn/open-apis/contact/v3/departments/od-root/children', expect.any(Object));
     });
 
+    it('normalizes blank diagnostic root department id to Feishu root', async () => {
+        mockedAxios.post.mockResolvedValue({
+            data: {
+                code: 0,
+                msg: 'ok',
+                tenant_access_token: 'tenant-token',
+                expire: 7200
+            }
+        });
+        mockedAxios.get.mockResolvedValueOnce({
+            data: {
+                code: 0,
+                msg: 'success',
+                data: {
+                    has_more: false,
+                    items: []
+                }
+            }
+        });
+
+        const result = await adapter.testDepartmentReadAccess({
+            providerConfig: createProviderConfig(),
+            clientSecret: 'client-secret',
+            rootDepartmentId: '   '
+        });
+
+        expect(result).toEqual({
+            rootDepartmentId: '0',
+            childDepartmentCount: 0
+        });
+        expect(mockedAxios.get).toHaveBeenCalledWith('https://open.feishu.cn/open-apis/contact/v3/departments/0/children', expect.any(Object));
+    });
+
     it('normalizes Feishu HTTP errors into adapter diagnostics', async () => {
         mockedAxios.post.mockResolvedValue({
             data: {
