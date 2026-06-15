@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-read --allow-run
+#!/usr/bin/env -S deno run --allow-read --allow-run --allow-env
 
 import { basename, resolve } from "@std/path";
 import * as posix from "@std/path/posix";
