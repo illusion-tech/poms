@@ -1,7 +1,7 @@
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { ENV_PATH_VARIABLE_NAME, resolveEnvPath } from './load-env';
+import { ENV_PATH_VARIABLE_NAME, resolveEnvPath, resolveEnvPathWithMetadata } from './load-env';
 
 describe('resolveEnvPath', () => {
     let tempDir: string;
@@ -72,5 +72,65 @@ describe('resolveEnvPath', () => {
                 env: { [ENV_PATH_VARIABLE_NAME]: resolve(tempDir, 'missing.env') }
             })
         ).toBeUndefined();
+    });
+
+    it('records a missing explicit env file without falling back to the root .env', () => {
+        const rootEnvPath = join(tempDir, '.env');
+        const missingEnvPath = resolve(tempDir, 'missing.env');
+        writeFileSync(rootEnvPath, 'DB_PASSWORD=root');
+
+        expect(
+            resolveEnvPathWithMetadata({
+                cwd: tempDir,
+                env: { [ENV_PATH_VARIABLE_NAME]: missingEnvPath }
+            })
+        ).toEqual({
+            path: undefined,
+            explicit: true,
+            missingExplicitPath: missingEnvPath
+        });
+    });
+
+    it('overrides existing process env values when an explicit env file is used', () => {
+        const overrideEnvPath = join(tempDir, 'config', 'custom.env');
+        const originalEnv = process.env;
+
+        mkdirSync(join(tempDir, 'config'), { recursive: true });
+        writeFileSync(
+            overrideEnvPath,
+            [
+                'DB_CONNECT=true',
+                'DB_HOST=override-host',
+                'DB_PORT=5432',
+                'DB_DATABASE=override_db',
+                'DB_USER=override_user',
+                'DB_PASSWORD=override_password',
+                'DB_SCHEMA=poms',
+                'MIGRATIONS_TABLE_NAME=poms_migrations'
+            ].join('\n')
+        );
+
+        try {
+            jest.isolateModules(() => {
+                process.env = {
+                    ...originalEnv,
+                    [ENV_PATH_VARIABLE_NAME]: overrideEnvPath,
+                    DB_HOST: 'preloaded-host',
+                    DB_DATABASE: 'preloaded_db',
+                    DB_USER: 'preloaded_user',
+                    DB_PASSWORD: 'preloaded_password'
+                };
+
+                const { loadValidatedEnv } = jest.requireActual<typeof import('./load-env')>('./load-env');
+                const env = loadValidatedEnv();
+
+                expect(env.DB_HOST).toBe('override-host');
+                expect(env.DB_DATABASE).toBe('override_db');
+                expect(env.DB_USER).toBe('override_user');
+                expect(env.DB_PASSWORD).toBe('override_password');
+            });
+        } finally {
+            process.env = originalEnv;
+        }
     });
 });

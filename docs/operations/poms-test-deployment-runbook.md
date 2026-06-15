@@ -62,7 +62,8 @@ deno task deploy:push-test --archive dist/releases/poms-test-<timestamp>.tar.gz
 - 检查 `/srv/poms/test/shared/poms-api.env` 存在、权限可收敛且没有 `<replace-me>`。
 - 解包到 `.incoming-<timestamp>`，检查 `admin/browser/index.html` 和 `api/main.js`。
 - 如 API release 内包含 `package.json`，在远程执行 `corepack pnpm install --prod --frozen-lockfile`。
-- 在本地 checkout / CI 使用 `deploy/private/poms-test.env` 执行 `poms-api:migration-up` 和 `migration-check`。
+- 在本地 checkout / CI 使用 `deploy/private/poms-test.env` 执行 migration gate：先检查 pending，再执行
+  `migration:up`，随后确认 pending 为空并执行 `migration:check`。
 - migration 通过后才把 `.incoming-<timestamp>` 移为正式 release，原子切换 `/srv/poms/test/current`，执行
   `pm2 startOrReload` 和 `pm2 save`。
 
@@ -131,11 +132,20 @@ API 启动且运维人员可以登录后：
 deploy/private/poms-test.env
 ```
 
-发布脚本会在切换 `current` 前执行：
+发布脚本会在切换 `current` 前执行 migration gate。该 gate 直接调用 MikroORM CLI，不经过 Nx target，避免本地
+`.env` 被 Nx 预加载后污染目标数据库连接：
 
 ```bash
-POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-up --skip-nx-cache
-POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-check --skip-nx-cache
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:pending --config apps/poms-api/src/mikro-orm.config.ts
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:up --config apps/poms-api/src/mikro-orm.config.ts
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:pending --config apps/poms-api/src/mikro-orm.config.ts
+POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm exec mikro-orm migration:check --config apps/poms-api/src/mikro-orm.config.ts
+```
+
+手工只验证目标库是否还有 pending migration 时，优先执行：
+
+```bash
+deno task deploy:schema-gate-test --pending-only
 ```
 
 只有确认同一份 migration 已经人工执行过，或本次发布是纯 PM2 / Nginx 修复时，才显式跳过 migration gate：
@@ -216,7 +226,9 @@ deno task deploy:verify-test
 
 ## 缓存验证
 
-`deno task deploy:verify-test` 会检查 `/index.html` 与 `/api/health` 的 `Cache-Control`。也可以手工执行：
+`deno task deploy:verify-test` 会检查 `/index.html` 与 `/api/health` 的 `Cache-Control`，并用
+`deploy/private/poms-test.env` 确认目标库无 pending migration。只排查 HTTP 路由时可临时加
+`--skip-migration-gate`。也可以手工执行：
 
 ```bash
 curl -k -I https://poms-test.illusiontech.cn/index.html

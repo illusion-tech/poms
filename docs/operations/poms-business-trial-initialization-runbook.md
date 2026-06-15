@@ -77,8 +77,7 @@ grant create on database poms_test to poms_test_app;
 在仓库根目录执行：
 
 ```bash
-POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-up
-POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:migration-check
+deno task deploy:schema-gate-test
 POMS_ENV_FILE=deploy/private/poms-test.env corepack pnpm nx run poms-api:seed-platform-bootstrap
 POMS_ENV_FILE=deploy/private/poms-test.env POMS_TRIAL_USERS_CSV=deploy/private/poms-test-trial-users.csv corepack pnpm nx run poms-api:seed-business-trial
 ```
@@ -86,8 +85,7 @@ POMS_ENV_FILE=deploy/private/poms-test.env POMS_TRIAL_USERS_CSV=deploy/private/p
 Windows PowerShell 写法：
 
 ```powershell
-$env:POMS_ENV_FILE='deploy/private/poms-test.env'; corepack pnpm nx run poms-api:migration-up
-$env:POMS_ENV_FILE='deploy/private/poms-test.env'; corepack pnpm nx run poms-api:migration-check
+deno task deploy:schema-gate-test
 $env:POMS_ENV_FILE='deploy/private/poms-test.env'; corepack pnpm nx run poms-api:seed-platform-bootstrap
 $env:POMS_ENV_FILE='deploy/private/poms-test.env'; $env:POMS_TRIAL_USERS_CSV='deploy/private/poms-test-trial-users.csv'; corepack pnpm nx run poms-api:seed-business-trial
 ```
