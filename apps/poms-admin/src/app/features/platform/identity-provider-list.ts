@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {
     IdentityProvider,
     IdentityProviderConfigStatus,
+    IdentityProviderConnectionTestCapability,
     IdentityProviderConnectionTestStatus,
     IdentityProviderSearchGrantMode,
     IdentityProviderStore,
@@ -253,6 +254,7 @@ const EMPTY_FORM: IdentityProviderForm = {
                                 (configureRequested)="showCreateDialog($event)"
                                 (editRequested)="showEditDialog($event)"
                                 (testRequested)="testConnection($event)"
+                                (orgSyncTestRequested)="testOrgSyncConnection($event)"
                             />
                         }
                     </app-provider-card-grid>
@@ -696,7 +698,10 @@ export class IdentityProviderList {
 
     async testConnection(config: IdentityProviderConfigSummary): Promise<void> {
         try {
-            const result = await this.store.testConnection(config.id, { expectedVersion: config.rowVersion });
+            const result = await this.store.testConnection(config.id, {
+                capability: IdentityProviderConnectionTestCapability.Basic,
+                expectedVersion: config.rowVersion
+            });
             this.testResults.update((results) => ({ ...results, [config.id]: result }));
             this.#messageService.add({
                 severity: result.status === IdentityProviderConnectionTestStatus.Success ? 'success' : 'warn',
@@ -705,6 +710,24 @@ export class IdentityProviderList {
             });
         } catch (error) {
             this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '测试连接没有完成，请刷新配置后重试。');
+        }
+    }
+
+    async testOrgSyncConnection(config: IdentityProviderConfigSummary): Promise<void> {
+        try {
+            const result = await this.store.testConnection(config.id, {
+                capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+                externalRootDepartmentId: '0',
+                expectedVersion: config.rowVersion
+            });
+            this.testResults.update((results) => ({ ...results, [config.id]: result }));
+            this.#messageService.add({
+                severity: result.status === IdentityProviderConnectionTestStatus.Success ? 'success' : 'warn',
+                summary: result.status === IdentityProviderConnectionTestStatus.Success ? '组织同步可用' : '组织同步不可用',
+                detail: result.message
+            });
+        } catch (error) {
+            this.pageError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '组织同步可用性检查没有完成，请刷新配置后重试。');
         }
     }
 

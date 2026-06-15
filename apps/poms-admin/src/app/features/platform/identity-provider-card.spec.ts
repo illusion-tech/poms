@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
     IdentityProvider,
     IdentityProviderConfigStatus,
+    IdentityProviderConnectionDiagnosticStatus,
+    IdentityProviderConnectionTestCapability,
     IdentityProviderConnectionTestStatus,
     IdentityProviderSearchGrantMode,
     type IdentityProviderConfigSummary,
@@ -40,8 +42,18 @@ function createIdentityProviderConfig(overrides: Partial<IdentityProviderConfigS
 function createConnectionResult(overrides: Partial<IdentityProviderConnectionTestResult> = {}): IdentityProviderConnectionTestResult {
     return {
         status: IdentityProviderConnectionTestStatus.Success,
+        capability: IdentityProviderConnectionTestCapability.Basic,
         message: 'Local configuration is complete.',
         checkedAt: '2026-05-07T08:30:00.000Z',
+        checks: [
+            {
+                key: 'enabled',
+                label: '总开关',
+                status: IdentityProviderConnectionDiagnosticStatus.Passed,
+                message: '企业协同接入总开关已启用。'
+            }
+        ],
+        nextActions: [],
         ...overrides
     };
 }
@@ -86,6 +98,8 @@ describe('IdentityProviderCard', () => {
 
         expect(fixture.nativeElement.textContent).toContain('测试通过');
         expect(fixture.nativeElement.textContent).toContain('Local configuration is complete.');
+        expect(fixture.nativeElement.textContent).toContain('总开关');
+        expect(fixture.nativeElement.textContent).toContain('通过');
     });
 
     it('renders an unconfigured provider slot with a configure action', async () => {
@@ -114,6 +128,15 @@ describe('IdentityProviderCard', () => {
 
         expect(editSpy).toHaveBeenCalledWith(config);
         expect(testSpy).toHaveBeenCalledWith(config);
+    });
+
+    it('emits organization sync diagnostics action to the parent page', () => {
+        const orgSyncSpy = jest.fn();
+        component.orgSyncTestRequested.subscribe(orgSyncSpy);
+
+        component.orgSyncTestRequested.emit(config);
+
+        expect(orgSyncSpy).toHaveBeenCalledWith(config);
     });
 
     it('emits configure action for an unconfigured provider slot', () => {

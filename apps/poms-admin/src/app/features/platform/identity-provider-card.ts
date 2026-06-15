@@ -3,6 +3,7 @@ import { Component, input, output } from '@angular/core';
 import {
     IdentityProvider,
     IdentityProviderConfigStatus,
+    IdentityProviderConnectionDiagnosticStatus,
     IdentityProviderConnectionTestStatus,
     IdentityProviderSearchGrantMode,
     type IdentityProviderConfigSummary,
@@ -154,18 +155,39 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
             <div class="mt-auto flex flex-col gap-3 pt-5">
                 @if (config(); as currentConfig) {
                     @if (testResult(); as result) {
-                        <div class="flex items-center justify-between gap-3 rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">
-                            <div class="min-w-0">
-                                <p class="text-sm font-medium text-surface-800 dark:text-surface-100">{{ connectionResultLabel(result) }}</p>
-                                <p class="truncate text-xs text-surface-500 dark:text-surface-400">{{ result.message }}</p>
+                        <div class="rounded-[8px] border border-surface-200 px-3 py-3 dark:border-surface-700">
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="min-w-0">
+                                    <p class="text-sm font-medium text-surface-800 dark:text-surface-100">{{ connectionResultLabel(result) }}</p>
+                                    <p class="line-clamp-2 text-xs text-surface-500 dark:text-surface-400">{{ result.message }}</p>
+                                </div>
+                                <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" class="rounded-[6px]" />
                             </div>
-                            <p-tag [value]="connectionResultLabel(result)" [severity]="connectionResultSeverity(result)" class="rounded-[6px]" />
+                            @if (result.checks.length) {
+                                <div class="mt-3 grid grid-cols-1 gap-2">
+                                    @for (check of result.checks; track check.key) {
+                                        <div class="flex items-start justify-between gap-2 rounded-[6px] bg-surface-50 px-2 py-2 text-xs dark:bg-surface-800">
+                                            <div class="min-w-0">
+                                                <div class="font-medium text-surface-700 dark:text-surface-100">{{ check.label }}</div>
+                                                <div class="mt-0.5 line-clamp-2 text-surface-500 dark:text-surface-400">{{ check.message }}</div>
+                                            </div>
+                                            <p-tag [value]="diagnosticStatusLabel(check.status)" [severity]="diagnosticStatusSeverity(check.status)" class="shrink-0 rounded-[6px]" />
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            @if (result.nextActions.length) {
+                                <div class="mt-3 rounded-[6px] bg-amber-50 px-2 py-2 text-xs text-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+                                    {{ result.nextActions[0] }}
+                                </div>
+                            }
                         </div>
                     }
 
-                    <div class="flex flex-col gap-2 sm:flex-row">
+                    <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
                         <p-button icon="pi pi-pencil" label="编辑" severity="secondary" [outlined]="true" styleClass="w-full rounded-md!" (onClick)="editRequested.emit(currentConfig)" />
                         <p-button icon="pi pi-bolt" label="测试连接" severity="secondary" [outlined]="true" styleClass="w-full rounded-md!" [loading]="testing()" (onClick)="testRequested.emit(currentConfig)" />
+                        <p-button icon="pi pi-sitemap" label="组织同步" severity="secondary" [outlined]="true" styleClass="w-full rounded-md!" [loading]="testing()" (onClick)="orgSyncTestRequested.emit(currentConfig)" />
                     </div>
                 } @else {
                     <p-button icon="pi pi-cog" label="配置" severity="primary" styleClass="w-full rounded-md!" (onClick)="configureRequested.emit(provider())" />
@@ -182,6 +204,7 @@ export class IdentityProviderCard {
     readonly configureRequested = output<IdentityProvider>();
     readonly editRequested = output<IdentityProviderConfigSummary>();
     readonly testRequested = output<IdentityProviderConfigSummary>();
+    readonly orgSyncTestRequested = output<IdentityProviderConfigSummary>();
 
     readonly defaultSearchGrantMode = IdentityProviderSearchGrantMode.PerAdmin;
     readonly identityProviderLogo = identityProviderLogo;
@@ -219,5 +242,27 @@ export class IdentityProviderCard {
 
     connectionResultSeverity(result: IdentityProviderConnectionTestResult): 'success' | 'danger' {
         return result.status === IdentityProviderConnectionTestStatus.Success ? 'success' : 'danger';
+    }
+
+    diagnosticStatusLabel(status: IdentityProviderConnectionDiagnosticStatus): string {
+        return (
+            {
+                [IdentityProviderConnectionDiagnosticStatus.Passed]: '通过',
+                [IdentityProviderConnectionDiagnosticStatus.Failed]: '失败',
+                [IdentityProviderConnectionDiagnosticStatus.Warning]: '提醒',
+                [IdentityProviderConnectionDiagnosticStatus.Skipped]: '跳过'
+            } satisfies Record<IdentityProviderConnectionDiagnosticStatus, string>
+        )[status];
+    }
+
+    diagnosticStatusSeverity(status: IdentityProviderConnectionDiagnosticStatus): 'success' | 'secondary' | 'warn' | 'danger' {
+        return (
+            {
+                [IdentityProviderConnectionDiagnosticStatus.Passed]: 'success',
+                [IdentityProviderConnectionDiagnosticStatus.Failed]: 'danger',
+                [IdentityProviderConnectionDiagnosticStatus.Warning]: 'warn',
+                [IdentityProviderConnectionDiagnosticStatus.Skipped]: 'secondary'
+            } satisfies Record<IdentityProviderConnectionDiagnosticStatus, 'success' | 'secondary' | 'warn' | 'danger'>
+        )[status];
     }
 }

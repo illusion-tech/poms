@@ -10,8 +10,12 @@ import {
     type ExternalOrgSourceSummary,
     IdentityProvider,
     IdentityProviderConfigStatus,
+    IdentityProviderConnectionDiagnosticStatus,
+    IdentityProviderConnectionTestCapability,
+    IdentityProviderConnectionTestStatus,
     IdentityProviderStore,
     type IdentityProviderConfigSummary,
+    type IdentityProviderConnectionTestResult,
     OrgSyncDiffAction,
     OrgSyncDiffItemStatus,
     type OrgSyncDiffItemSummary,
@@ -151,6 +155,25 @@ function createProviderConfig(overrides: Partial<IdentityProviderConfigSummary> 
     } as IdentityProviderConfigSummary;
 }
 
+function createOrgSyncDiagnostic(overrides: Partial<IdentityProviderConnectionTestResult> = {}): IdentityProviderConnectionTestResult {
+    return {
+        status: IdentityProviderConnectionTestStatus.Success,
+        capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+        message: '组织同步可用性检查通过，飞书通讯录读取正常。',
+        checkedAt: '2026-06-10T08:30:00.000Z',
+        checks: [
+            {
+                key: 'departmentReadAccess',
+                label: '飞书部门读取',
+                status: IdentityProviderConnectionDiagnosticStatus.Passed,
+                message: '根部门 0 可访问，已读取 1 个直接子部门。'
+            }
+        ],
+        nextActions: [],
+        ...overrides
+    };
+}
+
 describe('ExternalOrgSyncWorkbench', () => {
     let fixture: ComponentFixture<ExternalOrgSyncWorkbench>;
     let component: ExternalOrgSyncWorkbench;
@@ -184,7 +207,9 @@ describe('ExternalOrgSyncWorkbench', () => {
     };
     let identityProviderStoreMock: {
         configs: ReturnType<typeof signal<IdentityProviderConfigSummary[]>>;
+        testingConfigId: ReturnType<typeof signal<string | null>>;
         loadConfigs: jest.Mock;
+        testConnection: jest.Mock;
     };
     let platformStoreMock: {
         orgUnits: ReturnType<typeof signal<PlatformOrgUnitSummary[]>>;
@@ -226,7 +251,9 @@ describe('ExternalOrgSyncWorkbench', () => {
         };
         identityProviderStoreMock = {
             configs: signal<IdentityProviderConfigSummary[]>([createProviderConfig()]),
-            loadConfigs: jest.fn().mockResolvedValue([createProviderConfig()])
+            testingConfigId: signal(null),
+            loadConfigs: jest.fn().mockResolvedValue([createProviderConfig()]),
+            testConnection: jest.fn().mockResolvedValue(createOrgSyncDiagnostic())
         };
         platformStoreMock = {
             orgUnits: signal<PlatformOrgUnitSummary[]>([createOrgUnit()]),
@@ -319,7 +346,44 @@ describe('ExternalOrgSyncWorkbench', () => {
         );
         expect(syncStoreMock.createSource.mock.calls[0][0]).not.toHaveProperty('status');
         expect(syncStoreMock.activateSource).toHaveBeenCalledWith('external-org-source-2', { expectedVersion: 4 });
+        expect(identityProviderStoreMock.testConnection).toHaveBeenCalledWith('identity-provider-1', {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: '0',
+            expectedVersion: 1
+        });
         expect(component.sourceDialogVisible).toBe(false);
+    });
+
+    it('runs organization sync readiness diagnostics when selecting a provider config', async () => {
+        component.openCreateSourceDialog();
+
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        expect(identityProviderStoreMock.testConnection).toHaveBeenCalledWith('identity-provider-1', {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: '0',
+            expectedVersion: 1
+        });
+        expect(component.selectedProviderConfigDiagnostic()?.status).toBe(IdentityProviderConnectionTestStatus.Success);
+    });
+
+    it('blocks save-and-activate when organization sync readiness diagnostics fail', async () => {
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '组织同步可用性检查未通过：飞书应用身份通讯录权限未开通。'
+            })
+        );
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.sourceForm.providerConfigId = 'identity-provider-1';
+
+        await component.saveSource({ activateAfterCreate: true });
+
+        expect(syncStoreMock.createSource).not.toHaveBeenCalled();
+        expect(syncStoreMock.activateSource).not.toHaveBeenCalled();
+        expect(component.sourceDialogVisible).toBe(true);
     });
 
     it('marks provider configs that are not ready for org sync as disabled options', () => {

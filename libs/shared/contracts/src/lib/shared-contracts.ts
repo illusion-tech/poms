@@ -579,6 +579,26 @@ export const IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES = enumObjectValues(Ident
 export type IdentityProviderConnectionTestStatus = (typeof IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES)[number];
 export const IdentityProviderConnectionTestStatusSchema = z.enum(IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES).meta({ id: 'IdentityProviderConnectionTestStatus' });
 
+export const IdentityProviderConnectionTestCapabilityValue = {
+    Basic: 'basic',
+    ExternalOrgSync: 'external-org-sync'
+} as const;
+
+export const IDENTITY_PROVIDER_CONNECTION_TEST_CAPABILITIES = enumObjectValues(IdentityProviderConnectionTestCapabilityValue);
+export type IdentityProviderConnectionTestCapability = (typeof IDENTITY_PROVIDER_CONNECTION_TEST_CAPABILITIES)[number];
+export const IdentityProviderConnectionTestCapabilitySchema = z.enum(IDENTITY_PROVIDER_CONNECTION_TEST_CAPABILITIES).meta({ id: 'IdentityProviderConnectionTestCapability' });
+
+export const IdentityProviderConnectionDiagnosticStatusValue = {
+    Passed: 'passed',
+    Failed: 'failed',
+    Warning: 'warning',
+    Skipped: 'skipped'
+} as const;
+
+export const IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES = enumObjectValues(IdentityProviderConnectionDiagnosticStatusValue);
+export type IdentityProviderConnectionDiagnosticStatus = (typeof IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES)[number];
+export const IdentityProviderConnectionDiagnosticStatusSchema = z.enum(IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES).meta({ id: 'IdentityProviderConnectionDiagnosticStatus' });
+
 export const IdentityProviderScopeListSchema = z.array(z.string().trim().min(1).max(128)).max(32);
 export const IdentityProviderTenantAllowlistSchema = z.array(z.string().trim().min(1).max(128)).max(32);
 
@@ -690,17 +710,34 @@ export type UpdateIdentityProviderConfigRequest = z.infer<typeof UpdateIdentityP
 
 export const TestIdentityProviderConnectionRequestSchema = z
     .object({
-        expectedVersion: z.number().int().positive().optional()
+        expectedVersion: z.number().int().positive().optional(),
+        capability: IdentityProviderConnectionTestCapabilitySchema.optional(),
+        externalRootDepartmentId: z.string().trim().min(1).max(128).optional()
     })
     .meta({ id: 'TestIdentityProviderConnectionRequest' });
 
 export type TestIdentityProviderConnectionRequest = z.infer<typeof TestIdentityProviderConnectionRequestSchema>;
 
+export const IdentityProviderConnectionDiagnosticCheckSchema = z
+    .object({
+        key: z.string().trim().min(1).max(128),
+        label: z.string().trim().min(1).max(128),
+        status: IdentityProviderConnectionDiagnosticStatusSchema,
+        message: z.string(),
+        details: z.string().nullable().optional()
+    })
+    .meta({ id: 'IdentityProviderConnectionDiagnosticCheck' });
+
+export type IdentityProviderConnectionDiagnosticCheck = z.infer<typeof IdentityProviderConnectionDiagnosticCheckSchema>;
+
 export const IdentityProviderConnectionTestResultSchema = z
     .object({
         status: IdentityProviderConnectionTestStatusSchema,
+        capability: IdentityProviderConnectionTestCapabilitySchema,
         message: z.string(),
-        checkedAt: z.iso.datetime()
+        checkedAt: z.iso.datetime(),
+        checks: z.array(IdentityProviderConnectionDiagnosticCheckSchema),
+        nextActions: z.array(z.string().trim().min(1).max(256))
     })
     .meta({ id: 'IdentityProviderConnectionTestResult' });
 

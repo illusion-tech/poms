@@ -7,11 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { IdentityProviderConnectionDiagnosticCheck } from './identity-provider-connection-diagnostic-check';
+import { IdentityProviderConnectionTestCapability } from './identity-provider-connection-test-capability';
 import { IdentityProviderConnectionTestStatus } from './identity-provider-connection-test-status';
 
 
 export interface IdentityProviderConnectionTestResult {
     status: IdentityProviderConnectionTestStatus;
+    capability: IdentityProviderConnectionTestCapability;
     message: string;
     checkedAt: string;
+    checks: Array<IdentityProviderConnectionDiagnosticCheck>;
+    nextActions: Array<string>;
 }

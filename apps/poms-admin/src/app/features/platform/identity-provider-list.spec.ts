@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IdentityProvider, IdentityProviderConfigStatus, IdentityProviderConnectionTestStatus, IdentityProviderSearchGrantMode, IdentityProviderStore, type IdentityProviderConfigSummary } from '@poms/admin-data-access';
+import { IdentityProvider, IdentityProviderConfigStatus, IdentityProviderConnectionDiagnosticStatus, IdentityProviderConnectionTestCapability, IdentityProviderConnectionTestStatus, IdentityProviderSearchGrantMode, IdentityProviderStore, type IdentityProviderConfigSummary } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
 import { IdentityProviderList } from './identity-provider-list';
 
@@ -82,8 +82,18 @@ describe('IdentityProviderList', () => {
             updateConfig: jest.fn().mockResolvedValue(createIdentityProviderConfig()),
             testConnection: jest.fn().mockResolvedValue({
                 status: IdentityProviderConnectionTestStatus.Success,
+                capability: IdentityProviderConnectionTestCapability.Basic,
                 message: 'Local configuration is complete.',
-                checkedAt: '2026-05-07T08:30:00.000Z'
+                checkedAt: '2026-05-07T08:30:00.000Z',
+                checks: [
+                    {
+                        key: 'enabled',
+                        label: '总开关',
+                        status: IdentityProviderConnectionDiagnosticStatus.Passed,
+                        message: '企业协同接入总开关已启用。'
+                    }
+                ],
+                nextActions: []
             }),
             clearConfigs: jest.fn(() => configs.set([]))
         };
@@ -312,7 +322,7 @@ describe('IdentityProviderList', () => {
         await component.updateAndTestConfig();
 
         expect(storeMock.updateConfig).toHaveBeenCalledWith(config.id, expect.objectContaining({ displayName: '飞书正式更新', expectedVersion: 8 }));
-        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, { expectedVersion: 9 });
+        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, { capability: IdentityProviderConnectionTestCapability.Basic, expectedVersion: 9 });
         expect(component.testResults()[config.id]?.status).toBe(IdentityProviderConnectionTestStatus.Success);
     });
 
@@ -321,7 +331,20 @@ describe('IdentityProviderList', () => {
 
         await component.testConnection(config);
 
-        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, { expectedVersion: 6 });
+        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, { capability: IdentityProviderConnectionTestCapability.Basic, expectedVersion: 6 });
+        expect(component.testResults()[config.id]?.status).toBe(IdentityProviderConnectionTestStatus.Success);
+    });
+
+    it('tests organization sync readiness with the external org sync capability', async () => {
+        const config = createIdentityProviderConfig({ rowVersion: 7 });
+
+        await component.testOrgSyncConnection(config);
+
+        expect(storeMock.testConnection).toHaveBeenCalledWith(config.id, {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: '0',
+            expectedVersion: 7
+        });
         expect(component.testResults()[config.id]?.status).toBe(IdentityProviderConnectionTestStatus.Success);
     });
 });

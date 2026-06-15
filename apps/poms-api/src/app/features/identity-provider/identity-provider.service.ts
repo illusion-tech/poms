@@ -3,13 +3,17 @@ import { BadRequestException, ConflictException, Injectable, NotFoundException, 
 import {
     type EnabledLoginProviderList,
     ExternalIdentityBindingStatusValue,
+    ExternalOrgProviderValue,
     type ExternalLoginAuthorizeResult,
     type ExternalLoginCallbackQuery,
     type ExternalLoginCallbackResult,
     type ExternalUserSearchQuery,
     type ExternalUserSearchResult,
     IdentityProviderConfigStatusValue,
+    IdentityProviderConnectionDiagnosticStatusValue,
+    IdentityProviderConnectionTestCapabilityValue,
     IdentityProviderConnectionTestStatusValue,
+    IdentityProviderValue,
     type IdentityProviderOAuthAuthorizeResult,
     type IdentityProviderOAuthCallbackQuery,
     type IdentityProviderOAuthGrantSummary,
@@ -23,6 +27,7 @@ import {
     type IdentityProviderConfigDetail,
     type IdentityProviderConfigList,
     type IdentityProviderConfigListQuery,
+    type IdentityProviderConnectionDiagnosticCheck,
     type IdentityProviderConnectionTestResult,
     type TestIdentityProviderConnectionRequest,
     type UnbindExternalIdentityRequest,
@@ -30,6 +35,8 @@ import {
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SecretCipherService } from '../../core/secret/secret-cipher.service';
+import { ExternalOrgDirectoryAdapterError } from '../external-org-sync/external-org-directory.adapter';
+import { ExternalOrgDirectoryAdapterRegistry } from '../external-org-sync/external-org-directory-adapter.registry';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
 import { IdentityProviderAdapterError, type ProviderOAuthTokenSet } from './identity-provider.adapter';
@@ -45,7 +52,8 @@ export class IdentityProviderService {
         private readonly identityProviderRepository: IdentityProviderRepository,
         private readonly runtimeAuditService: RuntimeAuditService,
         private readonly adapterRegistry: IdentityProviderAdapterRegistry,
-        private readonly secretCipherService: SecretCipherService
+        private readonly secretCipherService: SecretCipherService,
+        private readonly externalOrgDirectoryAdapterRegistry: ExternalOrgDirectoryAdapterRegistry
     ) {}
 
     async listIdentityProviderConfigs(query: IdentityProviderConfigListQuery = {}): Promise<IdentityProviderConfigList> {
@@ -138,20 +146,12 @@ export class IdentityProviderService {
             throw new ConflictException(`Identity provider config version conflict: expected ${request.expectedVersion}, actual ${config.rowVersion}`);
         }
 
-        if (!config.enabled || config.status === IdentityProviderConfigStatusValue.Disabled) {
-            return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Identity provider is disabled.');
-        }
-        if (!config.clientId || !config.encryptedClientSecret) {
-            return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Client id and client secret are required.');
-        }
-        if (config.loginEnabled && !config.redirectUri) {
-            return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Login redirect URI is required.');
-        }
-        if (config.searchEnabled && !config.searchRedirectUri) {
-            return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Failed, 'Search redirect URI is required.');
+        const capability = request.capability ?? IdentityProviderConnectionTestCapabilityValue.Basic;
+        if (capability === IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync) {
+            return this.testExternalOrgSyncReadiness(config, request);
         }
 
-        return this.connectionTestResult(IdentityProviderConnectionTestStatusValue.Success, 'Local configuration is complete. Provider network verification is handled by the adapter slice.');
+        return this.testBasicConnection(config);
     }
 
     async listEnabledLoginProviders(): Promise<EnabledLoginProviderList> {
@@ -856,11 +856,175 @@ export class IdentityProviderService {
         });
     }
 
-    private connectionTestResult(status: IdentityProviderConnectionTestResult['status'], message: string): IdentityProviderConnectionTestResult {
+    private testBasicConnection(config: IdentityProviderConfig): IdentityProviderConnectionTestResult {
+        const checks = this.basicConnectionChecks(config);
+        const status = this.connectionStatusForChecks(checks);
+        const firstFailed = checks.find((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed);
+        const message =
+            status === IdentityProviderConnectionTestStatusValue.Success
+                ? 'Local configuration is complete. Provider network verification is handled by the adapter slice.'
+                : (firstFailed?.message ?? 'Identity provider configuration is not ready.');
+
+        return this.connectionTestResult(IdentityProviderConnectionTestCapabilityValue.Basic, checks, message);
+    }
+
+    private async testExternalOrgSyncReadiness(config: IdentityProviderConfig, request: TestIdentityProviderConnectionRequest): Promise<IdentityProviderConnectionTestResult> {
+        const checks = this.externalOrgSyncLocalChecks(config);
+        if (checks.some((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed)) {
+            checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '本地接入配置未就绪，暂不请求飞书 tenant_access_token。'));
+            checks.push(this.diagnosticCheck('departmentReadAccess', '飞书部门读取', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '本地接入配置未就绪，暂不读取飞书部门。'));
+
+            return this.connectionTestResult(IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync, checks, this.connectionFailureMessage(checks), this.nextActionsForChecks(checks));
+        }
+
+        try {
+            const result = await this.externalOrgDirectoryAdapterRegistry.get(ExternalOrgProviderValue.Feishu).testDepartmentReadAccess({
+                providerConfig: config,
+                clientSecret: this.decryptSecret(config.encryptedClientSecret ?? ''),
+                rootDepartmentId: request.externalRootDepartmentId ?? null
+            });
+            checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Passed, '已使用应用凭证获取飞书 tenant_access_token。'));
+            checks.push(
+                this.diagnosticCheck(
+                    'departmentReadAccess',
+                    '飞书部门读取',
+                    IdentityProviderConnectionDiagnosticStatusValue.Passed,
+                    `根部门 ${result.rootDepartmentId} 可访问，已读取 ${result.childDepartmentCount} 个直接子部门。`
+                )
+            );
+        } catch (error) {
+            const message = this.safeDiagnosticErrorMessage(error);
+            const failedKey = message.includes('tenant access token') || message.includes('访问令牌') ? 'tenantAccessToken' : 'departmentReadAccess';
+            if (failedKey === 'tenantAccessToken') {
+                checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Failed, message));
+                checks.push(this.diagnosticCheck('departmentReadAccess', '飞书部门读取', IdentityProviderConnectionDiagnosticStatusValue.Skipped, 'tenant_access_token 获取失败，暂不读取飞书部门。'));
+            } else {
+                checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Passed, '已使用应用凭证获取飞书 tenant_access_token。'));
+                checks.push(this.diagnosticCheck('departmentReadAccess', '飞书部门读取', IdentityProviderConnectionDiagnosticStatusValue.Failed, message));
+            }
+        }
+
+        const status = this.connectionStatusForChecks(checks);
+        const message =
+            status === IdentityProviderConnectionTestStatusValue.Success ? '组织同步可用性检查通过，飞书通讯录读取正常。' : this.connectionFailureMessage(checks);
+        return this.connectionTestResult(IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync, checks, message, this.nextActionsForChecks(checks));
+    }
+
+    private basicConnectionChecks(config: IdentityProviderConfig): IdentityProviderConnectionDiagnosticCheck[] {
+        const checks = [
+            this.diagnosticCheck(
+                'enabled',
+                '总开关',
+                config.enabled && config.status !== IdentityProviderConfigStatusValue.Disabled ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                config.enabled && config.status !== IdentityProviderConfigStatusValue.Disabled ? '企业协同接入总开关已启用。' : 'Identity provider is disabled.'
+            ),
+            this.diagnosticCheck(
+                'clientCredentials',
+                'Client ID / Secret',
+                config.clientId && config.encryptedClientSecret ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                config.clientId && config.encryptedClientSecret ? 'Client ID 和 Client Secret 已配置。' : 'Client id and client secret are required.'
+            )
+        ];
+
+        checks.push(
+            config.loginEnabled
+                ? this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', config.redirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.redirectUri ? '登录 Redirect URI 已配置。' : 'Login redirect URI is required.')
+                : this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '登录能力未启用。')
+        );
+        checks.push(
+            config.searchEnabled
+                ? this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', config.searchRedirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.searchRedirectUri ? '搜索 Redirect URI 已配置。' : 'Search redirect URI is required.')
+                : this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '搜索能力未启用。')
+        );
+
+        return checks;
+    }
+
+    private externalOrgSyncLocalChecks(config: IdentityProviderConfig): IdentityProviderConnectionDiagnosticCheck[] {
+        return [
+            this.diagnosticCheck(
+                'provider',
+                '外部平台',
+                config.provider === IdentityProviderValue.Feishu ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                config.provider === IdentityProviderValue.Feishu ? '当前接入配置为飞书，可用于外部组织同步诊断。' : '当前仅支持飞书组织同步诊断。'
+            ),
+            this.diagnosticCheck(
+                'enabled',
+                '总开关',
+                config.enabled ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                config.enabled ? '企业协同接入总开关已启用。' : '企业协同接入总开关未启用。'
+            ),
+            this.diagnosticCheck(
+                'configStatus',
+                '接入状态',
+                config.status === IdentityProviderConfigStatusValue.Active ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                config.status === IdentityProviderConfigStatusValue.Active ? '接入配置状态已激活。' : `接入配置状态为 ${config.status}，尚未就绪。`
+            ),
+            this.diagnosticCheck(
+                'clientCredentials',
+                'Client ID / Secret',
+                config.clientId && config.encryptedClientSecret ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                config.clientId && config.encryptedClientSecret ? 'Client ID 和 Client Secret 已配置。' : '组织同步需要完整的 Client ID 和 Client Secret。'
+            )
+        ];
+    }
+
+    private diagnosticCheck(key: string, label: string, status: IdentityProviderConnectionDiagnosticCheck['status'], message: string, details: string | null = null): IdentityProviderConnectionDiagnosticCheck {
         return {
+            key,
+            label,
             status,
             message,
-            checkedAt: new Date().toISOString()
+            ...(details ? { details } : {})
+        };
+    }
+
+    private connectionStatusForChecks(checks: IdentityProviderConnectionDiagnosticCheck[]): IdentityProviderConnectionTestResult['status'] {
+        return checks.some((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed) ? IdentityProviderConnectionTestStatusValue.Failed : IdentityProviderConnectionTestStatusValue.Success;
+    }
+
+    private connectionFailureMessage(checks: IdentityProviderConnectionDiagnosticCheck[]): string {
+        const failed = checks.find((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed);
+        return failed ? `组织同步可用性检查未通过：${failed.message}` : '组织同步可用性检查未通过。';
+    }
+
+    private nextActionsForChecks(checks: IdentityProviderConnectionDiagnosticCheck[]): string[] {
+        const actions: string[] = [];
+        const failedKeys = new Set(checks.filter((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed).map((check) => check.key));
+        if (failedKeys.has('enabled')) actions.push('在企业协同接入中启用总开关并保存。');
+        if (failedKeys.has('configStatus')) actions.push('完善 Client Secret 或已启用能力的回调地址，使接入状态恢复为已激活。');
+        if (failedKeys.has('clientCredentials')) actions.push('填写飞书应用的 Client ID 和 Client Secret 后保存。');
+        if (failedKeys.has('tenantAccessToken')) actions.push('检查飞书应用凭证是否正确，并确认应用已发布。');
+        if (failedKeys.has('departmentReadAccess')) actions.push('在飞书开放平台开通应用身份通讯录部门读取权限，并发布应用后重试。');
+        if (failedKeys.has('provider')) actions.push('当前组织同步诊断仅支持飞书接入配置。');
+        return actions;
+    }
+
+    private safeDiagnosticErrorMessage(error: unknown): string {
+        const rawMessage =
+            error instanceof ExternalOrgDirectoryAdapterError || error instanceof Error
+                ? error.message.trim()
+                : '';
+        const message = rawMessage || '飞书组织同步只读探测失败。';
+        return message
+            .replace(/tenant_access_token[=:]\s*[\w.-]+/gi, 'tenant_access_token=<redacted>')
+            .replace(/Bearer\s+[\w.-]+/gi, 'Bearer <redacted>')
+            .replace(/app_secret[=:]\s*[^,\s，）)]+/gi, 'app_secret=<redacted>');
+    }
+
+    private connectionTestResult(
+        capability: IdentityProviderConnectionTestResult['capability'],
+        checks: IdentityProviderConnectionDiagnosticCheck[],
+        message: string,
+        nextActions: string[] = []
+    ): IdentityProviderConnectionTestResult {
+        return {
+            status: this.connectionStatusForChecks(checks),
+            capability,
+            message,
+            checkedAt: new Date().toISOString(),
+            checks,
+            nextActions
         };
     }
 

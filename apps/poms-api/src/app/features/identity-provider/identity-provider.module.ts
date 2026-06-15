@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { RuntimeAuditModule } from '../../core/runtime-audit/runtime-audit.module';
 import { SecretCipherModule } from '../../core/secret/secret-cipher.module';
+import { ExternalOrgSyncModule } from '../external-org-sync/external-org-sync.module';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicket } from './external-login-ticket.entity';
@@ -16,7 +17,7 @@ import { IdentityProviderRepository } from './identity-provider.repository';
 import { IdentityProviderService } from './identity-provider.service';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([IdentityProviderConfig, ExternalIdentity, IdentityProviderOAuthGrant, ExternalLoginTicket, PlatformUser]), RuntimeAuditModule, SecretCipherModule],
+    imports: [MikroOrmModule.forFeature([IdentityProviderConfig, ExternalIdentity, IdentityProviderOAuthGrant, ExternalLoginTicket, PlatformUser]), RuntimeAuditModule, SecretCipherModule, ExternalOrgSyncModule],
     controllers: [IdentityProviderController, ExternalIdentityController, IdentityProviderOAuthGrantController],
     providers: [IdentityProviderRepository, IdentityProviderService, IdentityProviderAdapterRegistry, FeishuIdentityProviderAdapter],
     exports: [IdentityProviderService]

@@ -144,6 +144,47 @@ describe('FeishuExternalOrgDirectoryAdapter', () => {
         );
     });
 
+    it('tests department read access with a single root children request', async () => {
+        mockedAxios.post.mockResolvedValue({
+            data: {
+                code: 0,
+                msg: 'ok',
+                tenant_access_token: 'tenant-token',
+                expire: 7200
+            }
+        });
+        mockedAxios.get.mockResolvedValueOnce({
+            data: {
+                code: 0,
+                msg: 'success',
+                data: {
+                    has_more: false,
+                    items: [
+                        {
+                            open_department_id: 'od-sales',
+                            parent_department_id: 'od-root',
+                            name: '销售部',
+                            status: { is_deleted: false }
+                        }
+                    ]
+                }
+            }
+        });
+
+        const result = await adapter.testDepartmentReadAccess({
+            providerConfig: createProviderConfig(),
+            clientSecret: 'client-secret',
+            rootDepartmentId: 'od-root'
+        });
+
+        expect(result).toEqual({
+            rootDepartmentId: 'od-root',
+            childDepartmentCount: 1
+        });
+        expect(mockedAxios.get).toHaveBeenCalledTimes(1);
+        expect(mockedAxios.get).toHaveBeenCalledWith('https://open.feishu.cn/open-apis/contact/v3/departments/od-root/children', expect.any(Object));
+    });
+
     it('normalizes Feishu HTTP errors into adapter diagnostics', async () => {
         mockedAxios.post.mockResolvedValue({
             data: {

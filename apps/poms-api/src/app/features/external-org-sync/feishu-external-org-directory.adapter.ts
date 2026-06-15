@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExternalOrgProviderValue } from '@poms/shared-contracts';
 import axios from 'axios';
-import type { ExternalDepartmentSnapshot, ExternalOrgDirectoryAdapter, FetchExternalDepartmentTreeInput } from './external-org-directory.adapter';
+import type { ExternalDepartmentReadAccessResult, ExternalDepartmentSnapshot, ExternalOrgDirectoryAdapter, FetchExternalDepartmentTreeInput, TestExternalDepartmentReadAccessInput } from './external-org-directory.adapter';
 import { ExternalOrgDirectoryAdapterError } from './external-org-directory.adapter';
 
 type JsonRecord = Record<string, unknown>;
@@ -30,6 +30,17 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         }
 
         return snapshots;
+    }
+
+    async testDepartmentReadAccess(input: TestExternalDepartmentReadAccessInput): Promise<ExternalDepartmentReadAccessResult> {
+        const accessToken = await this.fetchTenantAccessToken(input.providerConfig.clientId, input.clientSecret);
+        const rootDepartmentId = input.rootDepartmentId ?? '0';
+        const children = await this.fetchChildren(accessToken, rootDepartmentId);
+
+        return {
+            rootDepartmentId,
+            childDepartmentCount: children.length
+        };
     }
 
     private async fetchTenantAccessToken(appId: string, appSecret: string): Promise<string> {
