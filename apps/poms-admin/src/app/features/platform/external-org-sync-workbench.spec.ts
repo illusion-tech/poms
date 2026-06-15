@@ -426,6 +426,55 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.selectedDiffItemIds().has('diff-item-1')).toBe(true);
     });
 
+    it('treats a failed preview run as a failure instead of a zero-diff success', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+        syncStoreMock.createPreviewRun.mockResolvedValueOnce(
+            createRun({
+                status: OrgSyncRunStatus.Failed,
+                totalItemCount: 0,
+                errorSummary: '飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。'
+            })
+        );
+        component.selectedDiffItemIds.set(new Set(['diff-item-1']));
+
+        await component.createPreviewRun();
+
+        expect(component.selectedDiffItemIds().size).toBe(0);
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'error',
+                summary: '预览失败',
+                detail: '飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。'
+            })
+        );
+        expect(addMessage).not.toHaveBeenCalledWith(expect.objectContaining({ severity: 'success', summary: '预览已生成' }));
+    });
+
+    it('uses run-aware preview empty messages', () => {
+        activeRun.set(null);
+        expect(component.previewEmptyMessage()).toBe('尚未生成预览');
+
+        activeRun.set(createRun({ status: OrgSyncRunStatus.Previewing, totalItemCount: 0 }));
+        expect(component.previewEmptyMessage()).toBe('预览生成中，请稍后刷新');
+
+        activeRun.set(createRun({ status: OrgSyncRunStatus.Failed, totalItemCount: 0, errorSummary: '飞书权限未开通' }));
+        expect(component.previewEmptyMessage()).toBe('预览失败，未生成差异项');
+
+        activeRun.set(createRun({ status: OrgSyncRunStatus.Previewed, totalItemCount: 0 }));
+        expect(component.previewEmptyMessage()).toBe('预览已完成，暂无差异');
+
+        activeRun.set(createRun({ status: OrgSyncRunStatus.Applying, totalItemCount: 0 }));
+        expect(component.previewEmptyMessage()).toBe('正在应用预览差异，请稍后刷新');
+
+        activeRun.set(createRun({ status: OrgSyncRunStatus.Applied, totalItemCount: 0 }));
+        expect(component.previewEmptyMessage()).toBe('本次预览已应用完成');
+
+        activeRun.set(createRun({ status: OrgSyncRunStatus.Cancelled, totalItemCount: 0 }));
+        expect(component.previewEmptyMessage()).toBe('预览已取消，请重新生成预览');
+        expect(component.previewFailureDetail(createRun({ status: OrgSyncRunStatus.Failed, errorSummary: null }))).toBe('外部组织拉取或差异生成失败');
+    });
+
     it('uses the fallback toast detail for HttpErrorResponse without a server message', async () => {
         const messageService = fixture.debugElement.injector.get(MessageService);
         const addMessage = jest.spyOn(messageService, 'add');
