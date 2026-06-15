@@ -15,6 +15,7 @@ import { IdentityProviderConfig } from '../identity-provider/identity-provider-c
 import { IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS } from '../identity-provider/identity-provider-secret.constants';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { ExternalDepartmentMapping } from './external-department-mapping.entity';
+import { ExternalOrgDirectoryAdapterError } from './external-org-directory.adapter';
 import { ExternalOrgDirectoryAdapterRegistry } from './external-org-directory-adapter.registry';
 import { ExternalOrgSource } from './external-org-source.entity';
 import { ExternalOrgSyncRepository } from './external-org-sync.repository';
@@ -334,6 +335,34 @@ describe('ExternalOrgSyncService', () => {
 
         expect(repository.createRun).not.toHaveBeenCalled();
         expect(feishuAdapter.fetchDepartmentTree).not.toHaveBeenCalled();
+    });
+
+    it('returns a failed preview run with adapter diagnostics when Feishu pull fails', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
+        feishuAdapter.fetchDepartmentTree.mockRejectedValue(new ExternalOrgDirectoryAdapterError('飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。（飞书返回：page size is more than 50 error，code 40011）'));
+
+        const result = await service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3, requestSnapshot: { requestedByUi: true } }, operatorId);
+
+        expect(result).toMatchObject({
+            id: runId,
+            status: OrgSyncRunStatusValue.Failed,
+            totalItemCount: 0,
+            errorSummary: expect.stringContaining('飞书部门分页大小超过限制')
+        });
+        expect(result.requestSnapshot).toMatchObject({
+            requestedByUi: true,
+            adapterStatus: 'adapter_failed',
+            providerConfigId
+        });
+        expect(repository.createDiffItem).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'org-sync-run.preview.failed',
+                result: 'failed',
+                reason: expect.stringContaining('飞书部门分页大小超过限制')
+            })
+        );
     });
 
     it('applies approved create diff items and maps the external department to the new org unit', async () => {

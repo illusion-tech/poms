@@ -16,6 +16,7 @@ import {
     OrgSyncDiffAction,
     type OrgSyncDiffItemSummary,
     OrgSyncDiffItemStatus,
+    type OrgSyncRunSummary,
     OrgSyncRunStatus,
     PlatformStore,
     type PlatformOrgUnitSummary
@@ -267,6 +268,22 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                         <p-button icon="pi pi-check" label="应用选中" [disabled]="!canApplyRun()" [loading]="syncStore.applyingRun()" (onClick)="applySelectedDiffItems(run.id)" />
                     }
                 </div>
+                @if (syncStore.activeRun(); as run) {
+                    @if (run.status === orgSyncRunStatus.Failed) {
+                        <div class="mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
+                            <div class="flex items-center gap-2 font-medium">
+                                <i class="pi pi-exclamation-triangle"></i>
+                                <span>预览失败</span>
+                            </div>
+                            <p class="mt-2 leading-6">{{ previewFailureDetail(run) }}</p>
+                            <div class="mt-2 text-xs text-red-700 dark:text-red-300">开始 {{ formatDateTime(run.startedAt) }} · 结束 {{ formatDateTime(run.finishedAt) }}</div>
+                        </div>
+                    } @else if (run.status === orgSyncRunStatus.Previewed && run.totalItemCount === 0) {
+                        <div class="mb-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
+                            预览已完成，当前没有需要处理的组织差异。
+                        </div>
+                    }
+                }
                 <p-table
                     [value]="syncStore.diffItems()"
                     [paginator]="true"
@@ -308,7 +325,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                     </ng-template>
                     <ng-template #emptymessage>
                         <tr>
-                            <td colspan="6" class="py-8 text-center text-surface-400">{{ syncStore.loadingDiffItems() ? '加载中...' : '暂无预览差异' }}</td>
+                            <td colspan="6" class="py-8 text-center text-surface-400">{{ previewEmptyMessage() }}</td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -396,6 +413,7 @@ export class ExternalOrgSyncWorkbench {
     readonly #confirmationService = inject(ConfirmationService);
 
     readonly externalOrgSourceStatus = ExternalOrgSourceStatus;
+    readonly orgSyncRunStatus = OrgSyncRunStatus;
     readonly providerOptions: SelectOption<ExternalOrgProvider>[] = [
         { label: '飞书', value: ExternalOrgProvider.Feishu },
         { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
@@ -609,6 +627,16 @@ export class ExternalOrgSyncWorkbench {
                 expectedSourceVersion: source.rowVersion,
                 requestSnapshot: { triggeredFrom: 'poms-admin' }
             });
+            if (run.status === OrgSyncRunStatus.Failed) {
+                this.selectedDiffItemIds.set(new Set());
+                this.#messageService.add({ severity: 'error', summary: '预览失败', detail: this.previewFailureDetail(run) });
+                return;
+            }
+            if (run.status !== OrgSyncRunStatus.Previewed) {
+                this.selectedDiffItemIds.set(new Set());
+                this.#messageService.add({ severity: 'warn', summary: '预览未完成', detail: `当前运行状态为「${this.runStatusLabel(run.status)}」，请稍后刷新。` });
+                return;
+            }
             this.selectedDiffItemIds.set(
                 new Set(
                     this.syncStore
@@ -620,6 +648,32 @@ export class ExternalOrgSyncWorkbench {
             this.#messageService.add({ severity: 'success', summary: '预览已生成', detail: `发现 ${run.totalItemCount} 条差异` });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '预览失败', detail: apiErrorMessage(error, '外部组织拉取或差异生成失败') });
+        }
+    }
+
+    previewFailureDetail(run: OrgSyncRunSummary): string {
+        return run.errorSummary?.trim() || '外部组织拉取或差异生成失败';
+    }
+
+    previewEmptyMessage(): string {
+        if (this.syncStore.loadingDiffItems()) return '加载中...';
+        const run = this.syncStore.activeRun();
+        if (!run) return '尚未生成预览';
+        switch (run.status) {
+            case OrgSyncRunStatus.Previewing:
+                return '预览生成中，请稍后刷新';
+            case OrgSyncRunStatus.Previewed:
+                return '预览已完成，暂无差异';
+            case OrgSyncRunStatus.Applying:
+                return '正在应用预览差异，请稍后刷新';
+            case OrgSyncRunStatus.Applied:
+                return '本次预览已应用完成';
+            case OrgSyncRunStatus.Failed:
+                return '预览失败，未生成差异项';
+            case OrgSyncRunStatus.Cancelled:
+                return '预览已取消，请重新生成预览';
+            default:
+                return `当前运行状态为「${this.runStatusLabel(run.status)}」，请稍后刷新`;
         }
     }
 

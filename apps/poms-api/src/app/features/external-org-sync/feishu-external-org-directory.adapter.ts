@@ -34,25 +34,29 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
 
     private async fetchTenantAccessToken(appId: string, appSecret: string): Promise<string> {
         const endpoint = process.env['FEISHU_TENANT_ACCESS_TOKEN_URL'] ?? `${this.baseUrl()}/open-apis/auth/v3/tenant_access_token/internal`;
-        const response = await axios.post(
-            endpoint,
-            {
-                app_id: appId,
-                app_secret: appSecret
-            },
-            {
-                headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                timeout: this.timeoutMs()
+        try {
+            const response = await axios.post(
+                endpoint,
+                {
+                    app_id: appId,
+                    app_secret: appSecret
+                },
+                {
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                    timeout: this.timeoutMs()
+                }
+            );
+
+            const payload = this.unwrapFeishuPayload(response.data, 'Feishu tenant access token request failed', false);
+            const token = this.readString(payload, ['tenant_access_token']);
+            if (!token) {
+                throw new ExternalOrgDirectoryAdapterError('Feishu tenant access token response did not include a token.');
             }
-        );
 
-        const payload = this.unwrapFeishuPayload(response.data, 'Feishu tenant access token request failed', false);
-        const token = this.readString(payload, ['tenant_access_token']);
-        if (!token) {
-            throw new ExternalOrgDirectoryAdapterError('Feishu tenant access token response did not include a token.');
+            return token;
+        } catch (error) {
+            throw this.normalizeAdapterError(error, 'Feishu tenant access token request failed');
         }
-
-        return token;
     }
 
     private async fetchChildren(accessToken: string, departmentId: string): Promise<ExternalDepartmentSnapshot[]> {
@@ -60,23 +64,27 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         let pageToken: string | null = null;
 
         do {
-            const response = await axios.get(this.departmentChildrenUrl(departmentId), {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                },
-                params: {
-                    department_id_type: 'open_department_id',
-                    user_id_type: 'open_id',
-                    fetch_child: false,
-                    page_size: this.pageSize(),
-                    ...(pageToken ? { page_token: pageToken } : {})
-                },
-                timeout: this.timeoutMs()
-            });
+            try {
+                const response = await axios.get(this.departmentChildrenUrl(departmentId), {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                    params: {
+                        department_id_type: 'open_department_id',
+                        user_id_type: 'open_id',
+                        fetch_child: false,
+                        page_size: this.pageSize(),
+                        ...(pageToken ? { page_token: pageToken } : {})
+                    },
+                    timeout: this.timeoutMs()
+                });
 
-            const payload = this.unwrapFeishuPayload(response.data, 'Feishu department children request failed', true);
-            items.push(...this.readArray(payload, ['items', 'departments']).map((item) => this.toDepartmentSnapshot(item, departmentId)).filter((item): item is ExternalDepartmentSnapshot => Boolean(item)));
-            pageToken = this.readBoolean(payload, ['has_more']) ? this.readString(payload, ['page_token']) : null;
+                const payload = this.unwrapFeishuPayload(response.data, 'Feishu department children request failed', true);
+                items.push(...this.readArray(payload, ['items', 'departments']).map((item) => this.toDepartmentSnapshot(item, departmentId)).filter((item): item is ExternalDepartmentSnapshot => Boolean(item)));
+                pageToken = this.readBoolean(payload, ['has_more']) ? this.readString(payload, ['page_token']) : null;
+            } catch (error) {
+                throw this.normalizeAdapterError(error, 'Feishu department children request failed');
+            }
         } while (pageToken);
 
         return items;
@@ -112,12 +120,64 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         const root = this.asRecord(raw);
         const code = this.readNumber(root, ['code']);
         if (code !== null && code !== 0) {
-            const message = this.readString(root, ['msg', 'message']) ?? fallbackMessage;
-            throw new ExternalOrgDirectoryAdapterError(`${message} (${code})`);
+            const providerMessage = this.readString(root, ['msg', 'message']);
+            throw new ExternalOrgDirectoryAdapterError(this.formatFeishuErrorMessage(fallbackMessage, code, providerMessage));
         }
 
         if (!expectData) return root;
         return this.asRecord(root['data'] ?? root);
+    }
+
+    private normalizeAdapterError(error: unknown, fallbackMessage: string): ExternalOrgDirectoryAdapterError {
+        if (error instanceof ExternalOrgDirectoryAdapterError) return error;
+
+        const response = this.readHttpResponse(error);
+        if (response) {
+            const root = this.asRecord(response.data);
+            const code = this.readNumber(root, ['code']);
+            const providerMessage = this.readString(root, ['msg', 'message']);
+            return new ExternalOrgDirectoryAdapterError(this.formatFeishuErrorMessage(fallbackMessage, code, providerMessage, response.status));
+        }
+
+        if (error instanceof Error && error.message.trim()) {
+            return new ExternalOrgDirectoryAdapterError(`${fallbackMessage}: ${error.message.trim()}`);
+        }
+
+        return new ExternalOrgDirectoryAdapterError(fallbackMessage);
+    }
+
+    private readHttpResponse(error: unknown): { status?: number; data?: unknown } | null {
+        const root = this.asRecord(error);
+        const response = this.asRecord(root['response']);
+        if (Object.keys(response).length === 0) return null;
+
+        const status = this.readNumber(response, ['status']);
+        return { status: status ?? undefined, data: response['data'] };
+    }
+
+    private formatFeishuErrorMessage(fallbackMessage: string, code: number | null, providerMessage: string | null, status?: number): string {
+        const diagnosis = this.feishuErrorDiagnosis(code, providerMessage);
+        const providerDetails = [providerMessage ? `飞书返回：${providerMessage}` : null, code !== null ? `code ${code}` : null, status ? `HTTP ${status}` : null].filter((item): item is string => Boolean(item));
+
+        if (diagnosis) return providerDetails.length > 0 ? `${diagnosis}（${providerDetails.join('，')}）` : diagnosis;
+
+        const baseMessage = providerMessage && providerMessage !== fallbackMessage ? `${fallbackMessage}: ${providerMessage}` : fallbackMessage;
+        const technicalDetails = [code !== null ? `code ${code}` : null, status ? `HTTP ${status}` : null].filter((item): item is string => Boolean(item));
+        return technicalDetails.length > 0 ? `${baseMessage}（${technicalDetails.join('，')}）` : baseMessage;
+    }
+
+    private feishuErrorDiagnosis(code: number | null, providerMessage: string | null): string | null {
+        const normalizedMessage = providerMessage?.toLowerCase() ?? '';
+        if (code === 40011 || normalizedMessage.includes('page size')) {
+            return '飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。';
+        }
+        if (normalizedMessage.includes('permission') || normalizedMessage.includes('scope')) {
+            return '飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。';
+        }
+        if (normalizedMessage.includes('access token')) {
+            return '飞书访问令牌无效或已过期，请检查企业协同接入的 Client ID / Secret。';
+        }
+        return null;
     }
 
     private readArray(record: JsonRecord, keys: string[]): unknown[] {
@@ -167,8 +227,8 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
 
     private pageSize(): number {
         const configured = Number(process.env['FEISHU_ORG_DEPARTMENT_PAGE_SIZE']);
-        if (Number.isFinite(configured) && configured > 0) return Math.min(Math.floor(configured), 100);
-        return 100;
+        if (Number.isFinite(configured) && configured > 0) return Math.min(Math.floor(configured), 50);
+        return 50;
     }
 
     private timeoutMs(): number {
