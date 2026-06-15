@@ -20,7 +20,7 @@ import {
     PlatformStore,
     type PlatformOrgUnitSummary
 } from '@poms/admin-data-access';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExternalOrgSyncWorkbench } from './external-org-sync-workbench';
 
 function createSource(overrides: Partial<ExternalOrgSourceSummary> = {}): ExternalOrgSourceSummary {
@@ -176,6 +176,9 @@ describe('ExternalOrgSyncWorkbench', () => {
         selectSource: jest.Mock;
         createSource: jest.Mock;
         updateSource: jest.Mock;
+        activateSource: jest.Mock;
+        pauseSource: jest.Mock;
+        archiveSource: jest.Mock;
         createPreviewRun: jest.Mock;
         applyRun: jest.Mock;
     };
@@ -213,8 +216,11 @@ describe('ExternalOrgSyncWorkbench', () => {
                 selectedSourceId.set(id);
                 return Promise.resolve();
             }),
-            createSource: jest.fn().mockResolvedValue(createSource({ id: 'external-org-source-2' })),
+            createSource: jest.fn().mockResolvedValue(createSource({ id: 'external-org-source-2', status: ExternalOrgSourceStatus.Draft, rowVersion: 4 })),
             updateSource: jest.fn().mockResolvedValue(createSource()),
+            activateSource: jest.fn().mockResolvedValue(createSource({ id: 'external-org-source-2', status: ExternalOrgSourceStatus.Active, rowVersion: 5 })),
+            pauseSource: jest.fn().mockResolvedValue(createSource({ status: ExternalOrgSourceStatus.Paused, rowVersion: 4 })),
+            archiveSource: jest.fn().mockResolvedValue(createSource({ status: ExternalOrgSourceStatus.Archived, rowVersion: 4 })),
             createPreviewRun: jest.fn().mockResolvedValue(createRun()),
             applyRun: jest.fn().mockResolvedValue(createRun({ status: OrgSyncRunStatus.Applied }))
         };
@@ -247,6 +253,7 @@ describe('ExternalOrgSyncWorkbench', () => {
                             provide: IdentityProviderStore,
                             useValue: identityProviderStoreMock
                         },
+                        ConfirmationService,
                         MessageService
                     ]
                 }
@@ -276,7 +283,6 @@ describe('ExternalOrgSyncWorkbench', () => {
         component.openCreateSourceDialog();
         component.sourceForm.displayName = '飞书测试通讯录';
         component.sourceForm.externalTenantId = 'tenant-test';
-        component.sourceForm.status = ExternalOrgSourceStatus.Active;
         component.sourceForm.providerConfigId = 'identity-provider-1';
         component.sourceForm.authoritativeOrgUnitId = 'org-root';
         component.sourceForm.externalRootDepartmentId = '0';
@@ -288,12 +294,31 @@ describe('ExternalOrgSyncWorkbench', () => {
             provider: ExternalOrgProvider.Feishu,
             externalTenantId: 'tenant-test',
             displayName: '飞书测试通讯录',
-            status: ExternalOrgSourceStatus.Active,
             providerConfigId: 'identity-provider-1',
             authoritativeOrgUnitId: 'org-root',
             externalRootDepartmentId: '0',
             syncScopes: ['contact:department.base:readonly', 'contact:department:readonly']
         });
+        expect(syncStoreMock.activateSource).not.toHaveBeenCalled();
+        expect(component.sourceDialogVisible).toBe(false);
+    });
+
+    it('creates a draft source and activates it through save-and-activate', async () => {
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.sourceForm.providerConfigId = 'identity-provider-1';
+
+        await component.saveSource({ activateAfterCreate: true });
+
+        expect(syncStoreMock.createSource).toHaveBeenCalledWith(
+            expect.objectContaining({
+                provider: ExternalOrgProvider.Feishu,
+                displayName: '飞书测试通讯录',
+                providerConfigId: 'identity-provider-1'
+            })
+        );
+        expect(syncStoreMock.createSource.mock.calls[0][0]).not.toHaveProperty('status');
+        expect(syncStoreMock.activateSource).toHaveBeenCalledWith('external-org-source-2', { expectedVersion: 4 });
         expect(component.sourceDialogVisible).toBe(false);
     });
 
@@ -333,7 +358,7 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(option?.label).not.toContain('接入未启用');
     });
 
-    it('prevents saving an active source with a provider config that is not ready', async () => {
+    it('prevents save-and-activate when the provider config is not ready', async () => {
         identityProviderStoreMock.configs.set([
             createProviderConfig({
                 id: 'identity-provider-draft',
@@ -344,12 +369,12 @@ describe('ExternalOrgSyncWorkbench', () => {
         ]);
         component.openCreateSourceDialog();
         component.sourceForm.displayName = '飞书测试通讯录';
-        component.sourceForm.status = ExternalOrgSourceStatus.Active;
         component.sourceForm.providerConfigId = 'identity-provider-draft';
 
-        await component.saveSource();
+        await component.saveSource({ activateAfterCreate: true });
 
         expect(syncStoreMock.createSource).not.toHaveBeenCalled();
+        expect(syncStoreMock.activateSource).not.toHaveBeenCalled();
     });
 
     it('prevents saving a draft non-feishu source with a provider config binding', async () => {
@@ -358,9 +383,11 @@ describe('ExternalOrgSyncWorkbench', () => {
         component.openCreateSourceDialog();
         component.sourceForm.displayName = '钉钉通讯录';
         component.sourceForm.provider = ExternalOrgProvider.Dingtalk;
-        component.sourceForm.status = ExternalOrgSourceStatus.Draft;
         component.sourceForm.providerConfigId = 'identity-provider-1';
 
+        const option = component.providerConfigOptions().find((candidate) => candidate.value === 'identity-provider-1');
+        expect(option).toEqual(expect.objectContaining({ disabled: true }));
+        expect(option?.label).toContain('尚未支持绑定企业协同接入');
         expect(component.selectedProviderConfigIssue()).toContain('尚未支持绑定企业协同接入');
 
         await component.saveSource();
@@ -373,6 +400,20 @@ describe('ExternalOrgSyncWorkbench', () => {
                 detail: '当前外部平台尚未支持绑定企业协同接入，请先选择“不绑定”，或切换为飞书。'
             })
         );
+    });
+
+    it('uses lifecycle commands for pause, activate and archive actions', async () => {
+        const activeSource = createSource({ status: ExternalOrgSourceStatus.Active, rowVersion: 3 });
+        const pausedSource = createSource({ status: ExternalOrgSourceStatus.Paused, rowVersion: 4 });
+
+        await component.toggleSourceStatus(activeSource);
+        await component.toggleSourceStatus(pausedSource);
+        await component.archiveSource(pausedSource);
+
+        expect(syncStoreMock.pauseSource).toHaveBeenCalledWith(activeSource.id, { expectedVersion: 3 });
+        expect(syncStoreMock.activateSource).toHaveBeenCalledWith(pausedSource.id, { expectedVersion: 4 });
+        expect(syncStoreMock.archiveSource).toHaveBeenCalledWith(pausedSource.id, { expectedVersion: 4 });
+        expect(syncStoreMock.updateSource).not.toHaveBeenCalled();
     });
 
     it('creates preview run with optimistic source version and selects pending actionable diff items', async () => {

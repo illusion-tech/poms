@@ -8,6 +8,8 @@ import {
     OrgSyncDiffActionValue,
     OrgSyncDiffItemStatusValue,
     OrgSyncRunStatusValue,
+    type ActivateExternalOrgSourceRequest,
+    type ArchiveExternalOrgSourceRequest,
     type ApplyOrgSyncRunRequest,
     type CreateExternalOrgSourceRequest,
     type CreateOrgSyncRunRequest,
@@ -22,6 +24,7 @@ import {
     type OrgSyncDiffItemListQuery,
     type OrgSyncDiffItemSummary,
     type OrgSyncRunDetail,
+    type PauseExternalOrgSourceRequest,
     type ReplaceExternalDepartmentMappingsRequest,
     type UpdateExternalOrgSourceRequest
 } from '@poms/shared-contracts';
@@ -99,7 +102,7 @@ export class ExternalOrgSyncService {
             provider: request.provider,
             externalTenantId,
             displayName: request.displayName,
-            status: request.status ?? ExternalOrgSourceStatusValue.Draft,
+            status: ExternalOrgSourceStatusValue.Draft,
             providerConfigId: providerConfig?.id ?? null,
             authoritativeOrgUnitId: authoritativeOrgUnit?.id ?? null,
             externalRootDepartmentId: request.externalRootDepartmentId ?? null,
@@ -121,6 +124,7 @@ export class ExternalOrgSyncService {
 
     async updateExternalOrgSource(id: string, request: UpdateExternalOrgSourceRequest, operatorId?: string | null): Promise<ExternalOrgSourceDetail> {
         const source = await this.requireSource(id);
+        this.assertSourceEditable(source);
         if (request.expectedVersion !== undefined && request.expectedVersion !== source.rowVersion) {
             throw new ConflictException(`External org source version conflict: expected ${request.expectedVersion}, actual ${source.rowVersion}`);
         }
@@ -128,7 +132,6 @@ export class ExternalOrgSyncService {
         const beforeSnapshot = this.sourceAuditSnapshot(source);
 
         if (request.displayName !== undefined) source.displayName = request.displayName;
-        if (request.status !== undefined) source.status = request.status;
         let providerConfig: IdentityProviderConfig | null = null;
         if (request.providerConfigId !== undefined) {
             providerConfig = await this.requireProviderConfigIfPresent(request.providerConfigId);
@@ -153,6 +156,59 @@ export class ExternalOrgSyncService {
         return this.toSourceDetail(source);
     }
 
+    async activateExternalOrgSource(id: string, request: ActivateExternalOrgSourceRequest = {}, operatorId?: string | null): Promise<ExternalOrgSourceDetail> {
+        const source = await this.requireSourceForLifecycleCommand(id, request.expectedVersion);
+        if (source.status === ExternalOrgSourceStatusValue.Archived) {
+            throw new BadRequestException('Archived external org sources cannot be activated.');
+        }
+        const providerConfig = await this.requireProviderConfigIfPresent(source.providerConfigId ?? null);
+        const beforeSnapshot = this.sourceAuditSnapshot(source);
+
+        source.status = ExternalOrgSourceStatusValue.Active;
+        source.updatedBy = operatorId ?? null;
+        this.assertSourceState(source, providerConfig);
+
+        await this.repository.saveAll([source]);
+        await this.recordAudit('external-org-source.activated', 'ExternalOrgSource', source.id, operatorId, beforeSnapshot, this.sourceAuditSnapshot(source));
+
+        return this.toSourceDetail(source);
+    }
+
+    async pauseExternalOrgSource(id: string, request: PauseExternalOrgSourceRequest = {}, operatorId?: string | null): Promise<ExternalOrgSourceDetail> {
+        const source = await this.requireSourceForLifecycleCommand(id, request.expectedVersion);
+        if (source.status !== ExternalOrgSourceStatusValue.Active) {
+            throw new BadRequestException('Only active external org sources can be paused.');
+        }
+        const beforeSnapshot = this.sourceAuditSnapshot(source);
+
+        source.status = ExternalOrgSourceStatusValue.Paused;
+        source.updatedBy = operatorId ?? null;
+
+        await this.repository.saveAll([source]);
+        await this.recordAudit('external-org-source.paused', 'ExternalOrgSource', source.id, operatorId, beforeSnapshot, this.sourceAuditSnapshot(source));
+
+        return this.toSourceDetail(source);
+    }
+
+    async archiveExternalOrgSource(id: string, request: ArchiveExternalOrgSourceRequest = {}, operatorId?: string | null): Promise<ExternalOrgSourceDetail> {
+        const source = await this.requireSourceForLifecycleCommand(id, request.expectedVersion);
+        if (source.status === ExternalOrgSourceStatusValue.Active) {
+            throw new BadRequestException('Active external org sources must be paused before archiving.');
+        }
+        if (source.status === ExternalOrgSourceStatusValue.Archived) {
+            return this.toSourceDetail(source);
+        }
+        const beforeSnapshot = this.sourceAuditSnapshot(source);
+
+        source.status = ExternalOrgSourceStatusValue.Archived;
+        source.updatedBy = operatorId ?? null;
+
+        await this.repository.saveAll([source]);
+        await this.recordAudit('external-org-source.archived', 'ExternalOrgSource', source.id, operatorId, beforeSnapshot, this.sourceAuditSnapshot(source));
+
+        return this.toSourceDetail(source);
+    }
+
     async listExternalDepartmentMappings(sourceId: string, query: ExternalDepartmentMappingListQuery = {}): Promise<ExternalDepartmentMappingList> {
         await this.requireSource(sourceId);
         const mappings = await this.repository.findMappings(sourceId, query);
@@ -161,6 +217,7 @@ export class ExternalOrgSyncService {
 
     async replaceExternalDepartmentMappings(sourceId: string, request: ReplaceExternalDepartmentMappingsRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingList> {
         const source = await this.requireSource(sourceId);
+        this.assertSourceEditable(source);
         if (request.expectedSourceVersion !== undefined && request.expectedSourceVersion !== source.rowVersion) {
             throw new ConflictException(`External org source version conflict: expected ${request.expectedSourceVersion}, actual ${source.rowVersion}`);
         }
@@ -406,6 +463,20 @@ export class ExternalOrgSyncService {
         const source = await this.repository.findSourceById(id);
         if (!source) throw new NotFoundException(`External org source ${id} not found`);
         return source;
+    }
+
+    private async requireSourceForLifecycleCommand(id: string, expectedVersion?: number): Promise<ExternalOrgSource> {
+        const source = await this.requireSource(id);
+        if (expectedVersion !== undefined && expectedVersion !== source.rowVersion) {
+            throw new ConflictException(`External org source version conflict: expected ${expectedVersion}, actual ${source.rowVersion}`);
+        }
+        return source;
+    }
+
+    private assertSourceEditable(source: ExternalOrgSource): void {
+        if (source.status === ExternalOrgSourceStatusValue.Archived) {
+            throw new BadRequestException('Archived external org sources are read-only.');
+        }
     }
 
     private async requireRun(id: string): Promise<OrgSyncRun> {

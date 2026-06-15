@@ -1,6 +1,8 @@
 import { computed, Injectable, inject, signal } from "@angular/core";
 import {
+    type ActivateExternalOrgSourceRequest,
     type ApplyOrgSyncRunRequest,
+    type ArchiveExternalOrgSourceRequest,
     type CreateExternalOrgSourceRequest,
     type CreateOrgSyncRunRequest,
     type ExternalDepartmentMappingStatus,
@@ -13,6 +15,7 @@ import {
     OrgSyncDiffItemStatus,
     type OrgSyncDiffItemSummary,
     type OrgSyncRunSummary,
+    type PauseExternalOrgSourceRequest,
     type UpdateExternalOrgSourceRequest,
 } from "@poms/shared-api-client";
 import { firstValueFrom } from "rxjs";
@@ -117,6 +120,39 @@ export class ExternalOrgSyncStore {
             const updated = await firstValueFrom(this.#api.externalOrgSyncControllerUpdateExternalOrgSource({ id, updateExternalOrgSourceRequest: request }));
             this.#sources.update(sources => sources.map(source => (source.id === updated.id ? updated : source)));
             return updated;
+        } finally {
+            this.#savingSource.set(false);
+        }
+    }
+
+    async activateSource(id: string, request: ActivateExternalOrgSourceRequest = {}): Promise<ExternalOrgSourceSummary> {
+        this.#savingSource.set(true);
+        try {
+            const activated = await firstValueFrom(this.#api.externalOrgSyncControllerActivateExternalOrgSource({ id, activateExternalOrgSourceRequest: request }));
+            this.#sources.update(sources => sources.map(source => (source.id === activated.id ? activated : source)));
+            return activated;
+        } finally {
+            this.#savingSource.set(false);
+        }
+    }
+
+    async pauseSource(id: string, request: PauseExternalOrgSourceRequest = {}): Promise<ExternalOrgSourceSummary> {
+        this.#savingSource.set(true);
+        try {
+            const paused = await firstValueFrom(this.#api.externalOrgSyncControllerPauseExternalOrgSource({ id, pauseExternalOrgSourceRequest: request }));
+            this.#sources.update(sources => sources.map(source => (source.id === paused.id ? paused : source)));
+            return paused;
+        } finally {
+            this.#savingSource.set(false);
+        }
+    }
+
+    async archiveSource(id: string, request: ArchiveExternalOrgSourceRequest = {}): Promise<ExternalOrgSourceSummary> {
+        this.#savingSource.set(true);
+        try {
+            const archived = await firstValueFrom(this.#api.externalOrgSyncControllerArchiveExternalOrgSource({ id, archiveExternalOrgSourceRequest: request }));
+            this.#sources.update(sources => sources.map(source => (source.id === archived.id ? archived : source)));
+            return archived;
         } finally {
             this.#savingSource.set(false);
         }

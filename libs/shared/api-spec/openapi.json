@@ -3964,6 +3964,144 @@
         ]
       }
     },
+    "/api/platform/external-org-sources/{id}:activate": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_activateExternalOrgSource",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateExternalOrgSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "启用外部组织同步源",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-org-sources/{id}:pause": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_pauseExternalOrgSource",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PauseExternalOrgSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "暂停外部组织同步源",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-org-sources/{id}:archive": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_archiveExternalOrgSource",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchiveExternalOrgSourceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalOrgSourceDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "归档外部组织同步源",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
     "/api/platform/external-org-sources/{sourceId}/department-mappings": {
       "get": {
         "operationId": "ExternalOrgSyncController_listExternalDepartmentMappings",
@@ -16534,9 +16672,6 @@
             "minLength": 1,
             "maxLength": 128
           },
-          "status": {
-            "$ref": "#/components/schemas/ExternalOrgSourceStatus"
-          },
           "providerConfigId": {
             "type": "string",
             "format": "uuid",
@@ -16581,9 +16716,6 @@
             "minLength": 1,
             "maxLength": 128
           },
-          "status": {
-            "$ref": "#/components/schemas/ExternalOrgSourceStatus"
-          },
           "providerConfigId": {
             "type": "string",
             "format": "uuid",
@@ -16611,6 +16743,36 @@
               "maxLength": 128
             }
           },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "ActivateExternalOrgSourceRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "PauseExternalOrgSourceRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "ArchiveExternalOrgSourceRequest": {
+        "type": "object",
+        "properties": {
           "expectedVersion": {
             "type": "integer",
             "exclusiveMinimum": 0,

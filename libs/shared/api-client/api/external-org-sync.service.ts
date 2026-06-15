@@ -17,7 +17,11 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { ActivateExternalOrgSourceRequest } from '../model/activate-external-org-source-request';
+// @ts-ignore
 import { ApplyOrgSyncRunRequest } from '../model/apply-org-sync-run-request';
+// @ts-ignore
+import { ArchiveExternalOrgSourceRequest } from '../model/archive-external-org-source-request';
 // @ts-ignore
 import { CreateExternalOrgSourceRequest } from '../model/create-external-org-source-request';
 // @ts-ignore
@@ -41,6 +45,8 @@ import { OrgSyncDiffItemSummary } from '../model/org-sync-diff-item-summary';
 // @ts-ignore
 import { OrgSyncRunSummary } from '../model/org-sync-run-summary';
 // @ts-ignore
+import { PauseExternalOrgSourceRequest } from '../model/pause-external-org-source-request';
+// @ts-ignore
 import { ReplaceExternalDepartmentMappingsRequest } from '../model/replace-external-department-mappings-request';
 // @ts-ignore
 import { UpdateExternalOrgSourceRequest } from '../model/update-external-org-source-request';
@@ -51,9 +57,19 @@ import { PomsApiConfiguration }                                     from '../con
 import { BaseService } from '../api.base.service';
 
 
+export interface ExternalOrgSyncControllerActivateExternalOrgSourceRequestParams {
+    id: string;
+    activateExternalOrgSourceRequest: ActivateExternalOrgSourceRequest;
+}
+
 export interface ExternalOrgSyncControllerApplyOrgSyncRunRequestParams {
     id: string;
     applyOrgSyncRunRequest: ApplyOrgSyncRunRequest;
+}
+
+export interface ExternalOrgSyncControllerArchiveExternalOrgSourceRequestParams {
+    id: string;
+    archiveExternalOrgSourceRequest: ArchiveExternalOrgSourceRequest;
 }
 
 export interface ExternalOrgSyncControllerCreateExternalOrgSourceRequestParams {
@@ -91,6 +107,11 @@ export interface ExternalOrgSyncControllerListOrgSyncDiffItemsRequestParams {
     status?: OrgSyncDiffItemStatus;
 }
 
+export interface ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams {
+    id: string;
+    pauseExternalOrgSourceRequest: PauseExternalOrgSourceRequest;
+}
+
 export interface ExternalOrgSyncControllerReplaceExternalDepartmentMappingsRequestParams {
     sourceId: string;
     replaceExternalDepartmentMappingsRequest: ReplaceExternalDepartmentMappingsRequest;
@@ -109,6 +130,79 @@ export class ExternalOrgSyncApi extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: PomsApiConfiguration) {
         super(basePath, configuration);
+    }
+
+    /**
+     * 启用外部组织同步源
+     * @endpoint post /api/platform/external-org-sources/{id}:activate
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerActivateExternalOrgSource(requestParameters: ExternalOrgSyncControllerActivateExternalOrgSourceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalOrgSourceSummary>;
+    public externalOrgSyncControllerActivateExternalOrgSource(requestParameters: ExternalOrgSyncControllerActivateExternalOrgSourceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalOrgSourceSummary>>;
+    public externalOrgSyncControllerActivateExternalOrgSource(requestParameters: ExternalOrgSyncControllerActivateExternalOrgSourceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalOrgSourceSummary>>;
+    public externalOrgSyncControllerActivateExternalOrgSource(requestParameters: ExternalOrgSyncControllerActivateExternalOrgSourceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerActivateExternalOrgSource.');
+        }
+        const activateExternalOrgSourceRequest = requestParameters?.activateExternalOrgSourceRequest;
+        if (activateExternalOrgSourceRequest === null || activateExternalOrgSourceRequest === undefined) {
+            throw new Error('Required parameter activateExternalOrgSourceRequest was null or undefined when calling externalOrgSyncControllerActivateExternalOrgSource.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-org-sources/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:activate`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalOrgSourceSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: activateExternalOrgSourceRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -174,6 +268,79 @@ export class ExternalOrgSyncApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: applyOrgSyncRunRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 归档外部组织同步源
+     * @endpoint post /api/platform/external-org-sources/{id}:archive
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerArchiveExternalOrgSource(requestParameters: ExternalOrgSyncControllerArchiveExternalOrgSourceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalOrgSourceSummary>;
+    public externalOrgSyncControllerArchiveExternalOrgSource(requestParameters: ExternalOrgSyncControllerArchiveExternalOrgSourceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalOrgSourceSummary>>;
+    public externalOrgSyncControllerArchiveExternalOrgSource(requestParameters: ExternalOrgSyncControllerArchiveExternalOrgSourceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalOrgSourceSummary>>;
+    public externalOrgSyncControllerArchiveExternalOrgSource(requestParameters: ExternalOrgSyncControllerArchiveExternalOrgSourceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerArchiveExternalOrgSource.');
+        }
+        const archiveExternalOrgSourceRequest = requestParameters?.archiveExternalOrgSourceRequest;
+        if (archiveExternalOrgSourceRequest === null || archiveExternalOrgSourceRequest === undefined) {
+            throw new Error('Required parameter archiveExternalOrgSourceRequest was null or undefined when calling externalOrgSyncControllerArchiveExternalOrgSource.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-org-sources/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:archive`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalOrgSourceSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: archiveExternalOrgSourceRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -686,6 +853,79 @@ export class ExternalOrgSyncApi extends BaseService {
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters.toHttpParams(),
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 暂停外部组织同步源
+     * @endpoint post /api/platform/external-org-sources/{id}:pause
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerPauseExternalOrgSource(requestParameters: ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalOrgSourceSummary>;
+    public externalOrgSyncControllerPauseExternalOrgSource(requestParameters: ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalOrgSourceSummary>>;
+    public externalOrgSyncControllerPauseExternalOrgSource(requestParameters: ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalOrgSourceSummary>>;
+    public externalOrgSyncControllerPauseExternalOrgSource(requestParameters: ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerPauseExternalOrgSource.');
+        }
+        const pauseExternalOrgSourceRequest = requestParameters?.pauseExternalOrgSourceRequest;
+        if (pauseExternalOrgSourceRequest === null || pauseExternalOrgSourceRequest === undefined) {
+            throw new Error('Required parameter pauseExternalOrgSourceRequest was null or undefined when calling externalOrgSyncControllerPauseExternalOrgSource.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-org-sources/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:pause`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalOrgSourceSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: pauseExternalOrgSourceRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

@@ -13,6 +13,9 @@ describe('ExternalOrgSyncController', () => {
             | 'createExternalOrgSource'
             | 'getExternalOrgSource'
             | 'updateExternalOrgSource'
+            | 'activateExternalOrgSource'
+            | 'pauseExternalOrgSource'
+            | 'archiveExternalOrgSource'
             | 'listExternalDepartmentMappings'
             | 'replaceExternalDepartmentMappings'
             | 'createOrgSyncRun'
@@ -29,6 +32,9 @@ describe('ExternalOrgSyncController', () => {
             createExternalOrgSource: jest.fn(),
             getExternalOrgSource: jest.fn(),
             updateExternalOrgSource: jest.fn(),
+            activateExternalOrgSource: jest.fn(),
+            pauseExternalOrgSource: jest.fn(),
+            archiveExternalOrgSource: jest.fn(),
             listExternalDepartmentMappings: jest.fn(),
             replaceExternalDepartmentMappings: jest.fn(),
             createOrgSyncRun: jest.fn(),
@@ -45,16 +51,25 @@ describe('ExternalOrgSyncController', () => {
         service.createExternalOrgSource.mockResolvedValue(source);
         service.getExternalOrgSource.mockResolvedValue(source);
         service.updateExternalOrgSource.mockResolvedValue({ ...source, displayName: '飞书通讯录正式源' });
+        service.activateExternalOrgSource.mockResolvedValue({ ...source, status: ExternalOrgSourceStatusValue.Active });
+        service.pauseExternalOrgSource.mockResolvedValue({ ...source, status: ExternalOrgSourceStatusValue.Paused });
+        service.archiveExternalOrgSource.mockResolvedValue({ ...source, status: ExternalOrgSourceStatusValue.Archived });
 
         await controller.listExternalOrgSources({ provider: ExternalOrgProviderValue.Feishu, status: ExternalOrgSourceStatusValue.Active });
         await controller.createExternalOrgSource({ provider: ExternalOrgProviderValue.Feishu, displayName: '飞书通讯录', externalRootDepartmentId: '0' }, operatorRequest as never);
         await controller.getExternalOrgSource(sourceId);
         await controller.updateExternalOrgSource(sourceId, { displayName: '飞书通讯录正式源', expectedVersion: 1 }, operatorRequest as never);
+        await controller.activateExternalOrgSource(sourceId, { expectedVersion: 2 }, operatorRequest as never);
+        await controller.pauseExternalOrgSource(sourceId, { expectedVersion: 3 }, operatorRequest as never);
+        await controller.archiveExternalOrgSource(sourceId, { expectedVersion: 4 }, operatorRequest as never);
 
         expect(service.listExternalOrgSources).toHaveBeenCalledWith({ provider: ExternalOrgProviderValue.Feishu, status: ExternalOrgSourceStatusValue.Active });
         expect(service.createExternalOrgSource).toHaveBeenCalledWith({ provider: ExternalOrgProviderValue.Feishu, displayName: '飞书通讯录', externalRootDepartmentId: '0' }, operatorRequest.user.sub);
         expect(service.getExternalOrgSource).toHaveBeenCalledWith(sourceId);
         expect(service.updateExternalOrgSource).toHaveBeenCalledWith(sourceId, { displayName: '飞书通讯录正式源', expectedVersion: 1 }, operatorRequest.user.sub);
+        expect(service.activateExternalOrgSource).toHaveBeenCalledWith(sourceId, { expectedVersion: 2 }, operatorRequest.user.sub);
+        expect(service.pauseExternalOrgSource).toHaveBeenCalledWith(sourceId, { expectedVersion: 3 }, operatorRequest.user.sub);
+        expect(service.archiveExternalOrgSource).toHaveBeenCalledWith(sourceId, { expectedVersion: 4 }, operatorRequest.user.sub);
     });
 
     it('delegates mapping replacement and run operations', async () => {
