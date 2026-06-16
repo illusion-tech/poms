@@ -436,6 +436,67 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(syncStoreMock.createSource).not.toHaveBeenCalled();
     });
 
+    it('allows editing a paused source when its unchanged provider config is no longer ready', async () => {
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({
+                id: 'identity-provider-1',
+                displayName: '飞书配置异常',
+                status: IdentityProviderConfigStatus.Misconfigured,
+                enabled: true,
+                secretConfigured: true
+            })
+        ]);
+        const pausedSource = createSource({ status: ExternalOrgSourceStatus.Paused, providerConfigId: 'identity-provider-1' });
+        sources.set([pausedSource]);
+
+        component.openEditSourceDialog(pausedSource);
+        component.sourceForm.displayName = '飞书通讯录改名';
+        component.sourceForm.syncScopesText = 'contact:department.base:readonly\ncontact:department.organize:readonly';
+
+        await component.saveSource();
+
+        expect(syncStoreMock.updateSource).toHaveBeenCalledWith('external-org-source-1', {
+            displayName: '飞书通讯录改名',
+            providerConfigId: 'identity-provider-1',
+            authoritativeOrgUnitId: 'org-root',
+            externalRootDepartmentId: '0',
+            syncScopes: ['contact:department.base:readonly', 'contact:department.organize:readonly'],
+            expectedVersion: 3
+        });
+        expect(component.sourceDialogVisible).toBe(false);
+    });
+
+    it('prevents editing a source to switch to a provider config that is not ready', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({ id: 'identity-provider-1', displayName: '飞书生产租户' }),
+            createProviderConfig({
+                id: 'identity-provider-misconfigured',
+                displayName: '飞书配置异常',
+                status: IdentityProviderConfigStatus.Misconfigured,
+                enabled: true,
+                secretConfigured: true
+            })
+        ]);
+        const pausedSource = createSource({ status: ExternalOrgSourceStatus.Paused, providerConfigId: 'identity-provider-1' });
+        sources.set([pausedSource]);
+
+        component.openEditSourceDialog(pausedSource);
+        component.updateProviderConfigId('identity-provider-misconfigured');
+
+        await component.saveSource();
+
+        expect(syncStoreMock.updateSource).not.toHaveBeenCalled();
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'warn',
+                summary: '不能保存同步源',
+                detail: '状态为「配置异常」，尚未就绪。'
+            })
+        );
+    });
+
     it('creates, activates and generates a preview from the wizard', async () => {
         component.openCreateSourceDialog();
         component.sourceForm.displayName = '飞书测试通讯录';
