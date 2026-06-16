@@ -890,7 +890,7 @@ export class IdentityProviderService {
                     'departmentReadAccess',
                     '飞书部门读取',
                     IdentityProviderConnectionDiagnosticStatusValue.Passed,
-                    `根部门 ${result.rootDepartmentId} 可访问，已读取 ${result.childDepartmentCount} 个直接子部门。`
+                    `根部门 ${result.rootDepartmentId} 可访问，已完成单页读取探测（返回 ${result.childDepartmentCount} 个子部门样本）。`
                 )
             );
         } catch (error) {
@@ -1021,10 +1021,13 @@ export class IdentityProviderService {
                 ? error.message.trim()
                 : '';
         const message = rawMessage || '飞书组织同步只读探测失败。';
+        return this.redactDiagnosticSecrets(message);
+    }
+
+    private redactDiagnosticSecrets(message: string): string {
         return message
-            .replace(/tenant_access_token[=:]\s*[\w.-]+/gi, 'tenant_access_token=<redacted>')
-            .replace(/Bearer\s+[\w.-]+/gi, 'Bearer <redacted>')
-            .replace(/app_secret[=:]\s*[^,\s，）)]+/gi, 'app_secret=<redacted>');
+            .replace(/(["']?)(tenant_access_token|app_secret|client_secret|access_token|refresh_token)\1\s*([:=])\s*(["']?)[^\s"',，)}\]]+\4/gi, (_match, keyQuote: string, key: string, separator: string, valueQuote: string) => `${keyQuote}${key}${keyQuote}${separator}${valueQuote}<redacted>${valueQuote}`)
+            .replace(/\bBearer\s+\S+/gi, 'Bearer <redacted>');
     }
 
     private connectionTestResult(
