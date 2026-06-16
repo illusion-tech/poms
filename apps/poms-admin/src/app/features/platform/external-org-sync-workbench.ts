@@ -381,7 +381,13 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                     <div class="grid grid-cols-1 gap-5 py-4 lg:grid-cols-[12rem_minmax(0,1fr)]">
                         <nav class="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible" aria-label="同步源配置步骤">
                             @for (step of sourceWizardSteps; track step.key) {
-                                <button type="button" class="flex min-w-28 items-center gap-2 rounded-[8px] border px-3 py-2 text-left text-sm transition-colors" [ngClass]="wizardStepButtonClass(step.key)" (click)="goToWizardStep(step.key)">
+                                <button
+                                    type="button"
+                                    class="flex min-w-28 items-center gap-2 rounded-[8px] border px-3 py-2 text-left text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+                                    [ngClass]="wizardStepButtonClass(step.key)"
+                                    [disabled]="!canSelectWizardStep(step.key)"
+                                    (click)="goToWizardStep(step.key)"
+                                >
                                     <i [class]="step.icon"></i>
                                     <span class="font-medium">{{ step.label }}</span>
                                 </button>
@@ -708,6 +714,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     goToWizardStep(step: SourceWizardStep): void {
+        if (!this.canSelectWizardStep(step)) return;
         this.sourceWizardStep.set(step);
     }
 
@@ -728,6 +735,14 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         return this.sourceWizardStepIssue(this.sourceWizardStep()) === null;
     }
 
+    canSelectWizardStep(step: SourceWizardStep): boolean {
+        const targetIndex = this.sourceWizardSteps.findIndex((candidate) => candidate.key === step);
+        if (targetIndex < 0) return false;
+        const currentIndex = this.currentWizardStepIndex();
+        if (targetIndex <= currentIndex) return true;
+        return targetIndex === currentIndex + 1 && this.sourceWizardStepIssue(this.sourceWizardStep()) === null;
+    }
+
     canSaveDraftFromWizard(): boolean {
         return !this.syncStore.savingSource() && this.sourceWizardStepIssue('platform') === null && this.sourceSaveIssue(null) === null;
     }
@@ -738,8 +753,13 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     wizardStepButtonClass(step: SourceWizardStep): string {
         if (step === this.sourceWizardStep()) return 'border-primary bg-primary-50 text-primary dark:bg-primary-950/30';
-        const index = this.sourceWizardSteps.findIndex((candidate) => candidate.key === step);
-        return index < this.currentWizardStepIndex() ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100' : 'border-surface-200 hover:border-primary dark:border-surface-700';
+        if (this.isWizardStepCompleted(step)) return 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100';
+        return this.canSelectWizardStep(step) ? 'border-surface-200 hover:border-primary dark:border-surface-700' : 'border-surface-200 text-surface-400 dark:border-surface-700 dark:text-surface-500';
+    }
+
+    isWizardStepCompleted(step: SourceWizardStep): boolean {
+        const targetIndex = this.sourceWizardSteps.findIndex((candidate) => candidate.key === step);
+        return targetIndex >= 0 && targetIndex < this.currentWizardStepIndex() && this.sourceWizardStepIssue(step) === null;
     }
 
     hasUsableProviderConfig(): boolean {
