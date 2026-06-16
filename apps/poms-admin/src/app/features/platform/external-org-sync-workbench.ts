@@ -488,7 +488,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                         @if (wizardPreviewIssue(); as issue) {
                                             <div class="rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
                                                 <div>{{ issue }}</div>
-                                                @if (issue.includes('企业协同接入') || issue.includes('Client Secret') || issue.includes('状态为')) {
+                                                @if (shouldShowWizardProviderConfigLink()) {
                                                     <a routerLink="/platform/identity-providers" class="mt-1 inline-flex items-center gap-1 font-medium text-primary">
                                                         <i class="pi pi-arrow-right text-xs"></i>
                                                         前往企业协同接入
@@ -769,6 +769,15 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         if (!diagnostic) return '组织同步可用性检查尚未完成。';
         if (diagnostic.status !== IdentityProviderConnectionTestStatus.Success) return diagnostic.message;
         return this.sourceWizardStepIssue('scope');
+    }
+
+    shouldShowWizardProviderConfigLink(): boolean {
+        if (this.sourceForm.provider !== ExternalOrgProvider.Feishu) return false;
+        if (!this.hasUsableProviderConfig()) return true;
+        if (!this.sourceForm.providerConfigId) return false;
+        if (this.selectedProviderConfigIssue()) return true;
+        const diagnostic = this.selectedProviderConfigDiagnostic();
+        return !!diagnostic && diagnostic.status !== IdentityProviderConnectionTestStatus.Success;
     }
 
     private currentWizardStepIndex(): number {

@@ -371,6 +371,7 @@ describe('ExternalOrgSyncWorkbench', () => {
 
         expect(component.canGoToNextWizardStep()).toBe(false);
         expect(component.wizardPreviewIssue()).toContain('当前仅支持飞书组织同步');
+        expect(component.shouldShowWizardProviderConfigLink()).toBe(false);
     });
 
     it('keeps save-and-preview unavailable when there is no ready provider config', () => {
@@ -392,6 +393,25 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.canSaveDraftFromWizard()).toBe(true);
         expect(component.canSaveAndPreviewWizard()).toBe(false);
         expect(component.wizardPreviewIssue()).toContain('需要选择一个已启用且已配置 Client Secret 的企业协同接入');
+        expect(component.shouldShowWizardProviderConfigLink()).toBe(true);
+    });
+
+    it('shows the provider config repair link when diagnostics fail without fixed keywords', async () => {
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '飞书返回 99991672，请检查通讯录权限范围。'
+            })
+        );
+
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        expect(component.wizardPreviewIssue()).toBe('飞书返回 99991672，请检查通讯录权限范围。');
+        expect(component.shouldShowWizardProviderConfigLink()).toBe(true);
     });
 
     it('does not save a draft when an unusable provider config is selected', async () => {
