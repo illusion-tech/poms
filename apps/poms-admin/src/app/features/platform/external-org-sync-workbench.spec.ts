@@ -368,6 +368,30 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.selectedProviderConfigDiagnostic()?.status).toBe(IdentityProviderConnectionTestStatus.Success);
     });
 
+    it('clears cached organization sync diagnostics when the latest provider check fails', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        component.openCreateSourceDialog();
+
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        expect(component.selectedProviderConfigDiagnostic()?.status).toBe(IdentityProviderConnectionTestStatus.Success);
+
+        const addMessage = jest.spyOn(messageService, 'add');
+        identityProviderStoreMock.testConnection.mockRejectedValueOnce(new Error('Feishu network failed'));
+
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        expect(component.selectedProviderConfigDiagnostic()).toBeNull();
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'error',
+                summary: '检查失败'
+            })
+        );
+    });
+
     it('reruns organization sync readiness diagnostics when root department changes', async () => {
         component.openCreateSourceDialog();
         component.updateProviderConfigId('identity-provider-1');
