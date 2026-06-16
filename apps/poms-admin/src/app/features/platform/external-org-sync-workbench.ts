@@ -729,7 +729,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     canSaveDraftFromWizard(): boolean {
-        return !this.syncStore.savingSource() && this.sourceWizardStepIssue('platform') === null && this.sourceFormIssue() === null;
+        return !this.syncStore.savingSource() && this.sourceWizardStepIssue('platform') === null && this.sourceSaveIssue(null) === null;
     }
 
     canSaveAndPreviewWizard(): boolean {
@@ -844,7 +844,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         const scopes = this.parseSyncScopes();
         const externalRootDepartmentId = this.normalizeExternalRootDepartmentId(this.sourceForm.externalRootDepartmentId);
         const editingId = this.editingSourceId();
-        const sourceIssue = this.sourceFormIssue();
+        const sourceIssue = this.sourceSaveIssue(editingId);
         if (sourceIssue) {
             this.#messageService.add({ severity: 'warn', summary: '不能保存同步源', detail: sourceIssue });
             return;
@@ -1333,12 +1333,27 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     private sourceFormIssue(): string | null {
+        return this.sourceBindingIssue();
+    }
+
+    private sourceBindingIssue(): string | null {
         if (this.sourceForm.provider !== ExternalOrgProvider.Feishu && this.sourceForm.providerConfigId) {
             return '当前外部平台尚未支持绑定企业协同接入，请先选择“不绑定”，或切换为飞书。';
         }
-        if (this.sourceForm.providerConfigId) {
-            return this.sourceConfigIssue(this.sourceForm.providerConfigId);
-        }
+        return null;
+    }
+
+    private sourceSaveIssue(editingId: string | null): string | null {
+        const bindingIssue = this.sourceBindingIssue();
+        if (bindingIssue) return bindingIssue;
+        if (!this.sourceForm.providerConfigId) return null;
+        if (!editingId) return this.sourceConfigIssue(this.sourceForm.providerConfigId);
+
+        const selected = this.syncStore.sources().find((source) => source.id === editingId);
+        if (!selected) return '同步源不存在或尚未加载，请刷新后重试。';
+
+        const providerConfigChanged = (selected.providerConfigId ?? null) !== this.sourceForm.providerConfigId;
+        if (providerConfigChanged) return this.sourceConfigIssue(this.sourceForm.providerConfigId);
         return null;
     }
 
