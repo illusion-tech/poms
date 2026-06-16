@@ -24,6 +24,7 @@ import {
     PlatformStore,
     type PlatformOrgUnitSummary
 } from '@poms/admin-data-access';
+import { provideRouter } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ExternalOrgSyncWorkbench } from './external-org-sync-workbench';
 
@@ -263,6 +264,7 @@ describe('ExternalOrgSyncWorkbench', () => {
         await TestBed.configureTestingModule({
             imports: [ExternalOrgSyncWorkbench],
             providers: [
+                provideRouter([]),
                 {
                     provide: PlatformStore,
                     useValue: platformStoreMock
@@ -325,6 +327,11 @@ describe('ExternalOrgSyncWorkbench', () => {
             authoritativeOrgUnitId: 'org-root',
             externalRootDepartmentId: '0',
             syncScopes: ['contact:department.base:readonly', 'contact:department:readonly']
+        });
+        expect(identityProviderStoreMock.testConnection).toHaveBeenCalledWith('identity-provider-1', {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: '0',
+            expectedVersion: 1
         });
         expect(syncStoreMock.activateSource).not.toHaveBeenCalled();
         expect(component.sourceDialogVisible).toBe(false);
@@ -450,6 +457,23 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(syncStoreMock.createSource).not.toHaveBeenCalled();
     });
 
+    it('blocks saving a draft when organization sync readiness diagnostics fail for a new binding', async () => {
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '组织同步可用性检查未通过：飞书应用身份通讯录权限未开通。'
+            })
+        );
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.sourceForm.providerConfigId = 'identity-provider-1';
+
+        await component.saveSource();
+
+        expect(syncStoreMock.createSource).not.toHaveBeenCalled();
+        expect(component.sourceDialogVisible).toBe(true);
+    });
+
     it('allows editing a paused source when its unchanged provider config is no longer ready', async () => {
         identityProviderStoreMock.configs.set([
             createProviderConfig({
@@ -507,6 +531,78 @@ describe('ExternalOrgSyncWorkbench', () => {
                 severity: 'warn',
                 summary: '不能保存同步源',
                 detail: '状态为「配置异常」，尚未就绪。'
+            })
+        );
+    });
+
+    it('blocks editing a source to switch to a provider config that fails organization sync readiness', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({ id: 'identity-provider-1', displayName: '飞书生产租户' }),
+            createProviderConfig({ id: 'identity-provider-2', displayName: '飞书新租户', rowVersion: 2 })
+        ]);
+        const pausedSource = createSource({ status: ExternalOrgSourceStatus.Paused, providerConfigId: 'identity-provider-1' });
+        sources.set([pausedSource]);
+
+        component.openEditSourceDialog(pausedSource);
+        await fixture.whenStable();
+
+        component.sourceForm.providerConfigId = 'identity-provider-2';
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '组织同步可用性检查未通过：飞书新租户缺少通讯录权限。'
+            })
+        );
+
+        await component.saveSource();
+
+        expect(syncStoreMock.updateSource).not.toHaveBeenCalled();
+        expect(identityProviderStoreMock.testConnection).toHaveBeenLastCalledWith('identity-provider-2', {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: '0',
+            expectedVersion: 2
+        });
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'warn',
+                summary: '组织同步不可用',
+                detail: '组织同步可用性检查未通过：飞书新租户缺少通讯录权限。'
+            })
+        );
+    });
+
+    it('blocks editing a source when root department change fails organization sync readiness', async () => {
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+        const pausedSource = createSource({ status: ExternalOrgSourceStatus.Paused, providerConfigId: 'identity-provider-1', externalRootDepartmentId: '0' });
+        sources.set([pausedSource]);
+
+        component.openEditSourceDialog(pausedSource);
+        await fixture.whenStable();
+
+        component.sourceForm.externalRootDepartmentId = 'od-sales';
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '组织同步可用性检查未通过：根部门 od-sales 不可访问。'
+            })
+        );
+
+        await component.saveSource();
+
+        expect(syncStoreMock.updateSource).not.toHaveBeenCalled();
+        expect(identityProviderStoreMock.testConnection).toHaveBeenLastCalledWith('identity-provider-1', {
+            capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+            externalRootDepartmentId: 'od-sales',
+            expectedVersion: 1
+        });
+        expect(addMessage).toHaveBeenCalledWith(
+            expect.objectContaining({
+                severity: 'warn',
+                summary: '组织同步不可用',
+                detail: '组织同步可用性检查未通过：根部门 od-sales 不可访问。'
             })
         );
     });

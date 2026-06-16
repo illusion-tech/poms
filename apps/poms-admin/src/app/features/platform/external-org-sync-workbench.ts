@@ -869,6 +869,13 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             this.#messageService.add({ severity: 'warn', summary: '不能保存同步源', detail: sourceIssue });
             return;
         }
+        if (!options.activateAfterCreate && this.shouldValidateOrgSyncReadinessOnSave(editingId, externalRootDepartmentId)) {
+            const orgSyncReadinessIssue = await this.ensureProviderConfigOrgSyncReady(this.sourceForm.providerConfigId, externalRootDepartmentId);
+            if (orgSyncReadinessIssue) {
+                this.#messageService.add({ severity: 'warn', summary: '组织同步不可用', detail: orgSyncReadinessIssue });
+                return;
+            }
+        }
         if (options.activateAfterCreate) {
             const activationIssue = this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
             if (activationIssue) {
@@ -1375,6 +1382,18 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         const providerConfigChanged = (selected.providerConfigId ?? null) !== this.sourceForm.providerConfigId;
         if (providerConfigChanged) return this.sourceConfigIssue(this.sourceForm.providerConfigId);
         return null;
+    }
+
+    private shouldValidateOrgSyncReadinessOnSave(editingId: string | null, externalRootDepartmentId: string): boolean {
+        if (!this.sourceForm.providerConfigId || this.sourceForm.provider !== ExternalOrgProvider.Feishu) return false;
+        if (!editingId) return true;
+
+        const selected = this.syncStore.sources().find((source) => source.id === editingId);
+        if (!selected) return false;
+
+        const providerConfigChanged = (selected.providerConfigId ?? null) !== this.sourceForm.providerConfigId;
+        const rootDepartmentChanged = this.normalizeExternalRootDepartmentId(selected.externalRootDepartmentId) !== externalRootDepartmentId;
+        return providerConfigChanged || rootDepartmentChanged;
     }
 
     private sourceActivationIssue(provider: ExternalOrgProvider, providerConfigId: string | null): string | null {
