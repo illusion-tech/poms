@@ -14,6 +14,7 @@ import {
     type OrgSyncDiffAction,
     OrgSyncDiffItemStatus,
     type OrgSyncDiffItemSummary,
+    type OrgSyncRunStatus,
     type OrgSyncRunSummary,
     type PauseExternalOrgSourceRequest,
     type UpdateExternalOrgSourceRequest,
@@ -36,6 +37,11 @@ export interface OrgSyncDiffItemFilters {
     status?: OrgSyncDiffItemStatus;
 }
 
+export interface OrgSyncRunFilters {
+    status?: OrgSyncRunStatus;
+    limit?: number;
+}
+
 @Injectable()
 export class ExternalOrgSyncStore {
     readonly #api = inject(ExternalOrgSyncApi);
@@ -45,11 +51,16 @@ export class ExternalOrgSyncStore {
     readonly #mappings = signal<ExternalDepartmentMappingSummary[]>([]);
     readonly #activeRun = signal<OrgSyncRunSummary | null>(null);
     readonly #diffItems = signal<OrgSyncDiffItemSummary[]>([]);
+    readonly #runHistory = signal<OrgSyncRunSummary[]>([]);
+    readonly #selectedRunDetail = signal<OrgSyncRunSummary | null>(null);
+    readonly #selectedRunDiffItems = signal<OrgSyncDiffItemSummary[]>([]);
     readonly #loadingSources = signal(false);
     readonly #savingSource = signal(false);
     readonly #loadingMappings = signal(false);
     readonly #creatingRun = signal(false);
     readonly #loadingDiffItems = signal(false);
+    readonly #loadingRunHistory = signal(false);
+    readonly #loadingRunDetail = signal(false);
     readonly #applyingRun = signal(false);
 
     readonly sources = this.#sources.asReadonly();
@@ -57,11 +68,16 @@ export class ExternalOrgSyncStore {
     readonly mappings = this.#mappings.asReadonly();
     readonly activeRun = this.#activeRun.asReadonly();
     readonly diffItems = this.#diffItems.asReadonly();
+    readonly runHistory = this.#runHistory.asReadonly();
+    readonly selectedRunDetail = this.#selectedRunDetail.asReadonly();
+    readonly selectedRunDiffItems = this.#selectedRunDiffItems.asReadonly();
     readonly loadingSources = this.#loadingSources.asReadonly();
     readonly savingSource = this.#savingSource.asReadonly();
     readonly loadingMappings = this.#loadingMappings.asReadonly();
     readonly creatingRun = this.#creatingRun.asReadonly();
     readonly loadingDiffItems = this.#loadingDiffItems.asReadonly();
+    readonly loadingRunHistory = this.#loadingRunHistory.asReadonly();
+    readonly loadingRunDetail = this.#loadingRunDetail.asReadonly();
     readonly applyingRun = this.#applyingRun.asReadonly();
     readonly selectedSource = computed(() => this.#sources().find(source => source.id === this.#selectedSourceId()) ?? null);
     readonly hasPendingDiffItems = computed(() => this.#diffItems().some(item => item.status === OrgSyncDiffItemStatus.Pending));
@@ -79,7 +95,7 @@ export class ExternalOrgSyncStore {
             this.#sources.set(nextSources);
             if (!this.#selectedSourceId() && nextSources.length > 0) {
                 this.#selectedSourceId.set(nextSources[0].id);
-                await this.loadMappings(nextSources[0].id);
+                await Promise.all([this.loadMappings(nextSources[0].id), this.loadRunHistory(nextSources[0].id)]);
             }
             if (this.#selectedSourceId() && !nextSources.some(source => source.id === this.#selectedSourceId())) {
                 this.clearSelection();
@@ -94,8 +110,10 @@ export class ExternalOrgSyncStore {
         this.#selectedSourceId.set(sourceId);
         this.#activeRun.set(null);
         this.#diffItems.set([]);
+        this.#runHistory.set([]);
+        this.clearRunDetail();
         if (sourceId) {
-            await this.loadMappings(sourceId);
+            await Promise.all([this.loadMappings(sourceId), this.loadRunHistory(sourceId)]);
         } else {
             this.#mappings.set([]);
         }
@@ -182,10 +200,49 @@ export class ExternalOrgSyncStore {
             const run = await firstValueFrom(this.#api.externalOrgSyncControllerCreateOrgSyncRun({ sourceId, createOrgSyncRunRequest: request }));
             this.#activeRun.set(run);
             await this.loadDiffItems(run.id);
+            await this.loadRunHistory(sourceId);
             return run;
         } finally {
             this.#creatingRun.set(false);
         }
+    }
+
+    async loadRunHistory(sourceId: string, filters: OrgSyncRunFilters = {}): Promise<OrgSyncRunSummary[]> {
+        this.#loadingRunHistory.set(true);
+        try {
+            const runs = await firstValueFrom(
+                this.#api.externalOrgSyncControllerListOrgSyncRuns({
+                    sourceId,
+                    status: filters.status,
+                    limit: filters.limit ?? 20,
+                }),
+            );
+            const nextRuns = runs ?? [];
+            this.#runHistory.set(nextRuns);
+            return nextRuns;
+        } finally {
+            this.#loadingRunHistory.set(false);
+        }
+    }
+
+    async loadRunDetail(runId: string): Promise<OrgSyncRunSummary> {
+        this.#loadingRunDetail.set(true);
+        try {
+            const [run, items] = await Promise.all([
+                firstValueFrom(this.#api.externalOrgSyncControllerGetOrgSyncRun({ id: runId })),
+                firstValueFrom(this.#api.externalOrgSyncControllerListOrgSyncDiffItems({ id: runId })),
+            ]);
+            this.#selectedRunDetail.set(run);
+            this.#selectedRunDiffItems.set(items ?? []);
+            return run;
+        } finally {
+            this.#loadingRunDetail.set(false);
+        }
+    }
+
+    clearRunDetail(): void {
+        this.#selectedRunDetail.set(null);
+        this.#selectedRunDiffItems.set([]);
     }
 
     async loadDiffItems(runId: string, filters: OrgSyncDiffItemFilters = {}): Promise<OrgSyncDiffItemSummary[]> {
@@ -212,7 +269,7 @@ export class ExternalOrgSyncStore {
             this.#activeRun.set(applied);
             await this.loadDiffItems(runId);
             if (applied.sourceId) {
-                await this.loadMappings(applied.sourceId);
+                await Promise.all([this.loadMappings(applied.sourceId), this.loadRunHistory(applied.sourceId)]);
             }
             return applied;
         } finally {
@@ -225,5 +282,7 @@ export class ExternalOrgSyncStore {
         this.#mappings.set([]);
         this.#activeRun.set(null);
         this.#diffItems.set([]);
+        this.#runHistory.set([]);
+        this.clearRunDetail();
     }
 }

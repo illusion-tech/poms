@@ -10,6 +10,17 @@ type FeishuDepartmentChildrenPage = {
     hasMore: boolean;
     pageToken: string | null;
 };
+type FeishuErrorDiagnosis = {
+    message: string;
+    nextActions: string[];
+};
+type FeishuFormattedError = {
+    message: string;
+    providerCode: string | null;
+    httpStatus: number | null;
+    providerMessage: string | null;
+    nextActions: string[];
+};
 
 @Injectable()
 export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAdapter {
@@ -150,7 +161,7 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         const code = this.readNumber(root, ['code']);
         if (code !== null && code !== 0) {
             const providerMessage = this.readString(root, ['msg', 'message']);
-            throw new ExternalOrgDirectoryAdapterError(this.formatFeishuErrorMessage(fallbackMessage, code, providerMessage));
+            throw this.createFeishuAdapterError(fallbackMessage, code, providerMessage);
         }
 
         if (!expectData) return root;
@@ -165,14 +176,18 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
             const root = this.asRecord(response.data);
             const code = this.readNumber(root, ['code']);
             const providerMessage = this.readString(root, ['msg', 'message']);
-            return new ExternalOrgDirectoryAdapterError(this.formatFeishuErrorMessage(fallbackMessage, code, providerMessage, response.status));
+            return this.createFeishuAdapterError(fallbackMessage, code, providerMessage, response.status);
         }
 
         if (error instanceof Error && error.message.trim()) {
-            return new ExternalOrgDirectoryAdapterError(`${fallbackMessage}: ${error.message.trim()}`);
+            return new ExternalOrgDirectoryAdapterError(`${fallbackMessage}: ${error.message.trim()}`, {
+                nextActions: ['请检查飞书开放平台接口可用性、网络连通性和企业协同接入配置。']
+            });
         }
 
-        return new ExternalOrgDirectoryAdapterError(fallbackMessage);
+        return new ExternalOrgDirectoryAdapterError(fallbackMessage, {
+            nextActions: ['请检查飞书开放平台接口可用性、网络连通性和企业协同接入配置。']
+        });
     }
 
     private readHttpResponse(error: unknown): { status?: number; data?: unknown } | null {
@@ -184,27 +199,62 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         return { status: status ?? undefined, data: response['data'] };
     }
 
-    private formatFeishuErrorMessage(fallbackMessage: string, code: number | null, providerMessage: string | null, status?: number): string {
+    private createFeishuAdapterError(fallbackMessage: string, code: number | null, providerMessage: string | null, status?: number): ExternalOrgDirectoryAdapterError {
+        const formatted = this.formatFeishuErrorMessage(fallbackMessage, code, providerMessage, status);
+        return new ExternalOrgDirectoryAdapterError(formatted.message, {
+            providerCode: formatted.providerCode,
+            httpStatus: formatted.httpStatus,
+            providerMessage: formatted.providerMessage,
+            nextActions: formatted.nextActions
+        });
+    }
+
+    private formatFeishuErrorMessage(fallbackMessage: string, code: number | null, providerMessage: string | null, status?: number): FeishuFormattedError {
         const diagnosis = this.feishuErrorDiagnosis(code, providerMessage);
         const providerDetails = [providerMessage ? `飞书返回：${providerMessage}` : null, code !== null ? `code ${code}` : null, status ? `HTTP ${status}` : null].filter((item): item is string => Boolean(item));
+        const providerCode = code !== null ? String(code) : null;
+        const httpStatus = status ?? null;
 
-        if (diagnosis) return providerDetails.length > 0 ? `${diagnosis}（${providerDetails.join('，')}）` : diagnosis;
+        if (diagnosis) {
+            return {
+                message: providerDetails.length > 0 ? `${diagnosis.message}（${providerDetails.join('，')}）` : diagnosis.message,
+                providerCode,
+                httpStatus,
+                providerMessage,
+                nextActions: diagnosis.nextActions
+            };
+        }
 
         const baseMessage = providerMessage && providerMessage !== fallbackMessage ? `${fallbackMessage}: ${providerMessage}` : fallbackMessage;
         const technicalDetails = [code !== null ? `code ${code}` : null, status ? `HTTP ${status}` : null].filter((item): item is string => Boolean(item));
-        return technicalDetails.length > 0 ? `${baseMessage}（${technicalDetails.join('，')}）` : baseMessage;
+        return {
+            message: technicalDetails.length > 0 ? `${baseMessage}（${technicalDetails.join('，')}）` : baseMessage,
+            providerCode,
+            httpStatus,
+            providerMessage,
+            nextActions: ['请结合飞书开放平台错误码、应用权限状态和应用发布状态排查。']
+        };
     }
 
-    private feishuErrorDiagnosis(code: number | null, providerMessage: string | null): string | null {
+    private feishuErrorDiagnosis(code: number | null, providerMessage: string | null): FeishuErrorDiagnosis | null {
         const normalizedMessage = providerMessage?.toLowerCase() ?? '';
         if (code === 40011 || normalizedMessage.includes('page size')) {
-            return '飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。';
+            return {
+                message: '飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。',
+                nextActions: ['请确认 POMS 飞书部门读取参数使用 page_size <= 50 后重试。']
+            };
         }
         if (normalizedMessage.includes('permission') || normalizedMessage.includes('scope')) {
-            return '飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。';
+            return {
+                message: '飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。',
+                nextActions: ['请在飞书开放平台开通应用身份通讯录部门读取权限。', '权限变更后请发布应用，再回到 POMS 重新测试组织同步可用性。']
+            };
         }
         if (normalizedMessage.includes('access token')) {
-            return '飞书访问令牌无效或已过期，请检查企业协同接入的 Client ID / Secret。';
+            return {
+                message: '飞书访问令牌无效或已过期，请检查企业协同接入的 Client ID / Secret。',
+                nextActions: ['请重新保存企业协同接入的 Client Secret。', '保存后先运行企业协同接入测试，再重新生成组织同步预览。']
+            };
         }
         return null;
     }

@@ -1,7 +1,7 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import type { ExternalDepartmentMappingListQuery, ExternalOrgProvider, ExternalOrgSourceListQuery, OrgSyncDiffItemListQuery } from '@poms/shared-contracts';
+import type { ExternalDepartmentMappingListQuery, ExternalOrgProvider, ExternalOrgSourceListQuery, OrgSyncDiffItemListQuery, OrgSyncRunListQuery } from '@poms/shared-contracts';
 import { IdentityProviderConfig } from '../identity-provider/identity-provider-config.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { ExternalDepartmentMapping } from './external-department-mapping.entity';
@@ -104,6 +104,19 @@ export class ExternalOrgSyncRepository {
 
     findRunById(id: string): Promise<OrgSyncRun | null> {
         return this.runRepository.findOne({ id });
+    }
+
+    findRunsBySourceId(sourceId: string, query: OrgSyncRunListQuery = {}): Promise<OrgSyncRun[]> {
+        return this.runRepository.find(
+            {
+                sourceId,
+                ...(query.status ? { status: query.status } : {})
+            },
+            {
+                orderBy: { startedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC },
+                limit: query.limit ?? 20
+            }
+        );
     }
 
     findDiffItems(runId: string, query: OrgSyncDiffItemListQuery = {}): Promise<OrgSyncDiffItem[]> {

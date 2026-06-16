@@ -2782,6 +2782,58 @@
         "tags": [
           "External Org Sync"
         ]
+      },
+      "get": {
+        "operationId": "ExternalOrgSyncController_listOrgSyncRuns",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OrgSyncRunStatus"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgSyncRunList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取组织同步运行历史",
+        "tags": [
+          "External Org Sync"
+        ]
       }
     },
     "/api/platform/org-sync-runs/{id}": {
@@ -15230,6 +15282,63 @@
           "cancelled"
         ]
       },
+      "OrgSyncRunDiagnosticSummary": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "adapterStatus": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "providerCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "httpStatus": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599,
+            "nullable": true
+          },
+          "providerMessage": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "nextActions": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "message",
+          "adapterStatus",
+          "providerCode",
+          "httpStatus",
+          "providerMessage",
+          "nextActions",
+          "generatedAt"
+        ]
+      },
       "OrgSyncRunSummary": {
         "type": "object",
         "properties": {
@@ -15287,6 +15396,14 @@
             "type": "string",
             "nullable": true
           },
+          "diagnosticSummary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrgSyncRunDiagnosticSummary"
+              }
+            ],
+            "nullable": true
+          },
           "requestSnapshot": {
             "type": "object",
             "propertyNames": {
@@ -15341,6 +15458,7 @@
           "skippedItemCount",
           "failedItemCount",
           "errorSummary",
+          "diagnosticSummary",
           "requestSnapshot",
           "resultSummary",
           "rowVersion",
@@ -15352,6 +15470,12 @@
       },
       "OrgSyncRunDetail": {
         "$ref": "#/components/schemas/OrgSyncRunSummary"
+      },
+      "OrgSyncRunList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OrgSyncRunSummary"
+        }
       },
       "OrgSyncDiffItemSummary": {
         "type": "object",

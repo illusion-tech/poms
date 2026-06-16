@@ -12,6 +12,8 @@ import {
     OrgSyncDiffItemListQuerySchema,
     OrgSyncDiffItemListSchema,
     OrgSyncRunDetailSchema,
+    OrgSyncRunListQuerySchema,
+    OrgSyncRunListSchema,
     PauseExternalOrgSourceRequestSchema,
     ReplaceExternalDepartmentMappingsRequestSchema,
     UpdateExternalOrgSourceRequestSchema
@@ -43,6 +45,10 @@ export class ReplaceExternalDepartmentMappingsRequestDto extends createZodDto(Re
 export class CreateOrgSyncRunRequestDto extends createZodDto(CreateOrgSyncRunRequestSchema) {}
 
 export class OrgSyncRunDto extends createZodDto(OrgSyncRunDetailSchema) {}
+
+export class OrgSyncRunListDto extends createZodDto(OrgSyncRunListSchema) {}
+
+export class OrgSyncRunListQueryDto extends createZodDto(OrgSyncRunListQuerySchema) {}
 
 export class OrgSyncDiffItemListDto extends createZodDto(OrgSyncDiffItemListSchema) {}
 
