@@ -1,7 +1,7 @@
 # POMS 实施治理最小校验矩阵
 
 **文档状态**: Active
-**最后更新**: 2026-04-18
+**最后更新**: 2026-06-16
 **适用范围**: `POMS` PR 评审、local checkpoint、实施基线包和本地验证中的最小自动化 / 半自动化校验
 **关联文档**:
 
@@ -11,6 +11,7 @@
 - 同级参考:
   - `implementation-baseline-package-template.md`
   - `implementation-corrective-checkpoint-template.md`
+  - `github-issue-governance-transition.md`
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
@@ -34,6 +35,8 @@
 若变更不是新切片开工，而是“已开工后发现 drift 的 corrective slice”，应结合 `implementation-corrective-checkpoint-template.md` 记录当前阻断、修复范围与剩余阻断，而不是只留下零散命令结果。
 
 若变更新增、变更或删除公共 API route surface，还必须先给出 `../design/api-route-canonical-inventory.md` 中的 authoritative inventory 行或明确的 legacy exception；否则不得进入控制器 / DTO / OpenAPI 实现。
+
+在 GitHub issue-first Phase 1 中，issue 和 PR 可以承载 `G3 / G4` 证据，但不改变本矩阵的最低验证要求。Issue checklist、PR body、review thread、本地 tracker 与 progress 之间不得出现更乐观的一方。
 
 ---
 
@@ -119,6 +122,7 @@
 9. 例外缺少批准人、cleanup owner 或 cleanup due。
 10. 受影响项目存在 `lint target`，但 `G3` 没有提供 lint 结果、warning 结论或豁免理由。
 11. 必跑 lint 失败，或本次变更引入新的 lint warning / error 且未通过例外记录明确接受。
+12. GitHub issue-backed slice 的 issue state、PR merge 状态、本地 tracker 或归档位置互相矛盾。
 
 ---
 

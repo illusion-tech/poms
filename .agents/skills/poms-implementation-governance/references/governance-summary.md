@@ -11,12 +11,14 @@ Use this file as the compact operating guide. Open the full source documents onl
 5. Freeze every new or changed public API route in `docs/design/api-route-canonical-inventory.md` before writing controller, DTO, OpenAPI, or client code.
 6. Record every exception with scope, risk, cleanup owner, and cleanup due date.
 7. Keep `Done` reserved for work that downstream slices can actually rely on.
+8. During GitHub issue-first Phase 1, let GitHub issues own task state while local docs own frozen inputs, reference evidence, and archived lifecycle artifacts.
 
 ## Gate Cheat Sheet
 
 ### G0
 
 - Confirm slice identity and tracker row.
+- Confirm GitHub issue or subissue, dependencies, and checklist state when present.
 - Confirm the smallest deliverable boundary.
 - Confirm direct formal inputs.
 - Confirm whether the slice changes public API route surface and, if yes, which authoritative inventory row governs it.
@@ -25,6 +27,7 @@ Use this file as the compact operating guide. Open the full source documents onl
 ### G1
 
 - Create the implementation baseline package.
+- Add or update the GitHub `G1` freeze comment when the slice is tracked online.
 - Freeze SSOT for naming, types, dates, IDs, money, and state machine.
 - Confirm command, query, DTO, persistence, and guard boundaries.
 - Record canonical route, current implemented route, and inventory status when public routes are touched.
@@ -39,6 +42,7 @@ Use this file as the compact operating guide. Open the full source documents onl
 ### G3
 
 - Provide common evidence plus slice-type-specific evidence.
+- In PR mode, keep PR body and review threads as the primary `G3` evidence carrier and link them from the issue.
 - Run or explicitly waive the required checks.
 - Include lint results for every touched project that has a `lint target`.
 - Classify drift.
@@ -46,9 +50,10 @@ Use this file as the compact operating guide. Open the full source documents onl
 
 ### G4
 
-- Ensure code plus docs plus tracker are all updated.
+- Ensure code plus docs plus tracker and GitHub issue state are all updated.
 - Confirm the delivered boundary matches the slice definition.
 - Keep parent tasks open if only a child slice is complete.
+- Move completed lifecycle docs to `docs/design/archive/slices/`.
 
 ## Artifact Selection
 
@@ -91,6 +96,18 @@ Keep at least:
 - drift statement,
 - decision on whether commit to `main` is allowed,
 - decision on whether tracker `Done` is allowed.
+
+### GitHub Issue Closeout
+
+Use for issue-backed slices during Phase 1.
+
+Keep at least:
+
+- issue checklist and state,
+- linked PR and merge commit,
+- `G1` / `G3` / `G4` comments or equivalent evidence,
+- local tracker/progress update,
+- archive location for completed lifecycle artifacts.
 
 ## Slice Type To Evidence
 

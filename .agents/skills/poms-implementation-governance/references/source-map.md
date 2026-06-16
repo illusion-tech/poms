@@ -74,6 +74,17 @@ Open this when the work is done without a PR and you need:
 - commit-message governance expectations,
 - main-only versus worktree checkpoint flow.
 
+### GitHub issue-first transition
+
+- `docs/reference/github-issue-governance-transition.md`
+
+Open this when you need:
+
+- Phase 1 task-state ownership between GitHub issues and local docs,
+- issue / PR / tracker / archive synchronization rules,
+- G1 / G3 / G4 issue comment and closeout expectations,
+- migration rules from local tracker-first work to GitHub issue-first tracking.
+
 ## Supporting Context
 
 These files are not the first stop for gate execution, but they matter when a slice needs broader context:

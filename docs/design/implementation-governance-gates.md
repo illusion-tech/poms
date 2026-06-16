@@ -1,7 +1,7 @@
 # POMS 设计到实现治理闸口
 
 **文档状态**: Active
-**最后更新**: 2026-04-18
+**最后更新**: 2026-06-16
 **适用范围**: `POMS` 全仓库后续设计、工程切片实施、评审、合并与收口治理
 **关联文档**:
 
@@ -25,6 +25,7 @@
   - `../reference/implementation-corrective-checkpoint-template.md`
   - `../reference/implementation-governance-checks.md`
   - `../reference/solo-worktree-governance.md`
+  - `../reference/github-issue-governance-transition.md`
 - 相关 ADR:
   - `../adr/012-data-persistence-technology-selection.md`
   - `../adr/014-design-execution-state-model-and-governance-gates.md`
@@ -98,7 +99,7 @@
 
 本文件遵循 `ADR-014` 已接受的设计-执行状态模型。
 
-当前正式状态仍以 [README.md](./README.md) 和 [phase2-development-execution-tracker.md](./phase2-development-execution-tracker.md) 的状态定义为准。
+当前正式状态仍以 [README.md](./README.md)、[phase2-development-execution-tracker.md](./phase2-development-execution-tracker.md) 与 `../reference/github-issue-governance-transition.md` 的第一阶段事实源分工为准。
 
 本文件负责定义 gate 的使用方式，不新增独立于 `ADR-014` 的状态集合。
 
@@ -154,6 +155,19 @@ Gate 规则与协作载体分离。
 
 不要求个人开发为了形式创建 PR；但不允许因为没有 PR 就跳过 `G1 / G3 / G4` 判断。
 
+### 3.5 GitHub Issue-first Phase 1
+
+自 2026-06-16 起，POMS 进入 GitHub issue-first 任务治理迁移第一阶段。
+
+第一阶段的事实源分工如下：
+
+1. GitHub issue / subissue 负责父子任务关系、当前任务状态、依赖、验收 checklist、PR 链接和 closeout comment。
+2. PR 负责 `G3` evidence、review thread、CI / local validation、merge linkage。
+3. 本地治理文档负责 `G1` 冻结输入、公共 route / DTO / DDL / 权限等长期 SSOT、校验矩阵和完成切片归档。
+4. `phase2-development-execution-tracker.md` 暂时保留为 transitional index；它必须镜像 GitHub issue 状态，不再反向定义 issue 状态。
+
+详细迁移规则以 `../reference/github-issue-governance-transition.md` 为准。
+
 ---
 
 ## 4. 统一治理闸口
@@ -172,6 +186,7 @@ Gate 规则与协作载体分离。
 4. 它是否涉及命令、查询、持久化、权限、审批、敏感数据、前端主路径中的一类或多类。
 5. 它是否新增、变更或删除公共 API route surface；若是，`api-route-canonical-inventory.md` 中的 authoritative inventory 行和 route-governance 子任务是否已先冻结。
 6. 它在执行追踪板中的 `Task ID / Subtask ID` 是什么；若本次把父任务进一步收敛为新的可执行子切片，是否已先补 tracker 行。
+7. 若该切片已有 GitHub issue / subissue，issue 的依赖、checklist、当前状态是否与 tracker 一致。
 
 通过标准：
 
@@ -181,6 +196,7 @@ Gate 规则与协作载体分离。
 - 若涉及公共 API route surface，已锁定 canonical route、identity anchor 与 authoritative inventory 行
 - 已说明本次明确不做的范围
 - 已在执行追踪板登记对应 `Task ID / Subtask ID`；若为新拆子切片，tracker 已先更新
+- 若存在 GitHub issue，issue body / checklist 已反映本次切片边界
 
 若未通过：
 
@@ -214,6 +230,7 @@ Gate 规则与协作载体分离。
 - 若涉及公共 API route surface，authoritative inventory 行已存在，且 canonical route / identity anchor 已冻结
 - 若为部分交付，已明确标注为子切片，而不是父任务完整交付
 - 若实施基线包把父任务进一步拆成新的可执行子切片，新的 tracker 行已先创建并写入 owner / dependency / completion definition
+- 若存在 GitHub issue，已通过 issue comment 或 body 链接 `G1` baseline
 
 若未通过：
 
@@ -255,6 +272,7 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 3. 本次明确不做范围
 4. 测试覆盖清单与未覆盖项说明
 5. 例外项与已知风险说明（如无则写无）
+6. 若为 issue-backed PR，PR body 与 issue comment / checklist 必须能相互追溯
 
 #### G3.2 按切片类型追加
 
@@ -311,6 +329,7 @@ G3 采用“通用必填 + 按切片类型追加”的风险分层方式。
 5. 若涉及持久化结构，已完成 SQL-first 一致性判断
 6. 若存在未完成范围，父任务未被错误关闭
 7. 切片所有生命周期产物（`*-baseline.md`、`*-g3-g4-closeout.md`、`*-corrective-checkpoint.md`）已通过 `git mv` 迁移至 `docs/design/archive/slices/`
+8. 若为 GitHub issue-backed slice，child issue checklist、closeout comment、closing PR 与 tracker 状态已同步
 
 补充约束：
 
@@ -637,6 +656,7 @@ EX-06 类风险的最低阻断线以 `../reference/implementation-baseline-packa
 1. 不新增 `ADR-014` 之外的追踪板状态值。
 2. `G1`、`G3`、例外与 grandfathering 结果，统一记录在实施基线包、PR checklist / local checkpoint、commit message 或追踪板备注中。
 3. 任务只有在满足 `G4` 时才能标记为 `Done`。
+4. 在 GitHub issue-first Phase 1 中，追踪板只做 transitional mirror；GitHub issue 是任务状态、依赖和 checklist 的默认入口。
 
 ---
 
