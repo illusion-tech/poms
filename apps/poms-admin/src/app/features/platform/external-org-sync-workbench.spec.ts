@@ -437,6 +437,34 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.shouldShowWizardProviderConfigLink()).toBe(true);
     });
 
+    it('keeps draft save unavailable until selected provider config readiness succeeds', async () => {
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+
+        component.sourceForm.providerConfigId = 'identity-provider-1';
+        expect(component.canSaveDraftFromWizard()).toBe(false);
+
+        identityProviderStoreMock.testingConfigId.set('identity-provider-1');
+        expect(component.canSaveDraftFromWizard()).toBe(false);
+        identityProviderStoreMock.testingConfigId.set(null);
+
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '组织同步可用性检查未通过：飞书应用身份通讯录权限未开通。'
+            })
+        );
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+        expect(component.canSaveDraftFromWizard()).toBe(false);
+
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(createOrgSyncDiagnostic());
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        expect(component.canSaveDraftFromWizard()).toBe(true);
+    });
+
     it('shows the provider config repair link when diagnostics fail without fixed keywords', async () => {
         identityProviderStoreMock.testConnection.mockResolvedValueOnce(
             createOrgSyncDiagnostic({
