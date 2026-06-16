@@ -744,7 +744,12 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     canSaveDraftFromWizard(): boolean {
-        return !this.syncStore.savingSource() && this.sourceWizardStepIssue('platform') === null && this.sourceSaveIssue(null) === null;
+        return (
+            !this.syncStore.savingSource() &&
+            this.sourceWizardStepIssue('platform') === null &&
+            this.sourceSaveIssue(null) === null &&
+            this.selectedProviderConfigOrgSyncReadinessIssue() === null
+        );
     }
 
     canSaveAndPreviewWizard(): boolean {
@@ -819,13 +824,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             return null;
         }
         if (step === 'connection') {
-            if (!this.sourceForm.providerConfigId) return null;
-            const issue = this.selectedProviderConfigIssue();
-            if (issue) return issue;
-            if (this.isTestingSelectedProviderConfig()) return '组织同步可用性检查正在进行。';
-            const diagnostic = this.selectedProviderConfigDiagnostic();
-            if (diagnostic && diagnostic.status !== IdentityProviderConnectionTestStatus.Success) return diagnostic.message;
-            return null;
+            return this.selectedProviderConfigOrgSyncReadinessIssue();
         }
         if (step === 'scope') return null;
         return this.wizardPreviewIssue();
@@ -1324,6 +1323,16 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     isTestingSelectedProviderConfig(): boolean {
         const providerConfigId = this.sourceForm.providerConfigId;
         return Boolean(providerConfigId && this.identityProviderStore.testingConfigId() === providerConfigId);
+    }
+
+    private selectedProviderConfigOrgSyncReadinessIssue(): string | null {
+        if (!this.sourceForm.providerConfigId) return null;
+        const issue = this.selectedProviderConfigIssue();
+        if (issue) return issue;
+        if (this.isTestingSelectedProviderConfig()) return '组织同步可用性检查正在进行。';
+        const diagnostic = this.selectedProviderConfigDiagnostic();
+        if (!diagnostic) return '组织同步可用性检查尚未完成。';
+        return diagnostic.status === IdentityProviderConnectionTestStatus.Success ? null : diagnostic.message;
     }
 
     diagnosticStatusLabel(status: IdentityProviderConnectionDiagnosticStatus): string {
