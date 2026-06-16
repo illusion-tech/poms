@@ -1,23 +1,34 @@
 ---
 name: poms-implementation-governance
-description: Guide POMS design-to-implementation governance for new slices, ongoing implementation, review, and closure. Use when Codex works on this repository and needs to classify a slice, prepare a G1 baseline package, handle a G3 corrective checkpoint, choose PR mode versus solo worktree mode, classify drift, decide required validation, or determine whether a task can move to Doing or Done.
+description: Guide POMS design-to-implementation governance for new slices, ongoing implementation, review, and closure. Use when Codex works on this repository and needs to classify a slice, prepare a G1 baseline package, handle a G3 corrective checkpoint, choose PR mode versus solo worktree mode, sync GitHub issue-first task state, classify drift, decide required validation, or determine whether a task can move to Doing or Done.
 ---
 
 # POMS Implementation Governance
 
-Use this skill to keep work in `POMS` aligned with the repository's formal gate model. Treat the design and reference documents as the source of truth. Use this skill to decide what to read, what evidence to produce, and when to block work instead of coding ahead.
+Use this skill to keep work in `POMS` aligned with the repository's formal gate model. Treat design and reference documents as the source of truth for frozen implementation input. During the GitHub issue-first Phase 1 transition, treat GitHub issues as the source of truth for task state, dependencies, checklist progress, and closeout evidence.
 
 ## Quick Start
 
-1. Identify the slice name, `Task ID` or `Subtask ID`, owner, and tracker row before coding.
+1. Identify the slice name, `Task ID` or `Subtask ID`, owner, GitHub issue or subissue, and tracker row before coding.
 2. Classify the slice as `docs-only`, `process-only`, `refactor-only`, `query-only`, `frontend-only`, `api / command`, `persistence`, or `cross-layer-high-risk`.
 3. Choose the correct governance artifact:
    - Create a baseline package for a new frozen slice entering `G1`.
    - Create a corrective checkpoint when drift is discovered after implementation has started.
    - Use a PR checklist or a local checkpoint as the evidence carrier for `G3`.
-4. If the slice adds, changes, or removes public API route surface, confirm the canonical row already exists in `docs/design/api-route-canonical-inventory.md`. If it does not, block coding and create or consume a route-governance sub-slice first.
-5. Read [references/governance-summary.md](./references/governance-summary.md) first.
-6. Read [references/source-map.md](./references/source-map.md) when the task needs the full source document rather than the summary.
+4. If a GitHub issue exists, read the issue body, comments, subissues, linked PRs, and current state before changing local docs.
+5. If the slice adds, changes, or removes public API route surface, confirm the canonical row already exists in `docs/design/api-route-canonical-inventory.md`. If it does not, block coding and create or consume a route-governance sub-slice first.
+6. Read [references/governance-summary.md](./references/governance-summary.md) first.
+7. Read [references/source-map.md](./references/source-map.md) when the task needs the full source document rather than the summary.
+
+## GitHub Issue-First Phase 1
+
+Use `$poms-github-task-governance` alongside this skill when a task has a GitHub issue or PR.
+
+- GitHub issue state owns `Todo / Doing / Blocked / Done`, parent/child structure, dependencies, acceptance checklist, and closeout comments.
+- PRs own `G3` review evidence, CI/check evidence, review threads, and merge linkage.
+- Local docs own frozen `G1` inputs, route inventory, reference matrices, and archived lifecycle artifacts.
+- `docs/design/phase2-development-execution-tracker.md` remains a transitional index and must mirror the GitHub issue state until formally retired.
+- Completed slice lifecycle artifacts must move to `docs/design/archive/slices/` during `G4` closeout.
 
 ## Run The Gate Sequence
 
@@ -26,6 +37,7 @@ Use this skill to keep work in `POMS` aligned with the repository's formal gate 
 Establish the slice before coding.
 
 - Name the smallest deliverable boundary.
+- Confirm the GitHub parent issue, child issue, dependencies, and acceptance checklist when present.
 - Confirm the direct formal inputs.
 - State whether the slice changes public API route surface.
 - Confirm the authoritative inventory row and canonical grammar first when public routes are touched.
@@ -39,6 +51,7 @@ Block implementation if the work item still depends on guessed scope, mixed inpu
 Freeze the implementation input before entering `Doing`.
 
 - Prepare a baseline package.
+- Add or update the GitHub issue `G1` freeze comment when the slice is tracked online.
 - Record the business, command, DTO, query, persistence, guard, and test boundaries.
 - Record current implemented route, canonical route, and inventory status when public API routes are involved.
 - Mark the single source of truth for naming, types, dates, identifiers, money semantics, and state transitions.
@@ -61,6 +74,7 @@ Start implementation only after the frozen inputs are clear.
 Decide whether the change can merge or commit.
 
 - Attach common evidence: slice type, scope, formal inputs, out-of-scope items, lint status, test coverage, and known exceptions.
+- In PR mode, keep the PR body as the primary `G3` evidence carrier and link it from the issue.
 - Add risk-scaled evidence by slice type.
 - Record drift classification whenever migration checks, OpenAPI diffs, or contract alignment reveal differences.
 - Use a corrective checkpoint instead of rewriting history when the slice has already started and real drift is discovered.
@@ -70,9 +84,11 @@ Decide whether the change can merge or commit.
 Mark the task `Done` only when downstream work can rely on it.
 
 - Ensure code is merged or committed through the chosen workflow.
+- Update the GitHub issue checklist and add `G4` closeout evidence when the slice is tracked online.
 - Write back the relevant docs and tracker state.
 - Confirm the delivered boundary matches the slice definition.
 - Keep the parent task open when only a sub-slice is complete.
+- Archive completed lifecycle artifacts under `docs/design/archive/slices/`.
 
 ## Choose The Correct Artifact
 
@@ -101,6 +117,7 @@ Do not use a corrective checkpoint as a substitute for a missing baseline packag
 - Use PR mode when review threads, CI evidence, or long-lived comparison are valuable.
 - Use solo worktree mode when working alone on `main` or a local worktree.
 - Keep the gate standard the same in both modes; only the evidence carrier changes.
+- During GitHub issue-first Phase 1, prefer PR mode for issue-backed slices so the PR can carry `G3` evidence and close the child issue only when the slice is fully delivered.
 
 For solo worktree mode, use `docs/reference/solo-worktree-governance.md` and ensure the commit message or local checkpoint captures the `G3` conclusion.
 
