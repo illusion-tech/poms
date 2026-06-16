@@ -824,7 +824,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             return null;
         }
         if (step === 'connection') {
-            return this.selectedProviderConfigOrgSyncReadinessIssue();
+            return this.selectedProviderConfigIssue();
         }
         if (step === 'scope') return null;
         return this.wizardPreviewIssue();
