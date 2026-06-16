@@ -465,6 +465,32 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.canSaveDraftFromWizard()).toBe(true);
     });
 
+    it('allows moving to scope when provider readiness fails so root department can be changed', async () => {
+        identityProviderStoreMock.testConnection.mockResolvedValueOnce(
+            createOrgSyncDiagnostic({
+                status: IdentityProviderConnectionTestStatus.Failed,
+                message: '组织同步可用性检查未通过：根部门 0 不可访问。'
+            })
+        );
+
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.goToNextWizardStep();
+
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        expect(component.sourceWizardStep()).toBe('connection');
+        expect(component.canGoToNextWizardStep()).toBe(true);
+
+        component.goToNextWizardStep();
+
+        expect(component.sourceWizardStep()).toBe('scope');
+        expect(component.isWizardStepCompleted('connection')).toBe(true);
+        expect(component.canSaveDraftFromWizard()).toBe(false);
+        expect(component.wizardPreviewIssue()).toBe('组织同步可用性检查未通过：根部门 0 不可访问。');
+    });
+
     it('shows the provider config repair link when diagnostics fail without fixed keywords', async () => {
         identityProviderStoreMock.testConnection.mockResolvedValueOnce(
             createOrgSyncDiagnostic({
