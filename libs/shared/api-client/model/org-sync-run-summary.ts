@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { OrgSyncRunStatus } from './org-sync-run-status';
+import { OrgSyncRunDiagnosticSummary } from './org-sync-run-diagnostic-summary';
 
 
 export interface OrgSyncRunSummary {
@@ -22,6 +23,7 @@ export interface OrgSyncRunSummary {
     skippedItemCount: number;
     failedItemCount: number;
     errorSummary: string | null;
+    diagnosticSummary: OrgSyncRunDiagnosticSummary | null;
     requestSnapshot: { [key: string]: any; };
     resultSummary: { [key: string]: any; };
     rowVersion: number;

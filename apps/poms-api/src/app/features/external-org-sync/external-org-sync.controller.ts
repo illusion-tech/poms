@@ -12,6 +12,8 @@ import {
     OrgSyncDiffItemListDto,
     OrgSyncDiffItemListQueryDto,
     OrgSyncRunDto,
+    OrgSyncRunListDto,
+    OrgSyncRunListQueryDto,
     PauseExternalOrgSourceRequestDto,
     ReplaceExternalDepartmentMappingsRequestDto,
     UpdateExternalOrgSourceRequestDto
@@ -22,6 +24,7 @@ import type {
     ExternalOrgSourceList,
     OrgSyncDiffItemList,
     OrgSyncRunDetail,
+    OrgSyncRunList,
     UserPayload
 } from '@poms/shared-contracts';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, Request } from '@nestjs/common';
@@ -128,6 +131,17 @@ export class ExternalOrgSyncController {
     @ApiCreatedResponse({ type: OrgSyncRunDto })
     createOrgSyncRun(@Param('sourceId') sourceId: string, @Body() body: CreateOrgSyncRunRequestDto, @Request() req: { user: UserPayload }): Promise<OrgSyncRunDetail> {
         return this.externalOrgSyncService.createOrgSyncRun(sourceId, body, req.user.sub);
+    }
+
+    @Get('external-org-sources/:sourceId/org-sync-runs')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @ApiOperation({ summary: '获取组织同步运行历史' })
+    @ApiOkResponse({ type: OrgSyncRunListDto })
+    listOrgSyncRuns(@Param('sourceId') sourceId: string, @Query() query: OrgSyncRunListQueryDto): Promise<OrgSyncRunList> {
+        return this.externalOrgSyncService.listOrgSyncRuns(sourceId, {
+            status: query.status,
+            limit: query.limit
+        });
     }
 
     @Get('org-sync-runs/:id')

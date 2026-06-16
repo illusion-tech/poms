@@ -43,6 +43,8 @@ import { OrgSyncDiffItemStatus } from '../model/org-sync-diff-item-status';
 // @ts-ignore
 import { OrgSyncDiffItemSummary } from '../model/org-sync-diff-item-summary';
 // @ts-ignore
+import { OrgSyncRunStatus } from '../model/org-sync-run-status';
+// @ts-ignore
 import { OrgSyncRunSummary } from '../model/org-sync-run-summary';
 // @ts-ignore
 import { PauseExternalOrgSourceRequest } from '../model/pause-external-org-source-request';
@@ -105,6 +107,12 @@ export interface ExternalOrgSyncControllerListOrgSyncDiffItemsRequestParams {
     id: string;
     action?: OrgSyncDiffAction;
     status?: OrgSyncDiffItemStatus;
+}
+
+export interface ExternalOrgSyncControllerListOrgSyncRunsRequestParams {
+    sourceId: string;
+    status?: OrgSyncRunStatus;
+    limit?: number;
 }
 
 export interface ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams {
@@ -850,6 +858,88 @@ export class ExternalOrgSyncApi extends BaseService {
         let localVarPath = `/api/platform/org-sync-runs/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/diff-items`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<OrgSyncDiffItemSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 获取组织同步运行历史
+     * @endpoint get /api/platform/external-org-sources/{sourceId}/org-sync-runs
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerListOrgSyncRuns(requestParameters: ExternalOrgSyncControllerListOrgSyncRunsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<OrgSyncRunSummary>>;
+    public externalOrgSyncControllerListOrgSyncRuns(requestParameters: ExternalOrgSyncControllerListOrgSyncRunsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<OrgSyncRunSummary>>>;
+    public externalOrgSyncControllerListOrgSyncRuns(requestParameters: ExternalOrgSyncControllerListOrgSyncRunsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<OrgSyncRunSummary>>>;
+    public externalOrgSyncControllerListOrgSyncRuns(requestParameters: ExternalOrgSyncControllerListOrgSyncRunsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const sourceId = requestParameters?.sourceId;
+        if (sourceId === null || sourceId === undefined) {
+            throw new Error('Required parameter sourceId was null or undefined when calling externalOrgSyncControllerListOrgSyncRuns.');
+        }
+        const status = requestParameters?.status;
+        const limit = requestParameters?.limit;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'status',
+            <any>status,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'limit',
+            <any>limit,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-org-sources/${this.configuration.encodeParam({name: "sourceId", value: sourceId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/org-sync-runs`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<OrgSyncRunSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters.toHttpParams(),

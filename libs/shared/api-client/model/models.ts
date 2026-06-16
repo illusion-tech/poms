@@ -332,6 +332,7 @@ export * from './opportunity-stakeholder-summary';
 export * from './org-sync-diff-action';
 export * from './org-sync-diff-item-status';
 export * from './org-sync-diff-item-summary';
+export * from './org-sync-run-diagnostic-summary';
 export * from './org-sync-run-status';
 export * from './org-sync-run-summary';
 export * from './org-unit-tree-node';

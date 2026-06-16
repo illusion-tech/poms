@@ -34,9 +34,25 @@ export interface ExternalOrgDirectoryAdapter {
     testDepartmentReadAccess(input: TestExternalDepartmentReadAccessInput): Promise<ExternalDepartmentReadAccessResult>;
 }
 
+export interface ExternalOrgDirectoryAdapterErrorOptions {
+    providerCode?: string | null;
+    httpStatus?: number | null;
+    providerMessage?: string | null;
+    nextActions?: string[];
+}
+
 export class ExternalOrgDirectoryAdapterError extends Error {
-    constructor(message: string) {
+    readonly providerCode: string | null;
+    readonly httpStatus: number | null;
+    readonly providerMessage: string | null;
+    readonly nextActions: string[];
+
+    constructor(message: string, options: ExternalOrgDirectoryAdapterErrorOptions = {}) {
         super(message);
         this.name = 'ExternalOrgDirectoryAdapterError';
+        this.providerCode = options.providerCode ?? null;
+        this.httpStatus = options.httpStatus ?? null;
+        this.providerMessage = options.providerMessage ?? null;
+        this.nextActions = options.nextActions ?? [];
     }
 }

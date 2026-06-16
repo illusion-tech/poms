@@ -61,6 +61,7 @@ interface ProviderConfigDiagnosticEntry {
 }
 
 type SourceWizardStep = 'platform' | 'connection' | 'scope' | 'review';
+type SyncRunWorkbenchView = 'preview' | 'history';
 
 interface SourceWizardStepOption {
     key: SourceWizardStep;
@@ -274,79 +275,260 @@ function apiErrorMessage(error: unknown, fallback: string): string {
             <app-admin-table-card>
                 <div adminToolbarStart class="flex items-center gap-2">
                     <i class="pi pi-list-check text-primary"></i>
-                    <span class="font-medium text-surface-950 dark:text-surface-0">同步预览</span>
-                    @if (syncStore.activeRun(); as run) {
-                        <p-tag [value]="runStatusLabel(run.status)" [severity]="runStatusSeverity(run.status)" />
+                    <span class="font-medium text-surface-950 dark:text-surface-0">{{ syncRunView() === 'preview' ? '同步预览' : '运行历史' }}</span>
+                    @if (syncRunView() === 'preview') {
+                        @if (syncStore.activeRun(); as run) {
+                            <p-tag [value]="runStatusLabel(run.status)" [severity]="runStatusSeverity(run.status)" />
+                        }
                     }
                 </div>
-                <div adminToolbarEnd class="flex items-center gap-2">
-                    @if (syncStore.activeRun(); as run) {
-                        <span class="hidden text-sm text-surface-500 md:inline">差异 {{ syncStore.diffItems().length }} 条</span>
-                        <p-button icon="pi pi-check" label="应用选中" [disabled]="!canApplyRun()" [loading]="syncStore.applyingRun()" (onClick)="applySelectedDiffItems(run.id)" />
+                <div adminToolbarEnd class="flex flex-wrap items-center gap-2">
+                    <div class="inline-flex rounded-md border border-surface-200 bg-surface-0 p-1 dark:border-surface-700 dark:bg-surface-900">
+                        <button
+                            type="button"
+                            class="rounded px-3 py-1.5 text-sm font-medium"
+                            [ngClass]="syncRunView() === 'preview' ? 'bg-primary text-primary-contrast' : 'text-surface-600 hover:text-surface-950 dark:text-surface-300 dark:hover:text-surface-0'"
+                            (click)="setSyncRunView('preview')"
+                        >
+                            当前预览
+                        </button>
+                        <button
+                            type="button"
+                            class="rounded px-3 py-1.5 text-sm font-medium"
+                            [ngClass]="syncRunView() === 'history' ? 'bg-primary text-primary-contrast' : 'text-surface-600 hover:text-surface-950 dark:text-surface-300 dark:hover:text-surface-0'"
+                            (click)="setSyncRunView('history')"
+                        >
+                            运行历史
+                        </button>
+                    </div>
+                    @if (syncRunView() === 'preview') {
+                        @if (syncStore.activeRun(); as run) {
+                            <span class="hidden text-sm text-surface-500 md:inline">差异 {{ syncStore.diffItems().length }} 条</span>
+                            <p-button icon="pi pi-check" label="应用选中" [disabled]="!canApplyRun()" [loading]="syncStore.applyingRun()" (onClick)="applySelectedDiffItems(run.id)" />
+                        }
+                    } @else if (syncRunView() === 'history') {
+                        <p-button icon="pi pi-refresh" label="刷新历史" [text]="true" [loading]="syncStore.loadingRunHistory()" (onClick)="refreshRunHistory()" />
                     }
                 </div>
-                @if (syncStore.activeRun(); as run) {
-                    @if (run.status === orgSyncRunStatus.Failed) {
-                        <div class="mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
-                            <div class="flex items-center gap-2 font-medium">
-                                <i class="pi pi-exclamation-triangle"></i>
-                                <span>预览失败</span>
-                            </div>
-                            <p class="mt-2 leading-6">{{ previewFailureDetail(run) }}</p>
-                            <div class="mt-2 text-xs text-red-700 dark:text-red-300">开始 {{ formatDateTime(run.startedAt) }} · 结束 {{ formatDateTime(run.finishedAt) }}</div>
-                        </div>
-                    } @else if (run.status === orgSyncRunStatus.Previewed && run.totalItemCount === 0) {
-                        <div class="mb-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
-                            预览已完成，当前没有需要处理的组织差异。
-                        </div>
-                    }
-                }
-                <p-table
-                    [value]="syncStore.diffItems()"
-                    [paginator]="true"
-                    [rows]="10"
-                    dataKey="id"
-                    [rowHover]="true"
-                    responsiveLayout="scroll"
-                    [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
-                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                >
-                    <ng-template #header>
-                        <tr>
-                            <th style="width: 4rem">
-                                <p-checkbox [binary]="true" [ngModel]="allSelectableDiffItemsSelected()" (ngModelChange)="toggleAllDiffItems($event)" inputId="selectAllOrgSyncDiffItems" />
-                            </th>
-                            <th>动作</th>
-                            <th>外部部门</th>
-                            <th>目标组织</th>
-                            <th>状态</th>
-                            <th>错误</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template #body let-item>
-                        <tr>
-                            <td>
-                                <p-checkbox [binary]="true" [ngModel]="isDiffItemSelected(item.id)" (ngModelChange)="toggleDiffItem(item.id, $event)" [disabled]="!isSelectableDiffItem(item)" [inputId]="'diffItem' + item.id" />
-                            </td>
-                            <td><p-tag [value]="diffActionLabel(item.action)" [severity]="diffActionSeverity(item.action)" /></td>
-                            <td>
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ candidateName(item) }}</span>
-                                    <span class="font-mono text-xs text-surface-400">{{ item.externalDepartmentId }}</span>
+                @if (syncRunView() === 'preview') {
+                    @if (syncStore.activeRun(); as run) {
+                        @if (run.status === orgSyncRunStatus.Failed) {
+                            <div class="mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
+                                <div class="flex items-center gap-2 font-medium">
+                                    <i class="pi pi-exclamation-triangle"></i>
+                                    <span>预览失败</span>
                                 </div>
-                            </td>
-                            <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(item.orgUnitId) }}</td>
-                            <td><p-tag [value]="diffStatusLabel(item.status)" [severity]="diffStatusSeverity(item.status)" /></td>
-                            <td class="max-w-80 truncate text-sm text-surface-500">{{ item.errorMessage ?? '—' }}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template #emptymessage>
-                        <tr>
-                            <td colspan="6" class="py-8 text-center text-surface-400">{{ previewEmptyMessage() }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                                <p class="mt-2 leading-6">{{ previewFailureDetail(run) }}</p>
+                                <div class="mt-2 flex flex-wrap items-center gap-3 text-xs text-red-700 dark:text-red-300">
+                                    <span>开始 {{ formatDateTime(run.startedAt) }}</span>
+                                    <span>结束 {{ formatDateTime(run.finishedAt) }}</span>
+                                    <button type="button" class="font-medium text-red-900 underline underline-offset-2 dark:text-red-100" (click)="openRunDetail(run)">查看诊断</button>
+                                </div>
+                            </div>
+                        } @else if (run.status === orgSyncRunStatus.Previewed && run.totalItemCount === 0) {
+                            <div class="mb-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
+                                预览已完成，当前没有需要处理的组织差异。
+                            </div>
+                        }
+                    }
+                    <p-table
+                        [value]="syncStore.diffItems()"
+                        [paginator]="true"
+                        [rows]="10"
+                        dataKey="id"
+                        [rowHover]="true"
+                        responsiveLayout="scroll"
+                        [tableStyle]="{ width: '100%', 'min-width': '72rem' }"
+                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    >
+                        <ng-template #header>
+                            <tr>
+                                <th style="width: 4rem">
+                                    <p-checkbox [binary]="true" [ngModel]="allSelectableDiffItemsSelected()" (ngModelChange)="toggleAllDiffItems($event)" inputId="selectAllOrgSyncDiffItems" />
+                                </th>
+                                <th>动作</th>
+                                <th>外部部门</th>
+                                <th>目标组织</th>
+                                <th>状态</th>
+                                <th>错误</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-item>
+                            <tr>
+                                <td>
+                                    <p-checkbox [binary]="true" [ngModel]="isDiffItemSelected(item.id)" (ngModelChange)="toggleDiffItem(item.id, $event)" [disabled]="!isSelectableDiffItem(item)" [inputId]="'diffItem' + item.id" />
+                                </td>
+                                <td><p-tag [value]="diffActionLabel(item.action)" [severity]="diffActionSeverity(item.action)" /></td>
+                                <td>
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ candidateName(item) }}</span>
+                                        <span class="font-mono text-xs text-surface-400">{{ item.externalDepartmentId }}</span>
+                                    </div>
+                                </td>
+                                <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(item.orgUnitId) }}</td>
+                                <td><p-tag [value]="diffStatusLabel(item.status)" [severity]="diffStatusSeverity(item.status)" /></td>
+                                <td class="max-w-80 truncate text-sm text-surface-500">{{ item.errorMessage ?? '—' }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #emptymessage>
+                            <tr>
+                                <td colspan="6" class="py-8 text-center text-surface-400">{{ previewEmptyMessage() }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                } @else {
+                    <p-table
+                        [value]="syncStore.runHistory()"
+                        [paginator]="true"
+                        [rows]="8"
+                        dataKey="id"
+                        [rowHover]="true"
+                        responsiveLayout="scroll"
+                        [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
+                        [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    >
+                        <ng-template #header>
+                            <tr>
+                                <th>状态</th>
+                                <th>开始时间</th>
+                                <th>耗时</th>
+                                <th>差异</th>
+                                <th>失败</th>
+                                <th>错误摘要</th>
+                                <th>操作</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-run>
+                            <tr>
+                                <td><p-tag [value]="runStatusLabel(run.status)" [severity]="runStatusSeverity(run.status)" /></td>
+                                <td class="text-sm text-surface-700 dark:text-surface-200">{{ formatDateTime(run.startedAt) }}</td>
+                                <td class="text-sm text-surface-500">{{ runDurationLabel(run) }}</td>
+                                <td class="text-sm text-surface-700 dark:text-surface-200">{{ runDiffCountLabel(run) }}</td>
+                                <td class="text-sm text-surface-700 dark:text-surface-200">{{ run.failedItemCount }}</td>
+                                <td class="max-w-96 truncate text-sm text-surface-500">{{ run.diagnosticSummary?.message ?? run.errorSummary ?? '—' }}</td>
+                                <td>
+                                    <p-button icon="pi pi-eye" label="详情" [text]="true" [loading]="syncStore.loadingRunDetail() && syncStore.selectedRunDetail()?.id === run.id" (onClick)="openRunDetail(run)" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #emptymessage>
+                            <tr>
+                                <td colspan="7" class="py-8 text-center text-surface-400">{{ runHistoryEmptyMessage() }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                }
             </app-admin-table-card>
+
+            <p-dialog [(visible)]="runDetailDialogVisible" (onHide)="closeRunDetailDialog()" [modal]="true" header="同步运行详情" [style]="{ width: 'min(56rem, calc(100vw - 2rem))' }">
+                @if (syncStore.selectedRunDetail(); as run) {
+                    <div class="flex flex-col gap-4">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <p-tag [value]="runStatusLabel(run.status)" [severity]="runStatusSeverity(run.status)" />
+                            <span class="text-sm text-surface-500">开始 {{ formatDateTime(run.startedAt) }}</span>
+                            <span class="text-sm text-surface-500">结束 {{ formatDateTime(run.finishedAt) }}</span>
+                            <span class="text-sm text-surface-500">耗时 {{ runDurationLabel(run) }}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+                            <div class="rounded-md border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500">差异</div>
+                                <div class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ run.totalItemCount }}</div>
+                            </div>
+                            <div class="rounded-md border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500">批准</div>
+                                <div class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ run.approvedItemCount }}</div>
+                            </div>
+                            <div class="rounded-md border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500">跳过</div>
+                                <div class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ run.skippedItemCount }}</div>
+                            </div>
+                            <div class="rounded-md border border-surface-200 px-3 py-2 dark:border-surface-700">
+                                <div class="text-xs text-surface-500">失败</div>
+                                <div class="mt-1 text-lg font-semibold text-surface-950 dark:text-surface-0">{{ run.failedItemCount }}</div>
+                            </div>
+                        </div>
+
+                        @if (run.diagnosticSummary; as diagnostic) {
+                            <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div class="font-medium">{{ diagnostic.message }}</div>
+                                    <p-button icon="pi pi-copy" label="复制诊断" size="small" [outlined]="true" severity="danger" (onClick)="copyRunDiagnostics(run)" />
+                                </div>
+                                <div class="mt-2 flex flex-wrap gap-2 text-xs">
+                                    @if (diagnostic.adapterStatus) {
+                                        <span>Adapter {{ diagnostic.adapterStatus }}</span>
+                                    }
+                                    @if (diagnostic.providerCode) {
+                                        <span>Code {{ diagnostic.providerCode }}</span>
+                                    }
+                                    @if (diagnostic.httpStatus) {
+                                        <span>HTTP {{ diagnostic.httpStatus }}</span>
+                                    }
+                                </div>
+                                @if (diagnostic.nextActions.length > 0) {
+                                    <ul class="mt-3 list-disc space-y-1 pl-5">
+                                        @for (action of diagnostic.nextActions; track action) {
+                                            <li>{{ action }}</li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        } @else if (run.errorSummary) {
+                            <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <span>{{ run.errorSummary }}</span>
+                                    <p-button icon="pi pi-copy" label="复制诊断" size="small" [outlined]="true" severity="danger" (onClick)="copyRunDiagnostics(run)" />
+                                </div>
+                            </div>
+                        }
+
+                        <p-table [value]="syncStore.selectedRunDiffItems()" [paginator]="true" [rows]="6" dataKey="id" responsiveLayout="scroll" [tableStyle]="{ width: '100%', 'min-width': '48rem' }">
+                            <ng-template #header>
+                                <tr>
+                                    <th>动作</th>
+                                    <th>外部部门</th>
+                                    <th>目标组织</th>
+                                    <th>状态</th>
+                                    <th>错误</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template #body let-item>
+                                <tr>
+                                    <td><p-tag [value]="diffActionLabel(item.action)" [severity]="diffActionSeverity(item.action)" /></td>
+                                    <td>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ candidateName(item) }}</span>
+                                            <span class="font-mono text-xs text-surface-400">{{ item.externalDepartmentId }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(item.orgUnitId) }}</td>
+                                    <td><p-tag [value]="diffStatusLabel(item.status)" [severity]="diffStatusSeverity(item.status)" /></td>
+                                    <td class="max-w-80 truncate text-sm text-surface-500">{{ item.errorMessage ?? '—' }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template #emptymessage>
+                                <tr>
+                                    <td colspan="5" class="py-6 text-center text-surface-400">{{ syncStore.loadingRunDetail() ? '加载中...' : '暂无差异项' }}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                            <div>
+                                <div class="mb-2 text-sm font-medium text-surface-700 dark:text-surface-200">请求摘要</div>
+                                <pre class="max-h-48 overflow-auto rounded-md bg-surface-100 p-3 text-xs text-surface-700 dark:bg-surface-900 dark:text-surface-200">{{ formatJson(run.requestSnapshot) }}</pre>
+                            </div>
+                            <div>
+                                <div class="mb-2 text-sm font-medium text-surface-700 dark:text-surface-200">结果摘要</div>
+                                <pre class="max-h-48 overflow-auto rounded-md bg-surface-100 p-3 text-xs text-surface-700 dark:bg-surface-900 dark:text-surface-200">{{ formatJson(run.resultSummary) }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                } @else {
+                    <div class="py-8 text-center text-surface-400">加载中...</div>
+                }
+            </p-dialog>
 
             <p-dialog
                 [(visible)]="sourceDialogVisible"
@@ -641,8 +823,10 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     sourceDialogVisible = false;
     readonly editingSourceId = signal<string | null>(null);
     readonly sourceWizardStep = signal<SourceWizardStep>('platform');
+    readonly syncRunView = signal<SyncRunWorkbenchView>('preview');
     readonly selectedDiffItemIds = signal<Set<string>>(new Set());
     readonly providerConfigDiagnostics = signal<Record<string, ProviderConfigDiagnosticEntry>>({});
+    runDetailDialogVisible = false;
     sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
     private rootDepartmentDiagnosticTimer: ReturnType<typeof setTimeout> | null = null;
     private providerConfigDiagnosticRequestId = 0;
@@ -668,6 +852,36 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     async selectSource(source: ExternalOrgSourceSummary): Promise<void> {
         await this.syncStore.selectSource(source.id);
         this.selectedDiffItemIds.set(new Set());
+        this.closeRunDetailDialog();
+    }
+
+    setSyncRunView(view: SyncRunWorkbenchView): void {
+        this.syncRunView.set(view);
+    }
+
+    async refreshRunHistory(): Promise<void> {
+        const source = this.syncStore.selectedSource();
+        if (!source) return;
+        try {
+            await this.syncStore.loadRunHistory(source.id);
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '刷新失败', detail: '同步运行历史加载失败' });
+        }
+    }
+
+    async openRunDetail(run: OrgSyncRunSummary): Promise<void> {
+        this.runDetailDialogVisible = true;
+        try {
+            await this.syncStore.loadRunDetail(run.id);
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '加载失败', detail: '同步运行详情加载失败' });
+            this.closeRunDetailDialog();
+        }
+    }
+
+    closeRunDetailDialog(): void {
+        this.runDetailDialogVisible = false;
+        this.syncStore.clearRunDetail();
     }
 
     openCreateSourceDialog(): void {
@@ -1057,7 +1271,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     previewFailureDetail(run: OrgSyncRunSummary): string {
-        return run.errorSummary?.trim() || '外部组织拉取或差异生成失败';
+        return run.diagnosticSummary?.message?.trim() || run.errorSummary?.trim() || '外部组织拉取或差异生成失败';
     }
 
     previewEmptyMessage(): string {
@@ -1080,6 +1294,59 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             default:
                 return `当前运行状态为「${this.runStatusLabel(run.status)}」，请稍后刷新`;
         }
+    }
+
+    runHistoryEmptyMessage(): string {
+        if (this.syncStore.loadingRunHistory()) return '加载中...';
+        return '暂无同步运行历史';
+    }
+
+    runDurationLabel(run: OrgSyncRunSummary): string {
+        const startedAt = Date.parse(run.startedAt);
+        const finishedAt = run.finishedAt ? Date.parse(run.finishedAt) : NaN;
+        if (Number.isNaN(startedAt) || Number.isNaN(finishedAt)) return '—';
+        const durationMs = Math.max(0, finishedAt - startedAt);
+        if (durationMs < 1000) return `${durationMs} ms`;
+        const seconds = Math.round(durationMs / 1000);
+        if (seconds < 60) return `${seconds} 秒`;
+        const minutes = Math.floor(seconds / 60);
+        const restSeconds = seconds % 60;
+        return restSeconds > 0 ? `${minutes} 分 ${restSeconds} 秒` : `${minutes} 分`;
+    }
+
+    runDiffCountLabel(run: OrgSyncRunSummary): string {
+        return `${run.totalItemCount} 条`;
+    }
+
+    async copyRunDiagnostics(run: OrgSyncRunSummary | null = this.syncStore.selectedRunDetail()): Promise<void> {
+        if (!run) return;
+        try {
+            await navigator.clipboard.writeText(this.runDiagnosticText(run));
+            this.#messageService.add({ severity: 'success', summary: '已复制', detail: '同步诊断已复制到剪贴板' });
+        } catch {
+            this.#messageService.add({ severity: 'warn', summary: '复制失败', detail: '当前浏览器不允许访问剪贴板' });
+        }
+    }
+
+    runDiagnosticText(run: OrgSyncRunSummary): string {
+        const diagnostic = run.diagnosticSummary;
+        return [
+            `runId: ${run.id}`,
+            `sourceId: ${run.sourceId}`,
+            `status: ${run.status}`,
+            `startedAt: ${run.startedAt}`,
+            `finishedAt: ${run.finishedAt ?? '—'}`,
+            `duration: ${this.runDurationLabel(run)}`,
+            `counts: total=${run.totalItemCount}, approved=${run.approvedItemCount}, skipped=${run.skippedItemCount}, failed=${run.failedItemCount}`,
+            `errorSummary: ${run.errorSummary ?? '—'}`,
+            diagnostic ? `diagnostic: ${JSON.stringify(diagnostic, null, 2)}` : 'diagnostic: —',
+            `requestSnapshot: ${JSON.stringify(run.requestSnapshot ?? {}, null, 2)}`,
+            `resultSummary: ${JSON.stringify(run.resultSummary ?? {}, null, 2)}`
+        ].join('\n');
+    }
+
+    formatJson(value: unknown): string {
+        return JSON.stringify(value ?? {}, null, 2);
     }
 
     canApplyRun(): boolean {

@@ -47,6 +47,7 @@ describe('ExternalOrgSyncService', () => {
         replaceMappings: jest.Mock;
         createRun: jest.Mock;
         findRunById: jest.Mock;
+        findRunsBySourceId: jest.Mock;
         findDiffItems: jest.Mock;
         createDiffItem: jest.Mock;
         saveAll: jest.Mock;
@@ -80,6 +81,7 @@ describe('ExternalOrgSyncService', () => {
             replaceMappings: jest.fn().mockResolvedValue(undefined),
             createRun: jest.fn((input) => createRun(input)),
             findRunById: jest.fn(),
+            findRunsBySourceId: jest.fn(),
             findDiffItems: jest.fn(),
             createDiffItem: jest.fn((input) => createDiffItem(input)),
             saveAll: jest.fn().mockResolvedValue(undefined)
@@ -340,7 +342,13 @@ describe('ExternalOrgSyncService', () => {
     it('returns a failed preview run with adapter diagnostics when Feishu pull fails', async () => {
         repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
         repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
-        feishuAdapter.fetchDepartmentTree.mockRejectedValue(new ExternalOrgDirectoryAdapterError('飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。（飞书返回：page size is more than 50 error，code 40011）'));
+        feishuAdapter.fetchDepartmentTree.mockRejectedValue(
+            new ExternalOrgDirectoryAdapterError('飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。（飞书返回：page size is more than 50 error，code 40011）', {
+                providerCode: '40011',
+                providerMessage: 'page size is more than 50 error',
+                nextActions: ['请确认 POMS 飞书部门读取参数使用 page_size <= 50 后重试。']
+            })
+        );
 
         const result = await service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3, requestSnapshot: { requestedByUi: true } }, operatorId);
 
@@ -348,7 +356,20 @@ describe('ExternalOrgSyncService', () => {
             id: runId,
             status: OrgSyncRunStatusValue.Failed,
             totalItemCount: 0,
-            errorSummary: expect.stringContaining('飞书部门分页大小超过限制')
+            errorSummary: expect.stringContaining('飞书部门分页大小超过限制'),
+            diagnosticSummary: expect.objectContaining({
+                message: expect.stringContaining('飞书部门分页大小超过限制'),
+                adapterStatus: 'adapter_failed',
+                providerCode: '40011',
+                httpStatus: null,
+                providerMessage: 'page size is more than 50 error',
+                nextActions: ['请确认 POMS 飞书部门读取参数使用 page_size <= 50 后重试。']
+            })
+        });
+        expect(result.resultSummary).toMatchObject({
+            diagnosticSummary: expect.objectContaining({
+                providerCode: '40011'
+            })
         });
         expect(result.requestSnapshot).toMatchObject({
             requestedByUi: true,
@@ -363,6 +384,25 @@ describe('ExternalOrgSyncService', () => {
                 reason: expect.stringContaining('飞书部门分页大小超过限制')
             })
         );
+    });
+
+    it('lists recent sync runs for a source with status and limit filters', async () => {
+        const run = createRun({ status: OrgSyncRunStatusValue.Failed, errorSummary: '飞书权限未开通' });
+        repository.findSourceById.mockResolvedValue(createSource({ id: sourceId }));
+        repository.findRunsBySourceId.mockResolvedValue([run]);
+
+        const result = await service.listOrgSyncRuns(sourceId, { status: OrgSyncRunStatusValue.Failed, limit: 10 });
+
+        expect(repository.findRunsBySourceId).toHaveBeenCalledWith(sourceId, { status: OrgSyncRunStatusValue.Failed, limit: 10 });
+        expect(result).toEqual([
+            expect.objectContaining({
+                id: runId,
+                status: OrgSyncRunStatusValue.Failed,
+                diagnosticSummary: expect.objectContaining({
+                    message: '飞书权限未开通'
+                })
+            })
+        ]);
     });
 
     it('applies approved create diff items and maps the external department to the new org unit', async () => {

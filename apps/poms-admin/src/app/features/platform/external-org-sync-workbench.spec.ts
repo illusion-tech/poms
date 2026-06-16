@@ -81,6 +81,7 @@ function createRun(overrides: Partial<OrgSyncRunSummary> = {}): OrgSyncRunSummar
         skippedItemCount: 0,
         failedItemCount: 0,
         errorSummary: null,
+        diagnosticSummary: null,
         requestSnapshot: {},
         resultSummary: {},
         rowVersion: 2,
@@ -183,6 +184,9 @@ describe('ExternalOrgSyncWorkbench', () => {
     let mappings: ReturnType<typeof signal<ExternalDepartmentMappingSummary[]>>;
     let activeRun: ReturnType<typeof signal<OrgSyncRunSummary | null>>;
     let diffItems: ReturnType<typeof signal<OrgSyncDiffItemSummary[]>>;
+    let runHistory: ReturnType<typeof signal<OrgSyncRunSummary[]>>;
+    let selectedRunDetail: ReturnType<typeof signal<OrgSyncRunSummary | null>>;
+    let selectedRunDiffItems: ReturnType<typeof signal<OrgSyncDiffItemSummary[]>>;
     let syncStoreMock: {
         sources: typeof sources;
         selectedSourceId: typeof selectedSourceId;
@@ -190,13 +194,21 @@ describe('ExternalOrgSyncWorkbench', () => {
         mappings: typeof mappings;
         activeRun: typeof activeRun;
         diffItems: typeof diffItems;
+        runHistory: typeof runHistory;
+        selectedRunDetail: typeof selectedRunDetail;
+        selectedRunDiffItems: typeof selectedRunDiffItems;
         loadingSources: ReturnType<typeof signal<boolean>>;
         savingSource: ReturnType<typeof signal<boolean>>;
         loadingMappings: ReturnType<typeof signal<boolean>>;
         creatingRun: ReturnType<typeof signal<boolean>>;
         loadingDiffItems: ReturnType<typeof signal<boolean>>;
+        loadingRunHistory: ReturnType<typeof signal<boolean>>;
+        loadingRunDetail: ReturnType<typeof signal<boolean>>;
         applyingRun: ReturnType<typeof signal<boolean>>;
         loadSources: jest.Mock;
+        loadRunHistory: jest.Mock;
+        loadRunDetail: jest.Mock;
+        clearRunDetail: jest.Mock;
         selectSource: jest.Mock;
         createSource: jest.Mock;
         updateSource: jest.Mock;
@@ -223,6 +235,9 @@ describe('ExternalOrgSyncWorkbench', () => {
         mappings = signal<ExternalDepartmentMappingSummary[]>([createMapping()]);
         activeRun = signal<OrgSyncRunSummary | null>(createRun());
         diffItems = signal<OrgSyncDiffItemSummary[]>([createDiffItem()]);
+        runHistory = signal<OrgSyncRunSummary[]>([createRun(), createRun({ id: 'org-sync-run-2', status: OrgSyncRunStatus.Failed, errorSummary: '飞书权限未开通', totalItemCount: 0 })]);
+        selectedRunDetail = signal<OrgSyncRunSummary | null>(null);
+        selectedRunDiffItems = signal<OrgSyncDiffItemSummary[]>([]);
 
         syncStoreMock = {
             sources,
@@ -231,13 +246,29 @@ describe('ExternalOrgSyncWorkbench', () => {
             mappings,
             activeRun,
             diffItems,
+            runHistory,
+            selectedRunDetail,
+            selectedRunDiffItems,
             loadingSources: signal(false),
             savingSource: signal(false),
             loadingMappings: signal(false),
             creatingRun: signal(false),
             loadingDiffItems: signal(false),
+            loadingRunHistory: signal(false),
+            loadingRunDetail: signal(false),
             applyingRun: signal(false),
             loadSources: jest.fn().mockResolvedValue(sources()),
+            loadRunHistory: jest.fn().mockResolvedValue(runHistory()),
+            loadRunDetail: jest.fn().mockImplementation((id: string) => {
+                const run = runHistory().find((candidate) => candidate.id === id) ?? createRun({ id });
+                selectedRunDetail.set(run);
+                selectedRunDiffItems.set([createDiffItem({ runId: id })]);
+                return Promise.resolve(run);
+            }),
+            clearRunDetail: jest.fn().mockImplementation(() => {
+                selectedRunDetail.set(null);
+                selectedRunDiffItems.set([]);
+            }),
             selectSource: jest.fn().mockImplementation((id: string | null) => {
                 selectedSourceId.set(id);
                 return Promise.resolve();
@@ -306,6 +337,43 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(text).toContain('飞书通讯录');
         expect(text).toContain('飞书总部');
         expect(text).toContain('销售部');
+    });
+
+    it('shows run history and opens run detail without replacing the active preview', async () => {
+        component.setSyncRunView('history');
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('飞书权限未开通');
+
+        await component.openRunDetail(runHistory()[1]);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        expect(syncStoreMock.loadRunDetail).toHaveBeenCalledWith('org-sync-run-2');
+        expect(syncStoreMock.activeRun()).toEqual(createRun());
+        expect(syncStoreMock.selectedRunDetail()).toEqual(runHistory()[1]);
+        expect(fixture.nativeElement.textContent).toContain('同步运行详情');
+    });
+
+    it('prefers structured diagnostic message for preview failures', () => {
+        const detail = component.previewFailureDetail(
+            createRun({
+                status: OrgSyncRunStatus.Failed,
+                errorSummary: 'legacy error',
+                diagnosticSummary: {
+                    message: '飞书应用身份通讯录权限未开通',
+                    adapterStatus: 'adapter_failed',
+                    providerCode: '99991663',
+                    httpStatus: 403,
+                    providerMessage: 'permission denied',
+                    nextActions: ['请在飞书开放平台开通应用身份通讯录部门读取权限。'],
+                    generatedAt: '2026-06-10T09:00:03.000Z'
+                }
+            })
+        );
+
+        expect(detail).toBe('飞书应用身份通讯录权限未开通');
     });
 
     it('creates a source with provider config and root department settings', async () => {

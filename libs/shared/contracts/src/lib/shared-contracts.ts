@@ -792,6 +792,20 @@ export const ORG_SYNC_RUN_STATUSES = enumObjectValues(OrgSyncRunStatusValue);
 export type OrgSyncRunStatus = (typeof ORG_SYNC_RUN_STATUSES)[number];
 export const OrgSyncRunStatusSchema = z.enum(ORG_SYNC_RUN_STATUSES).meta({ id: 'OrgSyncRunStatus' });
 
+export const OrgSyncRunDiagnosticSummarySchema = z
+    .object({
+        message: z.string().trim().min(1).max(1000),
+        adapterStatus: z.string().trim().min(1).max(64).nullable(),
+        providerCode: z.string().trim().min(1).max(64).nullable(),
+        httpStatus: z.number().int().min(100).max(599).nullable(),
+        providerMessage: z.string().trim().min(1).max(1000).nullable(),
+        nextActions: z.array(z.string().trim().min(1).max(300)).max(8),
+        generatedAt: z.iso.datetime()
+    })
+    .meta({ id: 'OrgSyncRunDiagnosticSummary' });
+
+export type OrgSyncRunDiagnosticSummary = z.infer<typeof OrgSyncRunDiagnosticSummarySchema>;
+
 export const OrgSyncDiffActionValue = {
     CreateOrgUnit: 'create_org_unit',
     UpdateOrgUnit: 'update_org_unit',
@@ -984,6 +998,7 @@ export const OrgSyncRunSummarySchema = z
         skippedItemCount: z.number().int().nonnegative(),
         failedItemCount: z.number().int().nonnegative(),
         errorSummary: z.string().nullable(),
+        diagnosticSummary: OrgSyncRunDiagnosticSummarySchema.nullable(),
         requestSnapshot: ExternalOrgSyncJsonObjectSchema,
         resultSummary: ExternalOrgSyncJsonObjectSchema,
         rowVersion: z.number().int(),
@@ -999,6 +1014,19 @@ export type OrgSyncRunSummary = z.infer<typeof OrgSyncRunSummarySchema>;
 export const OrgSyncRunDetailSchema = OrgSyncRunSummarySchema.meta({ id: 'OrgSyncRunDetail' });
 
 export type OrgSyncRunDetail = z.infer<typeof OrgSyncRunDetailSchema>;
+
+export const OrgSyncRunListSchema = z.array(OrgSyncRunSummarySchema).meta({ id: 'OrgSyncRunList' });
+
+export type OrgSyncRunList = z.infer<typeof OrgSyncRunListSchema>;
+
+export const OrgSyncRunListQuerySchema = z
+    .object({
+        status: OrgSyncRunStatusSchema.optional(),
+        limit: z.coerce.number().int().min(1).max(100).optional()
+    })
+    .meta({ id: 'OrgSyncRunListQuery' });
+
+export type OrgSyncRunListQuery = z.infer<typeof OrgSyncRunListQuerySchema>;
 
 export const CreateOrgSyncRunRequestSchema = z
     .object({

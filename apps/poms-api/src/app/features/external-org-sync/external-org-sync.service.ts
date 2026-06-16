@@ -23,7 +23,10 @@ import {
     type OrgSyncDiffItemList,
     type OrgSyncDiffItemListQuery,
     type OrgSyncDiffItemSummary,
+    type OrgSyncRunDiagnosticSummary,
     type OrgSyncRunDetail,
+    type OrgSyncRunList,
+    type OrgSyncRunListQuery,
     type PauseExternalOrgSourceRequest,
     type ReplaceExternalDepartmentMappingsRequest,
     type UpdateExternalOrgSourceRequest
@@ -327,12 +330,14 @@ export class ExternalOrgSyncService {
             run.status = OrgSyncRunStatusValue.Failed;
             run.finishedAt = new Date();
             run.errorSummary = message;
+            const diagnosticSummary = this.buildRunDiagnosticSummary(run, error, message);
             run.requestSnapshot = {
                 ...(run.requestSnapshot ?? {}),
                 adapterStatus: error instanceof ExternalOrgDirectoryAdapterError ? 'adapter_failed' : 'preview_failed'
             };
             run.resultSummary = {
-                failedAt: run.finishedAt.toISOString()
+                failedAt: run.finishedAt.toISOString(),
+                diagnosticSummary
             };
             run.updatedBy = operatorId ?? null;
 
@@ -350,6 +355,12 @@ export class ExternalOrgSyncService {
 
             return this.toRunDetail(run);
         }
+    }
+
+    async listOrgSyncRuns(sourceId: string, query: OrgSyncRunListQuery = {}): Promise<OrgSyncRunList> {
+        await this.requireSource(sourceId);
+        const runs = await this.repository.findRunsBySourceId(sourceId, query);
+        return runs.map((run) => this.toRunDetail(run));
     }
 
     async getOrgSyncRun(id: string): Promise<OrgSyncRunDetail> {
@@ -1112,11 +1123,89 @@ export class ExternalOrgSyncService {
     }
 
     private safeErrorMessage(error: unknown, fallbackMessage: string): string {
+        const message = this.rawSafeErrorMessage(error, fallbackMessage);
+        return this.redactDiagnosticSecrets(message);
+    }
+
+    private rawSafeErrorMessage(error: unknown, fallbackMessage: string): string {
         if (error instanceof BadRequestException || error instanceof ConflictException || error instanceof NotFoundException || error instanceof ExternalOrgDirectoryAdapterError) {
             return error.message;
         }
         if (error instanceof Error && error.message) return error.message;
         return fallbackMessage;
+    }
+
+    private redactDiagnosticSecrets(message: string): string {
+        return message
+            .replace(/(["']?)(tenant_access_token|app_secret|client_secret|access_token|refresh_token)\1\s*([:=])\s*(["']?)[^\s"',，)}\]]+\4/gi, (_match, keyQuote: string, key: string, separator: string, valueQuote: string) => `${keyQuote}${key}${keyQuote}${separator}${valueQuote}<redacted>${valueQuote}`)
+            .replace(/\bBearer\s+\S+/gi, 'Bearer <redacted>');
+    }
+
+    private buildRunDiagnosticSummary(run: OrgSyncRun, error: unknown, message: string): OrgSyncRunDiagnosticSummary {
+        const isAdapterError = error instanceof ExternalOrgDirectoryAdapterError;
+        const providerMessage = isAdapterError && error.providerMessage ? this.redactDiagnosticSecrets(error.providerMessage) : null;
+        return {
+            message,
+            adapterStatus: isAdapterError ? 'adapter_failed' : 'preview_failed',
+            providerCode: isAdapterError ? error.providerCode : null,
+            httpStatus: isAdapterError ? error.httpStatus : null,
+            providerMessage,
+            nextActions: this.resolveRunDiagnosticNextActions(error),
+            generatedAt: (run.finishedAt ?? new Date()).toISOString()
+        };
+    }
+
+    private resolveRunDiagnosticNextActions(error: unknown): string[] {
+        if (error instanceof ExternalOrgDirectoryAdapterError && error.nextActions.length > 0) {
+            return error.nextActions.map((action) => this.redactDiagnosticSecrets(action));
+        }
+        return ['请检查企业协同接入配置、外部平台权限和根部门配置后重新生成预览。'];
+    }
+
+    private toRunDiagnosticSummary(run: OrgSyncRun): OrgSyncRunDiagnosticSummary | null {
+        const resultSummary = run.resultSummary ?? {};
+        const persisted = this.asRecord(resultSummary['diagnosticSummary']);
+        const message = this.readString(persisted, 'message') ?? run.errorSummary ?? null;
+        if (!message) return null;
+
+        const persistedGeneratedAt = this.readString(persisted, 'generatedAt');
+        const generatedAt = persistedGeneratedAt && !Number.isNaN(Date.parse(persistedGeneratedAt)) ? persistedGeneratedAt : (run.finishedAt?.toISOString() ?? run.updatedAt.toISOString());
+        const nextActions = this.readStringArray(persisted, 'nextActions');
+        return {
+            message: this.redactDiagnosticSecrets(message),
+            adapterStatus: this.readString(persisted, 'adapterStatus') ?? this.readString(this.asRecord(run.requestSnapshot), 'adapterStatus'),
+            providerCode: this.readString(persisted, 'providerCode'),
+            httpStatus: this.readHttpStatus(persisted),
+            providerMessage: this.redactNullableDiagnosticSecret(this.readString(persisted, 'providerMessage')),
+            nextActions: nextActions.length > 0 ? nextActions : ['请检查企业协同接入配置、外部平台权限和根部门配置后重新生成预览。'],
+            generatedAt
+        };
+    }
+
+    private readString(record: JsonObject, key: string): string | null {
+        const value = record[key];
+        if (typeof value !== 'string') return null;
+        const trimmed = value.trim();
+        return trimmed ? trimmed : null;
+    }
+
+    private readStringArray(record: JsonObject, key: string): string[] {
+        const value = record[key];
+        if (!Array.isArray(value)) return [];
+        return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0).map((item) => this.redactDiagnosticSecrets(item.trim())).slice(0, 8);
+    }
+
+    private redactNullableDiagnosticSecret(value: string | null): string | null {
+        return value ? this.redactDiagnosticSecrets(value) : null;
+    }
+
+    private readHttpStatus(record: JsonObject): number | null {
+        const value = record['httpStatus'];
+        return typeof value === 'number' && Number.isInteger(value) && value >= 100 && value <= 599 ? value : null;
+    }
+
+    private asRecord(value: unknown): JsonObject {
+        return value && typeof value === 'object' && !Array.isArray(value) ? (value as JsonObject) : {};
     }
 
     private toSourceDetail(source: ExternalOrgSource): ExternalOrgSourceDetail {
@@ -1169,7 +1258,8 @@ export class ExternalOrgSyncService {
             approvedItemCount: run.approvedItemCount,
             skippedItemCount: run.skippedItemCount,
             failedItemCount: run.failedItemCount,
-            errorSummary: run.errorSummary ?? null,
+            errorSummary: run.errorSummary ? this.redactDiagnosticSecrets(run.errorSummary) : null,
+            diagnosticSummary: this.toRunDiagnosticSummary(run),
             requestSnapshot: run.requestSnapshot ?? {},
             resultSummary: run.resultSummary ?? {},
             rowVersion: run.rowVersion,

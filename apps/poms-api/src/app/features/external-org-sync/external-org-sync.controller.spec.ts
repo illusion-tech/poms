@@ -19,6 +19,7 @@ describe('ExternalOrgSyncController', () => {
             | 'listExternalDepartmentMappings'
             | 'replaceExternalDepartmentMappings'
             | 'createOrgSyncRun'
+            | 'listOrgSyncRuns'
             | 'getOrgSyncRun'
             | 'listOrgSyncDiffItems'
             | 'applyOrgSyncRun'
@@ -38,6 +39,7 @@ describe('ExternalOrgSyncController', () => {
             listExternalDepartmentMappings: jest.fn(),
             replaceExternalDepartmentMappings: jest.fn(),
             createOrgSyncRun: jest.fn(),
+            listOrgSyncRuns: jest.fn(),
             getOrgSyncRun: jest.fn(),
             listOrgSyncDiffItems: jest.fn(),
             applyOrgSyncRun: jest.fn()
@@ -95,6 +97,7 @@ describe('ExternalOrgSyncController', () => {
         service.listExternalDepartmentMappings.mockResolvedValue(mappings);
         service.replaceExternalDepartmentMappings.mockResolvedValue(mappings);
         service.createOrgSyncRun.mockResolvedValue(run);
+        service.listOrgSyncRuns.mockResolvedValue([run]);
         service.getOrgSyncRun.mockResolvedValue(run);
         service.listOrgSyncDiffItems.mockResolvedValue([]);
         service.applyOrgSyncRun.mockResolvedValue(run);
@@ -102,6 +105,7 @@ describe('ExternalOrgSyncController', () => {
         await controller.listExternalDepartmentMappings(sourceId, { status: ExternalDepartmentMappingStatusValue.Unmapped });
         await controller.replaceExternalDepartmentMappings(sourceId, { expectedSourceVersion: 1, items: [] }, operatorRequest as never);
         await controller.createOrgSyncRun(sourceId, { expectedSourceVersion: 1 }, operatorRequest as never);
+        await controller.listOrgSyncRuns(sourceId, { status: OrgSyncRunStatusValue.Failed, limit: 10 });
         await controller.getOrgSyncRun(runId);
         await controller.listOrgSyncDiffItems(runId, {});
         await controller.applyOrgSyncRun(runId, { expectedVersion: 1 }, operatorRequest as never);
@@ -109,6 +113,7 @@ describe('ExternalOrgSyncController', () => {
         expect(service.listExternalDepartmentMappings).toHaveBeenCalledWith(sourceId, { status: ExternalDepartmentMappingStatusValue.Unmapped, externalDepartmentId: undefined, orgUnitId: undefined });
         expect(service.replaceExternalDepartmentMappings).toHaveBeenCalledWith(sourceId, { expectedSourceVersion: 1, items: [] }, operatorRequest.user.sub);
         expect(service.createOrgSyncRun).toHaveBeenCalledWith(sourceId, { expectedSourceVersion: 1 }, operatorRequest.user.sub);
+        expect(service.listOrgSyncRuns).toHaveBeenCalledWith(sourceId, { status: OrgSyncRunStatusValue.Failed, limit: 10 });
         expect(service.getOrgSyncRun).toHaveBeenCalledWith(runId);
         expect(service.listOrgSyncDiffItems).toHaveBeenCalledWith(runId, { action: undefined, status: undefined });
         expect(service.applyOrgSyncRun).toHaveBeenCalledWith(runId, { expectedVersion: 1 }, operatorRequest.user.sub);
@@ -146,6 +151,7 @@ describe('ExternalOrgSyncController', () => {
             skippedItemCount: 0,
             failedItemCount: 0,
             errorSummary: null,
+            diagnosticSummary: null,
             requestSnapshot: {},
             resultSummary: {},
             rowVersion: 1,
