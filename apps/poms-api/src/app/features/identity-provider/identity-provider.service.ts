@@ -27,6 +27,7 @@ import {
     type IdentityProviderConfigDetail,
     type IdentityProviderConfigList,
     type IdentityProviderConfigListQuery,
+    type IdentityProviderConfigStatus,
     type IdentityProviderConnectionDiagnosticCheck,
     type IdentityProviderConnectionTestResult,
     type TestIdentityProviderConnectionRequest,
@@ -960,7 +961,7 @@ export class IdentityProviderService {
                 'configStatus',
                 '接入状态',
                 config.status === IdentityProviderConfigStatusValue.Active ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
-                config.status === IdentityProviderConfigStatusValue.Active ? '接入配置状态已激活。' : `接入配置状态为 ${config.status}，尚未就绪。`
+                config.status === IdentityProviderConfigStatusValue.Active ? '接入配置状态已激活。' : `接入配置状态为「${this.identityProviderConfigStatusLabel(config.status)}」，尚未就绪。`
             ),
             this.diagnosticCheck(
                 'clientCredentials',
@@ -969,6 +970,17 @@ export class IdentityProviderService {
                 hasReadableClientCredentials ? 'Client ID 和 Client Secret 已配置且可读取。' : (clientCredentialFailure ?? '组织同步需要完整的 Client ID 和 Client Secret。')
             )
         ];
+    }
+
+    private identityProviderConfigStatusLabel(status: IdentityProviderConfigStatus): string {
+        return (
+            {
+                [IdentityProviderConfigStatusValue.Draft]: '草稿',
+                [IdentityProviderConfigStatusValue.Active]: '已激活',
+                [IdentityProviderConfigStatusValue.Disabled]: '已停用',
+                [IdentityProviderConfigStatusValue.Misconfigured]: '配置异常'
+            } satisfies Record<IdentityProviderConfigStatus, string>
+        )[status];
     }
 
     private resolveExternalOrgSyncClientSecret(config: IdentityProviderConfig): { clientSecret: string | null; failureMessage: string | null } {
