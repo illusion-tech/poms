@@ -869,7 +869,8 @@ export class IdentityProviderService {
     }
 
     private async testExternalOrgSyncReadiness(config: IdentityProviderConfig, request: TestIdentityProviderConnectionRequest): Promise<IdentityProviderConnectionTestResult> {
-        const checks = this.externalOrgSyncLocalChecks(config);
+        const secretReadiness = this.resolveExternalOrgSyncClientSecret(config);
+        const checks = this.externalOrgSyncLocalChecks(config, secretReadiness.failureMessage);
         if (checks.some((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed)) {
             checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '本地接入配置未就绪，暂不请求飞书 tenant_access_token。'));
             checks.push(this.diagnosticCheck('departmentReadAccess', '飞书部门读取', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '本地接入配置未就绪，暂不读取飞书部门。'));
@@ -880,7 +881,7 @@ export class IdentityProviderService {
         try {
             const result = await this.externalOrgDirectoryAdapterRegistry.get(ExternalOrgProviderValue.Feishu).testDepartmentReadAccess({
                 providerConfig: config,
-                clientSecret: this.decryptSecret(config.encryptedClientSecret ?? ''),
+                clientSecret: secretReadiness.clientSecret ?? '',
                 rootDepartmentId: request.externalRootDepartmentId ?? null
             });
             checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Passed, '已使用应用凭证获取飞书 tenant_access_token。'));
@@ -940,7 +941,8 @@ export class IdentityProviderService {
         return checks;
     }
 
-    private externalOrgSyncLocalChecks(config: IdentityProviderConfig): IdentityProviderConnectionDiagnosticCheck[] {
+    private externalOrgSyncLocalChecks(config: IdentityProviderConfig, clientCredentialFailure: string | null): IdentityProviderConnectionDiagnosticCheck[] {
+        const hasReadableClientCredentials = Boolean(config.clientId && config.encryptedClientSecret && !clientCredentialFailure);
         return [
             this.diagnosticCheck(
                 'provider',
@@ -963,10 +965,23 @@ export class IdentityProviderService {
             this.diagnosticCheck(
                 'clientCredentials',
                 'Client ID / Secret',
-                config.clientId && config.encryptedClientSecret ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
-                config.clientId && config.encryptedClientSecret ? 'Client ID 和 Client Secret 已配置。' : '组织同步需要完整的 Client ID 和 Client Secret。'
+                hasReadableClientCredentials ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                hasReadableClientCredentials ? 'Client ID 和 Client Secret 已配置且可读取。' : (clientCredentialFailure ?? '组织同步需要完整的 Client ID 和 Client Secret。')
             )
         ];
+    }
+
+    private resolveExternalOrgSyncClientSecret(config: IdentityProviderConfig): { clientSecret: string | null; failureMessage: string | null } {
+        if (!config.clientId || !config.encryptedClientSecret) {
+            return { clientSecret: null, failureMessage: null };
+        }
+
+        try {
+            const clientSecret = this.decryptSecret(config.encryptedClientSecret);
+            return clientSecret ? { clientSecret, failureMessage: null } : { clientSecret: null, failureMessage: 'Client Secret 已保存但为空，请重新填写并保存。' };
+        } catch {
+            return { clientSecret: null, failureMessage: 'Client Secret 已保存但无法读取，请重新填写并保存。' };
+        }
     }
 
     private diagnosticCheck(key: string, label: string, status: IdentityProviderConnectionDiagnosticCheck['status'], message: string, details: string | null = null): IdentityProviderConnectionDiagnosticCheck {
@@ -993,7 +1008,7 @@ export class IdentityProviderService {
         const failedKeys = new Set(checks.filter((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed).map((check) => check.key));
         if (failedKeys.has('enabled')) actions.push('在企业协同接入中启用总开关并保存。');
         if (failedKeys.has('configStatus')) actions.push('完善 Client Secret 或已启用能力的回调地址，使接入状态恢复为已激活。');
-        if (failedKeys.has('clientCredentials')) actions.push('填写飞书应用的 Client ID 和 Client Secret 后保存。');
+        if (failedKeys.has('clientCredentials')) actions.push('填写或重新填写飞书应用的 Client ID 和 Client Secret 后保存。');
         if (failedKeys.has('tenantAccessToken')) actions.push('检查飞书应用凭证是否正确，并确认应用已发布。');
         if (failedKeys.has('departmentReadAccess')) actions.push('在飞书开放平台开通应用身份通讯录部门读取权限，并发布应用后重试。');
         if (failedKeys.has('provider')) actions.push('当前组织同步诊断仅支持飞书接入配置。');

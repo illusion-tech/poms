@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -53,6 +53,11 @@ interface ExternalOrgSourceForm {
     authoritativeOrgUnitId: string | null;
     externalRootDepartmentId: string;
     syncScopesText: string;
+}
+
+interface ProviderConfigDiagnosticEntry {
+    rootDepartmentId: string;
+    result: IdentityProviderConnectionTestResult;
 }
 
 function apiErrorMessage(error: unknown, fallback: string): string {
@@ -351,7 +356,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="externalOrgRootDepartmentId" class="font-medium">根部门</label>
-                        <input id="externalOrgRootDepartmentId" pInputText [(ngModel)]="sourceForm.externalRootDepartmentId" placeholder="0" class="w-full" />
+                        <input id="externalOrgRootDepartmentId" pInputText [ngModel]="sourceForm.externalRootDepartmentId" (ngModelChange)="updateExternalRootDepartmentId($event)" placeholder="0" class="w-full" />
                     </div>
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgProviderConfig" class="font-medium">接入配置</label>
@@ -440,7 +445,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
         </div>
     `
 })
-export class ExternalOrgSyncWorkbench {
+export class ExternalOrgSyncWorkbench implements OnDestroy {
     readonly syncStore = inject(ExternalOrgSyncStore);
     readonly identityProviderStore = inject(IdentityProviderStore);
     readonly platformStore = inject(PlatformStore);
@@ -466,13 +471,19 @@ export class ExternalOrgSyncWorkbench {
     sourceDialogVisible = false;
     readonly editingSourceId = signal<string | null>(null);
     readonly selectedDiffItemIds = signal<Set<string>>(new Set());
-    readonly providerConfigDiagnostics = signal<Record<string, IdentityProviderConnectionTestResult>>({});
+    readonly providerConfigDiagnostics = signal<Record<string, ProviderConfigDiagnosticEntry>>({});
     sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
+    private rootDepartmentDiagnosticTimer: ReturnType<typeof setTimeout> | null = null;
+    private providerConfigDiagnosticRequestId = 0;
 
     constructor() {
         void this.refresh();
         void this.platformStore.loadOrgUnits();
         void this.identityProviderStore.loadConfigs({ provider: IdentityProvider.Feishu });
+    }
+
+    ngOnDestroy(): void {
+        this.clearRootDepartmentDiagnosticTimer();
     }
 
     async refresh(): Promise<void> {
@@ -491,6 +502,7 @@ export class ExternalOrgSyncWorkbench {
     openCreateSourceDialog(): void {
         this.editingSourceId.set(null);
         this.sourceForm = this.createEmptySourceForm();
+        this.clearRootDepartmentDiagnosticTimer();
         this.sourceDialogVisible = true;
     }
 
@@ -510,6 +522,7 @@ export class ExternalOrgSyncWorkbench {
             syncScopesText: source.syncScopes.join('\n')
         };
         this.sourceDialogVisible = true;
+        this.clearRootDepartmentDiagnosticTimer();
         void this.testSelectedProviderConfigForOrgSync();
     }
 
@@ -533,7 +546,13 @@ export class ExternalOrgSyncWorkbench {
 
     updateProviderConfigId(value: string | null | undefined): void {
         this.sourceForm.providerConfigId = value ?? null;
+        this.clearRootDepartmentDiagnosticTimer();
         void this.testSelectedProviderConfigForOrgSync();
+    }
+
+    updateExternalRootDepartmentId(value: string | null | undefined): void {
+        this.sourceForm.externalRootDepartmentId = value ?? '';
+        this.scheduleSelectedProviderConfigForOrgSyncTest();
     }
 
     async saveSource(options: { activateAfterCreate?: boolean } = {}): Promise<void> {
@@ -546,7 +565,7 @@ export class ExternalOrgSyncWorkbench {
             .split(/\r?\n|,/)
             .map((scope) => scope.trim())
             .filter(Boolean);
-        const externalRootDepartmentId = this.sourceForm.externalRootDepartmentId.trim() || '0';
+        const externalRootDepartmentId = this.normalizeExternalRootDepartmentId(this.sourceForm.externalRootDepartmentId);
         const editingId = this.editingSourceId();
         const sourceIssue = this.sourceFormIssue();
         if (sourceIssue) {
@@ -963,7 +982,9 @@ export class ExternalOrgSyncWorkbench {
 
     selectedProviderConfigDiagnostic(): IdentityProviderConnectionTestResult | null {
         const providerConfigId = this.sourceForm.providerConfigId;
-        return providerConfigId ? (this.providerConfigDiagnostics()[providerConfigId] ?? null) : null;
+        const entry = providerConfigId ? (this.providerConfigDiagnostics()[providerConfigId] ?? null) : null;
+        if (!entry) return null;
+        return entry.rootDepartmentId === this.normalizeExternalRootDepartmentId(this.sourceForm.externalRootDepartmentId) ? entry.result : null;
     }
 
     isTestingSelectedProviderConfig(): boolean {
@@ -1050,18 +1071,36 @@ export class ExternalOrgSyncWorkbench {
     private async testProviderConfigForOrgSync(providerConfigId: string, rootDepartmentId: string): Promise<IdentityProviderConnectionTestResult | null> {
         const config = this.identityProviderStore.configs().find((candidate) => candidate.id === providerConfigId);
         if (!config) return null;
+        const normalizedRootDepartmentId = this.normalizeExternalRootDepartmentId(rootDepartmentId);
+        const requestId = ++this.providerConfigDiagnosticRequestId;
         try {
             const result = await this.identityProviderStore.testConnection(providerConfigId, {
                 capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
-                externalRootDepartmentId: this.normalizeExternalRootDepartmentId(rootDepartmentId),
+                externalRootDepartmentId: normalizedRootDepartmentId,
                 expectedVersion: config.rowVersion
             });
-            this.providerConfigDiagnostics.update((current) => ({ ...current, [providerConfigId]: result }));
+            if (requestId === this.providerConfigDiagnosticRequestId) {
+                this.providerConfigDiagnostics.update((current) => ({ ...current, [providerConfigId]: { rootDepartmentId: normalizedRootDepartmentId, result } }));
+            }
             return result;
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '检查失败', detail: apiErrorMessage(error, '组织同步可用性检查没有完成') });
             return null;
         }
+    }
+
+    private scheduleSelectedProviderConfigForOrgSyncTest(): void {
+        this.clearRootDepartmentDiagnosticTimer();
+        this.rootDepartmentDiagnosticTimer = setTimeout(() => {
+            this.rootDepartmentDiagnosticTimer = null;
+            void this.testSelectedProviderConfigForOrgSync();
+        }, 400);
+    }
+
+    private clearRootDepartmentDiagnosticTimer(): void {
+        if (!this.rootDepartmentDiagnosticTimer) return;
+        clearTimeout(this.rootDepartmentDiagnosticTimer);
+        this.rootDepartmentDiagnosticTimer = null;
     }
 
     private normalizeExternalRootDepartmentId(value: string | null | undefined): string {

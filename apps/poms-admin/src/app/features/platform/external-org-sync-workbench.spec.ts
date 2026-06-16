@@ -368,6 +368,40 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.selectedProviderConfigDiagnostic()?.status).toBe(IdentityProviderConnectionTestStatus.Success);
     });
 
+    it('reruns organization sync readiness diagnostics when root department changes', async () => {
+        component.openCreateSourceDialog();
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+        expect(component.selectedProviderConfigDiagnostic()?.status).toBe(IdentityProviderConnectionTestStatus.Success);
+
+        jest.useFakeTimers();
+        try {
+            identityProviderStoreMock.testConnection.mockClear();
+
+            component.updateExternalRootDepartmentId('od-sales');
+
+            expect(component.selectedProviderConfigDiagnostic()).toBeNull();
+            expect(identityProviderStoreMock.testConnection).not.toHaveBeenCalled();
+
+            jest.advanceTimersByTime(399);
+            await Promise.resolve();
+            expect(identityProviderStoreMock.testConnection).not.toHaveBeenCalled();
+
+            jest.advanceTimersByTime(1);
+            await Promise.resolve();
+            await Promise.resolve();
+
+            expect(identityProviderStoreMock.testConnection).toHaveBeenCalledWith('identity-provider-1', {
+                capability: IdentityProviderConnectionTestCapability.ExternalOrgSync,
+                externalRootDepartmentId: 'od-sales',
+                expectedVersion: 1
+            });
+            expect(component.selectedProviderConfigDiagnostic()?.status).toBe(IdentityProviderConnectionTestStatus.Success);
+        } finally {
+            jest.useRealTimers();
+        }
+    });
+
     it('blocks save-and-activate when organization sync readiness diagnostics fail', async () => {
         identityProviderStoreMock.testConnection.mockResolvedValueOnce(
             createOrgSyncDiagnostic({

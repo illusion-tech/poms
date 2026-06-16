@@ -441,6 +441,36 @@ describe('IdentityProviderService', () => {
         expect(externalOrgDirectoryAdapter.testDepartmentReadAccess).not.toHaveBeenCalled();
     });
 
+    it('treats unreadable organization sync client secret as a local credentials failure', async () => {
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                status: IdentityProviderConfigStatusValue.Active,
+                encryptedClientSecret: 'v1:corrupted-secret'
+            })
+        );
+
+        const result = await service.testIdentityProviderConnection(providerConfigId, {
+            capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync
+        });
+
+        expect(result.status).toBe('failed');
+        expect(result.message).toContain('Client Secret 已保存但无法读取');
+        expect(result.nextActions).toEqual(expect.arrayContaining(['填写或重新填写飞书应用的 Client ID 和 Client Secret 后保存。']));
+        expect(result.checks).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    key: 'clientCredentials',
+                    status: IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                    message: 'Client Secret 已保存但无法读取，请重新填写并保存。'
+                }),
+                expect.objectContaining({ key: 'tenantAccessToken', status: IdentityProviderConnectionDiagnosticStatusValue.Skipped }),
+                expect.objectContaining({ key: 'departmentReadAccess', status: IdentityProviderConnectionDiagnosticStatusValue.Skipped })
+            ])
+        );
+        expect(externalOrgDirectoryAdapter.testDepartmentReadAccess).not.toHaveBeenCalled();
+    });
+
     it('returns actionable organization sync diagnostics when Feishu department read fails', async () => {
         repository.findConfigById.mockResolvedValue(
             createConfig({
