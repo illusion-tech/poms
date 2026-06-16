@@ -491,6 +491,35 @@ describe('IdentityProviderService', () => {
         expect(result.checks).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'departmentReadAccess', status: IdentityProviderConnectionDiagnosticStatusValue.Failed })]));
     });
 
+    it('redacts sensitive provider diagnostics before returning organization sync failures', async () => {
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                enabled: true,
+                status: IdentityProviderConfigStatusValue.Active,
+                encryptedClientSecret: encryptedSecret('client-secret')
+            })
+        );
+        externalOrgDirectoryAdapter.testDepartmentReadAccess.mockRejectedValueOnce(
+            new ExternalOrgDirectoryAdapterError(
+                'Feishu failed: {"tenant_access_token":"tenant-secret","app_secret":"app-secret","client_secret":"client-secret"} access_token=access-secret refresh_token: refresh-secret Authorization: Bearer abc/def+ghi='
+            )
+        );
+
+        const result = await service.testIdentityProviderConnection(providerConfigId, {
+            capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync
+        });
+        const serialized = JSON.stringify(result);
+
+        expect(serialized).toContain('<redacted>');
+        expect(serialized).toContain('Bearer <redacted>');
+        expect(serialized).not.toContain('tenant-secret');
+        expect(serialized).not.toContain('app-secret');
+        expect(serialized).not.toContain('client-secret');
+        expect(serialized).not.toContain('access-secret');
+        expect(serialized).not.toContain('refresh-secret');
+        expect(serialized).not.toContain('abc/def+ghi=');
+    });
+
     it('lists enabled login providers without secrets', async () => {
         repository.findLoginEnabledConfigs.mockResolvedValue([createLoginEnabledConfig()]);
 

@@ -158,7 +158,8 @@ describe('FeishuExternalOrgDirectoryAdapter', () => {
                 code: 0,
                 msg: 'success',
                 data: {
-                    has_more: false,
+                    has_more: true,
+                    page_token: 'next-page',
                     items: [
                         {
                             open_department_id: 'od-sales',
@@ -182,7 +183,14 @@ describe('FeishuExternalOrgDirectoryAdapter', () => {
             childDepartmentCount: 1
         });
         expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-        expect(mockedAxios.get).toHaveBeenCalledWith('https://open.feishu.cn/open-apis/contact/v3/departments/od-root/children', expect.any(Object));
+        expect(mockedAxios.get).toHaveBeenCalledWith(
+            'https://open.feishu.cn/open-apis/contact/v3/departments/od-root/children',
+            expect.objectContaining({
+                params: expect.objectContaining({
+                    page_size: 1
+                })
+            })
+        );
     });
 
     it('normalizes blank diagnostic root department id to Feishu root', async () => {

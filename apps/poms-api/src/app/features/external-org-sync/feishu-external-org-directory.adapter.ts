@@ -5,6 +5,11 @@ import type { ExternalDepartmentReadAccessResult, ExternalDepartmentSnapshot, Ex
 import { ExternalOrgDirectoryAdapterError } from './external-org-directory.adapter';
 
 type JsonRecord = Record<string, unknown>;
+type FeishuDepartmentChildrenPage = {
+    items: ExternalDepartmentSnapshot[];
+    hasMore: boolean;
+    pageToken: string | null;
+};
 
 @Injectable()
 export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAdapter {
@@ -35,11 +40,11 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
     async testDepartmentReadAccess(input: TestExternalDepartmentReadAccessInput): Promise<ExternalDepartmentReadAccessResult> {
         const accessToken = await this.fetchTenantAccessToken(input.providerConfig.clientId, input.clientSecret);
         const rootDepartmentId = this.normalizeRootDepartmentId(input.rootDepartmentId);
-        const children = await this.fetchChildren(accessToken, rootDepartmentId);
+        const page = await this.fetchChildrenPage(accessToken, rootDepartmentId, { pageSize: 1 });
 
         return {
             rootDepartmentId,
-            childDepartmentCount: children.length
+            childDepartmentCount: page.items.length
         };
     }
 
@@ -75,30 +80,39 @@ export class FeishuExternalOrgDirectoryAdapter implements ExternalOrgDirectoryAd
         let pageToken: string | null = null;
 
         do {
-            try {
-                const response = await axios.get(this.departmentChildrenUrl(departmentId), {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    },
-                    params: {
-                        department_id_type: 'open_department_id',
-                        user_id_type: 'open_id',
-                        fetch_child: false,
-                        page_size: this.pageSize(),
-                        ...(pageToken ? { page_token: pageToken } : {})
-                    },
-                    timeout: this.timeoutMs()
-                });
-
-                const payload = this.unwrapFeishuPayload(response.data, 'Feishu department children request failed', true);
-                items.push(...this.readArray(payload, ['items', 'departments']).map((item) => this.toDepartmentSnapshot(item, departmentId)).filter((item): item is ExternalDepartmentSnapshot => Boolean(item)));
-                pageToken = this.readBoolean(payload, ['has_more']) ? this.readString(payload, ['page_token']) : null;
-            } catch (error) {
-                throw this.normalizeAdapterError(error, 'Feishu department children request failed');
-            }
+            const page = await this.fetchChildrenPage(accessToken, departmentId, { pageSize: this.pageSize(), pageToken });
+            items.push(...page.items);
+            pageToken = page.hasMore ? page.pageToken : null;
         } while (pageToken);
 
         return items;
+    }
+
+    private async fetchChildrenPage(accessToken: string, departmentId: string, options: { pageSize: number; pageToken?: string | null }): Promise<FeishuDepartmentChildrenPage> {
+        try {
+            const response = await axios.get(this.departmentChildrenUrl(departmentId), {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+                params: {
+                    department_id_type: 'open_department_id',
+                    user_id_type: 'open_id',
+                    fetch_child: false,
+                    page_size: options.pageSize,
+                    ...(options.pageToken ? { page_token: options.pageToken } : {})
+                },
+                timeout: this.timeoutMs()
+            });
+
+            const payload = this.unwrapFeishuPayload(response.data, 'Feishu department children request failed', true);
+            return {
+                items: this.readArray(payload, ['items', 'departments']).map((item) => this.toDepartmentSnapshot(item, departmentId)).filter((item): item is ExternalDepartmentSnapshot => Boolean(item)),
+                hasMore: Boolean(this.readBoolean(payload, ['has_more'])),
+                pageToken: this.readString(payload, ['page_token'])
+            };
+        } catch (error) {
+            throw this.normalizeAdapterError(error, 'Feishu department children request failed');
+        }
     }
 
     private departmentChildrenUrl(departmentId: string): string {
