@@ -456,10 +456,15 @@ describe('IdentityProviderService', () => {
         expect(result.nextActions).toEqual(expect.arrayContaining(['完善 Client Secret 或已启用能力的回调地址，使接入状态恢复为已激活。']));
         expect(result.checks).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ key: 'configStatus', status: IdentityProviderConnectionDiagnosticStatusValue.Failed }),
+                expect.objectContaining({
+                    key: 'configStatus',
+                    status: IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                    message: '接入配置状态为「配置异常」，尚未就绪。'
+                }),
                 expect.objectContaining({ key: 'tenantAccessToken', status: IdentityProviderConnectionDiagnosticStatusValue.Skipped })
             ])
         );
+        expect(result.message).not.toContain(IdentityProviderConfigStatusValue.Misconfigured);
         expect(externalOrgDirectoryAdapter.testDepartmentReadAccess).not.toHaveBeenCalled();
     });
 
