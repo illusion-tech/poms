@@ -862,8 +862,8 @@ export class IdentityProviderService {
         const firstFailed = checks.find((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed);
         const message =
             status === IdentityProviderConnectionTestStatusValue.Success
-                ? 'Local configuration is complete. Provider network verification is handled by the adapter slice.'
-                : (firstFailed?.message ?? 'Identity provider configuration is not ready.');
+                ? '本地配置检查通过。服务商网络连通性由对应适配器能力检查。'
+                : (firstFailed?.message ?? '企业协同接入配置未就绪。');
 
         return this.connectionTestResult(IdentityProviderConnectionTestCapabilityValue.Basic, checks, message);
     }
@@ -917,24 +917,24 @@ export class IdentityProviderService {
                 'enabled',
                 '总开关',
                 config.enabled && config.status !== IdentityProviderConfigStatusValue.Disabled ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
-                config.enabled && config.status !== IdentityProviderConfigStatusValue.Disabled ? '企业协同接入总开关已启用。' : 'Identity provider is disabled.'
+                config.enabled && config.status !== IdentityProviderConfigStatusValue.Disabled ? '企业协同接入总开关已启用。' : '企业协同接入已停用。'
             ),
             this.diagnosticCheck(
                 'clientCredentials',
                 'Client ID / Secret',
                 config.clientId && config.encryptedClientSecret ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
-                config.clientId && config.encryptedClientSecret ? 'Client ID 和 Client Secret 已配置。' : 'Client id and client secret are required.'
+                config.clientId && config.encryptedClientSecret ? 'Client ID 和 Client Secret 已配置。' : 'Client ID 和 Client Secret 不能为空。'
             )
         ];
 
         checks.push(
             config.loginEnabled
-                ? this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', config.redirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.redirectUri ? '登录 Redirect URI 已配置。' : 'Login redirect URI is required.')
+                ? this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', config.redirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.redirectUri ? '登录 Redirect URI 已配置。' : '启用登录能力时必须配置登录 Redirect URI。')
                 : this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '登录能力未启用。')
         );
         checks.push(
             config.searchEnabled
-                ? this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', config.searchRedirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.searchRedirectUri ? '搜索 Redirect URI 已配置。' : 'Search redirect URI is required.')
+                ? this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', config.searchRedirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.searchRedirectUri ? '搜索 Redirect URI 已配置。' : '启用搜索能力时必须配置 Search Redirect URI。')
                 : this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '搜索能力未启用。')
         );
 

@@ -402,6 +402,28 @@ describe('ExternalOrgSyncWorkbench', () => {
         }
     });
 
+    it('does not run debounced root department diagnostics after closing the source dialog', async () => {
+        component.openCreateSourceDialog();
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        jest.useFakeTimers();
+        try {
+            identityProviderStoreMock.testConnection.mockClear();
+
+            component.updateExternalRootDepartmentId('od-sales');
+            component.closeSourceDialog();
+
+            jest.advanceTimersByTime(400);
+            await Promise.resolve();
+            await Promise.resolve();
+
+            expect(identityProviderStoreMock.testConnection).not.toHaveBeenCalled();
+        } finally {
+            jest.useRealTimers();
+        }
+    });
+
     it('blocks save-and-activate when organization sync readiness diagnostics fail', async () => {
         identityProviderStoreMock.testConnection.mockResolvedValueOnce(
             createOrgSyncDiagnostic({
