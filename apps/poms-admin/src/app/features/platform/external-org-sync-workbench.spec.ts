@@ -359,11 +359,23 @@ describe('ExternalOrgSyncWorkbench', () => {
 
         expect(component.sourceWizardStep()).toBe('platform');
         expect(component.canGoToNextWizardStep()).toBe(false);
+        expect(component.canSelectWizardStep('review')).toBe(false);
+        expect(component.isWizardStepCompleted('platform')).toBe(false);
+
+        component.goToWizardStep('review');
+        expect(component.sourceWizardStep()).toBe('platform');
 
         component.sourceForm.displayName = '飞书测试通讯录';
 
         expect(component.canGoToNextWizardStep()).toBe(true);
-        component.goToNextWizardStep();
+        expect(component.canSelectWizardStep('connection')).toBe(true);
+        component.goToWizardStep('connection');
+        expect(component.sourceWizardStep()).toBe('connection');
+        expect(component.isWizardStepCompleted('platform')).toBe(true);
+        expect(component.wizardStepButtonClass('platform')).toContain('border-emerald-200');
+        expect(component.canSelectWizardStep('review')).toBe(false);
+
+        component.goToWizardStep('review');
         expect(component.sourceWizardStep()).toBe('connection');
 
         component.goToWizardStep('platform');
@@ -387,7 +399,9 @@ describe('ExternalOrgSyncWorkbench', () => {
 
         component.openCreateSourceDialog();
         component.sourceForm.displayName = '飞书测试通讯录';
-        component.goToWizardStep('review');
+        component.goToNextWizardStep();
+        component.goToNextWizardStep();
+        component.goToNextWizardStep();
 
         expect(component.hasUsableProviderConfig()).toBe(false);
         expect(component.canSaveDraftFromWizard()).toBe(true);
