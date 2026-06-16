@@ -60,6 +60,14 @@ interface ProviderConfigDiagnosticEntry {
     result: IdentityProviderConnectionTestResult;
 }
 
+type SourceWizardStep = 'platform' | 'connection' | 'scope' | 'review';
+
+interface SourceWizardStepOption {
+    key: SourceWizardStep;
+    label: string;
+    icon: string;
+}
+
 function apiErrorMessage(error: unknown, fallback: string): string {
     if (error instanceof HttpErrorResponse) {
         const body = error.error as { message?: unknown } | string | null;
@@ -340,24 +348,162 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                 </p-table>
             </app-admin-table-card>
 
-            <p-dialog [(visible)]="sourceDialogVisible" (onHide)="closeSourceDialog()" [modal]="true" [header]="editingSourceId() ? '编辑同步源' : '新建同步源'" [style]="{ width: '34rem' }" styleClass="p-fluid">
-                <div class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
-                    <div class="flex flex-col gap-2 md:col-span-2">
-                        <label for="externalOrgProvider" class="font-medium">外部平台</label>
-                        <p-select inputId="externalOrgProvider" [(ngModel)]="sourceForm.provider" [options]="providerOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" [disabled]="!!editingSourceId()" />
+            <p-dialog
+                [(visible)]="sourceDialogVisible"
+                (onHide)="closeSourceDialog()"
+                [modal]="true"
+                [header]="editingSourceId() ? '编辑同步源' : '新建同步源'"
+                [style]="{ width: editingSourceId() ? '34rem' : '58rem', maxWidth: 'calc(100vw - 2rem)' }"
+                styleClass="p-fluid"
+            >
+                @if (editingSourceId()) {
+                    <div class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
+                        <div class="flex flex-col gap-2 md:col-span-2">
+                            <label for="externalOrgProvider" class="font-medium">外部平台</label>
+                            <p-select inputId="externalOrgProvider" [(ngModel)]="sourceForm.provider" [options]="providerOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" [disabled]="true" />
+                        </div>
+                        <div class="flex flex-col gap-2 md:col-span-2">
+                            <label for="externalOrgDisplayName" class="font-medium">名称 *</label>
+                            <input id="externalOrgDisplayName" pInputText [(ngModel)]="sourceForm.displayName" placeholder="如 飞书通讯录" class="w-full" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="externalOrgTenantId" class="font-medium">外部租户</label>
+                            <input id="externalOrgTenantId" pInputText [(ngModel)]="sourceForm.externalTenantId" placeholder="tenant key" class="w-full" [disabled]="true" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="externalOrgRootDepartmentId" class="font-medium">根部门</label>
+                            <input id="externalOrgRootDepartmentId" pInputText [ngModel]="sourceForm.externalRootDepartmentId" (ngModelChange)="updateExternalRootDepartmentId($event)" placeholder="0" class="w-full" />
+                        </div>
+                        <ng-container *ngTemplateOutlet="providerConfigField"></ng-container>
+                        <ng-container *ngTemplateOutlet="syncScopeFields"></ng-container>
                     </div>
-                    <div class="flex flex-col gap-2 md:col-span-2">
-                        <label for="externalOrgDisplayName" class="font-medium">名称 *</label>
-                        <input id="externalOrgDisplayName" pInputText [(ngModel)]="sourceForm.displayName" placeholder="如 飞书通讯录" class="w-full" />
+                } @else {
+                    <div class="grid grid-cols-1 gap-5 py-4 lg:grid-cols-[12rem_minmax(0,1fr)]">
+                        <nav class="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible" aria-label="同步源配置步骤">
+                            @for (step of sourceWizardSteps; track step.key) {
+                                <button type="button" class="flex min-w-28 items-center gap-2 rounded-[8px] border px-3 py-2 text-left text-sm transition-colors" [ngClass]="wizardStepButtonClass(step.key)" (click)="goToWizardStep(step.key)">
+                                    <i [class]="step.icon"></i>
+                                    <span class="font-medium">{{ step.label }}</span>
+                                </button>
+                            }
+                        </nav>
+
+                        <div class="min-w-0">
+                            @switch (sourceWizardStep()) {
+                                @case ('platform') {
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
+                                            @for (option of providerOptions; track option.value) {
+                                                <button
+                                                    type="button"
+                                                    class="rounded-[8px] border p-4 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+                                                    [ngClass]="sourceForm.provider === option.value ? 'border-primary bg-primary-50 text-primary dark:bg-primary-950/30' : 'border-surface-200 hover:border-primary dark:border-surface-700'"
+                                                    [disabled]="option.value !== externalOrgProvider.Feishu"
+                                                    (click)="selectWizardProvider(option.value)"
+                                                >
+                                                    <div class="flex items-center justify-between gap-3">
+                                                        <span class="font-medium">{{ option.label }}</span>
+                                                        <p-tag [value]="option.value === externalOrgProvider.Feishu ? '可用' : '暂未支持'" [severity]="option.value === externalOrgProvider.Feishu ? 'success' : 'secondary'" />
+                                                    </div>
+                                                </button>
+                                            }
+                                        </div>
+                                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                            <div class="flex flex-col gap-2">
+                                                <label for="externalOrgWizardDisplayName" class="font-medium">名称 *</label>
+                                                <input id="externalOrgWizardDisplayName" pInputText [(ngModel)]="sourceForm.displayName" placeholder="如 飞书通讯录" class="w-full" />
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label for="externalOrgWizardTenantId" class="font-medium">外部租户</label>
+                                                <input id="externalOrgWizardTenantId" pInputText [(ngModel)]="sourceForm.externalTenantId" placeholder="tenant key" class="w-full" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @case ('connection') {
+                                    <div class="grid grid-cols-1 gap-4">
+                                        @if (!hasUsableProviderConfig()) {
+                                            <div class="rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+                                                <div>当前没有可用于组织同步的飞书企业协同接入。</div>
+                                                <a routerLink="/platform/identity-providers" class="mt-1 inline-flex items-center gap-1 font-medium text-primary">
+                                                    <i class="pi pi-arrow-right text-xs"></i>
+                                                    前往企业协同接入
+                                                </a>
+                                            </div>
+                                        }
+                                        <ng-container *ngTemplateOutlet="providerConfigField"></ng-container>
+                                    </div>
+                                }
+                                @case ('scope') {
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                            <div class="flex flex-col gap-2">
+                                                <label for="externalOrgWizardRootDepartmentId" class="font-medium">根部门</label>
+                                                <input id="externalOrgWizardRootDepartmentId" pInputText [ngModel]="sourceForm.externalRootDepartmentId" (ngModelChange)="updateExternalRootDepartmentId($event)" placeholder="0" class="w-full" />
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label for="externalOrgWizardAuthoritativeUnit" class="font-medium">权威组织</label>
+                                                <p-select
+                                                    inputId="externalOrgWizardAuthoritativeUnit"
+                                                    [(ngModel)]="sourceForm.authoritativeOrgUnitId"
+                                                    [options]="orgUnitOptions()"
+                                                    optionLabel="label"
+                                                    optionValue="value"
+                                                    appendTo="body"
+                                                    placeholder="不限制"
+                                                    class="w-full rounded-md!"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <label for="externalOrgWizardSyncScopes" class="font-medium">同步范围</label>
+                                            <textarea id="externalOrgWizardSyncScopes" pTextarea [(ngModel)]="sourceForm.syncScopesText" rows="5" placeholder="每行一个 scope" class="w-full"></textarea>
+                                        </div>
+                                    </div>
+                                }
+                                @case ('review') {
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                            <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                                <div class="text-xs text-surface-500">同步源</div>
+                                                <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ sourceForm.displayName || '—' }}</div>
+                                                <div class="mt-1 text-sm text-surface-500">{{ providerLabel(sourceForm.provider) }} · {{ sourceForm.externalTenantId || '默认租户' }}</div>
+                                            </div>
+                                            <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                                <div class="text-xs text-surface-500">接入配置</div>
+                                                <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ selectedProviderConfigName() }}</div>
+                                                <div class="mt-1 text-sm text-surface-500">{{ selectedProviderConfigDiagnostic()?.message ?? '未完成组织同步可用性检查' }}</div>
+                                            </div>
+                                            <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                                <div class="text-xs text-surface-500">根部门</div>
+                                                <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ rootDepartmentLabel(sourceForm.externalRootDepartmentId) }}</div>
+                                                <div class="mt-1 text-sm text-surface-500">权威组织 {{ orgUnitName(sourceForm.authoritativeOrgUnitId) }}</div>
+                                            </div>
+                                            <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                                                <div class="text-xs text-surface-500">同步范围</div>
+                                                <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ wizardScopeCount() }} 项</div>
+                                                <div class="mt-1 truncate text-sm text-surface-500">{{ wizardScopesPreview() }}</div>
+                                            </div>
+                                        </div>
+                                        @if (wizardPreviewIssue(); as issue) {
+                                            <div class="rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+                                                <div>{{ issue }}</div>
+                                                @if (issue.includes('企业协同接入') || issue.includes('Client Secret') || issue.includes('状态为')) {
+                                                    <a routerLink="/platform/identity-providers" class="mt-1 inline-flex items-center gap-1 font-medium text-primary">
+                                                        <i class="pi pi-arrow-right text-xs"></i>
+                                                        前往企业协同接入
+                                                    </a>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-2">
-                        <label for="externalOrgTenantId" class="font-medium">外部租户</label>
-                        <input id="externalOrgTenantId" pInputText [(ngModel)]="sourceForm.externalTenantId" placeholder="tenant key" class="w-full" [disabled]="!!editingSourceId()" />
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label for="externalOrgRootDepartmentId" class="font-medium">根部门</label>
-                        <input id="externalOrgRootDepartmentId" pInputText [ngModel]="sourceForm.externalRootDepartmentId" (ngModelChange)="updateExternalRootDepartmentId($event)" placeholder="0" class="w-full" />
-                    </div>
+                }
+
+                <ng-template #providerConfigField>
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgProviderConfig" class="font-medium">接入配置</label>
                         <p-select
@@ -412,6 +558,9 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                             </div>
                         }
                     </div>
+                </ng-template>
+
+                <ng-template #syncScopeFields>
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgAuthoritativeUnit" class="font-medium">权威组织</label>
                         <p-select
@@ -429,15 +578,23 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                         <label for="externalOrgSyncScopes" class="font-medium">同步范围</label>
                         <textarea id="externalOrgSyncScopes" pTextarea [(ngModel)]="sourceForm.syncScopesText" rows="3" placeholder="每行一个 scope" class="w-full"></textarea>
                     </div>
-                </div>
+                </ng-template>
+
                 <ng-template #footer>
-                    <div class="flex justify-end gap-2">
+                    <div class="flex flex-wrap justify-end gap-2">
                         <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeSourceDialog()" />
                         @if (editingSourceId()) {
                             <p-button icon="pi pi-save" label="保存" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
                         } @else {
-                            <p-button icon="pi pi-save" label="保存草稿" severity="secondary" [outlined]="true" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
-                            <p-button icon="pi pi-play" label="保存并启用" [loading]="syncStore.savingSource()" (onClick)="saveSource({ activateAfterCreate: true })" />
+                            @if (sourceWizardStep() !== 'platform') {
+                                <p-button icon="pi pi-arrow-left" label="上一步" severity="secondary" [outlined]="true" (onClick)="goToPreviousWizardStep()" />
+                            }
+                            @if (sourceWizardStep() !== 'review') {
+                                <p-button icon="pi pi-arrow-right" label="下一步" iconPos="right" [disabled]="!canGoToNextWizardStep()" (onClick)="goToNextWizardStep()" />
+                            } @else {
+                                <p-button icon="pi pi-save" label="保存草稿" severity="secondary" [outlined]="true" [loading]="syncStore.savingSource()" [disabled]="!canSaveDraftFromWizard()" (onClick)="saveSource()" />
+                                <p-button icon="pi pi-play" label="保存并生成预览" [loading]="syncStore.savingSource() || syncStore.creatingRun()" [disabled]="!canSaveAndPreviewWizard()" (onClick)="saveSource({ activateAfterCreate: true, previewAfterActivate: true })" />
+                            }
                         }
                     </div>
                 </ng-template>
@@ -453,8 +610,15 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     readonly #confirmationService = inject(ConfirmationService);
 
     readonly externalOrgSourceStatus = ExternalOrgSourceStatus;
+    readonly externalOrgProvider = ExternalOrgProvider;
     readonly orgSyncRunStatus = OrgSyncRunStatus;
     readonly identityProviderConnectionTestStatus = IdentityProviderConnectionTestStatus;
+    readonly sourceWizardSteps: SourceWizardStepOption[] = [
+        { key: 'platform', label: '平台', icon: 'pi pi-building' },
+        { key: 'connection', label: '接入', icon: 'pi pi-link' },
+        { key: 'scope', label: '范围', icon: 'pi pi-sliders-h' },
+        { key: 'review', label: '预览', icon: 'pi pi-play' }
+    ];
     readonly providerOptions: SelectOption<ExternalOrgProvider>[] = [
         { label: '飞书', value: ExternalOrgProvider.Feishu },
         { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
@@ -470,6 +634,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     sourceDialogVisible = false;
     readonly editingSourceId = signal<string | null>(null);
+    readonly sourceWizardStep = signal<SourceWizardStep>('platform');
     readonly selectedDiffItemIds = signal<Set<string>>(new Set());
     readonly providerConfigDiagnostics = signal<Record<string, ProviderConfigDiagnosticEntry>>({});
     sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
@@ -502,6 +667,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     openCreateSourceDialog(): void {
         this.editingSourceId.set(null);
         this.sourceForm = this.createEmptySourceForm();
+        this.sourceWizardStep.set('platform');
         this.clearRootDepartmentDiagnosticTimer();
         this.sourceDialogVisible = true;
     }
@@ -530,6 +696,105 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         this.sourceDialogVisible = false;
         this.clearRootDepartmentDiagnosticTimer();
         this.providerConfigDiagnosticRequestId += 1;
+    }
+
+    selectWizardProvider(provider: ExternalOrgProvider): void {
+        if (provider === this.sourceForm.provider) return;
+        this.sourceForm.provider = provider;
+        if (provider !== ExternalOrgProvider.Feishu) {
+            this.sourceForm.providerConfigId = null;
+            this.providerConfigDiagnosticRequestId += 1;
+        }
+    }
+
+    goToWizardStep(step: SourceWizardStep): void {
+        this.sourceWizardStep.set(step);
+    }
+
+    goToNextWizardStep(): void {
+        if (!this.canGoToNextWizardStep()) return;
+        const currentIndex = this.currentWizardStepIndex();
+        const next = this.sourceWizardSteps[currentIndex + 1];
+        if (next) this.sourceWizardStep.set(next.key);
+    }
+
+    goToPreviousWizardStep(): void {
+        const currentIndex = this.currentWizardStepIndex();
+        const previous = this.sourceWizardSteps[currentIndex - 1];
+        if (previous) this.sourceWizardStep.set(previous.key);
+    }
+
+    canGoToNextWizardStep(): boolean {
+        return this.sourceWizardStepIssue(this.sourceWizardStep()) === null;
+    }
+
+    canSaveDraftFromWizard(): boolean {
+        return !this.syncStore.savingSource() && this.sourceWizardStepIssue('platform') === null && this.sourceFormIssue() === null;
+    }
+
+    canSaveAndPreviewWizard(): boolean {
+        return !this.syncStore.savingSource() && !this.syncStore.creatingRun() && this.wizardPreviewIssue() === null;
+    }
+
+    wizardStepButtonClass(step: SourceWizardStep): string {
+        if (step === this.sourceWizardStep()) return 'border-primary bg-primary-50 text-primary dark:bg-primary-950/30';
+        const index = this.sourceWizardSteps.findIndex((candidate) => candidate.key === step);
+        return index < this.currentWizardStepIndex() ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100' : 'border-surface-200 hover:border-primary dark:border-surface-700';
+    }
+
+    hasUsableProviderConfig(): boolean {
+        return this.identityProviderStore.configs().some((config) => this.isCompatibleProviderConfig(config) && this.providerConfigIssue(config) === null);
+    }
+
+    selectedProviderConfigName(): string {
+        if (!this.sourceForm.providerConfigId) return '未选择';
+        return this.identityProviderStore.configs().find((config) => config.id === this.sourceForm.providerConfigId)?.displayName ?? '未选择';
+    }
+
+    wizardScopeCount(): number {
+        return this.parseSyncScopes().length;
+    }
+
+    wizardScopesPreview(): string {
+        return this.parseSyncScopes().join('，') || '未配置';
+    }
+
+    wizardPreviewIssue(): string | null {
+        const platformIssue = this.sourceWizardStepIssue('platform');
+        if (platformIssue) return platformIssue;
+        const activationIssue = this.sourceActivationIssue(this.sourceForm.provider, this.sourceForm.providerConfigId);
+        if (activationIssue) return activationIssue;
+        if (this.isTestingSelectedProviderConfig()) return '组织同步可用性检查正在进行。';
+        const diagnostic = this.selectedProviderConfigDiagnostic();
+        if (!diagnostic) return '组织同步可用性检查尚未完成。';
+        if (diagnostic.status !== IdentityProviderConnectionTestStatus.Success) return diagnostic.message;
+        return this.sourceWizardStepIssue('scope');
+    }
+
+    private currentWizardStepIndex(): number {
+        return Math.max(
+            0,
+            this.sourceWizardSteps.findIndex((step) => step.key === this.sourceWizardStep())
+        );
+    }
+
+    private sourceWizardStepIssue(step: SourceWizardStep): string | null {
+        if (step === 'platform') {
+            if (this.sourceForm.provider !== ExternalOrgProvider.Feishu) return '当前仅支持飞书组织同步。';
+            if (!this.sourceForm.displayName.trim()) return '请填写同步源名称。';
+            return null;
+        }
+        if (step === 'connection') {
+            if (!this.sourceForm.providerConfigId) return null;
+            const issue = this.selectedProviderConfigIssue();
+            if (issue) return issue;
+            if (this.isTestingSelectedProviderConfig()) return '组织同步可用性检查正在进行。';
+            const diagnostic = this.selectedProviderConfigDiagnostic();
+            if (diagnostic && diagnostic.status !== IdentityProviderConnectionTestStatus.Success) return diagnostic.message;
+            return null;
+        }
+        if (step === 'scope') return null;
+        return this.wizardPreviewIssue();
     }
 
     providerConfigOptions(): SelectOption<string | null>[] {
@@ -561,16 +826,13 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         this.scheduleSelectedProviderConfigForOrgSyncTest();
     }
 
-    async saveSource(options: { activateAfterCreate?: boolean } = {}): Promise<void> {
+    async saveSource(options: { activateAfterCreate?: boolean; previewAfterActivate?: boolean } = {}): Promise<void> {
         const displayName = this.sourceForm.displayName.trim();
         if (!displayName) {
             this.#messageService.add({ severity: 'warn', summary: '请填写名称', detail: '同步源名称不能为空' });
             return;
         }
-        const scopes = this.sourceForm.syncScopesText
-            .split(/\r?\n|,/)
-            .map((scope) => scope.trim())
-            .filter(Boolean);
+        const scopes = this.parseSyncScopes();
         const externalRootDepartmentId = this.normalizeExternalRootDepartmentId(this.sourceForm.externalRootDepartmentId);
         const editingId = this.editingSourceId();
         const sourceIssue = this.sourceFormIssue();
@@ -616,12 +878,26 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                     syncScopes: scopes
                 });
                 if (options.activateAfterCreate) {
-                    await this.syncStore.activateSource(created.id, { expectedVersion: created.rowVersion });
+                    const activated = await this.syncStore.activateSource(created.id, { expectedVersion: created.rowVersion });
+                    if (options.previewAfterActivate) {
+                        try {
+                            const run = await this.syncStore.createPreviewRun(activated.id, {
+                                expectedSourceVersion: activated.rowVersion,
+                                requestSnapshot: { triggeredFrom: 'poms-admin-wizard' }
+                            });
+                            this.handlePreviewRunResult(run, 'wizard');
+                        } catch (error) {
+                            this.selectedDiffItemIds.set(new Set());
+                            this.#messageService.add({ severity: 'error', summary: '同步源已保存，预览失败', detail: apiErrorMessage(error, '外部组织拉取或差异生成失败') });
+                        }
+                    }
                 }
             }
             this.closeSourceDialog();
-            const detail = options.activateAfterCreate ? '同步源已保存并启用' : editingId ? '同步源配置已保存' : '同步源草稿已保存';
-            this.#messageService.add({ severity: 'success', summary: '保存成功', detail });
+            if (!options.previewAfterActivate) {
+                const detail = options.activateAfterCreate ? '同步源已保存并启用' : editingId ? '同步源配置已保存' : '同步源草稿已保存';
+                this.#messageService.add({ severity: 'success', summary: '保存成功', detail });
+            }
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '保存失败', detail: apiErrorMessage(error, '请检查接入配置和版本状态') });
         }
@@ -705,28 +981,39 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                 expectedSourceVersion: source.rowVersion,
                 requestSnapshot: { triggeredFrom: 'poms-admin' }
             });
-            if (run.status === OrgSyncRunStatus.Failed) {
-                this.selectedDiffItemIds.set(new Set());
-                this.#messageService.add({ severity: 'error', summary: '预览失败', detail: this.previewFailureDetail(run) });
-                return;
-            }
-            if (run.status !== OrgSyncRunStatus.Previewed) {
-                this.selectedDiffItemIds.set(new Set());
-                this.#messageService.add({ severity: 'warn', summary: '预览未完成', detail: `当前运行状态为「${this.runStatusLabel(run.status)}」，请稍后刷新。` });
-                return;
-            }
-            this.selectedDiffItemIds.set(
-                new Set(
-                    this.syncStore
-                        .diffItems()
-                        .filter((item) => this.isSelectableDiffItem(item))
-                        .map((item) => item.id)
-                )
-            );
-            this.#messageService.add({ severity: 'success', summary: '预览已生成', detail: `发现 ${run.totalItemCount} 条差异` });
+            this.handlePreviewRunResult(run, 'manual');
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '预览失败', detail: apiErrorMessage(error, '外部组织拉取或差异生成失败') });
         }
+    }
+
+    private parseSyncScopes(): string[] {
+        return this.sourceForm.syncScopesText
+            .split(/\r?\n|,/)
+            .map((scope) => scope.trim())
+            .filter(Boolean);
+    }
+
+    private handlePreviewRunResult(run: OrgSyncRunSummary, origin: 'manual' | 'wizard'): void {
+        if (run.status === OrgSyncRunStatus.Failed) {
+            this.selectedDiffItemIds.set(new Set());
+            this.#messageService.add({ severity: 'error', summary: origin === 'wizard' ? '同步源已保存，预览失败' : '预览失败', detail: this.previewFailureDetail(run) });
+            return;
+        }
+        if (run.status !== OrgSyncRunStatus.Previewed) {
+            this.selectedDiffItemIds.set(new Set());
+            this.#messageService.add({ severity: 'warn', summary: origin === 'wizard' ? '同步源已保存，预览未完成' : '预览未完成', detail: `当前运行状态为「${this.runStatusLabel(run.status)}」，请稍后刷新。` });
+            return;
+        }
+        this.selectedDiffItemIds.set(
+            new Set(
+                this.syncStore
+                    .diffItems()
+                    .filter((item) => this.isSelectableDiffItem(item))
+                    .map((item) => item.id)
+            )
+        );
+        this.#messageService.add({ severity: 'success', summary: origin === 'wizard' ? '保存并生成预览' : '预览已生成', detail: `发现 ${run.totalItemCount} 条差异` });
     }
 
     previewFailureDetail(run: OrgSyncRunSummary): string {
@@ -1039,6 +1326,9 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     private sourceFormIssue(): string | null {
         if (this.sourceForm.provider !== ExternalOrgProvider.Feishu && this.sourceForm.providerConfigId) {
             return '当前外部平台尚未支持绑定企业协同接入，请先选择“不绑定”，或切换为飞书。';
+        }
+        if (this.sourceForm.providerConfigId) {
+            return this.sourceConfigIssue(this.sourceForm.providerConfigId);
         }
         return null;
     }

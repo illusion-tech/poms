@@ -354,6 +354,91 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.sourceDialogVisible).toBe(false);
     });
 
+    it('opens the create flow as a task wizard and requires a supported platform name before advancing', () => {
+        component.openCreateSourceDialog();
+
+        expect(component.sourceWizardStep()).toBe('platform');
+        expect(component.canGoToNextWizardStep()).toBe(false);
+
+        component.sourceForm.displayName = '飞书测试通讯录';
+
+        expect(component.canGoToNextWizardStep()).toBe(true);
+        component.goToNextWizardStep();
+        expect(component.sourceWizardStep()).toBe('connection');
+
+        component.goToWizardStep('platform');
+        component.selectWizardProvider(ExternalOrgProvider.Dingtalk);
+
+        expect(component.canGoToNextWizardStep()).toBe(false);
+        expect(component.wizardPreviewIssue()).toContain('当前仅支持飞书组织同步');
+    });
+
+    it('keeps save-and-preview unavailable when there is no ready provider config', () => {
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({
+                id: 'identity-provider-misconfigured',
+                displayName: '飞书配置异常',
+                status: IdentityProviderConfigStatus.Misconfigured,
+                enabled: true,
+                secretConfigured: true
+            })
+        ]);
+
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.goToWizardStep('review');
+
+        expect(component.hasUsableProviderConfig()).toBe(false);
+        expect(component.canSaveDraftFromWizard()).toBe(true);
+        expect(component.canSaveAndPreviewWizard()).toBe(false);
+        expect(component.wizardPreviewIssue()).toContain('需要选择一个已启用且已配置 Client Secret 的企业协同接入');
+    });
+
+    it('does not save a draft when an unusable provider config is selected', async () => {
+        identityProviderStoreMock.configs.set([
+            createProviderConfig({
+                id: 'identity-provider-misconfigured',
+                displayName: '飞书配置异常',
+                status: IdentityProviderConfigStatus.Misconfigured,
+                enabled: true,
+                secretConfigured: true
+            })
+        ]);
+
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.sourceForm.providerConfigId = 'identity-provider-misconfigured';
+
+        expect(component.canSaveDraftFromWizard()).toBe(false);
+
+        await component.saveSource();
+
+        expect(syncStoreMock.createSource).not.toHaveBeenCalled();
+    });
+
+    it('creates, activates and generates a preview from the wizard', async () => {
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.sourceForm.providerConfigId = 'identity-provider-1';
+
+        await component.saveSource({ activateAfterCreate: true, previewAfterActivate: true });
+
+        expect(syncStoreMock.createSource).toHaveBeenCalledWith(
+            expect.objectContaining({
+                provider: ExternalOrgProvider.Feishu,
+                displayName: '飞书测试通讯录',
+                providerConfigId: 'identity-provider-1'
+            })
+        );
+        expect(syncStoreMock.activateSource).toHaveBeenCalledWith('external-org-source-2', { expectedVersion: 4 });
+        expect(syncStoreMock.createPreviewRun).toHaveBeenCalledWith('external-org-source-2', {
+            expectedSourceVersion: 5,
+            requestSnapshot: { triggeredFrom: 'poms-admin-wizard' }
+        });
+        expect(component.selectedDiffItemIds().has('diff-item-1')).toBe(true);
+        expect(component.sourceDialogVisible).toBe(false);
+    });
+
     it('runs organization sync readiness diagnostics when selecting a provider config', async () => {
         component.openCreateSourceDialog();
 
