@@ -1,6 +1,6 @@
 # FE-68 外部组织同步配置向导实施基线
 
-- Gate Status: `G3 Ready for Review`
+- Gate Status: `G4 Done`
 - Parent: `#8`
 - GitHub Issue: `#9`
 - Owner: `Codex`
@@ -113,7 +113,7 @@
 
 | Check                            | Required | Command / Evidence                                                                                            | Result  | Gap / Reason                                                                                   |
 | -------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
-| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache` | Pass    | 23 tests，覆盖向导、无配置、异常配置、不可用配置草稿阻断、保存启用与保存生成预览。             |
+| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache` | Pass    | 32 tests，覆盖向导、无配置、异常配置、可用性诊断门禁、保存启用与保存生成预览。                 |
 | Admin lint                       | Yes      | `corepack pnpm nx lint poms-admin --skip-nx-cache`                                                            | Pass    | 无 lint 问题。                                                                                 |
 | Admin build                      | Yes      | `corepack pnpm nx build poms-admin --skip-nx-cache`                                                           | Pass    | Angular template / PrimeNG 编译通过；仍有既有 initial bundle budget warning，超出 495 bytes。  |
 | Browser / interaction smoke      | Decision | local Admin `4201` + API `3333`                                                                               | Blocked | API health 通过；本地 `edb_v2` 使用 `admin/admin123` 登录返回“用户名或密码错误”，未运行 seed。 |
@@ -152,3 +152,29 @@
 - Remaining / Transfer:
   - 浏览器 smoke 被本地账号数据阻断；已确认 API health 可用，登录失败为本地 `edb_v2` 账号口径问题。
   - 同步运行历史仍由 `#12` 承接；部门映射冲突处理仍由 `#10` 承接。
+
+## 12. G4 结论
+
+- Gate Status: `Done`
+- Closed By: `Codex`
+- Closed At: 2026-06-17
+- PR: `#15`
+- Merge: `0b39b9b2`
+- GitHub Issue: `#9` 已关闭；父 issue `#8` 保持打开。
+- Delivered:
+  - 外部组织同步新建同步源配置向导已合并到 `main`。
+  - 保存草稿 / 保存并生成预览的 readiness 门禁已收口，并经过 Copilot review 修正。
+  - 接入步骤、范围步骤、根部门诊断、保存草稿和保存预览的关键交互均有 focused tests 覆盖。
+- Validation:
+  - `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`：Pass，32 tests。
+  - `corepack pnpm nx lint poms-admin --skip-nx-cache`：Pass。
+  - `corepack pnpm nx build poms-admin --skip-nx-cache`：Pass；仍有既有 initial bundle budget warning，超出 495 bytes。
+  - `corepack pnpm run format:md:check`：Pass。
+  - `git diff --check`：Pass。
+- Local docs:
+  - 本 baseline 已归档到 `docs/design/archive/slices/`。
+  - `phase2-development-execution-tracker.md` 已同步为 `Done / G4`。
+  - `poms-design-progress.md` 已追加 G4 closeout 记录。
+- Downstream:
+  - 同步运行历史继续由 `#12` 承接。
+  - 部门映射冲突处理继续由 `#10` 承接。

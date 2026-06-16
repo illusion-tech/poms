@@ -614,6 +614,7 @@
 131. 2026-06-16 GitHub issue-first 任务治理迁移 Phase 1 已冻结：新增 `docs/reference/github-issue-governance-transition.md` 和 `$poms-github-task-governance` skill，并更新 `$poms-implementation-governance`、`implementation-governance-gates.md` 与 `implementation-governance-checks.md`。第一阶段明确 GitHub issue 负责任务状态、父子关系、依赖、checklist、PR 链接和 closeout；本地文档继续负责 `G1` 冻结输入、route / DTO / DDL 等长期 SSOT、验证矩阵和已完成 lifecycle artifacts 归档；`phase2-development-execution-tracker.md` 仅作为 transitional index 保留并镜像 GitHub 状态。
 132. 2026-06-16 `FE-68` 已进入 `G1 / Doing`：新增 `fe-68-external-org-sync-configuration-wizard-baseline.md`，冻结外部组织同步配置向导范围；本片只重做 Admin 新建同步源交互，覆盖选择平台、企业协同接入、组织同步 readiness 诊断、同步范围和保存草稿 / 保存并生成预览，复用既有 create source、activate source、create preview run 和 EX-73D `testConnection` 诊断能力；不新增 API、OpenAPI、generated client、migration、运行历史或部门映射冲突处理。
 133. 2026-06-16 `FE-68` 已推进到本地 `G3 / Ready for Review`：外部组织同步“新建同步源”已改为平台、接入、范围、预览四步向导；不可用企业协同接入会在向导内阻断并给出修复入口；保存并生成预览复用 create source -> activate source -> create preview run。验证通过 external-org-sync workbench focused tests、`poms-admin` lint/build、Markdown check 和 diff check。浏览器 smoke 已启动本地 Admin/API，API health 通过，但 `edb_v2` 中 `admin/admin123` 登录返回用户名或密码错误，未运行 seed，后续由 PR 审阅和测试环境验证承接。
+134. 2026-06-17 `FE-68` 已完成 `G4` 收口：PR `#15` 已 rebase merge，GitHub issue `#9` 已关闭；外部组织同步新建同步源配置向导、企业协同接入诊断门禁、保存草稿 / 保存并生成预览链路和 review 修复均已合并到 `main`。`phase2-development-execution-tracker.md` 已同步为 `Done / G4`，baseline 已归档到 `docs/design/archive/slices/fe-68-external-org-sync-configuration-wizard-baseline.md`；同步运行历史继续由 `#12` 承接，部门映射冲突处理继续由 `#10` 承接。
 
 ---
 
