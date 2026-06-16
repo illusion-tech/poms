@@ -385,12 +385,32 @@ describe('ExternalOrgSyncWorkbench', () => {
         component.goToWizardStep('review');
         expect(component.sourceWizardStep()).toBe('connection');
 
+        component.goToNextWizardStep();
+        expect(component.sourceWizardStep()).toBe('scope');
+        expect(component.isWizardStepCompleted('connection')).toBe(false);
+        expect(component.wizardStepButtonClass('connection')).not.toContain('border-emerald-200');
+
         component.goToWizardStep('platform');
         component.selectWizardProvider(ExternalOrgProvider.Dingtalk);
 
         expect(component.canGoToNextWizardStep()).toBe(false);
         expect(component.wizardPreviewIssue()).toContain('当前仅支持飞书组织同步');
         expect(component.shouldShowWizardProviderConfigLink()).toBe(false);
+    });
+
+    it('marks the connection step complete only after selecting a provider config', async () => {
+        component.openCreateSourceDialog();
+        component.sourceForm.displayName = '飞书测试通讯录';
+        component.goToNextWizardStep();
+
+        component.updateProviderConfigId('identity-provider-1');
+        await fixture.whenStable();
+
+        component.goToNextWizardStep();
+
+        expect(component.sourceWizardStep()).toBe('scope');
+        expect(component.isWizardStepCompleted('connection')).toBe(true);
+        expect(component.wizardStepButtonClass('connection')).toContain('border-emerald-200');
     });
 
     it('keeps save-and-preview unavailable when there is no ready provider config', () => {

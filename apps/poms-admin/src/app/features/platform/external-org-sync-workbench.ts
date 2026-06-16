@@ -759,7 +759,12 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     isWizardStepCompleted(step: SourceWizardStep): boolean {
         const targetIndex = this.sourceWizardSteps.findIndex((candidate) => candidate.key === step);
-        return targetIndex >= 0 && targetIndex < this.currentWizardStepIndex() && this.sourceWizardStepIssue(step) === null;
+        return targetIndex >= 0 && targetIndex < this.currentWizardStepIndex() && this.isWizardStepCompleteForState(step);
+    }
+
+    isWizardStepCompleteForState(step: SourceWizardStep): boolean {
+        if (step === 'connection' && !this.sourceForm.providerConfigId) return false;
+        return this.sourceWizardStepIssue(step) === null;
     }
 
     hasUsableProviderConfig(): boolean {
