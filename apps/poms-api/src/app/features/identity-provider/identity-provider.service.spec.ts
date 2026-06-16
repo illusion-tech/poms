@@ -366,7 +366,7 @@ describe('IdentityProviderService', () => {
 
         expect(result.status).toBe('success');
         expect(result.capability).toBe(IdentityProviderConnectionTestCapabilityValue.Basic);
-        expect(result.message).toContain('Local configuration is complete');
+        expect(result.message).toContain('本地配置检查通过');
         expect(result.checks).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'enabled', status: IdentityProviderConnectionDiagnosticStatusValue.Passed })]));
         expect(externalOrgDirectoryAdapterRegistry.get).not.toHaveBeenCalled();
     });
@@ -378,9 +378,31 @@ describe('IdentityProviderService', () => {
 
         expect(result).toMatchObject({
             status: 'failed',
-            message: 'Identity provider is disabled.'
+            message: '企业协同接入已停用。'
         });
         expect(result.checks).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'enabled', status: IdentityProviderConnectionDiagnosticStatusValue.Failed })]));
+    });
+
+    it('keeps basic connection diagnostics messages in Chinese', async () => {
+        repository.findConfigById.mockResolvedValue(
+            createConfig({
+                encryptedClientSecret: null,
+                loginEnabled: true,
+                redirectUri: null,
+                searchEnabled: true,
+                searchRedirectUri: null
+            })
+        );
+
+        const result = await service.testIdentityProviderConnection(providerConfigId);
+
+        expect(result.checks).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ key: 'clientCredentials', message: 'Client ID 和 Client Secret 不能为空。' }),
+                expect.objectContaining({ key: 'loginRedirectUri', message: '启用登录能力时必须配置登录 Redirect URI。' }),
+                expect.objectContaining({ key: 'searchRedirectUri', message: '启用搜索能力时必须配置 Search Redirect URI。' })
+            ])
+        );
     });
 
     it('checks Feishu organization sync readiness with a read-only department probe', async () => {

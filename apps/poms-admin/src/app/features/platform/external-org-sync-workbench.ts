@@ -340,7 +340,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                 </p-table>
             </app-admin-table-card>
 
-            <p-dialog [(visible)]="sourceDialogVisible" [modal]="true" [header]="editingSourceId() ? '编辑同步源' : '新建同步源'" [style]="{ width: '34rem' }" styleClass="p-fluid">
+            <p-dialog [(visible)]="sourceDialogVisible" (onHide)="closeSourceDialog()" [modal]="true" [header]="editingSourceId() ? '编辑同步源' : '新建同步源'" [style]="{ width: '34rem' }" styleClass="p-fluid">
                 <div class="grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label for="externalOrgProvider" class="font-medium">外部平台</label>
@@ -432,7 +432,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                 </div>
                 <ng-template #footer>
                     <div class="flex justify-end gap-2">
-                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="sourceDialogVisible = false" />
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeSourceDialog()" />
                         @if (editingSourceId()) {
                             <p-button icon="pi pi-save" label="保存" [loading]="syncStore.savingSource()" (onClick)="saveSource()" />
                         } @else {
@@ -526,6 +526,12 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         void this.testSelectedProviderConfigForOrgSync();
     }
 
+    closeSourceDialog(): void {
+        this.sourceDialogVisible = false;
+        this.clearRootDepartmentDiagnosticTimer();
+        this.providerConfigDiagnosticRequestId += 1;
+    }
+
     providerConfigOptions(): SelectOption<string | null>[] {
         const sourceProviderIssue = this.sourceForm.provider === ExternalOrgProvider.Feishu ? null : '当前外部平台尚未支持绑定企业协同接入。';
         return [
@@ -613,7 +619,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                     await this.syncStore.activateSource(created.id, { expectedVersion: created.rowVersion });
                 }
             }
-            this.sourceDialogVisible = false;
+            this.closeSourceDialog();
             const detail = options.activateAfterCreate ? '同步源已保存并启用' : editingId ? '同步源配置已保存' : '同步源草稿已保存';
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail });
         } catch (error) {
@@ -1084,7 +1090,9 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             }
             return result;
         } catch (error) {
-            this.#messageService.add({ severity: 'error', summary: '检查失败', detail: apiErrorMessage(error, '组织同步可用性检查没有完成') });
+            if (requestId === this.providerConfigDiagnosticRequestId) {
+                this.#messageService.add({ severity: 'error', summary: '检查失败', detail: apiErrorMessage(error, '组织同步可用性检查没有完成') });
+            }
             return null;
         }
     }
@@ -1093,6 +1101,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         this.clearRootDepartmentDiagnosticTimer();
         this.rootDepartmentDiagnosticTimer = setTimeout(() => {
             this.rootDepartmentDiagnosticTimer = null;
+            if (!this.sourceDialogVisible) return;
             void this.testSelectedProviderConfigForOrgSync();
         }, 400);
     }
