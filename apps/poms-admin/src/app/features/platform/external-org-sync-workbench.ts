@@ -1086,15 +1086,29 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                 expectedVersion: config.rowVersion
             });
             if (requestId === this.providerConfigDiagnosticRequestId) {
-                this.providerConfigDiagnostics.update((current) => ({ ...current, [providerConfigId]: { rootDepartmentId: normalizedRootDepartmentId, result } }));
+                this.cacheProviderConfigDiagnostic(providerConfigId, normalizedRootDepartmentId, result);
             }
             return result;
         } catch (error) {
             if (requestId === this.providerConfigDiagnosticRequestId) {
+                this.clearProviderConfigDiagnostic(providerConfigId);
                 this.#messageService.add({ severity: 'error', summary: '检查失败', detail: apiErrorMessage(error, '组织同步可用性检查没有完成') });
             }
             return null;
         }
+    }
+
+    private cacheProviderConfigDiagnostic(providerConfigId: string, rootDepartmentId: string, result: IdentityProviderConnectionTestResult): void {
+        this.providerConfigDiagnostics.update((current) => ({ ...current, [providerConfigId]: { rootDepartmentId, result } }));
+    }
+
+    private clearProviderConfigDiagnostic(providerConfigId: string): void {
+        this.providerConfigDiagnostics.update((current) => {
+            if (!(providerConfigId in current)) return current;
+            const next = { ...current };
+            delete next[providerConfigId];
+            return next;
+        });
     }
 
     private scheduleSelectedProviderConfigForOrgSyncTest(): void {
