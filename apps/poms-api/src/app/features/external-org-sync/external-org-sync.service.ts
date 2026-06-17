@@ -77,6 +77,7 @@ interface ApplyDiffItemInput {
 }
 
 const FEISHU_ROOT_DEPARTMENT_ID = '0';
+const MAX_RUN_DIAGNOSTIC_MESSAGE_LENGTH = 1000;
 const MAX_RUN_DIAGNOSTIC_NEXT_ACTIONS = 8;
 const MAX_RUN_DIAGNOSTIC_NEXT_ACTION_LENGTH = 300;
 
@@ -1145,9 +1146,9 @@ export class ExternalOrgSyncService {
 
     private buildRunDiagnosticSummary(run: OrgSyncRun, error: unknown, message: string): OrgSyncRunDiagnosticSummary {
         const isAdapterError = error instanceof ExternalOrgDirectoryAdapterError;
-        const providerMessage = isAdapterError && error.providerMessage ? this.redactDiagnosticSecrets(error.providerMessage) : null;
+        const providerMessage = isAdapterError ? this.normalizeRunDiagnosticText(error.providerMessage) : null;
         return {
-            message,
+            message: this.normalizeRequiredRunDiagnosticMessage(message),
             adapterStatus: isAdapterError ? 'adapter_failed' : 'preview_failed',
             providerCode: isAdapterError ? error.providerCode : null,
             httpStatus: isAdapterError ? error.httpStatus : null,
@@ -1167,21 +1168,30 @@ export class ExternalOrgSyncService {
     private toRunDiagnosticSummary(run: OrgSyncRun): OrgSyncRunDiagnosticSummary | null {
         const resultSummary = run.resultSummary ?? {};
         const persisted = this.asRecord(resultSummary['diagnosticSummary']);
-        const message = this.readString(persisted, 'message') ?? run.errorSummary ?? null;
+        const message = this.normalizeRunDiagnosticText(this.readString(persisted, 'message') ?? run.errorSummary ?? null);
         if (!message) return null;
 
         const persistedGeneratedAt = this.readString(persisted, 'generatedAt');
         const generatedAt = persistedGeneratedAt && !Number.isNaN(Date.parse(persistedGeneratedAt)) ? persistedGeneratedAt : (run.finishedAt?.toISOString() ?? run.updatedAt.toISOString());
         const nextActions = this.readStringArray(persisted, 'nextActions');
         return {
-            message: this.redactDiagnosticSecrets(message),
+            message,
             adapterStatus: this.readString(persisted, 'adapterStatus') ?? this.readString(this.asRecord(run.requestSnapshot), 'adapterStatus'),
             providerCode: this.readString(persisted, 'providerCode'),
             httpStatus: this.readHttpStatus(persisted),
-            providerMessage: this.redactNullableDiagnosticSecret(this.readString(persisted, 'providerMessage')),
+            providerMessage: this.normalizeRunDiagnosticText(this.readString(persisted, 'providerMessage')),
             nextActions: nextActions.length > 0 ? this.normalizeRunDiagnosticNextActions(nextActions) : ['请检查企业协同接入配置、外部平台权限和根部门配置后重新生成预览。'],
             generatedAt
         };
+    }
+
+    private normalizeRequiredRunDiagnosticMessage(value: string): string {
+        return this.normalizeRunDiagnosticText(value) ?? '外部组织同步预览失败，请检查企业协同接入配置、外部平台权限和根部门配置。';
+    }
+
+    private normalizeRunDiagnosticText(value: string | null | undefined): string | null {
+        const normalized = this.redactDiagnosticSecrets((value ?? '').trim()).trim();
+        return normalized ? normalized.slice(0, MAX_RUN_DIAGNOSTIC_MESSAGE_LENGTH) : null;
     }
 
     private normalizeRunDiagnosticNextActions(actions: string[]): string[] {
@@ -1202,10 +1212,6 @@ export class ExternalOrgSyncService {
         const value = record[key];
         if (!Array.isArray(value)) return [];
         return this.normalizeRunDiagnosticNextActions(value.filter((item): item is string => typeof item === 'string'));
-    }
-
-    private redactNullableDiagnosticSecret(value: string | null): string | null {
-        return value ? this.redactDiagnosticSecrets(value) : null;
     }
 
     private readHttpStatus(record: JsonObject): number | null {
