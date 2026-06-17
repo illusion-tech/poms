@@ -204,6 +204,7 @@ describe('ExternalOrgSyncWorkbench', () => {
         loadingDiffItems: ReturnType<typeof signal<boolean>>;
         loadingRunHistory: ReturnType<typeof signal<boolean>>;
         loadingRunDetail: ReturnType<typeof signal<boolean>>;
+        loadingRunDetailId: ReturnType<typeof signal<string | null>>;
         applyingRun: ReturnType<typeof signal<boolean>>;
         loadSources: jest.Mock;
         loadRunHistory: jest.Mock;
@@ -256,18 +257,27 @@ describe('ExternalOrgSyncWorkbench', () => {
             loadingDiffItems: signal(false),
             loadingRunHistory: signal(false),
             loadingRunDetail: signal(false),
+            loadingRunDetailId: signal(null),
             applyingRun: signal(false),
             loadSources: jest.fn().mockResolvedValue(sources()),
             loadRunHistory: jest.fn().mockResolvedValue(runHistory()),
             loadRunDetail: jest.fn().mockImplementation((id: string) => {
+                syncStoreMock.loadingRunDetail.set(true);
+                syncStoreMock.loadingRunDetailId.set(id);
+                selectedRunDetail.set(null);
+                selectedRunDiffItems.set([]);
                 const run = runHistory().find((candidate) => candidate.id === id) ?? createRun({ id });
                 selectedRunDetail.set(run);
                 selectedRunDiffItems.set([createDiffItem({ runId: id })]);
+                syncStoreMock.loadingRunDetail.set(false);
+                syncStoreMock.loadingRunDetailId.set(null);
                 return Promise.resolve(run);
             }),
             clearRunDetail: jest.fn().mockImplementation(() => {
                 selectedRunDetail.set(null);
                 selectedRunDiffItems.set([]);
+                syncStoreMock.loadingRunDetail.set(false);
+                syncStoreMock.loadingRunDetailId.set(null);
             }),
             selectSource: jest.fn().mockImplementation((id: string | null) => {
                 selectedSourceId.set(id);
@@ -354,6 +364,15 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(syncStoreMock.activeRun()).toEqual(createRun());
         expect(syncStoreMock.selectedRunDetail()).toEqual(runHistory()[1]);
         expect(fixture.nativeElement.textContent).toContain('同步运行详情');
+    });
+
+    it('marks only the loading run detail action as busy', () => {
+        const [, failedRun] = runHistory();
+
+        syncStoreMock.loadingRunDetailId.set(failedRun.id);
+
+        expect(component.isRunDetailLoading(failedRun)).toBe(true);
+        expect(component.isRunDetailLoading(runHistory()[0])).toBe(false);
     });
 
     it('prefers structured diagnostic message for preview failures', () => {

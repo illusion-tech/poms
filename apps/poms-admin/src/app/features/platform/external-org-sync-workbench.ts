@@ -407,7 +407,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                 <td class="text-sm text-surface-700 dark:text-surface-200">{{ run.failedItemCount }}</td>
                                 <td class="max-w-96 truncate text-sm text-surface-500">{{ run.diagnosticSummary?.message ?? run.errorSummary ?? '—' }}</td>
                                 <td>
-                                    <p-button icon="pi pi-eye" label="详情" [text]="true" [loading]="syncStore.loadingRunDetail() && syncStore.selectedRunDetail()?.id === run.id" (onClick)="openRunDetail(run)" />
+                                    <p-button icon="pi pi-eye" label="详情" [text]="true" [loading]="isRunDetailLoading(run)" (onClick)="openRunDetail(run)" />
                                 </td>
                             </tr>
                         </ng-template>
@@ -526,7 +526,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                         </div>
                     </div>
                 } @else {
-                    <div class="py-8 text-center text-surface-400">加载中...</div>
+                    <div class="py-8 text-center text-surface-400">{{ syncStore.loadingRunDetail() ? '加载中...' : '暂无运行详情' }}</div>
                 }
             </p-dialog>
 
@@ -882,6 +882,10 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     closeRunDetailDialog(): void {
         this.runDetailDialogVisible = false;
         this.syncStore.clearRunDetail();
+    }
+
+    isRunDetailLoading(run: OrgSyncRunSummary): boolean {
+        return this.syncStore.loadingRunDetailId() === run.id;
     }
 
     openCreateSourceDialog(): void {

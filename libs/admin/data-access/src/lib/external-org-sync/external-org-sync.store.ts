@@ -70,6 +70,7 @@ export class ExternalOrgSyncStore {
     readonly #loadingDiffItems = signal(false);
     readonly #loadingRunHistory = signal(false);
     readonly #loadingRunDetail = signal(false);
+    readonly #loadingRunDetailId = signal<string | null>(null);
     readonly #applyingRun = signal(false);
 
     readonly sources = this.#sources.asReadonly();
@@ -87,6 +88,7 @@ export class ExternalOrgSyncStore {
     readonly loadingDiffItems = this.#loadingDiffItems.asReadonly();
     readonly loadingRunHistory = this.#loadingRunHistory.asReadonly();
     readonly loadingRunDetail = this.#loadingRunDetail.asReadonly();
+    readonly loadingRunDetailId = this.#loadingRunDetailId.asReadonly();
     readonly applyingRun = this.#applyingRun.asReadonly();
     readonly selectedSource = computed(() => this.#sources().find(source => source.id === this.#selectedSourceId()) ?? null);
     readonly hasPendingDiffItems = computed(() => this.#diffItems().some(item => item.status === OrgSyncDiffItemStatus.Pending));
@@ -103,8 +105,7 @@ export class ExternalOrgSyncStore {
             const nextSources = sources ?? [];
             this.#sources.set(nextSources);
             if (!this.#selectedSourceId() && nextSources.length > 0) {
-                this.#selectedSourceId.set(nextSources[0].id);
-                await Promise.all([this.loadMappings(nextSources[0].id), this.loadRunHistory(nextSources[0].id)]);
+                await this.selectSource(nextSources[0].id);
             }
             if (this.#selectedSourceId() && !nextSources.some(source => source.id === this.#selectedSourceId())) {
                 this.clearSelection();
@@ -122,7 +123,8 @@ export class ExternalOrgSyncStore {
         this.#runHistory.set([]);
         this.clearRunDetail();
         if (sourceId) {
-            await Promise.all([this.loadMappings(sourceId), this.loadRunHistory(sourceId)]);
+            this.#mappings.set([]);
+            await Promise.allSettled([this.loadMappings(sourceId), this.loadRunHistory(sourceId)]);
         } else {
             this.#mappings.set([]);
         }
@@ -133,8 +135,7 @@ export class ExternalOrgSyncStore {
         try {
             const created = await firstValueFrom(this.#api.externalOrgSyncControllerCreateExternalOrgSource({ createExternalOrgSourceRequest: request }));
             await this.loadSources();
-            this.#selectedSourceId.set(created.id);
-            await this.loadMappings(created.id);
+            await this.selectSource(created.id);
             return created;
         } finally {
             this.#savingSource.set(false);
@@ -209,7 +210,7 @@ export class ExternalOrgSyncStore {
             const run = await firstValueFrom(this.#api.externalOrgSyncControllerCreateOrgSyncRun({ sourceId, createOrgSyncRunRequest: request }));
             this.#activeRun.set(run);
             await this.loadDiffItems(run.id);
-            await this.loadRunHistory(sourceId);
+            await this.refreshRunHistoryBestEffort(sourceId);
             return run;
         } finally {
             this.#creatingRun.set(false);
@@ -236,20 +237,33 @@ export class ExternalOrgSyncStore {
 
     async loadRunDetail(runId: string): Promise<OrgSyncRunSummary> {
         this.#loadingRunDetail.set(true);
+        this.#loadingRunDetailId.set(runId);
+        this.clearRunDetailData();
         try {
             const [run, items] = await Promise.all([
                 firstValueFrom(this.#api.externalOrgSyncControllerGetOrgSyncRun({ id: runId })),
                 firstValueFrom(this.#api.externalOrgSyncControllerListOrgSyncDiffItems({ id: runId })),
             ]);
-            this.#selectedRunDetail.set(run);
-            this.#selectedRunDiffItems.set(items ?? []);
+            if (this.#loadingRunDetailId() === runId) {
+                this.#selectedRunDetail.set(run);
+                this.#selectedRunDiffItems.set(items ?? []);
+            }
             return run;
         } finally {
-            this.#loadingRunDetail.set(false);
+            if (this.#loadingRunDetailId() === runId) {
+                this.#loadingRunDetail.set(false);
+                this.#loadingRunDetailId.set(null);
+            }
         }
     }
 
     clearRunDetail(): void {
+        this.clearRunDetailData();
+        this.#loadingRunDetail.set(false);
+        this.#loadingRunDetailId.set(null);
+    }
+
+    private clearRunDetailData(): void {
         this.#selectedRunDetail.set(null);
         this.#selectedRunDiffItems.set([]);
     }
@@ -276,9 +290,9 @@ export class ExternalOrgSyncStore {
         try {
             const applied = await firstValueFrom(this.#api.externalOrgSyncControllerApplyOrgSyncRun({ id: runId, applyOrgSyncRunRequest: request }));
             this.#activeRun.set(applied);
-            await this.loadDiffItems(runId);
+            await this.refreshDiffItemsBestEffort(runId);
             if (applied.sourceId) {
-                await Promise.all([this.loadMappings(applied.sourceId), this.loadRunHistory(applied.sourceId)]);
+                await Promise.allSettled([this.loadMappings(applied.sourceId), this.refreshRunHistoryBestEffort(applied.sourceId)]);
             }
             return applied;
         } finally {
@@ -293,5 +307,21 @@ export class ExternalOrgSyncStore {
         this.#diffItems.set([]);
         this.#runHistory.set([]);
         this.clearRunDetail();
+    }
+
+    private async refreshRunHistoryBestEffort(sourceId: string): Promise<void> {
+        try {
+            await this.loadRunHistory(sourceId);
+        } catch {
+            // A post-command history refresh must not turn a successful command into a failed UI action.
+        }
+    }
+
+    private async refreshDiffItemsBestEffort(runId: string): Promise<void> {
+        try {
+            await this.loadDiffItems(runId);
+        } catch {
+            // A post-command diff refresh must not turn a successful apply into a failed UI action.
+        }
     }
 }
