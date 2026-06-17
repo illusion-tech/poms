@@ -1,6 +1,6 @@
 # EX-72E / FE-69 同步运行历史与诊断详情实施基线
 
-- Gate Status: `G1 Pass`
+- Gate Status: `G4 Done`
 - Parent: `#8`
 - GitHub Issue: `#12`
 - Owner: `Codex`
@@ -135,8 +135,8 @@
 
 | Check                            | Required | Command / Evidence                                                                                                      | Result | Gap / Reason                                                                                    |
 | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------- |
-| API focused tests                | Yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=external-org-sync --skip-nx-cache`                       | Pass   | 24 tests，覆盖 list runs、diagnostic summary 和 controller。                                    |
-| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`           | Pass   | 34 tests，覆盖历史列表、详情抽屉、失败 / 无差异文案。                                           |
+| API focused tests                | Yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=external-org-sync --skip-nx-cache`                       | Pass   | 27 tests，覆盖 list runs、diagnostic summary、文本 / actions contract 裁剪和 controller。       |
+| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`           | Pass   | 35 tests，覆盖历史列表、详情抽屉、失败 / 无差异文案和详情加载态。                               |
 | Admin data-access lint           | Yes      | `corepack pnpm nx lint admin-data-access --skip-nx-cache`                                                               | Pass   | store 新状态和 API 方法通过 lint。                                                              |
 | API lint / build                 | Yes      | `corepack pnpm nx lint poms-api --skip-nx-cache` / `corepack pnpm nx build poms-api --skip-nx-cache`                    | Pass   | controller/service/contract 编译通过。                                                          |
 | Admin lint / build               | Yes      | `corepack pnpm nx lint poms-admin --skip-nx-cache` / `corepack pnpm nx build poms-admin --skip-nx-cache`                | Pass   | Angular template / PrimeNG 编译通过；仍有既有 initial bundle budget warning，本次超出 1.93 kB。 |
@@ -175,3 +175,38 @@
 - Deferred:
   - 部门映射冲突处理、忽略 / 恢复和 per-row mapping command 继续由 `#10` 承接。
   - DingTalk / WeCom adapter、用户同步、权限同步、跨 source 搜索和历史保留策略不在本片范围内。
+
+## 13. G4 结论
+
+- Gate Status: `Done`
+- Closed By: `Codex`
+- Closed At: 2026-06-17
+- PR: `#16`
+- Merge: `5051bb77`
+- GitHub Issue: `#12` 已关闭；父 issue `#8` 保持打开。
+- Delivered:
+  - B18 `GET /platform/external-org-sources/{sourceId}/org-sync-runs` 已合并到 `main`，支持 source-scoped 运行历史查询。
+  - `OrgSyncRunDiagnosticSummary` typed read model 已稳定输出，包含脱敏后的错误描述、provider code、HTTP status、provider message 和 next actions。
+  - Review 修复已收紧 `nextActions`、`message`、`providerMessage` 的 shared contract 上限，并稳定 Admin 运行历史刷新、详情加载和 loading 状态。
+  - Admin 外部组织同步工作台已提供当前预览 / 运行历史切换、运行详情弹窗、复制诊断和失败 / 无差异 / 未完成状态文案。
+- Validation:
+  - `corepack pnpm nx test poms-api --runInBand --testPathPatterns=external-org-sync --skip-nx-cache`：Pass，27 tests。
+  - `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`：Pass，35 tests。
+  - `corepack pnpm nx lint poms-api --skip-nx-cache`：Pass。
+  - `corepack pnpm nx lint poms-admin --skip-nx-cache`：Pass。
+  - `corepack pnpm nx lint admin-data-access --skip-nx-cache`：Pass。
+  - `corepack pnpm nx build poms-api --skip-nx-cache`：Pass。
+  - `corepack pnpm nx build poms-admin --skip-nx-cache`：Pass；仍有既有 initial bundle budget warning，本次超出 1.93 kB。
+  - `corepack pnpm nx build admin-data-access --skip-nx-cache`：Pass。
+  - `corepack pnpm nx run poms-api:openapi`：Pass。
+  - `corepack pnpm nx run shared-api-client:generate`：Pass。
+  - `corepack pnpm nx run shared-api-client:check`：Pass。
+  - `corepack pnpm run format:md:check`：Pass。
+  - `git diff --check` / `git diff --cached --check`：Pass。
+- Local docs:
+  - 本 baseline 已归档到 `docs/design/archive/slices/`。
+  - `phase2-development-execution-tracker.md` 已同步为 `Done / G4`。
+  - `poms-design-progress.md` 已追加 G4 closeout 记录。
+- Downstream:
+  - `#10` 部门映射与冲突处理体验增强已由 `#12` 解除阻塞，可进入 G1 baseline。
+  - 父 issue `#8` 继续保持打开，等待 `#10` 和测试环境端到端冒烟收口。
