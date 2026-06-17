@@ -403,6 +403,25 @@ describe('ExternalOrgSyncService', () => {
         expect((result.resultSummary?.['diagnosticSummary'] as { nextActions?: string[] }).nextActions).toEqual(nextActions.slice(0, 8));
     });
 
+    it('normalizes failed run diagnostic text to the shared contract limit', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
+        const longMessage = ` ${'飞'.repeat(1010)} `;
+        const longProviderMessage = ` ${'书'.repeat(1010)} `;
+        feishuAdapter.fetchDepartmentTree.mockRejectedValue(
+            new ExternalOrgDirectoryAdapterError(longMessage, {
+                providerMessage: longProviderMessage
+            })
+        );
+
+        const result = await service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3 }, operatorId);
+
+        expect(result.diagnosticSummary?.message).toBe('飞'.repeat(1000));
+        expect(result.diagnosticSummary?.providerMessage).toBe('书'.repeat(1000));
+        expect((result.resultSummary?.['diagnosticSummary'] as { message?: string; providerMessage?: string }).message).toBe('飞'.repeat(1000));
+        expect((result.resultSummary?.['diagnosticSummary'] as { message?: string; providerMessage?: string }).providerMessage).toBe('书'.repeat(1000));
+    });
+
     it('lists recent sync runs for a source with status and limit filters', async () => {
         const run = createRun({ status: OrgSyncRunStatusValue.Failed, errorSummary: '飞书权限未开通' });
         repository.findSourceById.mockResolvedValue(createSource({ id: sourceId }));
@@ -420,6 +439,28 @@ describe('ExternalOrgSyncService', () => {
                 })
             })
         ]);
+    });
+
+    it('normalizes persisted run diagnostic text when listing history', async () => {
+        const run = createRun({
+            status: OrgSyncRunStatusValue.Failed,
+            errorSummary: 'fallback',
+            resultSummary: {
+                diagnosticSummary: {
+                    message: ` ${'错'.repeat(1010)} `,
+                    providerMessage: ` ${'误'.repeat(1010)} `,
+                    nextActions: ['请检查配置'],
+                    generatedAt: '2026-06-10T00:00:00.000Z'
+                }
+            }
+        });
+        repository.findSourceById.mockResolvedValue(createSource({ id: sourceId }));
+        repository.findRunsBySourceId.mockResolvedValue([run]);
+
+        const result = await service.listOrgSyncRuns(sourceId);
+
+        expect(result[0]?.diagnosticSummary?.message).toBe('错'.repeat(1000));
+        expect(result[0]?.diagnosticSummary?.providerMessage).toBe('误'.repeat(1000));
     });
 
     it('applies approved create diff items and maps the external department to the new org unit', async () => {
