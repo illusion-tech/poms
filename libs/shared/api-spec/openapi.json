@@ -2651,6 +2651,24 @@
             }
           },
           {
+            "name": "reviewState",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ExternalDepartmentMappingReviewState"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
+          {
             "name": "externalDepartmentId",
             "required": false,
             "in": "query",
@@ -2733,6 +2751,190 @@
           }
         ],
         "summary": "替换外部部门映射",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:map": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_mapExternalDepartmentMapping",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapExternalDepartmentMappingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalDepartmentMappingSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "映射外部部门到 POMS 组织",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:unmap": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_unmapExternalDepartmentMapping",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnmapExternalDepartmentMappingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalDepartmentMappingSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "解除外部部门映射",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:ignore": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_ignoreExternalDepartmentMapping",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IgnoreExternalDepartmentMappingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalDepartmentMappingSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "忽略外部部门映射",
+        "tags": [
+          "External Org Sync"
+        ]
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:restore": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_restoreExternalDepartmentMapping",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreExternalDepartmentMappingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalDepartmentMappingSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "恢复已忽略外部部门映射",
         "tags": [
           "External Org Sync"
         ]
@@ -15120,6 +15322,27 @@
           "status": {
             "$ref": "#/components/schemas/ExternalDepartmentMappingStatus"
           },
+          "reviewState": {
+            "$ref": "#/components/schemas/ExternalDepartmentMappingReviewState"
+          },
+          "conflictReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "nullable": true
+          },
+          "lastConflictRunId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "lastConflictDiffItemId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "externalSnapshot": {
             "type": "object",
             "propertyNames": {
@@ -15169,6 +15392,10 @@
           "externalDepartmentName",
           "orgUnitId",
           "status",
+          "reviewState",
+          "conflictReason",
+          "lastConflictRunId",
+          "lastConflictDiffItemId",
           "externalSnapshot",
           "lastSeenAt",
           "rowVersion",
@@ -15185,6 +15412,16 @@
           "mapped",
           "conflict",
           "ignored"
+        ]
+      },
+      "ExternalDepartmentMappingReviewState": {
+        "type": "string",
+        "enum": [
+          "unmapped",
+          "mapped",
+          "conflict",
+          "ignored",
+          "stale"
         ]
       },
       "ExternalDepartmentMappingList": {
@@ -15252,6 +15489,64 @@
         },
         "required": [
           "items"
+        ]
+      },
+      "MapExternalDepartmentMappingRequest": {
+        "type": "object",
+        "properties": {
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "orgUnitId",
+          "expectedVersion"
+        ]
+      },
+      "UnmapExternalDepartmentMappingRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "expectedVersion"
+        ]
+      },
+      "IgnoreExternalDepartmentMappingRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "expectedVersion"
+        ]
+      },
+      "RestoreExternalDepartmentMappingRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "expectedVersion"
         ]
       },
       "CreateOrgSyncRunRequest": {

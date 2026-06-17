@@ -27,6 +27,8 @@ import { CreateExternalOrgSourceRequest } from '../model/create-external-org-sou
 // @ts-ignore
 import { CreateOrgSyncRunRequest } from '../model/create-org-sync-run-request';
 // @ts-ignore
+import { ExternalDepartmentMappingReviewState } from '../model/external-department-mapping-review-state';
+// @ts-ignore
 import { ExternalDepartmentMappingStatus } from '../model/external-department-mapping-status';
 // @ts-ignore
 import { ExternalDepartmentMappingSummary } from '../model/external-department-mapping-summary';
@@ -36,6 +38,10 @@ import { ExternalOrgProvider } from '../model/external-org-provider';
 import { ExternalOrgSourceStatus } from '../model/external-org-source-status';
 // @ts-ignore
 import { ExternalOrgSourceSummary } from '../model/external-org-source-summary';
+// @ts-ignore
+import { IgnoreExternalDepartmentMappingRequest } from '../model/ignore-external-department-mapping-request';
+// @ts-ignore
+import { MapExternalDepartmentMappingRequest } from '../model/map-external-department-mapping-request';
 // @ts-ignore
 import { OrgSyncDiffAction } from '../model/org-sync-diff-action';
 // @ts-ignore
@@ -50,6 +56,10 @@ import { OrgSyncRunSummary } from '../model/org-sync-run-summary';
 import { PauseExternalOrgSourceRequest } from '../model/pause-external-org-source-request';
 // @ts-ignore
 import { ReplaceExternalDepartmentMappingsRequest } from '../model/replace-external-department-mappings-request';
+// @ts-ignore
+import { RestoreExternalDepartmentMappingRequest } from '../model/restore-external-department-mapping-request';
+// @ts-ignore
+import { UnmapExternalDepartmentMappingRequest } from '../model/unmap-external-department-mapping-request';
 // @ts-ignore
 import { UpdateExternalOrgSourceRequest } from '../model/update-external-org-source-request';
 
@@ -91,9 +101,16 @@ export interface ExternalOrgSyncControllerGetOrgSyncRunRequestParams {
     id: string;
 }
 
+export interface ExternalOrgSyncControllerIgnoreExternalDepartmentMappingRequestParams {
+    id: string;
+    ignoreExternalDepartmentMappingRequest: IgnoreExternalDepartmentMappingRequest;
+}
+
 export interface ExternalOrgSyncControllerListExternalDepartmentMappingsRequestParams {
     sourceId: string;
     status?: ExternalDepartmentMappingStatus;
+    reviewState?: ExternalDepartmentMappingReviewState;
+    search?: string;
     externalDepartmentId?: string;
     orgUnitId?: string;
 }
@@ -115,6 +132,11 @@ export interface ExternalOrgSyncControllerListOrgSyncRunsRequestParams {
     limit?: number;
 }
 
+export interface ExternalOrgSyncControllerMapExternalDepartmentMappingRequestParams {
+    id: string;
+    mapExternalDepartmentMappingRequest: MapExternalDepartmentMappingRequest;
+}
+
 export interface ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams {
     id: string;
     pauseExternalOrgSourceRequest: PauseExternalOrgSourceRequest;
@@ -123,6 +145,16 @@ export interface ExternalOrgSyncControllerPauseExternalOrgSourceRequestParams {
 export interface ExternalOrgSyncControllerReplaceExternalDepartmentMappingsRequestParams {
     sourceId: string;
     replaceExternalDepartmentMappingsRequest: ReplaceExternalDepartmentMappingsRequest;
+}
+
+export interface ExternalOrgSyncControllerRestoreExternalDepartmentMappingRequestParams {
+    id: string;
+    restoreExternalDepartmentMappingRequest: RestoreExternalDepartmentMappingRequest;
+}
+
+export interface ExternalOrgSyncControllerUnmapExternalDepartmentMappingRequestParams {
+    id: string;
+    unmapExternalDepartmentMappingRequest: UnmapExternalDepartmentMappingRequest;
 }
 
 export interface ExternalOrgSyncControllerUpdateExternalOrgSourceRequestParams {
@@ -620,6 +652,79 @@ export class ExternalOrgSyncApi extends BaseService {
     }
 
     /**
+     * 忽略外部部门映射
+     * @endpoint post /api/platform/external-department-mappings/{id}:ignore
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerIgnoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerIgnoreExternalDepartmentMappingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalDepartmentMappingSummary>;
+    public externalOrgSyncControllerIgnoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerIgnoreExternalDepartmentMappingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerIgnoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerIgnoreExternalDepartmentMappingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerIgnoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerIgnoreExternalDepartmentMappingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerIgnoreExternalDepartmentMapping.');
+        }
+        const ignoreExternalDepartmentMappingRequest = requestParameters?.ignoreExternalDepartmentMappingRequest;
+        if (ignoreExternalDepartmentMappingRequest === null || ignoreExternalDepartmentMappingRequest === undefined) {
+            throw new Error('Required parameter ignoreExternalDepartmentMappingRequest was null or undefined when calling externalOrgSyncControllerIgnoreExternalDepartmentMapping.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-department-mappings/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:ignore`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalDepartmentMappingSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: ignoreExternalDepartmentMappingRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 获取外部部门映射列表
      * @endpoint get /api/platform/external-org-sources/{sourceId}/department-mappings
      * @param requestParameters
@@ -636,6 +741,8 @@ export class ExternalOrgSyncApi extends BaseService {
             throw new Error('Required parameter sourceId was null or undefined when calling externalOrgSyncControllerListExternalDepartmentMappings.');
         }
         const status = requestParameters?.status;
+        const reviewState = requestParameters?.reviewState;
+        const search = requestParameters?.search;
         const externalDepartmentId = requestParameters?.externalDepartmentId;
         const orgUnitId = requestParameters?.orgUnitId;
 
@@ -645,6 +752,24 @@ export class ExternalOrgSyncApi extends BaseService {
             localVarQueryParameters,
             'status',
             <any>status,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'reviewState',
+            <any>reviewState,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'search',
+            <any>search,
             QueryParamStyle.Form,
             true,
         );
@@ -954,6 +1079,79 @@ export class ExternalOrgSyncApi extends BaseService {
     }
 
     /**
+     * 映射外部部门到 POMS 组织
+     * @endpoint post /api/platform/external-department-mappings/{id}:map
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerMapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerMapExternalDepartmentMappingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalDepartmentMappingSummary>;
+    public externalOrgSyncControllerMapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerMapExternalDepartmentMappingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerMapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerMapExternalDepartmentMappingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerMapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerMapExternalDepartmentMappingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerMapExternalDepartmentMapping.');
+        }
+        const mapExternalDepartmentMappingRequest = requestParameters?.mapExternalDepartmentMappingRequest;
+        if (mapExternalDepartmentMappingRequest === null || mapExternalDepartmentMappingRequest === undefined) {
+            throw new Error('Required parameter mapExternalDepartmentMappingRequest was null or undefined when calling externalOrgSyncControllerMapExternalDepartmentMapping.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-department-mappings/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:map`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalDepartmentMappingSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: mapExternalDepartmentMappingRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * 暂停外部组织同步源
      * @endpoint post /api/platform/external-org-sources/{id}:pause
      * @param requestParameters
@@ -1089,6 +1287,152 @@ export class ExternalOrgSyncApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: replaceExternalDepartmentMappingsRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 恢复已忽略外部部门映射
+     * @endpoint post /api/platform/external-department-mappings/{id}:restore
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerRestoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerRestoreExternalDepartmentMappingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalDepartmentMappingSummary>;
+    public externalOrgSyncControllerRestoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerRestoreExternalDepartmentMappingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerRestoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerRestoreExternalDepartmentMappingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerRestoreExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerRestoreExternalDepartmentMappingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerRestoreExternalDepartmentMapping.');
+        }
+        const restoreExternalDepartmentMappingRequest = requestParameters?.restoreExternalDepartmentMappingRequest;
+        if (restoreExternalDepartmentMappingRequest === null || restoreExternalDepartmentMappingRequest === undefined) {
+            throw new Error('Required parameter restoreExternalDepartmentMappingRequest was null or undefined when calling externalOrgSyncControllerRestoreExternalDepartmentMapping.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-department-mappings/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:restore`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalDepartmentMappingSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: restoreExternalDepartmentMappingRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 解除外部部门映射
+     * @endpoint post /api/platform/external-department-mappings/{id}:unmap
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public externalOrgSyncControllerUnmapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerUnmapExternalDepartmentMappingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExternalDepartmentMappingSummary>;
+    public externalOrgSyncControllerUnmapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerUnmapExternalDepartmentMappingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerUnmapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerUnmapExternalDepartmentMappingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExternalDepartmentMappingSummary>>;
+    public externalOrgSyncControllerUnmapExternalDepartmentMapping(requestParameters: ExternalOrgSyncControllerUnmapExternalDepartmentMappingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling externalOrgSyncControllerUnmapExternalDepartmentMapping.');
+        }
+        const unmapExternalDepartmentMappingRequest = requestParameters?.unmapExternalDepartmentMappingRequest;
+        if (unmapExternalDepartmentMappingRequest === null || unmapExternalDepartmentMappingRequest === undefined) {
+            throw new Error('Required parameter unmapExternalDepartmentMappingRequest was null or undefined when calling externalOrgSyncControllerUnmapExternalDepartmentMapping.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/platform/external-department-mappings/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:unmap`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ExternalDepartmentMappingSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: unmapExternalDepartmentMappingRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

@@ -4,7 +4,9 @@ import { Component, computed, inject, signal, type OnDestroy } from '@angular/co
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
+    ExternalDepartmentMappingReviewState,
     ExternalDepartmentMappingStatus,
+    type ExternalDepartmentMappingSummary,
     ExternalOrgProvider,
     ExternalOrgSourceStatus,
     ExternalOrgSyncStore,
@@ -62,6 +64,7 @@ interface ProviderConfigDiagnosticEntry {
 
 type SourceWizardStep = 'platform' | 'connection' | 'scope' | 'review';
 type SyncRunWorkbenchView = 'preview' | 'history';
+type MappingReviewStateFilter = ExternalDepartmentMappingReviewState | 'all';
 
 interface SourceWizardStepOption {
     key: SourceWizardStep;
@@ -226,17 +229,32 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                     <app-admin-table-card>
                         <div adminToolbarStart class="flex items-center gap-2">
                             <i class="pi pi-sitemap text-primary"></i>
-                            <span class="font-medium text-surface-950 dark:text-surface-0">飞书部门映射</span>
+                            <span class="font-medium text-surface-950 dark:text-surface-0">外部部门映射</span>
                         </div>
-                        <span adminToolbarEnd class="text-sm text-surface-500">共 {{ syncStore.mappings().length }} 条</span>
+                        <div adminToolbarEnd class="flex flex-wrap items-center gap-2">
+                            <p-select
+                                [ngModel]="mappingReviewStateFilter()"
+                                (ngModelChange)="mappingReviewStateFilter.set($event)"
+                                [options]="mappingReviewStateFilterOptions"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                class="w-36 rounded-md!"
+                            />
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText [ngModel]="mappingSearchText()" (ngModelChange)="mappingSearchText.set($event)" placeholder="搜索外部部门或组织" class="w-56" />
+                            </span>
+                            <span class="text-sm text-surface-500">共 {{ filteredMappings().length }} / {{ syncStore.mappings().length }} 条</span>
+                        </div>
                         <p-table
-                            [value]="syncStore.mappings()"
+                            [value]="filteredMappings()"
                             [paginator]="true"
                             [rows]="8"
                             dataKey="id"
                             [rowHover]="true"
                             responsiveLayout="scroll"
-                            [tableStyle]="{ width: '100%', 'min-width': '58rem' }"
+                            [tableStyle]="{ width: '100%', 'min-width': '84rem' }"
                             [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
                         >
                             <ng-template #header>
@@ -244,8 +262,10 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                     <th>外部部门</th>
                                     <th>上级外部部门</th>
                                     <th>POMS 组织</th>
-                                    <th>状态</th>
+                                    <th>处理状态</th>
+                                    <th>冲突/失效原因</th>
                                     <th>最近发现</th>
+                                    <th style="width: 13rem">操作</th>
                                 </tr>
                             </ng-template>
                             <ng-template #body let-mapping>
@@ -258,13 +278,81 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                     </td>
                                     <td class="font-mono text-xs text-surface-500">{{ mapping.externalParentDepartmentId ?? '—' }}</td>
                                     <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(mapping.orgUnitId) }}</td>
-                                    <td><p-tag [value]="mappingStatusLabel(mapping.status)" [severity]="mappingStatusSeverity(mapping.status)" /></td>
+                                    <td><p-tag [value]="mappingReviewStateLabel(mapping.reviewState)" [severity]="mappingReviewStateSeverity(mapping.reviewState)" /></td>
+                                    <td class="max-w-96 text-sm text-surface-500">
+                                        <div class="line-clamp-2">{{ mapping.conflictReason ?? '—' }}</div>
+                                        @if (mapping.lastConflictRunId) {
+                                            <button type="button" class="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary" (click)="openMappingConflictRun(mapping)">
+                                                <i class="pi pi-list-check"></i>
+                                                查看来源差异
+                                            </button>
+                                        }
+                                    </td>
                                     <td class="text-sm text-surface-500">{{ formatDateTime(mapping.lastSeenAt) }}</td>
+                                    <td>
+                                        <div class="flex items-center gap-1">
+                                            <p-button
+                                                icon="pi pi-link"
+                                                [rounded]="true"
+                                                [text]="true"
+                                                size="small"
+                                                severity="secondary"
+                                                [pTooltip]="canEditMappings() ? '映射到 POMS 组织' : '已归档，不能处理映射'"
+                                                tooltipPosition="top"
+                                                ariaLabel="映射到 POMS 组织"
+                                                [disabled]="!canEditMappings() || isMappingSaving(mapping)"
+                                                [loading]="isMappingSaving(mapping)"
+                                                (onClick)="openMappingDialog(mapping)"
+                                            />
+                                            <p-button
+                                                icon="pi pi-unlink"
+                                                [rounded]="true"
+                                                [text]="true"
+                                                size="small"
+                                                severity="warn"
+                                                pTooltip="解除映射"
+                                                tooltipPosition="top"
+                                                ariaLabel="解除映射"
+                                                [disabled]="!canUnmapMapping(mapping)"
+                                                [loading]="isMappingSaving(mapping)"
+                                                (onClick)="confirmUnmapMapping(mapping)"
+                                            />
+                                            @if (mapping.reviewState === externalDepartmentMappingReviewState.Ignored) {
+                                                <p-button
+                                                    icon="pi pi-refresh"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    size="small"
+                                                    severity="success"
+                                                    pTooltip="恢复处理"
+                                                    tooltipPosition="top"
+                                                    ariaLabel="恢复处理"
+                                                    [disabled]="!canRestoreMapping(mapping)"
+                                                    [loading]="isMappingSaving(mapping)"
+                                                    (onClick)="confirmRestoreMapping(mapping)"
+                                                />
+                                            } @else {
+                                                <p-button
+                                                    icon="pi pi-eye-slash"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    size="small"
+                                                    severity="secondary"
+                                                    pTooltip="忽略该外部部门"
+                                                    tooltipPosition="top"
+                                                    ariaLabel="忽略该外部部门"
+                                                    [disabled]="!canIgnoreMapping(mapping)"
+                                                    [loading]="isMappingSaving(mapping)"
+                                                    (onClick)="confirmIgnoreMapping(mapping)"
+                                                />
+                                            }
+                                        </div>
+                                    </td>
                                 </tr>
                             </ng-template>
                             <ng-template #emptymessage>
                                 <tr>
-                                    <td colspan="5" class="py-8 text-center text-surface-400">{{ syncStore.loadingMappings() ? '加载中...' : '暂无部门映射' }}</td>
+                                    <td colspan="7" class="py-8 text-center text-surface-400">{{ mappingEmptyMessage() }}</td>
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -276,6 +364,9 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                 <div adminToolbarStart class="flex items-center gap-2">
                     <i class="pi pi-list-check text-primary"></i>
                     <span class="font-medium text-surface-950 dark:text-surface-0">{{ syncRunView() === 'preview' ? '同步预览' : '运行历史' }}</span>
+                    @if (syncStore.previewStale()) {
+                        <p-tag value="映射已变更" severity="warn" />
+                    }
                     @if (syncRunView() === 'preview') {
                         @if (syncStore.activeRun(); as run) {
                             <p-tag [value]="runStatusLabel(run.status)" [severity]="runStatusSeverity(run.status)" />
@@ -311,6 +402,11 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                     }
                 </div>
                 @if (syncRunView() === 'preview') {
+                    @if (syncStore.previewStale()) {
+                        <div class="mb-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+                            部门映射已经变更，当前预览可能不是最新结果。请重新生成预览后再应用差异。
+                        </div>
+                    }
                     @if (syncStore.activeRun(); as run) {
                         @if (run.status === orgSyncRunStatus.Failed) {
                             <div class="mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
@@ -528,6 +624,44 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                 } @else {
                     <div class="py-8 text-center text-surface-400">{{ syncStore.loadingRunDetail() ? '加载中...' : '暂无运行详情' }}</div>
                 }
+            </p-dialog>
+
+            <p-dialog [(visible)]="mappingDialogVisible" (onHide)="closeMappingDialog()" [modal]="true" header="处理部门映射" [style]="{ width: 'min(34rem, calc(100vw - 2rem))' }" styleClass="p-fluid">
+                @if (selectedMapping(); as mapping) {
+                    <div class="flex flex-col gap-4 py-2">
+                        <div class="rounded-[8px] border border-surface-200 p-3 dark:border-surface-700">
+                            <div class="text-xs text-surface-500">外部部门</div>
+                            <div class="mt-1 font-medium text-surface-950 dark:text-surface-0">{{ mapping.externalDepartmentName }}</div>
+                            <div class="mt-1 font-mono text-xs text-surface-500">{{ mapping.externalDepartmentId }}</div>
+                        </div>
+                        @if (mapping.conflictReason) {
+                            <div class="rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+                                {{ mapping.conflictReason }}
+                            </div>
+                        }
+                        <div class="flex flex-col gap-2">
+                            <label for="externalDepartmentMappingTarget" class="font-medium">映射到 POMS 组织 *</label>
+                            <p-select
+                                inputId="externalDepartmentMappingTarget"
+                                [(ngModel)]="mappingTargetOrgUnitId"
+                                [options]="mappingOrgUnitOptions()"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                placeholder="选择启用组织"
+                                class="w-full rounded-md!"
+                            />
+                        </div>
+                    </div>
+                } @else {
+                    <div class="py-8 text-center text-surface-400">未选择部门映射</div>
+                }
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="closeMappingDialog()" />
+                        <p-button icon="pi pi-link" label="保存映射" [disabled]="!canSaveMappingDialog()" [loading]="isSelectedMappingSaving()" (onClick)="saveMappingDialog()" />
+                    </div>
+                </ng-template>
             </p-dialog>
 
             <p-dialog
@@ -800,6 +934,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     readonly externalOrgSourceStatus = ExternalOrgSourceStatus;
     readonly externalOrgProvider = ExternalOrgProvider;
     readonly orgSyncRunStatus = OrgSyncRunStatus;
+    readonly externalDepartmentMappingReviewState = ExternalDepartmentMappingReviewState;
     readonly identityProviderConnectionTestStatus = IdentityProviderConnectionTestStatus;
     readonly sourceWizardSteps: SourceWizardStepOption[] = [
         { key: 'platform', label: '平台', icon: 'pi pi-building' },
@@ -812,6 +947,14 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         { label: '钉钉', value: ExternalOrgProvider.Dingtalk },
         { label: '企业微信', value: ExternalOrgProvider.Wecom }
     ];
+    readonly mappingReviewStateFilterOptions: SelectOption<MappingReviewStateFilter>[] = [
+        { label: '全部状态', value: 'all' },
+        { label: '待映射', value: ExternalDepartmentMappingReviewState.Unmapped },
+        { label: '已映射', value: ExternalDepartmentMappingReviewState.Mapped },
+        { label: '冲突', value: ExternalDepartmentMappingReviewState.Conflict },
+        { label: '已忽略', value: ExternalDepartmentMappingReviewState.Ignored },
+        { label: '失效', value: ExternalDepartmentMappingReviewState.Stale }
+    ];
     readonly orgUnitOptions = computed<SelectOption<string | null>[]>(() => [
         { label: '不限制', value: null },
         ...this.platformStore.orgUnits().map((unit) => ({
@@ -819,14 +962,39 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             value: unit.id
         }))
     ]);
+    readonly mappingOrgUnitOptions = computed<SelectOption<string>[]>(() =>
+        this.platformStore
+            .orgUnits()
+            .filter((unit) => unit.isActive)
+            .map((unit) => ({
+                label: this.indentedOrgUnitLabel(unit),
+                value: unit.id
+            }))
+    );
+    readonly mappingReviewStateFilter = signal<MappingReviewStateFilter>('all');
+    readonly mappingSearchText = signal('');
+    readonly filteredMappings = computed(() => {
+        const reviewState = this.mappingReviewStateFilter();
+        const search = this.mappingSearchText().trim().toLocaleLowerCase();
+        return this.syncStore.mappings().filter((mapping) => {
+            if (reviewState !== 'all' && mapping.reviewState !== reviewState) return false;
+            if (!search) return true;
+            return [mapping.externalDepartmentName, mapping.externalDepartmentId, mapping.externalParentDepartmentId, mapping.conflictReason, this.orgUnitName(mapping.orgUnitId)]
+                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+                .some((value) => value.toLocaleLowerCase().includes(search));
+        });
+    });
 
     sourceDialogVisible = false;
+    mappingDialogVisible = false;
     readonly editingSourceId = signal<string | null>(null);
     readonly sourceWizardStep = signal<SourceWizardStep>('platform');
     readonly syncRunView = signal<SyncRunWorkbenchView>('preview');
     readonly selectedDiffItemIds = signal<Set<string>>(new Set());
+    readonly selectedMapping = signal<ExternalDepartmentMappingSummary | null>(null);
     readonly providerConfigDiagnostics = signal<Record<string, ProviderConfigDiagnosticEntry>>({});
     runDetailDialogVisible = false;
+    mappingTargetOrgUnitId: string | null = null;
     sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
     private rootDepartmentDiagnosticTimer: ReturnType<typeof setTimeout> | null = null;
     private providerConfigDiagnosticRequestId = 0;
@@ -853,6 +1021,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         await this.syncStore.selectSource(source.id);
         this.selectedDiffItemIds.set(new Set());
         this.closeRunDetailDialog();
+        this.closeMappingDialog();
     }
 
     setSyncRunView(view: SyncRunWorkbenchView): void {
@@ -886,6 +1055,157 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     isRunDetailLoading(run: OrgSyncRunSummary): boolean {
         return this.syncStore.loadingRunDetailId() === run.id;
+    }
+
+    canEditMappings(): boolean {
+        const source = this.syncStore.selectedSource();
+        return !!source && source.status !== ExternalOrgSourceStatus.Archived;
+    }
+
+    isMappingSaving(mapping: ExternalDepartmentMappingSummary): boolean {
+        return this.syncStore.savingMappingId() === mapping.id;
+    }
+
+    isSelectedMappingSaving(): boolean {
+        const mapping = this.selectedMapping();
+        return !!mapping && this.isMappingSaving(mapping);
+    }
+
+    canUnmapMapping(mapping: ExternalDepartmentMappingSummary): boolean {
+        if (!this.canEditMappings() || this.isMappingSaving(mapping) || mapping.reviewState === ExternalDepartmentMappingReviewState.Ignored) return false;
+        return Boolean(mapping.orgUnitId) || mapping.status !== ExternalDepartmentMappingStatus.Unmapped || mapping.reviewState !== ExternalDepartmentMappingReviewState.Unmapped;
+    }
+
+    canIgnoreMapping(mapping: ExternalDepartmentMappingSummary): boolean {
+        return this.canEditMappings() && !this.isMappingSaving(mapping) && mapping.reviewState !== ExternalDepartmentMappingReviewState.Ignored;
+    }
+
+    canRestoreMapping(mapping: ExternalDepartmentMappingSummary): boolean {
+        return this.canEditMappings() && !this.isMappingSaving(mapping) && mapping.reviewState === ExternalDepartmentMappingReviewState.Ignored;
+    }
+
+    openMappingDialog(mapping: ExternalDepartmentMappingSummary): void {
+        if (!this.canEditMappings()) {
+            this.#messageService.add({ severity: 'warn', summary: '不能处理映射', detail: '已归档的同步源不可编辑。' });
+            return;
+        }
+        this.selectedMapping.set(mapping);
+        this.mappingTargetOrgUnitId = mapping.orgUnitId;
+        this.mappingDialogVisible = true;
+    }
+
+    closeMappingDialog(): void {
+        this.mappingDialogVisible = false;
+        this.selectedMapping.set(null);
+        this.mappingTargetOrgUnitId = null;
+    }
+
+    canSaveMappingDialog(): boolean {
+        const mapping = this.selectedMapping();
+        return !!mapping && !!this.mappingTargetOrgUnitId && this.canEditMappings() && !this.isMappingSaving(mapping);
+    }
+
+    async saveMappingDialog(): Promise<void> {
+        const mapping = this.selectedMapping();
+        const orgUnitId = this.mappingTargetOrgUnitId;
+        if (!mapping || !orgUnitId || !this.canSaveMappingDialog()) return;
+        try {
+            await this.syncStore.mapMapping(mapping.id, {
+                orgUnitId,
+                expectedVersion: mapping.rowVersion
+            });
+            this.closeMappingDialog();
+            this.#messageService.add({ severity: 'success', summary: '映射已保存', detail: '已更新外部部门与 POMS 组织的映射关系' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '映射失败', detail: apiErrorMessage(error, '请刷新后重试') });
+        }
+    }
+
+    confirmUnmapMapping(mapping: ExternalDepartmentMappingSummary): void {
+        if (!this.canUnmapMapping(mapping)) return;
+        this.#confirmationService.confirm({
+            header: '解除部门映射',
+            message: `将解除「${mapping.externalDepartmentName}」与当前 POMS 组织的关系。`,
+            icon: 'pi pi-unlink',
+            acceptLabel: '解除',
+            rejectLabel: '取消',
+            acceptButtonStyleClass: 'p-button-warning',
+            accept: () => {
+                void this.unmapMapping(mapping);
+            }
+        });
+    }
+
+    async unmapMapping(mapping: ExternalDepartmentMappingSummary): Promise<void> {
+        if (!this.canUnmapMapping(mapping)) return;
+        try {
+            await this.syncStore.unmapMapping(mapping.id, { expectedVersion: mapping.rowVersion });
+            this.#messageService.add({ severity: 'success', summary: '已解除映射', detail: '请重新生成预览确认后续差异' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '解除失败', detail: apiErrorMessage(error, '请刷新后重试') });
+        }
+    }
+
+    confirmIgnoreMapping(mapping: ExternalDepartmentMappingSummary): void {
+        if (!this.canIgnoreMapping(mapping)) return;
+        this.#confirmationService.confirm({
+            header: '忽略外部部门',
+            message: `忽略后「${mapping.externalDepartmentName}」不会再作为待处理映射显示，已有关联会被清除。`,
+            icon: 'pi pi-eye-slash',
+            acceptLabel: '忽略',
+            rejectLabel: '取消',
+            acceptButtonStyleClass: 'p-button-secondary',
+            accept: () => {
+                void this.ignoreMapping(mapping);
+            }
+        });
+    }
+
+    async ignoreMapping(mapping: ExternalDepartmentMappingSummary): Promise<void> {
+        if (!this.canIgnoreMapping(mapping)) return;
+        try {
+            await this.syncStore.ignoreMapping(mapping.id, { expectedVersion: mapping.rowVersion });
+            this.#messageService.add({ severity: 'success', summary: '已忽略', detail: '请重新生成预览确认后续差异' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '忽略失败', detail: apiErrorMessage(error, '请刷新后重试') });
+        }
+    }
+
+    confirmRestoreMapping(mapping: ExternalDepartmentMappingSummary): void {
+        if (!this.canRestoreMapping(mapping)) return;
+        this.#confirmationService.confirm({
+            header: '恢复外部部门',
+            message: `恢复后「${mapping.externalDepartmentName}」会重新进入待映射处理。`,
+            icon: 'pi pi-refresh',
+            acceptLabel: '恢复',
+            rejectLabel: '取消',
+            acceptButtonStyleClass: 'p-button-success',
+            accept: () => {
+                void this.restoreMapping(mapping);
+            }
+        });
+    }
+
+    async restoreMapping(mapping: ExternalDepartmentMappingSummary): Promise<void> {
+        if (!this.canRestoreMapping(mapping)) return;
+        try {
+            await this.syncStore.restoreMapping(mapping.id, { expectedVersion: mapping.rowVersion });
+            this.#messageService.add({ severity: 'success', summary: '已恢复', detail: '请重新生成预览确认后续差异' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '恢复失败', detail: apiErrorMessage(error, '请刷新后重试') });
+        }
+    }
+
+    async openMappingConflictRun(mapping: ExternalDepartmentMappingSummary): Promise<void> {
+        if (!mapping.lastConflictRunId) return;
+        this.runDetailDialogVisible = true;
+        this.syncRunView.set('history');
+        try {
+            await this.syncStore.loadRunDetail(mapping.lastConflictRunId);
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '加载失败', detail: '来源差异加载失败' });
+            this.closeRunDetailDialog();
+        }
     }
 
     openCreateSourceDialog(): void {
@@ -1305,6 +1625,12 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         return '暂无同步运行历史';
     }
 
+    mappingEmptyMessage(): string {
+        if (this.syncStore.loadingMappings()) return '加载中...';
+        if (this.syncStore.mappings().length > 0) return '没有符合筛选条件的部门映射';
+        return '暂无部门映射';
+    }
+
     runDurationLabel(run: OrgSyncRunSummary): string {
         const startedAt = Date.parse(run.startedAt);
         const finishedAt = run.finishedAt ? Date.parse(run.finishedAt) : NaN;
@@ -1355,7 +1681,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     canApplyRun(): boolean {
         const run = this.syncStore.activeRun();
-        return !!run && run.status === OrgSyncRunStatus.Previewed && this.selectedDiffItemIds().size > 0 && !this.syncStore.applyingRun();
+        return !!run && run.status === OrgSyncRunStatus.Previewed && this.selectedDiffItemIds().size > 0 && !this.syncStore.previewStale() && !this.syncStore.applyingRun();
     }
 
     async applySelectedDiffItems(runId: string): Promise<void> {
@@ -1471,6 +1797,30 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                 [ExternalDepartmentMappingStatus.Conflict]: 'danger',
                 [ExternalDepartmentMappingStatus.Ignored]: 'secondary'
             } satisfies Record<ExternalDepartmentMappingStatus, 'success' | 'secondary' | 'warn' | 'danger'>
+        )[status];
+    }
+
+    mappingReviewStateLabel(status: ExternalDepartmentMappingReviewState): string {
+        return (
+            {
+                [ExternalDepartmentMappingReviewState.Unmapped]: '待映射',
+                [ExternalDepartmentMappingReviewState.Mapped]: '已映射',
+                [ExternalDepartmentMappingReviewState.Conflict]: '冲突',
+                [ExternalDepartmentMappingReviewState.Ignored]: '已忽略',
+                [ExternalDepartmentMappingReviewState.Stale]: '失效'
+            } satisfies Record<ExternalDepartmentMappingReviewState, string>
+        )[status];
+    }
+
+    mappingReviewStateSeverity(status: ExternalDepartmentMappingReviewState): 'success' | 'secondary' | 'warn' | 'danger' {
+        return (
+            {
+                [ExternalDepartmentMappingReviewState.Unmapped]: 'warn',
+                [ExternalDepartmentMappingReviewState.Mapped]: 'success',
+                [ExternalDepartmentMappingReviewState.Conflict]: 'danger',
+                [ExternalDepartmentMappingReviewState.Ignored]: 'secondary',
+                [ExternalDepartmentMappingReviewState.Stale]: 'danger'
+            } satisfies Record<ExternalDepartmentMappingReviewState, 'success' | 'secondary' | 'warn' | 'danger'>
         )[status];
     }
 

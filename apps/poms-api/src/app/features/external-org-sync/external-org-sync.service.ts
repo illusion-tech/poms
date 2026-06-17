@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import {
+    ExternalDepartmentMappingReviewStateValue,
     ExternalDepartmentMappingStatusValue,
     ExternalOrgProviderValue,
     ExternalOrgSourceStatusValue,
@@ -17,6 +18,8 @@ import {
     type ExternalDepartmentMappingListQuery,
     type ExternalDepartmentMappingReplacementItem,
     type ExternalDepartmentMappingSummary,
+    type IgnoreExternalDepartmentMappingRequest,
+    type MapExternalDepartmentMappingRequest,
     type ExternalOrgSourceDetail,
     type ExternalOrgSourceList,
     type ExternalOrgSourceListQuery,
@@ -29,6 +32,8 @@ import {
     type OrgSyncRunListQuery,
     type PauseExternalOrgSourceRequest,
     type ReplaceExternalDepartmentMappingsRequest,
+    type RestoreExternalDepartmentMappingRequest,
+    type UnmapExternalDepartmentMappingRequest,
     type UpdateExternalOrgSourceRequest
 } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
@@ -41,7 +46,7 @@ import type { ExternalDepartmentSnapshot } from './external-org-directory.adapte
 import { ExternalOrgDirectoryAdapterError } from './external-org-directory.adapter';
 import { ExternalOrgDirectoryAdapterRegistry } from './external-org-directory-adapter.registry';
 import { ExternalOrgSource } from './external-org-source.entity';
-import { ExternalOrgSyncRepository } from './external-org-sync.repository';
+import { ExternalOrgSyncRepository, type ExternalDepartmentMappingDiffContext } from './external-org-sync.repository';
 import { OrgSyncDiffItem } from './org-sync-diff-item.entity';
 import { OrgSyncRun } from './org-sync-run.entity';
 
@@ -76,10 +81,18 @@ interface ApplyDiffItemInput {
     entitiesToSave: object[];
 }
 
+interface MappingReviewMetadata {
+    reviewState: ExternalDepartmentMappingSummary['reviewState'];
+    conflictReason: string | null;
+    lastConflictRunId: string | null;
+    lastConflictDiffItemId: string | null;
+}
+
 const FEISHU_ROOT_DEPARTMENT_ID = '0';
 const MAX_RUN_DIAGNOSTIC_MESSAGE_LENGTH = 1000;
 const MAX_RUN_DIAGNOSTIC_NEXT_ACTIONS = 8;
 const MAX_RUN_DIAGNOSTIC_NEXT_ACTION_LENGTH = 300;
+const MAX_MAPPING_CONFLICT_REASON_LENGTH = 500;
 
 @Injectable()
 export class ExternalOrgSyncService {
@@ -218,7 +231,8 @@ export class ExternalOrgSyncService {
     async listExternalDepartmentMappings(sourceId: string, query: ExternalDepartmentMappingListQuery = {}): Promise<ExternalDepartmentMappingList> {
         await this.requireSource(sourceId);
         const mappings = await this.repository.findMappings(sourceId, query);
-        return mappings.map((mapping) => this.toMappingSummary(mapping));
+        const summaries = await this.toMappingSummaries(sourceId, mappings);
+        return this.filterMappingSummaries(summaries, query);
     }
 
     async replaceExternalDepartmentMappings(sourceId: string, request: ReplaceExternalDepartmentMappingsRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingList> {
@@ -262,6 +276,71 @@ export class ExternalOrgSyncService {
         });
 
         return nextMappings.map((mapping) => this.toMappingSummary(mapping));
+    }
+
+    async mapExternalDepartmentMapping(id: string, request: MapExternalDepartmentMappingRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingSummary> {
+        const mapping = await this.requireMappingForCommand(id, request.expectedVersion);
+        const source = await this.requireEditableSourceForMapping(mapping);
+        const targetOrgUnit = await this.requireActiveOrgUnit(request.orgUnitId);
+        await this.assertMappedOrgUnitAvailable(source.id, targetOrgUnit.id, mapping.id);
+
+        const beforeSnapshot = this.mappingAuditSnapshot(mapping);
+        mapping.orgUnitId = targetOrgUnit.id;
+        mapping.status = ExternalDepartmentMappingStatusValue.Mapped;
+        mapping.updatedBy = operatorId ?? null;
+
+        await this.repository.saveAll([mapping]);
+        await this.recordAudit('external-department-mapping.mapped', 'ExternalDepartmentMapping', mapping.id, operatorId, beforeSnapshot, this.mappingAuditSnapshot(mapping));
+
+        return this.toMappingSummary(mapping);
+    }
+
+    async unmapExternalDepartmentMapping(id: string, request: UnmapExternalDepartmentMappingRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingSummary> {
+        const mapping = await this.requireMappingForCommand(id, request.expectedVersion);
+        await this.requireEditableSourceForMapping(mapping);
+
+        const beforeSnapshot = this.mappingAuditSnapshot(mapping);
+        mapping.orgUnitId = null;
+        mapping.status = ExternalDepartmentMappingStatusValue.Unmapped;
+        mapping.updatedBy = operatorId ?? null;
+
+        await this.repository.saveAll([mapping]);
+        await this.recordAudit('external-department-mapping.unmapped', 'ExternalDepartmentMapping', mapping.id, operatorId, beforeSnapshot, this.mappingAuditSnapshot(mapping));
+
+        return this.toMappingSummary(mapping);
+    }
+
+    async ignoreExternalDepartmentMapping(id: string, request: IgnoreExternalDepartmentMappingRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingSummary> {
+        const mapping = await this.requireMappingForCommand(id, request.expectedVersion);
+        await this.requireEditableSourceForMapping(mapping);
+
+        const beforeSnapshot = this.mappingAuditSnapshot(mapping);
+        mapping.orgUnitId = null;
+        mapping.status = ExternalDepartmentMappingStatusValue.Ignored;
+        mapping.updatedBy = operatorId ?? null;
+
+        await this.repository.saveAll([mapping]);
+        await this.recordAudit('external-department-mapping.ignored', 'ExternalDepartmentMapping', mapping.id, operatorId, beforeSnapshot, this.mappingAuditSnapshot(mapping));
+
+        return this.toMappingSummary(mapping);
+    }
+
+    async restoreExternalDepartmentMapping(id: string, request: RestoreExternalDepartmentMappingRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingSummary> {
+        const mapping = await this.requireMappingForCommand(id, request.expectedVersion);
+        await this.requireEditableSourceForMapping(mapping);
+        if (mapping.status !== ExternalDepartmentMappingStatusValue.Ignored) {
+            throw new BadRequestException('Only ignored external department mappings can be restored.');
+        }
+
+        const beforeSnapshot = this.mappingAuditSnapshot(mapping);
+        mapping.orgUnitId = null;
+        mapping.status = ExternalDepartmentMappingStatusValue.Unmapped;
+        mapping.updatedBy = operatorId ?? null;
+
+        await this.repository.saveAll([mapping]);
+        await this.recordAudit('external-department-mapping.restored', 'ExternalDepartmentMapping', mapping.id, operatorId, beforeSnapshot, this.mappingAuditSnapshot(mapping));
+
+        return this.toMappingSummary(mapping);
     }
 
     async createOrgSyncRun(sourceId: string, request: CreateOrgSyncRunRequest = {}, operatorId?: string | null): Promise<OrgSyncRunDetail> {
@@ -487,6 +566,21 @@ export class ExternalOrgSyncService {
         return source;
     }
 
+    private async requireMappingForCommand(id: string, expectedVersion: number): Promise<ExternalDepartmentMapping> {
+        const mapping = await this.repository.findMappingById(id);
+        if (!mapping) throw new NotFoundException(`External department mapping ${id} not found`);
+        if (expectedVersion !== mapping.rowVersion) {
+            throw new ConflictException(`External department mapping version conflict: expected ${expectedVersion}, actual ${mapping.rowVersion}`);
+        }
+        return mapping;
+    }
+
+    private async requireEditableSourceForMapping(mapping: ExternalDepartmentMapping): Promise<ExternalOrgSource> {
+        const source = await this.requireSource(mapping.sourceId);
+        this.assertSourceEditable(source);
+        return source;
+    }
+
     private assertSourceEditable(source: ExternalOrgSource): void {
         if (source.status === ExternalOrgSourceStatusValue.Archived) {
             throw new BadRequestException('Archived external org sources are read-only.');
@@ -515,6 +609,20 @@ export class ExternalOrgSyncService {
         const orgUnit = await this.repository.findOrgUnitById(id);
         if (!orgUnit) throw new BadRequestException(`OrgUnit ${id} not found`);
         return orgUnit;
+    }
+
+    private async requireActiveOrgUnit(id: string): Promise<OrgUnit> {
+        const orgUnit = await this.repository.findOrgUnitById(id);
+        if (!orgUnit) throw new BadRequestException(`OrgUnit ${id} not found`);
+        if (!orgUnit.isActive) throw new BadRequestException(`OrgUnit ${id} is inactive and cannot be mapped.`);
+        return orgUnit;
+    }
+
+    private async assertMappedOrgUnitAvailable(sourceId: string, orgUnitId: string, mappingId: string): Promise<void> {
+        const existing = await this.repository.findMappedOrgUnitMapping(sourceId, orgUnitId);
+        if (existing && existing.id !== mappingId) {
+            throw new ConflictException(`OrgUnit ${orgUnitId} is already mapped to external department ${existing.externalDepartmentId}.`);
+        }
     }
 
     private async assertOrgUnitsExist(ids: string[]): Promise<void> {
@@ -1242,7 +1350,42 @@ export class ExternalOrgSyncService {
         };
     }
 
-    private toMappingSummary(mapping: ExternalDepartmentMapping): ExternalDepartmentMappingSummary {
+    private async toMappingSummaries(sourceId: string, mappings: ExternalDepartmentMapping[]): Promise<ExternalDepartmentMappingSummary[]> {
+        if (mappings.length === 0) return [];
+        const contexts = await this.repository.findRecentDiffItemsForMappings(
+            sourceId,
+            mappings.map((mapping) => mapping.externalDepartmentId)
+        );
+        const reviewContextByExternalDepartmentId = this.latestReviewContextByExternalDepartmentId(contexts);
+        return mappings.map((mapping) => this.toMappingSummary(mapping, reviewContextByExternalDepartmentId.get(mapping.externalDepartmentId)));
+    }
+
+    private filterMappingSummaries(summaries: ExternalDepartmentMappingSummary[], query: ExternalDepartmentMappingListQuery): ExternalDepartmentMappingSummary[] {
+        const search = query.search?.trim().toLocaleLowerCase();
+        return summaries.filter((summary) => {
+            if (query.reviewState && summary.reviewState !== query.reviewState) return false;
+            if (!search) return true;
+            return [summary.externalDepartmentName, summary.externalDepartmentId, summary.externalParentDepartmentId, summary.conflictReason, summary.orgUnitId]
+                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+                .some((value) => value.toLocaleLowerCase().includes(search));
+        });
+    }
+
+    private latestReviewContextByExternalDepartmentId(contexts: ExternalDepartmentMappingDiffContext[]): Map<string, ExternalDepartmentMappingDiffContext> {
+        const result = new Map<string, ExternalDepartmentMappingDiffContext>();
+        for (const context of contexts) {
+            if (result.has(context.item.externalDepartmentId) || !this.isMappingReviewDiffItem(context.item)) continue;
+            result.set(context.item.externalDepartmentId, context);
+        }
+        return result;
+    }
+
+    private isMappingReviewDiffItem(item: OrgSyncDiffItem): boolean {
+        return item.action === OrgSyncDiffActionValue.Conflict || item.action === OrgSyncDiffActionValue.DisableOrgUnit;
+    }
+
+    private toMappingSummary(mapping: ExternalDepartmentMapping, reviewContext?: ExternalDepartmentMappingDiffContext): ExternalDepartmentMappingSummary {
+        const review = this.resolveMappingReviewMetadata(mapping, reviewContext);
         return {
             id: mapping.id,
             sourceId: mapping.sourceId,
@@ -1251,6 +1394,10 @@ export class ExternalOrgSyncService {
             externalDepartmentName: mapping.externalDepartmentName,
             orgUnitId: mapping.orgUnitId ?? null,
             status: mapping.status as ExternalDepartmentMappingSummary['status'],
+            reviewState: review.reviewState,
+            conflictReason: review.conflictReason,
+            lastConflictRunId: review.lastConflictRunId,
+            lastConflictDiffItemId: review.lastConflictDiffItemId,
             externalSnapshot: mapping.externalSnapshot ?? {},
             lastSeenAt: mapping.lastSeenAt?.toISOString() ?? null,
             rowVersion: mapping.rowVersion,
@@ -1259,6 +1406,51 @@ export class ExternalOrgSyncService {
             updatedAt: mapping.updatedAt.toISOString(),
             updatedBy: mapping.updatedBy ?? null
         };
+    }
+
+    private resolveMappingReviewMetadata(mapping: ExternalDepartmentMapping, reviewContext?: ExternalDepartmentMappingDiffContext): MappingReviewMetadata {
+        if (mapping.status === ExternalDepartmentMappingStatusValue.Ignored) {
+            return this.mappingReview(ExternalDepartmentMappingReviewStateValue.Ignored);
+        }
+        if (reviewContext?.item.action === OrgSyncDiffActionValue.Conflict) {
+            return this.mappingReview(ExternalDepartmentMappingReviewStateValue.Conflict, this.resolveMappingConflictReason(reviewContext.item, '当前映射存在冲突，请重新映射、解除映射或忽略。'), reviewContext);
+        }
+        if (reviewContext?.item.action === OrgSyncDiffActionValue.DisableOrgUnit) {
+            return this.mappingReview(ExternalDepartmentMappingReviewStateValue.Stale, this.resolveMappingConflictReason(reviewContext.item, '外部部门最近未在同步源中发现，请确认是否保留 POMS 组织。'), reviewContext);
+        }
+        if (mapping.status === ExternalDepartmentMappingStatusValue.Conflict) {
+            return this.mappingReview(ExternalDepartmentMappingReviewStateValue.Conflict, '当前映射需要人工处理，请重新映射、解除映射或忽略。');
+        }
+        if (mapping.status === ExternalDepartmentMappingStatusValue.Mapped) {
+            return this.mappingReview(ExternalDepartmentMappingReviewStateValue.Mapped);
+        }
+        return this.mappingReview(ExternalDepartmentMappingReviewStateValue.Unmapped);
+    }
+
+    private mappingReview(reviewState: ExternalDepartmentMappingSummary['reviewState'], conflictReason: string | null = null, context?: ExternalDepartmentMappingDiffContext): MappingReviewMetadata {
+        return {
+            reviewState,
+            conflictReason: conflictReason ? conflictReason.slice(0, MAX_MAPPING_CONFLICT_REASON_LENGTH) : null,
+            lastConflictRunId: context?.run.id ?? null,
+            lastConflictDiffItemId: context?.item.id ?? null
+        };
+    }
+
+    private resolveMappingConflictReason(item: OrgSyncDiffItem, fallback: string): string {
+        const candidateSnapshot = this.asRecord(item.candidateSnapshot);
+        const reason = this.readString(candidateSnapshot, 'reason');
+        if (reason === 'external_department_missing') return '外部部门最近未在同步源中发现，请确认是否停用、忽略或重新生成预览。';
+        if (reason === 'external_department_inactive') return '外部部门在同步源中已停用，请确认是否停用 POMS 组织或忽略该部门。';
+        if (reason === 'mapped_org_unit_missing') return '已映射的 POMS 组织不存在，请重新映射、解除映射或忽略该外部部门。';
+
+        const message = item.errorMessage?.trim();
+        if (!message) return fallback;
+        if (message.includes('Mapped OrgUnit was not found')) return '已映射的 POMS 组织不存在，请重新映射、解除映射或忽略该外部部门。';
+        if (message.includes('Mapped OrgUnit is inactive')) return '已映射的 POMS 组织已停用，请重新映射到启用组织、解除映射或忽略。';
+        if (message.includes('Mapped parent OrgUnit') && message.includes('was not found')) return '已映射的上级 POMS 组织不存在，请先处理上级部门映射。';
+        if (message.includes('Mapped parent OrgUnit') && message.includes('inactive')) return '已映射的上级 POMS 组织已停用，请先处理上级部门映射。';
+        if (message.includes('External parent department')) return '外部上级部门尚未映射或不在当前预览中，请先处理上级部门映射。';
+        return message;
     }
 
     private toRunDetail(run: OrgSyncRun): OrgSyncRunDetail {

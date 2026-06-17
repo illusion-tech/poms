@@ -779,6 +779,18 @@ export const EXTERNAL_DEPARTMENT_MAPPING_STATUSES = enumObjectValues(ExternalDep
 export type ExternalDepartmentMappingStatus = (typeof EXTERNAL_DEPARTMENT_MAPPING_STATUSES)[number];
 export const ExternalDepartmentMappingStatusSchema = z.enum(EXTERNAL_DEPARTMENT_MAPPING_STATUSES).meta({ id: 'ExternalDepartmentMappingStatus' });
 
+export const ExternalDepartmentMappingReviewStateValue = {
+    Unmapped: 'unmapped',
+    Mapped: 'mapped',
+    Conflict: 'conflict',
+    Ignored: 'ignored',
+    Stale: 'stale'
+} as const;
+
+export const EXTERNAL_DEPARTMENT_MAPPING_REVIEW_STATES = enumObjectValues(ExternalDepartmentMappingReviewStateValue);
+export type ExternalDepartmentMappingReviewState = (typeof EXTERNAL_DEPARTMENT_MAPPING_REVIEW_STATES)[number];
+export const ExternalDepartmentMappingReviewStateSchema = z.enum(EXTERNAL_DEPARTMENT_MAPPING_REVIEW_STATES).meta({ id: 'ExternalDepartmentMappingReviewState' });
+
 export const OrgSyncRunStatusValue = {
     Previewing: 'previewing',
     Previewed: 'previewed',
@@ -937,6 +949,10 @@ export const ExternalDepartmentMappingSummarySchema = z
         externalDepartmentName: z.string(),
         orgUnitId: z.uuid().nullable(),
         status: ExternalDepartmentMappingStatusSchema,
+        reviewState: ExternalDepartmentMappingReviewStateSchema,
+        conflictReason: z.string().trim().min(1).max(500).nullable(),
+        lastConflictRunId: z.uuid().nullable(),
+        lastConflictDiffItemId: z.uuid().nullable(),
         externalSnapshot: ExternalOrgSyncJsonObjectSchema,
         lastSeenAt: z.iso.datetime().nullable(),
         rowVersion: z.number().int(),
@@ -956,6 +972,8 @@ export type ExternalDepartmentMappingList = z.infer<typeof ExternalDepartmentMap
 export const ExternalDepartmentMappingListQuerySchema = z
     .object({
         status: ExternalDepartmentMappingStatusSchema.optional(),
+        reviewState: ExternalDepartmentMappingReviewStateSchema.optional(),
+        search: z.string().trim().min(1).max(255).optional(),
         externalDepartmentId: z.string().trim().min(1).max(255).optional(),
         orgUnitId: z.uuid().optional()
     })
@@ -984,6 +1002,39 @@ export const ReplaceExternalDepartmentMappingsRequestSchema = z
     .meta({ id: 'ReplaceExternalDepartmentMappingsRequest' });
 
 export type ReplaceExternalDepartmentMappingsRequest = z.infer<typeof ReplaceExternalDepartmentMappingsRequestSchema>;
+
+export const MapExternalDepartmentMappingRequestSchema = z
+    .object({
+        orgUnitId: z.uuid(),
+        expectedVersion: z.number().int().positive()
+    })
+    .meta({ id: 'MapExternalDepartmentMappingRequest' });
+
+export type MapExternalDepartmentMappingRequest = z.infer<typeof MapExternalDepartmentMappingRequestSchema>;
+
+export const UnmapExternalDepartmentMappingRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive()
+    })
+    .meta({ id: 'UnmapExternalDepartmentMappingRequest' });
+
+export type UnmapExternalDepartmentMappingRequest = z.infer<typeof UnmapExternalDepartmentMappingRequestSchema>;
+
+export const IgnoreExternalDepartmentMappingRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive()
+    })
+    .meta({ id: 'IgnoreExternalDepartmentMappingRequest' });
+
+export type IgnoreExternalDepartmentMappingRequest = z.infer<typeof IgnoreExternalDepartmentMappingRequestSchema>;
+
+export const RestoreExternalDepartmentMappingRequestSchema = z
+    .object({
+        expectedVersion: z.number().int().positive()
+    })
+    .meta({ id: 'RestoreExternalDepartmentMappingRequest' });
+
+export type RestoreExternalDepartmentMappingRequest = z.infer<typeof RestoreExternalDepartmentMappingRequestSchema>;
 
 export const OrgSyncRunSummarySchema = z
     .object({
