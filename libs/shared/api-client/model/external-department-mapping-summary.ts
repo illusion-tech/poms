@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ExternalDepartmentMappingReviewState } from './external-department-mapping-review-state';
 import { ExternalDepartmentMappingStatus } from './external-department-mapping-status';
 
 
@@ -18,6 +19,10 @@ export interface ExternalDepartmentMappingSummary {
     externalDepartmentName: string;
     orgUnitId: string | null;
     status: ExternalDepartmentMappingStatus;
+    reviewState: ExternalDepartmentMappingReviewState;
+    conflictReason: string | null;
+    lastConflictRunId: string | null;
+    lastConflictDiffItemId: string | null;
     externalSnapshot: { [key: string]: any; };
     lastSeenAt: string | null;
     rowVersion: number;

@@ -6,9 +6,12 @@ import {
     CreateOrgSyncRunRequestSchema,
     ExternalDepartmentMappingListQuerySchema,
     ExternalDepartmentMappingListSchema,
+    ExternalDepartmentMappingSummarySchema,
     ExternalOrgSourceDetailSchema,
     ExternalOrgSourceListQuerySchema,
     ExternalOrgSourceListSchema,
+    IgnoreExternalDepartmentMappingRequestSchema,
+    MapExternalDepartmentMappingRequestSchema,
     OrgSyncDiffItemListQuerySchema,
     OrgSyncDiffItemListSchema,
     OrgSyncRunDetailSchema,
@@ -16,6 +19,8 @@ import {
     OrgSyncRunListSchema,
     PauseExternalOrgSourceRequestSchema,
     ReplaceExternalDepartmentMappingsRequestSchema,
+    RestoreExternalDepartmentMappingRequestSchema,
+    UnmapExternalDepartmentMappingRequestSchema,
     UpdateExternalOrgSourceRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from 'nestjs-zod';
@@ -38,9 +43,19 @@ export class ArchiveExternalOrgSourceRequestDto extends createZodDto(ArchiveExte
 
 export class ExternalDepartmentMappingListDto extends createZodDto(ExternalDepartmentMappingListSchema) {}
 
+export class ExternalDepartmentMappingDto extends createZodDto(ExternalDepartmentMappingSummarySchema) {}
+
 export class ExternalDepartmentMappingListQueryDto extends createZodDto(ExternalDepartmentMappingListQuerySchema) {}
 
 export class ReplaceExternalDepartmentMappingsRequestDto extends createZodDto(ReplaceExternalDepartmentMappingsRequestSchema) {}
+
+export class MapExternalDepartmentMappingRequestDto extends createZodDto(MapExternalDepartmentMappingRequestSchema) {}
+
+export class UnmapExternalDepartmentMappingRequestDto extends createZodDto(UnmapExternalDepartmentMappingRequestSchema) {}
+
+export class IgnoreExternalDepartmentMappingRequestDto extends createZodDto(IgnoreExternalDepartmentMappingRequestSchema) {}
+
+export class RestoreExternalDepartmentMappingRequestDto extends createZodDto(RestoreExternalDepartmentMappingRequestSchema) {}
 
 export class CreateOrgSyncRunRequestDto extends createZodDto(CreateOrgSyncRunRequestSchema) {}
 

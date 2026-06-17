@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import {
+    ExternalDepartmentMappingReviewStateValue,
     ExternalDepartmentMappingStatusValue,
     ExternalOrgProviderValue,
     ExternalOrgSourceStatusValue,
@@ -42,7 +43,10 @@ describe('ExternalOrgSyncService', () => {
         findAllOrgUnits: jest.Mock;
         createOrgUnit: jest.Mock;
         findMappings: jest.Mock;
+        findMappingById: jest.Mock;
+        findMappedOrgUnitMapping: jest.Mock;
         findMappingsBySourceId: jest.Mock;
+        findRecentDiffItemsForMappings: jest.Mock;
         createMapping: jest.Mock;
         replaceMappings: jest.Mock;
         createRun: jest.Mock;
@@ -76,7 +80,10 @@ describe('ExternalOrgSyncService', () => {
             findAllOrgUnits: jest.fn(),
             createOrgUnit: jest.fn((input) => createOrgUnit(input)),
             findMappings: jest.fn(),
+            findMappingById: jest.fn(),
+            findMappedOrgUnitMapping: jest.fn(),
             findMappingsBySourceId: jest.fn(),
+            findRecentDiffItemsForMappings: jest.fn().mockResolvedValue([]),
             createMapping: jest.fn((input) => createMapping(input)),
             replaceMappings: jest.fn().mockResolvedValue(undefined),
             createRun: jest.fn((input) => createRun(input)),
@@ -282,6 +289,152 @@ describe('ExternalOrgSyncService', () => {
         ).rejects.toThrow(ConflictException);
 
         expect(repository.replaceMappings).not.toHaveBeenCalled();
+    });
+
+    it('lists mappings with derived conflict review metadata from latest diff items', async () => {
+        const mapping = createMapping({ externalDepartmentId: 'od-sales', status: ExternalDepartmentMappingStatusValue.Mapped, orgUnitId });
+        const run = createRun({ id: runId, startedAt: new Date('2026-06-11T00:00:00.000Z') });
+        const diffItem = createDiffItem({
+            id: diffItemId,
+            runId,
+            externalDepartmentId: 'od-sales',
+            action: OrgSyncDiffActionValue.Conflict,
+            errorMessage: 'Mapped OrgUnit is inactive.'
+        });
+        repository.findSourceById.mockResolvedValue(createSource({ id: sourceId }));
+        repository.findMappings.mockResolvedValue([mapping]);
+        repository.findRecentDiffItemsForMappings.mockResolvedValue([{ run, item: diffItem }]);
+
+        const result = await service.listExternalDepartmentMappings(sourceId);
+
+        expect(repository.findRecentDiffItemsForMappings).toHaveBeenCalledWith(sourceId, ['od-sales']);
+        expect(result[0]).toMatchObject({
+            reviewState: ExternalDepartmentMappingReviewStateValue.Conflict,
+            conflictReason: '已映射的 POMS 组织已停用，请重新映射到启用组织、解除映射或忽略。',
+            lastConflictRunId: runId,
+            lastConflictDiffItemId: diffItemId
+        });
+    });
+
+    it('filters mappings by derived review state and search text after building summaries', async () => {
+        const conflictMapping = createMapping({ id: '97000000-0000-4000-8000-000000000104', externalDepartmentId: 'od-sales', externalDepartmentName: '销售部', status: ExternalDepartmentMappingStatusValue.Mapped, orgUnitId });
+        const normalMapping = createMapping({ id: '97000000-0000-4000-8000-000000000105', externalDepartmentId: 'od-finance', externalDepartmentName: '财务部', status: ExternalDepartmentMappingStatusValue.Mapped, orgUnitId: rootOrgUnitId });
+        const run = createRun({ id: runId, startedAt: new Date('2026-06-11T00:00:00.000Z') });
+        const diffItem = createDiffItem({
+            id: diffItemId,
+            runId,
+            externalDepartmentId: 'od-sales',
+            action: OrgSyncDiffActionValue.Conflict,
+            errorMessage: 'Mapped OrgUnit was not found.'
+        });
+        repository.findSourceById.mockResolvedValue(createSource({ id: sourceId }));
+        repository.findMappings.mockResolvedValue([normalMapping, conflictMapping]);
+        repository.findRecentDiffItemsForMappings.mockResolvedValue([{ run, item: diffItem }]);
+
+        const result = await service.listExternalDepartmentMappings(sourceId, {
+            reviewState: ExternalDepartmentMappingReviewStateValue.Conflict,
+            search: '销售'
+        });
+
+        expect(repository.findMappings).toHaveBeenCalledWith(sourceId, {
+            reviewState: ExternalDepartmentMappingReviewStateValue.Conflict,
+            search: '销售'
+        });
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject({
+            externalDepartmentId: 'od-sales',
+            reviewState: ExternalDepartmentMappingReviewStateValue.Conflict
+        });
+    });
+
+    it('maps one external department with row version and active org unit checks', async () => {
+        const mapping = createMapping({ rowVersion: 3, status: ExternalDepartmentMappingStatusValue.Conflict });
+        const source = createSource({ status: ExternalOrgSourceStatusValue.Active });
+        repository.findMappingById.mockResolvedValue(mapping);
+        repository.findSourceById.mockResolvedValue(source);
+        repository.findOrgUnitById.mockResolvedValue(createOrgUnit({ id: orgUnitId, isActive: true }));
+        repository.findMappedOrgUnitMapping.mockResolvedValue(null);
+
+        const result = await service.mapExternalDepartmentMapping(mapping.id, { orgUnitId, expectedVersion: 3 }, operatorId);
+
+        expect(repository.findMappedOrgUnitMapping).toHaveBeenCalledWith(sourceId, orgUnitId);
+        expect(repository.saveAll).toHaveBeenCalledWith([mapping]);
+        expect(mapping).toMatchObject({
+            orgUnitId,
+            status: ExternalDepartmentMappingStatusValue.Mapped,
+            updatedBy: operatorId
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            expect.objectContaining({
+                eventType: 'external-department-mapping.mapped',
+                targetType: 'ExternalDepartmentMapping',
+                targetId: mapping.id
+            })
+        );
+        expect(result).toMatchObject({
+            orgUnitId,
+            status: ExternalDepartmentMappingStatusValue.Mapped,
+            reviewState: ExternalDepartmentMappingReviewStateValue.Mapped
+        });
+    });
+
+    it('rejects mapping commands with stale row versions, inactive org units, or occupied mapped org units', async () => {
+        const mapping = createMapping({ rowVersion: 3 });
+        repository.findMappingById.mockResolvedValue(mapping);
+
+        await expect(service.mapExternalDepartmentMapping(mapping.id, { orgUnitId, expectedVersion: 2 }, operatorId)).rejects.toThrow('External department mapping version conflict');
+
+        repository.findMappingById.mockResolvedValue(mapping);
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active }));
+        repository.findOrgUnitById.mockResolvedValue(createOrgUnit({ id: orgUnitId, isActive: false }));
+
+        await expect(service.mapExternalDepartmentMapping(mapping.id, { orgUnitId, expectedVersion: 3 }, operatorId)).rejects.toThrow(`OrgUnit ${orgUnitId} is inactive`);
+
+        repository.findMappingById.mockResolvedValue(mapping);
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active }));
+        repository.findOrgUnitById.mockResolvedValue(createOrgUnit({ id: orgUnitId, isActive: true }));
+        repository.findMappedOrgUnitMapping.mockResolvedValue(createMapping({ id: '97000000-0000-4000-8000-000000000103', orgUnitId, status: ExternalDepartmentMappingStatusValue.Mapped, externalDepartmentId: 'od-other' }));
+
+        await expect(service.mapExternalDepartmentMapping(mapping.id, { orgUnitId, expectedVersion: 3 }, operatorId)).rejects.toThrow(`OrgUnit ${orgUnitId} is already mapped to external department od-other.`);
+
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('unmaps, ignores, and restores one external department through row-level commands', async () => {
+        const mapping = createMapping({ rowVersion: 5, orgUnitId, status: ExternalDepartmentMappingStatusValue.Mapped });
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active }));
+        repository.findMappingById.mockResolvedValue(mapping);
+
+        const unmapped = await service.unmapExternalDepartmentMapping(mapping.id, { expectedVersion: 5 }, operatorId);
+
+        expect(unmapped).toMatchObject({
+            orgUnitId: null,
+            status: ExternalDepartmentMappingStatusValue.Unmapped,
+            reviewState: ExternalDepartmentMappingReviewStateValue.Unmapped
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'external-department-mapping.unmapped' }));
+
+        mapping.rowVersion = 6;
+        mapping.orgUnitId = orgUnitId;
+        mapping.status = ExternalDepartmentMappingStatusValue.Mapped;
+        const ignored = await service.ignoreExternalDepartmentMapping(mapping.id, { expectedVersion: 6 }, operatorId);
+
+        expect(ignored).toMatchObject({
+            orgUnitId: null,
+            status: ExternalDepartmentMappingStatusValue.Ignored,
+            reviewState: ExternalDepartmentMappingReviewStateValue.Ignored
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'external-department-mapping.ignored' }));
+
+        mapping.rowVersion = 7;
+        const restored = await service.restoreExternalDepartmentMapping(mapping.id, { expectedVersion: 7 }, operatorId);
+
+        expect(restored).toMatchObject({
+            orgUnitId: null,
+            status: ExternalDepartmentMappingStatusValue.Unmapped,
+            reviewState: ExternalDepartmentMappingReviewStateValue.Unmapped
+        });
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'external-department-mapping.restored' }));
     });
 
     it('creates a preview run with Feishu department snapshots and create diff items', async () => {

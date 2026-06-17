@@ -95,16 +95,16 @@
 
 ## 5. 命令与接口边界
 
-| Route / Controller                                                  | Command / Query                     | Request DTO / Contract                    | Response DTO / Contract            | Guard / Permission                                       | Result  |
-| ------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------- | ---------------------------------- | -------------------------------------------------------- | ------- |
-| `GET /platform/external-org-sources/{sourceId}/department-mappings` | `listExternalDepartmentMappings`    | `ExternalDepartmentMappingListQuery`      | `ExternalDepartmentMappingList`    | `platform:org-units:manage` + `platform:org-sync:manage` | rework  |
-| `PUT /platform/external-org-sources/{sourceId}/department-mappings` | `replaceExternalDepartmentMappings` | existing                                  | existing                           | same                                                     | legacy  |
-| `POST /platform/external-department-mappings/{id}:map`              | `mapExternalDepartmentMapping`      | `MapExternalDepartmentMappingRequest`     | `ExternalDepartmentMappingSummary` | same                                                     | planned |
-| `POST /platform/external-department-mappings/{id}:unmap`            | `unmapExternalDepartmentMapping`    | `UnmapExternalDepartmentMappingRequest`   | `ExternalDepartmentMappingSummary` | same                                                     | planned |
-| `POST /platform/external-department-mappings/{id}:ignore`           | `ignoreExternalDepartmentMapping`   | `IgnoreExternalDepartmentMappingRequest`  | `ExternalDepartmentMappingSummary` | same                                                     | planned |
-| `POST /platform/external-department-mappings/{id}:restore`          | `restoreExternalDepartmentMapping`  | `RestoreExternalDepartmentMappingRequest` | `ExternalDepartmentMappingSummary` | same                                                     | planned |
-| `GET /platform/org-sync-runs/{id}/diff-items`                       | `listOrgSyncDiffItems`              | existing                                  | existing                           | same                                                     | reused  |
-| `POST /platform/external-org-sources/{sourceId}/org-sync-runs`      | `createOrgSyncRun`                  | existing                                  | existing                           | same                                                     | reused  |
+| Route / Controller                                                  | Command / Query                     | Request DTO / Contract                    | Response DTO / Contract            | Guard / Permission                                       | Result      |
+| ------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------- | ---------------------------------- | -------------------------------------------------------- | ----------- |
+| `GET /platform/external-org-sources/{sourceId}/department-mappings` | `listExternalDepartmentMappings`    | `ExternalDepartmentMappingListQuery`      | `ExternalDepartmentMappingList`    | `platform:org-units:manage` + `platform:org-sync:manage` | implemented |
+| `PUT /platform/external-org-sources/{sourceId}/department-mappings` | `replaceExternalDepartmentMappings` | existing                                  | existing                           | same                                                     | legacy      |
+| `POST /platform/external-department-mappings/{id}:map`              | `mapExternalDepartmentMapping`      | `MapExternalDepartmentMappingRequest`     | `ExternalDepartmentMappingSummary` | same                                                     | implemented |
+| `POST /platform/external-department-mappings/{id}:unmap`            | `unmapExternalDepartmentMapping`    | `UnmapExternalDepartmentMappingRequest`   | `ExternalDepartmentMappingSummary` | same                                                     | implemented |
+| `POST /platform/external-department-mappings/{id}:ignore`           | `ignoreExternalDepartmentMapping`   | `IgnoreExternalDepartmentMappingRequest`  | `ExternalDepartmentMappingSummary` | same                                                     | implemented |
+| `POST /platform/external-department-mappings/{id}:restore`          | `restoreExternalDepartmentMapping`  | `RestoreExternalDepartmentMappingRequest` | `ExternalDepartmentMappingSummary` | same                                                     | implemented |
+| `GET /platform/org-sync-runs/{id}/diff-items`                       | `listOrgSyncDiffItems`              | existing                                  | existing                           | same                                                     | reused      |
+| `POST /platform/external-org-sources/{sourceId}/org-sync-runs`      | `createOrgSyncRun`                  | existing                                  | existing                           | same                                                     | reused      |
 
 ### 5.1 公共路由补充信息
 
@@ -114,10 +114,14 @@
   - `POST /platform/external-department-mappings/{id}:unmap`
   - `POST /platform/external-department-mappings/{id}:ignore`
   - `POST /platform/external-department-mappings/{id}:restore`
-- Current implemented route(s): none for the four commands.
-- Inventory status: `planned`
+- Current implemented route(s):
+  - `POST /platform/external-department-mappings/{id}:map`
+  - `POST /platform/external-department-mappings/{id}:unmap`
+  - `POST /platform/external-department-mappings/{id}:ignore`
+  - `POST /platform/external-department-mappings/{id}:restore`
+- Inventory status: `aligned`
 - Route governance source: `ADR-015` + `EX-72A/C` + `#10`
-- Blocker / exception: implementation is blocked until these planned rows, request contracts and OpenAPI generation are added together in G2.
+- Blocker / exception: none.
 
 ### 5.2 Request contract rules
 
@@ -130,12 +134,12 @@
 
 ## 6. 读侧边界
 
-| Query / View                | Consumer                | Fields / Behavior                                                                                            | Filter / Sort                             | Result  |
-| --------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------- | ------- |
-| Mapping list                | Admin mapping workbench | Existing summary plus `reviewState`、`conflictReason`、`lastConflictRunId`、`lastConflictDiffItemId`。       | status / reviewState / search / orgUnitId | rework  |
-| Latest conflict diff lookup | API service read model  | For each mapping, derive latest conflict/stale reason from latest source run diff item when available.       | source-scoped, newest run first           | planned |
-| Current preview diff jump   | Admin mapping workbench | Row action opens current run detail or filters diff list by `externalDepartmentId` when related diff exists. | externalDepartmentId                      | reused  |
-| OrgUnit selection           | Admin mapping dialog    | Reuse loaded org units; disabled/inactive org units cannot be selected as target mapping.                    | local search                              | reused  |
+| Query / View                | Consumer                | Fields / Behavior                                                                                            | Filter / Sort                             | Result      |
+| --------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------- | ----------- |
+| Mapping list                | Admin mapping workbench | Existing summary plus `reviewState`、`conflictReason`、`lastConflictRunId`、`lastConflictDiffItemId`。       | status / reviewState / search / orgUnitId | implemented |
+| Latest conflict diff lookup | API service read model  | For each mapping, derive latest conflict/stale reason from latest source run diff item when available.       | source-scoped, newest run first           | implemented |
+| Current preview diff jump   | Admin mapping workbench | Row action opens current run detail or filters diff list by `externalDepartmentId` when related diff exists. | externalDepartmentId                      | reused      |
+| OrgUnit selection           | Admin mapping dialog    | Reuse loaded org units; disabled/inactive org units cannot be selected as target mapping.                    | local search                              | reused      |
 
 ## 7. 持久化边界
 
@@ -146,14 +150,14 @@
 | `org_sync_run`                | No        | `OrgSyncRun`                              | EX-72B migration    | reuse run status and startedAt for latest lookup |
 | `org_unit`                    | No        | existing platform `OrgUnit` read boundary | platform model      | target OrgUnit must exist and be active          |
 
-| Field / Shape                                  | Design Type / Meaning                  | Migration / DDL | Entity         | Shared Contract / OpenAPI    | Result   |
-| ---------------------------------------------- | -------------------------------------- | --------------- | -------------- | ---------------------------- | -------- |
-| `ExternalDepartmentMapping.status`             | persisted mapping lifecycle            | existing check  | existing       | existing enum                | reuse    |
-| `ExternalDepartmentMapping.orgUnitId`          | nullable POMS OrgUnit UUID             | existing FK     | existing       | existing nullable UUID       | reuse    |
-| `ExternalDepartmentMapping.rowVersion`         | optimistic concurrency                 | existing int    | existing       | request `expectedVersion`    | required |
-| `reviewState`                                  | derived mapping review state           | N/A             | N/A            | new response field           | planned  |
-| `conflictReason`                               | latest conflict / stale display reason | N/A             | from diff item | new nullable response field  | planned  |
-| `lastConflictRunId` / `lastConflictDiffItemId` | jump target                            | N/A             | from diff item | new nullable response fields | planned  |
+| Field / Shape                                  | Design Type / Meaning                  | Migration / DDL | Entity         | Shared Contract / OpenAPI    | Result      |
+| ---------------------------------------------- | -------------------------------------- | --------------- | -------------- | ---------------------------- | ----------- |
+| `ExternalDepartmentMapping.status`             | persisted mapping lifecycle            | existing check  | existing       | existing enum                | reuse       |
+| `ExternalDepartmentMapping.orgUnitId`          | nullable POMS OrgUnit UUID             | existing FK     | existing       | existing nullable UUID       | reuse       |
+| `ExternalDepartmentMapping.rowVersion`         | optimistic concurrency                 | existing int    | existing       | request `expectedVersion`    | required    |
+| `reviewState`                                  | derived mapping review state           | N/A             | N/A            | new response field           | implemented |
+| `conflictReason`                               | latest conflict / stale display reason | N/A             | from diff item | new nullable response field  | implemented |
+| `lastConflictRunId` / `lastConflictDiffItemId` | jump target                            | N/A             | from diff item | new nullable response fields | implemented |
 
 ## 8. UI 与交互边界
 
@@ -181,16 +185,16 @@
 
 ## 10. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                                                                      | Result  | Gap / Reason                                                      |
-| -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------- |
-| API focused tests                | Yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=external-org-sync --skip-nx-cache`                       | Pending | 覆盖 map / unmap / ignore / restore、rowVersion、唯一约束和审计。 |
-| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`           | Pending | 覆盖筛选、行操作、冲突原因、预览 stale 提示和重新预览入口。       |
-| Admin data-access lint           | Yes      | `corepack pnpm nx lint admin-data-access --skip-nx-cache`                                                               | Pending | store 新 command 方法和状态。                                     |
-| API lint / build                 | Yes      | `corepack pnpm nx lint poms-api --skip-nx-cache` / `corepack pnpm nx build poms-api --skip-nx-cache`                    | Pending | 新 controller / service / contract。                              |
-| Admin lint / build               | Yes      | `corepack pnpm nx lint poms-admin --skip-nx-cache` / `corepack pnpm nx build poms-admin --skip-nx-cache`                | Pending | Angular template 和 PrimeNG form/dialog。                         |
-| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` / `corepack pnpm nx run shared-api-client:generate` / `shared-api-client:check` | Pending | 新 command routes 和 mapping response fields。                    |
-| Migration / schema check         | No       | N/A                                                                                                                     | N/A     | G1 冻结为无 DDL 变更。                                            |
-| Markdown / diff sanity           | Yes      | `corepack pnpm run format:md:check` / `git diff --check`                                                                | Pending | 本片新增 Markdown，提交前必跑。                                   |
+| Check                            | Required | Command / Evidence                                                                                                      | Result | Gap / Reason                                                                           |
+| -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------- |
+| API focused tests                | Yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=external-org-sync --skip-nx-cache`                       | Pass   | 3 suites / 32 tests；覆盖 map / unmap / ignore / restore、rowVersion、唯一约束和审计。 |
+| Admin focused tests              | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`           | Pass   | 1 suite / 38 tests；覆盖筛选、行操作和预览 stale 阻断。                                |
+| Admin data-access lint           | Yes      | `corepack pnpm nx lint admin-data-access --skip-nx-cache`                                                               | Pass   | store 新 command 方法和状态。                                                          |
+| API lint / build                 | Yes      | `corepack pnpm nx lint poms-api --skip-nx-cache` / `corepack pnpm nx build poms-api --skip-nx-cache`                    | Pass   | 新 controller / service / contract。                                                   |
+| Admin lint / build               | Yes      | `corepack pnpm nx lint poms-admin --skip-nx-cache` / `corepack pnpm nx build poms-admin --skip-nx-cache`                | Pass   | Angular template 和 PrimeNG form/dialog；build 有既有 bundle budget warning，未失败。  |
+| OpenAPI generation / client diff | Yes      | `corepack pnpm nx run poms-api:openapi` / `corepack pnpm nx run shared-api-client:generate` / `shared-api-client:check` | Pass   | 新 command routes 和 mapping response fields 已同步。                                  |
+| Migration / schema check         | No       | N/A                                                                                                                     | N/A    | G1 冻结为无 DDL 变更。                                                                 |
+| Markdown / diff sanity           | Yes      | `corepack pnpm run format:md` / `git diff --check`                                                                      | Pass   | Markdown 表格已格式化，diff 空白检查通过。                                             |
 
 ## 11. 例外与风险
 
@@ -209,3 +213,33 @@
   - `expectedVersion` 是四个 row-level command 的必填并发边界。
   - `ignore` 必须清空 `orgUnitId`，避免 ignored 关系继续占用 POMS 组织映射唯一性。
   - `stale` 只作为 derived review state；不得在没有设计回滚的情况下新增 DDL enum。
+
+## 13. G3 实施证据
+
+- Gate Status: `Pass`
+- Implemented By: `Codex`
+- Implemented At: 2026-06-17
+- Code scope:
+  - Shared contracts / API DTO / OpenAPI / generated client: 新增 mapping review state、行级 command requests、summary 派生字段和 list query `reviewState/search`。
+  - API: 新增四条 B18 row-level command routes；service 使用 mapping `expectedVersion`、active OrgUnit 校验、source editable 校验、唯一映射校验和审计；读侧从最新 run diff item 派生冲突 / stale metadata。
+  - Admin data-access: 新增 map / unmap / ignore / restore store command，映射变更后标记当前 preview stale。
+  - Admin UI: 外部部门映射表支持处理状态筛选、搜索、行级映射弹窗、解除 / 忽略 / 恢复、来源差异详情入口和 stale preview 阻断应用。
+  - Governance: B18 route inventory 已将四条 command routes 从 `planned` 推进到 `aligned`。
+- Validation:
+  - `corepack pnpm nx test poms-api --runInBand --testPathPatterns=external-org-sync --skip-nx-cache`
+  - `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=external-org-sync-workbench --skip-nx-cache`
+  - `corepack pnpm nx run poms-api:openapi --skip-nx-cache`
+  - `corepack pnpm nx run shared-api-client:generate --skip-nx-cache`
+  - `corepack pnpm nx run shared-api-client:check --skip-nx-cache`
+  - `corepack pnpm nx lint poms-api --skip-nx-cache`
+  - `corepack pnpm nx lint poms-admin --skip-nx-cache`
+  - `corepack pnpm nx lint admin-data-access --skip-nx-cache`
+  - `corepack pnpm nx build poms-api --skip-nx-cache`
+  - `corepack pnpm nx build admin-data-access --skip-nx-cache`
+  - `corepack pnpm nx build poms-admin --skip-nx-cache`
+  - `corepack pnpm run format:md`
+  - `git diff --check`
+- Residual notes:
+  - 无 DDL / migration 变更。
+  - `replaceExternalDepartmentMappings` 保持 legacy 受控批量维护接口，不作为 Admin 行级交互路径。
+  - `poms-admin` build 仍报告 initial bundle 超预算 7.32 kB 的 warning；命令成功，非本切片阻断。

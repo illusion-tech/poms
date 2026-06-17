@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+    ExternalDepartmentMappingReviewState,
     ExternalDepartmentMappingStatus,
     type ExternalDepartmentMappingSummary,
     ExternalOrgProvider,
@@ -57,6 +58,10 @@ function createMapping(overrides: Partial<ExternalDepartmentMappingSummary> = {}
         externalDepartmentName: '飞书总部',
         orgUnitId: 'org-root',
         status: ExternalDepartmentMappingStatus.Mapped,
+        reviewState: ExternalDepartmentMappingReviewState.Mapped,
+        conflictReason: null,
+        lastConflictRunId: null,
+        lastConflictDiffItemId: null,
         externalSnapshot: {},
         lastSeenAt: '2026-06-10T08:30:00.000Z',
         rowVersion: 1,
@@ -206,6 +211,8 @@ describe('ExternalOrgSyncWorkbench', () => {
         loadingRunDetail: ReturnType<typeof signal<boolean>>;
         loadingRunDetailId: ReturnType<typeof signal<string | null>>;
         applyingRun: ReturnType<typeof signal<boolean>>;
+        savingMappingId: ReturnType<typeof signal<string | null>>;
+        previewStale: ReturnType<typeof signal<boolean>>;
         loadSources: jest.Mock;
         loadRunHistory: jest.Mock;
         loadRunDetail: jest.Mock;
@@ -218,6 +225,10 @@ describe('ExternalOrgSyncWorkbench', () => {
         archiveSource: jest.Mock;
         createPreviewRun: jest.Mock;
         applyRun: jest.Mock;
+        mapMapping: jest.Mock;
+        unmapMapping: jest.Mock;
+        ignoreMapping: jest.Mock;
+        restoreMapping: jest.Mock;
     };
     let identityProviderStoreMock: {
         configs: ReturnType<typeof signal<IdentityProviderConfigSummary[]>>;
@@ -259,6 +270,8 @@ describe('ExternalOrgSyncWorkbench', () => {
             loadingRunDetail: signal(false),
             loadingRunDetailId: signal(null),
             applyingRun: signal(false),
+            savingMappingId: signal(null),
+            previewStale: signal(false),
             loadSources: jest.fn().mockResolvedValue(sources()),
             loadRunHistory: jest.fn().mockResolvedValue(runHistory()),
             loadRunDetail: jest.fn().mockImplementation((id: string) => {
@@ -289,7 +302,31 @@ describe('ExternalOrgSyncWorkbench', () => {
             pauseSource: jest.fn().mockResolvedValue(createSource({ status: ExternalOrgSourceStatus.Paused, rowVersion: 4 })),
             archiveSource: jest.fn().mockResolvedValue(createSource({ status: ExternalOrgSourceStatus.Archived, rowVersion: 4 })),
             createPreviewRun: jest.fn().mockResolvedValue(createRun()),
-            applyRun: jest.fn().mockResolvedValue(createRun({ status: OrgSyncRunStatus.Applied }))
+            applyRun: jest.fn().mockResolvedValue(createRun({ status: OrgSyncRunStatus.Applied })),
+            mapMapping: jest.fn().mockImplementation((id: string, request: { orgUnitId: string; expectedVersion: number }) => {
+                const updated = { ...mappings().find((mapping) => mapping.id === id), orgUnitId: request.orgUnitId, status: ExternalDepartmentMappingStatus.Mapped, reviewState: ExternalDepartmentMappingReviewState.Mapped, rowVersion: request.expectedVersion + 1 } as ExternalDepartmentMappingSummary;
+                mappings.set(mappings().map((mapping) => (mapping.id === id ? updated : mapping)));
+                syncStoreMock.previewStale.set(true);
+                return Promise.resolve(updated);
+            }),
+            unmapMapping: jest.fn().mockImplementation((id: string, request: { expectedVersion: number }) => {
+                const updated = { ...mappings().find((mapping) => mapping.id === id), orgUnitId: null, status: ExternalDepartmentMappingStatus.Unmapped, reviewState: ExternalDepartmentMappingReviewState.Unmapped, rowVersion: request.expectedVersion + 1 } as ExternalDepartmentMappingSummary;
+                mappings.set(mappings().map((mapping) => (mapping.id === id ? updated : mapping)));
+                syncStoreMock.previewStale.set(true);
+                return Promise.resolve(updated);
+            }),
+            ignoreMapping: jest.fn().mockImplementation((id: string, request: { expectedVersion: number }) => {
+                const updated = { ...mappings().find((mapping) => mapping.id === id), orgUnitId: null, status: ExternalDepartmentMappingStatus.Ignored, reviewState: ExternalDepartmentMappingReviewState.Ignored, rowVersion: request.expectedVersion + 1 } as ExternalDepartmentMappingSummary;
+                mappings.set(mappings().map((mapping) => (mapping.id === id ? updated : mapping)));
+                syncStoreMock.previewStale.set(true);
+                return Promise.resolve(updated);
+            }),
+            restoreMapping: jest.fn().mockImplementation((id: string, request: { expectedVersion: number }) => {
+                const updated = { ...mappings().find((mapping) => mapping.id === id), orgUnitId: null, status: ExternalDepartmentMappingStatus.Unmapped, reviewState: ExternalDepartmentMappingReviewState.Unmapped, rowVersion: request.expectedVersion + 1 } as ExternalDepartmentMappingSummary;
+                mappings.set(mappings().map((mapping) => (mapping.id === id ? updated : mapping)));
+                syncStoreMock.previewStale.set(true);
+                return Promise.resolve(updated);
+            })
         };
         identityProviderStoreMock = {
             configs: signal<IdentityProviderConfigSummary[]>([createProviderConfig()]),
@@ -347,6 +384,53 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(text).toContain('飞书通讯录');
         expect(text).toContain('飞书总部');
         expect(text).toContain('销售部');
+    });
+
+    it('filters mappings by review state and search text', () => {
+        mappings.set([
+            createMapping({ id: 'mapping-1', externalDepartmentName: '飞书总部', externalDepartmentId: 'od-root', reviewState: ExternalDepartmentMappingReviewState.Mapped }),
+            createMapping({
+                id: 'mapping-2',
+                externalDepartmentName: '销售部',
+                externalDepartmentId: 'od-sales',
+                orgUnitId: null,
+                status: ExternalDepartmentMappingStatus.Conflict,
+                reviewState: ExternalDepartmentMappingReviewState.Conflict,
+                conflictReason: '已映射的 POMS 组织不存在'
+            })
+        ]);
+
+        component.mappingReviewStateFilter.set(ExternalDepartmentMappingReviewState.Conflict);
+        component.mappingSearchText.set('销售');
+
+        expect(component.filteredMappings()).toHaveLength(1);
+        expect(component.filteredMappings()[0].externalDepartmentId).toBe('od-sales');
+    });
+
+    it('maps an external department through the row-level command and marks preview stale', async () => {
+        const mapping = createMapping({ rowVersion: 2, orgUnitId: null, status: ExternalDepartmentMappingStatus.Unmapped, reviewState: ExternalDepartmentMappingReviewState.Unmapped });
+
+        component.openMappingDialog(mapping);
+        component.mappingTargetOrgUnitId = 'org-root';
+
+        await component.saveMappingDialog();
+
+        expect(syncStoreMock.mapMapping).toHaveBeenCalledWith('mapping-1', {
+            orgUnitId: 'org-root',
+            expectedVersion: 2
+        });
+        expect(syncStoreMock.previewStale()).toBe(true);
+        expect(component.mappingDialogVisible).toBe(false);
+    });
+
+    it('blocks applying the current preview after mapping changes', () => {
+        component.selectedDiffItemIds.set(new Set(['diff-item-1']));
+
+        expect(component.canApplyRun()).toBe(true);
+
+        syncStoreMock.previewStale.set(true);
+
+        expect(component.canApplyRun()).toBe(false);
     });
 
     it('shows run history and opens run detail without replacing the active preview', async () => {

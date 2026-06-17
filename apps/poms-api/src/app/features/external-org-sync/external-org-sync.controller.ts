@@ -4,11 +4,14 @@ import {
     ApplyOrgSyncRunRequestDto,
     CreateExternalOrgSourceRequestDto,
     CreateOrgSyncRunRequestDto,
+    ExternalDepartmentMappingDto,
     ExternalDepartmentMappingListDto,
     ExternalDepartmentMappingListQueryDto,
     ExternalOrgSourceDto,
     ExternalOrgSourceListDto,
     ExternalOrgSourceListQueryDto,
+    IgnoreExternalDepartmentMappingRequestDto,
+    MapExternalDepartmentMappingRequestDto,
     OrgSyncDiffItemListDto,
     OrgSyncDiffItemListQueryDto,
     OrgSyncRunDto,
@@ -16,10 +19,13 @@ import {
     OrgSyncRunListQueryDto,
     PauseExternalOrgSourceRequestDto,
     ReplaceExternalDepartmentMappingsRequestDto,
+    RestoreExternalDepartmentMappingRequestDto,
+    UnmapExternalDepartmentMappingRequestDto,
     UpdateExternalOrgSourceRequestDto
 } from '@poms/api-contracts';
 import type {
     ExternalDepartmentMappingList,
+    ExternalDepartmentMappingSummary,
     ExternalOrgSourceDetail,
     ExternalOrgSourceList,
     OrgSyncDiffItemList,
@@ -107,6 +113,8 @@ export class ExternalOrgSyncController {
     listExternalDepartmentMappings(@Param('sourceId') sourceId: string, @Query() query: ExternalDepartmentMappingListQueryDto): Promise<ExternalDepartmentMappingList> {
         return this.externalOrgSyncService.listExternalDepartmentMappings(sourceId, {
             status: query.status,
+            reviewState: query.reviewState,
+            search: query.search,
             externalDepartmentId: query.externalDepartmentId,
             orgUnitId: query.orgUnitId
         });
@@ -123,6 +131,42 @@ export class ExternalOrgSyncController {
         @Request() req: { user: UserPayload }
     ): Promise<ExternalDepartmentMappingList> {
         return this.externalOrgSyncService.replaceExternalDepartmentMappings(sourceId, body, req.user.sub);
+    }
+
+    @Post('external-department-mappings/:id\\:map')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '映射外部部门到 POMS 组织' })
+    @ApiOkResponse({ type: ExternalDepartmentMappingDto })
+    mapExternalDepartmentMapping(@Param('id') id: string, @Body() body: MapExternalDepartmentMappingRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalDepartmentMappingSummary> {
+        return this.externalOrgSyncService.mapExternalDepartmentMapping(id, body, req.user.sub);
+    }
+
+    @Post('external-department-mappings/:id\\:unmap')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '解除外部部门映射' })
+    @ApiOkResponse({ type: ExternalDepartmentMappingDto })
+    unmapExternalDepartmentMapping(@Param('id') id: string, @Body() body: UnmapExternalDepartmentMappingRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalDepartmentMappingSummary> {
+        return this.externalOrgSyncService.unmapExternalDepartmentMapping(id, body, req.user.sub);
+    }
+
+    @Post('external-department-mappings/:id\\:ignore')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '忽略外部部门映射' })
+    @ApiOkResponse({ type: ExternalDepartmentMappingDto })
+    ignoreExternalDepartmentMapping(@Param('id') id: string, @Body() body: IgnoreExternalDepartmentMappingRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalDepartmentMappingSummary> {
+        return this.externalOrgSyncService.ignoreExternalDepartmentMapping(id, body, req.user.sub);
+    }
+
+    @Post('external-department-mappings/:id\\:restore')
+    @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: '恢复已忽略外部部门映射' })
+    @ApiOkResponse({ type: ExternalDepartmentMappingDto })
+    restoreExternalDepartmentMapping(@Param('id') id: string, @Body() body: RestoreExternalDepartmentMappingRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalDepartmentMappingSummary> {
+        return this.externalOrgSyncService.restoreExternalDepartmentMapping(id, body, req.user.sub);
     }
 
     @Post('external-org-sources/:sourceId/org-sync-runs')

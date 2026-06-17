@@ -1,13 +1,18 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import type { ExternalDepartmentMappingListQuery, ExternalOrgProvider, ExternalOrgSourceListQuery, OrgSyncDiffItemListQuery, OrgSyncRunListQuery } from '@poms/shared-contracts';
+import { ExternalDepartmentMappingStatusValue, type ExternalDepartmentMappingListQuery, type ExternalOrgProvider, type ExternalOrgSourceListQuery, type OrgSyncDiffItemListQuery, type OrgSyncRunListQuery } from '@poms/shared-contracts';
 import { IdentityProviderConfig } from '../identity-provider/identity-provider-config.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { ExternalDepartmentMapping } from './external-department-mapping.entity';
 import { ExternalOrgSource } from './external-org-source.entity';
 import { OrgSyncDiffItem } from './org-sync-diff-item.entity';
 import { OrgSyncRun } from './org-sync-run.entity';
+
+export interface ExternalDepartmentMappingDiffContext {
+    run: OrgSyncRun;
+    item: OrgSyncDiffItem;
+}
 
 @Injectable()
 export class ExternalOrgSyncRepository {
@@ -81,8 +86,59 @@ export class ExternalOrgSyncRepository {
         );
     }
 
+    findMappingById(id: string): Promise<ExternalDepartmentMapping | null> {
+        return this.mappingRepository.findOne({ id });
+    }
+
+    findMappedOrgUnitMapping(sourceId: string, orgUnitId: string): Promise<ExternalDepartmentMapping | null> {
+        return this.mappingRepository.findOne({
+            sourceId,
+            orgUnitId,
+            status: ExternalDepartmentMappingStatusValue.Mapped
+        });
+    }
+
     findMappingsBySourceId(sourceId: string): Promise<ExternalDepartmentMapping[]> {
         return this.mappingRepository.find({ sourceId }, { orderBy: { externalDepartmentName: QueryOrder.ASC, createdAt: QueryOrder.ASC } });
+    }
+
+    async findRecentDiffItemsForMappings(sourceId: string, externalDepartmentIds: string[], runLimit = 20): Promise<ExternalDepartmentMappingDiffContext[]> {
+        const uniqueExternalDepartmentIds = [...new Set(externalDepartmentIds.filter((id) => id.trim()))];
+        if (uniqueExternalDepartmentIds.length === 0) return [];
+
+        const runs = await this.runRepository.find(
+            { sourceId },
+            {
+                orderBy: { startedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC },
+                limit: runLimit
+            }
+        );
+        if (runs.length === 0) return [];
+
+        const runById = new Map(runs.map((run) => [run.id, run]));
+        const items = await this.diffItemRepository.find(
+            {
+                runId: { $in: runs.map((run) => run.id) },
+                externalDepartmentId: { $in: uniqueExternalDepartmentIds }
+            },
+            { orderBy: { createdAt: QueryOrder.DESC } }
+        );
+
+        return items
+            .map((item) => {
+                const run = runById.get(item.runId);
+                return run ? { run, item } : null;
+            })
+            .filter((value): value is ExternalDepartmentMappingDiffContext => value !== null)
+            .sort((left, right) => {
+                const leftStartedAt = left.run.startedAt.getTime();
+                const rightStartedAt = right.run.startedAt.getTime();
+                if (leftStartedAt !== rightStartedAt) return rightStartedAt - leftStartedAt;
+                const leftRunCreatedAt = left.run.createdAt.getTime();
+                const rightRunCreatedAt = right.run.createdAt.getTime();
+                if (leftRunCreatedAt !== rightRunCreatedAt) return rightRunCreatedAt - leftRunCreatedAt;
+                return right.item.createdAt.getTime() - left.item.createdAt.getTime();
+            });
     }
 
     createMapping(input: ConstructorParameters<typeof ExternalDepartmentMapping>[0]): ExternalDepartmentMapping {

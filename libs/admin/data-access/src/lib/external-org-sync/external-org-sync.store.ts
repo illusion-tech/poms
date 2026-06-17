@@ -5,21 +5,26 @@ import {
     type ArchiveExternalOrgSourceRequest,
     type CreateExternalOrgSourceRequest,
     type CreateOrgSyncRunRequest,
+    type ExternalDepartmentMappingReviewState,
     type ExternalDepartmentMappingStatus,
     type ExternalDepartmentMappingSummary,
     type ExternalOrgProvider,
     type ExternalOrgSourceStatus,
     type ExternalOrgSourceSummary,
     ExternalOrgSyncApi,
+    type IgnoreExternalDepartmentMappingRequest,
+    type MapExternalDepartmentMappingRequest,
     type OrgSyncDiffAction,
     OrgSyncDiffItemStatus,
     type OrgSyncDiffItemSummary,
     type OrgSyncRunStatus,
     type OrgSyncRunSummary,
     type PauseExternalOrgSourceRequest,
+    type RestoreExternalDepartmentMappingRequest,
+    type UnmapExternalDepartmentMappingRequest,
     type UpdateExternalOrgSourceRequest,
 } from "@poms/shared-api-client";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, type Observable } from "rxjs";
 
 export interface ExternalOrgSourceFilters {
     provider?: ExternalOrgProvider;
@@ -28,6 +33,8 @@ export interface ExternalOrgSourceFilters {
 
 export interface ExternalDepartmentMappingFilters {
     status?: ExternalDepartmentMappingStatus;
+    reviewState?: ExternalDepartmentMappingReviewState;
+    search?: string;
     externalDepartmentId?: string;
     orgUnitId?: string;
 }
@@ -72,6 +79,8 @@ export class ExternalOrgSyncStore {
     readonly #loadingRunDetail = signal(false);
     readonly #loadingRunDetailId = signal<string | null>(null);
     readonly #applyingRun = signal(false);
+    readonly #savingMappingId = signal<string | null>(null);
+    readonly #previewStale = signal(false);
 
     readonly sources = this.#sources.asReadonly();
     readonly selectedSourceId = this.#selectedSourceId.asReadonly();
@@ -90,6 +99,8 @@ export class ExternalOrgSyncStore {
     readonly loadingRunDetail = this.#loadingRunDetail.asReadonly();
     readonly loadingRunDetailId = this.#loadingRunDetailId.asReadonly();
     readonly applyingRun = this.#applyingRun.asReadonly();
+    readonly savingMappingId = this.#savingMappingId.asReadonly();
+    readonly previewStale = this.#previewStale.asReadonly();
     readonly selectedSource = computed(() => this.#sources().find(source => source.id === this.#selectedSourceId()) ?? null);
     readonly hasPendingDiffItems = computed(() => this.#diffItems().some(item => item.status === OrgSyncDiffItemStatus.Pending));
 
@@ -121,6 +132,7 @@ export class ExternalOrgSyncStore {
         this.#activeRun.set(null);
         this.#diffItems.set([]);
         this.#runHistory.set([]);
+        this.#previewStale.set(false);
         this.clearRunDetail();
         if (sourceId) {
             this.#mappings.set([]);
@@ -193,6 +205,8 @@ export class ExternalOrgSyncStore {
                 this.#api.externalOrgSyncControllerListExternalDepartmentMappings({
                     sourceId,
                     status: filters.status,
+                    reviewState: filters.reviewState,
+                    search: filters.search?.trim() || undefined,
                     externalDepartmentId: filters.externalDepartmentId,
                     orgUnitId: filters.orgUnitId,
                 }),
@@ -209,6 +223,7 @@ export class ExternalOrgSyncStore {
         try {
             const run = await firstValueFrom(this.#api.externalOrgSyncControllerCreateOrgSyncRun({ sourceId, createOrgSyncRunRequest: request }));
             this.#activeRun.set(run);
+            this.#previewStale.set(false);
             await this.loadDiffItems(run.id);
             await this.refreshRunHistoryBestEffort(sourceId);
             return run;
@@ -300,13 +315,64 @@ export class ExternalOrgSyncStore {
         }
     }
 
+    async mapMapping(id: string, request: MapExternalDepartmentMappingRequest): Promise<ExternalDepartmentMappingSummary> {
+        return this.writeMapping(id, () =>
+            this.#api.externalOrgSyncControllerMapExternalDepartmentMapping({
+                id,
+                mapExternalDepartmentMappingRequest: request,
+            }),
+        );
+    }
+
+    async unmapMapping(id: string, request: UnmapExternalDepartmentMappingRequest): Promise<ExternalDepartmentMappingSummary> {
+        return this.writeMapping(id, () =>
+            this.#api.externalOrgSyncControllerUnmapExternalDepartmentMapping({
+                id,
+                unmapExternalDepartmentMappingRequest: request,
+            }),
+        );
+    }
+
+    async ignoreMapping(id: string, request: IgnoreExternalDepartmentMappingRequest): Promise<ExternalDepartmentMappingSummary> {
+        return this.writeMapping(id, () =>
+            this.#api.externalOrgSyncControllerIgnoreExternalDepartmentMapping({
+                id,
+                ignoreExternalDepartmentMappingRequest: request,
+            }),
+        );
+    }
+
+    async restoreMapping(id: string, request: RestoreExternalDepartmentMappingRequest): Promise<ExternalDepartmentMappingSummary> {
+        return this.writeMapping(id, () =>
+            this.#api.externalOrgSyncControllerRestoreExternalDepartmentMapping({
+                id,
+                restoreExternalDepartmentMappingRequest: request,
+            }),
+        );
+    }
+
     clearSelection(): void {
         this.#selectedSourceId.set(null);
         this.#mappings.set([]);
         this.#activeRun.set(null);
         this.#diffItems.set([]);
         this.#runHistory.set([]);
+        this.#previewStale.set(false);
         this.clearRunDetail();
+    }
+
+    private async writeMapping(id: string, command: () => Observable<ExternalDepartmentMappingSummary>): Promise<ExternalDepartmentMappingSummary> {
+        this.#savingMappingId.set(id);
+        try {
+            const updated = await firstValueFrom(command());
+            this.#mappings.update((mappings) => mappings.map((mapping) => (mapping.id === updated.id ? updated : mapping)));
+            this.#previewStale.set(true);
+            return updated;
+        } finally {
+            if (this.#savingMappingId() === id) {
+                this.#savingMappingId.set(null);
+            }
+        }
     }
 
     private async refreshRunHistoryBestEffort(sourceId: string): Promise<void> {
