@@ -130,7 +130,13 @@ describe('ExternalOrgSyncController', () => {
         await controller.listOrgSyncDiffItems(runId, {});
         await controller.applyOrgSyncRun(runId, { expectedVersion: 1 }, operatorRequest as never);
 
-        expect(service.listExternalDepartmentMappings).toHaveBeenCalledWith(sourceId, { status: ExternalDepartmentMappingStatusValue.Unmapped, externalDepartmentId: undefined, orgUnitId: undefined });
+        expect(service.listExternalDepartmentMappings).toHaveBeenCalledWith(sourceId, {
+            status: ExternalDepartmentMappingStatusValue.Unmapped,
+            reviewState: undefined,
+            search: undefined,
+            externalDepartmentId: undefined,
+            orgUnitId: undefined
+        });
         expect(service.replaceExternalDepartmentMappings).toHaveBeenCalledWith(sourceId, { expectedSourceVersion: 1, items: [] }, operatorRequest.user.sub);
         expect(service.mapExternalDepartmentMapping).toHaveBeenCalledWith(mappings[0].id, { orgUnitId: '97000000-0000-4000-8000-000000000201', expectedVersion: 1 }, operatorRequest.user.sub);
         expect(service.unmapExternalDepartmentMapping).toHaveBeenCalledWith(mappings[0].id, { expectedVersion: 2 }, operatorRequest.user.sub);
