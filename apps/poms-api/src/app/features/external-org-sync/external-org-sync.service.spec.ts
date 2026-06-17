@@ -386,6 +386,23 @@ describe('ExternalOrgSyncService', () => {
         );
     });
 
+    it('caps failed run diagnostic next actions to the shared contract limit', async () => {
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
+        repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
+        const nextActions = Array.from({ length: 10 }, (_value, index) => `排查动作 ${index + 1}`);
+        feishuAdapter.fetchDepartmentTree.mockRejectedValue(
+            new ExternalOrgDirectoryAdapterError('飞书通讯录读取失败', {
+                providerCode: '99991663',
+                nextActions
+            })
+        );
+
+        const result = await service.createOrgSyncRun(sourceId, { expectedSourceVersion: 3 }, operatorId);
+
+        expect(result.diagnosticSummary?.nextActions).toEqual(nextActions.slice(0, 8));
+        expect((result.resultSummary?.['diagnosticSummary'] as { nextActions?: string[] }).nextActions).toEqual(nextActions.slice(0, 8));
+    });
+
     it('lists recent sync runs for a source with status and limit filters', async () => {
         const run = createRun({ status: OrgSyncRunStatusValue.Failed, errorSummary: '飞书权限未开通' });
         repository.findSourceById.mockResolvedValue(createSource({ id: sourceId }));

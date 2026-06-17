@@ -77,6 +77,8 @@ interface ApplyDiffItemInput {
 }
 
 const FEISHU_ROOT_DEPARTMENT_ID = '0';
+const MAX_RUN_DIAGNOSTIC_NEXT_ACTIONS = 8;
+const MAX_RUN_DIAGNOSTIC_NEXT_ACTION_LENGTH = 300;
 
 @Injectable()
 export class ExternalOrgSyncService {
@@ -1157,7 +1159,7 @@ export class ExternalOrgSyncService {
 
     private resolveRunDiagnosticNextActions(error: unknown): string[] {
         if (error instanceof ExternalOrgDirectoryAdapterError && error.nextActions.length > 0) {
-            return error.nextActions.map((action) => this.redactDiagnosticSecrets(action));
+            return this.normalizeRunDiagnosticNextActions(error.nextActions);
         }
         return ['请检查企业协同接入配置、外部平台权限和根部门配置后重新生成预览。'];
     }
@@ -1177,9 +1179,16 @@ export class ExternalOrgSyncService {
             providerCode: this.readString(persisted, 'providerCode'),
             httpStatus: this.readHttpStatus(persisted),
             providerMessage: this.redactNullableDiagnosticSecret(this.readString(persisted, 'providerMessage')),
-            nextActions: nextActions.length > 0 ? nextActions : ['请检查企业协同接入配置、外部平台权限和根部门配置后重新生成预览。'],
+            nextActions: nextActions.length > 0 ? this.normalizeRunDiagnosticNextActions(nextActions) : ['请检查企业协同接入配置、外部平台权限和根部门配置后重新生成预览。'],
             generatedAt
         };
+    }
+
+    private normalizeRunDiagnosticNextActions(actions: string[]): string[] {
+        return actions
+            .map((action) => this.redactDiagnosticSecrets(action.trim()).slice(0, MAX_RUN_DIAGNOSTIC_NEXT_ACTION_LENGTH))
+            .filter((action) => action.length > 0)
+            .slice(0, MAX_RUN_DIAGNOSTIC_NEXT_ACTIONS);
     }
 
     private readString(record: JsonObject, key: string): string | null {
@@ -1192,7 +1201,7 @@ export class ExternalOrgSyncService {
     private readStringArray(record: JsonObject, key: string): string[] {
         const value = record[key];
         if (!Array.isArray(value)) return [];
-        return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0).map((item) => this.redactDiagnosticSecrets(item.trim())).slice(0, 8);
+        return this.normalizeRunDiagnosticNextActions(value.filter((item): item is string => typeof item === 'string'));
     }
 
     private redactNullableDiagnosticSecret(value: string | null): string | null {

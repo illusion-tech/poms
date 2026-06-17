@@ -42,6 +42,15 @@ export interface OrgSyncRunFilters {
     limit?: number;
 }
 
+const DEFAULT_RUN_HISTORY_LIMIT = 20;
+const MIN_RUN_HISTORY_LIMIT = 1;
+const MAX_RUN_HISTORY_LIMIT = 100;
+
+function normalizeRunHistoryLimit(limit: number | undefined): number {
+    if (typeof limit !== "number" || !Number.isFinite(limit)) return DEFAULT_RUN_HISTORY_LIMIT;
+    return Math.min(MAX_RUN_HISTORY_LIMIT, Math.max(MIN_RUN_HISTORY_LIMIT, Math.trunc(limit)));
+}
+
 @Injectable()
 export class ExternalOrgSyncStore {
     readonly #api = inject(ExternalOrgSyncApi);
@@ -214,7 +223,7 @@ export class ExternalOrgSyncStore {
                 this.#api.externalOrgSyncControllerListOrgSyncRuns({
                     sourceId,
                     status: filters.status,
-                    limit: filters.limit ?? 20,
+                    limit: normalizeRunHistoryLimit(filters.limit),
                 }),
             );
             const nextRuns = runs ?? [];
