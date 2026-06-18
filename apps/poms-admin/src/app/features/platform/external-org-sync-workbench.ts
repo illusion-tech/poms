@@ -1930,7 +1930,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         if (selectedIds.size === 0) return null;
 
         const selectedItems = this.syncStore.diffItems().filter((item) => selectedIds.has(item.id) && this.isSelectableDiffItem(item));
-        const mappedExternalDepartmentIds = new Set(this.syncStore.mappings().filter((mapping) => mapping.orgUnitId).map((mapping) => mapping.externalDepartmentId));
+        const mappedExternalDepartmentIds = this.syncStore.mappedExternalDepartmentIds();
         const selectedCreateExternalDepartmentIds = new Set(selectedItems.filter((item) => item.action === OrgSyncDiffAction.CreateOrgUnit).map((item) => this.diffExternalDepartmentId(item)));
 
         for (const item of selectedItems) {

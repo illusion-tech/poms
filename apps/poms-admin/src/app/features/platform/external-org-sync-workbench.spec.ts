@@ -187,6 +187,7 @@ describe('ExternalOrgSyncWorkbench', () => {
     let sources: ReturnType<typeof signal<ExternalOrgSourceSummary[]>>;
     let selectedSourceId: ReturnType<typeof signal<string | null>>;
     let mappings: ReturnType<typeof signal<ExternalDepartmentMappingSummary[]>>;
+    let mappedExternalDepartmentIds: ReturnType<typeof signal<ReadonlySet<string>>>;
     let activeRun: ReturnType<typeof signal<OrgSyncRunSummary | null>>;
     let diffItems: ReturnType<typeof signal<OrgSyncDiffItemSummary[]>>;
     let runHistory: ReturnType<typeof signal<OrgSyncRunSummary[]>>;
@@ -197,6 +198,7 @@ describe('ExternalOrgSyncWorkbench', () => {
         selectedSourceId: typeof selectedSourceId;
         selectedSource: ReturnType<typeof computed<ExternalOrgSourceSummary | null>>;
         mappings: typeof mappings;
+        mappedExternalDepartmentIds: typeof mappedExternalDepartmentIds;
         activeRun: typeof activeRun;
         diffItems: typeof diffItems;
         runHistory: typeof runHistory;
@@ -246,6 +248,7 @@ describe('ExternalOrgSyncWorkbench', () => {
         sources = signal<ExternalOrgSourceSummary[]>([createSource()]);
         selectedSourceId = signal<string | null>('external-org-source-1');
         mappings = signal<ExternalDepartmentMappingSummary[]>([createMapping()]);
+        mappedExternalDepartmentIds = signal<ReadonlySet<string>>(new Set(['od-root']));
         activeRun = signal<OrgSyncRunSummary | null>(createRun());
         diffItems = signal<OrgSyncDiffItemSummary[]>([createDiffItem()]);
         runHistory = signal<OrgSyncRunSummary[]>([createRun(), createRun({ id: 'org-sync-run-2', status: OrgSyncRunStatus.Failed, errorSummary: '飞书权限未开通', totalItemCount: 0 })]);
@@ -257,6 +260,7 @@ describe('ExternalOrgSyncWorkbench', () => {
             selectedSourceId,
             selectedSource: computed(() => sources().find((source) => source.id === selectedSourceId()) ?? null),
             mappings,
+            mappedExternalDepartmentIds,
             activeRun,
             diffItems,
             runHistory,
@@ -539,6 +543,7 @@ describe('ExternalOrgSyncWorkbench', () => {
             }
         });
         mappings.set([]);
+        mappedExternalDepartmentIds.set(new Set<string>());
         diffItems.set([parentDiffItem, childDiffItem]);
 
         component.selectedDiffItemIds.set(new Set(['diff-child']));
@@ -547,6 +552,35 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.canApplyRun()).toBe(false);
 
         component.selectedDiffItemIds.set(new Set(['diff-parent', 'diff-child']));
+
+        expect(component.selectedApplyDependencyIssue()).toBeNull();
+        expect(component.canApplyRun()).toBe(true);
+    });
+
+    it('uses the unfiltered mapped dependency index when applying child create diff items', () => {
+        const childDiffItem = createDiffItem({
+            id: 'diff-child',
+            externalDepartmentId: 'od-child',
+            candidateSnapshot: {
+                externalDepartmentId: 'od-child',
+                externalDepartmentName: '华南销售',
+                targetParentExternalDepartmentId: 'od-parent'
+            }
+        });
+        mappings.set([
+            createMapping({
+                externalDepartmentId: 'od-child',
+                externalParentDepartmentId: 'od-parent',
+                externalDepartmentName: '华南销售',
+                orgUnitId: null,
+                status: ExternalDepartmentMappingStatus.Unmapped,
+                reviewState: ExternalDepartmentMappingReviewState.Unmapped
+            })
+        ]);
+        mappedExternalDepartmentIds.set(new Set(['od-parent']));
+        diffItems.set([childDiffItem]);
+
+        component.selectedDiffItemIds.set(new Set(['diff-child']));
 
         expect(component.selectedApplyDependencyIssue()).toBeNull();
         expect(component.canApplyRun()).toBe(true);

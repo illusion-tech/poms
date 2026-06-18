@@ -6,7 +6,7 @@ import {
     type CreateExternalOrgSourceRequest,
     type CreateOrgSyncRunRequest,
     type ExternalDepartmentMappingReviewState,
-    type ExternalDepartmentMappingStatus,
+    ExternalDepartmentMappingStatus,
     type ExternalDepartmentMappingSummary,
     type ExternalOrgProvider,
     type ExternalOrgSourceStatus,
@@ -65,6 +65,7 @@ export class ExternalOrgSyncStore {
     readonly #sources = signal<ExternalOrgSourceSummary[]>([]);
     readonly #selectedSourceId = signal<string | null>(null);
     readonly #mappings = signal<ExternalDepartmentMappingSummary[]>([]);
+    readonly #mappedExternalDepartmentIds = signal<ReadonlySet<string>>(new Set<string>());
     readonly #activeRun = signal<OrgSyncRunSummary | null>(null);
     readonly #diffItems = signal<OrgSyncDiffItemSummary[]>([]);
     readonly #runHistory = signal<OrgSyncRunSummary[]>([]);
@@ -85,6 +86,7 @@ export class ExternalOrgSyncStore {
     readonly sources = this.#sources.asReadonly();
     readonly selectedSourceId = this.#selectedSourceId.asReadonly();
     readonly mappings = this.#mappings.asReadonly();
+    readonly mappedExternalDepartmentIds = this.#mappedExternalDepartmentIds.asReadonly();
     readonly activeRun = this.#activeRun.asReadonly();
     readonly diffItems = this.#diffItems.asReadonly();
     readonly runHistory = this.#runHistory.asReadonly();
@@ -136,9 +138,11 @@ export class ExternalOrgSyncStore {
         this.clearRunDetail();
         if (sourceId) {
             this.#mappings.set([]);
-            await Promise.allSettled([this.loadMappings(sourceId, mappingFilters), this.loadRunHistory(sourceId)]);
+            this.#mappedExternalDepartmentIds.set(new Set<string>());
+            await Promise.allSettled([this.loadMappings(sourceId, mappingFilters), this.loadMappedExternalDepartmentIds(sourceId), this.loadRunHistory(sourceId)]);
         } else {
             this.#mappings.set([]);
+            this.#mappedExternalDepartmentIds.set(new Set<string>());
         }
     }
 
@@ -218,6 +222,18 @@ export class ExternalOrgSyncStore {
         }
     }
 
+    async loadMappedExternalDepartmentIds(sourceId: string): Promise<ReadonlySet<string>> {
+        const mappings = await firstValueFrom(
+            this.#api.externalOrgSyncControllerListExternalDepartmentMappings({
+                sourceId,
+                status: ExternalDepartmentMappingStatus.Mapped,
+            }),
+        );
+        const ids = this.toMappedExternalDepartmentIds(mappings ?? []);
+        this.#mappedExternalDepartmentIds.set(ids);
+        return ids;
+    }
+
     async createPreviewRun(sourceId: string, request: CreateOrgSyncRunRequest = {}): Promise<OrgSyncRunSummary> {
         this.#creatingRun.set(true);
         try {
@@ -225,7 +241,7 @@ export class ExternalOrgSyncStore {
             this.#activeRun.set(run);
             this.#previewStale.set(false);
             await this.loadDiffItems(run.id);
-            await this.refreshRunHistoryBestEffort(sourceId);
+            await Promise.allSettled([this.refreshMappedExternalDepartmentIdsBestEffort(sourceId), this.refreshRunHistoryBestEffort(sourceId)]);
             return run;
         } finally {
             this.#creatingRun.set(false);
@@ -307,7 +323,7 @@ export class ExternalOrgSyncStore {
             this.#activeRun.set(applied);
             await this.refreshDiffItemsBestEffort(runId);
             if (applied.sourceId) {
-                await Promise.allSettled([this.loadMappings(applied.sourceId, mappingFilters), this.refreshRunHistoryBestEffort(applied.sourceId)]);
+                await Promise.allSettled([this.loadMappings(applied.sourceId, mappingFilters), this.loadMappedExternalDepartmentIds(applied.sourceId), this.refreshRunHistoryBestEffort(applied.sourceId)]);
             }
             return applied;
         } finally {
@@ -354,6 +370,7 @@ export class ExternalOrgSyncStore {
     clearSelection(): void {
         this.#selectedSourceId.set(null);
         this.#mappings.set([]);
+        this.#mappedExternalDepartmentIds.set(new Set<string>());
         this.#activeRun.set(null);
         this.#diffItems.set([]);
         this.#runHistory.set([]);
@@ -373,6 +390,15 @@ export class ExternalOrgSyncStore {
         try {
             const updated = await firstValueFrom(command());
             this.#mappings.update((mappings) => mappings.map((mapping) => (mapping.id === updated.id ? updated : mapping)));
+            this.#mappedExternalDepartmentIds.update((ids) => {
+                const next = new Set(ids);
+                if (updated.orgUnitId) {
+                    next.add(updated.externalDepartmentId);
+                } else {
+                    next.delete(updated.externalDepartmentId);
+                }
+                return next;
+            });
             this.#previewStale.set(true);
             return updated;
         } finally {
@@ -392,11 +418,23 @@ export class ExternalOrgSyncStore {
         }
     }
 
+    private async refreshMappedExternalDepartmentIdsBestEffort(sourceId: string): Promise<void> {
+        try {
+            await this.loadMappedExternalDepartmentIds(sourceId);
+        } catch {
+            // Best-effort refresh; the apply command still enforces dependencies server-side.
+        }
+    }
+
     private async refreshDiffItemsBestEffort(runId: string): Promise<void> {
         try {
             await this.loadDiffItems(runId);
         } catch {
             // A post-command diff refresh must not turn a successful apply into a failed UI action.
         }
+    }
+
+    private toMappedExternalDepartmentIds(mappings: ExternalDepartmentMappingSummary[]): ReadonlySet<string> {
+        return new Set(mappings.filter((mapping) => mapping.orgUnitId).map((mapping) => mapping.externalDepartmentId));
     }
 }
