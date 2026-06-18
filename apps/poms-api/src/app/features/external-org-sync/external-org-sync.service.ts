@@ -1163,6 +1163,8 @@ export class ExternalOrgSyncService {
                 const leftCreateIndex = createIndexById.get(left.id);
                 const rightCreateIndex = createIndexById.get(right.id);
                 if (leftCreateIndex !== undefined && rightCreateIndex !== undefined) return leftCreateIndex - rightCreateIndex;
+                if (leftCreateIndex !== undefined) return -1;
+                if (rightCreateIndex !== undefined) return 1;
             }
             return byDefaultOrder(left, right);
         });

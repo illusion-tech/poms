@@ -30,11 +30,13 @@ describe('ExternalOrgSyncStore', () => {
     let store: ExternalOrgSyncStore;
     let externalOrgSyncApiMock: {
         externalOrgSyncControllerListExternalDepartmentMappings: jest.Mock;
+        externalOrgSyncControllerListOrgSyncRuns: jest.Mock;
     };
 
     beforeEach(() => {
         externalOrgSyncApiMock = {
-            externalOrgSyncControllerListExternalDepartmentMappings: jest.fn()
+            externalOrgSyncControllerListExternalDepartmentMappings: jest.fn(),
+            externalOrgSyncControllerListOrgSyncRuns: jest.fn().mockReturnValue(of([]))
         };
 
         TestBed.configureTestingModule({
@@ -72,5 +74,69 @@ describe('ExternalOrgSyncStore', () => {
         expect(ids.has('od-parent')).toBe(true);
         expect(ids.has('od-unmapped')).toBe(false);
         expect(store.mappedExternalDepartmentIds().has('od-parent')).toBe(true);
+    });
+
+    it('reuses the unfiltered mapping load as the dependency index when selecting a source without filters', async () => {
+        externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings.mockReturnValue(
+            of([
+                createMapping(),
+                createMapping({
+                    id: 'mapping-unmapped',
+                    externalDepartmentId: 'od-unmapped',
+                    orgUnitId: null,
+                    status: ExternalDepartmentMappingStatus.Unmapped,
+                    reviewState: ExternalDepartmentMappingReviewState.Unmapped
+                })
+            ])
+        );
+
+        await store.selectSource('external-org-source-1');
+
+        expect(externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings).toHaveBeenCalledTimes(1);
+        expect(externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings).toHaveBeenCalledWith({
+            sourceId: 'external-org-source-1',
+            status: undefined,
+            reviewState: undefined,
+            search: undefined,
+            externalDepartmentId: undefined,
+            orgUnitId: undefined
+        });
+        expect(store.mappings().map((mapping) => mapping.externalDepartmentId)).toEqual(['od-parent', 'od-unmapped']);
+        expect(store.mappedExternalDepartmentIds().has('od-parent')).toBe(true);
+        expect(store.mappedExternalDepartmentIds().has('od-unmapped')).toBe(false);
+    });
+
+    it('keeps an unfiltered dependency index when selecting a source with mapping filters', async () => {
+        externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings
+            .mockReturnValueOnce(
+                of([
+                    createMapping({
+                        id: 'mapping-unmapped',
+                        externalDepartmentId: 'od-unmapped',
+                        orgUnitId: null,
+                        status: ExternalDepartmentMappingStatus.Unmapped,
+                        reviewState: ExternalDepartmentMappingReviewState.Unmapped
+                    })
+                ])
+            )
+            .mockReturnValueOnce(of([createMapping()]));
+
+        await store.selectSource('external-org-source-1', { reviewState: ExternalDepartmentMappingReviewState.Unmapped });
+
+        expect(externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings).toHaveBeenCalledTimes(2);
+        expect(externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings).toHaveBeenNthCalledWith(1, {
+            sourceId: 'external-org-source-1',
+            status: undefined,
+            reviewState: ExternalDepartmentMappingReviewState.Unmapped,
+            search: undefined,
+            externalDepartmentId: undefined,
+            orgUnitId: undefined
+        });
+        expect(externalOrgSyncApiMock.externalOrgSyncControllerListExternalDepartmentMappings).toHaveBeenNthCalledWith(2, {
+            sourceId: 'external-org-source-1'
+        });
+        expect(store.mappings().map((mapping) => mapping.externalDepartmentId)).toEqual(['od-unmapped']);
+        expect(store.mappedExternalDepartmentIds().has('od-parent')).toBe(true);
+        expect(store.mappedExternalDepartmentIds().has('od-unmapped')).toBe(false);
     });
 });

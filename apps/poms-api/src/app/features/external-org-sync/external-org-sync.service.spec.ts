@@ -801,6 +801,71 @@ describe('ExternalOrgSyncService', () => {
         expect(repository.createOrgUnit).toHaveBeenNthCalledWith(3, expect.objectContaining({ name: '深圳销售', parentId: orgUnitId }));
     });
 
+    it('orders applyable create diff items before skipped create diff items deterministically', () => {
+        const skippedDiffItem = createDiffItem({
+            id: '97000000-0000-4000-8000-000000000310',
+            externalDepartmentId: 'od-skipped',
+            action: OrgSyncDiffActionValue.CreateOrgUnit,
+            status: OrgSyncDiffItemStatusValue.Pending,
+            createdAt: new Date('2026-06-09T00:00:00.000Z'),
+            candidateSnapshot: {
+                externalDepartmentId: 'od-skipped',
+                externalParentDepartmentId: '0',
+                externalDepartmentName: '跳过部门',
+                targetName: '跳过部门',
+                targetCode: 'EXT-FS-OD-SKIPPED-12345678',
+                targetParentOrgUnitId: rootOrgUnitId,
+                targetParentExternalDepartmentId: null,
+                displayOrder: 99,
+                externalSnapshot: { open_department_id: 'od-skipped' }
+            }
+        });
+        const childDiffItem = createDiffItem({
+            id: '97000000-0000-4000-8000-000000000311',
+            externalDepartmentId: 'od-child',
+            action: OrgSyncDiffActionValue.CreateOrgUnit,
+            status: OrgSyncDiffItemStatusValue.Pending,
+            createdAt: new Date('2026-06-10T00:00:00.000Z'),
+            candidateSnapshot: {
+                externalDepartmentId: 'od-child',
+                externalParentDepartmentId: 'od-parent',
+                externalDepartmentName: '华南销售',
+                targetName: '华南销售',
+                targetCode: 'EXT-FS-OD-CHILD-12345678',
+                targetParentOrgUnitId: null,
+                targetParentExternalDepartmentId: 'od-parent',
+                displayOrder: 20,
+                externalSnapshot: { open_department_id: 'od-child' }
+            }
+        });
+        const parentDiffItem = createDiffItem({
+            id: '97000000-0000-4000-8000-000000000312',
+            externalDepartmentId: 'od-parent',
+            action: OrgSyncDiffActionValue.CreateOrgUnit,
+            status: OrgSyncDiffItemStatusValue.Pending,
+            createdAt: new Date('2026-06-10T00:00:01.000Z'),
+            candidateSnapshot: {
+                externalDepartmentId: 'od-parent',
+                externalParentDepartmentId: '0',
+                externalDepartmentName: '销售部',
+                targetName: '销售部',
+                targetCode: 'EXT-FS-OD-PARENT-12345678',
+                targetParentOrgUnitId: rootOrgUnitId,
+                targetParentExternalDepartmentId: null,
+                displayOrder: 10,
+                externalSnapshot: { open_department_id: 'od-parent' }
+            }
+        });
+
+        const sorted = (
+            service as unknown as {
+                sortDiffItemsForApply(items: OrgSyncDiffItem[], diffItemsToApply: OrgSyncDiffItem[]): OrgSyncDiffItem[];
+            }
+        ).sortDiffItemsForApply([skippedDiffItem, childDiffItem, parentDiffItem], [childDiffItem, parentDiffItem]);
+
+        expect(sorted.map((item) => item.id)).toEqual([parentDiffItem.id, childDiffItem.id, skippedDiffItem.id]);
+    });
+
     function createSource(overrides: Partial<ExternalOrgSource> = {}): ExternalOrgSource {
         return {
             id: sourceId,
