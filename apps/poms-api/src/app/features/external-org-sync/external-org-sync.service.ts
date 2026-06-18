@@ -475,6 +475,10 @@ export class ExternalOrgSyncService {
         const skippedIds = new Set(request.skippedDiffItemIds ?? []);
         const approvedIds = new Set(request.approvedDiffItemIds ?? []);
         const explicitApproval = approvedIds.size > 0;
+        const sortedDiffItems = this.sortDiffItemsForApply(diffItems);
+        const diffItemsToApply = sortedDiffItems.filter((item) => !this.shouldSkipDiffItemForApply(item, skippedIds, approvedIds, explicitApproval));
+        const diffItemIdsToApply = new Set(diffItemsToApply.map((item) => item.id));
+        this.assertApplyParentDependencies(diffItemsToApply, mappings);
         const createdOrgUnitIdsByExternalDepartmentId = new Map<string, string>();
         const entitiesToSave: object[] = [run];
 
@@ -486,9 +490,8 @@ export class ExternalOrgSyncService {
         let skippedCount = 0;
         let failedCount = 0;
 
-        for (const item of this.sortDiffItemsForApply(diffItems)) {
-            const shouldSkip =
-                skippedIds.has(item.id) || item.status !== OrgSyncDiffItemStatusValue.Pending || item.action === OrgSyncDiffActionValue.Conflict || item.action === OrgSyncDiffActionValue.Ignore || (explicitApproval && !approvedIds.has(item.id));
+        for (const item of sortedDiffItems) {
+            const shouldSkip = !diffItemIdsToApply.has(item.id);
 
             if (shouldSkip) {
                 item.status = OrgSyncDiffItemStatusValue.Skipped;
@@ -1148,7 +1151,67 @@ export class ExternalOrgSyncService {
             [OrgSyncDiffActionValue.Conflict]: 70
         };
 
-        return [...items].sort((left, right) => (rankByAction[left.action] ?? 99) - (rankByAction[right.action] ?? 99) || left.createdAt.getTime() - right.createdAt.getTime() || left.id.localeCompare(right.id));
+        const rank = (item: OrgSyncDiffItem): number => rankByAction[item.action] ?? 99;
+        const byDefaultOrder = (left: OrgSyncDiffItem, right: OrgSyncDiffItem): number => left.createdAt.getTime() - right.createdAt.getTime() || left.id.localeCompare(right.id);
+        const createItems = this.sortCreateDiffItemsForApply(items.filter((item) => item.action === OrgSyncDiffActionValue.CreateOrgUnit));
+        const createIndexById = new Map(createItems.map((item, index) => [item.id, index]));
+
+        return [...items].sort((left, right) => {
+            const rankDiff = rank(left) - rank(right);
+            if (rankDiff !== 0) return rankDiff;
+            if (left.action === OrgSyncDiffActionValue.CreateOrgUnit && right.action === OrgSyncDiffActionValue.CreateOrgUnit) {
+                return (createIndexById.get(left.id) ?? 0) - (createIndexById.get(right.id) ?? 0);
+            }
+            return byDefaultOrder(left, right);
+        });
+    }
+
+    private sortCreateDiffItemsForApply(items: OrgSyncDiffItem[]): OrgSyncDiffItem[] {
+        const remaining = [...items].sort((left, right) => left.createdAt.getTime() - right.createdAt.getTime() || left.id.localeCompare(right.id));
+        const sorted: OrgSyncDiffItem[] = [];
+        const orderedExternalDepartmentIds = new Set<string>();
+
+        while (remaining.length > 0) {
+            const nextIndex = remaining.findIndex((item) => {
+                const parentExternalDepartmentId = this.applyTargetParentExternalDepartmentId(item);
+                if (!parentExternalDepartmentId) return true;
+                if (orderedExternalDepartmentIds.has(parentExternalDepartmentId)) return true;
+                return !remaining.some((candidate) => this.applyExternalDepartmentId(candidate) === parentExternalDepartmentId);
+            });
+            const [next] = remaining.splice(nextIndex >= 0 ? nextIndex : 0, 1);
+            if (!next) break;
+            sorted.push(next);
+            orderedExternalDepartmentIds.add(this.applyExternalDepartmentId(next));
+        }
+
+        return sorted;
+    }
+
+    private shouldSkipDiffItemForApply(item: OrgSyncDiffItem, skippedIds: Set<string>, approvedIds: Set<string>, explicitApproval: boolean): boolean {
+        return skippedIds.has(item.id) || item.status !== OrgSyncDiffItemStatusValue.Pending || item.action === OrgSyncDiffActionValue.Conflict || item.action === OrgSyncDiffActionValue.Ignore || (explicitApproval && !approvedIds.has(item.id));
+    }
+
+    private assertApplyParentDependencies(diffItemsToApply: OrgSyncDiffItem[], mappings: ExternalDepartmentMapping[]): void {
+        const mappedExternalDepartmentIds = new Set(mappings.filter((mapping) => mapping.orgUnitId).map((mapping) => mapping.externalDepartmentId));
+        const createDiffExternalDepartmentIds = new Set(diffItemsToApply.filter((item) => item.action === OrgSyncDiffActionValue.CreateOrgUnit).map((item) => this.applyExternalDepartmentId(item)));
+
+        for (const item of diffItemsToApply) {
+            const parentExternalDepartmentId = this.applyTargetParentExternalDepartmentId(item);
+            if (!parentExternalDepartmentId) continue;
+            if (mappedExternalDepartmentIds.has(parentExternalDepartmentId)) continue;
+            if (createDiffExternalDepartmentIds.has(parentExternalDepartmentId)) continue;
+
+            throw new BadRequestException(`Org sync diff item ${item.id} requires parent external department ${parentExternalDepartmentId} to be mapped or applied in the same request.`);
+        }
+    }
+
+    private applyExternalDepartmentId(item: OrgSyncDiffItem): string {
+        return this.readString(this.asRecord(item.candidateSnapshot), 'externalDepartmentId') ?? item.externalDepartmentId;
+    }
+
+    private applyTargetParentExternalDepartmentId(item: OrgSyncDiffItem): string | null {
+        if (item.action !== OrgSyncDiffActionValue.CreateOrgUnit && item.action !== OrgSyncDiffActionValue.MoveOrgUnit) return null;
+        return this.readString(this.asRecord(item.candidateSnapshot), 'targetParentExternalDepartmentId');
     }
 
     private createCandidateSnapshot(value: Record<string, unknown>): CreateOrgUnitCandidateSnapshot {
