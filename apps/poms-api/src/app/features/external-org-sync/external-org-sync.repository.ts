@@ -1,7 +1,15 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { ExternalDepartmentMappingStatusValue, type ExternalDepartmentMappingListQuery, type ExternalOrgProvider, type ExternalOrgSourceListQuery, type OrgSyncDiffItemListQuery, type OrgSyncRunListQuery } from '@poms/shared-contracts';
+import {
+    ExternalDepartmentMappingStatusValue,
+    OrgSyncDiffActionValue,
+    type ExternalDepartmentMappingListQuery,
+    type ExternalOrgProvider,
+    type ExternalOrgSourceListQuery,
+    type OrgSyncDiffItemListQuery,
+    type OrgSyncRunListQuery
+} from '@poms/shared-contracts';
 import { IdentityProviderConfig } from '../identity-provider/identity-provider-config.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { ExternalDepartmentMapping } from './external-department-mapping.entity';
@@ -119,7 +127,8 @@ export class ExternalOrgSyncRepository {
         const items = await this.diffItemRepository.find(
             {
                 runId: { $in: runs.map((run) => run.id) },
-                externalDepartmentId: { $in: uniqueExternalDepartmentIds }
+                externalDepartmentId: { $in: uniqueExternalDepartmentIds },
+                action: { $in: [OrgSyncDiffActionValue.Conflict, OrgSyncDiffActionValue.DisableOrgUnit] }
             },
             { orderBy: { createdAt: QueryOrder.DESC } }
         );

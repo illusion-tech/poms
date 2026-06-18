@@ -437,6 +437,17 @@ describe('ExternalOrgSyncService', () => {
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'external-department-mapping.restored' }));
     });
 
+    it('rejects unmapping ignored external department mappings', async () => {
+        const mapping = createMapping({ rowVersion: 5, orgUnitId: null, status: ExternalDepartmentMappingStatusValue.Ignored });
+        repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active }));
+        repository.findMappingById.mockResolvedValue(mapping);
+
+        await expect(service.unmapExternalDepartmentMapping(mapping.id, { expectedVersion: 5 }, operatorId)).rejects.toThrow(BadRequestException);
+
+        expect(repository.saveAll).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
     it('creates a preview run with Feishu department snapshots and create diff items', async () => {
         repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, rowVersion: 3, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
         repository.findProviderConfigById.mockResolvedValue(createProviderConfig());
