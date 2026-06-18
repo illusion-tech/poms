@@ -58,6 +58,20 @@ function normalizeRunHistoryLimit(limit: number | undefined): number {
     return Math.min(MAX_RUN_HISTORY_LIMIT, Math.max(MIN_RUN_HISTORY_LIMIT, Math.trunc(limit)));
 }
 
+function hasTextFilter(value: string | undefined): boolean {
+    return (value?.trim() ?? "").length > 0;
+}
+
+function hasMappingFilters(filters: ExternalDepartmentMappingFilters): boolean {
+    return (
+        filters.status !== undefined ||
+        filters.reviewState !== undefined ||
+        hasTextFilter(filters.search) ||
+        hasTextFilter(filters.externalDepartmentId) ||
+        hasTextFilter(filters.orgUnitId)
+    );
+}
+
 @Injectable()
 export class ExternalOrgSyncStore {
     readonly #api = inject(ExternalOrgSyncApi);
@@ -139,7 +153,7 @@ export class ExternalOrgSyncStore {
         if (sourceId) {
             this.#mappings.set([]);
             this.#mappedExternalDepartmentIds.set(new Set<string>());
-            await Promise.allSettled([this.loadMappings(sourceId, mappingFilters), this.loadMappedExternalDepartmentIds(sourceId), this.loadRunHistory(sourceId)]);
+            await Promise.allSettled([this.loadMappingsWithDependencyIndex(sourceId, mappingFilters), this.loadRunHistory(sourceId)]);
         } else {
             this.#mappings.set([]);
             this.#mappedExternalDepartmentIds.set(new Set<string>());
@@ -322,7 +336,7 @@ export class ExternalOrgSyncStore {
             this.#activeRun.set(applied);
             await this.refreshDiffItemsBestEffort(runId);
             if (applied.sourceId) {
-                await Promise.allSettled([this.loadMappings(applied.sourceId, mappingFilters), this.loadMappedExternalDepartmentIds(applied.sourceId), this.refreshRunHistoryBestEffort(applied.sourceId)]);
+                await Promise.allSettled([this.loadMappingsWithDependencyIndex(applied.sourceId, mappingFilters), this.refreshRunHistoryBestEffort(applied.sourceId)]);
             }
             return applied;
         } finally {
@@ -431,6 +445,15 @@ export class ExternalOrgSyncStore {
         } catch {
             // A post-command diff refresh must not turn a successful apply into a failed UI action.
         }
+    }
+
+    private async loadMappingsWithDependencyIndex(sourceId: string, filters: ExternalDepartmentMappingFilters = {}): Promise<void> {
+        const visibleMappings = await this.loadMappings(sourceId, filters);
+        if (hasMappingFilters(filters)) {
+            await this.loadMappedExternalDepartmentIds(sourceId);
+            return;
+        }
+        this.#mappedExternalDepartmentIds.set(this.toMappedExternalDepartmentIds(visibleMappings));
     }
 
     private toMappedExternalDepartmentIds(mappings: ExternalDepartmentMappingSummary[]): ReadonlySet<string> {
