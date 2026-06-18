@@ -385,8 +385,9 @@ export class PlatformStore {
     }
 
     #finishOrgUnitsLoad() {
-        this.#orgUnitsPendingLoads = Math.max(0, this.#orgUnitsPendingLoads - 1);
-        if (this.#orgUnitsPendingLoads === 0) {
+        this.#orgUnitsPendingLoads -= 1;
+        if (this.#orgUnitsPendingLoads <= 0) {
+            this.#orgUnitsPendingLoads = 0;
             this.#loadingOrgUnits.set(false);
         }
     }
@@ -405,8 +406,9 @@ export class PlatformStore {
     }
 
     #finishOrgUnitTreeLoad() {
-        this.#orgUnitTreePendingLoads = Math.max(0, this.#orgUnitTreePendingLoads - 1);
-        if (this.#orgUnitTreePendingLoads === 0) {
+        this.#orgUnitTreePendingLoads -= 1;
+        if (this.#orgUnitTreePendingLoads <= 0) {
+            this.#orgUnitTreePendingLoads = 0;
             this.#loadingOrgUnitTree.set(false);
         }
     }
