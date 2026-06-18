@@ -1,25 +1,32 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import type { PlatformOrgUnitSummary } from '@poms/admin-data-access';
+import type { OrgUnitTreeNode, PlatformOrgUnitSummary } from '@poms/admin-data-access';
 import { PlatformStore } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
+import type { TreeNode } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
+import { TreeTableModule } from 'primeng/treetable';
 import { AdminTableCard } from '../../shared/ui/admin-table-card';
+
+type OrgUnitTreeTableNode = TreeNode<OrgUnitTreeNode>;
+
+interface TreeTableNodeEvent {
+    node?: OrgUnitTreeTableNode;
+}
 
 @Component({
     selector: 'app-org-unit-list',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule, TagModule, AdminTableCard],
+    imports: [CommonModule, FormsModule, TreeTableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule, TagModule, AdminTableCard],
     providers: [MessageService],
     template: `
         <p-toast />
@@ -29,54 +36,43 @@ import { AdminTableCard } from '../../shared/ui/admin-table-card';
 
                 <p-iconfield adminToolbarCenter class="w-full md:w-80">
                     <p-inputicon class="pi pi-search" />
-                    <input pInputText [(ngModel)]="searchValue" (input)="onGlobalFilter(dt, $event)" placeholder="搜索组织、编码" class="w-full! rounded-md! py-2!" />
+                    <input pInputText [ngModel]="searchQuery()" (ngModelChange)="updateSearchQuery($event)" placeholder="搜索组织名称或编码" class="w-full! rounded-md! py-2!" />
                 </p-iconfield>
 
-                <span adminToolbarEnd class="text-sm text-surface-500 dark:text-surface-400">共 {{ platformStore.orgUnits().length }} 个组织</span>
+                <span adminToolbarEnd class="text-sm text-surface-500 dark:text-surface-400">共 {{ visibleOrgUnitCount() }} / {{ platformStore.orgUnits().length }} 个组织</span>
 
-                <p-table
-                    #dt
-                    [value]="platformStore.orgUnits()"
-                    [paginator]="true"
-                    [rows]="rows"
-                    [first]="first"
-                    dataKey="id"
-                    [rowHover]="true"
-                    sortMode="multiple"
-                    responsiveLayout="scroll"
-                    [globalFilterFields]="['name', 'code']"
+                <p-treetable
+                    [value]="treeTableNodes()"
+                    dataKey="key"
+                    (onNodeExpand)="onNodeExpand($event)"
+                    (onNodeCollapse)="onNodeCollapse($event)"
+                    [scrollable]="true"
                     [tableStyle]="{ width: '100%', 'min-width': '64rem' }"
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                    currentPageReportTemplate="显示第 {first} 至 {last} 条，共 {totalRecords} 条"
-                    [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                    [pt]="{ root: { class: 'border-none!' } }"
                 >
                     <ng-template #header>
                         <tr>
-                            <th pSortableColumn="name">
-                                <span class="flex items-center gap-2">组织名称 <p-sortIcon field="name" /></span>
-                            </th>
-                            <th pSortableColumn="code">
-                                <span class="flex items-center gap-2">组织编码 <p-sortIcon field="code" /></span>
-                            </th>
-                            <th>上级组织</th>
-                            <th pSortableColumn="displayOrder">
-                                <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
-                            </th>
+                            <th>组织名称</th>
+                            <th>组织编码</th>
+                            <th>排序</th>
                             <th>状态</th>
                             <th>描述</th>
                             <th style="width: 12rem">操作</th>
                         </tr>
                     </ng-template>
-                    <ng-template #body let-unit>
-                        <tr>
+                    <ng-template #body let-rowNode let-unit="rowData">
+                        <tr [ttRow]="rowNode">
                             <td>
-                                <span class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ unit.name }}</span>
+                                <div class="flex items-center gap-2">
+                                    <p-treeTableToggler [rowNode]="rowNode" />
+                                    <div class="min-w-0">
+                                        <div class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ unit.name }}</div>
+                                        <div class="text-surface-400 text-xs font-mono md:hidden">{{ unit.code ?? '—' }}</div>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <span class="text-surface-400 text-xs font-mono">{{ unit.code ?? '—' }}</span>
-                            </td>
-                            <td>
-                                <span class="text-surface-500 text-sm">{{ getParentName(unit.parentId) }}</span>
                             </td>
                             <td>
                                 <span class="text-surface-500 text-sm">{{ unit.displayOrder }}</span>
@@ -120,10 +116,10 @@ import { AdminTableCard } from '../../shared/ui/admin-table-card';
                     </ng-template>
                     <ng-template #emptymessage>
                         <tr>
-                            <td colspan="7" class="text-center py-8 text-surface-400">{{ platformStore.loadingOrgUnits() ? '加载中...' : '暂无组织' }}</td>
+                            <td colspan="6" class="text-center py-8 text-surface-400">{{ emptyTreeMessage() }}</td>
                         </tr>
                     </ng-template>
-                </p-table>
+                </p-treetable>
             </app-admin-table-card>
 
             <!-- Create Dialog -->
@@ -222,11 +218,26 @@ export class OrgUnitList {
     private readonly messageService = inject(MessageService);
     readonly orgUnitsById = computed(() => new Map(this.platformStore.orgUnits().map((unit) => [unit.id, unit])));
 
-    @ViewChild('dt') dt!: Table;
+    readonly searchQuery = signal('');
+    readonly expandedKeys = signal<Record<string, boolean>>({});
+    readonly normalizedSearchQuery = computed(() => this.searchQuery().trim().toLocaleLowerCase());
+    readonly filteredOrgUnitTree = computed(() => {
+        const query = this.normalizedSearchQuery();
+        const tree = this.platformStore.orgUnitTree();
 
-    searchValue = '';
-    first = 0;
-    rows = 10;
+        return query ? this.filterOrgUnitTree(tree, query) : tree;
+    });
+    readonly treeTableNodes = computed<OrgUnitTreeTableNode[]>(() => this.toTreeTableNodes(this.filteredOrgUnitTree()));
+    readonly visibleOrgUnitCount = computed(() => this.countOrgUnitTree(this.filteredOrgUnitTree()));
+    readonly searchExpandedKeys = computed(() => {
+        const query = this.normalizedSearchQuery();
+        if (!query) return {};
+
+        const keys: Record<string, boolean> = {};
+        this.collectSearchExpansionKeys(this.platformStore.orgUnitTree(), query, [], keys);
+        return keys;
+    });
+    readonly effectiveExpandedKeys = computed(() => (this.normalizedSearchQuery() ? { ...this.expandedKeys(), ...this.searchExpandedKeys() } : this.expandedKeys()));
 
     // ── Create ─────────────────────────────────────────────────────────────
 
@@ -251,6 +262,7 @@ export class OrgUnitList {
                 parentId: this.createForm.parentId,
                 displayOrder: Number(this.createForm.displayOrder ?? 0)
             });
+            this.expandNode(this.createForm.parentId);
             this.createDialogVisible = false;
             this.messageService.add({ severity: 'success', summary: '创建成功', detail: `组织 ${this.createForm.name} 已创建` });
         } catch {
@@ -310,6 +322,7 @@ export class OrgUnitList {
                 parentId: this.moveForm.parentId,
                 displayOrder: Number(this.moveForm.displayOrder ?? 0)
             });
+            this.expandNode(this.moveForm.parentId);
             this.moveDialogVisible = false;
             this.messageService.add({ severity: 'success', summary: '移动成功', detail: '组织位置已更新' });
         } catch {
@@ -336,9 +349,31 @@ export class OrgUnitList {
 
     // ── Helpers ────────────────────────────────────────────────────────────
 
-    onGlobalFilter(table: Table, event: Event) {
-        this.first = 0;
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    updateSearchQuery(value: string) {
+        this.searchQuery.set(value);
+    }
+
+    onNodeExpand(event: TreeTableNodeEvent) {
+        const key = event.node?.key;
+        if (typeof key !== 'string') return;
+
+        this.expandedKeys.update((keys) => ({ ...keys, [key]: true }));
+    }
+
+    onNodeCollapse(event: TreeTableNodeEvent) {
+        const key = event.node?.key;
+        if (typeof key !== 'string') return;
+
+        this.expandedKeys.update((keys) => {
+            const next = { ...keys };
+            delete next[key];
+            return next;
+        });
+    }
+
+    emptyTreeMessage(): string {
+        if (this.platformStore.loadingOrgUnits() || this.platformStore.loadingOrgUnitTree()) return '加载中...';
+        return this.normalizedSearchQuery() ? '没有匹配的组织' : '暂无组织';
     }
 
     getParentName(parentId: string | null): string {
@@ -347,10 +382,108 @@ export class OrgUnitList {
     }
 
     selectableParents(excludedId?: string): PlatformOrgUnitSummary[] {
-        return this.platformStore.orgUnits().filter((unit) => unit.id !== excludedId);
+        const excludedIds = excludedId ? this.excludedParentIds(excludedId) : new Set<string>();
+        return this.platformStore.orgUnits().filter((unit) => !excludedIds.has(unit.id));
     }
 
     constructor() {
-        void this.platformStore.loadOrgUnits();
+        void this.loadOrgUnitManagementData();
+    }
+
+    private async loadOrgUnitManagementData() {
+        await this.platformStore.loadOrgUnitManagementData();
+        this.expandRootNodesIfIdle();
+    }
+
+    private toTreeTableNodes(nodes: OrgUnitTreeNode[]): OrgUnitTreeTableNode[] {
+        const expandedKeys = this.effectiveExpandedKeys();
+        return nodes.map((node) => ({
+            key: node.id,
+            data: node,
+            expanded: expandedKeys[node.id] === true,
+            children: this.toTreeTableNodes(node.children ?? [])
+        }));
+    }
+
+    private filterOrgUnitTree(nodes: OrgUnitTreeNode[], query: string): OrgUnitTreeNode[] {
+        return nodes.flatMap((node) => {
+            const matches = this.orgUnitMatchesSearch(node, query);
+            const filteredChildren = this.filterOrgUnitTree(node.children ?? [], query);
+
+            if (!matches && filteredChildren.length === 0) {
+                return [];
+            }
+
+            return [
+                {
+                    ...node,
+                    children: matches ? (node.children ?? []) : filteredChildren
+                }
+            ];
+        });
+    }
+
+    private collectSearchExpansionKeys(nodes: OrgUnitTreeNode[], query: string, ancestors: string[], keys: Record<string, boolean>): boolean {
+        let branchHasMatch = false;
+
+        for (const node of nodes) {
+            const childHasMatch = this.collectSearchExpansionKeys(node.children ?? [], query, [...ancestors, node.id], keys);
+            const selfMatches = this.orgUnitMatchesSearch(node, query);
+
+            if (selfMatches || childHasMatch) {
+                for (const ancestorId of ancestors) {
+                    keys[ancestorId] = true;
+                }
+                if ((node.children?.length ?? 0) > 0) {
+                    keys[node.id] = true;
+                }
+                branchHasMatch = true;
+            }
+        }
+
+        return branchHasMatch;
+    }
+
+    private orgUnitMatchesSearch(unit: Pick<OrgUnitTreeNode, 'name' | 'code'>, query: string): boolean {
+        return unit.name.toLocaleLowerCase().includes(query) || (unit.code ?? '').toLocaleLowerCase().includes(query);
+    }
+
+    private countOrgUnitTree(nodes: OrgUnitTreeNode[]): number {
+        return nodes.reduce((total, node) => total + 1 + this.countOrgUnitTree(node.children ?? []), 0);
+    }
+
+    private expandRootNodesIfIdle() {
+        if (this.normalizedSearchQuery() || Object.keys(this.expandedKeys()).length > 0) return;
+
+        const rootKeys = Object.fromEntries(this.platformStore.orgUnitTree().filter((node) => (node.children?.length ?? 0) > 0).map((node) => [node.id, true]));
+        this.expandedKeys.set(rootKeys);
+    }
+
+    private expandNode(id: string | null) {
+        if (!id) return;
+        this.expandedKeys.update((keys) => ({ ...keys, [id]: true }));
+    }
+
+    private excludedParentIds(unitId: string): Set<string> {
+        const excludedIds = new Set<string>([unitId]);
+        const node = this.findOrgUnitTreeNode(this.platformStore.orgUnitTree(), unitId);
+        this.collectDescendantIds(node?.children ?? [], excludedIds);
+        return excludedIds;
+    }
+
+    private findOrgUnitTreeNode(nodes: OrgUnitTreeNode[], id: string): OrgUnitTreeNode | null {
+        for (const node of nodes) {
+            if (node.id === id) return node;
+            const child = this.findOrgUnitTreeNode(node.children ?? [], id);
+            if (child) return child;
+        }
+        return null;
+    }
+
+    private collectDescendantIds(nodes: OrgUnitTreeNode[], ids: Set<string>) {
+        for (const node of nodes) {
+            ids.add(node.id);
+            this.collectDescendantIds(node.children ?? [], ids);
+        }
     }
 }

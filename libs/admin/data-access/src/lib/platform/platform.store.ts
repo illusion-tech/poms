@@ -7,6 +7,7 @@ import type {
     CreatePlatformUserRequest,
     CreateRoleRequest,
     MoveOrgUnitRequest,
+    OrgUnitTreeNode,
     OwnerReferenceOrgUnit,
     OwnerReferenceUser,
     PlatformPermissionSummary,
@@ -265,12 +266,16 @@ export class PlatformStore {
     // ── Org Units ──────────────────────────────────────────────────────────
 
     readonly #orgUnits = signal<PlatformOrgUnitSummary[]>([]);
+    readonly #orgUnitTree = signal<OrgUnitTreeNode[]>([]);
     readonly #loadingOrgUnits = signal(false);
+    readonly #loadingOrgUnitTree = signal(false);
     readonly #loadedOrgUnits = signal(false);
     readonly #savingOrgUnit = signal(false);
 
     readonly orgUnits = this.#orgUnits.asReadonly();
+    readonly orgUnitTree = this.#orgUnitTree.asReadonly();
     readonly loadingOrgUnits = this.#loadingOrgUnits.asReadonly();
+    readonly loadingOrgUnitTree = this.#loadingOrgUnitTree.asReadonly();
     readonly loadedOrgUnits = this.#loadedOrgUnits.asReadonly();
     readonly savingOrgUnit = this.#savingOrgUnit.asReadonly();
 
@@ -286,11 +291,40 @@ export class PlatformStore {
         }
     }
 
+    async loadOrgUnitTree() {
+        this.#loadingOrgUnitTree.set(true);
+        try {
+            const orgUnitTree = await firstValueFrom(this.#platformApi.platformControllerListOrgUnitTree());
+            this.#orgUnitTree.set(orgUnitTree ?? []);
+            return orgUnitTree;
+        } finally {
+            this.#loadingOrgUnitTree.set(false);
+        }
+    }
+
+    async loadOrgUnitManagementData() {
+        this.#loadingOrgUnits.set(true);
+        this.#loadingOrgUnitTree.set(true);
+        try {
+            const [orgUnits, orgUnitTree] = await Promise.all([
+                firstValueFrom(this.#platformApi.platformControllerListOrgUnits()),
+                firstValueFrom(this.#platformApi.platformControllerListOrgUnitTree())
+            ]);
+            this.#orgUnits.set(orgUnits ?? []);
+            this.#orgUnitTree.set(orgUnitTree ?? []);
+            this.#loadedOrgUnits.set(true);
+            return { orgUnits, orgUnitTree };
+        } finally {
+            this.#loadingOrgUnits.set(false);
+            this.#loadingOrgUnitTree.set(false);
+        }
+    }
+
     async createOrgUnit(body: CreateOrgUnitRequest) {
         this.#savingOrgUnit.set(true);
         try {
             const created = await firstValueFrom(this.#platformApi.platformControllerCreateOrgUnit({ createOrgUnitRequest: body }));
-            await this.loadOrgUnits();
+            await this.loadOrgUnitManagementData();
             return created;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -301,7 +335,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerUpdateOrgUnit({ id, updateOrgUnitRequest: body }));
-            await this.loadOrgUnits();
+            await this.loadOrgUnitManagementData();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -312,7 +346,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerActivateOrgUnit({ id, updateOrgUnitActivationRequest: body }));
-            await this.loadOrgUnits();
+            await this.loadOrgUnitManagementData();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -323,7 +357,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerDeactivateOrgUnit({ id, updateOrgUnitActivationRequest: body }));
-            await this.loadOrgUnits();
+            await this.loadOrgUnitManagementData();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
@@ -334,7 +368,7 @@ export class PlatformStore {
         this.#savingOrgUnit.set(true);
         try {
             const updated = await firstValueFrom(this.#platformApi.platformControllerMoveOrgUnit({ id, moveOrgUnitRequest: body }));
-            await this.loadOrgUnits();
+            await this.loadOrgUnitManagementData();
             return updated;
         } finally {
             this.#savingOrgUnit.set(false);
