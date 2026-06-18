@@ -28,6 +28,10 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class PlatformStore {
     readonly #platformApi = inject(PlatformApi);
+    #orgUnitsLoadSequence = 0;
+    #orgUnitsPendingLoads = 0;
+    #orgUnitTreeLoadSequence = 0;
+    #orgUnitTreePendingLoads = 0;
 
     // ── Users ──────────────────────────────────────────────────────────────
 
@@ -280,43 +284,41 @@ export class PlatformStore {
     readonly savingOrgUnit = this.#savingOrgUnit.asReadonly();
 
     async loadOrgUnits() {
-        this.#loadingOrgUnits.set(true);
+        const requestId = this.#beginOrgUnitsLoad();
         try {
             const orgUnits = await firstValueFrom(this.#platformApi.platformControllerListOrgUnits());
-            this.#orgUnits.set(orgUnits ?? []);
-            this.#loadedOrgUnits.set(true);
+            this.#commitOrgUnitsLoad(requestId, orgUnits);
             return orgUnits;
         } finally {
-            this.#loadingOrgUnits.set(false);
+            this.#finishOrgUnitsLoad();
         }
     }
 
     async loadOrgUnitTree() {
-        this.#loadingOrgUnitTree.set(true);
+        const requestId = this.#beginOrgUnitTreeLoad();
         try {
             const orgUnitTree = await firstValueFrom(this.#platformApi.platformControllerListOrgUnitTree());
-            this.#orgUnitTree.set(orgUnitTree ?? []);
+            this.#commitOrgUnitTreeLoad(requestId, orgUnitTree);
             return orgUnitTree;
         } finally {
-            this.#loadingOrgUnitTree.set(false);
+            this.#finishOrgUnitTreeLoad();
         }
     }
 
     async loadOrgUnitManagementData() {
-        this.#loadingOrgUnits.set(true);
-        this.#loadingOrgUnitTree.set(true);
+        const orgUnitsRequestId = this.#beginOrgUnitsLoad();
+        const orgUnitTreeRequestId = this.#beginOrgUnitTreeLoad();
         try {
             const [orgUnits, orgUnitTree] = await Promise.all([
                 firstValueFrom(this.#platformApi.platformControllerListOrgUnits()),
                 firstValueFrom(this.#platformApi.platformControllerListOrgUnitTree())
             ]);
-            this.#orgUnits.set(orgUnits ?? []);
-            this.#orgUnitTree.set(orgUnitTree ?? []);
-            this.#loadedOrgUnits.set(true);
+            this.#commitOrgUnitsLoad(orgUnitsRequestId, orgUnits);
+            this.#commitOrgUnitTreeLoad(orgUnitTreeRequestId, orgUnitTree);
             return { orgUnits, orgUnitTree };
         } finally {
-            this.#loadingOrgUnits.set(false);
-            this.#loadingOrgUnitTree.set(false);
+            this.#finishOrgUnitsLoad();
+            this.#finishOrgUnitTreeLoad();
         }
     }
 
@@ -373,5 +375,44 @@ export class PlatformStore {
         } finally {
             this.#savingOrgUnit.set(false);
         }
+    }
+
+    #beginOrgUnitsLoad() {
+        this.#orgUnitsPendingLoads += 1;
+        this.#loadingOrgUnits.set(true);
+        this.#orgUnitsLoadSequence += 1;
+        return this.#orgUnitsLoadSequence;
+    }
+
+    #finishOrgUnitsLoad() {
+        this.#orgUnitsPendingLoads = Math.max(0, this.#orgUnitsPendingLoads - 1);
+        if (this.#orgUnitsPendingLoads === 0) {
+            this.#loadingOrgUnits.set(false);
+        }
+    }
+
+    #commitOrgUnitsLoad(requestId: number, orgUnits: PlatformOrgUnitSummary[] | null | undefined) {
+        if (requestId !== this.#orgUnitsLoadSequence) return;
+        this.#orgUnits.set(orgUnits ?? []);
+        this.#loadedOrgUnits.set(true);
+    }
+
+    #beginOrgUnitTreeLoad() {
+        this.#orgUnitTreePendingLoads += 1;
+        this.#loadingOrgUnitTree.set(true);
+        this.#orgUnitTreeLoadSequence += 1;
+        return this.#orgUnitTreeLoadSequence;
+    }
+
+    #finishOrgUnitTreeLoad() {
+        this.#orgUnitTreePendingLoads = Math.max(0, this.#orgUnitTreePendingLoads - 1);
+        if (this.#orgUnitTreePendingLoads === 0) {
+            this.#loadingOrgUnitTree.set(false);
+        }
+    }
+
+    #commitOrgUnitTreeLoad(requestId: number, orgUnitTree: OrgUnitTreeNode[] | null | undefined) {
+        if (requestId !== this.#orgUnitTreeLoadSequence) return;
+        this.#orgUnitTree.set(orgUnitTree ?? []);
     }
 }
