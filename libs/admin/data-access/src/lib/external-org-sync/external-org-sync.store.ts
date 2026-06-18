@@ -6,7 +6,7 @@ import {
     type CreateExternalOrgSourceRequest,
     type CreateOrgSyncRunRequest,
     type ExternalDepartmentMappingReviewState,
-    ExternalDepartmentMappingStatus,
+    type ExternalDepartmentMappingStatus,
     type ExternalDepartmentMappingSummary,
     type ExternalOrgProvider,
     type ExternalOrgSourceStatus,
@@ -226,7 +226,6 @@ export class ExternalOrgSyncStore {
         const mappings = await firstValueFrom(
             this.#api.externalOrgSyncControllerListExternalDepartmentMappings({
                 sourceId,
-                status: ExternalDepartmentMappingStatus.Mapped,
             }),
         );
         const ids = this.toMappedExternalDepartmentIds(mappings ?? []);
