@@ -264,6 +264,7 @@ export {
   ExternalIdentityBindingStatus,
   ExternalDepartmentMappingReviewState,
   ExternalDepartmentMappingStatus,
+  ExternalOrgSyncApi,
   ExternalOrgProvider,
   ExternalOrgSourceStatus,
   IdentityProvider,
