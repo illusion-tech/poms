@@ -379,8 +379,8 @@ export class PlatformStore {
 
     #beginOrgUnitsLoad() {
         this.#orgUnitsPendingLoads += 1;
-        this.#loadingOrgUnits.set(true);
         this.#orgUnitsLoadSequence += 1;
+        this.#loadingOrgUnits.set(true);
         return this.#orgUnitsLoadSequence;
     }
 
@@ -399,8 +399,8 @@ export class PlatformStore {
 
     #beginOrgUnitTreeLoad() {
         this.#orgUnitTreePendingLoads += 1;
-        this.#loadingOrgUnitTree.set(true);
         this.#orgUnitTreeLoadSequence += 1;
+        this.#loadingOrgUnitTree.set(true);
         return this.#orgUnitTreeLoadSequence;
     }
 
