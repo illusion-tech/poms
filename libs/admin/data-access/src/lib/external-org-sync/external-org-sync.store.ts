@@ -79,7 +79,7 @@ export class ExternalOrgSyncStore {
     readonly #loadingRunDetail = signal(false);
     readonly #loadingRunDetailId = signal<string | null>(null);
     readonly #applyingRun = signal(false);
-    readonly #savingMappingId = signal<string | null>(null);
+    readonly #savingMappingIds = signal<ReadonlySet<string>>(new Set<string>());
     readonly #previewStale = signal(false);
 
     readonly sources = this.#sources.asReadonly();
@@ -99,7 +99,7 @@ export class ExternalOrgSyncStore {
     readonly loadingRunDetail = this.#loadingRunDetail.asReadonly();
     readonly loadingRunDetailId = this.#loadingRunDetailId.asReadonly();
     readonly applyingRun = this.#applyingRun.asReadonly();
-    readonly savingMappingId = this.#savingMappingId.asReadonly();
+    readonly savingMappingIds = this.#savingMappingIds.asReadonly();
     readonly previewStale = this.#previewStale.asReadonly();
     readonly selectedSource = computed(() => this.#sources().find(source => source.id === this.#selectedSourceId()) ?? null);
     readonly hasPendingDiffItems = computed(() => this.#diffItems().some(item => item.status === OrgSyncDiffItemStatus.Pending));
@@ -127,7 +127,7 @@ export class ExternalOrgSyncStore {
         }
     }
 
-    async selectSource(sourceId: string | null): Promise<void> {
+    async selectSource(sourceId: string | null, mappingFilters: ExternalDepartmentMappingFilters = {}): Promise<void> {
         this.#selectedSourceId.set(sourceId);
         this.#activeRun.set(null);
         this.#diffItems.set([]);
@@ -136,7 +136,7 @@ export class ExternalOrgSyncStore {
         this.clearRunDetail();
         if (sourceId) {
             this.#mappings.set([]);
-            await Promise.allSettled([this.loadMappings(sourceId), this.loadRunHistory(sourceId)]);
+            await Promise.allSettled([this.loadMappings(sourceId, mappingFilters), this.loadRunHistory(sourceId)]);
         } else {
             this.#mappings.set([]);
         }
@@ -300,14 +300,14 @@ export class ExternalOrgSyncStore {
         }
     }
 
-    async applyRun(runId: string, request: ApplyOrgSyncRunRequest): Promise<OrgSyncRunSummary> {
+    async applyRun(runId: string, request: ApplyOrgSyncRunRequest, mappingFilters: ExternalDepartmentMappingFilters = {}): Promise<OrgSyncRunSummary> {
         this.#applyingRun.set(true);
         try {
             const applied = await firstValueFrom(this.#api.externalOrgSyncControllerApplyOrgSyncRun({ id: runId, applyOrgSyncRunRequest: request }));
             this.#activeRun.set(applied);
             await this.refreshDiffItemsBestEffort(runId);
             if (applied.sourceId) {
-                await Promise.allSettled([this.loadMappings(applied.sourceId), this.refreshRunHistoryBestEffort(applied.sourceId)]);
+                await Promise.allSettled([this.loadMappings(applied.sourceId, mappingFilters), this.refreshRunHistoryBestEffort(applied.sourceId)]);
             }
             return applied;
         } finally {
@@ -362,16 +362,25 @@ export class ExternalOrgSyncStore {
     }
 
     private async writeMapping(id: string, command: () => Observable<ExternalDepartmentMappingSummary>): Promise<ExternalDepartmentMappingSummary> {
-        this.#savingMappingId.set(id);
+        if (this.#savingMappingIds().has(id)) {
+            throw new Error(`External department mapping ${id} is already saving.`);
+        }
+        this.#savingMappingIds.update((current) => {
+            const next = new Set(current);
+            next.add(id);
+            return next;
+        });
         try {
             const updated = await firstValueFrom(command());
             this.#mappings.update((mappings) => mappings.map((mapping) => (mapping.id === updated.id ? updated : mapping)));
             this.#previewStale.set(true);
             return updated;
         } finally {
-            if (this.#savingMappingId() === id) {
-                this.#savingMappingId.set(null);
-            }
+            this.#savingMappingIds.update((current) => {
+                const next = new Set(current);
+                next.delete(id);
+                return next;
+            });
         }
     }
 
