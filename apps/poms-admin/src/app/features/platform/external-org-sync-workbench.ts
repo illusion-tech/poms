@@ -246,7 +246,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                             />
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <input pInputText [ngModel]="mappingSearchText()" (ngModelChange)="updateMappingSearchText($event)" placeholder="搜索外部部门或组织" class="w-56" />
+                                <input pInputText [ngModel]="mappingSearchText()" (ngModelChange)="updateMappingSearchText($event)" placeholder="搜索外部部门名称或 ID" class="w-56" />
                             </span>
                             <span class="text-sm text-surface-500">共 {{ syncStore.mappings().length }} 条</span>
                         </div>
@@ -1092,7 +1092,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     canUnmapMapping(mapping: ExternalDepartmentMappingSummary): boolean {
         if (!this.canEditMappings() || this.isMappingSaving(mapping) || mapping.reviewState === ExternalDepartmentMappingReviewState.Ignored) return false;
-        return Boolean(mapping.orgUnitId) || mapping.status !== ExternalDepartmentMappingStatus.Unmapped || mapping.reviewState !== ExternalDepartmentMappingReviewState.Unmapped;
+        return mapping.status !== ExternalDepartmentMappingStatus.Unmapped || Boolean(mapping.orgUnitId);
     }
 
     canIgnoreMapping(mapping: ExternalDepartmentMappingSummary): boolean {

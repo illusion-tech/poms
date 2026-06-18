@@ -437,6 +437,28 @@ describe('ExternalOrgSyncWorkbench', () => {
         });
     });
 
+    it('allows unmapping only when persisted mapping state has an org unit binding', () => {
+        const derivedConflict = createMapping({
+            orgUnitId: null,
+            status: ExternalDepartmentMappingStatus.Unmapped,
+            reviewState: ExternalDepartmentMappingReviewState.Conflict
+        });
+        const mapped = createMapping({
+            orgUnitId: 'org-root',
+            status: ExternalDepartmentMappingStatus.Mapped,
+            reviewState: ExternalDepartmentMappingReviewState.Mapped
+        });
+        const inconsistent = createMapping({
+            orgUnitId: 'org-root',
+            status: ExternalDepartmentMappingStatus.Unmapped,
+            reviewState: ExternalDepartmentMappingReviewState.Unmapped
+        });
+
+        expect(component.canUnmapMapping(derivedConflict)).toBe(false);
+        expect(component.canUnmapMapping(mapped)).toBe(true);
+        expect(component.canUnmapMapping(inconsistent)).toBe(true);
+    });
+
     it('maps an external department through the row-level command and marks preview stale', async () => {
         const mapping = createMapping({ rowVersion: 2, orgUnitId: null, status: ExternalDepartmentMappingStatus.Unmapped, reviewState: ExternalDepartmentMappingReviewState.Unmapped });
 
