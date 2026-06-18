@@ -298,6 +298,9 @@ export class ExternalOrgSyncService {
     async unmapExternalDepartmentMapping(id: string, request: UnmapExternalDepartmentMappingRequest, operatorId?: string | null): Promise<ExternalDepartmentMappingSummary> {
         const mapping = await this.requireMappingForCommand(id, request.expectedVersion);
         await this.requireEditableSourceForMapping(mapping);
+        if (mapping.status === ExternalDepartmentMappingStatusValue.Ignored) {
+            throw new BadRequestException('Ignored external department mappings must be restored or remapped before unmapping.');
+        }
 
         const beforeSnapshot = this.mappingAuditSnapshot(mapping);
         mapping.orgUnitId = null;
