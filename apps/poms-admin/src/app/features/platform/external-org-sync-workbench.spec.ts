@@ -211,9 +211,10 @@ describe('ExternalOrgSyncWorkbench', () => {
         loadingRunDetail: ReturnType<typeof signal<boolean>>;
         loadingRunDetailId: ReturnType<typeof signal<string | null>>;
         applyingRun: ReturnType<typeof signal<boolean>>;
-        savingMappingId: ReturnType<typeof signal<string | null>>;
+        savingMappingIds: ReturnType<typeof signal<ReadonlySet<string>>>;
         previewStale: ReturnType<typeof signal<boolean>>;
         loadSources: jest.Mock;
+        loadMappings: jest.Mock;
         loadRunHistory: jest.Mock;
         loadRunDetail: jest.Mock;
         clearRunDetail: jest.Mock;
@@ -270,9 +271,10 @@ describe('ExternalOrgSyncWorkbench', () => {
             loadingRunDetail: signal(false),
             loadingRunDetailId: signal(null),
             applyingRun: signal(false),
-            savingMappingId: signal(null),
+            savingMappingIds: signal<ReadonlySet<string>>(new Set<string>()),
             previewStale: signal(false),
             loadSources: jest.fn().mockResolvedValue(sources()),
+            loadMappings: jest.fn().mockImplementation(() => Promise.resolve(mappings())),
             loadRunHistory: jest.fn().mockResolvedValue(runHistory()),
             loadRunDetail: jest.fn().mockImplementation((id: string) => {
                 syncStoreMock.loadingRunDetail.set(true);
@@ -386,25 +388,53 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(text).toContain('销售部');
     });
 
-    it('filters mappings by review state and search text', () => {
-        mappings.set([
-            createMapping({ id: 'mapping-1', externalDepartmentName: '飞书总部', externalDepartmentId: 'od-root', reviewState: ExternalDepartmentMappingReviewState.Mapped }),
-            createMapping({
-                id: 'mapping-2',
-                externalDepartmentName: '销售部',
-                externalDepartmentId: 'od-sales',
-                orgUnitId: null,
-                status: ExternalDepartmentMappingStatus.Conflict,
-                reviewState: ExternalDepartmentMappingReviewState.Conflict,
-                conflictReason: '已映射的 POMS 组织不存在'
-            })
-        ]);
+    it('loads mappings with server-side review state and search filters', async () => {
+        component.updateMappingReviewStateFilter(ExternalDepartmentMappingReviewState.Conflict);
+        await fixture.whenStable();
 
+        expect(syncStoreMock.loadMappings).toHaveBeenLastCalledWith('external-org-source-1', {
+            reviewState: ExternalDepartmentMappingReviewState.Conflict,
+            search: undefined
+        });
+
+        jest.useFakeTimers();
+        component.updateMappingSearchText(' 销售 ');
+        try {
+            jest.advanceTimersByTime(300);
+            await Promise.resolve();
+            await Promise.resolve();
+        } finally {
+            jest.useRealTimers();
+        }
+
+        expect(syncStoreMock.loadMappings).toHaveBeenLastCalledWith('external-org-source-1', {
+            reviewState: ExternalDepartmentMappingReviewState.Conflict,
+            search: '销售'
+        });
+    });
+
+    it('keeps all in-flight mapping rows busy', () => {
+        const first = createMapping({ id: 'mapping-1' });
+        const second = createMapping({ id: 'mapping-2', externalDepartmentId: 'od-sales' });
+
+        syncStoreMock.savingMappingIds.set(new Set(['mapping-1', 'mapping-2']));
+
+        expect(component.isMappingSaving(first)).toBe(true);
+        expect(component.isMappingSaving(second)).toBe(true);
+        expect(component.canIgnoreMapping(first)).toBe(false);
+        expect(component.canIgnoreMapping(second)).toBe(false);
+    });
+
+    it('passes current mapping filters when selecting a source', async () => {
         component.mappingReviewStateFilter.set(ExternalDepartmentMappingReviewState.Conflict);
         component.mappingSearchText.set('销售');
 
-        expect(component.filteredMappings()).toHaveLength(1);
-        expect(component.filteredMappings()[0].externalDepartmentId).toBe('od-sales');
+        await component.selectSource(createSource({ id: 'external-org-source-2' }));
+
+        expect(syncStoreMock.selectSource).toHaveBeenCalledWith('external-org-source-2', {
+            reviewState: ExternalDepartmentMappingReviewState.Conflict,
+            search: '销售'
+        });
     });
 
     it('maps an external department through the row-level command and marks preview stale', async () => {
@@ -1183,10 +1213,17 @@ describe('ExternalOrgSyncWorkbench', () => {
 
         await component.applySelectedDiffItems('org-sync-run-1');
 
-        expect(syncStoreMock.applyRun).toHaveBeenCalledWith('org-sync-run-1', {
-            expectedVersion: 2,
-            approvedDiffItemIds: ['diff-item-1'],
-            skippedDiffItemIds: ['diff-item-2']
-        });
+        expect(syncStoreMock.applyRun).toHaveBeenCalledWith(
+            'org-sync-run-1',
+            {
+                expectedVersion: 2,
+                approvedDiffItemIds: ['diff-item-1'],
+                skippedDiffItemIds: ['diff-item-2']
+            },
+            {
+                reviewState: undefined,
+                search: undefined
+            }
+        );
     });
 });

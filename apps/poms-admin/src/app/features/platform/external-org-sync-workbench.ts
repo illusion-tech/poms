@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
     ExternalDepartmentMappingReviewState,
+    type ExternalDepartmentMappingFilters,
     ExternalDepartmentMappingStatus,
     type ExternalDepartmentMappingSummary,
     ExternalOrgProvider,
@@ -65,6 +66,8 @@ interface ProviderConfigDiagnosticEntry {
 type SourceWizardStep = 'platform' | 'connection' | 'scope' | 'review';
 type SyncRunWorkbenchView = 'preview' | 'history';
 type MappingReviewStateFilter = ExternalDepartmentMappingReviewState | 'all';
+
+const MAPPING_SEARCH_DEBOUNCE_MS = 300;
 
 interface SourceWizardStepOption {
     key: SourceWizardStep;
@@ -234,7 +237,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                         <div adminToolbarEnd class="flex flex-wrap items-center gap-2">
                             <p-select
                                 [ngModel]="mappingReviewStateFilter()"
-                                (ngModelChange)="mappingReviewStateFilter.set($event)"
+                                (ngModelChange)="updateMappingReviewStateFilter($event)"
                                 [options]="mappingReviewStateFilterOptions"
                                 optionLabel="label"
                                 optionValue="value"
@@ -243,12 +246,12 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                             />
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <input pInputText [ngModel]="mappingSearchText()" (ngModelChange)="mappingSearchText.set($event)" placeholder="搜索外部部门或组织" class="w-56" />
+                                <input pInputText [ngModel]="mappingSearchText()" (ngModelChange)="updateMappingSearchText($event)" placeholder="搜索外部部门或组织" class="w-56" />
                             </span>
-                            <span class="text-sm text-surface-500">共 {{ filteredMappings().length }} / {{ syncStore.mappings().length }} 条</span>
+                            <span class="text-sm text-surface-500">共 {{ syncStore.mappings().length }} 条</span>
                         </div>
                         <p-table
-                            [value]="filteredMappings()"
+                            [value]="syncStore.mappings()"
                             [paginator]="true"
                             [rows]="8"
                             dataKey="id"
@@ -973,17 +976,6 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     );
     readonly mappingReviewStateFilter = signal<MappingReviewStateFilter>('all');
     readonly mappingSearchText = signal('');
-    readonly filteredMappings = computed(() => {
-        const reviewState = this.mappingReviewStateFilter();
-        const search = this.mappingSearchText().trim().toLocaleLowerCase();
-        return this.syncStore.mappings().filter((mapping) => {
-            if (reviewState !== 'all' && mapping.reviewState !== reviewState) return false;
-            if (!search) return true;
-            return [mapping.externalDepartmentName, mapping.externalDepartmentId, mapping.externalParentDepartmentId, mapping.conflictReason, this.orgUnitName(mapping.orgUnitId)]
-                .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
-                .some((value) => value.toLocaleLowerCase().includes(search));
-        });
-    });
 
     sourceDialogVisible = false;
     mappingDialogVisible = false;
@@ -997,6 +989,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     mappingTargetOrgUnitId: string | null = null;
     sourceForm: ExternalOrgSourceForm = this.createEmptySourceForm();
     private rootDepartmentDiagnosticTimer: ReturnType<typeof setTimeout> | null = null;
+    private mappingSearchTimer: ReturnType<typeof setTimeout> | null = null;
     private providerConfigDiagnosticRequestId = 0;
 
     constructor() {
@@ -1007,6 +1000,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     ngOnDestroy(): void {
         this.clearRootDepartmentDiagnosticTimer();
+        this.clearMappingSearchTimer();
     }
 
     async refresh(): Promise<void> {
@@ -1018,10 +1012,35 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     async selectSource(source: ExternalOrgSourceSummary): Promise<void> {
-        await this.syncStore.selectSource(source.id);
+        await this.syncStore.selectSource(source.id, this.currentMappingFilters());
         this.selectedDiffItemIds.set(new Set());
         this.closeRunDetailDialog();
         this.closeMappingDialog();
+    }
+
+    updateMappingReviewStateFilter(reviewState: MappingReviewStateFilter): void {
+        this.mappingReviewStateFilter.set(reviewState);
+        this.clearMappingSearchTimer();
+        void this.refreshMappings();
+    }
+
+    updateMappingSearchText(search: string): void {
+        this.mappingSearchText.set(search);
+        this.clearMappingSearchTimer();
+        this.mappingSearchTimer = setTimeout(() => {
+            this.mappingSearchTimer = null;
+            void this.refreshMappings();
+        }, MAPPING_SEARCH_DEBOUNCE_MS);
+    }
+
+    async refreshMappings(): Promise<void> {
+        const source = this.syncStore.selectedSource();
+        if (!source) return;
+        try {
+            await this.syncStore.loadMappings(source.id, this.currentMappingFilters());
+        } catch {
+            this.#messageService.add({ severity: 'error', summary: '刷新失败', detail: '部门映射加载失败' });
+        }
     }
 
     setSyncRunView(view: SyncRunWorkbenchView): void {
@@ -1063,7 +1082,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     }
 
     isMappingSaving(mapping: ExternalDepartmentMappingSummary): boolean {
-        return this.syncStore.savingMappingId() === mapping.id;
+        return this.syncStore.savingMappingIds().has(mapping.id);
     }
 
     isSelectedMappingSaving(): boolean {
@@ -1114,6 +1133,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                 orgUnitId,
                 expectedVersion: mapping.rowVersion
             });
+            await this.refreshMappings();
             this.closeMappingDialog();
             this.#messageService.add({ severity: 'success', summary: '映射已保存', detail: '已更新外部部门与 POMS 组织的映射关系' });
         } catch (error) {
@@ -1140,6 +1160,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         if (!this.canUnmapMapping(mapping)) return;
         try {
             await this.syncStore.unmapMapping(mapping.id, { expectedVersion: mapping.rowVersion });
+            await this.refreshMappings();
             this.#messageService.add({ severity: 'success', summary: '已解除映射', detail: '请重新生成预览确认后续差异' });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '解除失败', detail: apiErrorMessage(error, '请刷新后重试') });
@@ -1165,6 +1186,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         if (!this.canIgnoreMapping(mapping)) return;
         try {
             await this.syncStore.ignoreMapping(mapping.id, { expectedVersion: mapping.rowVersion });
+            await this.refreshMappings();
             this.#messageService.add({ severity: 'success', summary: '已忽略', detail: '请重新生成预览确认后续差异' });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '忽略失败', detail: apiErrorMessage(error, '请刷新后重试') });
@@ -1190,6 +1212,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         if (!this.canRestoreMapping(mapping)) return;
         try {
             await this.syncStore.restoreMapping(mapping.id, { expectedVersion: mapping.rowVersion });
+            await this.refreshMappings();
             this.#messageService.add({ severity: 'success', summary: '已恢复', detail: '请重新生成预览确认后续差异' });
         } catch (error) {
             this.#messageService.add({ severity: 'error', summary: '恢复失败', detail: apiErrorMessage(error, '请刷新后重试') });
@@ -1627,7 +1650,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     mappingEmptyMessage(): string {
         if (this.syncStore.loadingMappings()) return '加载中...';
-        if (this.syncStore.mappings().length > 0) return '没有符合筛选条件的部门映射';
+        if (this.mappingReviewStateFilter() !== 'all' || this.mappingSearchText().trim()) return '没有符合筛选条件的部门映射';
         return '暂无部门映射';
     }
 
@@ -1697,7 +1720,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
                 expectedVersion: run.rowVersion,
                 approvedDiffItemIds,
                 skippedDiffItemIds
-            });
+            }, this.currentMappingFilters());
             this.selectedDiffItemIds.set(new Set());
             this.#messageService.add({ severity: 'success', summary: '应用完成', detail: '组织结构已按选中差异更新' });
         } catch {
@@ -2112,6 +2135,21 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         if (!this.rootDepartmentDiagnosticTimer) return;
         clearTimeout(this.rootDepartmentDiagnosticTimer);
         this.rootDepartmentDiagnosticTimer = null;
+    }
+
+    private clearMappingSearchTimer(): void {
+        if (!this.mappingSearchTimer) return;
+        clearTimeout(this.mappingSearchTimer);
+        this.mappingSearchTimer = null;
+    }
+
+    private currentMappingFilters(): ExternalDepartmentMappingFilters {
+        const reviewState = this.mappingReviewStateFilter();
+        const search = this.mappingSearchText().trim();
+        return {
+            reviewState: reviewState === 'all' ? undefined : reviewState,
+            search: search || undefined
+        };
     }
 
     private normalizeExternalRootDepartmentId(value: string | null | undefined): string {
