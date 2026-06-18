@@ -152,6 +152,17 @@ describe('OrgUnitList', () => {
         expect(jiangsu?.children?.map((node) => node.data?.name)).toEqual(['市场部', '研发中心']);
     });
 
+    it('preserves manual expansions after a search cycle', () => {
+        component.onNodeExpand({ node: { key: 'org-jiangsu' } });
+        component.updateSearchQuery('市场');
+
+        expect(component.effectiveExpandedKeys()).toMatchObject({ 'org-root': true, 'org-jiangsu': true });
+
+        component.updateSearchQuery('');
+
+        expect(component.effectiveExpandedKeys()).toMatchObject({ 'org-root': true, 'org-jiangsu': true });
+    });
+
     it('excludes the moving org unit and its descendants from parent options', () => {
         const options = component.selectableParents('org-jiangsu');
 
