@@ -730,9 +730,28 @@ describe('ExternalOrgSyncService', () => {
     });
 
     it('applies parent create diff items before child create diff items', async () => {
-        const run = createRun({ status: OrgSyncRunStatusValue.Previewed, rowVersion: 1, totalItemCount: 2 });
+        const run = createRun({ status: OrgSyncRunStatusValue.Previewed, rowVersion: 1, totalItemCount: 3 });
+        const grandchildMapping = createMapping({ id: '97000000-0000-4000-8000-000000000203', externalDepartmentId: 'od-grandchild', externalDepartmentName: '深圳销售' });
         const childMapping = createMapping({ externalDepartmentId: 'od-child', externalDepartmentName: '华南销售' });
         const parentMapping = createMapping({ id: '97000000-0000-4000-8000-000000000202', externalDepartmentId: 'od-parent', externalDepartmentName: '销售部' });
+        const grandchildDiffItem = createDiffItem({
+            id: '97000000-0000-4000-8000-000000000300',
+            externalDepartmentId: 'od-grandchild',
+            action: OrgSyncDiffActionValue.CreateOrgUnit,
+            status: OrgSyncDiffItemStatusValue.Pending,
+            createdAt: new Date('2026-06-09T23:59:59.000Z'),
+            candidateSnapshot: {
+                externalDepartmentId: 'od-grandchild',
+                externalParentDepartmentId: 'od-child',
+                externalDepartmentName: '深圳销售',
+                targetName: '深圳销售',
+                targetCode: 'EXT-FS-OD-GRANDCHILD-12345678',
+                targetParentOrgUnitId: null,
+                targetParentExternalDepartmentId: 'od-child',
+                displayOrder: 30,
+                externalSnapshot: { open_department_id: 'od-grandchild' }
+            }
+        });
         const childDiffItem = createDiffItem({
             id: '97000000-0000-4000-8000-000000000301',
             externalDepartmentId: 'od-child',
@@ -771,14 +790,15 @@ describe('ExternalOrgSyncService', () => {
         });
         repository.findRunById.mockResolvedValue(run);
         repository.findSourceById.mockResolvedValue(createSource({ status: ExternalOrgSourceStatusValue.Active, providerConfigId, authoritativeOrgUnitId: rootOrgUnitId, externalRootDepartmentId: '0' }));
-        repository.findMappingsBySourceId.mockResolvedValue([childMapping, parentMapping]);
+        repository.findMappingsBySourceId.mockResolvedValue([grandchildMapping, childMapping, parentMapping]);
         repository.findAllOrgUnits.mockResolvedValue([createOrgUnit({ id: rootOrgUnitId, name: '总部', code: 'HQ' })]);
-        repository.findDiffItems.mockResolvedValue([childDiffItem, parentDiffItem]);
+        repository.findDiffItems.mockResolvedValue([grandchildDiffItem, childDiffItem, parentDiffItem]);
 
-        await service.applyOrgSyncRun(runId, { expectedVersion: 1, approvedDiffItemIds: [childDiffItem.id, parentDiffItem.id] }, operatorId);
+        await service.applyOrgSyncRun(runId, { expectedVersion: 1, approvedDiffItemIds: [grandchildDiffItem.id, childDiffItem.id, parentDiffItem.id] }, operatorId);
 
         expect(repository.createOrgUnit).toHaveBeenNthCalledWith(1, expect.objectContaining({ name: '销售部', parentId: rootOrgUnitId }));
         expect(repository.createOrgUnit).toHaveBeenNthCalledWith(2, expect.objectContaining({ name: '华南销售', parentId: orgUnitId }));
+        expect(repository.createOrgUnit).toHaveBeenNthCalledWith(3, expect.objectContaining({ name: '深圳销售', parentId: orgUnitId }));
     });
 
     function createSource(overrides: Partial<ExternalOrgSource> = {}): ExternalOrgSource {

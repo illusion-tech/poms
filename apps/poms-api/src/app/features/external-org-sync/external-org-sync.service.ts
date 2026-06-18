@@ -475,10 +475,10 @@ export class ExternalOrgSyncService {
         const skippedIds = new Set(request.skippedDiffItemIds ?? []);
         const approvedIds = new Set(request.approvedDiffItemIds ?? []);
         const explicitApproval = approvedIds.size > 0;
-        const sortedDiffItems = this.sortDiffItemsForApply(diffItems);
-        const diffItemsToApply = sortedDiffItems.filter((item) => !this.shouldSkipDiffItemForApply(item, skippedIds, approvedIds, explicitApproval));
+        const diffItemsToApply = diffItems.filter((item) => !this.shouldSkipDiffItemForApply(item, skippedIds, approvedIds, explicitApproval));
         const diffItemIdsToApply = new Set(diffItemsToApply.map((item) => item.id));
         this.assertApplyParentDependencies(diffItemsToApply, mappings);
+        const sortedDiffItems = this.sortDiffItemsForApply(diffItems, diffItemsToApply);
         const createdOrgUnitIdsByExternalDepartmentId = new Map<string, string>();
         const entitiesToSave: object[] = [run];
 
@@ -1140,7 +1140,7 @@ export class ExternalOrgSyncService {
         };
     }
 
-    private sortDiffItemsForApply(items: OrgSyncDiffItem[]): OrgSyncDiffItem[] {
+    private sortDiffItemsForApply(items: OrgSyncDiffItem[], diffItemsToApply: OrgSyncDiffItem[]): OrgSyncDiffItem[] {
         const rankByAction: Partial<Record<string, number>> = {
             [OrgSyncDiffActionValue.CreateOrgUnit]: 10,
             [OrgSyncDiffActionValue.UpdateOrgUnit]: 20,
@@ -1153,35 +1153,67 @@ export class ExternalOrgSyncService {
 
         const rank = (item: OrgSyncDiffItem): number => rankByAction[item.action] ?? 99;
         const byDefaultOrder = (left: OrgSyncDiffItem, right: OrgSyncDiffItem): number => left.createdAt.getTime() - right.createdAt.getTime() || left.id.localeCompare(right.id);
-        const createItems = this.sortCreateDiffItemsForApply(items.filter((item) => item.action === OrgSyncDiffActionValue.CreateOrgUnit));
+        const createItems = this.sortCreateDiffItemsForApply(diffItemsToApply.filter((item) => item.action === OrgSyncDiffActionValue.CreateOrgUnit));
         const createIndexById = new Map(createItems.map((item, index) => [item.id, index]));
 
         return [...items].sort((left, right) => {
             const rankDiff = rank(left) - rank(right);
             if (rankDiff !== 0) return rankDiff;
             if (left.action === OrgSyncDiffActionValue.CreateOrgUnit && right.action === OrgSyncDiffActionValue.CreateOrgUnit) {
-                return (createIndexById.get(left.id) ?? 0) - (createIndexById.get(right.id) ?? 0);
+                const leftCreateIndex = createIndexById.get(left.id);
+                const rightCreateIndex = createIndexById.get(right.id);
+                if (leftCreateIndex !== undefined && rightCreateIndex !== undefined) return leftCreateIndex - rightCreateIndex;
             }
             return byDefaultOrder(left, right);
         });
     }
 
     private sortCreateDiffItemsForApply(items: OrgSyncDiffItem[]): OrgSyncDiffItem[] {
-        const remaining = [...items].sort((left, right) => left.createdAt.getTime() - right.createdAt.getTime() || left.id.localeCompare(right.id));
+        const orderedItems = [...items].sort((left, right) => left.createdAt.getTime() - right.createdAt.getTime() || left.id.localeCompare(right.id));
         const sorted: OrgSyncDiffItem[] = [];
-        const orderedExternalDepartmentIds = new Set<string>();
+        const itemByExternalDepartmentId = new Map<string, OrgSyncDiffItem>();
+        const childrenByParentExternalDepartmentId = new Map<string, OrgSyncDiffItem[]>();
+        const indegreeByItemId = new Map<string, number>();
 
-        while (remaining.length > 0) {
-            const nextIndex = remaining.findIndex((item) => {
-                const parentExternalDepartmentId = this.applyTargetParentExternalDepartmentId(item);
-                if (!parentExternalDepartmentId) return true;
-                if (orderedExternalDepartmentIds.has(parentExternalDepartmentId)) return true;
-                return !remaining.some((candidate) => this.applyExternalDepartmentId(candidate) === parentExternalDepartmentId);
-            });
-            const [next] = remaining.splice(nextIndex >= 0 ? nextIndex : 0, 1);
-            if (!next) break;
-            sorted.push(next);
-            orderedExternalDepartmentIds.add(this.applyExternalDepartmentId(next));
+        for (const item of orderedItems) {
+            const externalDepartmentId = this.applyExternalDepartmentId(item);
+            if (itemByExternalDepartmentId.has(externalDepartmentId)) {
+                throw new BadRequestException(`Org sync create diff items contain duplicate external department ${externalDepartmentId}.`);
+            }
+            itemByExternalDepartmentId.set(externalDepartmentId, item);
+            indegreeByItemId.set(item.id, 0);
+        }
+
+        for (const item of orderedItems) {
+            const parentExternalDepartmentId = this.applyTargetParentExternalDepartmentId(item);
+            if (!parentExternalDepartmentId) continue;
+            const parentItem = itemByExternalDepartmentId.get(parentExternalDepartmentId);
+            if (!parentItem) continue;
+
+            const children = childrenByParentExternalDepartmentId.get(parentExternalDepartmentId) ?? [];
+            children.push(item);
+            childrenByParentExternalDepartmentId.set(parentExternalDepartmentId, children);
+            indegreeByItemId.set(item.id, (indegreeByItemId.get(item.id) ?? 0) + 1);
+        }
+
+        const queue = orderedItems.filter((item) => (indegreeByItemId.get(item.id) ?? 0) === 0);
+        for (let index = 0; index < queue.length; index += 1) {
+            const item = queue[index];
+            if (!item) continue;
+            sorted.push(item);
+
+            const children = childrenByParentExternalDepartmentId.get(this.applyExternalDepartmentId(item)) ?? [];
+            for (const child of children) {
+                const nextIndegree = (indegreeByItemId.get(child.id) ?? 0) - 1;
+                indegreeByItemId.set(child.id, nextIndegree);
+                if (nextIndegree === 0) {
+                    queue.push(child);
+                }
+            }
+        }
+
+        if (sorted.length !== orderedItems.length) {
+            throw new BadRequestException('Org sync create diff items contain a circular parent dependency.');
         }
 
         return sorted;
