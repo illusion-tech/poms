@@ -98,6 +98,7 @@ export type {
   LeadWorkbenchFacet,
   LeadWorkbenchSummary,
   OpportunityStakeholderSummary,
+  OrgUnitTreeNode,
   OrgSyncDiffItemSummary,
   OrgSyncRunSummary,
   OwnerReferenceOrgUnit,

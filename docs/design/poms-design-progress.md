@@ -623,6 +623,8 @@
 140. 2026-06-18 `EX-72F/FE-70` 已完成 `G4` 收口：PR `#17` 已 rebase merge，GitHub issue `#10` 已关闭；部门映射冲突处理工作台、四条行级映射命令、服务端 reviewState 筛选 / 搜索、Admin 映射弹窗、解除 / 忽略 / 恢复、来源差异详情入口和 stale preview 阻断均已合并到 `main`。`phase2-development-execution-tracker.md` 已同步为 `Done / G4`，baseline 已归档到 `docs/design/archive/slices/ex-72f-fe-70-department-mapping-conflict-workbench-baseline.md`；原四个子切片已关闭，父 issue `#8` 保持打开，等待 `#18` 完成后再进入测试环境端到端冒烟和父任务 closeout。
 141. 2026-06-18 `EX-72G/FE-71` 已进入 `G1 / Doing`：基于测试环境飞书组织预览反馈新增 GitHub issue `#18` 和 `ex-72g-fe-71-external-org-tree-dependency-guard-baseline.md`，冻结外部组织树形预览与父子依赖保护范围。本片不新增 public route、OpenAPI、generated client 或 migration；复用现有 mapping list、diff item list、row-level mapping commands 和 `applyOrgSyncRun`，在 Admin 增加表格 / 结构树视图切换，并在前端与 API 写入前阻断缺失父部门依赖的 apply 请求。
 142. 2026-06-18 `EX-72G/FE-71` 已完成 `G4` 收口：PR `#19` 已 rebase merge，GitHub issue `#18` 已关闭；外部组织同步工作台表格 / 结构树视图切换、树节点行级操作复用、前端 apply 父部门依赖阻断、API apply 父部门依赖防线、create diff 拓扑排序和 review 修复均已合并到 `main`。`phase2-development-execution-tracker.md` 已同步为 `Done / G4`，baseline 已归档到 `docs/design/archive/slices/ex-72g-fe-71-external-org-tree-dependency-guard-baseline.md`；父 issue `#8` 继续保持打开，下一步进入测试环境飞书接入到组织预览 / 映射处理 / 应用链路的端到端冒烟和父任务 closeout。
+143. 2026-06-18 父 issue `#8` 已完成最终 `G4` closeout 并关闭：线上测试环境 `https://poms-test.illusiontech.cn` 已由管理员手动完成飞书企业协同接入、外部组织同步源、生成预览、树形查看、映射处理、差异应用、父子依赖保护和运行历史 / 诊断追溯的端到端冒烟；`#11` / `#9` / `#12` / `#10` / `#18` 均已关闭，外部组织同步用户体验闭环治理完成。
+144. 2026-06-18 `FE-72` 已进入 `G1 / Doing`：新增 GitHub issue `#20` 和 `fe-72-org-unit-tree-table-baseline.md`，冻结组织单元列表树形表格范围。本片消费 `org-unit-design.md`、`ADR-002` 和既有 `GET /platform/org-unit-tree`，只改 Admin 组织单元页面，将平铺表格升级为可展开 / 折叠的树形表格，并要求搜索保留祖先链、原有行级操作不回退；不新增 public route、OpenAPI、generated client、migration 或权限 key。
 
 ---
 
