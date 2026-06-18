@@ -425,6 +425,40 @@ describe('ExternalOrgSyncWorkbench', () => {
         expect(component.canIgnoreMapping(second)).toBe(false);
     });
 
+    it('builds the external department tree from mapping parent ids', () => {
+        const parent = createMapping({
+            id: 'mapping-parent',
+            externalDepartmentId: 'od-parent',
+            externalParentDepartmentId: '0',
+            externalDepartmentName: '销售部'
+        });
+        const child = createMapping({
+            id: 'mapping-child',
+            externalDepartmentId: 'od-child',
+            externalParentDepartmentId: 'od-parent',
+            externalDepartmentName: '华南销售'
+        });
+        const orphaned = createMapping({
+            id: 'mapping-orphaned',
+            externalDepartmentId: 'od-orphaned',
+            externalParentDepartmentId: 'od-missing',
+            externalDepartmentName: '缺失父部门'
+        });
+        mappings.set([child, orphaned, parent]);
+
+        const rows = component.mappingTreeRows();
+
+        expect(rows.map((row) => row.mapping.externalDepartmentId)).toEqual(['od-orphaned', 'od-parent', 'od-child']);
+        expect(rows.find((row) => row.mapping.externalDepartmentId === 'od-child')).toMatchObject({ depth: 1, orphaned: false });
+        expect(rows.find((row) => row.mapping.externalDepartmentId === 'od-orphaned')).toMatchObject({ depth: 0, orphaned: true });
+
+        component.setMappingViewMode('tree');
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('结构树');
+        expect(fixture.nativeElement.textContent).toContain('父部门未在当前结果');
+    });
+
     it('passes current mapping filters when selecting a source', async () => {
         component.mappingReviewStateFilter.set(ExternalDepartmentMappingReviewState.Conflict);
         component.mappingSearchText.set('销售');
@@ -483,6 +517,39 @@ describe('ExternalOrgSyncWorkbench', () => {
         syncStoreMock.previewStale.set(true);
 
         expect(component.canApplyRun()).toBe(false);
+    });
+
+    it('blocks applying child create diff items without selected or mapped parent dependencies', () => {
+        const parentDiffItem = createDiffItem({
+            id: 'diff-parent',
+            externalDepartmentId: 'od-parent',
+            candidateSnapshot: {
+                externalDepartmentId: 'od-parent',
+                externalDepartmentName: '销售部',
+                targetParentExternalDepartmentId: null
+            }
+        });
+        const childDiffItem = createDiffItem({
+            id: 'diff-child',
+            externalDepartmentId: 'od-child',
+            candidateSnapshot: {
+                externalDepartmentId: 'od-child',
+                externalDepartmentName: '华南销售',
+                targetParentExternalDepartmentId: 'od-parent'
+            }
+        });
+        mappings.set([]);
+        diffItems.set([parentDiffItem, childDiffItem]);
+
+        component.selectedDiffItemIds.set(new Set(['diff-child']));
+
+        expect(component.selectedApplyDependencyIssue()).toContain('od-parent');
+        expect(component.canApplyRun()).toBe(false);
+
+        component.selectedDiffItemIds.set(new Set(['diff-parent', 'diff-child']));
+
+        expect(component.selectedApplyDependencyIssue()).toBeNull();
+        expect(component.canApplyRun()).toBe(true);
     });
 
     it('shows run history and opens run detail without replacing the active preview', async () => {

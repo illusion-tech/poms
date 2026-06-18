@@ -66,6 +66,7 @@ interface ProviderConfigDiagnosticEntry {
 type SourceWizardStep = 'platform' | 'connection' | 'scope' | 'review';
 type SyncRunWorkbenchView = 'preview' | 'history';
 type MappingReviewStateFilter = ExternalDepartmentMappingReviewState | 'all';
+type MappingViewMode = 'table' | 'tree';
 
 const MAPPING_SEARCH_DEBOUNCE_MS = 300;
 
@@ -73,6 +74,13 @@ interface SourceWizardStepOption {
     key: SourceWizardStep;
     label: string;
     icon: string;
+}
+
+interface MappingTreeRow {
+    mapping: ExternalDepartmentMappingSummary;
+    depth: number;
+    hasChildren: boolean;
+    orphaned: boolean;
 }
 
 function apiErrorMessage(error: unknown, fallback: string): string {
@@ -233,6 +241,24 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                         <div adminToolbarStart class="flex items-center gap-2">
                             <i class="pi pi-sitemap text-primary"></i>
                             <span class="font-medium text-surface-950 dark:text-surface-0">外部部门映射</span>
+                            <div class="ml-2 inline-flex rounded-md border border-surface-200 bg-surface-0 p-1 dark:border-surface-700 dark:bg-surface-900">
+                                <button
+                                    type="button"
+                                    class="rounded px-3 py-1.5 text-sm font-medium"
+                                    [ngClass]="mappingViewMode() === 'table' ? 'bg-primary text-primary-contrast' : 'text-surface-600 hover:text-surface-950 dark:text-surface-300 dark:hover:text-surface-0'"
+                                    (click)="setMappingViewMode('table')"
+                                >
+                                    表格
+                                </button>
+                                <button
+                                    type="button"
+                                    class="rounded px-3 py-1.5 text-sm font-medium"
+                                    [ngClass]="mappingViewMode() === 'tree' ? 'bg-primary text-primary-contrast' : 'text-surface-600 hover:text-surface-950 dark:text-surface-300 dark:hover:text-surface-0'"
+                                    (click)="setMappingViewMode('tree')"
+                                >
+                                    结构树
+                                </button>
+                            </div>
                         </div>
                         <div adminToolbarEnd class="flex flex-wrap items-center gap-2">
                             <p-select
@@ -250,115 +276,184 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                             </span>
                             <span class="text-sm text-surface-500">共 {{ syncStore.mappings().length }} 条</span>
                         </div>
-                        <p-table
-                            [value]="syncStore.mappings()"
-                            [paginator]="true"
-                            [rows]="8"
-                            dataKey="id"
-                            [rowHover]="true"
-                            responsiveLayout="scroll"
-                            [tableStyle]="{ width: '100%', 'min-width': '84rem' }"
-                            [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
-                        >
-                            <ng-template #header>
-                                <tr>
-                                    <th>外部部门</th>
-                                    <th>上级外部部门</th>
-                                    <th>POMS 组织</th>
-                                    <th>处理状态</th>
-                                    <th>冲突/失效原因</th>
-                                    <th>最近发现</th>
-                                    <th style="width: 13rem">操作</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template #body let-mapping>
-                                <tr>
-                                    <td>
-                                        <div class="flex flex-col gap-1">
-                                            <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ mapping.externalDepartmentName }}</span>
-                                            <span class="font-mono text-xs text-surface-400">{{ mapping.externalDepartmentId }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="font-mono text-xs text-surface-500">{{ mapping.externalParentDepartmentId ?? '—' }}</td>
-                                    <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(mapping.orgUnitId) }}</td>
-                                    <td><p-tag [value]="mappingReviewStateLabel(mapping.reviewState)" [severity]="mappingReviewStateSeverity(mapping.reviewState)" /></td>
-                                    <td class="max-w-96 text-sm text-surface-500">
-                                        <div class="line-clamp-2">{{ mapping.conflictReason ?? '—' }}</div>
-                                        @if (mapping.lastConflictRunId) {
-                                            <button type="button" class="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary" (click)="openMappingConflictRun(mapping)">
-                                                <i class="pi pi-list-check"></i>
-                                                查看来源差异
-                                            </button>
-                                        }
-                                    </td>
-                                    <td class="text-sm text-surface-500">{{ formatDateTime(mapping.lastSeenAt) }}</td>
-                                    <td>
-                                        <div class="flex items-center gap-1">
-                                            <p-button
-                                                icon="pi pi-link"
-                                                [rounded]="true"
-                                                [text]="true"
-                                                size="small"
-                                                severity="secondary"
-                                                [pTooltip]="canEditMappings() ? '映射到 POMS 组织' : '已归档，不能处理映射'"
-                                                tooltipPosition="top"
-                                                ariaLabel="映射到 POMS 组织"
-                                                [disabled]="!canEditMappings() || isMappingSaving(mapping)"
-                                                [loading]="isMappingSaving(mapping)"
-                                                (onClick)="openMappingDialog(mapping)"
-                                            />
-                                            <p-button
-                                                icon="pi pi-unlink"
-                                                [rounded]="true"
-                                                [text]="true"
-                                                size="small"
-                                                severity="warn"
-                                                pTooltip="解除映射"
-                                                tooltipPosition="top"
-                                                ariaLabel="解除映射"
-                                                [disabled]="!canUnmapMapping(mapping)"
-                                                [loading]="isMappingSaving(mapping)"
-                                                (onClick)="confirmUnmapMapping(mapping)"
-                                            />
-                                            @if (mapping.reviewState === externalDepartmentMappingReviewState.Ignored) {
-                                                <p-button
-                                                    icon="pi pi-refresh"
-                                                    [rounded]="true"
-                                                    [text]="true"
-                                                    size="small"
-                                                    severity="success"
-                                                    pTooltip="恢复处理"
-                                                    tooltipPosition="top"
-                                                    ariaLabel="恢复处理"
-                                                    [disabled]="!canRestoreMapping(mapping)"
-                                                    [loading]="isMappingSaving(mapping)"
-                                                    (onClick)="confirmRestoreMapping(mapping)"
-                                                />
-                                            } @else {
-                                                <p-button
-                                                    icon="pi pi-eye-slash"
-                                                    [rounded]="true"
-                                                    [text]="true"
-                                                    size="small"
-                                                    severity="secondary"
-                                                    pTooltip="忽略该外部部门"
-                                                    tooltipPosition="top"
-                                                    ariaLabel="忽略该外部部门"
-                                                    [disabled]="!canIgnoreMapping(mapping)"
-                                                    [loading]="isMappingSaving(mapping)"
-                                                    (onClick)="confirmIgnoreMapping(mapping)"
-                                                />
+                        <ng-template #mappingActions let-mapping>
+                            <div class="flex items-center gap-1">
+                                <p-button
+                                    icon="pi pi-link"
+                                    [rounded]="true"
+                                    [text]="true"
+                                    size="small"
+                                    severity="secondary"
+                                    [pTooltip]="canEditMappings() ? '映射到 POMS 组织' : '已归档，不能处理映射'"
+                                    tooltipPosition="top"
+                                    ariaLabel="映射到 POMS 组织"
+                                    [disabled]="!canEditMappings() || isMappingSaving(mapping)"
+                                    [loading]="isMappingSaving(mapping)"
+                                    (onClick)="openMappingDialog(mapping)"
+                                />
+                                <p-button
+                                    icon="pi pi-unlink"
+                                    [rounded]="true"
+                                    [text]="true"
+                                    size="small"
+                                    severity="warn"
+                                    pTooltip="解除映射"
+                                    tooltipPosition="top"
+                                    ariaLabel="解除映射"
+                                    [disabled]="!canUnmapMapping(mapping)"
+                                    [loading]="isMappingSaving(mapping)"
+                                    (onClick)="confirmUnmapMapping(mapping)"
+                                />
+                                @if (mapping.reviewState === externalDepartmentMappingReviewState.Ignored) {
+                                    <p-button
+                                        icon="pi pi-refresh"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        severity="success"
+                                        pTooltip="恢复处理"
+                                        tooltipPosition="top"
+                                        ariaLabel="恢复处理"
+                                        [disabled]="!canRestoreMapping(mapping)"
+                                        [loading]="isMappingSaving(mapping)"
+                                        (onClick)="confirmRestoreMapping(mapping)"
+                                    />
+                                } @else {
+                                    <p-button
+                                        icon="pi pi-eye-slash"
+                                        [rounded]="true"
+                                        [text]="true"
+                                        size="small"
+                                        severity="secondary"
+                                        pTooltip="忽略该外部部门"
+                                        tooltipPosition="top"
+                                        ariaLabel="忽略该外部部门"
+                                        [disabled]="!canIgnoreMapping(mapping)"
+                                        [loading]="isMappingSaving(mapping)"
+                                        (onClick)="confirmIgnoreMapping(mapping)"
+                                    />
+                                }
+                            </div>
+                        </ng-template>
+                        @if (mappingViewMode() === 'table') {
+                            <p-table
+                                [value]="syncStore.mappings()"
+                                [paginator]="true"
+                                [rows]="8"
+                                dataKey="id"
+                                [rowHover]="true"
+                                responsiveLayout="scroll"
+                                [tableStyle]="{ width: '100%', 'min-width': '84rem' }"
+                                [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                            >
+                                <ng-template #header>
+                                    <tr>
+                                        <th>外部部门</th>
+                                        <th>上级外部部门</th>
+                                        <th>POMS 组织</th>
+                                        <th>处理状态</th>
+                                        <th>冲突/失效原因</th>
+                                        <th>最近发现</th>
+                                        <th style="width: 13rem">操作</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template #body let-mapping>
+                                    <tr>
+                                        <td>
+                                            <div class="flex flex-col gap-1">
+                                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ mapping.externalDepartmentName }}</span>
+                                                <span class="font-mono text-xs text-surface-400">{{ mapping.externalDepartmentId }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="font-mono text-xs text-surface-500">{{ mapping.externalParentDepartmentId ?? '—' }}</td>
+                                        <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(mapping.orgUnitId) }}</td>
+                                        <td><p-tag [value]="mappingReviewStateLabel(mapping.reviewState)" [severity]="mappingReviewStateSeverity(mapping.reviewState)" /></td>
+                                        <td class="max-w-96 text-sm text-surface-500">
+                                            <div class="line-clamp-2">{{ mapping.conflictReason ?? '—' }}</div>
+                                            @if (mapping.lastConflictRunId) {
+                                                <button type="button" class="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary" (click)="openMappingConflictRun(mapping)">
+                                                    <i class="pi pi-list-check"></i>
+                                                    查看来源差异
+                                                </button>
                                             }
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                            <ng-template #emptymessage>
-                                <tr>
-                                    <td colspan="7" class="py-8 text-center text-surface-400">{{ mappingEmptyMessage() }}</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                        </td>
+                                        <td class="text-sm text-surface-500">{{ formatDateTime(mapping.lastSeenAt) }}</td>
+                                        <td>
+                                            <ng-container [ngTemplateOutlet]="mappingActions" [ngTemplateOutletContext]="{ $implicit: mapping }" />
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template #emptymessage>
+                                    <tr>
+                                        <td colspan="7" class="py-8 text-center text-surface-400">{{ mappingEmptyMessage() }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        } @else {
+                            <p-table
+                                [value]="mappingTreeRows()"
+                                [paginator]="true"
+                                [rows]="12"
+                                dataKey="mapping.id"
+                                [rowHover]="true"
+                                responsiveLayout="scroll"
+                                [tableStyle]="{ width: '100%', 'min-width': '88rem' }"
+                                [pt]="{ root: { class: 'border-none!' }, pcPaginator: { root: { class: 'rounded-none!' } } }"
+                            >
+                                <ng-template #header>
+                                    <tr>
+                                        <th>外部部门层级</th>
+                                        <th>POMS 组织</th>
+                                        <th>处理状态</th>
+                                        <th>冲突/失效原因</th>
+                                        <th>最近发现</th>
+                                        <th style="width: 13rem">操作</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template #body let-row>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-start gap-2" [style.padding-left.rem]="row.depth * 1.25">
+                                                <i class="pi mt-1 text-xs text-surface-400" [ngClass]="row.hasChildren ? 'pi-folder' : 'pi-circle'"></i>
+                                                <div class="flex min-w-0 flex-col gap-1">
+                                                    <div class="flex flex-wrap items-center gap-2">
+                                                        <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ row.mapping.externalDepartmentName }}</span>
+                                                        @if (row.orphaned) {
+                                                            <p-tag value="父部门未在当前结果" severity="warn" />
+                                                        }
+                                                    </div>
+                                                    <div class="flex flex-wrap items-center gap-2 text-xs text-surface-400">
+                                                        <span class="font-mono">{{ row.mapping.externalDepartmentId }}</span>
+                                                        <span>上级</span>
+                                                        <span class="font-mono">{{ row.mapping.externalParentDepartmentId ?? rootDepartmentLabel(syncStore.selectedSource()?.externalRootDepartmentId) }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm text-surface-700 dark:text-surface-200">{{ orgUnitName(row.mapping.orgUnitId) }}</td>
+                                        <td><p-tag [value]="mappingReviewStateLabel(row.mapping.reviewState)" [severity]="mappingReviewStateSeverity(row.mapping.reviewState)" /></td>
+                                        <td class="max-w-96 text-sm text-surface-500">
+                                            <div class="line-clamp-2">{{ row.mapping.conflictReason ?? '—' }}</div>
+                                            @if (row.mapping.lastConflictRunId) {
+                                                <button type="button" class="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary" (click)="openMappingConflictRun(row.mapping)">
+                                                    <i class="pi pi-list-check"></i>
+                                                    查看来源差异
+                                                </button>
+                                            }
+                                        </td>
+                                        <td class="text-sm text-surface-500">{{ formatDateTime(row.mapping.lastSeenAt) }}</td>
+                                        <td>
+                                            <ng-container [ngTemplateOutlet]="mappingActions" [ngTemplateOutletContext]="{ $implicit: row.mapping }" />
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template #emptymessage>
+                                    <tr>
+                                        <td colspan="6" class="py-8 text-center text-surface-400">{{ mappingEmptyMessage() }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        }
                     </app-admin-table-card>
                 </div>
             </div>
@@ -408,6 +503,15 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                     @if (syncStore.previewStale()) {
                         <div class="mb-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
                             部门映射已经变更，当前预览可能不是最新结果。请重新生成预览后再应用差异。
+                        </div>
+                    }
+                    @if (selectedApplyDependencyIssue(); as dependencyIssue) {
+                        <div class="mb-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+                            <div class="flex items-center gap-2 font-medium">
+                                <i class="pi pi-sitemap"></i>
+                                <span>父部门依赖未满足</span>
+                            </div>
+                            <p class="mt-2 leading-6">{{ dependencyIssue }}</p>
                         </div>
                     }
                     @if (syncStore.activeRun(); as run) {
@@ -976,6 +1080,8 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     );
     readonly mappingReviewStateFilter = signal<MappingReviewStateFilter>('all');
     readonly mappingSearchText = signal('');
+    readonly mappingViewMode = signal<MappingViewMode>('table');
+    readonly mappingTreeRows = computed<MappingTreeRow[]>(() => this.buildMappingTreeRows(this.syncStore.mappings(), this.syncStore.selectedSource()?.externalRootDepartmentId));
 
     sourceDialogVisible = false;
     mappingDialogVisible = false;
@@ -983,6 +1089,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
     readonly sourceWizardStep = signal<SourceWizardStep>('platform');
     readonly syncRunView = signal<SyncRunWorkbenchView>('preview');
     readonly selectedDiffItemIds = signal<Set<string>>(new Set());
+    readonly selectedApplyDependencyIssue = computed(() => this.resolveSelectedApplyDependencyIssue());
     readonly selectedMapping = signal<ExternalDepartmentMappingSummary | null>(null);
     readonly providerConfigDiagnostics = signal<Record<string, ProviderConfigDiagnosticEntry>>({});
     runDetailDialogVisible = false;
@@ -1654,6 +1761,55 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
         return '暂无部门映射';
     }
 
+    setMappingViewMode(mode: MappingViewMode): void {
+        this.mappingViewMode.set(mode);
+    }
+
+    private buildMappingTreeRows(mappings: ExternalDepartmentMappingSummary[], rootDepartmentIdValue: string | null | undefined): MappingTreeRow[] {
+        const rootDepartmentId = this.normalizeExternalRootDepartmentId(rootDepartmentIdValue);
+        const mappingByExternalDepartmentId = new Map(mappings.map((mapping) => [mapping.externalDepartmentId, mapping]));
+        const childrenByParentDepartmentId = new Map<string, ExternalDepartmentMappingSummary[]>();
+        const rootMappings: ExternalDepartmentMappingSummary[] = [];
+
+        for (const mapping of mappings) {
+            const parentDepartmentId = mapping.externalParentDepartmentId?.trim() || null;
+            if (!parentDepartmentId || parentDepartmentId === rootDepartmentId || !mappingByExternalDepartmentId.has(parentDepartmentId)) {
+                rootMappings.push(mapping);
+                continue;
+            }
+            const siblings = childrenByParentDepartmentId.get(parentDepartmentId) ?? [];
+            siblings.push(mapping);
+            childrenByParentDepartmentId.set(parentDepartmentId, siblings);
+        }
+
+        const rows: MappingTreeRow[] = [];
+        const visited = new Set<string>();
+        const sortMappings = (items: ExternalDepartmentMappingSummary[]): ExternalDepartmentMappingSummary[] => [...items].sort((left, right) => left.externalDepartmentName.localeCompare(right.externalDepartmentName, 'zh-CN') || left.externalDepartmentId.localeCompare(right.externalDepartmentId));
+        const visit = (mapping: ExternalDepartmentMappingSummary, depth: number, orphaned: boolean): void => {
+            if (visited.has(mapping.externalDepartmentId)) return;
+            visited.add(mapping.externalDepartmentId);
+            const children = sortMappings(childrenByParentDepartmentId.get(mapping.externalDepartmentId) ?? []);
+            rows.push({ mapping, depth, hasChildren: children.length > 0, orphaned });
+            for (const child of children) {
+                visit(child, depth + 1, false);
+            }
+        };
+
+        for (const mapping of sortMappings(rootMappings)) {
+            const parentDepartmentId = mapping.externalParentDepartmentId?.trim() || null;
+            const orphaned = Boolean(parentDepartmentId && parentDepartmentId !== rootDepartmentId && !mappingByExternalDepartmentId.has(parentDepartmentId));
+            visit(mapping, 0, orphaned);
+        }
+
+        for (const mapping of sortMappings(mappings)) {
+            if (!visited.has(mapping.externalDepartmentId)) {
+                visit(mapping, 0, true);
+            }
+        }
+
+        return rows;
+    }
+
     runDurationLabel(run: OrgSyncRunSummary): string {
         const startedAt = Date.parse(run.startedAt);
         const finishedAt = run.finishedAt ? Date.parse(run.finishedAt) : NaN;
@@ -1704,7 +1860,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     canApplyRun(): boolean {
         const run = this.syncStore.activeRun();
-        return !!run && run.status === OrgSyncRunStatus.Previewed && this.selectedDiffItemIds().size > 0 && !this.syncStore.previewStale() && !this.syncStore.applyingRun();
+        return !!run && run.status === OrgSyncRunStatus.Previewed && this.selectedDiffItemIds().size > 0 && !this.selectedApplyDependencyIssue() && !this.syncStore.previewStale() && !this.syncStore.applyingRun();
     }
 
     async applySelectedDiffItems(runId: string): Promise<void> {
@@ -1723,8 +1879,8 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
             }, this.currentMappingFilters());
             this.selectedDiffItemIds.set(new Set());
             this.#messageService.add({ severity: 'success', summary: '应用完成', detail: '组织结构已按选中差异更新' });
-        } catch {
-            this.#messageService.add({ severity: 'error', summary: '应用失败', detail: '请检查差异状态和同步运行版本' });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '应用失败', detail: apiErrorMessage(error, '请检查差异状态和同步运行版本') });
         }
     }
 
@@ -1767,6 +1923,40 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     isSelectableDiffItem(item: OrgSyncDiffItemSummary): boolean {
         return item.status === OrgSyncDiffItemStatus.Pending && item.action !== OrgSyncDiffAction.Conflict && item.action !== OrgSyncDiffAction.Ignore;
+    }
+
+    private resolveSelectedApplyDependencyIssue(): string | null {
+        const selectedIds = this.selectedDiffItemIds();
+        if (selectedIds.size === 0) return null;
+
+        const selectedItems = this.syncStore.diffItems().filter((item) => selectedIds.has(item.id) && this.isSelectableDiffItem(item));
+        const mappedExternalDepartmentIds = new Set(this.syncStore.mappings().filter((mapping) => mapping.orgUnitId).map((mapping) => mapping.externalDepartmentId));
+        const selectedCreateExternalDepartmentIds = new Set(selectedItems.filter((item) => item.action === OrgSyncDiffAction.CreateOrgUnit).map((item) => this.diffExternalDepartmentId(item)));
+
+        for (const item of selectedItems) {
+            const parentExternalDepartmentId = this.diffTargetParentExternalDepartmentId(item);
+            if (!parentExternalDepartmentId) continue;
+            if (mappedExternalDepartmentIds.has(parentExternalDepartmentId)) continue;
+            if (selectedCreateExternalDepartmentIds.has(parentExternalDepartmentId)) continue;
+
+            return `「${this.candidateName(item)}」需要上级外部部门 ${parentExternalDepartmentId}。请先映射上级部门，或同时选中上级部门的创建差异后再应用。`;
+        }
+
+        return null;
+    }
+
+    private diffExternalDepartmentId(item: OrgSyncDiffItemSummary): string {
+        return this.readDiffSnapshotString(item, 'externalDepartmentId') ?? item.externalDepartmentId;
+    }
+
+    private diffTargetParentExternalDepartmentId(item: OrgSyncDiffItemSummary): string | null {
+        if (item.action !== OrgSyncDiffAction.CreateOrgUnit && item.action !== OrgSyncDiffAction.MoveOrgUnit) return null;
+        return this.readDiffSnapshotString(item, 'targetParentExternalDepartmentId');
+    }
+
+    private readDiffSnapshotString(item: OrgSyncDiffItemSummary, key: string): string | null {
+        const value = item.candidateSnapshot?.[key];
+        return typeof value === 'string' && value.trim() ? value.trim() : null;
     }
 
     providerLabel(provider: ExternalOrgProvider): string {
@@ -1932,7 +2122,7 @@ export class ExternalOrgSyncWorkbench implements OnDestroy {
 
     candidateName(item: OrgSyncDiffItemSummary): string {
         const snapshot = item.candidateSnapshot ?? {};
-        const name = snapshot['name'] ?? snapshot['externalDepartmentName'] ?? snapshot['departmentName'];
+        const name = snapshot['targetName'] ?? snapshot['name'] ?? snapshot['externalDepartmentName'] ?? snapshot['departmentName'];
         return typeof name === 'string' && name.trim() ? name : '—';
     }
 
