@@ -216,7 +216,6 @@ interface TreeTableNodeEvent {
 export class OrgUnitList {
     readonly platformStore = inject(PlatformStore);
     private readonly messageService = inject(MessageService);
-    readonly orgUnitsById = computed(() => new Map(this.platformStore.orgUnits().map((unit) => [unit.id, unit])));
 
     readonly searchQuery = signal('');
     readonly expandedKeys = signal<Record<string, boolean>>({});
@@ -374,11 +373,6 @@ export class OrgUnitList {
     emptyTreeMessage(): string {
         if (this.platformStore.loadingOrgUnits() || this.platformStore.loadingOrgUnitTree()) return '加载中...';
         return this.normalizedSearchQuery() ? '没有匹配的组织' : '暂无组织';
-    }
-
-    getParentName(parentId: string | null): string {
-        if (!parentId) return '—';
-        return this.orgUnitsById().get(parentId)?.name ?? '—';
     }
 
     selectableParents(excludedId?: string): PlatformOrgUnitSummary[] {

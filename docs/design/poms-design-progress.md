@@ -1,7 +1,7 @@
 # POMS 设计进度跟踪
 
 **文档状态**: Active
-**最后更新**: 2026-05-13
+**最后更新**: 2026-06-20
 **适用范围**: `POMS` 设计治理与进度跟踪
 
 ---
@@ -625,6 +625,8 @@
 142. 2026-06-18 `EX-72G/FE-71` 已完成 `G4` 收口：PR `#19` 已 rebase merge，GitHub issue `#18` 已关闭；外部组织同步工作台表格 / 结构树视图切换、树节点行级操作复用、前端 apply 父部门依赖阻断、API apply 父部门依赖防线、create diff 拓扑排序和 review 修复均已合并到 `main`。`phase2-development-execution-tracker.md` 已同步为 `Done / G4`，baseline 已归档到 `docs/design/archive/slices/ex-72g-fe-71-external-org-tree-dependency-guard-baseline.md`；父 issue `#8` 继续保持打开，下一步进入测试环境飞书接入到组织预览 / 映射处理 / 应用链路的端到端冒烟和父任务 closeout。
 143. 2026-06-18 父 issue `#8` 已完成最终 `G4` closeout 并关闭：线上测试环境 `https://poms-test.illusiontech.cn` 已由管理员手动完成飞书企业协同接入、外部组织同步源、生成预览、树形查看、映射处理、差异应用、父子依赖保护和运行历史 / 诊断追溯的端到端冒烟；`#11` / `#9` / `#12` / `#10` / `#18` 均已关闭，外部组织同步用户体验闭环治理完成。
 144. 2026-06-18 `FE-72` 已进入 `G1 / Doing`：新增 GitHub issue `#20` 和 `fe-72-org-unit-tree-table-baseline.md`，冻结组织单元列表树形表格范围。本片消费 `org-unit-design.md`、`ADR-002` 和既有 `GET /platform/org-unit-tree`，只改 Admin 组织单元页面，将平铺表格升级为可展开 / 折叠的树形表格，并要求搜索保留祖先链、原有行级操作不回退；不新增 public route、OpenAPI、generated client、migration 或权限 key。
+145. 2026-06-20 `FE-72` 已推进到 `G3 / Ready for Review`：PR `#21` 承载组织单元列表树形表格交付，已将主视图切换为 PrimeNG TreeTable，搜索组织名称或编码时保留祖先链，创建 / 编辑 / 移动 / 启停能力保持可用，并补齐 `org-unit-list` 与 `platform.store` focused tests 覆盖树表、刷新和并发加载状态。`phase2-development-execution-tracker.md` 已同步为 `Doing / G3`；本片仍不新增 public route、OpenAPI、generated client、migration 或权限 key，待 PR 合并后再进入 G4 closeout、关闭 GitHub issue `#20` 并归档 baseline。
+
 
 ---
 
