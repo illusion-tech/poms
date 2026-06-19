@@ -126,17 +126,17 @@ corepack pnpm nx build poms-admin --skip-nx-cache --stats-json
 
 ## 9. 测试与校验
 
-| Check                   | Required   | Command / Evidence                                                                           | Result                     | Gap / Reason                                      |
-| ----------------------- | ---------- | -------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------- |
-| Admin lint              | Yes        | `corepack pnpm nx lint poms-admin --skip-nx-cache`                                           | Pending                    | G3 必跑。                                         |
-| Admin data-access lint  | If touched | `corepack pnpm nx lint admin-data-access --skip-nx-cache`                                    | Pending                    | 若改 store / exports 必跑。                       |
-| Build / bundle evidence | Yes        | `corepack pnpm nx build poms-admin --skip-nx-cache --stats-json`                             | Baseline pass with warning | G3 必须复跑并记录 delta。                         |
-| Focused tests           | Focused    | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=<affected> --skip-nx-cache` | Pending                    | 若改 store/provider，补跑相关 focused tests。     |
-| API / integration tests | No         | N/A                                                                                          | N/A                        | 本片不改 API。                                    |
-| E2E                     | No         | N/A                                                                                          | N/A                        | 仅构建 import 边界；如 bootstrap 行为受影响再补。 |
-| OpenAPI / client        | No         | N/A                                                                                          | N/A                        | 不改 generated client。                           |
-| Migration / schema      | No         | N/A                                                                                          | N/A                        | 不改 persistence。                                |
-| Markdown / diff         | Yes        | `corepack pnpm run format:md:check`; `git diff --check`                                      | Pending                    | 本片新增 baseline / tracker。                     |
+| Check                   | Required   | Command / Evidence                                               | Result  | Gap / Reason                                      |
+| ----------------------- | ---------- | ---------------------------------------------------------------- | ------- | ------------------------------------------------- |
+| Admin lint              | Yes        | `corepack pnpm nx lint poms-admin --skip-nx-cache`               | Pass    | G3 已通过。                                       |
+| Admin data-access lint  | If touched | `corepack pnpm nx lint admin-data-access --skip-nx-cache`        | Pass    | 改动触及 data-access imports，已通过。            |
+| Build / bundle evidence | Yes        | `corepack pnpm nx build poms-admin --skip-nx-cache --stats-json` | Pass    | G3 已通过，initial warning 已消除。               |
+| Focused tests           | Focused    | `auth.store` / `platform.store` focused tests                    | Pass    | Store provider / import 行为保持。                |
+| API / integration tests | No         | N/A                                                              | N/A     | 本片不改 API。                                    |
+| E2E                     | No         | N/A                                                              | N/A     | 仅构建 import 边界；如 bootstrap 行为受影响再补。 |
+| OpenAPI / client        | No         | N/A                                                              | N/A     | 不改 generated client。                           |
+| Migration / schema      | No         | N/A                                                              | N/A     | 不改 persistence。                                |
+| Markdown / diff         | Yes        | `corepack pnpm run format:md:check`; `git diff --check`          | Pending | 本片新增 baseline / tracker。                     |
 
 ## 10. 例外与风险
 
@@ -152,3 +152,20 @@ corepack pnpm nx build poms-admin --skip-nx-cache --stats-json
 - Conditions:
   - G2 先验证 eager generated client import 收窄，不直接调高 budget。
   - 如首选优化不足以消除 warning，必须记录剩余 bytes 和调高预算依据，再决定是否进入 CSS 侧后续切片。
+
+## 12. G3 结果
+
+G2/G3 实现只收窄 root/eager 运行时 import，不改变生成客户端内容：
+
+- `AuthStore` 的 `ApprovalApi` / `AuthApi` / `NavigationApi` 和 `NavigationItemType` / `TodoStatus` 从 `@poms/shared-api-client` barrel 改为具体 `api/*` / `model/*` 路径。
+- `PlatformStore` 的 `PlatformApi` 从 barrel 改为 `api/platform.service`。
+- `providePomsApiClient()` 的 `PomsApiConfiguration` / `BASE_PATH` 从 barrel 改为 `configuration` / `variables`。
+
+2026-06-20 G3 build 结果：
+
+- Build: Pass
+- Warning: none
+- Initial total raw: `789.25 kB`
+- Initial estimated transfer: `151.31 kB`
+- Raw delta: from `1.06 MB` to `789.25 kB`，减少约 `270 kB`，已低于 `1050kb` warning budget。
+- `org-unit-list` 仍为 lazy chunk，说明 FE-72 组织树页面没有进入 initial。
