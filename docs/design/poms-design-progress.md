@@ -628,6 +628,7 @@
 145. 2026-06-20 `FE-72` 已推进到 `G3 / Ready for Review`：PR `#21` 承载组织单元列表树形表格交付，已将主视图切换为 PrimeNG TreeTable，搜索组织名称或编码时保留祖先链，创建 / 编辑 / 移动 / 启停能力保持可用，并补齐 `org-unit-list` 与 `platform.store` focused tests 覆盖树表、刷新和并发加载状态。`phase2-development-execution-tracker.md` 已同步为 `Doing / G3`；本片仍不新增 public route、OpenAPI、generated client、migration 或权限 key，待 PR 合并后再进入 G4 closeout、关闭 GitHub issue `#20` 并归档 baseline。
 
 146. 2026-06-20 `FE-72` 已完成 `G4` 收口：PR `#21` 已 rebase merge，GitHub issue `#20` 已关闭；组织单元列表 PrimeNG TreeTable 主视图、搜索保留祖先链、创建 / 编辑 / 移动 / 启停能力回归和组织树并发刷新修复均已合并到 `main`。`phase2-development-execution-tracker.md` 已同步为 `Done / G4`，baseline 已归档到 `docs/design/archive/slices/fe-72-org-unit-tree-table-baseline.md`；本片未新增 public route、OpenAPI、generated client、migration 或权限 key。
+147. 2026-06-20 `FE-73` 已进入 `G1 / Doing`：新增 `fe-73-admin-initial-bundle-budget-baseline.md`，冻结 `poms-admin` initial bundle budget warning 收敛范围。本片消费 GitHub issue `#22`、`apps/poms-admin/project.json`、`app.config.ts` 和当前 build stats，优先治理 `AuthStore` / `PlatformStore` 等首屏 eager 路径中的 generated client / admin data-access barrel import；基线 build 通过但 warning 复现，initial total `1.06 MB`，超出 `1050kb` warning budget `9.51 kB`。本片不改业务行为、public route、OpenAPI、generated client、后端、数据库或权限 key，不以单纯调高预算作为第一选择。
 
 ---
 
