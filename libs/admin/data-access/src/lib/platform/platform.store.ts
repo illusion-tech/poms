@@ -22,7 +22,7 @@ import type {
     UpdateRoleActivationRequest,
     UpdateRoleRequest
 } from '@poms/shared-api-client';
-import { PlatformApi } from '@poms/shared-api-client';
+import { PlatformApi } from '@poms/shared-api-client/api/platform.service';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()

@@ -10,7 +10,11 @@ import type {
     TodoItemSummary,
     UpdateCurrentUserProfileRequest
 } from '@poms/shared-api-client';
-import { ApprovalApi, AuthApi, NavigationApi, NavigationItemType, TodoStatus } from '@poms/shared-api-client';
+import { ApprovalApi } from '@poms/shared-api-client/api/approval.service';
+import { AuthApi } from '@poms/shared-api-client/api/auth.service';
+import { NavigationApi } from '@poms/shared-api-client/api/navigation.service';
+import { NavigationItemType } from '@poms/shared-api-client/model/navigation-item-type';
+import { TodoStatus } from '@poms/shared-api-client/model/todo-status';
 import { catchError, firstValueFrom, of } from 'rxjs';
 import { PomsCsrfTokenStore } from '../poms-api/poms-csrf-token.store';
 
