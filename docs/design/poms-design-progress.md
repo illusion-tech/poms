@@ -627,6 +627,7 @@
 144. 2026-06-18 `FE-72` 已进入 `G1 / Doing`：新增 GitHub issue `#20` 和 `fe-72-org-unit-tree-table-baseline.md`，冻结组织单元列表树形表格范围。本片消费 `org-unit-design.md`、`ADR-002` 和既有 `GET /platform/org-unit-tree`，只改 Admin 组织单元页面，将平铺表格升级为可展开 / 折叠的树形表格，并要求搜索保留祖先链、原有行级操作不回退；不新增 public route、OpenAPI、generated client、migration 或权限 key。
 145. 2026-06-20 `FE-72` 已推进到 `G3 / Ready for Review`：PR `#21` 承载组织单元列表树形表格交付，已将主视图切换为 PrimeNG TreeTable，搜索组织名称或编码时保留祖先链，创建 / 编辑 / 移动 / 启停能力保持可用，并补齐 `org-unit-list` 与 `platform.store` focused tests 覆盖树表、刷新和并发加载状态。`phase2-development-execution-tracker.md` 已同步为 `Doing / G3`；本片仍不新增 public route、OpenAPI、generated client、migration 或权限 key，待 PR 合并后再进入 G4 closeout、关闭 GitHub issue `#20` 并归档 baseline。
 
+146. 2026-06-20 `FE-72` 已完成 `G4` 收口：PR `#21` 已 rebase merge，GitHub issue `#20` 已关闭；组织单元列表 PrimeNG TreeTable 主视图、搜索保留祖先链、创建 / 编辑 / 移动 / 启停能力回归和组织树并发刷新修复均已合并到 `main`。`phase2-development-execution-tracker.md` 已同步为 `Done / G4`，baseline 已归档到 `docs/design/archive/slices/fe-72-org-unit-tree-table-baseline.md`；本片未新增 public route、OpenAPI、generated client、migration 或权限 key。
 
 ---
 
