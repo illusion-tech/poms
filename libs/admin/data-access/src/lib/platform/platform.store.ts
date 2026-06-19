@@ -29,9 +29,7 @@ import { firstValueFrom } from 'rxjs';
 export class PlatformStore {
     readonly #platformApi = inject(PlatformApi);
     #orgUnitsLoadSequence = 0;
-    #orgUnitsPendingLoads = 0;
     #orgUnitTreeLoadSequence = 0;
-    #orgUnitTreePendingLoads = 0;
 
     // ── Users ──────────────────────────────────────────────────────────────
 
@@ -290,7 +288,7 @@ export class PlatformStore {
             this.#commitOrgUnitsLoad(requestId, orgUnits);
             return orgUnits;
         } finally {
-            this.#finishOrgUnitsLoad();
+            this.#finishOrgUnitsLoad(requestId);
         }
     }
 
@@ -301,7 +299,7 @@ export class PlatformStore {
             this.#commitOrgUnitTreeLoad(requestId, orgUnitTree);
             return orgUnitTree;
         } finally {
-            this.#finishOrgUnitTreeLoad();
+            this.#finishOrgUnitTreeLoad(requestId);
         }
     }
 
@@ -317,8 +315,8 @@ export class PlatformStore {
             this.#commitOrgUnitTreeLoad(orgUnitTreeRequestId, orgUnitTree);
             return { orgUnits, orgUnitTree };
         } finally {
-            this.#finishOrgUnitsLoad();
-            this.#finishOrgUnitTreeLoad();
+            this.#finishOrgUnitsLoad(orgUnitsRequestId);
+            this.#finishOrgUnitTreeLoad(orgUnitTreeRequestId);
         }
     }
 
@@ -378,18 +376,14 @@ export class PlatformStore {
     }
 
     #beginOrgUnitsLoad() {
-        this.#orgUnitsPendingLoads += 1;
         this.#orgUnitsLoadSequence += 1;
         this.#loadingOrgUnits.set(true);
         return this.#orgUnitsLoadSequence;
     }
 
-    #finishOrgUnitsLoad() {
-        this.#orgUnitsPendingLoads -= 1;
-        if (this.#orgUnitsPendingLoads <= 0) {
-            this.#orgUnitsPendingLoads = 0;
-            this.#loadingOrgUnits.set(false);
-        }
+    #finishOrgUnitsLoad(requestId: number) {
+        if (requestId !== this.#orgUnitsLoadSequence) return;
+        this.#loadingOrgUnits.set(false);
     }
 
     #commitOrgUnitsLoad(requestId: number, orgUnits: PlatformOrgUnitSummary[] | null | undefined) {
@@ -399,18 +393,14 @@ export class PlatformStore {
     }
 
     #beginOrgUnitTreeLoad() {
-        this.#orgUnitTreePendingLoads += 1;
         this.#orgUnitTreeLoadSequence += 1;
         this.#loadingOrgUnitTree.set(true);
         return this.#orgUnitTreeLoadSequence;
     }
 
-    #finishOrgUnitTreeLoad() {
-        this.#orgUnitTreePendingLoads -= 1;
-        if (this.#orgUnitTreePendingLoads <= 0) {
-            this.#orgUnitTreePendingLoads = 0;
-            this.#loadingOrgUnitTree.set(false);
-        }
+    #finishOrgUnitTreeLoad(requestId: number) {
+        if (requestId !== this.#orgUnitTreeLoadSequence) return;
+        this.#loadingOrgUnitTree.set(false);
     }
 
     #commitOrgUnitTreeLoad(requestId: number, orgUnitTree: OrgUnitTreeNode[] | null | undefined) {

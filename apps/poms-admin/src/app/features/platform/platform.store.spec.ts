@@ -27,7 +27,7 @@ function createOrgUnitTreeNode(id: string, name: string): OrgUnitTreeNode {
 }
 
 describe('PlatformStore', () => {
-    it('keeps org unit loading state until the latest concurrent management refresh finishes', async () => {
+    it('clears org unit loading state when the latest concurrent management refresh finishes first', async () => {
         const orgUnitResponses: Subject<PlatformOrgUnitSummary[]>[] = [];
         const orgUnitTreeResponses: Subject<OrgUnitTreeNode[]>[] = [];
         const platformApiMock = {
@@ -60,22 +60,22 @@ describe('PlatformStore', () => {
         expect(store.loadingOrgUnits()).toBe(true);
         expect(store.loadingOrgUnitTree()).toBe(true);
 
-        orgUnitResponses[0].next([createOrgUnit('org-first', '首个响应')]);
-        orgUnitResponses[0].complete();
-        orgUnitTreeResponses[0].next([createOrgUnitTreeNode('tree-first', '首个树响应')]);
-        orgUnitTreeResponses[0].complete();
-        await firstLoad;
-
-        expect(store.loadingOrgUnits()).toBe(true);
-        expect(store.loadingOrgUnitTree()).toBe(true);
-        expect(store.orgUnits()).toEqual([]);
-        expect(store.orgUnitTree()).toEqual([]);
-
         orgUnitResponses[1].next([createOrgUnit('org-second', '最新响应')]);
         orgUnitResponses[1].complete();
         orgUnitTreeResponses[1].next([createOrgUnitTreeNode('tree-second', '最新树响应')]);
         orgUnitTreeResponses[1].complete();
         await secondLoad;
+
+        expect(store.loadingOrgUnits()).toBe(false);
+        expect(store.loadingOrgUnitTree()).toBe(false);
+        expect(store.orgUnits().map((unit) => unit.id)).toEqual(['org-second']);
+        expect(store.orgUnitTree().map((unit) => unit.id)).toEqual(['tree-second']);
+
+        orgUnitResponses[0].next([createOrgUnit('org-first', '首个响应')]);
+        orgUnitResponses[0].complete();
+        orgUnitTreeResponses[0].next([createOrgUnitTreeNode('tree-first', '首个树响应')]);
+        orgUnitTreeResponses[0].complete();
+        await firstLoad;
 
         expect(store.loadingOrgUnits()).toBe(false);
         expect(store.loadingOrgUnitTree()).toBe(false);
