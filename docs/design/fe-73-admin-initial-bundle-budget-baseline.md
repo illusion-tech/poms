@@ -126,17 +126,17 @@ corepack pnpm nx build poms-admin --skip-nx-cache --stats-json
 
 ## 9. 测试与校验
 
-| Check                   | Required   | Command / Evidence                                               | Result  | Gap / Reason                                      |
-| ----------------------- | ---------- | ---------------------------------------------------------------- | ------- | ------------------------------------------------- |
-| Admin lint              | Yes        | `corepack pnpm nx lint poms-admin --skip-nx-cache`               | Pass    | G3 已通过。                                       |
-| Admin data-access lint  | If touched | `corepack pnpm nx lint admin-data-access --skip-nx-cache`        | Pass    | 改动触及 data-access imports，已通过。            |
-| Build / bundle evidence | Yes        | `corepack pnpm nx build poms-admin --skip-nx-cache --stats-json` | Pass    | G3 已通过，initial warning 已消除。               |
-| Focused tests           | Focused    | `auth.store` / `platform.store` focused tests                    | Pass    | Store provider / import 行为保持。                |
-| API / integration tests | No         | N/A                                                              | N/A     | 本片不改 API。                                    |
-| E2E                     | No         | N/A                                                              | N/A     | 仅构建 import 边界；如 bootstrap 行为受影响再补。 |
-| OpenAPI / client        | No         | N/A                                                              | N/A     | 不改 generated client。                           |
-| Migration / schema      | No         | N/A                                                              | N/A     | 不改 persistence。                                |
-| Markdown / diff         | Yes        | `corepack pnpm run format:md:check`; `git diff --check`          | Pending | 本片新增 baseline / tracker。                     |
+| Check                   | Required   | Command / Evidence                                               | Result | Gap / Reason                                      |
+| ----------------------- | ---------- | ---------------------------------------------------------------- | ------ | ------------------------------------------------- |
+| Admin lint              | Yes        | `corepack pnpm nx lint poms-admin --skip-nx-cache`               | Pass   | G3 已通过。                                       |
+| Admin data-access lint  | If touched | `corepack pnpm nx lint admin-data-access --skip-nx-cache`        | Pass   | 改动触及 data-access imports，已通过。            |
+| Build / bundle evidence | Yes        | `corepack pnpm nx build poms-admin --skip-nx-cache --stats-json` | Pass   | G3 已通过，initial warning 已消除。               |
+| Focused tests           | Focused    | `auth.store` / `platform.store` focused tests                    | Pass   | Store provider / import 行为保持。                |
+| API / integration tests | No         | N/A                                                              | N/A    | 本片不改 API。                                    |
+| E2E                     | No         | N/A                                                              | N/A    | 仅构建 import 边界；如 bootstrap 行为受影响再补。 |
+| OpenAPI / client        | No         | N/A                                                              | N/A    | 不改 generated client。                           |
+| Migration / schema      | No         | N/A                                                              | N/A    | 不改 persistence。                                |
+| Markdown / diff         | Yes        | `corepack pnpm run format:md:check`; `git diff --check`          | Pass   | G3 已通过。                                       |
 
 ## 10. 例外与风险
 
