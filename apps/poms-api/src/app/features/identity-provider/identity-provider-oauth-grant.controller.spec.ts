@@ -1,3 +1,5 @@
+import type { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
 import { IdentityProviderOAuthGrantStatusValue, IdentityProviderValue } from '@poms/shared-contracts';
 import { IdentityProviderOAuthGrantController } from './identity-provider-oauth-grant.controller';
 import { IdentityProviderService } from './identity-provider.service';
@@ -38,6 +40,40 @@ describe('IdentityProviderOAuthGrantController', () => {
         expect(result.authorizeUrl).toContain('accounts.feishu.cn');
     });
 
+    it('routes authorize requests to the authorize handler before the generic grant-status route', async () => {
+        service.authorizeCurrentAdminProviderGrant.mockResolvedValue({
+            authorizeUrl: 'https://accounts.feishu.cn/open-apis/authen/v1/authorize?state=test',
+            stateExpiresAt: '2026-05-07T00:10:00.000Z'
+        });
+        const app = await createRouteTestApp();
+
+        try {
+            const response = await fetch(`${await app.getUrl()}/platform/identity-provider-oauth-grants/${configId}:authorize`);
+            const body = (await response.json()) as { authorizeUrl: string };
+
+            expect(response.status).toBe(200);
+            expect(body.authorizeUrl).toContain('accounts.feishu.cn');
+            expect(service.authorizeCurrentAdminProviderGrant).toHaveBeenCalledWith(configId, operatorRequest.user.sub);
+            expect(service.getCurrentAdminProviderGrant).not.toHaveBeenCalled();
+        } finally {
+            await app.close();
+        }
+    });
+
+    it('rejects malformed provider ids before reaching the grant service', async () => {
+        const app = await createRouteTestApp();
+
+        try {
+            const response = await fetch(`${await app.getUrl()}/platform/identity-provider-oauth-grants/not-a-uuid`);
+
+            expect(response.status).toBe(400);
+            expect(service.getCurrentAdminProviderGrant).not.toHaveBeenCalled();
+            expect(service.authorizeCurrentAdminProviderGrant).not.toHaveBeenCalled();
+        } finally {
+            await app.close();
+        }
+    });
+
     it('delegates provider callback query to the service', async () => {
         service.handleCurrentAdminProviderGrantCallback.mockResolvedValue(createGrantSummary());
 
@@ -56,6 +92,21 @@ describe('IdentityProviderOAuthGrantController', () => {
         });
         expect(result.identityProviderConfigId).toBe(configId);
     });
+
+    async function createRouteTestApp(): Promise<INestApplication> {
+        const moduleRef = await Test.createTestingModule({
+            controllers: [IdentityProviderOAuthGrantController],
+            providers: [{ provide: IdentityProviderService, useValue: service }]
+        }).compile();
+        const app = moduleRef.createNestApplication();
+        app.use((request: { user?: typeof operatorRequest.user }, _response: unknown, next: () => void) => {
+            request.user = operatorRequest.user;
+            next();
+        });
+        await app.init();
+        await app.listen(0);
+        return app;
+    }
 
     function createGrantSummary() {
         return {

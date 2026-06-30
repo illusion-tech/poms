@@ -2198,42 +2198,6 @@
         ]
       }
     },
-    "/api/platform/identity-provider-oauth-grants/{identityProviderId}": {
-      "get": {
-        "operationId": "IdentityProviderOAuthGrantController_getCurrentAdminProviderGrant",
-        "parameters": [
-          {
-            "name": "identityProviderId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IdentityProviderOAuthGrantSummary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "pomsSession": []
-          }
-        ],
-        "summary": "获取当前管理员的外部身份提供商搜索授权状态",
-        "tags": [
-          "Identity Provider OAuth Grant"
-        ]
-      }
-    },
     "/api/platform/identity-provider-oauth-grants/{identityProviderId}:authorize": {
       "get": {
         "operationId": "IdentityProviderOAuthGrantController_authorizeCurrentAdminProviderGrant",
@@ -2265,6 +2229,42 @@
           }
         ],
         "summary": "生成当前管理员的外部身份提供商搜索授权 URL",
+        "tags": [
+          "Identity Provider OAuth Grant"
+        ]
+      }
+    },
+    "/api/platform/identity-provider-oauth-grants/{identityProviderId}": {
+      "get": {
+        "operationId": "IdentityProviderOAuthGrantController_getCurrentAdminProviderGrant",
+        "parameters": [
+          {
+            "name": "identityProviderId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityProviderOAuthGrantSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取当前管理员的外部身份提供商搜索授权状态",
         "tags": [
           "Identity Provider OAuth Grant"
         ]
@@ -14928,6 +14928,24 @@
           }
         }
       },
+      "IdentityProviderOAuthAuthorizeResult": {
+        "type": "object",
+        "properties": {
+          "authorizeUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "stateExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          }
+        },
+        "required": [
+          "authorizeUrl",
+          "stateExpiresAt"
+        ]
+      },
       "IdentityProviderOAuthGrantStatus": {
         "type": "string",
         "enum": [
@@ -15031,24 +15049,6 @@
           "lastError",
           "rowVersion",
           "updatedAt"
-        ]
-      },
-      "IdentityProviderOAuthAuthorizeResult": {
-        "type": "object",
-        "properties": {
-          "authorizeUrl": {
-            "type": "string",
-            "format": "uri"
-          },
-          "stateExpiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-          }
-        },
-        "required": [
-          "authorizeUrl",
-          "stateExpiresAt"
         ]
       },
       "ExternalOrgSourceSummary": {
