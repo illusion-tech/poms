@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import {
     ExternalDepartmentMappingReviewStateValue,
     ExternalDepartmentMappingStatusValue,
@@ -97,10 +97,10 @@ const MAX_MAPPING_CONFLICT_REASON_LENGTH = 500;
 @Injectable()
 export class ExternalOrgSyncService {
     constructor(
-        private readonly repository: ExternalOrgSyncRepository,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly adapterRegistry: ExternalOrgDirectoryAdapterRegistry,
-        private readonly secretCipherService: SecretCipherService
+        @Inject(ExternalOrgSyncRepository) private readonly repository: ExternalOrgSyncRepository,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(ExternalOrgDirectoryAdapterRegistry) private readonly adapterRegistry: ExternalOrgDirectoryAdapterRegistry,
+        @Inject(SecretCipherService) private readonly secretCipherService: SecretCipherService
     ) {}
 
     async listExternalOrgSources(query: ExternalOrgSourceListQuery = {}): Promise<ExternalOrgSourceList> {
@@ -1348,7 +1348,10 @@ export class ExternalOrgSyncService {
 
     private redactDiagnosticSecrets(message: string): string {
         return message
-            .replace(/(["']?)(tenant_access_token|app_secret|client_secret|access_token|refresh_token)\1\s*([:=])\s*(["']?)[^\s"',，)}\]]+\4/gi, (_match, keyQuote: string, key: string, separator: string, valueQuote: string) => `${keyQuote}${key}${keyQuote}${separator}${valueQuote}<redacted>${valueQuote}`)
+            .replace(
+                /(["']?)(tenant_access_token|app_secret|client_secret|access_token|refresh_token)\1\s*([:=])\s*(["']?)[^\s"',，)}\]]+\4/gi,
+                (_match, keyQuote: string, key: string, separator: string, valueQuote: string) => `${keyQuote}${key}${keyQuote}${separator}${valueQuote}<redacted>${valueQuote}`
+            )
             .replace(/\bBearer\s+\S+/gi, 'Bearer <redacted>');
     }
 

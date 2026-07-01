@@ -8,14 +8,8 @@ import {
     TestAttachmentStorageProviderConnectionRequestDto,
     UpdateAttachmentStorageProviderConfigRequestDto
 } from '@poms/api-contracts';
-import type {
-    AttachmentStorageProviderConfigDetail,
-    AttachmentStorageProviderConfigList,
-    AttachmentStorageProviderConfigListQuery,
-    AttachmentStorageProviderConnectionTestResult,
-    UserPayload
-} from '@poms/shared-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import type { AttachmentStorageProviderConfigDetail, AttachmentStorageProviderConfigList, AttachmentStorageProviderConfigListQuery, AttachmentStorageProviderConnectionTestResult, UserPayload } from '@poms/shared-contracts';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { AttachmentStorageProviderService } from './attachment-storage-provider.service';
@@ -24,7 +18,7 @@ import { AttachmentStorageProviderService } from './attachment-storage-provider.
 @ApiCookieAuth('pomsSession')
 @Controller('platform/attachment-storage-providers')
 export class AttachmentStorageProviderController {
-    constructor(private readonly storageProviderService: AttachmentStorageProviderService) {}
+    constructor(@Inject(AttachmentStorageProviderService) private readonly storageProviderService: AttachmentStorageProviderService) {}
 
     @Get()
     @HasPermissions('platform:attachment-storage-providers:manage')

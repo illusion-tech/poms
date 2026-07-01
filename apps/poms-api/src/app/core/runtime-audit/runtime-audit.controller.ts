@@ -1,6 +1,6 @@
 import { ENTITY_AUDIT_TARGET_TYPES, type AuditLogListQuery, type AuditLogSummary, type EntityAuditLogListQuery, type SecurityEventListQuery, type SecurityEventSummary, type UserPayload } from '@poms/shared-contracts';
 import { AuditLogListDto, AuditLogListQueryDto, EntityAuditLogListQueryDto, RecordRouteDeniedSecurityEventRequestDto, SecurityEventListDto, SecurityEventListQueryDto } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Authenticated } from '../auth/decorators/authenticated.decorator';
 import { HasAnyPermissions } from '../auth/decorators/has-any-permissions.decorator';
@@ -12,7 +12,7 @@ import { RuntimeAuditService } from './runtime-audit.service';
 @ApiCookieAuth('pomsSession')
 @Controller()
 export class RuntimeAuditController {
-    constructor(private readonly runtimeAuditService: RuntimeAuditService) {}
+    constructor(@Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService) {}
 
     @Get('audit-logs/targets/:targetType/:targetId')
     @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
@@ -20,12 +20,7 @@ export class RuntimeAuditController {
     @ApiParam({ name: 'targetType', enum: ENTITY_AUDIT_TARGET_TYPES })
     @ApiParam({ name: 'targetId', type: String })
     @ApiOkResponse({ type: AuditLogListDto })
-    async listEntityAuditLogs(
-        @Param('targetType') targetType: string,
-        @Param('targetId') targetId: string,
-        @Query() query: EntityAuditLogListQueryDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<AuditLogSummary[]> {
+    async listEntityAuditLogs(@Param('targetType') targetType: string, @Param('targetId') targetId: string, @Query() query: EntityAuditLogListQueryDto, @Request() req: { user: UserPayload }): Promise<AuditLogSummary[]> {
         const listQuery: EntityAuditLogListQuery = {
             from: query.from,
             to: query.to,
@@ -80,10 +75,7 @@ export class RuntimeAuditController {
     @Authenticated()
     @HttpCode(HttpStatus.ACCEPTED)
     @ApiOperation({ summary: '记录前端权限路由守卫拒绝事件' })
-    async recordRouteDeniedEvent(
-        @Body() body: RecordRouteDeniedSecurityEventRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<void> {
+    async recordRouteDeniedEvent(@Body() body: RecordRouteDeniedSecurityEventRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<void> {
         await this.runtimeAuditService.recordSecurityEvent({
             eventType: 'authz.route.denied',
             severity: 'warning',

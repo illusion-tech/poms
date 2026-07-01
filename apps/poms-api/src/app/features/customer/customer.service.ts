@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import type {
     CreateCustomerAliasRequest,
@@ -37,8 +37,8 @@ import {
 @Injectable()
 export class CustomerService {
     constructor(
-        private readonly customerRepository: CustomerRepository,
-        private readonly businessNumberService: BusinessNumberService
+        @Inject(CustomerRepository) private readonly customerRepository: CustomerRepository,
+        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService
     ) {}
 
     async listCustomers(query: CustomerListQuery): Promise<CustomerListView[]> {

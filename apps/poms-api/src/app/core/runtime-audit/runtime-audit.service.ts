@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { Inject, BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import type { EntityManager } from '@mikro-orm/core';
 import { EntityAuditTargetTypeSchema, EntityAuditTargetTypeValue } from '@poms/shared-contracts';
 import type { AuditLogListQuery, AuditLogSummary, EntityAuditLogListQuery, EntityAuditTargetType, PermissionKey, SecurityEventListQuery, SecurityEventSummary, UserPayload } from '@poms/shared-contracts';
@@ -50,7 +50,7 @@ const ENTITY_AUDIT_TARGET_READ_PERMISSIONS: Record<EntityAuditTargetType, readon
 
 @Injectable()
 export class RuntimeAuditService {
-    constructor(private readonly runtimeAuditRepository: RuntimeAuditRepository) {}
+    constructor(@Inject(RuntimeAuditRepository) private readonly runtimeAuditRepository: RuntimeAuditRepository) {}
 
     async recordAuditLog(input: RecordAuditLogInput, entityManager?: EntityManager): Promise<void> {
         const entity = this.runtimeAuditRepository.createAuditLog({

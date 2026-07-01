@@ -1,4 +1,14 @@
-import type { AuthSessionLogoutResult, CsrfTokenView, CurrentAuthSessionView, EnabledLoginProviderList, ExternalLoginAuthorizeResult, ExternalLoginCallbackQuery, ExternalLoginCallbackResult, SanitizedUserWithOrgUnits, UserPayload } from '@poms/shared-contracts';
+import type {
+    AuthSessionLogoutResult,
+    CsrfTokenView,
+    CurrentAuthSessionView,
+    EnabledLoginProviderList,
+    ExternalLoginAuthorizeResult,
+    ExternalLoginCallbackQuery,
+    ExternalLoginCallbackResult,
+    SanitizedUserWithOrgUnits,
+    UserPayload
+} from '@poms/shared-contracts';
 import {
     AuthSessionLogoutResultDto,
     CreateExternalLoginSessionRequestDto,
@@ -13,7 +23,7 @@ import {
     SanitizedUserWithOrgUnitsDto,
     UpdateCurrentUserProfileRequestDto
 } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request, Res, UnauthorizedException } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request, Res, UnauthorizedException } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { RuntimeAuditService } from '../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../runtime-audit/runtime-audit-request.utils';
@@ -39,11 +49,11 @@ type HeaderResponse = {
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly platformService: PlatformService,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly identityProviderService: IdentityProviderService,
-        private readonly authSessionService: AuthSessionService,
-        private readonly authSessionCookieService: AuthSessionCookieService
+        @Inject(PlatformService) private readonly platformService: PlatformService,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(IdentityProviderService) private readonly identityProviderService: IdentityProviderService,
+        @Inject(AuthSessionService) private readonly authSessionService: AuthSessionService,
+        @Inject(AuthSessionCookieService) private readonly authSessionCookieService: AuthSessionCookieService
     ) {}
 
     @Post('sessions')
@@ -52,11 +62,7 @@ export class AuthController {
     @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '创建账号密码认证会话' })
     @ApiOkResponse({ type: CurrentAuthSessionViewDto })
-    async createPasswordAuthSession(
-        @Body() dto: CreatePasswordAuthSessionRequestDto,
-        @Request() req: RuntimeAuditRequestLike,
-        @Res({ passthrough: true }) res: HeaderResponse
-    ): Promise<CurrentAuthSessionView> {
+    async createPasswordAuthSession(@Body() dto: CreatePasswordAuthSessionRequestDto, @Request() req: RuntimeAuditRequestLike, @Res({ passthrough: true }) res: HeaderResponse): Promise<CurrentAuthSessionView> {
         const platformUser = await this.platformService.verifyCredentials(dto.username, dto.password);
         if (platformUser) {
             return this.#createSessionResponse(platformUser.userId, req, res, {
@@ -125,11 +131,7 @@ export class AuthController {
     @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '登出当前认证会话' })
     @ApiOkResponse({ type: AuthSessionLogoutResultDto })
-    async logoutCurrentAuthSession(
-        @Body() _body: LogoutAuthSessionRequestDto,
-        @Request() req: SessionRequest,
-        @Res({ passthrough: true }) res: HeaderResponse
-    ): Promise<AuthSessionLogoutResult> {
+    async logoutCurrentAuthSession(@Body() _body: LogoutAuthSessionRequestDto, @Request() req: SessionRequest, @Res({ passthrough: true }) res: HeaderResponse): Promise<AuthSessionLogoutResult> {
         const sessionToken = this.authSessionCookieService.getSessionTokenFromCookieHeader(req.headers?.['cookie']);
         const revoked = sessionToken ? await this.authSessionService.revokeSessionToken(sessionToken) : false;
         this.#clearAuthCookies(res);
@@ -176,11 +178,7 @@ export class AuthController {
     @ApiSecurity('pomsCsrf')
     @ApiOperation({ summary: '使用外部登录一次性票据创建认证会话' })
     @ApiOkResponse({ type: CurrentAuthSessionViewDto })
-    async createExternalLoginSession(
-        @Body() body: CreateExternalLoginSessionRequestDto,
-        @Request() req: RuntimeAuditRequestLike,
-        @Res({ passthrough: true }) res: HeaderResponse
-    ): Promise<CurrentAuthSessionView> {
+    async createExternalLoginSession(@Body() body: CreateExternalLoginSessionRequestDto, @Request() req: RuntimeAuditRequestLike, @Res({ passthrough: true }) res: HeaderResponse): Promise<CurrentAuthSessionView> {
         const session = await this.identityProviderService.consumeExternalLoginSession(body.ticket);
         const platformUser = await this.platformService.resolveActiveAuthUser(session.pomsUserId);
         if (!platformUser) {

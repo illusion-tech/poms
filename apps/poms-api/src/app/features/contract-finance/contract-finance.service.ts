@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import {
     ContractStatusValue,
     InvoiceRecordExceptionStatusValue,
@@ -45,7 +45,7 @@ const INVOICE_RECORD_COST_SOURCE_TYPE = ProjectActualCostSourceTypeValue.Invoice
 
 @Injectable()
 export class ContractFinanceService {
-    constructor(private readonly repo: ContractFinanceRepository) {}
+    constructor(@Inject(ContractFinanceRepository) private readonly repo: ContractFinanceRepository) {}
 
     async listReceipts(contractId: string): Promise<ReceiptRecordSummary[]> {
         const receipts = await this.repo.findReceiptsForContract(contractId);

@@ -1,4 +1,4 @@
-import { Controller, Get, Request } from '@nestjs/common';
+import { Inject, Controller, Get, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AttachmentCenterRecordListDto } from '@poms/api-contracts';
 import type { AttachmentCenterRecord, UserPayload } from '@poms/shared-contracts';
@@ -9,7 +9,7 @@ import { AttachmentService } from './attachment.service';
 @ApiCookieAuth('pomsSession')
 @Controller('attachment-center-records')
 export class AttachmentCenterRecordController {
-    constructor(private readonly attachmentService: AttachmentService) {}
+    constructor(@Inject(AttachmentService) private readonly attachmentService: AttachmentService) {}
 
     @Get()
     @HasAnyPermissions('customer:read', 'lead:read', 'project:read')

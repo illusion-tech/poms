@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { createHash, randomUUID } from 'node:crypto';
 import {
     BaselineSelectionSourceValue,
@@ -136,29 +136,29 @@ type SensitiveProjectionUser = Pick<UserPayload, 'sub' | 'username' | 'permissio
 @Injectable()
 export class ProjectCostService {
     constructor(
-        private readonly expenseRecordRepository: ExpenseRecordRepository,
-        private readonly internalCostRateVersionRepository: InternalCostRateVersionRepository,
-        private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository,
-        private readonly contractFinanceRepository: ContractFinanceRepository,
-        private readonly operatingBaselinePackageRepository: OperatingBaselinePackageRepository,
-        private readonly changePackageBaselineRepository: ChangePackageBaselineRepository,
-        private readonly projectOperatingSnapshotRepository: ProjectOperatingSnapshotRepository,
-        private readonly periodClosingSnapshotRepository: PeriodClosingSnapshotRepository,
-        private readonly operatingRestatementRecordRepository: OperatingRestatementRecordRepository,
-        private readonly sharedCostAllocationBasisRepository: SharedCostAllocationBasisRepository,
-        private readonly sharedCostAllocationResultRepository: SharedCostAllocationResultRepository,
-        private readonly costStageAttributionSnapshotRepository: CostStageAttributionSnapshotRepository,
-        private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository,
-        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
-        private readonly businessNumberService: BusinessNumberService,
-        private readonly dataMaturityEvaluationResultRepository: DataMaturityEvaluationResultRepository,
-        private readonly operatingSignalEvaluationResultRepository: OperatingSignalEvaluationResultRepository,
-        private readonly operatingSignalReviewRecordRepository: OperatingSignalReviewRecordRepository,
-        private readonly operatingSignalToCommissionGateBindingRepository: OperatingSignalToCommissionGateBindingRepository,
-        private readonly commissionGateReviewRecordRepository: CommissionGateReviewRecordRepository,
-        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
-        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService,
-        private readonly dictionaryService: DictionaryService
+        @Inject(ExpenseRecordRepository) private readonly expenseRecordRepository: ExpenseRecordRepository,
+        @Inject(InternalCostRateVersionRepository) private readonly internalCostRateVersionRepository: InternalCostRateVersionRepository,
+        @Inject(ProjectActualCostRecordRepository) private readonly projectActualCostRecordRepository: ProjectActualCostRecordRepository,
+        @Inject(ContractFinanceRepository) private readonly contractFinanceRepository: ContractFinanceRepository,
+        @Inject(OperatingBaselinePackageRepository) private readonly operatingBaselinePackageRepository: OperatingBaselinePackageRepository,
+        @Inject(ChangePackageBaselineRepository) private readonly changePackageBaselineRepository: ChangePackageBaselineRepository,
+        @Inject(ProjectOperatingSnapshotRepository) private readonly projectOperatingSnapshotRepository: ProjectOperatingSnapshotRepository,
+        @Inject(PeriodClosingSnapshotRepository) private readonly periodClosingSnapshotRepository: PeriodClosingSnapshotRepository,
+        @Inject(OperatingRestatementRecordRepository) private readonly operatingRestatementRecordRepository: OperatingRestatementRecordRepository,
+        @Inject(SharedCostAllocationBasisRepository) private readonly sharedCostAllocationBasisRepository: SharedCostAllocationBasisRepository,
+        @Inject(SharedCostAllocationResultRepository) private readonly sharedCostAllocationResultRepository: SharedCostAllocationResultRepository,
+        @Inject(CostStageAttributionSnapshotRepository) private readonly costStageAttributionSnapshotRepository: CostStageAttributionSnapshotRepository,
+        @Inject(AccountingTaxTreatmentSnapshotRepository) private readonly accountingTaxTreatmentSnapshotRepository: AccountingTaxTreatmentSnapshotRepository,
+        @Inject(ContractHandoverRebaselineRecordRepository) private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService,
+        @Inject(DataMaturityEvaluationResultRepository) private readonly dataMaturityEvaluationResultRepository: DataMaturityEvaluationResultRepository,
+        @Inject(OperatingSignalEvaluationResultRepository) private readonly operatingSignalEvaluationResultRepository: OperatingSignalEvaluationResultRepository,
+        @Inject(OperatingSignalReviewRecordRepository) private readonly operatingSignalReviewRecordRepository: OperatingSignalReviewRecordRepository,
+        @Inject(OperatingSignalToCommissionGateBindingRepository) private readonly operatingSignalToCommissionGateBindingRepository: OperatingSignalToCommissionGateBindingRepository,
+        @Inject(CommissionGateReviewRecordRepository) private readonly commissionGateReviewRecordRepository: CommissionGateReviewRecordRepository,
+        @Inject(ApprovalSummarySnapshotRepository) private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService,
+        @Inject(DictionaryService) private readonly dictionaryService: DictionaryService
     ) {}
 
     async publishInternalCostRateVersion(input: PublishInternalCostRateVersionRequest, userId: string): Promise<CommandResult> {
@@ -2695,7 +2695,10 @@ export class ProjectCostService {
     }
 
     private resolveHighestActionLevel(candidates: Array<OperatingSignalEvaluationView['currentActionLevel'] | null>): OperatingSignalEvaluationView['currentActionLevel'] {
-        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>((current, candidate) => (this.getActionSeverity(candidate) > this.getActionSeverity(current) ? (candidate ?? current) : current), OperatingSnapshotActionLevelValue.Prompt);
+        return candidates.reduce<OperatingSignalEvaluationView['currentActionLevel']>(
+            (current, candidate) => (this.getActionSeverity(candidate) > this.getActionSeverity(current) ? (candidate ?? current) : current),
+            OperatingSnapshotActionLevelValue.Prompt
+        );
     }
 
     private getActionSeverity(value: string | null | undefined): number {

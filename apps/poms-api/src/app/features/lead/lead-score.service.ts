@@ -1,6 +1,6 @@
 import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import {
     LeadEffectiveScoreSourceValue,
@@ -61,8 +61,8 @@ export class LeadScoreService {
         private readonly snapshotRepository: EntityRepository<LeadScoreSnapshot>,
         @InjectRepository(LeadScoreOverride)
         private readonly overrideRepository: EntityRepository<LeadScoreOverride>,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly leadScoreFactsService: LeadScoreFactsService
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(LeadScoreFactsService) private readonly leadScoreFactsService: LeadScoreFactsService
     ) {}
 
     async getLeadScoreHistory(leadId: string): Promise<LeadScoreHistoryView> {
@@ -71,10 +71,7 @@ export class LeadScoreService {
             throw new NotFoundException(`Lead ${leadId} not found`);
         }
 
-        const [snapshots, overrides] = await Promise.all([
-            this.snapshotRepository.find({ leadId }, { orderBy: { createdAt: QueryOrder.DESC } }),
-            this.overrideRepository.find({ leadId }, { orderBy: { requestedAt: QueryOrder.DESC } })
-        ]);
+        const [snapshots, overrides] = await Promise.all([this.snapshotRepository.find({ leadId }, { orderBy: { createdAt: QueryOrder.DESC } }), this.overrideRepository.find({ leadId }, { orderBy: { requestedAt: QueryOrder.DESC } })]);
         const activeOverride = overrides.find((override) => override.status === LeadScoreOverrideStatusValue.Approved) ?? null;
         const pendingOverride = overrides.find((override) => override.status === LeadScoreOverrideStatusValue.Pending) ?? null;
         const effectiveScore = this.resolveEffectiveScore(lead, activeOverride);

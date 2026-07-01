@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { extname, join } from 'node:path';
 import type { Readable } from 'node:stream';
 import { AttachmentStorageProviderTypeValue } from '@poms/shared-contracts';
@@ -7,7 +7,7 @@ import type { AttachmentObjectLocation, AttachmentObjectMetadata, AttachmentObje
 
 @Injectable()
 export class AttachmentStorageService {
-    constructor(private readonly storageProviderRegistry: AttachmentStorageProviderRegistry) {}
+    constructor(@Inject(AttachmentStorageProviderRegistry) private readonly storageProviderRegistry: AttachmentStorageProviderRegistry) {}
 
     async saveOriginal(input: { attachmentId: string; originalName: string; buffer: Buffer; uploadedAt?: Date }): Promise<StoredAttachmentFile> {
         const uploadedAt = input.uploadedAt ?? new Date();

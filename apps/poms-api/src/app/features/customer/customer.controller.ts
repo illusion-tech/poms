@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CreateCustomerAliasRequestDto,
@@ -20,7 +20,7 @@ import { CustomerService } from './customer.service';
 @ApiCookieAuth('pomsSession')
 @Controller('customers')
 export class CustomerController {
-    constructor(private readonly customerService: CustomerService) {}
+    constructor(@Inject(CustomerService) private readonly customerService: CustomerService) {}
 
     @Get()
     @HasPermissions('customer:read')

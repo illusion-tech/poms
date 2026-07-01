@@ -1,5 +1,5 @@
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
-import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import {
     type EnabledLoginProviderList,
     ExternalIdentityBindingStatusValue,
@@ -50,11 +50,11 @@ import { IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS } from './identity-provider-sec
 @Injectable()
 export class IdentityProviderService {
     constructor(
-        private readonly identityProviderRepository: IdentityProviderRepository,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly adapterRegistry: IdentityProviderAdapterRegistry,
-        private readonly secretCipherService: SecretCipherService,
-        private readonly externalOrgDirectoryAdapterRegistry: ExternalOrgDirectoryAdapterRegistry
+        @Inject(IdentityProviderRepository) private readonly identityProviderRepository: IdentityProviderRepository,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(IdentityProviderAdapterRegistry) private readonly adapterRegistry: IdentityProviderAdapterRegistry,
+        @Inject(SecretCipherService) private readonly secretCipherService: SecretCipherService,
+        @Inject(ExternalOrgDirectoryAdapterRegistry) private readonly externalOrgDirectoryAdapterRegistry: ExternalOrgDirectoryAdapterRegistry
     ) {}
 
     async listIdentityProviderConfigs(query: IdentityProviderConfigListQuery = {}): Promise<IdentityProviderConfigList> {
@@ -861,10 +861,7 @@ export class IdentityProviderService {
         const checks = this.basicConnectionChecks(config);
         const status = this.connectionStatusForChecks(checks);
         const firstFailed = checks.find((check) => check.status === IdentityProviderConnectionDiagnosticStatusValue.Failed);
-        const message =
-            status === IdentityProviderConnectionTestStatusValue.Success
-                ? '本地配置检查通过。服务商网络连通性由对应适配器能力检查。'
-                : (firstFailed?.message ?? '企业协同接入配置未就绪。');
+        const message = status === IdentityProviderConnectionTestStatusValue.Success ? '本地配置检查通过。服务商网络连通性由对应适配器能力检查。' : (firstFailed?.message ?? '企业协同接入配置未就绪。');
 
         return this.connectionTestResult(IdentityProviderConnectionTestCapabilityValue.Basic, checks, message);
     }
@@ -887,12 +884,7 @@ export class IdentityProviderService {
             });
             checks.push(this.diagnosticCheck('tenantAccessToken', '飞书 tenant_access_token', IdentityProviderConnectionDiagnosticStatusValue.Passed, '已使用应用凭证获取飞书 tenant_access_token。'));
             checks.push(
-                this.diagnosticCheck(
-                    'departmentReadAccess',
-                    '飞书部门读取',
-                    IdentityProviderConnectionDiagnosticStatusValue.Passed,
-                    `根部门 ${result.rootDepartmentId} 可访问，已完成单页读取探测（返回 ${result.childDepartmentCount} 个子部门样本）。`
-                )
+                this.diagnosticCheck('departmentReadAccess', '飞书部门读取', IdentityProviderConnectionDiagnosticStatusValue.Passed, `根部门 ${result.rootDepartmentId} 可访问，已完成单页读取探测（返回 ${result.childDepartmentCount} 个子部门样本）。`)
             );
         } catch (error) {
             const message = this.safeDiagnosticErrorMessage(error);
@@ -907,8 +899,7 @@ export class IdentityProviderService {
         }
 
         const status = this.connectionStatusForChecks(checks);
-        const message =
-            status === IdentityProviderConnectionTestStatusValue.Success ? '组织同步可用性检查通过，飞书通讯录读取正常。' : this.connectionFailureMessage(checks);
+        const message = status === IdentityProviderConnectionTestStatusValue.Success ? '组织同步可用性检查通过，飞书通讯录读取正常。' : this.connectionFailureMessage(checks);
         return this.connectionTestResult(IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync, checks, message, this.nextActionsForChecks(checks));
     }
 
@@ -930,12 +921,22 @@ export class IdentityProviderService {
 
         checks.push(
             config.loginEnabled
-                ? this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', config.redirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.redirectUri ? '登录 Redirect URI 已配置。' : '启用登录能力时必须配置登录 Redirect URI。')
+                ? this.diagnosticCheck(
+                      'loginRedirectUri',
+                      '登录 Redirect URI',
+                      config.redirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                      config.redirectUri ? '登录 Redirect URI 已配置。' : '启用登录能力时必须配置登录 Redirect URI。'
+                  )
                 : this.diagnosticCheck('loginRedirectUri', '登录 Redirect URI', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '登录能力未启用。')
         );
         checks.push(
             config.searchEnabled
-                ? this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', config.searchRedirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed, config.searchRedirectUri ? '搜索 Redirect URI 已配置。' : '启用搜索能力时必须配置 Search Redirect URI。')
+                ? this.diagnosticCheck(
+                      'searchRedirectUri',
+                      '搜索 Redirect URI',
+                      config.searchRedirectUri ? IdentityProviderConnectionDiagnosticStatusValue.Passed : IdentityProviderConnectionDiagnosticStatusValue.Failed,
+                      config.searchRedirectUri ? '搜索 Redirect URI 已配置。' : '启用搜索能力时必须配置 Search Redirect URI。'
+                  )
                 : this.diagnosticCheck('searchRedirectUri', '搜索 Redirect URI', IdentityProviderConnectionDiagnosticStatusValue.Skipped, '搜索能力未启用。')
         );
 
@@ -1028,26 +1029,21 @@ export class IdentityProviderService {
     }
 
     private safeDiagnosticErrorMessage(error: unknown): string {
-        const rawMessage =
-            error instanceof ExternalOrgDirectoryAdapterError || error instanceof Error
-                ? error.message.trim()
-                : '';
+        const rawMessage = error instanceof ExternalOrgDirectoryAdapterError || error instanceof Error ? error.message.trim() : '';
         const message = rawMessage || '飞书组织同步只读探测失败。';
         return this.redactDiagnosticSecrets(message);
     }
 
     private redactDiagnosticSecrets(message: string): string {
         return message
-            .replace(/(["']?)(tenant_access_token|app_secret|client_secret|access_token|refresh_token)\1\s*([:=])\s*(["']?)[^\s"',，)}\]]+\4/gi, (_match, keyQuote: string, key: string, separator: string, valueQuote: string) => `${keyQuote}${key}${keyQuote}${separator}${valueQuote}<redacted>${valueQuote}`)
+            .replace(
+                /(["']?)(tenant_access_token|app_secret|client_secret|access_token|refresh_token)\1\s*([:=])\s*(["']?)[^\s"',，)}\]]+\4/gi,
+                (_match, keyQuote: string, key: string, separator: string, valueQuote: string) => `${keyQuote}${key}${keyQuote}${separator}${valueQuote}<redacted>${valueQuote}`
+            )
             .replace(/\bBearer\s+\S+/gi, 'Bearer <redacted>');
     }
 
-    private connectionTestResult(
-        capability: IdentityProviderConnectionTestResult['capability'],
-        checks: IdentityProviderConnectionDiagnosticCheck[],
-        message: string,
-        nextActions: string[] = []
-    ): IdentityProviderConnectionTestResult {
+    private connectionTestResult(capability: IdentityProviderConnectionTestResult['capability'], checks: IdentityProviderConnectionDiagnosticCheck[], message: string, nextActions: string[] = []): IdentityProviderConnectionTestResult {
         return {
             status: this.connectionStatusForChecks(checks),
             capability,

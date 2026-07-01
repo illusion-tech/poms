@@ -1,5 +1,5 @@
 import type { UserPayload } from '@poms/shared-contracts';
-import { CanActivate, ExecutionContext, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, CanActivate, ExecutionContext, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RuntimeAuditService } from '../../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../../runtime-audit/runtime-audit-request.utils';
@@ -17,10 +17,10 @@ type SessionAuthRequest = RuntimeAuditRequestLike & {
 @Injectable()
 export class SessionAuthGuard implements CanActivate {
     constructor(
-        private readonly reflector: Reflector,
-        private readonly authSessionService: AuthSessionService,
-        private readonly authSessionCookieService: AuthSessionCookieService,
-        private readonly runtimeAuditService: RuntimeAuditService
+        @Inject(Reflector) private readonly reflector: Reflector,
+        @Inject(AuthSessionService) private readonly authSessionService: AuthSessionService,
+        @Inject(AuthSessionCookieService) private readonly authSessionCookieService: AuthSessionCookieService,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {

@@ -1,5 +1,5 @@
 import type { PermissionKey, SensitiveFieldPackageKey, SensitiveProjectionMode, SensitiveStringFieldProjection, UserPayload } from '@poms/shared-contracts';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { RuntimeAuditService } from '../runtime-audit/runtime-audit.service';
 import { canReadFullSensitiveFieldPackage, requiredPermissionForSensitiveFieldPackage } from './sensitive-field-projection.policy';
 
@@ -49,7 +49,7 @@ export type ProjectSensitiveStringFieldsInput<TKey extends string = string> = {
 
 @Injectable()
 export class SensitiveFieldProjectionService {
-    constructor(private readonly runtimeAuditService: RuntimeAuditService) {}
+    constructor(@Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService) {}
 
     async projectStringField(input: ProjectSensitiveStringFieldInput): Promise<SensitiveStringFieldProjection> {
         const projections = await this.projectStringFields({

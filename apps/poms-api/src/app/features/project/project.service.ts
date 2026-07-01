@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { CustomerService } from '../customer/customer.service';
@@ -107,9 +107,9 @@ const RISK_LEVEL_WEIGHT: Record<PreSigningRiskLevel, number> = {
 @Injectable()
 export class ProjectService {
     constructor(
-        private readonly projectRepository: ProjectRepository,
-        private readonly businessNumberService: BusinessNumberService,
-        private readonly customerService: CustomerService
+        @Inject(ProjectRepository) private readonly projectRepository: ProjectRepository,
+        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService,
+        @Inject(CustomerService) private readonly customerService: CustomerService
     ) {}
 
     async findAll(): Promise<Project[]> {

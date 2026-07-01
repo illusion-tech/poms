@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from 'node:crypto';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { UserPayload } from '@poms/shared-contracts';
 import { loadValidatedEnv } from '../../../config/load-env';
 import { PlatformService } from '../../features/platform/platform.service';
@@ -55,8 +55,8 @@ export class AuthSessionAuthenticationError extends Error {
 @Injectable()
 export class AuthSessionService {
     constructor(
-        private readonly authSessionRepository: AuthSessionRepository,
-        private readonly platformService: PlatformService
+        @Inject(AuthSessionRepository) private readonly authSessionRepository: AuthSessionRepository,
+        @Inject(PlatformService) private readonly platformService: PlatformService
     ) {}
 
     async createSession(userId: string, requestInfo: AuthSessionRequestInfo = {}, options: AuthSessionLifecycleOptions = {}): Promise<CreatedAuthSession> {

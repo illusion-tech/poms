@@ -10,6 +10,30 @@
 
 export const QueryOrder = { ASC: 'ASC', DESC: 'DESC' };
 
+export class EntityManager {
+    getConnection(): { execute(): Promise<unknown[]> } {
+        return { execute: async () => [] };
+    }
+}
+
+export class EntityRepository<T = unknown> {
+    readonly entityType?: T;
+}
+
+export class MikroORM {
+    isConnected(): boolean {
+        return true;
+    }
+
+    async close(): Promise<void> {
+        return undefined;
+    }
+}
+
+export class PostgreSqlDriver {}
+
+export const defineConfig = <TConfig>(config: TConfig): TConfig => config;
+
 const CHAIN_METHODS = [
     'primary',
     'nullable',

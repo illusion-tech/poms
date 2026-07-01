@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BusinessDiscussionCommentDto, BusinessDiscussionCommentListDto, BusinessDiscussionListQueryDto, CreateBusinessDiscussionCommentRequestDto } from '@poms/api-contracts';
 import type { BusinessDiscussionCommentSummary, BusinessDiscussionListQuery, UserPayload } from '@poms/shared-contracts';
@@ -9,7 +9,7 @@ import { BusinessDiscussionService } from './business-discussion.service';
 @ApiCookieAuth('pomsSession')
 @Controller('business-discussions')
 export class BusinessDiscussionController {
-    constructor(private readonly businessDiscussionService: BusinessDiscussionService) {}
+    constructor(@Inject(BusinessDiscussionService) private readonly businessDiscussionService: BusinessDiscussionService) {}
 
     @Get()
     @HasAnyPermissions('customer:read', 'lead:read', 'project:read')

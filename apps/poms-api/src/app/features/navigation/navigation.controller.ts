@@ -1,6 +1,6 @@
 import type { NavigationItem, UserPayload } from '@poms/shared-contracts';
 import { NavigationListDto } from '@poms/api-contracts';
-import { Controller, Get, Request } from '@nestjs/common';
+import { Inject, Controller, Get, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Authenticated } from '../../core/auth/decorators/authenticated.decorator';
 import { NavigationService } from './navigation.service';
@@ -9,7 +9,7 @@ import { NavigationService } from './navigation.service';
 @ApiCookieAuth('pomsSession')
 @Controller('me')
 export class NavigationController {
-    constructor(private readonly navigationService: NavigationService) {}
+    constructor(@Inject(NavigationService) private readonly navigationService: NavigationService) {}
 
     @Get('navigation')
     @Authenticated()

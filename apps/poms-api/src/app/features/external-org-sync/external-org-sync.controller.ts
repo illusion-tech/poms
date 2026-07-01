@@ -23,17 +23,8 @@ import {
     UnmapExternalDepartmentMappingRequestDto,
     UpdateExternalOrgSourceRequestDto
 } from '@poms/api-contracts';
-import type {
-    ExternalDepartmentMappingList,
-    ExternalDepartmentMappingSummary,
-    ExternalOrgSourceDetail,
-    ExternalOrgSourceList,
-    OrgSyncDiffItemList,
-    OrgSyncRunDetail,
-    OrgSyncRunList,
-    UserPayload
-} from '@poms/shared-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, Request } from '@nestjs/common';
+import type { ExternalDepartmentMappingList, ExternalDepartmentMappingSummary, ExternalOrgSourceDetail, ExternalOrgSourceList, OrgSyncDiffItemList, OrgSyncRunDetail, OrgSyncRunList, UserPayload } from '@poms/shared-contracts';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ExternalOrgSyncService } from './external-org-sync.service';
@@ -42,7 +33,7 @@ import { ExternalOrgSyncService } from './external-org-sync.service';
 @ApiCookieAuth('pomsSession')
 @Controller('platform')
 export class ExternalOrgSyncController {
-    constructor(private readonly externalOrgSyncService: ExternalOrgSyncService) {}
+    constructor(@Inject(ExternalOrgSyncService) private readonly externalOrgSyncService: ExternalOrgSyncService) {}
 
     @Get('external-org-sources')
     @HasPermissions('platform:org-units:manage', 'platform:org-sync:manage')
@@ -125,11 +116,7 @@ export class ExternalOrgSyncController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '替换外部部门映射' })
     @ApiOkResponse({ type: ExternalDepartmentMappingListDto })
-    replaceExternalDepartmentMappings(
-        @Param('sourceId') sourceId: string,
-        @Body() body: ReplaceExternalDepartmentMappingsRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ExternalDepartmentMappingList> {
+    replaceExternalDepartmentMappings(@Param('sourceId') sourceId: string, @Body() body: ReplaceExternalDepartmentMappingsRequestDto, @Request() req: { user: UserPayload }): Promise<ExternalDepartmentMappingList> {
         return this.externalOrgSyncService.replaceExternalDepartmentMappings(sourceId, body, req.user.sub);
     }
 

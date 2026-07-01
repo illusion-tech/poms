@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import type { ContractHandoverSummaryView, ContractReadinessDetail, ProjectHandoverDetailView } from '@poms/shared-contracts';
 import type { UserPayload } from '@poms/shared-contracts';
 import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
@@ -10,12 +10,7 @@ import { ContractService } from '../contract/contract.service';
 import { Project } from '../project/project.entity';
 import { ProjectService } from '../project/project.service';
 import type { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, ProjectHandover } from './project-handover.entity';
-import {
-    ContractHandoverRebaselineRecordRepository,
-    HandoverBaselineImpactItemRepository,
-    ProjectHandoverRepository,
-    ProjectReceiptJudgmentFreezeRepository
-} from './project-handover.repository';
+import { ContractHandoverRebaselineRecordRepository, HandoverBaselineImpactItemRepository, ProjectHandoverRepository, ProjectReceiptJudgmentFreezeRepository } from './project-handover.repository';
 
 const CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY = 'handover-confirmation';
 const CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL = 'handover-confirmation';
@@ -25,45 +20,33 @@ const PROJECT_HANDOVER_CONFIRMATION_TYPE = 'project-handover';
 @Injectable()
 export class ProjectHandoverQueryService {
     constructor(
-        private readonly projectService: ProjectService,
-        private readonly contractService: ContractService,
-        private readonly contractReadinessService: ContractReadinessService,
-        private readonly confirmationService: ConfirmationService,
-        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
-        private readonly projectHandoverRepository: ProjectHandoverRepository,
-        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
-        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
-        private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository,
-        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+        @Inject(ProjectService) private readonly projectService: ProjectService,
+        @Inject(ContractService) private readonly contractService: ContractService,
+        @Inject(ContractReadinessService) private readonly contractReadinessService: ContractReadinessService,
+        @Inject(ConfirmationService) private readonly confirmationService: ConfirmationService,
+        @Inject(ApprovalSummarySnapshotRepository) private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
+        @Inject(ProjectHandoverRepository) private readonly projectHandoverRepository: ProjectHandoverRepository,
+        @Inject(ContractHandoverRebaselineRecordRepository) private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        @Inject(HandoverBaselineImpactItemRepository) private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
+        @Inject(ProjectReceiptJudgmentFreezeRepository) private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository,
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
-    async getContractHandoverSummary(
-        projectId: string,
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `contract-handover:${projectId}` }
-    ): Promise<ContractHandoverSummaryView> {
+    async getContractHandoverSummary(projectId: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `contract-handover:${projectId}` }): Promise<ContractHandoverSummaryView> {
         const project = await this.findProjectOrThrow(projectId);
         const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
 
         return this.buildContractHandoverSummary(project, latestHandover, user, requestContext);
     }
 
-    async getProjectHandoverDetailByProjectId(
-        projectId: string,
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${projectId}` }
-    ): Promise<ProjectHandoverDetailView> {
+    async getProjectHandoverDetailByProjectId(projectId: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${projectId}` }): Promise<ProjectHandoverDetailView> {
         const project = await this.findProjectOrThrow(projectId);
         const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
 
         return this.buildProjectHandoverDetail(project, latestHandover, user, requestContext);
     }
 
-    async getProjectHandoverDetailByHandoverId(
-        handoverId: string,
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${handoverId}` }
-    ): Promise<ProjectHandoverDetailView> {
+    async getProjectHandoverDetailByHandoverId(handoverId: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${handoverId}` }): Promise<ProjectHandoverDetailView> {
         const handover = await this.projectHandoverRepository.findById(handoverId);
         if (!handover) {
             throw new NotFoundException(`ProjectHandover ${handoverId} not found`);
@@ -74,30 +57,18 @@ export class ProjectHandoverQueryService {
         return this.buildProjectHandoverDetail(project, handover, user, requestContext);
     }
 
-    private async buildContractHandoverSummary(
-        project: Project,
-        latestHandover: ProjectHandover | null,
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext
-    ): Promise<ContractHandoverSummaryView> {
+    private async buildContractHandoverSummary(project: Project, latestHandover: ProjectHandover | null, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext): Promise<ContractHandoverSummaryView> {
         const projectId = project.id;
         const [activeContracts, readiness, contractSummarySnapshot, handovers] = await Promise.all([
             this.contractService.findMany({ projectId, status: 'active' }),
             this.findCurrentContractReadiness(projectId),
-            this.approvalSummarySnapshotRepository.findActiveByTarget(
-                'project',
-                projectId,
-                CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY,
-                CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL
-            ),
+            this.approvalSummarySnapshotRepository.findActiveByTarget('project', projectId, CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY, CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL),
             latestHandover ? Promise.resolve([latestHandover]) : this.projectHandoverRepository.findByProjectId(projectId)
         ]);
 
         const selectedHandover = latestHandover ?? handovers[0] ?? null;
         const latestRebaseline = await this.findLatestProjectRebaseline(projectId, selectedHandover);
-        const impactItems = latestRebaseline
-            ? await this.handoverBaselineImpactItemRepository.findByRebaselineRecordId(latestRebaseline.id)
-            : [];
+        const impactItems = latestRebaseline ? await this.handoverBaselineImpactItemRepository.findByRebaselineRecordId(latestRebaseline.id) : [];
 
         const blockingReasons = this.buildBlockingReasons(activeContracts, readiness, contractSummarySnapshot, latestRebaseline);
         const effectiveContractSetSummary = await this.buildEffectiveContractSetSummary(activeContracts, user, requestContext, project.id);
@@ -124,32 +95,16 @@ export class ProjectHandoverQueryService {
         };
     }
 
-    private async buildProjectHandoverDetail(
-        project: Project,
-        handover: ProjectHandover | null,
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext
-    ): Promise<ProjectHandoverDetailView> {
+    private async buildProjectHandoverDetail(project: Project, handover: ProjectHandover | null, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext): Promise<ProjectHandoverDetailView> {
         const [contractHandoverSummary, handoverSummarySnapshot, confirmationProgress] = await Promise.all([
             this.buildContractHandoverSummary(project, handover, user, requestContext),
             handover?.summarySnapshotId ? this.approvalSummarySnapshotRepository.findById(handover.summarySnapshotId) : Promise.resolve(null),
-            handover
-                ? this.confirmationService.findLatestConfirmationProgressByTarget(
-                      PROJECT_HANDOVER_TARGET_TYPE,
-                      handover.id,
-                      PROJECT_HANDOVER_CONFIRMATION_TYPE
-                  )
-                : Promise.resolve(null)
+            handover ? this.confirmationService.findLatestConfirmationProgressByTarget(PROJECT_HANDOVER_TARGET_TYPE, handover.id, PROJECT_HANDOVER_CONFIRMATION_TYPE) : Promise.resolve(null)
         ]);
 
         const participantConfirmationSummary = this.buildParticipantConfirmationSummary(confirmationProgress);
         const receiptJudgmentModeSummary = await this.buildReceiptJudgmentModeSummary(project.id);
-        const blockingReasons = this.buildProjectHandoverBlockingReasons(
-            handover,
-            contractHandoverSummary.blockingReasons,
-            handoverSummarySnapshot,
-            participantConfirmationSummary
-        );
+        const blockingReasons = this.buildProjectHandoverBlockingReasons(handover, contractHandoverSummary.blockingReasons, handoverSummarySnapshot, participantConfirmationSummary);
 
         return {
             handoverId: handover?.id ?? null,
@@ -190,9 +145,7 @@ export class ProjectHandoverQueryService {
         return handovers[0] ?? null;
     }
 
-    private buildParticipantConfirmationSummary(
-        confirmationProgress: ConfirmationProgress | null
-    ): ProjectHandoverDetailView['participantConfirmationSummary'] {
+    private buildParticipantConfirmationSummary(confirmationProgress: ConfirmationProgress | null): ProjectHandoverDetailView['participantConfirmationSummary'] {
         if (!confirmationProgress) {
             return {
                 status: 'not-started',
@@ -283,12 +236,7 @@ export class ProjectHandoverQueryService {
         return [...new Set(reasons)];
     }
 
-    private buildProjectHandoverAllowedActions(
-        handover: ProjectHandover | null,
-        blockingReasons: string[],
-        contractAllowedActions: string[],
-        handoverSummarySnapshot: { id: string } | null
-    ): string[] {
+    private buildProjectHandoverAllowedActions(handover: ProjectHandover | null, blockingReasons: string[], contractAllowedActions: string[], handoverSummarySnapshot: { id: string } | null): string[] {
         const actions = new Set(contractAllowedActions.filter((action) => action !== 'confirm-project-handover'));
 
         if (handover && !handoverSummarySnapshot) {
@@ -317,26 +265,16 @@ export class ProjectHandoverQueryService {
         }
     }
 
-    private async findLatestProjectRebaseline(
-        projectId: string,
-        handover: ProjectHandover | null
-    ): Promise<ContractHandoverRebaselineRecord | null> {
+    private async findLatestProjectRebaseline(projectId: string, handover: ProjectHandover | null): Promise<ContractHandoverRebaselineRecord | null> {
         const latestProjectRebaseline = await this.contractHandoverRebaselineRecordRepository.findLatestByProjectId(projectId);
         if (latestProjectRebaseline) {
             return latestProjectRebaseline;
         }
 
-        return handover?.handoverRebaselineRecordId
-            ? this.contractHandoverRebaselineRecordRepository.findById(handover.handoverRebaselineRecordId)
-            : null;
+        return handover?.handoverRebaselineRecordId ? this.contractHandoverRebaselineRecordRepository.findById(handover.handoverRebaselineRecordId) : null;
     }
 
-    private async buildEffectiveContractSetSummary(
-        activeContracts: Contract[],
-        user: UserPayload,
-        requestContext: SensitiveFieldProjectionRequestContext,
-        projectId: string
-    ): Promise<ContractHandoverSummaryView['effectiveContractSetSummary']> {
+    private async buildEffectiveContractSetSummary(activeContracts: Contract[], user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext, projectId: string): Promise<ContractHandoverSummaryView['effectiveContractSetSummary']> {
         const signedDates = activeContracts
             .map((contract) => contract.signedAt)
             .filter((signedAt): signedAt is Date => Boolean(signedAt))
@@ -419,7 +357,7 @@ export class ProjectHandoverQueryService {
             guardDecision: readiness.guardDecision,
             initializedContractSnapshotId: readiness.initializedContractSnapshotId,
             contractSnapshotInitializedAt: readiness.contractSnapshotInitializedAt,
-            blockingReasonSummary: ready ? null : readiness.blockingReasonSummary ?? this.mapDiffBlockingReason(readiness),
+            blockingReasonSummary: ready ? null : (readiness.blockingReasonSummary ?? this.mapDiffBlockingReason(readiness)),
             missingPrerequisiteCount: readiness.missingPrerequisiteCount
         };
     }
@@ -468,10 +406,7 @@ export class ProjectHandoverQueryService {
         };
     }
 
-    private buildLatestRebaselineSummary(
-        latestRebaseline: ContractHandoverRebaselineRecord | null,
-        impactItems: HandoverBaselineImpactItem[]
-    ): ContractHandoverSummaryView['latestHandoverRebaselineSummary'] {
+    private buildLatestRebaselineSummary(latestRebaseline: ContractHandoverRebaselineRecord | null, impactItems: HandoverBaselineImpactItem[]): ContractHandoverSummaryView['latestHandoverRebaselineSummary'] {
         if (!latestRebaseline) {
             return {
                 status: 'none',
@@ -489,11 +424,7 @@ export class ProjectHandoverQueryService {
             rebaselineRecordId: latestRebaseline.id,
             effectiveBaselineAfterId: latestRebaseline.effectiveBaselineAfterId,
             handledAt: latestRebaseline.handledAt.toISOString(),
-            blockingStatus: ['processing', 'pending-effective'].includes(latestRebaseline.status)
-                ? 'blocking'
-                : latestRebaseline.status === 'effective'
-                  ? 'effective'
-                  : 'none',
+            blockingStatus: ['processing', 'pending-effective'].includes(latestRebaseline.status) ? 'blocking' : latestRebaseline.status === 'effective' ? 'effective' : 'none',
             impactItemCount: impactItems.length,
             impactSummary: impactItems.length === 0 ? null : impactItems.map((item) => `${item.impactType}: ${item.impactSummary}`).join('\n')
         };
@@ -522,18 +453,11 @@ export class ProjectHandoverQueryService {
             status: this.isReadinessReady(readiness) ? 'missing' : 'blocked',
             initializedReceivablePlanVersionId: null,
             receivablePlanInitializedAt: null,
-            summary: this.isReadinessReady(readiness)
-                ? 'Receivable plan is not initialized from the current contract readiness package'
-                : 'Contract readiness is not ready, receivable plan initialization is blocked'
+            summary: this.isReadinessReady(readiness) ? 'Receivable plan is not initialized from the current contract readiness package' : 'Contract readiness is not ready, receivable plan initialization is blocked'
         };
     }
 
-    private buildBlockingReasons(
-        activeContracts: Contract[],
-        readiness: ContractReadinessDetail | null,
-        contractSummarySnapshot: { id: string } | null,
-        latestRebaseline: ContractHandoverRebaselineRecord | null
-    ): string[] {
+    private buildBlockingReasons(activeContracts: Contract[], readiness: ContractReadinessDetail | null, contractSummarySnapshot: { id: string } | null, latestRebaseline: ContractHandoverRebaselineRecord | null): string[] {
         const reasons: string[] = [];
 
         if (activeContracts.length === 0) {
@@ -565,11 +489,7 @@ export class ProjectHandoverQueryService {
         return [...new Set(reasons)];
     }
 
-    private buildAllowedActions(
-        blockingReasons: string[],
-        readiness: ContractReadinessDetail | null,
-        contractSummarySnapshot: { id: string } | null
-    ): string[] {
+    private buildAllowedActions(blockingReasons: string[], readiness: ContractReadinessDetail | null, contractSummarySnapshot: { id: string } | null): string[] {
         const actions: string[] = [];
         const readinessReady = readiness ? this.isReadinessReady(readiness) : false;
 

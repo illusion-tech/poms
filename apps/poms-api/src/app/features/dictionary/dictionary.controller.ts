@@ -1,12 +1,6 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-    CreateDictionaryItemRequestDto,
-    DictionaryItemDto,
-    DictionaryItemListDto,
-    DictionaryItemListQueryDto,
-    UpdateDictionaryItemRequestDto
-} from '@poms/api-contracts';
+import { CreateDictionaryItemRequestDto, DictionaryItemDto, DictionaryItemListDto, DictionaryItemListQueryDto, UpdateDictionaryItemRequestDto } from '@poms/api-contracts';
 import type { DictionaryItemListQuery, DictionaryItemSummary, UserPayload } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
@@ -16,7 +10,7 @@ import { DictionaryService } from './dictionary.service';
 @ApiCookieAuth('pomsSession')
 @Controller('dictionaries')
 export class DictionaryController {
-    constructor(private readonly dictionaryService: DictionaryService) {}
+    constructor(@Inject(DictionaryService) private readonly dictionaryService: DictionaryService) {}
 
     @Get()
     @HasAnyPermissions('lead:read', 'customer:read', 'project:read', 'contract:finance:manage', 'platform:dictionaries:manage')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 
 interface BusinessNumberEntityManager {
@@ -7,16 +7,7 @@ interface BusinessNumberEntityManager {
     };
 }
 
-export type BusinessNumberScope =
-    | 'customer'
-    | 'lead'
-    | 'project'
-    | 'contract'
-    | 'cost-payment-fact'
-    | 'cost-invoice'
-    | 'cost-expense'
-    | 'cost-procurement'
-    | 'cost-labor';
+export type BusinessNumberScope = 'customer' | 'lead' | 'project' | 'contract' | 'cost-payment-fact' | 'cost-invoice' | 'cost-expense' | 'cost-procurement' | 'cost-labor';
 
 interface BusinessNumberSpec {
     prefix: string;
@@ -38,7 +29,7 @@ const BUSINESS_NUMBER_SPECS: Record<BusinessNumberScope, BusinessNumberSpec> = {
 
 @Injectable()
 export class BusinessNumberService {
-    constructor(private readonly entityManager: EntityManager) {}
+    constructor(@Inject(EntityManager) private readonly entityManager: EntityManager) {}
 
     async next(scope: BusinessNumberScope, at = new Date(), em: BusinessNumberEntityManager = this.entityManager): Promise<string> {
         const spec = BUSINESS_NUMBER_SPECS[scope];

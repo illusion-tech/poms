@@ -1,13 +1,5 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
-import {
-    ApiCookieAuth,
-    ApiBody,
-    ApiCreatedResponse,
-    ApiExtraModels,
-    ApiOkResponse,
-    ApiOperation,
-    ApiTags
-} from '@nestjs/swagger';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { ApiCookieAuth, ApiBody, ApiCreatedResponse, ApiExtraModels, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ActivateOperatingBaselinePackageRequestDto,
     AccountingTaxTreatmentListViewDto,
@@ -57,9 +49,7 @@ import {
     UpdateExpenseRecordRequestDto,
     VoidExpenseRecordRequestDto
 } from '@poms/api-contracts';
-import {
-    CreateProjectActualCostRecordRequestSchema
-} from '@poms/shared-contracts';
+import { CreateProjectActualCostRecordRequestSchema } from '@poms/shared-contracts';
 import type {
     AccountingTaxTreatmentListView,
     AccountingTaxTreatmentSnapshotSummary,
@@ -109,16 +99,13 @@ interface ProjectActualCostRecordListQuery {
 @ApiCookieAuth('pomsSession')
 @Controller()
 export class ProjectCostController {
-    constructor(private readonly projectCostService: ProjectCostService) {}
+    constructor(@Inject(ProjectCostService) private readonly projectCostService: ProjectCostService) {}
 
     @Post('internal-cost-rate-versions')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '发布内部成本率版本' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async publishInternalCostRateVersion(
-        @Body() body: PublishInternalCostRateVersionRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async publishInternalCostRateVersion(@Body() body: PublishInternalCostRateVersionRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.publishInternalCostRateVersion(body, userId);
     }
@@ -169,10 +156,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '生效项目经营基线包' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async activateOperatingBaselinePackage(
-        @Body() body: ActivateOperatingBaselinePackageRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async activateOperatingBaselinePackage(@Body() body: ActivateOperatingBaselinePackageRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.activateOperatingBaselinePackage(body, userId);
     }
@@ -189,10 +173,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建项目经营快照' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async createProjectOperatingSnapshot(
-        @Body() body: CreateProjectOperatingSnapshotRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async createProjectOperatingSnapshot(@Body() body: CreateProjectOperatingSnapshotRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.createProjectOperatingSnapshot(body, userId);
     }
@@ -209,10 +190,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建期末冻结经营快照' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async createPeriodClosingSnapshot(
-        @Body() body: CreatePeriodClosingSnapshotRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async createPeriodClosingSnapshot(@Body() body: CreatePeriodClosingSnapshotRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.createPeriodClosingSnapshot(body, userId);
     }
@@ -229,10 +207,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建经营快照重述记录' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async createOperatingRestatement(
-        @Body() body: CreateOperatingRestatementRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async createOperatingRestatement(@Body() body: CreateOperatingRestatementRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.createOperatingRestatement(body, userId);
     }
@@ -257,10 +232,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建共享成本分摊依据与项目分摊结果' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async confirmSharedCostAllocationBasis(
-        @Body() body: ConfirmSharedCostAllocationBasisRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async confirmSharedCostAllocationBasis(@Body() body: ConfirmSharedCostAllocationBasisRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.confirmSharedCostAllocationBasis(body, userId);
     }
@@ -285,11 +257,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '替代共享成本分摊结果' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async replaceSharedCostAllocationResult(
-        @Param('id') supersededAllocationResultId: string,
-        @Body() body: ReplaceSharedCostAllocationResultRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async replaceSharedCostAllocationResult(@Param('id') supersededAllocationResultId: string, @Body() body: ReplaceSharedCostAllocationResultRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.replaceSharedCostAllocationResult(supersededAllocationResultId, body, userId);
     }
@@ -298,11 +266,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建成本阶段归属快照' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async confirmCostStageAttribution(
-        @Param('id') costRecordId: string,
-        @Body() body: ConfirmCostStageAttributionRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async confirmCostStageAttribution(@Param('id') costRecordId: string, @Body() body: ConfirmCostStageAttributionRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.confirmCostStageAttribution(costRecordId, body, userId);
     }
@@ -311,11 +275,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '重分类成本阶段归属快照' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async reclassifyCostStageAttribution(
-        @Param('id') supersededAttributionId: string,
-        @Body() body: ReclassifyCostStageAttributionRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async reclassifyCostStageAttribution(@Param('id') supersededAttributionId: string, @Body() body: ReclassifyCostStageAttributionRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.reclassifyCostStageAttribution(supersededAttributionId, body, userId);
     }
@@ -340,11 +300,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建项目税务处理快照' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async confirmAccountingTaxTreatment(
-        @Param('projectId') projectId: string,
-        @Body() body: ConfirmAccountingTaxTreatmentRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async confirmAccountingTaxTreatment(@Param('projectId') projectId: string, @Body() body: ConfirmAccountingTaxTreatmentRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.confirmAccountingTaxTreatment(projectId, body, userId);
     }
@@ -353,11 +309,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '替代项目税务处理快照' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async replaceAccountingTaxTreatment(
-        @Param('id') supersededTaxTreatmentSnapshotId: string,
-        @Body() body: ReplaceAccountingTaxTreatmentRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async replaceAccountingTaxTreatment(@Param('id') supersededTaxTreatmentSnapshotId: string, @Body() body: ReplaceAccountingTaxTreatmentRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.replaceAccountingTaxTreatment(supersededTaxTreatmentSnapshotId, body, userId);
     }
@@ -383,11 +335,7 @@ export class ProjectCostController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '人工复核经营信号评价结果' })
     @ApiOkResponse({ type: ReviewOperatingSignalEvaluationResultDto })
-    async reviewOperatingSignalEvaluation(
-        @Param('id') id: string,
-        @Body() body: ReviewOperatingSignalEvaluationRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ReviewOperatingSignalEvaluationResult> {
+    async reviewOperatingSignalEvaluation(@Param('id') id: string, @Body() body: ReviewOperatingSignalEvaluationRequestDto, @Request() req: AuthenticatedRequest): Promise<ReviewOperatingSignalEvaluationResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.reviewOperatingSignalEvaluation(id, body, userId);
     }
@@ -405,11 +353,7 @@ export class ProjectCostController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '人工复核经营反馈 gate 绑定结果' })
     @ApiOkResponse({ type: ReviewCommissionGateBindingResultDto })
-    async reviewCommissionGateBinding(
-        @Param('id') id: string,
-        @Body() body: ReviewCommissionGateBindingRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ReviewCommissionGateBindingResult> {
+    async reviewCommissionGateBinding(@Param('id') id: string, @Body() body: ReviewCommissionGateBindingRequestDto, @Request() req: AuthenticatedRequest): Promise<ReviewCommissionGateBindingResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.reviewCommissionGateBinding(id, body, userId);
     }
@@ -426,60 +370,32 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目经营结果总览' })
     @ApiOkResponse({ type: ProjectBusinessOutcomeOverviewViewDto })
-    async getProjectBusinessOutcomeOverview(
-        @Param('projectId') projectId: string,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ProjectBusinessOutcomeOverviewView> {
-        return this.projectCostService.getProjectBusinessOutcomeOverview(
-            projectId,
-            req.user ?? null,
-            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/business-outcome-overview`)
-        );
+    async getProjectBusinessOutcomeOverview(@Param('projectId') projectId: string, @Request() req: AuthenticatedRequest): Promise<ProjectBusinessOutcomeOverviewView> {
+        return this.projectCostService.getProjectBusinessOutcomeOverview(projectId, req.user ?? null, buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/business-outcome-overview`));
     }
 
     @Get('projects/:projectId/unified-accounting')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目统一核算视图' })
     @ApiOkResponse({ type: ProjectUnifiedAccountingViewDto })
-    async getProjectUnifiedAccounting(
-        @Param('projectId') projectId: string,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ProjectUnifiedAccountingView> {
-        return this.projectCostService.getProjectUnifiedAccounting(
-            projectId,
-            req.user ?? null,
-            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/unified-accounting`)
-        );
+    async getProjectUnifiedAccounting(@Param('projectId') projectId: string, @Request() req: AuthenticatedRequest): Promise<ProjectUnifiedAccountingView> {
+        return this.projectCostService.getProjectUnifiedAccounting(projectId, req.user ?? null, buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/unified-accounting`));
     }
 
     @Get('projects/:projectId/variance-risk-explanation')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目偏差与风险解释' })
     @ApiOkResponse({ type: ProjectVarianceRiskExplanationViewDto })
-    async getProjectVarianceRiskExplanation(
-        @Param('projectId') projectId: string,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ProjectVarianceRiskExplanationView> {
-        return this.projectCostService.getProjectVarianceRiskExplanation(
-            projectId,
-            req.user ?? null,
-            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/variance-risk-explanation`)
-        );
+    async getProjectVarianceRiskExplanation(@Param('projectId') projectId: string, @Request() req: AuthenticatedRequest): Promise<ProjectVarianceRiskExplanationView> {
+        return this.projectCostService.getProjectVarianceRiskExplanation(projectId, req.user ?? null, buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/variance-risk-explanation`));
     }
 
     @Get('projects/:projectId/business-accounting-feedback')
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目经营核算反哺视图' })
     @ApiOkResponse({ type: BusinessAccountingFeedbackViewDto })
-    async getBusinessAccountingFeedback(
-        @Param('projectId') projectId: string,
-        @Request() req: AuthenticatedRequest
-    ): Promise<BusinessAccountingFeedbackView> {
-        return this.projectCostService.getBusinessAccountingFeedback(
-            projectId,
-            req.user ?? null,
-            buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/business-accounting-feedback`)
-        );
+    async getBusinessAccountingFeedback(@Param('projectId') projectId: string, @Request() req: AuthenticatedRequest): Promise<BusinessAccountingFeedbackView> {
+        return this.projectCostService.getBusinessAccountingFeedback(projectId, req.user ?? null, buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/business-accounting-feedback`));
     }
 
     @Get('projects/:projectId/expense-records')
@@ -502,11 +418,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '创建费用记录' })
     @ApiCreatedResponse({ type: ExpenseRecordDto })
-    async createExpenseRecord(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateExpenseRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ExpenseRecordSummary> {
+    async createExpenseRecord(@Param('projectId') projectId: string, @Body() body: CreateExpenseRecordRequestDto, @Request() req: AuthenticatedRequest): Promise<ExpenseRecordSummary> {
         void req;
         return this.projectCostService.createExpenseRecord(projectId, body);
     }
@@ -515,10 +427,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '更新费用记录' })
     @ApiOkResponse({ type: ExpenseRecordDto })
-    async updateExpenseRecord(
-        @Param('id') id: string,
-        @Body() body: UpdateExpenseRecordRequestDto
-    ): Promise<ExpenseRecordSummary> {
+    async updateExpenseRecord(@Param('id') id: string, @Body() body: UpdateExpenseRecordRequestDto): Promise<ExpenseRecordSummary> {
         return this.projectCostService.updateExpenseRecord(id, body);
     }
 
@@ -527,11 +436,7 @@ export class ProjectCostController {
     @ApiOperation({ summary: '确认费用记录' })
     @ApiOkResponse({ type: ExpenseRecordDto })
     @HttpCode(HttpStatus.OK)
-    async confirmExpenseRecord(
-        @Param('id') id: string,
-        @Body() body: ConfirmExpenseRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<ExpenseRecordSummary> {
+    async confirmExpenseRecord(@Param('id') id: string, @Body() body: ConfirmExpenseRecordRequestDto, @Request() req: AuthenticatedRequest): Promise<ExpenseRecordSummary> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.confirmExpenseRecord(id, userId, body);
     }
@@ -541,10 +446,7 @@ export class ProjectCostController {
     @ApiOperation({ summary: '作废费用记录' })
     @ApiOkResponse({ type: ExpenseRecordDto })
     @HttpCode(HttpStatus.OK)
-    async voidExpenseRecord(
-        @Param('id') id: string,
-        @Body() body: VoidExpenseRecordRequestDto
-    ): Promise<ExpenseRecordSummary> {
+    async voidExpenseRecord(@Param('id') id: string, @Body() body: VoidExpenseRecordRequestDto): Promise<ExpenseRecordSummary> {
         return this.projectCostService.voidExpenseRecord(id, body);
     }
 
@@ -552,10 +454,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '获取项目实际成本记录列表' })
     @ApiOkResponse({ type: ProjectActualCostRecordListViewDto })
-    async listProjectActualCostRecords(
-        @Param('projectId') projectId: string,
-        @Query() query: ProjectActualCostRecordListQuery
-    ): Promise<ProjectActualCostRecordListView> {
+    async listProjectActualCostRecords(@Param('projectId') projectId: string, @Query() query: ProjectActualCostRecordListQuery): Promise<ProjectActualCostRecordListView> {
         return this.projectCostService.listProjectActualCostRecords(projectId, query);
     }
 
@@ -571,11 +470,7 @@ export class ProjectCostController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '替代/重算人力成本记录候选' })
     @ApiCreatedResponse({ description: 'The command result' })
-    async replaceLaborCostRecord(
-        @Param('id') id: string,
-        @Body() body: ReplaceLaborCostRecordRequestDto,
-        @Request() req: AuthenticatedRequest
-    ): Promise<CommandResult> {
+    async replaceLaborCostRecord(@Param('id') id: string, @Body() body: ReplaceLaborCostRecordRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? 'system';
         return this.projectCostService.replaceLaborCostRecord(id, body, userId);
     }

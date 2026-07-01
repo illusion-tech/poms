@@ -40,7 +40,7 @@ import type {
     SubmitCommissionPayoutApprovalRequest,
     UserPayload
 } from '@poms/shared-contracts';
-import { BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
 import { CommissionDepartureExceptionDecision } from './commission-departure-exception-decision.entity';
@@ -113,8 +113,8 @@ type SensitiveProjectionUser = Pick<UserPayload, 'sub' | 'username' | 'permissio
 @Injectable()
 export class CommissionService {
     constructor(
-        private readonly repo: CommissionRepository,
-        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+        @Inject(CommissionRepository) private readonly repo: CommissionRepository,
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
     // ── Rule Versions ────────────────────────────────────────────────────────
@@ -2210,12 +2210,7 @@ export class CommissionService {
             exportPolicy: string;
         },
         currentSnapshot: CommissionFinalSettlementSnapshot | null,
-        statusPatch: Pick<
-            RetentionSettlementDraft,
-            | 'finalSettlementStatus'
-            | 'nonRetentionSettlementStatus'
-            | 'retentionSettlementStatus'
-        > & {
+        statusPatch: Pick<RetentionSettlementDraft, 'finalSettlementStatus' | 'nonRetentionSettlementStatus' | 'retentionSettlementStatus'> & {
             retentionRequirementSummary: string | null;
             retentionReceiptSummary: string | null;
             departureExceptionSummary: string | null;

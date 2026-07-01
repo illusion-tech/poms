@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DictionaryDomainValue, SalesFollowUpRecordStatusValue } from '@poms/shared-contracts';
 import type { CreateSalesFollowUpRecordRequest, ReplaceSalesFollowUpRecordRequest, SalesFollowUpRecordListQuery, SalesFollowUpRecordSummary, VoidSalesFollowUpRecordRequest } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
@@ -17,10 +17,10 @@ import { SalesFollowUpRepository } from './sales-follow-up.repository';
 @Injectable()
 export class SalesFollowUpService {
     constructor(
-        private readonly salesFollowUpRepository: SalesFollowUpRepository,
-        private readonly customerService: CustomerService,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly dictionaryService: DictionaryService
+        @Inject(SalesFollowUpRepository) private readonly salesFollowUpRepository: SalesFollowUpRepository,
+        @Inject(CustomerService) private readonly customerService: CustomerService,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(DictionaryService) private readonly dictionaryService: DictionaryService
     ) {}
 
     async listSalesFollowUpRecords(query: SalesFollowUpRecordListQuery): Promise<SalesFollowUpRecordSummary[]> {
@@ -30,11 +30,11 @@ export class SalesFollowUpService {
         return records.map((record) =>
             mapSalesFollowUpRecordToSummary(record, {
                 customer: context.customerMap.get(record.customerId) ?? null,
-                lead: record.leadId ? context.leadMap.get(record.leadId) ?? null : null,
-                project: record.projectId ? context.projectMap.get(record.projectId) ?? null : null,
-                ownerUser: record.ownerUserId ? context.userMap.get(record.ownerUserId) ?? null : null,
-                ownerOrg: record.ownerOrgId ? context.orgMap.get(record.ownerOrgId) ?? null : null,
-                voidedByUser: record.voidedBy ? context.userMap.get(record.voidedBy) ?? null : null
+                lead: record.leadId ? (context.leadMap.get(record.leadId) ?? null) : null,
+                project: record.projectId ? (context.projectMap.get(record.projectId) ?? null) : null,
+                ownerUser: record.ownerUserId ? (context.userMap.get(record.ownerUserId) ?? null) : null,
+                ownerOrg: record.ownerOrgId ? (context.orgMap.get(record.ownerOrgId) ?? null) : null,
+                voidedByUser: record.voidedBy ? (context.userMap.get(record.voidedBy) ?? null) : null
             })
         );
     }
@@ -241,7 +241,7 @@ export class SalesFollowUpService {
             throw new NotFoundException(`Platform user ${resolvedOwnerUserId} not found`);
         }
 
-        const resolvedOwnerOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? defaultOwnerOrgId : ownerOrgId;
+        const resolvedOwnerOrgId = ownerOrgId === undefined ? (ownerUser?.primaryOrgUnitId ?? defaultOwnerOrgId) : ownerOrgId;
         const ownerOrg = resolvedOwnerOrgId ? await this.salesFollowUpRepository.findOrgUnitById(resolvedOwnerOrgId) : null;
 
         if (resolvedOwnerOrgId && !ownerOrg) {
@@ -271,13 +271,7 @@ export class SalesFollowUpService {
             throw new NotFoundException(`Platform user ${resolvedOwnerUserId} not found`);
         }
 
-        const defaultOwnerOrgId =
-            ownerUser?.primaryOrgUnitId ??
-            (ownerUserId === undefined ? currentRecord.ownerOrgId : null) ??
-            project?.ownerOrgId ??
-            lead?.ownerOrgId ??
-            operator.primaryOrgUnitId ??
-            null;
+        const defaultOwnerOrgId = ownerUser?.primaryOrgUnitId ?? (ownerUserId === undefined ? currentRecord.ownerOrgId : null) ?? project?.ownerOrgId ?? lead?.ownerOrgId ?? operator.primaryOrgUnitId ?? null;
         const resolvedOwnerOrgId = ownerOrgId === undefined ? defaultOwnerOrgId : ownerOrgId;
         const ownerOrg = resolvedOwnerOrgId ? await this.salesFollowUpRepository.findOrgUnitById(resolvedOwnerOrgId) : null;
 
@@ -303,12 +297,7 @@ export class SalesFollowUpService {
         const customerIds = [...new Set(records.map((record) => record.customerId))];
         const leadIds = [...new Set(records.map((record) => record.leadId).filter((id): id is string => Boolean(id)))];
         const projectIds = [...new Set(records.map((record) => record.projectId).filter((id): id is string => Boolean(id)))];
-        const ownerUserIds = [
-            ...new Set([
-                ...records.map((record) => record.ownerUserId).filter((id): id is string => Boolean(id)),
-                ...records.map((record) => record.voidedBy).filter((id): id is string => Boolean(id))
-            ])
-        ];
+        const ownerUserIds = [...new Set([...records.map((record) => record.ownerUserId).filter((id): id is string => Boolean(id)), ...records.map((record) => record.voidedBy).filter((id): id is string => Boolean(id))])];
         const ownerOrgIds = [...new Set(records.map((record) => record.ownerOrgId).filter((id): id is string => Boolean(id)))];
 
         const [customers, leads, projects, users, orgs] = await Promise.all([

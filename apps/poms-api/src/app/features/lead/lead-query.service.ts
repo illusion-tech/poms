@@ -1,5 +1,17 @@
-import { NotFoundException, Injectable } from '@nestjs/common';
-import { DictionaryDomainValue, LeadAllowedActionValue, LeadOwnershipScopeValue, LeadStatusValue, LeadWorkbenchScopeValue, type DictionaryItemSummary, type LeadAllowedAction, type LeadDetailView, type LeadListQuery, type LeadListResponse, type UserPayload } from '@poms/shared-contracts';
+import { Inject, NotFoundException, Injectable } from '@nestjs/common';
+import {
+    DictionaryDomainValue,
+    LeadAllowedActionValue,
+    LeadOwnershipScopeValue,
+    LeadStatusValue,
+    LeadWorkbenchScopeValue,
+    type DictionaryItemSummary,
+    type LeadAllowedAction,
+    type LeadDetailView,
+    type LeadListQuery,
+    type LeadListResponse,
+    type UserPayload
+} from '@poms/shared-contracts';
 import { DictionaryService } from '../dictionary/dictionary.service';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -16,9 +28,9 @@ const DEFAULT_LEAD_LIST_PAGE_SIZE = 500;
 @Injectable()
 export class LeadQueryService {
     constructor(
-        private readonly leadRepository: LeadRepository,
-        private readonly dictionaryService: DictionaryService,
-        private readonly leadScoreService: LeadScoreService
+        @Inject(LeadRepository) private readonly leadRepository: LeadRepository,
+        @Inject(DictionaryService) private readonly dictionaryService: DictionaryService,
+        @Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService
     ) {}
 
     async listLeads(query: LeadListQuery, user: UserPayload): Promise<LeadListResponse> {
@@ -44,9 +56,9 @@ export class LeadQueryService {
                 mapLeadToListView(
                     lead,
                     context.sourceMap.get(lead.sourceCode) ?? null,
-                    lead.ownerUserId ? context.userMap.get(lead.ownerUserId) ?? null : null,
-                    lead.ownerOrgId ? context.orgUnitMap.get(lead.ownerOrgId) ?? null : null,
-                    lead.convertedProjectId ? context.projectMap.get(lead.convertedProjectId) ?? null : null,
+                    lead.ownerUserId ? (context.userMap.get(lead.ownerUserId) ?? null) : null,
+                    lead.ownerOrgId ? (context.orgUnitMap.get(lead.ownerOrgId) ?? null) : null,
+                    lead.convertedProjectId ? (context.projectMap.get(lead.convertedProjectId) ?? null) : null,
                     activeOverrideMap.get(lead.id) ?? null,
                     this.resolveAllowedActions(lead, user)
                 )

@@ -1,18 +1,11 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import {
-    ActiveInactiveStatusValue,
-    type CreateDictionaryItemRequest,
-    type DictionaryDomain,
-    type DictionaryItemListQuery,
-    type DictionaryItemSummary,
-    type UpdateDictionaryItemRequest
-} from '@poms/shared-contracts';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ActiveInactiveStatusValue, type CreateDictionaryItemRequest, type DictionaryDomain, type DictionaryItemListQuery, type DictionaryItemSummary, type UpdateDictionaryItemRequest } from '@poms/shared-contracts';
 import { DictionaryItem } from './dictionary-item.entity';
 import { DictionaryRepository } from './dictionary.repository';
 
 @Injectable()
 export class DictionaryService {
-    constructor(private readonly dictionaryRepository: DictionaryRepository) {}
+    constructor(@Inject(DictionaryRepository) private readonly dictionaryRepository: DictionaryRepository) {}
 
     async listItems(query: DictionaryItemListQuery = {}): Promise<DictionaryItemSummary[]> {
         const items = await this.dictionaryRepository.findItems(query);
