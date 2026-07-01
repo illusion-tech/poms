@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, UnsupportedMediaTypeException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, UnsupportedMediaTypeException } from '@nestjs/common';
 import type { EntityManager } from '@mikro-orm/core';
 import { createHash, randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
@@ -117,11 +117,11 @@ interface ZipArchiveEntry {
 @Injectable()
 export class AttachmentService {
     constructor(
-        private readonly attachmentRepository: AttachmentRepository,
-        private readonly storageService: AttachmentStorageService,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly dictionaryService: DictionaryService,
-        private readonly systemSettingService: SystemSettingService
+        @Inject(AttachmentRepository) private readonly attachmentRepository: AttachmentRepository,
+        @Inject(AttachmentStorageService) private readonly storageService: AttachmentStorageService,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(DictionaryService) private readonly dictionaryService: DictionaryService,
+        @Inject(SystemSettingService) private readonly systemSettingService: SystemSettingService
     ) {}
 
     async createAttachmentUploadSession(request: CreateAttachmentUploadSessionRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentUploadSessionSummary> {

@@ -1,5 +1,5 @@
 import type { PermissionKey, UserPayload } from '@poms/shared-contracts';
-import { CanActivate, ExecutionContext, ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
+import { Inject, CanActivate, ExecutionContext, ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RuntimeAuditService } from '../../runtime-audit/runtime-audit.service';
 import { getRequestId, getRequestIp, getRequestMethod, getRequestPath, getRequestUserAgent, type RuntimeAuditRequestLike } from '../../runtime-audit/runtime-audit-request.utils';
@@ -13,7 +13,7 @@ export class PermissionsGuard implements CanActivate {
     readonly #reflector: Reflector;
     readonly #runtimeAuditService: RuntimeAuditService;
 
-    constructor(reflector: Reflector, runtimeAuditService: RuntimeAuditService) {
+    constructor(@Inject(Reflector) reflector: Reflector, @Inject(RuntimeAuditService) runtimeAuditService: RuntimeAuditService) {
         this.#reflector = reflector;
         this.#runtimeAuditService = runtimeAuditService;
     }

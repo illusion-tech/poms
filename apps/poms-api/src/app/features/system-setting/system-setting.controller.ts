@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, Param, Patch, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SystemSettingDto, SystemSettingListDto, UpdateSystemSettingRequestDto } from '@poms/api-contracts';
 import type { SystemSettingList, SystemSettingSummary, UserPayload } from '@poms/shared-contracts';
@@ -10,7 +10,7 @@ import { SystemSettingService } from './system-setting.service';
 @ApiCookieAuth('pomsSession')
 @Controller('platform/system-settings')
 export class SystemSettingController {
-    constructor(private readonly systemSettingService: SystemSettingService) {}
+    constructor(@Inject(SystemSettingService) private readonly systemSettingService: SystemSettingService) {}
 
     @Get()
     @HasPermissions('platform:system-settings:manage')
@@ -32,11 +32,7 @@ export class SystemSettingController {
     @HasPermissions('platform:system-settings:manage')
     @ApiOperation({ summary: '更新单个系统设置' })
     @ApiOkResponse({ type: SystemSettingDto })
-    updateSystemSetting(
-        @Param('key') key: string,
-        @Body() body: UpdateSystemSettingRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<SystemSettingSummary> {
+    updateSystemSetting(@Param('key') key: string, @Body() body: UpdateSystemSettingRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<SystemSettingSummary> {
         return this.systemSettingService.updateSystemSetting(key, body, req.user.sub, getRequestId(req));
     }
 }

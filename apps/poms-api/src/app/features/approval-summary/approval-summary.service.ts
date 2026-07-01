@@ -1,10 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalSummaryFieldProjection, ApprovalSummarySnapshot } from './approval-summary.entity';
-import {
-    ApprovalSummaryFieldProjectionRepository,
-    ApprovalSummaryPackageDefinitionRepository,
-    ApprovalSummarySnapshotRepository
-} from './approval-summary.repository';
+import { ApprovalSummaryFieldProjectionRepository, ApprovalSummaryPackageDefinitionRepository, ApprovalSummarySnapshotRepository } from './approval-summary.repository';
 
 export interface CreateApprovalSummaryFieldProjectionInput {
     fieldKey: string;
@@ -31,9 +27,9 @@ export interface CreateApprovalSummarySnapshotInput {
 @Injectable()
 export class ApprovalSummaryService {
     constructor(
-        private readonly packageDefinitionRepository: ApprovalSummaryPackageDefinitionRepository,
-        private readonly snapshotRepository: ApprovalSummarySnapshotRepository,
-        private readonly fieldProjectionRepository: ApprovalSummaryFieldProjectionRepository
+        @Inject(ApprovalSummaryPackageDefinitionRepository) private readonly packageDefinitionRepository: ApprovalSummaryPackageDefinitionRepository,
+        @Inject(ApprovalSummarySnapshotRepository) private readonly snapshotRepository: ApprovalSummarySnapshotRepository,
+        @Inject(ApprovalSummaryFieldProjectionRepository) private readonly fieldProjectionRepository: ApprovalSummaryFieldProjectionRepository
     ) {}
 
     async createSummarySnapshot(input: CreateApprovalSummarySnapshotInput): Promise<ApprovalSummarySnapshot> {
@@ -41,10 +37,7 @@ export class ApprovalSummaryService {
             throw new BadRequestException('approval summary snapshot requires at least one field projection');
         }
 
-        const definition = await this.packageDefinitionRepository.findActiveByScenarioAndPackage(
-            input.approvalScenarioKey,
-            input.summaryPackageKey
-        );
+        const definition = await this.packageDefinitionRepository.findActiveByScenarioAndPackage(input.approvalScenarioKey, input.summaryPackageKey);
         if (!definition) {
             throw new NotFoundException('active approval summary package definition not found');
         }
@@ -67,17 +60,18 @@ export class ApprovalSummaryService {
         });
         await this.snapshotRepository.save(snapshot);
 
-        const projections = input.fieldProjections.map((field, index): ApprovalSummaryFieldProjection =>
-            this.fieldProjectionRepository.create({
-                summarySnapshotId: snapshot.id,
-                fieldKey: field.fieldKey,
-                visibilityLevel: field.visibilityLevel,
-                maskingMode: field.maskingMode,
-                exportPolicy: field.exportPolicy ?? definition.exportPolicy,
-                fieldOrder: field.fieldOrder ?? index,
-                channelScopeSummary: field.channelScopeSummary ?? null,
-                createdBy: input.createdBy ?? null
-            })
+        const projections = input.fieldProjections.map(
+            (field, index): ApprovalSummaryFieldProjection =>
+                this.fieldProjectionRepository.create({
+                    summarySnapshotId: snapshot.id,
+                    fieldKey: field.fieldKey,
+                    visibilityLevel: field.visibilityLevel,
+                    maskingMode: field.maskingMode,
+                    exportPolicy: field.exportPolicy ?? definition.exportPolicy,
+                    fieldOrder: field.fieldOrder ?? index,
+                    channelScopeSummary: field.channelScopeSummary ?? null,
+                    createdBy: input.createdBy ?? null
+                })
         );
         await this.fieldProjectionRepository.saveAll(projections);
 

@@ -2,7 +2,7 @@ import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { ApprovalStatusValue, ApprovalTypeValue, ContractStatusValue, TargetObjectTypeValue, type CommandResult, type ContractStatus } from '@poms/shared-contracts';
 
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApprovalRecord } from '../approval/approval-record.entity';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
@@ -50,12 +50,12 @@ const CONTRACT_TARGET_TYPE = TargetObjectTypeValue.Contract;
 @Injectable()
 export class ContractService {
     constructor(
-        private readonly contractRepository: ContractRepository,
-        private readonly businessNumberService: BusinessNumberService,
-        private readonly projectService: ProjectService,
-        private readonly contractReadinessService: ContractReadinessService,
-        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
-        private readonly commercialReleaseBaselineRepository: CommercialReleaseBaselineRepository,
+        @Inject(ContractRepository) private readonly contractRepository: ContractRepository,
+        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService,
+        @Inject(ProjectService) private readonly projectService: ProjectService,
+        @Inject(ContractReadinessService) private readonly contractReadinessService: ContractReadinessService,
+        @Inject(ContractTermSnapshotRepository) private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        @Inject(CommercialReleaseBaselineRepository) private readonly commercialReleaseBaselineRepository: CommercialReleaseBaselineRepository,
         @InjectRepository(ApprovalRecord)
         private readonly approvalRecordRepository: EntityRepository<ApprovalRecord>
     ) {}

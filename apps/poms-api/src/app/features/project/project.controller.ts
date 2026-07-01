@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     AcceptanceRecordDto,
@@ -75,8 +75,8 @@ import { ProjectService } from './project.service';
 @Controller('projects')
 export class ProjectController {
     constructor(
-        private readonly projectQueryService: ProjectQueryService,
-        private readonly projectService: ProjectService
+        @Inject(ProjectQueryService) private readonly projectQueryService: ProjectQueryService,
+        @Inject(ProjectService) private readonly projectService: ProjectService
     ) {}
 
     @Get()
@@ -360,7 +360,7 @@ export class ProjectController {
 @ApiCookieAuth('pomsSession')
 @Controller('project-archive-records')
 export class ProjectArchiveRecordController {
-    constructor(private readonly projectService: ProjectService) {}
+    constructor(@Inject(ProjectService) private readonly projectService: ProjectService) {}
 
     @Post(':id\\:replace')
     @HasPermissions('project:write')

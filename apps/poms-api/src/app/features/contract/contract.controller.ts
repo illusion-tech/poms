@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ActivateContractRequestDto,
@@ -29,11 +29,11 @@ import { ContractTermSnapshotRepository } from './contract.repository';
 @Controller('contracts')
 export class ContractController {
     constructor(
-        private readonly contractService: ContractService,
-        private readonly approvalService: ApprovalService,
-        private readonly projectService: ProjectService,
-        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
-        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+        @Inject(ContractService) private readonly contractService: ContractService,
+        @Inject(ApprovalService) private readonly approvalService: ApprovalService,
+        @Inject(ProjectService) private readonly projectService: ProjectService,
+        @Inject(ContractTermSnapshotRepository) private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
     @Get()

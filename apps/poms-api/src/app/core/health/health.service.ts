@@ -1,5 +1,5 @@
 import { MikroORM } from '@mikro-orm/core';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 type HealthOverallStatus = 'live' | 'ready' | 'not_ready';
 type HealthCheckStatus = 'pass' | 'fail';
@@ -23,7 +23,7 @@ export interface HealthCheckView {
 
 @Injectable()
 export class HealthService {
-    constructor(private readonly orm: MikroORM) {}
+    constructor(@Inject(MikroORM) private readonly orm: MikroORM) {}
 
     getLiveness(): HealthCheckView {
         return this.buildView('live', {

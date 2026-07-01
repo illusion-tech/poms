@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import type {
     AcceptanceRecordList,
     AcceptanceRecordResult,
@@ -189,9 +189,9 @@ const PROJECT_WORKSPACE_STAGE_GUIDANCE: Record<ProjectStage, ProjectWorkspaceGui
 @Injectable()
 export class ProjectQueryService {
     constructor(
-        private readonly projectRepository: ProjectRepository,
-        private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
-        private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+        @Inject(ProjectRepository) private readonly projectRepository: ProjectRepository,
+        @Inject(ApprovalSummarySnapshotRepository) private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
     ) {}
 
     async listProjects(query: ProjectListQuery): Promise<ProjectListView[]> {

@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import type {
     ConfirmProjectHandoverParticipantConfirmationInput,
     ConfirmProjectHandoverRequest,
@@ -12,12 +12,7 @@ import { randomUUID } from 'node:crypto';
 import { ContractAmendmentRepository, ContractTermSnapshotRepository } from '../contract/contract.repository';
 import { ContractService } from '../contract/contract.service';
 import { ProjectHandoverQueryService } from './project-handover-query.service';
-import {
-    ContractHandoverRebaselineRecordRepository,
-    HandoverBaselineImpactItemRepository,
-    ProjectHandoverRepository,
-    ProjectReceiptJudgmentFreezeRepository
-} from './project-handover.repository';
+import { ContractHandoverRebaselineRecordRepository, HandoverBaselineImpactItemRepository, ProjectHandoverRepository, ProjectReceiptJudgmentFreezeRepository } from './project-handover.repository';
 
 const CONFIRM_PROJECT_HANDOVER_ACTION = 'confirm-project-handover';
 const EXECUTION_OWNER_ROLE_KEY = 'execution-owner';
@@ -26,21 +21,17 @@ const REBASELINE_IMPACT_TYPE = 'handover-item';
 @Injectable()
 export class ProjectHandoverCommandService {
     constructor(
-        private readonly projectHandoverRepository: ProjectHandoverRepository,
-        private readonly projectHandoverQueryService: ProjectHandoverQueryService,
-        private readonly contractAmendmentRepository: ContractAmendmentRepository,
-        private readonly contractService: ContractService,
-        private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
-        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
-        private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
-        private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository
+        @Inject(ProjectHandoverRepository) private readonly projectHandoverRepository: ProjectHandoverRepository,
+        @Inject(ProjectHandoverQueryService) private readonly projectHandoverQueryService: ProjectHandoverQueryService,
+        @Inject(ContractAmendmentRepository) private readonly contractAmendmentRepository: ContractAmendmentRepository,
+        @Inject(ContractService) private readonly contractService: ContractService,
+        @Inject(ContractTermSnapshotRepository) private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        @Inject(ContractHandoverRebaselineRecordRepository) private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        @Inject(HandoverBaselineImpactItemRepository) private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
+        @Inject(ProjectReceiptJudgmentFreezeRepository) private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository
     ) {}
 
-    async confirmProjectHandover(
-        handoverId: string,
-        actorUserId: string,
-        input: ConfirmProjectHandoverRequest
-    ): Promise<ConfirmProjectHandoverResult> {
+    async confirmProjectHandover(handoverId: string, actorUserId: string, input: ConfirmProjectHandoverRequest): Promise<ConfirmProjectHandoverResult> {
         const handover = await this.projectHandoverRepository.findById(handoverId);
         if (!handover) {
             throw new NotFoundException(`ProjectHandover ${handoverId} not found`);
@@ -66,10 +57,7 @@ export class ProjectHandoverCommandService {
             { path: `project-handover-command:${handoverId}`, method: 'COMMAND' }
         );
         this.assertConfirmableDetail(handoverId, handover, detail);
-        this.assertParticipantConfirmations(
-            detail.participantConfirmationSummary.participants,
-            input.participantConfirmations
-        );
+        this.assertParticipantConfirmations(detail.participantConfirmationSummary.participants, input.participantConfirmations);
 
         const now = new Date();
         handover.status = 'confirmed';
@@ -78,9 +66,7 @@ export class ProjectHandoverCommandService {
         handover.comment = input.comment?.trim() || null;
         handover.updatedBy = actorUserId;
 
-        const receiptJudgmentFreeze = input.receiptJudgmentMode
-            ? await this.prepareReceiptJudgmentFreeze(handover, actorUserId, input.receiptJudgmentMode)
-            : null;
+        const receiptJudgmentFreeze = input.receiptJudgmentMode ? await this.prepareReceiptJudgmentFreeze(handover, actorUserId, input.receiptJudgmentMode) : null;
 
         if (receiptJudgmentFreeze) {
             await this.projectReceiptJudgmentFreezeRepository.saveWithHandover({
@@ -104,10 +90,7 @@ export class ProjectHandoverCommandService {
         };
     }
 
-    async rebaselineContractHandover(
-        actorUserId: string,
-        input: RebaselineContractHandoverRequest
-    ): Promise<RebaselineContractHandoverResult> {
+    async rebaselineContractHandover(actorUserId: string, input: RebaselineContractHandoverRequest): Promise<RebaselineContractHandoverResult> {
         this.assertUniqueAffectedHandoverItems(input.affectedHandoverItemIds);
 
         const amendment = await this.contractAmendmentRepository.findEffectiveById(input.contractAmendmentId);
@@ -131,24 +114,17 @@ export class ProjectHandoverCommandService {
 
         this.assertExpectedVersion(handover.rowVersion, input.expectedVersion, 'project-handover');
 
-        const existingEffectiveRecord = await this.contractHandoverRebaselineRecordRepository.findEffectiveByContractAmendmentId(
-            input.contractAmendmentId
-        );
+        const existingEffectiveRecord = await this.contractHandoverRebaselineRecordRepository.findEffectiveByContractAmendmentId(input.contractAmendmentId);
         if (existingEffectiveRecord) {
             throw new ConflictException(`ContractAmendment ${input.contractAmendmentId} already has an effective handover rebaseline`);
         }
 
         const latestProjectRebaseline = await this.contractHandoverRebaselineRecordRepository.findLatestByProjectId(contract.projectId);
         if (latestProjectRebaseline && ['processing', 'pending-effective'].includes(latestProjectRebaseline.status)) {
-            throw new BadRequestException(
-                `Handover rebaseline record ${latestProjectRebaseline.id} is still ${latestProjectRebaseline.status}`
-            );
+            throw new BadRequestException(`Handover rebaseline record ${latestProjectRebaseline.id} is still ${latestProjectRebaseline.status}`);
         }
 
-        const currentBaselineId =
-            latestProjectRebaseline?.status === 'effective'
-                ? latestProjectRebaseline.effectiveBaselineAfterId
-                : handover.effectiveHandoverBaselineSnapshotId;
+        const currentBaselineId = latestProjectRebaseline?.status === 'effective' ? latestProjectRebaseline.effectiveBaselineAfterId : handover.effectiveHandoverBaselineSnapshotId;
 
         if (currentBaselineId === input.effectiveBaselineAfterId) {
             throw new BadRequestException('Effective baseline after rebaseline must differ from the current handover baseline');
@@ -279,10 +255,7 @@ export class ProjectHandoverCommandService {
             throw new BadRequestException('Project handover summary snapshot is not available');
         }
 
-        if (
-            detail.currentHandoverBaselineSummary.status !== 'available' ||
-            detail.currentHandoverBaselineSummary.baselineSnapshotId !== handover.effectiveHandoverBaselineSnapshotId
-        ) {
+        if (detail.currentHandoverBaselineSummary.status !== 'available' || detail.currentHandoverBaselineSummary.baselineSnapshotId !== handover.effectiveHandoverBaselineSnapshotId) {
             throw new BadRequestException('Effective handover baseline snapshot is not available or does not match');
         }
 
@@ -291,10 +264,7 @@ export class ProjectHandoverCommandService {
         }
     }
 
-    private assertParticipantConfirmations(
-        persistedParticipants: ProjectHandoverParticipantConfirmationItem[],
-        inputParticipants: ConfirmProjectHandoverParticipantConfirmationInput[]
-    ): void {
+    private assertParticipantConfirmations(persistedParticipants: ProjectHandoverParticipantConfirmationItem[], inputParticipants: ConfirmProjectHandoverParticipantConfirmationInput[]): void {
         if (persistedParticipants.length === 0) {
             throw new BadRequestException('Project handover participant confirmation is not prepared');
         }
@@ -326,18 +296,13 @@ export class ProjectHandoverCommandService {
             }
         }
 
-        const executionOwnerConfirmed = persistedParticipants.some(
-            (participant) => participant.participantRoleKey === EXECUTION_OWNER_ROLE_KEY && participant.participantStatus === 'confirmed'
-        );
+        const executionOwnerConfirmed = persistedParticipants.some((participant) => participant.participantRoleKey === EXECUTION_OWNER_ROLE_KEY && participant.participantStatus === 'confirmed');
         if (!executionOwnerConfirmed) {
             throw new BadRequestException('Project handover execution owner is not confirmed');
         }
     }
 
-    private participantKey(participant: {
-        participantId: string;
-        participantRoleKey: string;
-    }): string {
+    private participantKey(participant: { participantId: string; participantRoleKey: string }): string {
         return `${participant.participantId}:${participant.participantRoleKey}`;
     }
 

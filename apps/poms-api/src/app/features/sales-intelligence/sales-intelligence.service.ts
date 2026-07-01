@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { EntityManager } from '@mikro-orm/core';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import {
     CompetitorPositionValue,
     CustomerContactGenderValue,
@@ -42,36 +42,26 @@ import { CompetitorIntelligenceRecord, CustomerContact, OpportunityStakeholder, 
 import { SalesIntelligenceRepository } from './sales-intelligence.repository';
 
 const CUSTOMER_CONTACT_AUDIT_FIELDS = ['name', 'gender', 'department', 'title', 'workPhone', 'mobile', 'wechat', 'email', 'remark', 'status'] as const;
-type CustomerContactAuditField = typeof CUSTOMER_CONTACT_AUDIT_FIELDS[number];
+type CustomerContactAuditField = (typeof CUSTOMER_CONTACT_AUDIT_FIELDS)[number];
 const CUSTOMER_CONTACT_AUDIT_REDACTED_FIELDS: ReadonlySet<string> = new Set<CustomerContactAuditField>(['workPhone', 'mobile', 'wechat', 'email', 'remark']);
 
 const STAKEHOLDER_AUDIT_FIELDS = ['role', 'attitude', 'influenceLevel', 'accessLevel', 'focusAreas', 'communicationNotes', 'isPrimary'] as const;
-type StakeholderAuditField = typeof STAKEHOLDER_AUDIT_FIELDS[number];
+type StakeholderAuditField = (typeof STAKEHOLDER_AUDIT_FIELDS)[number];
 const STAKEHOLDER_AUDIT_REDACTED_FIELDS: ReadonlySet<string> = new Set<StakeholderAuditField>(['focusAreas', 'communicationNotes']);
 
-const COMPETITOR_AUDIT_FIELDS = [
-    'competitorName',
-    'position',
-    'customerPreference',
-    'competitorStrengths',
-    'competitorWeaknesses',
-    'ourAdvantages',
-    'ourRisks',
-    'winProbability',
-    'evidence'
-] as const;
-type CompetitorAuditField = typeof COMPETITOR_AUDIT_FIELDS[number];
+const COMPETITOR_AUDIT_FIELDS = ['competitorName', 'position', 'customerPreference', 'competitorStrengths', 'competitorWeaknesses', 'ourAdvantages', 'ourRisks', 'winProbability', 'evidence'] as const;
+type CompetitorAuditField = (typeof COMPETITOR_AUDIT_FIELDS)[number];
 const COMPETITOR_AUDIT_REDACTED_FIELDS: ReadonlySet<string> = new Set<CompetitorAuditField>(['competitorStrengths', 'competitorWeaknesses', 'ourAdvantages', 'ourRisks', 'evidence']);
 
 const DISCOVERY_AUDIT_FIELDS = ['procurementProcess', 'budgetSource', 'customerPainPoints', 'decisionCycle', 'nextContactPlan', 'remark'] as const;
-type DiscoveryAuditField = typeof DISCOVERY_AUDIT_FIELDS[number];
+type DiscoveryAuditField = (typeof DISCOVERY_AUDIT_FIELDS)[number];
 const DISCOVERY_AUDIT_REDACTED_FIELDS: ReadonlySet<string> = new Set<DiscoveryAuditField>(DISCOVERY_AUDIT_FIELDS);
 
 @Injectable()
 export class SalesIntelligenceService {
     constructor(
-        private readonly salesIntelligenceRepository: SalesIntelligenceRepository,
-        private readonly runtimeAuditService: RuntimeAuditService
+        @Inject(SalesIntelligenceRepository) private readonly salesIntelligenceRepository: SalesIntelligenceRepository,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     async listCustomerContacts(customerId: string): Promise<CustomerContactSummary[]> {
@@ -678,7 +668,7 @@ export class SalesIntelligenceService {
 
     private pickAuditSnapshot<T extends string>(values: Record<T, unknown>, fields: readonly T[], redactedFields: ReadonlySet<string>): AuditSnapshot {
         return fields.reduce<AuditSnapshot>((snapshot, field) => {
-            snapshot[field] = redactedFields.has(field) ? this.summarizeAuditValue(values[field]) : values[field] ?? null;
+            snapshot[field] = redactedFields.has(field) ? this.summarizeAuditValue(values[field]) : (values[field] ?? null);
             return snapshot;
         }, {});
     }
@@ -725,19 +715,16 @@ export class SalesIntelligenceService {
         };
     }
 
-    private mapStakeholder(
-        stakeholder: OpportunityStakeholder,
-        context: { customerMap: Map<string, Customer>; leadMap: Map<string, Lead>; projectMap: Map<string, Project>; contactMap: Map<string, CustomerContact> }
-    ): OpportunityStakeholderSummary {
+    private mapStakeholder(stakeholder: OpportunityStakeholder, context: { customerMap: Map<string, Customer>; leadMap: Map<string, Lead>; projectMap: Map<string, Project>; contactMap: Map<string, CustomerContact> }): OpportunityStakeholderSummary {
         const contact = context.contactMap.get(stakeholder.contactId) ?? null;
         return {
             id: stakeholder.id,
             customerId: stakeholder.customerId,
             customerName: context.customerMap.get(stakeholder.customerId)?.displayName ?? '',
             leadId: stakeholder.leadId ?? null,
-            leadName: stakeholder.leadId ? context.leadMap.get(stakeholder.leadId)?.leadName ?? null : null,
+            leadName: stakeholder.leadId ? (context.leadMap.get(stakeholder.leadId)?.leadName ?? null) : null,
             projectId: stakeholder.projectId ?? null,
-            projectName: stakeholder.projectId ? context.projectMap.get(stakeholder.projectId)?.projectName ?? null : null,
+            projectName: stakeholder.projectId ? (context.projectMap.get(stakeholder.projectId)?.projectName ?? null) : null,
             contactId: stakeholder.contactId,
             contactName: contact?.name ?? '',
             contactDepartment: contact?.department ?? null,
@@ -763,9 +750,9 @@ export class SalesIntelligenceService {
             customerId: record.customerId,
             customerName: context.customerMap.get(record.customerId)?.displayName ?? '',
             leadId: record.leadId ?? null,
-            leadName: record.leadId ? context.leadMap.get(record.leadId)?.leadName ?? null : null,
+            leadName: record.leadId ? (context.leadMap.get(record.leadId)?.leadName ?? null) : null,
             projectId: record.projectId ?? null,
-            projectName: record.projectId ? context.projectMap.get(record.projectId)?.projectName ?? null : null,
+            projectName: record.projectId ? (context.projectMap.get(record.projectId)?.projectName ?? null) : null,
             competitorName: record.competitorName,
             position: record.position,
             customerPreference: record.customerPreference,
@@ -789,9 +776,9 @@ export class SalesIntelligenceService {
             customerId: record.customerId,
             customerName: context.customerMap.get(record.customerId)?.displayName ?? '',
             leadId: record.leadId ?? null,
-            leadName: record.leadId ? context.leadMap.get(record.leadId)?.leadName ?? null : null,
+            leadName: record.leadId ? (context.leadMap.get(record.leadId)?.leadName ?? null) : null,
             projectId: record.projectId ?? null,
-            projectName: record.projectId ? context.projectMap.get(record.projectId)?.projectName ?? null : null,
+            projectName: record.projectId ? (context.projectMap.get(record.projectId)?.projectName ?? null) : null,
             procurementProcess: record.procurementProcess ?? null,
             budgetSource: record.budgetSource ?? null,
             customerPainPoints: record.customerPainPoints ?? null,
@@ -808,9 +795,7 @@ export class SalesIntelligenceService {
 
     private buildGap(item: SalesIntelligenceGapItem): SalesIntelligenceGapSummary {
         const severity: SalesIntelligenceGapSeverity =
-            item === SalesIntelligenceGapItemValue.DecisionMaker ||
-            item === SalesIntelligenceGapItemValue.ProcurementProcess ||
-            item === SalesIntelligenceGapItemValue.BudgetSource
+            item === SalesIntelligenceGapItemValue.DecisionMaker || item === SalesIntelligenceGapItemValue.ProcurementProcess || item === SalesIntelligenceGapItemValue.BudgetSource
                 ? SalesIntelligenceGapSeverityValue.SoftBlocker
                 : SalesIntelligenceGapSeverityValue.Attention;
         return {

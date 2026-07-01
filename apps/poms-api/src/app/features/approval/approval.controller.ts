@@ -1,12 +1,6 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-    ApprovalRecordDto,
-    ApproveRecordRequestDto,
-    CommandResultDto,
-    RejectApprovalRecordRequestDto,
-    TodoItemListDto
-} from '@poms/api-contracts';
+import { ApprovalRecordDto, ApproveRecordRequestDto, CommandResultDto, RejectApprovalRecordRequestDto, TodoItemListDto } from '@poms/api-contracts';
 import type { ApprovalRecordSummary, CommandResult, TodoItemSummary, UserPayload } from '@poms/shared-contracts';
 import { Authenticated } from '../../core/auth/decorators/authenticated.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
@@ -16,7 +10,7 @@ import { ApprovalService } from './approval.service';
 @ApiCookieAuth('pomsSession')
 @Controller()
 export class ApprovalController {
-    constructor(private readonly approvalService: ApprovalService) {}
+    constructor(@Inject(ApprovalService) private readonly approvalService: ApprovalService) {}
 
     @Get('approval-records/:id')
     @HasPermissions('project:read')
@@ -36,11 +30,7 @@ export class ApprovalController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '审批通过' })
     @ApiOkResponse({ type: CommandResultDto })
-    approveRecord(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: ApproveRecordRequestDto
-    ): Promise<CommandResult> {
+    approveRecord(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ApproveRecordRequestDto): Promise<CommandResult> {
         return this.approvalService.approveRecord(id, req.user.sub, body);
     }
 
@@ -49,11 +39,7 @@ export class ApprovalController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '审批驳回' })
     @ApiOkResponse({ type: CommandResultDto })
-    rejectRecord(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: RejectApprovalRecordRequestDto
-    ): Promise<CommandResult> {
+    rejectRecord(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: RejectApprovalRecordRequestDto): Promise<CommandResult> {
         return this.approvalService.rejectRecord(id, req.user.sub, body);
     }
 

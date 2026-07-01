@@ -1,14 +1,6 @@
-import type {
-    CommissionRoleAssignmentDetailView,
-    FreezeCommissionRoleAssignmentResult,
-    UserPayload
-} from '@poms/shared-contracts';
-import {
-    CommissionRoleAssignmentDetailViewDto,
-    FreezeCommissionRoleAssignmentRequestDto,
-    FreezeCommissionRoleAssignmentResultDto
-} from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
+import type { CommissionRoleAssignmentDetailView, FreezeCommissionRoleAssignmentResult, UserPayload } from '@poms/shared-contracts';
+import { CommissionRoleAssignmentDetailViewDto, FreezeCommissionRoleAssignmentRequestDto, FreezeCommissionRoleAssignmentResultDto } from '@poms/api-contracts';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { CommissionService } from './commission.service';
@@ -17,7 +9,7 @@ import { CommissionService } from './commission.service';
 @ApiCookieAuth('pomsSession')
 @Controller('commission-role-assignments')
 export class CommissionRoleAssignmentController {
-    constructor(private readonly commissionService: CommissionService) {}
+    constructor(@Inject(CommissionService) private readonly commissionService: CommissionService) {}
 
     @Get(':id')
     @HasPermissions('commission:assignments:manage')
@@ -32,11 +24,7 @@ export class CommissionRoleAssignmentController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '冻结提成角色分配并绑定移交收口链' })
     @ApiOkResponse({ type: FreezeCommissionRoleAssignmentResultDto })
-    freezeRoleAssignment(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: FreezeCommissionRoleAssignmentRequestDto
-    ): Promise<FreezeCommissionRoleAssignmentResult> {
+    freezeRoleAssignment(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: FreezeCommissionRoleAssignmentRequestDto): Promise<FreezeCommissionRoleAssignmentResult> {
         return this.commissionService.freezeCommissionRoleAssignment(id, req.user.sub, body);
     }
 }

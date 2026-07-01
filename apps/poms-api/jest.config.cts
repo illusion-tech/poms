@@ -8,6 +8,8 @@ module.exports = {
     moduleFileExtensions: ['ts', 'js', 'html'],
     coverageDirectory: '../../coverage/apps/poms-api',
     moduleNameMapper: {
-        '^@mikro-orm/core$': '<rootDir>/src/test-utils/mikro-orm.mock.ts'
+        '^@mikro-orm/core$': '<rootDir>/src/test-utils/mikro-orm.mock.ts',
+        '^@mikro-orm/postgresql$': '<rootDir>/src/test-utils/mikro-orm.mock.ts',
+        '^@mikro-orm/nestjs$': '<rootDir>/src/test-utils/mikro-orm-nestjs.mock.ts'
     }
 };

@@ -1,6 +1,6 @@
 import { BindUserExternalIdentityRequestDto, ExternalIdentityBindingDto, ExternalIdentityBindingListDto, UnbindExternalIdentityRequestDto } from '@poms/api-contracts';
 import type { ExternalIdentityBindingList, ExternalIdentityBindingSummary, UserPayload } from '@poms/shared-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { IdentityProviderService } from './identity-provider.service';
@@ -9,7 +9,7 @@ import { IdentityProviderService } from './identity-provider.service';
 @ApiCookieAuth('pomsSession')
 @Controller('platform')
 export class ExternalIdentityController {
-    constructor(private readonly identityProviderService: IdentityProviderService) {}
+    constructor(@Inject(IdentityProviderService) private readonly identityProviderService: IdentityProviderService) {}
 
     @Get('users/:id/external-identities')
     @HasPermissions('platform:users:manage')

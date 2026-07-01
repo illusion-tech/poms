@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import type { EntityManager } from '@mikro-orm/core';
 import { randomUUID } from 'node:crypto';
 import {
@@ -29,19 +29,9 @@ import { LeadScoreService } from './lead-score.service';
 import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
 
 const LEAD_MUTABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
-const LEAD_FIELD_AUDIT_FIELDS = [
-    'leadName',
-    'customerId',
-    'customerName',
-    'sourceCode',
-    'demandDescription',
-    'budgetStatus',
-    'estimatedAmount',
-    'urgency',
-    'expectedDecisionDate'
-] as const;
+const LEAD_FIELD_AUDIT_FIELDS = ['leadName', 'customerId', 'customerName', 'sourceCode', 'demandDescription', 'budgetStatus', 'estimatedAmount', 'urgency', 'expectedDecisionDate'] as const;
 
-type LeadFieldAuditField = typeof LEAD_FIELD_AUDIT_FIELDS[number];
+type LeadFieldAuditField = (typeof LEAD_FIELD_AUDIT_FIELDS)[number];
 type LeadFieldAuditValues = Record<LeadFieldAuditField, unknown>;
 const LEAD_FIELD_AUDIT_REDACTED_FIELDS = new Set<LeadFieldAuditField>(['demandDescription']);
 
@@ -98,14 +88,14 @@ export interface ConvertLeadToProjectRecord {
 @Injectable()
 export class LeadService {
     constructor(
-        private readonly leadRepository: LeadRepository,
-        private readonly businessNumberService: BusinessNumberService,
-        private readonly customerService: CustomerService,
-        private readonly dictionaryService: DictionaryService,
-        private readonly attachmentService: AttachmentService,
-        private readonly leadScoreFactsService: LeadScoreFactsService,
-        private readonly leadScoreService: LeadScoreService,
-        private readonly runtimeAuditService: RuntimeAuditService
+        @Inject(LeadRepository) private readonly leadRepository: LeadRepository,
+        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService,
+        @Inject(CustomerService) private readonly customerService: CustomerService,
+        @Inject(DictionaryService) private readonly dictionaryService: DictionaryService,
+        @Inject(AttachmentService) private readonly attachmentService: AttachmentService,
+        @Inject(LeadScoreFactsService) private readonly leadScoreFactsService: LeadScoreFactsService,
+        @Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     async createLead(input: CreateLeadRecord, operatorUserId: string): Promise<Lead> {
@@ -472,9 +462,7 @@ export class LeadService {
 
     private pickLeadFieldAuditSnapshot(values: LeadFieldAuditValues, fields: readonly LeadFieldAuditField[]): AuditSnapshot {
         return fields.reduce<AuditSnapshot>((snapshot, field) => {
-            snapshot[field] = field === 'demandDescription'
-                ? this.summarizeAuditText(values[field])
-                : values[field] ?? null;
+            snapshot[field] = field === 'demandDescription' ? this.summarizeAuditText(values[field]) : (values[field] ?? null);
             return snapshot;
         }, {});
     }
@@ -494,13 +482,9 @@ export class LeadService {
         return this.normalizeDateOnly(value);
     }
 
-    private async resolveOwner(
-        ownerUserId: string | null | undefined,
-        ownerOrgId: string | null | undefined,
-        operator: { id: string; primaryOrgUnitId?: string | null }
-    ): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
+    private async resolveOwner(ownerUserId: string | null | undefined, ownerOrgId: string | null | undefined, operator: { id: string; primaryOrgUnitId?: string | null }): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
         if (ownerUserId === undefined) {
-            const resolvedOrgId = ownerOrgId === undefined ? operator.primaryOrgUnitId ?? null : ownerOrgId;
+            const resolvedOrgId = ownerOrgId === undefined ? (operator.primaryOrgUnitId ?? null) : ownerOrgId;
             await this.assertOrgExists(resolvedOrgId);
             return {
                 ownerUserId: operator.id,
@@ -520,7 +504,7 @@ export class LeadService {
             throw new NotFoundException(`Platform user ${ownerUserId} not found`);
         }
 
-        const resolvedOrgId = ownerOrgId === undefined ? ownerUser?.primaryOrgUnitId ?? null : ownerOrgId;
+        const resolvedOrgId = ownerOrgId === undefined ? (ownerUser?.primaryOrgUnitId ?? null) : ownerOrgId;
         await this.assertOrgExists(resolvedOrgId);
 
         return {
@@ -554,14 +538,7 @@ export class LeadService {
         }
     }
 
-    private async applyLeadOwnerAssignment(input: {
-        lead: Lead;
-        operatorUserId: string;
-        ownerUserId: string;
-        ownerOrgId: string | null;
-        assignmentType: LeadOwnerAssignmentType;
-        reason: string | null;
-    }): Promise<LeadOwnerAssignmentResult> {
+    private async applyLeadOwnerAssignment(input: { lead: Lead; operatorUserId: string; ownerUserId: string; ownerOrgId: string | null; assignmentType: LeadOwnerAssignmentType; reason: string | null }): Promise<LeadOwnerAssignmentResult> {
         const previousOwnerUserId = input.lead.ownerUserId ?? null;
         const previousOwnerOrgId = input.lead.ownerOrgId ?? null;
         const now = new Date();

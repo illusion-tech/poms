@@ -1,14 +1,8 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { AuditLogResultValue, SystemSettingKeySchema, SystemSettingKeyValue, type SystemSettingKey, type SystemSettingList, type SystemSettingSummary, type UpdateSystemSettingRequest } from '@poms/shared-contracts';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { SystemSetting } from './system-setting.entity';
-import {
-    BYTES_PER_MB,
-    SYSTEM_SETTING_DEFINITION_BY_KEY,
-    SYSTEM_SETTING_DEFINITIONS,
-    type IntegerSystemSettingDefinition,
-    type SystemSettingDefinition
-} from './system-setting.registry';
+import { BYTES_PER_MB, SYSTEM_SETTING_DEFINITION_BY_KEY, SYSTEM_SETTING_DEFINITIONS, type IntegerSystemSettingDefinition, type SystemSettingDefinition } from './system-setting.registry';
 import { SystemSettingRepository } from './system-setting.repository';
 
 const SYSTEM_SETTING_AUDIT_TARGET_TYPE = 'SystemSetting';
@@ -16,8 +10,8 @@ const SYSTEM_SETTING_AUDIT_TARGET_TYPE = 'SystemSetting';
 @Injectable()
 export class SystemSettingService {
     constructor(
-        private readonly repository: SystemSettingRepository,
-        private readonly runtimeAuditService: RuntimeAuditService
+        @Inject(SystemSettingRepository) private readonly repository: SystemSettingRepository,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     async listSystemSettings(): Promise<SystemSettingList> {
@@ -134,13 +128,7 @@ export class SystemSettingService {
         };
     }
 
-    private async recordUpdateAudit(
-        definition: SystemSettingDefinition,
-        operatorId: string | null | undefined,
-        requestId: string | null | undefined,
-        beforeSnapshot: SystemSettingSummary | null,
-        setting: SystemSetting
-    ): Promise<void> {
+    private async recordUpdateAudit(definition: SystemSettingDefinition, operatorId: string | null | undefined, requestId: string | null | undefined, beforeSnapshot: SystemSettingSummary | null, setting: SystemSetting): Promise<void> {
         await this.runtimeAuditService.recordAuditLog({
             eventType: 'platform.system_setting.updated',
             targetType: SYSTEM_SETTING_AUDIT_TARGET_TYPE,

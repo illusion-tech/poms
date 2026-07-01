@@ -1,11 +1,6 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import {
-    BadRequestException,
-    ConflictException,
-    Injectable,
-    NotFoundException
-} from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import type {
     CommercialBaselineReviewDecision,
     CommercialDiffReviewResult,
@@ -19,12 +14,7 @@ import type {
 } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
 import { ProjectService } from '../project/project.service';
-import {
-    CommercialBaselineDiffItem,
-    CommercialBaselineDiffResult,
-    CommercialBaselineReviewRecord,
-    CommercialReleaseBaseline
-} from './commercial-release-baseline.entity';
+import { CommercialBaselineDiffItem, CommercialBaselineDiffResult, CommercialBaselineReviewRecord, CommercialReleaseBaseline } from './commercial-release-baseline.entity';
 import { CommercialReleaseBaselineRepository } from './commercial-release-baseline.repository';
 import { ContractReadinessPackage, ContractReadinessPackageItem } from './contract-readiness-package.entity';
 import { ContractReadinessPackageRepository } from './contract-readiness-package.repository';
@@ -39,9 +29,9 @@ export interface ContractActivationReadiness {
 @Injectable()
 export class ContractReadinessService {
     constructor(
-        private readonly projectService: ProjectService,
-        private readonly commercialReleaseBaselineRepository: CommercialReleaseBaselineRepository,
-        private readonly contractReadinessPackageRepository: ContractReadinessPackageRepository,
+        @Inject(ProjectService) private readonly projectService: ProjectService,
+        @Inject(CommercialReleaseBaselineRepository) private readonly commercialReleaseBaselineRepository: CommercialReleaseBaselineRepository,
+        @Inject(ContractReadinessPackageRepository) private readonly contractReadinessPackageRepository: ContractReadinessPackageRepository,
         @InjectRepository(CommercialBaselineDiffItem)
         private readonly diffItemRepository: EntityRepository<CommercialBaselineDiffItem>
     ) {}
@@ -158,11 +148,7 @@ export class ContractReadinessService {
         };
     }
 
-    async reviewCommercialReleaseBaselineDiff(
-        baselineId: string,
-        actorUserId: string,
-        input: ReviewCommercialReleaseBaselineDiffRequest
-    ): Promise<CommercialDiffReviewResult> {
+    async reviewCommercialReleaseBaselineDiff(baselineId: string, actorUserId: string, input: ReviewCommercialReleaseBaselineDiffRequest): Promise<CommercialDiffReviewResult> {
         const baseline = await this.commercialReleaseBaselineRepository.findById(baselineId);
         if (!baseline) {
             throw new NotFoundException(`CommercialReleaseBaseline ${baselineId} not found`);
@@ -186,8 +172,7 @@ export class ContractReadinessService {
                 throw new NotFoundException(`CommercialReleaseBaseline ${baselineId} review context not found`);
             }
 
-            const decision: CommercialBaselineReviewDecision =
-                managedDiffResult.diffLevel === 'reapproval-required' ? 'rejected' : input.diffDecision;
+            const decision: CommercialBaselineReviewDecision = managedDiffResult.diffLevel === 'reapproval-required' ? 'rejected' : input.diffDecision;
 
             const reviewRecord = em.create(CommercialBaselineReviewRecord, {
                 baselineId: managedBaseline.id,
@@ -291,10 +276,7 @@ export class ContractReadinessService {
             throw new NotFoundException(`ContractReadinessPackage ${id} not found`);
         }
 
-        const [diffResult, items] = await Promise.all([
-            this.getRequiredDiffResult(readinessPackage.latestDiffResultId),
-            this.contractReadinessPackageRepository.findItems(id)
-        ]);
+        const [diffResult, items] = await Promise.all([this.getRequiredDiffResult(readinessPackage.latestDiffResultId), this.contractReadinessPackageRepository.findItems(id)]);
 
         return mapContractReadinessDetail(readinessPackage, diffResult, items);
     }
@@ -305,27 +287,16 @@ export class ContractReadinessService {
             throw new NotFoundException(`No current ContractReadinessPackage found for project ${projectId}`);
         }
 
-        const [diffResult, items] = await Promise.all([
-            this.getRequiredDiffResult(readinessPackage.latestDiffResultId),
-            this.contractReadinessPackageRepository.findItems(readinessPackage.id)
-        ]);
+        const [diffResult, items] = await Promise.all([this.getRequiredDiffResult(readinessPackage.latestDiffResultId), this.contractReadinessPackageRepository.findItems(readinessPackage.id)]);
 
         return mapContractReadinessDetail(readinessPackage, diffResult, items);
     }
 
-    async initializeContractSnapshot(
-        packageId: string,
-        actorUserId: string,
-        expectedVersion?: number
-    ): Promise<ReadinessInitializationResult> {
+    async initializeContractSnapshot(packageId: string, actorUserId: string, expectedVersion?: number): Promise<ReadinessInitializationResult> {
         return this.initializeFromReadinessPackage(packageId, actorUserId, expectedVersion, 'contract-snapshot');
     }
 
-    async initializeReceivablePlan(
-        packageId: string,
-        actorUserId: string,
-        expectedVersion?: number
-    ): Promise<ReadinessInitializationResult> {
+    async initializeReceivablePlan(packageId: string, actorUserId: string, expectedVersion?: number): Promise<ReadinessInitializationResult> {
         return this.initializeFromReadinessPackage(packageId, actorUserId, expectedVersion, 'receivable-plan');
     }
 
@@ -354,10 +325,7 @@ export class ContractReadinessService {
         if (!canProceed) {
             return {
                 allowed: false,
-                reason:
-                    readinessPackage.blockingReasonSummary ??
-                    readinessPackage.currentEffectiveDecisionSummary ??
-                    mapDiffBlockingReason(diffResult),
+                reason: readinessPackage.blockingReasonSummary ?? readinessPackage.currentEffectiveDecisionSummary ?? mapDiffBlockingReason(diffResult),
                 sourceReadinessId: readinessPackage.id,
                 snapshotId: readinessPackage.initializedContractSnapshotId ?? null
             };
@@ -371,12 +339,7 @@ export class ContractReadinessService {
         };
     }
 
-    private async initializeFromReadinessPackage(
-        packageId: string,
-        actorUserId: string,
-        expectedVersion: number | undefined,
-        target: 'contract-snapshot' | 'receivable-plan'
-    ): Promise<ReadinessInitializationResult> {
+    private async initializeFromReadinessPackage(packageId: string, actorUserId: string, expectedVersion: number | undefined, target: 'contract-snapshot' | 'receivable-plan'): Promise<ReadinessInitializationResult> {
         const readinessPackage = await this.contractReadinessPackageRepository.findById(packageId);
         if (!readinessPackage) {
             throw new NotFoundException(`ContractReadinessPackage ${packageId} not found`);
@@ -386,10 +349,7 @@ export class ContractReadinessService {
 
         const diffResult = await this.getRequiredDiffResult(readinessPackage.latestDiffResultId);
         if (readinessPackage.packageStatus === 'blocked' || readinessPackage.guardDecision === 'blocked') {
-            throw new BadRequestException(
-                readinessPackage.blockingReasonSummary ??
-                    `ContractReadinessPackage ${packageId} is blocked and cannot initialize formal outputs`
-            );
+            throw new BadRequestException(readinessPackage.blockingReasonSummary ?? `ContractReadinessPackage ${packageId} is blocked and cannot initialize formal outputs`);
         }
 
         if (!isDiffReadyForContract(diffResult)) {
@@ -447,10 +407,7 @@ export class ContractReadinessService {
     }
 }
 
-function mapCommercialReleaseBaselineSummary(
-    baseline: CommercialReleaseBaseline,
-    diffResult: CommercialBaselineDiffResult
-): CommercialReleaseBaselineSummary {
+function mapCommercialReleaseBaselineSummary(baseline: CommercialReleaseBaseline, diffResult: CommercialBaselineDiffResult): CommercialReleaseBaselineSummary {
     return {
         id: baseline.id,
         projectId: baseline.projectId,
@@ -519,11 +476,7 @@ function mapContractReadinessItem(item: ContractReadinessPackageItem) {
     };
 }
 
-function mapContractReadinessDetail(
-    readinessPackage: ContractReadinessPackage,
-    diffResult: CommercialBaselineDiffResult,
-    items: ContractReadinessPackageItem[]
-): ContractReadinessDetail {
+function mapContractReadinessDetail(readinessPackage: ContractReadinessPackage, diffResult: CommercialBaselineDiffResult, items: ContractReadinessPackageItem[]): ContractReadinessDetail {
     const allowedActions = buildAllowedActions(readinessPackage, diffResult);
 
     return {
@@ -554,10 +507,7 @@ function mapContractReadinessDetail(
     };
 }
 
-function buildAllowedActions(
-    readinessPackage: ContractReadinessPackage,
-    diffResult: CommercialBaselineDiffResult
-): string[] {
+function buildAllowedActions(readinessPackage: ContractReadinessPackage, diffResult: CommercialBaselineDiffResult): string[] {
     const actions: string[] = [];
     if (diffResult.reviewStatus === 'pending-review') {
         actions.push('review-diff');

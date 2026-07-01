@@ -1,12 +1,7 @@
 import { randomUUID } from 'node:crypto';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { BusinessDiscussionTargetObjectTypeValue } from '@poms/shared-contracts';
-import type {
-    BusinessDiscussionCommentSummary,
-    BusinessDiscussionListQuery,
-    BusinessDiscussionTargetObjectType,
-    CreateBusinessDiscussionCommentRequest
-} from '@poms/shared-contracts';
+import type { BusinessDiscussionCommentSummary, BusinessDiscussionListQuery, BusinessDiscussionTargetObjectType, CreateBusinessDiscussionCommentRequest } from '@poms/shared-contracts';
 import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
@@ -28,7 +23,7 @@ interface ResolvedDiscussionTarget {
 
 @Injectable()
 export class BusinessDiscussionService {
-    constructor(private readonly businessDiscussionRepository: BusinessDiscussionRepository) {}
+    constructor(@Inject(BusinessDiscussionRepository) private readonly businessDiscussionRepository: BusinessDiscussionRepository) {}
 
     async listBusinessDiscussionComments(query: BusinessDiscussionListQuery): Promise<BusinessDiscussionCommentSummary[]> {
         const targets = await this.resolveListTargets(query);
@@ -260,10 +255,7 @@ export class BusinessDiscussionService {
     ): Promise<{ threadMap: Map<string, BusinessDiscussionThread>; contactMap: Map<string, CustomerContact>; userMap: Map<string, PlatformUser> }> {
         const contactIds = [...new Set(comments.map((comment) => comment.relatedContactId).filter((id): id is string => Boolean(id)))];
         const userIds = [...new Set(comments.map((comment) => comment.createdBy).filter((id): id is string => Boolean(id)))];
-        const [contacts, users] = await Promise.all([
-            this.businessDiscussionRepository.findCustomerContactsByIds(contactIds),
-            this.businessDiscussionRepository.findPlatformUsersByIds(userIds)
-        ]);
+        const [contacts, users] = await Promise.all([this.businessDiscussionRepository.findCustomerContactsByIds(contactIds), this.businessDiscussionRepository.findPlatformUsersByIds(userIds)]);
 
         return {
             threadMap: new Map(threads.map((thread) => [thread.id, thread])),
@@ -272,17 +264,14 @@ export class BusinessDiscussionService {
         };
     }
 
-    private mapComment(
-        comment: BusinessDiscussionComment,
-        context: { threadMap: Map<string, BusinessDiscussionThread>; contactMap: Map<string, CustomerContact>; userMap: Map<string, PlatformUser> }
-    ): BusinessDiscussionCommentSummary {
+    private mapComment(comment: BusinessDiscussionComment, context: { threadMap: Map<string, BusinessDiscussionThread>; contactMap: Map<string, CustomerContact>; userMap: Map<string, PlatformUser> }): BusinessDiscussionCommentSummary {
         const thread = context.threadMap.get(comment.threadId);
         if (!thread) {
             throw new NotFoundException(`BusinessDiscussionThread ${comment.threadId} not found`);
         }
 
-        const relatedContact = comment.relatedContactId ? context.contactMap.get(comment.relatedContactId) ?? null : null;
-        const createdByUser = comment.createdBy ? context.userMap.get(comment.createdBy) ?? null : null;
+        const relatedContact = comment.relatedContactId ? (context.contactMap.get(comment.relatedContactId) ?? null) : null;
+        const createdByUser = comment.createdBy ? (context.userMap.get(comment.createdBy) ?? null) : null;
 
         return {
             id: comment.id,

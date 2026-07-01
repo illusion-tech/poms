@@ -44,7 +44,7 @@ import {
     UpdatePlatformUserActivationRequestDto,
     UpdatePlatformUserRequestDto
 } from '@poms/api-contracts';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
@@ -57,8 +57,8 @@ import { PlatformService } from './platform.service';
 @Controller('platform')
 export class PlatformController {
     constructor(
-        private readonly platformService: PlatformService,
-        private readonly navigationService: NavigationService
+        @Inject(PlatformService) private readonly platformService: PlatformService,
+        @Inject(NavigationService) private readonly navigationService: NavigationService
     ) {}
 
     @Get('users')
@@ -182,11 +182,7 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用平台角色' })
     @ApiOkResponse({ type: PlatformRoleSummaryDto })
-    activateRole(
-        @Param('id') id: string,
-        @Body() body: UpdateRoleActivationRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<PlatformRoleSummary> {
+    activateRole(@Param('id') id: string, @Body() body: UpdateRoleActivationRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformRoleSummary> {
         return this.platformService.activateRole(id, body as UpdateRoleActivationRequest, req.user.sub);
     }
 
@@ -195,11 +191,7 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用平台角色' })
     @ApiOkResponse({ type: PlatformRoleSummaryDto })
-    deactivateRole(
-        @Param('id') id: string,
-        @Body() body: UpdateRoleActivationRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<PlatformRoleSummary> {
+    deactivateRole(@Param('id') id: string, @Body() body: UpdateRoleActivationRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformRoleSummary> {
         return this.platformService.deactivateRole(id, body as UpdateRoleActivationRequest, req.user.sub);
     }
 
@@ -257,11 +249,7 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '启用组织单元' })
     @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
-    activateOrgUnit(
-        @Param('id') id: string,
-        @Body() body: UpdateOrgUnitActivationRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<PlatformOrgUnitSummary> {
+    activateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitActivationRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformOrgUnitSummary> {
         return this.platformService.activateOrgUnit(id, body as UpdateOrgUnitActivationRequest, req.user.sub);
     }
 
@@ -270,11 +258,7 @@ export class PlatformController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '停用组织单元' })
     @ApiOkResponse({ type: PlatformOrgUnitSummaryDto })
-    deactivateOrgUnit(
-        @Param('id') id: string,
-        @Body() body: UpdateOrgUnitActivationRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<PlatformOrgUnitSummary> {
+    deactivateOrgUnit(@Param('id') id: string, @Body() body: UpdateOrgUnitActivationRequestDto, @Request() req: { user: UserPayload }): Promise<PlatformOrgUnitSummary> {
         return this.platformService.deactivateOrgUnit(id, body as UpdateOrgUnitActivationRequest, req.user.sub);
     }
 

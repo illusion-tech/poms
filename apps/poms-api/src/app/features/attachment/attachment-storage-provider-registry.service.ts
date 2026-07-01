@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Readable } from 'node:stream';
 import {
     AttachmentStorageProviderConfigStatusValue,
@@ -28,10 +28,10 @@ import { LocalAttachmentObjectStorageProvider } from './local-attachment-object-
 @Injectable()
 export class AttachmentStorageProviderRegistry {
     constructor(
-        private readonly repository: AttachmentStorageProviderRepository,
-        private readonly secretCipherService: SecretCipherService,
-        private readonly localProvider: LocalAttachmentObjectStorageProvider,
-        private readonly huaweiObsS3Provider: HuaweiObsS3AttachmentObjectStorageProvider
+        @Inject(AttachmentStorageProviderRepository) private readonly repository: AttachmentStorageProviderRepository,
+        @Inject(SecretCipherService) private readonly secretCipherService: SecretCipherService,
+        @Inject(LocalAttachmentObjectStorageProvider) private readonly localProvider: LocalAttachmentObjectStorageProvider,
+        @Inject(HuaweiObsS3AttachmentObjectStorageProvider) private readonly huaweiObsS3Provider: HuaweiObsS3AttachmentObjectStorageProvider
     ) {}
 
     async putWithDefaultProvider(input: AttachmentObjectPutInput): Promise<StoredAttachmentFile> {
@@ -139,11 +139,7 @@ export class AttachmentStorageProviderRegistry {
     }
 
     private matchConfigByKeyPrefix(configs: AttachmentStorageProviderConfig[], storageKey: string): AttachmentStorageProviderConfig | null {
-        return (
-            configs
-                .filter((config) => this.keyMatchesPrefix(storageKey, config.keyPrefix))
-                .sort((left, right) => (right.keyPrefix?.length ?? 0) - (left.keyPrefix?.length ?? 0))[0] ?? null
-        );
+        return configs.filter((config) => this.keyMatchesPrefix(storageKey, config.keyPrefix)).sort((left, right) => (right.keyPrefix?.length ?? 0) - (left.keyPrefix?.length ?? 0))[0] ?? null;
     }
 
     private keyMatchesPrefix(storageKey: string, keyPrefix: string | null | undefined): boolean {

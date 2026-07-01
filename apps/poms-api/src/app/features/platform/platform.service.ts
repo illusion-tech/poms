@@ -31,7 +31,7 @@ import type {
     UserOrgUnitSummary
 } from '@poms/shared-contracts';
 import { PERMISSION_KEYS, PermissionsMeta } from '@poms/shared-contracts';
-import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
+import { Inject, ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { compare } from 'bcryptjs';
 import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { NavigationService } from '../navigation/navigation.service';
@@ -47,9 +47,9 @@ const SYSTEM_ROLE_MINIMUM_PERMISSION_KEYS: Partial<Record<string, PermissionKey[
 @Injectable()
 export class PlatformService {
     constructor(
-        private readonly platformRepository: PlatformRepository,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly navigationService: NavigationService
+        @Inject(PlatformRepository) private readonly platformRepository: PlatformRepository,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(NavigationService) private readonly navigationService: NavigationService
     ) {}
 
     async verifyCredentials(username: string, password: string): Promise<{ userId: string; username: string; permissions: PermissionKey[] } | null> {
@@ -97,9 +97,7 @@ export class PlatformService {
         if (roleIds.length === 0) return [];
 
         const rolePermissionAssignments = await this.platformRepository.findActiveRolePermissionAssignments();
-        const permissions = rolePermissionAssignments
-            .filter((a) => roleIds.includes(a.roleId))
-            .map((a) => a.permissionKey as PermissionKey);
+        const permissions = rolePermissionAssignments.filter((a) => roleIds.includes(a.roleId)).map((a) => a.permissionKey as PermissionKey);
 
         return [...new Set(permissions)];
     }
@@ -564,7 +562,7 @@ export class PlatformService {
         const orgUnit = orgUnits.find((candidate) => candidate.id === id);
         if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
 
-        const parent = orgUnit.parentId ? orgUnits.find((candidate) => candidate.id === orgUnit.parentId) ?? null : null;
+        const parent = orgUnit.parentId ? (orgUnits.find((candidate) => candidate.id === orgUnit.parentId) ?? null) : null;
         if (parent && !parent.isActive) {
             await this.runtimeAuditService.recordAuditLog({
                 eventType: 'platform.org-unit.activate.rejected',
@@ -632,7 +630,7 @@ export class PlatformService {
         const orgUnit = orgUnits.find((candidate) => candidate.id === id);
         if (!orgUnit) throw new NotFoundException(`OrgUnit ${id} not found`);
 
-        const nextParentId = request.parentId !== undefined ? request.parentId : orgUnit.parentId ?? null;
+        const nextParentId = request.parentId !== undefined ? request.parentId : (orgUnit.parentId ?? null);
         const nextParent = this.#resolveRequestedParent(orgUnits, nextParentId);
 
         if (nextParent && !nextParent.isActive) {
@@ -706,7 +704,7 @@ export class PlatformService {
         if (request.primaryOrgUnitId) {
             await this.#assertOrgUnitIdsAreActive([request.primaryOrgUnitId]);
         }
- 
+
         const user = this.platformRepository.createUser({
             username: request.username,
             displayName: request.displayName,
@@ -801,9 +799,7 @@ export class PlatformService {
         const user = await this.platformRepository.findUserById(userId);
         if (!user) throw new NotFoundException(`Platform user ${userId} not found`);
         await this.#assertRoleIdsAreActive(request.roleIds);
-        const previousRoleIds = (await this.platformRepository.findActiveUserRoleAssignments())
-            .filter((assignment) => assignment.userId === userId)
-            .map((assignment) => assignment.roleId);
+        const previousRoleIds = (await this.platformRepository.findActiveUserRoleAssignments()).filter((assignment) => assignment.userId === userId).map((assignment) => assignment.roleId);
 
         await this.platformRepository.deleteUserRoleAssignments(userId);
         const assignments = request.roleIds.map((roleId) =>
@@ -1031,11 +1027,7 @@ export class PlatformService {
         return snapshot;
     }
 
-    #buildUserOrgUnits(
-        userId: string,
-        userOrgMemberships: { userId: string; orgUnitId: string; membershipType: string }[],
-        orgUnitMap: Map<string, OrgUnit>
-    ): UserOrgUnitSummary[] {
+    #buildUserOrgUnits(userId: string, userOrgMemberships: { userId: string; orgUnitId: string; membershipType: string }[], orgUnitMap: Map<string, OrgUnit>): UserOrgUnitSummary[] {
         return userOrgMemberships
             .filter((m) => m.userId === userId && orgUnitMap.has(m.orgUnitId))
             .flatMap((m) => {
@@ -1057,7 +1049,21 @@ export class PlatformService {
     }
 
     #toPlatformUserDetail(
-        user: { id: string; username: string; displayName: string; email?: string | null; phone?: string | null; avatarUrl?: string | null; isActive: boolean; primaryOrgUnitId?: string | null; emailVerified: boolean; phoneVerified: boolean; lastLoginAt?: Date | null; createdAt: Date; updatedAt: Date },
+        user: {
+            id: string;
+            username: string;
+            displayName: string;
+            email?: string | null;
+            phone?: string | null;
+            avatarUrl?: string | null;
+            isActive: boolean;
+            primaryOrgUnitId?: string | null;
+            emailVerified: boolean;
+            phoneVerified: boolean;
+            lastLoginAt?: Date | null;
+            createdAt: Date;
+            updatedAt: Date;
+        },
         orgUnitMap: Map<string, OrgUnit>,
         roleNamesByUserId: Map<string, string[]>,
         primaryOrgByUserId: Map<string, string>,
@@ -1131,12 +1137,7 @@ export class PlatformService {
 
     #assertSiblingNameAvailable(orgUnits: OrgUnit[], parentId: string | null, name: string, excludedOrgUnitId?: string): void {
         const normalizedName = name.trim().toLocaleLowerCase();
-        const conflict = orgUnits.find(
-            (candidate) =>
-                candidate.id !== excludedOrgUnitId &&
-                (candidate.parentId ?? null) === parentId &&
-                candidate.name.trim().toLocaleLowerCase() === normalizedName
-        );
+        const conflict = orgUnits.find((candidate) => candidate.id !== excludedOrgUnitId && (candidate.parentId ?? null) === parentId && candidate.name.trim().toLocaleLowerCase() === normalizedName);
 
         if (conflict) {
             throw new ConflictException(`OrgUnit name ${name} already exists under the same parent`);
@@ -1146,9 +1147,7 @@ export class PlatformService {
     #resolveDisplayOrder(orgUnits: OrgUnit[], parentId: string | null, requestedDisplayOrder: number | undefined): number {
         if (requestedDisplayOrder !== undefined) return requestedDisplayOrder;
 
-        const siblingDisplayOrders = orgUnits
-            .filter((candidate) => (candidate.parentId ?? null) === parentId)
-            .map((candidate) => candidate.displayOrder);
+        const siblingDisplayOrders = orgUnits.filter((candidate) => (candidate.parentId ?? null) === parentId).map((candidate) => candidate.displayOrder);
 
         return siblingDisplayOrders.length === 0 ? 0 : Math.max(...siblingDisplayOrders) + 1;
     }
@@ -1199,12 +1198,7 @@ export class PlatformService {
     }
 
     #compareOrgUnits(left: OrgUnit, right: OrgUnit): number {
-        return (
-            left.displayOrder - right.displayOrder ||
-            left.createdAt.getTime() - right.createdAt.getTime() ||
-            left.name.localeCompare(right.name, 'zh-CN') ||
-            left.id.localeCompare(right.id)
-        );
+        return left.displayOrder - right.displayOrder || left.createdAt.getTime() - right.createdAt.getTime() || left.name.localeCompare(right.name, 'zh-CN') || left.id.localeCompare(right.id);
     }
 
     #getSystemRoleBaselineViolations(role: PlatformRole, permissionKeys: PermissionKey[]): PermissionKey[] {

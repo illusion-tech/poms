@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import {
     AttachmentStorageProviderConfigStatusValue,
     AttachmentStorageProviderConnectionTestStatusValue,
@@ -22,10 +22,10 @@ import { ATTACHMENT_STORAGE_SECRET_CIPHER_OPTIONS } from './attachment-storage-p
 @Injectable()
 export class AttachmentStorageProviderService {
     constructor(
-        private readonly repository: AttachmentStorageProviderRepository,
-        private readonly runtimeAuditService: RuntimeAuditService,
-        private readonly secretCipherService: SecretCipherService,
-        private readonly storageProviderRegistry: AttachmentStorageProviderRegistry
+        @Inject(AttachmentStorageProviderRepository) private readonly repository: AttachmentStorageProviderRepository,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+        @Inject(SecretCipherService) private readonly secretCipherService: SecretCipherService,
+        @Inject(AttachmentStorageProviderRegistry) private readonly storageProviderRegistry: AttachmentStorageProviderRegistry
     ) {}
 
     async listAttachmentStorageProviderConfigs(query: AttachmentStorageProviderConfigListQuery = {}): Promise<AttachmentStorageProviderConfigList> {

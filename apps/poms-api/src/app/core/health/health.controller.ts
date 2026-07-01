@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Inject, Controller, Get, HttpStatus, Res } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiProperty, ApiServiceUnavailableResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
 import { type HealthCheckView, HealthService } from './health.service';
@@ -46,7 +46,7 @@ class HealthCheckDto {
 @ApiTags('Health')
 @Controller('health')
 export class HealthController {
-    constructor(private readonly healthService: HealthService) {}
+    constructor(@Inject(HealthService) private readonly healthService: HealthService) {}
 
     @Get()
     @Public()

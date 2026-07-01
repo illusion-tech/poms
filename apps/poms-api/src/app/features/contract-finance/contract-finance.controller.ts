@@ -1,14 +1,6 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import type {
-    InvoiceRecordDetailView,
-    InvoiceRecordSummary,
-    PayableRecordDetailView,
-    PayableRecordSummary,
-    PaymentRecordSummary,
-    ReceiptRecordSummary,
-    UserPayload
-} from '@poms/shared-contracts';
+import type { InvoiceRecordDetailView, InvoiceRecordSummary, PayableRecordDetailView, PayableRecordSummary, PaymentRecordSummary, ReceiptRecordSummary, UserPayload } from '@poms/shared-contracts';
 import {
     ClosePayableRecordRequestDto,
     CloseInvoiceRecordRequestDto,
@@ -41,7 +33,7 @@ import { ContractFinanceService } from './contract-finance.service';
 @ApiCookieAuth('pomsSession')
 @Controller()
 export class ContractFinanceController {
-    constructor(private readonly contractFinanceService: ContractFinanceService) {}
+    constructor(@Inject(ContractFinanceService) private readonly contractFinanceService: ContractFinanceService) {}
 
     @Get('contracts/:contractId/receipt-records')
     @HasPermissions('contract:finance:manage')
@@ -55,10 +47,7 @@ export class ContractFinanceController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记合同回款记录' })
     @ApiCreatedResponse({ type: ReceiptRecordDto })
-    createReceipt(
-        @Param('contractId') contractId: string,
-        @Body() body: CreateReceiptRecordRequestDto
-    ): Promise<ReceiptRecordSummary> {
+    createReceipt(@Param('contractId') contractId: string, @Body() body: CreateReceiptRecordRequestDto): Promise<ReceiptRecordSummary> {
         return this.contractFinanceService.createReceipt(contractId, body);
     }
 
@@ -67,11 +56,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认合同回款记录生效' })
     @ApiOkResponse({ type: ReceiptRecordDto })
-    confirmReceipt(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: ConfirmReceiptRecordRequestDto
-    ): Promise<ReceiptRecordSummary> {
+    confirmReceipt(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ConfirmReceiptRecordRequestDto): Promise<ReceiptRecordSummary> {
         return this.contractFinanceService.confirmReceipt(id, req.user.sub, body);
     }
 
@@ -95,10 +80,7 @@ export class ContractFinanceController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记项目采购承诺记录' })
     @ApiCreatedResponse({ type: PayableRecordDto })
-    createPayable(
-        @Param('projectId') projectId: string,
-        @Body() body: CreatePayableRecordRequestDto
-    ): Promise<PayableRecordSummary> {
+    createPayable(@Param('projectId') projectId: string, @Body() body: CreatePayableRecordRequestDto): Promise<PayableRecordSummary> {
         return this.contractFinanceService.createPayable(projectId, body);
     }
 
@@ -106,10 +88,7 @@ export class ContractFinanceController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '更新采购承诺记录' })
     @ApiOkResponse({ type: PayableRecordDto })
-    updatePayable(
-        @Param('id') id: string,
-        @Body() body: UpdatePayableRecordRequestDto
-    ): Promise<PayableRecordSummary> {
+    updatePayable(@Param('id') id: string, @Body() body: UpdatePayableRecordRequestDto): Promise<PayableRecordSummary> {
         return this.contractFinanceService.updatePayable(id, body);
     }
 
@@ -118,10 +97,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '关闭采购承诺记录' })
     @ApiOkResponse({ type: PayableRecordDto })
-    closePayable(
-        @Param('id') id: string,
-        @Body() body: ClosePayableRecordRequestDto
-    ): Promise<PayableRecordSummary> {
+    closePayable(@Param('id') id: string, @Body() body: ClosePayableRecordRequestDto): Promise<PayableRecordSummary> {
         return this.contractFinanceService.closePayable(id, body);
     }
 
@@ -130,10 +106,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '作废采购承诺记录' })
     @ApiOkResponse({ type: PayableRecordDto })
-    voidPayable(
-        @Param('id') id: string,
-        @Body() body: VoidPayableRecordRequestDto
-    ): Promise<PayableRecordSummary> {
+    voidPayable(@Param('id') id: string, @Body() body: VoidPayableRecordRequestDto): Promise<PayableRecordSummary> {
         return this.contractFinanceService.voidPayable(id, body);
     }
 
@@ -157,10 +130,7 @@ export class ContractFinanceController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记项目发票记录' })
     @ApiCreatedResponse({ type: InvoiceRecordDto })
-    createInvoice(
-        @Param('projectId') projectId: string,
-        @Body() body: CreateInvoiceRecordRequestDto
-    ): Promise<InvoiceRecordSummary> {
+    createInvoice(@Param('projectId') projectId: string, @Body() body: CreateInvoiceRecordRequestDto): Promise<InvoiceRecordSummary> {
         return this.contractFinanceService.createInvoice(projectId, body);
     }
 
@@ -168,10 +138,7 @@ export class ContractFinanceController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '更新发票记录' })
     @ApiOkResponse({ type: InvoiceRecordDto })
-    updateInvoice(
-        @Param('id') id: string,
-        @Body() body: UpdateInvoiceRecordRequestDto
-    ): Promise<InvoiceRecordSummary> {
+    updateInvoice(@Param('id') id: string, @Body() body: UpdateInvoiceRecordRequestDto): Promise<InvoiceRecordSummary> {
         return this.contractFinanceService.updateInvoice(id, body);
     }
 
@@ -180,10 +147,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '标记发票异常' })
     @ApiOkResponse({ type: InvoiceRecordDto })
-    markInvoiceException(
-        @Param('id') id: string,
-        @Body() body: MarkInvoiceExceptionRequestDto
-    ): Promise<InvoiceRecordSummary> {
+    markInvoiceException(@Param('id') id: string, @Body() body: MarkInvoiceExceptionRequestDto): Promise<InvoiceRecordSummary> {
         return this.contractFinanceService.markInvoiceException(id, body);
     }
 
@@ -192,10 +156,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '解决发票异常' })
     @ApiOkResponse({ type: InvoiceRecordDto })
-    resolveInvoiceException(
-        @Param('id') id: string,
-        @Body() body: ResolveInvoiceExceptionRequestDto
-    ): Promise<InvoiceRecordSummary> {
+    resolveInvoiceException(@Param('id') id: string, @Body() body: ResolveInvoiceExceptionRequestDto): Promise<InvoiceRecordSummary> {
         return this.contractFinanceService.resolveInvoiceException(id, body);
     }
 
@@ -204,10 +165,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '关闭发票记录' })
     @ApiOkResponse({ type: InvoiceRecordDto })
-    closeInvoiceRecord(
-        @Param('id') id: string,
-        @Body() body: CloseInvoiceRecordRequestDto
-    ): Promise<InvoiceRecordSummary> {
+    closeInvoiceRecord(@Param('id') id: string, @Body() body: CloseInvoiceRecordRequestDto): Promise<InvoiceRecordSummary> {
         return this.contractFinanceService.closeInvoiceRecord(id, body);
     }
 
@@ -223,10 +181,7 @@ export class ContractFinanceController {
     @HasPermissions('contract:finance:manage')
     @ApiOperation({ summary: '登记项目付款记录' })
     @ApiCreatedResponse({ type: PaymentRecordDto })
-    createPayment(
-        @Param('projectId') projectId: string,
-        @Body() body: CreatePaymentRecordRequestDto
-    ): Promise<PaymentRecordSummary> {
+    createPayment(@Param('projectId') projectId: string, @Body() body: CreatePaymentRecordRequestDto): Promise<PaymentRecordSummary> {
         return this.contractFinanceService.createPayment(projectId, body);
     }
 
@@ -235,11 +190,7 @@ export class ContractFinanceController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认项目付款记录生效' })
     @ApiOkResponse({ type: PaymentRecordDto })
-    confirmPayment(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: ConfirmPaymentRecordRequestDto
-    ): Promise<PaymentRecordSummary> {
+    confirmPayment(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ConfirmPaymentRecordRequestDto): Promise<PaymentRecordSummary> {
         return this.contractFinanceService.confirmPayment(id, req.user.sub, body);
     }
 }

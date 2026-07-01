@@ -1,13 +1,6 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-    CreateSalesFollowUpRecordRequestDto,
-    ReplaceSalesFollowUpRecordRequestDto,
-    SalesFollowUpRecordDto,
-    SalesFollowUpRecordListDto,
-    SalesFollowUpRecordListQueryDto,
-    VoidSalesFollowUpRecordRequestDto
-} from '@poms/api-contracts';
+import { CreateSalesFollowUpRecordRequestDto, ReplaceSalesFollowUpRecordRequestDto, SalesFollowUpRecordDto, SalesFollowUpRecordListDto, SalesFollowUpRecordListQueryDto, VoidSalesFollowUpRecordRequestDto } from '@poms/api-contracts';
 import type { SalesFollowUpRecordListQuery, SalesFollowUpRecordSummary, UserPayload } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -17,7 +10,7 @@ import { SalesFollowUpService } from './sales-follow-up.service';
 @ApiCookieAuth('pomsSession')
 @Controller('sales-follow-up-records')
 export class SalesFollowUpController {
-    constructor(private readonly salesFollowUpService: SalesFollowUpService) {}
+    constructor(@Inject(SalesFollowUpService) private readonly salesFollowUpService: SalesFollowUpService) {}
 
     @Get()
     @HasAnyPermissions('customer:read', 'lead:read', 'project:read')
@@ -38,10 +31,7 @@ export class SalesFollowUpController {
     @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
     @ApiOperation({ summary: '登记销售跟进记录' })
     @ApiCreatedResponse({ type: SalesFollowUpRecordDto })
-    create(
-        @Body() body: CreateSalesFollowUpRecordRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<SalesFollowUpRecordSummary> {
+    create(@Body() body: CreateSalesFollowUpRecordRequestDto, @Request() req: { user: UserPayload }): Promise<SalesFollowUpRecordSummary> {
         return this.salesFollowUpService.createSalesFollowUpRecord(
             {
                 customerId: body.customerId,
@@ -65,11 +55,7 @@ export class SalesFollowUpController {
     @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
     @ApiOperation({ summary: '替代销售跟进记录' })
     @ApiOkResponse({ type: SalesFollowUpRecordDto })
-    replace(
-        @Param('id') id: string,
-        @Body() body: ReplaceSalesFollowUpRecordRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<SalesFollowUpRecordSummary> {
+    replace(@Param('id') id: string, @Body() body: ReplaceSalesFollowUpRecordRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<SalesFollowUpRecordSummary> {
         return this.salesFollowUpService.replaceSalesFollowUpRecord(
             id,
             {
@@ -94,11 +80,7 @@ export class SalesFollowUpController {
     @HasAnyPermissions('customer:write', 'lead:write', 'project:write')
     @ApiOperation({ summary: '作废销售跟进记录' })
     @ApiOkResponse({ type: SalesFollowUpRecordDto })
-    void(
-        @Param('id') id: string,
-        @Body() body: VoidSalesFollowUpRecordRequestDto,
-        @Request() req: RuntimeAuditRequestLike & { user: UserPayload }
-    ): Promise<SalesFollowUpRecordSummary> {
+    void(@Param('id') id: string, @Body() body: VoidSalesFollowUpRecordRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<SalesFollowUpRecordSummary> {
         return this.salesFollowUpService.voidSalesFollowUpRecord(
             id,
             {

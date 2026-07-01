@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CompetitorIntelligenceRecordDto,
@@ -21,14 +21,7 @@ import {
     UpdateOpportunityStakeholderRequestDto,
     UpdateSalesDiscoveryRecordRequestDto
 } from '@poms/api-contracts';
-import type {
-    CompetitorIntelligenceRecordSummary,
-    CustomerContactSummary,
-    OpportunityStakeholderSummary,
-    SalesDiscoveryRecordSummary,
-    SalesIntelligenceGapSummary,
-    UserPayload
-} from '@poms/shared-contracts';
+import type { CompetitorIntelligenceRecordSummary, CustomerContactSummary, OpportunityStakeholderSummary, SalesDiscoveryRecordSummary, SalesIntelligenceGapSummary, UserPayload } from '@poms/shared-contracts';
 import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -38,7 +31,7 @@ import { SalesIntelligenceService } from './sales-intelligence.service';
 @ApiCookieAuth('pomsSession')
 @Controller('customer-contacts')
 export class CustomerContactController {
-    constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
+    constructor(@Inject(SalesIntelligenceService) private readonly salesIntelligenceService: SalesIntelligenceService) {}
 
     @Get()
     @HasPermissions('customer:read')
@@ -82,7 +75,7 @@ export class CustomerContactController {
 @ApiCookieAuth('pomsSession')
 @Controller('opportunity-stakeholders')
 export class OpportunityStakeholderController {
-    constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
+    constructor(@Inject(SalesIntelligenceService) private readonly salesIntelligenceService: SalesIntelligenceService) {}
 
     @Get()
     @HasAnyPermissions('lead:read', 'project:read')
@@ -131,7 +124,7 @@ export class OpportunityStakeholderController {
 @ApiCookieAuth('pomsSession')
 @Controller('competitor-intelligence-records')
 export class CompetitorIntelligenceRecordController {
-    constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
+    constructor(@Inject(SalesIntelligenceService) private readonly salesIntelligenceService: SalesIntelligenceService) {}
 
     @Get()
     @HasAnyPermissions('lead:read', 'project:read')
@@ -181,7 +174,7 @@ export class CompetitorIntelligenceRecordController {
 @ApiCookieAuth('pomsSession')
 @Controller('sales-discovery-records')
 export class SalesDiscoveryRecordController {
-    constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
+    constructor(@Inject(SalesIntelligenceService) private readonly salesIntelligenceService: SalesIntelligenceService) {}
 
     @Get()
     @HasAnyPermissions('lead:read', 'project:read')
@@ -228,7 +221,7 @@ export class SalesDiscoveryRecordController {
 @ApiCookieAuth('pomsSession')
 @Controller('sales-intelligence-gaps')
 export class SalesIntelligenceGapController {
-    constructor(private readonly salesIntelligenceService: SalesIntelligenceService) {}
+    constructor(@Inject(SalesIntelligenceService) private readonly salesIntelligenceService: SalesIntelligenceService) {}
 
     @Get()
     @HasAnyPermissions('lead:read', 'project:read')

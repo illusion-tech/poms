@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     CommercialDiffReviewResultDto,
@@ -12,14 +12,7 @@ import {
     ReadinessInitializationResultDto,
     ReviewCommercialReleaseBaselineDiffRequestDto
 } from '@poms/api-contracts';
-import type {
-    CommercialDiffReviewResult,
-    CommercialReleaseBaselineSummary,
-    ContractDiffReviewHistoryView,
-    ContractReadinessDetail,
-    ReadinessInitializationResult,
-    UserPayload
-} from '@poms/shared-contracts';
+import type { CommercialDiffReviewResult, CommercialReleaseBaselineSummary, ContractDiffReviewHistoryView, ContractReadinessDetail, ReadinessInitializationResult, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { ContractReadinessService } from './contract-readiness.service';
 
@@ -27,15 +20,13 @@ import { ContractReadinessService } from './contract-readiness.service';
 @ApiCookieAuth('pomsSession')
 @Controller()
 export class ContractReadinessController {
-    constructor(private readonly contractReadinessService: ContractReadinessService) {}
+    constructor(@Inject(ContractReadinessService) private readonly contractReadinessService: ContractReadinessService) {}
 
     @Post('commercial-release-baselines')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建商业放行基线与当前差异结果' })
     @ApiCreatedResponse({ type: CommercialReleaseBaselineDto })
-    createCommercialReleaseBaseline(
-        @Body() body: CreateCommercialReleaseBaselineRequestDto
-    ): Promise<CommercialReleaseBaselineSummary> {
+    createCommercialReleaseBaseline(@Body() body: CreateCommercialReleaseBaselineRequestDto): Promise<CommercialReleaseBaselineSummary> {
         return this.contractReadinessService.createCommercialReleaseBaseline(body);
     }
 
@@ -60,11 +51,7 @@ export class ContractReadinessController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '复核商业放行差异结果' })
     @ApiOkResponse({ type: CommercialDiffReviewResultDto })
-    reviewDiff(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: ReviewCommercialReleaseBaselineDiffRequestDto
-    ): Promise<CommercialDiffReviewResult> {
+    reviewDiff(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ReviewCommercialReleaseBaselineDiffRequestDto): Promise<CommercialDiffReviewResult> {
         return this.contractReadinessService.reviewCommercialReleaseBaselineDiff(id, req.user.sub, body);
     }
 
@@ -97,11 +84,7 @@ export class ContractReadinessController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '基于承接包初始化合同条款快照引用' })
     @ApiOkResponse({ type: ReadinessInitializationResultDto })
-    initializeContractSnapshot(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: InitializeContractSnapshotFromReadinessPackageRequestDto
-    ): Promise<ReadinessInitializationResult> {
+    initializeContractSnapshot(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: InitializeContractSnapshotFromReadinessPackageRequestDto): Promise<ReadinessInitializationResult> {
         return this.contractReadinessService.initializeContractSnapshot(id, req.user.sub, body.expectedVersion);
     }
 
@@ -110,11 +93,7 @@ export class ContractReadinessController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '基于承接包初始化应收计划引用' })
     @ApiOkResponse({ type: ReadinessInitializationResultDto })
-    initializeReceivablePlan(
-        @Param('id') id: string,
-        @Request() req: { user: UserPayload },
-        @Body() body: InitializeReceivablePlanFromReadinessPackageRequestDto
-    ): Promise<ReadinessInitializationResult> {
+    initializeReceivablePlan(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: InitializeReceivablePlanFromReadinessPackageRequestDto): Promise<ReadinessInitializationResult> {
         return this.contractReadinessService.initializeReceivablePlan(id, req.user.sub, body.expectedVersion);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     AssignLeadOwnerRequestDto,
@@ -21,7 +21,18 @@ import {
     SubmitLeadScoreOverrideRequestDto,
     UpdateLeadRequestDto
 } from '@poms/api-contracts';
-import { DictionaryDomainValue, type LeadDetailView, type LeadListQuery, type LeadListResponse, type LeadOwnerAssignmentResult, type LeadScoreHistoryView, type LeadScoreOverrideSummary, type LeadSummary, type ProjectSummary, type UserPayload } from '@poms/shared-contracts';
+import {
+    DictionaryDomainValue,
+    type LeadDetailView,
+    type LeadListQuery,
+    type LeadListResponse,
+    type LeadOwnerAssignmentResult,
+    type LeadScoreHistoryView,
+    type LeadScoreOverrideSummary,
+    type LeadSummary,
+    type ProjectSummary,
+    type UserPayload
+} from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { DictionaryService } from '../dictionary/dictionary.service';
@@ -37,10 +48,10 @@ import { LeadService } from './lead.service';
 @Controller('leads')
 export class LeadController {
     constructor(
-        private readonly leadQueryService: LeadQueryService,
-        private readonly leadScoreService: LeadScoreService,
-        private readonly leadService: LeadService,
-        private readonly dictionaryService: DictionaryService
+        @Inject(LeadQueryService) private readonly leadQueryService: LeadQueryService,
+        @Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService,
+        @Inject(LeadService) private readonly leadService: LeadService,
+        @Inject(DictionaryService) private readonly dictionaryService: DictionaryService
     ) {}
 
     @Get()
@@ -85,22 +96,22 @@ export class LeadController {
     @HasPermissions('lead:write')
     @ApiOperation({ summary: '登记线索' })
     @ApiCreatedResponse({ type: LeadDto })
-    async create(
-        @Body() body: CreateLeadRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<LeadSummary> {
-        const lead = await this.leadService.createLead({
-            leadName: body.leadName,
-            customerId: body.customerId,
-            sourceCode: body.sourceCode,
-            demandDescription: body.demandDescription,
-            budgetStatus: body.budgetStatus,
-            estimatedAmount: body.estimatedAmount,
-            urgency: body.urgency,
-            expectedDecisionDate: body.expectedDecisionDate,
-            ownerOrgId: body.ownerOrgId,
-            ownerUserId: body.ownerUserId
-        }, req.user.sub);
+    async create(@Body() body: CreateLeadRequestDto, @Request() req: { user: UserPayload }): Promise<LeadSummary> {
+        const lead = await this.leadService.createLead(
+            {
+                leadName: body.leadName,
+                customerId: body.customerId,
+                sourceCode: body.sourceCode,
+                demandDescription: body.demandDescription,
+                budgetStatus: body.budgetStatus,
+                estimatedAmount: body.estimatedAmount,
+                urgency: body.urgency,
+                expectedDecisionDate: body.expectedDecisionDate,
+                ownerOrgId: body.ownerOrgId,
+                ownerUserId: body.ownerUserId
+            },
+            req.user.sub
+        );
 
         return this.mapLeadCommandSummary(lead);
     }
@@ -109,11 +120,7 @@ export class LeadController {
     @HasPermissions('lead:write')
     @ApiOperation({ summary: '提交线索评分人工覆盖申请' })
     @ApiCreatedResponse({ type: LeadScoreOverrideDto })
-    submitScoreOverride(
-        @Param('id') id: string,
-        @Body() body: SubmitLeadScoreOverrideRequestDto,
-        @Request() req: { user: UserPayload } & RuntimeAuditRequestLike
-    ): Promise<LeadScoreOverrideSummary> {
+    submitScoreOverride(@Param('id') id: string, @Body() body: SubmitLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
         return this.leadScoreService.submitLeadScoreOverride(
             id,
             {
@@ -131,14 +138,14 @@ export class LeadController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '申领公共池线索' })
     @ApiOkResponse({ type: LeadOwnerAssignmentResultDto })
-    claimOwner(
-        @Param('id') id: string,
-        @Body() body: ClaimLeadOwnerRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<LeadOwnerAssignmentResult> {
-        return this.leadService.claimLeadOwner(id, {
-            expectedVersion: body.expectedVersion
-        }, req.user.sub);
+    claimOwner(@Param('id') id: string, @Body() body: ClaimLeadOwnerRequestDto, @Request() req: { user: UserPayload }): Promise<LeadOwnerAssignmentResult> {
+        return this.leadService.claimLeadOwner(
+            id,
+            {
+                expectedVersion: body.expectedVersion
+            },
+            req.user.sub
+        );
     }
 
     @Post(':id\\:assignOwner')
@@ -146,39 +153,40 @@ export class LeadController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '分配或改派线索销售主责' })
     @ApiOkResponse({ type: LeadOwnerAssignmentResultDto })
-    assignOwner(
-        @Param('id') id: string,
-        @Body() body: AssignLeadOwnerRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<LeadOwnerAssignmentResult> {
-        return this.leadService.assignLeadOwner(id, {
-            ownerUserId: body.ownerUserId,
-            ownerOrgId: body.ownerOrgId,
-            reason: body.reason,
-            expectedVersion: body.expectedVersion
-        }, req.user.sub);
+    assignOwner(@Param('id') id: string, @Body() body: AssignLeadOwnerRequestDto, @Request() req: { user: UserPayload }): Promise<LeadOwnerAssignmentResult> {
+        return this.leadService.assignLeadOwner(
+            id,
+            {
+                ownerUserId: body.ownerUserId,
+                ownerOrgId: body.ownerOrgId,
+                reason: body.reason,
+                expectedVersion: body.expectedVersion
+            },
+            req.user.sub
+        );
     }
 
     @Patch(':id')
     @HasPermissions('lead:write')
     @ApiOperation({ summary: '更新线索基础信息' })
     @ApiOkResponse({ type: LeadDto })
-    async update(
-        @Param('id') id: string,
-        @Body() body: UpdateLeadRequestDto,
-        @Request() req: { user: UserPayload } & RuntimeAuditRequestLike
-    ): Promise<LeadSummary> {
-        const lead = await this.leadService.updateLead(id, {
-            leadName: body.leadName,
-            customerId: body.customerId,
-            sourceCode: body.sourceCode,
-            demandDescription: body.demandDescription,
-            budgetStatus: body.budgetStatus,
-            estimatedAmount: body.estimatedAmount,
-            urgency: body.urgency,
-            expectedDecisionDate: body.expectedDecisionDate,
-            expectedVersion: body.expectedVersion
-        }, req.user.sub, getRequestId(req));
+    async update(@Param('id') id: string, @Body() body: UpdateLeadRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadSummary> {
+        const lead = await this.leadService.updateLead(
+            id,
+            {
+                leadName: body.leadName,
+                customerId: body.customerId,
+                sourceCode: body.sourceCode,
+                demandDescription: body.demandDescription,
+                budgetStatus: body.budgetStatus,
+                estimatedAmount: body.estimatedAmount,
+                urgency: body.urgency,
+                expectedDecisionDate: body.expectedDecisionDate,
+                expectedVersion: body.expectedVersion
+            },
+            req.user.sub,
+            getRequestId(req)
+        );
 
         return this.mapLeadCommandSummary(lead);
     }
@@ -188,14 +196,14 @@ export class LeadController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认线索有效' })
     @ApiOkResponse({ type: LeadDto })
-    async qualify(
-        @Param('id') id: string,
-        @Body() body: QualifyLeadRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<LeadSummary> {
-        const lead = await this.leadService.qualifyLead(id, {
-            qualificationSummary: body.qualificationSummary
-        }, req.user.sub);
+    async qualify(@Param('id') id: string, @Body() body: QualifyLeadRequestDto, @Request() req: { user: UserPayload }): Promise<LeadSummary> {
+        const lead = await this.leadService.qualifyLead(
+            id,
+            {
+                qualificationSummary: body.qualificationSummary
+            },
+            req.user.sub
+        );
 
         return this.mapLeadCommandSummary(lead);
     }
@@ -205,14 +213,14 @@ export class LeadController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '关闭线索' })
     @ApiOkResponse({ type: LeadDto })
-    async close(
-        @Param('id') id: string,
-        @Body() body: CloseLeadRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<LeadSummary> {
-        const lead = await this.leadService.closeLead(id, {
-            closedReason: body.closedReason
-        }, req.user.sub);
+    async close(@Param('id') id: string, @Body() body: CloseLeadRequestDto, @Request() req: { user: UserPayload }): Promise<LeadSummary> {
+        const lead = await this.leadService.closeLead(
+            id,
+            {
+                closedReason: body.closedReason
+            },
+            req.user.sub
+        );
 
         return this.mapLeadCommandSummary(lead);
     }
@@ -222,26 +230,23 @@ export class LeadController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '将有效线索转为项目' })
     @ApiOkResponse({ type: ProjectDto })
-    async convertToProject(
-        @Param('id') id: string,
-        @Body() body: ConvertLeadToProjectRequestDto,
-        @Request() req: { user: UserPayload }
-    ): Promise<ProjectSummary> {
-        const project = await this.leadService.convertToProject(id, {
-            projectName: body.projectName,
-            customerProjectNo: body.customerProjectNo,
-            plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
-        }, req.user.sub);
+    async convertToProject(@Param('id') id: string, @Body() body: ConvertLeadToProjectRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectSummary> {
+        const project = await this.leadService.convertToProject(
+            id,
+            {
+                projectName: body.projectName,
+                customerProjectNo: body.customerProjectNo,
+                plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
+            },
+            req.user.sub
+        );
 
         return mapProjectToSummary(project);
     }
 
     private async mapLeadCommandSummary(lead: Lead): Promise<LeadSummary> {
         const sourceItems = await this.dictionaryService.listItems({ domain: DictionaryDomainValue.LeadSource });
-        return mapLeadToSummary(
-            lead,
-            sourceItems.find((item) => item.code === lead.sourceCode) ?? null
-        );
+        return mapLeadToSummary(lead, sourceItems.find((item) => item.code === lead.sourceCode) ?? null);
     }
 }
 
@@ -249,18 +254,14 @@ export class LeadController {
 @ApiCookieAuth('pomsSession')
 @Controller('lead-score-overrides')
 export class LeadScoreOverrideController {
-    constructor(private readonly leadScoreService: LeadScoreService) {}
+    constructor(@Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService) {}
 
     @Post(':id\\:approve')
     @HasPermissions('lead:score:override')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '批准线索评分人工覆盖' })
     @ApiOkResponse({ type: LeadScoreOverrideDto })
-    approve(
-        @Param('id') id: string,
-        @Body() body: ApproveLeadScoreOverrideRequestDto,
-        @Request() req: { user: UserPayload } & RuntimeAuditRequestLike
-    ): Promise<LeadScoreOverrideSummary> {
+    approve(@Param('id') id: string, @Body() body: ApproveLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
         return this.leadScoreService.approveLeadScoreOverride(
             id,
             {
@@ -277,11 +278,7 @@ export class LeadScoreOverrideController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '驳回线索评分人工覆盖' })
     @ApiOkResponse({ type: LeadScoreOverrideDto })
-    reject(
-        @Param('id') id: string,
-        @Body() body: RejectLeadScoreOverrideRequestDto,
-        @Request() req: { user: UserPayload } & RuntimeAuditRequestLike
-    ): Promise<LeadScoreOverrideSummary> {
+    reject(@Param('id') id: string, @Body() body: RejectLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
         return this.leadScoreService.rejectLeadScoreOverride(
             id,
             {
@@ -298,11 +295,7 @@ export class LeadScoreOverrideController {
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '撤销线索评分人工覆盖' })
     @ApiOkResponse({ type: LeadScoreOverrideDto })
-    revoke(
-        @Param('id') id: string,
-        @Body() body: RevokeLeadScoreOverrideRequestDto,
-        @Request() req: { user: UserPayload } & RuntimeAuditRequestLike
-    ): Promise<LeadScoreOverrideSummary> {
+    revoke(@Param('id') id: string, @Body() body: RevokeLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
         return this.leadScoreService.revokeLeadScoreOverride(
             id,
             {
