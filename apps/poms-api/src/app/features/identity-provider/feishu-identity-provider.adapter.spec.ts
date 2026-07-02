@@ -1,6 +1,7 @@
 import { IdentityProviderConfigStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
 import axios from 'axios';
 import { FeishuIdentityProviderAdapter } from './feishu-identity-provider.adapter';
+import { IdentityProviderAdapterError } from './identity-provider.adapter';
 import { IdentityProviderConfig } from './identity-provider-config.entity';
 
 jest.mock('axios');
@@ -11,6 +12,7 @@ describe('FeishuIdentityProviderAdapter', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        mockedAxios.isAxiosError.mockImplementation((error: unknown): error is never => Boolean(error && typeof error === 'object' && 'isAxiosError' in error));
         adapter = new FeishuIdentityProviderAdapter();
     });
 
@@ -145,6 +147,46 @@ describe('FeishuIdentityProviderAdapter', () => {
                 departmentNames: ['销售部']
             }
         ]);
+    });
+
+    it('normalizes Feishu user search permission errors without leaking bearer tokens', async () => {
+        mockedAxios.get.mockRejectedValueOnce({
+            isAxiosError: true,
+            response: {
+                status: 400,
+                data: {
+                    code: 99991679,
+                    msg: 'Unauthorized',
+                    error: {
+                        log_id: '202607021506300D005719E2BED5C7B160'
+                    }
+                }
+            },
+            config: {
+                headers: {
+                    Authorization: 'Bearer user-access-token'
+                }
+            }
+        });
+
+        try {
+            await adapter.searchExternalUsers({
+                config: createConfig(),
+                accessToken: 'user-access-token',
+                query: '张',
+                limit: 10
+            });
+            throw new Error('Expected IdentityProviderAdapterError');
+        } catch (error) {
+            expect(error).toBeInstanceOf(IdentityProviderAdapterError);
+            expect(error).toMatchObject({
+                providerCode: 99991679,
+                providerMessage: 'Unauthorized',
+                providerLogId: '202607021506300D005719E2BED5C7B160'
+            });
+            expect((error as Error).message).toContain('Unauthorized');
+            expect((error as Error).message).not.toContain('user-access-token');
+        }
     });
 
     function createConfig(): IdentityProviderConfig {

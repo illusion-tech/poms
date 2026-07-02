@@ -15,6 +15,7 @@ import { ExternalOrgDirectoryAdapterError } from '../external-org-sync/external-
 import { ExternalOrgDirectoryAdapterRegistry } from '../external-org-sync/external-org-directory-adapter.registry';
 import { ExternalIdentity } from './external-identity.entity';
 import { ExternalLoginTicket, ExternalLoginTicketStatusValue } from './external-login-ticket.entity';
+import { IdentityProviderAdapterError } from './identity-provider.adapter';
 import { IdentityProviderAdapterRegistry } from './identity-provider-adapter.registry';
 import { IdentityProviderConfig } from './identity-provider-config.entity';
 import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.entity';
@@ -650,7 +651,9 @@ describe('IdentityProviderService', () => {
             id: null,
             identityProviderConfigId: providerConfigId,
             pomsUserId: operatorId,
-            status: IdentityProviderOAuthGrantStatusValue.Missing
+            status: IdentityProviderOAuthGrantStatusValue.Missing,
+            requiredScopes: ['contact:user:search'],
+            missingRequiredScopes: ['contact:user:search']
         });
     });
 
@@ -708,6 +711,33 @@ describe('IdentityProviderService', () => {
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'identity-provider.oauth-grant.updated' }));
     });
 
+    it('stores required search scopes when Feishu token exchange omits scope echoes', async () => {
+        const config = createSearchEnabledConfig({ searchScopes: [] });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(config);
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(null);
+        adapter.exchangeAdminGrantCode.mockResolvedValueOnce({
+            accessToken: 'user-access-token',
+            refreshToken: 'refresh-token',
+            expiresInSeconds: 7200,
+            refreshExpiresInSeconds: 30 * 24 * 60 * 60,
+            scopes: []
+        });
+
+        await service.authorizeCurrentAdminProviderGrant(providerConfigId, operatorId);
+        const state = adapter.buildAdminGrantAuthorizeUrl.mock.calls[0][0].state as string;
+
+        const result = await service.handleCurrentAdminProviderGrantCallback({ code: 'auth-code', state });
+        const saved = repository.saveAll.mock.calls.at(-1)?.[0][0] as IdentityProviderOAuthGrant;
+
+        expect(saved.scopes).toEqual(['contact:user:search']);
+        expect(result).toMatchObject({
+            scopes: ['contact:user:search'],
+            requiredScopes: ['contact:user:search'],
+            missingRequiredScopes: []
+        });
+    });
+
     it('searches external users through the current admin provider grant', async () => {
         repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
         repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
@@ -730,6 +760,49 @@ describe('IdentityProviderService', () => {
             })
         ]);
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'identity-provider.external-users.searched' }));
+    });
+
+    it('rejects external user search before calling Feishu when the grant is missing required search scopes', async () => {
+        const grant = createOAuthGrant({ scopes: ['auth:user.id:read'] });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig({ searchScopes: [] }));
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
+
+        await expect(service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId)).rejects.toThrow(BadRequestException);
+
+        expect(adapter.searchExternalUsers).not.toHaveBeenCalled();
+        expect(grant.lastError).toContain('contact:user:search');
+        const response = await captureBadRequest(() => service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId));
+        expect(response).toMatchObject({
+            code: 'identity_provider_missing_required_scopes',
+            missingRequiredScopes: ['contact:user:search'],
+            requiredScopes: ['contact:user:search']
+        });
+    });
+
+    it('returns an actionable 400 when Feishu rejects external user search permissions', async () => {
+        const grant = createOAuthGrant();
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
+        adapter.searchExternalUsers.mockRejectedValueOnce(
+            new IdentityProviderAdapterError('Feishu user search failed: Unauthorized (code 99991679, HTTP 400, log_id 202607021506300D005719E2BED5C7B160)', {
+                providerCode: 99991679,
+                providerMessage: 'Unauthorized',
+                providerLogId: '202607021506300D005719E2BED5C7B160'
+            })
+        );
+
+        const response = await captureBadRequest(() => service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId));
+
+        expect(response).toMatchObject({
+            code: 'identity_provider_search_permission_denied',
+            providerCode: 99991679,
+            providerLogId: '202607021506300D005719E2BED5C7B160',
+            requiredScopes: ['contact:user:search']
+        });
+        expect(grant.lastError).toContain('Unauthorized');
+        expect(grant.lastError).not.toContain('Bearer');
     });
 
     it('rejects external user search when the current admin grant is expired', async () => {
@@ -1014,5 +1087,15 @@ describe('IdentityProviderService', () => {
         const encrypted = Buffer.concat([cipher.update(secret, 'utf8'), cipher.final()]);
         const tag = cipher.getAuthTag();
         return `v1:${iv.toString('base64')}:${tag.toString('base64')}:${encrypted.toString('base64')}`;
+    }
+
+    async function captureBadRequest(action: () => Promise<unknown>): Promise<Record<string, unknown>> {
+        try {
+            await action();
+            throw new Error('Expected BadRequestException');
+        } catch (error) {
+            if (!(error instanceof BadRequestException)) throw error;
+            return error.getResponse() as Record<string, unknown>;
+        }
     }
 });

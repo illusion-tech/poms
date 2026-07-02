@@ -14993,6 +14993,24 @@
               "maxLength": 128
             }
           },
+          "requiredScopes": {
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "missingRequiredScopes": {
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
           "grantedAt": {
             "type": "string",
             "format": "date-time",
@@ -15042,6 +15060,8 @@
           "pomsUserId",
           "status",
           "scopes",
+          "requiredScopes",
+          "missingRequiredScopes",
           "grantedAt",
           "expiresAt",
           "refreshExpiresAt",
