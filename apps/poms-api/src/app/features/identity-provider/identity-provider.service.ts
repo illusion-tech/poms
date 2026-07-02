@@ -47,6 +47,8 @@ import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.enti
 import { IdentityProviderRepository } from './identity-provider.repository';
 import { IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS } from './identity-provider-secret.constants';
 
+const FEISHU_USER_SEARCH_REQUIRED_SCOPES = ['contact:user:search'] as const;
+
 @Injectable()
 export class IdentityProviderService {
     constructor(
@@ -334,18 +336,20 @@ export class IdentityProviderService {
 
         const redirectUri = this.requireSearchRedirectUri(config);
         const state = this.createOAuthState(config.id, operatorId);
+        const scopes = this.searchGrantRequestedScopes(config);
         const authorizeUrl = this.adapterRegistry.get(config.provider).buildAdminGrantAuthorizeUrl({
             config,
             redirectUri,
             state: state.value,
-            scopes: config.searchScopes ?? []
+            scopes
         });
 
         await this.recordConfigAudit('identity-provider.oauth-grant.authorize-started', config, operatorId, null, {
             identityProviderConfigId: config.id,
             provider: config.provider,
             tenantId: config.tenantId ?? null,
-            stateExpiresAt: state.expiresAt.toISOString()
+            stateExpiresAt: state.expiresAt.toISOString(),
+            scopes
         });
 
         return {
@@ -409,7 +413,7 @@ export class IdentityProviderService {
         grant.tenantId = config.tenantId ?? null;
         grant.encryptedAccessToken = this.encryptSecret(tokenSet.accessToken);
         grant.encryptedRefreshToken = tokenSet.refreshToken ? this.encryptSecret(tokenSet.refreshToken) : null;
-        grant.scopes = tokenSet.scopes.length > 0 ? tokenSet.scopes : (config.searchScopes ?? []);
+        grant.scopes = tokenSet.scopes.length > 0 ? tokenSet.scopes : this.searchGrantRequestedScopes(config);
         grant.status = IdentityProviderOAuthGrantStatusValue.Active;
         grant.grantedAt = now;
         grant.expiresAt = this.expiresAtFromNow(tokenSet.expiresInSeconds);
@@ -432,6 +436,13 @@ export class IdentityProviderService {
         const grant = await this.identityProviderRepository.findOAuthGrantByUserProvider(config.id, operatorId);
         if (!grant || this.resolveOAuthGrantStatus(grant) !== IdentityProviderOAuthGrantStatusValue.Active) {
             throw new BadRequestException('Current admin must authorize this identity provider before searching external users.');
+        }
+        const missingRequiredScopes = this.missingRequiredSearchGrantScopes(config, grant.scopes ?? []);
+        if (missingRequiredScopes.length > 0) {
+            grant.lastError = this.missingRequiredScopesMessage(missingRequiredScopes);
+            grant.updatedBy = operatorId;
+            await this.identityProviderRepository.saveAll([grant]);
+            throw this.missingRequiredScopesException(config, grant.scopes ?? [], missingRequiredScopes);
         }
 
         try {
@@ -468,10 +479,10 @@ export class IdentityProviderService {
                 searchedAt: new Date().toISOString()
             };
         } catch (error) {
-            grant.lastError = error instanceof Error ? error.message.slice(0, 1024) : 'Provider user search failed.';
+            grant.lastError = this.safeProviderErrorMessage(error);
             grant.updatedBy = operatorId;
             await this.identityProviderRepository.saveAll([grant]);
-            if (error instanceof IdentityProviderAdapterError) throw new BadRequestException(error.message);
+            if (error instanceof IdentityProviderAdapterError) throw this.providerUserSearchException(config, error);
             throw error;
         }
     }
@@ -749,6 +760,8 @@ export class IdentityProviderService {
     }
 
     private toOAuthGrantSummary(config: IdentityProviderConfig, pomsUserId: string, grant: IdentityProviderOAuthGrant | null): IdentityProviderOAuthGrantSummary {
+        const scopes = grant?.scopes ?? [];
+        const requiredScopes = this.requiredSearchGrantScopes(config);
         return {
             id: grant?.id ?? null,
             identityProviderConfigId: config.id,
@@ -756,7 +769,9 @@ export class IdentityProviderService {
             tenantId: config.tenantId ?? null,
             pomsUserId,
             status: grant ? this.resolveOAuthGrantStatus(grant) : IdentityProviderOAuthGrantStatusValue.Missing,
-            scopes: grant?.scopes ?? [],
+            scopes,
+            requiredScopes,
+            missingRequiredScopes: this.missingScopes(requiredScopes, scopes),
             grantedAt: grant?.grantedAt.toISOString() ?? null,
             expiresAt: grant?.expiresAt?.toISOString() ?? null,
             refreshExpiresAt: grant?.refreshExpiresAt?.toISOString() ?? null,
@@ -789,6 +804,70 @@ export class IdentityProviderService {
             rowVersion: grant.rowVersion,
             tokenRedacted: true
         };
+    }
+
+    private searchGrantRequestedScopes(config: IdentityProviderConfig): string[] {
+        return this.uniqueScopes([...this.requiredSearchGrantScopes(config), ...(config.searchScopes ?? [])]);
+    }
+
+    private requiredSearchGrantScopes(config: IdentityProviderConfig): string[] {
+        if (!config.searchEnabled) return [];
+        if (config.provider === IdentityProviderValue.Feishu) return [...FEISHU_USER_SEARCH_REQUIRED_SCOPES];
+        return [];
+    }
+
+    private missingRequiredSearchGrantScopes(config: IdentityProviderConfig, grantedScopes: string[]): string[] {
+        return this.missingScopes(this.requiredSearchGrantScopes(config), grantedScopes);
+    }
+
+    private missingScopes(requiredScopes: string[], grantedScopes: string[]): string[] {
+        const granted = new Set(grantedScopes.map((scope) => scope.trim()).filter(Boolean));
+        return requiredScopes.filter((scope) => !granted.has(scope));
+    }
+
+    private uniqueScopes(scopes: string[]): string[] {
+        return [...new Set(scopes.map((scope) => scope.trim()).filter(Boolean))];
+    }
+
+    private missingRequiredScopesMessage(missingRequiredScopes: string[]): string {
+        return `Missing required Feishu search scopes: ${missingRequiredScopes.join(', ')}`;
+    }
+
+    private missingRequiredScopesException(config: IdentityProviderConfig, grantedScopes: string[], missingRequiredScopes: string[]): BadRequestException {
+        return new BadRequestException({
+            statusCode: 400,
+            code: 'identity_provider_missing_required_scopes',
+            message: '当前飞书授权缺少用户搜索所需权限，请在飞书开放平台开通后重新授权。',
+            provider: config.provider,
+            identityProviderConfigId: config.id,
+            grantedScopes,
+            requiredScopes: this.requiredSearchGrantScopes(config),
+            missingRequiredScopes,
+            nextActions: ['在飞书开放平台为当前应用开通“搜索用户 contact:user:search”权限。', '回到 POMS 重新发起当前管理员授权。']
+        });
+    }
+
+    private providerUserSearchException(config: IdentityProviderConfig, error: IdentityProviderAdapterError): BadRequestException {
+        const isUnauthorized = error.providerCode === 99991679 || error.providerMessage?.toLowerCase() === 'unauthorized';
+        return new BadRequestException({
+            statusCode: 400,
+            code: isUnauthorized ? 'identity_provider_search_permission_denied' : 'identity_provider_external_user_search_failed',
+            message: isUnauthorized ? '飞书拒绝了用户搜索请求，请确认开放平台权限已开通并重新授权。' : error.message,
+            provider: config.provider,
+            identityProviderConfigId: config.id,
+            providerCode: error.providerCode,
+            providerMessage: error.providerMessage,
+            providerLogId: error.providerLogId,
+            requiredScopes: this.requiredSearchGrantScopes(config),
+            nextActions: isUnauthorized
+                ? ['在飞书开放平台确认已开通“搜索用户 contact:user:search”权限。', '如果刚刚开通权限，请回到 POMS 重新授权当前管理员。', '如仍失败，可使用飞书 log_id 在开放平台排查。']
+                : ['稍后重试或根据飞书返回的错误信息排查开放平台配置。']
+        });
+    }
+
+    private safeProviderErrorMessage(error: unknown): string {
+        const message = error instanceof Error ? error.message : 'Provider user search failed.';
+        return this.redactDiagnosticSecrets(message).slice(0, 1024);
     }
 
     private async recordConfigAudit(eventType: string, config: IdentityProviderConfig, operatorId: string | null | undefined, beforeSnapshot: Record<string, unknown> | null, afterSnapshot: Record<string, unknown>): Promise<void> {

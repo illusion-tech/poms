@@ -59,9 +59,22 @@ export interface IdentityProviderAdapter {
     searchExternalUsers(input: SearchExternalUsersInput): Promise<ProviderExternalUserCandidate[]>;
 }
 
+export type IdentityProviderAdapterErrorDetails = {
+    providerCode?: number | null;
+    providerMessage?: string | null;
+    providerLogId?: string | null;
+};
+
 export class IdentityProviderAdapterError extends Error {
-    constructor(message: string) {
+    readonly providerCode: number | null;
+    readonly providerMessage: string | null;
+    readonly providerLogId: string | null;
+
+    constructor(message: string, details: IdentityProviderAdapterErrorDetails = {}) {
         super(message);
         this.name = 'IdentityProviderAdapterError';
+        this.providerCode = details.providerCode ?? null;
+        this.providerMessage = details.providerMessage ?? null;
+        this.providerLogId = details.providerLogId ?? null;
     }
 }

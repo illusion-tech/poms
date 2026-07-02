@@ -90,7 +90,26 @@ describe('IdentityProviderOAuthGrantController', () => {
             error: undefined,
             error_description: undefined
         });
-        expect(result.identityProviderConfigId).toBe(configId);
+        expect(result).toEqual(expect.objectContaining({ identityProviderConfigId: configId }));
+    });
+
+    it('redirects browser callback requests back to the admin user page instead of rendering JSON', async () => {
+        service.handleCurrentAdminProviderGrantCallback.mockResolvedValue(createGrantSummary());
+        const response = { redirect: jest.fn() };
+
+        const result = await controller.handleCurrentAdminProviderGrantCallback(
+            {
+                code: 'auth-code',
+                state: 'state',
+                error: undefined,
+                error_description: undefined
+            },
+            { headers: { accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' } },
+            response
+        );
+
+        expect(result).toBeUndefined();
+        expect(response.redirect).toHaveBeenCalledWith(`/platform/users?identityProviderGrant=success&provider=feishu&identityProviderConfigId=${configId}`);
     });
 
     async function createRouteTestApp(): Promise<INestApplication> {
@@ -117,6 +136,8 @@ describe('IdentityProviderOAuthGrantController', () => {
             pomsUserId: operatorRequest.user.sub,
             status: IdentityProviderOAuthGrantStatusValue.Active,
             scopes: ['contact:user:search'],
+            requiredScopes: ['contact:user:search'],
+            missingRequiredScopes: [],
             grantedAt: '2026-05-07T00:00:00.000Z',
             expiresAt: '2026-05-07T02:00:00.000Z',
             refreshExpiresAt: '2026-06-07T00:00:00.000Z',

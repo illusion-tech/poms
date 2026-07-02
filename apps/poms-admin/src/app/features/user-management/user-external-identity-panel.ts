@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -40,6 +41,24 @@ const GRANT_STATUS_LABELS: Record<IdentityProviderOAuthGrantStatus, string> = {
     [IdentityProviderOAuthGrantStatus.Expired]: '已过期',
     [IdentityProviderOAuthGrantStatus.Revoked]: '已撤销'
 };
+
+type ProviderSearchErrorBody = {
+    message?: unknown;
+    nextActions?: unknown;
+    missingRequiredScopes?: unknown;
+    providerLogId?: unknown;
+};
+
+function stringArray(value: unknown): string[] {
+    if (!Array.isArray(value)) return [];
+    return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0).map((item) => item.trim());
+}
+
+function serverMessage(value: unknown): string | null {
+    if (typeof value === 'string' && value.trim()) return value.trim();
+    if (Array.isArray(value)) return stringArray(value).join('；') || null;
+    return null;
+}
 
 @Component({
     selector: 'app-user-external-identity-panel',
@@ -118,6 +137,15 @@ const GRANT_STATUS_LABELS: Record<IdentityProviderOAuthGrantStatus, string> = {
                         <p-button icon="pi pi-refresh" size="small" severity="secondary" [text]="true" [rounded]="true" [disabled]="!selectedConfigId()" [loading]="store.loadingGrantConfigId() === selectedConfigId()" (onClick)="refreshGrant()" />
                     </div>
                 </div>
+
+                @if (grantGuidance(); as guidance) {
+                    <div class="flex flex-col gap-3 rounded-[8px] border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100 md:flex-row md:items-center md:justify-between">
+                        <span>{{ guidance }}</span>
+                        @if (grantRequiresAuthorization()) {
+                            <p-button label="重新授权" icon="pi pi-external-link" size="small" severity="warn" [outlined]="true" [loading]="store.authorizingGrantConfigId() === selectedConfigId()" (onClick)="authorizeGrant()" />
+                        }
+                    </div>
+                }
 
                 <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-end">
                     <div class="flex flex-col gap-2">
@@ -205,7 +233,6 @@ export class UserExternalIdentityPanel {
         const configId = this.selectedConfigId();
         return configId ? (this.store.grantsByConfigId()[configId] ?? null) : null;
     });
-    readonly canSearch = computed(() => Boolean(this.selectedConfigId() && this.searchQuery.trim().length >= 2 && this.grant()?.status === IdentityProviderOAuthGrantStatus.Active));
     readonly bindingSummaryText = computed(() => {
         const activeCount = this.bindings().filter((binding) => binding.status === ExternalIdentityBindingStatus.Active).length;
         return activeCount > 0 ? `${activeCount} 个 active 绑定` : '未建立 active 绑定';
@@ -257,7 +284,7 @@ export class UserExternalIdentityPanel {
         try {
             const result = await this.store.authorizeCurrentAdminGrant(configId);
             window.open(result.authorizeUrl, '_blank', 'noopener,noreferrer');
-            this.messageService.add({ severity: 'info', summary: '授权已打开', detail: '完成授权后刷新状态' });
+            this.messageService.add({ severity: 'info', summary: '授权已打开', detail: '授权会自动申请用户搜索所需权限；完成后回到当前窗口刷新状态。' });
         } catch {
             this.messageService.add({ severity: 'error', summary: '授权失败', detail: '无法生成飞书授权地址' });
         }
@@ -270,15 +297,17 @@ export class UserExternalIdentityPanel {
             this.messageService.add({ severity: 'warn', summary: '请输入姓名', detail: '至少输入 2 个字符' });
             return;
         }
-        if (this.grant()?.status !== IdentityProviderOAuthGrantStatus.Active) {
-            this.messageService.add({ severity: 'warn', summary: '需要授权', detail: '当前管理员尚未授权搜索' });
+        const blocker = this.searchBlocker();
+        if (blocker) {
+            this.messageService.add({ severity: 'warn', summary: '暂不能搜索', detail: blocker });
             return;
         }
 
         try {
             await this.store.searchExternalUsers(configId, query, 20);
-        } catch {
-            this.messageService.add({ severity: 'error', summary: '搜索失败', detail: '请刷新授权状态后重试' });
+        } catch (error) {
+            this.messageService.add({ severity: 'error', summary: '搜索失败', detail: this.searchErrorDetail(error) });
+            await this.loadGrant(configId);
         }
     }
 
@@ -344,6 +373,31 @@ export class UserExternalIdentityPanel {
         return 'warn';
     }
 
+    canSearch(): boolean {
+        return this.searchQuery.trim().length >= 2 && this.searchBlocker() === null;
+    }
+
+    grantGuidance(): string | null {
+        const configId = this.selectedConfigId();
+        if (!configId) return null;
+
+        const grant = this.grant();
+        if (!grant) return '尚未读取授权状态，请刷新后再搜索飞书用户。';
+        if (grant.status === IdentityProviderOAuthGrantStatus.Missing) return '当前管理员尚未授权飞书用户搜索。';
+        if (grant.status === IdentityProviderOAuthGrantStatus.Expired) return '飞书搜索授权已过期，请重新授权。';
+        if (grant.status === IdentityProviderOAuthGrantStatus.Revoked) return '飞书搜索授权已撤销，请重新授权。';
+        const missingScopes = grant.missingRequiredScopes ?? [];
+        if (missingScopes.length > 0) return `当前授权缺少飞书用户搜索权限（${missingScopes.join(', ')}），请重新授权。`;
+        if (grant.lastError) return `最近一次搜索失败：${grant.lastError}`;
+        return null;
+    }
+
+    grantRequiresAuthorization(): boolean {
+        const grant = this.grant();
+        if (!this.selectedConfigId()) return false;
+        return !grant || grant.status !== IdentityProviderOAuthGrantStatus.Active || (grant.missingRequiredScopes ?? []).length > 0;
+    }
+
     departmentText(candidate: ExternalUserCandidate): string {
         return candidate.departmentNames.length > 0 ? candidate.departmentNames.join(' / ') : '未返回';
     }
@@ -351,8 +405,36 @@ export class UserExternalIdentityPanel {
     emptySearchText(): string {
         if (this.store.searchingConfigId() === this.selectedConfigId()) return '搜索中...';
         if (!this.selectedConfigId()) return '请选择配置';
-        if (this.grant()?.status !== IdentityProviderOAuthGrantStatus.Active) return '等待授权';
+        const blocker = this.searchBlocker();
+        if (blocker) return blocker;
         return '暂无候选人';
+    }
+
+    private searchBlocker(): string | null {
+        const grant = this.grant();
+        if (!this.selectedConfigId()) return '请选择配置';
+        if (!grant || grant.status === IdentityProviderOAuthGrantStatus.Missing) return '当前管理员尚未授权搜索';
+        if (grant.status === IdentityProviderOAuthGrantStatus.Expired) return '飞书搜索授权已过期，请重新授权';
+        if (grant.status === IdentityProviderOAuthGrantStatus.Revoked) return '飞书搜索授权已撤销，请重新授权';
+        const missingScopes = grant.missingRequiredScopes ?? [];
+        if (missingScopes.length > 0) return `缺少飞书搜索权限：${missingScopes.join(', ')}；请重新授权`;
+        if (grant.status !== IdentityProviderOAuthGrantStatus.Active) return '当前授权状态不可用';
+        return null;
+    }
+
+    private searchErrorDetail(error: unknown): string {
+        if (!(error instanceof HttpErrorResponse)) return '飞书用户搜索没有完成，请稍后重试。';
+
+        const body = error.error as ProviderSearchErrorBody | string | null;
+        if (typeof body === 'string') return body.trim() || '飞书用户搜索没有完成，请稍后重试。';
+        if (!body || typeof body !== 'object') return '飞书用户搜索没有完成，请稍后重试。';
+
+        const message = serverMessage(body.message) ?? '飞书用户搜索没有完成。';
+        const missingScopes = stringArray(body.missingRequiredScopes);
+        const nextActions = stringArray(body.nextActions);
+        const providerLogId = typeof body.providerLogId === 'string' && body.providerLogId.trim() ? body.providerLogId.trim() : null;
+        const details = [missingScopes.length ? `缺少权限：${missingScopes.join(', ')}` : null, nextActions[0] ?? null, providerLogId ? `飞书 log_id：${providerLogId}` : null].filter(Boolean);
+        return [message, ...details].join(' ');
     }
 
     private async reloadForUser(userId: string): Promise<void> {

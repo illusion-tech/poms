@@ -78,7 +78,9 @@ function createGrant(overrides: Partial<IdentityProviderOAuthGrantSummary> = {})
         tenantId: null,
         pomsUserId: 'admin-1',
         status: IdentityProviderOAuthGrantStatus.Active,
-        scopes: ['contact:user.employee_id:readonly'],
+        scopes: ['contact:user:search'],
+        requiredScopes: ['contact:user:search'],
+        missingRequiredScopes: [],
         grantedAt: '2026-05-07T08:12:00.000Z',
         expiresAt: '2026-05-07T10:12:00.000Z',
         refreshExpiresAt: null,
@@ -218,6 +220,25 @@ describe('UserExternalIdentityPanel', () => {
         await component.searchCandidates();
 
         expect(storeMock.searchExternalUsers).toHaveBeenCalledWith('identity-provider-1', '李四', 20);
+    });
+
+    it('blocks external user search when the current admin grant is missing required Feishu scopes', async () => {
+        grantsByConfigId.set({
+            'identity-provider-1': createGrant({
+                scopes: ['auth:user.id:read'],
+                missingRequiredScopes: ['contact:user:search']
+            })
+        });
+        await component.openBindingDialog();
+        component.searchQuery = '李四';
+        fixture.detectChanges();
+
+        await component.searchCandidates();
+        fixture.detectChanges();
+
+        expect(storeMock.searchExternalUsers).not.toHaveBeenCalled();
+        expect(fixture.nativeElement.textContent).toContain('当前授权缺少飞书用户搜索权限');
+        expect(fixture.nativeElement.textContent).toContain('重新授权');
     });
 
     it('binds a selected external candidate without requiring email or mobile', async () => {

@@ -49,17 +49,22 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
         }
 
         const endpoint = process.env['FEISHU_OAUTH_TOKEN_URL'] ?? 'https://open.feishu.cn/open-apis/authen/v2/oauth/token';
-        const response = await axios.post(
-            endpoint,
-            {
-                grant_type: 'authorization_code',
-                client_id: input.config.clientId,
-                client_secret: input.clientSecret,
-                code: input.code,
-                redirect_uri: input.redirectUri
-            },
-            { timeout: this.timeoutMs() }
-        );
+        let response: { data: unknown };
+        try {
+            response = await axios.post(
+                endpoint,
+                {
+                    grant_type: 'authorization_code',
+                    client_id: input.config.clientId,
+                    client_secret: input.clientSecret,
+                    code: input.code,
+                    redirect_uri: input.redirectUri
+                },
+                { timeout: this.timeoutMs() }
+            );
+        } catch (error) {
+            throw this.normalizeHttpError(error, 'Feishu OAuth token exchange failed');
+        }
         const payload = this.unwrapFeishuPayload(response.data, 'Feishu OAuth token exchange failed');
         const accessToken = this.readString(payload, ['access_token', 'user_access_token']);
         if (!accessToken) {
@@ -77,12 +82,17 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
 
     async fetchExternalLoginIdentity(input: { accessToken: string }): Promise<ProviderExternalLoginIdentity> {
         const endpoint = process.env['FEISHU_USER_INFO_URL'] ?? 'https://open.feishu.cn/open-apis/authen/v1/user_info';
-        const response = await axios.get(endpoint, {
-            headers: {
-                Authorization: `Bearer ${input.accessToken}`
-            },
-            timeout: this.timeoutMs()
-        });
+        let response: { data: unknown };
+        try {
+            response = await axios.get(endpoint, {
+                headers: {
+                    Authorization: `Bearer ${input.accessToken}`
+                },
+                timeout: this.timeoutMs()
+            });
+        } catch (error) {
+            throw this.normalizeHttpError(error, 'Feishu user info failed');
+        }
         const payload = this.unwrapFeishuPayload(response.data, 'Feishu user info failed');
         const subjectId = this.readString(payload, ['open_id', 'user_id', 'sub']);
         const displayName = this.readString(payload, ['name', 'display_name', 'en_name']);
@@ -102,16 +112,21 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
 
     async searchExternalUsers(input: SearchExternalUsersInput): Promise<ProviderExternalUserCandidate[]> {
         const endpoint = process.env['FEISHU_USER_SEARCH_URL'] ?? 'https://open.feishu.cn/open-apis/search/v1/user';
-        const response = await axios.get(endpoint, {
-            headers: {
-                Authorization: `Bearer ${input.accessToken}`
-            },
-            params: {
-                query: input.query,
-                page_size: input.limit
-            },
-            timeout: this.timeoutMs()
-        });
+        let response: { data: unknown };
+        try {
+            response = await axios.get(endpoint, {
+                headers: {
+                    Authorization: `Bearer ${input.accessToken}`
+                },
+                params: {
+                    query: input.query,
+                    page_size: input.limit
+                },
+                timeout: this.timeoutMs()
+            });
+        } catch (error) {
+            throw this.normalizeHttpError(error, 'Feishu user search failed');
+        }
         const payload = this.unwrapFeishuPayload(response.data, 'Feishu user search failed');
         const users = this.readArray(payload, ['users', 'items', 'user_list']);
         return users.map((user) => this.toExternalUserCandidate(user)).filter((user): user is ProviderExternalUserCandidate => Boolean(user));
@@ -121,11 +136,39 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
         const root = this.asRecord(raw);
         const code = this.readNumber(root, ['code']);
         if (code !== null && code !== 0) {
-            const message = this.readString(root, ['msg', 'message']) ?? fallbackMessage;
-            throw new IdentityProviderAdapterError(`${message} (${code})`);
+            throw this.createFeishuError(raw, fallbackMessage);
         }
 
         return this.asRecord(root['data'] ?? root);
+    }
+
+    private normalizeHttpError(error: unknown, fallbackMessage: string): IdentityProviderAdapterError {
+        if (axios.isAxiosError(error)) {
+            const response = error.response;
+            if (response) {
+                return this.createFeishuError(response.data, fallbackMessage, response.status);
+            }
+            const code = typeof error.code === 'string' && error.code.trim() ? error.code.trim() : 'network_error';
+            return new IdentityProviderAdapterError(`${fallbackMessage}: ${code}`);
+        }
+
+        return new IdentityProviderAdapterError(fallbackMessage);
+    }
+
+    private createFeishuError(raw: unknown, fallbackMessage: string, status?: number): IdentityProviderAdapterError {
+        const root = this.asRecord(raw);
+        const code = this.readNumber(root, ['code']);
+        const providerMessage = this.readString(root, ['msg', 'message']);
+        const error = this.asRecord(root['error']);
+        const providerLogId = this.readString(error, ['log_id', 'logId']);
+        const details = [code !== null ? `code ${code}` : null, status ? `HTTP ${status}` : null, providerLogId ? `log_id ${providerLogId}` : null].filter(Boolean).join(', ');
+        const suffix = details ? ` (${details})` : '';
+        const message = providerMessage ? `${fallbackMessage}: ${providerMessage}${suffix}` : `${fallbackMessage}${suffix}`;
+        return new IdentityProviderAdapterError(message, {
+            providerCode: code,
+            providerMessage,
+            providerLogId
+        });
     }
 
     private toExternalUserCandidate(raw: unknown): ProviderExternalUserCandidate | null {

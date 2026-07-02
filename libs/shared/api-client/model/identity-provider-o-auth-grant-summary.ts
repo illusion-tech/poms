@@ -19,6 +19,8 @@ export interface IdentityProviderOAuthGrantSummary {
     pomsUserId: string;
     status: IdentityProviderOAuthGrantStatus;
     scopes: Array<string>;
+    requiredScopes: Array<string>;
+    missingRequiredScopes: Array<string>;
     grantedAt: string | null;
     expiresAt: string | null;
     refreshExpiresAt: string | null;

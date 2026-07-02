@@ -100,10 +100,12 @@ const FEISHU_CONFIG_TIPS = {
     redirectUri: '填写飞书登录 OAuth 回调地址，并在飞书开放平台的重定向 URL 白名单中配置完全一致的地址。登录联调使用前端 /auth/identity-providers:callback。',
     searchRedirectUri: '填写管理员搜索授权 OAuth 回调地址，并加入飞书重定向 URL 白名单。第一版通常使用后端 /api/platform/identity-provider-oauth-grants:callback。',
     loginScopes: '用于员工登录身份读取的飞书授权范围。按飞书开放平台实际开通的权限填写，每行或空格分隔一个 scope。',
-    searchScopes: '用于管理员姓名模糊搜索飞书用户的授权范围。第一版通常需要 contact:user:search，并要求管理员完成个人授权。',
+    searchScopes: '高级追加项。POMS 会在管理员授权时自动请求用户搜索所需的 contact:user:search；这里只填写额外 scope。',
     searchGrantMode: '第一版选择“管理员授权”。每个管理员用自己的飞书授权进行搜索，不使用全局通讯录同步。',
     tenantAllowlist: '限制允许登录或绑定的飞书租户 ID。默认租户可留空；多租户场景每行填写一个外部租户 ID。'
 } as const;
+
+const FEISHU_SEARCH_REQUIRED_SCOPES = ['contact:user:search'] as const;
 
 const AUTH_EXPIRED_MESSAGE = '登录已过期，请重新登录后再操作。';
 
@@ -443,8 +445,8 @@ const EMPTY_FORM: IdentityProviderForm = {
                         </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
-                                <label for="identityProviderSearchScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">Search scopes</label>
-                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('searchScopes')" tooltipPosition="top" aria-label="飞书 Search scopes 配置说明">
+                                <label for="identityProviderSearchScopes" class="text-sm font-medium text-surface-900 dark:text-surface-0">额外 Search scopes</label>
+                                <button type="button" class="provider-help-trigger" [pTooltip]="feishuConfigTip('searchScopes')" tooltipPosition="top" aria-label="飞书额外 Search scopes 配置说明">
                                     <i class="pi pi-question provider-help-icon"></i>
                                 </button>
                             </div>
@@ -454,9 +456,10 @@ const EMPTY_FORM: IdentityProviderForm = {
                                 rows="3"
                                 [ngModel]="form().searchScopesText"
                                 (ngModelChange)="updateText('searchScopesText', $event)"
-                                placeholder="每行或空格分隔一个 scope"
+                                placeholder="可留空；每行或空格分隔一个额外 scope"
                                 class="w-full rounded-md!"
                             ></textarea>
+                            <span class="text-xs text-surface-500 dark:text-surface-400">用户搜索必需权限由 POMS 自动请求：{{ feishuSearchRequiredScopesText() }}</span>
                         </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
@@ -751,6 +754,10 @@ export class IdentityProviderList {
 
     feishuConfigTip(field: keyof typeof FEISHU_CONFIG_TIPS): string {
         return FEISHU_CONFIG_TIPS[field];
+    }
+
+    feishuSearchRequiredScopesText(): string {
+        return FEISHU_SEARCH_REQUIRED_SCOPES.join(', ');
     }
 
     statusLabel(status: IdentityProviderConfigStatus): string {

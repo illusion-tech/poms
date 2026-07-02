@@ -176,12 +176,14 @@ describe('IdentityProviderList', () => {
                 '飞书 Search Redirect URI 配置说明',
                 '飞书搜索授权模式配置说明',
                 '飞书 Login scopes 配置说明',
-                '飞书 Search scopes 配置说明',
+                '飞书额外 Search scopes 配置说明',
                 '飞书 Tenant allowlist 配置说明'
             ])
         );
         expect(component.feishuConfigTip('clientId')).toContain('AppID');
         expect(component.feishuConfigTip('clientSecret')).toContain('AppSecret');
+        expect(component.feishuSearchRequiredScopesText()).toBe('contact:user:search');
+        expect(fixture.nativeElement.textContent).toContain('用户搜索必需权限由 POMS 自动请求');
     });
 
     it('reloads provider configs with selected filters', async () => {

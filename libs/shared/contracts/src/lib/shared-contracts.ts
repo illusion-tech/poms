@@ -1153,6 +1153,8 @@ export const IdentityProviderOAuthGrantSummarySchema = z
         pomsUserId: z.uuid(),
         status: IdentityProviderOAuthGrantStatusSchema,
         scopes: IdentityProviderScopeListSchema,
+        requiredScopes: IdentityProviderScopeListSchema,
+        missingRequiredScopes: IdentityProviderScopeListSchema,
         grantedAt: z.iso.datetime().nullable(),
         expiresAt: z.iso.datetime().nullable(),
         refreshExpiresAt: z.iso.datetime().nullable(),
