@@ -1,4 +1,4 @@
-import type { INestApplication } from '@nestjs/common';
+import { BadRequestException, type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { IdentityProviderOAuthGrantStatusValue, IdentityProviderValue } from '@poms/shared-contracts';
 import { IdentityProviderOAuthGrantController } from './identity-provider-oauth-grant.controller';
@@ -110,6 +110,45 @@ describe('IdentityProviderOAuthGrantController', () => {
 
         expect(result).toBeUndefined();
         expect(response.redirect).toHaveBeenCalledWith(`/platform/users?identityProviderGrant=success&provider=feishu&identityProviderConfigId=${configId}`);
+    });
+
+    it('redirects browser callback failures back to the admin user page instead of rendering JSON errors', async () => {
+        service.handleCurrentAdminProviderGrantCallback.mockRejectedValue(new BadRequestException('invalid state'));
+        const response = { redirect: jest.fn() };
+
+        const result = await controller.handleCurrentAdminProviderGrantCallback(
+            {
+                code: undefined,
+                state: 'invalid-state',
+                error: 'access_denied',
+                error_description: 'user denied'
+            },
+            { headers: { accept: 'text/html,application/xhtml+xml' } },
+            response
+        );
+
+        expect(result).toBeUndefined();
+        expect(response.redirect).toHaveBeenCalledWith('/platform/users?identityProviderGrant=failed&reason=oauth_callback_failed');
+    });
+
+    it('keeps JSON callback failures as API errors', async () => {
+        const error = new BadRequestException('invalid state');
+        service.handleCurrentAdminProviderGrantCallback.mockRejectedValue(error);
+        const response = { redirect: jest.fn() };
+
+        await expect(
+            controller.handleCurrentAdminProviderGrantCallback(
+                {
+                    code: undefined,
+                    state: 'invalid-state',
+                    error: 'access_denied',
+                    error_description: 'user denied'
+                },
+                { headers: { accept: 'application/json' } },
+                response
+            )
+        ).rejects.toBe(error);
+        expect(response.redirect).not.toHaveBeenCalled();
     });
 
     async function createRouteTestApp(): Promise<INestApplication> {
