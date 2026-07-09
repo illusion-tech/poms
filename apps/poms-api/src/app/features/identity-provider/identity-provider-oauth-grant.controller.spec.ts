@@ -1,4 +1,4 @@
-import { BadRequestException, type INestApplication } from '@nestjs/common';
+import { BadRequestException, HttpStatus, type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { IdentityProviderOAuthGrantStatusValue, IdentityProviderValue } from '@poms/shared-contracts';
 import { IdentityProviderOAuthGrantController } from './identity-provider-oauth-grant.controller';
@@ -109,7 +109,24 @@ describe('IdentityProviderOAuthGrantController', () => {
         );
 
         expect(result).toBeUndefined();
-        expect(response.redirect).toHaveBeenCalledWith(`/platform/users?identityProviderGrant=success&provider=feishu&identityProviderConfigId=${configId}`);
+        expect(response.redirect).toHaveBeenCalledWith(HttpStatus.FOUND, `/platform/users?identityProviderGrant=success&provider=feishu&identityProviderConfigId=${configId}`);
+    });
+
+    it('returns a 302 Location response for browser callback requests', async () => {
+        service.handleCurrentAdminProviderGrantCallback.mockResolvedValue(createGrantSummary());
+        const app = await createRouteTestApp();
+
+        try {
+            const response = await fetch(`${await app.getUrl()}/platform/identity-provider-oauth-grants:callback?code=auth-code&state=state`, {
+                headers: { accept: 'text/html,application/xhtml+xml' },
+                redirect: 'manual'
+            });
+
+            expect(response.status).toBe(HttpStatus.FOUND);
+            expect(response.headers.get('location')).toBe(`/platform/users?identityProviderGrant=success&provider=feishu&identityProviderConfigId=${configId}`);
+        } finally {
+            await app.close();
+        }
     });
 
     it('redirects browser callback failures back to the admin user page instead of rendering JSON errors', async () => {
@@ -128,7 +145,7 @@ describe('IdentityProviderOAuthGrantController', () => {
         );
 
         expect(result).toBeUndefined();
-        expect(response.redirect).toHaveBeenCalledWith('/platform/users?identityProviderGrant=failed&reason=oauth_callback_failed');
+        expect(response.redirect).toHaveBeenCalledWith(HttpStatus.FOUND, '/platform/users?identityProviderGrant=failed&reason=oauth_callback_failed');
     });
 
     it('keeps JSON callback failures as API errors', async () => {
