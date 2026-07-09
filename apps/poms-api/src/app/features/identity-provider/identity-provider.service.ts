@@ -480,7 +480,7 @@ export class IdentityProviderService {
                 searchedAt: new Date().toISOString()
             };
         } catch (error) {
-            grant.lastError = this.safeProviderErrorMessage(error);
+            grant.lastError = this.userSearchFailureMessage(error);
             grant.updatedBy = operatorId;
             await this.identityProviderRepository.saveAll([grant]);
             if (error instanceof IdentityProviderAdapterError) throw this.providerUserSearchException(config, error);
@@ -831,7 +831,7 @@ export class IdentityProviderService {
     }
 
     private missingRequiredScopesMessage(missingRequiredScopes: string[]): string {
-        return `Missing required Feishu search scopes: ${missingRequiredScopes.join(', ')}`;
+        return `当前飞书授权缺少用户搜索所需权限（${missingRequiredScopes.join(', ')}），请在飞书开放平台开通后重新授权。`;
     }
 
     private missingRequiredScopesException(config: IdentityProviderConfig, grantedScopes: string[], missingRequiredScopes: string[]): BadRequestException {
@@ -849,11 +849,11 @@ export class IdentityProviderService {
     }
 
     private providerUserSearchException(config: IdentityProviderConfig, error: IdentityProviderAdapterError): BadRequestException {
-        const isUnauthorized = error.providerCode === 99991679 || error.providerMessage?.toLowerCase() === 'unauthorized';
+        const isUnauthorized = this.isUserSearchPermissionDenied(error);
         return new BadRequestException({
             statusCode: 400,
             code: isUnauthorized ? 'identity_provider_search_permission_denied' : 'identity_provider_external_user_search_failed',
-            message: isUnauthorized ? '飞书拒绝了用户搜索请求，请确认开放平台权限已开通并重新授权。' : error.message,
+            message: this.userSearchFailureMessage(error),
             provider: config.provider,
             identityProviderConfigId: config.id,
             providerCode: error.providerCode,
@@ -862,13 +862,27 @@ export class IdentityProviderService {
             requiredScopes: this.requiredSearchGrantScopes(config),
             nextActions: isUnauthorized
                 ? ['在飞书开放平台确认已开通“搜索用户 contact:user:search”权限。', '如果刚刚开通权限，请回到 POMS 重新授权当前管理员。', '如仍失败，可使用飞书 log_id 在开放平台排查。']
-                : ['稍后重试或根据飞书返回的错误信息排查开放平台配置。']
+                : error.providerLogId
+                  ? ['稍后重试；如持续失败，请检查企业协同接入配置。', '可使用飞书 log_id 在开放平台排查。']
+                  : ['稍后重试；如持续失败，请检查企业协同接入配置。']
         });
     }
 
-    private safeProviderErrorMessage(error: unknown): string {
-        const message = error instanceof Error ? error.message : 'Provider user search failed.';
-        return this.redactDiagnosticSecrets(message).slice(0, 1024);
+    private isUserSearchPermissionDenied(error: IdentityProviderAdapterError): boolean {
+        return error.providerCode === 99991679 || error.providerMessage?.toLowerCase() === 'unauthorized';
+    }
+
+    private userSearchFailureMessage(error: unknown): string {
+        if (!(error instanceof IdentityProviderAdapterError)) {
+            return '飞书用户搜索失败，请稍后重试或检查企业协同接入配置。';
+        }
+        if (this.isUserSearchPermissionDenied(error)) {
+            return '飞书拒绝了用户搜索请求，请确认已开通“搜索用户 contact:user:search”权限后重新授权。';
+        }
+        if (error.providerLogId) {
+            return `飞书用户搜索失败，请稍后重试；如持续失败，请使用飞书 log_id ${error.providerLogId} 在开放平台排查。`;
+        }
+        return '飞书用户搜索失败，请稍后重试或检查企业协同接入配置。';
     }
 
     private async recordConfigAudit(eventType: string, config: IdentityProviderConfig, operatorId: string | null | undefined, beforeSnapshot: Record<string, unknown> | null, afterSnapshot: Record<string, unknown>): Promise<void> {
