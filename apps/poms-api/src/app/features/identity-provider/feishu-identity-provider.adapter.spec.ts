@@ -6,13 +6,27 @@ import { IdentityProviderConfig } from './identity-provider-config.entity';
 
 jest.mock('axios');
 
+type AxiosErrorLike = {
+    isAxiosError: true;
+    response?: {
+        status?: number;
+        data?: unknown;
+    };
+    code?: string;
+};
+
 describe('FeishuIdentityProviderAdapter', () => {
     const mockedAxios = axios as jest.Mocked<typeof axios>;
+    const mockedIsAxiosError = mockedAxios.isAxiosError as unknown as jest.MockedFunction<
+        (error: unknown) => error is AxiosErrorLike
+    >;
     let adapter: FeishuIdentityProviderAdapter;
 
     beforeEach(() => {
         jest.clearAllMocks();
-        mockedAxios.isAxiosError.mockImplementation((error: unknown): error is never => Boolean(error && typeof error === 'object' && 'isAxiosError' in error));
+        mockedIsAxiosError.mockImplementation((error: unknown): error is AxiosErrorLike =>
+            Boolean(error && typeof error === 'object' && 'isAxiosError' in error)
+        );
         adapter = new FeishuIdentityProviderAdapter();
     });
 
