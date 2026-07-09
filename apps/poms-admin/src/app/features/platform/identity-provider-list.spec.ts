@@ -33,6 +33,10 @@ function createIdentityProviderConfig(overrides: Partial<IdentityProviderConfigS
     };
 }
 
+function scopeList(count: number): string[] {
+    return Array.from({ length: count }, (_value, index) => `scope:${index + 1}`);
+}
+
 describe('IdentityProviderList', () => {
     let fixture: ComponentFixture<IdentityProviderList>;
     let component: IdentityProviderList;
@@ -266,6 +270,65 @@ describe('IdentityProviderList', () => {
         });
         expect(component.formError()).toBeNull();
         expect(component.createDialogVisible).toBe(false);
+    });
+
+    it('shows the effective OAuth scope budget and blocks over-budget additional search scopes', async () => {
+        component.showCreateDialog();
+        component.updateText('displayName', '飞书正式');
+        component.updateText('clientId', 'cli_feishu');
+        component.updateToggle('searchEnabled', true);
+        component.updateText('searchScopesText', scopeList(32).join('\n'));
+        fixture.detectChanges();
+
+        expect(component.searchScopeCapacity().effectiveScopeCount).toBe(33);
+        expect(component.searchScopeCapacityIssue()).toContain('最多支持 32 项');
+        expect(component.canSubmitCreate()).toBe(false);
+        expect(fixture.nativeElement.textContent).toContain('最终授权范围 33/32');
+
+        await component.createConfig();
+
+        expect(component.formError()).toContain('POMS 会自动请求 contact:user:search');
+        expect(storeMock.createConfig).not.toHaveBeenCalled();
+    });
+
+    it('does not submit the system-required scope as an additional search scope', async () => {
+        const additionalScopes = scopeList(31);
+        component.showCreateDialog();
+        component.updateText('displayName', '飞书正式');
+        component.updateText('clientId', 'cli_feishu');
+        component.updateToggle('searchEnabled', true);
+        component.updateText('searchScopesText', ['contact:user:search', ...additionalScopes].join('\n'));
+
+        expect(component.searchScopeCapacity().effectiveScopeCount).toBe(32);
+        expect(component.canSubmitCreate()).toBe(true);
+
+        await component.createConfig();
+
+        expect(storeMock.createConfig).toHaveBeenCalledWith(
+            expect.objectContaining({
+                searchScopes: additionalScopes
+            })
+        );
+    });
+
+    it('shows the server capacity diagnostic for a legacy or bypassed configuration request', async () => {
+        storeMock.createConfig.mockRejectedValueOnce(
+            new HttpErrorResponse({
+                status: 400,
+                error: {
+                    code: 'identity_provider_search_scope_capacity_exceeded',
+                    message: '用户搜索最终授权范围最多支持 32 项。POMS 会自动请求 contact:user:search，请减少额外 Search scopes。'
+                }
+            })
+        );
+        component.showCreateDialog();
+        component.updateText('displayName', '飞书正式');
+        component.updateText('clientId', 'cli_feishu');
+
+        await component.createConfig();
+
+        expect(component.formError()).toBe('用户搜索最终授权范围最多支持 32 项。POMS 会自动请求 contact:user:search，请减少额外 Search scopes。');
+        expect(component.createDialogVisible).toBe(true);
     });
 
     it('shows login expired feedback instead of provider validation feedback when create is unauthorized', async () => {

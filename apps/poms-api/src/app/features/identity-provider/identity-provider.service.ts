@@ -30,6 +30,8 @@ import {
     type IdentityProviderConfigStatus,
     type IdentityProviderConnectionDiagnosticCheck,
     type IdentityProviderConnectionTestResult,
+    IDENTITY_PROVIDER_SCOPE_MAX_ITEMS,
+    IDENTITY_PROVIDER_SCOPE_MAX_LENGTH,
     type TestIdentityProviderConnectionRequest,
     type UnbindExternalIdentityRequest,
     type UpdateIdentityProviderConfigRequest
@@ -73,6 +75,10 @@ export class IdentityProviderService {
         await this.assertProviderTenantAvailable(request.provider, request.tenantId ?? null);
         this.assertSupportedSearchGrantMode(request.searchGrantMode ?? IdentityProviderSearchGrantModeValue.PerAdmin);
 
+        const searchEnabled = request.searchEnabled ?? false;
+        const searchScopes = this.normalizeAdditionalSearchScopes(request.provider, searchEnabled, request.searchScopes ?? []);
+        this.validateSearchGrantScopes(request.provider, searchEnabled, searchScopes);
+
         const encryptedClientSecret = request.clientSecret ? this.encryptSecret(request.clientSecret) : null;
         const enabled = request.enabled ?? false;
         const config = this.identityProviderRepository.createConfig({
@@ -83,14 +89,14 @@ export class IdentityProviderService {
             enabled,
             loginEnabled: request.loginEnabled ?? false,
             bindingEnabled: request.bindingEnabled ?? false,
-            searchEnabled: request.searchEnabled ?? false,
+            searchEnabled,
             clientId: request.clientId,
             encryptedClientSecret,
             secretUpdatedAt: encryptedClientSecret ? new Date() : null,
             redirectUri: request.redirectUri ?? null,
             searchRedirectUri: request.searchRedirectUri ?? null,
-            loginScopes: request.loginScopes ?? [],
-            searchScopes: request.searchScopes ?? [],
+            loginScopes: this.uniqueScopes(request.loginScopes ?? []),
+            searchScopes,
             tenantAllowlist: request.tenantAllowlist ?? [],
             searchGrantMode: request.searchGrantMode ?? IdentityProviderSearchGrantModeValue.PerAdmin,
             createdBy: operatorId ?? null,
@@ -111,6 +117,10 @@ export class IdentityProviderService {
             throw new ConflictException(`Identity provider config version conflict: expected ${request.expectedVersion}, actual ${config.rowVersion}`);
         }
 
+        const searchEnabled = request.searchEnabled ?? config.searchEnabled;
+        const searchScopes = this.normalizeAdditionalSearchScopes(config.provider, searchEnabled, request.searchScopes ?? config.searchScopes ?? []);
+        this.validateSearchGrantScopes(config.provider, searchEnabled, searchScopes);
+
         const beforeSnapshot = this.auditSnapshot(config);
         const previousStatus = config.status;
 
@@ -126,8 +136,8 @@ export class IdentityProviderService {
         }
         if (request.redirectUri !== undefined) config.redirectUri = request.redirectUri ?? null;
         if (request.searchRedirectUri !== undefined) config.searchRedirectUri = request.searchRedirectUri ?? null;
-        if (request.loginScopes !== undefined) config.loginScopes = request.loginScopes;
-        if (request.searchScopes !== undefined) config.searchScopes = request.searchScopes;
+        if (request.loginScopes !== undefined) config.loginScopes = this.uniqueScopes(request.loginScopes);
+        config.searchScopes = searchScopes;
         if (request.tenantAllowlist !== undefined) config.tenantAllowlist = request.tenantAllowlist;
         if (request.searchGrantMode !== undefined) {
             this.assertSupportedSearchGrantMode(request.searchGrantMode);
@@ -385,6 +395,7 @@ export class IdentityProviderService {
             throw error;
         }
 
+        const grantScopes = this.resolveOAuthGrantScopes(tokenSet.scopes, config);
         const existingGrant = await this.identityProviderRepository.findOAuthGrantByUserProvider(config.id, state.operatorId);
         const beforeSnapshot = existingGrant ? this.oauthGrantAuditSnapshot(existingGrant) : null;
         const now = new Date();
@@ -413,8 +424,7 @@ export class IdentityProviderService {
         grant.tenantId = config.tenantId ?? null;
         grant.encryptedAccessToken = this.encryptSecret(tokenSet.accessToken);
         grant.encryptedRefreshToken = tokenSet.refreshToken ? this.encryptSecret(tokenSet.refreshToken) : null;
-        const grantedScopes = this.uniqueScopes(tokenSet.scopes);
-        grant.scopes = grantedScopes.length > 0 ? grantedScopes : this.searchGrantRequestedScopes(config);
+        grant.scopes = grantScopes;
         grant.status = IdentityProviderOAuthGrantStatusValue.Active;
         grant.grantedAt = now;
         grant.expiresAt = this.expiresAtFromNow(tokenSet.expiresInSeconds);
@@ -632,6 +642,7 @@ export class IdentityProviderService {
         if (config.searchGrantMode !== IdentityProviderSearchGrantModeValue.PerAdmin) {
             throw new BadRequestException('Only per-admin external user search grants are supported.');
         }
+        this.validateSearchGrantScopes(config.provider, config.searchEnabled, config.searchScopes ?? []);
         if (!config.encryptedClientSecret) {
             throw new BadRequestException('Identity provider client secret is required before starting provider authorization.');
         }
@@ -808,12 +819,16 @@ export class IdentityProviderService {
     }
 
     private searchGrantRequestedScopes(config: IdentityProviderConfig): string[] {
-        return this.uniqueScopes([...this.requiredSearchGrantScopes(config), ...(config.searchScopes ?? [])]);
+        return this.validateSearchGrantScopes(config.provider, config.searchEnabled, config.searchScopes ?? []);
     }
 
     private requiredSearchGrantScopes(config: IdentityProviderConfig): string[] {
-        if (!config.searchEnabled) return [];
-        if (config.provider === IdentityProviderValue.Feishu) return [...FEISHU_USER_SEARCH_REQUIRED_SCOPES];
+        return this.requiredSearchGrantScopesFor(config.provider, config.searchEnabled);
+    }
+
+    private requiredSearchGrantScopesFor(provider: IdentityProvider, searchEnabled: boolean): string[] {
+        if (!searchEnabled) return [];
+        if (provider === IdentityProviderValue.Feishu) return [...FEISHU_USER_SEARCH_REQUIRED_SCOPES];
         return [];
     }
 
@@ -828,6 +843,52 @@ export class IdentityProviderService {
 
     private uniqueScopes(scopes: string[]): string[] {
         return [...new Set(scopes.map((scope) => scope.trim()).filter(Boolean))];
+    }
+
+    private normalizeAdditionalSearchScopes(provider: IdentityProvider, searchEnabled: boolean, scopes: string[]): string[] {
+        const requiredScopes = new Set(this.requiredSearchGrantScopesFor(provider, searchEnabled));
+        return this.uniqueScopes(scopes).filter((scope) => !requiredScopes.has(scope));
+    }
+
+    private validateSearchGrantScopes(provider: IdentityProvider, searchEnabled: boolean, additionalScopes: string[]): string[] {
+        const requiredScopes = this.requiredSearchGrantScopesFor(provider, searchEnabled);
+        const scopes = this.uniqueScopes([...requiredScopes, ...this.normalizeAdditionalSearchScopes(provider, searchEnabled, additionalScopes)]);
+        if (scopes.length > IDENTITY_PROVIDER_SCOPE_MAX_ITEMS) {
+            const requiredScopeHint = requiredScopes.length > 0 ? `POMS 会自动请求 ${requiredScopes.join(', ')}，请减少额外 Search scopes。` : '请减少额外 Search scopes。';
+            throw new BadRequestException({
+                statusCode: 400,
+                code: 'identity_provider_search_scope_capacity_exceeded',
+                message: `用户搜索最终授权范围最多支持 ${IDENTITY_PROVIDER_SCOPE_MAX_ITEMS} 项。${requiredScopeHint}`,
+                maxScopes: IDENTITY_PROVIDER_SCOPE_MAX_ITEMS,
+                requiredScopes,
+                effectiveScopeCount: scopes.length,
+                maxAdditionalScopes: Math.max(0, IDENTITY_PROVIDER_SCOPE_MAX_ITEMS - requiredScopes.length)
+            });
+        }
+        if (scopes.some((scope) => scope.length > IDENTITY_PROVIDER_SCOPE_MAX_LENGTH)) {
+            throw new BadRequestException({
+                statusCode: 400,
+                code: 'identity_provider_search_scope_invalid',
+                message: `用户搜索授权范围单项不能超过 ${IDENTITY_PROVIDER_SCOPE_MAX_LENGTH} 个字符。`,
+                maxScopeLength: IDENTITY_PROVIDER_SCOPE_MAX_LENGTH
+            });
+        }
+        return scopes;
+    }
+
+    private resolveOAuthGrantScopes(providerScopes: string[], config: IdentityProviderConfig): string[] {
+        const scopes = this.uniqueScopes(providerScopes);
+        if (scopes.length === 0) return this.searchGrantRequestedScopes(config);
+        if (scopes.length > IDENTITY_PROVIDER_SCOPE_MAX_ITEMS || scopes.some((scope) => scope.length > IDENTITY_PROVIDER_SCOPE_MAX_LENGTH)) {
+            throw new BadRequestException({
+                statusCode: 400,
+                code: 'identity_provider_grant_scope_list_invalid',
+                message: '飞书返回的授权范围超出 POMS 支持范围，无法安全保存授权结果，请调整飞书应用授权范围后重新授权。',
+                maxScopes: IDENTITY_PROVIDER_SCOPE_MAX_ITEMS,
+                maxScopeLength: IDENTITY_PROVIDER_SCOPE_MAX_LENGTH
+            });
+        }
+        return scopes;
     }
 
     private missingRequiredScopesMessage(missingRequiredScopes: string[]): string {

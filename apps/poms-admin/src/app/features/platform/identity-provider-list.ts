@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IDENTITY_PROVIDER_SCOPE_MAX_ITEMS } from '@poms/shared-contracts';
 import {
     IdentityProvider,
     IdentityProviderConfigStatus,
@@ -61,6 +62,12 @@ interface IdentityProviderCardSlot {
     config: IdentityProviderConfigSummary | null;
 }
 
+interface SearchScopeCapacity {
+    effectiveScopeCount: number;
+    maxAdditionalScopes: number;
+    issue: string | null;
+}
+
 const ALL_FILTER_VALUE = 'all';
 
 const STATUS_LABELS: Record<IdentityProviderConfigStatus, string> = {
@@ -100,17 +107,25 @@ const FEISHU_CONFIG_TIPS = {
     redirectUri: '填写飞书登录 OAuth 回调地址，并在飞书开放平台的重定向 URL 白名单中配置完全一致的地址。登录联调使用前端 /auth/identity-providers:callback。',
     searchRedirectUri: '填写管理员搜索授权 OAuth 回调地址，并加入飞书重定向 URL 白名单。第一版通常使用后端 /api/platform/identity-provider-oauth-grants:callback。',
     loginScopes: '用于员工登录身份读取的飞书授权范围。按飞书开放平台实际开通的权限填写，每行或空格分隔一个 scope。',
-    searchScopes: '高级追加项。POMS 会在管理员授权时自动请求用户搜索所需的 contact:user:search；这里只填写额外 scope。',
+    searchScopes: '高级追加项。POMS 会在管理员授权时自动请求用户搜索所需的 contact:user:search；最终授权范围最多 32 项，额外 scope 会占用剩余预算。',
     searchGrantMode: '第一版选择“管理员授权”。每个管理员用自己的飞书授权进行搜索，不使用全局通讯录同步。',
     tenantAllowlist: '限制允许登录或绑定的飞书租户 ID。默认租户可留空；多租户场景每行填写一个外部租户 ID。'
 } as const;
 
 const FEISHU_SEARCH_REQUIRED_SCOPES = ['contact:user:search'] as const;
+const SEARCH_SCOPE_CAPACITY_ERROR_CODES = new Set(['identity_provider_search_scope_capacity_exceeded', 'identity_provider_search_scope_invalid']);
 
 const AUTH_EXPIRED_MESSAGE = '登录已过期，请重新登录后再操作。';
 
 function isAuthExpiredError(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === 401;
+}
+
+function providerConfigErrorMessage(error: unknown, fallback: string): string {
+    if (!(error instanceof HttpErrorResponse) || !error.error || typeof error.error !== 'object') return fallback;
+    const payload = error.error as { code?: unknown; message?: unknown };
+    if (typeof payload.code !== 'string' || !SEARCH_SCOPE_CAPACITY_ERROR_CODES.has(payload.code)) return fallback;
+    return typeof payload.message === 'string' && payload.message.trim() ? payload.message.trim() : fallback;
 }
 
 const EMPTY_FORM: IdentityProviderForm = {
@@ -459,7 +474,13 @@ const EMPTY_FORM: IdentityProviderForm = {
                                 placeholder="可留空；每行或空格分隔一个额外 scope"
                                 class="w-full rounded-md!"
                             ></textarea>
-                            <span class="text-xs text-surface-500 dark:text-surface-400">用户搜索必需权限由 POMS 自动请求：{{ feishuSearchRequiredScopesText() }}</span>
+                            <div class="flex flex-col gap-1 text-xs">
+                                <span class="text-surface-500 dark:text-surface-400">用户搜索必需权限由 POMS 自动请求：{{ feishuSearchRequiredScopesText() }}</span>
+                                <span [class]="searchScopeCapacityIssue() ? 'text-red-600 dark:text-red-300' : 'text-surface-500 dark:text-surface-400'">{{ searchScopeCapacityText() }}</span>
+                                @if (searchScopeCapacityIssue(); as issue) {
+                                    <span class="font-medium text-red-600 dark:text-red-300" role="alert">{{ issue }}</span>
+                                }
+                            </div>
                         </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-2">
@@ -499,6 +520,7 @@ export class IdentityProviderList {
     readonly formError = signal<string | null>(null);
     readonly form = signal<IdentityProviderForm>({ ...EMPTY_FORM });
     readonly testResults = signal<Record<string, IdentityProviderConnectionTestResult>>({});
+    readonly searchScopeCapacity = computed(() => this.calculateSearchScopeCapacity(this.form()));
 
     createDialogVisible = false;
     editDialogVisible = false;
@@ -648,8 +670,8 @@ export class IdentityProviderList {
                 clientSecret: this.optionalText(form.clientSecret) ?? undefined,
                 redirectUri: this.optionalText(form.redirectUri),
                 searchRedirectUri: this.optionalText(form.searchRedirectUri),
-                loginScopes: this.toList(form.loginScopesText),
-                searchScopes: this.toList(form.searchScopesText),
+                loginScopes: this.toScopeList(form.loginScopesText),
+                searchScopes: this.additionalSearchScopes(form),
                 tenantAllowlist: this.toList(form.tenantAllowlistText),
                 searchGrantMode: form.searchGrantMode
             });
@@ -657,7 +679,7 @@ export class IdentityProviderList {
             this.#messageService.add({ severity: 'success', summary: '创建成功', detail: `${form.displayName.trim()} 已创建` });
             await this.reload();
         } catch (error) {
-            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有创建成功，请确认租户未重复后重试。');
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : providerConfigErrorMessage(error, '提供商配置没有创建成功，请确认租户未重复后重试。'));
         }
     }
 
@@ -676,8 +698,8 @@ export class IdentityProviderList {
                 ...(this.optionalText(form.clientSecret) ? { clientSecret: form.clientSecret.trim() } : {}),
                 redirectUri: this.optionalText(form.redirectUri),
                 searchRedirectUri: this.optionalText(form.searchRedirectUri),
-                loginScopes: this.toList(form.loginScopesText),
-                searchScopes: this.toList(form.searchScopesText),
+                loginScopes: this.toScopeList(form.loginScopesText),
+                searchScopes: this.additionalSearchScopes(form),
                 tenantAllowlist: this.toList(form.tenantAllowlistText),
                 searchGrantMode: form.searchGrantMode,
                 expectedVersion: form.expectedVersion
@@ -687,7 +709,7 @@ export class IdentityProviderList {
             await this.reload();
             return updatedConfig;
         } catch (error) {
-            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : '提供商配置没有保存成功，请刷新后重试。');
+            this.formError.set(isAuthExpiredError(error) ? AUTH_EXPIRED_MESSAGE : providerConfigErrorMessage(error, '提供商配置没有保存成功，请刷新后重试。'));
             return null;
         }
     }
@@ -760,6 +782,16 @@ export class IdentityProviderList {
         return FEISHU_SEARCH_REQUIRED_SCOPES.join(', ');
     }
 
+    searchScopeCapacityText(): string {
+        const capacity = this.searchScopeCapacity();
+        if (!this.form().searchEnabled) return `启用用户搜索后，最终授权范围最多 ${IDENTITY_PROVIDER_SCOPE_MAX_ITEMS} 项。`;
+        return `最终授权范围 ${capacity.effectiveScopeCount}/${IDENTITY_PROVIDER_SCOPE_MAX_ITEMS}；额外 scope 最多 ${capacity.maxAdditionalScopes} 项。`;
+    }
+
+    searchScopeCapacityIssue(): string | null {
+        return this.searchScopeCapacity().issue;
+    }
+
     statusLabel(status: IdentityProviderConfigStatus): string {
         return STATUS_LABELS[status] ?? status;
     }
@@ -805,6 +837,8 @@ export class IdentityProviderList {
             error = '请填写显示名称。';
         } else if (!form.clientId.trim()) {
             error = '请填写 Client ID。';
+        } else if (this.searchScopeCapacityIssue()) {
+            error = this.searchScopeCapacityIssue();
         }
 
         if (setError) {
@@ -823,5 +857,29 @@ export class IdentityProviderList {
             .split(/[\s,;]+/)
             .map((item) => item.trim())
             .filter(Boolean);
+    }
+
+    private toScopeList(value: string): string[] {
+        return [...new Set(this.toList(value))];
+    }
+
+    private calculateSearchScopeCapacity(form: IdentityProviderForm): SearchScopeCapacity {
+        const requiredScopes = this.requiredSearchScopes(form);
+        const additionalScopes = this.additionalSearchScopes(form);
+        const effectiveScopeCount = new Set([...requiredScopes, ...additionalScopes]).size;
+        const maxAdditionalScopes = Math.max(0, IDENTITY_PROVIDER_SCOPE_MAX_ITEMS - requiredScopes.length);
+        const issue =
+            form.searchEnabled && effectiveScopeCount > IDENTITY_PROVIDER_SCOPE_MAX_ITEMS ? `用户搜索最终授权范围最多支持 ${IDENTITY_PROVIDER_SCOPE_MAX_ITEMS} 项。POMS 会自动请求 ${requiredScopes.join(', ')}，请减少额外 Search scopes。` : null;
+
+        return { effectiveScopeCount, maxAdditionalScopes, issue };
+    }
+
+    private requiredSearchScopes(form: IdentityProviderForm): string[] {
+        return form.searchEnabled && form.provider === IdentityProvider.Feishu ? [...FEISHU_SEARCH_REQUIRED_SCOPES] : [];
+    }
+
+    private additionalSearchScopes(form: IdentityProviderForm): string[] {
+        const requiredScopeSet = new Set(this.requiredSearchScopes(form));
+        return this.toScopeList(form.searchScopesText).filter((scope) => !requiredScopeSet.has(scope));
     }
 }

@@ -599,7 +599,9 @@ export const IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES = enumObjectValues
 export type IdentityProviderConnectionDiagnosticStatus = (typeof IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES)[number];
 export const IdentityProviderConnectionDiagnosticStatusSchema = z.enum(IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES).meta({ id: 'IdentityProviderConnectionDiagnosticStatus' });
 
-export const IdentityProviderScopeListSchema = z.array(z.string().trim().min(1).max(128)).max(32);
+export const IDENTITY_PROVIDER_SCOPE_MAX_LENGTH = 128;
+export const IDENTITY_PROVIDER_SCOPE_MAX_ITEMS = 32;
+export const IdentityProviderScopeListSchema = z.array(z.string().trim().min(1).max(IDENTITY_PROVIDER_SCOPE_MAX_LENGTH)).max(IDENTITY_PROVIDER_SCOPE_MAX_ITEMS);
 export const IdentityProviderTenantAllowlistSchema = z.array(z.string().trim().min(1).max(128)).max(32);
 
 export const IdentityProviderConfigSummarySchema = z

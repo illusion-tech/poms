@@ -637,6 +637,8 @@
 153. 2026-07-02 `EX-76A` 已进入 `G1 / Doing`：新增 GitHub issue `#28` 和 `ex-76a-feishu-capability-driven-auth-baseline.md`，冻结飞书用户搜索 / 绑定授权从“管理员手填 OAuth scopes”改为“能力驱动 required scopes”的产品修复边界。本片复用既有 B13 企业协同接入 routes，不新增 route、migration、权限 key、用户同步或外部组织同步 runtime；下一步实现 Feishu capability registry、搜索授权 required scopes 自动注入、grant scope 诊断、provider 错误脱敏和 Admin 绑定 / 配置体验收口。
 154. 2026-07-02 `EX-76A` 已推进到本地 `G3 / Ready for PR`：后端已将飞书用户搜索所需 `contact:user:search` 收口为运行时必需 scope，授权 URL 自动包含 required scopes，grant 摘要新增 `requiredScopes` / `missingRequiredScopes`；旧授权缺 scope 会在搜索前返回结构化 400，飞书 `99991679 Unauthorized` 会转成可行动业务错误且 provider 错误已脱敏归一化。Admin 用户绑定弹窗已展示缺少权限、重新授权入口、后端 message / nextActions / 飞书 log_id，企业协同接入页将 `Search scopes` 降级为高级追加项，OAuth callback 对浏览器请求回到用户管理页并保留 API JSON 兼容。验证通过 focused API/Admin tests、poms-api / poms-admin / admin-data-access lint、API/Admin build、OpenAPI generation、shared-api-client generate/check、Markdown check 和 diff sanity；GitHub issue `#28` 已同步 G3 评论，PR / merge closeout 待后续推进。
 
+155. 2026-07-10 `EX-76A` 已完成本地 `G3` corrective checkpoint：PR `#29` review 发现 `searchScopes` 可填 32 项而飞书用户搜索会额外注入 `contact:user:search`，可能产生不符合 shared contract / OpenAPI 的 33 项 grant snapshot。`ex-76a-oauth-scope-capacity-corrective-checkpoint.md` 已冻结正确语义为“required 与高级追加项去重后的最终 OAuth scope 总预算最多 32 项”；后端在配置写入、授权请求、fallback 与 provider 回传边界拒绝超限，不静默截断，且 provider 回传在 grant 实体构造前验证；Admin 同步显示最终预算并在提交前阻断。验证通过 API/Admin focused tests、poms-api / poms-admin / shared-contracts lint、API/Admin build、OpenAPI generation、shared-api-client check、Markdown check 和 diff sanity；issue `#28` 保持打开，待 PR `#29` Copilot 复审后推进 G4。
+
 ---
 
 ## 11. 维护约定
