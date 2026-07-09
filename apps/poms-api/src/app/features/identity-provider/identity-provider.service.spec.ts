@@ -738,6 +738,29 @@ describe('IdentityProviderService', () => {
         });
     });
 
+    it('normalizes provider-reported scopes before persisting a current-admin grant', async () => {
+        const config = createSearchEnabledConfig();
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(config);
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(null);
+        adapter.exchangeAdminGrantCode.mockResolvedValueOnce({
+            accessToken: 'user-access-token',
+            refreshToken: 'refresh-token',
+            expiresInSeconds: 7200,
+            refreshExpiresInSeconds: 30 * 24 * 60 * 60,
+            scopes: [' contact:user:search ', 'contact:user:search', ' ', 'auth:user.id:read ']
+        });
+
+        await service.authorizeCurrentAdminProviderGrant(providerConfigId, operatorId);
+        const state = adapter.buildAdminGrantAuthorizeUrl.mock.calls[0][0].state as string;
+
+        const result = await service.handleCurrentAdminProviderGrantCallback({ code: 'auth-code', state });
+        const saved = repository.saveAll.mock.calls.at(-1)?.[0][0] as IdentityProviderOAuthGrant;
+
+        expect(saved.scopes).toEqual(['contact:user:search', 'auth:user.id:read']);
+        expect(result.scopes).toEqual(['contact:user:search', 'auth:user.id:read']);
+    });
+
     it('searches external users through the current admin provider grant', async () => {
         repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
         repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());

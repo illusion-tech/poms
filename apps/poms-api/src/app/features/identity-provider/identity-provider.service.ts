@@ -413,7 +413,8 @@ export class IdentityProviderService {
         grant.tenantId = config.tenantId ?? null;
         grant.encryptedAccessToken = this.encryptSecret(tokenSet.accessToken);
         grant.encryptedRefreshToken = tokenSet.refreshToken ? this.encryptSecret(tokenSet.refreshToken) : null;
-        grant.scopes = tokenSet.scopes.length > 0 ? tokenSet.scopes : this.searchGrantRequestedScopes(config);
+        const grantedScopes = this.uniqueScopes(tokenSet.scopes);
+        grant.scopes = grantedScopes.length > 0 ? grantedScopes : this.searchGrantRequestedScopes(config);
         grant.status = IdentityProviderOAuthGrantStatusValue.Active;
         grant.grantedAt = now;
         grant.expiresAt = this.expiresAtFromNow(tokenSet.expiresInSeconds);
