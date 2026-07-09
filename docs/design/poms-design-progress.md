@@ -639,6 +639,8 @@
 
 155. 2026-07-10 `EX-76A` 已完成本地 `G3` corrective checkpoint：PR `#29` review 发现 `searchScopes` 可填 32 项而飞书用户搜索会额外注入 `contact:user:search`，可能产生不符合 shared contract / OpenAPI 的 33 项 grant snapshot。`ex-76a-oauth-scope-capacity-corrective-checkpoint.md` 已冻结正确语义为“required 与高级追加项去重后的最终 OAuth scope 总预算最多 32 项”；后端在配置写入、授权请求、fallback 与 provider 回传边界拒绝超限，不静默截断，且 provider 回传在 grant 实体构造前验证；Admin 同步显示最终预算并在提交前阻断。验证通过 API/Admin focused tests、poms-api / poms-admin / shared-contracts lint、API/Admin build、OpenAPI generation、shared-api-client check、Markdown check 和 diff sanity；issue `#28` 保持打开，待 PR `#29` Copilot 复审后推进 G4。
 
+156. 2026-07-10 `EX-76A` 已完成本地 `G3` callback response contract corrective checkpoint：Copilot review 发现浏览器 OAuth callback 已返回 redirect，但 OpenAPI 只声明 `200 application/json`。`ex-76a-oauth-callback-response-contract-corrective-checkpoint.md` 冻结并交付 callback 内容协商边界：`Accept: text/html` 且不包含 `application/json` 时显式返回 `302 Location` 回到 POMS 用户管理页；其余 JSON 调用继续返回 `200` grant 摘要或原 API 错误。本片不新增 route、callback DTO、generated client 方法、migration 或权限 key。验证通过 controller focused tests（9 passed，含真实 HTTP `302 Location`）、poms-api lint/build、OpenAPI generation、shared-api-client check、Markdown / diff sanity；待 Copilot 复审后继续 issue `#28` 的 G4 closeout。
+
 ---
 
 ## 11. 维护约定

@@ -1,13 +1,13 @@
 import { IdentityProviderOAuthAuthorizeResultDto, IdentityProviderOAuthCallbackQueryDto, IdentityProviderOAuthGrantDto } from '@poms/api-contracts';
 import type { IdentityProviderOAuthAuthorizeResult, IdentityProviderOAuthCallbackQuery, IdentityProviderOAuthGrantSummary, UserPayload } from '@poms/shared-contracts';
-import { Controller, Get, Inject, Param, ParseUUIDPipe, Query, Request, Res } from '@nestjs/common';
-import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, HttpStatus, Inject, Param, ParseUUIDPipe, Query, Request, Res } from '@nestjs/common';
+import { ApiCookieAuth, ApiFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { Public } from '../../core/auth/decorators/public.decorator';
 import { IdentityProviderService } from './identity-provider.service';
 
 type OAuthCallbackRequest = { headers?: Record<string, string | string[] | undefined> };
-type OAuthCallbackResponse = { redirect(url: string): void };
+type OAuthCallbackResponse = { redirect(status: number, url: string): void };
 
 @ApiTags('Identity Provider OAuth Grant')
 @Controller('platform')
@@ -41,7 +41,19 @@ export class IdentityProviderOAuthGrantController {
     @Get('identity-provider-oauth-grants\\:callback')
     @Public()
     @ApiOperation({ summary: '处理外部身份提供商搜索授权 callback' })
-    @ApiOkResponse({ type: IdentityProviderOAuthGrantDto })
+    @ApiOkResponse({
+        description: '当请求未接受 text/html 时，返回当前管理员的授权摘要 JSON。',
+        type: IdentityProviderOAuthGrantDto
+    })
+    @ApiFoundResponse({
+        description: '当 Accept 为 text/html 且不包含 application/json 时，浏览器授权成功或失败都会重定向回 POMS 用户管理页面。',
+        headers: {
+            Location: {
+                description: 'POMS 用户管理页面；query 参数包含 identityProviderGrant 结果。',
+                schema: { type: 'string' }
+            }
+        }
+    })
     async handleCurrentAdminProviderGrantCallback(
         @Query() query: IdentityProviderOAuthCallbackQueryDto,
         @Request() req?: OAuthCallbackRequest,
@@ -60,9 +72,9 @@ export class IdentityProviderOAuthGrantController {
 
         try {
             const summary = await this.identityProviderService.handleCurrentAdminProviderGrantCallback(callbackQuery);
-            res.redirect(this.oauthGrantRedirectUrl(summary));
+            res.redirect(HttpStatus.FOUND, this.oauthGrantRedirectUrl(summary));
         } catch {
-            res.redirect(this.oauthGrantFailureRedirectUrl());
+            res.redirect(HttpStatus.FOUND, this.oauthGrantFailureRedirectUrl());
         }
     }
 

@@ -2317,11 +2317,22 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "当请求未接受 text/html 时，返回当前管理员的授权摘要 JSON。",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/IdentityProviderOAuthGrantSummary"
+                }
+              }
+            }
+          },
+          "302": {
+            "description": "当 Accept 为 text/html 且不包含 application/json 时，浏览器授权成功或失败都会重定向回 POMS 用户管理页面。",
+            "headers": {
+              "Location": {
+                "description": "POMS 用户管理页面；query 参数包含 identityProviderGrant 结果。",
+                "schema": {
+                  "type": "string"
                 }
               }
             }
