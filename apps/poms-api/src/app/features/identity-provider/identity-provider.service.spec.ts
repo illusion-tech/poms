@@ -794,7 +794,7 @@ describe('IdentityProviderService', () => {
         await expect(service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId)).rejects.toThrow(BadRequestException);
 
         expect(adapter.searchExternalUsers).not.toHaveBeenCalled();
-        expect(grant.lastError).toContain('contact:user:search');
+        expect(grant.lastError).toBe('当前飞书授权缺少用户搜索所需权限（contact:user:search），请在飞书开放平台开通后重新授权。');
         const response = await captureBadRequest(() => service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId));
         expect(response).toMatchObject({
             code: 'identity_provider_missing_required_scopes',
@@ -820,12 +820,37 @@ describe('IdentityProviderService', () => {
 
         expect(response).toMatchObject({
             code: 'identity_provider_search_permission_denied',
+            message: '飞书拒绝了用户搜索请求，请确认已开通“搜索用户 contact:user:search”权限后重新授权。',
             providerCode: 99991679,
             providerLogId: '202607021506300D005719E2BED5C7B160',
             requiredScopes: ['contact:user:search']
         });
-        expect(grant.lastError).toContain('Unauthorized');
-        expect(grant.lastError).not.toContain('Bearer');
+        expect(grant.lastError).toBe('飞书拒绝了用户搜索请求，请确认已开通“搜索用户 contact:user:search”权限后重新授权。');
+    });
+
+    it('persists a safe Chinese diagnostic for unclassified provider user-search failures', async () => {
+        const grant = createOAuthGrant();
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
+        adapter.searchExternalUsers.mockRejectedValueOnce(
+            new IdentityProviderAdapterError('Feishu user search failed: upstream error', {
+                providerCode: 99991680,
+                providerMessage: 'upstream error',
+                providerLogId: '202607101823000D001234567890ABCD'
+            })
+        );
+
+        const response = await captureBadRequest(() => service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId));
+
+        expect(response).toMatchObject({
+            code: 'identity_provider_external_user_search_failed',
+            message: '飞书用户搜索失败，请稍后重试；如持续失败，请使用飞书 log_id 202607101823000D001234567890ABCD 在开放平台排查。',
+            providerCode: 99991680,
+            providerLogId: '202607101823000D001234567890ABCD'
+        });
+        expect(grant.lastError).toBe('飞书用户搜索失败，请稍后重试；如持续失败，请使用飞书 log_id 202607101823000D001234567890ABCD 在开放平台排查。');
+        expect(grant.lastError).not.toContain('upstream error');
     });
 
     it('rejects external user search when the current admin grant is expired', async () => {
