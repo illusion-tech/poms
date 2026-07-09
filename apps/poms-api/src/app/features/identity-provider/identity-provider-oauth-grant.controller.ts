@@ -53,12 +53,17 @@ export class IdentityProviderOAuthGrantController {
             error: query.error,
             error_description: query.error_description
         };
-        const summary = await this.identityProviderService.handleCurrentAdminProviderGrantCallback(callbackQuery);
-        if (this.shouldRedirectBrowserCallback(req) && res) {
-            res.redirect(this.oauthGrantRedirectUrl(summary));
-            return;
+
+        if (!this.shouldRedirectBrowserCallback(req) || !res) {
+            return this.identityProviderService.handleCurrentAdminProviderGrantCallback(callbackQuery);
         }
-        return summary;
+
+        try {
+            const summary = await this.identityProviderService.handleCurrentAdminProviderGrantCallback(callbackQuery);
+            res.redirect(this.oauthGrantRedirectUrl(summary));
+        } catch {
+            res.redirect(this.oauthGrantFailureRedirectUrl());
+        }
     }
 
     private shouldRedirectBrowserCallback(req?: OAuthCallbackRequest): boolean {
@@ -78,6 +83,14 @@ export class IdentityProviderOAuthGrantController {
             identityProviderGrant: 'success',
             provider: summary.provider,
             identityProviderConfigId: summary.identityProviderConfigId
+        });
+        return `/platform/users?${params.toString()}`;
+    }
+
+    private oauthGrantFailureRedirectUrl(): string {
+        const params = new URLSearchParams({
+            identityProviderGrant: 'failed',
+            reason: 'oauth_callback_failed'
         });
         return `/platform/users?${params.toString()}`;
     }
