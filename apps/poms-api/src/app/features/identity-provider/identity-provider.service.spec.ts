@@ -69,6 +69,8 @@ describe('IdentityProviderService', () => {
     };
     let service: IdentityProviderService;
 
+    const scopeList = (count: number): string[] => Array.from({ length: count }, (_value, index) => `scope:${index + 1}`);
+
     beforeEach(() => {
         repository = {
             findConfigs: jest.fn(),
@@ -174,6 +176,7 @@ describe('IdentityProviderService', () => {
         const saved = repository.saveAll.mock.calls[0][0][0] as IdentityProviderConfig;
         expect(saved.encryptedClientSecret).toMatch(/^v1:/);
         expect(saved.encryptedClientSecret).not.toContain('raw-secret');
+        expect(saved.searchScopes).toEqual([]);
         expect(result).toMatchObject({
             provider: IdentityProviderValue.Feishu,
             tenantId: 'tenant-a',
@@ -193,6 +196,58 @@ describe('IdentityProviderService', () => {
         );
         expect(runtimeAuditService.recordAuditLog.mock.calls[0][0].afterSnapshot).not.toHaveProperty('encryptedClientSecret');
         expect(runtimeAuditService.recordAuditLog.mock.calls[0][0].afterSnapshot).not.toHaveProperty('clientSecret');
+    });
+
+    it('rejects a search config when required and additional scopes exceed the grant scope budget', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(null);
+
+        const response = await captureBadRequest(() =>
+            service.createIdentityProviderConfig({
+                provider: IdentityProviderValue.Feishu,
+                displayName: '飞书',
+                searchEnabled: true,
+                clientId: 'cli_a',
+                searchScopes: scopeList(32)
+            })
+        );
+
+        expect(response).toMatchObject({
+            code: 'identity_provider_search_scope_capacity_exceeded',
+            maxScopes: 32,
+            maxAdditionalScopes: 31,
+            effectiveScopeCount: 33,
+            requiredScopes: ['contact:user:search']
+        });
+        expect(repository.createConfig).not.toHaveBeenCalled();
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('accepts the full additional scope budget and includes the required scope in the authorization request', async () => {
+        repository.findConfigByProviderTenant.mockResolvedValue(null);
+        const additionalScopes = scopeList(31);
+
+        const created = await service.createIdentityProviderConfig({
+            provider: IdentityProviderValue.Feishu,
+            displayName: '飞书',
+            enabled: true,
+            searchEnabled: true,
+            clientId: 'cli_a',
+            clientSecret: 'raw-secret',
+            searchRedirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
+            searchScopes: additionalScopes
+        });
+        const saved = repository.saveAll.mock.calls[0][0][0] as IdentityProviderConfig;
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(saved);
+
+        await service.authorizeCurrentAdminProviderGrant(created.id, operatorId);
+
+        expect(saved.searchScopes).toEqual(additionalScopes);
+        expect(adapter.buildAdminGrantAuthorizeUrl).toHaveBeenCalledWith(
+            expect.objectContaining({
+                scopes: ['contact:user:search', ...additionalScopes]
+            })
+        );
     });
 
     it('rejects duplicate provider tenant configs', async () => {
@@ -345,6 +400,16 @@ describe('IdentityProviderService', () => {
         await expect(service.updateIdentityProviderConfig(providerConfigId, { displayName: '新飞书', expectedVersion: 3 }, operatorId)).rejects.toThrow(ConflictException);
 
         expect(existing.displayName).toBe('旧飞书');
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('rejects an over-budget search scope update before mutating the existing config', async () => {
+        const existing = createSearchEnabledConfig({ searchScopes: scopeList(31) });
+        repository.findConfigById.mockResolvedValue(existing);
+
+        await expect(service.updateIdentityProviderConfig(providerConfigId, { searchScopes: scopeList(32) }, operatorId)).rejects.toThrow(BadRequestException);
+
+        expect(existing.searchScopes).toEqual(scopeList(31));
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
@@ -736,6 +801,60 @@ describe('IdentityProviderService', () => {
             requiredScopes: ['contact:user:search'],
             missingRequiredScopes: []
         });
+    });
+
+    it('rejects provider-returned OAuth scope lists that exceed the grant summary contract', async () => {
+        const config = createSearchEnabledConfig({ searchScopes: [] });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(config);
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(null);
+        adapter.exchangeAdminGrantCode.mockResolvedValueOnce({
+            accessToken: 'user-access-token',
+            refreshToken: 'refresh-token',
+            expiresInSeconds: 7200,
+            refreshExpiresInSeconds: 30 * 24 * 60 * 60,
+            scopes: scopeList(33)
+        });
+
+        await service.authorizeCurrentAdminProviderGrant(providerConfigId, operatorId);
+        const state = adapter.buildAdminGrantAuthorizeUrl.mock.calls[0][0].state as string;
+
+        const response = await captureBadRequest(() => service.handleCurrentAdminProviderGrantCallback({ code: 'auth-code', state }));
+
+        expect(response).toMatchObject({
+            code: 'identity_provider_grant_scope_list_invalid',
+            maxScopes: 32,
+            maxScopeLength: 128
+        });
+        expect(repository.createOAuthGrant).not.toHaveBeenCalled();
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('rejects provider-returned OAuth scopes that exceed the scope length contract', async () => {
+        const config = createSearchEnabledConfig({ searchScopes: [] });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(config);
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(null);
+        adapter.exchangeAdminGrantCode.mockResolvedValueOnce({
+            accessToken: 'user-access-token',
+            refreshToken: 'refresh-token',
+            expiresInSeconds: 7200,
+            refreshExpiresInSeconds: 30 * 24 * 60 * 60,
+            scopes: ['a'.repeat(129)]
+        });
+
+        await service.authorizeCurrentAdminProviderGrant(providerConfigId, operatorId);
+        const state = adapter.buildAdminGrantAuthorizeUrl.mock.calls[0][0].state as string;
+
+        const response = await captureBadRequest(() => service.handleCurrentAdminProviderGrantCallback({ code: 'auth-code', state }));
+
+        expect(response).toMatchObject({
+            code: 'identity_provider_grant_scope_list_invalid',
+            maxScopes: 32,
+            maxScopeLength: 128
+        });
+        expect(repository.createOAuthGrant).not.toHaveBeenCalled();
+        expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
     it('normalizes provider-reported scopes before persisting a current-admin grant', async () => {
