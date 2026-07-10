@@ -641,6 +641,8 @@
 
 156. 2026-07-10 `EX-76A` 已完成本地 `G3` callback response contract corrective checkpoint：Copilot review 发现浏览器 OAuth callback 已返回 redirect，但 OpenAPI 只声明 `200 application/json`。`ex-76a-oauth-callback-response-contract-corrective-checkpoint.md` 冻结并交付 callback 内容协商边界：`Accept: text/html` 且不包含 `application/json` 时显式返回 `302 Location` 回到 POMS 用户管理页；其余 JSON 调用继续返回 `200` grant 摘要或原 API 错误。本片不新增 route、callback DTO、generated client 方法、migration 或权限 key。验证通过 controller focused tests（9 passed，含真实 HTTP `302 Location`）、poms-api lint/build、OpenAPI generation、shared-api-client check、Markdown / diff sanity；待 Copilot 复审后继续 issue `#28` 的 G4 closeout。
 
+157. 2026-07-10 `EX-76A` scope capacity checkpoint 追加 `new-real-drift` follow-up：Copilot review 发现写入已收口的情况下，历史或绕过写入的 `identity_provider_oauth_grant.scopes` 仍可由 summary 原样返回并突破 32 项 / 单项 128 字符契约。现有 checkpoint 已明确扩展到 persistence -> summary / search 读侧边界：空白 / 重复项仅做无损规范化；distinct count 超限或单项超长时不截断、不回填当前请求范围，summary 返回安全的重新授权诊断，搜索在解密 token / 调用飞书前记录 `lastError` 并返回结构化 400。验证通过 identity-provider service focused tests（49 passed）、poms-api lint/build、OpenAPI generation、shared-api-client check；不新增 route、DTO、migration、权限 key 或 Admin UI，待 Markdown / diff sanity 和 Copilot 复审后继续 issue `#28` 的 G4 closeout。
+
 ---
 
 ## 11. 维护约定

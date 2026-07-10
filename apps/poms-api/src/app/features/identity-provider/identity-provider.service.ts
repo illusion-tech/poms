@@ -448,12 +448,20 @@ export class IdentityProviderService {
         if (!grant || this.resolveOAuthGrantStatus(grant) !== IdentityProviderOAuthGrantStatusValue.Active) {
             throw new BadRequestException('Current admin must authorize this identity provider before searching external users.');
         }
-        const missingRequiredScopes = this.missingRequiredSearchGrantScopes(config, grant.scopes ?? []);
+        const grantScopeSnapshot = this.normalizeOAuthGrantScopeSnapshot(grant.scopes ?? []);
+        if (!grantScopeSnapshot.isValid) {
+            grant.lastError = this.invalidOAuthGrantScopeSnapshotMessage();
+            grant.updatedBy = operatorId;
+            await this.identityProviderRepository.saveAll([grant]);
+            throw this.invalidOAuthGrantScopeSnapshotException(config);
+        }
+
+        const missingRequiredScopes = this.missingRequiredSearchGrantScopes(config, grantScopeSnapshot.scopes);
         if (missingRequiredScopes.length > 0) {
             grant.lastError = this.missingRequiredScopesMessage(missingRequiredScopes);
             grant.updatedBy = operatorId;
             await this.identityProviderRepository.saveAll([grant]);
-            throw this.missingRequiredScopesException(config, grant.scopes ?? [], missingRequiredScopes);
+            throw this.missingRequiredScopesException(config, grantScopeSnapshot.scopes, missingRequiredScopes);
         }
 
         try {
@@ -772,7 +780,8 @@ export class IdentityProviderService {
     }
 
     private toOAuthGrantSummary(config: IdentityProviderConfig, pomsUserId: string, grant: IdentityProviderOAuthGrant | null): IdentityProviderOAuthGrantSummary {
-        const scopes = grant?.scopes ?? [];
+        const grantScopeSnapshot = this.normalizeOAuthGrantScopeSnapshot(grant?.scopes ?? []);
+        const scopes = grantScopeSnapshot.isValid ? grantScopeSnapshot.scopes : [];
         const requiredScopes = this.requiredSearchGrantScopes(config);
         return {
             id: grant?.id ?? null,
@@ -788,7 +797,7 @@ export class IdentityProviderService {
             expiresAt: grant?.expiresAt?.toISOString() ?? null,
             refreshExpiresAt: grant?.refreshExpiresAt?.toISOString() ?? null,
             lastUsedAt: grant?.lastUsedAt?.toISOString() ?? null,
-            lastError: grant?.lastError ?? null,
+            lastError: grant && !grantScopeSnapshot.isValid ? this.invalidOAuthGrantScopeSnapshotMessage() : (grant?.lastError ?? null),
             rowVersion: grant?.rowVersion ?? null,
             updatedAt: grant?.updatedAt.toISOString() ?? null
         };
@@ -877,9 +886,9 @@ export class IdentityProviderService {
     }
 
     private resolveOAuthGrantScopes(providerScopes: string[], config: IdentityProviderConfig): string[] {
-        const scopes = this.uniqueScopes(providerScopes);
-        if (scopes.length === 0) return this.searchGrantRequestedScopes(config);
-        if (scopes.length > IDENTITY_PROVIDER_SCOPE_MAX_ITEMS || scopes.some((scope) => scope.length > IDENTITY_PROVIDER_SCOPE_MAX_LENGTH)) {
+        const scopeSnapshot = this.normalizeOAuthGrantScopeSnapshot(providerScopes);
+        if (scopeSnapshot.scopes.length === 0) return this.searchGrantRequestedScopes(config);
+        if (!scopeSnapshot.isValid) {
             throw new BadRequestException({
                 statusCode: 400,
                 code: 'identity_provider_grant_scope_list_invalid',
@@ -888,7 +897,33 @@ export class IdentityProviderService {
                 maxScopeLength: IDENTITY_PROVIDER_SCOPE_MAX_LENGTH
             });
         }
-        return scopes;
+        return scopeSnapshot.scopes;
+    }
+
+    private normalizeOAuthGrantScopeSnapshot(scopes: string[]): { scopes: string[]; isValid: boolean } {
+        const normalizedScopes = this.uniqueScopes(scopes);
+        return {
+            scopes: normalizedScopes,
+            isValid: normalizedScopes.length <= IDENTITY_PROVIDER_SCOPE_MAX_ITEMS && normalizedScopes.every((scope) => scope.length <= IDENTITY_PROVIDER_SCOPE_MAX_LENGTH)
+        };
+    }
+
+    private invalidOAuthGrantScopeSnapshotMessage(): string {
+        return '当前飞书授权范围快照异常，请重新授权后再搜索用户。';
+    }
+
+    private invalidOAuthGrantScopeSnapshotException(config: IdentityProviderConfig): BadRequestException {
+        return new BadRequestException({
+            statusCode: 400,
+            code: 'identity_provider_grant_scope_snapshot_invalid',
+            message: this.invalidOAuthGrantScopeSnapshotMessage(),
+            provider: config.provider,
+            identityProviderConfigId: config.id,
+            requiredScopes: this.requiredSearchGrantScopes(config),
+            maxScopes: IDENTITY_PROVIDER_SCOPE_MAX_ITEMS,
+            maxScopeLength: IDENTITY_PROVIDER_SCOPE_MAX_LENGTH,
+            nextActions: ['回到 POMS 重新发起当前管理员授权。']
+        });
     }
 
     private missingRequiredScopesMessage(missingRequiredScopes: string[]): string {
