@@ -722,6 +722,37 @@ describe('IdentityProviderService', () => {
         });
     });
 
+    it('returns a contract-safe reauthorization diagnostic for legacy grant scope snapshots that exceed the shared budget', async () => {
+        const grant = createOAuthGrant({ scopes: scopeList(33) });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
+
+        const result = await service.getCurrentAdminProviderGrant(providerConfigId, operatorId);
+
+        expect(result).toMatchObject({
+            status: IdentityProviderOAuthGrantStatusValue.Active,
+            scopes: [],
+            requiredScopes: ['contact:user:search'],
+            missingRequiredScopes: ['contact:user:search'],
+            lastError: '当前飞书授权范围快照异常，请重新授权后再搜索用户。'
+        });
+        expect(repository.saveAll).not.toHaveBeenCalled();
+    });
+
+    it('normalizes legacy grant scope snapshots before returning the current-admin grant summary', async () => {
+        const grant = createOAuthGrant({ scopes: [' contact:user:search ', '', 'contact:user:search', 'auth:user.id:read'] });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
+
+        const result = await service.getCurrentAdminProviderGrant(providerConfigId, operatorId);
+
+        expect(result.scopes).toEqual(['contact:user:search', 'auth:user.id:read']);
+        expect(result.missingRequiredScopes).toEqual([]);
+        expect(result.lastError).toBeNull();
+    });
+
     it('builds a provider authorization URL for current-admin search grant', async () => {
         repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
         repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
@@ -920,6 +951,26 @@ describe('IdentityProviderService', () => {
             missingRequiredScopes: ['contact:user:search'],
             requiredScopes: ['contact:user:search']
         });
+    });
+
+    it('rejects external user search before calling Feishu when a legacy grant scope snapshot violates the shared contract', async () => {
+        const grant = createOAuthGrant({ scopes: scopeList(33) });
+        repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
+        repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
+        repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
+
+        const response = await captureBadRequest(() => service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId));
+
+        expect(response).toMatchObject({
+            code: 'identity_provider_grant_scope_snapshot_invalid',
+            message: '当前飞书授权范围快照异常，请重新授权后再搜索用户。',
+            requiredScopes: ['contact:user:search'],
+            maxScopes: 32,
+            maxScopeLength: 128
+        });
+        expect(adapter.searchExternalUsers).not.toHaveBeenCalled();
+        expect(grant.lastError).toBe('当前飞书授权范围快照异常，请重新授权后再搜索用户。');
+        expect(repository.saveAll).toHaveBeenCalledWith([grant]);
     });
 
     it('returns an actionable 400 when Feishu rejects external user search permissions', async () => {
