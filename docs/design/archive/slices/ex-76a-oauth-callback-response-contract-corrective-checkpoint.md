@@ -23,15 +23,15 @@
 
 ## 2. 正式输入
 
-| Input Type                | Document / Source                                                   | Section / Anchor                | Status | Notes                                                     |
-| ------------------------- | ------------------------------------------------------------------- | ------------------------------- | ------ | --------------------------------------------------------- |
-| Business design           | GitHub issue `#28`                                                  | callback 不展示裸 JSON          | Active | 浏览器完成授权后必须回到可继续绑定的 POMS 页面。          |
-| Command design            | `docs/design/ex-76a-feishu-capability-driven-auth-baseline.md`      | 4 callback route                | Active | 复用既有 callback，不新增 route。                         |
-| DTO / OpenAPI design      | `IdentityProviderOAuthGrantDto` / Nest Swagger decorators           | callback responses              | Active | JSON 返回摘要；浏览器返回 redirect，不新增 response DTO。 |
-| Query boundary            | `IdentityProviderOAuthGrantController`                              | `shouldRedirectBrowserCallback` | Active | `Accept` 是响应模式唯一判定输入。                         |
-| Data model / table freeze | `identity_provider_oauth_grant`                                     | existing EX-64 persistence      | N/A    | 本片不读写新增字段。                                      |
-| Schema / DDL              | Existing migrations                                                 | N/A                             | N/A    | 本片无 DDL。                                              |
-| ADR                       | `docs/adr/015-api-route-canonical-grammar.md` / B13 route inventory | `platform-identity` callback    | Active | canonical path 已存在且保持不变。                         |
+| Input Type                | Document / Source                                                             | Section / Anchor                | Status | Notes                                                     |
+| ------------------------- | ----------------------------------------------------------------------------- | ------------------------------- | ------ | --------------------------------------------------------- |
+| Business design           | GitHub issue `#28`                                                            | callback 不展示裸 JSON          | Active | 浏览器完成授权后必须回到可继续绑定的 POMS 页面。          |
+| Command design            | `docs/design/archive/slices/ex-76a-feishu-capability-driven-auth-baseline.md` | 4 callback route                | Active | 复用既有 callback，不新增 route。                         |
+| DTO / OpenAPI design      | `IdentityProviderOAuthGrantDto` / Nest Swagger decorators                     | callback responses              | Active | JSON 返回摘要；浏览器返回 redirect，不新增 response DTO。 |
+| Query boundary            | `IdentityProviderOAuthGrantController`                                        | `shouldRedirectBrowserCallback` | Active | `Accept` 是响应模式唯一判定输入。                         |
+| Data model / table freeze | `identity_provider_oauth_grant`                                               | existing EX-64 persistence      | N/A    | 本片不读写新增字段。                                      |
+| Schema / DDL              | Existing migrations                                                           | N/A                             | N/A    | 本片无 DDL。                                              |
+| ADR                       | `docs/adr/015-api-route-canonical-grammar.md` / B13 route inventory           | `platform-identity` callback    | Active | canonical path 已存在且保持不变。                         |
 
 ## 3. Drift 清单与本次 SSOT
 
