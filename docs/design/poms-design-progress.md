@@ -651,6 +651,10 @@
 
 161. 2026-07-13 `EX-77A/FE-74` 已完成 `G4` 收口：PR `#32` 已 rebase merge，合并提交为 `d25aa7b4`，GitHub issue `#30` 已自动关闭；飞书绑定候选资料补全、字段可用性语义和结果表可读性已进入 `main`。G1 baseline 与 G3 corrective checkpoint 已归档至 `docs/design/archive/slices/`；枚举式字符串扫描的既有基线漂移继续由 GitHub issue `#31` 独立治理。本片未新增 route、migration、用户同步、身份绑定写命令或其他 OA adapter；测试环境验收仍需在飞书开放平台发布新增权限并重新授权后执行。
 
+162. 2026-07-13 `EX-77B/BUG-13` 已进入 `G1 / Doing`：测试环境在 PR `#32` 部署后发现飞书绑定用户搜索回归。只读复现显示 `search/v1/user` 与 user batch 均成功，但 search hit 的 `department_ids` 不是 `open_department_id`，被直接传给 department batch 后返回 `400 / 99992357`；相同用户详情在明确 `department_id_type=open_department_id` 后返回的 `od-` 部门 ID 可成功查询部门名称。GitHub issue `#33` 与 `ex-77b-feishu-department-id-normalization-baseline.md` 已冻结纠偏边界：搜索命中仅用于身份发现，部门名称仅由 user batch 的类型已确定 ID 解析；不改 B13 route、DTO/OpenAPI、migration、OAuth scope package、Admin UI、用户同步或其他 OA adapter。
+
+163. 2026-07-13 `EX-77B/BUG-13` 已完成 `G3 / Ready for review`：adapter 已移除 search hit 部门 ID 的消费，只从 user batch 详情汇总 `open_department_id` 并解析名称；detail 缺失时沿用 `not-returned`，不再以未声明类型的 search metadata 兜底。focused adapter（7 tests）、identity-provider regression（5 suites / 72 tests）、`poms-api` lint/build、Markdown format/diff sanity 均通过；G3 checkpoint 已记录。待 PR 审阅、合并部署后，在测试环境以已授权管理员搜索 `wangzishi` 与 `王子实` 完成 G4 验收。
+
 ---
 
 ## 11. 维护约定
