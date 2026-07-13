@@ -6,6 +6,7 @@ import {
     ExternalIdentityBindingStatus,
     IdentityProvider,
     IdentityProviderConfigStatus,
+    ExternalUserCandidateFieldAvailability,
     IdentityProviderOAuthGrantStatus,
     IdentityProviderStore,
     type ExternalIdentityBindingSummary,
@@ -18,6 +19,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger';
 
@@ -63,7 +65,7 @@ function serverMessage(value: unknown): string | null {
 @Component({
     selector: 'app-user-external-identity-panel',
     standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule],
+    imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TooltipModule],
     providers: [IdentityProviderStore],
     template: `
         <div class="flex flex-col gap-3 border-t border-surface-200 dark:border-surface-700 pt-4">
@@ -95,15 +97,7 @@ function serverMessage(value: unknown): string | null {
                                 }
                             </div>
                             @if (binding.status === ExternalIdentityBindingStatus.Active) {
-                                <p-button
-                                    label="解绑"
-                                    icon="pi pi-unlink"
-                                    size="small"
-                                    severity="danger"
-                                    [outlined]="true"
-                                    [loading]="store.unbindingIdentityId() === binding.id"
-                                    (onClick)="confirmUnbind(binding)"
-                                />
+                                <p-button label="解绑" icon="pi pi-unlink" size="small" severity="danger" [outlined]="true" [loading]="store.unbindingIdentityId() === binding.id" (onClick)="confirmUnbind(binding)" />
                             }
                         </div>
                     }
@@ -111,21 +105,12 @@ function serverMessage(value: unknown): string | null {
             }
         </div>
 
-        <p-dialog [(visible)]="bindingDialogVisible" [modal]="true" header="绑定飞书身份" [style]="{ width: '56rem' }" styleClass="p-fluid">
+        <p-dialog [(visible)]="bindingDialogVisible" [modal]="true" header="绑定飞书身份" [style]="{ width: '72rem', maxWidth: 'calc(100vw - 2rem)' }" [breakpoints]="{ '1199px': '96vw', '575px': '100vw' }" styleClass="p-fluid">
             <div class="flex flex-col gap-4 py-2">
                 <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-end">
                     <div class="flex flex-col gap-2">
                         <label class="font-medium">提供商配置</label>
-                        <p-select
-                            [ngModel]="selectedConfigId()"
-                            (ngModelChange)="selectConfig($event)"
-                            [options]="providerOptions()"
-                            optionLabel="label"
-                            optionValue="value"
-                            placeholder="选择配置"
-                            class="w-full"
-                            appendTo="body"
-                        />
+                        <p-select [ngModel]="selectedConfigId()" (ngModelChange)="selectConfig($event)" [options]="providerOptions()" optionLabel="label" optionValue="value" placeholder="选择配置" class="w-full" appendTo="body" />
                     </div>
                     <div class="flex items-center gap-2">
                         @if (grant(); as currentGrant) {
@@ -155,37 +140,40 @@ function serverMessage(value: unknown): string | null {
                     <p-button label="搜索" icon="pi pi-search" [loading]="store.searchingConfigId() === selectedConfigId()" [disabled]="!canSearch()" (onClick)="searchCandidates()" />
                 </div>
 
-                <p-table [value]="store.searchResults()" [tableStyle]="{ width: '100%' }">
+                <p-table [value]="store.searchResults()" responsiveLayout="scroll" [tableStyle]="{ width: '100%', 'min-width': '61rem' }">
                     <ng-template #header>
                         <tr>
-                            <th>姓名</th>
-                            <th>部门</th>
-                            <th>邮箱 / 手机</th>
-                            <th>Subject ID</th>
-                            <th style="width: 6rem">操作</th>
+                            <th style="width: 10rem">姓名</th>
+                            <th style="width: 14rem">部门</th>
+                            <th style="width: 15rem">邮箱 / 手机</th>
+                            <th style="width: 16rem">Subject ID</th>
+                            <th class="whitespace-nowrap" style="width: 6rem">操作</th>
                         </tr>
                     </ng-template>
                     <ng-template #body let-candidate>
                         <tr>
-                            <td>
+                            <td style="min-width: 10rem">
                                 <div class="flex flex-col">
                                     <span class="font-medium">{{ candidate.displayName }}</span>
                                     @if (candidate.unionId) {
-                                        <span class="text-xs text-surface-500">{{ candidate.unionId }}</span>
+                                        <span class="block truncate text-xs text-surface-500" style="max-width: 9rem" [pTooltip]="candidate.unionId" tooltipPosition="top">{{ candidate.unionId }}</span>
                                     }
                                 </div>
                             </td>
-                            <td>
+                            <td style="min-width: 14rem">
                                 <span class="text-sm text-surface-500">{{ departmentText(candidate) }}</span>
                             </td>
-                            <td>
-                                <span class="text-sm text-surface-500">{{ candidate.email || '无邮箱' }} / {{ candidate.mobile || '无手机' }}</span>
+                            <td style="min-width: 15rem">
+                                <div class="flex flex-col gap-1 text-sm text-surface-500">
+                                    <span>邮箱：{{ profileFieldText(candidate.email, candidate.fieldAvailability.email) }}</span>
+                                    <span>手机：{{ profileFieldText(candidate.mobile, candidate.fieldAvailability.mobile) }}</span>
+                                </div>
                             </td>
-                            <td>
-                                <span class="text-xs text-surface-500 break-all">{{ candidate.subjectId }}</span>
+                            <td style="min-width: 16rem">
+                                <span class="block truncate font-mono text-xs text-surface-500" style="max-width: 15rem" [pTooltip]="candidate.subjectId" tooltipPosition="top">{{ candidate.subjectId }}</span>
                             </td>
-                            <td>
-                                <p-button label="绑定" size="small" icon="pi pi-check" [loading]="store.savingBindingUserId() === userId()" (onClick)="bindCandidate(candidate)" />
+                            <td class="whitespace-nowrap" style="width: 6rem">
+                                <p-button label="绑定" size="small" icon="pi pi-check" styleClass="whitespace-nowrap" [loading]="store.savingBindingUserId() === userId()" (onClick)="bindCandidate(candidate)" />
                             </td>
                         </tr>
                     </ng-template>
@@ -217,16 +205,7 @@ export class UserExternalIdentityPanel {
     readonly selectedConfigId = signal<string | null>(null);
     readonly bindings = computed(() => this.store.bindingsByUserId()[this.userId()] ?? []);
     readonly bindableConfigs = computed(() =>
-        this.store
-            .configs()
-            .filter(
-                (config) =>
-                    config.provider === IdentityProvider.Feishu &&
-                    config.status === IdentityProviderConfigStatus.Active &&
-                    config.enabled &&
-                    config.bindingEnabled &&
-                    config.searchEnabled
-            )
+        this.store.configs().filter((config) => config.provider === IdentityProvider.Feishu && config.status === IdentityProviderConfigStatus.Active && config.enabled && config.bindingEnabled && config.searchEnabled)
     );
     readonly providerOptions = computed<ProviderOption[]>(() => this.bindableConfigs().map((config) => ({ label: `${config.displayName} (${this.providerLabel(config.provider)})`, value: config.id })));
     readonly grant = computed(() => {
@@ -284,7 +263,7 @@ export class UserExternalIdentityPanel {
         try {
             const result = await this.store.authorizeCurrentAdminGrant(configId);
             window.open(result.authorizeUrl, '_blank', 'noopener,noreferrer');
-            this.messageService.add({ severity: 'info', summary: '授权已打开', detail: '授权会自动申请用户搜索所需权限；完成后回到当前窗口刷新状态。' });
+            this.messageService.add({ severity: 'info', summary: '授权已打开', detail: '授权会自动申请搜索与候选资料读取所需权限；完成后回到当前窗口刷新状态。' });
         } catch {
             this.messageService.add({ severity: 'error', summary: '授权失败', detail: '无法生成飞书授权地址' });
         }
@@ -387,7 +366,7 @@ export class UserExternalIdentityPanel {
         if (grant.status === IdentityProviderOAuthGrantStatus.Expired) return '飞书搜索授权已过期，请重新授权。';
         if (grant.status === IdentityProviderOAuthGrantStatus.Revoked) return '飞书搜索授权已撤销，请重新授权。';
         const missingScopes = grant.missingRequiredScopes ?? [];
-        if (missingScopes.length > 0) return `当前授权缺少飞书用户搜索权限（${missingScopes.join(', ')}），请重新授权。`;
+        if (missingScopes.length > 0) return '当前授权缺少飞书候选资料读取权限，请重新授权。';
         if (grant.lastError) return `最近一次搜索失败：${grant.lastError}`;
         return null;
     }
@@ -399,7 +378,11 @@ export class UserExternalIdentityPanel {
     }
 
     departmentText(candidate: ExternalUserCandidate): string {
-        return candidate.departmentNames.length > 0 ? candidate.departmentNames.join(' / ') : '未返回';
+        return candidate.fieldAvailability.department === ExternalUserCandidateFieldAvailability.Available ? candidate.departmentNames.join(' / ') : this.fieldAvailabilityText(candidate.fieldAvailability.department);
+    }
+
+    profileFieldText(value: string | null, availability: ExternalUserCandidateFieldAvailability): string {
+        return availability === ExternalUserCandidateFieldAvailability.Available && value ? value : this.fieldAvailabilityText(availability);
     }
 
     emptySearchText(): string {
@@ -417,7 +400,7 @@ export class UserExternalIdentityPanel {
         if (grant.status === IdentityProviderOAuthGrantStatus.Expired) return '飞书搜索授权已过期，请重新授权';
         if (grant.status === IdentityProviderOAuthGrantStatus.Revoked) return '飞书搜索授权已撤销，请重新授权';
         const missingScopes = grant.missingRequiredScopes ?? [];
-        if (missingScopes.length > 0) return `缺少飞书搜索权限：${missingScopes.join(', ')}；请重新授权`;
+        if (missingScopes.length > 0) return '当前授权缺少飞书候选资料读取权限，请重新授权';
         if (grant.status !== IdentityProviderOAuthGrantStatus.Active) return '当前授权状态不可用';
         return null;
     }
@@ -433,8 +416,13 @@ export class UserExternalIdentityPanel {
         const missingScopes = stringArray(body.missingRequiredScopes);
         const nextActions = stringArray(body.nextActions);
         const providerLogId = typeof body.providerLogId === 'string' && body.providerLogId.trim() ? body.providerLogId.trim() : null;
-        const details = [missingScopes.length ? `缺少权限：${missingScopes.join(', ')}` : null, nextActions[0] ?? null, providerLogId ? `飞书 log_id：${providerLogId}` : null].filter(Boolean);
+        const details = [missingScopes.length ? '授权范围需要更新。' : null, nextActions[0] ?? null, providerLogId ? `飞书 log_id：${providerLogId}` : null].filter(Boolean);
         return [message, ...details].join(' ');
+    }
+
+    private fieldAvailabilityText(availability: ExternalUserCandidateFieldAvailability): string {
+        if (availability === ExternalUserCandidateFieldAvailability.NotProvided) return '未提供';
+        return '飞书未返回';
     }
 
     private async reloadForUser(userId: string): Promise<void> {

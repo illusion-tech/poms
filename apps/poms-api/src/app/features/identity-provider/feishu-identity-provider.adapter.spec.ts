@@ -1,4 +1,4 @@
-import { IdentityProviderConfigStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
+import { ExternalUserCandidateFieldAvailabilityValue, IdentityProviderConfigStatusValue, IdentityProviderSearchGrantModeValue, IdentityProviderValue } from '@poms/shared-contracts';
 import axios from 'axios';
 import { FeishuIdentityProviderAdapter } from './feishu-identity-provider.adapter';
 import { IdentityProviderAdapterError } from './identity-provider.adapter';
@@ -17,16 +17,12 @@ type AxiosErrorLike = {
 
 describe('FeishuIdentityProviderAdapter', () => {
     const mockedAxios = axios as jest.Mocked<typeof axios>;
-    const mockedIsAxiosError = mockedAxios.isAxiosError as unknown as jest.MockedFunction<
-        (error: unknown) => error is AxiosErrorLike
-    >;
+    const mockedIsAxiosError = mockedAxios.isAxiosError as unknown as jest.MockedFunction<(error: unknown) => error is AxiosErrorLike>;
     let adapter: FeishuIdentityProviderAdapter;
 
     beforeEach(() => {
         jest.clearAllMocks();
-        mockedIsAxiosError.mockImplementation((error: unknown): error is AxiosErrorLike =>
-            Boolean(error && typeof error === 'object' && 'isAxiosError' in error)
-        );
+        mockedIsAxiosError.mockImplementation((error: unknown): error is AxiosErrorLike => Boolean(error && typeof error === 'object' && 'isAxiosError' in error));
         adapter = new FeishuIdentityProviderAdapter();
     });
 
@@ -117,23 +113,46 @@ describe('FeishuIdentityProviderAdapter', () => {
         });
     });
 
-    it('maps Feishu user search results into provider-neutral candidates', async () => {
-        mockedAxios.get.mockResolvedValue({
-            data: {
-                code: 0,
+    it('hydrates documented search hits with batch user and department data', async () => {
+        mockedAxios.get
+            .mockResolvedValueOnce({
                 data: {
-                    users: [
-                        {
-                            open_id: 'ou_feishu_user_1',
-                            union_id: 'on_union_1',
-                            name: '张三',
-                            email: 'zhangsan@example.com',
-                            department_names: ['销售部']
-                        }
-                    ]
+                    code: 0,
+                    data: {
+                        users: [
+                            {
+                                open_id: 'ou_feishu_user_1',
+                                union_id: 'on_union_1',
+                                name: '张三',
+                                department_ids: ['od_sales']
+                            }
+                        ]
+                    }
                 }
-            }
-        });
+            })
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        items: [
+                            {
+                                open_id: 'ou_feishu_user_1',
+                                union_id: 'on_union_1',
+                                email: 'zhangsan@example.com',
+                                mobile: '13800000000'
+                            }
+                        ]
+                    }
+                }
+            })
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        items: [{ open_department_id: 'od_sales', name: '销售部' }]
+                    }
+                }
+            });
 
         const result = await adapter.searchExternalUsers({
             config: createConfig(),
@@ -142,7 +161,8 @@ describe('FeishuIdentityProviderAdapter', () => {
             limit: 10
         });
 
-        expect(mockedAxios.get).toHaveBeenCalledWith(
+        expect(mockedAxios.get).toHaveBeenNthCalledWith(
+            1,
             'https://open.feishu.cn/open-apis/search/v1/user',
             expect.objectContaining({
                 headers: { Authorization: 'Bearer user-access-token' },
@@ -150,6 +170,28 @@ describe('FeishuIdentityProviderAdapter', () => {
                 timeout: 10_000
             })
         );
+        expect(mockedAxios.get).toHaveBeenNthCalledWith(
+            2,
+            'https://open.feishu.cn/open-apis/contact/v3/users/batch',
+            expect.objectContaining({
+                headers: { Authorization: 'Bearer user-access-token' },
+                params: expect.any(URLSearchParams),
+                timeout: 10_000
+            })
+        );
+        expect(mockedAxios.get).toHaveBeenNthCalledWith(
+            3,
+            'https://open.feishu.cn/open-apis/contact/v3/departments/batch',
+            expect.objectContaining({
+                headers: { Authorization: 'Bearer user-access-token' },
+                params: expect.any(URLSearchParams),
+                timeout: 10_000
+            })
+        );
+        const userDetailParams = mockedAxios.get.mock.calls[1]?.[1]?.params as URLSearchParams;
+        const departmentParams = mockedAxios.get.mock.calls[2]?.[1]?.params as URLSearchParams;
+        expect(userDetailParams.toString()).toBe('user_id_type=open_id&department_id_type=open_department_id&user_ids=ou_feishu_user_1');
+        expect(departmentParams.toString()).toBe('department_id_type=open_department_id&department_ids=od_sales');
         expect(result).toEqual([
             {
                 subjectId: 'ou_feishu_user_1',
@@ -157,10 +199,115 @@ describe('FeishuIdentityProviderAdapter', () => {
                 displayName: '张三',
                 avatarUrl: null,
                 email: 'zhangsan@example.com',
-                mobile: null,
-                departmentNames: ['销售部']
+                mobile: '13800000000',
+                departmentNames: ['销售部'],
+                fieldAvailability: {
+                    department: ExternalUserCandidateFieldAvailabilityValue.Available,
+                    email: ExternalUserCandidateFieldAvailabilityValue.Available,
+                    mobile: ExternalUserCandidateFieldAvailabilityValue.Available
+                }
             }
         ]);
+    });
+
+    it('distinguishes profile fields not provided by the user from fields not returned by Feishu', async () => {
+        mockedAxios.get
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        users: [{ open_id: 'ou_feishu_user_1', name: '张三', department_ids: [] }]
+                    }
+                }
+            })
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        items: [{ open_id: 'ou_feishu_user_1', email: '' }]
+                    }
+                }
+            });
+
+        const result = await adapter.searchExternalUsers({
+            config: createConfig(),
+            accessToken: 'user-access-token',
+            query: '张',
+            limit: 10
+        });
+
+        expect(mockedAxios.get).toHaveBeenCalledTimes(2);
+        expect(result).toEqual([
+            expect.objectContaining({
+                email: null,
+                mobile: null,
+                departmentNames: [],
+                fieldAvailability: {
+                    department: ExternalUserCandidateFieldAvailabilityValue.NotProvided,
+                    email: ExternalUserCandidateFieldAvailabilityValue.NotProvided,
+                    mobile: ExternalUserCandidateFieldAvailabilityValue.NotReturned
+                }
+            })
+        ]);
+    });
+
+    it('batches department resolution for a full search page instead of issuing one request per department', async () => {
+        const departmentIds = Array.from({ length: 64 }, (_value, index) => `od_department_${index + 1}`);
+        const users = Array.from({ length: 4 }, (_value, index) => ({
+            open_id: `ou_feishu_user_${index + 1}`,
+            name: `用户${index + 1}`,
+            department_ids: departmentIds.slice(index * 16, (index + 1) * 16)
+        }));
+        mockedAxios.get
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: { users }
+                }
+            })
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        items: users.map((user) => ({
+                            open_id: user.open_id,
+                            email: `${user.open_id}@example.com`,
+                            mobile: '13800000000'
+                        }))
+                    }
+                }
+            })
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        items: departmentIds.slice(0, 50).map((departmentId) => ({ open_department_id: departmentId, name: departmentId }))
+                    }
+                }
+            })
+            .mockResolvedValueOnce({
+                data: {
+                    code: 0,
+                    data: {
+                        items: departmentIds.slice(50).map((departmentId) => ({ open_department_id: departmentId, name: departmentId }))
+                    }
+                }
+            });
+
+        const result = await adapter.searchExternalUsers({
+            config: createConfig(),
+            accessToken: 'user-access-token',
+            query: '用户',
+            limit: 4
+        });
+
+        const firstDepartmentParams = mockedAxios.get.mock.calls[2]?.[1]?.params as URLSearchParams;
+        const secondDepartmentParams = mockedAxios.get.mock.calls[3]?.[1]?.params as URLSearchParams;
+        expect(mockedAxios.get).toHaveBeenCalledTimes(4);
+        expect(firstDepartmentParams.getAll('department_ids')).toHaveLength(50);
+        expect(secondDepartmentParams.getAll('department_ids')).toHaveLength(14);
+        expect(result).toHaveLength(4);
+        expect(result.every((candidate) => candidate.departmentNames.length === 16 && candidate.fieldAvailability.department === ExternalUserCandidateFieldAvailabilityValue.Available)).toBe(true);
     });
 
     it('normalizes Feishu user search permission errors without leaking bearer tokens', async () => {

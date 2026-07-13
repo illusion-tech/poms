@@ -49,7 +49,7 @@ import { IdentityProviderOAuthGrant } from './identity-provider-oauth-grant.enti
 import { IdentityProviderRepository } from './identity-provider.repository';
 import { IDENTITY_PROVIDER_SECRET_CIPHER_OPTIONS } from './identity-provider-secret.constants';
 
-const FEISHU_USER_SEARCH_REQUIRED_SCOPES = ['contact:user:search'] as const;
+const FEISHU_BINDING_CANDIDATE_REQUIRED_SCOPES = ['contact:user:search', 'contact:contact.base:readonly', 'contact:user.department:readonly', 'contact:department.base:readonly', 'contact:user.email:readonly', 'contact:user.phone:readonly'] as const;
 
 @Injectable()
 export class IdentityProviderService {
@@ -837,7 +837,7 @@ export class IdentityProviderService {
 
     private requiredSearchGrantScopesFor(provider: IdentityProvider, searchEnabled: boolean): string[] {
         if (!searchEnabled) return [];
-        if (provider === IdentityProviderValue.Feishu) return [...FEISHU_USER_SEARCH_REQUIRED_SCOPES];
+        if (provider === IdentityProviderValue.Feishu) return [...FEISHU_BINDING_CANDIDATE_REQUIRED_SCOPES];
         return [];
     }
 
@@ -927,20 +927,20 @@ export class IdentityProviderService {
     }
 
     private missingRequiredScopesMessage(missingRequiredScopes: string[]): string {
-        return `当前飞书授权缺少用户搜索所需权限（${missingRequiredScopes.join(', ')}），请在飞书开放平台开通后重新授权。`;
+        return `当前飞书授权缺少绑定候选资料读取所需权限（${missingRequiredScopes.join(', ')}），请在飞书开放平台开通并发布应用后重新授权。`;
     }
 
     private missingRequiredScopesException(config: IdentityProviderConfig, grantedScopes: string[], missingRequiredScopes: string[]): BadRequestException {
         return new BadRequestException({
             statusCode: 400,
             code: 'identity_provider_missing_required_scopes',
-            message: '当前飞书授权缺少用户搜索所需权限，请在飞书开放平台开通后重新授权。',
+            message: this.missingRequiredScopesMessage(missingRequiredScopes),
             provider: config.provider,
             identityProviderConfigId: config.id,
             grantedScopes,
             requiredScopes: this.requiredSearchGrantScopes(config),
             missingRequiredScopes,
-            nextActions: ['在飞书开放平台为当前应用开通“搜索用户 contact:user:search”权限。', '回到 POMS 重新发起当前管理员授权。']
+            nextActions: ['在飞书开放平台为当前应用开通用户搜索、通讯录基础资料、部门、邮箱和手机号读取权限。', '发布飞书应用权限变更后，回到 POMS 重新发起当前管理员授权。']
         });
     }
 
@@ -957,7 +957,7 @@ export class IdentityProviderService {
             providerLogId: error.providerLogId,
             requiredScopes: this.requiredSearchGrantScopes(config),
             nextActions: isUnauthorized
-                ? ['在飞书开放平台确认已开通“搜索用户 contact:user:search”权限。', '如果刚刚开通权限，请回到 POMS 重新授权当前管理员。', '如仍失败，可使用飞书 log_id 在开放平台排查。']
+                ? ['在飞书开放平台确认已开通用户搜索、通讯录基础资料、部门、邮箱和手机号读取权限。', '发布飞书应用权限变更后，回到 POMS 重新授权当前管理员。', '如仍失败，可使用飞书 log_id 在开放平台排查。']
                 : error.providerLogId
                   ? ['稍后重试；如持续失败，请检查企业协同接入配置。', '可使用飞书 log_id 在开放平台排查。']
                   : ['稍后重试；如持续失败，请检查企业协同接入配置。']
@@ -970,15 +970,15 @@ export class IdentityProviderService {
 
     private userSearchFailureMessage(error: unknown): string {
         if (!(error instanceof IdentityProviderAdapterError)) {
-            return '飞书用户搜索失败，请稍后重试或检查企业协同接入配置。';
+            return '飞书用户搜索或候选资料补全失败，请稍后重试或检查企业协同接入配置。';
         }
         if (this.isUserSearchPermissionDenied(error)) {
-            return '飞书拒绝了用户搜索请求，请确认已开通“搜索用户 contact:user:search”权限后重新授权。';
+            return '飞书拒绝了用户搜索或候选资料读取请求，请确认已开通并发布所需权限后重新授权。';
         }
         if (error.providerLogId) {
-            return `飞书用户搜索失败，请稍后重试；如持续失败，请使用飞书 log_id ${error.providerLogId} 在开放平台排查。`;
+            return `飞书用户搜索或候选资料补全失败，请稍后重试；如持续失败，请使用飞书 log_id ${error.providerLogId} 在开放平台排查。`;
         }
-        return '飞书用户搜索失败，请稍后重试或检查企业协同接入配置。';
+        return '飞书用户搜索或候选资料补全失败，请稍后重试或检查企业协同接入配置。';
     }
 
     private async recordConfigAudit(eventType: string, config: IdentityProviderConfig, operatorId: string | null | undefined, beforeSnapshot: Record<string, unknown> | null, afterSnapshot: Record<string, unknown>): Promise<void> {

@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
     ExternalIdentityBindingStatus,
+    ExternalUserCandidateFieldAvailability,
     IdentityProvider,
     IdentityProviderConfigStatus,
     IdentityProviderOAuthGrantStatus,
@@ -14,6 +15,8 @@ import {
 } from '@poms/admin-data-access';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UserExternalIdentityPanel } from './user-external-identity-panel';
+
+const FEISHU_BINDING_CANDIDATE_SCOPES = ['contact:user:search', 'contact:contact.base:readonly', 'contact:user.department:readonly', 'contact:department.base:readonly', 'contact:user.email:readonly', 'contact:user.phone:readonly'];
 
 function createConfig(overrides: Partial<IdentityProviderConfigSummary> = {}): IdentityProviderConfigSummary {
     return {
@@ -78,8 +81,8 @@ function createGrant(overrides: Partial<IdentityProviderOAuthGrantSummary> = {})
         tenantId: null,
         pomsUserId: 'admin-1',
         status: IdentityProviderOAuthGrantStatus.Active,
-        scopes: ['contact:user:search'],
-        requiredScopes: ['contact:user:search'],
+        scopes: FEISHU_BINDING_CANDIDATE_SCOPES,
+        requiredScopes: FEISHU_BINDING_CANDIDATE_SCOPES,
         missingRequiredScopes: [],
         grantedAt: '2026-05-07T08:12:00.000Z',
         expiresAt: '2026-05-07T10:12:00.000Z',
@@ -104,6 +107,11 @@ function createCandidate(overrides: Partial<ExternalUserCandidate> = {}): Extern
         email: null,
         mobile: null,
         departmentNames: ['销售部'],
+        fieldAvailability: {
+            department: ExternalUserCandidateFieldAvailability.Available,
+            email: ExternalUserCandidateFieldAvailability.NotProvided,
+            mobile: ExternalUserCandidateFieldAvailability.NotProvided
+        },
         ...overrides
     };
 }
@@ -237,8 +245,34 @@ describe('UserExternalIdentityPanel', () => {
         fixture.detectChanges();
 
         expect(storeMock.searchExternalUsers).not.toHaveBeenCalled();
-        expect(fixture.nativeElement.textContent).toContain('当前授权缺少飞书用户搜索权限');
+        expect(fixture.nativeElement.textContent).toContain('当前授权缺少飞书候选资料读取权限');
         expect(fixture.nativeElement.textContent).toContain('重新授权');
+    });
+
+    it('renders candidate field availability without treating absent provider fields as empty profile values', async () => {
+        await component.openBindingDialog();
+        searchResults.set([
+            createCandidate({
+                subjectId: 'ou_7d5402f203e7702b7c5fa4434a003e9d',
+                departmentNames: [],
+                fieldAvailability: {
+                    department: ExternalUserCandidateFieldAvailability.NotReturned,
+                    email: ExternalUserCandidateFieldAvailability.NotProvided,
+                    mobile: ExternalUserCandidateFieldAvailability.NotReturned
+                }
+            })
+        ]);
+        fixture.detectChanges();
+
+        const text = fixture.nativeElement.textContent;
+        const table = fixture.nativeElement.querySelector('table');
+
+        expect(text).toContain('邮箱：未提供');
+        expect(text).toContain('手机：飞书未返回');
+        expect(text).toContain('飞书未返回');
+        expect(text).toContain('ou_7d5402f203e7702b7c5fa4434a003e9d');
+        expect(table).not.toBeNull();
+        expect(table.style.minWidth).toBe('61rem');
     });
 
     it('binds a selected external candidate without requiring email or mobile', async () => {

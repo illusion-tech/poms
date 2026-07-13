@@ -645,6 +645,10 @@
 
 158. 2026-07-10 `EX-76A` 已完成 `G4` 收口：PR `#29` 已 rebase merge，合并提交为 `a1938fa8`，GitHub issue `#28` 已自动关闭；飞书用户搜索必需 scope 自动注入、缺失权限与 provider 错误诊断、历史 grant scope snapshot 防线、浏览器 callback 的 `302 Location` / JSON 内容协商和 Admin 授权引导均已进入 `main`。G1 baseline 与两份 G3 corrective checkpoint 已归档至 `docs/design/archive/slices/`；本片不新增 route、DTO、migration、权限 key、用户同步或其他 OA adapter。
 
+159. 2026-07-13 `EX-77A/FE-74` 已进入 `G1 / Doing`：线上真实飞书用户绑定验证发现 `search/v1/user` 只返回 `department_ids` 而不返回邮箱/手机号，现有 adapter 却读取 `department_names` / `departments`、`email`、`mobile`，使候选部门、邮箱和手机号错误显示为空；同一弹窗结果表也缺少列宽预算和技术 ID 溢出策略。GitHub issue `#30` 与 `ex-77a-feishu-binding-candidate-enrichment-baseline.md` 已冻结正确边界：复用 B13 `GET /platform/identity-providers/{id}/external-users`，以当前管理员 user token 完成受控资料补全和部门名称解析，POMS 自动管理所需能力 scopes，response 明确区分未提供、飞书未返回和阻断性授权/可见性诊断；Admin 在同一切片交付稳定结果表和窄屏访问性。本片不新增 route、migration、用户同步、POMS 用户自动创建或其他 OA adapter。
+
+160. 2026-07-13 `EX-77A/FE-74` 已进入 `G3 / Ready for review`：adapter 改为以文档承诺的 search hit `open_id` / `department_ids` 为身份发现输入，受控调用 user/department batch API 补全管理员可见的部门、邮箱和手机号；response 新增明确 `fieldAvailability`，Admin 以“未提供 / 飞书未返回”和稳定表格布局呈现。B13 route path、`platform:users:manage` guard、持久化与绑定写命令均未改变；OpenAPI/generated client、focused API/Admin tests、受影响 lint/build 与桌面/390px browser smoke 已通过。G3 发现的枚举式字符串扫描失败可在未修改的 `main` `25cc0125` 重现，已分类为 `existing-baseline-drift` 并由 GitHub issue `#31` 单独治理，本片未新增未分类 finding。
+
 ---
 
 ## 11. 维护约定

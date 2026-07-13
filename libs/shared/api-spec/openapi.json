@@ -14679,6 +14679,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "fieldAvailability": {
+            "$ref": "#/components/schemas/ExternalUserCandidateFieldAvailabilitySummary"
           }
         },
         "required": [
@@ -14691,7 +14694,35 @@
           "avatarUrl",
           "email",
           "mobile",
-          "departmentNames"
+          "departmentNames",
+          "fieldAvailability"
+        ]
+      },
+      "ExternalUserCandidateFieldAvailabilitySummary": {
+        "type": "object",
+        "properties": {
+          "department": {
+            "$ref": "#/components/schemas/ExternalUserCandidateFieldAvailability"
+          },
+          "email": {
+            "$ref": "#/components/schemas/ExternalUserCandidateFieldAvailability"
+          },
+          "mobile": {
+            "$ref": "#/components/schemas/ExternalUserCandidateFieldAvailability"
+          }
+        },
+        "required": [
+          "department",
+          "email",
+          "mobile"
+        ]
+      },
+      "ExternalUserCandidateFieldAvailability": {
+        "type": "string",
+        "enum": [
+          "available",
+          "not-provided",
+          "not-returned"
         ]
       },
       "ExternalUserSearchResult": {
