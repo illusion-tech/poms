@@ -124,7 +124,7 @@ describe('FeishuIdentityProviderAdapter', () => {
                                 open_id: 'ou_feishu_user_1',
                                 union_id: 'on_union_1',
                                 name: '张三',
-                                department_ids: ['od_sales']
+                                department_ids: ['source_department_id']
                             }
                         ]
                     }
@@ -139,7 +139,8 @@ describe('FeishuIdentityProviderAdapter', () => {
                                 open_id: 'ou_feishu_user_1',
                                 union_id: 'on_union_1',
                                 email: 'zhangsan@example.com',
-                                mobile: '13800000000'
+                                mobile: '13800000000',
+                                department_ids: ['od_sales']
                             }
                         ]
                     }
@@ -216,7 +217,7 @@ describe('FeishuIdentityProviderAdapter', () => {
                 data: {
                     code: 0,
                     data: {
-                        users: [{ open_id: 'ou_feishu_user_1', name: '张三', department_ids: [] }]
+                        users: [{ open_id: 'ou_feishu_user_1', name: '张三', department_ids: ['search_department_id'] }]
                     }
                 }
             })
@@ -243,7 +244,7 @@ describe('FeishuIdentityProviderAdapter', () => {
                 mobile: null,
                 departmentNames: [],
                 fieldAvailability: {
-                    department: ExternalUserCandidateFieldAvailabilityValue.NotProvided,
+                    department: ExternalUserCandidateFieldAvailabilityValue.NotReturned,
                     email: ExternalUserCandidateFieldAvailabilityValue.NotProvided,
                     mobile: ExternalUserCandidateFieldAvailabilityValue.NotReturned
                 }
@@ -256,7 +257,7 @@ describe('FeishuIdentityProviderAdapter', () => {
         const users = Array.from({ length: 4 }, (_value, index) => ({
             open_id: `ou_feishu_user_${index + 1}`,
             name: `用户${index + 1}`,
-            department_ids: departmentIds.slice(index * 16, (index + 1) * 16)
+            department_ids: [`search_department_${index + 1}`]
         }));
         mockedAxios.get
             .mockResolvedValueOnce({
@@ -269,10 +270,11 @@ describe('FeishuIdentityProviderAdapter', () => {
                 data: {
                     code: 0,
                     data: {
-                        items: users.map((user) => ({
+                        items: users.map((user, index) => ({
                             open_id: user.open_id,
                             email: `${user.open_id}@example.com`,
-                            mobile: '13800000000'
+                            mobile: '13800000000',
+                            department_ids: departmentIds.slice(index * 16, (index + 1) * 16)
                         }))
                     }
                 }

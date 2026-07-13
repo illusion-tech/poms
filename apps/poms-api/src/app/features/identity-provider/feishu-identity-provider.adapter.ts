@@ -17,8 +17,6 @@ interface FeishuExternalUserSearchHit {
     unionId: string | null;
     displayName: string;
     avatarUrl: string | null;
-    departmentIds: string[];
-    departmentAvailability: ExternalUserCandidateFieldAvailability;
 }
 
 interface FeishuCandidateFieldValue {
@@ -156,7 +154,7 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
             input,
             hits.map((hit) => hit.subjectId)
         );
-        const departmentIds = this.uniqueStrings(hits.filter((hit) => hit.departmentAvailability === ExternalUserCandidateFieldAvailabilityValue.Available).flatMap((hit) => hit.departmentIds));
+        const departmentIds = this.uniqueStrings([...detailsBySubjectId.values()].flatMap((detail) => this.readStringArray(detail, ['department_ids']).slice(0, MAX_CANDIDATE_DEPARTMENTS)));
         const departmentNamesById = departmentIds.length > 0 ? await this.fetchDepartmentNames(input, departmentIds) : new Map<string, string>();
 
         return hits.map((hit) => this.toExternalUserCandidate(hit, detailsBySubjectId.get(hit.subjectId) ?? null, departmentNamesById));
@@ -280,16 +278,14 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
             subjectId,
             unionId: this.readString(user, ['union_id']),
             displayName,
-            avatarUrl: this.readAvatarUrl(user),
-            departmentIds: this.readStringArray(user, ['department_ids']).slice(0, MAX_CANDIDATE_DEPARTMENTS),
-            departmentAvailability: this.arrayFieldAvailability(user, 'department_ids')
+            avatarUrl: this.readAvatarUrl(user)
         };
     }
 
     private toExternalUserCandidate(hit: FeishuExternalUserSearchHit, detail: JsonRecord | null, departmentNamesById: Map<string, string>): ProviderExternalUserCandidate {
         const email = this.candidateFieldValue(detail, 'email');
         const mobile = this.candidateFieldValue(detail, 'mobile');
-        const department = this.resolveDepartments(hit, departmentNamesById);
+        const department = this.resolveDepartments(detail, departmentNamesById);
         const fieldAvailability: ExternalUserCandidateFieldAvailabilitySummary = {
             department: department.availability,
             email: email.availability,
@@ -308,12 +304,17 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
         };
     }
 
-    private resolveDepartments(hit: FeishuExternalUserSearchHit, departmentNamesById: Map<string, string>): { names: string[]; availability: ExternalUserCandidateFieldAvailability } {
-        if (hit.departmentAvailability !== ExternalUserCandidateFieldAvailabilityValue.Available) {
-            return { names: [], availability: hit.departmentAvailability };
+    private resolveDepartments(detail: JsonRecord | null, departmentNamesById: Map<string, string>): { names: string[]; availability: ExternalUserCandidateFieldAvailability } {
+        if (!detail) {
+            return { names: [], availability: ExternalUserCandidateFieldAvailabilityValue.NotReturned };
         }
 
-        const uniqueDepartmentIds = this.uniqueStrings(hit.departmentIds);
+        const availability = this.arrayFieldAvailability(detail, 'department_ids');
+        if (availability !== ExternalUserCandidateFieldAvailabilityValue.Available) {
+            return { names: [], availability };
+        }
+
+        const uniqueDepartmentIds = this.uniqueStrings(this.readStringArray(detail, ['department_ids']).slice(0, MAX_CANDIDATE_DEPARTMENTS));
         const names = uniqueDepartmentIds.map((departmentId) => departmentNamesById.get(departmentId)).filter((name): name is string => Boolean(name));
         if (names.length !== uniqueDepartmentIds.length) {
             return { names: [], availability: ExternalUserCandidateFieldAvailabilityValue.NotReturned };
