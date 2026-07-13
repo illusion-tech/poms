@@ -649,6 +649,8 @@
 
 160. 2026-07-13 `EX-77A/FE-74` 已进入 `G3 / Ready for review`：adapter 改为以文档承诺的 search hit `open_id` / `department_ids` 为身份发现输入，受控调用 user/department batch API 补全管理员可见的部门、邮箱和手机号；response 新增明确 `fieldAvailability`，Admin 以“未提供 / 飞书未返回”和稳定表格布局呈现。B13 route path、`platform:users:manage` guard、持久化与绑定写命令均未改变；OpenAPI/generated client、focused API/Admin tests、受影响 lint/build 与桌面/390px browser smoke 已通过。G3 发现的枚举式字符串扫描失败可在未修改的 `main` `25cc0125` 重现，已分类为 `existing-baseline-drift` 并由 GitHub issue `#31` 单独治理，本片未新增未分类 finding。
 
+161. 2026-07-13 `EX-77A/FE-74` 已完成 `G4` 收口：PR `#32` 已 rebase merge，合并提交为 `d25aa7b4`，GitHub issue `#30` 已自动关闭；飞书绑定候选资料补全、字段可用性语义和结果表可读性已进入 `main`。G1 baseline 与 G3 corrective checkpoint 已归档至 `docs/design/archive/slices/`；枚举式字符串扫描的既有基线漂移继续由 GitHub issue `#31` 独立治理。本片未新增 route、migration、用户同步、身份绑定写命令或其他 OA adapter；测试环境验收仍需在飞书开放平台发布新增权限并重新授权后执行。
+
 ---
 
 ## 11. 维护约定
