@@ -1,10 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { IdentityProviderValue } from '@poms/shared-contracts';
+import { ExternalUserCandidateFieldAvailabilityValue, IdentityProviderValue, type ExternalUserCandidateFieldAvailability, type ExternalUserCandidateFieldAvailabilitySummary } from '@poms/shared-contracts';
 import axios from 'axios';
 import type { BuildAdminGrantAuthorizeUrlInput, ExchangeAdminGrantCodeInput, IdentityProviderAdapter, ProviderExternalLoginIdentity, ProviderExternalUserCandidate, ProviderOAuthTokenSet, SearchExternalUsersInput } from './identity-provider.adapter';
 import { IdentityProviderAdapterError } from './identity-provider.adapter';
 
 type JsonRecord = Record<string, unknown>;
+type FeishuBatchQueryParameter = 'user_id_type' | 'department_id_type';
+type FeishuBatchFixedQueryParams = Readonly<Partial<Record<FeishuBatchQueryParameter, string>>>;
+
+const FEISHU_BATCH_REQUEST_LIMIT = 50;
+const FEISHU_DEPARTMENT_BATCH_CONCURRENCY = 4;
+const MAX_CANDIDATE_DEPARTMENTS = 16;
+
+interface FeishuExternalUserSearchHit {
+    subjectId: string;
+    unionId: string | null;
+    displayName: string;
+    avatarUrl: string | null;
+    departmentIds: string[];
+    departmentAvailability: ExternalUserCandidateFieldAvailability;
+}
+
+interface FeishuCandidateFieldValue {
+    value: string | null;
+    availability: ExternalUserCandidateFieldAvailability;
+}
 
 @Injectable()
 export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
@@ -129,7 +149,86 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
         }
         const payload = this.unwrapFeishuPayload(response.data, 'Feishu user search failed');
         const users = this.readArray(payload, ['users', 'items', 'user_list']);
-        return users.map((user) => this.toExternalUserCandidate(user)).filter((user): user is ProviderExternalUserCandidate => Boolean(user));
+        const hits = users.map((user) => this.toExternalUserSearchHit(user)).filter((user): user is FeishuExternalUserSearchHit => Boolean(user));
+        if (hits.length === 0) return [];
+
+        const detailsBySubjectId = await this.fetchUserDetails(
+            input,
+            hits.map((hit) => hit.subjectId)
+        );
+        const departmentIds = this.uniqueStrings(hits.filter((hit) => hit.departmentAvailability === ExternalUserCandidateFieldAvailabilityValue.Available).flatMap((hit) => hit.departmentIds));
+        const departmentNamesById = departmentIds.length > 0 ? await this.fetchDepartmentNames(input, departmentIds) : new Map<string, string>();
+
+        return hits.map((hit) => this.toExternalUserCandidate(hit, detailsBySubjectId.get(hit.subjectId) ?? null, departmentNamesById));
+    }
+
+    private async fetchUserDetails(input: SearchExternalUsersInput, subjectIds: string[]): Promise<Map<string, JsonRecord>> {
+        const endpoint = process.env['FEISHU_USER_BATCH_URL'] ?? `${this.openApiBaseUrl()}/open-apis/contact/v3/users/batch`;
+        const uniqueSubjectIds = this.uniqueStrings(subjectIds);
+        let response: { data: unknown };
+        try {
+            response = await axios.get(endpoint, {
+                headers: {
+                    Authorization: `Bearer ${input.accessToken}`
+                },
+                params: this.repeatedQueryParams('user_ids', uniqueSubjectIds, {
+                    user_id_type: 'open_id',
+                    department_id_type: 'open_department_id'
+                }),
+                timeout: this.timeoutMs()
+            });
+        } catch (error) {
+            throw this.normalizeHttpError(error, 'Feishu user profile enrichment failed');
+        }
+
+        const payload = this.unwrapFeishuPayload(response.data, 'Feishu user profile enrichment failed');
+        const detailsBySubjectId = new Map<string, JsonRecord>();
+        for (const item of this.readArray(payload, ['items', 'users', 'user_list'])) {
+            const user = this.asRecord(item);
+            const subjectId = this.readString(user, ['open_id']);
+            if (subjectId) detailsBySubjectId.set(subjectId, user);
+        }
+        return detailsBySubjectId;
+    }
+
+    private async fetchDepartmentNames(input: SearchExternalUsersInput, departmentIds: string[]): Promise<Map<string, string>> {
+        const departmentBatches = this.chunk(this.uniqueStrings(departmentIds), FEISHU_BATCH_REQUEST_LIMIT);
+        const batchResults = await this.mapWithConcurrency(departmentBatches, FEISHU_DEPARTMENT_BATCH_CONCURRENCY, (batch) => this.fetchDepartmentNameBatch(input, batch));
+        const departmentNamesById = new Map<string, string>();
+        for (const batchResult of batchResults) {
+            for (const [departmentId, name] of batchResult) {
+                departmentNamesById.set(departmentId, name);
+            }
+        }
+        return departmentNamesById;
+    }
+
+    private async fetchDepartmentNameBatch(input: SearchExternalUsersInput, departmentIds: string[]): Promise<Map<string, string>> {
+        const endpoint = process.env['FEISHU_DEPARTMENT_BATCH_URL'] ?? `${this.openApiBaseUrl()}/open-apis/contact/v3/departments/batch`;
+        let response: { data: unknown };
+        try {
+            response = await axios.get(endpoint, {
+                headers: {
+                    Authorization: `Bearer ${input.accessToken}`
+                },
+                params: this.repeatedQueryParams('department_ids', departmentIds, {
+                    department_id_type: 'open_department_id'
+                }),
+                timeout: this.timeoutMs()
+            });
+        } catch (error) {
+            throw this.normalizeHttpError(error, 'Feishu department enrichment failed');
+        }
+
+        const payload = this.unwrapFeishuPayload(response.data, 'Feishu department enrichment failed');
+        const departmentNamesById = new Map<string, string>();
+        for (const item of this.readArray(payload, ['items', 'departments'])) {
+            const department = this.asRecord(item);
+            const departmentId = this.readString(department, ['open_department_id']);
+            const name = this.readString(department, ['name']);
+            if (departmentId && name) departmentNamesById.set(departmentId, name);
+        }
+        return departmentNamesById;
     }
 
     private unwrapFeishuPayload(raw: unknown, fallbackMessage: string): JsonRecord {
@@ -171,9 +270,9 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
         });
     }
 
-    private toExternalUserCandidate(raw: unknown): ProviderExternalUserCandidate | null {
+    private toExternalUserSearchHit(raw: unknown): FeishuExternalUserSearchHit | null {
         const user = this.asRecord(raw);
-        const subjectId = this.readString(user, ['open_id', 'user_id', 'id']);
+        const subjectId = this.readString(user, ['open_id']);
         const displayName = this.readString(user, ['name', 'display_name', 'en_name']);
         if (!subjectId || !displayName) return null;
 
@@ -181,18 +280,88 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
             subjectId,
             unionId: this.readString(user, ['union_id']),
             displayName,
-            avatarUrl: this.readString(user, ['avatar_url', 'avatar_thumb', 'avatar_middle', 'avatar_big']),
-            email: this.readString(user, ['email']),
-            mobile: this.readString(user, ['mobile', 'mobile_visible']),
-            departmentNames: this.readStringArray(user, ['department_names', 'departments'])
+            avatarUrl: this.readAvatarUrl(user),
+            departmentIds: this.readStringArray(user, ['department_ids']).slice(0, MAX_CANDIDATE_DEPARTMENTS),
+            departmentAvailability: this.arrayFieldAvailability(user, 'department_ids')
         };
+    }
+
+    private toExternalUserCandidate(hit: FeishuExternalUserSearchHit, detail: JsonRecord | null, departmentNamesById: Map<string, string>): ProviderExternalUserCandidate {
+        const email = this.candidateFieldValue(detail, 'email');
+        const mobile = this.candidateFieldValue(detail, 'mobile');
+        const department = this.resolveDepartments(hit, departmentNamesById);
+        const fieldAvailability: ExternalUserCandidateFieldAvailabilitySummary = {
+            department: department.availability,
+            email: email.availability,
+            mobile: mobile.availability
+        };
+
+        return {
+            subjectId: hit.subjectId,
+            unionId: detail ? (this.readString(detail, ['union_id']) ?? hit.unionId) : hit.unionId,
+            displayName: hit.displayName,
+            avatarUrl: hit.avatarUrl,
+            email: email.value,
+            mobile: mobile.value,
+            departmentNames: department.names,
+            fieldAvailability
+        };
+    }
+
+    private resolveDepartments(hit: FeishuExternalUserSearchHit, departmentNamesById: Map<string, string>): { names: string[]; availability: ExternalUserCandidateFieldAvailability } {
+        if (hit.departmentAvailability !== ExternalUserCandidateFieldAvailabilityValue.Available) {
+            return { names: [], availability: hit.departmentAvailability };
+        }
+
+        const uniqueDepartmentIds = this.uniqueStrings(hit.departmentIds);
+        const names = uniqueDepartmentIds.map((departmentId) => departmentNamesById.get(departmentId)).filter((name): name is string => Boolean(name));
+        if (names.length !== uniqueDepartmentIds.length) {
+            return { names: [], availability: ExternalUserCandidateFieldAvailabilityValue.NotReturned };
+        }
+        return { names, availability: ExternalUserCandidateFieldAvailabilityValue.Available };
+    }
+
+    private candidateFieldValue(record: JsonRecord | null, key: string): FeishuCandidateFieldValue {
+        if (!record || !this.hasOwn(record, key)) {
+            return { value: null, availability: ExternalUserCandidateFieldAvailabilityValue.NotReturned };
+        }
+
+        const value = this.readString(record, [key]);
+        return value ? { value, availability: ExternalUserCandidateFieldAvailabilityValue.Available } : { value: null, availability: ExternalUserCandidateFieldAvailabilityValue.NotProvided };
+    }
+
+    private arrayFieldAvailability(record: JsonRecord, key: string): ExternalUserCandidateFieldAvailability {
+        if (!this.hasOwn(record, key)) return ExternalUserCandidateFieldAvailabilityValue.NotReturned;
+        return this.readStringArray(record, [key]).length > 0 ? ExternalUserCandidateFieldAvailabilityValue.Available : ExternalUserCandidateFieldAvailabilityValue.NotProvided;
+    }
+
+    private readAvatarUrl(record: JsonRecord): string | null {
+        const directUrl = this.readString(record, ['avatar_url', 'avatar_thumb', 'avatar_middle', 'avatar_big']);
+        if (directUrl) return directUrl;
+        return this.readString(this.asRecord(record['avatar']), ['avatar_240', 'avatar_72', 'avatar_640', 'avatar_origin']);
+    }
+
+    private repeatedQueryParams(key: string, values: string[], fixedValues: FeishuBatchFixedQueryParams): URLSearchParams {
+        const params = new URLSearchParams();
+        for (const [fixedKey, fixedValue] of Object.entries(fixedValues)) {
+            params.set(fixedKey, fixedValue);
+        }
+        for (const value of values) {
+            params.append(key, value);
+        }
+        return params;
     }
 
     private readScopes(payload: JsonRecord): string[] {
         const arrayScopes = this.readStringArray(payload, ['scopes', 'scope_list']);
         if (arrayScopes.length > 0) return arrayScopes;
         const raw = this.readString(payload, ['scope']);
-        return raw ? raw.split(/[,\s]+/).map((scope) => scope.trim()).filter(Boolean) : [];
+        return raw
+            ? raw
+                  .split(/[,\s]+/)
+                  .map((scope) => scope.trim())
+                  .filter(Boolean)
+            : [];
     }
 
     private readArray(record: JsonRecord, keys: string[]): unknown[] {
@@ -214,9 +383,35 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
     private readStringArray(record: JsonRecord, keys: string[]): string[] {
         for (const key of keys) {
             const value = record[key];
-            if (Array.isArray(value)) return value.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())).slice(0, 16);
+            if (Array.isArray(value)) return this.uniqueStrings(value.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())));
         }
         return [];
+    }
+
+    private uniqueStrings(values: string[]): string[] {
+        return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+    }
+
+    private chunk<T>(items: T[], size: number): T[][] {
+        const chunks: T[][] = [];
+        for (let index = 0; index < items.length; index += size) {
+            chunks.push(items.slice(index, index + size));
+        }
+        return chunks;
+    }
+
+    private async mapWithConcurrency<T, TResult>(items: T[], concurrency: number, mapper: (item: T) => Promise<TResult>): Promise<TResult[]> {
+        const results = new Array<TResult>(items.length);
+        let nextIndex = 0;
+        const worker = async (): Promise<void> => {
+            while (nextIndex < items.length) {
+                const index = nextIndex++;
+                results[index] = await mapper(items[index]);
+            }
+        };
+
+        await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => worker()));
+        return results;
     }
 
     private readNumber(record: JsonRecord, keys: string[]): number | null {
@@ -230,6 +425,14 @@ export class FeishuIdentityProviderAdapter implements IdentityProviderAdapter {
 
     private asRecord(value: unknown): JsonRecord {
         return value && typeof value === 'object' && !Array.isArray(value) ? (value as JsonRecord) : {};
+    }
+
+    private hasOwn(record: JsonRecord, key: string): boolean {
+        return Object.prototype.hasOwnProperty.call(record, key);
+    }
+
+    private openApiBaseUrl(): string {
+        return (process.env['FEISHU_OPEN_API_BASE_URL'] ?? 'https://open.feishu.cn').replace(/\/+$/g, '');
     }
 
     private timeoutMs(): number {

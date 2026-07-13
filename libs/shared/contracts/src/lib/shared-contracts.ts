@@ -910,10 +910,9 @@ export const UpdateExternalOrgSourceRequestSchema = z
         syncScopes: ExternalOrgSyncScopeListSchema.optional(),
         expectedVersion: z.number().int().positive().optional()
     })
-    .refine(
-        (value) => value.displayName !== undefined || value.providerConfigId !== undefined || value.authoritativeOrgUnitId !== undefined || value.externalRootDepartmentId !== undefined || value.syncScopes !== undefined,
-        { message: 'At least one updatable field is required' }
-    )
+    .refine((value) => value.displayName !== undefined || value.providerConfigId !== undefined || value.authoritativeOrgUnitId !== undefined || value.externalRootDepartmentId !== undefined || value.syncScopes !== undefined, {
+        message: 'At least one updatable field is required'
+    })
     .meta({ id: 'UpdateExternalOrgSourceRequest' });
 
 export type UpdateExternalOrgSourceRequest = z.infer<typeof UpdateExternalOrgSourceRequestSchema>;
@@ -1198,6 +1197,26 @@ export const ExternalUserSearchQuerySchema = z
 
 export type ExternalUserSearchQuery = z.infer<typeof ExternalUserSearchQuerySchema>;
 
+export const ExternalUserCandidateFieldAvailabilityValue = {
+    Available: 'available',
+    NotProvided: 'not-provided',
+    NotReturned: 'not-returned'
+} as const;
+
+export const EXTERNAL_USER_CANDIDATE_FIELD_AVAILABILITY_VALUES = enumObjectValues(ExternalUserCandidateFieldAvailabilityValue);
+export type ExternalUserCandidateFieldAvailability = (typeof EXTERNAL_USER_CANDIDATE_FIELD_AVAILABILITY_VALUES)[number];
+export const ExternalUserCandidateFieldAvailabilitySchema = z.enum(EXTERNAL_USER_CANDIDATE_FIELD_AVAILABILITY_VALUES).meta({ id: 'ExternalUserCandidateFieldAvailability' });
+
+export const ExternalUserCandidateFieldAvailabilitySummarySchema = z
+    .object({
+        department: ExternalUserCandidateFieldAvailabilitySchema,
+        email: ExternalUserCandidateFieldAvailabilitySchema,
+        mobile: ExternalUserCandidateFieldAvailabilitySchema
+    })
+    .meta({ id: 'ExternalUserCandidateFieldAvailabilitySummary' });
+
+export type ExternalUserCandidateFieldAvailabilitySummary = z.infer<typeof ExternalUserCandidateFieldAvailabilitySummarySchema>;
+
 export const ExternalUserCandidateSchema = z
     .object({
         identityProviderConfigId: z.uuid(),
@@ -1209,7 +1228,8 @@ export const ExternalUserCandidateSchema = z
         avatarUrl: z.string().url().nullable(),
         email: z.email().nullable(),
         mobile: z.string().nullable(),
-        departmentNames: z.array(z.string()).max(16)
+        departmentNames: z.array(z.string()).max(16),
+        fieldAvailability: ExternalUserCandidateFieldAvailabilitySummarySchema
     })
     .meta({ id: 'ExternalUserCandidate' });
 

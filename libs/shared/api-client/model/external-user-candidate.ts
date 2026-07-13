@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { IdentityProvider } from './identity-provider';
+import { ExternalUserCandidateFieldAvailabilitySummary } from './external-user-candidate-field-availability-summary';
 
 
 export interface ExternalUserCandidate {
@@ -21,4 +22,5 @@ export interface ExternalUserCandidate {
     email: string | null;
     mobile: string | null;
     departmentNames: Array<string>;
+    fieldAvailability: ExternalUserCandidateFieldAvailabilitySummary;
 }

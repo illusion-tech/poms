@@ -1,6 +1,7 @@
 import { createCipheriv, createHash, randomBytes } from 'node:crypto';
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import {
+    ExternalUserCandidateFieldAvailabilityValue,
     ExternalIdentityBindingStatusValue,
     IdentityProviderConfigStatusValue,
     IdentityProviderConnectionDiagnosticStatusValue,
@@ -29,6 +30,7 @@ describe('IdentityProviderService', () => {
     const externalLoginTicketId = '94000000-0000-4000-8000-000000000001';
     const oauthGrantId = '93000000-0000-4000-8000-000000000001';
     const pomsUserId = '00000000-0000-4000-8000-000000000002';
+    const feishuBindingCandidateRequiredScopes = ['contact:user:search', 'contact:contact.base:readonly', 'contact:user.department:readonly', 'contact:department.base:readonly', 'contact:user.email:readonly', 'contact:user.phone:readonly'];
     let repository: {
         findConfigs: jest.Mock;
         findLoginEnabledConfigs: jest.Mock;
@@ -101,7 +103,7 @@ describe('IdentityProviderService', () => {
                 refreshToken: 'refresh-token',
                 expiresInSeconds: 7200,
                 refreshExpiresInSeconds: 30 * 24 * 60 * 60,
-                scopes: ['contact:user:search']
+                scopes: feishuBindingCandidateRequiredScopes
             }),
             exchangeExternalLoginCode: jest.fn().mockResolvedValue({
                 accessToken: 'login-access-token',
@@ -126,7 +128,12 @@ describe('IdentityProviderService', () => {
                     avatarUrl: null,
                     email: 'zhangsan@example.com',
                     mobile: null,
-                    departmentNames: ['销售部']
+                    departmentNames: ['销售部'],
+                    fieldAvailability: {
+                        department: ExternalUserCandidateFieldAvailabilityValue.Available,
+                        email: ExternalUserCandidateFieldAvailabilityValue.Available,
+                        mobile: ExternalUserCandidateFieldAvailabilityValue.NotProvided
+                    }
                 }
             ])
         };
@@ -207,16 +214,16 @@ describe('IdentityProviderService', () => {
                 displayName: '飞书',
                 searchEnabled: true,
                 clientId: 'cli_a',
-                searchScopes: scopeList(32)
+                searchScopes: scopeList(27)
             })
         );
 
         expect(response).toMatchObject({
             code: 'identity_provider_search_scope_capacity_exceeded',
             maxScopes: 32,
-            maxAdditionalScopes: 31,
+            maxAdditionalScopes: 26,
             effectiveScopeCount: 33,
-            requiredScopes: ['contact:user:search']
+            requiredScopes: feishuBindingCandidateRequiredScopes
         });
         expect(repository.createConfig).not.toHaveBeenCalled();
         expect(repository.saveAll).not.toHaveBeenCalled();
@@ -224,7 +231,7 @@ describe('IdentityProviderService', () => {
 
     it('accepts the full additional scope budget and includes the required scope in the authorization request', async () => {
         repository.findConfigByProviderTenant.mockResolvedValue(null);
-        const additionalScopes = scopeList(31);
+        const additionalScopes = scopeList(26);
 
         const created = await service.createIdentityProviderConfig({
             provider: IdentityProviderValue.Feishu,
@@ -245,7 +252,7 @@ describe('IdentityProviderService', () => {
         expect(saved.searchScopes).toEqual(additionalScopes);
         expect(adapter.buildAdminGrantAuthorizeUrl).toHaveBeenCalledWith(
             expect.objectContaining({
-                scopes: ['contact:user:search', ...additionalScopes]
+                scopes: [...feishuBindingCandidateRequiredScopes, ...additionalScopes]
             })
         );
     });
@@ -404,12 +411,12 @@ describe('IdentityProviderService', () => {
     });
 
     it('rejects an over-budget search scope update before mutating the existing config', async () => {
-        const existing = createSearchEnabledConfig({ searchScopes: scopeList(31) });
+        const existing = createSearchEnabledConfig({ searchScopes: scopeList(26) });
         repository.findConfigById.mockResolvedValue(existing);
 
-        await expect(service.updateIdentityProviderConfig(providerConfigId, { searchScopes: scopeList(32) }, operatorId)).rejects.toThrow(BadRequestException);
+        await expect(service.updateIdentityProviderConfig(providerConfigId, { searchScopes: scopeList(27) }, operatorId)).rejects.toThrow(BadRequestException);
 
-        expect(existing.searchScopes).toEqual(scopeList(31));
+        expect(existing.searchScopes).toEqual(scopeList(26));
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
@@ -572,7 +579,9 @@ describe('IdentityProviderService', () => {
                 encryptedClientSecret: encryptedSecret('client-secret')
             })
         );
-        externalOrgDirectoryAdapter.testDepartmentReadAccess.mockRejectedValueOnce(new ExternalOrgDirectoryAdapterError('飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。（飞书返回：permission denied，code 99991663）'));
+        externalOrgDirectoryAdapter.testDepartmentReadAccess.mockRejectedValueOnce(
+            new ExternalOrgDirectoryAdapterError('飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。（飞书返回：permission denied，code 99991663）')
+        );
 
         const result = await service.testIdentityProviderConnection(providerConfigId, {
             capability: IdentityProviderConnectionTestCapabilityValue.ExternalOrgSync
@@ -717,8 +726,8 @@ describe('IdentityProviderService', () => {
             identityProviderConfigId: providerConfigId,
             pomsUserId: operatorId,
             status: IdentityProviderOAuthGrantStatusValue.Missing,
-            requiredScopes: ['contact:user:search'],
-            missingRequiredScopes: ['contact:user:search']
+            requiredScopes: feishuBindingCandidateRequiredScopes,
+            missingRequiredScopes: feishuBindingCandidateRequiredScopes
         });
     });
 
@@ -733,22 +742,22 @@ describe('IdentityProviderService', () => {
         expect(result).toMatchObject({
             status: IdentityProviderOAuthGrantStatusValue.Active,
             scopes: [],
-            requiredScopes: ['contact:user:search'],
-            missingRequiredScopes: ['contact:user:search'],
+            requiredScopes: feishuBindingCandidateRequiredScopes,
+            missingRequiredScopes: feishuBindingCandidateRequiredScopes,
             lastError: '当前飞书授权范围快照异常，请重新授权后再搜索用户。'
         });
         expect(repository.saveAll).not.toHaveBeenCalled();
     });
 
     it('normalizes legacy grant scope snapshots before returning the current-admin grant summary', async () => {
-        const grant = createOAuthGrant({ scopes: [' contact:user:search ', '', 'contact:user:search', 'auth:user.id:read'] });
+        const grant = createOAuthGrant({ scopes: [...feishuBindingCandidateRequiredScopes, 'auth:user.id:read'] });
         repository.findPlatformUserById.mockResolvedValue({ id: operatorId });
         repository.findConfigById.mockResolvedValue(createSearchEnabledConfig());
         repository.findOAuthGrantByUserProvider.mockResolvedValue(grant);
 
         const result = await service.getCurrentAdminProviderGrant(providerConfigId, operatorId);
 
-        expect(result.scopes).toEqual(['contact:user:search', 'auth:user.id:read']);
+        expect(result.scopes).toEqual([...feishuBindingCandidateRequiredScopes, 'auth:user.id:read']);
         expect(result.missingRequiredScopes).toEqual([]);
         expect(result.lastError).toBeNull();
     });
@@ -764,7 +773,7 @@ describe('IdentityProviderService', () => {
             expect.objectContaining({
                 config: expect.objectContaining({ id: providerConfigId }),
                 redirectUri: 'https://poms.example.com/api/platform/identity-provider-oauth-grants:callback',
-                scopes: ['contact:user:search'],
+                scopes: feishuBindingCandidateRequiredScopes,
                 state: expect.any(String)
             })
         );
@@ -802,7 +811,7 @@ describe('IdentityProviderService', () => {
             identityProviderConfigId: providerConfigId,
             pomsUserId: operatorId,
             status: IdentityProviderOAuthGrantStatusValue.Active,
-            scopes: ['contact:user:search']
+            scopes: feishuBindingCandidateRequiredScopes
         });
         expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(expect.objectContaining({ eventType: 'identity-provider.oauth-grant.updated' }));
     });
@@ -826,10 +835,10 @@ describe('IdentityProviderService', () => {
         const result = await service.handleCurrentAdminProviderGrantCallback({ code: 'auth-code', state });
         const saved = repository.saveAll.mock.calls.at(-1)?.[0][0] as IdentityProviderOAuthGrant;
 
-        expect(saved.scopes).toEqual(['contact:user:search']);
+        expect(saved.scopes).toEqual(feishuBindingCandidateRequiredScopes);
         expect(result).toMatchObject({
-            scopes: ['contact:user:search'],
-            requiredScopes: ['contact:user:search'],
+            scopes: feishuBindingCandidateRequiredScopes,
+            requiredScopes: feishuBindingCandidateRequiredScopes,
             missingRequiredScopes: []
         });
     });
@@ -944,12 +953,13 @@ describe('IdentityProviderService', () => {
         await expect(service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId)).rejects.toThrow(BadRequestException);
 
         expect(adapter.searchExternalUsers).not.toHaveBeenCalled();
-        expect(grant.lastError).toBe('当前飞书授权缺少用户搜索所需权限（contact:user:search），请在飞书开放平台开通后重新授权。');
+        expect(grant.lastError).toBe(`当前飞书授权缺少绑定候选资料读取所需权限（${feishuBindingCandidateRequiredScopes.join(', ')}），请在飞书开放平台开通并发布应用后重新授权。`);
         const response = await captureBadRequest(() => service.searchExternalUsers(providerConfigId, { q: '张' }, operatorId));
         expect(response).toMatchObject({
             code: 'identity_provider_missing_required_scopes',
-            missingRequiredScopes: ['contact:user:search'],
-            requiredScopes: ['contact:user:search']
+            message: `当前飞书授权缺少绑定候选资料读取所需权限（${feishuBindingCandidateRequiredScopes.join(', ')}），请在飞书开放平台开通并发布应用后重新授权。`,
+            missingRequiredScopes: feishuBindingCandidateRequiredScopes,
+            requiredScopes: feishuBindingCandidateRequiredScopes
         });
     });
 
@@ -964,7 +974,7 @@ describe('IdentityProviderService', () => {
         expect(response).toMatchObject({
             code: 'identity_provider_grant_scope_snapshot_invalid',
             message: '当前飞书授权范围快照异常，请重新授权后再搜索用户。',
-            requiredScopes: ['contact:user:search'],
+            requiredScopes: feishuBindingCandidateRequiredScopes,
             maxScopes: 32,
             maxScopeLength: 128
         });
@@ -990,12 +1000,12 @@ describe('IdentityProviderService', () => {
 
         expect(response).toMatchObject({
             code: 'identity_provider_search_permission_denied',
-            message: '飞书拒绝了用户搜索请求，请确认已开通“搜索用户 contact:user:search”权限后重新授权。',
+            message: '飞书拒绝了用户搜索或候选资料读取请求，请确认已开通并发布所需权限后重新授权。',
             providerCode: 99991679,
             providerLogId: '202607021506300D005719E2BED5C7B160',
-            requiredScopes: ['contact:user:search']
+            requiredScopes: feishuBindingCandidateRequiredScopes
         });
-        expect(grant.lastError).toBe('飞书拒绝了用户搜索请求，请确认已开通“搜索用户 contact:user:search”权限后重新授权。');
+        expect(grant.lastError).toBe('飞书拒绝了用户搜索或候选资料读取请求，请确认已开通并发布所需权限后重新授权。');
     });
 
     it('persists a safe Chinese diagnostic for unclassified provider user-search failures', async () => {
@@ -1015,11 +1025,11 @@ describe('IdentityProviderService', () => {
 
         expect(response).toMatchObject({
             code: 'identity_provider_external_user_search_failed',
-            message: '飞书用户搜索失败，请稍后重试；如持续失败，请使用飞书 log_id 202607101823000D001234567890ABCD 在开放平台排查。',
+            message: '飞书用户搜索或候选资料补全失败，请稍后重试；如持续失败，请使用飞书 log_id 202607101823000D001234567890ABCD 在开放平台排查。',
             providerCode: 99991680,
             providerLogId: '202607101823000D001234567890ABCD'
         });
-        expect(grant.lastError).toBe('飞书用户搜索失败，请稍后重试；如持续失败，请使用飞书 log_id 202607101823000D001234567890ABCD 在开放平台排查。');
+        expect(grant.lastError).toBe('飞书用户搜索或候选资料补全失败，请稍后重试；如持续失败，请使用飞书 log_id 202607101823000D001234567890ABCD 在开放平台排查。');
         expect(grant.lastError).not.toContain('upstream error');
     });
 
@@ -1259,7 +1269,7 @@ describe('IdentityProviderService', () => {
             pomsUserId: operatorId,
             encryptedAccessToken: encryptedSecret('user-access-token'),
             encryptedRefreshToken: encryptedSecret('refresh-token'),
-            scopes: ['contact:user:search'],
+            scopes: feishuBindingCandidateRequiredScopes,
             status: IdentityProviderOAuthGrantStatusValue.Active,
             grantedAt: new Date('2026-05-07T01:00:00.000Z'),
             expiresAt: new Date(Date.now() + 60 * 60_000),

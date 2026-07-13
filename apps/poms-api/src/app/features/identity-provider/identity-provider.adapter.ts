@@ -1,4 +1,4 @@
-import type { IdentityProvider } from '@poms/shared-contracts';
+import type { ExternalUserCandidateFieldAvailabilitySummary, IdentityProvider } from '@poms/shared-contracts';
 import type { IdentityProviderConfig } from './identity-provider-config.entity';
 
 export interface BuildAdminGrantAuthorizeUrlInput {
@@ -38,6 +38,7 @@ export interface ProviderExternalUserCandidate {
     email: string | null;
     mobile: string | null;
     departmentNames: string[];
+    fieldAvailability: ExternalUserCandidateFieldAvailabilitySummary;
 }
 
 export interface ProviderExternalLoginIdentity {

@@ -251,6 +251,8 @@ export * from './external-org-provider';
 export * from './external-org-source-status';
 export * from './external-org-source-summary';
 export * from './external-user-candidate';
+export * from './external-user-candidate-field-availability';
+export * from './external-user-candidate-field-availability-summary';
 export * from './external-user-search-result';
 export * from './freeze-commission-role-assignment-request';
 export * from './freeze-commission-role-assignment-result';
