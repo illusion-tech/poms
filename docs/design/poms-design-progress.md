@@ -655,6 +655,8 @@
 
 163. 2026-07-13 `EX-77B/BUG-13` 已完成 `G3 / Ready for review`：adapter 已移除 search hit 部门 ID 的消费，只从 user batch 详情汇总 `open_department_id` 并解析名称；detail 缺失时沿用 `not-returned`，不再以未声明类型的 search metadata 兜底。focused adapter（7 tests）、identity-provider regression（5 suites / 72 tests）、`poms-api` lint/build、Markdown format/diff sanity 均通过；G3 checkpoint 已记录。待 PR 审阅、合并部署后，在测试环境以已授权管理员搜索 `wangzishi` 与 `王子实` 完成 G4 验收。
 
+164. 2026-07-21 `EX-77B/BUG-13` 已完成 `G4` 收口：PR `#34` 已 rebase merge（`7798a0d0`）并部署至测试环境 release `20260717-155350`；build、preflight、migration gate 与 deployment verify 全部通过。管理员重新完成飞书授权后，`wangzishi` 与 `王子实` 候选搜索及用户绑定均通过，原 `400 / 99992357` 回归未再出现。GitHub issue `#33` 已完成验收；baseline 与 G3 review checkpoint 已归档至 `docs/design/archive/slices/`。本片未新增或变更 public route、DTO/OpenAPI、generated client、migration、权限、OAuth scope package、Admin UI、用户同步或其他 OA adapter。
+
 ---
 
 ## 11. 维护约定
