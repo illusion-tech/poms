@@ -4942,6 +4942,36 @@
         ]
       }
     },
+    "/api/customer-aliases/{id}": {
+      "delete": {
+        "operationId": "CustomerAliasController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "客户别名已删除"
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "删除客户别名",
+        "tags": [
+          "customer"
+        ]
+      }
+    },
     "/api/leads": {
       "get": {
         "operationId": "LeadController_list",

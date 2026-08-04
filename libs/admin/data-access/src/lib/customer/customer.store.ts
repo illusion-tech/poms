@@ -119,6 +119,18 @@ export class CustomerStore {
         }
     }
 
+    async deleteAlias(customerId: string, aliasId: string): Promise<void> {
+        this.#saving.set(true);
+        try {
+            await firstValueFrom(this.#customerApi.customerAliasControllerDelete({ id: aliasId }));
+            if (this.#selectedCustomer()?.id === customerId) {
+                await this.loadCustomer(customerId);
+            }
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
     clearSelectedCustomer() {
         this.#selectedCustomer.set(null);
         this.#aliases.set([]);

@@ -1,4 +1,4 @@
-import { signal } from '@angular/core';
+import { signal, type WritableSignal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
@@ -41,6 +41,7 @@ import {
   type SalesIntelligenceGapSummary,
   SalesIntelligenceStore,
 } from '@poms/admin-data-access';
+import { ConfirmationService, type Confirmation } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
@@ -318,9 +319,14 @@ describe('CustomerWorkspace', () => {
     loadCustomerWorkspaceOverview: jest.Mock;
     updateCustomer: jest.Mock;
     createAlias: jest.Mock;
+    deleteAlias: jest.Mock;
   };
+  let confirmationService: ConfirmationService;
+  let confirmationConfirmSpy: jest.SpyInstance;
+  let canWriteCustomerPermission: WritableSignal<boolean>;
 
   beforeEach(async () => {
+    canWriteCustomerPermission = signal(true);
     selectedCustomer = signal<CustomerDetailView | null>(null);
     aliases = signal<CustomerAliasSummary[]>([]);
     customerWorkspaceOverview = signal<CustomerWorkspaceOverviewView | null>(null);
@@ -402,6 +408,7 @@ describe('CustomerWorkspace', () => {
       }),
       updateCustomer: jest.fn().mockResolvedValue(createCustomerDetail()),
       createAlias: jest.fn().mockResolvedValue(createAlias()),
+      deleteAlias: jest.fn().mockResolvedValue(undefined),
     };
 
     await TestBed.configureTestingModule({
@@ -410,7 +417,10 @@ describe('CustomerWorkspace', () => {
         {
           provide: AuthStore,
           useValue: {
-            hasAnyPermission: jest.fn((permissions: readonly string[]) => permissions.includes('customer:write')),
+            hasAnyPermission: jest.fn(
+              (permissions: readonly string[]) =>
+                permissions.includes('customer:write') && canWriteCustomerPermission(),
+            ),
           },
         },
         {
@@ -423,6 +433,10 @@ describe('CustomerWorkspace', () => {
         {
           provide: Router,
           useValue: routerMock,
+        },
+        {
+          provide: ConfirmationService,
+          useClass: ConfirmationService,
         },
         {
           provide: DictionaryStore,
@@ -504,6 +518,8 @@ describe('CustomerWorkspace', () => {
       .compileComponents();
 
     fixture = TestBed.createComponent(CustomerWorkspace);
+    confirmationService = fixture.debugElement.injector.get(ConfirmationService);
+    confirmationConfirmSpy = jest.spyOn(confirmationService, 'confirm');
     component = fixture.componentInstance;
     fixture.detectChanges();
     await fixture.whenStable();
@@ -567,5 +583,55 @@ describe('CustomerWorkspace', () => {
 
     component.openTimelineItem(createCustomerWorkspaceOverview().timeline[1]);
     expect(routerMock.navigate).toHaveBeenLastCalledWith(['/projects', 'project-1', 'workspace']);
+  });
+
+  it('shows a deletion action only for writable non-primary aliases', async () => {
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('[aria-label="删除客户别名 华南地铁"]')).not.toBeNull();
+
+    const customer = createCustomerDetail({ status: CustomerStatus.Merged });
+    expect(component.canDeleteAlias(customer, createAlias())).toBe(false);
+    expect(component.canDeleteAlias(createCustomerDetail(), createAlias({ isPrimary: true }))).toBe(false);
+  });
+
+  it('hides deletion actions without customer write permission', async () => {
+    canWriteCustomerPermission.set(false);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('[aria-label="删除客户别名 华南地铁"]')).toBeNull();
+    expect(component.canDeleteAlias(createCustomerDetail(), createAlias())).toBe(false);
+  });
+
+  it('requires explicit confirmation before deleting an alias', async () => {
+    const customer = createCustomerDetail();
+    const alias = createAlias();
+
+    component.confirmDeleteAlias(customer, alias);
+
+    expect(confirmationConfirmSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        header: '删除客户别名',
+        message: '确定删除客户别名“华南地铁”吗？删除后不再用于客户名称匹配，操作不可撤销。',
+      }),
+    );
+
+    const confirmation = confirmationConfirmSpy.mock.calls[0][0] as Confirmation;
+    confirmation.accept?.();
+    await fixture.whenStable();
+
+    expect(customerStoreMock.deleteAlias).toHaveBeenCalledWith('customer-1', 'alias-1');
+    expect(component.deletingAliasId()).toBeNull();
+  });
+
+  it('keeps the alias visible and exposes a retryable error when deletion fails', async () => {
+    customerStoreMock.deleteAlias.mockRejectedValueOnce(new Error('conflict'));
+
+    await component.deleteAlias('customer-1', 'alias-1');
+
+    expect(aliases().map(alias => alias.id)).toContain('alias-1');
+    expect(component.aliasError()).toContain('请刷新后重试');
+    expect(component.deletingAliasId()).toBeNull();
   });
 });

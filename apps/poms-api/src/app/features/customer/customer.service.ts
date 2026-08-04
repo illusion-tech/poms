@@ -1,4 +1,4 @@
-import { Inject, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import type {
     CreateCustomerAliasRequest,
@@ -19,8 +19,9 @@ import type {
     CustomerWorkspaceTimelineItem,
     UpdateCustomerRequest
 } from '@poms/shared-contracts';
-import { CustomerAliasTypeValue, CustomerStatusValue } from '@poms/shared-contracts';
+import { AuditLogResultValue, CustomerAliasTypeValue, CustomerStatusValue, EntityAuditTargetTypeValue } from '@poms/shared-contracts';
 import { BusinessNumberService } from '../business-number/business-number.service';
+import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Customer, CustomerAlias } from './customer.entity';
@@ -38,7 +39,8 @@ import {
 export class CustomerService {
     constructor(
         @Inject(CustomerRepository) private readonly customerRepository: CustomerRepository,
-        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService
+        @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService,
+        @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService
     ) {}
 
     async listCustomers(query: CustomerListQuery): Promise<CustomerListView[]> {
@@ -204,6 +206,53 @@ export class CustomerService {
 
         await this.customerRepository.saveAlias(alias);
         return this.toAliasSummary(alias);
+    }
+
+    async deleteAlias(aliasId: string, operatorUserId: string, requestId?: string | null): Promise<void> {
+        await this.customerRepository.getEntityManager().transactional(async (entityManager) => {
+            const alias = await entityManager.findOne(CustomerAlias, { id: aliasId });
+            if (!alias) {
+                throw new NotFoundException(`Customer alias ${aliasId} not found`);
+            }
+
+            const customer = await entityManager.findOne(Customer, { id: alias.customerId });
+            if (!customer) {
+                throw new NotFoundException(`Customer ${alias.customerId} not found`);
+            }
+            if (alias.isPrimary) {
+                throw new ConflictException(`Primary customer alias ${aliasId} cannot be deleted`);
+            }
+            if (customer.status === CustomerStatusValue.Merged) {
+                throw new ConflictException(`Customer ${customer.id} is merged and its aliases cannot be deleted`);
+            }
+
+            entityManager.remove(alias);
+            await this.runtimeAuditService.recordAuditLog(
+                {
+                    eventType: 'customer.alias.deleted',
+                    targetType: EntityAuditTargetTypeValue.Customer,
+                    targetId: customer.id,
+                    operatorId: operatorUserId,
+                    requestId: requestId ?? null,
+                    result: AuditLogResultValue.Success,
+                    beforeSnapshot: {
+                        aliasId: alias.id,
+                        aliasName: alias.aliasName,
+                        aliasType: alias.aliasType,
+                        normalizedName: alias.normalizedName,
+                        isPrimary: alias.isPrimary,
+                        createdAt: alias.createdAt.toISOString(),
+                        createdBy: alias.createdBy ?? null
+                    },
+                    afterSnapshot: null,
+                    metadata: {
+                        sourceCommand: 'delete-customer-alias'
+                    }
+                },
+                entityManager
+            );
+            await entityManager.flush();
+        });
     }
 
     async requireActiveCustomer(id: string): Promise<Customer> {
