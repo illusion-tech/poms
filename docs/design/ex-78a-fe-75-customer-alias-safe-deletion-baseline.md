@@ -147,19 +147,19 @@
 
 ## 9. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                                     | Result  | Gap / Reason        |
-| -------------------------------- | -------- | -------------------------------------------------------------------------------------- | ------- | ------------------- |
-| API service tests                | Yes      | focused API 2 suites / 12 tests；full API 72 suites / 806 tests                        | Passed  |                     |
-| API controller tests             | Yes      | route/actor/request ID 映射与 204 response                                             | Passed  |                     |
-| Admin store/component tests      | Yes      | focused Admin 2 suites / 9 tests；full Admin 55 suites / 350 tests                     | Passed  |                     |
-| API E2E                          | Yes      | session + CSRF：403、primary 409、204、查询移除、audit、重复删除 404；1 suite / 1 test | Passed  |                     |
-| Browser verification             | Yes      | 测试环境新增临时非主别名、确认删除、刷新不回显、主别名无删除入口、审计历史可见         | Pending |                     |
-| Lint                             | Yes      | `poms-api`, `poms-admin`, `admin-data-access`                                          | Passed  |                     |
-| Build                            | Yes      | `poms-api`, `poms-admin`, `admin-data-access`, `shared-api-client`                     | Passed  |                     |
-| OpenAPI generation / client diff | Yes      | `poms-api:openapi`, `shared-api-client:generate`, `shared-api-client:check`            | Passed  | client synchronized |
-| Migration / schema check         | Yes      | `poms-api:migration-check`; no changes required, schema up-to-date                     | Passed  | no migration        |
-| Deployment                       | Yes      | `deploy:build-test`, `deploy:preflight-test`, `deploy:push-test`, `deploy:verify-test` | Pending |                     |
-| Docs / diff sanity               | Yes      | `pnpm run format:md`, `pnpm run format:md:check`, `git diff --check`                   | Pending |                     |
+| Check                            | Required | Command / Evidence                                                                     | Result  | Gap / Reason                                                    |
+| -------------------------------- | -------- | -------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------- |
+| API service tests                | Yes      | focused API 2 suites / 12 tests；full API 72 suites / 806 tests                        | Passed  |                                                                 |
+| API controller tests             | Yes      | route/actor/request ID 映射与 204 response                                             | Passed  |                                                                 |
+| Admin store/component tests      | Yes      | focused Admin 2 suites / 9 tests；full Admin 55 suites / 350 tests                     | Passed  |                                                                 |
+| API E2E                          | Yes      | session + CSRF：403、primary 409、204、查询移除、audit、重复删除 404；1 suite / 1 test | Passed  |                                                                 |
+| Browser verification             | Yes      | 测试环境新增临时非主别名、确认删除、刷新不回显、主别名无删除入口、审计历史可见         | Blocked | 内置浏览器无登录态；测试环境拒绝默认 E2E 管理员凭据，待授权登录 |
+| Lint                             | Yes      | `poms-api`, `poms-admin`, `admin-data-access`                                          | Passed  |                                                                 |
+| Build                            | Yes      | `poms-api`, `poms-admin`, `admin-data-access`, `shared-api-client`                     | Passed  |                                                                 |
+| OpenAPI generation / client diff | Yes      | `poms-api:openapi`, `shared-api-client:generate`, `shared-api-client:check`            | Passed  | client synchronized                                             |
+| Migration / schema check         | Yes      | `poms-api:migration-check`; no changes required, schema up-to-date                     | Passed  | no migration                                                    |
+| Deployment                       | Yes      | release `20260804-125757`；build/preflight/migration gate/push/verify                  | Passed  | commit `7ddb76b5`                                               |
+| Docs / diff sanity               | Yes      | `pnpm run format:md`, `pnpm run format:md:check`, `git diff --check`                   | Passed  |                                                                 |
 
 ## 10. 例外与风险
 
@@ -192,6 +192,6 @@ G2 风险:
 - Scope Review: 实现保持 G1 冻结范围；未新增 migration、权限 key、软删除、恢复、批量删除、别名编辑或主别名替换。
 - Contract Review: B20 已由 `planned` 更新为 `aligned`；OpenAPI 与 generated client 已同步。OpenAPI Generator 将无 schema 的 `204` 方法生成为 `Observable<any>`，Admin Store 丢弃响应并对外收敛为 `Promise<void>`，业务语义仍为无响应体。
 - Transaction Review: alias 查询、客户状态校验、ORM remove、runtime audit persist 与 flush 共用同一 transactional EntityManager；审计写失败不会提交删除。
-- Verification Review: focused/full API 与 Admin 测试、API E2E、lint、build、OpenAPI/client check、migration check 均通过；browser 与 deployment 证据在测试环境发布后补录。
+- Verification Review: focused/full API 与 Admin 测试、API E2E、lint、build、OpenAPI/client check、migration check 均通过；commit `7ddb76b5` 已发布为测试环境 release `20260804-125757`，build、preflight、远端 migration gate、PM2 reload 与 deployment verify 通过。browser 已确认登录页可访问，但内置浏览器无现成登录态，测试环境也拒绝仓库默认 E2E 管理员凭据（401 `invalid_credentials`），真实 UI 删除与审计查看须在授权登录后补验。
 - Baseline Check: `check:enum-like-strings` 在当前分支和基线 `954b2273` 上均为 A1=34、A2=122、A3=897、A5=35，且 `external-org-sync` 的 `Record<string, string>` 均为 1 处；本片零新增命中，既有基线债务不在本片扩围处理。
 - Drift / Exception: 无实现漂移，无本片例外。
