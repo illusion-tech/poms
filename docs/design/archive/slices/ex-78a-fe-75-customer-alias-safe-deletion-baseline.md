@@ -147,19 +147,19 @@
 
 ## 9. 测试与校验
 
-| Check                            | Required | Command / Evidence                                                                     | Result  | Gap / Reason                                                    |
-| -------------------------------- | -------- | -------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------- |
-| API service tests                | Yes      | focused API 2 suites / 12 tests；full API 72 suites / 806 tests                        | Passed  |                                                                 |
-| API controller tests             | Yes      | route/actor/request ID 映射与 204 response                                             | Passed  |                                                                 |
-| Admin store/component tests      | Yes      | focused Admin 2 suites / 9 tests；full Admin 55 suites / 350 tests                     | Passed  |                                                                 |
-| API E2E                          | Yes      | session + CSRF：403、primary 409、204、查询移除、audit、重复删除 404；1 suite / 1 test | Passed  |                                                                 |
-| Browser verification             | Yes      | 测试环境新增临时非主别名、确认删除、刷新不回显、主别名无删除入口、审计历史可见         | Blocked | 内置浏览器无登录态；测试环境拒绝默认 E2E 管理员凭据，待授权登录 |
-| Lint                             | Yes      | `poms-api`, `poms-admin`, `admin-data-access`                                          | Passed  |                                                                 |
-| Build                            | Yes      | `poms-api`, `poms-admin`, `admin-data-access`, `shared-api-client`                     | Passed  |                                                                 |
-| OpenAPI generation / client diff | Yes      | `poms-api:openapi`, `shared-api-client:generate`, `shared-api-client:check`            | Passed  | client synchronized                                             |
-| Migration / schema check         | Yes      | `poms-api:migration-check`; no changes required, schema up-to-date                     | Passed  | no migration                                                    |
-| Deployment                       | Yes      | release `20260804-125757`；build/preflight/migration gate/push/verify                  | Passed  | commit `7ddb76b5`                                               |
-| Docs / diff sanity               | Yes      | `pnpm run format:md`, `pnpm run format:md:check`, `git diff --check`                   | Passed  |                                                                 |
+| Check                            | Required | Command / Evidence                                                                     | Result | Gap / Reason                                 |
+| -------------------------------- | -------- | -------------------------------------------------------------------------------------- | ------ | -------------------------------------------- |
+| API service tests                | Yes      | focused API 2 suites / 12 tests；full API 72 suites / 806 tests                        | Passed |                                              |
+| API controller tests             | Yes      | route/actor/request ID 映射与 204 response                                             | Passed |                                              |
+| Admin store/component tests      | Yes      | focused Admin 2 suites / 9 tests；full Admin 55 suites / 350 tests                     | Passed |                                              |
+| API E2E                          | Yes      | session + CSRF：403、primary 409、204、查询移除、audit、重复删除 404；1 suite / 1 test | Passed |                                              |
+| Browser verification             | Yes      | 用户于 2026-08-04 确认 PR #36 测试没有问题并批准合并                                   | Passed | 用户验收结论补齐授权登录后的真实业务路径门禁 |
+| Lint                             | Yes      | `poms-api`, `poms-admin`, `admin-data-access`                                          | Passed |                                              |
+| Build                            | Yes      | `poms-api`, `poms-admin`, `admin-data-access`, `shared-api-client`                     | Passed |                                              |
+| OpenAPI generation / client diff | Yes      | `poms-api:openapi`, `shared-api-client:generate`, `shared-api-client:check`            | Passed | client synchronized                          |
+| Migration / schema check         | Yes      | `poms-api:migration-check`; no changes required, schema up-to-date                     | Passed | no migration                                 |
+| Deployment                       | Yes      | release `20260804-125757`；build/preflight/migration gate/push/verify                  | Passed | commit `7ddb76b5`                            |
+| Docs / diff sanity               | Yes      | `pnpm run format:md`, `pnpm run format:md:check`, `git diff --check`                   | Passed |                                              |
 
 ## 10. 例外与风险
 
@@ -195,3 +195,15 @@ G2 风险:
 - Verification Review: focused/full API 与 Admin 测试、API E2E、lint、build、OpenAPI/client check、migration check 均通过；commit `7ddb76b5` 已发布为测试环境 release `20260804-125757`，build、preflight、远端 migration gate、PM2 reload 与 deployment verify 通过。browser 已确认登录页可访问，但内置浏览器无现成登录态，测试环境也拒绝仓库默认 E2E 管理员凭据（401 `invalid_credentials`），真实 UI 删除与审计查看须在授权登录后补验。
 - Baseline Check: `check:enum-like-strings` 在当前分支和基线 `954b2273` 上均为 A1=34、A2=122、A3=897、A5=35，且 `external-org-sync` 的 `Record<string, string>` 均为 1 处；本片零新增命中，既有基线债务不在本片扩围处理。
 - Drift / Exception: 无实现漂移，无本片例外。
+
+## 13. G4 Closeout
+
+- Gate Status: `Pass`
+- Approved By: `Wang Zishi`
+- Approved At: `2026-08-04`
+- Merge Evidence: PR `#36` 已 rebase merge，merge commit `01c8e258dfb5a2ab4b066579e6bbd4b5aa1c13fa`。
+- Acceptance Evidence: 用户确认 PR `#36` 测试没有问题并批准合并；该结论补齐 G3 时因缺少授权登录态而尚未完成的真实业务路径验收。
+- Deployment Evidence: source commit `7ddb76b5` 已部署测试环境 release `20260804-125757`；build、preflight、migration gate、PM2 reload 与 deployment verify 均通过。
+- Scope Review: 交付保持 G1 边界；未新增 migration、权限 key、别名编辑/恢复/批量/软删除或主别名替换。
+- Governance Closeout: GitHub issue `#35` 已由 closing reference 自动关闭；tracker 已更新为 `Done / G4`，progress 已记录最终收口，本生命周期文档已归档。
+- Downstream Unblocked: 客户档案可依赖非主别名安全删除能力；客户联系人编辑必须作为独立切片重新冻结范围和验收证据。

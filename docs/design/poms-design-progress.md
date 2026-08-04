@@ -657,7 +657,7 @@
 
 164. 2026-07-21 `EX-77B/BUG-13` 已完成 `G4` 收口：PR `#34` 已 rebase merge（`7798a0d0`）并部署至测试环境 release `20260717-155350`；build、preflight、migration gate 与 deployment verify 全部通过。管理员重新完成飞书授权后，`wangzishi` 与 `王子实` 候选搜索及用户绑定均通过，原 `400 / 99992357` 回归未再出现。GitHub issue `#33` 已完成验收；baseline 与 G3 review checkpoint 已归档至 `docs/design/archive/slices/`。本片未新增或变更 public route、DTO/OpenAPI、generated client、migration、权限、OAuth scope package、Admin UI、用户同步或其他 OA adapter。
 
-165. 2026-08-04 `EX-78A/FE-75` 已进入 `G3 / Review`：GitHub issue `#35`、PR `#36` 与 G1 baseline 冻结的客户别名安全删除边界已落地；B20 canonical `DELETE /customer-aliases/{id}`、OpenAPI/generated client、权限与 primary/merged 保护、删除和 `customer.alias.deleted` 同事务审计、Admin 二次确认/单项 loading/服务端 reload 均已实现。focused/full API 与 Admin tests、API E2E、lint、build、client check、migration check 已通过；commit `7ddb76b5` 已部署测试环境 release `20260804-125757`，build、preflight、migration gate、PM2 reload 与 verify 通过。内置浏览器无登录态且测试环境拒绝默认 E2E 管理员凭据，真实 UI 删除与审计历史待授权登录后补验；`check:enum-like-strings` 与基线 `954b2273` 命中完全一致，本片零新增。
+165. 2026-08-04 `EX-78A/FE-75` 已完成 `G4` 收口：PR `#36` 已 rebase merge（`01c8e258`），GitHub issue `#35` 已由 closing reference 自动关闭；B20 canonical `DELETE /customer-aliases/{id}`、OpenAPI/generated client、权限与 primary/merged 保护、删除和 `customer.alias.deleted` 同事务审计、Admin 二次确认/单项 loading/服务端 reload 均已交付。source commit `7ddb76b5` 已部署测试环境 release `20260804-125757`，自动化验证与部署 build/preflight/migration gate/PM2 reload/verify 通过；用户确认测试没有问题并批准合并，补齐真实业务验收。baseline 已归档至 `docs/design/archive/slices/`；客户联系人编辑不回开本片，另行建立独立切片。
 
 ---
 
