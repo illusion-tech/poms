@@ -314,6 +314,7 @@
 | `customer` | `updateCustomer`               | `PATCH /customers/{id}`                  | `PATCH /customers/{id}`                  | `PATCH /customers/{id}`                  | `ADR-015` + `EX-42` G1 baseline      | `N/A`      | 新增客户基础信息更新；不得静默合并客户。                                                                                                 | `B6`  | `aligned` |
 | `customer` | `listCustomerAliases`          | `GET /customers/{id}/aliases`            | `GET /customers/{id}/aliases`            | `GET /customers/{id}/aliases`            | `ADR-015` + `EX-42` G1 baseline      | `N/A`      | 新增客户别名集合查询，用于名称匹配和历史输入追溯。                                                                                       | `B6`  | `aligned` |
 | `customer` | `createCustomerAlias`          | `POST /customers/{id}/aliases`           | `POST /customers/{id}/aliases`           | `POST /customers/{id}/aliases`           | `ADR-015` + `EX-42` G1 baseline      | `N/A`      | 新增客户别名创建；别名不等价于客户合并。                                                                                                 | `B6`  | `aligned` |
+| `customer` | `deleteCustomerAlias`          | `DELETE /customer-aliases/{id}`          | `DELETE /customer-aliases/{id}`          | `DELETE /customer-aliases/{id}`          | `ADR-015` + `EX-78A/FE-75` baseline  | `N/A`      | 为误添加的非主别名提供硬删除；主别名与 merged 客户受保护，删除与客户审计同事务提交。                                                     | `B20` | `aligned` |
 
 ### 6.12 EX-43 Lead Source And Profile Enrichment
 

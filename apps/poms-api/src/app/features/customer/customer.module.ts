@@ -6,6 +6,7 @@ import { Lead } from '../lead/lead.entity';
 import { OrgUnit } from '../platform/org-unit.entity';
 import { PlatformUser } from '../platform/platform-user.entity';
 import { Project } from '../project/project.entity';
+import { CustomerAliasController } from './customer-alias.controller';
 import { CustomerController } from './customer.controller';
 import { Customer, CustomerAlias } from './customer.entity';
 import { CustomerRepository } from './customer.repository';
@@ -13,7 +14,7 @@ import { CustomerService } from './customer.service';
 
 @Module({
     imports: [MikroOrmModule.forFeature([Customer, CustomerAlias, PlatformUser, OrgUnit, Lead, Project, Contract]), BusinessNumberModule],
-    controllers: [CustomerController],
+    controllers: [CustomerController, CustomerAliasController],
     providers: [CustomerRepository, CustomerService],
     exports: [CustomerRepository, CustomerService]
 })

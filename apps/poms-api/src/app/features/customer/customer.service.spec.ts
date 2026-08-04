@@ -1,5 +1,7 @@
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
+import { AuditLogResultValue, CustomerAliasTypeValue, CustomerStatusValue, EntityAuditTargetTypeValue } from '@poms/shared-contracts';
+import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
 import { BusinessNumberService } from '../business-number/business-number.service';
 import { Customer, CustomerAlias } from './customer.entity';
 import { CustomerRepository } from './customer.repository';
@@ -42,9 +44,12 @@ describe('CustomerService', () => {
         >
     >;
     let businessNumberService: jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+    let runtimeAuditService: jest.Mocked<Pick<RuntimeAuditService, 'recordAuditLog'>>;
     let entityManager: {
         create: jest.Mock;
+        findOne: jest.Mock;
         persist: jest.Mock;
+        remove: jest.Mock;
         flush: jest.Mock;
     };
     let randomUUIDMock: jest.MockedFunction<typeof randomUUID>;
@@ -54,7 +59,9 @@ describe('CustomerService', () => {
         randomUUIDMock.mockReturnValue(customerId as ReturnType<typeof randomUUID>);
         entityManager = {
             create: jest.fn((entity, input) => (entity === Customer ? createCustomer(input as Partial<Customer>) : createAlias(input as Partial<CustomerAlias>))),
+            findOne: jest.fn(),
             persist: jest.fn(),
+            remove: jest.fn(),
             flush: jest.fn()
         };
         customerRepository = {
@@ -84,6 +91,9 @@ describe('CustomerService', () => {
         businessNumberService = {
             next: jest.fn(async () => 'CUST-2026-000001')
         } as jest.Mocked<Pick<BusinessNumberService, 'next'>>;
+        runtimeAuditService = {
+            recordAuditLog: jest.fn()
+        } as jest.Mocked<Pick<RuntimeAuditService, 'recordAuditLog'>>;
 
         customerRepository.findPlatformUserById.mockResolvedValue({ id: userId, primaryOrgUnitId: orgId } as never);
         customerRepository.findOrgUnitById.mockResolvedValue({ id: orgId, name: '华南销售一部' } as never);
@@ -110,7 +120,7 @@ describe('CustomerService', () => {
         customerRepository.findWorkspaceRecentFollowUps.mockResolvedValue([]);
         customerRepository.findWorkspaceRecentDiscussions.mockResolvedValue([]);
 
-        service = new CustomerService(customerRepository as never, businessNumberService as never);
+        service = new CustomerService(customerRepository as never, businessNumberService as never, runtimeAuditService as never);
     });
 
     it('creates a customer master record with generated number and primary alias', async () => {
@@ -309,6 +319,93 @@ describe('CustomerService', () => {
 
         await expect(service.createCustomer({ displayName: '新客户' }, userId)).rejects.toThrow(NotFoundException);
         expect(businessNumberService.next).not.toHaveBeenCalled();
+    });
+
+    it('deletes a non-primary alias and records the customer audit in the same transaction', async () => {
+        const alias = createAlias({ isPrimary: false, aliasName: '华南地铁', aliasType: CustomerAliasTypeValue.ShortName, normalizedName: '华南地铁' });
+        const customer = createCustomer();
+        entityManager.findOne.mockImplementation(async (entity) => (entity === CustomerAlias ? alias : customer));
+
+        await service.deleteAlias(alias.id, userId, 'request-123');
+
+        expect(entityManager.findOne).toHaveBeenNthCalledWith(1, CustomerAlias, { id: alias.id });
+        expect(entityManager.findOne).toHaveBeenNthCalledWith(2, Customer, { id: customerId });
+        expect(entityManager.remove).toHaveBeenCalledWith(alias);
+        expect(runtimeAuditService.recordAuditLog).toHaveBeenCalledWith(
+            {
+                eventType: 'customer.alias.deleted',
+                targetType: EntityAuditTargetTypeValue.Customer,
+                targetId: customerId,
+                operatorId: userId,
+                requestId: 'request-123',
+                result: AuditLogResultValue.Success,
+                beforeSnapshot: {
+                    aliasId: alias.id,
+                    aliasName: '华南地铁',
+                    aliasType: CustomerAliasTypeValue.ShortName,
+                    normalizedName: '华南地铁',
+                    isPrimary: false,
+                    createdAt: baseDate.toISOString(),
+                    createdBy: userId
+                },
+                afterSnapshot: null,
+                metadata: {
+                    sourceCommand: 'delete-customer-alias'
+                }
+            },
+            entityManager
+        );
+        expect(entityManager.flush).toHaveBeenCalledTimes(1);
+    });
+
+    it('returns not found when the alias does not exist', async () => {
+        entityManager.findOne.mockResolvedValue(null);
+
+        await expect(service.deleteAlias('12000000-0000-4000-8000-000000000099', userId)).rejects.toThrow(NotFoundException);
+
+        expect(entityManager.remove).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
+    it('returns not found when the alias owner customer does not exist', async () => {
+        const alias = createAlias({ isPrimary: false });
+        entityManager.findOne.mockResolvedValueOnce(alias).mockResolvedValueOnce(null);
+
+        await expect(service.deleteAlias(alias.id, userId)).rejects.toThrow(NotFoundException);
+
+        expect(entityManager.remove).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
+    it('rejects deleting the primary customer alias', async () => {
+        const alias = createAlias({ isPrimary: true });
+        entityManager.findOne.mockResolvedValueOnce(alias).mockResolvedValueOnce(createCustomer());
+
+        await expect(service.deleteAlias(alias.id, userId)).rejects.toThrow(ConflictException);
+
+        expect(entityManager.remove).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
+    it('rejects deleting aliases owned by a merged customer', async () => {
+        const alias = createAlias({ isPrimary: false });
+        entityManager.findOne.mockResolvedValueOnce(alias).mockResolvedValueOnce(createCustomer({ status: CustomerStatusValue.Merged }));
+
+        await expect(service.deleteAlias(alias.id, userId)).rejects.toThrow(ConflictException);
+
+        expect(entityManager.remove).not.toHaveBeenCalled();
+        expect(runtimeAuditService.recordAuditLog).not.toHaveBeenCalled();
+    });
+
+    it('does not flush the delete when audit persistence fails', async () => {
+        const alias = createAlias({ isPrimary: false });
+        entityManager.findOne.mockResolvedValueOnce(alias).mockResolvedValueOnce(createCustomer());
+        runtimeAuditService.recordAuditLog.mockRejectedValue(new Error('audit persistence failed'));
+
+        await expect(service.deleteAlias(alias.id, userId)).rejects.toThrow('audit persistence failed');
+
+        expect(entityManager.remove).toHaveBeenCalledWith(alias);
+        expect(entityManager.flush).not.toHaveBeenCalled();
     });
 
     function createCustomer(overrides: Partial<Customer> = {}): Customer {

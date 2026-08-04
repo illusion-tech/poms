@@ -9,7 +9,9 @@ import {
   BusinessDiscussionTargetObjectType,
   type BusinessDiscussionType,
   CustomerAliasType,
+  type CustomerAliasSummary,
   type CustomerDetailView,
+  CustomerStatus,
   CustomerStore,
   type CustomerWorkspaceActionItem,
   type CustomerWorkspaceTimelineItem,
@@ -24,7 +26,9 @@ import {
   LeadUrgencyLabel,
   SalesFollowUpOutcomeLabel,
 } from '@poms/shared-contracts';
+import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
@@ -103,6 +107,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
     CommonModule,
     FormsModule,
     ButtonModule,
+    ConfirmDialogModule,
     InputTextModule,
     SelectModule,
     TagModule,
@@ -115,7 +120,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
     WorkspaceFeedback,
     CustomerFormDialog,
   ],
-  providers: [CustomerStore],
+  providers: [CustomerStore, ConfirmationService],
   template: `
         <div class="flex flex-col gap-5">
             @if (pageError()) {
@@ -419,9 +424,20 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                             </div>
                         </div>
 
+                        @if (aliasError()) {
+                            <app-workspace-feedback severity="error" summary="客户别名操作没有完成" [detail]="aliasError()" />
+                        }
+
                         <div class="flex flex-wrap gap-2">
                             @for (alias of aliases(); track alias.id) {
-                                <span class="rounded-md border border-surface-200 px-2 py-1 text-xs text-surface-700 dark:border-surface-700 dark:text-surface-200">{{ alias.aliasName }}</span>
+                                <span class="inline-flex items-center gap-1 rounded-md border border-surface-200 py-1 pl-2 text-xs text-surface-700 dark:border-surface-700 dark:text-surface-200" [class.pr-2]="alias.isPrimary || !canDeleteAlias(customer, alias)">
+                                    <span>{{ alias.aliasName }}</span>
+                                    @if (alias.isPrimary) {
+                                        <p-tag value="主名称" severity="secondary" class="ml-1" />
+                                    } @else if (canDeleteAlias(customer, alias)) {
+                                        <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small" [loading]="deletingAliasId() === alias.id" [disabled]="deletingAliasId() !== null" [ariaLabel]="'删除客户别名 ' + alias.aliasName" styleClass="h-6! w-6! rounded-md! p-0!" (onClick)="confirmDeleteAlias(customer, alias)" />
+                                    }
+                                </span>
                             } @empty {
                                 <span class="text-sm text-surface-500 dark:text-surface-400">暂无别名</span>
                             }
@@ -464,6 +480,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                 </div>
 
                 <app-customer-form-dialog [visible]="editDialogVisible" mode="edit" [initialValue]="editFormInitial()" [saving]="saving()" [error]="formError()" (visibleChange)="editDialogVisible = $event" (save)="updateCustomer($event)" />
+                <p-confirmdialog />
             }
         </div>
     `,
@@ -475,6 +492,7 @@ export class CustomerWorkspace implements OnInit {
   readonly #router = inject(Router);
   readonly #destroyRef = inject(DestroyRef);
   readonly #document = inject(DOCUMENT);
+  readonly #confirmationService = inject(ConfirmationService);
 
   readonly customer = this.#customerStore.selectedCustomer;
   readonly aliases = this.#customerStore.aliases;
@@ -486,7 +504,9 @@ export class CustomerWorkspace implements OnInit {
   readonly pageError = signal<string | null>(null);
   readonly overviewError = signal<string | null>(null);
   readonly formError = signal<string | null>(null);
+  readonly aliasError = signal<string | null>(null);
   readonly aliasForm = signal<CustomerAliasForm>({ ...EMPTY_ALIAS_FORM });
+  readonly deletingAliasId = signal<string | null>(null);
   readonly editFormInitial = signal<CustomerFormValue>({ ...EMPTY_CUSTOMER_FORM_VALUE });
   readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);
 
@@ -679,13 +699,58 @@ export class CustomerWorkspace implements OnInit {
     }
 
     try {
+      this.aliasError.set(null);
       await this.#customerStore.createAlias(customer.id, {
         aliasName: form.aliasName.trim(),
         aliasType: form.aliasType,
       });
       this.aliasForm.set({ ...EMPTY_ALIAS_FORM });
     } catch {
-      this.pageError.set('客户别名没有添加成功，请检查是否重复。');
+      this.aliasError.set('客户别名没有添加成功，请检查是否重复。');
+    }
+  }
+
+  canDeleteAlias(customer: CustomerDetailView, alias: CustomerAliasSummary): boolean {
+    return this.canWriteCustomer() && customer.status !== CustomerStatus.Merged && !alias.isPrimary;
+  }
+
+  confirmDeleteAlias(customer: CustomerDetailView, alias: CustomerAliasSummary): void {
+    if (!this.canDeleteAlias(customer, alias) || this.deletingAliasId() !== null) {
+      return;
+    }
+
+    this.#confirmationService.confirm({
+      header: '删除客户别名',
+      message: `确定删除客户别名“${alias.aliasName}”吗？删除后不再用于客户名称匹配，操作不可撤销。`,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: '取消',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: '删除',
+        severity: 'danger',
+      },
+      accept: () => {
+        void this.deleteAlias(customer.id, alias.id);
+      },
+    });
+  }
+
+  async deleteAlias(customerId: string, aliasId: string): Promise<void> {
+    if (this.deletingAliasId() !== null) {
+      return;
+    }
+
+    this.aliasError.set(null);
+    this.deletingAliasId.set(aliasId);
+    try {
+      await this.#customerStore.deleteAlias(customerId, aliasId);
+    } catch {
+      this.aliasError.set('客户别名没有删除成功，可能已被删除或当前客户状态不允许修改，请刷新后重试。');
+    } finally {
+      this.deletingAliasId.set(null);
     }
   }
 
