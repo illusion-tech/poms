@@ -152,6 +152,7 @@ describe('SalesIntelligencePanel', () => {
     loaded: ReturnType<typeof signal<boolean>>;
     loadContext: jest.Mock;
     createCustomerContact: jest.Mock;
+    updateCustomerContact: jest.Mock;
     createOpportunityStakeholder: jest.Mock;
     createCompetitorIntelligenceRecord: jest.Mock;
     createSalesDiscoveryRecord: jest.Mock;
@@ -170,6 +171,7 @@ describe('SalesIntelligencePanel', () => {
       loaded: signal(true),
       loadContext: jest.fn().mockResolvedValue(undefined),
       createCustomerContact: jest.fn().mockResolvedValue(createContact()),
+      updateCustomerContact: jest.fn().mockResolvedValue(createContact()),
       createOpportunityStakeholder: jest.fn().mockResolvedValue(createStakeholder()),
       createCompetitorIntelligenceRecord: jest.fn().mockResolvedValue(createCompetitor()),
       createSalesDiscoveryRecord: jest.fn().mockResolvedValue(createDiscovery()),
@@ -196,6 +198,7 @@ describe('SalesIntelligencePanel', () => {
     fixture.componentRef.setInput('customerId', 'customer-1');
     fixture.componentRef.setInput('leadId', 'lead-1');
     fixture.componentRef.setInput('canWrite', true);
+    fixture.componentRef.setInput('canWriteCustomerContact', true);
     fixture.componentRef.setInput('title', '客户关系');
     fixture.componentRef.setInput('description', '维护客户联系人和决策链事实。');
     fixture.detectChanges();
@@ -257,5 +260,80 @@ describe('SalesIntelligencePanel', () => {
         gender: CustomerContactGender.Male,
       }),
     );
+  });
+
+  it('opens the edit dialog with the complete contact snapshot', () => {
+    component.showContactEditDialog(createContact());
+
+    expect(component.contactDialogVisible).toBe(true);
+    expect(component.contactDialogTitle()).toBe('编辑客户联系人');
+    expect(component.contactSubmitLabel()).toBe('保存修改');
+    expect(component.editingContact()?.id).toBe('contact-1');
+    expect(component.contactForm()).toEqual({
+      name: '王主任',
+      gender: CustomerContactGender.Female,
+      department: '采购部',
+      title: '主任',
+      workPhone: '020-12345678',
+      mobile: '',
+      wechat: 'wang-director',
+      email: 'wang@example.com',
+      remark: '关注采购流程。',
+      status: CustomerContactStatus.Active,
+    });
+    expect(component.contactSubmitDisabled()).toBe(true);
+  });
+
+  it('updates only changed contact fields and closes after the store reload succeeds', async () => {
+    component.showContactEditDialog(createContact());
+    component.updateContactField('mobile', ' 13900000000 ');
+    component.updateContactField('remark', '');
+    component.updateContactStatus(CustomerContactStatus.Inactive);
+
+    await component.saveContact();
+
+    expect(storeMock.updateCustomerContact).toHaveBeenCalledWith('contact-1', 'customer-1', {
+      mobile: '13900000000',
+      remark: null,
+      status: CustomerContactStatus.Inactive,
+    });
+    expect(component.contactDialogVisible).toBe(false);
+  });
+
+  it('does not send an update when the normalized contact form has no changes', async () => {
+    component.showContactEditDialog(createContact());
+    component.updateContactField('name', '  王主任  ');
+
+    expect(component.contactSubmitDisabled()).toBe(true);
+
+    await component.saveContact();
+
+    expect(storeMock.updateCustomerContact).not.toHaveBeenCalled();
+    expect(component.contactDialogVisible).toBe(true);
+  });
+
+  it('keeps the edit dialog and entered values when the update fails', async () => {
+    storeMock.updateCustomerContact.mockRejectedValueOnce(new Error('forbidden'));
+    component.showContactEditDialog(createContact());
+    component.updateContactField('title', '采购总监');
+
+    await component.saveContact();
+
+    expect(component.contactDialogVisible).toBe(true);
+    expect(component.contactForm().title).toBe('采购总监');
+    expect(component.contactError()).toContain('客户维护权限');
+  });
+
+  it('uses customer write permission independently from opportunity write permission', async () => {
+    expect(fixture.nativeElement.querySelector('[aria-label="编辑客户联系人 王主任"]')).not.toBeNull();
+
+    fixture.componentRef.setInput('canWriteCustomerContact', false);
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('[aria-label="编辑客户联系人 王主任"]')).toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('关系人');
+
+    component.showContactEditDialog(createContact());
+    expect(component.contactDialogVisible).toBe(false);
   });
 });

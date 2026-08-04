@@ -149,18 +149,18 @@
 
 ## 9. 测试与校验
 
-| Check                           | Required | Command / Evidence                                                                         | Result  | Gap / Reason                                         |
-| ------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------- |
-| Shared component focused tests  | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=sales-intelligence-panel` | Pending | 编辑显隐、回填、diff、status、错误保留和 create 回归 |
-| Customer host focused tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-workspace`       | Pending | customer write 接线                                  |
-| Lead host focused tests         | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=lead-list`                | Pending | customer / lead write 权限拆分                       |
-| Project host focused tests      | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=project-detail`           | Pending | customer / project write 权限拆分                    |
-| Admin lint                      | Yes      | `corepack pnpm nx lint poms-admin`                                                         | Pending |                                                      |
-| Admin build                     | Yes      | `corepack pnpm nx build poms-admin`                                                        | Pending |                                                      |
-| Browser verification            | Yes      | 客户页编辑并刷新；停用/启用；无 customer write 时三类宿主均无联系人写入口                  | Pending | 实施后在测试环境验收                                 |
-| OpenAPI / generated client diff | No       | `git diff --name-only` 不得包含 API spec/client                                            | N/A     | 复用现有 generated client                            |
-| Migration / schema check        | No       | No persistence change                                                                      | N/A     |                                                      |
-| Markdown / diff sanity          | Yes      | `pnpm run format:md:check`; `git diff --check`                                             | Pending | G1 与 G3 均执行                                      |
+| Check                           | Required | Command / Evidence                                                                         | Result  | Gap / Reason                                                                        |
+| ------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------------------- |
+| Shared component focused tests  | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=sales-intelligence-panel` | Passed  | 1 suite / 8 tests；覆盖编辑显隐、全字段回填、最小 PATCH、无变化、失败保留和权限拆分 |
+| Customer host focused tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-workspace`       | Passed  | 1 suite / 8 tests；customer write 接线                                              |
+| Lead host focused tests         | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=lead-list`                | Passed  | 1 suite / 23 tests；customer / lead write 权限拆分                                  |
+| Project host focused tests      | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=project-detail`           | Passed  | 1 suite / 24 tests；customer / project write 权限拆分                               |
+| Admin lint                      | Yes      | `corepack pnpm nx lint poms-admin`                                                         | Passed  | All files pass linting                                                              |
+| Admin build                     | Yes      | `corepack pnpm nx build poms-admin`                                                        | Passed  | production bundle generation complete                                               |
+| Browser verification            | Yes      | 客户页编辑并刷新；停用/启用；无 customer write 时三类宿主均无联系人写入口                  | Pending | 实施后在测试环境验收                                                                |
+| OpenAPI / generated client diff | No       | `git diff --name-only` 不得包含 API spec/client                                            | Passed  | 未出现 API、contract、OpenAPI、generated client 或 migration 文件                   |
+| Migration / schema check        | No       | No persistence change                                                                      | N/A     |                                                                                     |
+| Markdown / diff sanity          | Yes      | `pnpm run format:md:check`; `git diff --check`                                             | Passed  | G1 与 G3 均通过                                                                     |
 
 ## 10. 例外与风险
 
@@ -181,3 +181,18 @@
   3. 编辑必须构造最小 PATCH，无变化不得发请求；成功以 Store reload 为准，失败保留输入。
   4. 状态停用不得删除历史机会关系；只影响后续关系人选择。
   5. issue `#38` 的 create gender drift 独立治理，不阻断本片 G2，但 G3 必须确认本片未扩大该 drift。
+
+## 12. G3 结论
+
+- Gate Status: `Pass`
+- Reviewed By: `Codex`
+- Reviewed At: `2026-08-04`
+- Implementation Evidence:
+  1. 共享销售情报面板已提供联系人卡片编辑入口和新增 / 编辑双模式弹窗；编辑回填全部既有可编辑字段，并可维护 `active / inactive` 状态。
+  2. 更新请求只包含归一化后发生变化的字段；无变化时禁用保存且不发送 PATCH；失败时保留弹窗和用户输入，成功继续使用 Store reload。
+  3. 客户、线索、项目三个宿主均独立传入 `customer:write`，不会由 `lead:write` 或 `project:write` 替代联系人写权限。
+  4. 四个聚焦测试套件最终共 63 个用例通过；Admin lint、production build、Markdown format check 和 diff check 均通过。
+  5. 实现差异保持 `frontend-only`，未修改 API、contract、OpenAPI、generated client、migration 或 issue `#38` 所跟踪的 create gender 路径。
+- Remaining Before G4:
+  1. 部署测试环境并完成有 / 无 `customer:write` 的真实浏览器验收，覆盖编辑刷新、停用和重新启用。
+  2. 合并前完成 PR review / CI，并由业务验收确认后再进入 G4 / Done。

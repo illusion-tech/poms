@@ -2,6 +2,7 @@ import { signal, type WritableSignal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import {
   AttachmentStore,
   type AttachmentSummary,
@@ -565,6 +566,18 @@ describe('CustomerWorkspace', () => {
       leadId: undefined,
       projectId: undefined,
     });
+  });
+
+  it('passes customer write permission to contact maintenance', async () => {
+    const panel = fixture.debugElement.query(By.directive(SalesIntelligencePanel))
+      .componentInstance as SalesIntelligencePanel;
+
+    expect(panel.canWriteCustomerContact).toBe(true);
+
+    canWriteCustomerPermission.set(false);
+    await fixture.whenStable();
+
+    expect(panel.canWriteCustomerContact).toBe(false);
   });
 
   it('keeps sales follow-up reminder context in the customer workspace', async () => {

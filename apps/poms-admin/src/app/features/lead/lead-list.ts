@@ -871,6 +871,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             [leadId]="lead.id"
                             [projectId]="lead.convertedProjectId"
                             [canWrite]="canWriteLead()"
+                            [canWriteCustomerContact]="canWriteCustomerContact()"
                             title="销售情报"
                             description="补齐联系人、决策链、竞争态势、采购流程和当前机会缺口。"
                         />
@@ -1458,6 +1459,7 @@ export class LeadList implements OnInit {
     );
 
     readonly canWriteLead = computed(() => this.#authStore.hasAnyPermission(['lead:write'] as const));
+    readonly canWriteCustomerContact = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
     readonly canAssignLead = computed(() => this.#authStore.hasAnyPermission(['lead:assign'] as const));
     readonly canManageScoreOverrides = computed(() => this.#authStore.hasAnyPermission(['lead:score:override'] as const));
 

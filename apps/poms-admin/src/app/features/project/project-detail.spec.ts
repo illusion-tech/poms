@@ -1,6 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import {
     AuditHistoryStore,
     AttachmentStore,
@@ -356,7 +357,8 @@ describe('ProjectDetail', () => {
         archiveRecords: ProjectArchiveRecordSummary[] = [],
         canWriteProject = true,
         canViewFinance = true,
-        queryParams: Record<string, string> = {}
+        queryParams: Record<string, string> = {},
+        canWriteCustomerContact = true
     ) {
         projectSignal = signal<ProjectDetailView | null>(project);
         timelineSignal = signal<ProjectTimelineView | null>(timeline);
@@ -384,6 +386,10 @@ describe('ProjectDetail', () => {
             hasAnyPermission: jest.fn((permissions: readonly string[]) => {
                 if (permissions.includes('project:write')) {
                     return canWriteProject;
+                }
+
+                if (permissions.includes('customer:write')) {
+                    return canWriteCustomerContact;
                 }
 
                 if (permissions.includes('contract:finance:manage')) {
@@ -647,6 +653,14 @@ describe('ProjectDetail', () => {
         expect(component.followUpReminderEntry()).toEqual({ followUpId: 'follow-up-1', todoId: 'todo-1' });
         expect(text).toContain('从销售跟进待办进入');
         expect(text).toContain('请在下方项目销售跟进中登记本次处理结果');
+    });
+
+    it('keeps customer contact permission independent from project write permission', async () => {
+        await setup(createProject(), null, null, [], false, true, {}, true);
+
+        const panel = fixture.debugElement.query(By.directive(SalesIntelligencePanel)).componentInstance as SalesIntelligencePanel;
+        expect(panel.canWrite).toBe(false);
+        expect(panel.canWriteCustomerContact).toBe(true);
     });
 
     it('renders project detail bid summary when the backend provides a current bid process', async () => {
