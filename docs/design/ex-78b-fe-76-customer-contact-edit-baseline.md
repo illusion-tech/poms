@@ -149,18 +149,19 @@
 
 ## 9. 测试与校验
 
-| Check                           | Required | Command / Evidence                                                                         | Result  | Gap / Reason                                                                        |
-| ------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------------------- |
-| Shared component focused tests  | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=sales-intelligence-panel` | Passed  | 1 suite / 8 tests；覆盖编辑显隐、全字段回填、最小 PATCH、无变化、失败保留和权限拆分 |
-| Customer host focused tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-workspace`       | Passed  | 1 suite / 8 tests；customer write 接线                                              |
-| Lead host focused tests         | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=lead-list`                | Passed  | 1 suite / 23 tests；customer / lead write 权限拆分                                  |
-| Project host focused tests      | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=project-detail`           | Passed  | 1 suite / 24 tests；customer / project write 权限拆分                               |
-| Admin lint                      | Yes      | `corepack pnpm nx lint poms-admin`                                                         | Passed  | All files pass linting                                                              |
-| Admin build                     | Yes      | `corepack pnpm nx build poms-admin`                                                        | Passed  | production bundle generation complete                                               |
-| Browser verification            | Yes      | 客户页编辑并刷新；停用/启用；无 customer write 时三类宿主均无联系人写入口                  | Pending | 实施后在测试环境验收                                                                |
-| OpenAPI / generated client diff | No       | `git diff --name-only` 不得包含 API spec/client                                            | Passed  | 未出现 API、contract、OpenAPI、generated client 或 migration 文件                   |
-| Migration / schema check        | No       | No persistence change                                                                      | N/A     |                                                                                     |
-| Markdown / diff sanity          | Yes      | `pnpm run format:md:check`; `git diff --check`                                             | Passed  | G1 与 G3 均通过                                                                     |
+| Check                           | Required | Command / Evidence                                                                         | Result  | Gap / Reason                                                                                         |
+| ------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------- |
+| Shared component focused tests  | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=sales-intelligence-panel` | Passed  | 1 suite / 8 tests；覆盖编辑显隐、全字段回填、最小 PATCH、无变化、失败保留和权限拆分                  |
+| Customer host focused tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-workspace`       | Passed  | 1 suite / 8 tests；customer write 接线                                                               |
+| Lead host focused tests         | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=lead-list`                | Passed  | 1 suite / 23 tests；customer / lead write 权限拆分                                                   |
+| Project host focused tests      | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=project-detail`           | Passed  | 1 suite / 24 tests；customer / project write 权限拆分                                                |
+| Admin lint                      | Yes      | `corepack pnpm nx lint poms-admin`                                                         | Passed  | All files pass linting                                                                               |
+| Admin build                     | Yes      | `corepack pnpm nx build poms-admin`                                                        | Passed  | production bundle generation complete                                                                |
+| Deployment                      | Yes      | release `20260804-163850`；build/preflight/migration gate/push/verify                      | Passed  | source commit `cb069d5d`；SHA-256 `AA8E790508B1DDD418ECDB93CEAA424EF65C7744FCC1CEBC009CA802A952650C` |
+| Browser verification            | Yes      | 客户页编辑并刷新；停用/启用；无 customer write 时三类宿主均无联系人写入口                  | Blocked | 登录页加载、重定向及 console error 检查通过；内置浏览器无授权登录态，业务写操作待用户验收            |
+| OpenAPI / generated client diff | No       | `git diff --name-only` 不得包含 API spec/client                                            | Passed  | 未出现 API、contract、OpenAPI、generated client 或 migration 文件                                    |
+| Migration / schema check        | No       | No persistence change                                                                      | N/A     |                                                                                                      |
+| Markdown / diff sanity          | Yes      | `pnpm run format:md:check`; `git diff --check`                                             | Passed  | G1 与 G3 均通过                                                                                      |
 
 ## 10. 例外与风险
 
@@ -193,6 +194,7 @@
   3. 客户、线索、项目三个宿主均独立传入 `customer:write`，不会由 `lead:write` 或 `project:write` 替代联系人写权限。
   4. 四个聚焦测试套件最终共 63 个用例通过；Admin lint、production build、Markdown format check 和 diff check 均通过。
   5. 实现差异保持 `frontend-only`，未修改 API、contract、OpenAPI、generated client、migration 或 issue `#38` 所跟踪的 create gender 路径。
+  6. source commit `cb069d5d` 已部署测试环境 release `20260804-163850`；远端 preflight、完整 migration gate、release 激活、PM2 reload 与 `deploy:verify-test` 均通过，目标库无 pending migration。
 - Remaining Before G4:
-  1. 部署测试环境并完成有 / 无 `customer:write` 的真实浏览器验收，覆盖编辑刷新、停用和重新启用。
+  1. 使用授权业务账号完成有 / 无 `customer:write` 的真实浏览器验收，覆盖编辑刷新、停用和重新启用。
   2. 合并前完成 PR review / CI，并由业务验收确认后再进入 G4 / Done。
