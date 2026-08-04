@@ -659,6 +659,8 @@
 
 165. 2026-08-04 `EX-78A/FE-75` 已完成 `G4` 收口：PR `#36` 已 rebase merge（`01c8e258`），GitHub issue `#35` 已由 closing reference 自动关闭；B20 canonical `DELETE /customer-aliases/{id}`、OpenAPI/generated client、权限与 primary/merged 保护、删除和 `customer.alias.deleted` 同事务审计、Admin 二次确认/单项 loading/服务端 reload 均已交付。source commit `7ddb76b5` 已部署测试环境 release `20260804-125757`，自动化验证与部署 build/preflight/migration gate/PM2 reload/verify 通过；用户确认测试没有问题并批准合并，补齐真实业务验收。baseline 已归档至 `docs/design/archive/slices/`；客户联系人编辑不回开本片，另行建立独立切片。
 
+166. 2026-08-04 `EX-78B/FE-76` 已完成 `G1` 冻结：GitHub issue `#37` 和本地 baseline 将客户联系人编辑定义为 `frontend-only`，复用已 aligned 的 B10 `PATCH /customer-contacts/{id}`、Admin Store reload 与 `customer-contact.updated` 字段级审计。方案以联系人卡片编辑入口、新增/编辑双模式表单、实际变化字段最小 PATCH、失败保留输入、active/inactive 状态维护为交付边界；客户、线索、项目宿主将分别传入 `customer:write` 联系人权限与 lead/project 机会事实权限。设计核对同时发现创建联系人 controller 未透传 `gender` 的既有 drift，已独立登记为 issue `#38` / `BUG-14`，不扩入本片。
+
 ---
 
 ## 11. 维护约定
