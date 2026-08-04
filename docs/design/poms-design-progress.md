@@ -661,7 +661,7 @@
 
 166. 2026-08-04 `EX-78B/FE-76` 已完成 `G1` 冻结：GitHub issue `#37` 和本地 baseline 将客户联系人编辑定义为 `frontend-only`，复用已 aligned 的 B10 `PATCH /customer-contacts/{id}`、Admin Store reload 与 `customer-contact.updated` 字段级审计。方案以联系人卡片编辑入口、新增/编辑双模式表单、实际变化字段最小 PATCH、失败保留输入、active/inactive 状态维护为交付边界；客户、线索、项目宿主将分别传入 `customer:write` 联系人权限与 lead/project 机会事实权限。设计核对同时发现创建联系人 controller 未透传 `gender` 的既有 drift，已独立登记为 issue `#38` / `BUG-14`，不扩入本片。
 
-167. 2026-08-04 `EX-78B/FE-76` 已完成 `G3` 实现与测试环境发布：共享销售情报面板已交付联系人卡片编辑入口、新增 / 编辑双模式、全字段回填、active/inactive 状态维护、最小 PATCH、无变化不请求、失败保留输入和成功 reload；客户、线索、项目宿主的 `customer:write` 已与机会事实写权限分离。共享面板及三个宿主共 63 个 focused tests、Admin lint/build、Markdown format check 与 diff check 均通过；source commit `cb069d5d` 已部署为 release `20260804-163850`，build、preflight、完整 migration gate、PM2 reload 与 deployment verify 通过，目标库无 pending migration。登录页加载、重定向和 console error 检查通过；内置浏览器无授权登录态，联系人编辑/停用/启用及无权限场景仍待业务账号验收，暂不标记 `G4 / Done`。
+167. 2026-08-04 `EX-78B/FE-76` 已完成 `G4` 收口：PR `#39` 已 rebase merge（`70f83f8d`），GitHub issue `#37` 已由 closing reference 自动关闭；客户联系人卡片编辑入口、新增 / 编辑双模式、全字段回填、active/inactive 状态维护、最小 PATCH、失败保留输入和成功 reload 已进入 `main`，客户、线索、项目宿主的 `customer:write` 与机会事实写权限保持分离。source commit `cb069d5d` 已部署测试环境 release `20260804-163850`，build、preflight、完整 migration gate、PM2 reload、deployment verify、63 个 focused tests 与 Admin lint/build 通过；用户确认测试没有问题，补齐真实业务验收。baseline 已归档至 `docs/design/archive/slices/`；创建联系人 gender 透传缺陷继续由 issue `#38` / `BUG-14` 独立治理。
 
 ---
 

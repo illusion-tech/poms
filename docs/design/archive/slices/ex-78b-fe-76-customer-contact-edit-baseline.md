@@ -1,6 +1,7 @@
 # EX-78B / FE-76 客户联系人编辑更新闭环实施基线包
 
 - Gate Status: `Pass`
+- Lifecycle Status: `Archived / G4 Done`
 - Parent: GitHub issue `#37`; historical slices `EX-61 / FE-54 / EX-62 / EX-63B`
 - Owner: `Codex`
 - Slice Type: `frontend-only`
@@ -149,19 +150,19 @@
 
 ## 9. 测试与校验
 
-| Check                           | Required | Command / Evidence                                                                         | Result  | Gap / Reason                                                                                         |
-| ------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------- |
-| Shared component focused tests  | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=sales-intelligence-panel` | Passed  | 1 suite / 8 tests；覆盖编辑显隐、全字段回填、最小 PATCH、无变化、失败保留和权限拆分                  |
-| Customer host focused tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-workspace`       | Passed  | 1 suite / 8 tests；customer write 接线                                                               |
-| Lead host focused tests         | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=lead-list`                | Passed  | 1 suite / 23 tests；customer / lead write 权限拆分                                                   |
-| Project host focused tests      | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=project-detail`           | Passed  | 1 suite / 24 tests；customer / project write 权限拆分                                                |
-| Admin lint                      | Yes      | `corepack pnpm nx lint poms-admin`                                                         | Passed  | All files pass linting                                                                               |
-| Admin build                     | Yes      | `corepack pnpm nx build poms-admin`                                                        | Passed  | production bundle generation complete                                                                |
-| Deployment                      | Yes      | release `20260804-163850`；build/preflight/migration gate/push/verify                      | Passed  | source commit `cb069d5d`；SHA-256 `AA8E790508B1DDD418ECDB93CEAA424EF65C7744FCC1CEBC009CA802A952650C` |
-| Browser verification            | Yes      | 客户页编辑并刷新；停用/启用；无 customer write 时三类宿主均无联系人写入口                  | Blocked | 登录页加载、重定向及 console error 检查通过；内置浏览器无授权登录态，业务写操作待用户验收            |
-| OpenAPI / generated client diff | No       | `git diff --name-only` 不得包含 API spec/client                                            | Passed  | 未出现 API、contract、OpenAPI、generated client 或 migration 文件                                    |
-| Migration / schema check        | No       | No persistence change                                                                      | N/A     |                                                                                                      |
-| Markdown / diff sanity          | Yes      | `pnpm run format:md:check`; `git diff --check`                                             | Passed  | G1 与 G3 均通过                                                                                      |
+| Check                           | Required | Command / Evidence                                                                         | Result | Gap / Reason                                                                                         |
+| ------------------------------- | -------- | ------------------------------------------------------------------------------------------ | ------ | ---------------------------------------------------------------------------------------------------- |
+| Shared component focused tests  | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=sales-intelligence-panel` | Passed | 1 suite / 8 tests；覆盖编辑显隐、全字段回填、最小 PATCH、无变化、失败保留和权限拆分                  |
+| Customer host focused tests     | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=customer-workspace`       | Passed | 1 suite / 8 tests；customer write 接线                                                               |
+| Lead host focused tests         | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=lead-list`                | Passed | 1 suite / 23 tests；customer / lead write 权限拆分                                                   |
+| Project host focused tests      | Yes      | `corepack pnpm nx test poms-admin --runInBand --testPathPatterns=project-detail`           | Passed | 1 suite / 24 tests；customer / project write 权限拆分                                                |
+| Admin lint                      | Yes      | `corepack pnpm nx lint poms-admin`                                                         | Passed | All files pass linting                                                                               |
+| Admin build                     | Yes      | `corepack pnpm nx build poms-admin`                                                        | Passed | production bundle generation complete                                                                |
+| Deployment                      | Yes      | release `20260804-163850`；build/preflight/migration gate/push/verify                      | Passed | source commit `cb069d5d`；SHA-256 `AA8E790508B1DDD418ECDB93CEAA424EF65C7744FCC1CEBC009CA802A952650C` |
+| Browser verification            | Yes      | 客户页编辑并刷新；停用/启用；无 customer write 时三类宿主均无联系人写入口                  | Passed | 用户确认测试没有问题，补齐授权业务账号真实路径验收                                                   |
+| OpenAPI / generated client diff | No       | `git diff --name-only` 不得包含 API spec/client                                            | Passed | 未出现 API、contract、OpenAPI、generated client 或 migration 文件                                    |
+| Migration / schema check        | No       | No persistence change                                                                      | N/A    |                                                                                                      |
+| Markdown / diff sanity          | Yes      | `pnpm run format:md:check`; `git diff --check`                                             | Passed | G1 与 G3 均通过                                                                                      |
 
 ## 10. 例外与风险
 
@@ -198,3 +199,16 @@
 - Remaining Before G4:
   1. 使用授权业务账号完成有 / 无 `customer:write` 的真实浏览器验收，覆盖编辑刷新、停用和重新启用。
   2. 合并前完成 PR review / CI，并由业务验收确认后再进入 G4 / Done。
+
+## 13. G4 Closeout
+
+- Gate Status: `Pass`
+- Approved By: `Wang Zishi`
+- Approved At: `2026-08-04`
+- Merge Evidence: PR `#39` 已 rebase merge；GitHub merge commit 为 `70f83f8dd1eb566aa6cab8fe636506a93a9e68a7`，功能在 `main` 上对应 commit `d24c05f1`。
+- Acceptance Evidence: 用户确认客户联系人编辑测试没有问题且代码已经合并，补齐 G3 时尚待完成的授权业务账号真实路径验收。
+- Deployment Evidence: source commit `cb069d5d` 已部署测试环境 release `20260804-163850`；build、preflight、完整 migration gate、PM2 reload 与 deployment verify 均通过。
+- Verification Evidence: 共享面板及客户 / 线索 / 项目宿主共 63 个 focused tests、Admin lint/build、Markdown format check、diff check、登录页 browser smoke 和业务验收通过；PR review thread 为 0。
+- Scope Review: 交付保持 `frontend-only` 和 G1 边界；未修改 API、contract、OpenAPI、generated client、migration 或权限 key，未混入 issue `#38` / `BUG-14`。
+- Governance Closeout: GitHub issue `#37` 已由 closing reference 自动关闭；tracker 已更新为 `Done / G4`，progress 已记录最终收口，本生命周期文档已归档。
+- Downstream Unblocked: 客户、线索和项目页面均可依赖 `customer:write` 控制的客户联系人编辑、停用与重新启用能力。
