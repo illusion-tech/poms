@@ -450,7 +450,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
                 }
 
                 <div id="customer-relations">
-                    <app-sales-intelligence-panel [customerId]="customer.id" [canWrite]="canWriteCustomer()" title="客户关系" description="维护客户联系人，并作为线索和项目决策链的联系人来源。" />
+                    <app-sales-intelligence-panel [customerId]="customer.id" [canWrite]="canWriteCustomer()" [canWriteCustomerContact]="canWriteCustomer()" title="客户关系" description="维护客户联系人，并作为线索和项目决策链的联系人来源。" />
                 </div>
 
                 <div id="customer-business-discussions">

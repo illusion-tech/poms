@@ -13,6 +13,7 @@ import {
   OpportunityStakeholderRole,
   type SalesIntelligenceGapSeverity,
   SalesIntelligenceStore,
+  type UpdateCustomerContactRequest,
   WinProbabilityLevel,
 } from '@poms/admin-data-access';
 import {
@@ -21,6 +22,7 @@ import {
   CustomerContactGenderLabel,
   CustomerContactGenderOptions,
   CustomerContactStatusLabel,
+  CustomerContactStatusOptions,
   CustomerContactStatusSeverity,
   CustomerPreferenceLabel,
   CustomerPreferenceOptions,
@@ -67,9 +69,23 @@ interface ContactForm {
   wechat: string;
   email: string;
   remark: string;
+  status: CustomerContactStatus;
 }
 
-type ContactTextField = Exclude<keyof ContactForm, 'gender'>;
+type ContactTextField = Exclude<keyof ContactForm, 'gender' | 'status'>;
+
+interface NormalizedContactForm {
+  name: string;
+  gender: CustomerContactGender;
+  department: string | null;
+  title: string | null;
+  workPhone: string | null;
+  mobile: string | null;
+  wechat: string | null;
+  email: string | null;
+  remark: string | null;
+  status: CustomerContactStatus;
+}
 
 interface StakeholderForm {
   contactId: string | null;
@@ -157,6 +173,9 @@ const STAKEHOLDER_ROLE_OPTIONS = [
 const CONTACT_GENDER_OPTIONS = [
   ...(CustomerContactGenderOptions as ReadonlyArray<SalesIntelligenceOption<CustomerContactGender>>),
 ];
+const CONTACT_STATUS_OPTIONS = [
+  ...(CustomerContactStatusOptions as ReadonlyArray<SalesIntelligenceOption<CustomerContactStatus>>),
+];
 const STAKEHOLDER_ATTITUDE_OPTIONS = [
   ...(OpportunityStakeholderAttitudeOptions as ReadonlyArray<SalesIntelligenceOption<OpportunityStakeholderAttitude>>),
 ];
@@ -190,6 +209,7 @@ const EMPTY_CONTACT_FORM: ContactForm = {
   wechat: '',
   email: '',
   remark: '',
+  status: CustomerContactStatus.Active,
 };
 
 const EMPTY_STAKEHOLDER_FORM: StakeholderForm = {
@@ -248,13 +268,13 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
             <ng-template #action>
                 <div class="flex max-w-full flex-wrap items-center gap-2">
                     <p-button icon="pi pi-refresh" label="刷新" severity="secondary" [outlined]="true" styleClass="rounded-md!" [loading]="store.loading()" [disabled]="!canReadContext()" (onClick)="reload()" />
-                    @if (canWrite) {
-                        <p-button icon="pi pi-user-plus" label="联系人" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!customerId" (onClick)="showContactDialog()" />
-                        @if (hasOpportunityContext()) {
-                            <p-button icon="pi pi-sitemap" label="关系人" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateOpportunityFacts()" (onClick)="showStakeholderDialog()" />
-                            <p-button icon="pi pi-shield" label="竞争态势" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateOpportunityFacts()" (onClick)="showCompetitorDialog()" />
-                            <p-button icon="pi pi-compass" label="销售发现" severity="primary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateOpportunityFacts()" (onClick)="showDiscoveryDialog()" />
-                        }
+                    @if (canWriteCustomerContact) {
+                        <p-button icon="pi pi-user-plus" label="新增联系人" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!customerId" (onClick)="showContactDialog()" />
+                    }
+                    @if (canWrite && hasOpportunityContext()) {
+                        <p-button icon="pi pi-sitemap" label="关系人" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateOpportunityFacts()" (onClick)="showStakeholderDialog()" />
+                        <p-button icon="pi pi-shield" label="竞争态势" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateOpportunityFacts()" (onClick)="showCompetitorDialog()" />
+                        <p-button icon="pi pi-compass" label="销售发现" severity="primary" [outlined]="true" styleClass="rounded-md!" [disabled]="!canCreateOpportunityFacts()" (onClick)="showDiscoveryDialog()" />
                     }
                 </div>
             </ng-template>
@@ -285,6 +305,9 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                                                 </div>
                                                 <div class="mt-1 text-xs text-surface-500 dark:text-surface-400">{{ displayText(contact.department, '未填部门') }} · {{ displayText(contact.title, '未填职务') }}</div>
                                             </div>
+                                            @if (canWriteCustomerContact) {
+                                                <p-button icon="pi pi-pencil" label="编辑" severity="secondary" [text]="true" styleClass="rounded-md!" [ariaLabel]="'编辑客户联系人 ' + contact.name" (onClick)="showContactEditDialog(contact)" />
+                                            }
                                         </div>
                                         <div class="mt-2 grid grid-cols-1 gap-1 text-xs text-surface-600 dark:text-surface-300 sm:grid-cols-2">
                                             <span>电话：{{ displayText(contact.workPhone || contact.mobile, '未填写') }}</span>
@@ -427,15 +450,15 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
             </div>
         </section-card>
 
-        <p-dialog [(visible)]="contactDialogVisible" [modal]="true" appendTo="body" header="新增客户联系人" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid" (onHide)="resetContactDialog()">
+        <p-dialog [(visible)]="contactDialogVisible" [modal]="true" appendTo="body" [header]="contactDialogTitle()" [style]="{ width: 'min(36rem, 92vw)' }" styleClass="p-fluid" [closable]="!store.saving()" [closeOnEscape]="!store.saving()" (onHide)="resetContactDialog()">
             <div class="flex flex-col gap-4 py-2">
-                @if (error()) {
-                    <app-workspace-feedback severity="error" summary="联系人没有保存成功" [detail]="error()" />
+                @if (contactError()) {
+                    <app-workspace-feedback severity="error" [summary]="editingContact() ? '联系人更新没有保存成功' : '联系人没有保存成功'" [detail]="contactError()" />
                 }
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactName" class="text-sm font-medium text-surface-900 dark:text-surface-0">姓名</label>
-                        <input pInputText id="salesIntelligenceContactName" [ngModel]="contactForm().name" (ngModelChange)="updateContactField('name', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactName" maxlength="128" [ngModel]="contactForm().name" (ngModelChange)="updateContactField('name', $event)" class="w-full rounded-md!" />
                         @if (contactAttempted() && !contactForm().name.trim()) {
                             <span class="text-xs text-red-600 dark:text-red-300">请填写联系人姓名。</span>
                         }
@@ -446,38 +469,48 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactDepartment" class="text-sm font-medium text-surface-900 dark:text-surface-0">部门</label>
-                        <input pInputText id="salesIntelligenceContactDepartment" [ngModel]="contactForm().department" (ngModelChange)="updateContactField('department', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactDepartment" maxlength="128" [ngModel]="contactForm().department" (ngModelChange)="updateContactField('department', $event)" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactTitle" class="text-sm font-medium text-surface-900 dark:text-surface-0">职务</label>
-                        <input pInputText id="salesIntelligenceContactTitle" [ngModel]="contactForm().title" (ngModelChange)="updateContactField('title', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactTitle" maxlength="128" [ngModel]="contactForm().title" (ngModelChange)="updateContactField('title', $event)" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactPhone" class="text-sm font-medium text-surface-900 dark:text-surface-0">工作电话</label>
-                        <input pInputText id="salesIntelligenceContactPhone" [ngModel]="contactForm().workPhone" (ngModelChange)="updateContactField('workPhone', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactPhone" maxlength="64" [ngModel]="contactForm().workPhone" (ngModelChange)="updateContactField('workPhone', $event)" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactMobile" class="text-sm font-medium text-surface-900 dark:text-surface-0">手机</label>
-                        <input pInputText id="salesIntelligenceContactMobile" [ngModel]="contactForm().mobile" (ngModelChange)="updateContactField('mobile', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactMobile" maxlength="64" [ngModel]="contactForm().mobile" (ngModelChange)="updateContactField('mobile', $event)" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="salesIntelligenceContactWechat" class="text-sm font-medium text-surface-900 dark:text-surface-0">微信</label>
-                        <input pInputText id="salesIntelligenceContactWechat" [ngModel]="contactForm().wechat" (ngModelChange)="updateContactField('wechat', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactWechat" maxlength="128" [ngModel]="contactForm().wechat" (ngModelChange)="updateContactField('wechat', $event)" class="w-full rounded-md!" />
                     </div>
                     <div class="flex flex-col gap-2 sm:col-span-2">
                         <label for="salesIntelligenceContactEmail" class="text-sm font-medium text-surface-900 dark:text-surface-0">邮箱</label>
-                        <input pInputText id="salesIntelligenceContactEmail" [ngModel]="contactForm().email" (ngModelChange)="updateContactField('email', $event)" class="w-full rounded-md!" />
+                        <input pInputText id="salesIntelligenceContactEmail" type="email" maxlength="255" [ngModel]="contactForm().email" (ngModelChange)="updateContactField('email', $event)" class="w-full rounded-md!" />
+                        @if (contactAttempted() && !isContactEmailValid()) {
+                            <span class="text-xs text-red-600 dark:text-red-300">请填写有效的邮箱地址。</span>
+                        }
                     </div>
                     <div class="flex flex-col gap-2 sm:col-span-2">
                         <label for="salesIntelligenceContactRemark" class="text-sm font-medium text-surface-900 dark:text-surface-0">备注</label>
-                        <textarea pTextarea id="salesIntelligenceContactRemark" rows="3" [ngModel]="contactForm().remark" (ngModelChange)="updateContactField('remark', $event)" class="w-full rounded-md!"></textarea>
+                        <textarea pTextarea id="salesIntelligenceContactRemark" rows="3" maxlength="2000" [ngModel]="contactForm().remark" (ngModelChange)="updateContactField('remark', $event)" class="w-full rounded-md!"></textarea>
                     </div>
+                    @if (editingContact()) {
+                        <div class="flex flex-col gap-2 sm:col-span-2">
+                            <label for="salesIntelligenceContactStatus" class="text-sm font-medium text-surface-900 dark:text-surface-0">状态</label>
+                            <p-select inputId="salesIntelligenceContactStatus" [ngModel]="contactForm().status" (ngModelChange)="updateContactStatus($event)" [options]="contactStatusOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                            <span class="text-xs text-surface-500 dark:text-surface-400">停用后不会出现在新增机会关系人的联系人选项中，已有关系记录不受影响。</span>
+                        </div>
+                    }
                 </div>
             </div>
             <ng-template #footer>
                 <div class="flex justify-end gap-2">
-                    <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" (onClick)="contactDialogVisible = false" />
-                    <p-button label="保存联系人" [loading]="store.saving()" styleClass="rounded-md!" (onClick)="createContact()" />
+                    <p-button label="取消" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="store.saving()" (onClick)="contactDialogVisible = false" />
+                    <p-button [label]="contactSubmitLabel()" [loading]="store.saving()" [disabled]="contactSubmitDisabled()" styleClass="rounded-md!" (onClick)="saveContact()" />
                 </div>
             </ng-template>
         </p-dialog>
@@ -643,10 +676,13 @@ export class SalesIntelligencePanel implements OnChanges {
   @Input() leadId: string | null = null;
   @Input() projectId: string | null = null;
   @Input() canWrite = false;
+  @Input() canWriteCustomerContact = false;
   @Input('title') heading = '销售情报';
   @Input('description') descriptionText = '集中查看客户联系人、决策链、竞争态势和销售发现。';
 
   readonly error = signal<string | null>(null);
+  readonly contactError = signal<string | null>(null);
+  readonly editingContact = signal<CustomerContactSummary | null>(null);
   readonly contactForm = signal<ContactForm>({ ...EMPTY_CONTACT_FORM });
   readonly stakeholderForm = signal<StakeholderForm>({ ...EMPTY_STAKEHOLDER_FORM });
   readonly competitorForm = signal<CompetitorForm>({ ...EMPTY_COMPETITOR_FORM });
@@ -663,6 +699,7 @@ export class SalesIntelligencePanel implements OnChanges {
 
   readonly stakeholderRoleOptions = STAKEHOLDER_ROLE_OPTIONS;
   readonly contactGenderOptions = CONTACT_GENDER_OPTIONS;
+  readonly contactStatusOptions = CONTACT_STATUS_OPTIONS;
   readonly stakeholderAttitudeOptions = STAKEHOLDER_ATTITUDE_OPTIONS;
   readonly stakeholderInfluenceOptions = STAKEHOLDER_INFLUENCE_OPTIONS;
   readonly stakeholderAccessOptions = STAKEHOLDER_ACCESS_OPTIONS;
@@ -694,13 +731,37 @@ export class SalesIntelligencePanel implements OnChanges {
   }
 
   showContactDialog(): void {
-    if (!this.canWrite || !this.customerId) {
+    if (!this.canWriteCustomerContact || !this.customerId) {
       return;
     }
 
+    this.editingContact.set(null);
     this.contactForm.set({ ...EMPTY_CONTACT_FORM });
     this.contactAttempted.set(false);
-    this.error.set(null);
+    this.contactError.set(null);
+    this.contactDialogVisible = true;
+  }
+
+  showContactEditDialog(contact: CustomerContactSummary): void {
+    if (!this.canWriteCustomerContact || !this.customerId || contact.customerId !== this.customerId) {
+      return;
+    }
+
+    this.editingContact.set(contact);
+    this.contactForm.set({
+      name: contact.name,
+      gender: contact.gender,
+      department: contact.department ?? '',
+      title: contact.title ?? '',
+      workPhone: contact.workPhone ?? '',
+      mobile: contact.mobile ?? '',
+      wechat: contact.wechat ?? '',
+      email: contact.email ?? '',
+      remark: contact.remark ?? '',
+      status: contact.status,
+    });
+    this.contactAttempted.set(false);
+    this.contactError.set(null);
     this.contactDialogVisible = true;
   }
 
@@ -741,8 +802,10 @@ export class SalesIntelligencePanel implements OnChanges {
   }
 
   resetContactDialog(): void {
+    this.editingContact.set(null);
+    this.contactForm.set({ ...EMPTY_CONTACT_FORM });
     this.contactAttempted.set(false);
-    this.error.set(null);
+    this.contactError.set(null);
   }
 
   resetStakeholderDialog(): void {
@@ -762,12 +825,17 @@ export class SalesIntelligencePanel implements OnChanges {
 
   updateContactField(field: ContactTextField, value: string): void {
     this.contactForm.update(form => ({ ...form, [field]: value }));
-    this.error.set(null);
+    this.contactError.set(null);
   }
 
   updateContactGender(value: CustomerContactGender | null | undefined): void {
     this.contactForm.update(form => ({ ...form, gender: value ?? CustomerContactGender.Unknown }));
-    this.error.set(null);
+    this.contactError.set(null);
+  }
+
+  updateContactStatus(value: CustomerContactStatus | null | undefined): void {
+    this.contactForm.update(form => ({ ...form, status: value ?? CustomerContactStatus.Active }));
+    this.contactError.set(null);
   }
 
   updateStakeholderContact(value: string | null | undefined): void {
@@ -813,12 +881,42 @@ export class SalesIntelligencePanel implements OnChanges {
     this.error.set(null);
   }
 
+  contactDialogTitle(): string {
+    return this.editingContact() ? '编辑客户联系人' : '新增客户联系人';
+  }
+
+  contactSubmitLabel(): string {
+    return this.editingContact() ? '保存修改' : '保存联系人';
+  }
+
+  contactSubmitDisabled(): boolean {
+    if (this.store.saving() || !this.canWriteCustomerContact || !this.customerId) {
+      return true;
+    }
+
+    return Boolean(this.editingContact()) && !this.hasContactChanges();
+  }
+
+  isContactEmailValid(): boolean {
+    const email = this.contactForm().email.trim();
+    return !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  async saveContact(): Promise<void> {
+    if (this.editingContact()) {
+      await this.updateContact();
+      return;
+    }
+
+    await this.createContact();
+  }
+
   async createContact(): Promise<void> {
     this.contactAttempted.set(true);
     const customerId = this.customerId;
     const form = this.contactForm();
 
-    if (!this.canWrite || !customerId || !form.name.trim()) {
+    if (!this.canWriteCustomerContact || !customerId || !form.name.trim() || !this.isContactEmailValid()) {
       return;
     }
 
@@ -837,7 +935,37 @@ export class SalesIntelligencePanel implements OnChanges {
       });
       this.contactDialogVisible = false;
     } catch {
-      this.error.set('请确认联系人姓名完整，且客户仍然有效。');
+      this.contactError.set('请检查姓名、邮箱等联系人信息，确认客户仍然有效后重试。');
+    }
+  }
+
+  async updateContact(): Promise<void> {
+    this.contactAttempted.set(true);
+    const customerId = this.customerId;
+    const contact = this.editingContact();
+    const form = this.contactForm();
+
+    if (
+      !this.canWriteCustomerContact ||
+      !customerId ||
+      !contact ||
+      contact.customerId !== customerId ||
+      !form.name.trim() ||
+      !this.isContactEmailValid()
+    ) {
+      return;
+    }
+
+    const request = this.buildContactUpdateRequest(contact, form);
+    if (!Object.keys(request).length) {
+      return;
+    }
+
+    try {
+      await this.store.updateCustomerContact(contact.id, customerId, request);
+      this.contactDialogVisible = false;
+    } catch {
+      this.contactError.set('请确认当前账号仍有客户维护权限、联系人仍然存在，并检查填写内容后重试。');
     }
   }
 
@@ -1028,6 +1156,63 @@ export class SalesIntelligencePanel implements OnChanges {
 
   displayText(value: string | null | undefined, fallback: string): string {
     return value?.trim() ? value : fallback;
+  }
+
+  private hasContactChanges(): boolean {
+    const contact = this.editingContact();
+    return Boolean(contact && Object.keys(this.buildContactUpdateRequest(contact, this.contactForm())).length);
+  }
+
+  private buildContactUpdateRequest(
+    contact: CustomerContactSummary,
+    form: ContactForm,
+  ): UpdateCustomerContactRequest {
+    const before = this.contactValuesFromSummary(contact);
+    const after = this.normalizeContactForm(form);
+    const request: UpdateCustomerContactRequest = {};
+
+    if (after.name !== before.name) request.name = after.name;
+    if (after.gender !== before.gender) request.gender = after.gender;
+    if (after.department !== before.department) request.department = after.department;
+    if (after.title !== before.title) request.title = after.title;
+    if (after.workPhone !== before.workPhone) request.workPhone = after.workPhone;
+    if (after.mobile !== before.mobile) request.mobile = after.mobile;
+    if (after.wechat !== before.wechat) request.wechat = after.wechat;
+    if (after.email !== before.email) request.email = after.email;
+    if (after.remark !== before.remark) request.remark = after.remark;
+    if (after.status !== before.status) request.status = after.status;
+
+    return request;
+  }
+
+  private normalizeContactForm(form: ContactForm): NormalizedContactForm {
+    return {
+      name: form.name.trim(),
+      gender: form.gender,
+      department: this.optionalText(form.department),
+      title: this.optionalText(form.title),
+      workPhone: this.optionalText(form.workPhone),
+      mobile: this.optionalText(form.mobile),
+      wechat: this.optionalText(form.wechat),
+      email: this.optionalText(form.email),
+      remark: this.optionalText(form.remark),
+      status: form.status,
+    };
+  }
+
+  private contactValuesFromSummary(contact: CustomerContactSummary): NormalizedContactForm {
+    return {
+      name: contact.name.trim(),
+      gender: contact.gender,
+      department: this.optionalText(contact.department ?? ''),
+      title: this.optionalText(contact.title ?? ''),
+      workPhone: this.optionalText(contact.workPhone ?? ''),
+      mobile: this.optionalText(contact.mobile ?? ''),
+      wechat: this.optionalText(contact.wechat ?? ''),
+      email: this.optionalText(contact.email ?? ''),
+      remark: this.optionalText(contact.remark ?? ''),
+      status: contact.status,
+    };
   }
 
   private firstActiveContact(): CustomerContactSummary | null {

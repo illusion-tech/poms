@@ -1,6 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import {
     AuditHistoryStore,
     AttachmentStore,
@@ -421,6 +422,7 @@ describe('LeadList', () => {
     let selectedLead: ReturnType<typeof signal<LeadDetailView | null>>;
     let followUps: ReturnType<typeof signal<SalesFollowUpRecordSummary[]>>;
     let canWriteLead: ReturnType<typeof signal<boolean>>;
+    let canWriteCustomerContact: ReturnType<typeof signal<boolean>>;
     let canAssignLead: ReturnType<typeof signal<boolean>>;
     let canOverrideLeadScore: ReturnType<typeof signal<boolean>>;
     let queryParamMap: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
@@ -544,6 +546,7 @@ describe('LeadList', () => {
         selectedLead = signal<LeadDetailView | null>(null);
         followUps = signal<SalesFollowUpRecordSummary[]>([createFollowUp()]);
         canWriteLead = signal(true);
+        canWriteCustomerContact = signal(true);
         canAssignLead = signal(true);
         canOverrideLeadScore = signal(true);
         queryParamMap = new BehaviorSubject(convertToParamMap({}));
@@ -693,9 +696,21 @@ describe('LeadList', () => {
                         }),
                         initialize: jest.fn(),
                         isAuthenticated: () => true,
-                        hasAnyPermission: jest.fn((permissions: readonly string[]) =>
-                            permissions.some((permission) => (permission === 'lead:write' ? canWriteLead() : permission === 'lead:assign' ? canAssignLead() : permission === 'lead:score:override' ? canOverrideLeadScore() : false))
-                        )
+                        hasAnyPermission: jest.fn((permissions: readonly string[]) => {
+                            if (permissions.includes('lead:write')) {
+                                return canWriteLead();
+                            }
+                            if (permissions.includes('customer:write')) {
+                                return canWriteCustomerContact();
+                            }
+                            if (permissions.includes('lead:assign')) {
+                                return canAssignLead();
+                            }
+                            if (permissions.includes('lead:score:override')) {
+                                return canOverrideLeadScore();
+                            }
+                            return false;
+                        })
                     }
                 },
                 {
@@ -1002,6 +1017,21 @@ describe('LeadList', () => {
             leadId: 'lead-1',
             projectId: undefined
         });
+    });
+
+    it('keeps customer contact permission independent from lead write permission', async () => {
+        await component.openLeadDetail(createLead());
+        await fixture.whenStable();
+
+        const panel = fixture.debugElement.query(By.directive(SalesIntelligencePanel)).componentInstance as SalesIntelligencePanel;
+        expect(panel.canWrite).toBe(true);
+        expect(panel.canWriteCustomerContact).toBe(true);
+
+        canWriteCustomerContact.set(false);
+        await fixture.whenStable();
+
+        expect(panel.canWrite).toBe(true);
+        expect(panel.canWriteCustomerContact).toBe(false);
     });
 
     it('opens lead detail from a sales follow-up reminder query', async () => {

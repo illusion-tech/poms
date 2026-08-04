@@ -422,6 +422,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
                     [leadId]="project.sourceLeadId"
                     [projectId]="project.id"
                     [canWrite]="canWriteProjectFollowUp()"
+                    [canWriteCustomerContact]="canWriteCustomerContact()"
                     title="项目销售情报"
                     description="连续查看来源线索和当前项目的决策链、竞争态势、销售发现和情报缺口。"
                 />
@@ -862,6 +863,7 @@ export class ProjectDetail implements OnInit {
     readonly projectAttachmentTargetType = AttachmentTargetType.Project;
     readonly projectDiscussionTargetType = BusinessDiscussionTargetObjectType.Project;
     readonly canWriteProjectFollowUp = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
+    readonly canWriteCustomerContact = computed(() => this.#authStore.hasAnyPermission(['customer:write'] as const));
     readonly canWriteProjectAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
     readonly followUpReminderEntry = signal<FollowUpReminderEntry | null>(null);
 
