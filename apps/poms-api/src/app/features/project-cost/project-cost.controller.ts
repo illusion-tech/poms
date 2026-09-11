@@ -82,7 +82,7 @@ import type {
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
-import { ZodValidationPipe } from 'nestjs-zod';
+import { ZodValidationPipe } from '@poms/vendor-nestjs-zod';
 import { ProjectCostService } from './project-cost.service';
 
 interface AuthenticatedRequest extends RuntimeAuditRequestLike {

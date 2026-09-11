@@ -40,7 +40,7 @@ import {
 } from '@poms/api-contracts';
 import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiBody, ApiExtraModels, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ZodValidationPipe } from 'nestjs-zod';
+import { ZodValidationPipe } from '@poms/vendor-nestjs-zod';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
 import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';

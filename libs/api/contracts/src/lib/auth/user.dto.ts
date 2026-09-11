@@ -40,7 +40,7 @@ import {
     UpdateRoleRequestSchema,
     UserPayloadSchema,
 } from '@poms/shared-contracts';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@poms/vendor-nestjs-zod';
 import { z } from 'zod';
 
 export class SanitizedUserDto extends createZodDto(SanitizedUserSchema) {}

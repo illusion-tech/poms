@@ -5,7 +5,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Global, Module } from '@nestjs/common';
 import { SwaggerModule } from '@nestjs/swagger';
 import { Test } from '@nestjs/testing';
-import { cleanupOpenApiDoc } from 'nestjs-zod';
+import { cleanupOpenApiDoc } from '@poms/vendor-nestjs-zod';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { AppModule } from './app/app.module';

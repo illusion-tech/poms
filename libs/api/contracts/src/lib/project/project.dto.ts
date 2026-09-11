@@ -33,7 +33,7 @@ import {
     VoidProjectArchiveRecordRequestSchema,
     UpdateProjectBasicInfoRequestSchema
 } from '@poms/shared-contracts';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@poms/vendor-nestjs-zod';
 
 export class AcceptanceRecordDto extends createZodDto(AcceptanceRecordSummarySchema) {}
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
+import { ZodSerializerInterceptor, ZodValidationPipe } from '@poms/vendor-nestjs-zod';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';

@@ -6,7 +6,7 @@ import {
     SalesFollowUpRecordSummarySchema,
     VoidSalesFollowUpRecordRequestSchema
 } from '@poms/shared-contracts';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@poms/vendor-nestjs-zod';
 
 export class SalesFollowUpRecordDto extends createZodDto(SalesFollowUpRecordSummarySchema) {}
 

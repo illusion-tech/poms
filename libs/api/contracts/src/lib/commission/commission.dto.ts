@@ -32,7 +32,7 @@ import {
     SubmitNonRetentionCommissionPayoutApprovalRequestSchema,
     SubmitRetentionCommissionPayoutApprovalRequestSchema
 } from '@poms/shared-contracts';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@poms/vendor-nestjs-zod';
 import { z } from 'zod';
 
 export class CommissionRuleVersionSummaryDto extends createZodDto(CommissionRuleVersionSummarySchema) {}

@@ -5,7 +5,7 @@ import {
     DictionaryItemSummarySchema,
     UpdateDictionaryItemRequestSchema
 } from '@poms/shared-contracts';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@poms/vendor-nestjs-zod';
 
 export class DictionaryItemDto extends createZodDto(DictionaryItemSummarySchema) {}
 

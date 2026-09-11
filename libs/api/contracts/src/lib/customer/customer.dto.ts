@@ -10,7 +10,7 @@ import {
     CustomerWorkspaceOverviewViewSchema,
     UpdateCustomerRequestSchema
 } from '@poms/shared-contracts';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@poms/vendor-nestjs-zod';
 
 export class CustomerDto extends createZodDto(CustomerSummarySchema) {}
 
