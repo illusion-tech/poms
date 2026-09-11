@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApprovalStatus, AttachmentTargetType, AuthStore, ContractStatus, ContractStore } from '@poms/admin-data-access';
@@ -26,6 +26,7 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
     standalone: true,
     imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, MessageModule, SelectModule, DialogModule, TextareaModule, ToastModule, AttachmentPanel],
     providers: [ContractStore, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         @if (loading()) {
@@ -287,7 +288,7 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
             <!-- Edit Dialog -->
             <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-4">
-                    <p-message severity="info" text="POMS 合同编号由系统生成，编辑时只能维护客户合同编号等业务信息。" styleClass="w-full" />
+                    <p-message severity="info" styleClass="w-full">POMS 合同编号由系统生成，编辑时只能维护客户合同编号等业务信息。</p-message>
 
                     <div class="flex flex-col gap-2">
                         <label class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>

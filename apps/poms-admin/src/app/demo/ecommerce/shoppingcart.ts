@@ -60,7 +60,7 @@ interface RecommendedProduct {
                             </div>
 
                             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                                <p-inputNumber [ngModel]="item.quantity" (ngModelChange)="updateQuantity(item.id, $event)" [showButtons]="true" buttonLayout="horizontal" [min]="1" [max]="10" inputStyleClass="w-12!" />
+                                <p-inputnumber [ngModel]="item.quantity" (ngModelChange)="updateQuantity(item.id, $event)" [showButtons]="true" buttonLayout="horizontal" [min]="1" [max]="10" inputStyleClass="w-12!" />
                                 <p-button icon="pi pi-trash" severity="danger" [outlined]="true" (onClick)="removeItem(item.id)" />
                             </div>
                         </div>

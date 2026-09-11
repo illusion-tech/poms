@@ -8,6 +8,7 @@ import {
   type OnInit,
   type SimpleChanges,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -90,6 +91,7 @@ const EMPTY_FOLLOW_UP_FORM: SalesFollowUpForm = {
     WorkspaceFeedback,
   ],
   providers: [SalesFollowUpStore, DictionaryStore],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
         <section-card>
             <ng-template #title>{{ heading }}</ng-template>

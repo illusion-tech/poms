@@ -3,7 +3,7 @@ import { AppFooter } from './app.footer';
 import { AppSearch } from './app.search';
 import { LayoutService } from '../service/layout.service';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppSidebar } from './app.sidebar';
 import { AppTopbar } from './app.topbar';
@@ -12,6 +12,7 @@ import { AppTopbar } from './app.topbar';
     selector: 'app-layout',
     standalone: true,
     imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppBreadcrumb, AppFooter, AppSearch],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="layout-wrapper" [ngClass]="containerClass()">
             <div app-sidebar></div>

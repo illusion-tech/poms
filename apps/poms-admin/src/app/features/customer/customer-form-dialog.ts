@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, computed, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CustomerStatus } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
@@ -45,6 +45,7 @@ const EDITABLE_STATUS_OPTIONS = [
     selector: 'app-customer-form-dialog',
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TextareaModule, WorkspaceFeedback],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-dialog [visible]="visible" [modal]="true" [header]="dialogTitle()" [style]="{ width: 'min(36rem, 94vw)' }" styleClass="p-fluid" (visibleChange)="setVisible($event)" (onHide)="handleHide()">
             <div class="flex flex-col gap-4 py-2">

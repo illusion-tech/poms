@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TagModule } from 'primeng/tag';
 import { TimelineModule } from 'primeng/timeline';
 import { TooltipModule } from 'primeng/tooltip';
@@ -79,6 +79,7 @@ export interface ProjectLifecycleTimelineItem {
             </div>
         </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [
         `
             .lc-head {

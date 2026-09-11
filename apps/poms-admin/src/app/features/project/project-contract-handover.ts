@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     AttachmentDownloadPackageStatus,
@@ -124,6 +124,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
     selector: 'app-project-contract-handover',
     standalone: true,
     imports: [CommonModule, ButtonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取合同承接" />
@@ -144,7 +145,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                     <app-workspace-fact-grid class="mt-4 block" [items]="contractSetItems()" [columns]="3" />
 
                     <p-table class="mt-4 block p-datatable-sm" [value]="contractItems()" [rowHover]="true" [paginator]="contractItems().length > 5" [rows]="5" [scrollable]="true" [tableStyle]="{ 'min-width': '48rem' }">
-                        <ng-template pTemplate="header">
+                        <ng-template #header pTemplate="header">
                             <tr>
                                 <th>合同编号</th>
                                 <th>状态</th>
@@ -153,7 +154,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                 <th>当前快照</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-contract>
+                        <ng-template #body pTemplate="body" let-contract>
                             <tr>
                                 <td class="font-medium text-surface-950 dark:text-surface-0">{{ contract.contractNo }}</td>
                                 <td>
@@ -164,7 +165,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                 <td>{{ contract.currentSnapshotId ?? '待确认' }}</td>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="emptymessage">
+                        <ng-template #emptymessage pTemplate="emptymessage">
                             <tr>
                                 <td colspan="5">当前没有有效合同集合记录。</td>
                             </tr>
@@ -244,7 +245,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                             }
 
                             <p-table class="mt-4 block p-datatable-sm" [value]="handoverAttachmentItems()" [rowHover]="true" [paginator]="handoverAttachmentItems().length > 8" [rows]="8" [scrollable]="true" [tableStyle]="{ 'min-width': '58rem' }">
-                                <ng-template pTemplate="header">
+                                <ng-template #header pTemplate="header">
                                     <tr>
                                         <th class="w-16">纳入</th>
                                         <th>附件</th>
@@ -255,7 +256,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                         <th>说明</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-item>
+                                <ng-template #body pTemplate="body" let-item>
                                     <tr>
                                         <td>
                                             <input type="checkbox" class="h-4 w-4 rounded border-surface-300 text-primary" [checked]="isHandoverAttachmentSelected(item)" [disabled]="!canSelectHandoverAttachment(item)" (change)="toggleHandoverAttachmentSelection(item, $event)" />
@@ -275,7 +276,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                         <td>{{ item.exclusionReason ?? item.selectionReason ?? '无' }}</td>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="emptymessage">
+                                <ng-template #emptymessage pTemplate="emptymessage">
                                     <tr>
                                         <td colspan="7">当前没有可展示的附件移交清单。</td>
                                     </tr>

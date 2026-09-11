@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     CostEstimateConfidenceLevelLabel,
@@ -41,6 +41,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
     selector: 'app-project-technical-cost-workspace',
     standalone: true,
     imports: [CommonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取技术与成本" />
@@ -80,14 +81,14 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                         <ng-template #description>范围内、排除项和假设必须在进入报价前清楚可读。</ng-template>
 
                         <p-table class="mt-4 block p-datatable-sm" [value]="currentWorkspace.scopeItems" [rowHover]="true" [scrollable]="true" [tableStyle]="{ 'min-width': '42rem' }">
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>类型</th>
                                     <th>条目</th>
                                     <th>说明</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td>
                                         <p-tag [value]="scopeTypeLabel(item.scopeType)" [severity]="scopeTypeSeverity(item.scopeType)" class="rounded-[6px]!" />
@@ -96,7 +97,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                     <td>{{ item.description }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="3">当前版本包没有范围边界条目。</td>
                                 </tr>
@@ -117,7 +118,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                             [scrollable]="true"
                             [tableStyle]="{ 'min-width': '64rem' }"
                         >
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>等级</th>
                                     <th>类别</th>
@@ -127,7 +128,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                     <th>缓解计划</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td>
                                         <p-tag [value]="item.riskLevel" [severity]="riskLevelSeverity(item.riskLevel)" class="rounded-[6px]!" />
@@ -144,7 +145,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                     <td>{{ item.mitigationPlan }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="6">当前版本包没有风险条目。</td>
                                 </tr>
@@ -167,7 +168,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                             [scrollable]="true"
                             [tableStyle]="{ 'min-width': '72rem' }"
                         >
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>类别</th>
                                     <th>成本说明</th>
@@ -179,7 +180,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                     <th>责任角色</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td>
                                         <div class="font-medium text-surface-950 dark:text-surface-0">{{ item.costCategory }}</div>
@@ -196,7 +197,7 @@ const CONFIDENCE_LEVEL_LABELS = CostEstimateConfidenceLevelLabel as Record<Proje
                                     <td>{{ item.responsibleRole ?? '待确认' }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="8">当前版本包没有成本条目。</td>
                                 </tr>

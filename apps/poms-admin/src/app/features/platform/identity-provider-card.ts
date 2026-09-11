@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import {
     IdentityProvider,
     IdentityProviderConfigStatus,
@@ -31,6 +31,7 @@ const SEARCH_GRANT_MODE_LABELS: Record<IdentityProviderSearchGrantMode, string> 
     selector: 'app-identity-provider-card',
     standalone: true,
     imports: [CommonModule, ButtonModule, TagModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <article class="flex h-full min-h-[28rem] flex-col rounded border border-surface-200 bg-surface-0 p-6 dark:border-surface-700 dark:bg-surface-900">
             <div class="flex items-start justify-between gap-4">

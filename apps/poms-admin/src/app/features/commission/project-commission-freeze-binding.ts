@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     CommissionRoleAssignmentStatus,
@@ -61,6 +61,7 @@ interface FreezeBindingBanner {
     selector: 'app-project-commission-freeze-binding',
     standalone: true,
     imports: [CommonModule, TableModule, SectionCard, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取冻结与责任边界" />
@@ -101,21 +102,21 @@ interface FreezeBindingBanner {
                         [scrollable]="true"
                         [tableStyle]="{ 'min-width': '36rem' }"
                     >
-                        <ng-template pTemplate="header">
+                        <ng-template #header pTemplate="header">
                             <tr>
                                 <th>角色</th>
                                 <th>人员</th>
                                 <th>权重</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-participant>
+                        <ng-template #body pTemplate="body" let-participant>
                             <tr>
                                 <td>{{ roleTypeLabel(participant.roleType) }}</td>
                                 <td class="font-medium text-surface-950 dark:text-surface-0">{{ participant.displayName }}</td>
                                 <td>{{ formatParticipantWeight(participant.weight) }}</td>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="emptymessage">
+                        <ng-template #emptymessage pTemplate="emptymessage">
                             <tr>
                                 <td colspan="3">当前没有可读取的参与人责任边界。</td>
                             </tr>

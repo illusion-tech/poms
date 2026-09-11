@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthLogoWidget } from './components/authlogowidget';
 import { GoogleWidget } from './components/googlewidget';
 import { AppleWidget } from './components/applewidget';
@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
     selector: 'app-register',
     standalone: true,
     imports: [AuthLogoWidget, GoogleWidget, AppleWidget, ButtonModule, InputTextModule, CheckboxModule, RouterModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section class="animate-fadein animate-duration-300 animate-ease-in relative lg:pb-14 lg:py-52 py-36">
             <div class="landing-container mx-auto relative z-10 px-12">

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -241,6 +241,7 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
         WorkspaceFeedback
     ],
     providers: [LeadStore, CustomerStore, DictionaryStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-5">
             <section class="card flex flex-col gap-[18px] overflow-visible p-5!">
@@ -364,27 +365,27 @@ const EMPTY_SCORE_OVERRIDE_FORM: ScoreOverrideForm = {
                             <tr>
                                 <th pSortableColumn="leadName" class="w-[30%] min-w-72">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">线索/客户 <p-sortIcon field="leadName" /></span>
-                                        <p-columnFilter type="text" field="leadName" display="menu" placeholder="按线索名筛选" />
+                                        <span class="flex items-center gap-2">线索/客户 <p-sorticon field="leadName" /></span>
+                                        <p-columnfilter type="text" field="leadName" display="menu" placeholder="按线索名筛选" />
                                     </div>
                                 </th>
                                 <th pSortableColumn="status" class="w-[22%] min-w-56">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">状态/评分 <p-sortIcon field="status" /></span>
-                                        <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <span class="flex items-center gap-2">状态/评分 <p-sorticon field="status" /></span>
+                                        <p-columnfilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                             <ng-template #filter let-value let-filter="filterCallback">
                                                 <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" class="w-44" />
                                             </ng-template>
-                                        </p-columnFilter>
+                                        </p-columnfilter>
                                     </div>
                                 </th>
                                 <th pSortableColumn="estimatedAmount" class="w-[18%] min-w-48">
-                                    <span class="flex items-center gap-2">商务信息 <p-sortIcon field="estimatedAmount" /></span>
+                                    <span class="flex items-center gap-2">商务信息 <p-sorticon field="estimatedAmount" /></span>
                                 </th>
                                 <th pSortableColumn="ownerName" class="w-[18%] min-w-52">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">责任/更新 <p-sortIcon field="ownerName" /></span>
-                                        <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按销售主责筛选" />
+                                        <span class="flex items-center gap-2">责任/更新 <p-sorticon field="ownerName" /></span>
+                                        <p-columnfilter type="text" field="ownerName" display="menu" placeholder="按销售主责筛选" />
                                     </div>
                                 </th>
                                 <th class="w-60 min-w-60">继续处理</th>

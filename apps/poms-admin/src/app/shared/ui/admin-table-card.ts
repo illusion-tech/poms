@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ToolbarModule } from 'primeng/toolbar';
 
 @Component({
     selector: 'app-admin-table-card',
     standalone: true,
     imports: [ToolbarModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="card">
             <p-toolbar class="p-component p-toolbar mb-4">

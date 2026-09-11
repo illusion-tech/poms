@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 export interface AdminMetricItem {
     readonly label: string;
@@ -12,6 +12,7 @@ export interface AdminMetricItem {
     selector: 'app-admin-metric-grid',
     standalone: true,
     imports: [CommonModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section class="card overflow-hidden p-0!">
             <div class="grid grid-cols-1" [ngClass]="gridClass">

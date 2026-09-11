@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { AppMenu } from './app.menu';
 import { LayoutService } from '../service/layout.service';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -24,6 +24,7 @@ const BREAKPOINT = 992;
             <div #menuContainer app-menu></div>
         </div>
         <div app-topbar *ngIf="layoutService.isHorizontal() && layoutService.isDesktop()"></div>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         class: 'layout-sidebar',
         '(mouseenter)': 'onMouseEnter()',

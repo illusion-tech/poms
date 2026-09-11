@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-notfound',
     standalone: true,
     imports: [RouterModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: ` <section class="animate-fadein animate-duration-300 animate-ease-in relative min-h-screen flex items-center justify-center">
             <div class="landing-container mx-auto relative z-10 px-12">
                 <div class="relative mt-24 max-w-184 mx-auto">

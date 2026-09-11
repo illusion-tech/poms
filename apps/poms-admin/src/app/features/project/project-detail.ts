@@ -1,5 +1,5 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -182,6 +182,7 @@ const PROJECT_LIFECYCLE_DESCRIPTIONS: Record<ProjectLifecycleStage, string> = {
         WorkspaceLoading
     ],
     providers: [ProjectStore, CustomerStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取项目详情" />

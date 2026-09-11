@@ -111,15 +111,15 @@ interface StatusOption {
                                 <p-accordion-content [pt]="accordionContentPT">
                                     <div class="flex flex-col gap-3">
                                         <div class="flex items-center gap-2">
-                                            <p-radioButton [(ngModel)]="visibility" inputId="public" value="Public" />
+                                            <p-radiobutton [(ngModel)]="visibility" inputId="public" value="Public" />
                                             <label for="public" class="text-surface-900 dark:text-surface-0 text-base">Public</label>
                                         </div>
                                         <div class="flex items-center gap-2">
-                                            <p-radioButton [(ngModel)]="visibility" inputId="password" value="Password protected" />
+                                            <p-radiobutton [(ngModel)]="visibility" inputId="password" value="Password protected" />
                                             <label for="password" class="text-surface-900 dark:text-surface-0 text-base">Password protected</label>
                                         </div>
                                         <div class="flex items-center gap-2">
-                                            <p-radioButton [(ngModel)]="visibility" inputId="private" value="Private" />
+                                            <p-radiobutton [(ngModel)]="visibility" inputId="private" value="Private" />
                                             <label for="private" class="text-surface-900 dark:text-surface-0 text-base">Private</label>
                                         </div>
                                     </div>
@@ -224,15 +224,15 @@ interface StatusOption {
                             <p-accordion-content [pt]="accordionContentPT">
                                 <div class="flex flex-col gap-3">
                                     <div class="flex items-center gap-2">
-                                        <p-radioButton [(ngModel)]="visibility" inputId="mobile-public" value="Public" />
+                                        <p-radiobutton [(ngModel)]="visibility" inputId="mobile-public" value="Public" />
                                         <label for="mobile-public" class="text-surface-900 dark:text-surface-0 text-base">Public</label>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <p-radioButton [(ngModel)]="visibility" inputId="mobile-password" value="Password protected" />
+                                        <p-radiobutton [(ngModel)]="visibility" inputId="mobile-password" value="Password protected" />
                                         <label for="mobile-password" class="text-surface-900 dark:text-surface-0 text-base">Password protected</label>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <p-radioButton [(ngModel)]="visibility" inputId="mobile-private" value="Private" />
+                                        <p-radiobutton [(ngModel)]="visibility" inputId="mobile-private" value="Private" />
                                         <label for="mobile-private" class="text-surface-900 dark:text-surface-0 text-base">Private</label>
                                     </div>
                                 </div>

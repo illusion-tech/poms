@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     AttachmentStorageProviderConfigStatus,
@@ -160,6 +160,7 @@ const EMPTY_FORM: AttachmentStorageProviderForm = {
             }
         `
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { LayoutService } from '../service/layout.service';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,6 +14,7 @@ import { AutoFocusModule } from 'primeng/autofocus';
             <input pInputText type="text" [pAutoFocus]="true" class="p-inputtext search-input" placeholder="Search" (keydown.enter)="toggleSearchBar()" />
         </div>
     </p-dialog>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: `
         :host ::ng-deep {
             .p-dialog-header {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterModule } from '@angular/router';
 
@@ -13,6 +13,7 @@ interface Breadcrumb {
     selector: '[app-breadcrumb]',
     standalone: true,
     imports: [CommonModule, RouterModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `<nav class="layout-breadcrumb">
         <ol>
             <ng-template ngFor let-item let-last="last" [ngForOf]="breadcrumbs$ | async">

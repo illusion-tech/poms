@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { type AfterContentInit, Component, ContentChild, type TemplateRef } from '@angular/core';
+import { type AfterContentInit, Component, ContentChild, type TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'section-card',
@@ -33,6 +33,7 @@ import { type AfterContentInit, Component, ContentChild, type TemplateRef } from
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       }
     `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'card block',
   },

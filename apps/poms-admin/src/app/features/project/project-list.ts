@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
@@ -81,6 +81,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, DialogModule, TooltipModule, AdminTableCard, AdminMetricGrid, WorkspaceFeedback],
     providers: [ProjectStore, CustomerStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-5">
             <app-admin-metric-grid [items]="summaryItems()" />
@@ -135,24 +136,24 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                             <tr>
                                 <th pSortableColumn="projectName" class="w-[34%] min-w-72">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">项目/客户 <p-sortIcon field="projectName" /></span>
-                                        <p-columnFilter type="text" field="projectName" display="menu" placeholder="按项目名筛选" />
+                                        <span class="flex items-center gap-2">项目/客户 <p-sorticon field="projectName" /></span>
+                                        <p-columnfilter type="text" field="projectName" display="menu" placeholder="按项目名筛选" />
                                     </div>
                                 </th>
                                 <th pSortableColumn="currentStage" class="w-[22%] min-w-52">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">阶段/状态 <p-sortIcon field="currentStage" /></span>
-                                        <p-columnFilter field="currentStage" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <span class="flex items-center gap-2">阶段/状态 <p-sorticon field="currentStage" /></span>
+                                        <p-columnfilter field="currentStage" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                             <ng-template #filter let-value let-filter="filterCallback">
                                                 <p-select [ngModel]="value" [options]="stageColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意阶段" appendTo="body" (onChange)="filter($event.value)" class="w-48" />
                                             </ng-template>
-                                        </p-columnFilter>
+                                        </p-columnfilter>
                                     </div>
                                 </th>
                                 <th pSortableColumn="ownerName" class="w-[24%] min-w-60">
                                     <div class="flex items-center justify-between gap-2">
-                                        <span class="flex items-center gap-2">责任/节点 <p-sortIcon field="ownerName" /></span>
-                                        <p-columnFilter type="text" field="ownerName" display="menu" placeholder="按负责人筛选" />
+                                        <span class="flex items-center gap-2">责任/节点 <p-sorticon field="ownerName" /></span>
+                                        <p-columnfilter type="text" field="ownerName" display="menu" placeholder="按负责人筛选" />
                                     </div>
                                 </th>
                                 <th class="w-56 min-w-56">继续处理</th>

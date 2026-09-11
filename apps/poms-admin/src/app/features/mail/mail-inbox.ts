@@ -130,7 +130,7 @@ interface MenuItemData {
                         <ng-template #header>
                             <tr>
                                 <th style="width: 3rem">
-                                    <p-tableHeaderCheckbox />
+                                    <p-tableheadercheckbox />
                                 </th>
                                 <th style="width: 220px">From</th>
                                 <th style="width: 120px">Time</th>
@@ -142,7 +142,7 @@ interface MenuItemData {
                         <ng-template #body let-email>
                             <tr class="cursor-pointer" (click)="navigateToEmail(email)">
                                 <td (click)="$event.stopPropagation()">
-                                    <p-tableCheckbox [value]="email" />
+                                    <p-tablecheckbox [value]="email" />
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-4" [ngClass]="email.read ? 'opacity-60' : ''">

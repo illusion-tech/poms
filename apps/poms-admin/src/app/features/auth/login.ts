@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthStore, type EnabledLoginProviderSummary } from '@poms/admin-data-access';
@@ -46,6 +46,7 @@ function resolveExternalLoginError(err: unknown): string {
     selector: 'app-login',
     standalone: true,
     imports: [CommonModule, AuthLogoWidget, RouterModule, InputTextModule, CheckboxModule, ButtonModule, FormField, FormRoot],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section class="animate-fadein animate-duration-300 animate-ease-in relative lg:pb-14 lg:py-52 py-36">
             <div class="landing-container mx-auto relative z-10 px-12">

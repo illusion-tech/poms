@@ -1,9 +1,10 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { LayoutService } from '../service/layout.service';
 
 @Component({
     selector: '[app-footer]',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="layout-footer">
             <div class="footer-logo-container">

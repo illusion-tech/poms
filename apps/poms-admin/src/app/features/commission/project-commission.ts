@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, inject, OnDestroy, OnInit, signal, type WritableSignal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnDestroy, OnInit, signal, type WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -340,6 +340,7 @@ const TEMPLATE = `
     standalone: true,
     imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, DialogModule, IconFieldModule, InputIconModule, InputTextModule, MenuModule, SelectModule, TableModule, TextareaModule, ToastModule, WorkspaceFeedback, WorkspaceLoading],
     providers: [CommissionStore, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: TEMPLATE
 })
 export class ProjectCommission implements OnInit, OnDestroy {

@@ -9,6 +9,9 @@ export default [
         files: ['**/*.ts'],
         rules: {
             'no-var': 'off',
+            // GOV-19 (Angular 22): 官方迁移给全部组件加 ChangeDetectionStrategy.Eager
+            // 以保持行为等价,该规则视其为退出 OnPush 的违规;OnPush 迁移另行评估。
+            '@angular-eslint/prefer-on-push-component-change-detection': 'off',
             '@angular-eslint/component-selector': 'off',
             '@angular-eslint/no-input-rename': 'off',
             '@angular-eslint/no-output-native': 'off',

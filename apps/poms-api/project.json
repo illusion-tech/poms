@@ -1,171 +1,250 @@
 {
-    "name": "poms-api",
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "apps/poms-api/src",
-    "projectType": "application",
-    "tags": ["scope:api", "type:app"],
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "webpack-cli build",
-                "args": ["--config-node-env=production"],
-                "cwd": "apps/poms-api"
-            },
-            "configurations": {
-                "development": {
-                    "args": ["--config-node-env=development"]
-                }
-            }
-        },
-        "prune-lockfile": {
-            "dependsOn": ["build"],
-            "cache": true,
-            "executor": "@nx/js:prune-lockfile",
-            "outputs": [
-                "{workspaceRoot}/dist/apps/poms-api/package.json",
-                "{workspaceRoot}/dist/apps/poms-api/pnpm-lock.yaml"
-            ],
-            "options": {
-                "buildTarget": "build"
-            }
-        },
-        "copy-workspace-modules": {
-            "dependsOn": ["build"],
-            "cache": true,
-            "outputs": ["{workspaceRoot}/dist/apps/poms-api/workspace_modules"],
-            "executor": "@nx/js:copy-workspace-modules",
-            "options": {
-                "buildTarget": "build"
-            }
-        },
-        "prune": {
-            "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
-            "executor": "nx:noop"
-        },
-        "serve": {
-            "continuous": true,
-            "executor": "@nx/js:node",
-            "defaultConfiguration": "development",
-            "dependsOn": ["build"],
-            "options": {
-                "buildTarget": "poms-api:build",
-                "runBuildTargetDependencies": false
-            },
-            "configurations": {
-                "development": {
-                    "buildTarget": "poms-api:build:development"
-                },
-                "production": {
-                    "buildTarget": "poms-api:build:production"
-                }
-            }
-        },
-        "openapi": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "ts-node -r tsconfig-paths/register -P apps/poms-api/tsconfig.app.json apps/poms-api/src/openapi.ts"
-            },
-            "outputs": ["{workspaceRoot}/libs/shared/api-spec/openapi.json"]
-        },
-        "migration-check": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm migration:check",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
-        },
-        "migration-create": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm migration:create",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
-        },
-        "migration-up": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm migration:up",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
-        },
-        "migration-down": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm migration:down",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
-        },
-        "migration-list": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm migration:list",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "outputs": ["{workspaceRoot}/apps/poms-api/src/migrations"]
-        },
-        "seeder-run": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm seeder:run",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "dependsOn": ["migration-up"]
-        },
-        "seed-platform-bootstrap": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm seeder:run",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts", "--class", "PlatformBootstrapSeeder"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "dependsOn": ["migration-up"]
-        },
-        "seed-business-trial": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "corepack pnpm exec mikro-orm seeder:run",
-                "args": ["--config", "apps/poms-api/src/mikro-orm.config.ts", "--class", "BusinessTrialSeeder"],
-                "env": {
-                    "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
-                }
-            },
-            "dependsOn": ["seed-platform-bootstrap"]
-        },
-        "lint": {
-            "executor": "@nx/eslint:lint",
-            "options": {
-                "lintFilePatterns": ["apps/poms-api/**/*.ts", "apps/poms-api/**/*.js"]
-            }
-        },
-        "test": {
-            "options": {
-                "passWithNoTests": true
-            }
+  "name": "poms-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/poms-api/src",
+  "projectType": "application",
+  "tags": [
+    "scope:api",
+    "type:app"
+  ],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": [
+          "--config-node-env=production"
+        ],
+        "cwd": "apps/poms-api"
+      },
+      "configurations": {
+        "development": {
+          "args": [
+            "--config-node-env=development"
+          ]
         }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/poms-api/package.json",
+        "{workspaceRoot}/dist/apps/poms-api/pnpm-lock.yaml",
+        "{workspaceRoot}/dist/apps/poms-api/pnpm-workspace.yaml",
+        "{workspaceRoot}/dist/apps/poms-api/patches",
+        "{workspaceRoot}/dist/apps/poms-api/local_path_modules"
+      ],
+      "options": {
+        "buildTarget": "build"
+      },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/pnpm-workspace.yaml",
+        "{workspaceRoot}/package.json",
+        {
+          "runtime": "node -e \"try{console.log('pnpm major '+require('child_process').execSync('pnpm --version',{stdio:['ignore','pipe','ignore']}).toString().trim().split('.')[0])}catch{console.log('pnpm major unavailable')}\""
+        }
+      ]
+    },
+    "copy-workspace-modules": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/poms-api/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": [
+        "prune-lockfile",
+        "copy-workspace-modules"
+      ],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "buildTarget": "poms-api:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "poms-api:build:development"
+        },
+        "production": {
+          "buildTarget": "poms-api:build:production"
+        }
+      }
+    },
+    "openapi": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/libs/shared/api-spec/openapi.json"
+      ],
+      "options": {
+        "command": "ts-node -r tsconfig-paths/register -P apps/poms-api/tsconfig.app.json apps/poms-api/src/openapi.ts"
+      }
+    },
+    "migration-check": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/apps/poms-api/src/migrations"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm migration:check",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "migration-create": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/apps/poms-api/src/migrations"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm migration:create",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "migration-up": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/apps/poms-api/src/migrations"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm migration:up",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "migration-down": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/apps/poms-api/src/migrations"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm migration:down",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "migration-list": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/apps/poms-api/src/migrations"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm migration:list",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "seeder-run": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "migration-up"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm seeder:run",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "seed-platform-bootstrap": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "migration-up"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm seeder:run",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts",
+          "--class",
+          "PlatformBootstrapSeeder"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "seed-business-trial": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "seed-platform-bootstrap"
+      ],
+      "options": {
+        "command": "corepack pnpm exec mikro-orm seeder:run",
+        "args": [
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts",
+          "--class",
+          "BusinessTrialSeeder"
+        ],
+        "env": {
+          "MIKRO_ORM_CLI_TS_CONFIG_PATH": "tsconfig.base.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/poms-api/**/*.ts",
+          "apps/poms-api/**/*.js"
+        ]
+      }
+    },
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      }
     }
+  }
 }

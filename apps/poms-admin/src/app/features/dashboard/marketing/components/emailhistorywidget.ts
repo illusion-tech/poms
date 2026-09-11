@@ -67,7 +67,7 @@ interface EmailHistoryEntry {
             <ng-template #header>
                 <tr>
                     <th style="min-width:3rem">
-                        <p-tableHeaderCheckbox />
+                        <p-tableheadercheckbox />
                     </th>
                     <th style="min-width:6rem">ID</th>
                     <th style="min-width:10rem">Date</th>
@@ -82,7 +82,7 @@ interface EmailHistoryEntry {
             <ng-template #body let-data>
                 <tr [pSelectableRow]="data">
                     <td>
-                        <p-tableCheckbox [value]="data" />
+                        <p-tablecheckbox [value]="data" />
                     </td>
                     <td>
                         {{ data.id }}

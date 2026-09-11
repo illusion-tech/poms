@@ -1,7 +1,6 @@
-import type { Config } from 'jest';
-import { createCjsPreset } from 'jest-preset-angular/presets/index.js';
+const { createCjsPreset } = require('jest-preset-angular/presets/index.js');
 
-const config: Config = {
+const config = {
     ...createCjsPreset(),
     displayName: 'poms-admin',
     preset: '../../jest.preset.js',
@@ -9,4 +8,4 @@ const config: Config = {
     coverageDirectory: '../../coverage/apps/poms-admin'
 };
 
-export default config;
+module.exports = config;

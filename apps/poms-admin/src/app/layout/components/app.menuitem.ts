@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal, AfterViewInit } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { isActive, Router, RouterModule, type IsActiveMatchOptions, type QueryParamsHandling } from '@angular/router';
 import type { MenuItem } from '@poms/admin-data-access';
 import { TooltipModule } from 'primeng/tooltip';
@@ -84,6 +84,7 @@ export interface AppMenuItemModel extends MenuItem {
         '[class.active-menuitem]': 'isActive()',
         '[class.layout-root-menuitem]': 'root()'
     },
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [
         `
             /* Submenu Enter Animation */

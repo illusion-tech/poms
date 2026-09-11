@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
@@ -29,6 +29,7 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, DialogModule, SelectModule, MessageModule, AutoCompleteModule, TooltipModule, AdminTableCard],
     providers: [ContractStore, ProjectStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-5">
             <app-admin-table-card>
@@ -64,28 +65,28 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                         <tr>
                             <th pSortableColumn="contractNo" class="w-[30%] min-w-72">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">合同/项目 <p-sortIcon field="contractNo" /></span>
-                                    <p-columnFilter type="text" field="contractNo" display="menu" placeholder="按 POMS 编号筛选" />
+                                    <span class="flex items-center gap-2">合同/项目 <p-sorticon field="contractNo" /></span>
+                                    <p-columnfilter type="text" field="contractNo" display="menu" placeholder="按 POMS 编号筛选" />
                                 </div>
                             </th>
                             <th pSortableColumn="customerName" class="w-[20%] min-w-48">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">客户 <p-sortIcon field="customerName" /></span>
-                                    <p-columnFilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
+                                    <span class="flex items-center gap-2">客户 <p-sorticon field="customerName" /></span>
+                                    <p-columnfilter type="text" field="customerName" display="menu" placeholder="按客户筛选" />
                                 </div>
                             </th>
                             <th pSortableColumn="signedAmount" class="w-[22%] min-w-56">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="flex items-center gap-2">金额/状态 <p-sortIcon field="signedAmount" /></span>
-                                    <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <span class="flex items-center gap-2">金额/状态 <p-sorticon field="signedAmount" /></span>
+                                    <p-columnfilter field="status" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                         <ng-template #filter let-value let-filter="filterCallback">
                                             <p-select [ngModel]="value" [options]="statusColumnFilterOptions" optionLabel="label" optionValue="value" placeholder="任意状态" appendTo="body" (onChange)="filter($event.value)" class="w-44" />
                                         </ng-template>
-                                    </p-columnFilter>
+                                    </p-columnfilter>
                                 </div>
                             </th>
                             <th pSortableColumn="signedAt" class="w-[16%] min-w-44">
-                                <span class="flex items-center gap-2">签约信息 <p-sortIcon field="signedAt" /></span>
+                                <span class="flex items-center gap-2">签约信息 <p-sorticon field="signedAt" /></span>
                             </th>
                             <th class="w-40 min-w-40">继续处理</th>
                         </tr>
@@ -196,10 +197,10 @@ const CONTRACT_STATUS_FILTER_OPTIONS = CONTRACT_STATUS_FILTER_VALUES.map((value)
                             }
                         </div>
                     } @else if (!loadingProjects() && projects().length === 0) {
-                        <p-message severity="warn" text="当前没有可选择的项目，请先完成项目创建或刷新后重试。" styleClass="w-full" />
+                        <p-message severity="warn" styleClass="w-full">当前没有可选择的项目，请先完成项目创建或刷新后重试。</p-message>
                     }
 
-                    <p-message severity="info" text="POMS 合同编号将在创建成功后由系统生成。" styleClass="w-full" />
+                    <p-message severity="info" styleClass="w-full">POMS 合同编号将在创建成功后由系统生成。</p-message>
 
                     <div class="flex flex-col gap-2">
                         <label for="customerContractNo" class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>

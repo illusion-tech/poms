@@ -1,5 +1,5 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, computed, DestroyRef, inject, type OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, type OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -121,6 +121,7 @@ const DISCUSSION_TYPE_LABELS = BusinessDiscussionTypeLabel as Record<BusinessDis
     CustomerFormDialog,
   ],
   providers: [CustomerStore, ConfirmationService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
         <div class="flex flex-col gap-5">
             @if (pageError()) {

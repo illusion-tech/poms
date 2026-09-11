@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import type { ProjectWorkspaceEntryView } from '@poms/admin-data-access';
@@ -17,6 +17,7 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
     standalone: true,
     imports: [CommonModule, RouterModule, ButtonModule, ProjectContextHeader, SectionCard, WorkspaceCommandPanel, WorkspaceFeedback, WorkspaceLoading, WorkspaceNav],
     providers: [ProjectStore, ProjectWorkspaceStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取提成工作区" />

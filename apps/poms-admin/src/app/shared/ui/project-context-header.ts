@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -11,6 +11,7 @@ export type ProjectContextTagSeverity = UiTagSeverity;
     selector: 'app-project-context-header',
     standalone: true,
     imports: [CommonModule, ButtonModule, TagModule, ToolbarModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="card">
             <p-toolbar styleClass="border-0! bg-transparent! p-0!">

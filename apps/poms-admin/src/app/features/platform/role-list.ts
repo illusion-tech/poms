@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AssignRolePermissionsRequestPermissionKeysEnum, PlatformStore } from '@poms/admin-data-access';
 import type { PlatformRoleSummary } from '@poms/shared-contracts';
@@ -30,6 +30,7 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, ChipModule, DialogModule, ToastModule, TagModule, TooltipModule, AdminTableCard],
     providers: [MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
@@ -62,16 +63,16 @@ function toAssignablePermissionKey(value: string): AssignRolePermissionsRequestP
                     <ng-template #header>
                         <tr>
                             <th pSortableColumn="name">
-                                <span class="flex items-center gap-2">角色名称 <p-sortIcon field="name" /></span>
+                                <span class="flex items-center gap-2">角色名称 <p-sorticon field="name" /></span>
                             </th>
                             <th pSortableColumn="roleKey">
-                                <span class="flex items-center gap-2">角色 Key <p-sortIcon field="roleKey" /></span>
+                                <span class="flex items-center gap-2">角色 Key <p-sorticon field="roleKey" /></span>
                             </th>
                             <th>说明</th>
                             <th>状态</th>
                             <th>类型</th>
                             <th pSortableColumn="displayOrder">
-                                <span class="flex items-center gap-2">排序 <p-sortIcon field="displayOrder" /></span>
+                                <span class="flex items-center gap-2">排序 <p-sorticon field="displayOrder" /></span>
                             </th>
                             <th style="width: 12rem">操作</th>
                         </tr>

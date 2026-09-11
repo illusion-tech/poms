@@ -1,86 +1,127 @@
 {
-    "$schema": "./node_modules/nx/schemas/nx-schema.json",
-    "npmScope": "poms",
-    "workspaceLayout": {
-        "appsDir": "apps",
-        "libsDir": "libs"
-    },
-    "targetDefaults": {
-        "build": {
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"],
-            "cache": true
-        },
-        "test": {
-            "inputs": ["default", "^production"],
-            "cache": true
-        },
-        "lint": {
-            "inputs": ["default", "^default"]
-        },
-        "@nx/js:tsc": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
-        }
-    },
-    "namedInputs": {
-        "sharedGlobals": [],
-        "default": ["{projectRoot}/**/*", "sharedGlobals"],
-        "production": [
-            "default",
-            "!{projectRoot}/tsconfig.spec.json",
-            "!{projectRoot}/**/*.spec.[jt]s",
-            "!{projectRoot}/.eslintrc.json",
-            "!{projectRoot}/eslint.config.cjs",
-            "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-            "!{projectRoot}/jest.config.[jt]s",
-            "!{projectRoot}/src/test-setup.[jt]s",
-            "!{projectRoot}/test-setup.[jt]s"
-        ]
-    },
-    "projects": {
-        "poms-admin": {
-            "tags": []
-        }
-    },
-    "plugins": [
+  "daemon": {
+    "enabled": false
+  },
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "poms",
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production",
+        "{workspaceRoot}/pnpm-workspace.yaml",
         {
-            "plugin": "@nx/webpack/plugin",
-            "options": {
-                "buildTargetName": "build",
-                "serveTargetName": "serve",
-                "previewTargetName": "preview",
-                "buildDepsTargetName": "build-deps",
-                "watchDepsTargetName": "watch-deps",
-                "serveStaticTargetName": "serve-static"
-            }
+          "json": "{workspaceRoot}/package.json",
+          "fields": [
+            "packageManager",
+            "pnpm.onlyBuiltDependencies",
+            "pnpm.neverBuiltDependencies",
+            "pnpm.allowBuilds",
+            "pnpm.supportedArchitectures",
+            "pnpm.patchedDependencies"
+          ]
         },
         {
-            "plugin": "@nx/eslint/plugin",
-            "options": {
-                "targetName": "eslint:lint"
-            }
-        },
-        {
-            "plugin": "@nx/jest/plugin",
-            "options": {
-                "targetName": "test"
-            },
-            "exclude": ["poms-api-e2e/**/*", "apps-e2e/**/*", "apps/poms-api-e2e/**/*"]
+          "runtime": "node -e \"try{console.log('pnpm major '+require('child_process').execSync('pnpm --version',{stdio:['ignore','pipe','ignore']}).toString().trim().split('.')[0])}catch{console.log('pnpm major unavailable')}\""
         }
+      ],
+      "cache": true
+    },
+    "test": {
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "inputs": [
+        "default",
+        "^default"
+      ]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
+    }
+  },
+  "namedInputs": {
+    "sharedGlobals": [],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
     ],
-    "generators": {
-        "@nx/angular:library": {
-            "linter": "eslint",
-            "unitTestRunner": "none"
-        },
-        "@nx/angular:component": {
-            "style": "css"
-        }
+    "production": [
+      "default",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/**/*.spec.[jt]s",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.cjs",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s"
+    ]
+  },
+  "projects": {
+    "poms-admin": {
+      "tags": []
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps",
+        "serveStaticTargetName": "serve-static"
+      }
     },
-    "tui": {
-        "enabled": false
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint"
+      }
     },
-    "analytics": true
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      },
+      "exclude": [
+        "poms-api-e2e/**/*",
+        "apps-e2e/**/*",
+        "apps/poms-api-e2e/**/*"
+      ]
+    }
+  ],
+  "generators": {
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "none"
+    },
+    "@nx/angular:component": {
+      "style": "css"
+    }
+  },
+  "tui": {
+    "enabled": false
+  },
+  "analytics": true
 }

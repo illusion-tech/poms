@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthLogoWidget } from './components/authlogowidget';
 import { InputOtpModule } from 'primeng/inputotp';
 import { FormsModule } from '@angular/forms';
@@ -46,6 +46,7 @@ import { InputTextModule } from 'primeng/inputtext';
             </div>
         </div>
     </section>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: `
         .p-inputotp {
             gap: 0;

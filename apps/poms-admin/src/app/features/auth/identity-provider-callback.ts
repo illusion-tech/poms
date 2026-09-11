@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthStore } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
@@ -28,6 +28,7 @@ function externalLoginCallbackErrorMessage(err: unknown): string {
     selector: 'app-identity-provider-callback',
     standalone: true,
     imports: [CommonModule, RouterModule, ButtonModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section class="animate-fadein animate-duration-300 animate-ease-in relative py-36 lg:py-52 lg:pb-14">
             <div class="landing-container relative z-10 mx-auto px-12">

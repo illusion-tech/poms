@@ -83,7 +83,7 @@ import { TableModule } from 'primeng/table';
             <p-divider />
             <div>
                 <p-table [value]="products" [tableStyle]="{ minWidth: '50rem' }">
-                    <ng-template pTemplate="header">
+                    <ng-template #header pTemplate="header">
                         <tr>
                             <th>Description</th>
                             <th>Quantity</th>
@@ -91,7 +91,7 @@ import { TableModule } from 'primeng/table';
                             <th>Line Total</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-product>
+                    <ng-template #body pTemplate="body" let-product>
                         <tr>
                             <td>{{ product.description }}</td>
                             <td>{{ product.quantity }}</td>

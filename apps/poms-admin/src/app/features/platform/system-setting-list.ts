@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SystemSettingKey, SystemSettingStore, type SystemSettingSummary } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
@@ -25,6 +25,7 @@ function isConflictError(error: unknown): boolean {
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, InputNumberModule, TagModule, ToastModule],
     providers: [SystemSettingStore, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
