@@ -37,7 +37,12 @@
     ],
     "@poms/admin-data-access": ["./libs/admin/data-access/src/index.ts"],
             "@poms/admin-data-access/*": ["./libs/admin/data-access/src/*"]
-        }
+        },
+        "noUncheckedSideEffectImports": false,
+        "types": [
+          "*"
+        ],
+        "ignoreDeprecations": "6.0"
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,

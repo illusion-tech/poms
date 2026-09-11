@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContractReadinessGuardDecisionLabel, ContractReadinessItemStatusLabel, ContractReadinessItemTypeLabel, ContractReadinessStatusLabel } from '@poms/shared-contracts';
 import { ContractReadinessGuardDecision, type ContractReadinessDetail, type ContractReadinessItem, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
@@ -32,6 +32,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
     selector: 'app-project-pre-signing-overview',
     standalone: true,
     imports: [CommonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取签约前主线" />
@@ -111,7 +112,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                             [scrollable]="true"
                             [tableStyle]="{ 'min-width': '48rem' }"
                         >
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>检查项</th>
                                     <th>类型</th>
@@ -120,7 +121,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                                     <th>说明</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>{{ readinessItemTypeLabel(item.itemType) }}</td>
@@ -131,7 +132,7 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                                     <td>{{ item.summary ?? item.navigationHint ?? '待确认' }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="5">当前承接包没有明细项。</td>
                                 </tr>

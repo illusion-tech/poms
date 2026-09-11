@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -141,6 +141,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
         WorkspaceLoading,
         WorkspaceVersionHistory
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取报价与毛利评审" />
@@ -230,7 +231,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                             [scrollable]="true"
                             [tableStyle]="{ 'min-width': '72rem' }"
                         >
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>条件</th>
                                     <th>类型</th>
@@ -241,7 +242,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <th>说明</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>{{ conditionTypeLabel(item.conditionType) }}</td>
@@ -254,7 +255,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <td>{{ item.resolutionSummary ?? item.conditionSummary }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="7">当前报价评审没有条件项。</td>
                                 </tr>
@@ -305,7 +306,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
 
         <p-dialog [(visible)]="pricingDialogVisible" [modal]="true" [header]="pricingDialogMode === 'edit' ? '编辑报价评审' : '创建报价评审'" [style]="{ width: 'min(58rem, 94vw)' }" styleClass="p-fluid">
             <div class="flex flex-col gap-5 py-4">
-                <p-message severity="info" text="保存后会生成新的当前版本，原当前版本由后端标记为 superseded。" styleClass="w-full" />
+                <p-message severity="info" styleClass="w-full">保存后会生成新的当前版本，原当前版本由后端标记为 superseded。</p-message>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="flex flex-col gap-2">
@@ -378,7 +379,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                 </div>
 
                 @if (pricingSubmitAttempted && !isPricingFormValid()) {
-                    <p-message severity="warn" text="请补齐报价版本、金额、税率、税务条件、回款条件、毛利说明和结论说明。" styleClass="w-full" />
+                    <p-message severity="warn" styleClass="w-full">请补齐报价版本、金额、税率、税务条件、回款条件、毛利说明和结论说明。</p-message>
                 }
 
                 <div class="flex flex-col gap-3">
@@ -432,7 +433,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                             </div>
                         </div>
                     } @empty {
-                        <p-message severity="secondary" text="暂无条件项，保存时会提交空数组。" styleClass="w-full" />
+                        <p-message severity="secondary" styleClass="w-full">暂无条件项，保存时会提交空数组。</p-message>
                     }
                 </div>
             </div>

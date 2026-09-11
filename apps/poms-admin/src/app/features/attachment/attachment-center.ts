@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActiveInactiveStatus, AttachmentCenterStore, AttachmentTargetType, DictionaryDomain, DictionaryStore, type AttachmentCenterRecord } from '@poms/admin-data-access';
@@ -54,6 +54,7 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, AdminTableCard, AdminMetricGrid, WorkspaceFeedback],
     providers: [AttachmentCenterStore, DictionaryStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-5">
             <app-admin-metric-grid [items]="attachmentMetricItems()" />
@@ -106,11 +107,11 @@ const TARGET_TYPE_OPTIONS: FilterOption<AttachmentCenterTargetFilter>[] = [
                 >
                     <ng-template #header>
                         <tr>
-                            <th pSortableColumn="attachment.displayName">文件 <p-sortIcon field="attachment.displayName" /></th>
-                            <th pSortableColumn="targetName">业务对象 <p-sortIcon field="targetName" /></th>
+                            <th pSortableColumn="attachment.displayName">文件 <p-sorticon field="attachment.displayName" /></th>
+                            <th pSortableColumn="targetName">业务对象 <p-sorticon field="targetName" /></th>
                             <th>分类</th>
-                            <th pSortableColumn="attachment.uploadedByName">上传人 <p-sortIcon field="attachment.uploadedByName" /></th>
-                            <th pSortableColumn="attachment.uploadedAt">上传时间 <p-sortIcon field="attachment.uploadedAt" /></th>
+                            <th pSortableColumn="attachment.uploadedByName">上传人 <p-sorticon field="attachment.uploadedByName" /></th>
+                            <th pSortableColumn="attachment.uploadedAt">上传时间 <p-sorticon field="attachment.uploadedAt" /></th>
                             <th>版本</th>
                             <th>操作</th>
                         </tr>

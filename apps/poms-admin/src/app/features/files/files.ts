@@ -222,13 +222,13 @@ interface Document {
                     >
                         <ng-template #header>
                             <tr>
-                                <th pSortableColumn="fileName" class="w-40">File Name <p-sortIcon field="fileName" /></th>
-                                <th pSortableColumn="type" class="w-32">Type <p-sortIcon field="type" /></th>
-                                <th pSortableColumn="fileSize" class="w-42">File Size <p-sortIcon field="fileSize" /></th>
+                                <th pSortableColumn="fileName" class="w-40">File Name <p-sorticon field="fileName" /></th>
+                                <th pSortableColumn="type" class="w-32">Type <p-sorticon field="type" /></th>
+                                <th pSortableColumn="fileSize" class="w-42">File Size <p-sorticon field="fileSize" /></th>
                                 <th class="w-24">Size</th>
-                                <th pSortableColumn="uploadDate" class="flex-1">Upload Date <p-sortIcon field="uploadDate" /></th>
-                                <th pSortableColumn="editDate" class="flex-1">Edit Date <p-sortIcon field="editDate" /></th>
-                                <th pSortableColumn="owner" class="flex-1">Owner <p-sortIcon field="owner" /></th>
+                                <th pSortableColumn="uploadDate" class="flex-1">Upload Date <p-sorticon field="uploadDate" /></th>
+                                <th pSortableColumn="editDate" class="flex-1">Edit Date <p-sorticon field="editDate" /></th>
+                                <th pSortableColumn="owner" class="flex-1">Owner <p-sorticon field="owner" /></th>
                                 <th class="w-24">Actions</th>
                             </tr>
                         </ng-template>

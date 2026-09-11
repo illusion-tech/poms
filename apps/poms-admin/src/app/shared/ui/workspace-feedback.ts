@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { MessageModule } from 'primeng/message';
 import type { UiMessageSeverity } from './ui-severity';
 
@@ -8,6 +8,7 @@ export type WorkspaceFeedbackSeverity = UiMessageSeverity;
     selector: 'app-workspace-feedback',
     standalone: true,
     imports: [MessageModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-message [severity]="severity" styleClass="w-full">
             <div class="flex flex-col gap-1">

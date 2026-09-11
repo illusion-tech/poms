@@ -41,11 +41,11 @@ import { Product, ProductService } from '../services/product.service';
                             <ng-template #header>
                                 <tr>
                                     <th pSortableColumn="name" style="width: 33%;">
-                                        <span class="flex items-center gap-2">Name <p-sortIcon field="name" /></span>
+                                        <span class="flex items-center gap-2">Name <p-sorticon field="name" /></span>
                                     </th>
                                     <th style="width: 33%;">Image</th>
                                     <th pSortableColumn="price" style="width: 33%;">
-                                        <span class="flex items-center gap-2"> Price <p-sortIcon field="price" /></span>
+                                        <span class="flex items-center gap-2"> Price <p-sorticon field="price" /></span>
                                     </th>
                                 </tr>
                             </ng-template>

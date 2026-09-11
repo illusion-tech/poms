@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import type { ProjectWorkspaceEntryView } from '@poms/admin-data-access';
@@ -31,6 +31,7 @@ import { WorkspaceNav, type WorkspaceNavItem } from '../../shared/ui/workspace-n
             }
         `
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取项目工作区" />

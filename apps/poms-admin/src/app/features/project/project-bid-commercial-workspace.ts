@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -135,6 +135,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
         WorkspaceLoading,
         WorkspaceVersionHistory
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取招投标 / 商务竞标" />
@@ -198,7 +199,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                             [scrollable]="true"
                             [tableStyle]="{ 'min-width': '58rem' }"
                         >
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>材料</th>
                                     <th>状态</th>
@@ -208,7 +209,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <th>导航提示</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>
@@ -220,7 +221,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <td>{{ item.navigationHint ?? '待确认' }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="6">当前竞标过程没有材料项。</td>
                                 </tr>
@@ -241,7 +242,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                             [scrollable]="true"
                             [tableStyle]="{ 'min-width': '64rem' }"
                         >
-                            <ng-template pTemplate="header">
+                            <ng-template #header pTemplate="header">
                                 <tr>
                                     <th>节点</th>
                                     <th>状态</th>
@@ -251,7 +252,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <th>说明</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template #body pTemplate="body" let-item>
                                 <tr>
                                     <td class="font-medium text-surface-950 dark:text-surface-0">{{ item.label }}</td>
                                     <td>
@@ -263,7 +264,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                                     <td>{{ item.summary ?? '待确认' }}</td>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="emptymessage">
+                            <ng-template #emptymessage pTemplate="emptymessage">
                                 <tr>
                                     <td colspan="6">当前竞标过程没有关键节点。</td>
                                 </tr>
@@ -314,7 +315,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
 
         <p-dialog [(visible)]="bidDialogVisible" [modal]="true" [header]="bidDialogMode === 'edit' ? '编辑竞标过程' : '创建竞标过程'" [style]="{ width: 'min(58rem, 94vw)' }" styleClass="p-fluid">
             <div class="flex flex-col gap-5 py-4">
-                <p-message severity="info" text="保存后会生成新的当前版本，原当前版本由后端标记为 superseded。" styleClass="w-full" />
+                <p-message severity="info" styleClass="w-full">保存后会生成新的当前版本，原当前版本由后端标记为 superseded。</p-message>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="flex flex-col gap-2">
@@ -405,7 +406,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                             </div>
                         </div>
                     } @empty {
-                        <p-message severity="secondary" text="暂无材料项，保存时会提交空数组。" styleClass="w-full" />
+                        <p-message severity="secondary" styleClass="w-full">暂无材料项，保存时会提交空数组。</p-message>
                     }
                 </div>
 
@@ -452,7 +453,7 @@ const BOOLEAN_OPTIONS: Option<boolean>[] = [
                             </div>
                         </div>
                     } @empty {
-                        <p-message severity="secondary" text="暂无关键节点，保存时会提交空数组。" styleClass="w-full" />
+                        <p-message severity="secondary" styleClass="w-full">暂无关键节点，保存时会提交空数组。</p-message>
                     }
                 </div>
             </div>

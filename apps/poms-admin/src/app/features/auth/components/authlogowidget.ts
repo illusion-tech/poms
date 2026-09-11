@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'auth-logo-widget',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <svg xmlns="http://www.w3.org/2000/svg" width="83" height="90" viewBox="0 0 83 90" fill="none" [class]="className">
             <g filter="url(#filter0_ddddi_2396_7131)">

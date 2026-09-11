@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, DictionaryDomain, DictionaryStore, type DictionaryItemSummary } from '@poms/admin-data-access';
 import { MessageService } from 'primeng/api';
@@ -111,6 +111,7 @@ const EMPTY_EDIT_FORM: DictionaryEditForm = {
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, IconFieldModule, InputIconModule, SelectModule, TagModule, TextareaModule, TooltipModule, ToastModule, ToolbarModule, AdminMetricGrid],
     providers: [DictionaryStore, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">

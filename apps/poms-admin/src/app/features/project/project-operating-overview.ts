@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectWorkspaceStore } from '@poms/admin-data-access';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -14,6 +14,7 @@ import { actionLevelLabel, actionLevelSeverity, dataMaturityLevelLabelOrFallback
     selector: 'app-project-operating-overview',
     standalone: true,
     imports: [CommonModule, SectionCard, WorkspaceActionLink, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
             <app-workspace-loading label="正在读取经营总览" />

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { OrgUnitTreeNode, PlatformOrgUnitSummary } from '@poms/admin-data-access';
 import { PlatformStore } from '@poms/admin-data-access';
@@ -28,6 +28,7 @@ interface TreeTableNodeEvent {
     standalone: true,
     imports: [CommonModule, FormsModule, TreeTableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TextareaModule, DialogModule, ToastModule, TooltipModule, TagModule, AdminTableCard],
     providers: [MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
@@ -64,7 +65,7 @@ interface TreeTableNodeEvent {
                         <tr [ttRow]="rowNode">
                             <td>
                                 <div class="flex items-center gap-2">
-                                    <p-treeTableToggler [rowNode]="rowNode" />
+                                    <p-treetabletoggler [rowNode]="rowNode" />
                                     <div class="min-w-0">
                                         <div class="text-surface-950 dark:text-surface-0 text-sm font-medium">{{ unit.name }}</div>
                                         <div class="text-surface-400 text-xs font-mono md:hidden">{{ unit.code ?? '—' }}</div>

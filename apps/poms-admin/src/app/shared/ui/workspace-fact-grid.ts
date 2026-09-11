@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TagModule } from 'primeng/tag';
 import type { ProjectContextTagSeverity } from './project-context-header';
 
@@ -41,6 +41,7 @@ export interface WorkspaceFactGridItem {
             }
         `
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="workspace-fact-grid-shell" [style.--workspace-fact-columns]="columns">
             <div class="workspace-fact-grid grid gap-3">

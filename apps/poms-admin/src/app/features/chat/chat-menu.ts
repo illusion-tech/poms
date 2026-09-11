@@ -280,7 +280,7 @@ interface OnlineUser {
                                 } @else {
                                     <p-avatar [label]="getAvatarInitials(chat.name)" size="normal" shape="circle" styleClass="p-overlay-badge w-10 h-10 bg-primary-100 text-primary-600" />
                                 }
-                                <ng-template pTemplate="badge">
+                                <ng-template #badge pTemplate="badge">
                                     <div class="w-2.5 h-2.5 bg-surface-300 dark:bg-surface-600 rounded-full"></div>
                                 </ng-template>
                             </p-overlaybadge>
@@ -337,7 +337,7 @@ interface OnlineUser {
                                 } @else {
                                     <p-avatar [label]="getAvatarInitials(chat.name)" size="normal" shape="circle" styleClass="p-overlay-badge w-10 h-10 bg-primary-100 text-primary-600" />
                                 }
-                                <ng-template pTemplate="badge">
+                                <ng-template #badge pTemplate="badge">
                                     <div class="w-2.5 h-2.5 bg-surface-300 dark:bg-surface-600 rounded-full"></div>
                                 </ng-template>
                             </p-overlaybadge>

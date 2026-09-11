@@ -282,10 +282,10 @@ interface Country {
                             <div class="flex flex-col gap-2">
                                 <label class="text-surface-900 dark:text-surface-0 text-base">Card Details</label>
                                 <div class="flex flex-col gap-3 w-full">
-                                    <p-inputMask [(ngModel)]="formData.cardNumber" mask="9999 9999 9999 9999" placeholder="1234 1234 1234 1234" styleClass="w-full" />
+                                    <p-inputmask [(ngModel)]="formData.cardNumber" mask="9999 9999 9999 9999" placeholder="1234 1234 1234 1234" styleClass="w-full" />
                                     <div class="flex gap-3 w-full">
-                                        <p-inputMask [(ngModel)]="formData.expiryDate" mask="99/99" placeholder="MM/YY" class="flex-1" styleClass="w-full" />
-                                        <p-inputMask [(ngModel)]="formData.cvv" mask="999?9" placeholder="CVV" class="flex-1" styleClass="w-full" />
+                                        <p-inputmask [(ngModel)]="formData.expiryDate" mask="99/99" placeholder="MM/YY" class="flex-1" styleClass="w-full" />
+                                        <p-inputmask [(ngModel)]="formData.cvv" mask="999?9" placeholder="CVV" class="flex-1" styleClass="w-full" />
                                     </div>
                                 </div>
                             </div>

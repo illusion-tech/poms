@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject, type OnChanges, type SimpleChanges, signal } from '@angular/core';
+import { Component, Input, inject, type OnChanges, type SimpleChanges, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   CompetitorPosition,
@@ -261,6 +261,7 @@ const EMPTY_DISCOVERY_FORM: DiscoveryForm = {
     WorkspaceFeedback,
   ],
   providers: [SalesIntelligenceStore],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
         <section-card>
             <ng-template #title>{{ heading }}</ng-template>

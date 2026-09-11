@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ProjectStore, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
@@ -10,6 +10,7 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
     selector: 'app-project-workspace-home',
     standalone: true,
     imports: [CommonModule, SectionCard, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFeedback],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (project()) {
             @if (guidance(); as guidance) {

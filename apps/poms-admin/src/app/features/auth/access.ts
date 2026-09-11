@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-access',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section class="animate-fadein animate-duration-300 animate-ease-in relative lg:pb-14 lg:py-52 py-36">
             <div class="landing-container mx-auto relative z-10 px-12">

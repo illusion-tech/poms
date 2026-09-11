@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     ExternalIdentityBindingStatus,
@@ -67,6 +67,7 @@ function serverMessage(value: unknown): string | null {
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TooltipModule],
     providers: [IdentityProviderStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-3 border-t border-surface-200 dark:border-surface-700 pt-4">
             <div class="flex items-center justify-between gap-3">

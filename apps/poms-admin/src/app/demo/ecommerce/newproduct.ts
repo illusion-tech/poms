@@ -62,12 +62,12 @@ interface ColorOption {
                     </div>
                     <div class="flex-1 flex flex-col justify-start items-start gap-3 w-full lg:w-auto">
                         <input type="text" pInputText [(ngModel)]="product.name" placeholder="Enter product name" class="w-full" />
-                        <p-inputGroup>
+                        <p-inputgroup>
                             <input type="text" pInputText [(ngModel)]="product.code" placeholder="158692" readonly />
-                            <p-inputGroupAddon>
+                            <p-inputgroupaddon>
                                 <i class="pi pi-copy cursor-pointer text-surface-500 dark:text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 transition-colors"></i>
-                            </p-inputGroupAddon>
-                        </p-inputGroup>
+                            </p-inputgroupaddon>
+                        </p-inputgroup>
                     </div>
                 </div>
 
@@ -94,15 +94,15 @@ interface ColorOption {
                     <div class="w-full lg:w-[337px] text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">Gender</div>
                     <div class="w-full flex-1 flex flex-col sm:flex-row justify-start lg:justify-end items-start sm:items-center gap-4">
                         <div class="flex justify-start items-center gap-2">
-                            <p-radioButton [(ngModel)]="product.gender" inputId="women" value="women" />
+                            <p-radiobutton [(ngModel)]="product.gender" inputId="women" value="women" />
                             <label for="women" class="text-surface-900 dark:text-surface-0 text-base font-normal">Women</label>
                         </div>
                         <div class="flex justify-start items-center gap-2">
-                            <p-radioButton [(ngModel)]="product.gender" inputId="men" value="men" />
+                            <p-radiobutton [(ngModel)]="product.gender" inputId="men" value="men" />
                             <label for="men" class="text-surface-900 dark:text-surface-0 text-base font-normal">Men</label>
                         </div>
                         <div class="flex justify-start items-center gap-2">
-                            <p-radioButton [(ngModel)]="product.gender" inputId="unisex" value="unisex" />
+                            <p-radiobutton [(ngModel)]="product.gender" inputId="unisex" value="unisex" />
                             <label for="unisex" class="text-surface-900 dark:text-surface-0 text-base font-normal">Unisex</label>
                         </div>
                     </div>
@@ -199,7 +199,7 @@ interface ColorOption {
                 <div class="p-6 flex flex-col lg:flex-row justify-between items-center gap-4">
                     <div class="w-full lg:w-96 text-surface-950 dark:text-surface-0 text-lg font-medium leading-7">Cargo Company</div>
                     <div class="w-full lg:w-96">
-                        <p-multiSelect [(ngModel)]="product.cargoCompany" [options]="cargoCompanies" optionLabel="label" optionValue="value" placeholder="Select cargo companies" styleClass="w-full" appendTo="body" />
+                        <p-multiselect [(ngModel)]="product.cargoCompany" [options]="cargoCompanies" optionLabel="label" optionValue="value" placeholder="Select cargo companies" styleClass="w-full" appendTo="body" />
                     </div>
                 </div>
             </div>

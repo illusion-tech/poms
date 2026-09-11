@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerStore, UpdateCustomerRequestStatusEnum, type CustomerListView } from '@poms/admin-data-access';
@@ -21,6 +21,7 @@ import { customerSearchText, customerStatusLabel, customerStatusSeverity, displa
     standalone: true,
     imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TagModule, ToolbarModule, AdminMetricGrid, WorkspaceFeedback, Tooltip, CustomerFormDialog],
     providers: [CustomerStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-5">
             <app-admin-metric-grid [items]="customerMetricItems()" [columns]="3" />
@@ -69,13 +70,13 @@ import { customerSearchText, customerStatusLabel, customerStatusSeverity, displa
                     <ng-template #header>
                         <tr>
                             <th pSortableColumn="displayName" class="w-[36%] min-w-72">
-                                <span class="flex items-center gap-2">客户 <p-sortIcon field="displayName" /></span>
+                                <span class="flex items-center gap-2">客户 <p-sorticon field="displayName" /></span>
                             </th>
                             <th pSortableColumn="status" class="w-[24%] min-w-52">
-                                <span class="flex items-center gap-2">状态/业务 <p-sortIcon field="status" /></span>
+                                <span class="flex items-center gap-2">状态/业务 <p-sorticon field="status" /></span>
                             </th>
                             <th pSortableColumn="updatedAt" class="w-[24%] min-w-56">
-                                <span class="flex items-center gap-2">责任/更新 <p-sortIcon field="updatedAt" /></span>
+                                <span class="flex items-center gap-2">责任/更新 <p-sorticon field="updatedAt" /></span>
                             </th>
                             <th class="w-20 min-w-20">操作</th>
                         </tr>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { SectionCard } from './sectioncard';
 
 export interface WorkspaceCommandPanelItem {
@@ -43,6 +43,7 @@ export interface WorkspaceCommandPanelItem {
             }
         `
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section-card class="workspace-command-panel">
             <ng-template #title>{{ heading }}</ng-template>

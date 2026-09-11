@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild, computed } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthStore } from '@poms/admin-data-access';
@@ -8,6 +8,7 @@ import { AppMenuitem, type AppMenuItemModel } from './app.menuitem';
     selector: '[app-menu]',
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `<ul class="layout-menu">
         @for (item of model(); track $index) {
             @if (!item.separator) {

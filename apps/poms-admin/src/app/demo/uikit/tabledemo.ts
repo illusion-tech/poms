@@ -85,19 +85,19 @@ interface RowGroupMeta {
                         <th style="min-width: 12rem">
                             <div class="flex justify-between items-center">
                                 Name
-                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+                                <p-columnfilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 12rem">
                             <div class="flex justify-between items-center">
                                 Country
-                                <p-columnFilter type="text" field="country.name" display="menu" placeholder="Search by country"></p-columnFilter>
+                                <p-columnfilter type="text" field="country.name" display="menu" placeholder="Search by country"></p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 14rem">
                             <div class="flex justify-between items-center">
                                 Agent
-                                <p-columnFilter field="representative" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                <p-columnfilter field="representative" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                     <ng-template #header>
                                         <div class="px-4 pt-4 pb-0">
                                             <span class="font-bold">Agent Picker</span>
@@ -113,25 +113,25 @@ interface RowGroupMeta {
                                             </ng-template>
                                         </p-multi-select>
                                     </ng-template>
-                                </p-columnFilter>
+                                </p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 10rem">
                             <div class="flex justify-between items-center">
                                 Date
-                                <p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>
+                                <p-columnfilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 10rem">
                             <div class="flex justify-between items-center">
                                 Balance
-                                <p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>
+                                <p-columnfilter type="numeric" field="balance" display="menu" currency="USD"></p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 12rem">
                             <div class="flex justify-between items-center">
                                 Status
-                                <p-columnFilter field="status" matchMode="equals" display="menu">
+                                <p-columnfilter field="status" matchMode="equals" display="menu">
                                     <ng-template #filter let-value let-filter="filterCallback">
                                         <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{ 'min-width': '12rem' }">
                                             <ng-template let-option #item>
@@ -139,13 +139,13 @@ interface RowGroupMeta {
                                             </ng-template>
                                         </p-select>
                                     </ng-template>
-                                </p-columnFilter>
+                                </p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 12rem">
                             <div class="flex justify-between items-center">
                                 Activity
-                                <p-columnFilter field="activity" matchMode="between" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                <p-columnfilter field="activity" matchMode="between" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
                                     <ng-template #filter let-filter="filterCallback">
                                         <p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)" styleClass="m-4" [style]="{ 'min-width': '12rem' }"></p-slider>
                                         <div class="flex items-center justify-between px-2">
@@ -153,13 +153,13 @@ interface RowGroupMeta {
                                             <span>{{ activityValues[1] }}</span>
                                         </div>
                                     </ng-template>
-                                </p-columnFilter>
+                                </p-columnfilter>
                             </div>
                         </th>
                         <th style="min-width: 8rem">
                             <div class="flex justify-between items-center">
                                 Verified
-                                <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
+                                <p-columnfilter type="boolean" field="verified" display="menu"></p-columnfilter>
                             </div>
                         </th>
                     </tr>
@@ -270,20 +270,20 @@ interface RowGroupMeta {
                     <tr>
                         <th style="width: 5rem"></th>
                         <th pSortableColumn="name">
-                            <span class="flex items-center gap-2">Name <p-sortIcon field="name" /></span>
+                            <span class="flex items-center gap-2">Name <p-sorticon field="name" /></span>
                         </th>
                         <th>Image</th>
                         <th pSortableColumn="price">
-                            <span class="flex items-center gap-2">Price <p-sortIcon field="price" /></span>
+                            <span class="flex items-center gap-2">Price <p-sorticon field="price" /></span>
                         </th>
                         <th pSortableColumn="category">
-                            <span class="flex items-center gap-2">Category <p-sortIcon field="category" /></span>
+                            <span class="flex items-center gap-2">Category <p-sorticon field="category" /></span>
                         </th>
                         <th pSortableColumn="rating">
-                            <span class="flex items-center gap-2">Reviews <p-sortIcon field="rating" /></span>
+                            <span class="flex items-center gap-2">Reviews <p-sorticon field="rating" /></span>
                         </th>
                         <th pSortableColumn="inventoryStatus">
-                            <span class="flex items-center gap-2">Status <p-sortIcon field="inventoryStatus" /></span>
+                            <span class="flex items-center gap-2">Status <p-sorticon field="inventoryStatus" /></span>
                         </th>
                     </tr>
                 </ng-template>
@@ -315,19 +315,19 @@ interface RowGroupMeta {
                                     <ng-template #header>
                                         <tr>
                                             <th pSortableColumn="id">
-                                                <span class="flex items-center gap-2">Id <p-sortIcon field="id" /></span>
+                                                <span class="flex items-center gap-2">Id <p-sorticon field="id" /></span>
                                             </th>
                                             <th pSortableColumn="customer">
-                                                <span class="flex items-center gap-2">Customer <p-sortIcon field="customer" /></span>
+                                                <span class="flex items-center gap-2">Customer <p-sorticon field="customer" /></span>
                                             </th>
                                             <th pSortableColumn="date">
-                                                <span class="flex items-center gap-2">Date <p-sortIcon field="date" /></span>
+                                                <span class="flex items-center gap-2">Date <p-sorticon field="date" /></span>
                                             </th>
                                             <th pSortableColumn="amount">
-                                                <span class="flex items-center gap-2">Amount <p-sortIcon field="amount" /></span>
+                                                <span class="flex items-center gap-2">Amount <p-sorticon field="amount" /></span>
                                             </th>
                                             <th pSortableColumn="status">
-                                                <span class="flex items-center gap-2">Status <p-sortIcon field="status" /></span>
+                                                <span class="flex items-center gap-2">Status <p-sorticon field="status" /></span>
                                             </th>
                                             <th style="width: 4rem"></th>
                                         </tr>

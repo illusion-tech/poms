@@ -9,6 +9,7 @@ import {
   type OnInit,
   type SimpleChanges,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, type SafeResourceUrl } from '@angular/platform-browser';
@@ -96,6 +97,7 @@ const ATTACHMENT_SECURITY_OPTIONS = [
     WorkspaceFeedback,
   ],
   providers: [AttachmentStore, DictionaryStore],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
         <section-card>
             <ng-template #title>{{ heading }}</ng-template>

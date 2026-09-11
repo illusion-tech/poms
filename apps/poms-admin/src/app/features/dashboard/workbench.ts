@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthStore, ProjectStore, TodoStatus, type TodoItemSummary } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
@@ -14,6 +14,7 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
     standalone: true,
     imports: [CommonModule, SectionCard, TagModule, ButtonModule, TableModule],
     providers: [ProjectStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-6">
             <!-- Stats Row -->

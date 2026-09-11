@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthLogoWidget } from './components/authlogowidget';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
     selector: 'app-forgot-password',
     imports: [AuthLogoWidget, ButtonModule, InputTextModule, RouterModule],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: ` <section class="animate-fadein animate-duration-300 animate-ease-in relative lg:pb-14 lg:py-52 py-36">
         <div class="landing-container mx-auto relative z-10 px-12">
             <div class="relative mt-28 max-w-xl mx-auto">

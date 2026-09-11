@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { PlatformRoleSummary, PlatformOrgUnitSummary, UpdatePlatformUserRequest } from '@poms/admin-data-access';
 import { PlatformStore } from '@poms/admin-data-access';
@@ -45,6 +45,7 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
         UserExternalIdentityPanel
     ],
     providers: [ConfirmationService, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         <div class="flex flex-col gap-5">
@@ -77,17 +78,17 @@ import { UserExternalIdentityPanel } from './user-external-identity-panel';
                     <ng-template #header>
                         <tr>
                             <th pSortableColumn="displayName" class="flex-1">
-                                <span class="flex items-center gap-2">姓名 <p-sortIcon field="displayName" /></span>
+                                <span class="flex items-center gap-2">姓名 <p-sorticon field="displayName" /></span>
                             </th>
                             <th pSortableColumn="username" class="flex-1">
-                                <span class="flex items-center gap-2">用户名 <p-sortIcon field="username" /></span>
+                                <span class="flex items-center gap-2">用户名 <p-sorticon field="username" /></span>
                             </th>
                             <th class="flex-1">角色</th>
                             <th pSortableColumn="primaryOrgUnitName" class="flex-1">
-                                <span class="flex items-center gap-2">所属组织 <p-sortIcon field="primaryOrgUnitName" /></span>
+                                <span class="flex items-center gap-2">所属组织 <p-sorticon field="primaryOrgUnitName" /></span>
                             </th>
                             <th pSortableColumn="isActive" class="flex-1">
-                                <span class="flex items-center gap-2">状态 <p-sortIcon field="isActive" /></span>
+                                <span class="flex items-center gap-2">状态 <p-sorticon field="isActive" /></span>
                             </th>
                             <th style="width: 6rem">操作</th>
                         </tr>

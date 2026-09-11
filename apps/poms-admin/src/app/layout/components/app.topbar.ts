@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthStore, TodoStatus, type TodoItemSummary } from '@poms/admin-data-access';
 import { AvatarModule } from 'primeng/avatar';
@@ -12,6 +12,7 @@ import { AppBreadcrumb } from './app.breadcrumb';
     selector: '[app-topbar]',
     standalone: true,
     imports: [RouterModule, CommonModule, StyleClassModule, AppBreadcrumb, AvatarModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: ` <div class="layout-topbar">
         <div class="topbar-left">
             <a tabindex="0" #menubutton type="button" class="menu-button" (click)="onMenuButtonClick()">

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AuditHistoryStore, type EntityAuditHistoryRecord, type EntityAuditHistoryTargetType } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -56,6 +56,7 @@ const FIELD_LABELS: Record<string, string> = {
     standalone: true,
     imports: [CommonModule, ButtonModule, DialogModule, TagModule, WorkspaceFeedback],
     providers: [AuditHistoryStore],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-button [label]="buttonLabel" icon="pi pi-history" severity="secondary" [outlined]="true" styleClass="rounded-md!" [disabled]="!targetId" [loading]="store.loading()" (onClick)="openDialog()" />
 

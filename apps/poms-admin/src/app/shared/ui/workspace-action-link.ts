@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import type { UiButtonSeverity } from './ui-severity';
@@ -8,7 +8,8 @@ import type { UiButtonSeverity } from './ui-severity';
     selector: 'app-workspace-action-link',
     standalone: true,
     imports: [CommonModule, RouterModule, ButtonModule],
-    template: ` <a pButton [routerLink]="routerLink" [label]="label" [icon]="icon ?? ''" [severity]="severity" [outlined]="outlined" [size]="size" class="rounded-md!"></a> `
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: ` <a pButton [routerLink]="routerLink" [severity]="severity" [outlined]="outlined" [size]="size" class="rounded-md!">{{ label }}</a> `
 })
 export class WorkspaceActionLink {
     @Input({ required: true }) routerLink!: string | unknown[];

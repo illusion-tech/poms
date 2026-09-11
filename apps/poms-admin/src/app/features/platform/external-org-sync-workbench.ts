@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
+import { Component, computed, inject, signal, type OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -103,9 +103,10 @@ function apiErrorMessage(error: unknown, fallback: string): string {
     standalone: true,
     imports: [CommonModule, FormsModule, RouterLink, ButtonModule, CheckboxModule, ConfirmDialogModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, TextareaModule, ToastModule, TooltipModule, AdminTableCard],
     providers: [ExternalOrgSyncStore, IdentityProviderStore, ConfirmationService, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
-        <p-confirmDialog />
+        <p-confirmdialog />
         <div class="flex flex-col gap-5">
             <section class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                 <div>
@@ -425,7 +426,7 @@ function apiErrorMessage(error: unknown, fallback: string): string {
                                                     <div class="flex flex-wrap items-center gap-2 text-xs text-surface-400">
                                                         <span class="font-mono">{{ row.mapping.externalDepartmentId }}</span>
                                                         <span>上级</span>
-                                                        <span class="font-mono">{{ row.mapping.externalParentDepartmentId ?? rootDepartmentLabel(syncStore.selectedSource()?.externalRootDepartmentId) }}</span>
+                                                        <span class="font-mono">{{ row.mapping.externalParentDepartmentId ?? rootDepartmentLabel($safeNavigationMigration(syncStore.selectedSource()?.externalRootDepartmentId)) }}</span>
                                                     </div>
                                                 </div>
                                             </div>

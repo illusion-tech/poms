@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import type { UiTagSeverity } from './ui-severity';
@@ -33,6 +33,7 @@ export interface WorkspaceVersionHistoryRow {
     selector: 'app-workspace-version-history',
     standalone: true,
     imports: [TableModule, TagModule, WorkspaceFactGrid, WorkspaceFeedback],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <section class="card">
             <div>

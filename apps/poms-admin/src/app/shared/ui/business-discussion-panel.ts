@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject, type OnChanges, type SimpleChanges, signal } from '@angular/core';
+import { Component, Input, inject, type OnChanges, type SimpleChanges, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   BusinessDiscussionStore,
@@ -64,6 +64,7 @@ const EMPTY_DISCUSSION_FORM: DiscussionForm = {
     WorkspaceFeedback,
   ],
   providers: [BusinessDiscussionStore],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
         <section-card>
             <ng-template #title>{{ heading }}</ng-template>

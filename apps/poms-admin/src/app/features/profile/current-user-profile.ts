@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthStore, type UpdateCurrentUserProfileRequest } from '@poms/admin-data-access';
@@ -22,6 +22,7 @@ interface PermissionGroup {
     standalone: true,
     imports: [CommonModule, FormsModule, ButtonModule, DialogModule, InputTextModule, TagModule, ToastModule, SectionCard],
     providers: [MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
         @if (currentUser(); as user) {
