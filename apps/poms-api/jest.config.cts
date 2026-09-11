@@ -1,5 +1,6 @@
 module.exports = {
     displayName: 'poms-api',
+    globalSetup: '<rootDir>/jest/global-setup.js',
     preset: '../../jest.preset.js',
     testEnvironment: 'node',
     transform: {
