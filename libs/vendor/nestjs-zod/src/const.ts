@@ -1,0 +1,10 @@
+export const PREFIX = 'x-nestjs_zod';
+export const EMPTY_TYPE_KEY = `${PREFIX}-empty-type`;
+export const DEFS_KEY = `${PREFIX}-$defs`;
+export const PARENT_ID_KEY = `${PREFIX}-parent-id`;
+export const PARENT_ADDITIONAL_PROPERTIES_KEY = `${PREFIX}-parent-additional-properties`;
+export const PARENT_HAS_REFS_KEY = `${PREFIX}-parent-has-refs`;
+export const UNWRAP_ROOT_KEY = `${PREFIX}-unwrap-root`;
+export const USES_THREE_POINT_ONE_SYNTAX_KEY = `${PREFIX}-uses-3-point-1-syntax`;
+export const SELF_REQUIRED_KEY = `${PREFIX}-self-required`;
+export const PARENT_METADATA_KEY = `${PREFIX}-parent-metadata`;

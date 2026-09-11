@@ -1,0 +1,23 @@
+{
+    "name": "vendor-nestjs-zod",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/vendor/nestjs-zod/src",
+    "projectType": "library",
+    "tags": ["scope:shared", "type:contracts"],
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/vendor/nestjs-zod",
+                "main": "libs/vendor/nestjs-zod/src/index.ts",
+                "tsConfig": "libs/vendor/nestjs-zod/tsconfig.lib.json",
+                "assets": []
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"]
+        }
+    }
+}
