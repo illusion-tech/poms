@@ -251,16 +251,84 @@ function openApiMetadataFactory({
   return properties;
 }
 
+/**
+ * vendored adaptation (zod >=4.4): zod serializes bare nullable primitives as
+ * `type: ['X', 'null']` arrays, while constrained nullables stay `anyOf`-based.
+ * The downstream swagger metadata-factory consumer mangles type arrays, and
+ * `convertToOpenApi3Point0` only understands the `anyOf` + null form — so
+ * normalize every type array back to the anyOf shape the pipeline expects.
+ */
+function normalizeTypeArrays(
+  schema: JSONSchema.BaseSchema,
+): JSONSchema.BaseSchema {
+  const record = schema as Record<string, unknown>;
+  const type = record['type'];
+  if (!Array.isArray(type)) {
+    return schema;
+  }
+  const { type: _dropped, ...rest } = record;
+  const branches = type
+    .filter((t): t is string => typeof t === 'string' && t !== 'null')
+    .map((t) => ({ ...rest, type: t }));
+  const hasNull = type.includes('null');
+  if (branches.length === 0) {
+    return (hasNull ? { type: 'null' } : schema) as JSONSchema.BaseSchema;
+  }
+  const anyOf = hasNull ? [...branches, { type: 'null' }] : branches;
+  return (anyOf.length === 1 ? anyOf[0] : { anyOf }) as JSONSchema.BaseSchema;
+}
+
 function generateJsonSchema(
   schema: z3.ZodTypeAny | ($ZodType & { parse: (input: unknown) => unknown }),
   io: 'input' | 'output',
 ) {
-  const generatedJsonSchema =
+  let generatedJsonSchema =
     '_zod' in schema
       ? toJSONSchema(schema, {
           io,
         })
       : zodV3ToOpenAPI(schema);
+
+  // vendored adaptation (zod >=4.4): toJSONSchema hoists a registered root
+  // schema into $defs and replaces the root with a self $ref. Inline it back
+  // so the root keeps `properties`/`type`, matching the pre-4.4 shape that
+  // the rest of this library expects (query param explosion, unwrap-root).
+  const generatedRecord = generatedJsonSchema as Record<string, unknown>;
+  if (
+    typeof generatedRecord['$ref'] === 'string' &&
+    (generatedRecord['$ref'] as string).startsWith('#/$defs/') &&
+    generatedRecord['$defs']
+  ) {
+    const selfDefKey = (generatedRecord['$ref'] as string).slice('#/$defs/'.length);
+    const defsWithTypes = generatedRecord['$defs'] as Record<string, JSONSchema.BaseSchema>;
+    const selfDef = defsWithTypes[selfDefKey];
+    if (selfDef) {
+      const restDefs = { ...defsWithTypes };
+      delete restDefs[selfDefKey];
+      generatedJsonSchema = { ...selfDef } as typeof generatedJsonSchema;
+      if (Object.keys(restDefs).length > 0) {
+        (generatedJsonSchema as Record<string, unknown>)['$defs'] = restDefs;
+      }
+    }
+  }
+
+  // vendored adaptation (zod >=4.4): normalize type arrays to anyOf form (see
+  // normalizeTypeArrays) across the root schema and every $defs entry.
+  generatedJsonSchema = walkJsonSchema(
+    generatedJsonSchema as JSONSchema.JSONSchema,
+    normalizeTypeArrays,
+  ) as typeof generatedJsonSchema;
+  const defsAfterWalk = (generatedJsonSchema as Record<string, unknown>)['$defs'] as
+    | Record<string, JSONSchema.BaseSchema>
+    | undefined;
+  if (defsAfterWalk) {
+    for (const defKey of Object.keys(defsAfterWalk)) {
+      defsAfterWalk[defKey] = walkJsonSchema(
+        defsAfterWalk[defKey],
+        normalizeTypeArrays,
+      );
+    }
+  }
 
   const $defs =
     '$defs' in generatedJsonSchema && generatedJsonSchema.$defs
