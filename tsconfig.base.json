@@ -29,7 +29,13 @@
             "@poms/api-contracts/*": ["./libs/api/contracts/src/*"],
             "@poms/shared-api-client": ["./libs/shared/api-client/index.ts"],
             "@poms/shared-api-client/*": ["./libs/shared/api-client/*"],
-            "@poms/admin-data-access": ["./libs/admin/data-access/src/index.ts"],
+            "@poms/vendor-nestjs-zod": [
+      "./libs/vendor/nestjs-zod/src/index.ts"
+    ],
+    "@poms/vendor-nestjs-zod/*": [
+      "./libs/vendor/nestjs-zod/src/*"
+    ],
+    "@poms/admin-data-access": ["./libs/admin/data-access/src/index.ts"],
             "@poms/admin-data-access/*": ["./libs/admin/data-access/src/*"]
         }
     },
