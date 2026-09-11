@@ -137,8 +137,8 @@ importers:
         specifier: 7.0.11
         version: 7.0.11(@mikro-orm/core@7.0.11)
       '@mikro-orm/nestjs':
-        specifier: 7.0.1
-        version: 7.0.1(@mikro-orm/core@7.0.11)(@nestjs/common@11.2.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.3)(reflect-metadata@0.2.2)
+        specifier: ^7.1.0
+        version: 7.1.0(@mikro-orm/core@7.0.11)(@nestjs/common@11.2.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.3)(reflect-metadata@0.2.2)
       '@mikro-orm/postgresql':
         specifier: 7.0.11
         version: 7.0.11(@mikro-orm/core@7.0.11)
@@ -2851,13 +2851,13 @@ packages:
     peerDependencies:
       '@mikro-orm/core': 7.0.11
 
-  '@mikro-orm/nestjs@7.0.1':
-    resolution: {integrity: sha512-0VWaGIsVLMI6XDrrblX5om5lyf4msjlRu405jtuUYQ+nULK+XU2gb2mvzo7UvYZd//eEoXtMlkY5oEykm5Hriw==}
+  '@mikro-orm/nestjs@7.1.0':
+    resolution: {integrity: sha512-S7UXOR4jYtl+lSl23GxQNoWaI3naf5WGUaWMjqZ1o+xcp+fha8une9Yu3qEizZNA+iulE4qA+yaB6sKnA67fbw==}
     engines: {node: '>= 22.17.0'}
     peerDependencies:
       '@mikro-orm/core': ^7.0.0 || ^7.0.0-dev.0
-      '@nestjs/common': ^11.0.5
-      '@nestjs/core': ^11.0.5
+      '@nestjs/common': ^11.0.5 || ^12.0.0
+      '@nestjs/core': ^11.0.5 || ^12.0.0
       reflect-metadata: ^0.1.0 || ^0.2.0
 
   '@mikro-orm/postgresql@7.0.11':
@@ -14087,7 +14087,7 @@ snapshots:
       '@mikro-orm/core': 7.0.11
       '@mikro-orm/sql': 7.0.11(@mikro-orm/core@7.0.11)
 
-  '@mikro-orm/nestjs@7.0.1(@mikro-orm/core@7.0.11)(@nestjs/common@11.2.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.3)(reflect-metadata@0.2.2)':
+  '@mikro-orm/nestjs@7.1.0(@mikro-orm/core@7.0.11)(@nestjs/common@11.2.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.3)(reflect-metadata@0.2.2)':
     dependencies:
       '@mikro-orm/core': 7.0.11
       '@nestjs/common': 11.2.3(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
