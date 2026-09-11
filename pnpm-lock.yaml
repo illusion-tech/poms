@@ -198,7 +198,7 @@ importers:
         version: 4.0.1
       primeclt:
         specifier: ^0.1.5
-        version: 0.1.5(@types/node@25.9.6)(encoding@0.1.13)(ws@8.18.0)(zod@4.3.6)
+        version: 0.1.5(@types/node@25.9.6)(encoding@0.1.13)(ws@8.18.0)(zod@4.6.1)
       primeicons:
         specifier: ^7.0.0
         version: 7.0.0
@@ -224,8 +224,8 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       zod:
-        specifier: 4.3.6
-        version: 4.3.6
+        specifier: ^4.6.1
+        version: 4.6.1
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: ^21.2.23
@@ -10868,6 +10868,9 @@ packages:
   zod@4.3.6:
     resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
+  zod@4.6.1:
+    resolution: {integrity: sha512-341aRWQsve0rvronKNTqZpjmzdbUDlFuzHaI/XLg/Ej82qffDJRRfBTCuv7+9q/rMjB6LSLyEBnW4InJeMtt/Q==}
+
 snapshots:
 
   '@adobe/css-tools@4.3.3':
@@ -21070,7 +21073,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.104.0(encoding@0.1.13)(ws@8.18.0)(zod@4.3.6):
+  openai@4.104.0(encoding@0.1.13)(ws@8.18.0)(zod@4.6.1):
     dependencies:
       '@types/node': 18.19.130
       '@types/node-fetch': 2.6.13
@@ -21081,7 +21084,7 @@ snapshots:
       node-fetch: 2.7.0(encoding@0.1.13)
     optionalDependencies:
       ws: 8.18.0
-      zod: 4.3.6
+      zod: 4.6.1
     transitivePeerDependencies:
       - encoding
 
@@ -21704,13 +21707,13 @@ snapshots:
       '@jest/schemas': 30.5.0
       ansi-styles: 5.2.0
 
-  primeclt@0.1.5(@types/node@25.9.6)(encoding@0.1.13)(ws@8.18.0)(zod@4.3.6):
+  primeclt@0.1.5(@types/node@25.9.6)(encoding@0.1.13)(ws@8.18.0)(zod@4.6.1):
     dependencies:
       '@types/inquirer': 9.0.9
       commander: 11.1.0
       esbuild: 0.19.12
       inquirer: 9.3.8(@types/node@25.9.6)
-      openai: 4.104.0(encoding@0.1.13)(ws@8.18.0)(zod@4.3.6)
+      openai: 4.104.0(encoding@0.1.13)(ws@8.18.0)(zod@4.6.1)
       ora: 8.2.0
       ts-morph: 21.0.1
       tsx: 4.21.0
@@ -23786,3 +23789,5 @@ snapshots:
       zod: 4.3.6
 
   zod@4.3.6: {}
+
+  zod@4.6.1: {}
