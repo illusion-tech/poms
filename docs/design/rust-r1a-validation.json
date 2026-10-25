@@ -1,0 +1,284 @@
+{
+  "formatVersion": 1,
+  "recordedAtUtc": "2026-10-25T22:12:48.906847+00:00",
+  "scope": "R1A Rust application / SQLx / three existing GET routes; not authentication, product DDL, full migration or deployment",
+  "sourceBaseline": "39d174aab679063e1d064002d3c5813d1935af9d",
+  "sourceHashNormalization": "LF; Windows submission files equal verified Linux build inputs; READMEs and lifecycle docs excluded",
+  "sourceFilesSha256": {
+    "apps/poms-api-rust/.gitignore": "fecafa5e093368be2f644386f9f4790d6d95a7714625f85fe9496b6d2a6903bb",
+    "apps/poms-api-rust/Cargo.lock": "5a4e8a728f2d77ae8578cf41ce5dde0d2ad93f8b9472cc412b9b18858f31b8a1",
+    "apps/poms-api-rust/Cargo.toml": "f3ff3595d0547c80ca1b6999e8804c86845a3b4c4e1ef0cbf77aa08ceebbddc7",
+    "apps/poms-api-rust/rust-toolchain.toml": "8e390d6a0838315f972690f46ef8bae8b7ecc9ee6c1ed70140ef852869c2482e",
+    "apps/poms-api-rust/src/config.rs": "9401037c5f824243f611bf01f22dd1ef34988d2bd405b8c056c734c6c3d70aac",
+    "apps/poms-api-rust/src/database.rs": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+    "apps/poms-api-rust/src/error.rs": "44321d4617bf0ae5482e8300191f9c88c34ee0a568bc9b29177a79582ecf524e",
+    "apps/poms-api-rust/src/http.rs": "be015266eac04b7ba457057c9765883759adbceae653f0f11e170c5f69e4b82e",
+    "apps/poms-api-rust/src/lib.rs": "bb09d0c554a24342edf012b447d306411e39a056912b76b2ebfafb2960ec82c8",
+    "apps/poms-api-rust/src/lifecycle.rs": "4399da5850dad76b12e2f65a07c2b5956e56a7bbda42db3ee7622b3ae6c82a71",
+    "apps/poms-api-rust/src/logging.rs": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8",
+    "apps/poms-api-rust/src/main.rs": "ae1be7b7473b74b3b2696c8b1b1b9ea008fe915768d1594fe23049d333821ab8",
+    "apps/poms-api-rust/tests/database.rs": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649",
+    "apps/poms-api-rust/tests/http.rs": "3c0c36ea81d460646692db969f0bd08ee8df0dd13186ab737e2185d50012ca61",
+    "tools/rust-r1a/check.sh": "2bb4bb1ad4a29a739f699cdae83521be360a9bdb95c24157a15e2a2d7ba52779",
+    "tools/rust-r1a/system-test.mjs": "f18ce933b16bb3b9ddeb33fd1f8337ab81c4f7e1dec04638a6c373e3dd1d5e09",
+    "tools/rust-r1a/verify-openapi.mjs": "f6f2a8fa70a9c14b55fe173c999499f3e1b47c3a7f8a701f49ebc1f6fb36e1ac"
+  },
+  "build": {
+    "imageId": "f8284fad99901b0c71bffd7a76a58ff6f56443755ccd3deacbca488557bb7244",
+    "distribution": "Debian 12",
+    "architecture": "x86_64",
+    "glibc": "2.36",
+    "rust": "1.97.1",
+    "node": "24.16.0",
+    "maximumRequiredGlibcSymbol": "2.34",
+    "binaryPath": "/home/wangzishi/.local/share/poms-r1a/target/release/poms-api-rust",
+    "binarySha256": "a8d02d68ded8e5650303737ef43ea2c5c6c9d2334aaa4ff0e98be3e7131f97aa",
+    "lockPackageRecords": 229,
+    "lockDeltaFromR0E": {
+      "added": [
+        [
+          "errno",
+          "0.3.14"
+        ],
+        [
+          "poms-api-rust",
+          "0.1.0"
+        ],
+        [
+          "signal-hook-registry",
+          "1.4.8"
+        ]
+      ],
+      "removed": [
+        [
+          "poms-r0e-dependency-probe",
+          "0.0.0"
+        ]
+      ]
+    }
+  },
+  "commands": [
+    {
+      "command": "bash tools/rust-r1a/check.sh check",
+      "result": "pass",
+      "includes": [
+        "cargo fmt --check",
+        "cargo clippy --locked --all-targets -- -D warnings",
+        "cargo test --locked",
+        "cargo build --locked --release"
+      ],
+      "passed": 37,
+      "databaseIgnored": 8
+    },
+    {
+      "command": "bash tools/rust-r1a/check.sh db",
+      "result": "pass",
+      "databasePassed": 8
+    },
+    {
+      "command": "bash tools/rust-r1a/check.sh system",
+      "result": {
+        "status": "ok",
+        "checks": 78,
+        "assertions": [
+          "root-http-contract",
+          "request-id-present",
+          "liveness-status",
+          "health-live-identity",
+          "health-checkedAt-utc",
+          "health-uptime-integer",
+          "health-database-presence",
+          "readiness-real-pg15-200",
+          "health-ready-identity",
+          "health-checkedAt-utc",
+          "health-uptime-integer",
+          "health-database-presence",
+          "health-database-duration",
+          "database-success-message",
+          "unknown-route-error",
+          "unsupported-method-error",
+          "cors-preflight",
+          "cors-credentials",
+          "cors-denied-origin",
+          "exit-SIGTERM-0",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "shutdown_complete-recorded",
+          "listener-released",
+          "lazy-readiness-db-failure-503",
+          "health-not_ready-identity",
+          "health-checkedAt-utc",
+          "health-uptime-integer",
+          "health-database-presence",
+          "health-database-duration",
+          "exit-SIGINT-0",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "shutdown_complete-recorded",
+          "listener-released",
+          "exit-SIGTERM-0",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "startup_cancelled-recorded",
+          "listener-released",
+          "startup-SIGTERM-bounded",
+          "startup-SIGTERM-never-listens",
+          "exit-SIGINT-0",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "startup_cancelled-recorded",
+          "listener-released",
+          "startup-SIGINT-bounded",
+          "startup-SIGINT-never-listens",
+          "eager-db-failure",
+          "exit-SIGTERM-1",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "eager-db-failure-no-listening",
+          "invalid-port",
+          "exit-SIGTERM-11",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "invalid-port-no-listening",
+          "missing-explicit-file",
+          "exit-SIGTERM-11",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "missing-explicit-file-no-listening",
+          "occupied-port-fails",
+          "exit-SIGTERM-1",
+          "logs-no-synthetic-secret",
+          "logs-no-runtime-password",
+          "logs-structured-events",
+          "occupied-port-still-owned",
+          "occupied-port-stage"
+        ]
+      }
+    },
+    {
+      "command": "/target/release/poms-api-rust --openapi; node tools/rust-r1a/verify-openapi.mjs <output>",
+      "result": {
+        "status": "ok",
+        "operations": 3,
+        "healthSchemas": 3,
+        "fullSpecChanged": false
+      }
+    },
+    {
+      "command": "cargo test --locked --offline --test database every_connection_and_replacement_has_timezone_schema_and_runtime_identity -- --ignored --exact (no opt-in env, network=none)",
+      "result": "expected refusal before connection",
+      "exitCode": 101
+    },
+    {
+      "command": "bash -n tools/rust-r1a/check.sh",
+      "result": "pass"
+    },
+    {
+      "command": "corepack pnpm exec eslint tools/rust-r1a/system-test.mjs tools/rust-r1a/verify-openapi.mjs --max-warnings 0",
+      "result": "pass; zero warnings"
+    },
+    {
+      "command": "corepack pnpm exec prettier --check tools/rust-r1a/system-test.mjs tools/rust-r1a/verify-openapi.mjs",
+      "result": "pass"
+    },
+    {
+      "command": "corepack pnpm run format:md:check",
+      "result": "pass"
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    },
+    {
+      "command": "node tools/rust-r0-api-inventory.mjs --check",
+      "result": "pass",
+      "inventorySha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c"
+    },
+    {
+      "command": "node tools/rust-r0-database-inventory.mjs --check",
+      "result": "pass",
+      "inventorySha256": "4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3"
+    }
+  ],
+  "config": {
+    "unitTests": 18,
+    "actualNodeDotenvOracleVectors": 26,
+    "dotenvVersion": "17.4.2",
+    "independentReview": "B: all 26 expectations replayed against installed Node dotenv"
+  },
+  "database": {
+    "version": "15.12",
+    "container": "poms-r0e-pg15",
+    "imageId": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "hostBinding": "127.0.0.1:15432",
+    "database": "poms_r0e_rust",
+    "runtimeRole": "poms_r0e_app",
+    "markerUuid": "f055884e-5eaf-44ad-a51e-ab9d3a2627ff",
+    "markerCheck": "existing owner connection, BEGIN READ ONLY, statement_timeout=5s, no app grants",
+    "writeScope": "session TEMP tables and synthetic data only; no product tables or migrations",
+    "transactionScope": "SQLx Transaction only; raw BEGIN/SAVEPOINT/COMMIT/ROLLBACK prohibited in controlled operations; low-level pool callers own cleanup",
+    "cancellation": "failed/timed-out/aborted operations quarantine connection; server statement_timeout independently bounds work; own backend PID disappearance observed"
+  },
+  "preservedPg17": {
+    "service": "postgresql-x64-17",
+    "state": "Running",
+    "startMode": "Auto",
+    "servicePid": 6996,
+    "serverPid": 8636,
+    "serverCreationDate": "2026-10-23T20:59:34.366669+09:00",
+    "check": "read-only Windows service/process metadata; no connections or changes to this database"
+  },
+  "review": {
+    "databaseAndTests": "A pass",
+    "config": "B pass",
+    "rootLifecycleAndTools": "C pass",
+    "unresolvedMaterialFindings": 0
+  },
+  "logRoot": "/home/wangzishi/.local/share/poms-r1a/logs",
+  "logs": {
+    "check.log": {
+      "sha256": "591e4570ffbaa3564d8faea405f214cb48604f66915d6f415cfd5f3bcd7c90f5",
+      "bytes": 7461
+    },
+    "database.log": {
+      "sha256": "63167b100552023d0657ffb8418dc1c55a1123c0010448d5f8acc26169f9b4ee",
+      "bytes": 985
+    },
+    "system.log": {
+      "sha256": "141ceb00b2763b810d2b296f25d3d69972dae07532b376ff8d363829da1a090e",
+      "bytes": 2066
+    },
+    "openapi-r1a.json": {
+      "sha256": "ad8a67fb4cc2b327fdd18ac25c19d845d7b3d857a17c2438dd3602c42bc8a5c0",
+      "bytes": 3381
+    },
+    "openapi-check.log": {
+      "sha256": "34a945cf0bf552a9fdf9cb2be134558d8549542a53fb5236fb910ce869421610",
+      "bytes": 73
+    },
+    "abi.log": {
+      "sha256": "840918404cbf64ab787a731212546181fb5109ca339a1778047ab0a7bad3e13a",
+      "bytes": 6074
+    },
+    "refusal.log": {
+      "sha256": "44ccacf67e72798126a78ccd717c9887f19301f418e1f381dd5e1fc5bc3d8275",
+      "bytes": 942
+    }
+  },
+  "notCertified": [
+    "R1B shared business types",
+    "R1C auth/session/CSRF/permissions/cipher/audit",
+    "R1D multi-backend harness/client generation",
+    "R1E browser/full-stage integration",
+    "106-table/92-migration product schema",
+    "TEST deployment",
+    "performance"
+  ]
+}

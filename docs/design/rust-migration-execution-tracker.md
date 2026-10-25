@@ -2,12 +2,12 @@
 
 **最后更新**: 2026-10-26
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: `RUST-R0` 与 R0F 已交付并归档；R1 G1 输入 Pass，工程 Todo
-**执行模式**: 本地 main-only，R0 文档与离线工具独占文件；工程实现转独立 Linux checkout / worktree
+**当前状态**: `RUST-R0` 已交付；R1 Doing，R1A #62 G1 Pass / G3 Pending；R1B–E Todo
+**执行模式**: R0 main-only；R1A 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
 
-2026-10-26 初查尚无 Rust 任务；R0F 按用户授权建立 [总体 #57](https://github.com/illusion-tech/poms/issues/57) → [R0 #58](https://github.com/illusion-tech/poms/issues/58) → [R0F #59](https://github.com/illusion-tech/poms/issues/59) 原生父子关系。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 与 [lookup 裁决 #61](https://github.com/illusion-tech/poms/issues/61) 挂在总体父任务下并保持 Todo。GitHub 拥有任务状态，本页保留输入与映射。
+2026-10-26 初查尚无 Rust 任务；R0F 按用户授权建立 [总体 #57](https://github.com/illusion-tech/poms/issues/57) → [R0 #58](https://github.com/illusion-tech/poms/issues/58) → [R0F #59](https://github.com/illusion-tech/poms/issues/59) 原生父子关系。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 已进入 Doing，其 [R1A #62](https://github.com/illusion-tech/poms/issues/62) 引用[工程基线](rust-r1a-application-baseline.md)开工；[lookup 裁决 #61](https://github.com/illusion-tech/poms/issues/61) 保持 Todo。GitHub 拥有任务状态，本页保留输入与映射。
 
 `Todo` 表示工程尚未开始（输入可能已冻结）；`Doing` 表示已授权的盘点/准备正在进行。未提交、未完成 G4 的成果不标记 `Done`。父阶段完成需要全部验收条件满足，不能由单个子任务推导。
 
@@ -25,15 +25,15 @@
 
 ## 3. 后续阶段输入与完成边界
 
-| 阶段 | 状态 | 必需输入                                         | 交付边界                                      |
-| ---- | ---- | ------------------------------------------------ | --------------------------------------------- |
-| R1   | Todo | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | 应用基础、SQLx、兼容认证、跨平台 E2E/生成入口 |
-| R2   | Todo | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付            |
-| R3   | Todo | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                          |
-| R4   | Todo | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                        |
-| R5   | Todo | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                |
-| R6   | Todo | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                   |
-| R7   | Todo | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                  |
+| 阶段 | 状态  | 必需输入                                         | 交付边界                                       |
+| ---- | ----- | ------------------------------------------------ | ---------------------------------------------- |
+| R1   | Doing | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A #62 工程/SQLx 开工；B–E Todo；父阶段未完成 |
+| R2   | Todo  | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付             |
+| R3   | Todo  | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                           |
+| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                         |
+| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                 |
+| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                    |
+| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                   |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -43,6 +43,6 @@
 
 - [R0 实施基线](archive/slices/rust-r0-baseline.md)：输入、SSOT、缺口、验证记录与 gate 结论。
 - [R0E 环境基线](archive/slices/rust-r0e-environment-baseline.md)：构建/数据库实况、验收、保留 PG17 与 R1 输入；[工具入口](../../tools/rust-r0e/README.md)。
-- [R1 实施输入](rust-r1-foundation-baseline.md)：逐路由、字段、配置、测试入口与验收要求；工程 Todo。
+- [R1 实施输入](rust-r1-foundation-baseline.md)：逐路由、字段、配置、测试入口与验收要求；[R1A 工程基线](rust-r1a-application-baseline.md)控制本轮实现。
 - [ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md)：Rust/SQLx 目标方向与旧 ADR 的适用边界。
 - R0A–E 已提交推送 `08daaf45b12307bc4d53e01e509f23d265532de6`；R0F 已交付推送 `711e61116a7c00b0378702cabfc4e4d232beee3b`，G3/G4 与归档见 [实施基线](archive/slices/rust-r0f-compatibility-baseline.md)。

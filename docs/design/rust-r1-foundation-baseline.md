@@ -1,7 +1,7 @@
 # RUST-R1 应用与兼容基础实施输入
 
 **最后更新**: 2026-10-26
-**Gate Status**: `Pass`（实施输入）；R0F 冻结输入，不代表本轮已开始 R1 实现
+**Gate Status**: `Pass`（实施输入）；R1A #62 已授权开工，工程 G3/G4 由独立切片控制
 **Parent / Owner**: [RUST-R1 #60](https://github.com/illusion-tech/poms/issues/60) / 主代理；总体 [#57](https://github.com/illusion-tech/poms/issues/57)
 **Slice Type**: `cross-layer-high-risk`，本文件定义 R1 工程边界与验收输入
 **正式前置**: [R0 基线](archive/slices/rust-r0-baseline.md)与[执行追踪](rust-migration-execution-tracker.md)
@@ -23,7 +23,7 @@ R1 不交付完整平台治理、真实外部身份/组织同步、附件写入�
 | R1D    | 外部目标 API E2E、Linux 浏览器启动、跨平台客户端生成                | R1A；Nest 既有用例回归 + Rust已实现子集；生成产物一致                    |
 | R1E    | 基础集成验收与独立审查                                              | R1A–D；不以子集通过标全量 Rust API完成                                   |
 
-所有子切片保持 `Todo`。R1A 与 R1D 的工程顺序及依赖按本表执行；不能因输入已冻结就跳过各切片 G3/G4，或启动下游未满足依赖的任务。
+R1A 在 [#62](https://github.com/illusion-tech/poms/issues/62) 与[工程基线](rust-r1a-application-baseline.md)中进入 `Doing`；其余子切片保持 `Todo`。工程顺序及依赖按本表执行，不能跳过各切片 G3/G4，或启动下游未满足依赖的任务。
 
 ## 3. 正式输入与 SSOT
 
@@ -114,4 +114,4 @@ R1A 完成工程骨架后，R1B/C 与 R1D 可按独占文件并行。Cargo.toml/
 
 R0E 的固定镜像、依赖和隔离库，加上 R0F 的路由矩阵、数据字段/样本及认证/错误样本构成 R1 输入。现有 PG17 开发测试库继续日常使用；PG15 专用于 TEST 兼容验收，两者用途与证据分别记录。
 
-本轮只推进 R0F，R1 各工程任务为 `Todo`；不把输入冻结写成 Rust 产品实现通过。G1 输入已由 A 审查路由/工程边界、B 审查数据持久化、C 审查配置/兼容边界，主代理集成，结论 Pass（2026-10-26）。尚未运行的真实 HTTP/DB/并发/浏览器验证仍按第 6 节进入各工程切片 G3；后续工程 Issue 开工须引用本输入并明确文件与实现范围。
+R0F 只完成输入冻结；G1 输入已由 A 审查路由/工程边界、B 审查数据持久化、C 审查配置/兼容边界，主代理集成，结论 Pass（2026-10-26）。随后用户授权 R1A，现由 #62 的工程基线记录实现与验收。尚未运行的真实 HTTP/DB/并发/浏览器验证仍按第 6 节进入各工程切片 G3；后续工程 Issue 开工须引用本输入并明确文件与实现范围。
