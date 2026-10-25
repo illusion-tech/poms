@@ -18,4 +18,4 @@ Linux 状态目录固定在 `$HOME/.local/share/poms-r1a`；target/Cargo 缓存�
 
 数据库命令先用 R0E `environment.sh status` 核对专用容器 image/scope/volume/loopback 15432，并通过既有本地 owner 连接在 `BEGIN READ ONLY` 中核对归档的数据库 marker UUID，再注入已有受限 app secret。没有给 app 增加 marker 读取权限。真实 DB 测试还要求 `POMS_R1A_DATABASE_TEST=1` 与 `POMS_R1A_DATABASE_TEST_URL`，并在写入前核验 URL、server isolation GUC、版本、身份/权限；不允许默认 poms、5432、管理员、socket、启动参数或 PGOPTIONS。仅 poms_r0e_rust 的 TEMP 表合成数据可写。直接执行 ignored tests 而缺少显式环境将失败，不会静默算通过。
 
-本工具不安装依赖、不升级 PostgreSQL、不初始化完整业务 schema、不执行迁移或 seed、不部署服务。当前完整阶段状态与验收证据见 [R1A 基线](../../docs/design/rust-r1a-application-baseline.md)。
+本工具不安装依赖、不升级 PostgreSQL、不初始化完整业务 schema、不执行迁移或 seed、不部署服务。当前完整阶段状态与验收证据见 [R1A 基线](../../docs/design/archive/slices/rust-r1a-application-baseline.md)。

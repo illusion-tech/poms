@@ -4,7 +4,7 @@
 **Task / Parent**: [R1A #62](https://github.com/illusion-tech/poms/issues/62) / [R1 #60](https://github.com/illusion-tech/poms/issues/60)
 **Owner**: 主代理集成；A HTTP/错误，B SQLx，C 配置；非作者交叉审查
 **Slice Type**: `cross-layer-high-risk`
-**Gate**: G1/G3 `Pass`；G4 `Pending`（待提交、合入 main 与归档）
+**Gate**: G1/G3/G4 `Pass`；R1A `Done`（父 R1 仍为 Doing）
 **源码起点**: `39d174aab679063e1d064002d3c5813d1935af9d`
 **执行方式**: 独立 Windows managed worktree 编辑、新建 Linux checkout 构建；沿用 solo worktree checkpoint，验证后合入 main，主仓和旧 Linux R0 快照保留
 
@@ -20,10 +20,10 @@
 
 | 输入             | 规则与来源                                                                                                                                                              |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R1 冻结          | [R1 输入](rust-r1-foundation-baseline.md)第 2、4、6、7 节；R1A 仅消费对应边界                                                                                           |
-| 架构/环境        | [ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md)、[R0E](archive/slices/rust-r0e-environment-baseline.md)；Debian12/glibc2.36 构建，PG15.12 验收               |
-| route/DTO        | [canonical](api-route-canonical-inventory.md)、[R0F 路由](archive/slices/rust-r0f-route-baseline.md)第 4 节；现有 OpenAPI/controller/service                            |
-| 错误             | [R0F 认证/错误样本](archive/slices/rust-r0f-auth-compat-baseline.md)；基础 HttpException JSON 形状，不提前实现认证 guards                                               |
+| R1 冻结          | [R1 输入](../../rust-r1-foundation-baseline.md)第 2、4、6、7 节；R1A 仅消费对应边界                                                                                     |
+| 架构/环境        | [ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md)、[R0E](rust-r0e-environment-baseline.md)；Debian12/glibc2.36 构建，PG15.12 验收                        |
+| route/DTO        | [canonical](../../api-route-canonical-inventory.md)、[R0F 路由](rust-r0f-route-baseline.md)第 4 节；现有 OpenAPI/controller/service                                     |
+| 错误             | [R0F 认证/错误样本](rust-r0f-auth-compat-baseline.md)；基础 HttpException JSON 形状，不提前实现认证 guards                                                              |
 | 配置             | `apps/poms-api/src/config/environment.schema.ts`、`load-env.ts`、`main.ts`、`app/core/persistence/persistence.config.ts`；保留非空字符串布尔 coercion、离散 DB 配置优先 |
 | 日期/数值/标识符 | R1A 无业务金额/ID/状态写入；健康时间用 ISO UTC、uptime 向下取整。业务类型留 R1B                                                                                         |
 | schema/迁移      | 固定产品 schema poms；本切片无产品表映射/DDL 改动，迁移权仍归 Nest；临时测试表不进入 migration 链                                                                       |
@@ -71,7 +71,7 @@ G1 范围由用户本轮授权，正式输入已通过 R0F 审查；此处冻结
 
 ### G3 checkpoint（2026-10-26）
 
-验证来源为新 Linux checkout 中的固定 Debian12/glibc2.36 镜像，完整命令、源码/lock/binary/log SHA、依赖变化及计数见 [R1A 验收记录](rust-r1a-validation.json)。Rust 单元/HTTP/guard 共 37 项通过；8 项默认 ignored 的真实 DB 用例另行显式执行，全部通过，不将 ignored 算作普通测试成功。进程级 78 项是断言数，并非 78 个独立用例。
+验证来源为新 Linux checkout 中的固定 Debian12/glibc2.36 镜像，完整命令、源码/lock/binary/log SHA、依赖变化及计数见 [R1A 验收记录](../../rust-r1a-validation.json)。Rust 单元/HTTP/guard 共 37 项通过；8 项默认 ignored 的真实 DB 用例另行显式执行，全部通过，不将 ignored 算作普通测试成功。进程级 78 项是断言数，并非 78 个独立用例。
 
 `cargo fmt --check`、`cargo clippy --locked --all-targets -- -D warnings`、`cargo test --locked`、`cargo build --locked --release` 均通过。MJS 工具通过 ESLint（零 warning）与 Prettier 检查，shell 语法检查通过。R0 API/数据库离线清单仍与 Nest 源码一致；现有 TypeScript 产品、DDL、完整 OpenAPI 与客户端均未修改，因此不重跑无关 Nx build/test/migration。R1A 用真实 release 子进程完成 HTTP/DB/启停集成；通用双后端 E2E 与浏览器合同仍留 R1D/E。
 
@@ -87,3 +87,11 @@ G3 结论：允许通过 solo worktree checkpoint 提交并合入 main；G4 完�
 - `accepted-db-specific-difference`：SQLx 健康失败使用固定脱敏文本，不承诺与 Node pg 底层错误逐字一致；状态和 HealthCheckView 形状保持一致，日志只保留安全错误类别/SQLSTATE。
 - 事务合同明确为 SQLx Transaction。非作者审查核实了 SQLx 0.9 的 depth 限制，R1A 当前受控生产操作仅 SELECT 1；任意 raw transaction 控制不是本次交付能力。未通过隐式 rollback 改写成功操作语义。
 - OpenAPI 比较仅忽略对应 schema/response 节点的描述元信息和 required/enum 排序；同名真实字段及 default/example 值必须保留，公共操作的顶层 security 继承必须参与比较。
+
+## 7. G4 交付记录
+
+实现提交 [`51572db51419d4ef58bc173e69163dc94f616de9`](https://github.com/illusion-tech/poms/commit/51572db51419d4ef58bc173e69163dc94f616de9) 已 fast-forward 合入并推送 main。本文件移入 archive/slices，索引与 R1 输入引用随归档提交同步。G3 记录见 [Issue comment](https://github.com/illusion-tech/poms/issues/62#issuecomment-6404091450)；最终 G4 与 checklist 由 [#62](https://github.com/illusion-tech/poms/issues/62) 承载。
+
+R1A 可供下游依赖：工程/配置/日志/启停、SQLx 基础、三 GET 及验收入口已交付。R1B 与 R1D 可按冻结依赖分别开工；R1C 仍须等待 R1B 类型输入。此处不授权或宣称后续切片已经实施。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 保持 Doing，B–E 为 Todo，总体 #57 不关闭。
+
+原 PG17 实例及数据保留；Linux R1A checkout、固定环境和本地构建/日志保留供复跑。当前产品认证、106 表/92 migration 全量兼容、浏览器与 TEST 发布均未认证。归档仅变更文档与引用，复核 Markdown、diff、本地链接及实现源码指纹，不重复数据库操作。

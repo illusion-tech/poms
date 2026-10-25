@@ -1,6 +1,6 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0 已完成，R1A 工程 #62 Doing，其余 R1 子切片 Todo
+**文档状态**: Active — R0 已完成，R1A 工程 #62 Done；父 R1 Doing，R1B–E Todo
 **最后更新**: 2026-10-26
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
