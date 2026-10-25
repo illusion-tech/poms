@@ -4,22 +4,22 @@
 **Task / Parent**: [R1B #63](https://github.com/illusion-tech/poms/issues/63) / [R1 #60](https://github.com/illusion-tech/poms/issues/60)
 **Owner**: 主代理集成；A 导出/生成，B 标量兼容，C JSON/权限；非作者交叉审查
 **Slice Type**: `cross-layer-high-risk`
-**Gate**: G1/G3 `Pass`；G4 `Pending`（待合入与在线收口）
+**Gate**: G1/G3/G4 `Pass`；R1B #63 `Done`
 **源码起点**: `ef9fd7f4871eb87167bca1ae04fae8a992ef594c`；R1A 已交付
 **执行方式**: 独立 managed worktree + 独立 Linux checkout；solo worktree checkpoint，验证后合入 main
 
 ## 1. 范围与权威来源
 
-本切片落实 [R1 输入](rust-r1-foundation-baseline.md) 的 R1B：共享枚举/权限及元信息从现有 TypeScript 单向导出，再生成 Rust；日期、金额、ID、JSON 基础映射以实际现行实现与冻结样本验证。TypeScript 仍拥有共享契约编辑权，Rust 生成文件、neutral manifest 与兼容 golden 都是可复算产物，不接受在生成文件直接添加共享值。新增共享值先改同一 SSOT，再显式再生成并审阅差异。
+本切片落实 [R1 输入](../../rust-r1-foundation-baseline.md) 的 R1B：共享枚举/权限及元信息从现有 TypeScript 单向导出，再生成 Rust；日期、金额、ID、JSON 基础映射以实际现行实现与冻结样本验证。TypeScript 仍拥有共享契约编辑权，Rust 生成文件、neutral manifest 与兼容 golden 都是可复算产物，不接受在生成文件直接添加共享值。新增共享值先改同一 SSOT，再显式再生成并审阅差异。
 
-| Concern         | SSOT / 输入                                                                                                   | R1B 边界                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 枚举/元信息     | `libs/shared/contracts/src/lib/shared-contracts.ts`；[R0 API 清单](rust-r0-api-contract-inventory.md)第 10 节 | 全量当前命名值、z.enum 表达式与 helper 派生元信息；不是手写两份值列表                                                     |
-| 认证局部值      | `core/auth/auth-session.entity.ts` 的 status/revoked reason；`auth-session.service.ts` 的 error code          | 机械导出原值；保留 account-disabled 与 account_disabled 的差别，不实现 session 服务                                       |
-| 日期/ID/decimal | [R0F 数据输入](rust-r0f-data-compat.md)、实际 Zod 与原 helper                                                 | date 与 UTC datetime 分开；UUID 保留 wire 字符串大小写，外部 ID 按其 schema；decimal 原字符串/十进制值/旧 Number 格式分开 |
-| JSON/DTO        | 现有共享 Zod、R0F 样本与 R1 四认证操作输入                                                                    | 可复用 missing/null/value、required nullable 与 unknown-key 策略及逐字段样本；完整认证 handler/响应投影在 R1C             |
-| 权限            | PERMISSION_KEYS、现有 PermissionsGuard 与 PlatformService                                                     | 已知枚举封闭解析；持久化/会话 raw 字符串保留未知值；all/any/default-deny 纯决策不改变                                     |
-| 公共接口        | canonical inventory、完整现有 OpenAPI 与 R0F 路由基线                                                         | 不新增/修改路由；保留现有 OpenAPI→Angular client 生成权                                                                   |
+| Concern         | SSOT / 输入                                                                                                         | R1B 边界                                                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 枚举/元信息     | `libs/shared/contracts/src/lib/shared-contracts.ts`；[R0 API 清单](../../rust-r0-api-contract-inventory.md)第 10 节 | 全量当前命名值、z.enum 表达式与 helper 派生元信息；不是手写两份值列表                                                     |
+| 认证局部值      | `core/auth/auth-session.entity.ts` 的 status/revoked reason；`auth-session.service.ts` 的 error code                | 机械导出原值；保留 account-disabled 与 account_disabled 的差别，不实现 session 服务                                       |
+| 日期/ID/decimal | [R0F 数据输入](../../rust-r0f-data-compat.md)、实际 Zod 与原 helper                                                 | date 与 UTC datetime 分开；UUID 保留 wire 字符串大小写，外部 ID 按其 schema；decimal 原字符串/十进制值/旧 Number 格式分开 |
+| JSON/DTO        | 现有共享 Zod、R0F 样本与 R1 四认证操作输入                                                                          | 可复用 missing/null/value、required nullable 与 unknown-key 策略及逐字段样本；完整认证 handler/响应投影在 R1C             |
+| 权限            | PERMISSION_KEYS、现有 PermissionsGuard 与 PlatformService                                                           | 已知枚举封闭解析；持久化/会话 raw 字符串保留未知值；all/any/default-deny 纯决策不改变                                     |
+| 公共接口        | canonical inventory、完整现有 OpenAPI 与 R0F 路由基线                                                               | 不新增/修改路由；保留现有 OpenAPI→Angular client 生成权                                                                   |
 
 R0 清单的 455 项是 201 string arrays、162 Value objects、92 definitions；224 个 z.enum 包含 171 顶层与 53 嵌套，37 个权限值。455 不是全部业务类型或元信息数量。R1B 还从原 helper 导出 labels/severities/options/hints、PermissionsMeta 与后端消费的敏感包权限映射，不能遗漏后另起一份手工定义。具体机器覆盖数量在 G3 以实际导出结果记录。
 
@@ -58,7 +58,7 @@ R0 清单的 455 项是 201 string arrays、162 Value objects、92 definitions�
 | 枚举/权限   | 全值 Serde 往返/未知拒绝、OpenAPI 可见集合、all/any/default-deny 与 raw unknown 桥         | Pass；205 枚举 / 778 wire 值，18 权限决策样本 |
 | 标量/JSON   | 实际 Node 预期；日期/decimal/UUID/外部 ID/缺省-null-未知字段逐项对照；反例有效             | Pass；数量及部分覆盖边界见第 8 节             |
 | 回归        | R1A 非 DB Rust 测试与三操作 OpenAPI 保持；旧 TS 清单/golden 校验                           | Pass；37 既有非 DB tests 包含在 56 项中       |
-| 工具/治理   | 新工具 syntax/lint/format、Markdown/diff/链接、非作者复核、Issue/trackers 与精确提交       | G3 检查 Pass；G4 提交与状态同步待完成         |
+| 工具/治理   | 新工具 syntax/lint/format、Markdown/diff/链接、非作者复核、Issue/trackers 与精确提交       | G3/G4 Pass；实现合入并推送，生命周期已归档    |
 | DB/E2E/部署 | 无 SQL/DB/路由/服务配置改动，真实 DB 与浏览器认证属于其他切片，本轮不运行                  | N/A                                           |
 
 用户已授权本切片，R1 输入及上述执行边界构成 G1。无绕过 gate 的例外；如出现新设计 drift，先记录 corrective checkpoint，再作处理。G3 未通过前不提交产品实现结论；G4 需合入、在线状态同步并归档本生命周期文件；父 R1 保持 Doing。
@@ -73,7 +73,7 @@ R0 清单的 455 项是 201 string arrays、162 Value objects、92 definitions�
 
 ## 8. G3 实际交付与证据
 
-[机器验收记录](rust-r1b-validation.json)绑定 36 个源码/工具/产物的规范化 SHA、固定镜像、实际二进制、两端日志与计数；[维护入口](../../tools/rust-r1b/README.md)给出复算命令。以下计数区分 Rust 测试、fixture 输入组和观察项。
+[机器验收记录](../../rust-r1b-validation.json)绑定 36 个源码/工具/产物的规范化 SHA、固定镜像、实际二进制、两端日志与计数；[维护入口](../../../../tools/rust-r1b/README.md)给出复算命令。以下计数区分 Rust 测试、fixture 输入组和观察项。
 
 - 导出全量分类 1302 个顶层变量：665 数据声明、636 schema、1 个已标明的 schema shape。665 包含 R0 的 455 项、206 个原 helper 派生元信息、2 个权限元信息映射及 2 个数值限制。455 项全部有经来源关系证明的 Rust 映射，不按相同 wire 集合猜测或合并领域。
 - 224 个 z.enum（171 顶层 + 53 嵌套）均有来源映射；161 个公开顶层 enum 与现有 OpenAPI 值及顺序一致，10 个未独立发布项仍保留。生成 202 个共享域 + 3 个后端认证域，共 205 枚举、778 值；37 个权限在其中。实际 Rust Serde、FromStr、ALL 和 ToSchema 逐值核对，不增加 HTTP 路由。
@@ -92,3 +92,9 @@ R0 清单的 455 项是 201 string arrays、162 Value objects、92 definitions�
 时间戳解析只覆盖已声明的 ISO/date-only + UTC 处理范围，不是任意 Date.parse 或宿主本地解析；chrono 范围外返回 `UnsupportedDateRange`。JS slice 若产生孤立 UTF-16 surrogate，Rust 显式拒绝；不以替换字符悄悄改变值。公开 date/UTC datetime 仍单独依照原 Zod 验证。
 
 错误对照在标量拒绝类别/acceptance 层，不代替服务级 Nest HTTP 错误包装、完整 DTO refinement 或响应字段投影。RawPermission 保留顺序、大小写、未知字符串及重复项；实际 Platform 聚合去重仍归 R1C 服务读取。未执行 DB、浏览器登录/E2E、migration、seed 或部署；对应输入和验收继续由 R1C–E 及后续领域切片承担。
+
+## 10. G4 收口
+
+实现提交 `5cc44100928c8f5045df12aebc4137460b5fb608` 已通过 fast-forward 合入并推送 main；本生命周期基线归档至 `docs/design/archive/slices/`。G3 评论见 [#63](https://github.com/illusion-tech/poms/issues/63#issuecomment-6404582220)，G4 在线记录随归档提交同步。R1B Done；父 R1 #60 保持 Doing，R1C–E Todo。原 PG17 实例及 PG15/TEST 未执行连接或变更。
+
+归档只改文档与相对引用，36 个已验收源码/产物指纹仍与实现提交一致；Markdown、diff 和链接复核通过。G4 不扩展本基线第 9 节声明的完成边界。

@@ -1,6 +1,6 @@
 # POMS Rust 后端基础
 
-独立 Cargo workspace；基础切片 [R1A](../../docs/design/archive/slices/rust-r1a-application-baseline.md)提供工程与 SQLx，[R1B](../../docs/design/rust-r1b-shared-types-baseline.md)提供共享类型单向导出及标量/JSON/权限兼容。现有 Nest 后端和完整 OpenAPI/client 保持原位。
+独立 Cargo workspace；基础切片 [R1A](../../docs/design/archive/slices/rust-r1a-application-baseline.md)提供工程与 SQLx，[R1B](../../docs/design/archive/slices/rust-r1b-shared-types-baseline.md)提供共享类型单向导出及标量/JSON/权限兼容。现有 Nest 后端和完整 OpenAPI/client 保持原位。
 
 使用固定 Rust 1.97.1、Axum 0.8.9、SQLx 0.9.0 与 Cargo.lock。推荐在 Linux checkout 中通过[固定环境工具](../../tools/rust-r1a/README.md)构建，产物目标为当前 TEST 的 Debian12/glibc2.36。不要把 WSL Debian13 原生构建自动当成 TEST 可部署包。
 

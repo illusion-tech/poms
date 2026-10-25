@@ -29,7 +29,7 @@
 
 ## 1. 文档目标
 
-Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 已交付 [R1A #62](https://github.com/illusion-tech/poms/issues/62) 工程与 SQLx 基础（51572db5）；父阶段保持 Doing，R1B #63 Doing，R1C–E Todo。不复用本板已完成任务编号，也不把原 TypeScript 交付状态改记为 Rust 交付状态。
+Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 已交付 [R1A #62](https://github.com/illusion-tech/poms/issues/62) 工程与 SQLx 基础（51572db5）；父阶段保持 Doing，R1B #63 Done，R1C–E Todo。不复用本板已完成任务编号，也不把原 TypeScript 交付状态改记为 Rust 交付状态。
 
 本文档是第二阶段当前统一开发范围下的执行板，不承担历史论证职责。
 

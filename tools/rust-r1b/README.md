@@ -36,6 +36,6 @@ node tools/rust-r1a/verify-openapi.mjs /tmp/poms-r1b-openapi.json
 - `compat::permissions` 对已解析路由元信息执行纯权限决策；`RawPermission` 保留数据库/会话中的未知值。公开路由、authenticated 元信息与实际 session 认证是不同职责，R1C 仍须保持完整 guard 顺序。
 - `compat::scalars` 分开保存 decimal 原字符串与旧 Number 格式，区分 UUID wire 拼写和不透明外部 ID。内部日期 helper 与公开 ISO 校验分别使用；业务计算链、资金阈值和 SQL 约束仍由后续领域验证。
 
-正式范围、验证结果与已知限制见 [R1B 基线](../../docs/design/rust-r1b-shared-types-baseline.md)。
+正式范围、验证结果与已知限制见 [R1B 基线](../../docs/design/archive/slices/rust-r1b-shared-types-baseline.md)。
 
 当前来源保护分别检查工作树、暂存区和 untracked 输入；将工作区恢复原文不能掩盖已暂存的来源变化。日期解析只覆盖声明的 ISO/date-only UTC 范围，chrono 之外和孤立 UTF-16 surrogate 显式拒绝；服务级 HTTP 错误、完整 DTO 与业务金额链继续由对应切片验收。

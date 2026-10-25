@@ -2,8 +2,8 @@
 
 **最后更新**: 2026-10-26
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: `RUST-R0` 已交付；R1 Doing，R1A #62 G4 Done（51572db5）；R1B #63 Doing，R1C–E Todo
-**执行模式**: R0 main-only；R1A 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
+**当前状态**: `RUST-R0` 已交付；R1 Doing，R1A #62 G4 Done（51572db5）；R1B #63 Done，R1C–E Todo
+**执行模式**: R0 main-only；R1A/B 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
 
@@ -25,23 +25,23 @@
 
 ## 3. 后续阶段输入与完成边界
 
-| 阶段 | 状态  | 必需输入                                         | 交付边界                                                        |
-| ---- | ----- | ------------------------------------------------ | --------------------------------------------------------------- |
-| R1   | Doing | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A #62 工程/SQLx 已交付；R1B #63 Doing，C–E Todo；父阶段未完成 |
-| R2   | Todo  | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付                              |
-| R3   | Todo  | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                                            |
-| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                          |
-| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                  |
-| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                     |
-| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                    |
+| 阶段 | 状态  | 必需输入                                         | 交付边界                                                       |
+| ---- | ----- | ------------------------------------------------ | -------------------------------------------------------------- |
+| R1   | Doing | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A #62 工程/SQLx 已交付；R1B #63 Done，C–E Todo；父阶段未完成 |
+| R2   | Todo  | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付                             |
+| R3   | Todo  | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                                           |
+| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                         |
+| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                 |
+| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                    |
+| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                   |
 
-| R1 子切片 | 状态  | Gate / 交付                                                        |
-| --------- | ----- | ------------------------------------------------------------------ |
-| R1A #62   | Done  | G4；51572db5 已推送，工程/SQLx/三 GET/启停与固定环境验收记录已归档 |
-| R1B #63   | Doing | 共享类型单向导出/兼容；G1 Pass，R1A 已满足                         |
-| R1C       | Todo  | 认证/会话/最小审计，依赖 R1A/B                                     |
-| R1D       | Todo  | 通用双后端 E2E/客户端生成，依赖 R1A                                |
-| R1E       | Todo  | 父阶段集成、浏览器与最终验收，依赖 R1A–D                           |
+| R1 子切片 | 状态 | Gate / 交付                                                        |
+| --------- | ---- | ------------------------------------------------------------------ |
+| R1A #62   | Done | G4；51572db5 已推送，工程/SQLx/三 GET/启停与固定环境验收记录已归档 |
+| R1B #63   | Done | G4；5cc44100 已推送，单向共享类型与兼容验收记录已归档              |
+| R1C       | Todo | 认证/会话/最小审计，依赖 R1A/B                                     |
+| R1D       | Todo | 通用双后端 E2E/客户端生成，依赖 R1A                                |
+| R1E       | Todo | 父阶段集成、浏览器与最终验收，依赖 R1A–D                           |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -51,10 +51,10 @@
 
 - [R0 实施基线](archive/slices/rust-r0-baseline.md)：输入、SSOT、缺口、验证记录与 gate 结论。
 - [R0E 环境基线](archive/slices/rust-r0e-environment-baseline.md)：构建/数据库实况、验收、保留 PG17 与 R1 输入；[工具入口](../../tools/rust-r0e/README.md)。
-- [R1 实施输入](rust-r1-foundation-baseline.md)：逐路由、字段、配置、测试入口与验收要求；[R1A 工程基线](archive/slices/rust-r1a-application-baseline.md)控制本轮实现。
+- [R1 实施输入](rust-r1-foundation-baseline.md)：逐路由、字段、配置、测试入口与验收要求；[R1A 工程基线](archive/slices/rust-r1a-application-baseline.md)提供已交付 R1A 的工程证据。
 - [ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md)：Rust/SQLx 目标方向与旧 ADR 的适用边界。
 - R0A–E 已提交推送 `08daaf45b12307bc4d53e01e509f23d265532de6`；R0F 已交付推送 `711e61116a7c00b0378702cabfc4e4d232beee3b`，G3/G4 与归档见 [实施基线](archive/slices/rust-r0f-compatibility-baseline.md)。
 
 - R1A 实现已交付推送 `51572db51419d4ef58bc173e69163dc94f616de9`；[归档](archive/slices/rust-r1a-application-baseline.md)与[机器验收记录](rust-r1a-validation.json)保留 37 项非 DB 测试、8 项真实 PG15 测试和 78 项进程断言的实际边界。
 
-- [R1B #63](https://github.com/illusion-tech/poms/issues/63) 已授权实施；[工程基线](rust-r1b-shared-types-baseline.md)冻结单向导出、标量/JSON/权限兼容及验收边界。
+- [R1B #63](https://github.com/illusion-tech/poms/issues/63) 已完成 G4（实现 `5cc44100928c8f5045df12aebc4137460b5fb608`）；[工程基线](archive/slices/rust-r1b-shared-types-baseline.md)冻结单向导出、标量/JSON/权限兼容及验收边界。

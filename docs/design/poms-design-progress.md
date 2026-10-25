@@ -138,7 +138,7 @@
 
 ### 4.5 当前控制与实施入口
 
-Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-plan.md)、[执行追踪](rust-migration-execution-tracker.md)和 [R1 实施输入](rust-r1-foundation-baseline.md)统一索引；本次 [R1B 基线](rust-r1b-shared-types-baseline.md)及[机器证据](rust-r1b-validation.json)记录单向共享类型和兼容验证。工程任务状态由 GitHub [#60](https://github.com/illusion-tech/poms/issues/60) / [#63](https://github.com/illusion-tech/poms/issues/63)管理。
+Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-plan.md)、[执行追踪](rust-migration-execution-tracker.md)和 [R1 实施输入](rust-r1-foundation-baseline.md)统一索引；本次 [R1B 基线](archive/slices/rust-r1b-shared-types-baseline.md)及[机器证据](rust-r1b-validation.json)记录单向共享类型和兼容验证。工程任务状态由 GitHub [#60](https://github.com/illusion-tech/poms/issues/60) / [#63](https://github.com/illusion-tech/poms/issues/63)管理。
 
 | 文档                                                              | 当前状态 | 作用                                                                                    | 是否可作为下游输入 |
 | ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- | ------------------ |
