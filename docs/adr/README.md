@@ -30,6 +30,7 @@
 - `ADR-015`: API 资源标识、查询投影与命令路径 canonical grammar
 - `ADR-016`: union request body 的 schema-first 建模与工具链约束
 - `ADR-017`: Admin Web Cookie + HttpOnly 服务端会话认证
+- [ADR-018](018-rust-backend-and-sqlx-persistence.md): Rust 后端与 SQLx 持久化演进；保留 PostgreSQL、既有契约和单一迁移执行方
 
 ## ADR 适用范围
 

@@ -1,0 +1,25 @@
+FROM registry.access.redhat.com/ubi9/ubi@sha256:e9a31af6530caffa3551f266c51a0d43b602e8f76a0dc12826dbeebceb487c92
+
+RUN dnf install -y gcc make zlib-devel openssl-devel \
+    glibc-langpack-en tar bzip2 perl shadow-utils && dnf clean all
+ARG PG_VERSION=15.12
+ARG PG_SHA256=3bc8462a38ca0857270cc88b949a3f6659f0d5c44c029c482355835b61a0f6f7
+RUN mkdir -p /opt/r0e-source && cd /opt/r0e-source && \
+    curl --fail --location --retry 3 -o postgresql.tar.bz2 https://ftp.postgresql.org/pub/source/v${PG_VERSION}/postgresql-${PG_VERSION}.tar.bz2 && \
+    printf '%s  postgresql.tar.bz2\n' "$PG_SHA256" | sha256sum --check && \
+    tar -xjf postgresql.tar.bz2 && cd postgresql-${PG_VERSION} && \
+    ./configure --prefix=/opt/pgsql --with-openssl --without-readline && \
+    make -j8 && make install && \
+    make -C contrib/pgcrypto install && make -C contrib/btree_gist install && \
+    cd / && rm -rf /opt/r0e-source && \
+    useradd --uid 1000 --create-home postgres && \
+    mkdir -p /var/lib/postgresql/data /run/postgresql && \
+    chown -R postgres:postgres /var/lib/postgresql /run/postgresql
+ENV PATH=/opt/pgsql/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 PGDATA=/var/lib/postgresql/data
+COPY pg-entrypoint.sh /usr/local/bin/poms-r0e-pg-entrypoint
+RUN chmod 755 /usr/local/bin/poms-r0e-pg-entrypoint
+LABEL org.poms.scope="rust-r0e" org.poms.purpose="isolated-postgresql-15.12"
+USER postgres
+EXPOSE 15432
+ENTRYPOINT ["/usr/local/bin/poms-r0e-pg-entrypoint"]

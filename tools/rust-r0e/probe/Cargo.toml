@@ -1,0 +1,24 @@
+# R0E dependency probe only; this is not the R1 application or an API contract owner.
+# Candidate metadata verified against official crates.io APIs on 2026-10-26.
+# Root resolves Cargo.lock and builds with the verified exact Rust 1.97.1 toolchain.
+[package]
+name = "poms-r0e-dependency-probe"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[workspace]
+resolver = "3"
+
+[dependencies]
+axum = { version = "=0.8.9", default-features = false, features = ["http1", "json", "tokio"] }
+chrono = { version = "=0.4.45", default-features = false, features = ["std", "serde"] }
+rust_decimal = { version = "=1.43.0", default-features = false, features = ["std", "serde-with-str"] }
+serde = { version = "=1.0.229", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "=1.0.154" }
+sqlx = { version = "=0.9.0", default-features = false, features = ["postgres", "runtime-tokio", "tls-rustls-ring-webpki", "chrono", "rust_decimal", "uuid", "json"] }
+tokio = { version = "=1.54.1", default-features = false, features = ["macros", "rt-multi-thread", "net", "io-util", "sync", "time"] }
+tower = { version = "=0.5.3", default-features = false, features = ["util"] }
+utoipa = { version = "=6.0.0", default-features = false, features = ["macros", "axum_extras", "chrono", "decimal", "uuid"] }
+uuid = { version = "=1.29.0", default-features = false, features = ["std", "serde"] }

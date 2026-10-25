@@ -1,0 +1,48 @@
+# Rust 后端迁移执行追踪
+
+**最后更新**: 2026-10-26
+**父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
+**当前切片**: `RUST-R0`，静态盘点及 R0E 环境验证已交付；R0F 待推进，不启动 R1
+**执行模式**: 本地 main-only，R0 文档与离线工具独占文件；工程实现转独立 Linux checkout / worktree
+
+## 1. 状态与在线映射
+
+2026-10-26 使用 `gh issue list --repo illusion-tech/poms --state all --search 'Rust' --limit 50` 查询，仅找到不相关的已关闭 pnpm 工具链 issue #40，未找到对应后端迁移 issue。本轮不创建或更新 GitHub 状态。`RUST-*` 为本地任务标识，不能作为已创建的 issue 号引用；建立在线任务后，由 GitHub 拥有状态，本页保留输入和映射。
+
+`Todo` 表示尚未满足开工输入；`Doing` 表示已授权的盘点/准备正在进行。未提交、未完成 G4 的成果不标记 `Done`。父阶段完成需要全部验收条件满足，不能由单个子任务推导。
+
+## 2. R0 任务
+
+| Task ID    | Owner      | 范围与交付                                                                            | 依赖                             | 状态  | 当前 gate / 下一步                                                                          |
+| ---------- | ---------- | ------------------------------------------------------------------------------------- | -------------------------------- | ----- | ------------------------------------------------------------------------------------------- |
+| `RUST-R0`  | 主代理     | 架构、契约、数据、环境和 R1 输入基线                                                  | 用户授权、迁移计划               | Doing | 全阶段 G1 待缺口收口，不放行 R1                                                             |
+| `RUST-R0A` | 子代理 A   | [API 清单](rust-r0-api-contract-inventory.md)、operations JSON、离线校验工具          | `033aedd0` 源码与契约            | Doing | 本轮静态交付 G3 Pass；G4 待提交                                                             |
+| `RUST-R0B` | 子代理 B   | [数据清单](rust-r0-database-inventory.md)、JSON、离线校验工具                         | 同一源码与历史 migration         | Doing | 静态交付 G3 Pass；补录 DB-D07，G4 待提交                                                    |
+| `RUST-R0C` | 子代理 C   | [环境清单](rust-r0-environment-inventory.md)、非 HTTP 任务、跨平台方案                | 同一源码、WSL/本机/TEST 只读信息 | Doing | 清单 G3 Pass；当前目标对齐 TEST，环境实作归 R0E                                             |
+| `RUST-R0D` | 主代理     | ADR-018、[R0 基线](rust-r0-baseline.md)、R1 基线草案、集成校验                        | R0A–R0C                          | Doing | 独立审查/集成检查通过；R1 G1仍Pending                                                       |
+| `RUST-R0E` | 主代理统筹 | Linux 工具链补齐、依赖版本/features/MSRV/lock 编译验证、TEST 兼容构建与隔离 PG15 配置 | R0C 的环境方案                   | Doing | 环境/依赖验收及独立审查 G3 Pass；G4 待提交；见 [R0E 基线](rust-r0e-environment-baseline.md) |
+| `RUST-R0F` | 主代理统筹 | 未决兼容样本/路由 drift 处理，R1 G1 冻结及后续 Issue 映射                             | R0A–R0E                          | Todo  | R1 放行前完成                                                                               |
+
+## 3. 后续阶段输入与完成边界
+
+| 阶段 | 状态 | 必需输入                                         | 交付边界                                      |
+| ---- | ---- | ------------------------------------------------ | --------------------------------------------- |
+| R1   | Todo | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | 应用基础、SQLx、兼容认证、跨平台 E2E/生成入口 |
+| R2   | Todo | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付            |
+| R3   | Todo | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                          |
+| R4   | Todo | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                        |
+| R5   | Todo | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                |
+| R6   | Todo | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                   |
+| R7   | Todo | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                  |
+
+同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
+
+用户确认尚未部署生产环境，当前对齐 TEST Debian 12 / x86_64 / glibc 2.36 与 PostgreSQL 15.12。未来 PROD 首次部署前核实目标；其尚未部署不阻断当前 R0/R1 准备。现有 PG17.4 开发测试库可继续日常使用，PG15 隔离库专用于 TEST 兼容验收。R0E 的 SQLx/TEMP 约束通过不等于完整 migration/schema 或业务行为验证。
+
+## 4. 本轮证据入口
+
+- [R0 实施基线](rust-r0-baseline.md)：输入、SSOT、缺口、验证记录与 gate 结论。
+- [R0E 环境基线](rust-r0e-environment-baseline.md)：构建/数据库实况、验收、保留 PG17 与 R1 输入；[工具入口](../../tools/rust-r0e/README.md)。
+- [R1 基线草案](rust-r1-foundation-baseline.md)：下阶段范围与待冻结条件；`G1 = Pending`。
+- [ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md)：Rust/SQLx 目标方向与旧 ADR 的适用边界。
+- 本轮未提交、未推送；提交及 G4 归档属于后续明确动作，不能据文件存在标记完成。

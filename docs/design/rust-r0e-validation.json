@@ -1,0 +1,407 @@
+{
+  "formatVersion": 1,
+  "recordedAtUtc": "2026-10-25T20:48:27.642433+00:00",
+  "scope": "R0E isolated environment and dependency probe; not product migration or business compatibility",
+  "sourceBaseline": "033aedd028fc25ea990450a7854fc92c567cfb8a",
+  "sourceFilesSha256": {
+    "tools/rust-r0e/.gitattributes": "6fd1120a4f189d4860a5eb459df85e7dd449814a3f216e01950dd6b28331ba7c",
+    "tools/rust-r0e/Containerfile.build": "1a614c84969a9687279a13736f338f2521c703b035f58e2e0996fa9442ef8202",
+    "tools/rust-r0e/Containerfile.pg15": "546bba48d472f22ba35b37c2c08db4c70356bfda45483ad91a0166c528fd1cd6",
+    "tools/rust-r0e/environment.sh": "ef47a131b70a81e0325d66ed2f1007c4ba46c4d4a4599ea390d1c4f163bb2ef6",
+    "tools/rust-r0e/pg-entrypoint.sh": "3618e82d89cb7746bb2638665ccbd613d0e7909b1b7e9f5482c1bc4d1c90f94d",
+    "tools/rust-r0e/pg-smoke.sql": "9f44697169c114cbcdb44153871ec0e2995bd989c1751d21486bdbde7841ea09",
+    "tools/rust-r0e/probe/Cargo.lock": "9aa5bd462e32b0b686376895920a858e02fd64969c5aa0c03d35bbef977f5fb7",
+    "tools/rust-r0e/probe/Cargo.toml": "da27642a7606760017b947c44eb52c8d597224610152cd6683260c4ceb9c38e2",
+    "tools/rust-r0e/probe/rust-toolchain.toml": "559f488c181e0e9e77cf17c29de663977f036ec7ff2e2060585714bf53c52d62",
+    "tools/rust-r0e/probe/src/main.rs": "0261fb1f9bb8e715d0eee660d68e769c044312644949197655737580fafcc30e",
+    "tools/rust-r0e/probe.sh": "0bcc6877d117ea8ac13dc3dbabda54b38a037dd04d6300afcb1e3feb922e9340",
+    "tools/rust-r0e/provision-database.sql": "a19bcbda2c7e02fdb505787f498494b99f86c583bcbf135bd3e72e545aeb23c2",
+    "tools/rust-r0e/provision.sql": "79bd62128fe14cac00d09523d86a7ff6e5d402d846e9fe868171c8fa1d6d3d11",
+    "tools/rust-r0e/verify-refusals.sh": "497f42db70d017424d9d1108aebd1bceaf0e44e5c9bf983b3d4fa8b380a7d5f4",
+    "tools/rust-r0e/verify-target.sql": "4127be6b6a4f384a50e182ed10e790921d1ec1f74aade7cc2e1a021bd230d1ba",
+    "docs/design/rust-r0-api-operations.json": "a044a5c9b0ecbd9dd0f28c92fd6e7237bf69645c2160c73c295e363e0d756fac",
+    "docs/design/rust-r0-database-inventory.json": "4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3"
+  },
+  "binarySha256": "f766df98d876158b62f7116eb0968bbf72653c1d34996d9ea97a1a743f1b4c61",
+  "cargo": {
+    "lockPackageRecords": 227,
+    "metadataPackageRecords": 192,
+    "highestDeclaredDependencyMsrv": "1.94.0",
+    "dependenciesWithoutDeclaredMsrv": 33
+  },
+  "logRoot": "/home/wangzishi/.local/share/poms-r0e/logs",
+  "logs": {
+    "inventory-linux-v2.log": {
+      "sha256": "d4f10881d3ef38658f84148c33b4536210ea73e255474b5313791e2e970a634d",
+      "bytes": 4586
+    },
+    "probe-build.log": {
+      "sha256": "9df5fdf9cd12919e62bb397240282507ea677032a14e55a811f66a007cc4f081",
+      "bytes": 252
+    },
+    "probe-rust.log": {
+      "sha256": "bdd04b4d844a0c8ecd6a255b2bf7654b88dac104bda2725e5ea69833953e8764",
+      "bytes": 1373,
+      "result": {
+        "database": {
+          "collation": "en_US.UTF-8",
+          "ctype": "en_US.UTF-8",
+          "current_user": "poms_r0e_app",
+          "database_name": "poms_r0e_rust",
+          "driver_startup_session_timezone": "UTC",
+          "encoding": "UTF8",
+          "explicit_rollback_removed_temporary_table": true,
+          "extensions": {
+            "btree_gist": "1.7",
+            "pgcrypto": "1.3"
+          },
+          "full_schema_or_business_compatibility_certified": false,
+          "isolation_marker": "on",
+          "locale_provider": "c",
+          "recorded_collation_version": "2.34",
+          "recorded_collation_version_matches_test_2_34": true,
+          "runtime_role_attributes": {
+            "bypassrls": false,
+            "createdb": false,
+            "createrole": false,
+            "superuser": false
+          },
+          "server_version_num": 150012,
+          "session_timezone": "Etc/GMT-8",
+          "session_timezone_explicitly_initialized": true,
+          "session_user": "poms_r0e_app",
+          "status": "ok",
+          "temporary_table_only": true,
+          "tls_handshake_verified": false,
+          "tls_mode": "disabled only for dedicated loopback probe",
+          "typed_mapping": "ok"
+        },
+        "declared_rust_version": "1.97.1",
+        "http_and_types": {
+          "loopback_http": "ok",
+          "probe_openapi_version": "3.1.0",
+          "product_openapi_generation": "not-run; existing TS OpenAPI remains authoritative",
+          "serde_decimal_date_uuid_round_trip": "ok",
+          "tower_router": "ok"
+        },
+        "performance_measured": false,
+        "product_api_or_migration_ownership_changed": false,
+        "scope": "R0E dependency probe; not the R1 application",
+        "status": "ok"
+      }
+    },
+    "probe-nest.log": {
+      "sha256": "e0a6487f0161a0813af0f4326a6622560709111c1434997bb923de40bbf18160",
+      "bytes": 1373,
+      "result": {
+        "database": {
+          "collation": "en_US.UTF-8",
+          "ctype": "en_US.UTF-8",
+          "current_user": "poms_r0e_app",
+          "database_name": "poms_r0e_nest",
+          "driver_startup_session_timezone": "UTC",
+          "encoding": "UTF8",
+          "explicit_rollback_removed_temporary_table": true,
+          "extensions": {
+            "btree_gist": "1.7",
+            "pgcrypto": "1.3"
+          },
+          "full_schema_or_business_compatibility_certified": false,
+          "isolation_marker": "on",
+          "locale_provider": "c",
+          "recorded_collation_version": "2.34",
+          "recorded_collation_version_matches_test_2_34": true,
+          "runtime_role_attributes": {
+            "bypassrls": false,
+            "createdb": false,
+            "createrole": false,
+            "superuser": false
+          },
+          "server_version_num": 150012,
+          "session_timezone": "Etc/GMT-8",
+          "session_timezone_explicitly_initialized": true,
+          "session_user": "poms_r0e_app",
+          "status": "ok",
+          "temporary_table_only": true,
+          "tls_handshake_verified": false,
+          "tls_mode": "disabled only for dedicated loopback probe",
+          "typed_mapping": "ok"
+        },
+        "declared_rust_version": "1.97.1",
+        "http_and_types": {
+          "loopback_http": "ok",
+          "probe_openapi_version": "3.1.0",
+          "product_openapi_generation": "not-run; existing TS OpenAPI remains authoritative",
+          "serde_decimal_date_uuid_round_trip": "ok",
+          "tower_router": "ok"
+        },
+        "performance_measured": false,
+        "product_api_or_migration_ownership_changed": false,
+        "scope": "R0E dependency probe; not the R1 application",
+        "status": "ok"
+      }
+    },
+    "probe-wsl-host.log": {
+      "sha256": "35f2e1fb18d12b63ef0370968d8ac8f55376dbb2bc9f0ddb71e7b4b4f109b194",
+      "bytes": 1257,
+      "result": {
+        "database": {
+          "collation": "en_US.UTF-8",
+          "ctype": "en_US.UTF-8",
+          "current_user": "poms_r0e_app",
+          "database_name": "poms_r0e_rust",
+          "driver_startup_session_timezone": "UTC",
+          "encoding": "UTF8",
+          "explicit_rollback_removed_temporary_table": true,
+          "extensions": {
+            "btree_gist": "1.7",
+            "pgcrypto": "1.3"
+          },
+          "full_schema_or_business_compatibility_certified": false,
+          "isolation_marker": "on",
+          "locale_provider": "c",
+          "recorded_collation_version": "2.34",
+          "recorded_collation_version_matches_test_2_34": true,
+          "runtime_role_attributes": {
+            "bypassrls": false,
+            "createdb": false,
+            "createrole": false,
+            "superuser": false
+          },
+          "server_version_num": 150012,
+          "session_timezone": "Etc/GMT-8",
+          "session_timezone_explicitly_initialized": true,
+          "session_user": "poms_r0e_app",
+          "status": "ok",
+          "temporary_table_only": true,
+          "tls_handshake_verified": false,
+          "tls_mode": "disabled only for dedicated loopback probe",
+          "typed_mapping": "ok"
+        },
+        "declared_rust_version": "1.97.1",
+        "http_and_types": {
+          "loopback_http": "ok",
+          "probe_openapi_version": "3.1.0",
+          "product_openapi_generation": "not-run; existing TS OpenAPI remains authoritative",
+          "serde_decimal_date_uuid_round_trip": "ok",
+          "tower_router": "ok"
+        },
+        "performance_measured": false,
+        "product_api_or_migration_ownership_changed": false,
+        "scope": "R0E dependency probe; not the R1 application",
+        "status": "ok"
+      }
+    },
+    "probe-abi.log": {
+      "sha256": "9408234e8b0818fe7dc8f53a532afe469a8c4a2249d30b2cdaeb60138ca59b95",
+      "bytes": 9450
+    },
+    "sqlx-features.txt": {
+      "sha256": "b967812f7dd0f2268cd1e219a1d928031e2538b6950621ab8c9d876491094b0a",
+      "bytes": 45180
+    }
+  },
+  "commands": [
+    {
+      "name": "container_identity",
+      "command": [
+        "bash",
+        "/mnt/e/projects/poms/tools/rust-r0e/environment.sh",
+        "status"
+      ],
+      "exitCode": 0,
+      "stdout": "poms-r0e-pg15 running b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a\n15432/tcp -> 127.0.0.1:15432\n",
+      "stderr": ""
+    },
+    {
+      "name": "pg15_os_libraries",
+      "command": [
+        "podman",
+        "--cgroup-manager=cgroupfs",
+        "exec",
+        "poms-r0e-pg15",
+        "bash",
+        "-lc",
+        "cat /etc/os-release; getconf GNU_LIBC_VERSION; rpm -q glibc glibc-common glibc-langpack-en openssl openssl-libs zlib gcc; locale -a; /opt/pgsql/bin/pg_config --configure; ldd /opt/pgsql/bin/postgres"
+      ],
+      "exitCode": 0,
+      "stdout": "NAME=\"Red Hat Enterprise Linux\"\nVERSION=\"9.7 (Plow)\"\nID=\"rhel\"\nID_LIKE=\"fedora\"\nVERSION_ID=\"9.7\"\nPLATFORM_ID=\"platform:el9\"\nPRETTY_NAME=\"Red Hat Enterprise Linux 9.7 (Plow)\"\nANSI_COLOR=\"0;31\"\nLOGO=\"fedora-logo-icon\"\nCPE_NAME=\"cpe:/o:redhat:enterprise_linux:9::baseos\"\nHOME_URL=\"https://www.redhat.com/\"\nDOCUMENTATION_URL=\"https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9\"\nBUG_REPORT_URL=\"https://issues.redhat.com/\"\n\nREDHAT_BUGZILLA_PRODUCT=\"Red Hat Enterprise Linux 9\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=9.7\nREDHAT_SUPPORT_PRODUCT=\"Red Hat Enterprise Linux\"\nREDHAT_SUPPORT_PRODUCT_VERSION=\"9.7\"\nglibc 2.34\nglibc-2.34-283.el9_8.x86_64\nglibc-common-2.34-283.el9_8.x86_64\nglibc-langpack-en-2.34-283.el9_8.x86_64\nopenssl-3.5.8-2.el9_8.x86_64\nopenssl-libs-3.5.8-2.el9_8.x86_64\nzlib-1.2.11-40.el9.x86_64\ngcc-11.5.0-14.el9.x86_64\nC\nC.utf8\nen_AG\nen_AU\nen_AU.utf8\nen_BW\nen_BW.utf8\nen_CA\nen_CA.utf8\nen_DK\nen_DK.utf8\nen_GB\nen_GB.iso885915\nen_GB.utf8\nen_HK\nen_HK.utf8\nen_IE\nen_IE@euro\nen_IE.utf8\nen_IL\nen_IN\nen_NG\nen_NZ\nen_NZ.utf8\nen_PH\nen_PH.utf8\nen_SC.utf8\nen_SG\nen_SG.utf8\nen_US\nen_US.iso885915\nen_US.utf8\nen_ZA\nen_ZA.utf8\nen_ZM\nen_ZW\nen_ZW.utf8\nPOSIX\n '--prefix=/opt/pgsql' '--with-openssl' '--without-readline'\n\tlinux-vdso.so.1 (0x0000718b959a3000)\n\tlibssl.so.3 => /lib64/libssl.so.3 (0x0000718b9589f000)\n\tlibcrypto.so.3 => /lib64/libcrypto.so.3 (0x0000718b952d8000)\n\tlibz.so.1 => /lib64/libz.so.1 (0x0000718b952be000)\n\tlibm.so.6 => /lib64/libm.so.6 (0x0000718b951e1000)\n\tlibc.so.6 => /lib64/libc.so.6 (0x0000718b94fd5000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000718b959a5000)\n",
+      "stderr": ""
+    },
+    {
+      "name": "locale_file_fingerprints",
+      "command": [
+        "podman",
+        "--cgroup-manager=cgroupfs",
+        "exec",
+        "poms-r0e-pg15",
+        "bash",
+        "-lc",
+        "find /usr/lib/locale/en_US.utf8 -type f -exec sha256sum {} + | sort"
+      ],
+      "exitCode": 0,
+      "stdout": "2d776e660519a0af4e766d36c0698101f73e1aed52c30b14588205ee5d76adf1  /usr/lib/locale/en_US.utf8/LC_NAME\n2dfac9ea94abf72ba888bcbe5ba582a99fbca1b7c6a2598e80b1028d12a71ecf  /usr/lib/locale/en_US.utf8/LC_IDENTIFICATION\n30b9a5f08480a634e2f016e1e2af957ae34e7bc849600376b8ac6ce2c9d536a6  /usr/lib/locale/en_US.utf8/LC_TELEPHONE\n31d62ce6350e6ead9fd019cb4d0083364a2c587d2f1f7ed5f7e213e7d73fb1ec  /usr/lib/locale/en_US.utf8/LC_MONETARY\n9bcdb29af2d6244ad5bffc068fe5bec91bb2daf8a7bdebb1faf95b906c665f0c  /usr/lib/locale/en_US.utf8/LC_TIME\nb4b7da39151376fdb0e8f7c35d0dc2335d2f1149fdb23882143ac1604c3f8a43  /usr/lib/locale/en_US.utf8/LC_PAPER\nc2200fc75f8f268d9e8d71072064f64d94497e5abd58abd5ab1506c3a40dbd1a  /usr/lib/locale/en_US.utf8/LC_MEASUREMENT\nc39329bc8f9fd0a7bd7faa9256cf3b8e39ec91ff989662066f243466269cc164  /usr/lib/locale/en_US.utf8/LC_ADDRESS\nda9bc3bd4ecc3de2de0b0224b68c2a3300c7fc597269771dee51871d564fb0bc  /usr/lib/locale/en_US.utf8/LC_NUMERIC\nf062bf818ec7c394208e4b12db855fbe3765ca1463b2e0cfe05e434f1c293981  /usr/lib/locale/en_US.utf8/LC_COLLATE\nff22236475c720a2c0c598e18dcaa0c2350de8bb335bcb6bbc994346b688f4e0  /usr/lib/locale/en_US.utf8/LC_MESSAGES/SYS_LC_MESSAGES\n",
+      "stderr": ""
+    },
+    {
+      "name": "pg15_synthetic_smoke_and_markers",
+      "command": [
+        "bash",
+        "/mnt/e/projects/poms/tools/rust-r0e/environment.sh",
+        "verify"
+      ],
+      "exitCode": 0,
+      "stdout": "Pager usage is off.\nR0E isolated PostgreSQL smoke: checking target before any probe DDL\nSET\nSET\nDO\n   database    | server_version | server_port | session_timezone | encoding | locale_provider | datcollate  |  datctype   | stored_collation_version | actual_collation_version \n---------------+----------------+-------------+------------------+----------+-----------------+-------------+-------------+--------------------------+--------------------------\n poms_r0e_nest | 15.12          | 15432       | Etc/GMT-8        | UTF8     | c               | en_US.UTF-8 | en_US.UTF-8 | 2.34                     | 2.34\n(1 row)\n\n  extname   | extversion | extension_schema \n------------+------------+------------------\n btree_gist | 1.7        | public\n pgcrypto   | 1.3        | public\n(2 rows)\n\nBEGIN\nSET\nSET\nDO\nCREATE TABLE\nCREATE INDEX\nDO\nCREATE TABLE\nINSERT 0 1\nDO\nSET\nDO\nSET\nCREATE TABLE\nDO\nCREATE TABLE\nCREATE INDEX\nDO\n    synthetic_sort_order    |        synthetic_sort_md5        \n----------------------------+----------------------------------\n {a,A,á,ä,i,İ,ss,ß,Z,中,文} | d66142528ed50eca27104827cdf9e6a2\n(1 row)\n\nSAVEPOINT\nINSERT 0 1\nROLLBACK\nRELEASE\nDO\nROLLBACK\nDO\nR0E_PG_SMOKE_PASS: guards, runtime TEMP privileges, extensions, constraints, numeric, dates, JSON and rollback passed\n poms_r0e_nest | 80287e39-abf5-4c2f-b514-79c08816b29d | 2026-10-26 04:22:21.264181+08\n\nPager usage is off.\nR0E isolated PostgreSQL smoke: checking target before any probe DDL\nSET\nSET\nDO\n   database    | server_version | server_port | session_timezone | encoding | locale_provider | datcollate  |  datctype   | stored_collation_version | actual_collation_version \n---------------+----------------+-------------+------------------+----------+-----------------+-------------+-------------+--------------------------+--------------------------\n poms_r0e_rust | 15.12          | 15432       | Etc/GMT-8        | UTF8     | c               | en_US.UTF-8 | en_US.UTF-8 | 2.34                     | 2.34\n(1 row)\n\n  extname   | extversion | extension_schema \n------------+------------+------------------\n btree_gist | 1.7        | public\n pgcrypto   | 1.3        | public\n(2 rows)\n\nBEGIN\nSET\nSET\nDO\nCREATE TABLE\nCREATE INDEX\nDO\nCREATE TABLE\nINSERT 0 1\nDO\nSET\nDO\nSET\nCREATE TABLE\nDO\nCREATE TABLE\nCREATE INDEX\nDO\n    synthetic_sort_order    |        synthetic_sort_md5        \n----------------------------+----------------------------------\n {a,A,á,ä,i,İ,ss,ß,Z,中,文} | d66142528ed50eca27104827cdf9e6a2\n(1 row)\n\nSAVEPOINT\nINSERT 0 1\nROLLBACK\nRELEASE\nDO\nROLLBACK\nDO\nR0E_PG_SMOKE_PASS: guards, runtime TEMP privileges, extensions, constraints, numeric, dates, JSON and rollback passed\n poms_r0e_rust | f055884e-5eaf-44ad-a51e-ab9d3a2627ff | 2026-10-26 04:22:21.302114+08\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "negative_target_guards",
+      "command": [
+        "bash",
+        "/mnt/e/projects/poms/tools/rust-r0e/probe.sh",
+        "guards"
+      ],
+      "exitCode": 0,
+      "stdout": "REFUSAL_PASS: pg17_port\nREFUSAL_PASS: existing_database\nREFUSAL_PASS: administrator_role\nREFUSAL_PASS: inherited_options\n",
+      "stderr": ""
+    },
+    {
+      "name": "build_tool_versions",
+      "command": [
+        "bash",
+        "/mnt/e/projects/poms/tools/rust-r0e/probe.sh",
+        "tools"
+      ],
+      "exitCode": 0,
+      "stdout": "PRETTY_NAME=\"Debian GNU/Linux 12 (bookworm)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"12\"\nVERSION=\"12 (bookworm)\"\nVERSION_CODENAME=bookworm\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\nglibc 2.36\nrustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: x86_64-unknown-linux-gnu\nrelease: 1.97.1\nLLVM version: 22.1.6\ncargo 1.97.1 (c980f4866 2026-06-30)\nrustfmt 1.9.0-stable (8bab26f4f6 2026-07-14)\nclippy 0.1.97 (8bab26f4f6 2026-07-14)\nv24.16.0\n12.3.4\n0.35.0\n12.3.4\ndeno 2.9.1 (stable, release, x86_64-unknown-linux-gnu)\nv8 14.9.207.2-rusty\ntypescript 6.0.3\npsql (PostgreSQL) 15.19 (Debian 15.19-0+deb12u1)\n",
+      "stderr": "openjdk version \"17.0.21\" 2026-10-20\nOpenJDK Runtime Environment (build 17.0.21+9-1-deb12u1-Debian)\nOpenJDK 64-Bit Server VM (build 17.0.21+9-1-deb12u1-Debian, mixed mode, sharing)\n"
+    },
+    {
+      "name": "shell_syntax_environment.sh",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Debian",
+        "--exec",
+        "bash",
+        "-n",
+        "/mnt/e/projects/poms/tools/rust-r0e/environment.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "shell_syntax_probe.sh",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Debian",
+        "--exec",
+        "bash",
+        "-n",
+        "/mnt/e/projects/poms/tools/rust-r0e/probe.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "shell_syntax_pg-entrypoint.sh",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Debian",
+        "--exec",
+        "bash",
+        "-n",
+        "/mnt/e/projects/poms/tools/rust-r0e/pg-entrypoint.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "shell_syntax_verify-refusals.sh",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Debian",
+        "--exec",
+        "bash",
+        "-n",
+        "/mnt/e/projects/poms/tools/rust-r0e/verify-refusals.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "notCertified": [
+    "full product schema and migration chain",
+    "business and authentication parity",
+    "all locale definitions match TEST",
+    "TLS handshake",
+    "product deployment",
+    "performance"
+  ],
+  "inventoryV1ToV2": [
+    {
+      "name": "api",
+      "fields": [
+        "summary",
+        "operations",
+        "controllerOnlyRoutes",
+        "canonicalComparisons",
+        "modules",
+        "sharedSsot",
+        "nonOpenApiEvidence"
+      ],
+      "pass": true,
+      "sourceBaselineUnchanged": true,
+      "rule": "CRLF to LF only; migration source file sha256 excluded from semantic comparison"
+    },
+    {
+      "name": "database",
+      "fields": [
+        "counts",
+        "entities",
+        "dataTypeMatrix",
+        "migrations",
+        "transactions",
+        "serviceMethodGraph",
+        "persistenceSites",
+        "concurrencySites",
+        "numericSites",
+        "seeders"
+      ],
+      "pass": true,
+      "sourceBaselineUnchanged": true,
+      "rule": "CRLF to LF only; migration source file sha256 excluded from semantic comparison"
+    }
+  ],
+  "windows": {
+    "nodeVersion": "v24.19.0",
+    "typescriptVersion": "6.0.3",
+    "pg15LoopbackReadOnly": {
+      "windows_loopback_pg15": "pass",
+      "database": "poms_r0e_rust",
+      "role": "poms_r0e_app",
+      "version": "150012",
+      "port": "15432",
+      "isolated": "on",
+      "timezone": "Etc/GMT-8",
+      "read_only": "on"
+    },
+    "preservedPg17ReadOnly": [
+      {
+        "database": "poms",
+        "version": "170004",
+        "read_only": "on",
+        "server_started_at": "2026-10-23T11:59:34.659Z",
+        "stored_collation_version": "1541.2,1541.2",
+        "actual_collation_version": "1541.2,1541.2"
+      }
+    ]
+  }
+}

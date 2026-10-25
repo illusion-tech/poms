@@ -1,0 +1,23 @@
+FROM docker.io/library/rust@sha256:2775a09d208ff0d7c1f50490c45b62db929e87ba1dcbc3f2132ac71a704bcdd3
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    ca-certificates curl unzip pkg-config libssl-dev git openjdk-17-jre-headless \
+    postgresql-client-15 && rm -rf /var/lib/apt/lists/*
+RUN rustup component add rustfmt clippy --toolchain 1.97.1
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xz-utils && rm -rf /var/lib/apt/lists/*
+
+ARG NODE_VERSION=24.16.0
+RUN mkdir -p /opt/r0e-downloads && cd /opt/r0e-downloads && \
+    curl --fail --location --retry 3 -O https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt && \
+    curl --fail --location --retry 3 -O https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz && \
+    grep " node-v${NODE_VERSION}-linux-x64.tar.xz$" SHASUMS256.txt | sha256sum --check && \
+    tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz --strip-components=1 -C /usr/local && \
+    rm node-v${NODE_VERSION}-linux-x64.tar.xz
+RUN npm install --global pnpm@12.3.4 deno@2.9.1 && \
+    corepack prepare pnpm@12.3.4 --activate && \
+    node --version && pnpm --version && corepack pnpm --version && deno --version && java -version && \
+    rustc --version && cargo --version && getconf GNU_LIBC_VERSION
+
+LABEL org.poms.scope="rust-r0e" org.poms.purpose="test-compatible-build-probe"
+WORKDIR /workspace
+CMD ["bash"]
