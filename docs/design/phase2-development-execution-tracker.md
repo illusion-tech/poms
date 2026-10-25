@@ -29,7 +29,7 @@
 
 ## 1. 文档目标
 
-Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。`RUST-R0A`–`R0E` 已提交推送；[R0F #59](https://github.com/illusion-tech/poms/issues/59) 正在收口兼容输入，[R1 #60](https://github.com/illusion-tech/poms/issues/60) 保持 Todo；不复用本板已完成任务编号，也不把原 TypeScript 交付状态改记为 Rust 交付状态。
+Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档，R1 输入已冻结；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 工程保持 Todo；不复用本板已完成任务编号，也不把原 TypeScript 交付状态改记为 Rust 交付状态。
 
 本文档是第二阶段当前统一开发范围下的执行板，不承担历史论证职责。
 

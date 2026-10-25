@@ -1,6 +1,6 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0 盘点与基线准备中，R1 尚未放行
+**文档状态**: Active — R0 输入准备已完成，R1 G1 输入已冻结、工程 Todo
 **最后更新**: 2026-10-26
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
@@ -14,7 +14,7 @@
 - [ADR-016：联合请求体建模](../adr/016-union-request-body-schema-first-modeling.md)
 - [ADR-017：Cookie 会话认证](../adr/017-admin-web-cookie-session-auth.md)
 - [ADR-018：Rust 后端与 SQLx 持久化演进](../adr/018-rust-backend-and-sqlx-persistence.md)
-- [R0 实施基线](rust-r0-baseline.md)
+- [R0 实施基线](archive/slices/rust-r0-baseline.md)
 - [Rust 迁移执行追踪](rust-migration-execution-tracker.md)
 - [部署入口](../../deploy/README.md)
 
@@ -56,7 +56,7 @@
 | `RUST-R0C` | 子代理 C | WSL 与验证环境清单                      | 实际工具可用性、跨平台测试/生成/部署方案、非 HTTP 任务               |
 | `RUST-R0D` | 主代理   | ADR、计划、基线、执行追踪及索引         | 决策集成、缺口分级、后续切片输入、独立审查与验证                     |
 
-当前进度、Issue 映射和 R1 放行条件统一见[执行追踪](rust-migration-execution-tracker.md)与[R0 基线](rust-r0-baseline.md)。
+当前进度、Issue 映射和 R1 放行条件统一见[执行追踪](rust-migration-execution-tracker.md)与[R0 基线](archive/slices/rust-r0-baseline.md)。
 
 ## 2. 当前实现基线
 

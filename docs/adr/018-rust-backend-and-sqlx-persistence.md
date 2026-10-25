@@ -3,7 +3,7 @@
 **状态**: 已接受 (Accepted)，目标架构方向；工程放行以各切片 G1/G3 为准
 **日期**: 2026-10-26
 **依据**: 用户已确定后端迁移到 Rust，要求不做前置性能实测，并授权推进 R0
-**关联**: [迁移计划](../design/backend-rust-migration-plan.md)、[R0 基线](../design/rust-r0-baseline.md)、[ADR-012](012-data-persistence-technology-selection.md)
+**关联**: [迁移计划](../design/backend-rust-migration-plan.md)、[R0 基线](../design/archive/slices/rust-r0-baseline.md)、[ADR-012](012-data-persistence-technology-selection.md)
 
 ## 1. 背景与适用范围
 
@@ -56,4 +56,4 @@ R0 提供可复查的操作、实体、迁移、事务、非 HTTP 任务与环�
 
 每阶段沿用 G0–G4，未实现范围不得返回伪造成功响应。静态测试关联不等于覆盖通过，mock 不等于真实集成，文档形成不等于工程阶段完成。
 
-当前已确定目标方向；具体版本锁定、环境就绪、契约差异收口及 R1 G1 仍以[R0 基线](../design/rust-r0-baseline.md)中的证据为准。
+当前已确定目标方向；具体版本锁定、环境就绪、契约差异收口及 R1 G1 仍以[R0 基线](../design/archive/slices/rust-r0-baseline.md)中的证据为准。

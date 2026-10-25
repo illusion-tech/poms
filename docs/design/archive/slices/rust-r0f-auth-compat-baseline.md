@@ -6,7 +6,7 @@
 
 产品源码冻结为 `033aedd028fc25ea990450a7854fc92c567cfb8a`，R0A–R0E 交付输入为 `08daaf45b12307bc4d53e01e509f23d265532de6`。本切片没有改产品源码、现有 tests、依赖 manifest/lock，没有启动 AppModule/server，没有连接或读取既有 PG17/TEST，也没有迁移、seed 或性能实测。
 
-[运行器](../../tools/rust-r0f-auth-compat/run.mjs) 和 [唯一新 suite](../../tools/rust-r0f-auth-compat/oracle.spec.ts) 直接调用现有 TypeScript 服务、guard、repository 构造 SQL、vendored Zod pipe/interceptor 及安装的 Nest exception/filter。固定预期在 [auth-compat.v1.json](../../tools/rust-r0f-auth-compat/fixtures/auth-compat.v1.json)。普通运行只比较冻结预期，只有显式 `--write` 更新。
+[运行器](../../../../tools/rust-r0f-auth-compat/run.mjs) 和 [唯一新 suite](../../../../tools/rust-r0f-auth-compat/oracle.spec.ts) 直接调用现有 TypeScript 服务、guard、repository 构造 SQL、vendored Zod pipe/interceptor 及安装的 Nest exception/filter。固定预期在 [auth-compat.v1.json](../../../../tools/rust-r0f-auth-compat/fixtures/auth-compat.v1.json)。普通运行只比较冻结预期，只有显式 `--write` 更新。
 
 本次结果表示 R1 有可复算的现行实现输入。它不表示 Rust 已实现、真实 HTTP/DB/browser 已通过，也不表示已有 TS 测试全量运行通过。既有 tests 提供案例来源，执行入口是本切片独立 suite；既有 session tests 即使传入生命周期 options 仍调用环境 loader，不能在当前约束下原样运行整组。
 
@@ -23,7 +23,7 @@
 | `health`     | 8       | 实际 HealthService/Controller；live、ready、connect/recheck、失败/异常、503、精确 JSON                                            | fake ORM；固定 Date/Date.now/uptime                                   |
 | 合计         | **119** | 七组；每个样本保留 ID、输入、证据类别与原实现观测输出                                                                             | 没有真实 I/O 成功声明                                                 |
 
-关键来源：[Cookie](../../apps/poms-api/src/app/core/auth/auth-session-cookie.service.ts)、[Session](../../apps/poms-api/src/app/core/auth/auth-session.service.ts)、[Repository](../../apps/poms-api/src/app/core/auth/auth-session.repository.ts)、[AuthController](../../apps/poms-api/src/app/core/auth/auth.controller.ts)、[SessionAuthGuard](../../apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts)、[CSRF guard](../../apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts)、[Permission guard](../../apps/poms-api/src/app/core/auth/guards/permissions.guard.ts)、[Cipher](../../apps/poms-api/src/app/core/secret/secret-cipher.service.ts)、[HealthService](../../apps/poms-api/src/app/core/health/health.service.ts)、[HealthController](../../apps/poms-api/src/app/core/health/health.controller.ts)、[Zod serializer](../../libs/vendor/nestjs-zod/src/serializer.ts)、[Zod exceptions](../../libs/vendor/nestjs-zod/src/exception.ts)。相邻既有 spec 同属产品来源清单。
+关键来源：[Cookie](../../../../apps/poms-api/src/app/core/auth/auth-session-cookie.service.ts)、[Session](../../../../apps/poms-api/src/app/core/auth/auth-session.service.ts)、[Repository](../../../../apps/poms-api/src/app/core/auth/auth-session.repository.ts)、[AuthController](../../../../apps/poms-api/src/app/core/auth/auth.controller.ts)、[SessionAuthGuard](../../../../apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts)、[CSRF guard](../../../../apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts)、[Permission guard](../../../../apps/poms-api/src/app/core/auth/guards/permissions.guard.ts)、[Cipher](../../../../apps/poms-api/src/app/core/secret/secret-cipher.service.ts)、[HealthService](../../../../apps/poms-api/src/app/core/health/health.service.ts)、[HealthController](../../../../apps/poms-api/src/app/core/health/health.controller.ts)、[Zod serializer](../../../../libs/vendor/nestjs-zod/src/serializer.ts)、[Zod exceptions](../../../../libs/vendor/nestjs-zod/src/exception.ts)。相邻既有 spec 同属产品来源清单。
 
 ## 3. 必须保留的现行语义
 
@@ -38,7 +38,7 @@
 
 ## 4. 隔离与来源证明
 
-[preload](../../tools/rust-r0f-auth-compat/support/preload.cjs) 在 Jest/产品 import 前生效。child env 仅白名单继承 OS 路径/临时目录，显式 synthetic 配置；精确的 `../../../config/load-env` 导入映射至 [env mock](../../tools/rust-r0f-auth-compat/support/env.mock.ts)。受保护的原 loader 源文件扫描也被排除，若仍尝试读取则直接失败。
+[preload](../../../../tools/rust-r0f-auth-compat/support/preload.cjs) 在 Jest/产品 import 前生效。child env 仅白名单继承 OS 路径/临时目录，显式 synthetic 配置；精确的 `../../../config/load-env` 导入映射至 [env mock](../../../../tools/rust-r0f-auth-compat/support/env.mock.ts)。受保护的原 loader 源文件扫描也被排除，若仍尝试读取则直接失败。
 
 fs 读入口拒绝 `.env`/`.env.*`/`deploy/private/**`；网络和 listener、child process 入口拒绝且不委托原函数。自检用不存在的 `/synthetic/.env.r0f-deny`，验证拒绝路径，没有尝试读取真实 `.env`。oracle 期间 protectedRead/network/process 计数必须为 0；敏感环境继承列表必须为空；合成 loader 必须被调用。
 
@@ -52,7 +52,7 @@ golden 含 LF 规范化的 sourceManifest、generatorManifest、依赖精确版�
 node tools/rust-r0f-auth-compat/run.mjs --check
 ```
 
-显式重录及操作说明见 [README](../../tools/rust-r0f-auth-compat/README.md)。2026-10-26 在 Windows，Node 24.19.0、TypeScript 6.0.3、Jest 30.5.1、ts-jest 29.4.12、Nest common/core 12.0.1、Zod 4.6.1 下执行：119 cases；七项拒绝/环境自检通过；实际 protectedReadAttempts/networkAttempts/processAttempts 均 0；敏感环境继承为空；synthetic loader 调用 30 次。没有真实 `.env` 内容读取。
+显式重录及操作说明见 [README](../../../../tools/rust-r0f-auth-compat/README.md)。2026-10-26 在 Windows，Node 24.19.0、TypeScript 6.0.3、Jest 30.5.1、ts-jest 29.4.12、Nest common/core 12.0.1、Zod 4.6.1 下执行：119 cases；七项拒绝/环境自检通过；实际 protectedReadAttempts/networkAttempts/processAttempts 均 0；敏感环境继承为空；synthetic loader 调用 30 次。没有真实 `.env` 内容读取。
 
 本次自验通过：runner/preload 的 Node syntax、独立工具 TypeScript `--noEmit`、工具 ESLint（0 warning）、工具代码/JSON Prettier、golden 显式 `--write` 后 `--check`，以及未更新 golden 的默认只读复算。Markdown 使用仓库表格格式工具检查。G3 的最终结论及非作者审查由 root 汇总；本文件不代替总 gate。
 

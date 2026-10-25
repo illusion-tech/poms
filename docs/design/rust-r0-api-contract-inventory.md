@@ -1,6 +1,6 @@
 # Rust R0：API 与兼容契约盘点
 
-**状态**：R0 静态清单；R0A–R0E 交付快照为 `08daaf45b12307bc4d53e01e509f23d265532de6`，R0F 续作采用 v3 路由登记与双重源冻结。R0F G3/G4 状态见[主实施基线](rust-r0f-compatibility-baseline.md)；不代表 Rust 实现或运行验收完成。
+**状态**：R0 静态清单；R0A–R0E 交付快照为 `08daaf45b12307bc4d53e01e509f23d265532de6`，R0F 续作采用 v3 路由登记与双重源冻结。R0F G3/G4 状态见[主实施基线](archive/slices/rust-r0f-compatibility-baseline.md)；不代表 Rust 实现或运行验收完成。
 
 **日期**：2026-10-26。
 
@@ -58,11 +58,11 @@ DTO 来源分为命名 Zod schema、内联 Zod 表达式和无 Zod schema 的 Sw
 
 ## 4. R0A–R0E 历史路由治理差异（v2）
 
-本节保留 `08daaf45` 中 v2 的原始发现，不作为当前 JSON 状态。初盘比较路由形状时仅忽略参数占位符名字，且明确将它与 OpenAPI 的参数名合同分开；当时已登记的 256 行均能匹配现行路由形状，未发现方法或静态路径段不一致。初盘保留以下 `existing-baseline-drift`，没有修复接口或权威表。R0F 后续已补登记并明确待决边界，见第 9 节及 [R0F 路由基线](rust-r0f-route-baseline.md)。
+本节保留 `08daaf45` 中 v2 的原始发现，不作为当前 JSON 状态。初盘比较路由形状时仅忽略参数占位符名字，且明确将它与 OpenAPI 的参数名合同分开；当时已登记的 256 行均能匹配现行路由形状，未发现方法或静态路径段不一致。初盘保留以下 `existing-baseline-drift`，没有修复接口或权威表。R0F 后续已补登记并明确待决边界，见第 9 节及 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。
 
 ### 4.1 历史发现：39 个操作缺 authoritative inventory 行
 
-下表列 formal 路径，实际 OpenAPI 带 `/api` 前缀；当时逐项 operationId、源码及阶段可由 `08daaf45` 的 JSON v2 中 `canonicalInventoryStatus=missing-authoritative-inventory-row` 复核。当前 v3 未登记数为 0，不再具有这 39 个 missing 状态；完整补录与裁决见 [R0F 路由基线](rust-r0f-route-baseline.md)。
+下表列 formal 路径，实际 OpenAPI 带 `/api` 前缀；当时逐项 operationId、源码及阶段可由 `08daaf45` 的 JSON v2 中 `canonicalInventoryStatus=missing-authoritative-inventory-row` 复核。当前 v3 未登记数为 0，不再具有这 39 个 missing 状态；完整补录与裁决见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。
 
 | 模块          | 缺行的 method/path；同一路径的不同 method 分别计数                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 操作数 |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -159,7 +159,7 @@ pnpm run format:md:check
 
 ## 9. R0F 续作：v3 登记补齐与产品/文档分别冻结
 
-本轮 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 依据 [ADR-015](../adr/015-api-route-canonical-grammar.md) 补录现状及设计边界，完整逐项结果和 R1 七路由的请求、权限、响应、最小副作用见 [R0F 路由基线](rust-r0f-route-baseline.md)。本轮不改 controller、DTO、OpenAPI、生成客户端或产品行为。
+本轮 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 依据 [ADR-015](../adr/015-api-route-canonical-grammar.md) 补录现状及设计边界，完整逐项结果和 R1 七路由的请求、权限、响应、最小副作用见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。本轮不改 controller、DTO、OpenAPI、生成客户端或产品行为。
 
 | 当前结果         | v3 数量与边界                                                                                                                                 |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -176,9 +176,9 @@ v3 源证明保留产品 `033aedd028fc25ea990450a7854fc92c567cfb8a`，原产品 
 
 本次 Windows 重录与只读 `--check` 的当前证据：
 
-- API JSON v3 SHA-256：`3d564c69ec633872a1870bdbaa0ab48744d0e316ab8660f62ddd5ccb11e1c95c`。
-- canonical normalized UTF8 SHA-256：`c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7`。
-- generator normalized UTF8 SHA-256：`fe0d325b6e995b0c7ee063a7f3ccf4242719294e61003dde675619343df0ced0`。
+- API JSON v3 SHA-256：`3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c`。
+- canonical normalized UTF8 SHA-256：`0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f`。
+- generator normalized UTF8 SHA-256：`a415103fb2cb682d7fba5e455c6d951135a6fe0e561ab6fb66268373ae87c079`。
 - OpenAPI/shared/operationSet 指纹继续保持第 2 节的原值；291 个操作除 canonical 派生字段外，与 `08daaf45` v2 的记录逐项严格相等。
 
 独立静态核验还覆盖 39 缺行 + 7 差异 + R1 七路由去重后的 52 操作、11 个 controller 源文件的 method/path/源码行。原 canonical 的 261 个 capability 行全部保留：254 逐格未变，7 行只修改获准的事实/处置列，新增 39 行。v3 解析器明确接受有 implemented 路由而 canonical 为空的 pending 行，并拒绝 pending 行夹带已定 canonical 或缺失 implemented 路由；当前 pending 不会被误算为缺行或参数名差异。

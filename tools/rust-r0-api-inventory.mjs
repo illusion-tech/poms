@@ -18,7 +18,7 @@ const sharedPath = 'libs/shared/contracts/src/lib/shared-contracts.ts';
 const canonicalPath = 'docs/design/api-route-canonical-inventory.md';
 // Product sources remain pinned to baselineHead. R0F reviews the canonical
 // document separately, so a docs-only change cannot silently advance code input.
-const canonicalReviewedSha256 = 'c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7';
+const canonicalReviewedSha256 = '0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f';
 const canonicalReview = { slice: 'RUST-R0F', issue: 59, priorDeliveryCommit: '08daaf45b12307bc4d53e01e509f23d265532de6' };
 const sourceScope = [
     '.gitattributes',

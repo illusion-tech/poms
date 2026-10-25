@@ -1,6 +1,6 @@
 # R0F 兼容输入复算
 
-R0F 为 R1 冻结现有 TypeScript 行为，入口见 [实施基线](../../docs/design/rust-r0f-compatibility-baseline.md)。以下均是离线样本或静态清单复算，不启动后端、连接数据库或替代 Rust 集成验收。
+R0F 为 R1 冻结现有 TypeScript 行为，入口见 [实施基线](../../docs/design/archive/slices/rust-r0f-compatibility-baseline.md)。以下均是离线样本或静态清单复算，不启动后端、连接数据库或替代 Rust 集成验收。
 
 在仓库根目录、既有 lock 依赖环境下执行：
 

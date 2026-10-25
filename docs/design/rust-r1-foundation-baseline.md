@@ -4,7 +4,7 @@
 **Gate Status**: `Pass`（实施输入）；R0F 冻结输入，不代表本轮已开始 R1 实现
 **Parent / Owner**: [RUST-R1 #60](https://github.com/illusion-tech/poms/issues/60) / 主代理；总体 [#57](https://github.com/illusion-tech/poms/issues/57)
 **Slice Type**: `cross-layer-high-risk`，本文件定义 R1 工程边界与验收输入
-**正式前置**: [R0 基线](rust-r0-baseline.md)与[执行追踪](rust-migration-execution-tracker.md)
+**正式前置**: [R0 基线](archive/slices/rust-r0-baseline.md)与[执行追踪](rust-migration-execution-tracker.md)
 **G1 Reviewer / Date**: 主代理集成、非作者代理审查 / 2026-10-26；结论见第 9 节
 
 ## 1. 范围与明确不做
@@ -47,11 +47,11 @@ R1 不交付完整平台治理、真实外部身份/组织同步、附件写入�
 
 外部登录 ticket 与会话创建的公共内部接口在 R1 定义，外部 provider 授权/回调及真实 exchange API 完整交付归 R2；R1不为未接入 provider 返回假的成功会话。`auth/profile` 等自助/平台路由按完整接口清单另归 R2。
 
-R1 兼容实现现有 `GET /api/health`、`GET /api/health/readiness` 和 `GET /api`，保留状态码、payload 与实际依赖探测语义。7 个操作的完整矩阵与逐项来源由 [R0F 路由基线](rust-r0f-route-baseline.md)冻结；R1 不新增公共路径。另有两个业务号 lookup 的 canonical 待决项只阻断 R3/R4 对应域，不扩展 R1 范围。
+R1 兼容实现现有 `GET /api/health`、`GET /api/health/readiness` 和 `GET /api`，保留状态码、payload 与实际依赖探测语义。7 个操作的完整矩阵与逐项来源由 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)冻结；R1 不新增公共路径。另有两个业务号 lookup 的 canonical 待决项只阻断 R3/R4 对应域，不扩展 R1 范围。
 
 ## 5. 持久化与副作用
 
-R1C 的逐表字段、关系与写入边界由 [R0F 数据兼容输入](rust-r0f-data-compat.md)冻结，不顺带实现整个平台域。必须保持 token hash、CSRF hash、expiry/revocation、账户停用与权限变化即时性，以及 existing write/flush 的事务边界。[认证兼容输入](rust-r0f-auth-compat-baseline.md)中的样本仅验证已标注的现有实现分支；内存 repository double 不能作为 PostgreSQL 事务或并发通过证据。
+R1C 的逐表字段、关系与写入边界由 [R0F 数据兼容输入](rust-r0f-data-compat.md)冻结，不顺带实现整个平台域。必须保持 token hash、CSRF hash、expiry/revocation、账户停用与权限变化即时性，以及 existing write/flush 的事务边界。[认证兼容输入](archive/slices/rust-r0f-auth-compat-baseline.md)中的样本仅验证已标注的现有实现分支；内存 repository double 不能作为 PostgreSQL 事务或并发通过证据。
 
 SQLx使用显式事务和受控连接；需要真实 PostgreSQL 断言事务回滚、唯一冲突、并发续期/撤销和异常映射。不能把 pool-only 连接测试当作业务事务通过。
 

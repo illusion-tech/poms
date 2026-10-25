@@ -1,6 +1,6 @@
 # R0F 认证、错误与 health golden
 
-本工具调用产品基线 `033aedd028fc25ea990450a7854fc92c567cfb8a` 的现有 TypeScript 实现，冻结 119 个离线样本。交付输入为 `08daaf45b12307bc4d53e01e509f23d265532de6`。设计、覆盖与验收边界见 [认证兼容基线](../../docs/design/rust-r0f-auth-compat-baseline.md)。
+本工具调用产品基线 `033aedd028fc25ea990450a7854fc92c567cfb8a` 的现有 TypeScript 实现，冻结 119 个离线样本。交付输入为 `08daaf45b12307bc4d53e01e509f23d265532de6`。设计、覆盖与验收边界见 [认证兼容基线](../../docs/design/archive/slices/rust-r0f-auth-compat-baseline.md)。
 
 从仓库根目录运行，使用已经按 `pnpm-lock.yaml` 安装的依赖及 Node 24（至少 24.9）：
 

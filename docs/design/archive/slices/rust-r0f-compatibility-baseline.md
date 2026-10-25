@@ -2,11 +2,11 @@
 
 **日期**：2026-10-26；**Owner**：主代理；**Issue**：[RUST-R0F #59](https://github.com/illusion-tech/poms/issues/59)；**Parent**：[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58)。
 
-**类型**：`docs-only / process-only`，附离线样本与核验工具；**G1**：Pass，用户已授权继续本切片，具体边界如下；**G3**：Pass；**G4**：Pending 提交与归档。
+**类型**：`docs-only / process-only`，附离线样本与核验工具；**G1**：Pass，用户已授权继续本切片，具体边界如下；**G3 / G4**：Pass；交付已提交推送，生命周期记录已归档。
 
 ## 1. 范围与输入
 
-R0A–R0E 已由提交 `08daaf45b12307bc4d53e01e509f23d265532de6` 推送到 main。产品源码基线仍为 `033aedd028fc25ea990450a7854fc92c567cfb8a`。本切片依据 [R0 基线](rust-r0-baseline.md)、[ADR-015](../adr/015-api-route-canonical-grammar.md)、[ADR-017](../adr/017-admin-web-cookie-session-auth.md)、[ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md)、API/数据库清单及现行源码/测试，形成下游可执行的 R1 输入。
+R0A–R0E 已由提交 `08daaf45b12307bc4d53e01e509f23d265532de6` 推送到 main。产品源码基线仍为 `033aedd028fc25ea990450a7854fc92c567cfb8a`。本切片依据 [R0 基线](rust-r0-baseline.md)、[ADR-015](../../../adr/015-api-route-canonical-grammar.md)、[ADR-017](../../../adr/017-admin-web-cookie-session-auth.md)、[ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md)、API/数据库清单及现行源码/测试，形成下游可执行的 R1 输入。
 
 - 逐项处理 39 个缺 authoritative 记录的操作及 7 个路径参数名差异；补录文档，不更改当前运行路径、DTO、OpenAPI 或生成客户端。若发现与 Accepted ADR 不兼容的设计，显式分类并保留整改边界，不以迁移为由静默改规范。
 - 固定 R1 的 7 个路由、类型、权限、响应和最小副作用；为日期、数值、Cookie、CSRF、会话、密文与错误形成可复算样本。
@@ -45,7 +45,7 @@ R0A–R0E 已由提交 `08daaf45b12307bc4d53e01e509f23d265532de6` 推送到 main
 
 R0F 的通过只表示输入可被 R1 使用。Rust 与 Nest 的双实现 HTTP/数据库/浏览器验证、真实并发、TLS、完整业务回放仍在 R1 及后续阶段。R1 总体与子切片 gate 分开记录，不能用本次样本通过替代 R1 实施验收。
 
-**例外**：当前无。出现源契约不明或 ADR 冲突时记录具体条目与后续边界，不能虚构用户裁决。G3 和 G4 在最终证据就绪前保持 Pending。
+**例外**：当前无。出现源契约不明或 ADR 冲突时记录具体条目与后续边界，不能虚构用户裁决。最终证据、提交和归档见第 6 节。
 
 ## 5. 交付与审查记录
 
@@ -53,9 +53,9 @@ R0F 的通过只表示输入可被 R1 使用。Rust 与 Nest 的双实现 HTTP/�
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 路由      | [逐项裁决](rust-r0f-route-baseline.md)：39 个缺行补录为 37 个 canonical 已定、2 个 lookup 待决；7 个参数名差异保留现行实现并冻结后续域门槛；R1 的 7 操作无未决公共路径                                                                                                                                          |
 | API 清单  | v3 分开校验 `033aedd0` 产品 Git 输入与 canonical normalized SHA；Windows/Linux 复算一致。291 操作的业务 payload、DTO、权限、阶段和测试线索相对 `08daaf45` 完全不变；当前 282 exact / 7 parameter difference / 2 pending / 0 missing                                                                             |
-| 认证/错误 | [认证输入](rust-r0f-auth-compat-baseline.md)及[工具](../../tools/rust-r0f-auth-compat/README.md)：119 个现有实现样本，七组；最终 fixture SHA `a498e7098b3233878eb7ad7110927f620b3fc7d2edc811bbdc49951339b1d479`；实际保护文件读取、网络与子进程尝试计数均 0                                                     |
-| 数据/类型 | [数据输入](rust-r0f-data-compat.md)及[工具](../../tools/rust-r0f/data-compat/README.md)：完整日期模块、白名单原始 AST 方法、真实 Zod/枚举、原 repository SQL 录制及 10 表 121 字段；最终复算/审查见下表                                                                                                         |
-| R1 输入   | [实施输入](rust-r1-foundation-baseline.md)：冻结路由、字段、事务、配置、SQLx 逐连接时区、启动/退出、测试与生成入口、验收矩阵；保持工程 Todo                                                                                                                                                                     |
+| 认证/错误 | [认证输入](rust-r0f-auth-compat-baseline.md)及[工具](../../../../tools/rust-r0f-auth-compat/README.md)：119 个现有实现样本，七组；最终 fixture SHA `a498e7098b3233878eb7ad7110927f620b3fc7d2edc811bbdc49951339b1d479`；实际保护文件读取、网络与子进程尝试计数均 0                                               |
+| 数据/类型 | [数据输入](../../rust-r0f-data-compat.md)及[工具](../../../../tools/rust-r0f/data-compat/README.md)：完整日期模块、白名单原始 AST 方法、真实 Zod/枚举、原 repository SQL 录制及 10 表 121 字段；最终复算/审查见下表                                                                                             |
+| R1 输入   | [实施输入](../../rust-r1-foundation-baseline.md)：冻结路由、字段、事务、配置、SQLx 逐连接时区、启动/退出、测试与生成入口、验收矩阵；保持工程 Todo                                                                                                                                                               |
 | 在线治理  | [#57](https://github.com/illusion-tech/poms/issues/57) → [#58](https://github.com/illusion-tech/poms/issues/58) → [#59](https://github.com/illusion-tech/poms/issues/59)；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 与 [后续路由 #61](https://github.com/illusion-tech/poms/issues/61) 保持打开 |
 
 非作者审查已发现并处理：认证样本中的撤销原因快照应使用实体 enum `account-disabled`，错误码仍为 `account_disabled`；两者不可混用。R1 数据库配置应保持当前 MikroORM 的离散值（含默认值）优先，而不是猜定 `DATABASE_URL` 优先。数据 oracle 读取的数据库清单也须单独冻结来源，防止衍生字段变化后沿用原来源标签。
@@ -70,8 +70,8 @@ R0F 的通过只表示输入可被 R1 使用。Rust 与 Nest 的双实现 HTTP/�
 | 认证样本                                | Pass，主代理复算最终 119 cases；子代理 A 非作者审查来源、mock、错误/撤销原因与隔离边界                                                                   |
 | 数据样本                                | Pass，76 组输入 / 243 观察值 / 10 表 121 字段；主代理复算，C 非作者审查通过；golden SHA c8c58d1e49b848dc274b5ca6d4125bd67c3c0ec3797fac7700c4b7c2bea19329 |
 | 工具                                    | Pass，全部新增工具 syntax / ESLint（0 warning）/ Prettier、认证 TS noEmit；Linux 实际新增未跟踪源文件被 API guard 拒绝，合成文件已清除                   |
-| Markdown / diff / links                 | Pass，仓库 Markdown、diff、19 份文档 282 个本地链接均无错误                                                                                              |
+| Markdown / diff / links                 | Pass，交付时 19 份文档 282 个本地链接；G4 归档后 21 份文档 287 个本地链接，Markdown/diff 均无错误                                                        |
 | 产品测试 / migration / OpenAPI / client | 完整产品 lint/build/E2E 与迁移/生成 N/A；两个既有纯单测 suites 共 11 tests 已运行通过。产品源、已有测试、依赖、迁移与生成契约无变更                      |
 | 环境变更                                | 本 R0F 未安装依赖或改变 PG17/PG15/TEST 服务与数据；R0E 历史证据以 08daaf45 为准                                                                          |
 
-当前 **G3 = Pass，G4 = Pending**。主代理集成复算及 A/B/C 非作者交叉审查已完成，发现项均已修复并按影响重跑。允许按已授权 main-only 模式提交；提交后同步 Issue、归档生命周期记录并更新 tracker。R1 输入 G1 已冻结，产品实现不在本次执行范围。
+**G3 / G4 = Pass**。交付提交为 `711e61116a7c00b0378702cabfc4e4d232beee3b`，已推送 main；本记录及路由/认证子件随 G4 移入 archive/slices。归档调整相对链接后，canonical 指纹和 API v3 清单随之重录，业务操作集合不变；没有重写历史 R0E 证据。最终归档提交由 Issue #59 的 G4 记录给出。主代理集成复算及 A/B/C 非作者交叉审查已完成，发现项均已修复并按影响重跑。R1 输入 G1 已冻结，#60 工程仍 Todo，#61 后续域裁决仍打开；Rust 产品实现不在本次执行范围。

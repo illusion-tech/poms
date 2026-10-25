@@ -25,7 +25,7 @@
       "libs/shared/api-spec/openapi.json"
     ],
     "generator": "tools/rust-r0-api-inventory.mjs",
-    "generatorSha256": "fe0d325b6e995b0c7ee063a7f3ccf4242719294e61003dde675619343df0ced0",
+    "generatorSha256": "a415103fb2cb682d7fba5e455c6d951135a6fe0e561ab6fb66268373ae87c079",
     "typescriptVersion": "6.0.3",
     "evidence": "offline static source inventory; no runtime, database, performance, Fast-mode or executed-test claim",
     "openApi": {
@@ -38,8 +38,8 @@
     },
     "canonicalInventory": {
       "path": "docs/design/api-route-canonical-inventory.md",
-      "sha256": "c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7",
-      "reviewedTextSha256": "c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7",
+      "sha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
+      "reviewedTextSha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
       "review": {
         "slice": "RUST-R0F",
         "issue": 59,
@@ -210,7 +210,7 @@
               "path": "/"
             }
           ],
-          "authority": "`R0F technical entry` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`R0F technical entry` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "补录公开技术根入口，200 返回 `{ \"message\": \"Hello API\" }`；formal 为 /，现行 OpenAPI 为 /api，不推断尾斜杠或重定向行为；R1 保持。",
           "batch": "B19",
@@ -379,7 +379,7 @@
               "path": "/accounting-tax-treatments/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -1468,7 +1468,7 @@
           ],
           "authority": "`ADR-015` + `EX-52A`",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B11",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -1602,7 +1602,7 @@
           ],
           "authority": "`ADR-015` + `EX-52A`",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B11",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -5106,7 +5106,7 @@
               "path": "/audit-logs"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -13737,7 +13737,7 @@
               "path": "/contracts"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -13930,7 +13930,7 @@
               "path": "/contracts"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -15445,7 +15445,7 @@
             }
           ],
           "recordedDesign": [],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "lookup-identity-undecided",
           "action": "仅登记现行业务号 lookup；canonical 不定案。阻断 R4 对应域工程 G1，须先裁决正式查询路径、DTO/错误/审计边界与直接切换方案；不据此新增或批准 alias。",
           "batch": "B19",
@@ -15599,7 +15599,7 @@
               "path": "/cost-stage-attributions/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -18554,7 +18554,7 @@
               "path": "/expense-records/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -18748,7 +18748,7 @@
               "path": "/expense-records/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -23531,7 +23531,7 @@
               "path": "/me/navigation"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "补录当前主体可见菜单树稳定子资源；仅认证，按现有权限裁剪；不重命名 /me 或 navigation，R2 交付。",
           "batch": "B19",
@@ -24163,7 +24163,7 @@
               "path": "/operating-restatements/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -26369,7 +26369,7 @@
               "path": "/period-closing-snapshots/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -32697,7 +32697,7 @@
               "path": "/platform/navigation"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "补录完整导航树管理视图，与 /me/navigation 的权限及结果不同；沿用已登记的 platform/navigation 命名空间，R2 交付。",
           "batch": "B19",
@@ -33720,7 +33720,7 @@
               "path": "/platform/org-units"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -33911,7 +33911,7 @@
               "path": "/platform/org-units"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -34071,7 +34071,7 @@
               "path": "/platform/org-units/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -34278,7 +34278,7 @@
               "path": "/platform/org-units/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -35197,7 +35197,7 @@
               "path": "/platform/permissions"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -35340,7 +35340,7 @@
               "path": "/platform/roles"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -35567,7 +35567,7 @@
               "path": "/platform/roles"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -35727,7 +35727,7 @@
               "path": "/platform/roles/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -35934,7 +35934,7 @@
               "path": "/platform/roles/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -37187,7 +37187,7 @@
               "path": "/platform/users"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -37354,7 +37354,7 @@
               "path": "/platform/users"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -37514,7 +37514,7 @@
               "path": "/platform/users/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -37722,7 +37722,7 @@
               "path": "/platform/users/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -39031,7 +39031,7 @@
               "path": "/project-actual-cost-records/{costRecordId}/stage-attributions"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -39185,7 +39185,7 @@
               "path": "/project-actual-cost-records/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -40116,7 +40116,7 @@
           ],
           "authority": "`ADR-015` + `EX-08` route governance",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B1",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -40324,7 +40324,7 @@
           ],
           "authority": "`ADR-015` + `interface-openapi-dto-design.md`",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B1",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -40513,7 +40513,7 @@
           ],
           "authority": "`ADR-015` + `EX-52A`",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B11",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -40713,7 +40713,7 @@
           ],
           "authority": "`ADR-015` + `EX-52A`",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B11",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -40913,7 +40913,7 @@
           ],
           "authority": "`ADR-015` + `EX-52A`",
           "recordedDriftType": "parameter-name-only",
-          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
           "batch": "B11",
           "recordedStatus": "implementation-drift",
           "canonicalDecisionPending": false,
@@ -41226,7 +41226,7 @@
               "path": "/project-operating-snapshots/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -41616,7 +41616,7 @@
               "path": "/projects"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R3 按该能力契约交付。",
           "batch": "B19",
@@ -42753,7 +42753,7 @@
               "path": "/projects/{projectId}/accounting-tax-treatments"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -43091,7 +43091,7 @@
               "path": "/projects/{projectId}/actual-cost-records"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -47531,7 +47531,7 @@
               "path": "/projects/{projectId}/expense-records"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -47732,7 +47732,7 @@
               "path": "/projects/{projectId}/expense-records"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -48396,7 +48396,7 @@
               "path": "/projects/{projectId}/operating-restatements"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -51078,7 +51078,7 @@
             }
           ],
           "recordedDesign": [],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "lookup-identity-undecided",
           "action": "仅登记现行业务号 lookup；canonical 不定案。阻断 R3 对应域工程 G1，须先裁决正式查询路径、DTO/错误/审计边界与直接切换方案；不据此新增或批准 alias。",
           "batch": "B19",
@@ -53181,7 +53181,7 @@
               "path": "/security-events"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
           "batch": "B19",
@@ -53662,7 +53662,7 @@
               "path": "/shared-cost-allocation-bases/{id}"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -53816,7 +53816,7 @@
               "path": "/shared-cost-allocation-bases/{id}/results"
             }
           ],
-          "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+          "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
           "recordedDriftType": "N/A",
           "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
           "batch": "B19",
@@ -54116,7 +54116,7 @@
       ],
       "authority": "`ADR-015` + `EX-08` route governance",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B1",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -54152,7 +54152,7 @@
       ],
       "authority": "`ADR-015` + `interface-openapi-dto-design.md`",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R4 移交域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B1",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -60920,7 +60920,7 @@
       ],
       "authority": "`ADR-015` + `EX-52A`",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B11",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -60956,7 +60956,7 @@
       ],
       "authority": "`ADR-015` + `EX-52A`",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B11",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -60992,7 +60992,7 @@
       ],
       "authority": "`ADR-015` + `EX-52A`",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B11",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -61028,7 +61028,7 @@
       ],
       "authority": "`ADR-015` + `EX-52A`",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B11",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -61064,7 +61064,7 @@
       ],
       "authority": "`ADR-015` + `EX-52A`",
       "recordedDriftType": "parameter-name-only",
-      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](rust-r0f-route-baseline.md)。",
+      "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。",
       "batch": "B11",
       "recordedStatus": "implementation-drift",
       "canonicalDecisionPending": false,
@@ -63258,7 +63258,7 @@
           "path": "/"
         }
       ],
-      "authority": "`R0F technical entry` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`R0F technical entry` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "补录公开技术根入口，200 返回 `{ \"message\": \"Hello API\" }`；formal 为 /，现行 OpenAPI 为 /api，不推断尾斜杠或重定向行为；R1 保持。",
       "batch": "B19",
@@ -63294,7 +63294,7 @@
           "path": "/accounting-tax-treatments/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63330,7 +63330,7 @@
           "path": "/audit-logs"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63366,7 +63366,7 @@
           "path": "/contracts"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63402,7 +63402,7 @@
           "path": "/contracts"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63428,7 +63428,7 @@
         }
       ],
       "recordedDesign": [],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "lookup-identity-undecided",
       "action": "仅登记现行业务号 lookup；canonical 不定案。阻断 R4 对应域工程 G1，须先裁决正式查询路径、DTO/错误/审计边界与直接切换方案；不据此新增或批准 alias。",
       "batch": "B19",
@@ -63464,7 +63464,7 @@
           "path": "/cost-stage-attributions/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63500,7 +63500,7 @@
           "path": "/expense-records/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63536,7 +63536,7 @@
           "path": "/expense-records/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63572,7 +63572,7 @@
           "path": "/me/navigation"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "补录当前主体可见菜单树稳定子资源；仅认证，按现有权限裁剪；不重命名 /me 或 navigation，R2 交付。",
       "batch": "B19",
@@ -63608,7 +63608,7 @@
           "path": "/operating-restatements/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63644,7 +63644,7 @@
           "path": "/period-closing-snapshots/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -63680,7 +63680,7 @@
           "path": "/platform/navigation"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "补录完整导航树管理视图，与 /me/navigation 的权限及结果不同；沿用已登记的 platform/navigation 命名空间，R2 交付。",
       "batch": "B19",
@@ -63716,7 +63716,7 @@
           "path": "/platform/org-units"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63752,7 +63752,7 @@
           "path": "/platform/org-units"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63788,7 +63788,7 @@
           "path": "/platform/org-units/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63824,7 +63824,7 @@
           "path": "/platform/org-units/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63860,7 +63860,7 @@
           "path": "/platform/permissions"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63896,7 +63896,7 @@
           "path": "/platform/roles"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63932,7 +63932,7 @@
           "path": "/platform/roles"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -63968,7 +63968,7 @@
           "path": "/platform/roles/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64004,7 +64004,7 @@
           "path": "/platform/roles/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64040,7 +64040,7 @@
           "path": "/platform/users"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64076,7 +64076,7 @@
           "path": "/platform/users"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64112,7 +64112,7 @@
           "path": "/platform/users/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64148,7 +64148,7 @@
           "path": "/platform/users/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64184,7 +64184,7 @@
           "path": "/project-actual-cost-records/{costRecordId}/stage-attributions"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64220,7 +64220,7 @@
           "path": "/project-actual-cost-records/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64256,7 +64256,7 @@
           "path": "/project-operating-snapshots/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64292,7 +64292,7 @@
           "path": "/projects"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R3 按该能力契约交付。",
       "batch": "B19",
@@ -64328,7 +64328,7 @@
           "path": "/projects/{projectId}/accounting-tax-treatments"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64364,7 +64364,7 @@
           "path": "/projects/{projectId}/actual-cost-records"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64400,7 +64400,7 @@
           "path": "/projects/{projectId}/expense-records"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64436,7 +64436,7 @@
           "path": "/projects/{projectId}/expense-records"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64472,7 +64472,7 @@
           "path": "/projects/{projectId}/operating-restatements"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64498,7 +64498,7 @@
         }
       ],
       "recordedDesign": [],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "lookup-identity-undecided",
       "action": "仅登记现行业务号 lookup；canonical 不定案。阻断 R3 对应域工程 G1，须先裁决正式查询路径、DTO/错误/审计边界与直接切换方案；不据此新增或批准 alias。",
       "batch": "B19",
@@ -64534,7 +64534,7 @@
           "path": "/security-events"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。",
       "batch": "B19",
@@ -64570,7 +64570,7 @@
           "path": "/shared-cost-allocation-bases/{id}"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -64606,7 +64606,7 @@
           "path": "/shared-cost-allocation-bases/{id}/results"
         }
       ],
-      "authority": "`ADR-015` + [R0F 路由基线](rust-r0f-route-baseline.md)",
+      "authority": "`ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)",
       "recordedDriftType": "N/A",
       "action": "R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。",
       "batch": "B19",
@@ -79930,7 +79930,7 @@
     },
     {
       "path": "docs/design/api-route-canonical-inventory.md",
-      "sha256": "c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7"
+      "sha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f"
     },
     {
       "path": "libs/api/contracts/src/index.ts",

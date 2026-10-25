@@ -1,43 +1,43 @@
 # RUST-R0 迁移基线与盘点记录
 
 **最后更新**: 2026-10-26
-**Parent**: [Rust 重构计划](backend-rust-migration-plan.md)
+**Parent**: [Rust 重构计划](../../backend-rust-migration-plan.md)
 **Owner**: 主代理；API / 数据 / 环境盘点由三个独立上下文子代理负责
 **Slice Type**: `docs-only / process-only`；不修改产品行为
-**Tracker**: [RUST-R0 及 R0A–R0F](rust-migration-execution-tracker.md)
-**Gate Status**: 本轮盘点边界已授权；R0 全阶段收口与 R1 G1 均为 `Pending`
+**Tracker**: [RUST-R0 及 R0A–R0F](../../rust-migration-execution-tracker.md)
+**Gate Status**: R0 G3/G4 Pass；R1 G1 实施输入 Pass，R1 产品实现 Todo
 
 ## 1. 范围与可依赖边界
 
 本轮形成可追溯的架构方向、全量静态 API/数据库清单、环境实况、兼容样本入口及后续工程输入。允许只读源码扫描、离线清单工具、文档更新和独立 Linux 源码 checkout 准备。用户随后要求对齐既有 TEST、指出本机 PostgreSQL 开发实例，并确认尚无生产部署；续查补充了 TEST 服务器和本机/TEST 数据库的只读元数据。
 
-上述初轮盘点未执行 Rust 业务实现、数据库写入、系统依赖安装或迁移。后续用户单独授权 [R0E 环境切片](archive/slices/rust-r0e-environment-baseline.md)：安装 WSL 容器工具、建立 TEST 兼容构建镜像及 PG15 隔离库并验证。既有 PG17 和 TEST 仍只查元数据，不读写业务行；没有远程发布、性能实测或收益测算。R0F 续作按用户授权建立 GitHub 任务映射。没有运行的测试不标记通过；工具静态关联不等于业务覆盖。
+上述初轮盘点未执行 Rust 业务实现、数据库写入、系统依赖安装或迁移。后续用户单独授权 [R0E 环境切片](rust-r0e-environment-baseline.md)：安装 WSL 容器工具、建立 TEST 兼容构建镜像及 PG15 隔离库并验证。既有 PG17 和 TEST 仍只查元数据，不读写业务行；没有远程发布、性能实测或收益测算。R0F 续作按用户授权建立 GitHub 任务映射。没有运行的测试不标记通过；工具静态关联不等于业务覆盖。
 
 下游可以依赖静态清单进行拆分和审查，以及 R0E 的固定环境与合成类型/约束验证。后者不是完整产品 schema、认证或业务兼容证据。R0F 进一步冻结 R1 所需路由、字段和离线样本，仍不表示 Rust 已实现或可承接正式流量。
 
 ## 2. 输入与来源
 
-| 输入           | 固定来源                                                                                                                   | 本轮结论                                                          |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 代码           | `033aedd028fc25ea990450a7854fc92c567cfb8a`；开始时 Windows main 干净                                                       | 清单的代码基线；之后修改限本轮文档/离线工具                       |
-| 目标与阶段     | [Rust 重构计划](backend-rust-migration-plan.md)                                                                            | 用户已确定 Rust、WSL 开发、对齐 TEST、无生产部署与无性能前置门槛  |
-| 架构与持久化   | [ADR-012](../adr/012-data-persistence-technology-selection.md)、[ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md) | 保留 PostgreSQL/SQL-first；Rust 使用 SQLx，旧后端继续适用 ADR-012 |
-| 公共路由       | [canonical inventory](api-route-canonical-inventory.md)、ADR-015、controller、OpenAPI                                      | 同时记录规范与实现；差异不被自动改写                              |
-| 业务/命令/读侧 | `poms-hld.md`、`interface-command-design.md`、`query-view-boundary-design.md`                                              | 沿用既有业务与跨域边界；具体迁移输入见清单                        |
-| DTO/共享值     | `libs/api/contracts`、`libs/shared/contracts`、`libs/shared/api-spec/openapi.json`                                         | 过渡期沿用现有生成权；TS 共享值单向导出/机械校验                  |
-| 物理数据       | `apps/poms-api/src/migrations`、实体与 repository、初始化脚本                                                              | 静态源码证据；未核实完整 DDL 与实体/schema 逐项一致性             |
-| 验证与发布     | API/Admin E2E、客户端生成工具、`deploy/`                                                                                   | 现有入口有平台绑定，跨平台实现属于 R1                             |
+| 输入           | 固定来源                                                                                                                               | 本轮结论                                                          |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 代码           | `033aedd028fc25ea990450a7854fc92c567cfb8a`；开始时 Windows main 干净                                                                   | 清单的代码基线；之后修改限本轮文档/离线工具                       |
+| 目标与阶段     | [Rust 重构计划](../../backend-rust-migration-plan.md)                                                                                  | 用户已确定 Rust、WSL 开发、对齐 TEST、无生产部署与无性能前置门槛  |
+| 架构与持久化   | [ADR-012](../../../adr/012-data-persistence-technology-selection.md)、[ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md) | 保留 PostgreSQL/SQL-first；Rust 使用 SQLx，旧后端继续适用 ADR-012 |
+| 公共路由       | [canonical inventory](../../api-route-canonical-inventory.md)、ADR-015、controller、OpenAPI                                            | 同时记录规范与实现；差异不被自动改写                              |
+| 业务/命令/读侧 | `poms-hld.md`、`interface-command-design.md`、`query-view-boundary-design.md`                                                          | 沿用既有业务与跨域边界；具体迁移输入见清单                        |
+| DTO/共享值     | `libs/api/contracts`、`libs/shared/contracts`、`libs/shared/api-spec/openapi.json`                                                     | 过渡期沿用现有生成权；TS 共享值单向导出/机械校验                  |
+| 物理数据       | `apps/poms-api/src/migrations`、实体与 repository、初始化脚本                                                                          | 静态源码证据；未核实完整 DDL 与实体/schema 逐项一致性             |
+| 验证与发布     | API/Admin E2E、客户端生成工具、`deploy/`                                                                                               | 现有入口有平台绑定，跨平台实现属于 R1                             |
 
 JSON 清单记录参与扫描的来源和哈希；校验命令重新生成后比较，输入变化不能沿用旧清单。`033aedd0` 之后如有产品改动，必须更新覆盖矩阵并重审受影响结论。初版原始字节指纹绑定 Windows checkout；R0E 以 `formatVersion=2` 明确只把 UTF8 文本 CRLF 规范化为 LF 后解析/散列，保留其余字符与 Git 输入检查。Windows 和独立 Linux checkout 已复算得到相同 JSON SHA-256，v1 业务集合与计数在同一换行规范化后保持一致；该修正分类为 `tool-noise`，不是产品漂移。
 
 ## 3. 盘点交付
 
-| 责任                     | 可审查文档                                        | 机器清单 / 工具                                                                                        | 证据性质                                  |
-| ------------------------ | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
-| API、DTO、权限、模块     | [API 契约清单](rust-r0-api-contract-inventory.md) | [operations JSON](rust-r0-api-operations.json)、[生成工具](../../tools/rust-r0-api-inventory.mjs)      | AST / OpenAPI / 文本关联；不是 HTTP 实测  |
-| 实体、迁移、事务、类型   | [数据库清单](rust-r0-database-inventory.md)       | [数据库 JSON](rust-r0-database-inventory.json)、[生成工具](../../tools/rust-r0-database-inventory.mjs) | 源码静态解析；不是 migration/schema check |
-| 环境、测试入口、后台任务 | [环境清单](rust-r0-environment-inventory.md)      | 文档内的版本命令与时点                                                                                 | WSL/本机/TEST 只读实况；未执行安装/部署   |
-| 后续工程                 | [R1 G1 草案](rust-r1-foundation-baseline.md)      | 本页第 6 节待办                                                                                        | `Pending`，不授予工程开工结论             |
+| 责任                     | 可审查文档                                              | 机器清单 / 工具                                                                                                    | 证据性质                                  |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| API、DTO、权限、模块     | [API 契约清单](../../rust-r0-api-contract-inventory.md) | [operations JSON](../../rust-r0-api-operations.json)、[生成工具](../../../../tools/rust-r0-api-inventory.mjs)      | AST / OpenAPI / 文本关联；不是 HTTP 实测  |
+| 实体、迁移、事务、类型   | [数据库清单](../../rust-r0-database-inventory.md)       | [数据库 JSON](../../rust-r0-database-inventory.json)、[生成工具](../../../../tools/rust-r0-database-inventory.mjs) | 源码静态解析；不是 migration/schema check |
+| 环境、测试入口、后台任务 | [环境清单](../../rust-r0-environment-inventory.md)      | 文档内的版本命令与时点                                                                                             | WSL/本机/TEST 只读实况；未执行安装/部署   |
+| 后续工程                 | [R1 实施输入](../../rust-r1-foundation-baseline.md)     | 本页第 6 节待办                                                                                                    | R0F 已冻结输入；Rust 产品实现尚未开始     |
 
 复核计数为 237 paths、291 operations、585 schemas；291 操作均匹配 controller 路由。78 个实体文件内实际声明 106 张表，不能把文件数当作表数；另有 92 个迁移文件、1775 个字段、79 个 numeric 字段、43 个 `transactional` 调用点（41 个内联回调和 2 个委托包装）。这些调用点计数不等于运行时事务次数。完整操作交付阶段为 R1/R2/R3/R4/R5 = 7/108/58/90/28；部分操作依赖后续域事实才能最终验收。
 
@@ -85,7 +85,7 @@ WSL Debian 13.7、x86_64、glibc 2.41 和现有 Rust/Cargo 1.97.1 已核实。�
 
 这不是对缺口的豁免。R0A–R0D 的静态成果可以先独立审查，R0 全阶段与 R1 工程放行仍须满足对应输入。新路由或改变公共 surface 的工程必须先有 authoritative 行；仅补清单不能等同运行兼容。
 
-数据库盘点列出 `DB-D01` 至 `DB-D07`：金额精度、替代链命名、仅生成标识而未物化的应收计划、可配置 schema 与固定 `poms` 的不一致、扩展文档遗漏、跨域意图与实际显式事务边界差异，以及 PostgreSQL 设计 16+ 与 TEST 15.12 的差异。逐项处置见[数据库清单第 9 节](rust-r0-database-inventory.md#9-既有差异与本轮处置)，均保留为既有差异，未因本轮重构计划自动获得业务修复或数据库升级授权。
+数据库盘点列出 `DB-D01` 至 `DB-D07`：金额精度、替代链命名、仅生成标识而未物化的应收计划、可配置 schema 与固定 `poms` 的不一致、扩展文档遗漏、跨域意图与实际显式事务边界差异，以及 PostgreSQL 设计 16+ 与 TEST 15.12 的差异。逐项处置见[数据库清单第 9 节](../../rust-r0-database-inventory.md#9-既有差异与本轮处置)，均保留为既有差异，未因本轮重构计划自动获得业务修复或数据库升级授权。
 
 ## 7. 校验与本地 checkpoint
 
@@ -105,6 +105,6 @@ WSL Debian 13.7、x86_64、glibc 2.41 和现有 Rust/Cargo 1.97.1 已核实。�
 
 R0E 历史 v2 快照：API JSON SHA-256 为 `a044a5c9b0ecbd9dd0f28c92fd6e7237bf69645c2160c73c295e363e0d756fac`；数据库 JSON SHA-256 为 `4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3`。初轮 v1 的对应指纹为 `9c8888db7208be7613872124b51eafd7e178de409b9ff7b533f6c81ee1f2ebc7` / `6d8d91d8943bc94963ac4213716efbbcac8dbfbc539712bc3c1aeecde6a245e3`，用于规范化前后对照，不再作为当前输出值。`apps/`、`libs/`、`deploy/`、`package.json` 与 `pnpm-lock.yaml` 相对输入基线无 diff。
 
-R0F API v3 将产品 Git 输入与已审查 canonical 文档指纹分开冻结；当前 API JSON SHA-256 为 `3d564c69ec633872a1870bdbaa0ab48744d0e316ab8660f62ddd5ccb11e1c95c`。291 个操作的业务 payload、DTO、权限、阶段与测试线索相对 `08daaf45` 均不变；Windows/Linux 复算一致。当前为 282 exact、7 参数名差异、2 canonical 待决、0 缺行；数据库 v2 JSON 未改。
+R0F API v3 将产品 Git 输入与已审查 canonical 文档指纹分开冻结；当前 API JSON SHA-256 为 `3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c`。291 个操作的业务 payload、DTO、权限、阶段与测试线索相对 `08daaf45` 均不变；Windows/Linux 复算一致。当前为 282 exact、7 参数名差异、2 canonical 待决、0 缺行；数据库 v2 JSON 未改。
 
-**R0A–R0E G4**: 已提交推送 `08daaf45`，R0E 记录已归档。**R0F**: Doing，见其独立基线与 Issue #59；**R1**: 实施 Todo，本轮不启动业务实现。
+**R0A–R0E G4**: 已提交推送 `08daaf45`，R0E 记录已归档。**R0F G4**: 已交付推送 `711e61116a7c00b0378702cabfc4e4d232beee3b` 并归档，见独立基线与 Issue #59。**R0 全阶段**: Done（输入准备）；**R1**: G1 输入 Pass、实施 Todo。本轮不启动业务实现。

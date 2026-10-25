@@ -1,6 +1,6 @@
 # RUST-R0F 数据、类型与事务兼容输入
 
-**日期**：2026-10-26；**Issue**：[RUST-R0F #59](https://github.com/illusion-tech/poms/issues/59)；**范围**：[R0F G1](rust-r0f-compatibility-baseline.md) 内的离线样本。产品参考提交为 `033aedd028fc25ea990450a7854fc92c567cfb8a`，R0A–E 交付参考为 `08daaf45b12307bc4d53e01e509f23d265532de6`。
+**日期**：2026-10-26；**Issue**：[RUST-R0F #59](https://github.com/illusion-tech/poms/issues/59)；**范围**：[R0F G1](archive/slices/rust-r0f-compatibility-baseline.md) 内的离线样本。产品参考提交为 `033aedd028fc25ea990450a7854fc92c567cfb8a`，R0A–E 交付参考为 `08daaf45b12307bc4d53e01e509f23d265532de6`。
 
 本文件冻结现有 TypeScript 的可观察值、R1 的 10 表 121 字段及事务输入，不实现 Rust 产品，不运行 migration/seed，不读取真实业务行，不连接 PG17、TEST 或隔离 PG15。R1 总体及子切片仍按[实施输入](rust-r1-foundation-baseline.md)验收。
 
@@ -124,7 +124,7 @@ SQLx 必须显式承担 MikroORM 原先提供的 UUID/default、timestamptz Date
 
 repository 六方法的十次录制覆盖读取命中/缺失、touch 命中/零行、CSRF 命中/零行、expire、revoke、批量撤销两行/零行；SQL 文本/参数顺序直接来自原方法。touch 保留 active、throttle、idle/absolute 有效性条件、`least` 到期上限、IP coalesce、row_version/updated_at 增量；Date/string snapshot 由原函数归一。
 
-连接 double 只记录 SQL 并返回明确声明的合成行，不计算 WHERE/锁/事务/触发器或实际行状态，也不证明 PG driver 解码。真实 R1C 必须验证过期边界、同时 touch/rotate/revoke、账户停用、权限变化、唯一/FK失败、rollback 和异常映射；credentials 的 bcrypt 及完整 Cookie/CSRF/error 实现由[认证样本](rust-r0f-auth-compat-baseline.md)界定。
+连接 double 只记录 SQL 并返回明确声明的合成行，不计算 WHERE/锁/事务/触发器或实际行状态，也不证明 PG driver 解码。真实 R1C 必须验证过期边界、同时 touch/rotate/revoke、账户停用、权限变化、唯一/FK失败、rollback 和异常映射；credentials 的 bcrypt 及完整 Cookie/CSRF/error 实现由[认证样本](archive/slices/rust-r0f-auth-compat-baseline.md)界定。
 
 SQLx 0.9.0 startup 会发送 UTC；R0E 实测见[环境说明](rust-r0e-database-notes.md)，实现来源为 [SQLx establish.rs](https://github.com/launchbadge/sqlx/blob/v0.9.0/sqlx-postgres/src/connection/establish.rs)。R1 使用 `PgPoolOptions::after_connect` 对每条新连接执行 `SET TIME ZONE 'Etc/GMT-8'` 并读回，不能只通过 pool 执行一次 SET。至少同时借出两个不同 PID、断线重连、初始化失败、取消/超时后 rollback/归还连接；本轮没有实现或执行该 pool。这与 `Asia/Hong_Kong` 业务日期规则分别固定，不能互相替代。
 

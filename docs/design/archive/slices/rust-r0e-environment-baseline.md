@@ -4,7 +4,7 @@
 
 ## 1. 范围与正式输入
 
-依据 [R0 基线](../../rust-r0-baseline.md)、[环境清单](../../rust-r0-environment-inventory.md)、[ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md) 和用户本轮要求，准备可实际构建、运行的 TEST 兼容环境，以及 PostgreSQL 15 隔离验收库。当前 TEST 应用为 Debian 12 / x86_64 / glibc 2.36；数据库为 PostgreSQL 15.12、UTF8、libc `en_US.UTF-8`、记录的 collation version 2.34、会话 `Etc/GMT-8`、`pgcrypto 1.3`、`btree_gist 1.7`。
+依据 [R0 基线](rust-r0-baseline.md)、[环境清单](../../rust-r0-environment-inventory.md)、[ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md) 和用户本轮要求，准备可实际构建、运行的 TEST 兼容环境，以及 PostgreSQL 15 隔离验收库。当前 TEST 应用为 Debian 12 / x86_64 / glibc 2.36；数据库为 PostgreSQL 15.12、UTF8、libc `en_US.UTF-8`、记录的 collation version 2.34、会话 `Etc/GMT-8`、`pgcrypto 1.3`、`btree_gist 1.7`。
 
 本机 Windows PostgreSQL 17.4 的服务、配置、端口 5432、数据目录和现有 `poms` 库保持原样。TEST 只允许补充只读元数据，禁止迁移、seed、业务重放及其他写入。PROD 尚未部署；本切片不远程发布，不安装 Windows 桌面容器组件、不重启主机，不启动 R1 业务实现。
 
