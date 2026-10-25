@@ -1,6 +1,6 @@
 # Rust R0：API 与兼容契约盘点
 
-**状态**：R0 静态基线，本轮独立审查与 G3 检查通过，G4 待提交；不代表 Rust 实现或运行验收完成。
+**状态**：R0 静态清单；R0A–R0E 交付快照为 `08daaf45b12307bc4d53e01e509f23d265532de6`，R0F 续作采用 v3 路由登记与双重源冻结。R0F G3/G4 状态见[主实施基线](rust-r0f-compatibility-baseline.md)；不代表 Rust 实现或运行验收完成。
 
 **日期**：2026-10-26。
 
@@ -21,21 +21,21 @@ DTO 来源分为命名 Zod schema、内联 Zod 表达式和无 Zod schema 的 Sw
 
 ## 2. 重新核验的数量
 
-| 对象               | 当前基线                                                                   |
-| ------------------ | -------------------------------------------------------------------------- |
-| OpenAPI            | 3.0.0；237 paths、291 operations、585 schemas                              |
-| 源码控制器         | 36 文件、42 class、291 HTTP 操作                                           |
-| OpenAPI→源码映射   | 291/291 method/path/operationId 对齐，均有从 AppModule 可达的注册          |
-| 源码独有 HTTP 路由 | 0；不包含框架自动 OPTIONS/HEAD、Swagger UI 或代理入口                      |
-| 认证分类           | public 11、authenticated 6、permission 274；未发现未声明授权的默认拒绝操作 |
-| 静态测试输入       | 72 后端单测文件、14 API E2E 文件                                           |
-| 直接测试线索       | 166 操作找到线索；125 暂未找到；其中 48 操作有直接 E2E HTTP 路由线索       |
-| canonical 表       | 256 能力行、252 个唯一现行操作；另 39 个操作缺行                           |
-| 共享常量/枚举      | 455 个命名常量快照，含 37 PermissionKey；224 个 z.enum 表达式              |
+| 对象               | 当前基线                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| OpenAPI            | 3.0.0；237 paths、291 operations、585 schemas                                                     |
+| 源码控制器         | 36 文件、42 class、291 HTTP 操作                                                                  |
+| OpenAPI→源码映射   | 291/291 method/path/operationId 对齐，均有从 AppModule 可达的注册                                 |
+| 源码独有 HTTP 路由 | 0；不包含框架自动 OPTIONS/HEAD、Swagger UI 或代理入口                                             |
+| 认证分类           | public 11、authenticated 6、permission 274；未发现未声明授权的默认拒绝操作                        |
+| 静态测试输入       | 72 后端单测文件、14 API E2E 文件                                                                  |
+| 直接测试线索       | 166 操作找到线索；125 暂未找到；其中 48 操作有直接 E2E HTTP 路由线索                              |
+| canonical 表       | 295 个有路由的能力行，覆盖全部 291 操作：282 精确匹配、7 参数名差异、2 canonical 待裁决；未登记 0 |
+| 共享常量/枚举      | 455 个命名常量快照，含 37 PermissionKey；224 个 z.enum 表达式                                     |
 
-`POST /projects/{projectId}/actual-cost-records` 的五种 costType 能力共用一个实际操作；因此 256 个 canonical 行不能直接与 291 个操作相减。枚举表达式中，161 个顶层 OpenAPI enum 的值和顺序与 TS 一致；53 个为对象内嵌 enum；10 个顶层 enum 未作为独立 OpenAPI enum 发布，仍从 TS 冻结。未发现静态无法解析的枚举表达式。
+`POST /projects/{projectId}/actual-cost-records` 的五种 costType 能力共用一个实际操作；因此能力行数不能直接与操作数相减。R0F 的 295 个有路由能力行中，293 行 canonical 已定、2 行 pending；原有 5 个无当前 method/path 的历史能力行也完整保留。枚举表达式中，161 个顶层 OpenAPI enum 的值和顺序与 TS 一致；53 个为对象内嵌 enum；10 个顶层 enum 未作为独立 OpenAPI enum 发布，仍从 TS 冻结。未发现静态无法解析的枚举表达式。
 
-以下输入摘要按 `formatVersion=2` 的 UTF8、CRLF→LF 文本规则计算；这三个输入原本已为 LF，因此其摘要与初盘相同。操作集合摘要不受换行规范化影响：
+以下为 `08daaf45` 中 R0E 历史 v2 快照的输入摘要，按 UTF8、CRLF→LF 文本规则计算；当时这三个输入已为 LF，因此其摘要与初盘相同。R0F 已更新 canonical 文档，下面旧 canonical 指纹只表示历史，不作为当前 v3 文档指纹；当前指纹见第 9 节。OpenAPI、shared 源码与操作集合摘要保持不变：
 
 - `openapi.json` SHA-256：`75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3`。
 - `shared-contracts.ts` SHA-256：`3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a`。
@@ -46,23 +46,23 @@ DTO 来源分为命名 Zod schema、内联 Zod 表达式和无 Zod schema 的 Sw
 
 阶段数字表示完整操作的交付责任，不能单凭路由实现就提前放行其全部业务行为。每个操作的跨阶段依赖保存在 JSON 的 `migration.dependencies`。外部登录四项与 profile 两项完整交付归 R2，R1 只定义复用的认证内部接口。
 
-| 主阶段 | 模块与操作数                                                                                                                                                               | 合计及完成条件                                                       |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| R1     | app 1、基本会话 auth 4、health 2                                                                                                                                           | 7；`GET /api` 仍须在 R0F 补 authoritative 行后实现                   |
-| R2     | platform 27、attachment 30、identity-provider 12、external-org-sync 18、dictionary 3、navigation 1、runtime-audit 4、system-setting 3、approval 4、外部登录/profile auth 6 | 108；审批各业务域 handler 随 R3–R5 注册                              |
-| R3     | customer 8、lead 14、sales-follow-up 4、sales-intelligence 13、business-discussion 2、project 的签约前/主数据 17                                                           | 58；project detail/timeline/workspace 引用的后续阶段投影最终仍须完整 |
-| R4     | contract 9、contract-finance 19、contract-readiness 9、project-handover 5、project-cost 40、project 验收/完成/归档 8                                                       | 90；保留跨域事务、版本与金额规则                                     |
-| R5     | commission 28                                                                                                                                                              | 28；依赖 R4 资金、成本和项目状态事实及 R2 审批框架                   |
+| 主阶段 | 模块与操作数                                                                                                                                                               | 合计及完成条件                                                             |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| R1     | app 1、基本会话 auth 4、health 2                                                                                                                                           | 7；R0F 已补根入口 authoritative 行，并固定七路由输入；工程实现/验收仍待 R1 |
+| R2     | platform 27、attachment 30、identity-provider 12、external-org-sync 18、dictionary 3、navigation 1、runtime-audit 4、system-setting 3、approval 4、外部登录/profile auth 6 | 108；审批各业务域 handler 随 R3–R5 注册                                    |
+| R3     | customer 8、lead 14、sales-follow-up 4、sales-intelligence 13、business-discussion 2、project 的签约前/主数据 17                                                           | 58；project detail/timeline/workspace 引用的后续阶段投影最终仍须完整       |
+| R4     | contract 9、contract-finance 19、contract-readiness 9、project-handover 5、project-cost 40、project 验收/完成/归档 8                                                       | 90；保留跨域事务、版本与金额规则                                           |
+| R5     | commission 28                                                                                                                                                              | 28；依赖 R4 资金、成本和项目状态事实及 R2 审批框架                         |
 
 无独立 HTTP 操作的 `PersistenceModule`、`SecretCipherModule`、`SensitiveFieldProjectionModule` 归 R1；`ApprovalSummaryModule`、`BusinessNumberModule` 归 R2。`core/platform/dev-platform.fixtures.ts` 也是实际源码输入，须在 R1/R2 区分开发 fallback 与正式用户解析。`openapi.ts` 内的 `OpenApiPersistenceModule` 以及 `ApiContractsModule` 是生成/契约支持模块，不能当作待迁移 HTTP 业务模块。
 
-## 4. 现有路由治理差异
+## 4. R0A–R0E 历史路由治理差异（v2）
 
-比较路由形状时仅忽略参数占位符名字，且明确将它与 OpenAPI 的参数名合同分开。已登记的 256 行均能匹配现行路由形状，未发现方法或静态路径段不一致；但存在以下 `existing-baseline-drift`，本片保留现状，不顺手修复接口或权威表。
+本节保留 `08daaf45` 中 v2 的原始发现，不作为当前 JSON 状态。初盘比较路由形状时仅忽略参数占位符名字，且明确将它与 OpenAPI 的参数名合同分开；当时已登记的 256 行均能匹配现行路由形状，未发现方法或静态路径段不一致。初盘保留以下 `existing-baseline-drift`，没有修复接口或权威表。R0F 后续已补登记并明确待决边界，见第 9 节及 [R0F 路由基线](rust-r0f-route-baseline.md)。
 
-### 4.1 39 个操作缺 authoritative inventory 行
+### 4.1 历史发现：39 个操作缺 authoritative inventory 行
 
-以下全部带 `/api` 前缀；逐项 operationId、源码及阶段见 JSON 的 `canonicalInventoryStatus=missing-authoritative-inventory-row`。
+下表列 formal 路径，实际 OpenAPI 带 `/api` 前缀；当时逐项 operationId、源码及阶段可由 `08daaf45` 的 JSON v2 中 `canonicalInventoryStatus=missing-authoritative-inventory-row` 复核。当前 v3 未登记数为 0，不再具有这 39 个 missing 状态；完整补录与裁决见 [R0F 路由基线](rust-r0f-route-baseline.md)。
 
 | 模块          | 缺行的 method/path；同一路径的不同 method 分别计数                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 操作数 |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -74,17 +74,17 @@ DTO 来源分为命名 Zod schema、内联 Zod 表达式和无 Zod schema 的 Sw
 | project       | `POST /projects`；`GET /projects/code/{projectNo}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 2      |
 | project-cost  | `GET /accounting-tax-treatments/{id}`；`GET /cost-stage-attributions/{id}`；`GET, PATCH /expense-records/{id}`；`GET /operating-restatements/{id}`；`GET /period-closing-snapshots/{id}`；`GET /project-actual-cost-records/{costRecordId}/stage-attributions`；`GET /project-actual-cost-records/{id}`；`GET /project-operating-snapshots/{id}`；`GET /projects/{projectId}/accounting-tax-treatments`；`GET /projects/{projectId}/actual-cost-records`；`GET, POST /projects/{projectId}/expense-records`；`GET /projects/{projectId}/operating-restatements`；`GET /shared-cost-allocation-bases/{id}`；`GET /shared-cost-allocation-bases/{id}/results` | 16     |
 
-这些是已实现并进入 OpenAPI 的基线操作，不能作为 Rust 可省略项。涉及这些操作的新建/改写公共接口的工程切片，在 G1 前需完成专门路由治理补录与权威确认；R0 的只读盘点不替代该批准，也不自行改名。基础设施搭建可使用已有 canonical 行的 health/auth 合同继续准备。
+这些是已实现并进入 OpenAPI 的基线操作，不能作为 Rust 可省略项。初盘将相关路由工程 G1 设为需先补录与确认的下游要求。R0F 已完成 37 个 canonical 补定及 2 个待决能力的现状登记，R1 根入口已补齐；两条业务号 lookup 仍阻断其所属 R3/R4 域工程 G1，不能将“已登记”等同“canonical 已定”。
 
-### 4.2 7 个占位符名字差异
+### 4.2 持续保留：7 个占位符名字差异
 
-| canonical 写法                                                                                                            | 现行 OpenAPI/控制器写法 | 操作数与权威表源码行             |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------------------- | -------------------------------- |
-| `/project-handovers/{id}`、`/project-handovers/{id}:confirm`                                                              | `{handoverId}`          | 2；canonical inventory 97、98 行 |
-| `/project-handovers/{id}/attachment-checklist`、同路径 `:refresh`、`/project-handovers/{id}/attachment-download-packages` | `{handoverId}`          | 3；398–400 行                    |
-| `/attachment-download-packages/{id}`、同路径 `/download`                                                                  | `{packageId}`           | 2；401、402 行                   |
+| canonical 写法                                                                                                            | 现行 OpenAPI/控制器写法 | 操作数与权威表源码行（08daaf45 历史行号） |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ----------------------------------------- |
+| `/project-handovers/{id}`、`/project-handovers/{id}:confirm`                                                              | `{handoverId}`          | 2；canonical inventory 97、98 行          |
+| `/project-handovers/{id}/attachment-checklist`、同路径 `:refresh`、`/project-handovers/{id}/attachment-download-packages` | `{handoverId}`          | 3；398–400 行                             |
+| `/attachment-download-packages/{id}`、同路径 `/download`                                                                  | `{packageId}`           | 2；401、402 行                            |
 
-这不改变实际 URL 匹配，但 OpenAPI parameter 名、生成客户端参数名和 operationId 都是兼容输入。Rust 按现行 `handoverId`/`packageId` 输出契约；统一名称需另立设计与客户端变更，不能只因路由形状相同而静默接受。
+这不改变实际 URL 匹配，但 OpenAPI parameter 名、生成客户端参数名和 operationId 都是兼容输入。Rust 迁移按现行 `handoverId`/`packageId` 作为兼容输入；统一名称需显式设计与客户端变更，不能只因路由形状相同而静默接受。R0F 已修正五条附件 Current Implemented 错误登记，七条均保留 `parameter-name-only` / `implementation-drift`；五条归 R2 附件域、两条归 R4 移交域的工程 G1 处置。本次未批准 alias 例外，也不阻断无关的 R1 七路由。
 
 ## 5. TS→Rust 的共享 SSOT 冻结
 
@@ -149,10 +149,38 @@ git diff --check
 pnpm run format:md:check
 ```
 
-`--write` 只写指定 JSON。两个模式都先用 Git 检查 `baseline.sourceReferenceScope`：参与盘点的 TypeScript、DTO/shared、OpenAPI、canonical inventory、兼容生成工具、项目配置及既有 `.gitattributes`，相对 `033aedd0` 存在 tracked/staged 改动、删除或新增未跟踪输入时立即拒绝；规范化不放宽该冻结源检查，也不能把新产品源码重标为旧 HEAD。新增盘点文档/JSON/提取器或其他无关文档提交不会触发该输入检查。经审阅改换源码基线时，必须显式推进工具中的 `baselineHead` 再冻结。
+`--write` 只写指定 JSON。当前 v3 的两个模式都先用 Git 检查 `baseline.sourceReferenceScope`：参与盘点的产品 TypeScript、DTO/shared、OpenAPI、兼容生成工具、项目配置及既有 `.gitattributes`，相对 `033aedd0` 存在 tracked/staged 改动、删除或新增未跟踪输入时立即拒绝。canonical 文档从这个 Git scope 单独拆出，以 `canonicalInventory.reviewedTextSha256` 的经审查规范化文本指纹严格校验；不匹配同样立即拒绝。规范化与本次文档续作均未关闭输入检查，不能把新产品源码重标为旧 HEAD。新增盘点文档/JSON/提取器或其他无关文档提交不会触发产品输入检查。经审阅改换产品源码基线或 canonical 文档时，必须分别显式推进工具中的 `baselineHead` 或 `canonicalReviewedSha256`，再冻结新清单。
 
 输入引用一致后，`--check` 重新计算并比较规范化 JSON 文本；生成器自身规范化文本 SHA-256 保存在 `baseline.generatorSha256`，sourceManifest、完整操作、枚举、权限或提取逻辑发生实质变化都会使旧快照检查失败。工具遇到重复路由、重复 operationId、无法映射/未注册控制器、OpenAPI 与源码参数名不一致、无法解析的枚举、未登记权限或无法定位的 Zod schema 会失败。291 是当前测得的基线，工具不硬编码该数字；后续新增操作须通过新基线审查后进入清单。
 
 本片运行 `--write`、`--check`、Node 语法检查及文档检查后的结果由 R0 主切片 G3 证据统一记录。API build/lint/test、OpenAPI 生成、migration-check、Rust fmt/clippy/test 和数据库/E2E执行：本片不需要，留给对应工程切片。
 
-已知阻断与下游责任：39个 authoritative row 缺口、7个参数命名差异需要在相关路由工程切片 G1 前正式处理或明确冻结兼容边界；尚无共享 Rust enum/业务 DTO 生成器及其 Serde 运行验收证据；125个操作没有直接静态测试线索；跨域事务、数据类型及环境策略须由 R0 其他基线补齐。R0E 的基础类型探针不替代完整业务契约验收。R0 整体是否通过 G1/G3、Issue/PR/tracker 与 G4 状态由主切片决定，本盘点不独立宣告整体 R0 或 Rust 迁移完成。
+当前阻断与下游责任：原 39 个 authoritative row 缺口已在 R0F 全部登记，不再是当前 missing；两条业务号 lookup 的 canonical 裁决及七条参数名差异仍在对应域工程 G1 处置，见第 9 节。尚无共享 Rust enum/业务 DTO 生成器及其 Serde 运行验收证据；125 个操作没有直接静态测试线索；跨域事务、数据类型及环境策略须由 R0 其他基线补齐。R0E 的基础类型探针不替代完整业务契约验收。R0 整体是否通过 G1/G3、Issue/PR/tracker 与 G4 状态由主切片决定，本盘点不独立宣告整体 R0 或 Rust 迁移完成。
+
+## 9. R0F 续作：v3 登记补齐与产品/文档分别冻结
+
+本轮 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 依据 [ADR-015](../adr/015-api-route-canonical-grammar.md) 补录现状及设计边界，完整逐项结果和 R1 七路由的请求、权限、响应、最小副作用见 [R0F 路由基线](rust-r0f-route-baseline.md)。本轮不改 controller、DTO、OpenAPI、生成客户端或产品行为。
+
+| 当前结果         | v3 数量与边界                                                                                                                                 |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 操作集合         | 291，method/path/operationId、分期、DTO、权限、模块与测试线索保持不变                                                                         |
+| 路由登记         | 全部有 authoritative 记录，未登记 0；295 个有路由 capability 行，另保留 5 个无当前 method/path 的历史行                                       |
+| canonical 已定   | 293 行关联 289 个操作；其中 282 操作参数名完全匹配、7 操作参数名仍有差异                                                                      |
+| canonical 待裁决 | 2 行/2 操作：项目编码 lookup（R3）、合同编号 lookup（R4）；`canonical-decision-pending` / `design-change-required`，不伪造 canonical URI      |
+| 参数名差异       | 7 操作；修正五条附件实现记录，保留 canonical `{id}` 与现行 `{handoverId}`/`{packageId}` 对照，分别进入 R2 附件域（5）与 R4 移交域（2）工程 G1 |
+| R1 输入          | root 1 + health 2 + 基础会话 4 = 7；根入口已补 authoritative 记录，外部登录 4 与 profile 2 仍归 R2；不把对应域待决事项扩大成 R1 七路由阻断    |
+
+两条业务号 lookup 的工程设计跟踪为 [#61](https://github.com/illusion-tech/poms/issues/61)，在对应 R3/R4 域工程 G1 前必须裁决正式查询路径、DTO/错误/敏感投影/审计与同步切换边界。七处参数名差异同样须在所属域工程 G1 显式处置。R0F 没有将现状自动批准为长期 legacy alias；后续仍须遵守 ADR-015 §4.5。
+
+v3 源证明保留产品 `033aedd028fc25ea990450a7854fc92c567cfb8a`，原产品 Git scope 不变；唯一拆出的 canonical 输入由严格指纹替代旧文档 Git reference。审查元数据记录 `RUST-R0F` / Issue 59 与此前交付提交 `08daaf45`，不将本次 canonical 修订冒充为产品源码变化。UTF8 CRLF→LF-only、generator 自身规范化文本 hash、JSON LF 复算语义继续沿用 v2。
+
+本次 Windows 重录与只读 `--check` 的当前证据：
+
+- API JSON v3 SHA-256：`3d564c69ec633872a1870bdbaa0ab48744d0e316ab8660f62ddd5ccb11e1c95c`。
+- canonical normalized UTF8 SHA-256：`c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7`。
+- generator normalized UTF8 SHA-256：`fe0d325b6e995b0c7ee063a7f3ccf4242719294e61003dde675619343df0ced0`。
+- OpenAPI/shared/operationSet 指纹继续保持第 2 节的原值；291 个操作除 canonical 派生字段外，与 `08daaf45` v2 的记录逐项严格相等。
+
+独立静态核验还覆盖 39 缺行 + 7 差异 + R1 七路由去重后的 52 操作、11 个 controller 源文件的 method/path/源码行。原 canonical 的 261 个 capability 行全部保留：254 逐格未变，7 行只修改获准的事实/处置列，新增 39 行。v3 解析器明确接受有 implemented 路由而 canonical 为空的 pending 行，并拒绝 pending 行夹带已定 canonical 或缺失 implemented 路由；当前 pending 不会被误算为缺行或参数名差异。
+
+上述只读核验不是 Rust、真实 HTTP 或数据库通过证据。R0E 的 v2 历史指纹与 Windows/Linux 历史复算仍绑定 `08daaf45`；v3 的平台复算和最终 G3/G4 由 R0F 主基线另记，不能覆盖历史验收快照。

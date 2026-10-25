@@ -16,6 +16,10 @@ const outputPath = 'docs/design/rust-r0-api-operations.json';
 const specPath = 'libs/shared/api-spec/openapi.json';
 const sharedPath = 'libs/shared/contracts/src/lib/shared-contracts.ts';
 const canonicalPath = 'docs/design/api-route-canonical-inventory.md';
+// Product sources remain pinned to baselineHead. R0F reviews the canonical
+// document separately, so a docs-only change cannot silently advance code input.
+const canonicalReviewedSha256 = 'c9b781ea1797ef9c9c804d1ce27bc62a8d10ecd231d999141305aff0c8915af7';
+const canonicalReview = { slice: 'RUST-R0F', issue: 59, priorDeliveryCommit: '08daaf45b12307bc4d53e01e509f23d265532de6' };
 const sourceScope = [
     '.gitattributes',
     ':(glob)apps/poms-api/src/**/*.ts',
@@ -28,7 +32,6 @@ const sourceScope = [
     ':(glob)tools/openapi/**/*.json',
     'apps/poms-api/project.json',
     'libs/shared/api-client/project.json',
-    canonicalPath,
     specPath
 ];
 const changedInputs = execFileSync('git', ['diff', '--name-only', '--no-ext-diff', baselineHead, '--', ...sourceScope], { cwd: root, encoding: 'utf8' }).trim();
@@ -39,6 +42,9 @@ if (changedInputs || untrackedInputs) {
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 const normalizeText = (text) => text.replace(/\r\n/g, '\n');
 const read = (path) => normalizeText(readFileSync(resolve(root, path), 'utf8'));
+if (hash(read(canonicalPath)) !== canonicalReviewedSha256) {
+    throw new Error(`Canonical inventory differs from its reviewed R0F normalized-text fingerprint; review the document and explicitly update canonicalReviewedSha256 before write/check.`);
+}
 const walk = (path) =>
     readdirSync(resolve(root, path), { withFileTypes: true })
         .flatMap((entry) => (entry.isDirectory() ? walk(`${path}/${entry.name}`) : [`${path}/${entry.name}`]))
@@ -226,21 +232,29 @@ const canonicalRows = read(canonicalPath)
             .split('|')
             .slice(1, -1)
             .map((s) => s.trim());
+        if (cells.length < 10) return [];
         const canonical = routeCells(cells[2] ?? '');
-        if (!canonical.length || cells.length < 10) return [];
+        const recordedImplemented = routeCells(cells[3]);
+        const recordedStatus = cells[9].replaceAll('`', '');
+        const canonicalDecisionPending = recordedStatus === 'canonical-decision-pending';
+        if (!canonical.length && !canonicalDecisionPending) return [];
+        if (canonicalDecisionPending && (canonical.length || !recordedImplemented.length)) {
+            throw new Error(`Pending canonical decision must have implemented routes and no invented canonical path: ${canonicalPath}:${i + 1}`);
+        }
         return [
             {
                 source: { path: canonicalPath, line: i + 1 },
                 domain: cells[0].replaceAll('`', ''),
                 capability: cells[1].replaceAll('`', ''),
                 canonical,
-                recordedImplemented: routeCells(cells[3]),
+                recordedImplemented,
                 recordedDesign: routeCells(cells[4]),
                 authority: cells[5],
                 recordedDriftType: cells[6].replaceAll('`', ''),
                 action: cells[7],
                 batch: cells[8].replaceAll('`', ''),
-                recordedStatus: cells[9].replaceAll('`', '')
+                recordedStatus,
+                canonicalDecisionPending
             }
         ];
     });
@@ -249,9 +263,9 @@ const findCanonical = (method, path) =>
         .filter((row) => [...row.canonical, ...row.recordedImplemented].some((r) => key(r.method, withPrefix(r.path)) === key(method, path)))
         .map((row) => ({
             ...row,
-            comparison: row.canonical.some((r) => key(r.method, withPrefix(r.path)) === key(method, path)) ? 'canonical-shape-matches' : 'existing-baseline-drift',
-            exactParameterNames: row.canonical.some((r) => r.method === method.toUpperCase() && withPrefix(r.path) === path),
-            driftClassification: row.canonical.some((r) => r.method === method.toUpperCase() && withPrefix(r.path) === path) ? null : 'existing-baseline-drift'
+            comparison: row.canonicalDecisionPending ? 'canonical-decision-pending' : row.canonical.some((r) => key(r.method, withPrefix(r.path)) === key(method, path)) ? 'canonical-shape-matches' : 'existing-baseline-drift',
+            exactParameterNames: row.canonicalDecisionPending ? null : row.canonical.some((r) => r.method === method.toUpperCase() && withPrefix(r.path) === path),
+            driftClassification: row.canonicalDecisionPending ? 'design-change-required' : row.canonical.some((r) => r.method === method.toUpperCase() && withPrefix(r.path) === path) ? null : 'existing-baseline-drift'
         }));
 const httpCallClues = [];
 for (const path of testPaths.filter((p) => p.startsWith('apps/poms-api-e2e/'))) {
@@ -353,8 +367,16 @@ for (const [path, item] of Object.entries(spec.paths))
         });
     }
 for (const o of operations) {
-    o.canonicalInventoryStatus = !o.canonicalInventory.length ? 'missing-authoritative-inventory-row' : o.canonicalInventory.some((r) => !r.exactParameterNames) ? 'parameter-name-difference' : 'canonical-match';
-    o.driftClassification = o.canonicalInventoryStatus === 'canonical-match' ? null : 'existing-baseline-drift';
+    o.canonicalInventoryStatus = !o.canonicalInventory.length
+        ? 'missing-authoritative-inventory-row'
+        : o.canonicalInventory.some((r) => r.canonicalDecisionPending)
+          ? 'canonical-decision-pending'
+          : o.canonicalInventory.some((r) => r.comparison !== 'canonical-shape-matches')
+            ? 'implemented-path-difference'
+            : o.canonicalInventory.some((r) => !r.exactParameterNames)
+              ? 'parameter-name-difference'
+              : 'canonical-match';
+    o.driftClassification = o.canonicalInventoryStatus === 'canonical-match' ? null : o.canonicalInventoryStatus === 'canonical-decision-pending' ? 'design-change-required' : 'existing-baseline-drift';
 }
 operations.sort((a, b) => `${a.path} ${a.method}`.localeCompare(`${b.path} ${b.method}`, 'en'));
 const sharedFile = files.get(sharedPath);
@@ -449,15 +471,21 @@ const canonicalComparisons = canonicalRows.map((row) => {
     return {
         ...row,
         matchedOperationIds: actual.map((o) => o.operationId),
-        comparison: !actual.length ? 'no-current-operation-matched' : actual.some((o) => !row.canonical.some((r) => key(r.method, withPrefix(r.path)) === key(o.method, o.path))) ? 'existing-baseline-drift' : 'canonical-shape-matches'
+        comparison: !actual.length
+            ? 'no-current-operation-matched'
+            : row.canonicalDecisionPending
+              ? 'canonical-decision-pending'
+              : actual.some((o) => !row.canonical.some((r) => key(r.method, withPrefix(r.path)) === key(o.method, o.path)))
+                ? 'existing-baseline-drift'
+                : 'canonical-shape-matches'
     };
 });
 const artifact = {
-    formatVersion: 2,
+    formatVersion: 3,
     baseline: {
         head: baselineHead,
         headMeaning:
-            'Reviewed source reference, pinned independently of later inventory/docs/tool commits; source text is normalized from CRLF to LF before parsing and hashing; write/check refuses changed or untracked inputs in sourceReferenceScope.',
+            'Reviewed product source reference; write/check refuses changed or untracked inputs in sourceReferenceScope. Canonical governance text is independently frozen by canonicalInventory.reviewedTextSha256. UTF-8 text uses CRLF-to-LF-only normalization.',
         textNormalization: {
             encoding: 'utf8',
             lineEndings: 'CRLF-to-LF',
@@ -471,7 +499,14 @@ const artifact = {
         typescriptVersion: ts.version,
         evidence: 'offline static source inventory; no runtime, database, performance, Fast-mode or executed-test claim',
         openApi: { path: specPath, sha256: hash(read(specPath)), version: spec.openapi, paths: Object.keys(spec.paths).length, operations: operations.length, schemas: Object.keys(spec.components?.schemas ?? {}).length },
-        canonicalInventory: { path: canonicalPath, sha256: hash(read(canonicalPath)), rows: canonicalRows.length },
+        canonicalInventory: {
+            path: canonicalPath,
+            sha256: hash(read(canonicalPath)),
+            reviewedTextSha256: canonicalReviewedSha256,
+            review: canonicalReview,
+            rows: canonicalRows.length,
+            approvedCanonicalRows: canonicalRows.filter((r) => !r.canonicalDecisionPending).length
+        },
         sharedContracts: { path: sharedPath, sha256: hash(read(sharedPath)) },
         operationSetSha256: hash(operations.map((o) => `${o.method} ${o.path} ${o.operationId}`).join('\n'))
     },
@@ -493,7 +528,8 @@ const artifact = {
         directE2eRouteClues: operations.filter((o) => o.tests?.e2eRouteReferences.length).length,
         canonicalComparisons: aggregate(canonicalComparisons, (r) => r.comparison),
         canonicalOperationStatus: aggregate(operations, (o) => o.canonicalInventoryStatus),
-        operationsWithoutCanonicalRow: operations.filter((o) => !o.canonicalInventory.length).length,
+        operationsWithoutInventoryRow: operations.filter((o) => !o.canonicalInventory.length).length,
+        operationsAwaitingCanonicalDecision: operations.filter((o) => o.canonicalInventoryStatus === 'canonical-decision-pending').length,
         enumConstants: sharedConstants.length,
         sharedEnumSchemas: sharedEnumSchemas.length,
         sharedEnumComparisons: aggregate(sharedEnumSchemas, (r) => r.comparison),

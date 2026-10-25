@@ -331,7 +331,7 @@ Get-NetTCPConnection -State Listen -ErrorAction Stop |
 
 ## 9. R0E 后续已验证结果
 
-本节记录用户另行授权环境准备后取得的结果，正式执行记录为 [R0E 基线](rust-r0e-environment-baseline.md)及[验收 JSON](rust-r0e-validation.json)，可复用命令与清理边界为 [工具 README](../../tools/rust-r0e/README.md)。第 2–5 节保留初始时点；不能再据其中的缺项推断 R0E 当前尚未准备依赖、兼容构建或隔离 PG15。
+本节记录用户另行授权环境准备后取得的结果，正式执行记录为 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)及[验收 JSON](rust-r0e-validation.json)，可复用命令与清理边界为 [工具 README](../../tools/rust-r0e/README.md)。第 2–5 节保留初始时点；不能再据其中的缺项推断 R0E 当前尚未准备依赖、兼容构建或隔离 PG15。
 
 | 项目                | 后续结果                                                                                                                    | 证据边界                                                                                                                             |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -352,4 +352,4 @@ Get-NetTCPConnection -State Listen -ErrorAction Stop |
 
 TEST 与两隔离库的合成排序样本指纹均为 `d66142528ed50eca27104827cdf9e6a2`。这是有限样本，不认证完整 locale 规则或 TEST 与 UBI 的 locale 包补丁相同。SQLx 0.9 启动会话实际为 UTC，probe 在完成目标/身份断言后显式设置并回读 `Etc/GMT-8`；R1 连接池需对每条新连接执行会话初始化，不能将 TEST 观察到的 session 时区当作驱动默认。
 
-主代理已在独立 `033aedd0` Linux checkout、Debian 12 镜像的 Node 24.16.0 / TypeScript 6.0.3 中实际运行两个清单的 `--check` 并通过；Windows Node 24.19.0 / TypeScript 6.0.3 的 v2 指纹与之相同。CRLF→LF 规范化不绕过冻结源码 guard，v1 历史证据仍保留；详细哈希与集合对照以 [R0E 基线](rust-r0e-environment-baseline.md)为准，不从本文件的 Markdown 检查推导执行通过。R0F 路由/兼容样本、R1 产品 schema/认证/跨平台启动器/浏览器，以及 R6 迁移接管、发布和回退仍需各自验收。R0E 环境与 probe 的通过不替代 R0 全阶段、R1 G1 或 G4 提交归档。
+主代理已在独立 `033aedd0` Linux checkout、Debian 12 镜像的 Node 24.16.0 / TypeScript 6.0.3 中实际运行两个清单的 `--check` 并通过；Windows Node 24.19.0 / TypeScript 6.0.3 的 v2 指纹与之相同。CRLF→LF 规范化不绕过冻结源码 guard，v1 历史证据仍保留；详细哈希与集合对照以 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)为准，不从本文件的 Markdown 检查推导执行通过。R0F 路由/兼容样本、R1 产品 schema/认证/跨平台启动器/浏览器，以及 R6 迁移接管、发布和回退仍需各自验收。R0E 环境与 probe 的通过不替代 R0 全阶段、R1 G1 或 G4 提交归档。

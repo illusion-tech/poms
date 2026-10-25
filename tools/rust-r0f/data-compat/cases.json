@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "scope": "Synthetic R0F inputs; internal-helper observations do not imply HTTP acceptance",
+  "dateCases": [
+    { "id": "null", "value": null },
+    { "id": "undefined", "value": { "$type": "undefined" } },
+    { "id": "empty-string", "value": "" },
+    { "id": "date-before-hk-midnight", "value": { "$type": "Date", "value": "2026-04-18T15:59:59.999Z" } },
+    { "id": "date-at-hk-midnight", "value": { "$type": "Date", "value": "2026-04-18T16:00:00.000Z" } },
+    { "id": "same-instant-string-is-sliced", "value": "2026-04-18T16:00:00.000Z" },
+    { "id": "date-hk-midnight-explicit-utc", "value": { "$type": "Date", "value": "2026-04-18T16:00:00.000Z" }, "timeZone": "UTC" },
+    { "id": "date-only-string", "value": "2026-04-19" },
+    { "id": "leap-day-string", "value": "2024-02-29" },
+    { "id": "leap-day-date", "value": { "$type": "Date", "value": "2024-02-28T16:00:00.000Z" } },
+    { "id": "positive-offset-string", "value": "2026-04-19T00:00:00+14:00" },
+    { "id": "positive-offset-date", "value": { "$type": "Date", "value": "2026-04-19T00:00:00+14:00" } },
+    { "id": "negative-offset-string", "value": "2026-04-18T23:30:00-08:00" },
+    { "id": "negative-offset-date", "value": { "$type": "Date", "value": "2026-04-18T23:30:00-08:00" } },
+    { "id": "invalid-date-object", "value": { "$type": "Date", "value": "invalid" } },
+    { "id": "unvalidated-internal-string", "value": "not-a-valid-date" },
+    { "id": "internal-short-string", "value": "2026-2-9" }
+  ],
+  "contractDateCases": [
+    { "id": "undefined-remains-undefined", "value": { "$type": "undefined" } },
+    { "id": "null-remains-null", "value": null },
+    { "id": "empty-remains-empty", "value": "" },
+    { "id": "date-only", "value": "2024-02-29" },
+    { "id": "timestamp-slice", "value": "2026-04-18T16:00:00.000Z" }
+  ],
+  "retentionTestVectors": [
+    { "id": "missing", "testTitle": "returns missing when the retention due date is absent", "value": null, "now": { "$type": "Date", "value": "2026-04-18T16:30:00.000Z" }, "expected": { "retentionDueDate": null, "retentionDueStatus": "missing" } },
+    { "id": "due-after-midnight", "testTitle": "treats the due date as reached when the business day has started in Asia/Hong_Kong", "value": "2026-04-19", "now": { "$type": "Date", "value": "2026-04-18T16:30:00.000Z" }, "expected": { "retentionDueDate": "2026-04-19", "retentionDueStatus": "due" } },
+    { "id": "pending-before-midnight", "testTitle": "keeps the due date pending before the business day starts in Asia/Hong_Kong", "value": "2026-04-19", "now": { "$type": "Date", "value": "2026-04-18T15:59:59.000Z" }, "expected": { "retentionDueDate": "2026-04-19", "retentionDueStatus": "pending" } },
+    { "id": "date-input-normalization", "testTitle": "normalizes Date inputs with the business day instead of UTC slicing", "value": { "$type": "Date", "value": "2026-04-18T16:00:00.000Z" }, "now": { "$type": "Date", "value": "2026-04-18T16:30:00.000Z" }, "expected": { "retentionDueDate": "2026-04-19", "retentionDueStatus": "due" } }
+  ],
+  "moneyInputs": [
+    { "id": "zero-number", "value": 0 },
+    { "id": "negative-zero", "value": { "$type": "number", "value": "-0" } },
+    { "id": "zero-string-scale", "value": "0.00" },
+    { "id": "half-cent-1-005", "value": "1.005" },
+    { "id": "negative-half-cent", "value": "-1.005" },
+    { "id": "2-675", "value": "2.675" },
+    { "id": "negative-2-675", "value": "-2.675" },
+    { "id": "exact-binary-tie", "value": "1.125" },
+    { "id": "negative-exact-binary-tie", "value": "-1.125" },
+    { "id": "four-place-boundary", "value": "1.23445" },
+    { "id": "six-place-boundary", "value": "1.2345675" },
+    { "id": "beyond-js-safe-integer", "value": "9007199254740993.00" },
+    { "id": "negative-small", "value": "-0.000001" },
+    { "id": "leading-trailing-zero-string", "value": "0001.2300" },
+    { "id": "internal-exponent", "value": "1e3" },
+    { "id": "internal-large-exponent-format", "value": "1e21" },
+    { "id": "internal-empty", "value": "" },
+    { "id": "internal-whitespace", "value": "  " },
+    { "id": "internal-invalid", "value": "not-a-number" }
+  ],
+  "nullableDecimalCases": [
+    { "id": "null", "value": null },
+    { "id": "undefined", "value": { "$type": "undefined" } },
+    { "id": "string-scale", "value": "0.0000" },
+    { "id": "number", "value": 1.23 },
+    { "id": "empty-internal", "value": "" }
+  ],
+  "schemaCases": [
+    { "id": "internal-uuid", "schema": "SanitizedUserSchema", "field": "id", "value": "00000000-0000-4000-8000-000000000001" },
+    { "id": "uuid-case", "schema": "SanitizedUserSchema", "field": "id", "value": "ABCDEF12-3456-4789-ABCD-ABCDEF123456" },
+    { "id": "external-string-is-not-internal-uuid", "schema": "SanitizedUserSchema", "field": "id", "value": "dept_external_001" },
+    { "id": "missing-internal-uuid", "schema": "SanitizedUserSchema", "field": "id", "value": { "$type": "undefined" } },
+    { "id": "nullable-org-id", "schema": "PlatformUserSummarySchema", "field": "primaryOrgUnitId", "value": null },
+    { "id": "missing-org-id", "schema": "PlatformUserSummarySchema", "field": "primaryOrgUnitId", "value": { "$type": "undefined" } },
+    { "id": "external-id-not-uuid", "schema": "ExternalDepartmentMappingReplacementItemSchema", "field": "externalDepartmentId", "value": "dept_external_001" },
+    { "id": "external-id-trim", "schema": "ExternalDepartmentMappingReplacementItemSchema", "field": "externalDepartmentId", "value": "  dept_external_001  " },
+    { "id": "external-empty-rejected", "schema": "ExternalDepartmentMappingReplacementItemSchema", "field": "externalDepartmentId", "value": "   " },
+    { "id": "external-null-rejected", "schema": "ExternalDepartmentMappingReplacementItemSchema", "field": "externalDepartmentId", "value": null },
+    { "id": "membership-primary", "schema": "UserOrgUnitMembershipTypeSchema", "value": "primary" },
+    { "id": "membership-secondary", "schema": "UserOrgUnitMembershipTypeSchema", "value": "secondary" },
+    { "id": "membership-case-sensitive", "schema": "UserOrgUnitMembershipTypeSchema", "value": "PRIMARY" }
+  ],
+  "repositoryCases": [
+    { "id": "find-date-snapshot", "method": "findWriteSnapshotById", "args": ["00000000-0000-4000-8000-000000000001"], "rows": "snapshot-date" },
+    { "id": "find-missing", "method": "findWriteSnapshotById", "args": ["00000000-0000-4000-8000-000000000001"], "rows": "empty" },
+    { "id": "touch-date", "method": "touchLastSeenIfDue", "args": [{ "sessionId": "00000000-0000-4000-8000-000000000001", "now": { "$type": "Date", "value": "2026-06-10T07:30:43.000Z" }, "ip": "192.0.2.10", "idleTimeoutSeconds": 900, "lastSeenThrottleSeconds": 60 }], "rows": "snapshot-date" },
+    { "id": "touch-no-returning-row", "method": "touchLastSeenIfDue", "args": [{ "sessionId": "00000000-0000-4000-8000-000000000001", "now": { "$type": "Date", "value": "2026-06-10T07:30:43.000Z" }, "ip": null, "idleTimeoutSeconds": 900, "lastSeenThrottleSeconds": 60 }], "rows": "empty" },
+    { "id": "csrf-string-snapshot", "method": "rotateCsrfTokenForActiveSession", "args": [{ "sessionId": "00000000-0000-4000-8000-000000000001", "csrfTokenHash": "synthetic-csrf-hash", "now": { "$type": "Date", "value": "2026-06-10T07:31:00.000Z" } }], "rows": "snapshot-string", "rowOverrides": { "updatedAt": "2026-06-10T07:31:00.000Z" } },
+    { "id": "csrf-no-returning-row", "method": "rotateCsrfTokenForActiveSession", "args": [{ "sessionId": "00000000-0000-4000-8000-000000000001", "csrfTokenHash": "synthetic-csrf-hash", "now": { "$type": "Date", "value": "2026-06-10T07:31:00.000Z" } }], "rows": "empty" },
+    { "id": "expire", "method": "expireActiveSession", "args": [{ "sessionId": "00000000-0000-4000-8000-000000000001", "now": { "$type": "Date", "value": "2026-06-10T07:32:00.000Z" } }], "rows": "snapshot-date", "rowOverrides": { "status": "expired", "revokedAt": { "$type": "Date", "value": "2026-06-10T07:32:00.000Z" }, "updatedAt": { "$type": "Date", "value": "2026-06-10T07:32:00.000Z" } } },
+    { "id": "revoke", "method": "revokeActiveSession", "args": [{ "sessionId": "00000000-0000-4000-8000-000000000001", "reason": "logout", "now": { "$type": "Date", "value": "2026-06-10T07:33:00.000Z" } }], "rows": "snapshot-string", "rowOverrides": { "status": "revoked", "revokedReason": "logout", "revokedAt": "2026-06-10T07:33:00.000Z", "updatedAt": "2026-06-10T07:33:00.000Z" } },
+    { "id": "revoke-all", "method": "revokeActiveSessionsForUser", "args": ["00000000-0000-4000-8000-000000000002", "admin-revoked", { "$type": "Date", "value": "2026-06-10T07:34:00.000Z" }], "rows": "two-ids" },
+    { "id": "revoke-all-empty", "method": "revokeActiveSessionsForUser", "args": ["00000000-0000-4000-8000-000000000002", "admin-revoked", { "$type": "Date", "value": "2026-06-10T07:34:00.000Z" }], "rows": "empty" }
+  ],
+  "timestampCases": [
+    { "id": "raw-date-snapshot", "rows": "snapshot-date" },
+    { "id": "raw-string-snapshot", "rows": "snapshot-string" },
+    { "id": "invalid-string-timestamp", "rows": "snapshot-string", "overrides": { "idleExpiresAt": "invalid" } }
+  ]
+}

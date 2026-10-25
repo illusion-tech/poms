@@ -2,7 +2,7 @@
 
 ## 1. 当前状态与授权边界
 
-2026-10-26，**rootless Podman + UBI9/glibc 2.34 + PostgreSQL 15.12 官方源码** 的两库基础验收已通过：SQL smoke、真实 app 角色 SQLx probe、错误目标拒绝和 stop/start marker 保留均有主代理实际执行结果。两个 v2 inventory 也已在独立 Linux checkout 通过复算。完整环境、构建和执行证据以 [R0E 环境基线](rust-r0e-environment-baseline.md) 为准，第 6 节列出本文对应结果。
+2026-10-26，**rootless Podman + UBI9/glibc 2.34 + PostgreSQL 15.12 官方源码** 的两库基础验收已通过：SQL smoke、真实 app 角色 SQLx probe、错误目标拒绝和 stop/start marker 保留均有主代理实际执行结果。两个 v2 inventory 也已在独立 Linux checkout 通过复算。完整环境、构建和执行证据以 [R0E 环境基线](archive/slices/rust-r0e-environment-baseline.md) 为准，第 6 节列出本文对应结果。
 
 构建环境另用 Debian 12/glibc 2.36。数据库服务与 Rust 构建容器分开记录，不能用构建容器的 glibc 推断数据库排序行为；这些通过结果不代表产品 schema、完整 locale 或业务迁移已获认证。
 
@@ -147,7 +147,7 @@ TEMP 回滚不能证明 volume 重启持久性。本轮由主代理在两个新�
 
 ## 6. 本轮执行结果补录
 
-以下依据主代理在 2026-10-26 的真实执行结果和 [R0E 环境基线](rust-r0e-environment-baseline.md) 收口；本文作者没有另行连接 TEST 或隔离数据库。早期 guard 拒绝与后续修复分开记录，当前完成范围以本节为准。
+以下依据主代理在 2026-10-26 的真实执行结果和 [R0E 环境基线](archive/slices/rust-r0e-environment-baseline.md) 收口；本文作者没有另行连接 TEST 或隔离数据库。早期 guard 拒绝与后续修复分开记录，当前完成范围以本节为准。
 
 | 证据                                    | 本轮结果                                                                                                                                           | 可使用的结论                                                       |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |

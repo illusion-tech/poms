@@ -24,7 +24,7 @@
 
 功能正确性、接口兼容、数据一致性、认证安全、可部署和可回滚仍是交付验收条件。资源消耗和费用降低是预期方向，本计划不承诺尚未测量的改善比例。
 
-2026-10-26 用户授权将下述代理配置和协作规则纳入本计划，并开始 R0。初轮完成架构决策、全量静态盘点、WSL 与既有环境只读核验和工程基线准备。随后用户授权 R0E 安装所需 WSL 工具、构建兼容镜像并创建隔离 PG15 验收库，结果见 [R0E 基线](rust-r0e-environment-baseline.md)；不启动 R1 业务实现或远程发布。用户确认本机已有 PostgreSQL 开发实例、尚未部署生产环境，当前兼容目标先对齐 TEST。各工程阶段仍按现有 G0–G4 流程形成可执行基线；阶段编号不等于 GitHub issue 编号或已通过的 gate。
+2026-10-26 用户授权将下述代理配置和协作规则纳入本计划，并开始 R0。初轮完成架构决策、全量静态盘点、WSL 与既有环境只读核验和工程基线准备。随后用户授权 R0E 安装所需 WSL 工具、构建兼容镜像并创建隔离 PG15 验收库，结果见 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)；不启动 R1 业务实现或远程发布。用户确认本机已有 PostgreSQL 开发实例、尚未部署生产环境，当前兼容目标先对齐 TEST。随后用户授权提交推送并推进 R0F；R0A–E 已交付 `08daaf45`，在线总体任务为 [#57](https://github.com/illusion-tech/poms/issues/57)。各工程阶段按 G0–G4 形成可执行基线，阶段编号与 Issue 映射见执行追踪；本轮不启动 R1。
 
 ### 1.1 代理配置与实际生效记录
 
@@ -120,7 +120,7 @@ apps/poms-api-rust/
 
 1. 在 Debian 的 Linux 文件系统中准备独立 checkout，例如 `~/projects/poms-rust`，使用 `codex/rust-backend-*` 分支；Windows 工作树与 WSL checkout 通过 Git 提交同步。
 2. Cargo 的源码与 `target/` 默认放在 Linux 文件系统。保留现有 `E:\projects\poms`，不将 Windows `node_modules` 或生成缓存直接复制到 Linux。
-3. R0E 已在固定 Debian 12 构建镜像内验证 Rust/Cargo 1.97.1、Node.js 24.16.0、pnpm 12.3.4、Deno 2.9.1、Java 17 与 PostgreSQL 客户端；具体版本、锁文件、features 和运行证据见 [R0E 基线](rust-r0e-environment-baseline.md)。产品级跨平台启动器、浏览器依赖与端到端行为仍由 R1 验证。
+3. R0E 已在固定 Debian 12 构建镜像内验证 Rust/Cargo 1.97.1、Node.js 24.16.0、pnpm 12.3.4、Deno 2.9.1、Java 17 与 PostgreSQL 客户端；具体版本、锁文件、features 和运行证据见 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)。产品级跨平台启动器、浏览器依赖与端到端行为仍由 R1 验证。
 4. 日常开发可继续直接使用 Windows 本机 PostgreSQL 17.4 及现有开发测试库，不自动 reset/seed。另设的 PG15 库专用于 TEST 兼容验收，已固定 PostgreSQL 15.12、`pgcrypto 1.3`、`btree_gist 1.7`、UTF8、`en_US.UTF-8` libc 排序规则和 `Etc/GMT-8` 会话时区；本机 `zh-CN` / `Asia/Shanghai` 的结果不能替代这项验证。使用可重复初始化的隔离数据，不对 TEST 原库执行重放或迁移演练。ADR-012 的 16+ 属既有设计与实况差异，本次不升级或降级既有数据库。
 5. API E2E 改为支持外部启动的服务或可选择的 NestJS/Rust 启动器；当前测试启动器硬编码构建 Node 后端，需要实际适配。
 6. Playwright 已支持外部前后端地址，但默认启动命令使用 PowerShell。将启动逻辑改为支持 Linux，明确两套 API 端口与前端代理目标，避免依赖未经验证的 Windows/WSL 网络互通假设。

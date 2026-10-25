@@ -4,7 +4,7 @@
 
 ## 1. 范围与正式输入
 
-依据 [R0 基线](rust-r0-baseline.md)、[环境清单](rust-r0-environment-inventory.md)、[ADR-018](../adr/018-rust-backend-and-sqlx-persistence.md) 和用户本轮要求，准备可实际构建、运行的 TEST 兼容环境，以及 PostgreSQL 15 隔离验收库。当前 TEST 应用为 Debian 12 / x86_64 / glibc 2.36；数据库为 PostgreSQL 15.12、UTF8、libc `en_US.UTF-8`、记录的 collation version 2.34、会话 `Etc/GMT-8`、`pgcrypto 1.3`、`btree_gist 1.7`。
+依据 [R0 基线](../../rust-r0-baseline.md)、[环境清单](../../rust-r0-environment-inventory.md)、[ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md) 和用户本轮要求，准备可实际构建、运行的 TEST 兼容环境，以及 PostgreSQL 15 隔离验收库。当前 TEST 应用为 Debian 12 / x86_64 / glibc 2.36；数据库为 PostgreSQL 15.12、UTF8、libc `en_US.UTF-8`、记录的 collation version 2.34、会话 `Etc/GMT-8`、`pgcrypto 1.3`、`btree_gist 1.7`。
 
 本机 Windows PostgreSQL 17.4 的服务、配置、端口 5432、数据目录和现有 `poms` 库保持原样。TEST 只允许补充只读元数据，禁止迁移、seed、业务重放及其他写入。PROD 尚未部署；本切片不远程发布，不安装 Windows 桌面容器组件、不重启主机，不启动 R1 业务实现。
 
@@ -39,7 +39,7 @@
 | Rust 依赖锁   | `Cargo.lock` SHA-256 `9aa5bd462e32b0b686376895920a858e02fd64969c5aa0c03d35bbef977f5fb7` | 锁文件含 227 个 package 记录（含 probe 与可选平台/依赖）；本次 metadata 返回 192 个记录；两者均不当作全部已启用组件数 |
 | 验证程序      | SHA-256 `f766df98d876158b62f7116eb0968bbf72653c1d34996d9ea97a1a743f1b4c61`              | x86_64 ELF；最高所需 GLIBC 2.34；不是产品 API 可执行文件                                                              |
 
-直接依赖固定 Axum 0.8.9、Tokio 1.54.1、Tower 0.5.3、SQLx 0.9.0、Serde 1.0.229、Utoipa 6.0.0、rust_decimal 1.43.0，以及 chrono/uuid/serde_json，完整 features 见 [Cargo.toml](../../tools/rust-r0e/probe/Cargo.toml)。最高已声明的依赖 MSRV 为 1.94；部分包未声明 MSRV，因此以 Rust 1.97.1 的实际锁定构建为兼容证据。`cargo tree -e features -p sqlx` 未启用 MySQL、SQLite 或 macros；锁文件中存在可选记录不等于驱动已启用。
+直接依赖固定 Axum 0.8.9、Tokio 1.54.1、Tower 0.5.3、SQLx 0.9.0、Serde 1.0.229、Utoipa 6.0.0、rust_decimal 1.43.0，以及 chrono/uuid/serde_json，完整 features 见 [Cargo.toml](../../../../tools/rust-r0e/probe/Cargo.toml)。最高已声明的依赖 MSRV 为 1.94；部分包未声明 MSRV，因此以 Rust 1.97.1 的实际锁定构建为兼容证据。`cargo tree -e features -p sqlx` 未启用 MySQL、SQLite 或 macros；锁文件中存在可选记录不等于驱动已启用。
 
 PostgreSQL 使用官方 15.12 源码，SHA-256 `3bc8462a38ca0857270cc88b949a3f6659f0d5c44c029c482355835b61a0f6f7`；配置为 `--with-openssl --without-readline`。禁用 readline 只影响 psql 交互编辑。`poms_r0e_nest` / `poms_r0e_rust` 各有基础 schema、扩展与隔离标识；未执行产品历史迁移或 seed。两库 stored/actual collation 均为 2.34；TEST 只读合成排序样本与两库一致，指纹 `d66142528ed50eca27104827cdf9e6a2`。此样本不替代完整产品数据排序验收，也不推断 TEST 数据库的发行版/locale 包补丁与 UBI 相同。
 
@@ -61,8 +61,8 @@ PostgreSQL 使用官方 15.12 源码，SHA-256 `3bc8462a38ca0857270cc88b949a3f66
 
 真实联调发现 SQLx 0.9 在 startup 固定发送 UTC，不继承 TEST 会话默认值。probe 在确认目标库、版本、隔离标识、app 身份和低权限后执行 `SET TIME ZONE 'Etc/GMT-8'` 并回读。R1 必须把这一步写入连接池每条新连接的 `after_connect` 合同；只对 pool 执行一次 SET 不足够。probe 的 Utoipa 输出仅用于联编验证，现有 TS OpenAPI 生成权未转移；TLS features 已编译，本次 loopback 没有认证 TLS 握手。
 
-操作入口见 [R0E 工具说明](../../tools/rust-r0e/README.md)，[机器验收快照](rust-r0e-validation.json)保存实际命令结果、源码/锁文件/二进制指纹、镜像内库与 locale 文件指纹、SQL smoke、类型 probe 和 Windows 只读连接结果。完整构建日志位于该用户的 `~/.local/share/poms-r0e/logs`，快照记录其指纹；口令只在 Linux 私有目录/Podman secret 中。
+操作入口见 [R0E 工具说明](../../../../tools/rust-r0e/README.md)，[机器验收快照](../../rust-r0e-validation.json)保存实际命令结果、源码/锁文件/二进制指纹、镜像内库与 locale 文件指纹、SQL smoke、类型 probe 和 Windows 只读连接结果。完整构建日志位于该用户的 `~/.local/share/poms-r0e/logs`，快照记录其指纹；口令只在 Linux 私有目录/Podman secret 中。
 
 当前专用 PG15 容器保持运行，可用工具入口按需停止并保留卷；日常开发仍可直接使用原 PG17 的开发测试库，PG15 用于 TEST 兼容验收。隔离库内未创建产品业务 schema 内容。
 
-**G3**：Pass；非作者审查发现的运行角色 guard 已修复并重跑正负例，锁文件计数口径已修正。**G4**：未提交/归档。R0F 的路由/兼容样本冻结、R1 产品 schema 与认证/连接池/跨平台启动器、R6 发布接管均未被本切片完成状态替代。
+**G3**：Pass；非作者审查发现的运行角色 guard 已修复并重跑正负例，锁文件计数口径已修正。**G4**：交付已由 `08daaf45b12307bc4d53e01e509f23d265532de6` 提交并推送；本记录在 R0F 续作时归档，历史快照的文件指纹以该提交为准。R0F 的路由/兼容样本冻结、R1 产品 schema 与认证/连接池/跨平台启动器、R6 发布接管均未被本切片完成状态替代。

@@ -10,7 +10,7 @@
 - 构建镜像 Debian 12 / glibc 2.36 / Rust 1.97.1；Node 24.16.0、pnpm 12.3.4、Corepack 0.35.0、Deno 2.9.1、Java 17.0.21。psql 客户端为 15.19，服务器由独立源码构建固定为 15.12。
 - Linux 状态目录为 `/home/wangzishi/.local/share/poms-r0e`。源码快照、Cargo 缓存、target 和日志在此；私有凭据位于其 `private/`，不写入 Git。
 
-镜像 ID、锁文件和验收范围见 [R0E 基线](../../docs/design/rust-r0e-environment-baseline.md)。脚本固定本次已审查镜像 ID。重新构建镜像后须记录新 ID、复核版本与验收，再更新脚本中的 ID；当前 Containerfile 的发行版包仓库不会保证日后重建得到逐字节相同镜像。
+镜像 ID、锁文件和验收范围见 [R0E 基线](../../docs/design/archive/slices/rust-r0e-environment-baseline.md)。脚本固定本次已审查镜像 ID。重新构建镜像后须记录新 ID、复核版本与验收，再更新脚本中的 ID；当前 Containerfile 的发行版包仓库不会保证日后重建得到逐字节相同镜像。
 
 ## 日常命令
 

@@ -11,9 +11,9 @@
 
 本轮形成可追溯的架构方向、全量静态 API/数据库清单、环境实况、兼容样本入口及后续工程输入。允许只读源码扫描、离线清单工具、文档更新和独立 Linux 源码 checkout 准备。用户随后要求对齐既有 TEST、指出本机 PostgreSQL 开发实例，并确认尚无生产部署；续查补充了 TEST 服务器和本机/TEST 数据库的只读元数据。
 
-上述初轮盘点未执行 Rust 业务实现、数据库写入、系统依赖安装或迁移。后续用户单独授权 [R0E 环境切片](rust-r0e-environment-baseline.md)：安装 WSL 容器工具、建立 TEST 兼容构建镜像及 PG15 隔离库并验证。既有 PG17 和 TEST 仍只查元数据，不读写业务行；没有远程发布、GitHub 状态写入、性能实测或收益测算。没有运行的测试不标记通过；工具静态关联不等于业务覆盖。
+上述初轮盘点未执行 Rust 业务实现、数据库写入、系统依赖安装或迁移。后续用户单独授权 [R0E 环境切片](archive/slices/rust-r0e-environment-baseline.md)：安装 WSL 容器工具、建立 TEST 兼容构建镜像及 PG15 隔离库并验证。既有 PG17 和 TEST 仍只查元数据，不读写业务行；没有远程发布、性能实测或收益测算。R0F 续作按用户授权建立 GitHub 任务映射。没有运行的测试不标记通过；工具静态关联不等于业务覆盖。
 
-下游可以依赖静态清单进行拆分和审查，以及 R0E 的固定环境与合成类型/约束验证。后者不是完整产品 schema、认证或业务兼容证据，不代表 R1 已放行或 Rust 可承接正式流量。
+下游可以依赖静态清单进行拆分和审查，以及 R0E 的固定环境与合成类型/约束验证。后者不是完整产品 schema、认证或业务兼容证据。R0F 进一步冻结 R1 所需路由、字段和离线样本，仍不表示 Rust 已实现或可承接正式流量。
 
 ## 2. 输入与来源
 
@@ -56,11 +56,11 @@ JSON 清单记录参与扫描的来源和哈希；校验命令重新生成后比
 | 版本与来源        | 数据清单中的 version/current/supersedes、来源 ID、部分唯一约束与事务清单                                                                                     | 并发冲突、唯一当前记录、全链回滚、外部 ID 与 UUID 区分、审计操作者和快照引用                    |
 | 外部副作用        | 环境清单及服务代码：附件存储、身份提供商、组织同步、审批处理器                                                                                               | 重试/幂等/失败恢复；隔离 fake/mock 与真实服务 smoke 的证据，GET 亦不得默认只读                  |
 
-以上样本是现有源码/测试中的输入规则与后续 golden vector 要求，本轮未执行认证、金额或密码学运行测试。完整业务样本按 R2–R5 域切片补齐，不能用上述少量代表样本覆盖全系统。
+以上为初轮源码/测试盘点；后续 R0F 执行了现有实现的认证、错误、日期和金额离线样本，详见 [R0F 基线](rust-r0f-compatibility-baseline.md)。这些结果不含真实数据库或浏览器验证。完整业务样本按 R2–R5 域切片补齐，不能用上述少量代表样本覆盖全系统。
 
 ## 5. 环境与并行约束
 
-已创建 `/home/wangzishi/projects/poms-rust` 独立 Linux checkout，分支 `codex/rust-backend-r0`，HEAD 为 `033aedd0`，创建后工作树干净。来源为 Windows 本地 Git clone（`--no-hardlinks`），origin 指向仓库 GitHub URL；不复制 Windows `node_modules`。R0E 仅复制两个 inventory 工具与其 JSON 到该 checkout，使用固定构建镜像的 Node 24.16.0、独立安装的 TypeScript 6.0.3 复算；这些文件尚未提交。probe、缓存和 target 位于用户级 `~/.local/share/poms-r0e`。
+已创建 `/home/wangzishi/projects/poms-rust` 独立 Linux checkout，分支 `codex/rust-backend-r0`，HEAD 为 `033aedd0`，创建后工作树干净。来源为 Windows 本地 Git clone（`--no-hardlinks`），origin 指向仓库 GitHub URL；不复制 Windows `node_modules`。R0E 仅复制两个 inventory 工具与其 JSON 到该 checkout，使用固定构建镜像的 Node 24.16.0、独立安装的 TypeScript 6.0.3 复算；其 Windows 交付已随 `08daaf45` 提交；Linux checkout 保留用于复算的副本，R0F 又同步当前 canonical 与 API v3 清单，不把该 checkout 说成干净工程分支。probe、缓存和 target 位于用户级 `~/.local/share/poms-r0e`。
 
 WSL Debian 13.7、x86_64、glibc 2.41 和现有 Rust/Cargo 1.97.1 已核实。初查 Linux Node/Deno/Java/psql 缺口及 Windows pnpm shim 问题保留于环境清单；R0E 已在独立 Debian 12 构建镜像内补齐并实际执行这些工具，不改写 WSL 全局 Node PATH。
 
@@ -72,16 +72,16 @@ WSL Debian 13.7、x86_64、glibc 2.41 和现有 Rust/Cargo 1.97.1 已核实。�
 
 ## 6. Drift、缺口与放行条件
 
-| ID     | 分类 / 状态               | 事实与影响                                                                            | 收口责任 / 时点                                           |
-| ------ | ------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| R0-D01 | `existing-baseline-drift` | 39 个当前 OpenAPI 操作未匹配 canonical inventory 行；不能把当前实现自动当作已冻结规范 | R0F 补 route-governance 基线与审查；对应 route 工程前阻断 |
-| R0-D02 | `existing-baseline-drift` | 7 个操作只在路径参数名上与 inventory 不同；运行契约与规范分别保留                     | R0F 确定保留现有占位符或单独迁移；禁止无声改名            |
-| R0-E01 | 环境验证 Pass             | 镜像内工具、固定 toolchain/crate/features/lock、fmt/clippy/build 和跨平台清单复算通过 | R1 复用固定输入并完成产品启动器、生成入口与浏览器依赖     |
-| R0-E02 | 隔离环境验证 Pass         | 两个 PG15.12 库的角色、locale、时区、合成约束、SQLx 类型及重启持久性通过              | 产品 schema、迁移链和完整业务约束仍待 R1/R2–R5            |
-| R0-E03 | 依赖构建验证 Pass         | Debian12/x86_64/glibc2.36 编译及纯运行镜像通过；probe 最高所需 GLIBC 2.34             | R6 对实际产品 binary 重新验收，未来 PROD 部署前另验       |
-| R0-C01 | 兼容 `Pending`            | 半分舍入、date 输入分支、错误结构、事务传播和固定密文样本尚未形成双实现验收           | R0F 冻结 R1 范围样本；各业务阶段在自身 G1补足域样本       |
-| R0-C02 | 现有启动约束              | E2E 硬编码 Nest 构建/启动，浏览器 Nx target 绑定 Node seed，生成器含 Windows 命令     | R1 跨平台切片实现并运行两种目标；不伪报当前可用           |
-| R0-G01 | 治理 `Pending`            | 未建立 Rust 专属 GitHub issue；本轮未提交及 G4 归档                                   | 明确发布/提交动作后同步；本轮只记本地 Task ID             |
+| ID     | 分类 / 状态               | 事实与影响                                                                                                                                                                                                                                    | 收口责任 / 时点                                                                                          |
+| ------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| R0-D01 | `existing-baseline-drift` | 初查 39 个缺行已补录：37 个 canonical 冻结、2 个 lookup 明确待决                                                                                                                                                                              | R1 七路由已冻结；2 个 lookup 由 [#61](https://github.com/illusion-tech/poms/issues/61) 阻断 R3/R4 对应域 |
+| R0-D02 | `existing-baseline-drift` | 7 个操作只在路径参数名上与 inventory 不同；运行契约与规范分别保留                                                                                                                                                                             | R0F 保留现行运行参数并冻结 7 项规范差异；整改在 R2/R4 对应域，禁止无声改名                               |
+| R0-E01 | 环境验证 Pass             | 镜像内工具、固定 toolchain/crate/features/lock、fmt/clippy/build 和跨平台清单复算通过                                                                                                                                                         | R1 复用固定输入并完成产品启动器、生成入口与浏览器依赖                                                    |
+| R0-E02 | 隔离环境验证 Pass         | 两个 PG15.12 库的角色、locale、时区、合成约束、SQLx 类型及重启持久性通过                                                                                                                                                                      | 产品 schema、迁移链和完整业务约束仍待 R1/R2–R5                                                           |
+| R0-E03 | 依赖构建验证 Pass         | Debian12/x86_64/glibc2.36 编译及纯运行镜像通过；probe 最高所需 GLIBC 2.34                                                                                                                                                                     | R6 对实际产品 binary 重新验收，未来 PROD 部署前另验                                                      |
+| R0-C01 | R1 输入已冻结             | R0F 形成现行实现的日期/数值/认证/错误/密文样本与逐表输入；尚无 Rust 双实现验收                                                                                                                                                                | R1 消费冻结样本并补真实集成；R2–R5 在自身 G1 补足域样本                                                  |
+| R0-C02 | 现有启动约束              | E2E 硬编码 Nest 构建/启动，浏览器 Nx target 绑定 Node seed，生成器含 Windows 命令                                                                                                                                                             | R1 跨平台切片实现并运行两种目标；不伪报当前可用                                                          |
+| R0-G01 | 在线映射已建立            | [#57](https://github.com/illusion-tech/poms/issues/57) 总体、[#58](https://github.com/illusion-tech/poms/issues/58) R0、[#59](https://github.com/illusion-tech/poms/issues/59) R0F、[#60](https://github.com/illusion-tech/poms/issues/60) R1 | R0A–E 已推送 08daaf45；R0F G4 随最终交付同步                                                             |
 
 这不是对缺口的豁免。R0A–R0D 的静态成果可以先独立审查，R0 全阶段与 R1 工程放行仍须满足对应输入。新路由或改变公共 surface 的工程必须先有 authoritative 行；仅补清单不能等同运行兼容。
 
@@ -103,6 +103,8 @@ WSL Debian 13.7、x86_64、glibc 2.41 和现有 Rust/Cargo 1.97.1 已核实。�
 
 独立审查分工：子代理 A 审查 ADR/R1 边界及 B 的数据库清单；子代理 C 审查 A 的 API 清单并交叉抽查数据库；主代理检查环境来源、公共文档与集成结果。数据库字段/迁移方向采用独立 AST 逐项核验，API 使用独立 OpenAPI 集合/源码指针核验。已修正 R1/R2 归属、现有 health 路由遗漏、基线标识、工具路径、旧提交标签误用及内联 DTO 来源信息；跨平台换行指纹问题在 R0E 以 v2 规则收口。
 
-当前 v2 快照：API JSON SHA-256 为 `a044a5c9b0ecbd9dd0f28c92fd6e7237bf69645c2160c73c295e363e0d756fac`；数据库 JSON SHA-256 为 `4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3`。初轮 v1 的对应指纹为 `9c8888db7208be7613872124b51eafd7e178de409b9ff7b533f6c81ee1f2ebc7` / `6d8d91d8943bc94963ac4213716efbbcac8dbfbc539712bc3c1aeecde6a245e3`，用于规范化前后对照，不再作为当前输出值。`apps/`、`libs/`、`deploy/`、`package.json` 与 `pnpm-lock.yaml` 相对输入基线无 diff。
+R0E 历史 v2 快照：API JSON SHA-256 为 `a044a5c9b0ecbd9dd0f28c92fd6e7237bf69645c2160c73c295e363e0d756fac`；数据库 JSON SHA-256 为 `4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3`。初轮 v1 的对应指纹为 `9c8888db7208be7613872124b51eafd7e178de409b9ff7b533f6c81ee1f2ebc7` / `6d8d91d8943bc94963ac4213716efbbcac8dbfbc539712bc3c1aeecde6a245e3`，用于规范化前后对照，不再作为当前输出值。`apps/`、`libs/`、`deploy/`、`package.json` 与 `pnpm-lock.yaml` 相对输入基线无 diff。
 
-**R0A–R0D 静态交付 G3**: Pass。R0E 的环境验证与独立审查结果见其基线。**G4**: 未完成，尚未提交/归档。**R0 全阶段**: Doing，R0F 待推进。**R1 G1**: Pending，不启动业务实现。
+R0F API v3 将产品 Git 输入与已审查 canonical 文档指纹分开冻结；当前 API JSON SHA-256 为 `3d564c69ec633872a1870bdbaa0ab48744d0e316ab8660f62ddd5ccb11e1c95c`。291 个操作的业务 payload、DTO、权限、阶段与测试线索相对 `08daaf45` 均不变；Windows/Linux 复算一致。当前为 282 exact、7 参数名差异、2 canonical 待决、0 缺行；数据库 v2 JSON 未改。
+
+**R0A–R0E G4**: 已提交推送 `08daaf45`，R0E 记录已归档。**R0F**: Doing，见其独立基线与 Issue #59；**R1**: 实施 Todo，本轮不启动业务实现。
