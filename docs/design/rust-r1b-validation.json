@@ -1,0 +1,361 @@
+{
+  "formatVersion": 1,
+  "recordedAtUtc": "2026-10-25T22:52:29.677898+00:00",
+  "scope": "R1B one-way TypeScript shared values export and pure scalar/JSON/permission compatibility; no new HTTP handler, database, business calculation chain or deployment",
+  "sourceBaseline": "ef9fd7f4871eb87167bca1ae04fae8a992ef594c",
+  "sourceHashNormalization": "UTF-8 CRLF to LF only; submitted Windows sources equal verified Linux inputs; READMEs/lifecycle docs excluded",
+  "sourceFilesSha256": {
+    "apps/poms-api-rust/.gitignore": "fecafa5e093368be2f644386f9f4790d6d95a7714625f85fe9496b6d2a6903bb",
+    "apps/poms-api-rust/Cargo.lock": "42d6a9d705b68f63a1d44290ea7b188934c2c530a4b3a70e9d71023fc384cfc3",
+    "apps/poms-api-rust/Cargo.toml": "6a4af3bcc8d104ee1089686881379d4a7abe2f49024bb6ca13d2cd8077591334",
+    "apps/poms-api-rust/rust-toolchain.toml": "8e390d6a0838315f972690f46ef8bae8b7ecc9ee6c1ed70140ef852869c2482e",
+    "apps/poms-api-rust/src/compat/json.rs": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+    "apps/poms-api-rust/src/compat/mod.rs": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+    "apps/poms-api-rust/src/compat/permissions.rs": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2",
+    "apps/poms-api-rust/src/compat/scalars.rs": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+    "apps/poms-api-rust/src/config.rs": "9401037c5f824243f611bf01f22dd1ef34988d2bd405b8c056c734c6c3d70aac",
+    "apps/poms-api-rust/src/database.rs": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+    "apps/poms-api-rust/src/error.rs": "44321d4617bf0ae5482e8300191f9c88c34ee0a568bc9b29177a79582ecf524e",
+    "apps/poms-api-rust/src/http.rs": "be015266eac04b7ba457057c9765883759adbceae653f0f11e170c5f69e4b82e",
+    "apps/poms-api-rust/src/lib.rs": "7aab2a1fa860cb139f9cb71982494acf75a273e979fe2628ae2a1543b30c372c",
+    "apps/poms-api-rust/src/lifecycle.rs": "4399da5850dad76b12e2f65a07c2b5956e56a7bbda42db3ee7622b3ae6c82a71",
+    "apps/poms-api-rust/src/logging.rs": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8",
+    "apps/poms-api-rust/src/main.rs": "ae1be7b7473b74b3b2696c8b1b1b9ea008fe915768d1594fe23049d333821ab8",
+    "apps/poms-api-rust/src/shared/generated.rs": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+    "apps/poms-api-rust/src/shared/mod.rs": "aa696a3406fc0f6c77a641fa4aee8a5eddf324b36b13b458256efe302e16e048",
+    "apps/poms-api-rust/tests/database.rs": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649",
+    "apps/poms-api-rust/tests/http.rs": "3c0c36ea81d460646692db969f0bd08ee8df0dd13186ab737e2185d50012ca61",
+    "apps/poms-api-rust/tests/json_compat.rs": "65a006e3ea2c23b5f862edc601453334bbb9586ab6a2d59c2f821b7c09dfc837",
+    "apps/poms-api-rust/tests/permissions.rs": "e4738afd19485747af6cff370e563064cb183a3e15a7ef053fbbf107d57ef35b",
+    "apps/poms-api-rust/tests/scalars.rs": "f2c8c1425cd767dba11a731e75aec269cc98e1af3c497aa8793f18de90a4a4a8",
+    "apps/poms-api-rust/tests/shared_compat_regression.rs": "eb1b186e75268fd0328927a3ac232bcd7c2546901ccc1d9f50bb9a4d10f35162",
+    "apps/poms-api-rust/tests/shared_generated.rs": "b01ddd28793e14304cc7e6d24fce874154bbc3b92a026be2b19a1752af9e9086",
+    "tools/rust-r1b/check.sh": "0510d992f4a3a8e2672659dff48c58225f0acabd2f10dc0feafbe0018f5fb90d",
+    "tools/rust-r1b/export-shared.mjs": "20b8736dc220c54c7e7c3046ba0817e30fc47b4b5a35c0c5575dbc4cb9bd4d24",
+    "tools/rust-r1b/export-shared.test.mjs": "cb2793fc555f20fd0035773eb5be530a696d0922e52c47ccebcfd855e6f5173c",
+    "tools/rust-r1b/json-compat-cases.json": "c2e5c938b1be449a98a7d3dbaaa43559c9bb8ae16387baa74d8aabfa598ef965",
+    "tools/rust-r1b/json-compat-golden.json": "39704a027c2fa11d0da65dfce9978f5804c12d986b15973cd89dc52063158510",
+    "tools/rust-r1b/json-compat-oracle.mjs": "52af29d3bf76a0855f2544e935d576c143fb0fbb39b077a62ecd6b8f2a23eb60",
+    "tools/rust-r1b/scalar-compat-cases.json": "f1088831f38614206e1ce6f8ec07c6d2db9c2425196aa65f40c8022db7bb72ac",
+    "tools/rust-r1b/scalar-compat-golden.json": "305a40f1ec5d9bfff8cd6633782f727ca128cd1c815200bd9cf4098838ac10a5",
+    "tools/rust-r1b/scalar-compat-oracle.mjs": "c16318a2ce484c4912f162b039c1caa18c6171396cbfc89d79f6114c784c60de",
+    "tools/rust-r1b/shared-manifest.json": "63ed639af64b2f0422cc955cfda4514758bed1da3841ba5f4a11076886cdb419",
+    "tools/rust-r1a/verify-openapi.mjs": "f6f2a8fa70a9c14b55fe173c999499f3e1b47c3a7f8a701f49ebc1f6fb36e1ac"
+  },
+  "build": {
+    "imageId": "f8284fad99901b0c71bffd7a76a58ff6f56443755ccd3deacbca488557bb7244",
+    "distribution": "Debian 12",
+    "architecture": "x86_64",
+    "glibc": "2.36",
+    "rust": "1.97.1",
+    "nodeLinux": "24.16.0",
+    "nodeWindows": "24.19.0",
+    "maximumRequiredGlibcSymbol": "2.34",
+    "binaryPath": "/home/wangzishi/.local/share/poms-r1b/target/release/poms-api-rust",
+    "binarySha256": "56732d99e3af50a8c732910f815168b46f9fefcf9dcf246c8433b0b7b993fe91",
+    "lockPackageRecords": 234,
+    "lockDeltaFromR1A": {
+      "added": [
+        [
+          "chrono-tz",
+          "0.10.4"
+        ],
+        [
+          "phf",
+          "0.12.1"
+        ],
+        [
+          "phf_shared",
+          "0.12.1"
+        ],
+        [
+          "ryu-js",
+          "1.0.3"
+        ],
+        [
+          "siphasher",
+          "1.0.4"
+        ]
+      ],
+      "removed": [],
+      "existingVersionsChanged": false
+    },
+    "portableLinuxNodePackageVersions": {
+      "@borewit/text-codec": "0.2.1",
+      "@lukeed/csprng": "1.1.0",
+      "@nestjs/common": "12.0.1",
+      "@nestjs/core": "12.0.1",
+      "@standard-schema/spec": "1.1.0",
+      "@tokenizer/inflate": "0.4.1",
+      "@tokenizer/token": "0.3.0",
+      "debug": "4.4.3",
+      "fast-safe-stringify": "2.1.1",
+      "file-type": "22.0.2",
+      "ieee754": "1.2.1",
+      "iterare": "1.2.1",
+      "load-esm": "1.0.3",
+      "ms": "2.1.3",
+      "path-to-regexp": "8.4.2",
+      "reflect-metadata": "0.2.2",
+      "rxjs": "7.8.2",
+      "strtok3": "10.3.5",
+      "token-types": "6.1.2",
+      "tslib": "2.8.1",
+      "typescript": "6.0.3",
+      "uid": "2.0.2",
+      "uint8array-extras": "1.5.0",
+      "zod": "4.6.1",
+      "prettier": "3.8.5"
+    }
+  },
+  "commands": [
+    {
+      "command": "bash tools/rust-r1b/check.sh check",
+      "result": "pass",
+      "network": "none",
+      "includes": [
+        "cargo fmt --check",
+        "cargo clippy --locked --all-targets -- -D warnings",
+        "cargo test --locked",
+        "cargo build --locked --release"
+      ],
+      "testsPassed": 56,
+      "databaseTestsIgnored": 8,
+      "suites": [
+        {
+          "suite": "unittests src/lib.rs",
+          "passed": 22,
+          "ignored": 0
+        },
+        {
+          "suite": "unittests src/main.rs",
+          "passed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "tests/database.rs",
+          "passed": 1,
+          "ignored": 8
+        },
+        {
+          "suite": "tests/http.rs",
+          "passed": 14,
+          "ignored": 0
+        },
+        {
+          "suite": "tests/json_compat.rs",
+          "passed": 5,
+          "ignored": 0
+        },
+        {
+          "suite": "tests/permissions.rs",
+          "passed": 3,
+          "ignored": 0
+        },
+        {
+          "suite": "tests/scalars.rs",
+          "passed": 8,
+          "ignored": 0
+        },
+        {
+          "suite": "tests/shared_compat_regression.rs",
+          "passed": 2,
+          "ignored": 0
+        },
+        {
+          "suite": "tests/shared_generated.rs",
+          "passed": 1,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests poms_api_rust",
+          "passed": 0,
+          "ignored": 0
+        }
+      ]
+    },
+    {
+      "command": "bash tools/rust-r1b/check.sh oracles",
+      "result": "pass",
+      "network": "none",
+      "nodeTests": 10,
+      "crossPlatform": "Same payloads and source hashes pass Windows Node 24.19.0 and Linux Node 24.16.0"
+    },
+    {
+      "command": "bash tools/rust-r1b/check.sh openapi; node tools/rust-r1a/verify-openapi.mjs <output>",
+      "result": "pass",
+      "operations": 3,
+      "healthSchemas": 3,
+      "fullSpecChanged": false
+    },
+    {
+      "command": "eslint tools/rust-r1b/*.mjs --max-warnings 0; prettier --check tools/rust-r1b/*.mjs tools/rust-r1b/*.json",
+      "result": "pass",
+      "newWarnings": 0
+    },
+    {
+      "command": "R0 API inventory --check; R0 database inventory --check; R0F data-compat oracle --check",
+      "result": "pass",
+      "frozenFilesChanged": false
+    },
+    {
+      "command": "pnpm run format:md:check; git diff --check; local Markdown link check",
+      "result": "pass",
+      "markdownFiles": 9,
+      "localLinks": 74
+    }
+  ],
+  "coverage": {
+    "shared": {
+      "sharedTopLevelVariables": 1302,
+      "sharedClassifiedDataDeclarations": 665,
+      "sharedSchemaDeclarations": 636,
+      "explicitSchemaShapeExclusions": 1,
+      "sharedDataKinds": {
+        "enum-definitions": 92,
+        "hint-map": 1,
+        "label-map": 92,
+        "options": 60,
+        "permission-metadata": 1,
+        "schema-scalar-limit": 2,
+        "sensitive-package-permission-map": 1,
+        "severity-map": 53,
+        "string-array": 201,
+        "wire-value-object": 162
+      },
+      "r0SnapshotCount": 455,
+      "r0SnapshotsWithCompleteRustMappings": 455,
+      "r0SnapshotKinds": {
+        "enum-definitions": 92,
+        "string-array": 201,
+        "wire-value-object": 162
+      },
+      "helperDerivedMetadata": 206,
+      "permissionKeys": 37,
+      "zEnumOccurrences": 224,
+      "topLevelZEnums": 171,
+      "nestedZEnums": 53,
+      "openApiVisibleTopLevelEnums": 161,
+      "unpublishedTopLevelEnums": 10,
+      "sharedEnumFamilies": 202,
+      "backendAuthEnumFamilies": 3,
+      "generatedEnumFamilies": 205,
+      "generatedEnumValues": 778,
+      "completenessRule": "Every top-level shared variable is classified; unknown statements/data expressions/helpers/candidates fail. Families retain source-symbol identity, never merge by equal values."
+    },
+    "r0fScalar": {
+      "candidateInputGroups": 62,
+      "candidateObservations": 229,
+      "scalarInputGroupsMapped": 54,
+      "scalarObservationsMapped": 221,
+      "timestampInputGroupsPartiallyMapped": 3,
+      "comparison": "returned scalar values exactly; rejected values by scalar classification/acceptance only; service-specific Nest error names/messages/status and full Zod issues are not implemented",
+      "groups": {
+        "dateResults": "businessDateOnly/costDate and costTimestamp; legacy input distinctions",
+        "contractDateResults": "Missing/Null/empty and UTF16 slicing",
+        "moneyResults": "formatting/string passthrough and scalar finite/positive classification; service-specific Nest error wrapping not implemented",
+        "nullableDecimalResults": "null/undefined/string/number projection",
+        "schemaResults": "8 UUID/external ID cases; 2 required-nullable field cases belong to JSON adapters; 3 membership enum cases belong to generated shared contracts",
+        "timestampResults": "convert the timestamp fields; full session write snapshot/precedence not implemented"
+      },
+      "excluded": {
+        "retentionResults": "4 business due-status cases; R1B does not implement Commission state decisions",
+        "repositoryResults": "10 SQL recording cases; R1B has no persistence"
+      }
+    },
+    "r0fCrossOwnerRegression": {
+      "nullableOrgFields": 2,
+      "membershipEnums": 3,
+      "test": "apps/poms-api-rust/tests/shared_compat_regression.rs"
+    },
+    "supplementalScalarGroups": {
+      "numberResults": 34,
+      "numberStrings": 18,
+      "dates": 21,
+      "uuids": 10,
+      "externalIds": 5,
+      "wireDates": 10
+    },
+    "jsonAndPermissions": {
+      "fieldResults": 21,
+      "objectResults": 11,
+      "permissionResults": 18,
+      "rawPermissionResults": 1
+    },
+    "oracleDependencyRefusals": {
+      "unknownLexical": true,
+      "unknownImport": true,
+      "unknownThis": true
+    },
+    "note": "Fixture groups/observations are not Rust test-case counts. R0F 221 scalar comparisons plus 5 cross-owner schema cases; 3 session timestamp fixtures remain field-only, not full session snapshot semantics."
+  },
+  "independentReview": {
+    "export": "C reviewed A: Pass",
+    "scalars": "A reviewed B: Pass",
+    "jsonAndPermissions": "B reviewed C: Pass",
+    "crossOwnerRegression": "B reviewed root: Pass",
+    "openFindings": 0
+  },
+  "correctiveCheckpoint": {
+    "id": "R1B-CP01",
+    "classification": "new-real-drift",
+    "finding": "Staged source changes could be hidden by a restored baseline working file",
+    "resolution": "All three R1B source guards also compare --cached against source baseline; negative staging/working cancellation proof rejects --check and --write before output changes",
+    "status": "closed before G3"
+  },
+  "limitations": [
+    "Rust legacy timestamp parsing covers the declared ISO/date-only forms under UTC; it is not arbitrary implementation-defined Date.parse or host-local parsing.",
+    "JS-valid dates outside chrono range return UnsupportedDateRange explicitly; public ISO date/UTC datetime schemas remain four-digit-year validators.",
+    "JS string.slice can create an isolated UTF16 surrogate; Rust date slicing rejects that boundary instead of silently replacing it. Complete surrogate pairs are tested.",
+    "No service calculation, session precedence/write snapshot, HTTP exception wrapping, database decoding, SQL, business transactions or full DTO migration is certified.",
+    "JSON helpers certify presence and one object key scope, not all Zod scalar/refinement rules. R1C retains authentication, metadata lookup, audit writes, raw persistence and complete response construction.",
+    "Existing real DB tests were deliberately not run; no PG17, PG15 or TEST connection/migration/seed/deploy."
+  ],
+  "logs": [
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/check.log",
+      "bytes": 9988,
+      "sha256": "955b486d98ea25a9ea58750fc3050961d7f93ec02bf91de24891704eefaf5a86"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/oracles.log",
+      "bytes": 3523,
+      "sha256": "f5e7b13fca2caa884ad3e266550426c9c273b33fbfd0c3592e5297f207a00d41"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/openapi-r1b.json",
+      "bytes": 3381,
+      "sha256": "ad8a67fb4cc2b327fdd18ac25c19d845d7b3d857a17c2438dd3602c42bc8a5c0"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/openapi-check.log",
+      "bytes": 73,
+      "sha256": "34a945cf0bf552a9fdf9cb2be134558d8549542a53fb5236fb910ce869421610"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/abi.log",
+      "bytes": 4188,
+      "sha256": "e98e3ae9f55a677dea254bb7a1104fe2c8b689d1bd895d7b37c951fc1f140eba"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/windows-export.log",
+      "bytes": 1885,
+      "sha256": "26fb858f94524f2472571817e8003460dd692580d191ed4f5da3b8092ad9493a"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/windows-export-tests.log",
+      "bytes": 1203,
+      "sha256": "14da4a198a669e0ea55063422126d0acfa50740604d70d5e8c305c633948d793"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/windows-scalar.log",
+      "bytes": 239,
+      "sha256": "bca1fd5ac44fce7acee545e79a26203f713e2a065ab69e3a68122f24e11ab766"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1b/logs/windows-json.log",
+      "bytes": 253,
+      "sha256": "4381abf24bbb9016f0b487d893aeba99eb72709eaa618057d81abf1450cb985f"
+    }
+  ]
+}

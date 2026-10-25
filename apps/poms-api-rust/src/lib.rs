@@ -1,6 +1,8 @@
+pub mod compat;
 pub mod config;
 pub mod database;
 pub mod error;
 pub mod http;
 pub mod lifecycle;
 pub mod logging;
+pub mod shared;

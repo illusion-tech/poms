@@ -106,12 +106,13 @@
 - `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责固定是否进入开发、统一开发范围、切片顺序与启动约束
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - [backend-rust-migration-plan.md](backend-rust-migration-plan.md)：后端 Rust 重构计划，明确 WSL Debian 环境、兼容边界、分阶段实现、统一切换和回滚；不以性能实测作为立项前置条件
-- [rust-migration-execution-tracker.md](rust-migration-execution-tracker.md)：Rust 迁移任务、代理分工、依赖与 gate 状态；当前推进 R0
+- [rust-migration-execution-tracker.md](rust-migration-execution-tracker.md)：Rust 迁移任务、代理分工、依赖与 gate 状态；R0 已完成，当前推进 R1
 - [rust-r0-baseline.md](archive/slices/rust-r0-baseline.md)：R0 盘点、架构和环境基线，链接完整 API、数据库及工具链证据
 - [rust-r0e-environment-baseline.md](archive/slices/rust-r0e-environment-baseline.md)：TEST 兼容构建、隔离 PostgreSQL 15、固定依赖与验收记录；日常开发仍可用既有 PG17
 - [rust-r0f-compatibility-baseline.md](archive/slices/rust-r0f-compatibility-baseline.md)：路由差异裁决、现行认证/数据样本及 R1 输入冻结；不代表 Rust 产品实现通过
 - [rust-r1-foundation-baseline.md](rust-r1-foundation-baseline.md)：R1 应用与兼容基础的逐路由、字段、配置、测试入口及验收输入；工程状态见 Issue #60
 - [rust-r1a-application-baseline.md](archive/slices/rust-r1a-application-baseline.md)：R1A #62 已交付的工程、SQLx、三路由与启停基线及 G3/G4 记录
+- [rust-r1b-shared-types-baseline.md](rust-r1b-shared-types-baseline.md)：R1B #63 单向共享类型生成与基础兼容边界及 G3/G4 记录；[机器验收证据](rust-r1b-validation.json)
 - `implementation-governance-gates.md`：设计到实现治理闸口，聚焦冻结闸口、合并闸口、子切片治理、例外留痕、风险分层证据、GitHub issue-first 迁移与过渡规则
 - `phase2-development-execution-tracker.md`：第二阶段开发执行追踪板；在 GitHub issue-first Phase 1 中作为 transitional index 镜像 issue 状态、任务拆解与执行回写
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档

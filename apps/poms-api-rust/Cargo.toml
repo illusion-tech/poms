@@ -11,6 +11,8 @@ resolver = "3"
 [dependencies]
 axum = { version = "=0.8.9", default-features = false, features = ["http1", "json", "tokio", "matched-path", "original-uri"] }
 chrono = { version = "=0.4.45", default-features = false, features = ["std", "serde", "clock"] }
+chrono-tz = { version = "=0.10.4", default-features = false, features = ["std"] }
+ryu-js = { version = "=1.0.3" }
 rust_decimal = { version = "=1.43.0", default-features = false, features = ["std", "serde-with-str"] }
 serde = { version = "=1.0.229", default-features = false, features = ["std", "derive"] }
 serde_json = { version = "=1.0.154" }

@@ -1,0 +1,2565 @@
+{
+  "formatVersion": 1,
+  "provenance": {
+    "baselineHead": "ef9fd7f4871eb87167bca1ae04fae8a992ef594c",
+    "normalization": "UTF8 text.replace(/\\r\\n/g, '\\n'); preserve BOM/bare CR/Unicode/decoded literals",
+    "processTimezone": "UTC",
+    "typescript": "6.0.3",
+    "zod": "4.6.1",
+    "toolSha256": "c16318a2ce484c4912f162b039c1caa18c6171396cbfc89d79f6114c784c60de",
+    "casesSha256": "f1088831f38614206e1ce6f8ec07c6d2db9c2425196aa65f40c8022db7bb72ac",
+    "fileHashes": [
+      {
+        "file": "apps/poms-api/src/app/core/date/business-date.utils.ts",
+        "sha256": "da63a9963433b87f3c81d93104a30556b1c468e4b751ced4f8224e60fbcd8bb2"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+      },
+      {
+        "file": "tools/rust-r0f/data-compat/golden.json",
+        "sha256": "c8c58d1e49b848dc274b5ca6d4125bd67c3c0ec3797fac7700c4b7c2bea19329"
+      },
+      {
+        "file": "package.json",
+        "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+      },
+      {
+        "file": ".gitattributes",
+        "sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c"
+      }
+    ],
+    "sourceManifestSha256": "f1800f896a7d3cb89965a6ca98142a3ada51f78cae404decd8579a7e9473e4ad",
+    "evidence": [
+      "unchanged complete business-date.utils.ts",
+      "unchanged complete shared-contracts.ts with real locked Zod",
+      "native JS Number/String/toFixed/Date.toISOString"
+    ],
+    "databaseConnected": false
+  },
+  "r0fCoverage": {
+    "candidateInputGroups": 62,
+    "candidateObservations": 229,
+    "scalarInputGroupsMapped": 54,
+    "scalarObservationsMapped": 221,
+    "timestampInputGroupsPartiallyMapped": 3,
+    "comparison": "returned scalar values exactly; rejected values by scalar classification/acceptance only; service-specific Nest error names/messages/status and full Zod issues are not implemented",
+    "groups": {
+      "dateResults": "businessDateOnly/costDate and costTimestamp; legacy input distinctions",
+      "contractDateResults": "Missing/Null/empty and UTF16 slicing",
+      "moneyResults": "formatting/string passthrough and scalar finite/positive classification; service-specific Nest error wrapping not implemented",
+      "nullableDecimalResults": "null/undefined/string/number projection",
+      "schemaResults": "8 UUID/external ID cases; 2 required-nullable field cases belong to JSON adapters; 3 membership enum cases belong to generated shared contracts",
+      "timestampResults": "convert the timestamp fields; full session write snapshot/precedence not implemented"
+    },
+    "excluded": {
+      "retentionResults": "4 business due-status cases; R1B does not implement Commission state decisions",
+      "repositoryResults": "10 SQL recording cases; R1B has no persistence"
+    }
+  },
+  "limitations": [
+    "Rust legacy timestamp parsing covers the declared ISO/date-only forms under UTC; it is not arbitrary implementation-defined Date.parse or host-local parsing.",
+    "JS-valid dates outside chrono range return UnsupportedDateRange explicitly; public ISO date/UTC datetime schemas remain four-digit-year validators.",
+    "JS string.slice can create an isolated UTF16 surrogate; Rust date slicing rejects that boundary instead of silently replacing it. Complete surrogate pairs are tested.",
+    "No service calculation, session precedence/write snapshot, HTTP exception wrapping, database decoding, SQL, business transactions or full DTO migration is certified."
+  ],
+  "counts": {
+    "numberResults": 34,
+    "numberStrings": 18,
+    "dates": 21,
+    "uuids": 10,
+    "externalIds": 5,
+    "wireDates": 10
+  },
+  "numberResults": [
+    {
+      "id": "1.125:bitsDelta-1",
+      "bits": "3ff1ffffffffffff",
+      "string": "1.1249999999999998",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.12"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.1250"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.125000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.1249999999999997779553950749686919152736663818359375000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.125:bitsDelta0",
+      "bits": "3ff2000000000000",
+      "string": "1.125",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.13"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.1250"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.125000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.1250000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.125:bitsDelta1",
+      "bits": "3ff2000000000001",
+      "string": "1.1250000000000002",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.13"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.1250"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.125000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.1250000000000002220446049250313080847263336181640625000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.125:bitsDelta-1",
+      "bits": "bff1ffffffffffff",
+      "string": "-1.1249999999999998",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.12"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.1250"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.125000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.1249999999999997779553950749686919152736663818359375000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.125:bitsDelta0",
+      "bits": "bff2000000000000",
+      "string": "-1.125",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.13"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.1250"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.125000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.1250000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.125:bitsDelta1",
+      "bits": "bff2000000000001",
+      "string": "-1.1250000000000002",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.13"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.1250"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.125000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.1250000000000002220446049250313080847263336181640625000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.23445:bitsDelta-1",
+      "bits": "3ff3c04ea4a8c154",
+      "string": "1.2344499999999998",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.2344"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.234450"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.2344499999999998252064870030153542757034301757812500000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.23445:bitsDelta0",
+      "bits": "3ff3c04ea4a8c155",
+      "string": "1.23445",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.2345"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.234450"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.2344500000000000472510919280466623604297637939453125000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.23445:bitsDelta1",
+      "bits": "3ff3c04ea4a8c156",
+      "string": "1.2344500000000003",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.2345"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.234450"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.2344500000000002692956968530779704451560974121093750000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.23445:bitsDelta-1",
+      "bits": "bff3c04ea4a8c154",
+      "string": "-1.2344499999999998",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2344"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.234450"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2344499999999998252064870030153542757034301757812500000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.23445:bitsDelta0",
+      "bits": "bff3c04ea4a8c155",
+      "string": "-1.23445",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2345"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.234450"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2344500000000000472510919280466623604297637939453125000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.23445:bitsDelta1",
+      "bits": "bff3c04ea4a8c156",
+      "string": "-1.2344500000000003",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2345"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.234450"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2344500000000002692956968530779704451560974121093750000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.2345675:bitsDelta-1",
+      "bits": "3ff3c0c9d9d3458c",
+      "string": "1.2345674999999998",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.2346"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.234567"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.2345674999999998178168425511103123426437377929687500000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.2345675:bitsDelta0",
+      "bits": "3ff3c0c9d9d3458d",
+      "string": "1.2345675",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.2346"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.234568"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.2345675000000000398614474761416204273700714111328125000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1.2345675:bitsDelta1",
+      "bits": "3ff3c0c9d9d3458e",
+      "string": "1.2345675000000003",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.2346"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.234568"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.2345675000000002619060524011729285120964050292968750000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.2345675:bitsDelta-1",
+      "bits": "bff3c0c9d9d3458c",
+      "string": "-1.2345674999999998",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2346"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.234567"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2345674999999998178168425511103123426437377929687500000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.2345675:bitsDelta0",
+      "bits": "bff3c0c9d9d3458d",
+      "string": "-1.2345675",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2346"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.234568"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2345675000000000398614474761416204273700714111328125000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1.2345675:bitsDelta1",
+      "bits": "bff3c0c9d9d3458e",
+      "string": "-1.2345675000000003",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.23"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2346"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.234568"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.2345675000000002619060524011729285120964050292968750000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e21:bitsDelta-1",
+      "bits": "444b1ae4d6e2ef4f",
+      "string": "999999999999999900000",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "999999999999999868928"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "999999999999999868928.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "999999999999999868928.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "999999999999999868928.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "999999999999999868928.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e21:bitsDelta0",
+      "bits": "444b1ae4d6e2ef50",
+      "string": "1e+21",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1e+21"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1e+21"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1e+21"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1e+21"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1e+21"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e21:bitsDelta1",
+      "bits": "444b1ae4d6e2ef51",
+      "string": "1.0000000000000001e+21",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1e21:bitsDelta-1",
+      "bits": "c44b1ae4d6e2ef4f",
+      "string": "-999999999999999900000",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-999999999999999868928"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-999999999999999868928.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-999999999999999868928.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-999999999999999868928.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-999999999999999868928.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1e21:bitsDelta0",
+      "bits": "c44b1ae4d6e2ef50",
+      "string": "-1e+21",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1e+21"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1e+21"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1e+21"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1e+21"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1e+21"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-1e21:bitsDelta1",
+      "bits": "c44b1ae4d6e2ef51",
+      "string": "-1.0000000000000001e+21",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-1.0000000000000001e+21"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "NaN",
+      "bits": "7ff8000000000000",
+      "string": "NaN",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "NaN"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "NaN"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "NaN"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "NaN"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "NaN"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Infinity",
+      "bits": "7ff0000000000000",
+      "string": "Infinity",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "Infinity"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "Infinity"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "Infinity"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "Infinity"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "Infinity"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-Infinity",
+      "bits": "fff0000000000000",
+      "string": "-Infinity",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-Infinity"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-Infinity"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-Infinity"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-Infinity"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-Infinity"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "0",
+      "bits": "0000000000000000",
+      "string": "0",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "0"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "0.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "0.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-0",
+      "bits": "8000000000000000",
+      "string": "0",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "0"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "0.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "0.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5e-324",
+      "bits": "0000000000000001",
+      "string": "5e-324",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "0"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "0.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "0.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "-5e-324",
+      "bits": "8000000000000001",
+      "string": "-5e-324",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "-0"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "-0.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "-0.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "-0.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "-0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e-6",
+      "bits": "3eb0c6f7a0b5ed8d",
+      "string": "0.000001",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "0"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "0.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "0.000001"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000009999999999999999547481118258862586856139387236908078193664550781250000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e-7",
+      "bits": "3e7ad7f29abcaf48",
+      "string": "1e-7",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "0"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "0.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "0.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "0.0000000999999999999999954748111825886258685613938723690807819366455078125000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e20",
+      "bits": "4415af1d78b58c40",
+      "string": "100000000000000000000",
+      "fixed": [
+        {
+          "digits": 0,
+          "result": {
+            "outcome": "return",
+            "value": "100000000000000000000"
+          }
+        },
+        {
+          "digits": 2,
+          "result": {
+            "outcome": "return",
+            "value": "100000000000000000000.00"
+          }
+        },
+        {
+          "digits": 4,
+          "result": {
+            "outcome": "return",
+            "value": "100000000000000000000.0000"
+          }
+        },
+        {
+          "digits": 6,
+          "result": {
+            "outcome": "return",
+            "value": "100000000000000000000.000000"
+          }
+        },
+        {
+          "digits": 100,
+          "result": {
+            "outcome": "return",
+            "value": "100000000000000000000.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "digits": 101,
+          "result": {
+            "outcome": "throw",
+            "error": {
+              "name": "RangeError",
+              "message": "toFixed() digits argument must be between 0 and 100"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "numberStringResults": [
+    {
+      "input": "inf",
+      "bits": "7ff8000000000000",
+      "string": "NaN"
+    },
+    {
+      "input": "Infinity",
+      "bits": "7ff0000000000000",
+      "string": "Infinity"
+    },
+    {
+      "input": "-Infinity",
+      "bits": "fff0000000000000",
+      "string": "-Infinity"
+    },
+    {
+      "input": "NaN",
+      "bits": "7ff8000000000000",
+      "string": "NaN"
+    },
+    {
+      "input": "",
+      "bits": "0000000000000000",
+      "string": "0"
+    },
+    {
+      "input": " ﻿",
+      "bits": "0000000000000000",
+      "string": "0"
+    },
+    {
+      "input": "0x10",
+      "bits": "4030000000000000",
+      "string": "16"
+    },
+    {
+      "input": "0b11",
+      "bits": "4008000000000000",
+      "string": "3"
+    },
+    {
+      "input": "0o10",
+      "bits": "4020000000000000",
+      "string": "8"
+    },
+    {
+      "input": "1e3",
+      "bits": "408f400000000000",
+      "string": "1000"
+    },
+    {
+      "input": "+1.25",
+      "bits": "3ff4000000000000",
+      "string": "1.25"
+    },
+    {
+      "input": "-0",
+      "bits": "8000000000000000",
+      "string": "0"
+    },
+    {
+      "input": "1e309",
+      "bits": "7ff0000000000000",
+      "string": "Infinity"
+    },
+    {
+      "input": " 1.20 ",
+      "bits": "3ff3333333333333",
+      "string": "1.2"
+    },
+    {
+      "input": "0xffffffffffffffff",
+      "bits": "43f0000000000000",
+      "string": "18446744073709552000"
+    },
+    {
+      "input": "0x20000000000001",
+      "bits": "4340000000000000",
+      "string": "9007199254740992"
+    },
+    {
+      "input": "0x20000000000003",
+      "bits": "4340000000000002",
+      "string": "9007199254740996"
+    },
+    {
+      "input": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "bits": "4ff0000000000000",
+      "string": "1.157920892373162e+77"
+    }
+  ],
+  "dateResults": [
+    {
+      "input": {
+        "id": "historical-summer",
+        "kind": "Date",
+        "value": "1979-06-30T15:30:00.000Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "1979-07-01"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "1979-06-30"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "1979-06-30T15:30:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "historical-winter",
+        "kind": "Date",
+        "value": "1979-01-31T15:30:00.000Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "1979-01-31"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "1979-01-31"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "1979-01-31T15:30:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "low-year",
+        "kind": "Date",
+        "value": "0001-01-01T00:00:00.000Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "1-01-01"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "1-01-01"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "0001-01-01T00:00:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "year-zero",
+        "kind": "Date",
+        "value": "0000-01-01T00:00:00.000Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "1-01-01"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "1-01-01"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "0000-01-01T00:00:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "microsecond-string",
+        "kind": "String",
+        "value": "2026-04-18T16:00:00.123456Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T16:00:00.123Z"
+      }
+    },
+    {
+      "input": {
+        "id": "no-offset-process-utc",
+        "kind": "String",
+        "value": "2026-04-19T00:00:00"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "2026-04-19T00:00:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "calendar-rollover-internal",
+        "kind": "String",
+        "value": "2026-02-30"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-02-30"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-02-30"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "2026-03-02T00:00:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "utf16-slice-complete-pair",
+        "kind": "String",
+        "value": "A😀1234567890"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "A😀1234567"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "A😀1234567"
+      },
+      "timestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "input": {
+        "id": "invalid-date",
+        "kind": "Date",
+        "value": "invalid"
+      },
+      "hongKong": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      },
+      "utc": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      },
+      "timestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "input": {
+        "id": "empty-string",
+        "kind": "String",
+        "value": ""
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": null
+      },
+      "utc": {
+        "outcome": "return",
+        "value": null
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "input": {
+        "id": "null",
+        "kind": "Null"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": null
+      },
+      "utc": {
+        "outcome": "return",
+        "value": null
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "input": {
+        "id": "missing",
+        "kind": "Missing"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": null
+      },
+      "utc": {
+        "outcome": "return",
+        "value": null
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "input": {
+        "id": "extended-positive-year",
+        "kind": "Date",
+        "value": "+010000-01-01T00:00:00.123Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "10000-01-01"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "10000-01-01"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "+010000-01-01T00:00:00.123Z"
+      }
+    },
+    {
+      "input": {
+        "id": "extended-negative-year",
+        "kind": "Date",
+        "value": "-000001-01-01T00:00:00.123Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2-01-01"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2-01-01"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "-000001-01-01T00:00:00.123Z"
+      }
+    },
+    {
+      "input": {
+        "id": "iso-24-hour",
+        "kind": "String",
+        "value": "2026-04-19T24:00:00Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "2026-04-20T00:00:00.000Z"
+      }
+    },
+    {
+      "input": {
+        "id": "iso-24-nonzero-fraction",
+        "kind": "String",
+        "value": "2026-04-19T24:00:00.0001Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "timestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "input": {
+        "id": "long-fraction-timeclip",
+        "kind": "String",
+        "value": "2026-04-19T00:00:00.123456789123Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "2026-04-19T00:00:00.123Z"
+      }
+    },
+    {
+      "input": {
+        "id": "pre-epoch-timeclip",
+        "kind": "String",
+        "value": "1969-12-31T23:59:59.999999Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "1969-12-31"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "1969-12-31"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "1969-12-31T23:59:59.999Z"
+      }
+    },
+    {
+      "input": {
+        "id": "leap-second-invalid",
+        "kind": "String",
+        "value": "2026-04-19T00:00:60Z"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "timestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "input": {
+        "id": "offset-24-invalid",
+        "kind": "String",
+        "value": "2026-04-19T00:00:00+24:00"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "timestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "input": {
+        "id": "iso-calendar-rollover-offset",
+        "kind": "String",
+        "value": "2026-02-30T00:00:00+08:00"
+      },
+      "hongKong": {
+        "outcome": "return",
+        "value": "2026-02-30"
+      },
+      "utc": {
+        "outcome": "return",
+        "value": "2026-02-30"
+      },
+      "timestamp": {
+        "outcome": "return",
+        "value": "2026-03-01T16:00:00.000Z"
+      }
+    }
+  ],
+  "uuidResults": [
+    {
+      "input": "00000000-0000-0000-0000-000000000000",
+      "result": {
+        "success": true,
+        "data": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "input": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "result": {
+        "success": true,
+        "data": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+      }
+    },
+    {
+      "input": "ABCDEF12-3456-4789-ABCD-ABCDEF123456",
+      "result": {
+        "success": true,
+        "data": "ABCDEF12-3456-4789-ABCD-ABCDEF123456"
+      }
+    },
+    {
+      "input": "00000000-0000-1000-8000-000000000001",
+      "result": {
+        "success": true,
+        "data": "00000000-0000-1000-8000-000000000001"
+      }
+    },
+    {
+      "input": "00000000-0000-8000-8000-000000000001",
+      "result": {
+        "success": true,
+        "data": "00000000-0000-8000-8000-000000000001"
+      }
+    },
+    {
+      "input": "00000000-0000-9000-8000-000000000001",
+      "result": {
+        "success": false
+      }
+    },
+    {
+      "input": "00000000-0000-4000-7000-000000000001",
+      "result": {
+        "success": false
+      }
+    },
+    {
+      "input": "00000000000040008000000000000001",
+      "result": {
+        "success": false
+      }
+    },
+    {
+      "input": "urn:uuid:00000000-0000-4000-8000-000000000001",
+      "result": {
+        "success": false
+      }
+    },
+    {
+      "input": "{00000000-0000-4000-8000-000000000001}",
+      "result": {
+        "success": false
+      }
+    }
+  ],
+  "externalIdResults": [
+    {
+      "id": "opaque",
+      "input": "dept_external_001",
+      "result": {
+        "success": true,
+        "data": "dept_external_001"
+      }
+    },
+    {
+      "id": "trim-js",
+      "input": "﻿  dept_external_001  ",
+      "result": {
+        "success": true,
+        "data": "dept_external_001"
+      }
+    },
+    {
+      "id": "empty",
+      "input": " \t ",
+      "result": {
+        "success": false
+      }
+    },
+    {
+      "id": "unicode-255",
+      "input": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "result": {
+        "success": true,
+        "data": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+      }
+    },
+    {
+      "id": "unicode-256",
+      "input": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "result": {
+        "success": false
+      }
+    }
+  ],
+  "wireDateResults": [
+    {
+      "input": "2024-02-29",
+      "date": {
+        "success": true,
+        "data": "2024-02-29"
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "2023-02-29",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "2026-02-30",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "0000-01-01",
+      "date": {
+        "success": true,
+        "data": "0000-01-01"
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "0001-01-01",
+      "date": {
+        "success": true,
+        "data": "0001-01-01"
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "2026-04-19T00:00:00Z",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": true,
+        "data": "2026-04-19T00:00:00Z"
+      }
+    },
+    {
+      "input": "2026-04-19T00:00:00.123456789123Z",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": true,
+        "data": "2026-04-19T00:00:00.123456789123Z"
+      }
+    },
+    {
+      "input": "2026-04-19T00:00:00+08:00",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "2026-04-19T00:00Z",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    },
+    {
+      "input": "2026-04-19T00:00:60Z",
+      "date": {
+        "success": false
+      },
+      "utcDatetime": {
+        "success": false
+      }
+    }
+  ]
+}

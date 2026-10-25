@@ -1,6 +1,6 @@
 # POMS Rust 后端基础
 
-独立 Cargo workspace；已交付基础切片 [R1A](../../docs/design/archive/slices/rust-r1a-application-baseline.md)。现有 Nest 后端和完整 OpenAPI/client 保持原位。
+独立 Cargo workspace；基础切片 [R1A](../../docs/design/archive/slices/rust-r1a-application-baseline.md)提供工程与 SQLx，[R1B](../../docs/design/rust-r1b-shared-types-baseline.md)提供共享类型单向导出及标量/JSON/权限兼容。现有 Nest 后端和完整 OpenAPI/client 保持原位。
 
 使用固定 Rust 1.97.1、Axum 0.8.9、SQLx 0.9.0 与 Cargo.lock。推荐在 Linux checkout 中通过[固定环境工具](../../tools/rust-r1a/README.md)构建，产物目标为当前 TEST 的 Debian12/glibc2.36。不要把 WSL Debian13 原生构建自动当成 TEST 可部署包。
 
@@ -13,7 +13,7 @@ cargo build --locked --release
 cargo run --locked -- --openapi > openapi-r1a.json
 ```
 
-`--openapi` 只输出本阶段三操作规范，不读取环境文件或连接数据库。HTTP 范围为 `GET /api`、`GET /api/health`、`GET /api/health/readiness`；其余业务仍由 Nest 提供。认证/共享业务类型/多后端 E2E 的交付由 R1B–E 控制。
+`--openapi` 只输出本阶段三操作规范，不读取环境文件或连接数据库。HTTP 范围为 `GET /api`、`GET /api/health`、`GET /api/health/readiness`；其余业务仍由 Nest 提供。共享类型只从现有 TypeScript 来源机械生成，维护与兼容复算见 [R1B 工具](../../tools/rust-r1b/README.md)；认证 handler、多后端 E2E 与父阶段集成验收由 R1C–E 控制。
 
 配置沿用现有公开环境名与 dotenv 选择规则。`POMS_ENV_FILE` 显式文件覆盖进程环境；否则优先当前目录 `.env`，再 `apps/poms-api/.env`，文件值不覆盖已有进程值。缺失显式文件/非法配置退出 11。启动不会执行 migration/seed。使用自己的隔离配置启动前，明确检查 DB_HOST/DB_PORT/DB_DATABASE/DB_USER；本项目不要求迁移或清理原 PG17 开发库。
 

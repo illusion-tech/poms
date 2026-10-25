@@ -1,0 +1,487 @@
+{
+    "formatVersion": 1,
+    "scope": "Synthetic inputs only. Generic JSON presence/object policies and resolved permission decisions; no authentication HTTP, DB, Cookie, session, audit persistence or complete response projection.",
+    "fieldCases": [
+        {
+            "id": "status-missing",
+            "schema": "CurrentAuthSessionViewSchema",
+            "field": "status",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "status-null",
+            "schema": "CurrentAuthSessionViewSchema",
+            "field": "status",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "status-value",
+            "schema": "CurrentAuthSessionViewSchema",
+            "field": "status",
+            "input": {
+                "presence": "value",
+                "value": "active"
+            }
+        },
+        {
+            "id": "permissions-missing",
+            "schema": "CurrentAuthSessionViewSchema",
+            "field": "permissions",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "permissions-null",
+            "schema": "CurrentAuthSessionViewSchema",
+            "field": "permissions",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "permissions-value",
+            "schema": "CurrentAuthSessionViewSchema",
+            "field": "permissions",
+            "input": {
+                "presence": "value",
+                "value": []
+            }
+        },
+        {
+            "id": "required-email-missing",
+            "schema": "SanitizedUserWithOrgUnitsSchema",
+            "field": "email",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "required-email-null",
+            "schema": "SanitizedUserWithOrgUnitsSchema",
+            "field": "email",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "required-email-value",
+            "schema": "SanitizedUserWithOrgUnitsSchema",
+            "field": "email",
+            "input": {
+                "presence": "value",
+                "value": "synthetic@example.invalid"
+            }
+        },
+        {
+            "id": "optional-email-missing",
+            "schema": "UpdatePlatformUserRequestSchema",
+            "field": "email",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "optional-email-null",
+            "schema": "UpdatePlatformUserRequestSchema",
+            "field": "email",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "optional-email-value",
+            "schema": "UpdatePlatformUserRequestSchema",
+            "field": "email",
+            "input": {
+                "presence": "value",
+                "value": "synthetic@example.invalid"
+            }
+        },
+        {
+            "id": "default-role-ids-missing",
+            "schema": "CreatePlatformUserRequestSchema",
+            "field": "initialRoleIds",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "default-role-ids-null",
+            "schema": "CreatePlatformUserRequestSchema",
+            "field": "initialRoleIds",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "default-role-ids-value",
+            "schema": "CreatePlatformUserRequestSchema",
+            "field": "initialRoleIds",
+            "input": {
+                "presence": "value",
+                "value": []
+            }
+        },
+        {
+            "id": "optional-version-missing",
+            "schema": "UpdateSystemSettingRequestSchema",
+            "field": "expectedVersion",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "optional-version-null",
+            "schema": "UpdateSystemSettingRequestSchema",
+            "field": "expectedVersion",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "optional-version-value",
+            "schema": "UpdateSystemSettingRequestSchema",
+            "field": "expectedVersion",
+            "input": {
+                "presence": "value",
+                "value": 1
+            }
+        },
+        {
+            "id": "csrf-name-missing",
+            "schema": "AuthSessionCsrfHintSchema",
+            "field": "cookieName",
+            "input": {
+                "presence": "missing"
+            }
+        },
+        {
+            "id": "csrf-name-null",
+            "schema": "AuthSessionCsrfHintSchema",
+            "field": "cookieName",
+            "input": {
+                "presence": "null"
+            }
+        },
+        {
+            "id": "csrf-name-value",
+            "schema": "AuthSessionCsrfHintSchema",
+            "field": "cookieName",
+            "input": {
+                "presence": "value",
+                "value": "poms_csrf"
+            }
+        }
+    ],
+    "objectCases": [
+        {
+            "id": "login-strip",
+            "schema": "CreatePasswordAuthSessionRequestSchema",
+            "input": {
+                "username": "synthetic",
+                "password": "public-synthetic",
+                "extra": "drop"
+            }
+        },
+        {
+            "id": "login-empty-strings-not-trimmed",
+            "schema": "CreatePasswordAuthSessionRequestSchema",
+            "input": {
+                "username": " ",
+                "password": " "
+            }
+        },
+        {
+            "id": "logout-empty",
+            "schema": "LogoutAuthSessionRequestSchema",
+            "input": {}
+        },
+        {
+            "id": "logout-reject",
+            "schema": "LogoutAuthSessionRequestSchema",
+            "input": {
+                "extra": true
+            }
+        },
+        {
+            "id": "logout-not-object",
+            "schema": "LogoutAuthSessionRequestSchema",
+            "input": null
+        },
+        {
+            "id": "csrf-hint-strip",
+            "schema": "AuthSessionCsrfHintSchema",
+            "input": {
+                "cookieName": "poms_csrf",
+                "headerName": "X-CSRF-Token",
+                "extra": true
+            }
+        },
+        {
+            "id": "profile-strip",
+            "schema": "SanitizedUserWithOrgUnitsSchema",
+            "input": {
+                "id": "90000000-0000-4000-8000-000000000001",
+                "displayName": "Synthetic",
+                "username": "synthetic",
+                "roles": [],
+                "permissions": ["project:read"],
+                "email": null,
+                "avatarUrl": null,
+                "isActive": true,
+                "lastLoginAt": null,
+                "emailVerified": false,
+                "phoneVerified": false,
+                "phone": null,
+                "orgUnits": [],
+                "passwordHash": "public-synthetic-not-to-be-projected"
+            }
+        },
+        {
+            "id": "session-strip",
+            "schema": "CurrentAuthSessionViewSchema",
+            "input": {
+                "authenticated": false,
+                "status": null,
+                "user": null,
+                "permissions": [],
+                "expiresAt": null,
+                "csrf": {
+                    "cookieName": "poms_csrf",
+                    "headerName": "X-CSRF-Token"
+                },
+                "extra": 1
+            }
+        },
+        {
+            "id": "session-not-discriminated",
+            "schema": "CurrentAuthSessionViewSchema",
+            "input": {
+                "authenticated": true,
+                "status": null,
+                "user": null,
+                "permissions": [],
+                "expiresAt": null,
+                "csrf": {
+                    "cookieName": "poms_csrf",
+                    "headerName": "X-CSRF-Token"
+                }
+            }
+        },
+        {
+            "id": "optional-object-strip",
+            "schema": "UpdatePlatformUserRequestSchema",
+            "input": {
+                "displayName": "Synthetic",
+                "extra": true
+            }
+        },
+        {
+            "id": "metadata-preserve",
+            "schema": "NavigationItemSchema",
+            "field": "meta",
+            "input": {
+                "arbitrary": 1,
+                "nested": {
+                    "arbitrary": 2
+                },
+                "nullable": null
+            }
+        }
+    ],
+    "permissionCases": [
+        {
+            "id": "missing-declaration",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": [],
+            "any": [],
+            "userPermissions": []
+        },
+        {
+            "id": "missing-declaration-despite-all-user-permissions",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": [],
+            "any": [],
+            "userPermissions": ["project:read", "project:write"]
+        },
+        {
+            "id": "public-no-user",
+            "publicRoute": true,
+            "authenticatedRoute": false,
+            "all": [],
+            "any": [],
+            "userPermissions": []
+        },
+        {
+            "id": "public-bypasses-permission-requirement",
+            "publicRoute": true,
+            "authenticatedRoute": false,
+            "all": ["project:write"],
+            "any": [],
+            "userPermissions": []
+        },
+        {
+            "id": "authenticated-only",
+            "publicRoute": false,
+            "authenticatedRoute": true,
+            "all": [],
+            "any": [],
+            "userPermissions": []
+        },
+        {
+            "id": "all-pass",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read", "project:write"],
+            "any": [],
+            "userPermissions": ["project:read", "project:write"]
+        },
+        {
+            "id": "all-fail",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read", "project:write"],
+            "any": [],
+            "userPermissions": ["project:read"]
+        },
+        {
+            "id": "any-pass",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": [],
+            "any": ["lead:write", "project:write"],
+            "userPermissions": ["project:write"]
+        },
+        {
+            "id": "any-fail",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": [],
+            "any": ["lead:write", "project:write"],
+            "userPermissions": ["project:read"]
+        },
+        {
+            "id": "all-and-any-pass",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read"],
+            "any": ["lead:write", "project:write"],
+            "userPermissions": ["project:read", "project:write"]
+        },
+        {
+            "id": "all-and-any-fail-all",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read"],
+            "any": ["lead:write", "project:write"],
+            "userPermissions": ["project:write"]
+        },
+        {
+            "id": "all-and-any-fail-any",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read"],
+            "any": ["lead:write", "project:write"],
+            "userPermissions": ["project:read"]
+        },
+        {
+            "id": "authenticated-does-not-bypass-required",
+            "publicRoute": false,
+            "authenticatedRoute": true,
+            "all": ["project:write"],
+            "any": [],
+            "userPermissions": ["project:read"]
+        },
+        {
+            "id": "unknown-raw-does-not-grant-known",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:write"],
+            "any": [],
+            "userPermissions": ["legacy:unknown"]
+        },
+        {
+            "id": "unknown-raw-does-not-block-known",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read"],
+            "any": [],
+            "userPermissions": ["legacy:unknown", "project:read"]
+        },
+        {
+            "id": "permission-case-sensitive",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read"],
+            "any": [],
+            "userPermissions": ["PROJECT:READ"]
+        },
+        {
+            "id": "permission-duplicates",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": ["project:read", "project:read"],
+            "any": [],
+            "userPermissions": ["project:read", "project:read"]
+        },
+        {
+            "id": "empty-permission-string-does-not-grant",
+            "publicRoute": false,
+            "authenticatedRoute": false,
+            "all": [],
+            "any": ["project:read"],
+            "userPermissions": [""]
+        }
+    ],
+    "rawPermissionCases": [
+        {
+            "id": "persisted-unknown-kept-and-deduped",
+            "userId": "synthetic-user",
+            "activeUserRoles": [
+                {
+                    "userId": "synthetic-user",
+                    "roleId": "active-role"
+                },
+                {
+                    "userId": "synthetic-user",
+                    "roleId": "inactive-role"
+                }
+            ],
+            "roles": [
+                {
+                    "id": "active-role",
+                    "isActive": true
+                },
+                {
+                    "id": "inactive-role",
+                    "isActive": false
+                }
+            ],
+            "activeRolePermissions": [
+                {
+                    "roleId": "active-role",
+                    "permissionKey": "legacy:unknown"
+                },
+                {
+                    "roleId": "active-role",
+                    "permissionKey": "project:read"
+                },
+                {
+                    "roleId": "active-role",
+                    "permissionKey": "legacy:unknown"
+                },
+                {
+                    "roleId": "inactive-role",
+                    "permissionKey": "platform:users:manage"
+                }
+            ]
+        }
+    ]
+}

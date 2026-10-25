@@ -1,7 +1,7 @@
 # RUST-R1 应用与兼容基础实施输入
 
 **最后更新**: 2026-10-26
-**Gate Status**: `Pass`（实施输入）；R1A #62 G3/G4 已交付；R1B–E Todo，父阶段未完成
+**Gate Status**: `Pass`（实施输入）；R1A #62 G3/G4 已交付；R1B #63 Doing，R1C–E Todo，父阶段未完成
 **Parent / Owner**: [RUST-R1 #60](https://github.com/illusion-tech/poms/issues/60) / 主代理；总体 [#57](https://github.com/illusion-tech/poms/issues/57)
 **Slice Type**: `cross-layer-high-risk`，本文件定义 R1 工程边界与验收输入
 **正式前置**: [R0 基线](archive/slices/rust-r0-baseline.md)与[执行追踪](rust-migration-execution-tracker.md)
@@ -23,7 +23,7 @@ R1 不交付完整平台治理、真实外部身份/组织同步、附件写入�
 | R1D    | 外部目标 API E2E、Linux 浏览器启动、跨平台客户端生成                | R1A；Nest 既有用例回归 + Rust已实现子集；生成产物一致                    |
 | R1E    | 基础集成验收与独立审查                                              | R1A–D；不以子集通过标全量 Rust API完成                                   |
 
-R1A 在 [#62](https://github.com/illusion-tech/poms/issues/62) 与[工程基线](archive/slices/rust-r1a-application-baseline.md)中已完成 `G4 / Done`（51572db5）；其余子切片保持 `Todo`。工程顺序及依赖按本表执行，不能跳过各切片 G3/G4，或启动下游未满足依赖的任务。
+R1A 在 [#62](https://github.com/illusion-tech/poms/issues/62) 与[工程基线](archive/slices/rust-r1a-application-baseline.md)中已完成 `G4 / Done`（51572db5）；R1B [#63](https://github.com/illusion-tech/poms/issues/63) 为 Doing，R1C–E 保持 Todo。工程顺序及依赖按本表执行，不能跳过各切片 G3/G4，或启动下游未满足依赖的任务。
 
 ## 3. 正式输入与 SSOT
 
@@ -115,3 +115,5 @@ R1A 完成工程骨架后，R1B/C 与 R1D 可按独占文件并行。Cargo.toml/
 R0E 的固定镜像、依赖和隔离库，加上 R0F 的路由矩阵、数据字段/样本及认证/错误样本构成 R1 输入。现有 PG17 开发测试库继续日常使用；PG15 专用于 TEST 兼容验收，两者用途与证据分别记录。
 
 R0F 只完成输入冻结；G1 输入已由 A 审查路由/工程边界、B 审查数据持久化、C 审查配置/兼容边界，主代理集成，结论 Pass（2026-10-26）。随后用户授权 R1A，#62 已交付 Rust/SQLx 基础、三 GET 与真实 HTTP/PG15/启停证据（51572db5）；工程记录已归档。认证/业务并发/浏览器等尚未运行的验证仍按第 6 节进入 R1B–E 各切片 G3；后续工程 Issue 开工须引用本输入并明确文件与实现范围。
+
+R1B 已在 [#63](https://github.com/illusion-tech/poms/issues/63) 与[工程基线](rust-r1b-shared-types-baseline.md)进入 Doing；只实施类型/生成/兼容基础，C–E 保持 Todo。

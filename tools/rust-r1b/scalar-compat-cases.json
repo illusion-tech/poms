@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "numberSeeds": ["1.125", "-1.125", "1.23445", "-1.23445", "1.2345675", "-1.2345675", "1e21", "-1e21"],
+  "bitDeltas": [-1, 0, 1],
+  "extraNumbers": ["NaN", "Infinity", "-Infinity", "0", "-0", "5e-324", "-5e-324", "1e-6", "1e-7", "1e20"],
+  "fractionDigits": [0, 2, 4, 6, 100, 101],
+  "numberStrings": ["inf", "Infinity", "-Infinity", "NaN", "", "\u00a0\ufeff", "0x10", "0b11", "0o10", "1e3", "+1.25", "-0", "1e309", " 1.20 ", "0xffffffffffffffff", "0x20000000000001", "0x20000000000003", "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"],
+  "dates": [
+    {"id":"historical-summer", "kind":"Date", "value":"1979-06-30T15:30:00.000Z"},
+    {"id":"historical-winter", "kind":"Date", "value":"1979-01-31T15:30:00.000Z"},
+    {"id":"low-year", "kind":"Date", "value":"0001-01-01T00:00:00.000Z"},
+    {"id":"year-zero", "kind":"Date", "value":"0000-01-01T00:00:00.000Z"},
+    {"id":"microsecond-string", "kind":"String", "value":"2026-04-18T16:00:00.123456Z"},
+    {"id":"no-offset-process-utc", "kind":"String", "value":"2026-04-19T00:00:00"},
+    {"id":"calendar-rollover-internal", "kind":"String", "value":"2026-02-30"},
+    {"id":"utf16-slice-complete-pair", "kind":"String", "value":"A😀1234567890"},
+    {"id":"invalid-date", "kind":"Date", "value":"invalid"},
+    {"id":"empty-string", "kind":"String", "value":""},
+    {"id":"null", "kind":"Null"},
+    {"id":"missing", "kind":"Missing"},
+    {"id":"extended-positive-year", "kind":"Date", "value":"+010000-01-01T00:00:00.123Z"},
+    {"id":"extended-negative-year", "kind":"Date", "value":"-000001-01-01T00:00:00.123Z"},
+    {"id":"iso-24-hour", "kind":"String", "value":"2026-04-19T24:00:00Z"},
+    {"id":"iso-24-nonzero-fraction", "kind":"String", "value":"2026-04-19T24:00:00.0001Z"},
+    {"id":"long-fraction-timeclip", "kind":"String", "value":"2026-04-19T00:00:00.123456789123Z"},
+    {"id":"pre-epoch-timeclip", "kind":"String", "value":"1969-12-31T23:59:59.999999Z"},
+    {"id":"leap-second-invalid", "kind":"String", "value":"2026-04-19T00:00:60Z"},
+    {"id":"offset-24-invalid", "kind":"String", "value":"2026-04-19T00:00:00+24:00"},
+    {"id":"iso-calendar-rollover-offset", "kind":"String", "value":"2026-02-30T00:00:00+08:00"}
+  ],
+  "uuids": ["00000000-0000-0000-0000-000000000000", "ffffffff-ffff-ffff-ffff-ffffffffffff", "ABCDEF12-3456-4789-ABCD-ABCDEF123456", "00000000-0000-1000-8000-000000000001", "00000000-0000-8000-8000-000000000001", "00000000-0000-9000-8000-000000000001", "00000000-0000-4000-7000-000000000001", "00000000000040008000000000000001", "urn:uuid:00000000-0000-4000-8000-000000000001", "{00000000-0000-4000-8000-000000000001}"],
+  "externalIds": [
+    {"id":"opaque", "value":"dept_external_001"},
+    {"id":"trim-js", "value":"\ufeff\u00a0 dept_external_001 \u202f"},
+    {"id":"empty", "value":" \t "},
+    {"id":"unicode-255", "repeat":"😀", "count":255},
+    {"id":"unicode-256", "repeat":"😀", "count":256}
+  ],
+  "wireDates": ["2024-02-29", "2023-02-29", "2026-02-30", "0000-01-01", "0001-01-01", "2026-04-19T00:00:00Z", "2026-04-19T00:00:00.123456789123Z", "2026-04-19T00:00:00+08:00", "2026-04-19T00:00Z", "2026-04-19T00:00:60Z"]
+}
