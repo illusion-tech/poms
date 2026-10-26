@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "scope": "R2 operation ownership and dependencies; only R2A G1 frozen, B-M remain Todo",
+  "scope": "R2 operation ownership and dependencies; only R2A delivered, B-M remain Todo with individual G1 required",
   "currentHead": "19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3",
   "parentIssue": 67,
   "rootIssue": 57,
@@ -62,15 +62,17 @@
       "taskId": "RUST-R2A",
       "title": "导航树与同步审计",
       "issue": 68,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 3,
       "proposedDependencies": [
         "R1"
       ],
       "nonHttpAndDomainInputs": [],
-      "baseline": "docs/design/rust-r2a-navigation-baseline.md",
-      "frozenAt": "2026-10-26T06:34:30.621Z"
+      "baseline": "docs/design/archive/slices/rust-r2a-navigation-baseline.md",
+      "frozenAt": "2026-10-26T06:34:30.621Z",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "implementationCommit": "2924bf30c1a0751df129d2137b6667628d1fdf4a"
     },
     {
       "taskId": "RUST-R2B",

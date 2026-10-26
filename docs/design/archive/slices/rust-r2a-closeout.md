@@ -3,8 +3,8 @@
 - 切片：`RUST-R2A` / [#68](https://github.com/illusion-tech/poms/issues/68)；父 [R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)。
 - 类型：`cross-layer-high-risk`；执行方式：独立 managed worktree + Linux checkout，solo worktree checkpoint。
 - 起点：`19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`。Owner 主代理；A/B 分工实现与互审，C 为非产品作者独立审查。
-- 正式输入：[冻结基线](rust-r2a-navigation-baseline.md)、[R2 范围与依赖](rust-r2-scope-and-dependencies.md)、[108 操作归属](rust-r2-operation-slices.json)、原 TypeScript 导航/契约及 canonical 三行。差异与失败见[纠偏记录](rust-r2a-corrective-checkpoint.md)。
-- 当前 gate：G1/G3 Pass；G4 待实现提交推送、合入后检查与归档。
+- 正式输入：[冻结基线](rust-r2a-navigation-baseline.md)、[R2 范围与依赖](../../rust-r2-scope-and-dependencies.md)、[108 操作归属](../../rust-r2-operation-slices.json)、原 TypeScript 导航/契约及 canonical 三行。差异与失败见[纠偏记录](rust-r2a-corrective-checkpoint.md)。
+- 当前 gate：G1/G3 Pass；G4随本归档提交推送和Issue同步生效。
 
 ## 1. 交付边界
 
@@ -31,7 +31,7 @@ Rust 新增 `GET /api/me/navigation`、`GET /api/platform/navigation` 和 `POST 
 | 完整契约        | 原237 paths / 291 operations / 585 schemas不变；完整spec加579个client共580文件生成前后与当前指纹一致。                                                                                                                |
 | 数据结构        | 两个新PG15副本各执行原92迁移；审计12列/相关session与完整catalog核验。原migration:check两库均失败且已分类，绝不记成schema clean；仅dump，没有执行建议DDL。                                                             |
 | 原Angular浏览器 | Linux/Windows × Nest/Rust四组合各3项、共12项通过，零skip/flaky/retry；无bridge、无route mock，真实表单、菜单、搜索、刷新、同步和权限重载。首两轮失败保留各自来源副本与计数。                                          |
-| 治理与独立复核  | 98当前源码/82权威源指纹吻合；26个成功/失败run逐项重查均0/0，journal与source不变；最终C审查与提交归档仍单独判断。                                                                                                      |
+| 治理与独立复核  | 98当前源码/82权威源指纹吻合；26个成功/失败run逐项重查均0/0，journal与source不变；最终C审查Pass，额外非作者复核Pass；G4见第5节。                                                                                       |
 
 两个新副本的schema差异分类为低权MikroORM对已有CHECK的introspection可见性限制，以及一处既有注释差异；168个同名约束实际存在，不声称逐项表达式已等价。完整catalog前后不变。本片不创建重复约束或提升运行角色权限。
 
@@ -47,6 +47,11 @@ Windows external Rust在基础13项及导航3项退出后，由独立owner再次
 
 ## 4. Gate 决策
 
-G3 Pass。C于2026-10-26T09:51:34.268Z完成非作者最终审查，无剩余P1/P2；受审候选SHA-256为`31cf8814103dc5c20cf46d0da2d5b6a16a99f4c987322b2af66bf3423a6fc6f5`，审查记录SHA-256为`915bab8c6ba41d208484554b989bffc23a9295e57132726cd9291125434fe9f3`。审查实际核12附件/8图/26清理、98当前/82权威来源、原始失败和schema分类，证据聚合的唯一P2已关闭。可以提交并按solo worktree方式集成，仍不得提前标记G4完成；G4另需实现提交推送、合入后检查、在线状态回写及本片生命周期归档。
+G3 Pass。C于2026-10-26T09:51:34.268Z完成非作者最终审查，无剩余P1/P2；受审候选SHA-256为`31cf8814103dc5c20cf46d0da2d5b6a16a99f4c987322b2af66bf3423a6fc6f5`，审查记录SHA-256为`915bab8c6ba41d208484554b989bffc23a9295e57132726cd9291125434fe9f3`。审查实际核12附件/8图/26清理、98当前/82权威来源、原始失败和schema分类，证据聚合的唯一P2已关闭。该时点允许提交并按solo worktree方式集成，G4仍为Pending；实际交付与后续归档见第5节。额外非作者复核亦为Pass，无剩余P1/P2，记录SHA-256为`6630150d4e2e042213675dfe4a60a6d5dd4056ca9eef223e3c6e45249659b01f`。
 
-完整数据与审查指纹见[机器验收记录](rust-r2a-validation.json)。
+完整数据与审查指纹见[机器验收记录](../../rust-r2a-validation.json)。
+
+
+## 5. G4 交付
+
+实现`2924bf30c1a0751df129d2137b6667628d1fdf4a`已合入main并推送。合入后21项适配器检查及单向导航来源检查通过，98当前源码与82权威来源指纹一致。本基线、纠偏与收口三份生命周期文档归档；仅关闭R2A #68，父R2 #67及总体#57保持Open，B–M为Todo，#61不变。原始Windows证据在回收工作树前逐文件校验保存至`/home/wangzishi/.local/share/poms-r2a/evidence/r2a-final-windows`；Linux checkout、状态目录和既有环境继续保留。最终归档提交与保存回执由Issue G4评论绑定。

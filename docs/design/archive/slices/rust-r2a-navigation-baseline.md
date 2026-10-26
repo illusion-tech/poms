@@ -6,7 +6,7 @@
 - Slice Type: `cross-layer-high-risk`（认证授权、真实审计写入与原 Angular 集成；不修改产品 DDL）
 - G1 Reviewer / Date: A（来源/路由）、B（审计/数据）、C（独立范围/隔离）；主代理收口 / 2026-10-26T06:34:30.621Z
 - 起点: `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立 managed worktree，`codex/poms-r2a-navigation`，沿用 solo worktree checkpoint
-- Tracker: [Rust 执行追踪](rust-migration-execution-tracker.md) 的 `RUST-R2A`；阶段范围见 [R2 范围与依赖](rust-r2-scope-and-dependencies.md)
+- Tracker: [Rust 执行追踪](../../rust-migration-execution-tracker.md) 的 `RUST-R2A`；阶段范围见 [R2 范围与依赖](../../rust-r2-scope-and-dependencies.md)
 
 ## 1. 范围与下游边界
 
@@ -20,16 +20,16 @@
 
 所有现行实现输入绑定上述 Git 起点；R2 机器操作映射另绑定完整 spec、canonical 与 R0 operations 的规范化 SHA。原 Nest、完整规范、生成客户端、共享契约和 NAVIGATION_TREE 均保留编辑权及原内容。
 
-| 输入            | 权威来源                                                                                                                                                                                                 | 本片消费范围                                                         |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| 阶段/路由       | [迁移计划](backend-rust-migration-plan.md)第6/7/9节、[canonical inventory](api-route-canonical-inventory.md)、[R0F 路由](archive/slices/rust-r0f-route-baseline.md)、ADR-015/018                         | 三个既有 operation，均 aligned；不新增业务 URI                       |
-| 导航语义        | `apps/poms-api/src/app/features/navigation/navigation.constants.ts`、`navigation.service.ts`、`navigation.controller.ts`                                                                                 | TypeScript NAVIGATION_TREE、AND过滤、稳定排序、原序全树与快照算法    |
-| 管理/审计命令   | `apps/poms-api/src/app/features/platform/platform.controller.ts` / `platform.service.ts::syncNavigationAudit`                                                                                            | 权限、200、无 Body DTO、审计字段和请求标识                           |
-| 契约            | `libs/shared/contracts/src/lib/shared-contracts.ts` 的 NavigationItem / NavigationSyncSummary；`libs/api/contracts/src/lib/auth/user.dto.ts`；完整 `libs/shared/api-spec/openapi.json`                   | 所有字段、null、类型、operationId、安全定义及递归 schema             |
-| 审计持久化      | `apps/poms-api/src/app/core/runtime-audit/` 的 audit-log.entity.ts / runtime-audit.service.ts / runtime-audit.repository.ts / runtime-audit-request.utils.ts                                             | poms.audit_log，原 persist+flush 与同请求 session 行为               |
-| 产品 DDL        | `apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts`、现行 auth_session 迁移/实体                                                                             | 12列审计结构、真实 session optimistic flush；沿用原 migration        |
-| Rust 已交付基础 | `apps/poms-api-rust/src/auth/{http,guards,service,store,audit,model}.rs`、[R1C 基线](archive/slices/rust-r1c-auth-session-baseline.md)、[R1E 基线](archive/slices/rust-r1e-stage-acceptance-baseline.md) | 已有守卫顺序、解析、请求上下文、SQLx、pending SessionFlush、最小审计 |
-| 原客户端        | `apps/poms-admin/src/app/features/platform/navigation-governance.ts`、`libs/admin/data-access/src/lib/auth/auth.store.ts`                                                                                | 原导航加载、管理页刷新/过滤/同步；前端 fallback 不替代服务端导航合同 |
+| 输入            | 权威来源                                                                                                                                                                               | 本片消费范围                                                         |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 阶段/路由       | [迁移计划](../../backend-rust-migration-plan.md)第6/7/9节、[canonical inventory](../../api-route-canonical-inventory.md)、[R0F 路由](rust-r0f-route-baseline.md)、ADR-015/018          | 三个既有 operation，均 aligned；不新增业务 URI                       |
+| 导航语义        | `apps/poms-api/src/app/features/navigation/navigation.constants.ts`、`navigation.service.ts`、`navigation.controller.ts`                                                               | TypeScript NAVIGATION_TREE、AND过滤、稳定排序、原序全树与快照算法    |
+| 管理/审计命令   | `apps/poms-api/src/app/features/platform/platform.controller.ts` / `platform.service.ts::syncNavigationAudit`                                                                          | 权限、200、无 Body DTO、审计字段和请求标识                           |
+| 契约            | `libs/shared/contracts/src/lib/shared-contracts.ts` 的 NavigationItem / NavigationSyncSummary；`libs/api/contracts/src/lib/auth/user.dto.ts`；完整 `libs/shared/api-spec/openapi.json` | 所有字段、null、类型、operationId、安全定义及递归 schema             |
+| 审计持久化      | `apps/poms-api/src/app/core/runtime-audit/` 的 audit-log.entity.ts / runtime-audit.service.ts / runtime-audit.repository.ts / runtime-audit-request.utils.ts                           | poms.audit_log，原 persist+flush 与同请求 session 行为               |
+| 产品 DDL        | `apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts`、现行 auth_session 迁移/实体                                                           | 12列审计结构、真实 session optimistic flush；沿用原 migration        |
+| Rust 已交付基础 | `apps/poms-api-rust/src/auth/{http,guards,service,store,audit,model}.rs`、[R1C 基线](rust-r1c-auth-session-baseline.md)、[R1E 基线](rust-r1e-stage-acceptance-baseline.md)             | 已有守卫顺序、解析、请求上下文、SQLx、pending SessionFlush、最小审计 |
+| 原客户端        | `apps/poms-admin/src/app/features/platform/navigation-governance.ts`、`libs/admin/data-access/src/lib/auth/auth.store.ts`                                                              | 原导航加载、管理页刷新/过滤/同步；前端 fallback 不替代服务端导航合同 |
 
 ## 3. SSOT 与类型
 
@@ -117,3 +117,8 @@
 ## 9. G1 结论
 
 G1 Pass。A/B/C 在产品源码和新数据库操作前完成来源/范围、审计事务和隔离边界复核，主代理于 2026-10-26T06:34:30.621Z 冻结；在线 #68 G1 评论记录同一边界。只允许 R2A 三操作及必要验证工具开工；B–M 仍为 Todo / G1 未冻结，任何公共 route/DTO/DDL 或业务语义扩大先纠偏。G3/G4 尚未通过。
+
+
+## 10. 最终归档指向
+
+以上为G1冻结时点的输入与Pending记录，保持原阶段语义；后续实际G3/G4结论见[收口记录](rust-r2a-closeout.md)。实现`2924bf30c1a0751df129d2137b6667628d1fdf4a`已集成推送，归档及Issue同步后仅R2A Done，父R2继续Doing。

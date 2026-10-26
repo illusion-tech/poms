@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-26
-**状态**: G0 范围与拆片完成；R2A 单独基线 G1 Pass / Doing，B–M 为 Todo / G1 未冻结；本文不是其余切片的实施授权
+**状态**: G0 范围与拆片完成；R2A 已交付 / G4；首片三操作之外仍未交付，B–M 为 Todo / G1 未冻结；本文不是其余切片的实施授权
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -10,7 +10,7 @@
 
 R2 承接 [正式迁移计划](backend-rust-migration-plan.md)的用户/角色/组织/导航/字典/设置、业务编号、审计、审批与摘要公共机制、附件/存储、外部身份及组织同步。R1 已交付七操作、认证与基础；R2 不重复宣称 R1 的历史数据库/HTTP/浏览器证据为新实跑。不触碰现有 PG17，不连接 TEST，不做性能结论、正式部署或 R6 迁移接管。
 
-本文件记录 G0 的源码、既有 OpenAPI、canonical 和在线 #61 只读盘点；该阶段仅新增规划与机器清单，未改产品或连接数据库。R2A 后续实现与实际验收由[独立收口记录](rust-r2a-closeout.md)另行承载。以下其余切片的“验收”是各自 G1 应冻结的要求，不表示已经执行。R2 父任务不能因 R2A 或几个 UI 请求成功而关闭。
+本文件记录 G0 的源码、既有 OpenAPI、canonical 和在线 #61 只读盘点；该阶段仅新增规划与机器清单，未改产品或连接数据库。R2A 后续实现与实际验收由[独立收口记录](archive/slices/rust-r2a-closeout.md)另行承载。以下其余切片的“验收”是各自 G1 应冻结的要求，不表示已经执行。R2 父任务不能因 R2A 或几个 UI 请求成功而关闭。
 
 完整规范仍为 **237 paths / 291 operations / 585 schemas**。R0 v3 中 `migration.primary=R2` 的操作重新计数为 **108**，来自 16 个 controller；其中 **103 canonical-match、5 parameter-name-difference、0 未登记、0 canonical-decision-pending**。按原模块为 platform 27、attachment 30、external-org-sync 18、identity-provider 12、auth 6、approval 4、runtime-audit 4、dictionary 3、system-setting 3、navigation 1。机器清单保留逐项 controller、方法、DTO/schema 来源、权限、服务调用线索及 canonical 行。
 
@@ -30,7 +30,7 @@ R0 清单的产品源参考仍为 `033aedd0`。本次对 `apps/poms-api/src`、`
 
 ## 3. 互斥拆片与建议依赖
 
-以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](rust-r2a-navigation-baseline.md)冻结 G1；B–M 已建立为 #67 的原生子 Issue，全部仍为 Todo / G1 未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
+以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M 已建立为 #67 的原生子 Issue，全部仍为 Todo / G1 未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
 
 | TID      | Issue                                                  | HTTP 数 | 独立交付范围                                          | 建议前置与额外输入                                                           |
 | -------- | ------------------------------------------------------ | ------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -243,3 +243,6 @@ R2A 只包含以下三个已定操作，不捎带 todos、profile、provider 列
 | R2 / RUST-R2K | POST   | `/api/project-handovers/{handoverId}/attachment-checklist:refresh` | `POST /project-handovers/{id}/attachment-checklist:refresh` | parameter-name-difference；#61，对应域 G1 前裁决  |
 | R2 / RUST-R2K | POST   | `/api/project-handovers/{handoverId}/attachment-download-packages` | `POST /project-handovers/{id}/attachment-download-packages` | parameter-name-difference；#61，对应域 G1 前裁决  |
 | R3            | GET    | `/api/projects/code/{projectNo}`                                   | `N/A: canonical decision pending`                           | canonical-decision-pending；#61，对应域 G1 前裁决 |
+
+
+R2A 实现 `2924bf30c1a0751df129d2137b6667628d1fdf4a` 已合入 main 并推送；合入后21项适配器检查与单向导航来源检查通过，98当前源码/82权威来源指纹一致。四组合12浏览器、26run零残留和schema失败分类见[收口记录](archive/slices/rust-r2a-closeout.md)及[机器验收](rust-r2a-validation.json)。G4随本归档提交推送及Issue同步生效；仅#68完成，R2父#67与总体#57保持Open，B–M保持Todo，#61待决路线不变，PG17保留。

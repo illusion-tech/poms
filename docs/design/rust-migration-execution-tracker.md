@@ -2,7 +2,7 @@
 
 **最后更新**: 2026-10-26
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: `RUST-R0` / R1 已交付并完成 G4；R2 #67 Doing，108 操作已拆片，首片 R2A #68 G1 Pass / Doing；#57 与 R2–R7 未完成
+**当前状态**: `RUST-R0` / R1 已交付并完成 G4；R2 #67 Doing，108 操作已拆片，首片 R2A #68 Done / G4；#57 与 R2–R7 未完成
 **执行模式**: R0 main-only；R1A–E / R2A 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
@@ -43,21 +43,21 @@
 | R1D #65   | Done | G4；c14333d5已推送；[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏](archive/slices/rust-r1d-corrective-checkpoint.md)与[机器证据](rust-r1d-validation.json)；双平台真实E2E/browser及579文件client一致             |
 | R1E #66   | Done | afbf4ee5 已集成推送；[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[机器证据](rust-r1e-validation.json)；64 stage、36 legacy（11 mock）、80 run清理及集成后19项通过，C无剩余P1/P2；G4随本归档提交及Issue同步生效 |
 
-| R2 子切片 | 状态  | Gate / 输入与边界                                                                                                   |
-| --------- | ----- | ------------------------------------------------------------------------------------------------------------------- |
-| R2A #68   | Doing | [导航三操作基线](rust-r2a-navigation-baseline.md)G1 Pass；导航事实源单向导出、权限树、同步审计与真实原 Angular 验证 |
-| R2B #69   | Todo  | 角色与权限 8 操作；G1 未冻结                                                                                        |
-| R2C #70   | Todo  | 组织 8 操作；G1 未冻结                                                                                              |
-| R2D #71   | Todo  | 用户、owner-reference 与 profile 11 操作；G1 未冻结                                                                 |
-| R2E #72   | Todo  | 字典/设置 6 操作及非 HTTP 业务编号；G1 未冻结                                                                       |
-| R2F #73   | Todo  | 审计/安全事件 4 操作；G1 未冻结                                                                                     |
-| R2G #74   | Todo  | 身份 provider/外部登录 16 操作；G1 未冻结                                                                           |
-| R2H #75   | Todo  | 外部组织同步 18 操作；G1 未冻结                                                                                     |
-| R2I #76   | Todo  | 存储 provider 6 操作；G1 未冻结                                                                                     |
-| R2J #77   | Todo  | 附件/上传/中心 19 操作；G1 未冻结                                                                                   |
-| R2K #78   | Todo  | 移交附件 5 操作；G1 前由 #61 裁决参数名并落实 R4 域输入                                                             |
-| R2L #79   | Todo  | 审批/待办 4 操作及摘要/公共确认机制；真实 R3–R5 handler 逐域接入，G1 未冻结                                         |
-| R2M #80   | Todo  | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                   |
+| R2 子切片 | 状态 | Gate / 输入与边界                                                                                                                                                             |
+| --------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R2A #68   | Done | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效 |
+| R2B #69   | Todo | 角色与权限 8 操作；G1 未冻结                                                                                                                                                  |
+| R2C #70   | Todo | 组织 8 操作；G1 未冻结                                                                                                                                                        |
+| R2D #71   | Todo | 用户、owner-reference 与 profile 11 操作；G1 未冻结                                                                                                                           |
+| R2E #72   | Todo | 字典/设置 6 操作及非 HTTP 业务编号；G1 未冻结                                                                                                                                 |
+| R2F #73   | Todo | 审计/安全事件 4 操作；G1 未冻结                                                                                                                                               |
+| R2G #74   | Todo | 身份 provider/外部登录 16 操作；G1 未冻结                                                                                                                                     |
+| R2H #75   | Todo | 外部组织同步 18 操作；G1 未冻结                                                                                                                                               |
+| R2I #76   | Todo | 存储 provider 6 操作；G1 未冻结                                                                                                                                               |
+| R2J #77   | Todo | 附件/上传/中心 19 操作；G1 未冻结                                                                                                                                             |
+| R2K #78   | Todo | 移交附件 5 操作；G1 前由 #61 裁决参数名并落实 R4 域输入                                                                                                                       |
+| R2L #79   | Todo | 审批/待办 4 操作及摘要/公共确认机制；真实 R3–R5 handler 逐域接入，G1 未冻结                                                                                                   |
+| R2M #80   | Todo | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                                                                             |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -81,4 +81,7 @@
 
 - [R1E #66](https://github.com/illusion-tech/poms/issues/66) 实现 `afbf4ee51baa8543981e66472d04a4d7389a9adb` 已集成推送 main，远端 HEAD 一致；35 项最终和 73 项继承源码指纹、集成后 19 项适配器检查通过。[基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[纠偏](archive/slices/rust-r1e-corrective-checkpoint.md)和[机器记录](rust-r1e-validation.json)保留四组合各16项、原Nest legacy36项（11项mock）、80个唯一run清理全通过及C无剩余P1/P2。R1E与父R1的G4随本归档提交及Issue同步生效；PG17保留，总体#57和R2–R7仍未完成。
 
-R2 #67 已建立原生子 Issue #68–80。G0 108 操作互斥归属与九项跨期路由决策核验通过；R2A 于 2026-10-26T06:34:30.621Z 经 A/B/C 分项审查冻结，[G1 评论](https://github.com/illusion-tech/poms/issues/68#issuecomment-6409834654)。B–M 保持 Todo，G3/G4 实跑和交付尚未完成；PG17 服务只读元数据仍为 Running / Auto / PID 6996。
+R2 #67 已建立原生子 Issue #68–80。G0 108 操作互斥归属与九项跨期路由决策核验通过；R2A 于 2026-10-26T06:34:30.621Z 经 A/B/C 分项审查冻结，[G1 评论](https://github.com/illusion-tech/poms/issues/68#issuecomment-6409834654)。R2A 已完成三操作实现与验收，G4随本归档提交及Issue同步生效；B–M 保持 Todo；PG17 服务只读元数据仍为 Running / Auto / PID 6996。
+
+
+R2A 实现 `2924bf30c1a0751df129d2137b6667628d1fdf4a` 已合入 main 并推送；合入后21项适配器检查与单向导航来源检查通过，98当前源码/82权威来源指纹一致。四组合12浏览器、26run零残留和schema失败分类见[收口记录](archive/slices/rust-r2a-closeout.md)及[机器验收](rust-r2a-validation.json)。G4随本归档提交推送及Issue同步生效；仅#68完成，R2父#67与总体#57保持Open，B–M保持Todo，#61待决路线不变，PG17保留。

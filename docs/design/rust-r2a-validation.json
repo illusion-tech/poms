@@ -5,7 +5,7 @@
   "sourceBaseline": "19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3",
   "issue": 68,
   "parentIssue": 67,
-  "overallStatus": "G3-pass-implementation-push-and-G4-pending",
+  "overallStatus": "implementation-delivered-G4-archive-and-issue-reconciliation",
   "authorScope": "Root integrates actual execution receipts and separately identified non-author reviews; no claim that author aggregation itself is independent review",
   "counts": {
     "rustOrdinary": {
@@ -4958,6 +4958,25 @@
         "CSS clipped submenu bounding boxes replaced by actual parent active-menuitem state and real parent click; response20s/click10s/Promise.all/fixed phases",
         "Only two governance button names account for actual icon glyph with /刷新$/ and /记录同步审计$/; full behavior assertions unchanged"
       ]
+    },
+    "integrationHarness": {
+      "classification": "tool-noise",
+      "actualInitialAdapterTests": "21 passed; initial integration wrapper failed while parsing default Node spec reporter output",
+      "correction": "Only ignored wrapper changed to explicit TAP reporter; actual 21 adapter tests reran and passed, followed by source export check",
+      "initialLog": {
+        "id": "integration-initial-adapters",
+        "location": "worktree",
+        "path": "tmp/rust-r2a/integration-initial-adapters.log",
+        "bytes": 2335,
+        "rawSha256": "6b03837a8666193a4dbefc664cb7e53dac7b60849e90a6a0852cd040e07c9d5f"
+      },
+      "initialHelper": {
+        "id": "integration-initial-check",
+        "location": "worktree",
+        "path": "tmp/rust-r2a/integration-initial-check.cjs",
+        "bytes": 2149,
+        "rawSha256": "8dbc5bc0775f35b43b8d2fcbb94774fa3110b185cc76bf094c72711e85084cbf"
+      }
     }
   },
   "notRerunOrNotClaimed": [
@@ -4967,9 +4986,7 @@
     "Native Windows managed Rust/WSL child ownership is not claimed; the Windows Rust matrix uses an external independently owned Linux server",
     "No full R2 business/UI, provider/todo/attachment/profile migration, TEST/PROD deployment, performance measurement or product DDL change"
   ],
-  "requiredRemainingEvidence": [
-    "Implementation commit/push, integration checks, G4 archive and GitHub state reconciliation"
-  ],
+  "requiredRemainingEvidence": [],
   "artifacts": [
     {
       "id": "rust-check",
@@ -5292,6 +5309,27 @@
       "path": "tmp/rust-r2a/c-review/final-g3-review.json",
       "bytes": 11439,
       "rawSha256": "915bab8c6ba41d208484554b989bffc23a9295e57132726cd9291125434fe9f3"
+    },
+    {
+      "id": "D-additional-independent-G3",
+      "location": "worktree",
+      "path": "tmp/rust-r2a/final-review/independent-g3.json",
+      "bytes": 7818,
+      "rawSha256": "6630150d4e2e042213675dfe4a60a6d5dd4056ca9eef223e3c6e45249659b01f"
+    },
+    {
+      "id": "integration-initial-adapters",
+      "location": "worktree",
+      "path": "tmp/rust-r2a/integration-initial-adapters.log",
+      "bytes": 2335,
+      "rawSha256": "6b03837a8666193a4dbefc664cb7e53dac7b60849e90a6a0852cd040e07c9d5f"
+    },
+    {
+      "id": "integration-initial-check",
+      "location": "worktree",
+      "path": "tmp/rust-r2a/integration-initial-check.cjs",
+      "bytes": 2149,
+      "rawSha256": "8dbc5bc0775f35b43b8d2fcbb94774fa3110b185cc76bf094c72711e85084cbf"
     }
   ],
   "scope": "R2 split: 108 operations into A-L plus M acceptance; implementation delivery only R2A three navigation operations",
@@ -5836,15 +5874,76 @@
         "path": "tmp/rust-r2a/c-review/final-g3-review.json",
         "bytes": 11439,
         "rawSha256": "915bab8c6ba41d208484554b989bffc23a9295e57132726cd9291125434fe9f3"
+      },
+      "supplementalIndependentReview": {
+        "id": "D-additional-independent-G3",
+        "location": "worktree",
+        "path": "tmp/rust-r2a/final-review/independent-g3.json",
+        "bytes": 7818,
+        "rawSha256": "6630150d4e2e042213675dfe4a60a6d5dd4056ca9eef223e3c6e45249659b01f"
       }
     },
     "G4": {
-      "status": "Pending"
+      "status": "Pass upon archive commit push and GitHub reconciliation",
+      "implementationCommit": "2924bf30c1a0751df129d2137b6667628d1fdf4a"
     }
   },
   "evidenceCorrection": {
     "class": "tool-noise",
     "description": "Final browser aggregation initially omitted the explicit two failed execution source-epoch records; restored verbatim from the immutable historical candidate. No product/test or raw evidence changed.",
     "previousPreG3RawSha256": "52e69b7ddffdd258e12497930c9aae276dcd1af402d6c949be4370b29e9bcfd0"
+  },
+  "closure": {
+    "implementationCommit": "2924bf30c1a0751df129d2137b6667628d1fdf4a",
+    "integration": {
+      "result": "pass",
+      "checkedAt": "2026-10-26T09:56:16.802Z",
+      "commit": "2924bf30c1a0751df129d2137b6667628d1fdf4a",
+      "sourceFiles": 98,
+      "authorityFiles": 82,
+      "adaptersPassed": 21,
+      "results": [
+        {
+          "name": "integration-adapters-final",
+          "exitCode": 0,
+          "log": "tmp/rust-r2a/integration-adapters-final.log",
+          "rawSha256": "45ebbf24db1b9e0a420429bc5bd1f05a61acbbb28e44d8d8e30c64addd9dab8e"
+        },
+        {
+          "name": "integration-navigation-source",
+          "exitCode": 0,
+          "log": "tmp/rust-r2a/integration-navigation-source.log",
+          "rawSha256": "7b01069d7cb9fe872a44d62c4ca9052c73787a8ed85021cbb7058e09ac430d65"
+        }
+      ]
+    },
+    "integrationReceiptRawSha256": "936c206e9f7d5710072e25eb6ca0406a357fd953ad483a35560b8eb71ce05ad2",
+    "lifecycleFiles": [
+      "docs/design/archive/slices/rust-r2a-navigation-baseline.md",
+      "docs/design/archive/slices/rust-r2a-corrective-checkpoint.md",
+      "docs/design/archive/slices/rust-r2a-closeout.md"
+    ],
+    "childIssue": 68,
+    "parentIssuesRemainOpen": [
+      67,
+      57
+    ],
+    "futureSlicesRemainTodo": [
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80
+    ],
+    "routeDecisionIssueStillOpen": 61,
+    "rawWindowsEvidenceDestination": "/home/wangzishi/.local/share/poms-r2a/evidence/r2a-final-windows",
+    "effectiveWhen": "Archive commit pushed, exact issue state reconciled, and raw evidence copy verified before managed worktree archive"
   }
 }

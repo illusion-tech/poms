@@ -1,6 +1,6 @@
 # R2A 导航来源与验收工具
 
-Rust 新增当前用户导航树、完整导航树与同步审计三个既有操作；[实施基线](../../docs/design/rust-r2a-navigation-baseline.md)记录精确边界。原 TypeScript 导航定义、完整 OpenAPI 和生成客户端仍是事实源。
+Rust 新增当前用户导航树、完整导航树与同步审计三个既有操作；[实施基线](../../docs/design/archive/slices/rust-r2a-navigation-baseline.md)记录精确边界。原 TypeScript 导航定义、完整 OpenAPI 和生成客户端仍是事实源。
 
 ## 单向来源与契约
 
@@ -63,4 +63,4 @@ pnpm exec tsc --project tools/e2e/browser-tsconfig.json
 node --test tools/rust-r2a/managed-environment.test.cjs tools/rust-r2a/environment.test.mjs tools/rust-r2a/fixture.test.mjs tools/rust-r2a/export-navigation.test.mjs tools/rust-r2a/http-client.test.mjs
 ```
 
-原 `migration:check` 在低权副本上的失败和DDL提议必须先分类，不能执行dump来“修复”验收。详见[纠偏记录](../../docs/design/rust-r2a-corrective-checkpoint.md)；本片不修改产品DDL。
+原 `migration:check` 在低权副本上的失败和DDL提议必须先分类，不能执行dump来“修复”验收。详见[纠偏记录](../../docs/design/archive/slices/rust-r2a-corrective-checkpoint.md)；本片不修改产品DDL。

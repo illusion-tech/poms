@@ -25,3 +25,5 @@ CP07（`tool-noise`，证据聚合）：C最终审查发现机器记录替换为
 原 Nest witness 已证实：非due同步审计+1/version+0；due同步审计+1/version+2；过长requestId的22001失败审计+0/version+1；GET due审计+0/version+1。Rust显式事务只包围审计INSERT和pending session CAS，前置raw touch保持独立提交；late CAS失败回滚审计并保留独立撤销。
 
 最终四组合各3项、共12项通过，零skip/flaky/retry；26个成功或失败轮次的受控run最终逐项重查均零残留，journal集合及来源前后不变。详细分层与最终G3/G4结论见[收口记录](rust-r2a-closeout.md)。R2其它切片、外部provider/存储、业务域、部署与性能仍在本片之外。
+
+CP08（`tool-noise`，集成检查包装器）：主工作区首次适配器测试实际21项通过，但包装器将Node默认spec输出按TAP字段解析而失败。仅在ignored包装器显式指定TAP并另存日志，实际21项重新执行通过，再完成单向来源检查；首次日志和包装器均原样保留。产品和测试源码不变。
