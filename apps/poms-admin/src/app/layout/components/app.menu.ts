@@ -1,8 +1,9 @@
 import { Component, ElementRef, inject, ViewChild, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthStore } from '@poms/admin-data-access';
 import { AppMenuitem, type AppMenuItemModel } from './app.menuitem';
+import { filterFallbackMenu } from './app-menu-fallback';
 
 @Component({
     selector: '[app-menu]',
@@ -22,6 +23,7 @@ import { AppMenuitem, type AppMenuItemModel } from './app.menuitem';
 export class AppMenu {
     el: ElementRef = inject(ElementRef);
     #authStore = inject(AuthStore);
+    #router = inject(Router);
 
     @ViewChild('menuContainer') menuContainer!: ElementRef;
 
@@ -30,7 +32,7 @@ export class AppMenu {
         if (dynamicMenu.length > 0) {
             return dynamicMenu;
         }
-        return this.#staticFallback;
+        return filterFallbackMenu(this.#staticFallback, this.#router.config, this.#authStore.currentUser()?.permissions ?? null);
     });
 
     readonly #staticFallback: AppMenuItemModel[] = [

@@ -115,6 +115,7 @@
 - [rust-r1b-shared-types-baseline.md](archive/slices/rust-r1b-shared-types-baseline.md)：R1B #63 单向共享类型生成与基础兼容边界及 G3/G4 记录；[机器验收证据](rust-r1b-validation.json)
 - [rust-r1c-auth-session-baseline.md](archive/slices/rust-r1c-auth-session-baseline.md)：R1C #64 认证/会话/Cookie/CSRF/权限与密文兼容及 G3/G4；[纠偏记录](archive/slices/rust-r1c-corrective-checkpoint.md)、[机器验收证据](rust-r1c-validation.json)
 - [rust-r1d-e2e-client-baseline.md](archive/slices/rust-r1d-e2e-client-baseline.md)：R1D #65 通用双后端E2E、跨平台浏览器启动与完整客户端生成；G3/G4完成；[纠偏](archive/slices/rust-r1d-corrective-checkpoint.md)、[机器证据](rust-r1d-validation.json)
+- [rust-r1e-stage-acceptance-baseline.md](rust-r1e-stage-acceptance-baseline.md)：R1E #66 原 Angular 认证壳、权限回退与阶段集成验收；G3 Pass，当前 Doing、待G4；[纠偏记录](rust-r1e-corrective-checkpoint.md)、[机器证据](rust-r1e-validation.json)
 - `implementation-governance-gates.md`：设计到实现治理闸口，聚焦冻结闸口、合并闸口、子切片治理、例外留痕、风险分层证据、GitHub issue-first 迁移与过渡规则
 - `phase2-development-execution-tracker.md`：第二阶段开发执行追踪板；在 GitHub issue-first Phase 1 中作为 transitional index 镜像 issue 状态、任务拆解与执行回写
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档

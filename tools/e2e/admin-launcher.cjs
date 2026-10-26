@@ -51,12 +51,19 @@ function configure({ env = process.env, cwd = workspaceRoot, platform = process.
     if (platform === 'win32' && mode === 'managed-rust') throw configurationError('Windows uses an independently owned external Rust server');
     if (externalApi && mode !== 'external') throw configurationError('managed API mode cannot also specify an external API URL');
     const suite = env.POMS_ADMIN_E2E_SUITE ?? (mode === 'managed-nest' ? 'legacy' : undefined);
-    if (!['auth', 'legacy'].includes(suite)) throw configurationError('explicit POMS_ADMIN_E2E_SUITE=auth|legacy is required');
-    if (mode === 'managed-rust' && suite !== 'auth') throw configurationError('Rust browser coverage is the explicit auth suite');
+    if (!['auth', 'legacy', 'stage'].includes(suite)) throw configurationError('explicit POMS_ADMIN_E2E_SUITE=auth|legacy|stage is required');
+    if (mode === 'managed-rust' && suite === 'legacy') throw configurationError('Rust browser coverage uses an explicit auth or stage suite');
     if (suite === 'auth' && (typeof env.POMS_E2E_USERNAME !== 'string' || !env.POMS_E2E_USERNAME.trim() || typeof env.POMS_E2E_PASSWORD !== 'string' || !env.POMS_E2E_PASSWORD)) {
         throw configurationError('auth smoke requires explicit synthetic POMS_E2E_USERNAME and POMS_E2E_PASSWORD');
     }
-    const apiSuite = suite === 'auth' ? 'foundation' : 'nest-full';
+    let stageBackend = null;
+    if (suite === 'stage') {
+        stageBackend = mode === 'managed-nest' ? 'nest' : mode === 'managed-rust' ? 'rust' : env.POMS_R1E_BACKEND;
+        if (!['nest', 'rust'].includes(stageBackend)) throw configurationError('external stage requires explicit POMS_R1E_BACKEND=nest|rust');
+        if (env.POMS_R1E_BACKEND !== undefined && env.POMS_R1E_BACKEND !== stageBackend) throw configurationError('stage backend conflicts with managed API mode');
+        if (mode !== 'external' && env.POMS_E2E_ENV_PROFILE !== 'r1e') throw configurationError('managed stage requires explicit R1E environment profile');
+    }
+    const apiSuite = suite === 'legacy' ? 'nest-full' : 'foundation';
     if (env.POMS_E2E_SUITE !== undefined && env.POMS_E2E_SUITE !== apiSuite) throw configurationError('API suite conflicts with the selected browser suite');
     const apiEnv = mergeNoProxy({ ...env, POMS_E2E_MODE: mode, POMS_E2E_SUITE: apiSuite });
     // Only the adapter reads/validates the explicit managed synthetic envfile;
@@ -91,9 +98,10 @@ function configure({ env = process.env, cwd = workspaceRoot, platform = process.
         adminPort: admin.port,
         suite,
         apiSuite,
+        stageBackend,
         timeoutMs,
         database: apiPlan.managedEnvironment?.database ?? 'external: caller-declared target',
-        testMatch: Object.freeze(suite === 'auth' ? ['**/r1d-auth.smoke.spec.ts'] : legacyFiles.map((file) => `**/${file}`))
+        testMatch: Object.freeze(suite === 'auth' ? ['**/r1d-auth.smoke.spec.ts'] : suite === 'stage' ? ['**/r1e-stage.spec.ts'] : legacyFiles.map((file) => `**/${file}`))
     });
     // No envfile, childEnv or credentials are exposed in config metadata.
     return { publicPlan, apiEnv, runtime };
@@ -188,7 +196,7 @@ async function startBrowserServers(options = {}) {
             const handle = await runtime.startOwned({
                 kind: 'admin',
                 executable: process.execPath,
-                args: [nxCli, 'serve', 'poms-admin', `--port=${plan.adminPort}`, `--host=${plan.adminHost}`],
+                args: [nxCli, 'serve', 'poms-admin', ...(plan.suite === 'stage' ? ['--configuration=e2e-stage'] : []), `--port=${plan.adminPort}`, `--host=${plan.adminHost}`],
                 cwd: plan.cwd,
                 env: childEnv,
                 host: plan.adminHost,

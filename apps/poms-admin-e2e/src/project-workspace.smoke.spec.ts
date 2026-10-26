@@ -51,7 +51,8 @@ test.describe('poms-admin project workspace smoke', () => {
 
         await page.goto('/projects');
         await expect(page).toHaveURL(/\/projects$/);
-        await expect(page.getByRole('heading', { name: '项目管理' })).toBeVisible();
+        await expect(page.locator('app-project-list').getByPlaceholder('搜索项目、客户、负责人')).toBeVisible();
+        await expect(page.locator('app-project-list').getByRole('columnheader', { name: /项目\/客户/ })).toBeVisible();
 
         await page.goto(`/projects/${WORKSPACE_PROJECT_ID}`);
         await expect(page).toHaveURL(new RegExp(`/projects/${WORKSPACE_PROJECT_ID}$`));
@@ -92,7 +93,8 @@ test.describe('poms-admin project workspace smoke', () => {
         await page.getByRole('button', { name: '登录' }).click();
 
         await expect(page).toHaveURL(/\/projects$/);
-        await expect(page.getByRole('heading', { name: '项目管理' })).toBeVisible();
+        await expect(page.locator('app-project-list').getByPlaceholder('搜索项目、客户、负责人')).toBeVisible();
+        await expect(page.locator('app-project-list').getByRole('columnheader', { name: /项目\/客户/ })).toBeVisible();
     });
 
     test('anonymous direct workspace access keeps the returnUrl', async ({ page }) => {

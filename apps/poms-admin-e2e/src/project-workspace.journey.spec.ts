@@ -568,12 +568,12 @@ test.describe('poms-admin project workspace journey', () => {
         await openWorkspaceHomeEntry(page, '招投标 / 商务竞标');
         await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/bid-commercial$`));
         await expect(page.getByRole('heading', { name: '招投标 / 商务竞标', exact: true })).toBeVisible();
-        await expect(page.getByText(/竞标过程尚未形成|当前竞标过程/)).toBeVisible();
+        await expect(page.locator('app-project-bid-commercial-workspace').getByRole('heading', { name: /^(竞标过程尚未形成|当前竞标过程)$/ })).toBeVisible();
 
         await page.getByRole('link', { name: '进入报价与毛利评审' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin$`));
         await expect(page.getByRole('heading', { name: '报价与毛利评审', exact: true })).toBeVisible();
-        await expect(page.getByText(/报价与毛利评审尚未形成|当前报价评审/)).toBeVisible();
+        await expect(page.locator('app-project-pricing-margin-workspace').getByRole('heading', { name: /^(报价与毛利评审尚未形成|当前报价评审)$/ })).toBeVisible();
 
         await returnToWorkspaceHome(page, PRESIGNING_PROJECT_ID);
         await page.getByRole('link', { name: '签约前主线' }).click();
@@ -586,10 +586,22 @@ test.describe('poms-admin project workspace journey', () => {
         await expect(page.getByText('缺少技术与成本版本包')).toBeVisible();
 
         await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/bid-commercial`);
-        await expect(page.getByText(/缺少正式竞标事实|当前竞标过程/)).toBeVisible();
+        const bidWorkspace = page.locator('app-project-bid-commercial-workspace');
+        await expect(
+            bidWorkspace
+                .locator('app-workspace-feedback')
+                .getByText('缺少正式竞标事实', { exact: true })
+                .or(bidWorkspace.getByRole('heading', { name: '当前竞标过程', exact: true }))
+        ).toBeVisible();
 
         await page.goto(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin`);
-        await expect(page.getByText(/缺少正式报价评审事实|当前报价评审/)).toBeVisible();
+        const pricingWorkspace = page.locator('app-project-pricing-margin-workspace');
+        await expect(
+            pricingWorkspace
+                .locator('app-workspace-feedback')
+                .getByText('缺少正式报价评审事实', { exact: true })
+                .or(pricingWorkspace.getByRole('heading', { name: '当前报价评审', exact: true }))
+        ).toBeVisible();
     });
 
     test('admin can open bid and pricing write dialogs from the signed-in workspace chain', async ({ page }) => {
@@ -617,7 +629,8 @@ test.describe('poms-admin project workspace journey', () => {
 
         await page.getByRole('link', { name: '进入报价与毛利评审' }).click();
         await expect(page).toHaveURL(new RegExp(`/projects/${PRESIGNING_PROJECT_ID}/workspace/pricing-margin$`));
-        await expect(page.getByText('E2E-Q-001')).toBeVisible();
+        const currentPricing = page.locator('app-project-pricing-margin-workspace app-workspace-command-panel');
+        await expect(currentPricing.getByText('E2E-Q-001', { exact: true })).toBeVisible();
 
         await page.getByRole('button', { name: '编辑当前评审' }).click();
         const pricingDialog = page.getByRole('dialog', { name: '编辑报价评审' });
@@ -627,7 +640,7 @@ test.describe('poms-admin project workspace journey', () => {
         await pricingDialog.getByRole('button', { name: '保存为当前版本' }).click();
 
         await expect(pricingDialog).toBeHidden();
-        await expect(page.getByText('E2E-Q-UPDATED')).toBeVisible();
+        await expect(currentPricing.getByText('E2E-Q-UPDATED', { exact: true })).toBeVisible();
     });
 
     test('admin can move between project detail workspace and commission pages with real buttons', async ({ page }) => {

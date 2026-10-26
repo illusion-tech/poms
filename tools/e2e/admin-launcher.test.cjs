@@ -55,7 +55,7 @@ test('managed plan follows the adapter effective port, preserves all eight legac
     assert.equal(plan.adminOrigin, 'http://127.0.0.1:4800');
     assert.equal(plan.suite, 'legacy');
     assert.equal(plan.testMatch.length, 8);
-    const files = fs.readdirSync(path.join(root, 'apps/poms-admin-e2e/src')).filter((name) => name.endsWith('.spec.ts') && name !== 'r1d-auth.smoke.spec.ts');
+    const files = fs.readdirSync(path.join(root, 'apps/poms-admin-e2e/src')).filter((name) => name.endsWith('.spec.ts') && name !== 'r1d-auth.smoke.spec.ts' && name !== 'r1e-stage.spec.ts');
     assert.deepEqual(plan.testMatch.map((entry) => entry.slice(3)).sort(), files.sort());
     assert(!JSON.stringify(plan).includes('must-not-escape-plan'));
     assert(!JSON.stringify(plan).includes('envFile'));
@@ -68,6 +68,29 @@ test('explicit auth selection uses only the new spec; Rust legacy and Windows-ma
     assert.equal(resolveBrowserPlan({ env: { ...authEnv, POMS_E2E_MODE: 'managed-rust' }, cwd: root, platform: 'linux', deps }).apiSuite, 'foundation');
     assert.throws(() => resolveBrowserPlan({ env: { POMS_E2E_MODE: 'managed-rust', POMS_ADMIN_E2E_SUITE: 'legacy' }, platform: 'linux', deps }));
     assert.throws(() => resolveBrowserPlan({ env: { ...authEnv, POMS_E2E_MODE: 'managed-rust' }, platform: 'win32', deps }));
+});
+
+test('stage uses its isolated profile, precise backend, test-only bootstrap and foundation API suite', async () => {
+    const { deps, calls } = mockedDependencies({ apiPort: 4703 });
+    const env = { POMS_ADMIN_E2E_SUITE: 'stage', POMS_E2E_MODE: 'managed-rust', POMS_E2E_ENV_PROFILE: 'r1e' };
+    const plan = resolveBrowserPlan({ env, cwd: root, platform: 'linux', deps });
+    assert.equal(plan.stageBackend, 'rust');
+    assert.equal(plan.apiSuite, 'foundation');
+    assert.deepEqual(plan.testMatch, ['**/r1e-stage.spec.ts']);
+    const servers = await startBrowserServers({ env, cwd: root, platform: 'linux', deps });
+    const options = calls.find(([name]) => name === 'admin-start')[1];
+    assert(options.args.includes('--configuration=e2e-stage'));
+    assert.equal(options.env.POMS_E2E_ENV_PROFILE, undefined);
+    await servers.stop();
+    for (const bad of [
+        { ...env, POMS_E2E_ENV_PROFILE: undefined },
+        { ...env, POMS_E2E_ENV_PROFILE: 'r1d' },
+        { ...env, POMS_R1E_BACKEND: 'nest' }
+    ])
+        assert.throws(() => resolveBrowserPlan({ env: bad, cwd: root, platform: 'linux', deps }));
+    const external = { POMS_ADMIN_E2E_SUITE: 'stage', POMS_API_BASE_URL: 'http://127.0.0.1:4703', POMS_ADMIN_BASE_URL: 'http://127.0.0.1:4800', POMS_R1E_BACKEND: 'rust', POMS_ENV_FILE: '/must-not-read.env' };
+    assert.equal(resolveBrowserPlan({ env: external, cwd: root, deps }).stageBackend, 'rust');
+    assert.throws(() => resolveBrowserPlan({ env: { ...external, POMS_R1E_BACKEND: undefined }, cwd: root, deps }));
 });
 
 test('both external URLs use actual external parsing, never read an envfile, and never spawn or stop an external service', async () => {
@@ -187,8 +210,9 @@ function collectPlaywright(suite) {
             ...process.env,
             ...credentials,
             POMS_E2E_MODE: 'external',
-            POMS_E2E_SUITE: suite === 'auth' ? 'foundation' : 'nest-full',
+            POMS_E2E_SUITE: suite === 'legacy' ? 'nest-full' : 'foundation',
             POMS_ADMIN_E2E_SUITE: suite,
+            POMS_R1E_BACKEND: 'rust',
             POMS_API_BASE_URL: 'http://127.0.0.1:47473',
             POMS_ADMIN_BASE_URL: 'http://127.0.0.1:48473',
             POMS_ENV_FILE: '/must-not-read/real.env'
@@ -208,4 +232,13 @@ test('actual Playwright --list preserves the eight legacy files and excludes the
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stdout, /Total: 36 tests in 8 files/);
     assert(!result.stdout.includes('r1d-auth.smoke.spec.ts'));
+});
+
+test('actual Playwright --list stage performs no fixture action and selects only real stage journeys', () => {
+    const result = collectPlaywright('stage');
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /r1e-stage\.spec\.ts/);
+    assert.match(result.stdout, /Total: 16 tests in 1 file/);
+    assert(!result.stdout.includes('r1d-auth.smoke.spec.ts'));
+    assert(!result.stdout.includes('contract-management.journey.spec.ts'));
 });

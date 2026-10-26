@@ -106,15 +106,20 @@ test.describe('poms-admin contract management journey', () => {
 
         await page.getByRole('link', { name: '合同管理' }).click();
         await expect(page).toHaveURL(/\/contracts$/);
-        await expect(page.getByRole('button', { name: '重置' })).toBeVisible();
+        await expect(page.locator('app-contract-list').getByRole('columnheader', { name: /合同\/项目/ })).toBeVisible();
         await expect(page.getByPlaceholder('搜索合同、项目、客户')).toBeVisible();
         await expect(page.getByText('CT-E2E-LIST')).toBeVisible();
 
         await page.getByPlaceholder('搜索合同、项目、客户').fill('KH-E2E-LIST');
         await expect(page.getByPlaceholder('搜索合同、项目、客户')).toHaveValue('KH-E2E-LIST');
         await expect(page.getByText('KH-E2E-LIST')).toBeVisible();
-        await page.getByRole('button', { name: '重置' }).click();
+        await page.getByPlaceholder('搜索合同、项目、客户').fill('NO-MATCH-E2E-CONTRACT');
+        await expect(page.getByText('暂无匹配合同', { exact: true })).toBeVisible();
+        await expect(page.getByText('CT-E2E-LIST', { exact: true })).toHaveCount(0);
+        await page.getByPlaceholder('搜索合同、项目、客户').clear();
         await expect(page.getByPlaceholder('搜索合同、项目、客户')).toHaveValue('');
+        await expect(page.getByText('CT-E2E-LIST', { exact: true })).toBeVisible();
+        await expect(page.getByText('KH-E2E-LIST')).toBeVisible();
 
         await page.getByRole('button', { name: '新建合同' }).click();
         const createDialog = page.getByRole('dialog', { name: '新建合同' });

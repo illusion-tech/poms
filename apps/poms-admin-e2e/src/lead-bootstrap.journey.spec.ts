@@ -8,18 +8,20 @@ function uniqueSuffix(): string {
 async function openLeadsFromMenu(page: Page): Promise<void> {
     await page.getByRole('link', { name: '线索管理' }).click();
     await expect(page).toHaveURL(/\/leads$/);
-    await expect(page.getByRole('heading', { name: '线索管理' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '线索分布', exact: true })).toBeVisible();
 }
 
 async function openLeadsFromProjectEntry(page: Page): Promise<void> {
     await page.getByRole('link', { name: '项目管理' }).click();
     await expect(page).toHaveURL(/\/projects$/);
-    await expect(page.getByRole('heading', { name: '项目管理' })).toBeVisible();
+    await expect(page.locator('app-project-list').getByPlaceholder('搜索项目、客户、负责人')).toBeVisible();
+    await expect(page.locator('app-project-list').getByRole('columnheader', { name: /项目\/客户/ })).toBeVisible();
     await expect(page.getByRole('button', { name: '新建项目' })).toHaveCount(0);
 
-    await page.getByRole('button', { name: '从线索创建项目' }).click();
-    await expect(page).toHaveURL(/\/leads$/);
-    await expect(page.getByRole('heading', { name: '线索管理' })).toBeVisible();
+    await page.getByRole('button', { name: '选择线索转项目', exact: true }).click();
+    await expect(page).toHaveURL((url) => url.pathname === '/leads' && url.search === '?conversion=ready');
+    await expect(page.getByText('选择一条可转项目线索', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '线索分布', exact: true })).toBeVisible();
 }
 
 async function createLeadFromDialog(page: Page, lead: { name: string; customerName: string; sourceName: string }): Promise<void> {
@@ -29,17 +31,21 @@ async function createLeadFromDialog(page: Page, lead: { name: string; customerNa
     await expect(dialog).toBeVisible();
     await expect(dialog.getByLabel('线索编号', { exact: true })).toHaveCount(0);
     await dialog.getByLabel('线索标题').fill(lead.name);
-    await dialog.getByRole('combobox', { name: '选择客户主数据' }).click();
-    await page.getByRole('option', { name: new RegExp(lead.customerName) }).first().click();
-    await dialog.getByRole('combobox', { name: '选择来源' }).click();
+    await dialog.locator('#leadCustomerId').click();
+    await page
+        .getByRole('option', { name: new RegExp(lead.customerName) })
+        .first()
+        .click();
+    await dialog.locator('#leadSourceCode').click();
     await page.getByRole('option', { name: lead.sourceName, exact: true }).click();
     await dialog.getByLabel('需求描述').fill('客户希望补强运营平台的项目协同能力。');
-    await dialog.getByRole('combobox', { name: '预算未知' }).click();
+    await dialog.locator('#budgetStatus').click();
     await page.getByRole('option', { name: '预算已确认', exact: true }).click();
     await dialog.getByLabel('预计金额').fill('1200000');
-    await dialog.getByRole('combobox').nth(5).click();
+    await dialog.locator('#leadOwnerUserId').click();
     await page.getByRole('option', { name: /销售人员.*华南销售一部/ }).click();
-    await expect(dialog.getByRole('combobox', { name: '华南销售一部', exact: true })).toBeVisible();
+    await expect(dialog.locator('#leadOwnerOrgId')).toBeVisible();
+    await expect(dialog.locator('#leadOwnerOrgId')).toContainText('华南销售一部');
     await dialog.getByRole('button', { name: '登记线索' }).click();
 
     const row = page.locator('tr').filter({ hasText: lead.name }).first();
@@ -94,7 +100,7 @@ async function reassignProjectOwner(page: Page): Promise<void> {
     const dialog = page.getByRole('dialog').filter({ hasText: '变更销售主责' }).last();
     await expect(dialog).toBeVisible();
     await expect(dialog.getByText('当前销售主责')).toBeVisible();
-    await dialog.getByRole('combobox').first().click();
+    await dialog.locator('#reassignOwnerUserId').click();
     await page.getByRole('option', { name: /销售负责人.*销售管理中心/ }).click();
     await dialog.getByLabel('变更原因').fill('E2E 销售责任归属调整。');
     await dialog.getByRole('button', { name: '提交变更' }).click();
@@ -139,9 +145,9 @@ test.describe('poms-admin lead bootstrap journey', () => {
         await openLeadsFromMenu(page);
         await expect(page.getByRole('button', { name: '登记线索' })).toBeVisible();
 
-        await openLeadsFromProjectEntry(page);
         await createLeadFromDialog(page, lead);
         await qualifyLead(page, lead.name);
+        await openLeadsFromProjectEntry(page);
         await convertLeadToProject(page, lead.name, project);
 
         await expect(page.getByRole('heading', { name: '来源线索' })).toBeVisible();
@@ -173,10 +179,10 @@ test.describe('poms-admin lead bootstrap journey', () => {
         const dialog = page.getByRole('dialog').filter({ hasText: '登记线索' }).last();
         await expect(dialog).toBeVisible();
 
-        await dialog.getByRole('combobox').nth(5).click();
+        await dialog.locator('#leadOwnerUserId').click();
         await expect(page.getByRole('option', { name: /销售人员.*华南销售一部/ })).toBeVisible();
 
-        await dialog.getByRole('combobox').nth(6).click();
+        await dialog.locator('#leadOwnerOrgId').click();
         await expect(page.getByRole('option', { name: '华南销售一部', exact: true })).toBeVisible();
     });
 
@@ -190,6 +196,6 @@ test.describe('poms-admin lead bootstrap journey', () => {
         await page.getByRole('button', { name: '登录' }).click();
 
         await expect(page).toHaveURL(/\/leads$/);
-        await expect(page.getByRole('heading', { name: '线索管理' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '线索分布', exact: true })).toBeVisible();
     });
 });

@@ -6,13 +6,13 @@ const path = require('node:path');
 const test = require('node:test');
 const { resolveApiPlan, startApiServer } = require('./api-server.cjs');
 const runtime = require('./runtime.cjs');
-function fixture(t, mode = 'nest') {
+function fixture(t, mode = 'nest', profile = 'r1d') {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'poms-api-plan-'));
     t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
     const file = path.join(directory, 'synthetic.env');
     fs.writeFileSync(
         file,
-        `NODE_ENV=test\nHOST=127.0.0.1\nPORT=4700\nDB_HOST=127.0.0.1\nDB_PORT=15432\nDB_DATABASE=poms_r1d_${mode}\nDB_USER=poms_r1d_app\nDB_PASSWORD=${'0'.repeat(64)}\nDB_SCHEMA=poms\nDB_CONNECT=true\nJWT_SECRET=public-synthetic-key-more-than-32-characters\n`
+        `NODE_ENV=test\nHOST=127.0.0.1\nPORT=${profile === 'r1e' ? '4900' : '4700'}\nDB_HOST=127.0.0.1\nDB_PORT=15432\nDB_DATABASE=poms_${profile}_${mode}\nDB_USER=poms_${profile}_app\nDB_PASSWORD=${'0'.repeat(64)}\nDB_SCHEMA=poms\nDB_CONNECT=true\nJWT_SECRET=public-synthetic-key-more-than-32-characters\n`
     );
     return file;
 }
@@ -37,6 +37,27 @@ test('Rust foundation and suite/mode failures are explicit before launch', (t) =
 test('external requires explicit origin/suite and does not inspect local DB/env', () => {
     const plan = resolveApiPlan({ env: { POMS_E2E_MODE: 'external', POMS_E2E_SUITE: 'foundation', POMS_API_BASE_URL: 'http://127.0.0.1:4701/', POMS_ENV_FILE: '/definitely/missing/private.env', DB_HOST: 'production.invalid' } });
     assert.equal(plan.target.apiBaseUrl, 'http://127.0.0.1:4701/api');
+    assert.equal(plan.managedEnvironment, undefined);
+});
+test('explicit R1E profile admits only R1E tuple; absent profile remains R1D', (t) => {
+    const file = fixture(t, 'nest', 'r1e');
+    const plan = resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r1e', POMS_ENV_FILE: file } });
+    assert.equal(plan.target.port, 4900);
+    assert.equal(plan.managedEnvironment.database, 'poms_r1e_nest');
+    assert.equal(plan.managedEnvironment.childEnv.DB_USER, 'poms_r1e_app');
+    assert.throws(() => resolveApiPlan({ env: { POMS_ENV_FILE: file } }), /R1D environment mismatch/);
+    assert.throws(() => resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r1e', POMS_ENV_FILE: fixture(t) } }), /R1E environment mismatch/);
+    const rust = resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r1e', POMS_E2E_MODE: 'managed-rust', POMS_ENV_FILE: fixture(t, 'rust', 'r1e') } });
+    assert.equal(rust.suite, 'foundation');
+    assert.equal(rust.managedEnvironment.database, 'poms_r1e_rust');
+});
+test('unknown or aliased profile fails before filesystem access; valid external R1E reads no env', () => {
+    for (const profile of ['', 'R1E', 'r1c', 'production']) {
+        assert.throws(() => resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: profile, POMS_ENV_FILE: '/missing' } }), /POMS_E2E_ENV_PROFILE/);
+    }
+    assert.throws(() => resolveApiPlan({ env: { poms_e2e_env_profile: 'r1e', POMS_ENV_FILE: '/missing' } }), /exact uppercase/);
+    const plan = resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r1e', POMS_E2E_MODE: 'external', POMS_E2E_SUITE: 'foundation', POMS_API_BASE_URL: 'http://127.0.0.1:4901', POMS_ENV_FILE: '/missing', DATABASE_URL: 'unrelated' } });
+    assert.equal(plan.target.apiBaseUrl, 'http://127.0.0.1:4901/api');
     assert.equal(plan.managedEnvironment, undefined);
 });
 test('actual external readiness and stop cause zero build/spawn/stop operations', async () => {

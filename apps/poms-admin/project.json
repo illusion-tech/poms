@@ -58,6 +58,13 @@
                     "optimization": false,
                     "extractLicenses": false,
                     "sourceMap": true
+                },
+                "e2e-stage": {
+                    "browser": "apps/poms-admin/src/main.e2e.ts",
+                    "tsConfig": "apps/poms-admin/tsconfig.e2e-stage.json",
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": false
                 }
             },
             "defaultConfiguration": "production",
@@ -71,6 +78,10 @@
                 },
                 "development": {
                     "buildTarget": "poms-admin:build:development",
+                    "proxyConfig": "apps/poms-admin/proxy.conf.cjs"
+                },
+                "e2e-stage": {
+                    "buildTarget": "poms-admin:build:e2e-stage",
                     "proxyConfig": "apps/poms-admin/proxy.conf.cjs"
                 }
             },

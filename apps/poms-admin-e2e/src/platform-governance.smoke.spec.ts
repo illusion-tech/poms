@@ -23,8 +23,9 @@ test.describe('poms-admin platform governance smoke', () => {
 
         await expect(page.getByText('创建成功')).toBeVisible();
         await page.getByPlaceholder('搜索组织').fill(code);
-        await expect(page.getByText(name, { exact: true })).toBeVisible();
-        await expect(page.getByText(code)).toBeVisible();
+        const createdRow = page.getByRole('treegrid').getByRole('row').filter({ hasText: code });
+        await expect(createdRow.getByText(name, { exact: true })).toBeVisible();
+        await expect(createdRow).toContainText(code);
     });
 
     test('admin can edit move and toggle an org unit from the real page', async ({ page }) => {
@@ -43,18 +44,27 @@ test.describe('poms-admin platform governance smoke', () => {
         await page.getByLabel('新建组织名称').fill(sourceName);
         await page.getByLabel('新建组织编码').fill(sourceCode);
         await page.getByLabel('新建组织描述').fill('用于验证编辑、移动与启停');
+        const sourceCreated = page.waitForResponse((response) => new URL(response.url()).pathname === '/api/platform/org-units' && response.request().method() === 'POST');
         await page.getByRole('button', { name: '创建' }).click();
+        const sourceResponse = await sourceCreated;
+        expect(sourceResponse.status()).toBe(201);
+        const source = (await sourceResponse.json()) as { id: string };
         await expect(page.getByText('创建成功')).toBeVisible();
 
         await page.getByRole('button', { name: '新建组织' }).click();
         await page.getByLabel('新建组织名称').fill(targetName);
         await page.getByLabel('新建组织编码').fill(targetCode);
         await page.getByLabel('新建组织描述').fill('用于验证移动目标');
+        const targetCreated = page.waitForResponse((response) => new URL(response.url()).pathname === '/api/platform/org-units' && response.request().method() === 'POST');
         await page.getByRole('button', { name: '创建' }).click();
+        const targetResponse = await targetCreated;
+        expect(targetResponse.status()).toBe(201);
+        const target = (await targetResponse.json()) as { id: string; parentId: string | null };
+        expect(target.parentId).toBeNull();
         await expect(page.getByText('创建成功')).toBeVisible();
 
         await page.getByPlaceholder('搜索组织').fill(sourceCode);
-        const sourceRow = page.locator('tr').filter({ hasText: sourceCode }).first();
+        const sourceRow = page.getByRole('treegrid').getByRole('row').filter({ hasText: sourceCode });
         await expect(sourceRow).toBeVisible();
 
         await sourceRow.getByRole('button', { name: '编辑组织' }).click();
@@ -66,7 +76,10 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.getByText('保存成功')).toBeVisible();
 
         await page.getByPlaceholder('搜索组织').fill(`${sourceCode}X`);
-        const editedRow = page.locator('tr').filter({ hasText: `${sourceCode}X` }).first();
+        const editedRow = page
+            .getByRole('treegrid')
+            .getByRole('row')
+            .filter({ hasText: `${sourceCode}X` });
         await expect(editedRow).toContainText(`${sourceName}-已编辑`);
         await expect(editedRow).toContainText('5');
 
@@ -74,9 +87,19 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.getByRole('dialog', { name: '移动组织' })).toBeVisible();
         await page.getByLabel('移动组织上级组织').selectOption({ label: targetName });
         await page.getByLabel('移动组织排序').fill('7');
+        const movedResponse = page.waitForResponse((response) => new URL(response.url()).pathname === `/api/platform/org-units/${source.id}:move` && response.request().method() === 'POST');
         await page.getByRole('button', { name: '保存位置' }).click();
+        const response = await movedResponse;
+        expect(response.status()).toBe(200);
+        const moved = (await response.json()) as { id: string; parentId: string | null; displayOrder: number };
+        expect(moved.id).toBe(source.id);
+        expect(moved.parentId).toBe(target.id);
+        expect(moved.displayOrder).toBe(7);
         await expect(page.getByText('移动成功')).toBeVisible();
-        await expect(editedRow).toContainText(targetName);
+        const parentRow = page.getByRole('treegrid').getByRole('row').filter({ hasText: targetCode });
+        await expect(parentRow.getByText(targetName, { exact: true })).toBeVisible();
+        await expect(parentRow).toHaveAttribute('aria-level', '1');
+        await expect(editedRow).toHaveAttribute('aria-level', '2');
         await expect(editedRow).toContainText('7');
 
         await editedRow.getByRole('button', { name: '停用组织' }).click();
@@ -141,33 +164,39 @@ test.describe('poms-admin platform governance smoke', () => {
         await expect(page.locator('.layout-menuitem-root-text').filter({ hasText: '平台配置' })).toBeVisible();
         await expect(page.locator('.layout-menuitem-root-text').filter({ hasText: '个人设置' })).toBeVisible();
 
-        await page.getByRole('link', { name: '项目管理' }).click();
+        await page.locator('.layout-menu a[href="/projects"]').getByText('项目管理', { exact: true }).click();
         await expect(page).toHaveURL(/\/projects$/);
 
-        await page.getByRole('link', { name: '合同管理' }).click();
+        await page.locator('.layout-menu a[href="/contracts"]').getByText('合同管理', { exact: true }).click();
         await expect(page).toHaveURL(/\/contracts$/);
 
-        await page.getByRole('link', { name: '人员与权限' }).click();
-        await page.getByRole('link', { name: '用户管理' }).click();
+        await page.locator('.layout-menu').getByText('人员与权限', { exact: true }).click();
+        await page.locator('.layout-menu a[href="/platform/users"]').getByText('用户管理', { exact: true }).click();
         await expect(page).toHaveURL(/\/platform\/users$/);
-        await expect(page.getByRole('heading', { name: '用户管理' })).toBeVisible();
+        await expect(page.locator('app-user-list').getByPlaceholder('搜索用户、用户名、组织')).toBeVisible();
+        await expect(page.locator('app-user-list').getByRole('columnheader', { name: '用户名', exact: true })).toBeVisible();
 
-        await page.getByRole('link', { name: '角色与权限' }).click();
+        await page.locator('.layout-menu a[href="/platform/roles"]').getByText('角色与权限', { exact: true }).click();
         await expect(page).toHaveURL(/\/platform\/roles$/);
-        await expect(page.getByRole('heading', { name: '角色与权限' })).toBeVisible();
+        await expect(page.locator('app-role-list').getByPlaceholder('搜索角色、Key、说明')).toBeVisible();
+        await expect(page.locator('app-role-list').getByRole('columnheader', { name: '角色 Key', exact: true })).toBeVisible();
 
-        await page.getByRole('link', { name: '组织架构' }).click();
+        await page.locator('.layout-menu').getByText('组织架构', { exact: true }).click();
+        await page.locator('.layout-menu a[href="/platform/org-units"]').getByText('组织单元', { exact: true }).click();
         await expect(page).toHaveURL(/\/platform\/org-units$/);
-        await expect(page.getByRole('heading', { name: '组织架构' })).toBeVisible();
+        const orgPage = page.locator('app-org-unit-list');
+        await expect(orgPage.getByRole('columnheader', { name: '组织名称', exact: true })).toBeVisible();
+        await expect(orgPage.getByRole('treegrid')).toBeVisible();
 
-        await page.getByRole('link', { name: '系统治理' }).click();
-        await page.getByRole('link', { name: '导航菜单' }).click();
+        await page.locator('.layout-menu').getByText('系统治理', { exact: true }).click();
+        await page.locator('.layout-menu a[href="/platform/navigation"]').getByText('导航菜单', { exact: true }).click();
         await expect(page).toHaveURL(/\/platform\/navigation$/);
-        await expect(page.getByRole('heading', { name: '导航菜单' })).toBeVisible();
+        await expect(page.locator('app-navigation-governance').getByPlaceholder('搜索导航键、标题或路由')).toBeVisible();
+        await expect(page.locator('app-navigation-governance').getByRole('columnheader', { name: '导航项', exact: true })).toBeVisible();
         await page.getByRole('button', { name: '记录同步审计' }).click();
         await expect(page.getByText('已记录同步审计')).toBeVisible();
 
-        await page.getByRole('link', { name: '个人中心' }).click();
+        await page.locator('.layout-menu a[href="/profile"]').getByText('个人中心', { exact: true }).click();
         await expect(page).toHaveURL(/\/profile$/);
         await expect(page.getByRole('heading', { name: '个人中心' })).toBeVisible();
         await expect(page.getByRole('heading', { name: '角色与权限' })).toBeVisible();
@@ -179,13 +208,11 @@ test.describe('poms-admin platform governance smoke', () => {
         const updatedEmail = `viewer+${unique.toLowerCase()}@example.com`;
         const updatedPhone = `139${Date.now().toString().slice(-8)}`;
 
-        let originalProfile:
-            | {
-                  displayName: string;
-                  email: string | null;
-                  phone: string | null;
-              }
-            | null = null;
+        let originalProfile: {
+            displayName: string;
+            email: string | null;
+            phone: string | null;
+        } | null = null;
 
         try {
             await login(page, VIEWER_CREDENTIALS);
@@ -239,10 +266,10 @@ test.describe('poms-admin platform governance smoke', () => {
         await login(page, VIEWER_CREDENTIALS);
         await expect(page).toHaveURL(/\/dashboard$/);
 
-        await expect(page.getByRole('link', { name: '用户管理' })).toHaveCount(0);
-        await expect(page.getByRole('link', { name: '角色与权限' })).toHaveCount(0);
-        await expect(page.getByRole('link', { name: '组织架构' })).toHaveCount(0);
-        await expect(page.getByRole('link', { name: '导航菜单' })).toHaveCount(0);
+        await expect(page.locator('.layout-menu a[href="/platform/users"]')).toHaveCount(0);
+        await expect(page.locator('.layout-menu a[href="/platform/roles"]')).toHaveCount(0);
+        await expect(page.locator('.layout-menu a[href="/platform/org-units"]')).toHaveCount(0);
+        await expect(page.locator('.layout-menu a[href="/platform/navigation"]')).toHaveCount(0);
     });
 
     test('viewer is redirected to the access page when directly entering a protected platform route', async ({ page }) => {
@@ -275,13 +302,7 @@ test.describe('poms-admin platform governance smoke', () => {
                 }
 
                 const events = (await response.json()) as Array<{ eventType: string; actorId: string | null; path: string; result: string }>;
-                return events.some(
-                    (event) =>
-                        event.eventType === 'authz.route.denied' &&
-                        event.actorId === viewerProfile.id &&
-                        event.path === '/platform/users' &&
-                        event.result === 'blocked'
-                );
+                return events.some((event) => event.eventType === 'authz.route.denied' && event.actorId === viewerProfile.id && event.path === '/platform/users' && event.result === 'blocked');
             })
             .toBe(true);
     });
@@ -296,6 +317,7 @@ test.describe('poms-admin platform governance smoke', () => {
         await page.getByRole('button', { name: '登录' }).click();
 
         await expect(page).toHaveURL(/\/platform\/users$/);
-        await expect(page.getByRole('heading', { name: '用户管理' })).toBeVisible();
+        await expect(page.locator('app-user-list').getByPlaceholder('搜索用户、用户名、组织')).toBeVisible();
+        await expect(page.locator('app-user-list').getByRole('columnheader', { name: '用户名', exact: true })).toBeVisible();
     });
 });

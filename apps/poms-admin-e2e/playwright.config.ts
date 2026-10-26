@@ -13,16 +13,16 @@ export default defineConfig({
     globalSetup: './src/support/server-setup.ts',
     fullyParallel: false,
     workers: 1,
-    timeout: 60_000,
+    timeout: plan.suite === 'stage' ? 180_000 : 60_000,
     expect: { timeout: 10_000 },
     outputDir: '../../dist/playwright/poms-admin-e2e/results',
     reporter: [['list'], ['html', { open: 'never', outputFolder: '../../dist/playwright/poms-admin-e2e/report' }]],
-    metadata: { pomsBrowser: { mode: plan.apiMode, suite: plan.suite, adminOrigin: plan.adminOrigin, apiOrigin: plan.apiOrigin, database: plan.database } },
+    metadata: { pomsBrowser: { mode: plan.apiMode, suite: plan.suite, stageBackend: plan.stageBackend, adminOrigin: plan.adminOrigin, apiOrigin: plan.apiOrigin, database: plan.database } },
     use: {
         baseURL: plan.adminOrigin,
         channel: 'chromium',
         // A trace contains request credentials; auth evidence is sanitized.
-        trace: plan.suite === 'auth' ? 'off' : 'retain-on-failure',
+        trace: plan.suite === 'legacy' ? 'retain-on-failure' : 'off',
         screenshot: 'only-on-failure',
         video: 'off'
     }
