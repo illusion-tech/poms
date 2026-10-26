@@ -1,0 +1,140 @@
+{
+    "formatVersion": 1,
+    "provenance": {
+        "kind": "actual-original-Windows-PowerShell-script",
+        "sourceHead": "e951b76bf65ea9c286e5e281a01e34b9f75c0fae",
+        "sourceFile": "tools/openapi/normalize-line-endings.ps1",
+        "sourceSha256": "23c229a35d0e90ee1c4f6b3de9609eac286cd89b4facb69a75d55339174727d0",
+        "captureToolSha256": "855af8119d2d1113e2b9939e94f786cb01708c5f026ca0ef2bdb2eebf1587f2e",
+        "platform": "win32",
+        "powershellVersion": "5.1.29683.1000"
+    },
+    "cases": [
+        {
+            "name": "empty",
+            "inputBase64": "",
+            "outputBase64": "",
+            "rewritten": false
+        },
+        {
+            "name": "unchanged-lf",
+            "inputBase64": "YQo=",
+            "outputBase64": "YQo=",
+            "rewritten": false
+        },
+        {
+            "name": "crlf-and-ascii-trailing",
+            "inputBase64": "YSAJDQpiDQoNCg==",
+            "outputBase64": "YQpiCg==",
+            "rewritten": true
+        },
+        {
+            "name": "bare-cr",
+            "inputBase64": "YSANCWINDQ==",
+            "outputBase64": "YQoJYgo=",
+            "rewritten": true
+        },
+        {
+            "name": "no-final-lf-ascii-spaces-retained",
+            "inputBase64": "YSAJ",
+            "outputBase64": "YSAJ",
+            "rewritten": false
+        },
+        {
+            "name": "only-final-line-feeds",
+            "inputBase64": "CgoK",
+            "outputBase64": "Cg==",
+            "rewritten": true
+        },
+        {
+            "name": "unicode-line-separator-is-not-eof-lf",
+            "inputBase64": "YQoK4oCo",
+            "outputBase64": "YQoK4oCo",
+            "rewritten": false
+        },
+        {
+            "name": "unicode-paragraph-separator-is-not-eof-lf",
+            "inputBase64": "YQoK4oCp",
+            "outputBase64": "YQoK4oCp",
+            "rewritten": false
+        },
+        {
+            "name": "unicode-spaces-retained",
+            "inputBase64": "YcKg4oCDCg==",
+            "outputBase64": "YcKg4oCDCg==",
+            "rewritten": false
+        },
+        {
+            "name": "unicode-with-ascii-trailing",
+            "inputBase64": "5Lit5paH8J+UkiAJCg==",
+            "outputBase64": "5Lit5paH8J+Ukgo=",
+            "rewritten": true
+        },
+        {
+            "name": "binary-nul-skipped",
+            "inputBase64": "YQAgDQo=",
+            "outputBase64": "YQAgDQo=",
+            "rewritten": false
+        },
+        {
+            "name": "utf8-bom-unchanged-retained",
+            "inputBase64": "77u/YQo=",
+            "outputBase64": "77u/YQo=",
+            "rewritten": false
+        },
+        {
+            "name": "utf8-bom-changed-removed",
+            "inputBase64": "77u/YSANCg==",
+            "outputBase64": "YQo=",
+            "rewritten": true
+        },
+        {
+            "name": "invalid-utf8-unchanged-bytes-retained",
+            "inputBase64": "wygK",
+            "outputBase64": "wygK",
+            "rewritten": false
+        },
+        {
+            "name": "invalid-utf8-changed-uses-decoder",
+            "inputBase64": "wyggDQo=",
+            "outputBase64": "77+9KAo=",
+            "rewritten": true
+        },
+        {
+            "name": "utf16-with-nul-skipped",
+            "inputBase64": "//4tTgoA",
+            "outputBase64": "//4tTgoA",
+            "rewritten": false
+        },
+        {
+            "name": "utf16be-no-nul-unchanged",
+            "inputBase64": "/v8SNFZ4",
+            "outputBase64": "/v8SNFZ4",
+            "rewritten": false
+        },
+        {
+            "name": "ascii-blank-lines-collapse",
+            "inputBase64": "YQkgCiAJCgo=",
+            "outputBase64": "YQo=",
+            "rewritten": true
+        },
+        {
+            "name": "no-final-lf-unicode-spaces-retained",
+            "inputBase64": "5Lit5paHIAk=",
+            "outputBase64": "5Lit5paHIAk=",
+            "rewritten": false
+        },
+        {
+            "name": "double-utf8-bom-changed",
+            "inputBase64": "77u/77u/YQ0K",
+            "outputBase64": "77u/YQo=",
+            "rewritten": true
+        },
+        {
+            "name": "only-utf8-bom-unchanged",
+            "inputBase64": "77u/",
+            "outputBase64": "77u/",
+            "rewritten": false
+        }
+    ]
+}

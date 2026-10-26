@@ -1,14 +1,9 @@
-import { createHash } from 'node:crypto';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+// eslint-disable-next-line @nx/enforce-module-boundaries -- E1: E2E-only shared owned-process test tool; no production boundary change.
+import { resolveApiPlan } from '../../../../tools/e2e/api-server.cjs';
 
-const workspaceKey = createHash('sha1').update(process.cwd()).digest('hex').slice(0, 12);
-const artifactDir = join(tmpdir(), `poms-api-e2e-${workspaceKey}`);
-
-export const E2E_API_HOST = process.env.HOST ?? '127.0.0.1';
-export const E2E_API_PORT = process.env.PORT ? Number(process.env.PORT) : 3344;
-export const E2E_API_BASE_URL = `http://${E2E_API_HOST}:${E2E_API_PORT}/api`;
-export const E2E_SERVER_ARTIFACT_DIR = artifactDir;
-export const E2E_SERVER_ENTRY = join(process.cwd(), 'dist', 'apps', 'poms-api', 'main.js');
-export const E2E_SERVER_LOG_PATH = join(artifactDir, 'server.log');
-export const E2E_SERVER_STATE_PATH = join(artifactDir, 'server-state.json');
+// Planning validates effective managed env or the explicit external origin.
+// It never starts a process or prepares data.
+export const E2E_API_PLAN = resolveApiPlan();
+export const E2E_API_HOST = E2E_API_PLAN.target.host;
+export const E2E_API_PORT = E2E_API_PLAN.target.port;
+export const E2E_API_BASE_URL = E2E_API_PLAN.target.apiBaseUrl;

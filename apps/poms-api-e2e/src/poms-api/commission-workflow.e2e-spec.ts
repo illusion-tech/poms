@@ -25,6 +25,7 @@ import {
     listAdjustments,
     listCalculations,
     listPayouts,
+    nonRetentionPayoutStage,
     recalculateCalculation,
     registerPayout,
     setupDraftPayoutScenario,
@@ -38,14 +39,7 @@ import { confirmReceipt, createReceipt } from '../support/contract-finance-api';
 import { expectErrorStatus } from '../support/http';
 import { reviewCommissionGateBinding, reviewOperatingSignalEvaluation } from '../support/operating-signal-api';
 import { PROJECT_HANDOVER_E2E_FIXTURES } from '../support/project-handover-seed-fixtures';
-import {
-    buildAdjustmentInput,
-    buildCalculationInput,
-    buildCommissionRuleVersionInput,
-    buildPayoutInput,
-    buildRoleAssignmentInput,
-    makeUniqueSuffix
-} from '../support/test-data';
+import { buildAdjustmentInput, buildCalculationInput, buildCommissionRuleVersionInput, buildPayoutInput, buildRoleAssignmentInput, makeUniqueSuffix } from '../support/test-data';
 
 jest.setTimeout(120_000);
 
@@ -59,16 +53,12 @@ describe('poms-api commission workflow e2e', () => {
         expect(scenario.calculation.status).toBe('effective');
         expect(scenario.calculation.commissionPoolProjection.value).toBe('2400.00');
 
-        const payout = await createPayout(
-            client,
-            scenario.project.id,
-            buildPayoutInput(scenario.calculation.id)
-        );
+        const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
         expect(payout.status).toBe('draft');
         expect(payout.theoreticalCapAmountProjection.value).toBe('480.00');
 
         const submittedPayout = await submitPayoutApproval(client, payout.id, {
-            payoutStage: payout.stageType,
+            payoutStage: nonRetentionPayoutStage(payout.stageType),
             expectedVersion: payout.rowVersion
         });
         expect(submittedPayout.status).toBe('pending-approval');
@@ -85,7 +75,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(approvedPayout.approvedAmountProjection.value).toBe('480.00');
 
         const paidPayout = await registerPayout(client, payout.id, {
-            payoutStage: approvedPayout.stageType,
+            payoutStage: nonRetentionPayoutStage(approvedPayout.stageType),
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -135,22 +125,11 @@ describe('poms-api commission workflow e2e', () => {
         expect(recalculated.status).toBe('calculated');
 
         const calculations = await listCalculations(client, scenario.project.id);
-        expect(
-            calculations.find((item) => item.id === scenario.calculation.id)?.status
-        ).toBe('superseded');
-        expect(
-            calculations.find((item) => item.id === recalculated.id)?.isCurrent
-        ).toBe(true);
+        expect(calculations.find((item) => item.id === scenario.calculation.id)?.status).toBe('superseded');
+        expect(calculations.find((item) => item.id === recalculated.id)?.isCurrent).toBe(true);
 
         const adjustments = await listAdjustments(client, scenario.project.id);
-        expect(
-            adjustments.some(
-                (item) =>
-                    item.adjustmentType === 'recalculate' &&
-                    item.relatedCalculationId === scenario.calculation.id &&
-                    item.status === 'executed'
-            )
-        ).toBe(true);
+        expect(adjustments.some((item) => item.adjustmentType === 'recalculate' && item.relatedCalculationId === scenario.calculation.id && item.status === 'executed')).toBe(true);
     });
 
     it('runs seeded final and retention settlement through the current evidence chain', async () => {
@@ -198,15 +177,11 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: calculated.rowVersion
         });
 
-        const finalPayout = await createPayout(
-            client,
-            fixture.projectId,
-            buildPayoutInput(effectiveCalculation.id, { stageType: 'final' })
-        );
+        const finalPayout = await createPayout(client, fixture.projectId, buildPayoutInput(effectiveCalculation.id, { stageType: 'final' }));
         expect(finalPayout.theoreticalCapAmountProjection.value).toBe('2400.00');
 
         const submittedFinalPayout = await submitPayoutApproval(client, finalPayout.id, {
-            payoutStage: finalPayout.stageType,
+            payoutStage: nonRetentionPayoutStage(finalPayout.stageType),
             expectedVersion: finalPayout.rowVersion
         });
         expect(submittedFinalPayout.status).toBe('pending-approval');
@@ -233,7 +208,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(pendingFinalExplanation.summarySnapshotId).toBe(fixture.summarySnapshotId);
 
         const paidFinalPayout = await registerPayout(client, finalPayout.id, {
-            payoutStage: approvedFinalPayout.stageType,
+            payoutStage: nonRetentionPayoutStage(approvedFinalPayout.stageType),
             paidRecordAmount: '2040.00',
             expectedVersion: approvedFinalPayout.rowVersion
         });
@@ -250,11 +225,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(pendingRetentionExplanation.gateDecisionCode).toBe('block-retention');
         expect(pendingRetentionExplanation.blockingReasonCode).toBe('departure-exception-pending');
 
-        const retentionPayout = await createPayout(
-            client,
-            fixture.projectId,
-            buildPayoutInput(effectiveCalculation.id, { stageType: 'retention' })
-        );
+        const retentionPayout = await createPayout(client, fixture.projectId, buildPayoutInput(effectiveCalculation.id, { stageType: 'retention' }));
         expect(retentionPayout.theoreticalCapAmountProjection.value).toBe('360.00');
 
         const retentionReceipt = await createReceipt(client, fixture.contractId, {
@@ -333,14 +304,11 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('commission-register-guard');
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
-        const response = await client.post(
-            `/commission-payouts/${scenario.payout.id}:registerPayout`,
-            {
-                payoutStage: scenario.payout.stageType,
-                paidRecordAmount: '100.00',
-                expectedVersion: scenario.payout.rowVersion
-            }
-        );
+        const response = await client.post(`/commission-payouts/${scenario.payout.id}:registerPayout`, {
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
+            paidRecordAmount: '100.00',
+            expectedVersion: scenario.payout.rowVersion
+        });
 
         expectErrorStatus(response, 422, '只有已批准状态的提成发放可以登记发放');
     });
@@ -352,7 +320,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
         const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
-        await submitPayoutApproval(client, payout.id, { payoutStage: payout.stageType, expectedVersion: payout.rowVersion });
+        await submitPayoutApproval(client, payout.id, { payoutStage: nonRetentionPayoutStage(payout.stageType), expectedVersion: payout.rowVersion });
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
         await approveRecord(financeManager.client, payoutApproval.id, {
@@ -362,7 +330,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
         const paidPayout = await registerPayout(client, payout.id, {
-            payoutStage: approvedPayout.stageType,
+            payoutStage: nonRetentionPayoutStage(approvedPayout.stageType),
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -394,16 +362,9 @@ describe('poms-api commission workflow e2e', () => {
         expect(executedAdjustment.status).toBe('executed');
 
         const payouts = await listPayouts(client, scenario.project.id);
-        expect(
-            payouts.some(
-                (item) =>
-                    item.payoutKind === 'supplement' &&
-                    item.sourcePayoutId === payout.id &&
-                    item.status === 'paid' &&
-                    item.approvedAmountProjection.value === '80.00' &&
-                    item.paidRecordAmountProjection.value === '80.00'
-            )
-        ).toBe(true);
+        expect(payouts.some((item) => item.payoutKind === 'supplement' && item.sourcePayoutId === payout.id && item.status === 'paid' && item.approvedAmountProjection.value === '80.00' && item.paidRecordAmountProjection.value === '80.00')).toBe(
+            true
+        );
     });
 
     it('marks source payout as reversed when clawback fully offsets the paid amount', async () => {
@@ -413,7 +374,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
         const payout = await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
-        await submitPayoutApproval(client, payout.id, { payoutStage: payout.stageType, expectedVersion: payout.rowVersion });
+        await submitPayoutApproval(client, payout.id, { payoutStage: nonRetentionPayoutStage(payout.stageType), expectedVersion: payout.rowVersion });
 
         const payoutApproval = await findPayoutApprovalRecord(client, payout.id);
         await approveRecord(financeManager.client, payoutApproval.id, {
@@ -423,7 +384,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const approvedPayout = await getPayout(client, scenario.project.id, payout.id);
         const paidPayout = await registerPayout(client, payout.id, {
-            payoutStage: approvedPayout.stageType,
+            payoutStage: nonRetentionPayoutStage(approvedPayout.stageType),
             paidRecordAmount: '400.00',
             expectedVersion: approvedPayout.rowVersion
         });
@@ -520,9 +481,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(currentFreezeVersion).not.toBeNull();
         expect(currentFreezeVersion?.id).toBe(arbitrationResult.replacementFreezeVersionId);
         expect(currentFreezeVersion?.status).toBe('frozen');
-        expect(currentFreezeVersion?.version).toBe(
-            supersededFreezeDetail.freezeVersionSummary.version + 1
-        );
+        expect(currentFreezeVersion?.version).toBe(supersededFreezeDetail.freezeVersionSummary.version + 1);
     });
 
     it('rejects duplicate payout creation for the same calculation stage', async () => {
@@ -532,10 +491,7 @@ describe('poms-api commission workflow e2e', () => {
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
         await createPayout(client, scenario.project.id, buildPayoutInput(scenario.calculation.id));
 
-        const response = await client.post(
-            `/projects/${scenario.project.id}/commission-payouts`,
-            buildPayoutInput(scenario.calculation.id)
-        );
+        const response = await client.post(`/projects/${scenario.project.id}/commission-payouts`, buildPayoutInput(scenario.calculation.id));
 
         expectErrorStatus(response, 409, '已存在发放记录');
     });
@@ -547,7 +503,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         const submittedPayout = await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: scenario.payout.stageType,
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
             expectedVersion: scenario.payout.rowVersion
         });
         expect(submittedPayout.status).toBe('pending-approval');
@@ -574,7 +530,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: scenario.payout.stageType,
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
@@ -619,7 +575,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: scenario.payout.stageType,
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -629,7 +585,7 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: payoutApproval.rowVersion + 1
         });
 
-        expectErrorStatus(response, 409, 'ApprovalRecord version');
+        expectErrorStatus(response, 409, 'approval-record version');
     });
 
     it('rejects duplicate payout approval submission while approval is pending', async () => {
@@ -638,18 +594,15 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: scenario.payout.stageType,
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
             expectedVersion: scenario.payout.rowVersion
         });
 
         const pendingPayout = await getPayout(client, scenario.project.id, scenario.payout.id);
-        const response = await client.post(
-            `/commission-payouts/${scenario.payout.id}:submitApproval`,
-            {
-                payoutStage: pendingPayout.stageType,
-                expectedVersion: pendingPayout.rowVersion
-            }
-        );
+        const response = await client.post(`/commission-payouts/${scenario.payout.id}:submitApproval`, {
+            payoutStage: nonRetentionPayoutStage(pendingPayout.stageType),
+            expectedVersion: pendingPayout.rowVersion
+        });
 
         expectErrorStatus(response, 400, 'cannot submit approval in status pending-approval');
     });
@@ -661,7 +614,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: scenario.payout.stageType,
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
             expectedVersion: scenario.payout.rowVersion
         });
         const payoutApproval = await findPayoutApprovalRecord(client, scenario.payout.id);
@@ -684,12 +637,9 @@ describe('poms-api commission workflow e2e', () => {
         });
 
         const pendingAdjustment = await getAdjustment(client, scenario.project.id, adjustment.id);
-        const response = await client.post(
-            `/commission-adjustments/${adjustment.id}:submitApproval`,
-            {
-                expectedVersion: pendingAdjustment.rowVersion
-            }
-        );
+        const response = await client.post(`/commission-adjustments/${adjustment.id}:submitApproval`, {
+            expectedVersion: pendingAdjustment.rowVersion
+        });
 
         expectErrorStatus(response, 400, 'cannot submit approval in status pending-approval');
     });
@@ -701,7 +651,7 @@ describe('poms-api commission workflow e2e', () => {
 
         const scenario = await setupDraftPayoutScenario(client, profile, unique);
         await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: scenario.payout.stageType,
+            payoutStage: nonRetentionPayoutStage(scenario.payout.stageType),
             expectedVersion: scenario.payout.rowVersion
         });
 
@@ -722,7 +672,7 @@ describe('poms-api commission workflow e2e', () => {
         expect(rejectedPayout.status).toBe('draft');
 
         const resubmittedPayout = await submitPayoutApproval(client, scenario.payout.id, {
-            payoutStage: rejectedPayout.stageType,
+            payoutStage: nonRetentionPayoutStage(rejectedPayout.stageType),
             expectedVersion: rejectedPayout.rowVersion
         });
         expect(resubmittedPayout.status).toBe('pending-approval');
@@ -774,13 +724,10 @@ describe('poms-api commission workflow e2e', () => {
 
         expect(secondAssignment.id).not.toBe(firstAssignment.id);
 
-        const response = await client.post(
-            `/commission-role-assignments/${firstAssignment.id}:freeze`,
-            {
-                sourceHandoverId: fixture.handoverId,
-                handoverSummarySnapshotId: fixture.handoverSummarySnapshotId
-            }
-        );
+        const response = await client.post(`/commission-role-assignments/${firstAssignment.id}:freeze`, {
+            sourceHandoverId: fixture.handoverId,
+            handoverSummarySnapshotId: fixture.handoverSummarySnapshotId
+        });
 
         expectErrorStatus(response, 422, '只有当前有效的角色分配草稿可以冻结');
     });
@@ -801,14 +748,11 @@ describe('poms-api commission workflow e2e', () => {
         });
         expect(frozenAssignment.businessStatusAfter).toBe('frozen');
 
-        const response = await client.post(
-            `/projects/${fixture.projectId}/commission-calculations`,
-            {
-                ruleVersionId: ruleVersion.id,
-                recognizedRevenueTaxExclusive: '100000.00',
-                recognizedCostTaxExclusive: '70000.00'
-            }
-        );
+        const response = await client.post(`/projects/${fixture.projectId}/commission-calculations`, {
+            ruleVersionId: ruleVersion.id,
+            recognizedRevenueTaxExclusive: '100000.00',
+            recognizedCostTaxExclusive: '70000.00'
+        });
 
         expectErrorStatus(response, 422, '当前项目不存在已生效合同台账');
     });
@@ -828,14 +772,11 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: assignment.rowVersion
         });
 
-        const response = await client.post(
-            `/projects/${fixture.projectId}/commission-calculations`,
-            {
-                ruleVersionId: ruleVersion.id,
-                recognizedRevenueTaxExclusive: '120000.00',
-                recognizedCostTaxExclusive: '70000.00'
-            }
-        );
+        const response = await client.post(`/projects/${fixture.projectId}/commission-calculations`, {
+            ruleVersionId: ruleVersion.id,
+            recognizedRevenueTaxExclusive: '120000.00',
+            recognizedCostTaxExclusive: '70000.00'
+        });
 
         expectErrorStatus(response, 422, '已确认回款不足');
     });
@@ -855,14 +796,11 @@ describe('poms-api commission workflow e2e', () => {
             expectedVersion: assignment.rowVersion
         });
 
-        const response = await client.post(
-            `/projects/${fixture.projectId}/commission-calculations`,
-            {
-                ruleVersionId: ruleVersion.id,
-                recognizedRevenueTaxExclusive: '100000.00',
-                recognizedCostTaxExclusive: '80000.00'
-            }
-        );
+        const response = await client.post(`/projects/${fixture.projectId}/commission-calculations`, {
+            ruleVersionId: ruleVersion.id,
+            recognizedRevenueTaxExclusive: '100000.00',
+            recognizedCostTaxExclusive: '80000.00'
+        });
 
         expectErrorStatus(response, 422, '已确认成本不足');
     });
@@ -872,15 +810,12 @@ describe('poms-api commission workflow e2e', () => {
         const unique = makeUniqueSuffix('cms-recalc-receipt-guard');
 
         const scenario = await setupEffectiveCalculationScenario(client, profile, unique);
-        const response = await client.post(
-            `/commission-calculations/${scenario.calculation.id}:recalculate`,
-            {
-                reason: 'e2e 回款冲减后重算',
-                recognizedRevenueTaxExclusive: '120000.00',
-                recognizedCostTaxExclusive: '70000.00',
-                expectedVersion: scenario.calculation.rowVersion
-            }
-        );
+        const response = await client.post(`/commission-calculations/${scenario.calculation.id}:recalculate`, {
+            reason: 'e2e 回款冲减后重算',
+            recognizedRevenueTaxExclusive: '120000.00',
+            recognizedCostTaxExclusive: '70000.00',
+            expectedVersion: scenario.calculation.rowVersion
+        });
 
         expectErrorStatus(response, 422, '已确认回款不足');
     });

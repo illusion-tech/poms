@@ -1,0 +1,9 @@
+FROM localhost/poms-r1c-build:1
+LABEL org.poms.scope="rust-r1d"
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/poms-playwright
+ENV PLAYWRIGHT_SKIP_BROWSER_GC=1
+RUN mkdir -p /opt/poms-playwright-installer && cd /opt/poms-playwright-installer \
+    && npm init -y >/dev/null \
+    && npm install --save-exact playwright@1.63.0 \
+    && node node_modules/playwright/cli.js install --with-deps chromium \
+    && node -e "const b=require('./node_modules/playwright-core/browsers.json').browsers.find(x=>x.name==='chromium'); if(b.revision!=='1243'||b.browserVersion!=='153.0.8010.12') process.exit(1)"

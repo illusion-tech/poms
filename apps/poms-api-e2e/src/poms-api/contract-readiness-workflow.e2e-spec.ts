@@ -10,11 +10,7 @@ import {
     reviewCommercialReleaseBaselineDiff
 } from '../support/contract-api';
 import { createProjectForProfile } from '../support/project-api';
-import {
-    buildCommercialReleaseBaselineInput,
-    buildContractReadinessPackageInput,
-    makeUniqueSuffix
-} from '../support/test-data';
+import { buildCommercialReleaseBaselineInput, buildContractReadinessPackageInput, makeUniqueSuffix } from '../support/test-data';
 
 jest.setTimeout(120_000);
 
@@ -29,15 +25,13 @@ describe('poms-api contract readiness workflow e2e', () => {
             currentStage: 'commercial-closure'
         });
 
-        const baseline = await createCommercialReleaseBaseline(
-            client,
-            buildCommercialReleaseBaselineInput(project.id, profile.id, unique)
-        );
+        const baseline = await createCommercialReleaseBaseline(client, buildCommercialReleaseBaselineInput(project.id, profile.id, unique));
         expect(baseline.reviewStatus).toBe('pending-review');
 
         const reviewResult = await reviewCommercialReleaseBaselineDiff(client, baseline.id, {
             diffDecision: 'approved',
             reviewedFieldKeys: ['downPaymentRate'],
+            attachmentIds: [],
             expectedVersion: baseline.rowVersion
         });
         expect(reviewResult.baselineReviewDecision).toBe('approved');
@@ -49,10 +43,7 @@ describe('poms-api contract readiness workflow e2e', () => {
         expect(diffHistory.reviewHistory).toHaveLength(1);
         expect(diffHistory.diffItems[0]?.fieldKey).toBe('downPaymentRate');
 
-        const readinessPackage = await createContractReadinessPackage(
-            client,
-            buildContractReadinessPackageInput(project.id, profile.id, refreshedBaseline.id, refreshedBaseline.latestDiffResultId)
-        );
+        const readinessPackage = await createContractReadinessPackage(client, buildContractReadinessPackageInput(project.id, profile.id, refreshedBaseline.id, refreshedBaseline.latestDiffResultId));
         expect(readinessPackage.allowedActions).toContain('initialize-contract-snapshot');
 
         const snapshotInit = await initializeContractSnapshotFromReadiness(client, readinessPackage.id, {

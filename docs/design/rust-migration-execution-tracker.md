@@ -2,7 +2,7 @@
 
 **最后更新**: 2026-10-26
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: `RUST-R0` 已交付；R1 Doing，R1A #62 G4 Done（51572db5）；R1B #63、R1C #64 Done，R1D/E Todo
+**当前状态**: `RUST-R0` 已交付；R1 Doing，R1A #62 G4 Done（51572db5）；R1B #63、R1C #64 Done，R1D #65 Doing，R1E Todo
 **执行模式**: R0 main-only；R1A/B/C 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
@@ -25,23 +25,23 @@
 
 ## 3. 后续阶段输入与完成边界
 
-| 阶段 | 状态  | 必需输入                                         | 交付边界                                                                |
-| ---- | ----- | ------------------------------------------------ | ----------------------------------------------------------------------- |
-| R1   | Doing | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A #62 工程/SQLx 已交付；R1B #63、R1C #64 Done，D/E Todo；父阶段未完成 |
-| R2   | Todo  | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付                                      |
-| R3   | Todo  | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                                                    |
-| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                  |
-| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                          |
-| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                             |
-| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                            |
+| 阶段 | 状态  | 必需输入                                         | 交付边界                                                                               |
+| ---- | ----- | ------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| R1   | Doing | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A #62 工程/SQLx 已交付；R1B #63、R1C #64 Done，R1D #65 Doing，R1E Todo；父阶段未完成 |
+| R2   | Todo  | R1 基础、平台/审批/附件/外部副作用清单           | 公共能力，业务审批处理器随各域交付                                                     |
+| R3   | Todo  | R2、客户/线索/项目/签约前合同与事务边界          | 客户销售到签约前闭环                                                                   |
+| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                                 |
+| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                                         |
+| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                                            |
+| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                                           |
 
-| R1 子切片 | 状态 | Gate / 交付                                                                   |
-| --------- | ---- | ----------------------------------------------------------------------------- |
-| R1A #62   | Done | G4；51572db5 已推送，工程/SQLx/三 GET/启停与固定环境验收记录已归档            |
-| R1B #63   | Done | G4；5cc44100 已推送，单向共享类型与兼容验收记录已归档                         |
-| R1C #64   | Done | G4；69ab8ac8 已推送，认证/会话/Cookie/CSRF/权限与密文及隔离PG15验收记录已归档 |
-| R1D       | Todo | 通用双后端 E2E/客户端生成，依赖 R1A                                           |
-| R1E       | Todo | 父阶段集成、浏览器与最终验收，依赖 R1A–D                                      |
+| R1 子切片 | 状态  | Gate / 交付                                                                             |
+| --------- | ----- | --------------------------------------------------------------------------------------- |
+| R1A #62   | Done  | G4；51572db5 已推送，工程/SQLx/三 GET/启停与固定环境验收记录已归档                      |
+| R1B #63   | Done  | G4；5cc44100 已推送，单向共享类型与兼容验收记录已归档                                   |
+| R1C #64   | Done  | G4；69ab8ac8 已推送，认证/会话/Cookie/CSRF/权限与密文及隔离PG15验收记录已归档           |
+| R1D #65   | Doing | G1 Pass；[工程基线](rust-r1d-e2e-client-baseline.md)；通用双后端E2E、浏览器启动与client |
+| R1E       | Todo  | 父阶段集成、浏览器与最终验收，依赖 R1A–D                                                |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -59,4 +59,4 @@
 
 - [R1B #63](https://github.com/illusion-tech/poms/issues/63) 已完成 G4（实现 `5cc44100928c8f5045df12aebc4137460b5fb608`）；[工程基线](archive/slices/rust-r1b-shared-types-baseline.md)冻结单向导出、标量/JSON/权限兼容及验收边界。
 
-- [R1C #64](https://github.com/illusion-tech/poms/issues/64) 已完成 G4（实现 `69ab8ac8d9105eecc1d7bc2589570d9825d25664`）；[基线](archive/slices/rust-r1c-auth-session-baseline.md)、[纠偏记录](archive/slices/rust-r1c-corrective-checkpoint.md)及[机器验收](rust-r1c-validation.json)绑定 Rust1.99.1、81 普通 tests、20 真实 DB tests、29×2 HTTP 场景/558断言和78进程断言；R1D/E继续Todo。
+- [R1C #64](https://github.com/illusion-tech/poms/issues/64) 已完成 G4（实现 `69ab8ac8d9105eecc1d7bc2589570d9825d25664`）；[基线](archive/slices/rust-r1c-auth-session-baseline.md)、[纠偏记录](archive/slices/rust-r1c-corrective-checkpoint.md)及[机器验收](rust-r1c-validation.json)绑定 Rust1.99.1、81 普通 tests、20 真实 DB tests、29×2 HTTP 场景/558断言和78进程断言；R1D #65 Doing，R1E继续Todo。

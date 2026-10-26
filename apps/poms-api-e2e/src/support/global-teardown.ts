@@ -1,7 +1,5 @@
 import { stopManagedApiServer } from './server-harness';
-/* eslint-disable */
 
-module.exports = async function () {
+module.exports = async function (): Promise<void> {
     await stopManagedApiServer();
-    console.log(globalThis.__TEARDOWN_MESSAGE__);
 };

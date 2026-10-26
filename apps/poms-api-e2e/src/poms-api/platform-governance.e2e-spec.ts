@@ -1,5 +1,5 @@
 import { createApiClient, createCsrfBootstrapClient, loginAsAdmin, loginAsViewer, VIEWER_CREDENTIALS } from '../support/api-client';
-import { expectErrorStatus, expectStatus } from '../support/http';
+import { expectErrorStatus, expectStatus, type ApiErrorBody } from '../support/http';
 import {
     activateOrgUnit,
     activateRole,
@@ -28,7 +28,7 @@ import {
 } from '../support/platform-api';
 import { listAuditLogs, listSecurityEvents } from '../support/runtime-audit-api';
 import { makeUniqueSuffix } from '../support/test-data';
-import type { NavigationItem } from '../support/types';
+import type { NavigationItem, SanitizedUserWithOrgUnits } from '../support/types';
 
 jest.setTimeout(120_000);
 
@@ -49,13 +49,13 @@ describe('poms-api platform governance e2e', () => {
         const viewerSession = await loginAsViewer();
 
         try {
-            const profileBefore = await viewerSession.client.get('/auth/profile');
+            const profileBefore = await viewerSession.client.get<SanitizedUserWithOrgUnits>('/auth/profile');
             expectStatus(profileBefore, 200);
 
             await activatePlatformUser(adminClient, viewer.id);
             await deactivatePlatformUser(adminClient, viewer.id);
 
-            const staleSessionResponse = await viewerSession.client.get('/auth/profile');
+            const staleSessionResponse = await viewerSession.client.get<ApiErrorBody>('/auth/profile');
             expectErrorStatus(staleSessionResponse, 401);
 
             const loginResponse = await (await createCsrfBootstrapClient()).post('/auth/sessions', VIEWER_CREDENTIALS);
@@ -194,7 +194,7 @@ describe('poms-api platform governance e2e', () => {
                 secondaryOrgUnitIds: []
             });
 
-            const profileResponse = await viewerSession.client.get('/auth/profile');
+            const profileResponse = await viewerSession.client.get<SanitizedUserWithOrgUnits>('/auth/profile');
             const profile = expectStatus(profileResponse, 200);
             expect(profile.orgUnits.some((orgUnit) => orgUnit.id === newOrg.id && orgUnit.name === newOrg.name)).toBe(true);
 
@@ -233,7 +233,7 @@ describe('poms-api platform governance e2e', () => {
         const { client: adminClient } = await loginAsAdmin();
         const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
         const originalDisplayName = viewer.displayName;
-        const unique = makeUniqueSuffix();
+        const unique = makeUniqueSuffix('user-update');
 
         try {
             const updated = await updatePlatformUser(adminClient, viewer.id, {
@@ -278,7 +278,7 @@ describe('poms-api platform governance e2e', () => {
             expect(updatedProfile.emailVerified).toBe(false);
             expect(updatedProfile.phoneVerified).toBe(false);
 
-            const refreshedProfile = expectStatus(await viewerSession.client.get('/auth/profile'), 200);
+            const refreshedProfile = expectStatus(await viewerSession.client.get<SanitizedUserWithOrgUnits>('/auth/profile'), 200);
             expect(refreshedProfile.displayName).toBe(nextDisplayName);
             expect(refreshedProfile.email).toBe(nextEmail);
             expect(refreshedProfile.phone).toBe(nextPhone);
@@ -289,17 +289,11 @@ describe('poms-api platform governance e2e', () => {
                 limit: 20
             });
             const selfUpdateAudit = auditLogs.find(
-                (event) =>
-                    event.operatorId === originalProfile.id &&
-                    event.afterSnapshot?.['displayName'] === nextDisplayName &&
-                    event.afterSnapshot?.['email'] === nextEmail &&
-                    event.afterSnapshot?.['phone'] === nextPhone
+                (event) => event.operatorId === originalProfile.id && event.afterSnapshot?.['displayName'] === nextDisplayName && event.afterSnapshot?.['email'] === nextEmail && event.afterSnapshot?.['phone'] === nextPhone
             );
 
             expect(selfUpdateAudit).toBeDefined();
-            expect(selfUpdateAudit?.metadata?.['changedFields']).toEqual(
-                expect.arrayContaining(['displayName', 'email', 'phone'])
-            );
+            expect(selfUpdateAudit?.metadata?.['changedFields']).toEqual(expect.arrayContaining(['displayName', 'email', 'phone']));
         } finally {
             await updatePlatformUser(adminClient, originalProfile.id, {
                 displayName: originalProfile.displayName,
@@ -329,7 +323,7 @@ describe('poms-api platform governance e2e', () => {
     it('profile orgUnits include membershipType after org membership assignment', async () => {
         const { client: adminClient } = await loginAsAdmin();
         const viewer = await findPlatformUserByUsername(adminClient, 'viewer');
-        const unique = makeUniqueSuffix();
+        const unique = makeUniqueSuffix('membership-type');
 
         const newOrg = await createOrgUnit(adminClient, {
             name: `E2E 组织 ${unique}`,
@@ -346,12 +340,13 @@ describe('poms-api platform governance e2e', () => {
                 secondaryOrgUnitIds: []
             });
 
-            const profileResponse = await viewerSession.client.get('/auth/profile');
+            const profileResponse = await viewerSession.client.get<SanitizedUserWithOrgUnits>('/auth/profile');
             const profile = expectStatus(profileResponse, 200);
 
             expect(profile.orgUnits.length).toBeGreaterThan(0);
             const primaryOrg = profile.orgUnits.find((o: { membershipType: string }) => o.membershipType === 'primary');
             expect(primaryOrg).toBeDefined();
+            if (!primaryOrg) throw new Error('Expected primary org membership in fixture');
             expect(primaryOrg.id).toBe(newOrg.id);
         } finally {
             await assignUserOrgMemberships(adminClient, viewer.id, {
@@ -459,14 +454,16 @@ describe('poms-api platform governance e2e', () => {
             displayOrder: 100
         });
 
-        const failedLoginResponse = await (await createCsrfBootstrapClient()).post('/auth/sessions', {
+        const failedLoginResponse = await (
+            await createCsrfBootstrapClient()
+        ).post('/auth/sessions', {
             username: 'admin',
             password: 'wrong-password'
         });
         expectErrorStatus(failedLoginResponse, 401, '用户名或密码错误');
 
         const invalidSessionClient = createApiClient('poms_session=malformed-token');
-        const invalidSessionResponse = await invalidSessionClient.get('/auth/profile');
+        const invalidSessionResponse = await invalidSessionClient.get<ApiErrorBody>('/auth/profile');
         expectErrorStatus(invalidSessionResponse, 401);
 
         const auditLogs = await listAuditLogs(adminClient, {
@@ -475,14 +472,7 @@ describe('poms-api platform governance e2e', () => {
             targetId: createdOrg.id,
             limit: 5
         });
-        expect(
-            auditLogs.some(
-                (event) =>
-                    event.eventType === 'platform.org-unit.created' &&
-                    event.targetId === createdOrg.id &&
-                    event.result === 'success'
-            )
-        ).toBe(true);
+        expect(auditLogs.some((event) => event.eventType === 'platform.org-unit.created' && event.targetId === createdOrg.id && event.result === 'success')).toBe(true);
 
         const navigationAuditLogs = await listAuditLogs(adminClient, {
             from,
@@ -490,14 +480,7 @@ describe('poms-api platform governance e2e', () => {
             targetId: navigationSync.targetId,
             limit: 5
         });
-        expect(
-            navigationAuditLogs.some(
-                (event) =>
-                    event.eventType === 'platform.navigation.synced' &&
-                    event.targetId === navigationSync.targetId &&
-                    event.afterSnapshot?.['treeChecksum'] === navigationSync.treeChecksum
-            )
-        ).toBe(true);
+        expect(navigationAuditLogs.some((event) => event.eventType === 'platform.navigation.synced' && event.targetId === navigationSync.targetId && event.afterSnapshot?.['treeChecksum'] === navigationSync.treeChecksum)).toBe(true);
 
         const loginFailures = await listSecurityEvents(adminClient, {
             from,
@@ -506,14 +489,7 @@ describe('poms-api platform governance e2e', () => {
             result: 'failed',
             limit: 5
         });
-        expect(
-            loginFailures.some(
-                (event) =>
-                    event.eventType === 'auth.login.failed' &&
-                    event.principal === 'admin' &&
-                    event.result === 'failed'
-            )
-        ).toBe(true);
+        expect(loginFailures.some((event) => event.eventType === 'auth.login.failed' && event.principal === 'admin' && event.result === 'failed')).toBe(true);
 
         const invalidSessionEvents = await listSecurityEvents(adminClient, {
             from,
@@ -521,14 +497,7 @@ describe('poms-api platform governance e2e', () => {
             path: '/api/auth/profile',
             limit: 5
         });
-        expect(
-            invalidSessionEvents.some(
-                (event) =>
-                    event.eventType === 'auth.session.invalid' &&
-                    event.path === '/api/auth/profile' &&
-                    (event.result === 'failed' || event.result === 'expired')
-            )
-        ).toBe(true);
+        expect(invalidSessionEvents.some((event) => event.eventType === 'auth.session.invalid' && event.path === '/api/auth/profile' && (event.result === 'failed' || event.result === 'expired'))).toBe(true);
 
         const viewerSession = await loginAsViewer();
         const routeDeniedResponse = await viewerSession.client.post('/security-events:recordRouteDenied', {
@@ -545,15 +514,7 @@ describe('poms-api platform governance e2e', () => {
             path: '/platform/users',
             limit: 5
         });
-        expect(
-            routeDeniedEvents.some(
-                (event) =>
-                    event.eventType === 'authz.route.denied' &&
-                    event.actorId === viewerSession.profile.id &&
-                    event.path === '/platform/users' &&
-                    event.result === 'blocked'
-            )
-        ).toBe(true);
+        expect(routeDeniedEvents.some((event) => event.eventType === 'authz.route.denied' && event.actorId === viewerSession.profile.id && event.path === '/platform/users' && event.result === 'blocked')).toBe(true);
     });
 
     it('viewer initial navigation contains business keys and excludes platform management keys', async () => {

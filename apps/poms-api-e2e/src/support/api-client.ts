@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
 import { expectStatus } from './http';
+import { E2E_HTTP_AGENT, E2E_HTTPS_AGENT } from './http-transport';
 import type { CurrentAuthSessionView, SanitizedUserWithOrgUnits } from './types';
 
 export interface TestCredentials {
@@ -35,10 +36,14 @@ export const FINANCE_MANAGER_CREDENTIALS: TestCredentials = {
 
 export function createApiClient(cookieHeader?: string): AxiosInstance {
     const csrfToken = cookieHeader ? extractCookieValue(cookieHeader, 'poms_csrf') : null;
-    return axios.create({
+    const client = axios.create({
         baseURL: axios.defaults.baseURL,
         validateStatus: () => true,
         proxy: false,
+        timeout: 10_000,
+        maxRedirects: 0,
+        httpAgent: E2E_HTTP_AGENT,
+        httpsAgent: E2E_HTTPS_AGENT,
         headers: cookieHeader
             ? {
                   Cookie: cookieHeader,
@@ -46,6 +51,8 @@ export function createApiClient(cookieHeader?: string): AxiosInstance {
               }
             : undefined
     });
+    client.interceptors.response.use(undefined, () => Promise.reject(new Error('E2E API transport failed')));
+    return client;
 }
 
 export async function createCsrfBootstrapClient(): Promise<AxiosInstance> {
@@ -74,7 +81,10 @@ export async function loginWithCredentials(credentials: TestCredentials): Promis
 
 function extractCookieHeader(setCookie: unknown): string {
     const cookies = Array.isArray(setCookie) ? setCookie : typeof setCookie === 'string' ? [setCookie] : [];
-    const cookieHeader = cookies.map((cookie) => cookie.split(';')[0]).filter(Boolean).join('; ');
+    const cookieHeader = cookies
+        .map((cookie) => cookie.split(';')[0])
+        .filter(Boolean)
+        .join('; ');
     if (!cookieHeader) {
         throw new Error('Auth session response did not set cookies.');
     }

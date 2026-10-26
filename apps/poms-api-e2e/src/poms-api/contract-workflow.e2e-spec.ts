@@ -206,7 +206,7 @@ describe('poms-api contract workflow e2e', () => {
             expectedVersion: pendingReviewContract.rowVersion - 1
         });
 
-        expectErrorStatus(response, 409, 'Contract version');
+        expectErrorStatus(response, 409, 'contract version');
     });
 
     it('rejects duplicate contract review submission while approval is pending', async () => {

@@ -1,14 +1,7 @@
 import { loginAsAdmin } from '../support/api-client';
 import { expectErrorStatus } from '../support/http';
-import {
-    confirmProjectHandover,
-    getContractHandoverSummary,
-    getProjectHandoverDetailByHandover
-} from '../support/project-handover-api';
-import {
-    PROJECT_HANDOVER_E2E_FIXTURES,
-    PROJECT_HANDOVER_E2E_USERS
-} from '../support/project-handover-seed-fixtures';
+import { confirmProjectHandover, getContractHandoverSummary, getProjectHandoverDetailByHandover } from '../support/project-handover-api';
+import { PROJECT_HANDOVER_E2E_FIXTURES, PROJECT_HANDOVER_E2E_USERS } from '../support/project-handover-seed-fixtures';
 
 jest.setTimeout(120_000);
 
@@ -97,7 +90,7 @@ describe('poms-api project handover workflow e2e', () => {
             expectedVersion: (detail.rowVersion ?? 1) + 1
         });
 
-        expectErrorStatus(response, 409, 'ProjectHandover version');
+        expectErrorStatus(response, 409, 'project-handover version');
     });
 
     it('rejects project handover confirmation when a confirmed participant is missing from the request', async () => {
@@ -117,11 +110,7 @@ describe('poms-api project handover workflow e2e', () => {
             expectedVersion: detail.rowVersion
         });
 
-        expectErrorStatus(
-            response,
-            400,
-            `Project handover participant ${PROJECT_HANDOVER_E2E_USERS.viewerId} is missing from request`
-        );
+        expectErrorStatus(response, 400, `Project handover participant ${PROJECT_HANDOVER_E2E_USERS.viewerId} is missing from request`);
     });
 
     it('blocks project handover confirmation while the latest rebaseline is still processing', async () => {
@@ -130,9 +119,7 @@ describe('poms-api project handover workflow e2e', () => {
         const detail = await getProjectHandoverDetailByHandover(client, fixture.handoverId);
 
         expect(detail.allowedActions).toEqual([]);
-        expect(detail.blockingReasons).toContain(
-            `Handover rebaseline record ${fixture.processingRebaselineRecordId} is still processing`
-        );
+        expect(detail.blockingReasons).toContain(`Handover rebaseline record ${fixture.processingRebaselineRecordId} is still processing`);
 
         const response = await client.post(`/project-handovers/${fixture.handoverId}:confirm`, {
             participantConfirmations: [

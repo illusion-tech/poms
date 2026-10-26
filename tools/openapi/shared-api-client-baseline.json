@@ -1,0 +1,2338 @@
+{
+    "formatVersion": 1,
+    "sourceHead": "e951b76bf65ea9c286e5e281a01e34b9f75c0fae",
+    "fingerprint": "SHA256 of UTF-8 text after CRLF-to-LF only; output normalization is separately defined by the legacy PS oracle",
+    "generator": {
+        "version": "7.20.0",
+        "wrapperVersion": "2.41.0",
+        "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+        "officialUrl": "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.20.0/openapi-generator-cli-7.20.0.jar",
+        "configuration": "tools/openapi/typescript-angular.config.json"
+    },
+    "protectedSources": [
+        {
+            "file": "libs/shared/api-spec/openapi.json",
+            "sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+        },
+        {
+            "file": "tools/openapi/typescript-angular.config.json",
+            "sha256": "66ab0dcda041e7a04d1adec65827d89269d30bd3336f6a707fdbd99dc5e9512d"
+        },
+        {
+            "file": "openapitools.json",
+            "sha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce"
+        },
+        {
+            "file": "package.json",
+            "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+        },
+        {
+            "file": "pnpm-lock.yaml",
+            "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+        },
+        {
+            "file": ".gitattributes",
+            "sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c"
+        }
+    ],
+    "spec": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "openapi": "3.0.0",
+        "paths": [
+            "/api",
+            "/api/accounting-tax-treatments/{id}",
+            "/api/accounting-tax-treatments/{id}:replace",
+            "/api/approval-records/{id}",
+            "/api/approval-records/{id}:approve",
+            "/api/approval-records/{id}:reject",
+            "/api/attachment-center-records",
+            "/api/attachment-download-packages/{packageId}",
+            "/api/attachment-download-packages/{packageId}/download",
+            "/api/attachment-upload-sessions",
+            "/api/attachment-upload-sessions/{id}",
+            "/api/attachment-upload-sessions/{id}/object",
+            "/api/attachment-upload-sessions/{id}/upload-targets",
+            "/api/attachment-upload-sessions/{id}:abort",
+            "/api/attachment-upload-sessions/{id}:complete",
+            "/api/attachments",
+            "/api/attachments/{id}",
+            "/api/attachments/{id}/download",
+            "/api/attachments/{id}/links",
+            "/api/attachments/{id}/links/{linkId}",
+            "/api/attachments/{id}/preview",
+            "/api/attachments/{id}/thumbnail",
+            "/api/attachments/{id}/versions",
+            "/api/attachments/{id}:clear-final",
+            "/api/attachments/{id}:mark-final",
+            "/api/attachments/{id}:void",
+            "/api/audit-logs",
+            "/api/audit-logs/targets/{targetType}/{targetId}",
+            "/api/auth/csrf-token",
+            "/api/auth/external-login-sessions",
+            "/api/auth/identity-providers",
+            "/api/auth/identity-providers/{id}:authorize",
+            "/api/auth/identity-providers:callback",
+            "/api/auth/profile",
+            "/api/auth/session",
+            "/api/auth/session:logout",
+            "/api/auth/sessions",
+            "/api/business-discussions",
+            "/api/commercial-release-baselines",
+            "/api/commercial-release-baselines/{id}",
+            "/api/commercial-release-baselines/{id}/diff-history",
+            "/api/commercial-release-baselines/{id}:reviewDiff",
+            "/api/commission-adjustments/{id}:execute",
+            "/api/commission-adjustments/{id}:submitApproval",
+            "/api/commission-calculations/{id}:approve",
+            "/api/commission-calculations/{id}:recalculate",
+            "/api/commission-freeze-change-requests/{id}",
+            "/api/commission-freeze-disputes",
+            "/api/commission-freeze-disputes/{id}",
+            "/api/commission-freeze-disputes/{id}:arbitrate",
+            "/api/commission-gate-bindings/{id}",
+            "/api/commission-gate-bindings/{id}:review",
+            "/api/commission-payouts/{id}:approve",
+            "/api/commission-payouts/{id}:registerPayout",
+            "/api/commission-payouts/{id}:submitApproval",
+            "/api/commission-role-assignments/{id}",
+            "/api/commission-role-assignments/{id}:freeze",
+            "/api/commission-rule-versions",
+            "/api/commission-rule-versions/{id}:activate",
+            "/api/commission-rule-versions/{id}:stop",
+            "/api/competitor-intelligence-records",
+            "/api/competitor-intelligence-records/{id}",
+            "/api/contract-handover-rebaselines",
+            "/api/contract-readiness-packages",
+            "/api/contract-readiness-packages/{id}",
+            "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+            "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+            "/api/contract-term-snapshots/{id}",
+            "/api/contracts",
+            "/api/contracts/no/{contractNo}",
+            "/api/contracts/{contractId}/receipt-records",
+            "/api/contracts/{id}",
+            "/api/contracts/{id}/approval-record",
+            "/api/contracts/{id}:activate",
+            "/api/contracts/{id}:submitReview",
+            "/api/cost-stage-attributions/{id}",
+            "/api/cost-stage-attributions/{id}:reclassify",
+            "/api/customer-aliases/{id}",
+            "/api/customer-contacts",
+            "/api/customer-contacts/{id}",
+            "/api/customers",
+            "/api/customers/{id}",
+            "/api/customers/{id}/aliases",
+            "/api/customers/{id}/workspace-overview",
+            "/api/dictionaries",
+            "/api/dictionaries/{id}",
+            "/api/expense-records/{id}",
+            "/api/expense-records/{id}:confirm",
+            "/api/expense-records/{id}:void",
+            "/api/health",
+            "/api/health/readiness",
+            "/api/internal-cost-rate-versions",
+            "/api/invoice-records/{id}",
+            "/api/invoice-records/{id}:close",
+            "/api/invoice-records/{id}:markException",
+            "/api/invoice-records/{id}:resolveException",
+            "/api/lead-score-overrides/{id}:approve",
+            "/api/lead-score-overrides/{id}:reject",
+            "/api/lead-score-overrides/{id}:revoke",
+            "/api/leads",
+            "/api/leads/{id}",
+            "/api/leads/{id}/score-history",
+            "/api/leads/{id}/score-overrides",
+            "/api/leads/{id}:assignOwner",
+            "/api/leads/{id}:claim",
+            "/api/leads/{id}:close",
+            "/api/leads/{id}:convertToProject",
+            "/api/leads/{id}:qualify",
+            "/api/me/navigation",
+            "/api/me/todos",
+            "/api/operating-baseline-packages",
+            "/api/operating-restatements",
+            "/api/operating-restatements/{id}",
+            "/api/operating-signal-evaluations/{id}",
+            "/api/operating-signal-evaluations/{id}:review",
+            "/api/opportunity-stakeholders",
+            "/api/opportunity-stakeholders/{id}",
+            "/api/payable-records/{id}",
+            "/api/payable-records/{id}:close",
+            "/api/payable-records/{id}:void",
+            "/api/payment-records/{id}:confirm",
+            "/api/period-closing-snapshots",
+            "/api/period-closing-snapshots/{id}",
+            "/api/platform/attachment-storage-providers",
+            "/api/platform/attachment-storage-providers/{id}",
+            "/api/platform/attachment-storage-providers/{id}:set-default",
+            "/api/platform/attachment-storage-providers/{id}:testConnection",
+            "/api/platform/external-department-mappings/{id}:ignore",
+            "/api/platform/external-department-mappings/{id}:map",
+            "/api/platform/external-department-mappings/{id}:restore",
+            "/api/platform/external-department-mappings/{id}:unmap",
+            "/api/platform/external-identities/{id}:unbind",
+            "/api/platform/external-org-sources",
+            "/api/platform/external-org-sources/{id}",
+            "/api/platform/external-org-sources/{id}:activate",
+            "/api/platform/external-org-sources/{id}:archive",
+            "/api/platform/external-org-sources/{id}:pause",
+            "/api/platform/external-org-sources/{sourceId}/department-mappings",
+            "/api/platform/external-org-sources/{sourceId}/org-sync-runs",
+            "/api/platform/identity-provider-oauth-grants/{identityProviderId}",
+            "/api/platform/identity-provider-oauth-grants/{identityProviderId}:authorize",
+            "/api/platform/identity-provider-oauth-grants:callback",
+            "/api/platform/identity-providers",
+            "/api/platform/identity-providers/{id}",
+            "/api/platform/identity-providers/{id}/external-users",
+            "/api/platform/identity-providers/{id}:testConnection",
+            "/api/platform/navigation",
+            "/api/platform/navigation:sync",
+            "/api/platform/org-sync-runs/{id}",
+            "/api/platform/org-sync-runs/{id}/diff-items",
+            "/api/platform/org-sync-runs/{id}:apply",
+            "/api/platform/org-unit-tree",
+            "/api/platform/org-units",
+            "/api/platform/org-units/{id}",
+            "/api/platform/org-units/{id}:activate",
+            "/api/platform/org-units/{id}:deactivate",
+            "/api/platform/org-units/{id}:move",
+            "/api/platform/owner-reference",
+            "/api/platform/permissions",
+            "/api/platform/roles",
+            "/api/platform/roles/{id}",
+            "/api/platform/roles/{id}/permissions",
+            "/api/platform/roles/{id}:activate",
+            "/api/platform/roles/{id}:deactivate",
+            "/api/platform/system-settings",
+            "/api/platform/system-settings/{key}",
+            "/api/platform/users",
+            "/api/platform/users/{id}",
+            "/api/platform/users/{id}/external-identities",
+            "/api/platform/users/{id}/org-memberships",
+            "/api/platform/users/{id}/roles",
+            "/api/platform/users/{id}:activate",
+            "/api/platform/users/{id}:deactivate",
+            "/api/project-actual-cost-records/{costRecordId}/stage-attributions",
+            "/api/project-actual-cost-records/{id}",
+            "/api/project-actual-cost-records/{id}/stage-attributions",
+            "/api/project-actual-cost-records/{id}:replace",
+            "/api/project-archive-records/{id}:replace",
+            "/api/project-archive-records/{id}:void",
+            "/api/project-handovers/{handoverId}",
+            "/api/project-handovers/{handoverId}/attachment-checklist",
+            "/api/project-handovers/{handoverId}/attachment-checklist:refresh",
+            "/api/project-handovers/{handoverId}/attachment-download-packages",
+            "/api/project-handovers/{handoverId}:confirm",
+            "/api/project-operating-snapshots",
+            "/api/project-operating-snapshots/{id}",
+            "/api/projects",
+            "/api/projects/code/{projectNo}",
+            "/api/projects/{id}",
+            "/api/projects/{id}:reassignOwner",
+            "/api/projects/{projectId}/acceptance-records",
+            "/api/projects/{projectId}/accounting-tax-treatments",
+            "/api/projects/{projectId}/actual-cost-records",
+            "/api/projects/{projectId}/archive-records",
+            "/api/projects/{projectId}/bid-commercial-processes",
+            "/api/projects/{projectId}/bid-commercial-workspace",
+            "/api/projects/{projectId}/business-accounting-feedback",
+            "/api/projects/{projectId}/business-outcome-overview",
+            "/api/projects/{projectId}/commission-adjustments",
+            "/api/projects/{projectId}/commission-calculations",
+            "/api/projects/{projectId}/commission-departure-exception-decisions",
+            "/api/projects/{projectId}/commission-final-settlement",
+            "/api/projects/{projectId}/commission-payouts",
+            "/api/projects/{projectId}/commission-role-assignment",
+            "/api/projects/{projectId}/commission-role-assignments",
+            "/api/projects/{projectId}/commission-rule-explanation",
+            "/api/projects/{projectId}/completion-records",
+            "/api/projects/{projectId}/contract-handover",
+            "/api/projects/{projectId}/contract-readiness",
+            "/api/projects/{projectId}/expense-records",
+            "/api/projects/{projectId}/invoice-records",
+            "/api/projects/{projectId}/operating-baseline-package",
+            "/api/projects/{projectId}/operating-restatements",
+            "/api/projects/{projectId}/payable-records",
+            "/api/projects/{projectId}/payment-records",
+            "/api/projects/{projectId}/pricing-margin-reviews",
+            "/api/projects/{projectId}/pricing-margin-workspace",
+            "/api/projects/{projectId}/project-handover",
+            "/api/projects/{projectId}/technical-cost-packages",
+            "/api/projects/{projectId}/technical-cost-workspace",
+            "/api/projects/{projectId}/timeline",
+            "/api/projects/{projectId}/unified-accounting",
+            "/api/projects/{projectId}/variance-risk-explanation",
+            "/api/projects/{projectId}/workspace-guidance",
+            "/api/receipt-records/{id}:confirm",
+            "/api/sales-discovery-records",
+            "/api/sales-discovery-records/{id}",
+            "/api/sales-follow-up-records",
+            "/api/sales-follow-up-records/{id}:replace",
+            "/api/sales-follow-up-records/{id}:void",
+            "/api/sales-intelligence-gaps",
+            "/api/security-events",
+            "/api/security-events:recordRouteDenied",
+            "/api/shared-cost-allocation-bases",
+            "/api/shared-cost-allocation-bases/{id}",
+            "/api/shared-cost-allocation-bases/{id}/results",
+            "/api/shared-cost-allocation-results/{id}:replace"
+        ],
+        "operations": [
+            {
+                "method": "delete",
+                "path": "/api/attachments/{id}/links/{linkId}",
+                "operationId": "AttachmentController_unlink"
+            },
+            {
+                "method": "delete",
+                "path": "/api/customer-aliases/{id}",
+                "operationId": "CustomerAliasController_delete"
+            },
+            {
+                "method": "get",
+                "path": "/api",
+                "operationId": "AppController_getData"
+            },
+            {
+                "method": "get",
+                "path": "/api/accounting-tax-treatments/{id}",
+                "operationId": "ProjectCostController_getAccountingTaxTreatment"
+            },
+            {
+                "method": "get",
+                "path": "/api/approval-records/{id}",
+                "operationId": "ApprovalController_getApprovalRecord"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachment-center-records",
+                "operationId": "AttachmentCenterRecordController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachment-download-packages/{packageId}",
+                "operationId": "AttachmentHandoverController_getDownloadPackage"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachment-download-packages/{packageId}/download",
+                "operationId": "AttachmentHandoverController_downloadPackage"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachment-upload-sessions/{id}",
+                "operationId": "AttachmentUploadSessionController_get"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachments",
+                "operationId": "AttachmentController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachments/{id}",
+                "operationId": "AttachmentController_get"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachments/{id}/download",
+                "operationId": "AttachmentController_download"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachments/{id}/preview",
+                "operationId": "AttachmentController_preview"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachments/{id}/thumbnail",
+                "operationId": "AttachmentController_thumbnail"
+            },
+            {
+                "method": "get",
+                "path": "/api/attachments/{id}/versions",
+                "operationId": "AttachmentController_versions"
+            },
+            {
+                "method": "get",
+                "path": "/api/audit-logs",
+                "operationId": "RuntimeAuditController_listAuditLogs"
+            },
+            {
+                "method": "get",
+                "path": "/api/audit-logs/targets/{targetType}/{targetId}",
+                "operationId": "RuntimeAuditController_listEntityAuditLogs"
+            },
+            {
+                "method": "get",
+                "path": "/api/auth/csrf-token",
+                "operationId": "AuthController_getCsrfToken"
+            },
+            {
+                "method": "get",
+                "path": "/api/auth/identity-providers:callback",
+                "operationId": "AuthController_handleExternalLoginCallback"
+            },
+            {
+                "method": "get",
+                "path": "/api/auth/identity-providers",
+                "operationId": "AuthController_listEnabledLoginProviders"
+            },
+            {
+                "method": "get",
+                "path": "/api/auth/identity-providers/{id}:authorize",
+                "operationId": "AuthController_authorizeExternalLogin"
+            },
+            {
+                "method": "get",
+                "path": "/api/auth/profile",
+                "operationId": "AuthController_getProfile"
+            },
+            {
+                "method": "get",
+                "path": "/api/auth/session",
+                "operationId": "AuthController_getCurrentAuthSession"
+            },
+            {
+                "method": "get",
+                "path": "/api/business-discussions",
+                "operationId": "BusinessDiscussionController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/commercial-release-baselines/{id}",
+                "operationId": "ContractReadinessController_getCommercialReleaseBaseline"
+            },
+            {
+                "method": "get",
+                "path": "/api/commercial-release-baselines/{id}/diff-history",
+                "operationId": "ContractReadinessController_getDiffHistory"
+            },
+            {
+                "method": "get",
+                "path": "/api/commission-freeze-change-requests/{id}",
+                "operationId": "CommissionFreezeChangeRequestController_getCommissionFreezeChangeRequest"
+            },
+            {
+                "method": "get",
+                "path": "/api/commission-freeze-disputes/{id}",
+                "operationId": "CommissionFreezeDisputeController_getCommissionFreezeDispute"
+            },
+            {
+                "method": "get",
+                "path": "/api/commission-gate-bindings/{id}",
+                "operationId": "ProjectCostController_getCommissionGateBinding"
+            },
+            {
+                "method": "get",
+                "path": "/api/commission-role-assignments/{id}",
+                "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail"
+            },
+            {
+                "method": "get",
+                "path": "/api/commission-rule-versions",
+                "operationId": "CommissionController_listRuleVersions"
+            },
+            {
+                "method": "get",
+                "path": "/api/competitor-intelligence-records",
+                "operationId": "CompetitorIntelligenceRecordController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/contract-readiness-packages/{id}",
+                "operationId": "ContractReadinessController_getContractReadinessPackage"
+            },
+            {
+                "method": "get",
+                "path": "/api/contract-term-snapshots/{id}",
+                "operationId": "ContractTermSnapshotController_getById"
+            },
+            {
+                "method": "get",
+                "path": "/api/contracts",
+                "operationId": "ContractController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/contracts/{contractId}/receipt-records",
+                "operationId": "ContractFinanceController_listReceipts"
+            },
+            {
+                "method": "get",
+                "path": "/api/contracts/{id}",
+                "operationId": "ContractController_getById"
+            },
+            {
+                "method": "get",
+                "path": "/api/contracts/{id}/approval-record",
+                "operationId": "ContractController_getCurrentApproval"
+            },
+            {
+                "method": "get",
+                "path": "/api/contracts/no/{contractNo}",
+                "operationId": "ContractController_getByNo"
+            },
+            {
+                "method": "get",
+                "path": "/api/cost-stage-attributions/{id}",
+                "operationId": "ProjectCostController_getCostStageAttribution"
+            },
+            {
+                "method": "get",
+                "path": "/api/customer-contacts",
+                "operationId": "CustomerContactController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/customers",
+                "operationId": "CustomerController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/customers/{id}",
+                "operationId": "CustomerController_getById"
+            },
+            {
+                "method": "get",
+                "path": "/api/customers/{id}/aliases",
+                "operationId": "CustomerController_listAliases"
+            },
+            {
+                "method": "get",
+                "path": "/api/customers/{id}/workspace-overview",
+                "operationId": "CustomerController_getWorkspaceOverview"
+            },
+            {
+                "method": "get",
+                "path": "/api/dictionaries",
+                "operationId": "DictionaryController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/expense-records/{id}",
+                "operationId": "ProjectCostController_getExpenseRecordDetail"
+            },
+            {
+                "method": "get",
+                "path": "/api/health",
+                "operationId": "HealthController_getLiveness"
+            },
+            {
+                "method": "get",
+                "path": "/api/health/readiness",
+                "operationId": "HealthController_getReadiness"
+            },
+            {
+                "method": "get",
+                "path": "/api/invoice-records/{id}",
+                "operationId": "ContractFinanceController_getInvoice"
+            },
+            {
+                "method": "get",
+                "path": "/api/leads",
+                "operationId": "LeadController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/leads/{id}",
+                "operationId": "LeadController_getById"
+            },
+            {
+                "method": "get",
+                "path": "/api/leads/{id}/score-history",
+                "operationId": "LeadController_getScoreHistory"
+            },
+            {
+                "method": "get",
+                "path": "/api/me/navigation",
+                "operationId": "NavigationController_getNavigation"
+            },
+            {
+                "method": "get",
+                "path": "/api/me/todos",
+                "operationId": "ApprovalController_getMyTodos"
+            },
+            {
+                "method": "get",
+                "path": "/api/operating-restatements/{id}",
+                "operationId": "ProjectCostController_getOperatingRestatement"
+            },
+            {
+                "method": "get",
+                "path": "/api/operating-signal-evaluations/{id}",
+                "operationId": "ProjectCostController_getOperatingSignalEvaluation"
+            },
+            {
+                "method": "get",
+                "path": "/api/opportunity-stakeholders",
+                "operationId": "OpportunityStakeholderController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/payable-records/{id}",
+                "operationId": "ContractFinanceController_getPayable"
+            },
+            {
+                "method": "get",
+                "path": "/api/period-closing-snapshots/{id}",
+                "operationId": "ProjectCostController_getPeriodClosingSnapshot"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/attachment-storage-providers",
+                "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/attachment-storage-providers/{id}",
+                "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/external-org-sources",
+                "operationId": "ExternalOrgSyncController_listExternalOrgSources"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/external-org-sources/{id}",
+                "operationId": "ExternalOrgSyncController_getExternalOrgSource"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/external-org-sources/{sourceId}/department-mappings",
+                "operationId": "ExternalOrgSyncController_listExternalDepartmentMappings"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/external-org-sources/{sourceId}/org-sync-runs",
+                "operationId": "ExternalOrgSyncController_listOrgSyncRuns"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/identity-provider-oauth-grants:callback",
+                "operationId": "IdentityProviderOAuthGrantController_handleCurrentAdminProviderGrantCallback"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/identity-provider-oauth-grants/{identityProviderId}:authorize",
+                "operationId": "IdentityProviderOAuthGrantController_authorizeCurrentAdminProviderGrant"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/identity-provider-oauth-grants/{identityProviderId}",
+                "operationId": "IdentityProviderOAuthGrantController_getCurrentAdminProviderGrant"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/identity-providers",
+                "operationId": "IdentityProviderController_listIdentityProviderConfigs"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/identity-providers/{id}",
+                "operationId": "IdentityProviderController_getIdentityProviderConfig"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/identity-providers/{id}/external-users",
+                "operationId": "IdentityProviderController_searchExternalUsers"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/navigation",
+                "operationId": "PlatformController_getAllNavigationItems"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/org-sync-runs/{id}",
+                "operationId": "ExternalOrgSyncController_getOrgSyncRun"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/org-sync-runs/{id}/diff-items",
+                "operationId": "ExternalOrgSyncController_listOrgSyncDiffItems"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/org-unit-tree",
+                "operationId": "PlatformController_listOrgUnitTree"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/org-units",
+                "operationId": "PlatformController_listOrgUnits"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/org-units/{id}",
+                "operationId": "PlatformController_getOrgUnit"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/owner-reference",
+                "operationId": "PlatformController_listOwnerReferenceData"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/permissions",
+                "operationId": "PlatformController_listPermissions"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/roles",
+                "operationId": "PlatformController_listRoles"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/roles/{id}",
+                "operationId": "PlatformController_getRole"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/system-settings",
+                "operationId": "SystemSettingController_listSystemSettings"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/system-settings/{key}",
+                "operationId": "SystemSettingController_getSystemSetting"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/users",
+                "operationId": "PlatformController_listUsers"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/users/{id}",
+                "operationId": "PlatformController_getUser"
+            },
+            {
+                "method": "get",
+                "path": "/api/platform/users/{id}/external-identities",
+                "operationId": "ExternalIdentityController_listUserExternalIdentities"
+            },
+            {
+                "method": "get",
+                "path": "/api/project-actual-cost-records/{costRecordId}/stage-attributions",
+                "operationId": "ProjectCostController_listCostStageAttributions"
+            },
+            {
+                "method": "get",
+                "path": "/api/project-actual-cost-records/{id}",
+                "operationId": "ProjectCostController_getProjectActualCostRecordDetail"
+            },
+            {
+                "method": "get",
+                "path": "/api/project-handovers/{handoverId}",
+                "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover"
+            },
+            {
+                "method": "get",
+                "path": "/api/project-handovers/{handoverId}/attachment-checklist",
+                "operationId": "AttachmentHandoverController_getChecklist"
+            },
+            {
+                "method": "get",
+                "path": "/api/project-operating-snapshots/{id}",
+                "operationId": "ProjectCostController_getProjectOperatingSnapshot"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects",
+                "operationId": "ProjectController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{id}",
+                "operationId": "ProjectController_getById"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/acceptance-records",
+                "operationId": "ProjectController_listAcceptanceRecords"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/accounting-tax-treatments",
+                "operationId": "ProjectCostController_listAccountingTaxTreatments"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/actual-cost-records",
+                "operationId": "ProjectCostController_listProjectActualCostRecords"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/archive-records",
+                "operationId": "ProjectController_listProjectArchiveRecords"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/bid-commercial-processes",
+                "operationId": "ProjectController_listProjectBidCommercialProcesses"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/bid-commercial-workspace",
+                "operationId": "ProjectController_getProjectBidCommercialWorkspace"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/business-accounting-feedback",
+                "operationId": "ProjectCostController_getBusinessAccountingFeedback"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/business-outcome-overview",
+                "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/commission-adjustments",
+                "operationId": "CommissionController_listAdjustments"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/commission-calculations",
+                "operationId": "CommissionController_listCalculations"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/commission-final-settlement",
+                "operationId": "CommissionController_getCommissionFinalSettlement"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/commission-payouts",
+                "operationId": "CommissionController_listPayouts"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/commission-role-assignment",
+                "operationId": "CommissionController_getCurrentRoleAssignment"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/commission-rule-explanation",
+                "operationId": "CommissionController_getCommissionRuleExplanation"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/completion-records",
+                "operationId": "ProjectController_listProjectCompletionRecords"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/contract-handover",
+                "operationId": "ProjectHandoverController_getContractHandoverSummary"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/contract-readiness",
+                "operationId": "ContractReadinessController_getCurrentContractReadiness"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/expense-records",
+                "operationId": "ProjectCostController_listExpenseRecords"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/invoice-records",
+                "operationId": "ContractFinanceController_listInvoices"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/operating-baseline-package",
+                "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/operating-restatements",
+                "operationId": "ProjectCostController_listOperatingRestatements"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/payable-records",
+                "operationId": "ContractFinanceController_listPayables"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/payment-records",
+                "operationId": "ContractFinanceController_listPayments"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/pricing-margin-reviews",
+                "operationId": "ProjectController_listProjectPricingMarginReviews"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/pricing-margin-workspace",
+                "operationId": "ProjectController_getProjectPricingMarginWorkspace"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/project-handover",
+                "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/technical-cost-packages",
+                "operationId": "ProjectController_listProjectTechnicalCostPackages"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/technical-cost-workspace",
+                "operationId": "ProjectController_getProjectTechnicalCostWorkspace"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/timeline",
+                "operationId": "ProjectController_getTimeline"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/unified-accounting",
+                "operationId": "ProjectCostController_getProjectUnifiedAccounting"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/variance-risk-explanation",
+                "operationId": "ProjectCostController_getProjectVarianceRiskExplanation"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/{projectId}/workspace-guidance",
+                "operationId": "ProjectController_getWorkspaceGuidance"
+            },
+            {
+                "method": "get",
+                "path": "/api/projects/code/{projectNo}",
+                "operationId": "ProjectController_getByCode"
+            },
+            {
+                "method": "get",
+                "path": "/api/sales-discovery-records",
+                "operationId": "SalesDiscoveryRecordController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/sales-follow-up-records",
+                "operationId": "SalesFollowUpController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/sales-intelligence-gaps",
+                "operationId": "SalesIntelligenceGapController_list"
+            },
+            {
+                "method": "get",
+                "path": "/api/security-events",
+                "operationId": "RuntimeAuditController_listSecurityEvents"
+            },
+            {
+                "method": "get",
+                "path": "/api/shared-cost-allocation-bases/{id}",
+                "operationId": "ProjectCostController_getSharedCostAllocationBasis"
+            },
+            {
+                "method": "get",
+                "path": "/api/shared-cost-allocation-bases/{id}/results",
+                "operationId": "ProjectCostController_listSharedCostAllocationResults"
+            },
+            {
+                "method": "patch",
+                "path": "/api/attachments/{id}",
+                "operationId": "AttachmentController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/auth/profile",
+                "operationId": "AuthController_updateProfile"
+            },
+            {
+                "method": "patch",
+                "path": "/api/competitor-intelligence-records/{id}",
+                "operationId": "CompetitorIntelligenceRecordController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/contracts/{id}",
+                "operationId": "ContractController_updateBasicInfo"
+            },
+            {
+                "method": "patch",
+                "path": "/api/customer-contacts/{id}",
+                "operationId": "CustomerContactController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/customers/{id}",
+                "operationId": "CustomerController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/dictionaries/{id}",
+                "operationId": "DictionaryController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/expense-records/{id}",
+                "operationId": "ProjectCostController_updateExpenseRecord"
+            },
+            {
+                "method": "patch",
+                "path": "/api/invoice-records/{id}",
+                "operationId": "ContractFinanceController_updateInvoice"
+            },
+            {
+                "method": "patch",
+                "path": "/api/leads/{id}",
+                "operationId": "LeadController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/opportunity-stakeholders/{id}",
+                "operationId": "OpportunityStakeholderController_update"
+            },
+            {
+                "method": "patch",
+                "path": "/api/payable-records/{id}",
+                "operationId": "ContractFinanceController_updatePayable"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/attachment-storage-providers/{id}",
+                "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/external-org-sources/{id}",
+                "operationId": "ExternalOrgSyncController_updateExternalOrgSource"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/identity-providers/{id}",
+                "operationId": "IdentityProviderController_updateIdentityProviderConfig"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/org-units/{id}",
+                "operationId": "PlatformController_updateOrgUnit"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/roles/{id}",
+                "operationId": "PlatformController_updateRole"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/system-settings/{key}",
+                "operationId": "SystemSettingController_updateSystemSetting"
+            },
+            {
+                "method": "patch",
+                "path": "/api/platform/users/{id}",
+                "operationId": "PlatformController_updateUser"
+            },
+            {
+                "method": "patch",
+                "path": "/api/projects/{id}",
+                "operationId": "ProjectController_updateBasicInfo"
+            },
+            {
+                "method": "patch",
+                "path": "/api/sales-discovery-records/{id}",
+                "operationId": "SalesDiscoveryRecordController_update"
+            },
+            {
+                "method": "post",
+                "path": "/api/accounting-tax-treatments/{id}:replace",
+                "operationId": "ProjectCostController_replaceAccountingTaxTreatment"
+            },
+            {
+                "method": "post",
+                "path": "/api/approval-records/{id}:approve",
+                "operationId": "ApprovalController_approveRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/approval-records/{id}:reject",
+                "operationId": "ApprovalController_rejectRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachment-upload-sessions",
+                "operationId": "AttachmentUploadSessionController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachment-upload-sessions/{id}:abort",
+                "operationId": "AttachmentUploadSessionController_abort"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachment-upload-sessions/{id}:complete",
+                "operationId": "AttachmentUploadSessionController_complete"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+                "operationId": "AttachmentUploadSessionController_createUploadTarget"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachments/{id}:clear-final",
+                "operationId": "AttachmentController_clearFinal"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachments/{id}:mark-final",
+                "operationId": "AttachmentController_markFinal"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachments/{id}:void",
+                "operationId": "AttachmentController_void"
+            },
+            {
+                "method": "post",
+                "path": "/api/attachments/{id}/links",
+                "operationId": "AttachmentController_link"
+            },
+            {
+                "method": "post",
+                "path": "/api/auth/external-login-sessions",
+                "operationId": "AuthController_createExternalLoginSession"
+            },
+            {
+                "method": "post",
+                "path": "/api/auth/session:logout",
+                "operationId": "AuthController_logoutCurrentAuthSession"
+            },
+            {
+                "method": "post",
+                "path": "/api/auth/sessions",
+                "operationId": "AuthController_createPasswordAuthSession"
+            },
+            {
+                "method": "post",
+                "path": "/api/business-discussions",
+                "operationId": "BusinessDiscussionController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/commercial-release-baselines",
+                "operationId": "ContractReadinessController_createCommercialReleaseBaseline"
+            },
+            {
+                "method": "post",
+                "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+                "operationId": "ContractReadinessController_reviewDiff"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-adjustments/{id}:execute",
+                "operationId": "CommissionController_executeAdjustment"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-adjustments/{id}:submitApproval",
+                "operationId": "CommissionController_submitAdjustmentApproval"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-calculations/{id}:approve",
+                "operationId": "CommissionController_approveCalculation"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-calculations/{id}:recalculate",
+                "operationId": "CommissionController_recalculateCalculation"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-freeze-disputes",
+                "operationId": "CommissionFreezeDisputeController_submitCommissionFreezeDispute"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-freeze-disputes/{id}:arbitrate",
+                "operationId": "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-gate-bindings/{id}:review",
+                "operationId": "ProjectCostController_reviewCommissionGateBinding"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-payouts/{id}:approve",
+                "operationId": "CommissionController_approvePayout"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-payouts/{id}:registerPayout",
+                "operationId": "CommissionController_registerPayout"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-payouts/{id}:submitApproval",
+                "operationId": "CommissionController_submitPayoutApproval"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-role-assignments/{id}:freeze",
+                "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-rule-versions",
+                "operationId": "CommissionController_createRuleVersion"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-rule-versions/{id}:activate",
+                "operationId": "CommissionController_activateRuleVersion"
+            },
+            {
+                "method": "post",
+                "path": "/api/commission-rule-versions/{id}:stop",
+                "operationId": "CommissionController_stopRuleVersion"
+            },
+            {
+                "method": "post",
+                "path": "/api/competitor-intelligence-records",
+                "operationId": "CompetitorIntelligenceRecordController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/contract-handover-rebaselines",
+                "operationId": "ProjectHandoverController_rebaselineContractHandover"
+            },
+            {
+                "method": "post",
+                "path": "/api/contract-readiness-packages",
+                "operationId": "ContractReadinessController_createContractReadinessPackage"
+            },
+            {
+                "method": "post",
+                "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+                "operationId": "ContractReadinessController_initializeContractSnapshot"
+            },
+            {
+                "method": "post",
+                "path": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+                "operationId": "ContractReadinessController_initializeReceivablePlan"
+            },
+            {
+                "method": "post",
+                "path": "/api/contracts",
+                "operationId": "ContractController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/contracts/{contractId}/receipt-records",
+                "operationId": "ContractFinanceController_createReceipt"
+            },
+            {
+                "method": "post",
+                "path": "/api/contracts/{id}:activate",
+                "operationId": "ContractController_activate"
+            },
+            {
+                "method": "post",
+                "path": "/api/contracts/{id}:submitReview",
+                "operationId": "ContractController_submitReview"
+            },
+            {
+                "method": "post",
+                "path": "/api/cost-stage-attributions/{id}:reclassify",
+                "operationId": "ProjectCostController_reclassifyCostStageAttribution"
+            },
+            {
+                "method": "post",
+                "path": "/api/customer-contacts",
+                "operationId": "CustomerContactController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/customers",
+                "operationId": "CustomerController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/customers/{id}/aliases",
+                "operationId": "CustomerController_createAlias"
+            },
+            {
+                "method": "post",
+                "path": "/api/dictionaries",
+                "operationId": "DictionaryController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/expense-records/{id}:confirm",
+                "operationId": "ProjectCostController_confirmExpenseRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/expense-records/{id}:void",
+                "operationId": "ProjectCostController_voidExpenseRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/internal-cost-rate-versions",
+                "operationId": "ProjectCostController_publishInternalCostRateVersion"
+            },
+            {
+                "method": "post",
+                "path": "/api/invoice-records/{id}:close",
+                "operationId": "ContractFinanceController_closeInvoiceRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/invoice-records/{id}:markException",
+                "operationId": "ContractFinanceController_markInvoiceException"
+            },
+            {
+                "method": "post",
+                "path": "/api/invoice-records/{id}:resolveException",
+                "operationId": "ContractFinanceController_resolveInvoiceException"
+            },
+            {
+                "method": "post",
+                "path": "/api/lead-score-overrides/{id}:approve",
+                "operationId": "LeadScoreOverrideController_approve"
+            },
+            {
+                "method": "post",
+                "path": "/api/lead-score-overrides/{id}:reject",
+                "operationId": "LeadScoreOverrideController_reject"
+            },
+            {
+                "method": "post",
+                "path": "/api/lead-score-overrides/{id}:revoke",
+                "operationId": "LeadScoreOverrideController_revoke"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads",
+                "operationId": "LeadController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads/{id}:assignOwner",
+                "operationId": "LeadController_assignOwner"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads/{id}:claim",
+                "operationId": "LeadController_claimOwner"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads/{id}:close",
+                "operationId": "LeadController_close"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads/{id}:convertToProject",
+                "operationId": "LeadController_convertToProject"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads/{id}:qualify",
+                "operationId": "LeadController_qualify"
+            },
+            {
+                "method": "post",
+                "path": "/api/leads/{id}/score-overrides",
+                "operationId": "LeadController_submitScoreOverride"
+            },
+            {
+                "method": "post",
+                "path": "/api/operating-baseline-packages",
+                "operationId": "ProjectCostController_activateOperatingBaselinePackage"
+            },
+            {
+                "method": "post",
+                "path": "/api/operating-restatements",
+                "operationId": "ProjectCostController_createOperatingRestatement"
+            },
+            {
+                "method": "post",
+                "path": "/api/operating-signal-evaluations/{id}:review",
+                "operationId": "ProjectCostController_reviewOperatingSignalEvaluation"
+            },
+            {
+                "method": "post",
+                "path": "/api/opportunity-stakeholders",
+                "operationId": "OpportunityStakeholderController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/payable-records/{id}:close",
+                "operationId": "ContractFinanceController_closePayable"
+            },
+            {
+                "method": "post",
+                "path": "/api/payable-records/{id}:void",
+                "operationId": "ContractFinanceController_voidPayable"
+            },
+            {
+                "method": "post",
+                "path": "/api/payment-records/{id}:confirm",
+                "operationId": "ContractFinanceController_confirmPayment"
+            },
+            {
+                "method": "post",
+                "path": "/api/period-closing-snapshots",
+                "operationId": "ProjectCostController_createPeriodClosingSnapshot"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/attachment-storage-providers",
+                "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/attachment-storage-providers/{id}:set-default",
+                "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/attachment-storage-providers/{id}:testConnection",
+                "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-department-mappings/{id}:ignore",
+                "operationId": "ExternalOrgSyncController_ignoreExternalDepartmentMapping"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-department-mappings/{id}:map",
+                "operationId": "ExternalOrgSyncController_mapExternalDepartmentMapping"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-department-mappings/{id}:restore",
+                "operationId": "ExternalOrgSyncController_restoreExternalDepartmentMapping"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-department-mappings/{id}:unmap",
+                "operationId": "ExternalOrgSyncController_unmapExternalDepartmentMapping"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-identities/{id}:unbind",
+                "operationId": "ExternalIdentityController_unbindExternalIdentity"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-org-sources",
+                "operationId": "ExternalOrgSyncController_createExternalOrgSource"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-org-sources/{id}:activate",
+                "operationId": "ExternalOrgSyncController_activateExternalOrgSource"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-org-sources/{id}:archive",
+                "operationId": "ExternalOrgSyncController_archiveExternalOrgSource"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-org-sources/{id}:pause",
+                "operationId": "ExternalOrgSyncController_pauseExternalOrgSource"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/external-org-sources/{sourceId}/org-sync-runs",
+                "operationId": "ExternalOrgSyncController_createOrgSyncRun"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/identity-providers",
+                "operationId": "IdentityProviderController_createIdentityProviderConfig"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/identity-providers/{id}:testConnection",
+                "operationId": "IdentityProviderController_testIdentityProviderConnection"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/navigation:sync",
+                "operationId": "PlatformController_syncNavigation"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/org-sync-runs/{id}:apply",
+                "operationId": "ExternalOrgSyncController_applyOrgSyncRun"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/org-units",
+                "operationId": "PlatformController_createOrgUnit"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/org-units/{id}:activate",
+                "operationId": "PlatformController_activateOrgUnit"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/org-units/{id}:deactivate",
+                "operationId": "PlatformController_deactivateOrgUnit"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/org-units/{id}:move",
+                "operationId": "PlatformController_moveOrgUnit"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/roles",
+                "operationId": "PlatformController_createRole"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/roles/{id}:activate",
+                "operationId": "PlatformController_activateRole"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/roles/{id}:deactivate",
+                "operationId": "PlatformController_deactivateRole"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/users",
+                "operationId": "PlatformController_createUser"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/users/{id}:activate",
+                "operationId": "PlatformController_activateUser"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/users/{id}:deactivate",
+                "operationId": "PlatformController_deactivateUser"
+            },
+            {
+                "method": "post",
+                "path": "/api/platform/users/{id}/external-identities",
+                "operationId": "ExternalIdentityController_bindUserExternalIdentity"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-actual-cost-records/{id}:replace",
+                "operationId": "ProjectCostController_replaceLaborCostRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+                "operationId": "ProjectCostController_confirmCostStageAttribution"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-archive-records/{id}:replace",
+                "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-archive-records/{id}:void",
+                "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-handovers/{handoverId}:confirm",
+                "operationId": "ProjectHandoverController_confirmProjectHandover"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-handovers/{handoverId}/attachment-checklist:refresh",
+                "operationId": "AttachmentHandoverController_refreshChecklist"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-handovers/{handoverId}/attachment-download-packages",
+                "operationId": "AttachmentHandoverController_createDownloadPackage"
+            },
+            {
+                "method": "post",
+                "path": "/api/project-operating-snapshots",
+                "operationId": "ProjectCostController_createProjectOperatingSnapshot"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects",
+                "operationId": "ProjectController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{id}:reassignOwner",
+                "operationId": "ProjectController_reassignOwner"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/acceptance-records",
+                "operationId": "ProjectController_createAcceptanceRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/accounting-tax-treatments",
+                "operationId": "ProjectCostController_confirmAccountingTaxTreatment"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/actual-cost-records",
+                "operationId": "ProjectCostController_createProjectActualCostRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/archive-records",
+                "operationId": "ProjectController_createProjectArchiveRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/bid-commercial-processes",
+                "operationId": "ProjectController_createProjectBidCommercialProcess"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/commission-adjustments",
+                "operationId": "CommissionController_createAdjustment"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/commission-calculations",
+                "operationId": "CommissionController_createCalculation"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/commission-departure-exception-decisions",
+                "operationId": "CommissionDepartureExceptionDecisionController_createDepartureExceptionDecision"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/commission-payouts",
+                "operationId": "CommissionController_createPayout"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/commission-role-assignments",
+                "operationId": "CommissionController_createRoleAssignment"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/completion-records",
+                "operationId": "ProjectController_createProjectCompletionRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/expense-records",
+                "operationId": "ProjectCostController_createExpenseRecord"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/invoice-records",
+                "operationId": "ContractFinanceController_createInvoice"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/payable-records",
+                "operationId": "ContractFinanceController_createPayable"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/payment-records",
+                "operationId": "ContractFinanceController_createPayment"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/pricing-margin-reviews",
+                "operationId": "ProjectController_createProjectPricingMarginReview"
+            },
+            {
+                "method": "post",
+                "path": "/api/projects/{projectId}/technical-cost-packages",
+                "operationId": "ProjectController_createProjectTechnicalCostPackage"
+            },
+            {
+                "method": "post",
+                "path": "/api/receipt-records/{id}:confirm",
+                "operationId": "ContractFinanceController_confirmReceipt"
+            },
+            {
+                "method": "post",
+                "path": "/api/sales-discovery-records",
+                "operationId": "SalesDiscoveryRecordController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/sales-follow-up-records",
+                "operationId": "SalesFollowUpController_create"
+            },
+            {
+                "method": "post",
+                "path": "/api/sales-follow-up-records/{id}:replace",
+                "operationId": "SalesFollowUpController_replace"
+            },
+            {
+                "method": "post",
+                "path": "/api/sales-follow-up-records/{id}:void",
+                "operationId": "SalesFollowUpController_void"
+            },
+            {
+                "method": "post",
+                "path": "/api/security-events:recordRouteDenied",
+                "operationId": "RuntimeAuditController_recordRouteDeniedEvent"
+            },
+            {
+                "method": "post",
+                "path": "/api/shared-cost-allocation-bases",
+                "operationId": "ProjectCostController_confirmSharedCostAllocationBasis"
+            },
+            {
+                "method": "post",
+                "path": "/api/shared-cost-allocation-results/{id}:replace",
+                "operationId": "ProjectCostController_replaceSharedCostAllocationResult"
+            },
+            {
+                "method": "put",
+                "path": "/api/attachment-upload-sessions/{id}/object",
+                "operationId": "AttachmentUploadSessionController_proxyUploadObject"
+            },
+            {
+                "method": "put",
+                "path": "/api/platform/external-org-sources/{sourceId}/department-mappings",
+                "operationId": "ExternalOrgSyncController_replaceExternalDepartmentMappings"
+            },
+            {
+                "method": "put",
+                "path": "/api/platform/roles/{id}/permissions",
+                "operationId": "PlatformController_assignRolePermissions"
+            },
+            {
+                "method": "put",
+                "path": "/api/platform/users/{id}/org-memberships",
+                "operationId": "PlatformController_assignUserOrgMemberships"
+            },
+            {
+                "method": "put",
+                "path": "/api/platform/users/{id}/roles",
+                "operationId": "PlatformController_assignUserRoles"
+            }
+        ],
+        "schemas": [
+            "AbortAttachmentUploadSessionRequest",
+            "AcceptanceRecordList",
+            "AcceptanceRecordSummary",
+            "AccountingTaxDeductibilityStatus",
+            "AccountingTaxTreatmentListView",
+            "AccountingTaxTreatmentSnapshotSummary",
+            "ActivateContractRequest",
+            "ActivateExternalOrgSourceRequest",
+            "ActivateOperatingBaselinePackageRequest",
+            "ActiveInactiveStatus",
+            "ApplyOrgSyncRunRequest",
+            "ApprovalDecision",
+            "ApprovalRecordSummary",
+            "ApprovalStatus",
+            "ApprovalType",
+            "ApproveCommissionPayoutRequest",
+            "ApproveLeadScoreOverrideRequest",
+            "ApproveRecordRequest",
+            "ArbitrateCommissionFreezeDisputeRequest",
+            "ArbitrateCommissionFreezeDisputeResult",
+            "ArchiveExternalOrgSourceRequest",
+            "AssignLeadOwnerRequest",
+            "AssignRolePermissionsRequest",
+            "AssignUserOrgMembershipsRequest",
+            "AssignUserRolesRequest",
+            "AttachmentCategory",
+            "AttachmentCenterRecord",
+            "AttachmentCenterRecordList",
+            "AttachmentDownloadPackageManifestSummary",
+            "AttachmentDownloadPackageStatus",
+            "AttachmentDownloadPackageSummary",
+            "AttachmentLinkStatus",
+            "AttachmentLinkSummary",
+            "AttachmentList",
+            "AttachmentRelationType",
+            "AttachmentSecurityLevel",
+            "AttachmentSelectionVersionExpectation",
+            "AttachmentStatus",
+            "AttachmentStorageProviderConfigDetail",
+            "AttachmentStorageProviderConfigList",
+            "AttachmentStorageProviderConfigStatus",
+            "AttachmentStorageProviderConfigSummary",
+            "AttachmentStorageProviderConnectionTestResult",
+            "AttachmentStorageProviderConnectionTestStatus",
+            "AttachmentStorageProviderType",
+            "AttachmentSummary",
+            "AttachmentTargetType",
+            "AttachmentUploadMode",
+            "AttachmentUploadSessionOperationType",
+            "AttachmentUploadSessionStatus",
+            "AttachmentUploadSessionSummary",
+            "AttachmentUploadTarget",
+            "AttachmentUploadTargetMethod",
+            "AttachmentUploadTargetResult",
+            "AttachmentVersionList",
+            "AttachmentVersionSummary",
+            "AuditLogList",
+            "AuditLogResult",
+            "AuditLogSummary",
+            "AuditSnapshot",
+            "AuthSessionCsrfHint",
+            "AuthSessionLogoutResult",
+            "BaselineSelectionSource",
+            "BindUserExternalIdentityRequest",
+            "BusinessAccountingFeedbackView",
+            "BusinessDiscussionCommentList",
+            "BusinessDiscussionCommentSummary",
+            "BusinessDiscussionTargetObjectType",
+            "BusinessDiscussionType",
+            "BusinessDomain",
+            "ClaimLeadOwnerRequest",
+            "ClearAttachmentFinalRequest",
+            "CloseInvoiceRecordRequest",
+            "CloseLeadRequest",
+            "ClosePayableRecordRequest",
+            "CommandResult",
+            "CommercialBaselineDiffItem",
+            "CommercialBaselineReviewDecision",
+            "CommercialBaselineReviewHistory",
+            "CommercialBaselineReviewRecordSummary",
+            "CommercialDiffLevel",
+            "CommercialDiffReviewResult",
+            "CommercialDiffReviewStatus",
+            "CommercialReleaseBaselineStatus",
+            "CommercialReleaseBaselineSummary",
+            "CommissionAdjustmentList",
+            "CommissionAdjustmentStatus",
+            "CommissionAdjustmentSummary",
+            "CommissionAdjustmentType",
+            "CommissionCalculationList",
+            "CommissionCalculationStatus",
+            "CommissionCalculationSummary",
+            "CommissionDepartureExceptionDecisionStatus",
+            "CommissionDepartureExceptionDecisionSummary",
+            "CommissionFinalSettlementStatus",
+            "CommissionFinalSettlementView",
+            "CommissionFreezeChangeRequestDetailView",
+            "CommissionFreezeChangeStatus",
+            "CommissionFreezeDisputeArbitrationStatus",
+            "CommissionFreezeDisputeDetailView",
+            "CommissionFreezeDisputeStatus",
+            "CommissionGateBindingHistoryView",
+            "CommissionNonRetentionSettlementStatus",
+            "CommissionPayoutKind",
+            "CommissionPayoutList",
+            "CommissionPayoutStage",
+            "CommissionPayoutStatus",
+            "CommissionPayoutSummary",
+            "CommissionPayoutTier",
+            "CommissionRetentionDueStatus",
+            "CommissionRetentionSettlementStatus",
+            "CommissionRoleAssignmentDetailView",
+            "CommissionRoleAssignmentStatus",
+            "CommissionRoleAssignmentSummary",
+            "CommissionRuleExplanationGateDecision",
+            "CommissionRuleExplanationStageStatus",
+            "CommissionRuleExplanationView",
+            "CommissionRuleVersionList",
+            "CommissionRuleVersionStatus",
+            "CommissionRuleVersionSummary",
+            "CompetitorIntelligenceRecordList",
+            "CompetitorIntelligenceRecordSummary",
+            "CompetitorPosition",
+            "CompleteAttachmentUploadSessionRequest",
+            "ConfirmAccountingTaxTreatmentRequest",
+            "ConfirmCommissionCalculationRequest",
+            "ConfirmCostStageAttributionMode",
+            "ConfirmCostStageAttributionRequest",
+            "ConfirmExpenseRecordRequest",
+            "ConfirmPaymentRecordRequest",
+            "ConfirmProjectHandoverParticipantConfirmationInput",
+            "ConfirmProjectHandoverRequest",
+            "ConfirmProjectHandoverResult",
+            "ConfirmReceiptRecordRequest",
+            "ConfirmSharedCostAllocationBasisRequest",
+            "ContractDetailView",
+            "ContractDiffReviewHistoryView",
+            "ContractHandoverBaselineValidationStatus",
+            "ContractHandoverBaselineValidationSummary",
+            "ContractHandoverContractItemSummary",
+            "ContractHandoverCurrentBaselineSourceType",
+            "ContractHandoverCurrentBaselineStatus",
+            "ContractHandoverCurrentBaselineSummary",
+            "ContractHandoverEffectiveContractSetSummary",
+            "ContractHandoverLatestRebaselineSummary",
+            "ContractHandoverRebaselineBlockingStatus",
+            "ContractHandoverRebaselineStatus",
+            "ContractHandoverReceivablePlanInitStatus",
+            "ContractHandoverReceivablePlanInitSummary",
+            "ContractHandoverSummaryView",
+            "ContractList",
+            "ContractReadinessDetail",
+            "ContractReadinessGuardDecision",
+            "ContractReadinessItem",
+            "ContractReadinessItemStatus",
+            "ContractReadinessItemType",
+            "ContractReadinessPackageItemInput",
+            "ContractReadinessStatus",
+            "ContractStatus",
+            "ContractSummary",
+            "ContractTermSnapshotStatus",
+            "ContractTermSnapshotSummary",
+            "ConvertLeadToProjectRequest",
+            "CostStageAttributionHistoryView",
+            "CostStageAttributionMode",
+            "CostStageAttributionSnapshotSummary",
+            "CreatableOperatingSnapshotMode",
+            "CreateAcceptanceRecordRequest",
+            "CreateAttachmentLinkRequest",
+            "CreateAttachmentStorageProviderConfigRequest",
+            "CreateAttachmentUploadSessionRequest",
+            "CreateAttachmentUploadTargetRequest",
+            "CreateBusinessDiscussionCommentRequest",
+            "CreateCommercialBaselineDiffItemInput",
+            "CreateCommercialReleaseBaselineRequest",
+            "CreateCommissionAdjustmentRequest",
+            "CreateCommissionCalculationRequest",
+            "CreateCommissionDepartureExceptionDecisionRequest",
+            "CreateCommissionPayoutRequest",
+            "CreateCommissionRoleAssignmentRequest",
+            "CreateCommissionRuleVersionRequest",
+            "CreateCompetitorIntelligenceRecordRequest",
+            "CreateContractReadinessPackageRequest",
+            "CreateContractRequest",
+            "CreateCustomerAliasRequest",
+            "CreateCustomerContactRequest",
+            "CreateCustomerRequest",
+            "CreateDictionaryItemRequest",
+            "CreateExpenseProjectActualCostRecordRequest",
+            "CreateExpenseRecordRequest",
+            "CreateExternalLoginSessionRequest",
+            "CreateExternalOrgSourceRequest",
+            "CreateIdentityProviderConfigRequest",
+            "CreateInvoiceProjectActualCostRecordRequest",
+            "CreateInvoiceRecordRequest",
+            "CreateLaborProjectActualCostRecordRequest",
+            "CreateLeadRequest",
+            "CreateOperatingRestatementRequest",
+            "CreateOpportunityStakeholderRequest",
+            "CreateOrgSyncRunRequest",
+            "CreateOrgUnitRequest",
+            "CreatePasswordAuthSessionRequest",
+            "CreatePayableRecordRequest",
+            "CreatePaymentFactProjectActualCostRecordRequest",
+            "CreatePaymentRecordRequest",
+            "CreatePeriodClosingSnapshotRequest",
+            "CreatePlatformUserRequest",
+            "CreateProcurementProjectActualCostRecordRequest",
+            "CreateProjectArchiveRecordRequest",
+            "CreateProjectBidCommercialProcessRequest",
+            "CreateProjectCompletionRecordRequest",
+            "CreateProjectHandoverAttachmentDownloadPackageRequest",
+            "CreateProjectOperatingSnapshotRequest",
+            "CreateProjectPricingMarginReviewRequest",
+            "CreateProjectRequest",
+            "CreateProjectTechnicalCostPackageRequest",
+            "CreateReceiptRecordRequest",
+            "CreateRoleRequest",
+            "CreateSalesDiscoveryRecordRequest",
+            "CreateSalesFollowUpRecordRequest",
+            "CsrfTokenView",
+            "CurrentAuthSessionStatus",
+            "CurrentAuthSessionView",
+            "CustomerAliasList",
+            "CustomerAliasSummary",
+            "CustomerAliasType",
+            "CustomerContactGender",
+            "CustomerContactList",
+            "CustomerContactStatus",
+            "CustomerContactSummary",
+            "CustomerDetailView",
+            "CustomerList",
+            "CustomerListView",
+            "CustomerPreference",
+            "CustomerStatus",
+            "CustomerSummary",
+            "CustomerWorkspaceActionIntent",
+            "CustomerWorkspaceActionItem",
+            "CustomerWorkspaceContractItem",
+            "CustomerWorkspaceDiscussionItem",
+            "CustomerWorkspaceFollowUpItem",
+            "CustomerWorkspaceLeadItem",
+            "CustomerWorkspaceOverviewView",
+            "CustomerWorkspaceProjectItem",
+            "CustomerWorkspaceSummary",
+            "CustomerWorkspaceTargetObjectType",
+            "CustomerWorkspaceTimelineEventType",
+            "CustomerWorkspaceTimelineItem",
+            "CustomerWorkspaceTimelineSourceType",
+            "DictionaryCode",
+            "DictionaryDomain",
+            "DictionaryItemList",
+            "DictionaryItemStatus",
+            "DictionaryItemSummary",
+            "EnabledLoginProviderList",
+            "EnabledLoginProviderSummary",
+            "ExecuteCommissionAdjustmentRequest",
+            "ExpenseCategory",
+            "ExpenseRecordDetailView",
+            "ExpenseRecordList",
+            "ExpenseRecordStatus",
+            "ExpenseRecordSummary",
+            "ExpenseSourceType",
+            "ExternalDepartmentMappingList",
+            "ExternalDepartmentMappingReplacementItem",
+            "ExternalDepartmentMappingReviewState",
+            "ExternalDepartmentMappingStatus",
+            "ExternalDepartmentMappingSummary",
+            "ExternalIdentityBindingList",
+            "ExternalIdentityBindingStatus",
+            "ExternalIdentityBindingSummary",
+            "ExternalLoginAuthorizeResult",
+            "ExternalLoginCallbackResult",
+            "ExternalOrgProvider",
+            "ExternalOrgSourceDetail",
+            "ExternalOrgSourceList",
+            "ExternalOrgSourceStatus",
+            "ExternalOrgSourceSummary",
+            "ExternalUserCandidate",
+            "ExternalUserCandidateFieldAvailability",
+            "ExternalUserCandidateFieldAvailabilitySummary",
+            "ExternalUserSearchResult",
+            "FreezeCommissionRoleAssignmentRequest",
+            "FreezeCommissionRoleAssignmentResult",
+            "HealthCheckDto",
+            "HealthChecksDto",
+            "HealthDependencyCheckDto",
+            "IdentityProvider",
+            "IdentityProviderConfigDetail",
+            "IdentityProviderConfigList",
+            "IdentityProviderConfigStatus",
+            "IdentityProviderConfigSummary",
+            "IdentityProviderConnectionDiagnosticCheck",
+            "IdentityProviderConnectionDiagnosticStatus",
+            "IdentityProviderConnectionTestCapability",
+            "IdentityProviderConnectionTestResult",
+            "IdentityProviderConnectionTestStatus",
+            "IdentityProviderOAuthAuthorizeResult",
+            "IdentityProviderOAuthGrantStatus",
+            "IdentityProviderOAuthGrantSummary",
+            "IdentityProviderSearchGrantMode",
+            "IgnoreExternalDepartmentMappingRequest",
+            "InitializeContractSnapshotFromReadinessPackageRequest",
+            "InitializeReceivablePlanFromReadinessPackageRequest",
+            "InternalCostRateScopeType",
+            "InternalCostRateUnit",
+            "InvoiceRecordDetailView",
+            "InvoiceRecordExceptionStatus",
+            "InvoiceRecordList",
+            "InvoiceRecordPatchableStatus",
+            "InvoiceRecordStatus",
+            "InvoiceRecordSummary",
+            "InvoiceRecordType",
+            "LaborCostPeriodType",
+            "LeadAllowedAction",
+            "LeadBudgetStatus",
+            "LeadConvertedProjectSummary",
+            "LeadDetailView",
+            "LeadEffectiveScoreSource",
+            "LeadGateCheck",
+            "LeadGateMissingItem",
+            "LeadGateStatus",
+            "LeadGateSummary",
+            "LeadListResponse",
+            "LeadListView",
+            "LeadOwnerAssignmentResult",
+            "LeadOwnerAssignmentType",
+            "LeadOwnershipScope",
+            "LeadRating",
+            "LeadScoreHistoryItem",
+            "LeadScoreHistoryView",
+            "LeadScoreOverrideStatus",
+            "LeadScoreOverrideSummary",
+            "LeadScoreSnapshotKind",
+            "LeadStatus",
+            "LeadSummary",
+            "LeadUrgency",
+            "LeadWorkbenchFacet",
+            "LeadWorkbenchScope",
+            "LeadWorkbenchSummary",
+            "LogoutAuthSessionRequest",
+            "MapExternalDepartmentMappingRequest",
+            "MarkAttachmentFinalRequest",
+            "MarkInvoiceExceptionRequest",
+            "MoveOrgUnitRequest",
+            "NavigationItem",
+            "NavigationItemType",
+            "NavigationList",
+            "NavigationList__schema0",
+            "NavigationSyncSummary",
+            "NonRetentionCommissionPayoutStage",
+            "OperatingBaselinePackageStatus",
+            "OperatingBaselinePackageSummary",
+            "OperatingDataMaturityLevel",
+            "OperatingLifecycleStatus",
+            "OperatingPendingLifecycleStatus",
+            "OperatingRestatementListView",
+            "OperatingRestatementSummary",
+            "OperatingRiskLevel",
+            "OperatingSignalEvaluationView",
+            "OperatingSignalLevel",
+            "OperatingSignalReviewDecision",
+            "OperatingSnapshotActionLevel",
+            "OperatingSnapshotMode",
+            "OpportunityStakeholderAccessLevel",
+            "OpportunityStakeholderAttitude",
+            "OpportunityStakeholderInfluenceLevel",
+            "OpportunityStakeholderList",
+            "OpportunityStakeholderRole",
+            "OpportunityStakeholderSummary",
+            "OrgSyncDiffAction",
+            "OrgSyncDiffItemList",
+            "OrgSyncDiffItemStatus",
+            "OrgSyncDiffItemSummary",
+            "OrgSyncRunDetail",
+            "OrgSyncRunDiagnosticSummary",
+            "OrgSyncRunList",
+            "OrgSyncRunStatus",
+            "OrgSyncRunSummary",
+            "OrgUnitTreeNode",
+            "OwnerReferenceData",
+            "OwnerReferenceOrgUnit",
+            "OwnerReferenceUser",
+            "PauseExternalOrgSourceRequest",
+            "PayableRecordDetailView",
+            "PayableRecordList",
+            "PayableRecordStatus",
+            "PayableRecordSummary",
+            "PaymentRecordList",
+            "PaymentRecordStatus",
+            "PaymentRecordSummary",
+            "PeriodClosingSnapshotSummary",
+            "PlatformOrgUnitDetail",
+            "PlatformOrgUnitList",
+            "PlatformOrgUnitSummary",
+            "PlatformOrgUnitTree",
+            "PlatformOrgUnitTree__schema0",
+            "PlatformPermissionList",
+            "PlatformPermissionSourceType",
+            "PlatformPermissionStatus",
+            "PlatformPermissionSummary",
+            "PlatformRoleDetail",
+            "PlatformRoleList",
+            "PlatformRoleSummary",
+            "PlatformUserDetail",
+            "PlatformUserList",
+            "PlatformUserSummary",
+            "ProjectActualCostRecordDetailView",
+            "ProjectActualCostRecordListView",
+            "ProjectActualCostRecordStatus",
+            "ProjectActualCostRecordSummary",
+            "ProjectActualCostSourceType",
+            "ProjectActualCostType",
+            "ProjectArchiveRecordList",
+            "ProjectArchiveRecordSummary",
+            "ProjectBidCommercialMaterialItemInput",
+            "ProjectBidCommercialMaterialItemView",
+            "ProjectBidCommercialProcessList",
+            "ProjectBidCommercialProcessSummary",
+            "ProjectBidCommercialTimelineItemInput",
+            "ProjectBidCommercialTimelineItemView",
+            "ProjectBidCommercialWorkspaceView",
+            "ProjectBusinessOutcomeOverviewView",
+            "ProjectCompletionRecordList",
+            "ProjectCompletionRecordSummary",
+            "ProjectDetailApprovalSummary",
+            "ProjectDetailBidSummary",
+            "ProjectDetailConfirmationSummary",
+            "ProjectDetailContractSummary",
+            "ProjectDetailStageSummary",
+            "ProjectDetailView",
+            "ProjectHandoverAttachmentChecklistCounts",
+            "ProjectHandoverAttachmentChecklistItem",
+            "ProjectHandoverAttachmentChecklistItemStatus",
+            "ProjectHandoverAttachmentChecklistView",
+            "ProjectHandoverAttachmentSourceRef",
+            "ProjectHandoverDetailView",
+            "ProjectHandoverParticipantConfirmationItem",
+            "ProjectHandoverParticipantConfirmationStatus",
+            "ProjectHandoverParticipantConfirmationSummary",
+            "ProjectHandoverParticipantStatus",
+            "ProjectHandoverReceiptJudgmentFreezeStatus",
+            "ProjectHandoverReceiptJudgmentModeSummary",
+            "ProjectHandoverReceiptJudgmentSourceType",
+            "ProjectHandoverStatus",
+            "ProjectList",
+            "ProjectListView",
+            "ProjectOperatingSnapshotSummary",
+            "ProjectOwnerReassignmentResult",
+            "ProjectPricingMarginConditionItemInput",
+            "ProjectPricingMarginConditionItemView",
+            "ProjectPricingMarginReviewList",
+            "ProjectPricingMarginReviewSummary",
+            "ProjectPricingMarginWorkspaceView",
+            "ProjectSourceLeadSummary",
+            "ProjectStage",
+            "ProjectStatus",
+            "ProjectSummary",
+            "ProjectTechnicalCostItemInput",
+            "ProjectTechnicalCostItemView",
+            "ProjectTechnicalCostPackageList",
+            "ProjectTechnicalCostPackageSummary",
+            "ProjectTechnicalCostWorkspaceView",
+            "ProjectTechnicalRiskItemInput",
+            "ProjectTechnicalRiskItemView",
+            "ProjectTechnicalScopeItemInput",
+            "ProjectTechnicalScopeItemView",
+            "ProjectTimelineEvent",
+            "ProjectTimelineView",
+            "ProjectUnifiedAccountingView",
+            "ProjectVarianceRiskExplanationView",
+            "ProjectWorkspaceBasisSummary",
+            "ProjectWorkspaceEntryView",
+            "ProjectWorkspaceGuidanceView",
+            "PublishInternalCostRateVersionRequest",
+            "QualifyLeadRequest",
+            "ReadinessInitializationResult",
+            "ReassignProjectOwnerRequest",
+            "RebaselineContractHandoverRequest",
+            "RebaselineContractHandoverResult",
+            "RecalculateCommissionRequest",
+            "ReceiptRecordList",
+            "ReceiptRecordStatus",
+            "ReceiptRecordSummary",
+            "ReclassifyCostStageAttributionRequest",
+            "RecordRouteDeniedSecurityEventRequest",
+            "RefreshProjectHandoverAttachmentChecklistRequest",
+            "RegisterNonRetentionCommissionPayoutRequest",
+            "RegisterRetentionCommissionPayoutRequest",
+            "RejectApprovalRecordRequest",
+            "RejectLeadScoreOverrideRequest",
+            "ReplaceAccountingTaxTreatmentRequest",
+            "ReplaceExternalDepartmentMappingsRequest",
+            "ReplaceLaborCostRecordRequest",
+            "ReplaceProjectArchiveRecordRequest",
+            "ReplaceSalesFollowUpRecordRequest",
+            "ReplaceSharedCostAllocationResultRequest",
+            "ReplacementCommissionRoleAssignmentPayload",
+            "ResolveInvoiceExceptionRequest",
+            "RestoreExternalDepartmentMappingRequest",
+            "ReviewCommercialReleaseBaselineDiffRequest",
+            "ReviewCommissionGateBindingRequest",
+            "ReviewCommissionGateBindingResult",
+            "ReviewOperatingSignalEvaluationRequest",
+            "ReviewOperatingSignalEvaluationResult",
+            "RevokeLeadScoreOverrideRequest",
+            "SalesDiscoveryRecordList",
+            "SalesDiscoveryRecordSummary",
+            "SalesFollowUpOutcome",
+            "SalesFollowUpRecordLifecycleScope",
+            "SalesFollowUpRecordList",
+            "SalesFollowUpRecordStatus",
+            "SalesFollowUpRecordSummary",
+            "SalesFollowUpType",
+            "SalesIntelligenceGapItem",
+            "SalesIntelligenceGapList",
+            "SalesIntelligenceGapSeverity",
+            "SalesIntelligenceGapSummary",
+            "SanitizedUserWithOrgUnits",
+            "SecurityEventList",
+            "SecurityEventResult",
+            "SecurityEventSeverity",
+            "SecurityEventSummary",
+            "SensitiveFieldPackageKey",
+            "SensitiveProjectionMode",
+            "SensitiveProjectionReasonCode",
+            "SensitiveStringFieldProjection",
+            "SetDefaultAttachmentStorageProviderRequest",
+            "SharedCostAllocationBasisSummary",
+            "SharedCostAllocationResultListView",
+            "SharedCostAllocationResultSummary",
+            "SubmitCommissionAdjustmentApprovalRequest",
+            "SubmitCommissionFreezeDisputeRequest",
+            "SubmitCommissionFreezeDisputeResult",
+            "SubmitContractReviewRequest",
+            "SubmitLeadScoreOverrideRequest",
+            "SubmitNonRetentionCommissionPayoutApprovalRequest",
+            "SubmitRetentionCommissionPayoutApprovalRequest",
+            "SystemSettingKey",
+            "SystemSettingList",
+            "SystemSettingSummary",
+            "SystemSettingValueType",
+            "TargetObjectType",
+            "TestAttachmentStorageProviderConnectionRequest",
+            "TestIdentityProviderConnectionRequest",
+            "TodoItemList",
+            "TodoItemSummary",
+            "TodoPriority",
+            "TodoSourceType",
+            "TodoStatus",
+            "TodoType",
+            "UnbindExternalIdentityRequest",
+            "UnmapExternalDepartmentMappingRequest",
+            "UpdateAttachmentRequest",
+            "UpdateAttachmentStorageProviderConfigRequest",
+            "UpdateCompetitorIntelligenceRecordRequest",
+            "UpdateContractBasicInfoRequest",
+            "UpdateCurrentUserProfileRequest",
+            "UpdateCustomerContactRequest",
+            "UpdateCustomerRequest",
+            "UpdateDictionaryItemRequest",
+            "UpdateExpenseRecordRequest",
+            "UpdateExternalOrgSourceRequest",
+            "UpdateIdentityProviderConfigRequest",
+            "UpdateInvoiceRecordRequest",
+            "UpdateLeadRequest",
+            "UpdateOpportunityStakeholderRequest",
+            "UpdateOrgUnitActivationRequest",
+            "UpdateOrgUnitRequest",
+            "UpdatePayableRecordRequest",
+            "UpdatePlatformUserActivationRequest",
+            "UpdatePlatformUserRequest",
+            "UpdateProjectBasicInfoRequest",
+            "UpdateRoleActivationRequest",
+            "UpdateRoleRequest",
+            "UpdateSalesDiscoveryRecordRequest",
+            "UpdateSystemSettingRequest",
+            "UserOrgUnitMembershipType",
+            "UserOrgUnitSummary",
+            "VoidAttachmentRequest",
+            "VoidExpenseRecordRequest",
+            "VoidPayableRecordRequest",
+            "VoidProjectArchiveRecordRequest",
+            "VoidSalesFollowUpRecordRequest",
+            "WinProbabilityLevel"
+        ]
+    },
+    "client": {
+        "directory": "libs/shared/api-client",
+        "metadata": [
+            "project.json",
+            "tsconfig.json",
+            "tsconfig.lib.json"
+        ]
+    },
+    "legacyNormalizer": {
+        "file": "tools/openapi/normalize-line-endings.ps1",
+        "sourceHead": "e951b76bf65ea9c286e5e281a01e34b9f75c0fae",
+        "sha256": "23c229a35d0e90ee1c4f6b3de9609eac286cd89b4facb69a75d55339174727d0"
+    }
+}

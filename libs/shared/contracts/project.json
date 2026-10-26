@@ -9,7 +9,9 @@
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/libs/shared/contracts",
+                "outputPath": "dist/out-tsc/libs/shared/contracts",
+                "rootDir": "libs/shared/contracts/src",
+                "outputFileName": "index.js",
                 "main": "libs/shared/contracts/src/index.ts",
                 "tsConfig": "libs/shared/contracts/tsconfig.lib.json",
                 "assets": []

@@ -1,0 +1,16 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "rootDir": "../..",
+        "types": ["node"],
+        "noEmit": true
+    },
+    "files": [
+        "../../apps/poms-admin-e2e/playwright.config.ts",
+        "../../apps/poms-admin-e2e/src/support/server-setup.ts",
+        "../../apps/poms-admin-e2e/src/r1d-auth.smoke.spec.ts"
+    ],
+    "include": []
+}

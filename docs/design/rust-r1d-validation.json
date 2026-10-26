@@ -1,0 +1,3359 @@
+{
+  "formatVersion": 1,
+  "recordedAtUtc": "2026-10-26T02:01:47.438355+00:00",
+  "scope": "R1D dual-backend foundation E2E, native Node browser launcher, exact Chromium authentication smoke and full-spec client generation; not R1E full UI/business or deployment",
+  "sourceBaseline": "e951b76bf65ea9c286e5e281a01e34b9f75c0fae",
+  "sourceHashNormalization": "UTF-8 CRLF to LF only; sourceFiles excludes lifecycle docs and READMEs",
+  "sourceFilesSha256": {
+    "apps/poms-admin-e2e/playwright.config.ts": "a0ad98e939f5bc1c7106864e96086a4b8570d898ae614c908929f6c5e5568263",
+    "apps/poms-admin-e2e/project.json": "71f535357441ddb62127831fc0c3aab4e612be16461ffc032f01114f3c4f9940",
+    "apps/poms-admin-e2e/src/r1d-auth.smoke.spec.ts": "f6101643a611ae2c0f2788d0a3650a99b45206709858093734b301daa3b285fc",
+    "apps/poms-admin-e2e/src/support/server-setup.ts": "cc78422b15a3c62b074a6a595ecb667cd2c2bc383cfaa629612b2f5673323f7b",
+    "apps/poms-api-e2e/jest.config.ts": "f21f51614136f834ea42a52e57e59a6f4c1ac73f4f5435f3a380f292f26737a7",
+    "apps/poms-api-e2e/project.json": "6531590f8a39609a8529af97ea9357193d21750675ed4f75d986a1a967a1be41",
+    "apps/poms-api-e2e/src/poms-api/commission-workflow.e2e-spec.ts": "c3aaba35e4d21141da52e62bc332f9a826dadd4a50d24f41f54b7f4ca86b1529",
+    "apps/poms-api-e2e/src/poms-api/contract-readiness-workflow.e2e-spec.ts": "a71e115a3076f04c850be5f14f5afe4b34df98cf2f32d185a76008380a2ca7fe",
+    "apps/poms-api-e2e/src/poms-api/contract-workflow.e2e-spec.ts": "7d0057946005f06b960f041e0696ca779e901396e92e3b7d5d71bcc0d1e9bad5",
+    "apps/poms-api-e2e/src/poms-api/foundation.e2e-spec.ts": "174e509fe9b5857a39623a7d272a994764429ac1fc850dc2a175f09542fa80f2",
+    "apps/poms-api-e2e/src/poms-api/platform-governance.e2e-spec.ts": "a01a6854a38fcb00a639fa5751b6170464daa3b6e01bc9c79092a0c06429d490",
+    "apps/poms-api-e2e/src/poms-api/project-handover-workflow.e2e-spec.ts": "dfcac97f5c867721d89afcfff62faa9cbe2574c5909d81bd3f004b3a0a27ef1b",
+    "apps/poms-api-e2e/src/support/api-client.ts": "8a726bf64f79e580abab72c05e03e8cc47f5e67e4524ba4bd5ef315f196c8851",
+    "apps/poms-api-e2e/src/support/commission-api.ts": "50e368ea341cb981f3813605a11d19ca8a02be4d25dd12eda32b1432cbbf88d2",
+    "apps/poms-api-e2e/src/support/contract-api.ts": "32873720b2d68fbd70a8861fdc211e918c9d8c0279b0296bc2474c1823c31d85",
+    "apps/poms-api-e2e/src/support/global-setup.ts": "dd04ddc261bf4825aa0dabfa0b310b0ff6a2cfdeb77f56eae33e7237d636769c",
+    "apps/poms-api-e2e/src/support/global-teardown.ts": "13648887897df73077409c93af3fd7862bbd244d2da4af7158279ebed3a6da12",
+    "apps/poms-api-e2e/src/support/http-transport.ts": "5147f2ca09cf5bdb91fc1f99217a544f0143ae1913472cd22f3c4e1f06f72b94",
+    "apps/poms-api-e2e/src/support/http.ts": "8fa62dfdb118260ad5c0d091360fdd11e3c20013c93f39c7d9053a29dbca6fbd",
+    "apps/poms-api-e2e/src/support/server-config.ts": "e40374da95d2795869b26cc8e3be7612bfa013d5bd395c6cd1ca08fa6991e73c",
+    "apps/poms-api-e2e/src/support/server-harness.ts": "068b6e1c7de0cb1a322f3ccf6c1d49b71378a98541d1bb6c019d700fbf030316",
+    "apps/poms-api-e2e/src/support/test-data.ts": "5aa1be37523d782ae4015dc25593bd2b850cd81bfa64e4ef79f06c4a146c24c4",
+    "apps/poms-api-e2e/src/support/test-setup.ts": "4a2c387689200d7cf76a03526535e08992191f54bc985b7801adedcceb018a8a",
+    "libs/shared/api-client/project.json": "c0ee6159a0de1071ea10b07707393d1a69e8a68c5aaba926b624bc05ef5d79fa",
+    "libs/shared/contracts/package.json": "a2e1ccab5c0310a523d3653cc5d44a401c9f26196753104bde3b54da06dd3ba6",
+    "libs/shared/contracts/project.json": "b48b0014cea87ab42128f7f62f7a25ba8a6d2be361b4346551911d9db4da956b",
+    "tools/e2e/admin-launcher.cjs": "f034ffc8d1dd60974c11a24d7fceafae2e2221dd34b6f625d80d3c74cb22ce56",
+    "tools/e2e/admin-launcher.d.cts": "c39b70260bb7e503126c7efdd18125353bbb727bfb72403fc433dabc6ec261f6",
+    "tools/e2e/admin-launcher.test.cjs": "cf9f578ea887f289614dd5d3939d55eb76853d7e436d40bf36103525101bfd86",
+    "tools/e2e/api-server.cjs": "7770f032dbada0ead352b14b8c35d1948198b395530575779d93147b0cb8defa",
+    "tools/e2e/api-server.d.cts": "ccef6db6e128873a9f0e94d7162dc3c0191e8b0ae499a1078e49e77287a02f51",
+    "tools/e2e/api-server.test.cjs": "7205aea3840e69f7449c3d3c2cbfd105bbf869a5811ffb7ef01eda5c9b7278bd",
+    "tools/e2e/browser-tsconfig.json": "1a63ff2960e8de1a37637a03ae0734b28abe410932af08c96b464eda44328234",
+    "tools/e2e/fixtures/server.cjs": "d42ae75f6d298db9d074f3989a76ad47357eecca39a0e3180fd2a8360ba8bff7",
+    "tools/e2e/fixtures/stubborn.cjs": "beeb6b55db8b3043dd1b76ae00cd25b625de6848d968dee19c5ef5f9c9ae8ca9",
+    "tools/e2e/process-identity.ps1": "65edb38e6e38da1b72069291802fc49bc05d9a55d896fb7f95640d0a478c4997",
+    "tools/e2e/runtime-worker.cjs": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+    "tools/e2e/runtime.cjs": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+    "tools/e2e/runtime.d.cts": "647e176462723fce3dd578a3dca8f2a1f793a921f6be3a9c4ff15944f04f9227",
+    "tools/e2e/runtime.test.cjs": "d745bf2c0c14d586f40b22057b68d4bedd2d78e78715d05cf41c97732fb13764",
+    "tools/openapi/capture-normalization-oracle.mjs": "855af8119d2d1113e2b9939e94f786cb01708c5f026ca0ef2bdb2eebf1587f2e",
+    "tools/openapi/check-shared-api-client.ps1": "31fb30998fd55db3c01a1683454d92a325d46788f300d0ef921a5146c68e63ef",
+    "tools/openapi/ensure-java17.ps1": "7323d2888c2ef0d2afe784a861fbc099382f726b44e8f9a9a7c384614bf48ed1",
+    "tools/openapi/generate-shared-api-client.ps1": "3b21782969064352d46b7bd7e8edced1f24802a6bdf0f6ac9afca2c1ff9d188b",
+    "tools/openapi/normalization-oracle.json": "45d05ebd20f459afa3435ccb2adc124452b9592d308829051a94d364dafc586b",
+    "tools/openapi/normalize-line-endings.ps1": "71bd18cf4a47724a0607ca970405fb288c69a65eede659f28b591b971f132a1e",
+    "tools/openapi/shared-api-client-baseline.json": "f9dd1caa0268cfa868608bf5961fc75e3bd5ed99f519af88c04458e55fd14041",
+    "tools/openapi/shared-api-client.integration.test.mjs": "53749e0eed2b77f7f1e9de45ed0ffbf958eb91c329e2797f7f967029456c95b9",
+    "tools/openapi/shared-api-client.mjs": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d",
+    "tools/openapi/shared-api-client.test.mjs": "012d7e69c9df776720e12d238b46434dfc87025ff6868e5fdbf69138b1b128f1",
+    "tools/rust-r1d/Containerfile.browser": "95ef2f278af9d79b512dc80adb048758b231ae6d2bb1b54229f6a921f79a636a",
+    "tools/rust-r1d/database-environment.mjs": "14255d171a28eb40410961a22d12e7234eb1ec9267ad52241be628f0079cbfe5",
+    "tools/rust-r1d/environment.sh": "8129a2f396003a8ac7ed79b8e42153501a9f60e6a34402b388627ae1b26bfc61",
+    "tools/rust-r1d/managed-environment.cjs": "8e1ce349f5b8988390fc432318eee8a72890bfb9e04da0131dd292228a9ad1af",
+    "tools/rust-r1d/managed-environment.test.cjs": "b00f042072143caeac011b6055e2eb24baac0d32d68d101f3144c90105ff3b2b",
+    "tools/rust-r1d/verify-external-api.cjs": "b556c1570de967f3a2ace2cfecc7a0bc24e93b0180455213e1d96f549f8a3856"
+  },
+  "protectedProductionInputsUnchanged": [
+    "apps/poms-api/src",
+    "apps/poms-api-rust",
+    "apps/poms-admin/src",
+    "libs/shared/contracts/src",
+    "libs/api/contracts/src",
+    "libs/shared/api-spec/openapi.json",
+    "pnpm-lock.yaml",
+    "package.json",
+    "openapitools.json",
+    "tools/openapi/typescript-angular.config.json"
+  ],
+  "clientContentUnchangedExceptHandMaintainedNxTarget": true,
+  "finalArtifactChecks": {
+    "windowsLinuxSourceFilesEqual": 56,
+    "markdownTableFormat": "pass",
+    "gitDiffCheck": "pass",
+    "markdownFilesChecked": 11,
+    "relativeLinksChecked": 69,
+    "allRelativeLinksResolve": true
+  },
+  "versions": {
+    "windowsNode": "24.19.0",
+    "linuxNode": "24.16.0",
+    "pnpm": "12.3.4",
+    "playwright": "1.63.0",
+    "chromiumRevision": "1243",
+    "chromiumFullVersion": "153.0.8010.12",
+    "windowsJava": "17.0.12",
+    "linuxJava": "17.0.21",
+    "generator": "7.20.0",
+    "rust": "1.99.1",
+    "rustBinarySha256": "bd7f4804377bbd3db1b93a0e0e6e93fd0fa594ef70cd607d2a3d9fec16ac3c3f"
+  },
+  "database": {
+    "engine": "PostgreSQL15.12",
+    "serverVersionNum": 150012,
+    "loopbackPort": 15432,
+    "imageSha256": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "databases": [
+      "poms_r1d_nest",
+      "poms_r1d_rust"
+    ],
+    "marker": "a6510dc4-e988-4cc8-a106-3bb134e36710",
+    "runtimeRole": "poms_r1d_app",
+    "adminFlagsAllFalse": true,
+    "roleMemberships": 0,
+    "schemaCreate": false,
+    "controlMarkerReadableByRuntime": false,
+    "originalMigrationsPerCopy": 92,
+    "originalMigrationSourceSha256": "39153fabce2fd82b52bb49700c883f7684f16c4a539573545988243410c38532",
+    "catalogTables": 10,
+    "catalogFields": 121,
+    "catalogBothCopiesSha256": "6190b395b2acb8bccd2832cfe4a7ce3f29259b3714ca95cb55ba6082e33c077b",
+    "seed": "Original DatabaseSeeder, explicit scope/identity guard; repeated explicitly before nest-full",
+    "pg17BeforeAndAfterServiceMetadata": {
+      "Name": "postgresql-x64-17",
+      "ProcessId": 6996,
+      "State": "Running",
+      "StartMode": "Auto"
+    },
+    "pg17SqlOrMutationsPerformed": false
+  },
+  "linuxBrowserImage": {
+    "sha256": "40946b3f8c4be299594da0968be9656f010b2e73df6be115c9555e155528997d",
+    "parentSha256": "ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273",
+    "rebuildRequiresVerifyingLocalParentTagResolution": true
+  },
+  "nodeLifecycle": {
+    "windows": {
+      "log": "lifecycle-windows-final-accepted.log",
+      "tests": 47,
+      "skipped": 0,
+      "result": "pass"
+    },
+    "linux": {
+      "log": "lifecycle-linux-final-accepted.log",
+      "tests": 47,
+      "skipped": 0,
+      "result": "pass"
+    },
+    "breakdown": {
+      "runtime": 10,
+      "apiAdapter": 4,
+      "browserAdapter": 11,
+      "environmentAdmission": 22
+    },
+    "linuxTerminatedZombieObservation": {
+      "anchor": {
+        "pid": 9,
+        "absent": true,
+        "error": "ENOENT"
+      },
+      "server": {
+        "pid": 16,
+        "absent": true,
+        "error": "ENOENT"
+      },
+      "descendant": {
+        "pid": 23,
+        "state": "Z",
+        "ppid": "1",
+        "group": "9",
+        "exitCode": "9",
+        "fdError": "EACCES"
+      }
+    },
+    "finalStopChecks": "anchor absent and zero non-Z group members; vanished anchor with live descendants fails without signaling; zombies explicitly verified as Z/SIGKILL9"
+  },
+  "api": {
+    "nestFullWindows": {
+      "file": "nest-full-windows-accepted.json",
+      "sha256": "be5f4376b1de84d42c0183b477848ebdcc3167d4fe97472ca1c9277679ea5122",
+      "tests": 72,
+      "suites": 14,
+      "skipped": 0,
+      "result": "pass"
+    },
+    "foundation": [
+      {
+        "file": "foundation-windows-nest-accepted.json",
+        "sha256": "9515f9af3bcbf5de8d38ac829caadae5fe04a953535326b0a273186ec4c1e2f6",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      },
+      {
+        "file": "foundation-linux-nest.json",
+        "sha256": "5a2358de754c28871d7055a4f123128f4e54d934839635adbf292826440e577b",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      },
+      {
+        "file": "foundation-linux-rust-final.json",
+        "sha256": "4c151b59070b8b038edd50aaa7f120447529fd8a4949f6195d9444d2dfcbfcfb",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      },
+      {
+        "file": "external-win32-managed-nest.json",
+        "sha256": "450eb4e91a0b6bb3c914ef7ed86d4ef212b7ae93c2401f1de01c7d1bd90bbe65",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      },
+      {
+        "file": "external-linux-managed-nest.json",
+        "sha256": "e23b186e60ee40c07039748f413286f03332b433b86d2707a5e8a344300e5e05",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      },
+      {
+        "file": "external-linux-managed-rust.json",
+        "sha256": "0ac4de68bd6a0f5adf87780e5d4ea2d666a9697464aa548933bde023d2d6be6c",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      },
+      {
+        "file": "foundation-windows-external-rust.json",
+        "sha256": "ae9f0347f7ad175e9ec51b003255fdf6dd92e180b6ef5bf97c82a0d1450fd925",
+        "tests": 13,
+        "suites": 1,
+        "skipped": 0,
+        "result": "pass"
+      }
+    ],
+    "externalOwnership": [
+      {
+        "kind": "independent-external-api",
+        "platform": "win32",
+        "backend": "managed-nest",
+        "origin": "http://127.0.0.1:4700",
+        "tests": 13,
+        "serverPid": 13404,
+        "independentlyOwnedServerSurvived": true,
+        "unusableLocalDatabaseEnvironmentIgnored": true
+      },
+      {
+        "kind": "independent-external-api",
+        "platform": "linux",
+        "backend": "managed-nest",
+        "origin": "http://127.0.0.1:4700",
+        "tests": 13,
+        "serverPid": 794,
+        "independentlyOwnedServerSurvived": true,
+        "unusableLocalDatabaseEnvironmentIgnored": true
+      },
+      {
+        "kind": "independent-external-api",
+        "platform": "linux",
+        "backend": "managed-rust",
+        "origin": "http://127.0.0.1:4701",
+        "tests": 13,
+        "serverPid": 16,
+        "independentlyOwnedServerSurvived": true,
+        "unusableLocalDatabaseEnvironmentIgnored": true
+      },
+      {
+        "kind": "independent-linux-owner-windows-external",
+        "origin": "http://127.0.0.1:4701",
+        "pid": 16,
+        "startedAt": "2026-10-26T01:46:24.466Z",
+        "independentServerSurvivedWindowsTests": true,
+        "ownerCleanupCompleted": true,
+        "evidenceSource": "outer controller exec output, after Windows Jest and Playwright completed; finite deadline; guarded owned runtime"
+      }
+    ],
+    "originalAssertions": "Original 14 suite names/72 test names retained; AST assertion comparison differs only in three frozen-product 409 resource-name strings; no skip/only/todo",
+    "maxListenersWarningInFinalFullRun": false
+  },
+  "browser": [
+    {
+      "report": "browser-windows-nest.json",
+      "sha256": "d8ccfe0db2dfb957e3091a08c93cd48dcc07c77a6ff836fd231d9d9c0588a660",
+      "stats": {
+        "startTime": "2026-10-26T01:40:57.071Z",
+        "duration": 68584.19499999999,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "evidence": {
+        "kind": "real-browser-auth-smoke",
+        "os": "win32",
+        "node": "v24.19.0",
+        "browser": "153.0.8010.12",
+        "target": {
+          "mode": "managed-nest",
+          "suite": "auth",
+          "adminOrigin": "http://127.0.0.1:4800",
+          "apiOrigin": "http://127.0.0.1:4700",
+          "database": "poms_r1d_nest"
+        },
+        "operations": [
+          "GET /api",
+          "GET /api/auth/csrf-token",
+          "GET /api/auth/session",
+          "GET /api/health",
+          "GET /api/health/readiness",
+          "POST /api/auth/session:logout",
+          "POST /api/auth/sessions"
+        ],
+        "result": "pass",
+        "operationResults": [
+          {
+            "operation": "GET /api",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health/readiness",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/sessions",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 403
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          }
+        ],
+        "realAngularFormLogin": true,
+        "browserCookieAssertionsPassed": true,
+        "proxy": "same-origin Angular /api",
+        "outsideFoundation": [
+          {
+            "operation": "GET /api/auth/identity-providers",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/me/navigation",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/me/todos",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/projects",
+            "status": 200
+          }
+        ],
+        "outsideFoundationClaim": "Observed only; no R2 provider/navigation/todo/business contract is certified",
+        "syntheticSessionCleanupPassed": true
+      }
+    },
+    {
+      "report": "browser-windows-rust.json",
+      "sha256": "866b2783ecee97e19505b74b1398fd14e9ef6b9182a95cc3d038cf1b649798d1",
+      "stats": {
+        "startTime": "2026-10-26T01:46:45.038Z",
+        "duration": 42238.636,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "evidence": {
+        "kind": "real-browser-auth-smoke",
+        "os": "win32",
+        "node": "v24.19.0",
+        "browser": "153.0.8010.12",
+        "target": {
+          "mode": "external",
+          "suite": "auth",
+          "adminOrigin": "http://127.0.0.1:4800",
+          "apiOrigin": "http://127.0.0.1:4701",
+          "database": "external: caller-declared target"
+        },
+        "operations": [
+          "GET /api",
+          "GET /api/auth/csrf-token",
+          "GET /api/auth/session",
+          "GET /api/health",
+          "GET /api/health/readiness",
+          "POST /api/auth/session:logout",
+          "POST /api/auth/sessions"
+        ],
+        "result": "pass",
+        "operationResults": [
+          {
+            "operation": "GET /api",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health/readiness",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/sessions",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 403
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          }
+        ],
+        "realAngularFormLogin": true,
+        "browserCookieAssertionsPassed": true,
+        "proxy": "same-origin Angular /api",
+        "outsideFoundation": [
+          {
+            "operation": "GET /api/auth/identity-providers",
+            "status": 404
+          },
+          {
+            "operation": "GET /api/me/navigation",
+            "status": 404
+          },
+          {
+            "operation": "GET /api/me/todos",
+            "status": 404
+          },
+          {
+            "operation": "GET /api/projects",
+            "status": 404
+          }
+        ],
+        "outsideFoundationClaim": "Observed only; no R2 provider/navigation/todo/business contract is certified",
+        "syntheticSessionCleanupPassed": true
+      }
+    },
+    {
+      "report": "browser-linux-nest.json",
+      "sha256": "838d0bf7f6cc30ad693636dd7e831ad2b6500b42f1d68febd6f8f085b8a830d9",
+      "stats": {
+        "startTime": "2026-10-26T01:41:15.379Z",
+        "duration": 60318.732,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "evidence": {
+        "kind": "real-browser-auth-smoke",
+        "os": "linux",
+        "node": "v24.16.0",
+        "browser": "153.0.8010.12",
+        "target": {
+          "mode": "managed-nest",
+          "suite": "auth",
+          "adminOrigin": "http://127.0.0.1:4800",
+          "apiOrigin": "http://127.0.0.1:4700",
+          "database": "poms_r1d_nest"
+        },
+        "operations": [
+          "GET /api",
+          "GET /api/auth/csrf-token",
+          "GET /api/auth/session",
+          "GET /api/health",
+          "GET /api/health/readiness",
+          "POST /api/auth/session:logout",
+          "POST /api/auth/sessions"
+        ],
+        "result": "pass",
+        "operationResults": [
+          {
+            "operation": "GET /api",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health/readiness",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/sessions",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 403
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          }
+        ],
+        "realAngularFormLogin": true,
+        "browserCookieAssertionsPassed": true,
+        "proxy": "same-origin Angular /api",
+        "outsideFoundation": [
+          {
+            "operation": "GET /api/auth/identity-providers",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/me/navigation",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/me/todos",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/projects",
+            "status": 200
+          }
+        ],
+        "outsideFoundationClaim": "Observed only; no R2 provider/navigation/todo/business contract is certified",
+        "syntheticSessionCleanupPassed": true
+      }
+    },
+    {
+      "report": "browser-linux-rust.json",
+      "sha256": "155f0a70a1253e8541c383c7eaa27063be8df27f90903bf2e6946c9e55964978",
+      "stats": {
+        "startTime": "2026-10-26T01:42:38.633Z",
+        "duration": 21690.277000000002,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "evidence": {
+        "kind": "real-browser-auth-smoke",
+        "os": "linux",
+        "node": "v24.16.0",
+        "browser": "153.0.8010.12",
+        "target": {
+          "mode": "managed-rust",
+          "suite": "auth",
+          "adminOrigin": "http://127.0.0.1:4800",
+          "apiOrigin": "http://127.0.0.1:4701",
+          "database": "poms_r1d_rust"
+        },
+        "operations": [
+          "GET /api",
+          "GET /api/auth/csrf-token",
+          "GET /api/auth/session",
+          "GET /api/health",
+          "GET /api/health/readiness",
+          "POST /api/auth/session:logout",
+          "POST /api/auth/sessions"
+        ],
+        "result": "pass",
+        "operationResults": [
+          {
+            "operation": "GET /api",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/health/readiness",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/sessions",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 403
+          },
+          {
+            "operation": "GET /api/auth/csrf-token",
+            "status": 200
+          },
+          {
+            "operation": "POST /api/auth/session:logout",
+            "status": 200
+          },
+          {
+            "operation": "GET /api/auth/session",
+            "status": 200
+          }
+        ],
+        "realAngularFormLogin": true,
+        "browserCookieAssertionsPassed": true,
+        "proxy": "same-origin Angular /api",
+        "outsideFoundation": [
+          {
+            "operation": "GET /api/auth/identity-providers",
+            "status": 404
+          },
+          {
+            "operation": "GET /api/me/navigation",
+            "status": 404
+          },
+          {
+            "operation": "GET /api/me/todos",
+            "status": 404
+          },
+          {
+            "operation": "GET /api/projects",
+            "status": 404
+          }
+        ],
+        "outsideFoundationClaim": "Observed only; no R2 provider/navigation/todo/business contract is certified",
+        "syntheticSessionCleanupPassed": true
+      }
+    }
+  ],
+  "windowsBrowserCacheResolution": {
+    "formatVersion": 1,
+    "observedDate": "2026-10-26",
+    "scope": "R1D Windows private browser-cache diagnosis; isolated about:blank/title probe only, not application smoke",
+    "browser": {
+      "playwrightVersion": "1.63.0",
+      "revision": "1243",
+      "version": "153.0.8010.12",
+      "platform": "win64",
+      "kind": "full-chromium",
+      "executableRelative": "chromium-1243/chrome-win64/chrome.exe"
+    },
+    "officialArtifact": {
+      "url": "https://storage.googleapis.com/chrome-for-testing-public/153.0.8010.12/win64/chrome-win64.zip?generation=1787703838651479",
+      "generation": "1787703838651479",
+      "bytes": 205123748,
+      "publisherMd5": "7a2d3d6fc48ee219dc45902b8493d401",
+      "publisherMd5Matched": true,
+      "sha256": "415968b02065d4a9e2c10b85f0ae9f489b8fba500e94d9d0a7b7c4852a7234c1"
+    },
+    "criticalOfficialFiles": [
+      {
+        "file": "chrome-win64/153.0.8010.12.manifest",
+        "sha256": "e1d2a45582f9427029098886cd82f68d85d77b18e7fa79be855d8ffd1986c131"
+      },
+      {
+        "file": "chrome-win64/chrome.exe",
+        "sha256": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711"
+      },
+      {
+        "file": "chrome-win64/chrome_elf.dll",
+        "sha256": "eadf93b6299493818f9b1be3acc3fb5592f38eebc2558b101ee9c9ef9979d2d5"
+      }
+    ],
+    "officialFileVerification": {
+      "method": "Each non-directory ZIP member SHA256 of decompressed stream equals SHA256 of extracted disk file",
+      "verifiedFiles": 308,
+      "allMatched": true,
+      "officialFilesModified": false,
+      "fileManifestSha256": "6b9884508e09fbac89f667e5658b8e3f38beafc8bd98c75e96f631a050f2260d",
+      "fileManifestRecipe": "UTF8 without BOM; compact JSON array of {file,sha256} in ZIP entry order",
+      "extraRuntimeFiles": [
+        {
+          "file": "DEPENDENCIES_VALIDATED",
+          "bytes": 0,
+          "createdBy": "Playwright host validation"
+        }
+      ]
+    },
+    "activationObservations": [
+      {
+        "locationLabel": "original-r1d-private-cache",
+        "browserVersion": "153.0.8010.12",
+        "exeActivationWin32Error": 14001,
+        "standalonePrivateManifestWin32Error": 0
+      },
+      {
+        "locationLabel": "fresh-official-extraction-under-r1d-private-root",
+        "browserVersion": "153.0.8010.12",
+        "exeActivationWin32Error": 14001,
+        "standalonePrivateManifestWin32Error": 0
+      },
+      {
+        "locationLabel": "existing-older-cache-control-only",
+        "browserVersion": "147.0.7727.15",
+        "exeActivationWin32Error": 0,
+        "browserLaunched": false
+      },
+      {
+        "locationLabel": "older-three-file-copy-under-r1d-private-root-control-only",
+        "browserVersion": "147.0.7727.15",
+        "exeActivationWin32Error": 14001,
+        "browserLaunched": false
+      },
+      {
+        "locationLabel": "existing-older-cache-control-only",
+        "browserVersion": "148.0.7778.96",
+        "exeActivationWin32Error": 0,
+        "browserLaunched": false
+      },
+      {
+        "locationLabel": "fresh-official-temp-private-cache",
+        "browserVersion": "153.0.8010.12",
+        "exeActivationWin32Error": 0,
+        "standalonePrivateManifestWin32Error": 0
+      }
+    ],
+    "realLaunchObservations": [
+      {
+        "locationLabel": "original-r1d-private-cache",
+        "kind": "full-chromium",
+        "result": "failed",
+        "category": "spawn UNKNOWN",
+        "nativeError": 14001
+      },
+      {
+        "locationLabel": "fresh-official-extraction-under-r1d-private-root",
+        "kind": "full-chromium",
+        "result": "failed",
+        "category": "spawn UNKNOWN",
+        "ownedChromeRemaining": 0
+      },
+      {
+        "locationLabel": "fresh-official-temp-private-cache",
+        "kind": "full-chromium",
+        "result": "passed",
+        "headless": true,
+        "version": "153.0.8010.12",
+        "pageTitle": "R1D owned Chromium diagnostic",
+        "contextClosed": true,
+        "ownedChromeRemaining": 0,
+        "ownedProfileRemoved": true
+      },
+      {
+        "locationLabel": "original-r1d-private-cache",
+        "kind": "headless-shell-control-only",
+        "result": "passed",
+        "headless": true,
+        "version": "153.0.8010.12",
+        "fullChromium": false,
+        "contextClosed": true,
+        "ownedProcessesRemaining": 0,
+        "usedForFullChromiumAcceptance": false
+      }
+    ],
+    "resolution": {
+      "classification": "cache-location-dependent activation failure",
+      "action": "Use the fresh dedicated Temp cache containing unchanged official full Chromium files",
+      "browserVersionChanged": false,
+      "binaryOrManifestPatched": false,
+      "oldCacheChanged": false,
+      "systemChromeOrEdgeChanged": false,
+      "systemOrRegistryChanged": false,
+      "systemPackagesInstalled": false,
+      "rebootPerformed": false,
+      "underlyingAclMechanism": "Not established; differing inherited security contexts are correlational evidence only",
+      "applicationSmokeClaim": false
+    },
+    "diagnosticScripts": {
+      "activationProbeSha256": "d0aef8e5d810b31d9494fa13ee32b4e234e5ce5832af5fc8c0fc1c3cdd1e5c9d",
+      "browserProbeSha256": "e5658e48945385597d18052ac44c69990d00f79ee4984a5fe8961af4f96d05b1"
+    }
+  },
+  "clientGeneration": {
+    "windows": {
+      "nodeVersion": "24.19.0",
+      "toolSha256": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d",
+      "parsedBaselineSha256": "36a43d3cb1f75f99fd339d3324808c7ae15c30bea7b3c57f6a8d7fcb9c04faff",
+      "spec": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+        "paths": 237,
+        "operations": 291,
+        "schemas": 585
+      },
+      "generator": {
+        "version": "7.20.0",
+        "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+        "javaVersion": "17.0.12",
+        "directJar": true,
+        "stdoutSha256": "ae72ff946e7fe18db00f532f94a7e81df19cee101b58deb79fe481e101293ed1",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "clientFiles": 579,
+      "manifestSha256": "031985f5c21052697975b5c9f9f0b0d250eb6d14a7a69509e11b6cf6ef8141a8",
+      "clientWritten": false,
+      "metadataPreserved": true
+    },
+    "linux": {
+      "nodeVersion": "24.16.0",
+      "toolSha256": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d",
+      "parsedBaselineSha256": "36a43d3cb1f75f99fd339d3324808c7ae15c30bea7b3c57f6a8d7fcb9c04faff",
+      "spec": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+        "paths": 237,
+        "operations": 291,
+        "schemas": 585
+      },
+      "generator": {
+        "version": "7.20.0",
+        "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+        "javaVersion": "17.0.21",
+        "directJar": true,
+        "stdoutSha256": "ec817f99e72056c37065ea7874baaaab8d149f4c11bd54d85beeb5f187a2c248",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "clientFiles": 579,
+      "manifestSha256": "031985f5c21052697975b5c9f9f0b0d250eb6d14a7a69509e11b6cf6ef8141a8",
+      "clientWritten": false,
+      "metadataPreserved": true
+    },
+    "sameFullSourceManifest": [
+      {
+        "file": "libs/shared/api-spec/openapi.json",
+        "sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+      },
+      {
+        "file": "tools/openapi/typescript-angular.config.json",
+        "sha256": "66ab0dcda041e7a04d1adec65827d89269d30bd3336f6a707fdbd99dc5e9512d"
+      },
+      {
+        "file": "openapitools.json",
+        "sha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce"
+      },
+      {
+        "file": "package.json",
+        "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+      },
+      {
+        "file": ".gitattributes",
+        "sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c"
+      }
+    ],
+    "all579FilesEqual": true,
+    "fileManifest": [
+      {
+        "file": ".gitignore",
+        "sha256": "5d06e3029b1e6aa5dd85c360766039ee9a768a0bc80d1b9848f3f392a6f677fe"
+      },
+      {
+        "file": ".openapi-generator-ignore",
+        "sha256": "a6ed8f4e275eee926d27e0c52f30f2d1c4d8409465ac1fbc4511f7cc62de51db"
+      },
+      {
+        "file": ".openapi-generator/FILES",
+        "sha256": "280bb39407c373a6294445008d8609e648c9a9faab336767a7e863a85562b739"
+      },
+      {
+        "file": ".openapi-generator/VERSION",
+        "sha256": "931c02c7dc5f810ee1e8f3c871e11e6b332edaaaa4a8b9d465ee8b3e375255f7"
+      },
+      {
+        "file": "README.md",
+        "sha256": "febf89c00138b1c4ca5624a20ea8ae4b29f23fb27ebf8fa71a7cff5314dd44fa"
+      },
+      {
+        "file": "api.base.service.ts",
+        "sha256": "d7e43649c55755e2812024597ff8cdfc2cd990a2e92ddabaa2d2bb7670b51945"
+      },
+      {
+        "file": "api.module.ts",
+        "sha256": "6314f8ad34684d7a799822f2a9e6fa1d84489c5b709f68bd416f5d7636c6c3bc"
+      },
+      {
+        "file": "api/api.ts",
+        "sha256": "1431e862713926e2612bc5c795d3fd9b701f4409bc1246618da396962b98d252"
+      },
+      {
+        "file": "api/app.service.ts",
+        "sha256": "c11705772b19a79fdf075938949914a38539d3a141b61dfe85ccf67db7fbdd89"
+      },
+      {
+        "file": "api/approval.service.ts",
+        "sha256": "10875078ef39a5a09e64d2064aa240532d659c9fd87d5752b5fa9d5eb2550e0e"
+      },
+      {
+        "file": "api/attachment-handover.service.ts",
+        "sha256": "3bd07ceea1ee4757ade7cd203869ba672e77d5bbdd6773bab0100182ee424508"
+      },
+      {
+        "file": "api/attachment-storage-provider.service.ts",
+        "sha256": "321b03e881394ecc4b81d20fe2e0ee4bb327bd489b04d5eee6a8141a5e103e4c"
+      },
+      {
+        "file": "api/attachment-upload-session.service.ts",
+        "sha256": "9c037386ef5dbe59ae2d78b458273c3ede2c2d97b0a39f5c6087530f685cfbcd"
+      },
+      {
+        "file": "api/attachment.service.ts",
+        "sha256": "8872c03af91cc97baaf0f973a03bddc8bb3ecb7fa77e594257bd756edff03510"
+      },
+      {
+        "file": "api/auth.service.ts",
+        "sha256": "106c90b14379defece9b1b8a4eb24801e903e813a06e0a6247c992efe9b36a8d"
+      },
+      {
+        "file": "api/business-discussion.service.ts",
+        "sha256": "44c1864e8016cbd2ce20f2de0eecb736a1e2822b116c44b5196ad4d7c0da1e73"
+      },
+      {
+        "file": "api/commission-departure-exception-decisions.service.ts",
+        "sha256": "b92303cafc5891e304fb50fc07fd8e635afe762485d51e8a3bb161e2a343ba4b"
+      },
+      {
+        "file": "api/commission-freeze-change-requests.service.ts",
+        "sha256": "abd4505fc5fdc39f3035cefc800a9928fd806ee002270702a64136872cb90234"
+      },
+      {
+        "file": "api/commission-freeze-disputes.service.ts",
+        "sha256": "b42c143393c208ff24f4ac15366c3bbe4445014fafa8243bc7f4a5733aba7553"
+      },
+      {
+        "file": "api/commission-role-assignments.service.ts",
+        "sha256": "9715e0126c27a7b72b2dc2c7fb72474f167dfe444e04c72f1e84ccd32f4f6935"
+      },
+      {
+        "file": "api/commission.service.ts",
+        "sha256": "79001d94f4106510a1583b2f170d4e1b037958663bea75fb0d27a76c28d0cf14"
+      },
+      {
+        "file": "api/contract-finance.service.ts",
+        "sha256": "94a997fc3190f7c111d87cca8c53feb5a577e6c0333f05a2c926601efddcd50f"
+      },
+      {
+        "file": "api/contract-readiness.service.ts",
+        "sha256": "e88d8fb78650aa340f5ccf651b610266c0266979104ae8adc6384d5230c21a57"
+      },
+      {
+        "file": "api/contract.service.ts",
+        "sha256": "80012757d1ca12315d22f062b7748d5fe91d7cdeb4480790cfc8868d555b4817"
+      },
+      {
+        "file": "api/customer.service.ts",
+        "sha256": "02084debb1440690c5bda3c77ac8503f8093527f6a55c75184eee2832a7b5587"
+      },
+      {
+        "file": "api/dictionary.service.ts",
+        "sha256": "16820088fc8bff7844db6dc8f11cb434c42909b3ccc325a88fe8710591d64d95"
+      },
+      {
+        "file": "api/external-identity.service.ts",
+        "sha256": "e0603ef68304dab76871a0facc747182119f0c9d48b2fb7916627d113cf6fbad"
+      },
+      {
+        "file": "api/external-org-sync.service.ts",
+        "sha256": "b2dec7f4200669319a5103ccf2bd2ceacd99700bca273db9919a5b7ba1bbea5b"
+      },
+      {
+        "file": "api/health.service.ts",
+        "sha256": "187be36960d82c1c74add3353a39e515e867eae97031d83c4fdc2928f42cf333"
+      },
+      {
+        "file": "api/identity-provider-o-auth-grant.service.ts",
+        "sha256": "620e5b937714d8ce6a582b93529f4fbf9e0bb5e1d6a721e509c7c43e67d82713"
+      },
+      {
+        "file": "api/identity-provider.service.ts",
+        "sha256": "9b2d76029b866381ea49f815f7e5eb4c9d8c63692d04cd9f5744f64aa334e491"
+      },
+      {
+        "file": "api/lead.service.ts",
+        "sha256": "481807eae00019b5f6fc4df98dba78c28082d65e8855fdfcc707d96b21a56cc8"
+      },
+      {
+        "file": "api/navigation.service.ts",
+        "sha256": "7c681e7f86ad5c9b92449d2096c1e9af436b8f869a4383a9857f66bea0888306"
+      },
+      {
+        "file": "api/platform.service.ts",
+        "sha256": "61a727e326566da433b662cfc4b94de8254221f15125314ed03dcba4e3c0803d"
+      },
+      {
+        "file": "api/project-cost.service.ts",
+        "sha256": "8a8549a20775cc7b19e63430ecca16f6c891ae4c4bbb0a3e29098a8295d99eeb"
+      },
+      {
+        "file": "api/project-handover.service.ts",
+        "sha256": "3dca02557fefa00e192d148bef5fe86d38ba62ff473bf30025907baff22141f2"
+      },
+      {
+        "file": "api/project.service.ts",
+        "sha256": "288ab7c0c68088174d362ca8b1be1a784ecf41bca77994bf3e167238401408c3"
+      },
+      {
+        "file": "api/runtime-audit.service.ts",
+        "sha256": "741af3e3b25ca5b799d9eebc9684ce38ede6a189be5b46bc398d8fab5b67460b"
+      },
+      {
+        "file": "api/sales-follow-up.service.ts",
+        "sha256": "0a84b5688ffad9b14e3bc7921aa3ebbda594e44db7a5604a22c67fb4016fefa9"
+      },
+      {
+        "file": "api/sales-intelligence.service.ts",
+        "sha256": "e6fd7d0bfbced9bba102847ca17f428a5a4201824872af66a699eec0702afccd"
+      },
+      {
+        "file": "api/system-setting.service.ts",
+        "sha256": "07f085e8cfd58f2400efcf1b3dc31709394a508a7c431e6d8623726bac87d29e"
+      },
+      {
+        "file": "configuration.ts",
+        "sha256": "a53c14e29ca1fcba4113144964dc2433f3d4af50f8f7502afff999ae9938bf71"
+      },
+      {
+        "file": "encoder.ts",
+        "sha256": "85cdb168b5f06b2484fe99d7c506e16f5c03ba20cfb3192f03b0a2fd226cf3ca"
+      },
+      {
+        "file": "git_push.sh",
+        "sha256": "9b8b2e7dcae7d87ff8c3098e9391771df54d533daca205f6473b7e2c2dce86c6"
+      },
+      {
+        "file": "index.ts",
+        "sha256": "7fa64ee4c5b59d8d4a9085954f7d65dfd360a7bfe8ecc115d9ecb1cadb1cd28a"
+      },
+      {
+        "file": "model/abort-attachment-upload-session-request.ts",
+        "sha256": "068befb057ba3f2a78300d3c893b8077798c12c49b8619da5b1e6335713f6c73"
+      },
+      {
+        "file": "model/acceptance-record-summary.ts",
+        "sha256": "f8e35b15ab3aa07d96978d61c4d5b7252b9f2af6cc497a42687b2a4b10aba4ae"
+      },
+      {
+        "file": "model/accounting-tax-deductibility-status.ts",
+        "sha256": "e0ccb09e7846e33e6974d373878218f72880c7c37ab5ac297f071eec2f397038"
+      },
+      {
+        "file": "model/accounting-tax-treatment-snapshot-summary.ts",
+        "sha256": "617afd61298ba80698afbd21a207f300a45e940ce2dc21d1aff0ccef2d9bec76"
+      },
+      {
+        "file": "model/activate-contract-request.ts",
+        "sha256": "6bd4e17c200a925187f6a7ceed90f8f3b3ee918a8f26143df96ba42fe95654d5"
+      },
+      {
+        "file": "model/activate-external-org-source-request.ts",
+        "sha256": "560a2b25b66f2595cf00ec16bb2ea4ad3b39b4ac585486620bb1e5770590f345"
+      },
+      {
+        "file": "model/activate-operating-baseline-package-request-change-packages-inner.ts",
+        "sha256": "9294bef40df5f8603ae618c959dd13f71fb70116a2bb6c5cc284f48134d8eba0"
+      },
+      {
+        "file": "model/activate-operating-baseline-package-request.ts",
+        "sha256": "b1747e6d304792ffdc3f6af2ed332b0e1a07451a0c25be4050d624ff998e565c"
+      },
+      {
+        "file": "model/active-inactive-status.ts",
+        "sha256": "beb684a9963c739f8b2fd84e4dacaa963472b11d70d0fa1a54e4a14ca4e8182a"
+      },
+      {
+        "file": "model/apply-org-sync-run-request.ts",
+        "sha256": "f34c5520f568fa147a2cddb59ce36637c752d4a012a9223983e93ddb47ea63f7"
+      },
+      {
+        "file": "model/approval-decision.ts",
+        "sha256": "a3688d34e81faaad28515707d29d1b04714ae1ebdf2e79aff111bba4972b190e"
+      },
+      {
+        "file": "model/approval-record-summary.ts",
+        "sha256": "d123617940e4112e13d9e5595e95d948ac5992837e7353cf89ebecb0b1b81552"
+      },
+      {
+        "file": "model/approval-status.ts",
+        "sha256": "3dd856a45e9ee940a1ff4bd685d8e801ccf855a4e708e9e5371adb4ae19635a1"
+      },
+      {
+        "file": "model/approval-type.ts",
+        "sha256": "45ef1b68182e1be1065b7ac3ecf4c7828ae63bcda67816616d96527e333fe8ee"
+      },
+      {
+        "file": "model/approve-commission-payout-request.ts",
+        "sha256": "f810b617578f8386ccb2c15c1caae6d593c4b66333fb9cd802eaaa93c479b6fb"
+      },
+      {
+        "file": "model/approve-lead-score-override-request.ts",
+        "sha256": "34c9febbda9e82b6036a0a3b8e6987e7db74f8dd2b6339901d29edd7d8b28ba3"
+      },
+      {
+        "file": "model/approve-record-request.ts",
+        "sha256": "b0d7ce5810a60e1198b0c2ca37d8c3c701d770ba236cf0d8a1e10299f7b190a7"
+      },
+      {
+        "file": "model/arbitrate-commission-freeze-dispute-request.ts",
+        "sha256": "e1e357388712c725d50ea7096750b19ea9e5ff5305b3340eff5f7a418e0835be"
+      },
+      {
+        "file": "model/arbitrate-commission-freeze-dispute-result.ts",
+        "sha256": "017aa6596a7b3a55309a4dbef6176b404fcc662595c070dcdd4d6e2b43ebfcb0"
+      },
+      {
+        "file": "model/archive-external-org-source-request.ts",
+        "sha256": "9637ee9a3c3c84320a0d44ffd333c08a8a58513cab5b53b786aed2a262a822b1"
+      },
+      {
+        "file": "model/assign-lead-owner-request.ts",
+        "sha256": "cf3cc156595f496931147cefb9f3620d35bf18d12cb07ed33d578b6b3bcd140c"
+      },
+      {
+        "file": "model/assign-role-permissions-request.ts",
+        "sha256": "325ec78905c9ccc986f0debf452afb9d0353a68af427e6202b854643d928d7e9"
+      },
+      {
+        "file": "model/assign-user-org-memberships-request.ts",
+        "sha256": "d637009f916b4fe20c31f826c02656af1910745b557e5b901f316bb7a0d8142d"
+      },
+      {
+        "file": "model/assign-user-roles-request.ts",
+        "sha256": "3ce557c336765d40261888362f10264664716ed2f3f49f7d484fe50d3f6fb5ba"
+      },
+      {
+        "file": "model/attachment-center-record.ts",
+        "sha256": "d4b6e79b0fa89fddd78e2b601970495d5867c9e6ecbc7f3d926de5e093263ea3"
+      },
+      {
+        "file": "model/attachment-download-package-manifest-summary.ts",
+        "sha256": "d0c8e283a6b12c8ae0ee921a207a2a0764dab3da41ce7d5fa272cc5ef7c8292e"
+      },
+      {
+        "file": "model/attachment-download-package-status.ts",
+        "sha256": "009afdb83580c9f5304356c79ef88c8498e2a36a7e7679f7c8f8d528d05c4887"
+      },
+      {
+        "file": "model/attachment-download-package-summary.ts",
+        "sha256": "8a905dc6db377d095aa8de61316fcf217aa10c2ae685d59f1aedada42552c634"
+      },
+      {
+        "file": "model/attachment-link-status.ts",
+        "sha256": "02c5873402d945ca7468dbf9461f60637ae66ab93e52f4789acce2903b22544c"
+      },
+      {
+        "file": "model/attachment-link-summary.ts",
+        "sha256": "ed05ddac31c0e7a4ab475f1937007ef650a8ec5e15743fd7e31993c9c7e2e608"
+      },
+      {
+        "file": "model/attachment-relation-type.ts",
+        "sha256": "8304adf028e65f1d1fe60caa36740d2c0b1ba98efc60f3e337c6f1354473b626"
+      },
+      {
+        "file": "model/attachment-security-level.ts",
+        "sha256": "46b7e95af644986b064fa1a04dd298b42a0929ca7a9813404efbd503c922dd8f"
+      },
+      {
+        "file": "model/attachment-selection-version-expectation.ts",
+        "sha256": "815d946f53151573dfcad937ae101e433d9d861d4377567efc8cdfe273853cdf"
+      },
+      {
+        "file": "model/attachment-status.ts",
+        "sha256": "5744b52aec17d209c50e3df0564af575e2a59e87d3506e031dc98cbbb799882c"
+      },
+      {
+        "file": "model/attachment-storage-provider-config-status.ts",
+        "sha256": "d6061c244f0a93d01b43a18671d16726febc8255a4dcaf7045a639cc62ec22ae"
+      },
+      {
+        "file": "model/attachment-storage-provider-config-summary.ts",
+        "sha256": "7be212b38d27001e33bf394ee04ba045eb0b4b346d43dca9eca5b3f55479e4cc"
+      },
+      {
+        "file": "model/attachment-storage-provider-connection-test-result.ts",
+        "sha256": "556574773102f9e3d093fbea0b5ee27a502d48e1198bb8a8a2869aefc8768237"
+      },
+      {
+        "file": "model/attachment-storage-provider-connection-test-status.ts",
+        "sha256": "f1dba3c10491d9dbdb958859691940731cda00d1e6a1be89cab271f3cffa7a19"
+      },
+      {
+        "file": "model/attachment-storage-provider-type.ts",
+        "sha256": "1930e87f5b85c2111a0259d6a629e3cab45620e296113ebbcb3409b202de1029"
+      },
+      {
+        "file": "model/attachment-summary.ts",
+        "sha256": "7300b4443278ee290341a6d5ba6c36129e94b0364f1273f2f9070d37b4d4bc88"
+      },
+      {
+        "file": "model/attachment-target-type.ts",
+        "sha256": "2d6733839d6ff233fefaca921d7f67bd9e9c6dee9e07fcd30661ef4fb79f4cb3"
+      },
+      {
+        "file": "model/attachment-upload-mode.ts",
+        "sha256": "2fe26d1d34cb39615401723be97455a3776fd8723c14429e067ea30748b2cdd7"
+      },
+      {
+        "file": "model/attachment-upload-session-operation-type.ts",
+        "sha256": "31bfd10f89c8f9fb40418df41a0f780adb71c03fe3287c719e5ee115441ae5df"
+      },
+      {
+        "file": "model/attachment-upload-session-status.ts",
+        "sha256": "e53617ea7a592a3a84c6857bdc90bcd0f899dafb54566cc6f74c68ec8998bb8b"
+      },
+      {
+        "file": "model/attachment-upload-session-summary.ts",
+        "sha256": "ebb859ea305ae2899aa4e7aac7b7ae73e5f178c6e69c568bed6ceb4dbc8fadc4"
+      },
+      {
+        "file": "model/attachment-upload-target-method.ts",
+        "sha256": "432832c291f0dfbceadf9854edadd4f9c376b4c91e0fcf47b520da01ba796c1f"
+      },
+      {
+        "file": "model/attachment-upload-target-result.ts",
+        "sha256": "1fa580d24d2b2ae4c2da3e1e573a350529076c4ecde20ff22bc9165b36e939cd"
+      },
+      {
+        "file": "model/attachment-upload-target.ts",
+        "sha256": "ff417b8e4981eb8b5005d48c2c78067bb641e2205621582b7e163217241c6576"
+      },
+      {
+        "file": "model/audit-log-result.ts",
+        "sha256": "1741de07bac772810c09cf0fe416a8c7105a06d832a4712c219a984c250477da"
+      },
+      {
+        "file": "model/audit-log-summary.ts",
+        "sha256": "4412c01eeb1751e3bc971bf04538d1b9fd46a01f5c2dbd967ae8a1a8123e3c4f"
+      },
+      {
+        "file": "model/auth-session-csrf-hint.ts",
+        "sha256": "ee74028339bb65772f9a9c057002abe2b8617fd5f30eb3714708d9cc52994573"
+      },
+      {
+        "file": "model/auth-session-logout-result.ts",
+        "sha256": "25f95ce1b466dd0b8fce9efd57f2fd490b2ae77bbca1d555914b4af92d15eb11"
+      },
+      {
+        "file": "model/baseline-selection-source.ts",
+        "sha256": "a281eb0eab9836dbd1e4cd23ae6148d04e62f0d3dba8f4e9cef33c79443ac130"
+      },
+      {
+        "file": "model/bind-user-external-identity-request.ts",
+        "sha256": "2f43f0601a5caed33994d2c8cb4bd2c0b776a5d05a0908295d1e9f46a38d6a7e"
+      },
+      {
+        "file": "model/business-accounting-feedback-view.ts",
+        "sha256": "1bd6e2cb5f049d7fddc27290823e9239f5c9425020d827db02241fcd7a77e246"
+      },
+      {
+        "file": "model/business-discussion-comment-summary.ts",
+        "sha256": "87b9ad6f80faf371d0b32fc97e706a091c6e9409ee909576eea2165a7f7542e9"
+      },
+      {
+        "file": "model/business-discussion-target-object-type.ts",
+        "sha256": "87be9a080c04cd661eb2f6e7796df65f385e0cb48bf8e8a3236ea927ca6e8f9d"
+      },
+      {
+        "file": "model/business-discussion-type.ts",
+        "sha256": "44d60715eea51045d9f2196ecf7662561e2b647257931cff874f5058832623e5"
+      },
+      {
+        "file": "model/business-domain.ts",
+        "sha256": "7c6cb74eea1799d9d5bc3365fb0d9ff1a787a5f4ddc730f2d245d6953874ad14"
+      },
+      {
+        "file": "model/claim-lead-owner-request.ts",
+        "sha256": "8c3aca34f618a57963d8e8fbe83ce0efa0778b5b562fb8ffe0f3eff186183b5a"
+      },
+      {
+        "file": "model/clear-attachment-final-request.ts",
+        "sha256": "5e1c43af758ba788ed876062534db9e9371413a60221f130a3ed49930041449b"
+      },
+      {
+        "file": "model/close-invoice-record-request.ts",
+        "sha256": "0e6c4d986f895bb034db6868c99f33f79f7adc0c04b4d827e9243cdb0484c08b"
+      },
+      {
+        "file": "model/close-lead-request.ts",
+        "sha256": "f82f084a7c0cd2c1dca93ca6bfb53324e5dd1a83caff0c4e9d3f1a588e79f081"
+      },
+      {
+        "file": "model/close-payable-record-request.ts",
+        "sha256": "ad5ad9979eed2e0c87bd24d05a1975f6b1692b819085a0bbb1929782699bff56"
+      },
+      {
+        "file": "model/command-result.ts",
+        "sha256": "f2f42a12e78b55feae82176aa78d9f5d094de66373b98056027db26378de2cc9"
+      },
+      {
+        "file": "model/commercial-baseline-diff-item.ts",
+        "sha256": "5f31f2de77355deff4ce2e8f218d6e6d55b26b048912957551f88496a4b80623"
+      },
+      {
+        "file": "model/commercial-baseline-review-decision.ts",
+        "sha256": "6bd863ed7359440c3175b5bf66212f14e6325bb6c0b4b724b7eb7a9fc2e7eff5"
+      },
+      {
+        "file": "model/commercial-baseline-review-record-summary.ts",
+        "sha256": "f46bc0e020e5ab2160b36bde85239153c07e5a2796511cb06f5983776d02c1d7"
+      },
+      {
+        "file": "model/commercial-diff-level.ts",
+        "sha256": "f6d6fac6982770c7eac63c618cb525644466e36f8e86ed72013a9f9315bc7087"
+      },
+      {
+        "file": "model/commercial-diff-review-result.ts",
+        "sha256": "1d6c4a35d82db55ab0f1feca6f3d23bd44d979fce4e37349864832fd1f5599b7"
+      },
+      {
+        "file": "model/commercial-diff-review-status.ts",
+        "sha256": "dd9822a0e417828235929cc58c6b7ebafd3019fe39ed4ff5fcf112a412cb13e7"
+      },
+      {
+        "file": "model/commercial-release-baseline-status.ts",
+        "sha256": "77794ec3c20a365123cc02bb17ebf67aa293028cbf95f953b080946363acbe76"
+      },
+      {
+        "file": "model/commercial-release-baseline-summary.ts",
+        "sha256": "16e9dca8537ca478081ebc56034d9f53dff1ef37ce1a124104a4e389cf523a0c"
+      },
+      {
+        "file": "model/commission-adjustment-status.ts",
+        "sha256": "11c86c5b06649558fc7fcd88f848e06059f2bc5470c677ca2a06e0067e6a26e4"
+      },
+      {
+        "file": "model/commission-adjustment-summary.ts",
+        "sha256": "af0f15be3aa171d9bce66e6ba973c5c856f8cc52932e3e876c1420b1b5fa3796"
+      },
+      {
+        "file": "model/commission-adjustment-type.ts",
+        "sha256": "7b14a0088e5a93b22adc399fcd1ba00d1e6d98a1dc7cf5aa7f489fd9957de558"
+      },
+      {
+        "file": "model/commission-calculation-status.ts",
+        "sha256": "2e5e563a34a9bcef45aad999cce3bf23137de5af1cb6eb4dbe54056f39890816"
+      },
+      {
+        "file": "model/commission-calculation-summary.ts",
+        "sha256": "c41689bf1a483a2c0a6cea1db3df069b53a15336320c7eedf416950d8dcf10a6"
+      },
+      {
+        "file": "model/commission-departure-exception-decision-status.ts",
+        "sha256": "a05eb78055113ccaaa1ec654db68b922f55bba53b85318a2183f184b0d665b75"
+      },
+      {
+        "file": "model/commission-departure-exception-decision-summary.ts",
+        "sha256": "292fc030dd67ab11da5896c38a25d88d02c1e4e690feeb2bb2a010a8c0461b26"
+      },
+      {
+        "file": "model/commission-final-settlement-status.ts",
+        "sha256": "08077c5e1080f8a7cbde35dcb50b52a3302a6cd1a65ce2601e1df4086c61f2ad"
+      },
+      {
+        "file": "model/commission-final-settlement-view.ts",
+        "sha256": "a36806baaae5d5d2f35e6ac02a2d5b8444f7309ed710f7536a8269359555edf3"
+      },
+      {
+        "file": "model/commission-freeze-change-request-detail-view.ts",
+        "sha256": "916e38a45b7926970f1aa7be86b24a420667ad8f9bbaa821c3cfe7383c49ba79"
+      },
+      {
+        "file": "model/commission-freeze-change-status.ts",
+        "sha256": "0f0a182d014ecb7c03aab91e26243b4396ade1b9c72f099e6008aa47f64dbdfe"
+      },
+      {
+        "file": "model/commission-freeze-dispute-arbitration-status.ts",
+        "sha256": "11772a3b4e5591b57f357f3f8ef02d9fc00ce87757e2c9d19b90e9b696a63cd9"
+      },
+      {
+        "file": "model/commission-freeze-dispute-detail-view.ts",
+        "sha256": "734a4f4bf416a16232a7c0ede768d205291755ae8ca488537e2a7e9537ff861e"
+      },
+      {
+        "file": "model/commission-freeze-dispute-status.ts",
+        "sha256": "4afd0c71e98e147003478e29474e73f42a4a47f911c2dc274bfb036ba9631a12"
+      },
+      {
+        "file": "model/commission-gate-binding-history-view.ts",
+        "sha256": "6d8a292e3bb9b41eb7b6ff93f7978f05b1c7ef17bfe6279526ec62811d4e2e51"
+      },
+      {
+        "file": "model/commission-non-retention-settlement-status.ts",
+        "sha256": "5b4e90a9e7e6e24b162b5fa30e036e4a2ac2244548799bf559dd7a6b7980d052"
+      },
+      {
+        "file": "model/commission-payout-kind.ts",
+        "sha256": "1f964e3f3dc45a8fa136e4744e791f5c1b25f0c7782ffa7d4da8b99d409a3efc"
+      },
+      {
+        "file": "model/commission-payout-stage.ts",
+        "sha256": "5ddf1384efcc51c65e6061d654c187cc00a97661105edca1bdee5385701015cc"
+      },
+      {
+        "file": "model/commission-payout-status.ts",
+        "sha256": "af0dd610a48e154369fe16b4411d093d61a6fd2c182eb704bac44a4dc36d6bb5"
+      },
+      {
+        "file": "model/commission-payout-summary.ts",
+        "sha256": "8aca934207dba2e81712863b9b9fc4d0eba94a340322cce1219b3ca6a0f5923c"
+      },
+      {
+        "file": "model/commission-payout-tier.ts",
+        "sha256": "a393b9a1d646e738c2ef182fa0f0fdc8c42d8645a70c1c35301246c90e91ee37"
+      },
+      {
+        "file": "model/commission-retention-due-status.ts",
+        "sha256": "3186a18a455fc7376a57256dd99a0e866162fbe0d70ec54755272e31f2568805"
+      },
+      {
+        "file": "model/commission-retention-settlement-status.ts",
+        "sha256": "30b5f9ad3d9bd4445752c70cf58edc0958f76796319dd0e1953aacdbe3b9b9a1"
+      },
+      {
+        "file": "model/commission-role-assignment-detail-view.ts",
+        "sha256": "ac05dba3b02c9ed59019047cf72f49013ba57e799482e304d334f30e308bdc96"
+      },
+      {
+        "file": "model/commission-role-assignment-status.ts",
+        "sha256": "e14c5903381b5e4d6ae0f777ef727fea1ac017281e70e33e3e639e7cd643fed8"
+      },
+      {
+        "file": "model/commission-role-assignment-summary-participants-json-inner.ts",
+        "sha256": "43a1f1afea5647bd1945e5d0ff207d56aea993aa94d41be0936ad0e8bda6e1a9"
+      },
+      {
+        "file": "model/commission-role-assignment-summary.ts",
+        "sha256": "9e2517a95ace83395a9a95785b5424e4b91a1af8d26e24494bc487b54f60a9d1"
+      },
+      {
+        "file": "model/commission-rule-explanation-gate-decision.ts",
+        "sha256": "9e0987c8ac08a1850a5ce53cebc5f4db43065737d251f6ca108bff6db3a92e58"
+      },
+      {
+        "file": "model/commission-rule-explanation-stage-status.ts",
+        "sha256": "12d54a7edd4dfc9f9ae0eb27ce71732806457c90cf36c02efc8500616c509e1d"
+      },
+      {
+        "file": "model/commission-rule-explanation-view.ts",
+        "sha256": "62d7055cb4f3687fa960eb768e9292b1c407d4351f36c4227e4c06e69c8f721f"
+      },
+      {
+        "file": "model/commission-rule-version-status.ts",
+        "sha256": "8f4ac7dd97c3d3011708dd19dae5c7164e6bc435a849fe7d52849793e7b73a17"
+      },
+      {
+        "file": "model/commission-rule-version-summary-tier-definition-json-tiers-inner.ts",
+        "sha256": "3fee6f2b36374d52390df3ac7c863c50222f72f05482235d34d479fb4a3ae188"
+      },
+      {
+        "file": "model/commission-rule-version-summary-tier-definition-json.ts",
+        "sha256": "9fe5e2614be53781d7c1bfdff41682fc6756b982351910bea344b5582f488be3"
+      },
+      {
+        "file": "model/commission-rule-version-summary.ts",
+        "sha256": "83fb5de954717719943a8535bca4d4f6e04e6ee102afba277fc1b7a845bcd373"
+      },
+      {
+        "file": "model/competitor-intelligence-record-summary.ts",
+        "sha256": "dc9962572fff118188bf80162a61022c2b04482bdece79e4ed447005bd3d4c41"
+      },
+      {
+        "file": "model/competitor-position.ts",
+        "sha256": "25367aac6d0efcfaa5ba16e18dc5a369cc0a0dd1bf6ace56fd16f76ebf5fc12c"
+      },
+      {
+        "file": "model/complete-attachment-upload-session-request.ts",
+        "sha256": "340c578078204536f1e2e06146220c7b58430c1a055a02eebb20c4028cb05ffd"
+      },
+      {
+        "file": "model/confirm-accounting-tax-treatment-request.ts",
+        "sha256": "a5386b760c5a2f902e9194ed8fc3c624fda9587f473ee6b38dd6810258f4b0c7"
+      },
+      {
+        "file": "model/confirm-commission-calculation-request.ts",
+        "sha256": "03477428c8d49a75a058cf1cc3910f82605ca95e02a53e0a28bb869bc2a303c0"
+      },
+      {
+        "file": "model/confirm-cost-stage-attribution-mode.ts",
+        "sha256": "8de5f07c14b271fb85b98969bec1ed6a779720d3431b66173c37ccdc4382b6e7"
+      },
+      {
+        "file": "model/confirm-cost-stage-attribution-request.ts",
+        "sha256": "88ba12e4906e76e70633ed8ee70b46f66864bff7eec02a817d7b859faade6a71"
+      },
+      {
+        "file": "model/confirm-expense-record-request.ts",
+        "sha256": "ccb3f34b1975b0c3c85238d4a16aa56ba33f3288599875eb1d15f4f6d2b8b532"
+      },
+      {
+        "file": "model/confirm-payment-record-request.ts",
+        "sha256": "43ef9bd740dff9d2c60890f918a12d6dca245d8c1354629d7d9541cac6627bb4"
+      },
+      {
+        "file": "model/confirm-project-handover-participant-confirmation-input.ts",
+        "sha256": "a7fb7c95c1c184706c210a85062ce591c82e984cb19cecec261a32278c323346"
+      },
+      {
+        "file": "model/confirm-project-handover-request.ts",
+        "sha256": "052303b194bb623dd7efe37e60a76bd9bfa2ac319531ae948d4a122c008bfe3a"
+      },
+      {
+        "file": "model/confirm-project-handover-result.ts",
+        "sha256": "c225f6d6fb605812e294de2da0d298c1651028e921cb2c4dffef54012c5132a8"
+      },
+      {
+        "file": "model/confirm-receipt-record-request.ts",
+        "sha256": "4d605296095be5aa5f09574c0b1783729e56ff99fc559923d1e2a36e96ef8545"
+      },
+      {
+        "file": "model/confirm-shared-cost-allocation-basis-request-project-share-items-inner.ts",
+        "sha256": "085268183c0febc3afba6329d8c765279afdb4f2bb9e86b511e6c55acb7a6e72"
+      },
+      {
+        "file": "model/confirm-shared-cost-allocation-basis-request.ts",
+        "sha256": "234b1fd595857670c0fc8ea19e46c98f468a155f9ddc1c14c526a5492b0f1eb7"
+      },
+      {
+        "file": "model/contract-detail-view.ts",
+        "sha256": "b7aae0fe7dc9b41a72bac668ac3d65fd9e3d2765003070c564db9d5b0596ad28"
+      },
+      {
+        "file": "model/contract-diff-review-history-view.ts",
+        "sha256": "c0e6a160f3a28b854eab943589ffbc831feb9832e6b7f59f9e54136238eb92bf"
+      },
+      {
+        "file": "model/contract-handover-baseline-validation-status.ts",
+        "sha256": "3afd0d43ee65d3d63e0af1737984aaf4300c4965acf862a26a5758d69a97671a"
+      },
+      {
+        "file": "model/contract-handover-baseline-validation-summary.ts",
+        "sha256": "a6fdae3cc5ae76dd9784d0ebb97b2e604910d4e0290a39305996b7bfcc5f8b3e"
+      },
+      {
+        "file": "model/contract-handover-contract-item-summary.ts",
+        "sha256": "6064be24fd22d2d3225e50f9d5497ea199e23109e3ebfa7e0bbfc6e7a44ed727"
+      },
+      {
+        "file": "model/contract-handover-current-baseline-source-type.ts",
+        "sha256": "5130a2dbfc9b82fd254d0f1ea62de5a3ba51dba6a7cb7f8f3c672691c0e05eb0"
+      },
+      {
+        "file": "model/contract-handover-current-baseline-status.ts",
+        "sha256": "c43ee665e299ffbfe4aa3b2af5930dec1078b2f8743c72d2d2eab545afda3abf"
+      },
+      {
+        "file": "model/contract-handover-current-baseline-summary.ts",
+        "sha256": "afef621544c5a070cf0bd31a08ca4147112aa243f8ed5331fe376400d9ab1160"
+      },
+      {
+        "file": "model/contract-handover-effective-contract-set-summary.ts",
+        "sha256": "ce5748fba23e8a659cb0755a1c2b5a1e99effde9188bf4d7ecb2add12c2a136f"
+      },
+      {
+        "file": "model/contract-handover-latest-rebaseline-summary.ts",
+        "sha256": "6426480f0c8cf9b9662764c98a1ff9668b31843d583b4f8d95a9d42f990b5ac2"
+      },
+      {
+        "file": "model/contract-handover-rebaseline-blocking-status.ts",
+        "sha256": "6d25bef72271cc5e017b17e762c286077c572d1d2cd055b51c91a643e960cfd7"
+      },
+      {
+        "file": "model/contract-handover-rebaseline-status.ts",
+        "sha256": "1b5c2ae717736fea3cc5b4c707c787f7f34f8f82cbafd0a9cee23f398616da0a"
+      },
+      {
+        "file": "model/contract-handover-receivable-plan-init-status.ts",
+        "sha256": "69b3c3cbad3ed2bafe24850ce1e9a0331c3dcf602352bbc8772201a4567d5cf6"
+      },
+      {
+        "file": "model/contract-handover-receivable-plan-init-summary.ts",
+        "sha256": "3f25e6a4647092f7b2c84ba0e6ee2a82b8c2da89bfd2df1ae06a8f182dc0f0ad"
+      },
+      {
+        "file": "model/contract-handover-summary-view.ts",
+        "sha256": "1633c8b7bacf9413017b4c77e94a1224121b969f6d952c19198b0f7da9c22dc5"
+      },
+      {
+        "file": "model/contract-readiness-detail.ts",
+        "sha256": "a3eb683b72228d8cd7b2417c275e55fd67b8b128ea18e2afccfd6b1e67f3df6b"
+      },
+      {
+        "file": "model/contract-readiness-guard-decision.ts",
+        "sha256": "9f3ca0c3b9660aa71a28216a966ee15a16cf4f35b85268d15aaeb14e815a2ba3"
+      },
+      {
+        "file": "model/contract-readiness-item-status.ts",
+        "sha256": "e9b6180c11b0ae8133b7a92b53f63db7c3d9711a8cefd768502a8e9e25917890"
+      },
+      {
+        "file": "model/contract-readiness-item-type.ts",
+        "sha256": "cb9e0cd6d8dd1203c89bee09e39dae56e09692c6759ffa0983102e0a5d27bfb8"
+      },
+      {
+        "file": "model/contract-readiness-item.ts",
+        "sha256": "b0a0907e9c8dec5d2181543c78db7217b7ea7b3d9d51d27942cbd37aa21bc254"
+      },
+      {
+        "file": "model/contract-readiness-package-item-input.ts",
+        "sha256": "ba9b4a15be85ba3c8a78a5423d505f9c9548901e0f4205df4df62859c346db4a"
+      },
+      {
+        "file": "model/contract-readiness-status.ts",
+        "sha256": "d21c4350e1fa6612761f75fec31690757f386dba90b1d9d991ca17938f7476e3"
+      },
+      {
+        "file": "model/contract-status.ts",
+        "sha256": "78c37172fb3142c8b49c91a31d149e92fcf1c7f84cf71b3f79f8b42c1b2eda96"
+      },
+      {
+        "file": "model/contract-summary.ts",
+        "sha256": "e6ed4dc53761b7e3f189003cd9a1c2e351926b093910ed4a6ef0a8fd0d21cec3"
+      },
+      {
+        "file": "model/contract-term-snapshot-status.ts",
+        "sha256": "26248a5bb3285f73ab980c46a5963f9d5ca5aa1b1063cf04d8a38190093051d6"
+      },
+      {
+        "file": "model/contract-term-snapshot-summary.ts",
+        "sha256": "4e0d76f10cd4c758820a9b39f7d896b758a87e4e4a8a711f66c368ed2051a451"
+      },
+      {
+        "file": "model/convert-lead-to-project-request.ts",
+        "sha256": "d95728e7ace534e43ba192ab6bb74415edb0bd98b3a1dcd3a76734ac5895fb27"
+      },
+      {
+        "file": "model/cost-stage-attribution-mode.ts",
+        "sha256": "e55876af2fa0baf244ddb990bf72f05c797dde613973f5362ed10e399e31441b"
+      },
+      {
+        "file": "model/cost-stage-attribution-snapshot-summary.ts",
+        "sha256": "13dc585c03f5dcb42ce1d7cfe76dde794293fbafedc38c3fb46248d39c0c1ff9"
+      },
+      {
+        "file": "model/creatable-operating-snapshot-mode.ts",
+        "sha256": "2e6a398472428aea154ba25bae17160b6c91f3fe5be41e5fa22a48ce845a3abe"
+      },
+      {
+        "file": "model/create-acceptance-record-request.ts",
+        "sha256": "b80ffc19f3bac4c818e04c52756f1e3380b7eceaacf19fd56091bb2383a18930"
+      },
+      {
+        "file": "model/create-attachment-link-request.ts",
+        "sha256": "20c58f3d40792662ce8c6667485cbb7400407ba3af67b3d492320575ed43c855"
+      },
+      {
+        "file": "model/create-attachment-storage-provider-config-request.ts",
+        "sha256": "aedd3e8afaa63b1aa7984ea16b5d7259c85ae8f46893a5eb2f5c7ee50ff84de9"
+      },
+      {
+        "file": "model/create-attachment-upload-session-request.ts",
+        "sha256": "16d5e38ab489a51632089314eaadeed2c6e11adcb50ba7880011e56a87782765"
+      },
+      {
+        "file": "model/create-attachment-upload-target-request.ts",
+        "sha256": "9d0c9d6a802b1eb38c274333130b2ee2913fc33ae041b28f564d0bd7716c2b11"
+      },
+      {
+        "file": "model/create-business-discussion-comment-request.ts",
+        "sha256": "00a47cde6dbcdb4f10fa13b9413e8a577d194142780e0b703d21f63f5cc8ec11"
+      },
+      {
+        "file": "model/create-commercial-baseline-diff-item-input.ts",
+        "sha256": "56052f987261c410e51408aa24e0d2d7549c8be11bcebb42bed915c36c8e352a"
+      },
+      {
+        "file": "model/create-commercial-release-baseline-request.ts",
+        "sha256": "36db21af60776b86646170e81ff3cc0091eea8fa1deadd62717269d63c02c7d6"
+      },
+      {
+        "file": "model/create-commission-adjustment-request.ts",
+        "sha256": "8abc42eaf83c49d007c528fa42eca1d1c5788876aaf414e19e9dec0c8b6114c3"
+      },
+      {
+        "file": "model/create-commission-calculation-request.ts",
+        "sha256": "430de5332155530d5aacef6683f8d53240997c7019e76d52b72734ce62fb085d"
+      },
+      {
+        "file": "model/create-commission-departure-exception-decision-request.ts",
+        "sha256": "94fdc0824dd79ec42a63c42dd519917bbf675d1918cdd6158de988b9f2485769"
+      },
+      {
+        "file": "model/create-commission-payout-request.ts",
+        "sha256": "e50280e60d22da5a1db4e9abcaea7a9259c81769a573fdd9d172ffcae05cc851"
+      },
+      {
+        "file": "model/create-commission-role-assignment-request.ts",
+        "sha256": "7961ecdcc5a9f827f1fd8170009717987cbf53ef048c7428279f613b8e9187ae"
+      },
+      {
+        "file": "model/create-commission-rule-version-request.ts",
+        "sha256": "e743f90ba01027115c2bbdf465e1df37f3615c90b563b8351a3adfb362563f6f"
+      },
+      {
+        "file": "model/create-competitor-intelligence-record-request.ts",
+        "sha256": "ddf76f47c781d23b8a3de7e3e3d0dc32d5dc536811c1d278663d7d28f2db2f26"
+      },
+      {
+        "file": "model/create-contract-readiness-package-request.ts",
+        "sha256": "b0f77131e0f6927dcc3b3036a8c92929ce21cecc0deaff69b5601281a82d64a8"
+      },
+      {
+        "file": "model/create-contract-request.ts",
+        "sha256": "a3cb3e1ff1a80d7889b61c707118b685db34479cf790061b277277573c961099"
+      },
+      {
+        "file": "model/create-customer-alias-request.ts",
+        "sha256": "ee338c9d3cfe3696b43368bbb7b77f30b4dac10081341544ad973989483b9274"
+      },
+      {
+        "file": "model/create-customer-contact-request.ts",
+        "sha256": "ee36a5ea36692492726d6ee3c3c4de2b0d7d034543582b22b2be306f3cf25590"
+      },
+      {
+        "file": "model/create-customer-request.ts",
+        "sha256": "3708f350e25e9ee10ab6f0f893146e43bf21a4f97c032edcea694748b6241100"
+      },
+      {
+        "file": "model/create-dictionary-item-request.ts",
+        "sha256": "5df5a60a487afb307dbc0ab27ad83e2209211d6058f1448877b7c097dac19951"
+      },
+      {
+        "file": "model/create-expense-project-actual-cost-record-request.ts",
+        "sha256": "f2470bc87f57c2a0c9bd477131f9b079c244b2857c520895f4c4cfac1228ea3f"
+      },
+      {
+        "file": "model/create-expense-record-request.ts",
+        "sha256": "a29e2ea92a2a9f5ab7f657b4a949665e77840a791dca1af9be3b6705b43fa33d"
+      },
+      {
+        "file": "model/create-external-login-session-request.ts",
+        "sha256": "a589b6641663c90bb5e1d7920e77a7569e88501e165bc4f79cf62c58ea5f5b77"
+      },
+      {
+        "file": "model/create-external-org-source-request.ts",
+        "sha256": "0df5ced5b9e2df57fa21d4a572d147e572a8f93913bb9955dfb3776d4da2deb6"
+      },
+      {
+        "file": "model/create-identity-provider-config-request.ts",
+        "sha256": "36637813f023dc65b54fac572569a1c0a03bdec56024ce43ac36da96cff490c2"
+      },
+      {
+        "file": "model/create-invoice-project-actual-cost-record-request.ts",
+        "sha256": "1230e7f40772d3926eabb50506ba5100d1c35c709992a2e911963953930ef4a1"
+      },
+      {
+        "file": "model/create-invoice-record-request.ts",
+        "sha256": "d8e1ce8849e9af404bc697f2c9279311b3a3b5ce059f35d526297fa973ec5f22"
+      },
+      {
+        "file": "model/create-labor-project-actual-cost-record-request.ts",
+        "sha256": "2c7fa1e6a77d77c601808a6c3708ddc80b219d223f3f9b94cc84973275250b51"
+      },
+      {
+        "file": "model/create-lead-request.ts",
+        "sha256": "809745515580cf173fef0ad3ffb8c18289d71d23b29e9062e925b06bb6b68f1a"
+      },
+      {
+        "file": "model/create-operating-restatement-request-restated-values.ts",
+        "sha256": "062a2d0ac34db114dfdc891ab26611538e0149848221ddb5621e46b08189a856"
+      },
+      {
+        "file": "model/create-operating-restatement-request.ts",
+        "sha256": "b0749dc773b0a108461e9e00bfc90a0356c7aca859cf15b32576d6c74a5b81f9"
+      },
+      {
+        "file": "model/create-opportunity-stakeholder-request.ts",
+        "sha256": "2451457ecd91414a00685876d596decae2a06f954f9e5ba9967b711eef22da11"
+      },
+      {
+        "file": "model/create-org-sync-run-request.ts",
+        "sha256": "71a400a82ec1f8cca208e5e63ff3add55e8e63236330d063589fd074819b235d"
+      },
+      {
+        "file": "model/create-org-unit-request.ts",
+        "sha256": "8f515e3e7852c9d6a53b84f36fd46dc839d04ff5eee7556749e6eaf3841de41d"
+      },
+      {
+        "file": "model/create-password-auth-session-request.ts",
+        "sha256": "88b4cafbe47d87783a1eab6d5ef41df40fdf24e7101bf371c8bdeaab052ccda6"
+      },
+      {
+        "file": "model/create-payable-record-request.ts",
+        "sha256": "7995133684675d3821cbe17ac0f21ca5fff1a1b3902e215b8bf3b072577c8a92"
+      },
+      {
+        "file": "model/create-payment-fact-project-actual-cost-record-request.ts",
+        "sha256": "4de41bcc33802f52d049157226b33e943918f6066960bb6fedc60bb93bab48d8"
+      },
+      {
+        "file": "model/create-payment-record-request.ts",
+        "sha256": "cc3e1c08a3e46ab596aa26f4ea27e7348a01eda522848ef9420db57ab9bb2901"
+      },
+      {
+        "file": "model/create-period-closing-snapshot-request.ts",
+        "sha256": "fa6a294bc260cabc14a2c7ff63b80d6551004f65764d8aa73a98ffa5c5cee5d9"
+      },
+      {
+        "file": "model/create-platform-user-request.ts",
+        "sha256": "c0d9f05f461480f98244b707b849b995f9bc7ba11183fce2d7c7901ff3848032"
+      },
+      {
+        "file": "model/create-procurement-project-actual-cost-record-request.ts",
+        "sha256": "c050ba57024fa75e15bfb7d56cb0dfb6ce075d6a46244ea8efc4729c919f9875"
+      },
+      {
+        "file": "model/create-project-actual-cost-record-request.ts",
+        "sha256": "7be4ff96f5f54ef126520c97fe22e8435d740722b0f7fb883b6146ba980e8fd3"
+      },
+      {
+        "file": "model/create-project-archive-record-request.ts",
+        "sha256": "3e34d5e1ed7edc18f2ce537341893c352c33be83234620acfa355b0f8801e232"
+      },
+      {
+        "file": "model/create-project-bid-commercial-process-request.ts",
+        "sha256": "c7eba871a2d18c6d337e0e2df03ed91106b334736c5e1a1e9d7cdd512308a3ff"
+      },
+      {
+        "file": "model/create-project-completion-record-request.ts",
+        "sha256": "736a650dda3cd5b71ac35fe1e581d4b15101fb383fe8f691f8dcbad46223f639"
+      },
+      {
+        "file": "model/create-project-handover-attachment-download-package-request.ts",
+        "sha256": "e18857916a91b845114b1b8cc6aee00dc51a754bcf410500e78d9a01dd42c28a"
+      },
+      {
+        "file": "model/create-project-operating-snapshot-request.ts",
+        "sha256": "4d3ab54ea8785e5d6d755aa82fcced4d8cd59c81cc472aa9be0316f7506e8069"
+      },
+      {
+        "file": "model/create-project-pricing-margin-review-request.ts",
+        "sha256": "e4db123ba5971b17e2178ab3aad4a4650ff62f63645ab4a9661f2ab95e5287d1"
+      },
+      {
+        "file": "model/create-project-request.ts",
+        "sha256": "e8b3273013903518378653f4323363410b12b58a4a5bc8bf62edb18b24c48e44"
+      },
+      {
+        "file": "model/create-project-technical-cost-package-request.ts",
+        "sha256": "577357f105e5b5216d40fca23102074c51f6200ebf6f70f30a54d99910858405"
+      },
+      {
+        "file": "model/create-receipt-record-request.ts",
+        "sha256": "ae74246bd75663bdf94b61d626e4cb05ce825e259f0ca35fd16665b243e78a7d"
+      },
+      {
+        "file": "model/create-role-request.ts",
+        "sha256": "853e40eb825791fe508946cc8ae6f7dfbb342108507e4f979abc6062832de794"
+      },
+      {
+        "file": "model/create-sales-discovery-record-request.ts",
+        "sha256": "f6bc94dedc97203b7589f2d14a65d3949c875aa60c2537f32264795ff847afc6"
+      },
+      {
+        "file": "model/create-sales-follow-up-record-request.ts",
+        "sha256": "d89be6c2718d1f99e3f28f9cb2c93d064fbf039e64d6718d36ebbc3d5299ea29"
+      },
+      {
+        "file": "model/csrf-token-view.ts",
+        "sha256": "42b351924b26c895bcf8a5d61d0ddbb4c7301379fdd57eb19327e42231c85a8b"
+      },
+      {
+        "file": "model/current-auth-session-status.ts",
+        "sha256": "59929506b45633935e137036113379a25c5122a6ae6a63d53d9c5fc1859a191d"
+      },
+      {
+        "file": "model/current-auth-session-view.ts",
+        "sha256": "0ed8f57564e630790590ef5ee5724df4ea330db1ca07b74f454191e3351c91e8"
+      },
+      {
+        "file": "model/customer-alias-summary.ts",
+        "sha256": "6c2b50e2de6622d0b3b26ef03acd201269bdf6b7241e849bb4d38abbf4b15d05"
+      },
+      {
+        "file": "model/customer-alias-type.ts",
+        "sha256": "b6a090f182cc2de7e45bbc8bdd940d2da2eb11924c2e1d04464e240d18a12a70"
+      },
+      {
+        "file": "model/customer-contact-gender.ts",
+        "sha256": "2c82cadcc441d447561bce2b4b7a769035b4c5d8f2bfddb7d2adc3e24aaf2e21"
+      },
+      {
+        "file": "model/customer-contact-status.ts",
+        "sha256": "818e418f8ebf8d378d0842587da629cc4898041dfc19b2dd9dc4b86c723fd16a"
+      },
+      {
+        "file": "model/customer-contact-summary.ts",
+        "sha256": "5a7970ed351ec2a6d8f89f3853ef23e6f3245d42dfa188341eeec7f51241b1b0"
+      },
+      {
+        "file": "model/customer-detail-view.ts",
+        "sha256": "2a1f4deae546eeeb91aa66c9750de1c39f7f0def5a75d69e105b09e9da6dbe9b"
+      },
+      {
+        "file": "model/customer-list-view.ts",
+        "sha256": "2fca4fb14dcb203a4b49761fcac78cfddd2e90c13689e1aaff2ea3d118a68a41"
+      },
+      {
+        "file": "model/customer-preference.ts",
+        "sha256": "6fd86bb2f0ce1fad8d95177f1b6a249415ef109cfd24e2ca8936bbf3593fd62e"
+      },
+      {
+        "file": "model/customer-status.ts",
+        "sha256": "f1a1b85e3620b165ebcd16c101232475df0cf41dc3f02914350c408a04b9ed13"
+      },
+      {
+        "file": "model/customer-summary.ts",
+        "sha256": "287be74d2c2f99bf7391e0be427c7f68c1f8740b84bc88b324c5b1c06651e1f8"
+      },
+      {
+        "file": "model/customer-workspace-action-intent.ts",
+        "sha256": "916b98dc4aab429308e7ab19484d0015c834aafbfae491d26eb123a62b26f4d4"
+      },
+      {
+        "file": "model/customer-workspace-action-item.ts",
+        "sha256": "9ca61e09ccf8dc46d40d05bddb9c68dda798a8fb390e27df3bc44a67131ebd00"
+      },
+      {
+        "file": "model/customer-workspace-contract-item.ts",
+        "sha256": "32801d694f7f4fbd28ed0b7f7685a21077136ade907bbf4c66504be0a7d23544"
+      },
+      {
+        "file": "model/customer-workspace-discussion-item.ts",
+        "sha256": "923ca810ec531c94cb950086e55843a67e8bf9b320f502425af732e738036a54"
+      },
+      {
+        "file": "model/customer-workspace-follow-up-item.ts",
+        "sha256": "5c3c71d045e8ce337ff000ce7f71a246dd5e8c0eb7d3366fd221ff00aa7d68c3"
+      },
+      {
+        "file": "model/customer-workspace-lead-item.ts",
+        "sha256": "87babe57e47a8c7d779a334a00f4f1bcc97b01f2ea6ea3b58b7d52cdab220c99"
+      },
+      {
+        "file": "model/customer-workspace-overview-view.ts",
+        "sha256": "69dd5cd3cfee977914331e92afbdf451de0faf96bd909f1ebc6c8cc7b0fdc991"
+      },
+      {
+        "file": "model/customer-workspace-project-item.ts",
+        "sha256": "2112124c67957c3d246accda4da89897eec6ec713f29369f9f8136f5f05f43ee"
+      },
+      {
+        "file": "model/customer-workspace-summary.ts",
+        "sha256": "cabaf03c0d281a337a1bd91dfd79c54dc6f738c7dcb0fb894a0c6700a95ba926"
+      },
+      {
+        "file": "model/customer-workspace-target-object-type.ts",
+        "sha256": "70d0187b92d816531840a77983772b94ffe788416c67be5824a2f3f76a5af6b2"
+      },
+      {
+        "file": "model/customer-workspace-timeline-event-type.ts",
+        "sha256": "55233c69a974d86535a62f587973e57defa086739977dfcec30b7c92ea32e23e"
+      },
+      {
+        "file": "model/customer-workspace-timeline-item.ts",
+        "sha256": "c42ab40210b3c6c7887909a2c127cd9cca51cf4b5f5c4e317ecfd00dcad72a29"
+      },
+      {
+        "file": "model/customer-workspace-timeline-source-type.ts",
+        "sha256": "d358c3dd2a910d4131763dccca6448f5004e0c920da1e867f7c12e9d7e23e0ab"
+      },
+      {
+        "file": "model/dictionary-domain.ts",
+        "sha256": "c098f79b44f3460793598fd5a1c8e955fb99fddd5fbbc484da0dc2e335e4dca4"
+      },
+      {
+        "file": "model/dictionary-item-summary.ts",
+        "sha256": "7b6b4208d6603fd5d2012be81be8e34c76d463eac30cdbe0bc4daf5dd220bcb6"
+      },
+      {
+        "file": "model/enabled-login-provider-summary.ts",
+        "sha256": "2c053a0f71db9ac01ba98077d39d4d2bc7229bf65bbafa5c3fb3f2c696f444bb"
+      },
+      {
+        "file": "model/execute-commission-adjustment-request.ts",
+        "sha256": "86da3e7ec3e7b6d162ccd2761971935b8d9d49760d4028fa808b97ca0eaa64cf"
+      },
+      {
+        "file": "model/expense-record-detail-view.ts",
+        "sha256": "196f00adb1ee7f833b54c46d6a884ebb1248b268fd337a439716fc233c35ed20"
+      },
+      {
+        "file": "model/expense-record-status.ts",
+        "sha256": "9b5578ee7bf6805977d71bbcbe2e420ce73993e7cce83ca7ffed3e569fe067cb"
+      },
+      {
+        "file": "model/expense-record-summary.ts",
+        "sha256": "296a7c61884759efdd67211e0f7cd775584514c1b223061b0fc7b6ca878de972"
+      },
+      {
+        "file": "model/expense-source-type.ts",
+        "sha256": "4fe5ebf76ad6a619d45565ee726d16e8ec9780f8919ae29977fa491dcfc83304"
+      },
+      {
+        "file": "model/external-department-mapping-replacement-item.ts",
+        "sha256": "33c70d2da9f14c5bc4d65e311f46063ad5bf92b1ebbc4554dd86a588661e90ca"
+      },
+      {
+        "file": "model/external-department-mapping-review-state.ts",
+        "sha256": "bb26576e564b973c3d0ce6fdf3ec70bbb3bef75ebb2ecaf948dbd5c45f6c7655"
+      },
+      {
+        "file": "model/external-department-mapping-status.ts",
+        "sha256": "8bada7887de48706c0905fa0bc56a24c8638b23348076b47b868f5fede9fd722"
+      },
+      {
+        "file": "model/external-department-mapping-summary.ts",
+        "sha256": "9434d7a8bfecb63be53b930bf3d60f9844bb5018f59b483817a755cb351b4671"
+      },
+      {
+        "file": "model/external-identity-binding-status.ts",
+        "sha256": "aa9c9ca5feaa0a0ad211eccee5904bc5515f1d20dbc264bb307ec9e4168491a7"
+      },
+      {
+        "file": "model/external-identity-binding-summary.ts",
+        "sha256": "720e650bdb6a12ccada1a7c2353dd384a494da1e4bc59ffeca3672378b034a3d"
+      },
+      {
+        "file": "model/external-login-authorize-result.ts",
+        "sha256": "f9ac497f320c10d35d42abcc0b1571be2c61eeb0b070ebaf7c22b23336292167"
+      },
+      {
+        "file": "model/external-login-callback-result.ts",
+        "sha256": "3b36ff89607cfdc39a09118fa5f24d0a99522057c7d38e87bef070b5614f5660"
+      },
+      {
+        "file": "model/external-org-provider.ts",
+        "sha256": "8834f800ecaf06678519bcb998405884b48750849eca696cd264a16aa1c57946"
+      },
+      {
+        "file": "model/external-org-source-status.ts",
+        "sha256": "d9ac312c7a023d6cd447cb7f0d342cf512a793a2d9fcc23726c9f0738af34536"
+      },
+      {
+        "file": "model/external-org-source-summary.ts",
+        "sha256": "9e1095e7b25dcd73c6299443716494e08e3392ee90aa3a2c20aad438f3991347"
+      },
+      {
+        "file": "model/external-user-candidate-field-availability-summary.ts",
+        "sha256": "496bd73ff88f00d253304c19d5188b89a9a73c8b5be580a646f58f00834a9b4c"
+      },
+      {
+        "file": "model/external-user-candidate-field-availability.ts",
+        "sha256": "5b997b3f383afaebfc89556789fa7683fd4e74aa98c3f00ce00912523cd1df4b"
+      },
+      {
+        "file": "model/external-user-candidate.ts",
+        "sha256": "6a18b64da9bed50621f692d45604c533b2b7bb7b5b55c9fdd2ab4be696a3850e"
+      },
+      {
+        "file": "model/external-user-search-result.ts",
+        "sha256": "4c3ba735b44ddc90fb7e0063616755cd1f446216fba7894cec69db4a4da08810"
+      },
+      {
+        "file": "model/freeze-commission-role-assignment-request.ts",
+        "sha256": "a6d71e1c296a6a20d9cbdaf600c6d5d77ad11b202ebdae2a778e2a0768e13bad"
+      },
+      {
+        "file": "model/freeze-commission-role-assignment-result.ts",
+        "sha256": "340ff9ae69e9c294b932c4f4107e324fe15c3988cff2a5ca71bed7c65c910b5c"
+      },
+      {
+        "file": "model/health-check-dto.ts",
+        "sha256": "1abf23d9ae5cf56e38cbead4716475526a6b44a34ac899a0b35548c93381b89b"
+      },
+      {
+        "file": "model/health-checks-dto.ts",
+        "sha256": "852117452b4aa939ff42d4615964245a37d164e8ca85f6fa3328483b845b047f"
+      },
+      {
+        "file": "model/health-dependency-check-dto.ts",
+        "sha256": "6f39106337cf9ee9a831ceedc5906c6c8e5be88bf891da7d2be962cc01f7f8b5"
+      },
+      {
+        "file": "model/identity-provider-config-status.ts",
+        "sha256": "f1d3b1fa155ad4a7591e4947bc32f482418761528a94d5410222b482b69a4b5f"
+      },
+      {
+        "file": "model/identity-provider-config-summary.ts",
+        "sha256": "dccf510f50526d1b53672730d8dbcc9ce03bf2808439e6f371b6fef866672df2"
+      },
+      {
+        "file": "model/identity-provider-connection-diagnostic-check.ts",
+        "sha256": "e67302ee8dd175bd10f0f0897dd1673502d2f961998528f7eefbf03938aca0b5"
+      },
+      {
+        "file": "model/identity-provider-connection-diagnostic-status.ts",
+        "sha256": "faffaaa992e87bf4a474aee3d4833cf901db98234815f1feb31f151abcbccb2b"
+      },
+      {
+        "file": "model/identity-provider-connection-test-capability.ts",
+        "sha256": "551e2ba5b44fe7e16416cfde74eb8662d26002158ebe74e03d3d46ceda31b41a"
+      },
+      {
+        "file": "model/identity-provider-connection-test-result.ts",
+        "sha256": "deb62f14d8ad0080846388de2f6e7eca683a596ba394da4fcfae38d3b3a2efd1"
+      },
+      {
+        "file": "model/identity-provider-connection-test-status.ts",
+        "sha256": "2ac6ab3bd4249192be2c1dd773c66753fd4605237fc3830bb8d1a8ba9bb9b84f"
+      },
+      {
+        "file": "model/identity-provider-o-auth-authorize-result.ts",
+        "sha256": "ebb47dae654c55aaae1bb8564c7806514a28b4dc03388c26c8158443a5dfb13b"
+      },
+      {
+        "file": "model/identity-provider-o-auth-grant-status.ts",
+        "sha256": "c8f53bd84072358d91e3215daae07597615d1d37878c2a0fddfeb3c5c12ff7be"
+      },
+      {
+        "file": "model/identity-provider-o-auth-grant-summary.ts",
+        "sha256": "13f2ffee50b231f5f3e361d3450931c681cad1b414cdcc9b13acaf4e1cd26526"
+      },
+      {
+        "file": "model/identity-provider-search-grant-mode.ts",
+        "sha256": "4ea2c6bf4f29a8db196e710bc60f522c938c750f654887eda676545323d12b77"
+      },
+      {
+        "file": "model/identity-provider.ts",
+        "sha256": "6425a402dedcee672c2472d27a27aa28c2caf3d37c3d1cacb7afb449466addb8"
+      },
+      {
+        "file": "model/ignore-external-department-mapping-request.ts",
+        "sha256": "94e44422073926b7f0d43773eee35d9ce6368a346cdf02baa5f6f437fff0f5d8"
+      },
+      {
+        "file": "model/initialize-contract-snapshot-from-readiness-package-request.ts",
+        "sha256": "dc88bd35d3672fbbeb9c931e1d69ed6bc506826b6cb9a13c010db7fd1739a845"
+      },
+      {
+        "file": "model/initialize-receivable-plan-from-readiness-package-request.ts",
+        "sha256": "d24c9dae26ea4d01b6075aa882901041c6ae8f56f4fe7eafe0241cf010749a20"
+      },
+      {
+        "file": "model/internal-cost-rate-scope-type.ts",
+        "sha256": "29facea1958ae5467c3805c06284c24c46f45137afd221c9c1381050573575ca"
+      },
+      {
+        "file": "model/internal-cost-rate-unit.ts",
+        "sha256": "b178b1f5fc5101e3b470a51d2c3c1e1f3d61049c3340812f5976af45f80ff550"
+      },
+      {
+        "file": "model/invoice-record-detail-view.ts",
+        "sha256": "eee60dc5ad862cc88e3242c1237ada0b868b170c4f901472f1878a7144c02e0b"
+      },
+      {
+        "file": "model/invoice-record-exception-status.ts",
+        "sha256": "a7a7f4d99f3abb98ac78f4f9cb4c142c75649206d53c30d4f3aa57d49ecbebf2"
+      },
+      {
+        "file": "model/invoice-record-patchable-status.ts",
+        "sha256": "dbb9a3bbb191c54fc5c766022a79daf7ffd448e791bb64574bf92f9318bdb338"
+      },
+      {
+        "file": "model/invoice-record-status.ts",
+        "sha256": "f923e48eb648746f89d2bbd1ce0dee463cb4208c5599e53913b9817232582673"
+      },
+      {
+        "file": "model/invoice-record-summary.ts",
+        "sha256": "813386f0c1da13a9c87a693d199dfc32b716db1cbead20fab030e0f19ae1536e"
+      },
+      {
+        "file": "model/invoice-record-type.ts",
+        "sha256": "87d4388feb0cae65ad13a06a4974c7d9311f3af28489556f228d7ee2c7d3e001"
+      },
+      {
+        "file": "model/labor-cost-period-type.ts",
+        "sha256": "6453be6bfeaab5943424d3036bacbc45130d39470ca081414df296cb61c98212"
+      },
+      {
+        "file": "model/lead-allowed-action.ts",
+        "sha256": "36d72175a19f7215ee28d99941a6aa7e8c2078afc0d990f24daa8914aa419e87"
+      },
+      {
+        "file": "model/lead-budget-status.ts",
+        "sha256": "e14a5280998ee840e56388bb8c205e2cadab39132a240242ebced08903c4d929"
+      },
+      {
+        "file": "model/lead-converted-project-summary.ts",
+        "sha256": "8d952a9610bc09d77835fc689e55de73186b75616cc48c4fe01dd46dc7091127"
+      },
+      {
+        "file": "model/lead-detail-view.ts",
+        "sha256": "55fba35ba1383066edac1f6ccd6565ed6f7c2ac890a10c17904336177414560c"
+      },
+      {
+        "file": "model/lead-effective-score-source.ts",
+        "sha256": "7f969a408beec3edc42ab5b83505336327665a011bc372c21b144c685ee62a19"
+      },
+      {
+        "file": "model/lead-gate-check.ts",
+        "sha256": "83bc0cd4ba5d9ee63240403d8a3508465e35881562bbbc3845bef8a7e389b54b"
+      },
+      {
+        "file": "model/lead-gate-missing-item.ts",
+        "sha256": "e1641af2a180b631134d3c81aa9b65e3da362b95febea49905a0b76671900ecb"
+      },
+      {
+        "file": "model/lead-gate-status.ts",
+        "sha256": "439ddcfd49522a542404753dfa811b866d1123c029610167d93db3a8c672708e"
+      },
+      {
+        "file": "model/lead-gate-summary.ts",
+        "sha256": "aff89d3b65d29a279c1ecbef58a2296f3f02321d5ec1f99d9a1c89d706aefa5b"
+      },
+      {
+        "file": "model/lead-list-response.ts",
+        "sha256": "dd654a3267599be94ac2c8f966302bcbf0c38cf82457045c8647df345f94752e"
+      },
+      {
+        "file": "model/lead-list-view.ts",
+        "sha256": "45661208361149b2cb0f7c21f39b59d3b8c965e9a9d66b33bb46ae8fd98c833d"
+      },
+      {
+        "file": "model/lead-owner-assignment-result.ts",
+        "sha256": "14cf62e601e55ec0777e01f868a03da12dac68caf766abd6ab3995df50463a84"
+      },
+      {
+        "file": "model/lead-owner-assignment-type.ts",
+        "sha256": "e9fd95907bbb7dfbc0b2bff675d7d436ef07262131490d701719bb2c29b20a1f"
+      },
+      {
+        "file": "model/lead-ownership-scope.ts",
+        "sha256": "46960306fee64d8456625c40c474a7eddfbcd71189a6ef59fb1efcbc16a1090c"
+      },
+      {
+        "file": "model/lead-rating.ts",
+        "sha256": "a3d76e6f61687613e43bee1cf73619bd1e3358999cc1d5abde1a11449b967d88"
+      },
+      {
+        "file": "model/lead-score-history-item.ts",
+        "sha256": "3660286a7c99789e2b596d7ea1b595d7322ab98e6d874544e9127fa17c7e9a45"
+      },
+      {
+        "file": "model/lead-score-history-view.ts",
+        "sha256": "3d887b306d2457dccc8d1a6c421e63736e3a64792c54d8259714aac713516441"
+      },
+      {
+        "file": "model/lead-score-override-status.ts",
+        "sha256": "29dce81f5ed85b524bb35f725e14a644d99fb3ee94e6498e846f3585423040de"
+      },
+      {
+        "file": "model/lead-score-override-summary.ts",
+        "sha256": "885b8addcab41da513b5621a72aa69b59313424e7eec7f07486294ae62003116"
+      },
+      {
+        "file": "model/lead-score-snapshot-kind.ts",
+        "sha256": "add293563b13ce4421009d9cd8b8ffe8e0e033a6ecf8299204d2a0bc5325cf2a"
+      },
+      {
+        "file": "model/lead-status.ts",
+        "sha256": "5481bb6d3b9ec451b2960dc02b32088c1d59472e62a28680d3241e5982786fc9"
+      },
+      {
+        "file": "model/lead-summary.ts",
+        "sha256": "e9c707086a05b98f5a1d7d929645b821c548216ca75d801ed39d46024c9e7a75"
+      },
+      {
+        "file": "model/lead-urgency.ts",
+        "sha256": "3d85a1406aea3c261ef8a613dfd3335565ff1b85a50074271f255542791cac89"
+      },
+      {
+        "file": "model/lead-workbench-facet.ts",
+        "sha256": "4e107844cac85ab014570e165bb56d8c58bcdc720e91c1c19095787d813ee7fc"
+      },
+      {
+        "file": "model/lead-workbench-scope.ts",
+        "sha256": "ab2fb8e2183d133f9002c338c79670f71daf73af35392a8f9c96e6c93fd21d4d"
+      },
+      {
+        "file": "model/lead-workbench-summary.ts",
+        "sha256": "c40a64d5d184cfdfdaabc88c3af4eb5c60ee5120ca253b82f956f776049facf9"
+      },
+      {
+        "file": "model/map-external-department-mapping-request.ts",
+        "sha256": "580aec373883dc05985627f2b67fb59711fcea9baeda79fbec3fb17c98f97cb8"
+      },
+      {
+        "file": "model/mark-attachment-final-request.ts",
+        "sha256": "3a59624cf30be2ed8d85404934474ef62c943034c9caf3e68cdd213b09a8a9ff"
+      },
+      {
+        "file": "model/mark-invoice-exception-request.ts",
+        "sha256": "59298dbbfc08c6d02848828f37c7d27cd18d767b7a029a472240536e7c09658d"
+      },
+      {
+        "file": "model/models.ts",
+        "sha256": "e4393d3cce083f349aab51a53267c1c3b1dac0f7b46614e21c15e454d36595e7"
+      },
+      {
+        "file": "model/move-org-unit-request.ts",
+        "sha256": "b8722f991c9da6abf254d4ea39ee26a60caa486a9d51d47208aab68904a345fd"
+      },
+      {
+        "file": "model/navigation-item-type.ts",
+        "sha256": "8f5cc1f4d4563f8c998a6f30cab5bbbd4f469796725ccd5c435ef07293104f50"
+      },
+      {
+        "file": "model/navigation-item.ts",
+        "sha256": "1e42d4c7b4868c46e290e269ca3dad0699101118b7ef6622360b17891ad64470"
+      },
+      {
+        "file": "model/navigation-sync-summary.ts",
+        "sha256": "8664c449fdcbf710c165ca8359dfac4e191ec7efd0d08c06f152e4266baa52a8"
+      },
+      {
+        "file": "model/non-retention-commission-payout-stage.ts",
+        "sha256": "3c256781cfb86904005fdcd8b276d566ca36c4337767763e3f09b20a0976aaf2"
+      },
+      {
+        "file": "model/operating-baseline-package-status.ts",
+        "sha256": "e367136f3bb362f4b96f0f056b12ff049ecac8e443f59ea7f4e6c61a088fdcfc"
+      },
+      {
+        "file": "model/operating-baseline-package-summary.ts",
+        "sha256": "dd3e5a696d7fb96b8e17ba20e9a473009afea7e8f02012cac166fb12c9babcd7"
+      },
+      {
+        "file": "model/operating-data-maturity-level.ts",
+        "sha256": "b0f7a1277898d6544693ae50308665f5822c808271cc8787ca8ef1780d39373e"
+      },
+      {
+        "file": "model/operating-lifecycle-status.ts",
+        "sha256": "4682fa5304824806e85cd5d6d8d33650b975b3233fc6fbb57e85d55e09e2ddb8"
+      },
+      {
+        "file": "model/operating-pending-lifecycle-status.ts",
+        "sha256": "f788f24e9325d1c63e5a018816535840ccb1ebeb760e1941440ee586c238aae4"
+      },
+      {
+        "file": "model/operating-restatement-summary.ts",
+        "sha256": "edbf740d3c64c327d479dbe1dc95143b854a9efbba3d340fa9ce3d83848e6e94"
+      },
+      {
+        "file": "model/operating-risk-level.ts",
+        "sha256": "591036857a5e97a720f1418ce191dc521cfe281e9561990ba9e2162e23ff9d53"
+      },
+      {
+        "file": "model/operating-signal-evaluation-view.ts",
+        "sha256": "3b046b4f714058358053d460d3664ae8cee2891e32cd8b6f9dcf6300cb07313a"
+      },
+      {
+        "file": "model/operating-signal-level.ts",
+        "sha256": "c30a1dbed599934c3119dd2e1d36cfbb02f1c5defa830497fa212aae4c33c443"
+      },
+      {
+        "file": "model/operating-signal-review-decision.ts",
+        "sha256": "74a4532fa3fb65f59c96c3ef033db42206585bfe46985cd7ecbed5f088c5379f"
+      },
+      {
+        "file": "model/operating-snapshot-action-level.ts",
+        "sha256": "35d12545b29cea55c851984d29ab208c1099b6b61cd43b357e828110083dbb24"
+      },
+      {
+        "file": "model/operating-snapshot-mode.ts",
+        "sha256": "6f4821030888e7bba9e4d6e614a876450fe20bacdbc7a7270f464e6f0495933a"
+      },
+      {
+        "file": "model/opportunity-stakeholder-access-level.ts",
+        "sha256": "8e8b000c293b6c9d2b0514a0aabee890903c7bcd327060c0cef3612b16081c63"
+      },
+      {
+        "file": "model/opportunity-stakeholder-attitude.ts",
+        "sha256": "8bd0d335666e45643682e81b0be0e8f69894307a9e31bcb3e21bed35321a70ff"
+      },
+      {
+        "file": "model/opportunity-stakeholder-influence-level.ts",
+        "sha256": "347f0b0439d1327e16801552309f76094561d426a56a69e2930a3fcc2db79c57"
+      },
+      {
+        "file": "model/opportunity-stakeholder-role.ts",
+        "sha256": "056f47496a5b79cc97d82227d572f97f96eb2d070e1a7a59d5967ca0c7d209a7"
+      },
+      {
+        "file": "model/opportunity-stakeholder-summary.ts",
+        "sha256": "104ccdb50e28322542278522a79b5aa081ddd975ff6011847ca9c8c30dca2bd7"
+      },
+      {
+        "file": "model/org-sync-diff-action.ts",
+        "sha256": "d3f7b203c2cafed619162873a1b73b49f242e586ef507941ad474f741422ab70"
+      },
+      {
+        "file": "model/org-sync-diff-item-status.ts",
+        "sha256": "603f4dde8705d93dbfc12e19e51934b9ce7e15fa36cd6f9da42150f677a31793"
+      },
+      {
+        "file": "model/org-sync-diff-item-summary.ts",
+        "sha256": "063d6912bda9fe797b82e567743ec44a8708373be4f8b74aff713b61afd8abed"
+      },
+      {
+        "file": "model/org-sync-run-diagnostic-summary.ts",
+        "sha256": "89d54635bcddcd87fd68618fc559e987e055fe86a0a02d53972732a27181954d"
+      },
+      {
+        "file": "model/org-sync-run-status.ts",
+        "sha256": "4c9c2d4cfd20ca880fa0968b9e6b65de3e3ae4aa532e02aaeef2a3294e854978"
+      },
+      {
+        "file": "model/org-sync-run-summary.ts",
+        "sha256": "52e1eeeb5c87fa100b5388323ef1ebafc5ccd7e6e582e91a72ad71ba386f263a"
+      },
+      {
+        "file": "model/org-unit-tree-node.ts",
+        "sha256": "a8cce103442b18b12e09eae0042f92b9f00765f1bf495f8a02e9b2d5da42ab48"
+      },
+      {
+        "file": "model/owner-reference-data.ts",
+        "sha256": "92c113ba5757faf4dd57ccef30cfde6ab8f0eb9a12ae725dfda53c689878da49"
+      },
+      {
+        "file": "model/owner-reference-org-unit.ts",
+        "sha256": "99dcd89464dc487b5db3ca7bb29d3d223a25c8f5b0a762fc3550094d4282fefc"
+      },
+      {
+        "file": "model/owner-reference-user.ts",
+        "sha256": "9e773197e18981e0cd7da6aa2fa8b9fc6a4ace0eaf5c8d6388f9e8abc942ab58"
+      },
+      {
+        "file": "model/pause-external-org-source-request.ts",
+        "sha256": "b067da6abd87f26b6d4e6a98322635ebb1dffe7c0bf8889959241d2cd2e470d1"
+      },
+      {
+        "file": "model/payable-record-detail-view.ts",
+        "sha256": "cba344f4c2e02f9ca5620a38a6624baa2050c901827c4c84a0e7a562d30f3531"
+      },
+      {
+        "file": "model/payable-record-status.ts",
+        "sha256": "2ada84e74adf525880d9a995d23b3b0f3abec8006a597c7303f8c21d41b1b1c4"
+      },
+      {
+        "file": "model/payable-record-summary.ts",
+        "sha256": "64aa1f3a5a97ea87ab8d63b298d3055db8372d52dc4a84f90088384155b0586d"
+      },
+      {
+        "file": "model/payment-record-status.ts",
+        "sha256": "ad16c46f75abcf58cfdc51a58b35a0dc6ce43400a6d969dca1cb2e0c025bf624"
+      },
+      {
+        "file": "model/payment-record-summary.ts",
+        "sha256": "28c5ef86145188d6281b4d3535ad16a009a4c1b0fca9b93d4d17352dc167e7a2"
+      },
+      {
+        "file": "model/period-closing-snapshot-summary.ts",
+        "sha256": "8b0e84e46570f3db304838f80e110c9d17c60740b388aae6694572ee62d05a71"
+      },
+      {
+        "file": "model/platform-org-unit-detail.ts",
+        "sha256": "03c3815dbbba1068011655186a5992fdab9b67ecbc7093fd43cbd0de950eaa51"
+      },
+      {
+        "file": "model/platform-org-unit-summary.ts",
+        "sha256": "c9e87e5f574f2383a26091b47b2c1af8246d4f2a5c00bb7eca47d8fea79dfddc"
+      },
+      {
+        "file": "model/platform-permission-source-type.ts",
+        "sha256": "0aff05b558160432871ed74c0e44759a7568025c8a0dccedbfb3a8b6f8b5c2be"
+      },
+      {
+        "file": "model/platform-permission-status.ts",
+        "sha256": "ca69f895462fc22bec5967422941a96ef5048536208a528fa936dc7d02b1e0e1"
+      },
+      {
+        "file": "model/platform-permission-summary.ts",
+        "sha256": "bd09cf9707341c7fccffadce5e8991621453c1e394361b3268cf71265c00cd2f"
+      },
+      {
+        "file": "model/platform-role-detail.ts",
+        "sha256": "dc81a7717fc63bfff99991aec76ae6924cf3134088ec22d49706fb1e35044af9"
+      },
+      {
+        "file": "model/platform-role-summary.ts",
+        "sha256": "4c978069b0c5e23eb7e8afaafa295a775256b44ba3c0990f8efa2a75fed936c1"
+      },
+      {
+        "file": "model/platform-user-detail.ts",
+        "sha256": "ececd96e989f5e47e4303a882bdeb72ee05f13e31fcf8593faf9f0e9ce7ecb69"
+      },
+      {
+        "file": "model/platform-user-summary.ts",
+        "sha256": "2731aa34966bc1bb29fec73466c54ebb60eb9bf8b201c5a7ef8d9661d14d8117"
+      },
+      {
+        "file": "model/project-actual-cost-record-detail-view.ts",
+        "sha256": "9f05d762393d05f65ec7f3982b7cc5ee44d808ca92cf0e08ca57b3ecab5c840b"
+      },
+      {
+        "file": "model/project-actual-cost-record-status.ts",
+        "sha256": "74a25d2b70033a8ed58944f1801494efc28fec435add69abfc7a794ab1b40eaf"
+      },
+      {
+        "file": "model/project-actual-cost-record-summary.ts",
+        "sha256": "a8f24a3708262bfd5d15e488a6680a7fee90da8c110c159c0c57a589b8d8c5f5"
+      },
+      {
+        "file": "model/project-actual-cost-source-type.ts",
+        "sha256": "51ba2608632025686db3d4ffd0884397ca4413b92ff0b1e39e8d2043ac189733"
+      },
+      {
+        "file": "model/project-actual-cost-type.ts",
+        "sha256": "4da4dd929a13ab4048f5898fdee48647773eee36d431e542d35e9b0c51487699"
+      },
+      {
+        "file": "model/project-archive-record-summary.ts",
+        "sha256": "3e64c8375395955c2438236b730fff60c870cf7e00f89bd68760ad984c50d979"
+      },
+      {
+        "file": "model/project-bid-commercial-material-item-input.ts",
+        "sha256": "96d9c2c66c6039774e8d63e9fca2223789d70be2107b8756351e3c0bc28de0f1"
+      },
+      {
+        "file": "model/project-bid-commercial-material-item-view.ts",
+        "sha256": "b0617e851ffb0f030724d5a47d9dafcb1f6a1a93ea75dafdec69d8d9b3870650"
+      },
+      {
+        "file": "model/project-bid-commercial-process-summary.ts",
+        "sha256": "90db4ae4c00d05315cf8b0d9bb2c3e6b138364b4b42bc732993f0aa72d4a9ebe"
+      },
+      {
+        "file": "model/project-bid-commercial-timeline-item-input.ts",
+        "sha256": "8b3cda11f3009473429ea380fc47692f7daa6cd84eb61e9a4434f428daad22fb"
+      },
+      {
+        "file": "model/project-bid-commercial-timeline-item-view.ts",
+        "sha256": "35edd5aac078f2e64cde168f32e3046d6955ef42ae5995930314b4afeadd75dc"
+      },
+      {
+        "file": "model/project-bid-commercial-workspace-view.ts",
+        "sha256": "55d9a8c14fa37151d06647af7163826d5d48d610dc32f55008ac2302fac22b23"
+      },
+      {
+        "file": "model/project-business-outcome-overview-view.ts",
+        "sha256": "5250d401442c6124704c5bdffe496a7703734a01e6642b948fe625adc7e72151"
+      },
+      {
+        "file": "model/project-completion-record-summary.ts",
+        "sha256": "0b3931a2316fdb46b3a1fb9e000c7c8776091e760806f51b6d5cf41dfab96ccf"
+      },
+      {
+        "file": "model/project-detail-approval-summary.ts",
+        "sha256": "1e927cb30ee452ef926cb40f255bd9caf84ecc0b035575fc96dc767be2176e03"
+      },
+      {
+        "file": "model/project-detail-bid-summary.ts",
+        "sha256": "921ab0962c7bf000b885ceeb27b641639a3fac3228243e7e3cbd18ac6610a2aa"
+      },
+      {
+        "file": "model/project-detail-confirmation-summary.ts",
+        "sha256": "941cccfb70857e9a6d85afcf5c235120eb0b12bd557f5a9c2cd30b7527ef56e5"
+      },
+      {
+        "file": "model/project-detail-contract-summary.ts",
+        "sha256": "8f76c79a89a8589347407e575d7643e9f5325aa8ff82a4ab1b8e36044c2c604a"
+      },
+      {
+        "file": "model/project-detail-stage-summary.ts",
+        "sha256": "01d245ea59edfc370e345e82454a1a1391adaca0196a0e1ab1d71d7b1da5b9a5"
+      },
+      {
+        "file": "model/project-detail-view.ts",
+        "sha256": "b34a1a51864231bc0e7d68daf73b819684ff9121a0a3ca927c40af0c45dd0652"
+      },
+      {
+        "file": "model/project-handover-attachment-checklist-counts.ts",
+        "sha256": "de8b061448f38c544d4efd70396d7be560eaee62996f480dfeab43d7ceba27b1"
+      },
+      {
+        "file": "model/project-handover-attachment-checklist-item-status.ts",
+        "sha256": "491c1364190363eabc058103cfaabf171fddd436445ab2110f620b3e55d7e33f"
+      },
+      {
+        "file": "model/project-handover-attachment-checklist-item.ts",
+        "sha256": "efa6d586ae8101f017027b10dbf0d96bdd43aef25b208d7c5f23a14c87b1bc52"
+      },
+      {
+        "file": "model/project-handover-attachment-checklist-view.ts",
+        "sha256": "057aa442b74ef545cad5455cbd8e78464f68ac5c1467a6608e1e6d4c553f7c47"
+      },
+      {
+        "file": "model/project-handover-attachment-source-ref.ts",
+        "sha256": "5335ad66d8a7fe67156cffc87c98f081187158c1d8057adab00598cc14fa0353"
+      },
+      {
+        "file": "model/project-handover-detail-view.ts",
+        "sha256": "fdce4b2cee83a2e85b8b95e3a5da2db2c8ab7be0e121b963408d943254350e75"
+      },
+      {
+        "file": "model/project-handover-participant-confirmation-item.ts",
+        "sha256": "d25f335af232e2b94677d492845da44580b0ef6877f360aee72aa07f28e1a95e"
+      },
+      {
+        "file": "model/project-handover-participant-confirmation-status.ts",
+        "sha256": "23d877cba63b883a7ee1dd2a2b6b0f6fbc316ea1c81e19ed8ee0cacfa5a83c2d"
+      },
+      {
+        "file": "model/project-handover-participant-confirmation-summary.ts",
+        "sha256": "4c79dcdaa2b9110abe14c06e05ea4a4b28f64e406b2cbaf46f44f3d193cea670"
+      },
+      {
+        "file": "model/project-handover-participant-status.ts",
+        "sha256": "4a1885de034e4405ff1099b6c16cf120a629e7a53acf17e76a51b903acbcdf0d"
+      },
+      {
+        "file": "model/project-handover-receipt-judgment-freeze-status.ts",
+        "sha256": "957ba659a4b18632e79ff9eb24115fce9750ec3917ed3c574092260cbe10e7a1"
+      },
+      {
+        "file": "model/project-handover-receipt-judgment-mode-summary.ts",
+        "sha256": "d2cd2d2670fea7ff85ae845b774b70d8aeded4e431f7ff36b6ba501a7b8cd07f"
+      },
+      {
+        "file": "model/project-handover-receipt-judgment-source-type.ts",
+        "sha256": "ee57aed8926db2f56f7f2429169ba5b8f3ebb037678afbcb8890e0c352416fcd"
+      },
+      {
+        "file": "model/project-handover-status.ts",
+        "sha256": "70e033dd41453827ad9d8ae606db6eee30247b562e658ebb47e18bbfc930eb01"
+      },
+      {
+        "file": "model/project-list-view.ts",
+        "sha256": "da35bf33b18439b869872d45255dd3e6f35c9660ae533fda08af20a1b8059f49"
+      },
+      {
+        "file": "model/project-operating-snapshot-summary.ts",
+        "sha256": "063c95172670aa08965a01e601de53e66cd6da07b9261f10f7c5c4369e268392"
+      },
+      {
+        "file": "model/project-owner-reassignment-result.ts",
+        "sha256": "5a3d7d90a8faf035aa8ffadaee2d0246ed28e5add525582a5186b00f9c09557b"
+      },
+      {
+        "file": "model/project-pricing-margin-condition-item-input.ts",
+        "sha256": "1f8b982a1f93c9171ac9ccb8f9c7d552a8b9209ca0ee5bd4164a808ea8632efa"
+      },
+      {
+        "file": "model/project-pricing-margin-condition-item-view.ts",
+        "sha256": "7546b791e2074d0ee7e1da037d68304e39989ff74fab8f3b0cd0b7fcd6858c62"
+      },
+      {
+        "file": "model/project-pricing-margin-review-summary.ts",
+        "sha256": "be87e77b22473e0f61f3f133008cc62c7f1bf8d999fc8276099c81ec0fa4d747"
+      },
+      {
+        "file": "model/project-pricing-margin-workspace-view.ts",
+        "sha256": "b30111d8d6f8fc89f000ecf9344fac696e264b90c491afbabe9df5572591d360"
+      },
+      {
+        "file": "model/project-source-lead-summary.ts",
+        "sha256": "2e2b791bab59b3d6fdd335bcdae1feef551686656d2c3ede7f2ba799d32963ea"
+      },
+      {
+        "file": "model/project-stage.ts",
+        "sha256": "dda3d1cf1b8032574db046b3fd06534c051abef73572599d9b65b0e8e05dcd45"
+      },
+      {
+        "file": "model/project-status.ts",
+        "sha256": "e993f9110135e7b787ab52fdc903d338778371c11c9c6d261572c1d0d0879d3d"
+      },
+      {
+        "file": "model/project-summary.ts",
+        "sha256": "7a302bdb6275c6d742af147e006a41747f4be5278be05de1225fdc890f677aca"
+      },
+      {
+        "file": "model/project-technical-cost-item-input.ts",
+        "sha256": "8547ae02562b06e45e198cb61a14b29eb22af33adbec4b7161f61c75491b409c"
+      },
+      {
+        "file": "model/project-technical-cost-item-view.ts",
+        "sha256": "b3ffcd5fb443d7e1937a9ad190c15a035c47768fd6f84c074a9e04e1ca73c6db"
+      },
+      {
+        "file": "model/project-technical-cost-package-summary.ts",
+        "sha256": "90f5cffa9e19c4d84c7b71895804ef947b0bc587b24e4084b1c52a277f64d2b4"
+      },
+      {
+        "file": "model/project-technical-cost-workspace-view.ts",
+        "sha256": "91d8710778fc76ad081d46e1ffc53cb7abee17f5c3c745d0ef802da2291fb2ad"
+      },
+      {
+        "file": "model/project-technical-risk-item-input.ts",
+        "sha256": "73fcf8f29ac2e1c47c484d42c65fbedb5376d6f98277f6d082e5c857763c930d"
+      },
+      {
+        "file": "model/project-technical-risk-item-view.ts",
+        "sha256": "d92b9726a43304d411d279d168fe638aa02225e973215b7a538efa523e92dab7"
+      },
+      {
+        "file": "model/project-technical-scope-item-input.ts",
+        "sha256": "7fad8993ceca031132fea44fd48adc57b33085deda4a367af42aa21761046ef3"
+      },
+      {
+        "file": "model/project-technical-scope-item-view.ts",
+        "sha256": "f68643a751cb7da1c313b5ec9281349440cb97beda74eb2d56e41fcb58a3ef1a"
+      },
+      {
+        "file": "model/project-timeline-event.ts",
+        "sha256": "bb321e2a3e1b530b776d815ca94a74206950ae8f5dfbe98d895ec62f346e417f"
+      },
+      {
+        "file": "model/project-timeline-view.ts",
+        "sha256": "66e59efa9b27a7f66c9b3b13577a0508b7888cccaa632d46cef77ce361847c11"
+      },
+      {
+        "file": "model/project-unified-accounting-view.ts",
+        "sha256": "f413c1b88c9e084ee7ac1950631edebb4b658bfe17d2c0ed40af1a19219713f1"
+      },
+      {
+        "file": "model/project-variance-risk-explanation-view.ts",
+        "sha256": "081ed732ec0c399a24a17965999f4b99a34da8452af3ebad0683308ed0d5526d"
+      },
+      {
+        "file": "model/project-workspace-basis-summary.ts",
+        "sha256": "15c99666c6fb8df998fbca91df84eb60e92df3079f6c7389ba719c9b26385da1"
+      },
+      {
+        "file": "model/project-workspace-entry-view.ts",
+        "sha256": "7dd01d0da2b68fa4aed6e848101f35fc7bca53a447ddfd61c9f2b0c8728021e3"
+      },
+      {
+        "file": "model/project-workspace-guidance-view.ts",
+        "sha256": "3a29a4e9f3d0f15fe96ff745331df96d3c23251330f18b7c3e0505966b2e03f8"
+      },
+      {
+        "file": "model/publish-internal-cost-rate-version-request.ts",
+        "sha256": "ed60c565226b6320815b176623b7a60c53fcb083ab084d699f200c7d7af9ca5c"
+      },
+      {
+        "file": "model/qualify-lead-request.ts",
+        "sha256": "1f91a47520863cfbe6ea72dc52ba15d89392ac6c2599ade516f56901725b777c"
+      },
+      {
+        "file": "model/readiness-initialization-result.ts",
+        "sha256": "62e06d35c152acbc7eb9001f1c0a3ca542e8b4565d7a028e5a0dff2a27430b53"
+      },
+      {
+        "file": "model/reassign-project-owner-request.ts",
+        "sha256": "fa957a9fcef35e0486ad8ed548deaf49f8dc090fa1e14e495f99ba079fdfdb06"
+      },
+      {
+        "file": "model/rebaseline-contract-handover-request.ts",
+        "sha256": "07b7b3504bf970fb6a2a8edb1d8b122ecf5f1c97e29f4d75c17cfd326b1db0d5"
+      },
+      {
+        "file": "model/rebaseline-contract-handover-result.ts",
+        "sha256": "e5aaa81eca91b9a42aec30b3250ec152c159984ad1b2676814f1e4a2d156eee2"
+      },
+      {
+        "file": "model/recalculate-commission-request.ts",
+        "sha256": "1e620696b440efe1f26778076c6c8062533fe68b2a48e171cffe13957b43b232"
+      },
+      {
+        "file": "model/receipt-record-status.ts",
+        "sha256": "c08fc70a19b858a87c62b7e9e13f876e4b064421ea451969e3291526d72eacd5"
+      },
+      {
+        "file": "model/receipt-record-summary.ts",
+        "sha256": "a9ef8d9830c47848604fd01f97698f56e6839926d2149385619b21b542b67073"
+      },
+      {
+        "file": "model/reclassify-cost-stage-attribution-request.ts",
+        "sha256": "df3a9fe8772784a3998776c07e3247ce932b282f6bfde52c591652c8f4aa0738"
+      },
+      {
+        "file": "model/record-route-denied-security-event-request.ts",
+        "sha256": "37de50586788f557298221342e1fc33a8549d1125432c5ae64837e272637729d"
+      },
+      {
+        "file": "model/refresh-project-handover-attachment-checklist-request.ts",
+        "sha256": "bb74f3710cbb4edf89d86d90a155e719ef8cf3f7395f0cc51535b25042d2d5be"
+      },
+      {
+        "file": "model/register-commission-payout-request.ts",
+        "sha256": "f71c7e51a0a060486d748b4e9ebca394175003036ebcb4d90bef4138b7caaf3e"
+      },
+      {
+        "file": "model/register-non-retention-commission-payout-request.ts",
+        "sha256": "f080a4761729591107b03cb1e4e021788d541d6c9ea532ed925ca30095ccab98"
+      },
+      {
+        "file": "model/register-retention-commission-payout-request.ts",
+        "sha256": "e02e4b4d1a131dd173a7a63c30804035ab6dc2e9bf4f1d99594fbb597ec225dd"
+      },
+      {
+        "file": "model/reject-approval-record-request.ts",
+        "sha256": "556c6f171cc4219d561965d146b5e68e84804ca22c68b5e0e49febeafc9a00c7"
+      },
+      {
+        "file": "model/reject-lead-score-override-request.ts",
+        "sha256": "d81def91d7d0f0ec97748881f40aa759d6b25a7ea515065919a3d679bb338924"
+      },
+      {
+        "file": "model/replace-accounting-tax-treatment-request.ts",
+        "sha256": "2a88c57b4627c32fde7cbbb7d9c166bc7062d41dede046115208a6cf14306978"
+      },
+      {
+        "file": "model/replace-external-department-mappings-request.ts",
+        "sha256": "da3804ef8e60723ec7619ca2bfa99d51c2e515e6114c6699e35ba6e3a0bb73f8"
+      },
+      {
+        "file": "model/replace-labor-cost-record-request.ts",
+        "sha256": "de9393ec77a215033afb2b81c58e0245f243b38aef4b641efa3e9510c5e8aba8"
+      },
+      {
+        "file": "model/replace-project-archive-record-request.ts",
+        "sha256": "d2f0c37188ca1011c193e5a09a21ece7c200e90654884831c17b7cfed0fecfb3"
+      },
+      {
+        "file": "model/replace-sales-follow-up-record-request.ts",
+        "sha256": "db77cda331ea6e82a29812dc1bde678053d60a2b24d30fb3a8a84d9b348ac19e"
+      },
+      {
+        "file": "model/replace-shared-cost-allocation-result-request.ts",
+        "sha256": "be9f70b7fead04e01872ead9b8f19b7a5616c1354d4137aafe82440c1c3bd4fa"
+      },
+      {
+        "file": "model/replacement-commission-role-assignment-payload.ts",
+        "sha256": "0dc31173768facc1480e7600c02b0a933976b6a6169971ac4b55b79e58ccafd9"
+      },
+      {
+        "file": "model/resolve-invoice-exception-request.ts",
+        "sha256": "e9258b7a64a54264fd7dcba5ff7032c55d427a39b3d0e2a3c64b56da36419376"
+      },
+      {
+        "file": "model/restore-external-department-mapping-request.ts",
+        "sha256": "832501bc6b5a56b5d4f92b0659cb1733337a7ba75dd59ffd339e8e614587f61f"
+      },
+      {
+        "file": "model/review-commercial-release-baseline-diff-request.ts",
+        "sha256": "b4a4842df609d3bd715a6197beced2c4405afeae8d1d64de0a93d369d21d267b"
+      },
+      {
+        "file": "model/review-commission-gate-binding-request.ts",
+        "sha256": "5c3ac2934902557023a200f514d8104f59c81731cca14b6d2c97924d84c928c6"
+      },
+      {
+        "file": "model/review-commission-gate-binding-result.ts",
+        "sha256": "f8ce3c1a327660eb9fb87b114362e98a5077fa4474a5746dd956c3706f9da0f7"
+      },
+      {
+        "file": "model/review-operating-signal-evaluation-request.ts",
+        "sha256": "4a552286b337b7777d6b18c1cf703a76a48cf3ae49fd3e3d2fb5a0114a9f1ad8"
+      },
+      {
+        "file": "model/review-operating-signal-evaluation-result.ts",
+        "sha256": "9f6e32f3d10fd0ac3bfab659310fc559d90db1564f38289101ba5da38408dc12"
+      },
+      {
+        "file": "model/revoke-lead-score-override-request.ts",
+        "sha256": "ed9e59cade12abd3ecc314f6b2756b56d38f7040826e26a6f62f7e2509ca28e1"
+      },
+      {
+        "file": "model/sales-discovery-record-summary.ts",
+        "sha256": "81abb64814484c23701f2e75b000136edf631d4b80f7d63844262d8546d8f1ac"
+      },
+      {
+        "file": "model/sales-follow-up-outcome.ts",
+        "sha256": "4327d7086dde108e7f32c6aa9eb14a488336536d2aff2b3ab73e00578d86a23f"
+      },
+      {
+        "file": "model/sales-follow-up-record-lifecycle-scope.ts",
+        "sha256": "077cf0f2ce77a0ab29498892a380e28351029a715d830f464027f381f62c80e7"
+      },
+      {
+        "file": "model/sales-follow-up-record-status.ts",
+        "sha256": "542bef4da0351ff406623c25ca5c3889d41cf851ab990c969c25cbd4b278da04"
+      },
+      {
+        "file": "model/sales-follow-up-record-summary.ts",
+        "sha256": "961c6938d6cda80699cde03cbcdf55a068227e3085f0958f9dc773411dc44552"
+      },
+      {
+        "file": "model/sales-intelligence-gap-item.ts",
+        "sha256": "a9d63000ec0b3e27e11a20e30821deb2df94ed2c58d31a7cd432ac3f9acfdb68"
+      },
+      {
+        "file": "model/sales-intelligence-gap-severity.ts",
+        "sha256": "8bb819d7f1ab03cdb1a8beb49a2523bafa3a6c1254b62c0d1dcd42d8e0a2460e"
+      },
+      {
+        "file": "model/sales-intelligence-gap-summary.ts",
+        "sha256": "38f968ef4ac908473a1b6de1d53081186b42b9e765a65c316b116aedeec37c30"
+      },
+      {
+        "file": "model/sanitized-user-with-org-units.ts",
+        "sha256": "c9b477004aa5c73b6c2641ce034a972cec72551dbb021b543c1b87e614ec09ec"
+      },
+      {
+        "file": "model/security-event-result.ts",
+        "sha256": "3c903f0eda5bfaa6c56a3eba089085aef0b2408855c8cdc3297d979b95c80a6c"
+      },
+      {
+        "file": "model/security-event-severity.ts",
+        "sha256": "ddc5034c42a5e4fe1754e4ed3ed8c7293d3cd8928dcc73ec6e5ead01d2ad95fe"
+      },
+      {
+        "file": "model/security-event-summary.ts",
+        "sha256": "c075496f6ee78aaa14b5e23932be6fa038ce25c5f5b1ee32a7d73114bab75459"
+      },
+      {
+        "file": "model/sensitive-field-package-key.ts",
+        "sha256": "0310a0a077bc9c6be68d5afd9cbb094cae0f092a15c677ca8210c455f254042f"
+      },
+      {
+        "file": "model/sensitive-projection-mode.ts",
+        "sha256": "9ffdf7ce255170c6da426ad382855d9174402597a0f6a6ba8f9be0309a1859a3"
+      },
+      {
+        "file": "model/sensitive-projection-reason-code.ts",
+        "sha256": "5059874970347e9d938bb9d1e6ad1e2feb0e382adb17901911d11a2f2e3a8f5e"
+      },
+      {
+        "file": "model/sensitive-string-field-projection.ts",
+        "sha256": "9f44fefa110ce3de375dad7a6e92e1fd045e765798bf241b1d23fdecce4d2e90"
+      },
+      {
+        "file": "model/set-default-attachment-storage-provider-request.ts",
+        "sha256": "3bb733fe4209276aee703686eb8eee282ff0fde42ff1abfdc6cc9ef15b73a3d9"
+      },
+      {
+        "file": "model/shared-cost-allocation-basis-summary.ts",
+        "sha256": "16d6385de4100e3933263995c9fb672fede6d06fd8dc3b9e013bca3ded4dff5d"
+      },
+      {
+        "file": "model/shared-cost-allocation-result-summary.ts",
+        "sha256": "9bba22c08451cc92a8d564ec6220de8921e8d5d331a221234f595b51052eb285"
+      },
+      {
+        "file": "model/submit-commission-adjustment-approval-request.ts",
+        "sha256": "b557466103d6dcd2cc68e8f734c7a44322255669ce48cf6b68ec09bd75500ffc"
+      },
+      {
+        "file": "model/submit-commission-freeze-dispute-request.ts",
+        "sha256": "46b6fabaa586f0d7b1d7978be8e96dd7d3253eff4bf96199ce4c36dc754ac507"
+      },
+      {
+        "file": "model/submit-commission-freeze-dispute-result.ts",
+        "sha256": "a75bfd409311572a63b71fc648cd94aa581fd16fd7aad7490889794d6fb6f600"
+      },
+      {
+        "file": "model/submit-commission-payout-approval-request.ts",
+        "sha256": "b7067ce7dda0a7e0bb8f32b3192717a57ef36d26f7211839cf88e30bb179ab2b"
+      },
+      {
+        "file": "model/submit-contract-review-request.ts",
+        "sha256": "9542816a857bb0f86cc04c69e8a68d7914ad1333d0c651a1736f11da99c58084"
+      },
+      {
+        "file": "model/submit-lead-score-override-request.ts",
+        "sha256": "ff7e1caf455b43595e58caeb148d6ff6619e96c47af2ed031f7a5b9556bac96f"
+      },
+      {
+        "file": "model/submit-non-retention-commission-payout-approval-request.ts",
+        "sha256": "26410e2f29f8e4823c032f236e2adba217babcddd48c08fda6502fb54d680522"
+      },
+      {
+        "file": "model/submit-retention-commission-payout-approval-request.ts",
+        "sha256": "7b745d1cf6fe436e4a4987419ae23f0831412ade0322ddef9af6823b15606e62"
+      },
+      {
+        "file": "model/system-setting-key.ts",
+        "sha256": "8504d6da03f32b458b35086bdd94296a9c8aa39622400c1fc90aa653a8f1d1d1"
+      },
+      {
+        "file": "model/system-setting-summary.ts",
+        "sha256": "2376a006fca97780eb32cf3a3e34402e7bf46293cea1972d0be2dc32ce79b8eb"
+      },
+      {
+        "file": "model/system-setting-value-type.ts",
+        "sha256": "828f47b059ab9f50e34bca5bf4d69e86cd80a34d610078e82f9da646736ef9c8"
+      },
+      {
+        "file": "model/target-object-type.ts",
+        "sha256": "c5ae4b108e6b7bd704f64b351a7f41644df24149f30ebbbe76e28229be08f730"
+      },
+      {
+        "file": "model/test-attachment-storage-provider-connection-request.ts",
+        "sha256": "f5ab01345265923860cf835ff4247f5389fd591a8a0ff689302887c09720f6fc"
+      },
+      {
+        "file": "model/test-identity-provider-connection-request.ts",
+        "sha256": "5311d2572bf06a017bc85c80fa062606be26d61d0172eeae70fa72269901f406"
+      },
+      {
+        "file": "model/todo-item-summary.ts",
+        "sha256": "32a9fa2288362e7be5d5e7fdc81666618b1217f471cdaa6448274bad33d931f9"
+      },
+      {
+        "file": "model/todo-priority.ts",
+        "sha256": "e0ba797dd7d31abc710387d1841a0f54cdbea25e362bad11931387ada29d2f35"
+      },
+      {
+        "file": "model/todo-source-type.ts",
+        "sha256": "765f7d8c01db14c55aaf0591bb7feaf8fb4f9f0411266aeff0d8ace47f340439"
+      },
+      {
+        "file": "model/todo-status.ts",
+        "sha256": "970ef0380421d0144ff447370c0a5406274e4f373e2b3e3ef8f4072f0cb99fef"
+      },
+      {
+        "file": "model/todo-type.ts",
+        "sha256": "128abd0902b9a6c2e0ec11436fcc0a5a2083443178503fc301c914c7005594ff"
+      },
+      {
+        "file": "model/unbind-external-identity-request.ts",
+        "sha256": "a045b7007a27594dfd942a0d1e20c5f3c6628a935ade1ffd566fc4d816f831c9"
+      },
+      {
+        "file": "model/unmap-external-department-mapping-request.ts",
+        "sha256": "7dab4da7598b2ed46ef5dc11af74bcf2402eedc9926526a22701cf966442546c"
+      },
+      {
+        "file": "model/update-attachment-request.ts",
+        "sha256": "c288c83024aa44c3f0aaeb89c462a8afb2967234bf709372d44fe125c8e33fde"
+      },
+      {
+        "file": "model/update-attachment-storage-provider-config-request.ts",
+        "sha256": "2ccba937297efb08bc1d9bced1dd00b7ef688bba7a434148aef56c9392720316"
+      },
+      {
+        "file": "model/update-competitor-intelligence-record-request.ts",
+        "sha256": "a760e31533571d6c60ac8ccf6a44297e79990b0cff711156807cbf9c005a195a"
+      },
+      {
+        "file": "model/update-contract-basic-info-request.ts",
+        "sha256": "c60c06f9d6afd9e0909de5e86463b1ca5a6a0c0392dc7ee12dce7b6f8e761fce"
+      },
+      {
+        "file": "model/update-current-user-profile-request.ts",
+        "sha256": "4e55e22e7ab05a765a099e1a8fb2cbed3f7490f57275211e2b0db30e1fa542ad"
+      },
+      {
+        "file": "model/update-customer-contact-request.ts",
+        "sha256": "fcaf84c70836d471a4818d3246365d28ff712dc0a95fbaf5bac5d2d6a41392b1"
+      },
+      {
+        "file": "model/update-customer-request.ts",
+        "sha256": "5cb05d817fdb91b40e025139c87b3419b9ab3e1c52bea26cd1b569f558ee975b"
+      },
+      {
+        "file": "model/update-dictionary-item-request.ts",
+        "sha256": "0008440e7c784404addf76483b68e09ef1f28787a7bc8878e45c4e88b7b50e04"
+      },
+      {
+        "file": "model/update-expense-record-request.ts",
+        "sha256": "ee4e155e5e4166dea6c03ac863589aadba1442de1e3d6c6bd4f3af72fdf723eb"
+      },
+      {
+        "file": "model/update-external-org-source-request.ts",
+        "sha256": "d1d0a0a7cbea50467bd7377091a07e2247ac049ae2b88ded375dd31154cbc240"
+      },
+      {
+        "file": "model/update-identity-provider-config-request.ts",
+        "sha256": "33b48cdd63273fe29c7870767949816ce4eab34ab8a09eaf974281f4da190135"
+      },
+      {
+        "file": "model/update-invoice-record-request.ts",
+        "sha256": "c50794783f131b844b13a42ca943320b58aa25f9b5901d0951a763b654b24d42"
+      },
+      {
+        "file": "model/update-lead-request.ts",
+        "sha256": "560574cb4de44ceda8816e6ff23d66e90415202851523b116ffeb6c5be2d9f11"
+      },
+      {
+        "file": "model/update-opportunity-stakeholder-request.ts",
+        "sha256": "8307275dd48e73365549bb7d0424cebffe1a22f55f8fc16ed42b543565b0769c"
+      },
+      {
+        "file": "model/update-org-unit-activation-request.ts",
+        "sha256": "22038aeb6f0bce3bf0bcb2d66fe0b831a338e9868847e0636de6ff369a543cc9"
+      },
+      {
+        "file": "model/update-org-unit-request.ts",
+        "sha256": "4babaa3d6324ed0bcf77acb5d4958486e09071060d7b59368b9b907ef22bc53e"
+      },
+      {
+        "file": "model/update-payable-record-request.ts",
+        "sha256": "7bceda8a8377685657cec1d3cc39baf7e2c596d8031400db1095342da20d92d6"
+      },
+      {
+        "file": "model/update-platform-user-activation-request.ts",
+        "sha256": "f29b43fcaf61d414d3615767d156e6c56e9a735b2a7a41bdbf4ee40d4bdc6de4"
+      },
+      {
+        "file": "model/update-platform-user-request.ts",
+        "sha256": "8fbf7c7279db3a4e82e8afaf02daab758eb9714169b31e59375e35eecddb9e99"
+      },
+      {
+        "file": "model/update-project-basic-info-request.ts",
+        "sha256": "f05eb44ce5cf3c7e25110deaf12d42c4844ba38d03e0aa5f292be173b0112422"
+      },
+      {
+        "file": "model/update-role-activation-request.ts",
+        "sha256": "12fef0f44ba02f4decc61205a8cd47c4ff6b9ac7b0428d7b55572cefd8dc9f4f"
+      },
+      {
+        "file": "model/update-role-request.ts",
+        "sha256": "aeedba29164acd03847e2e46fcfd0c6e1ecffdad88148483dc41476c008ccbc2"
+      },
+      {
+        "file": "model/update-sales-discovery-record-request.ts",
+        "sha256": "08bd13521c47ec94c6cb048a4b8c33072b6e8867a7f4d9431e844ce4cb38dfd7"
+      },
+      {
+        "file": "model/update-system-setting-request.ts",
+        "sha256": "c9ee39d3caf8860e1a2ba8c05f8913c6ff19c53d41b6e3e9a4db9f343c838803"
+      },
+      {
+        "file": "model/user-org-unit-membership-type.ts",
+        "sha256": "ce6e316e9ed26041fd602cb10770f2c23b8f912f02e67315c0f2000f6513648a"
+      },
+      {
+        "file": "model/user-org-unit-summary.ts",
+        "sha256": "6cb5ecefc810955e32ffe532d9d41535a67ea4cf3eb9f68730637f6af545f15d"
+      },
+      {
+        "file": "model/void-attachment-request.ts",
+        "sha256": "efe45dac675251e2ebd0d332ed695dbb3b5d1823b7a026a4060208181fd5ced2"
+      },
+      {
+        "file": "model/void-expense-record-request.ts",
+        "sha256": "ef42cef045f495159ba2baa80555bf2bcee36b4c8638f6096e167977703d7128"
+      },
+      {
+        "file": "model/void-payable-record-request.ts",
+        "sha256": "463cf8d1dbcc55a9b44dfc0f0adeb89b069df106ba1479becdd62cad6fe7b870"
+      },
+      {
+        "file": "model/void-project-archive-record-request.ts",
+        "sha256": "b665a1057a64bf40bc99aece2e709eb48f58ec2f084ba2723547161f82cfc4ac"
+      },
+      {
+        "file": "model/void-sales-follow-up-record-request.ts",
+        "sha256": "2fad2cb561811008199cad9436094b46134a5e800517d2bb5fdbfcb467718794"
+      },
+      {
+        "file": "model/win-probability-level.ts",
+        "sha256": "a1468fb914a6394121317b285a2dd58ee815831040c0b7d3c2b98727433e3a21"
+      },
+      {
+        "file": "param.ts",
+        "sha256": "6056b8bde39b7e7fde1f9115a3c758b995780718100166e14a7c2e6722d01f62"
+      },
+      {
+        "file": "project.json",
+        "sha256": "c0ee6159a0de1071ea10b07707393d1a69e8a68c5aaba926b624bc05ef5d79fa"
+      },
+      {
+        "file": "provide-api.ts",
+        "sha256": "59447fc5940a3fa10276c23123a7ade5367ef0fb761605e0cb812600739808e4"
+      },
+      {
+        "file": "query.params.ts",
+        "sha256": "ce96a8a9a584c38c6c29f4d9db9915d75a60f6000be03134d3d5fd5682760286"
+      },
+      {
+        "file": "tsconfig.json",
+        "sha256": "ad6576e9bc540527d7a43003e55b74471a77a92a3caf43c2fb9cb68635913208"
+      },
+      {
+        "file": "tsconfig.lib.json",
+        "sha256": "4055b9753b63413b239616fb118f97f37aedccc7e5cc184e7f1b9aa6eed752f8"
+      },
+      {
+        "file": "variables.ts",
+        "sha256": "e926ef2b3e4e568185855af5a8341e015b0e654167b8947de382091f4277a9e3"
+      }
+    ],
+    "windowsTests": {
+      "log": "client-tests-windows.log",
+      "tests": 42,
+      "skipped": 0,
+      "result": "pass"
+    },
+    "linuxTests": {
+      "log": "client-tests-linux.log",
+      "tests": 40,
+      "skipped": 0,
+      "result": "pass"
+    },
+    "normalizationOracleCases": 21,
+    "platformDifference": "Windows additionally executes two PowerShell-specific integration cases; neither platform skips a required test"
+  },
+  "buildAndStatic": {
+    "nestBuild": "pass",
+    "angularBuild": "pass",
+    "sharedClientBuild": "pass",
+    "apiAndAdminLint": "pass, zero new warnings",
+    "apiE2eTypecheck": "pass",
+    "browserTypecheck": "pass",
+    "nodeToolsESLint": "pass, zero warnings",
+    "apiE2eESLint": "pass, four pre-existing non-null warnings verified against baseline, zero new",
+    "prettier": "pass for affected tool/config/TS files",
+    "nxApiE2eWindows": "pass, 13 foundation; no implicit seed",
+    "nxBrowserE2eLinuxRust": "pass, real auth smoke; no implicit seed",
+    "nxFullOpenapiClientCheck": "pass; upstream full-spec refresh is not globally read-only"
+  },
+  "review": {
+    "runtimeAndApi": "C non-author Pass, final vanished-anchor P2 closed",
+    "apiFixtureAndThree409Expectations": "C non-author Pass against e951 AST and current unchanged production sources",
+    "browser": "root actual four-case matrix; C author static; A common interface review",
+    "generator": "C independent non-author Pass including real check, files and mtime unchanged",
+    "environmentAdmissionAndExternalController": "A non-author Pass, casefold/loader P2 closed",
+    "databasePreparationAndImage": "B non-author Pass, untracked-source coverage P2 closed",
+    "sharedContractBuildMetadata": "B and C non-author Pass",
+    "remainingP1P2": 0
+  },
+  "retainedFailures": [
+    {
+      "run": "nest-full-windows-first.log",
+      "result": "69/72 pass, three stale 409 message expectations; CP04 corrected"
+    },
+    {
+      "run": "nest-full-windows-final.log",
+      "result": "69/72 pass, reused mutable seeded fixtures without explicit refresh; final run uses guarded reseed"
+    },
+    {
+      "run": "foundation-windows-nest.json",
+      "result": "13/13 failed before requests because caller omitted required explicit synthetic credentials; corrected invocation passes"
+    },
+    {
+      "run": "lifecycle-linux-synced.log",
+      "result": "40/41 pass; kill(pid,0) misclassified terminated Z; state/exitCode verified and cleanup race fixed"
+    },
+    {
+      "run": "original-r1d-private-cache",
+      "result": "Chromium full native activation14001; byte-identical official full binary passes in new isolated temp cache; exact ACL cause unproven"
+    }
+  ],
+  "logFilesSha256": {
+    "admin-build-cp01-fresh.log": "ff53deb4ed114b63336de06b62301d557f36574109f25f9addcde6137e06f3a9",
+    "admin-build-cp01-root.log": "f2a103d41796f68710b5be2d777958d420f6983b9053a876f52d8d3c5d0e6867",
+    "admin-build-cp01.log": "0767196b3d13a0eff0c9cc0ea0629bf2cfcb48461385676002889ae543e7c152",
+    "admin-build-final-config.log": "7ac3eb97268fa77c048385d0121b5537ab7f7c6f0aa9d18777a7ca12fb5c0e6f",
+    "admin-build-rerun.log": "3e7fa84d1c21f80bd78b775c445ca751edf668af4b3fb6abc60ef62cde1c83ea",
+    "admin-build.log": "d0faf7ba831944d9273f20bc1833592a5814a9733de87596002fa74cfb0c4906",
+    "app-lint.log": "fa7c51bd2ba5154172a48b137b79807bd4a25fc4d7586c4f4a94e72f30ba866c",
+    "browser-typecheck-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "client-tests-linux.log": "8785a98bfbd5e020045158df4032293f32057c0f56c7e0373197c5b8a729fa45",
+    "client-tests-windows.log": "9227b9ba9c70c5448b640776cfe3fb5365f2ec730e71ea1d6f20ab4c7cb6c6ae",
+    "external-linux-nest.log": "058b8e520c1d2ad994de209096e391365660f411d329c2bd2a609a345a50832e",
+    "external-linux-rust-final.log": "4b746eaaf43e3f73714856e82f2901bb44a8d43f8766e11b20bbb48b99b32c43",
+    "external-linux-rust-first.log": "4b746eaaf43e3f73714856e82f2901bb44a8d43f8766e11b20bbb48b99b32c43",
+    "external-win32-managed-nest.log": "3893b23b167ce1accc183b308261610e6a684711719f1ab4eef22223a7e9b09a",
+    "external-windows-nest.log": "8aee30efdc5ad0434c4d64dd7b3dac34d463eaaeb7102ee2f7e71bec7bb9f791",
+    "format-code-check.log": "f20510a9da4717c51c4cffee6d0dd88d6c9a723d0a83711d01216f5b48961283",
+    "foundation-linux-nest.log": "ec6ed91c28081b504a54dc02b791c274db16afc1a2af6b489c7d2b9b3ade4cb1",
+    "foundation-linux-rust-final.log": "96f871a4e461c6ef8491c87df0b031075d9f8e6651231d99b239a158af5c3610",
+    "foundation-linux-rust.log": "72ca67ab123ae6d4b89762d68f6cd26a3fb234c47fa8ad9a856786e15a48e487",
+    "foundation-windows-external-rust.log": "bb0670a5c7d8f3d631ea4d10d73c3b3d861609be5f2eb38ae85e18ecac06759a",
+    "foundation-windows-nest-accepted.log": "c13cf74c210ea1a530f19dd54ba1cfa51c05947ba567ce4b88144c82b2913f30",
+    "foundation-windows-nest.log": "b8787b955eef63aca04e9fabce5708b29d8dafc696b8ee150d69e8587f97a8f0",
+    "lifecycle-linux-accepted.log": "9dee77b75a9c3b0dc5440ee524c19e5a8135f1a50015475c803fb667a499b90a",
+    "lifecycle-linux-final-accepted.log": "f8b71032d4fb84ef8545928b30b178b1dfaa54748e7452add429350772facdfa",
+    "lifecycle-linux-final.log": "7506d3806aa0ea648f5df3d3129ea8315e1e5544abe1e48251815a1ff534a357",
+    "lifecycle-linux-synced.log": "44377a2608ac64d061d3b852b82539cff750c29a4444416883c5c0b345566113",
+    "lifecycle-windows-accepted.log": "46479e11bc8dcf160779f97d1cc0badc30627f1d3395cda998f2ef40c11b479c",
+    "lifecycle-windows-final-accepted.log": "5d02ca73dda1e14a25f5eb6c70c9068499f681274a4785899d8ef91cc3fc4419",
+    "linux-browser-nest-first.log": "db97051d73999adff665939de5c74e7450dd3680612827973a5fc2f28d20e905",
+    "linux-browser-rust-first.log": "b247fdaa17ba71873c4d7fc928a7c8603df91179e668cf9fe5d09feef57faece",
+    "managed-environment-windows-final.log": "d055456c84d816bb9c97cc24e6dee4f140877ff59e0d61623c2bd12e6511bf05",
+    "managed-environment-windows.log": "07af5665004f8b84e9869f1b44edc262201e15fa1f031226c6f19eaf040e2535",
+    "markdown-check.log": "f433935e2ae0db58657ff007396583fa650730579c9449f3bdba0b294e4fac6a",
+    "markdown-format.log": "71c7b8af523bb085b44df91a30e67d35d9bbc831c51ff9a418fef527870069c8",
+    "nest-build-cp01.log": "b365be42854b013dba2c18f6553e826da1ff3a76d73c105b9bc9f0f718fc6ccf",
+    "nest-build.log": "f52b90f9a69bde58d1835cd78f682c86b0f5ae104676a4b0f6076bf6d110a669",
+    "nest-full-windows-accepted.log": "29f31daa8af0a6f94a9943a978e1bfaa72c588ca6be1243653588b96218280f8",
+    "nest-full-windows-final.log": "b73fe057fb5d43069301fe6010508155e05e967d128499455c6fe1b071360878",
+    "nest-full-windows-first.log": "6bd2aa7de27193381e2ecb15562ae52a8a5fa9443e50b05a684047b82d5fe552",
+    "nest-full-windows-reseeded.log": "c746d4cbee8ac55fd892d7b570ef4b70de2961b7825db7ef4dc5357dfd5c5935",
+    "nx-api-e2e-windows.log": "85e62fd48d7340767f95f2b869dfa60aef704a0badf7794296fa69ce7015ab62",
+    "nx-browser-e2e-linux.log": "fa65525aa1118fe2847048b4e1acfdfb7b0302dc0bbdb18b72c561fa63e90ed5",
+    "nx-client-check.log": "89762620eabdfc4253d5980f42e483f033b88635f38ec024dca72496f724a7c0",
+    "tools-eslint-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "notIncluded": [
+    "R1E full browser journeys/whole-stage acceptance",
+    "R2 business implementation",
+    "migration ownership takeover",
+    "deployment",
+    "PG17 access or mutation"
+  ],
+  "gates": {
+    "g1": "Pass before coding",
+    "g3": "Pass after source, real matrix and non-author review; documentation checks recorded in baseline",
+    "g4": "Pending implementation commit/push then lifecycle archive and issue closeout"
+  }
+}

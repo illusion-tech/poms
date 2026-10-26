@@ -3,31 +3,42 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/api-client",
-  "tags": ["scope:shared", "type:generated"],
+  "tags": [
+    "scope:shared",
+    "type:generated"
+  ],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/out-tsc/libs/shared/api-client"],
+      "outputs": [
+        "{workspaceRoot}/dist/out-tsc/libs/shared/api-client"
+      ],
       "options": {
         "command": "pnpm exec tsc -b libs/shared/api-client/tsconfig.lib.json --pretty false"
       }
     },
     "generate": {
       "executor": "nx:run-commands",
-      "dependsOn": ["poms-api:openapi"],
+      "dependsOn": [
+        "poms-api:openapi"
+      ],
       "options": {
         "commands": [
-          "powershell -NoProfile -File tools/openapi/generate-shared-api-client.ps1"
+          "node tools/openapi/shared-api-client.mjs --write"
         ],
         "parallel": false
       },
-      "outputs": ["{workspaceRoot}/libs/shared/api-client"]
+      "outputs": [
+        "{workspaceRoot}/libs/shared/api-client"
+      ]
     },
     "check": {
       "executor": "nx:run-commands",
-      "dependsOn": ["poms-api:openapi"],
+      "dependsOn": [
+        "poms-api:openapi"
+      ],
       "options": {
-        "command": "powershell -NoProfile -File tools/openapi/check-shared-api-client.ps1"
+        "command": "node tools/openapi/shared-api-client.mjs --check"
       }
     }
   }

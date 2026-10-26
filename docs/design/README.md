@@ -370,3 +370,4 @@
 - 若某类文档后续数量明显增多，再考虑在该类内部增加子目录或局部编号
 - 每次新增、归档或调整设计资产时，应同步更新本 README 与 `poms-design-progress.md`
 - **G4 归档规则**：切片 `*-g3-g4-closeout.md` 写完并 commit 后，该切片所有 `*-baseline.md`、`*-closeout.md`、`*-corrective-checkpoint.md` 须在同一 commit 或紧跟 commit 中迁移至 `archive/slices/`
+- [rust-r1d-e2e-client-baseline.md](rust-r1d-e2e-client-baseline.md)：R1D #65 通用双后端 E2E、跨平台浏览器启动与完整客户端生成的冻结输入；G1 Pass，实施中

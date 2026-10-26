@@ -18,10 +18,7 @@ export function makeUniqueSuffix(prefix: string): string {
     return `${prefix}-${Date.now()}-${randomUUID().slice(0, 8)}`.toUpperCase();
 }
 
-export function buildProjectInput(
-    _profile: SanitizedUserWithOrgUnits,
-    overrides: Partial<CreateProjectRequest> & { projectName: string; customerProjectNo?: string | null }
-): CreateProjectRequest {
+export function buildProjectInput(_profile: SanitizedUserWithOrgUnits, overrides: Partial<CreateProjectRequest> & { projectName: string; customerProjectNo?: string | null }): CreateProjectRequest {
     return {
         projectName: overrides.projectName,
         customerId: overrides.customerId ?? DEFAULT_E2E_CUSTOMER_ID,
@@ -31,30 +28,20 @@ export function buildProjectInput(
     };
 }
 
-export function buildContractInput(
-    projectId: string,
-    actorUserId: string,
-    overrides: Partial<CreateContractRequest> & { signedAmount: string; customerContractNo?: string | null }
-): CreateContractRequest {
+export function buildContractInput(projectId: string, actorUserId: string, overrides: Partial<CreateContractRequest> & { signedAmount: string; customerContractNo?: string | null }): CreateContractRequest {
     return {
         projectId,
         customerContractNo: overrides.customerContractNo ?? null,
         signedAmount: overrides.signedAmount,
         status: overrides.status,
         currencyCode: overrides.currencyCode,
-        currentSnapshotId: overrides.currentSnapshotId,
         signedAt: overrides.signedAt,
         createdBy: overrides.createdBy ?? actorUserId,
         updatedBy: overrides.updatedBy ?? actorUserId
     };
 }
 
-export function buildCommercialReleaseBaselineInput(
-    projectId: string,
-    actorUserId: string,
-    unique: string,
-    overrides?: Partial<CreateCommercialReleaseBaselineRequest>
-): CreateCommercialReleaseBaselineRequest {
+export function buildCommercialReleaseBaselineInput(projectId: string, actorUserId: string, unique: string, overrides?: Partial<CreateCommercialReleaseBaselineRequest>): CreateCommercialReleaseBaselineRequest {
     const defaultBaselineCode = `BL-${unique}`.slice(0, 64);
 
     return {
@@ -83,13 +70,7 @@ export function buildCommercialReleaseBaselineInput(
     };
 }
 
-export function buildContractReadinessPackageInput(
-    projectId: string,
-    actorUserId: string,
-    sourceBaselineId: string,
-    latestDiffResultId: string,
-    overrides?: Partial<CreateContractReadinessPackageRequest>
-): CreateContractReadinessPackageRequest {
+export function buildContractReadinessPackageInput(projectId: string, actorUserId: string, sourceBaselineId: string, latestDiffResultId: string, overrides?: Partial<CreateContractReadinessPackageRequest>): CreateContractReadinessPackageRequest {
     return {
         projectId,
         sourceBaselineId,
@@ -122,10 +103,7 @@ export function buildCommissionRuleVersionInput(unique: string): CreateCommissio
     };
 }
 
-export function buildRoleAssignmentInput(
-    profile: SanitizedUserWithOrgUnits,
-    overrides?: Partial<CreateCommissionRoleAssignmentRequest>
-): CreateCommissionRoleAssignmentRequest {
+export function buildRoleAssignmentInput(profile: SanitizedUserWithOrgUnits, overrides?: Partial<CreateCommissionRoleAssignmentRequest>): CreateCommissionRoleAssignmentRequest {
     return {
         participants: overrides?.participants ?? [
             {
@@ -138,10 +116,7 @@ export function buildRoleAssignmentInput(
     };
 }
 
-export function buildCalculationInput(
-    ruleVersionId: string,
-    overrides?: Partial<CreateCommissionCalculationRequest>
-): CreateCommissionCalculationRequest {
+export function buildCalculationInput(ruleVersionId: string, overrides?: Partial<CreateCommissionCalculationRequest>): CreateCommissionCalculationRequest {
     return {
         ruleVersionId: overrides?.ruleVersionId ?? ruleVersionId,
         recognizedRevenueTaxExclusive: overrides?.recognizedRevenueTaxExclusive ?? '100000.00',
@@ -149,10 +124,7 @@ export function buildCalculationInput(
     };
 }
 
-export function buildPayoutInput(
-    calculationId: string,
-    overrides?: Partial<CreateCommissionPayoutRequest>
-): CreateCommissionPayoutRequest {
+export function buildPayoutInput(calculationId: string, overrides?: Partial<CreateCommissionPayoutRequest>): CreateCommissionPayoutRequest {
     return {
         calculationId,
         stageType: overrides?.stageType ?? 'first',
@@ -160,11 +132,7 @@ export function buildPayoutInput(
     };
 }
 
-export function buildAdjustmentInput(
-    calculationId: string,
-    payoutId: string,
-    overrides?: Partial<CreateCommissionAdjustmentRequest>
-): CreateCommissionAdjustmentRequest {
+export function buildAdjustmentInput(calculationId: string, payoutId: string, overrides?: Partial<CreateCommissionAdjustmentRequest>): CreateCommissionAdjustmentRequest {
     return {
         adjustmentType: overrides?.adjustmentType ?? 'suspend-payout',
         relatedPayoutId: overrides?.relatedPayoutId ?? payoutId,
