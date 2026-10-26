@@ -1,6 +1,6 @@
 # RUST-R1C 实施纠偏 Checkpoint
 
-- Checkpoint Status: `Pass`（G3 最终冻结复验通过，G4 待提交归档）
+- Checkpoint Status: `Pass`（G3 最终冻结复验通过，G4 已交付归档）
 - Parent: [R1C #64](https://github.com/illusion-tech/poms/issues/64)；[G1 基线](rust-r1c-auth-session-baseline.md)
 - Owner: 主代理；G3 Reviewer: 非作者子代理交叉审查
 - Slice Type: `cross-layer-high-risk`；日期: 2026-10-26
@@ -42,7 +42,7 @@
 
 ## 2. 当前结论
 
-G3 为 Pass。CP01–06 已按原行为修复并通过最终复验；CP07 的无序集合规则由实际 SQL 与独立正负断言支持；CP08 以固定公开 gzip 字节解除跨平台工具噪声。最终证据见 [机器验收记录](rust-r1c-validation.json)及 [G3 矩阵](rust-r1c-auth-session-baseline.md#7-g3-最终验收)。无 gate 绕过、未修复 P1/P2 或延后补验项；G4 等待实现提交、推送和归档。
+G3 为 Pass。CP01–06 已按原行为修复并通过最终复验；CP07 的无序集合规则由实际 SQL 与独立正负断言支持；CP08 以固定公开 gzip 字节解除跨平台工具噪声。最终证据见 [机器验收记录](../../rust-r1c-validation.json)及 [G3 矩阵](rust-r1c-auth-session-baseline.md#7-g3-最终验收)。无 gate 绕过、未修复 P1/P2 或延后补验项；G4 已随实现提交 `69ab8ac8d9105eecc1d7bc2589570d9825d25664` 推送和本次生命周期归档完成；精确归档提交见 #64 G4 评论。
 
 ## 3. 验证与切片边界
 

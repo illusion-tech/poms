@@ -1,6 +1,6 @@
 # R1C 认证、会话和密文兼容工具
 
-正式输入与完成证据见 [R1C 基线](../../docs/design/rust-r1c-auth-session-baseline.md)。本目录运行四个认证操作的兼容验证；TypeScript、完整 OpenAPI 以及 R1B 共享定义继续为权威来源。
+正式输入与完成证据见 [R1C 基线](../../docs/design/archive/slices/rust-r1c-auth-session-baseline.md)。本目录运行四个认证操作的兼容验证；TypeScript、完整 OpenAPI 以及 R1B 共享定义继续为权威来源。
 
 ## 固定运行环境
 

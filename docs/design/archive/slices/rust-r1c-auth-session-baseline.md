@@ -4,18 +4,18 @@
 **Task / Parent**: [R1C #64](https://github.com/illusion-tech/poms/issues/64) / [R1 #60](https://github.com/illusion-tech/poms/issues/60)
 **Slice Type**: `cross-layer-high-risk`
 **Owner**: 主代理集成；A HTTP/Cookie/CSRF/权限，B 持久化/会话/最小审计，C 密码/密文；非作者交叉审查
-**Gate**: G1/G3 `Pass`；G4 Pending，R1C Doing
+**Gate**: G1/G3/G4 `Pass`；R1C Done
 **起点**: `1013afef266602e7c98eb433bd0f14483be3d7fd`；独立 managed worktree 与 Linux checkout；solo worktree checkpoint
 
 ## 1. 范围与正式输入
 
-用户授权将 Rust 升至最新 stable，并按已冻结输入交付 R1C；在隔离 PG15 验证，保留原 PG17 实例和数据。正式输入为 [R1 基线](rust-r1-foundation-baseline.md)、[R0F 路由](archive/slices/rust-r0f-route-baseline.md)、[数据/121 字段](rust-r0f-data-compat.md)、[认证兼容](archive/slices/rust-r0f-auth-compat-baseline.md)、ADR-017/018，以及这些基线绑定的现有 TypeScript、完整 OpenAPI 和 119 个认证样本。
+用户授权将 Rust 升至最新 stable，并按已冻结输入交付 R1C；在隔离 PG15 验证，保留原 PG17 实例和数据。正式输入为 [R1 基线](../../rust-r1-foundation-baseline.md)、[R0F 路由](rust-r0f-route-baseline.md)、[数据/121 字段](../../rust-r0f-data-compat.md)、[认证兼容](rust-r0f-auth-compat-baseline.md)、ADR-017/018，以及这些基线绑定的现有 TypeScript、完整 OpenAPI 和 119 个认证样本。
 
 本切片完成四个认证操作、会话及为其必需的账户/凭证/角色/组织读取、最小审计、Cookie/CSRF/default-deny/敏感字段投影、bcrypt 和 v1 密文。R1A 三 GET 回归，共七个已冻结操作。不实现完整平台写入、真实外部 provider、业务域、通用 E2E/client 入口（R1D）、真实浏览器综合验收（R1E）、SQL migration 接管（R6）或部署。
 
 ## 2. 路由与命令合同
 
-[Canonical inventory](api-route-canonical-inventory.md) 的 Auth 四行均为 aligned；全局前缀 `/api` 保持，未增加公共路径。
+[Canonical inventory](../../api-route-canonical-inventory.md) 的 Auth 四行均为 aligned；全局前缀 `/api` 保持，未增加公共路径。
 
 | 操作                          | 访问和副作用                                                                    | 输入/输出边界                                                                                    |
 | ----------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -60,7 +60,7 @@ G4 需实现合入、提交推送、issue/追踪同步及生命周期归档。�
 
 ## 7. G3 最终验收
 
-G3 `Pass`（2026-10-26）。[机器记录](rust-r1c-validation.json)绑定 73 个最终源码/工具文件的 LF 规范化 SHA-256、release 二进制、镜像、实际日志、原始无序集合观察值和此前失败留证；Windows 提交输入与 Linux 运行输入逐文件相同。产品源码冻结后完成下列验证，后续只调整无序集合比较工具和治理文档。
+G3 `Pass`（2026-10-26）。[机器记录](../../rust-r1c-validation.json)绑定 73 个最终源码/工具文件的 LF 规范化 SHA-256、release 二进制、镜像、实际日志、原始无序集合观察值和此前失败留证；Windows 提交输入与 Linux 运行输入逐文件相同。产品源码冻结后完成下列验证，后续只调整无序集合比较工具和治理文档。
 
 | 检查                               | 实际结果                                                                                                 | 边界                                                                                                                               |
 | ---------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
@@ -81,4 +81,6 @@ A 审查主代理全局 HTTP/OpenAPI/退出集成与 C 密码密文；B 审查�
 
 ## 8. G4 交付状态
 
-等待实现提交合入 main、推送与 issue/文档归档；仅在这些步骤完成后标记 R1C Done。R1D/E 不属于本次交付。
+实现提交 `69ab8ac8d9105eecc1d7bc2589570d9825d25664` 已合入并推送 main；[G3 在线记录](https://github.com/illusion-tech/poms/issues/64#issuecomment-6405696897)绑定相同源码与验证证据。本归档提交同步 R1C #64 验收清单、生命周期归档和全部当前索引，G4 Pass。最终归档提交号由 issue 的 G4 评论记录，避免文档自引用提交哈希。父 R1 #60 保持 Doing，R1D/E Todo；没有启动后续切片或部署。
+
+归档仅移动本基线与纠偏记录、修复相对链接并回写状态。73 个实现/工具指纹和已验收二进制保持不变；再次验证 Markdown、diff 和相对文档链接。此前失败日志、旧 R0/R1A/B 镜像以及本轮 Linux checkout/产物/日志和隔离 PG15 保留，完成后的 managed worktree 可归档回收。

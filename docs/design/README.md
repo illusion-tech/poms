@@ -113,6 +113,7 @@
 - [rust-r1-foundation-baseline.md](rust-r1-foundation-baseline.md)：R1 应用与兼容基础的逐路由、字段、配置、测试入口及验收输入；工程状态见 Issue #60
 - [rust-r1a-application-baseline.md](archive/slices/rust-r1a-application-baseline.md)：R1A #62 已交付的工程、SQLx、三路由与启停基线及 G3/G4 记录
 - [rust-r1b-shared-types-baseline.md](archive/slices/rust-r1b-shared-types-baseline.md)：R1B #63 单向共享类型生成与基础兼容边界及 G3/G4 记录；[机器验收证据](rust-r1b-validation.json)
+- [rust-r1c-auth-session-baseline.md](archive/slices/rust-r1c-auth-session-baseline.md)：R1C #64 认证/会话/Cookie/CSRF/权限与密文兼容及 G3/G4；[纠偏记录](archive/slices/rust-r1c-corrective-checkpoint.md)、[机器验收证据](rust-r1c-validation.json)
 - `implementation-governance-gates.md`：设计到实现治理闸口，聚焦冻结闸口、合并闸口、子切片治理、例外留痕、风险分层证据、GitHub issue-first 迁移与过渡规则
 - `phase2-development-execution-tracker.md`：第二阶段开发执行追踪板；在 GitHub issue-first Phase 1 中作为 transitional index 镜像 issue 状态、任务拆解与执行回写
 - `archive/README.md`：历史过程资产归档入口，负责区分当前正式输入与归档过程文档
