@@ -167,7 +167,8 @@ try {
     const ready = health(res.body, 'ready', true);
     check('database-success-message', ready.checks.database.message === 'Database connection is healthy.');
     res = await request(running.port, `/api/unimplemented?token=${sentinel}`);
-    check('unknown-route-error', res.status === 404 && JSON.parse(res.body).statusCode === 404);
+    // R1C's original Nest HTTP oracle corrected the earlier JSON assumption.
+    check('unknown-route-error', res.status === 404 && res.headers['content-type'] === 'text/html; charset=utf-8' && res.body.includes('<pre>Cannot GET /api/unimplemented</pre>') && !res.body.includes(sentinel));
     check('unsupported-method-error', (await request(running.port, '/api', 'POST')).status === 404);
     res = await request(running.port, '/api', 'OPTIONS', {
         Origin: 'http://localhost:4200',

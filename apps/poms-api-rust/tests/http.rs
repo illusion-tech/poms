@@ -254,12 +254,29 @@ fn controlled_health_views_match_the_existing_typescript_goldens() -> TestResult
 }
 
 #[tokio::test]
-async fn unsupported_methods_and_unimplemented_routes_keep_nest_404_shape() -> TestResult {
+async fn unsupported_methods_and_unimplemented_routes_keep_actual_express_404_shape() -> TestResult
+{
     let app = application(&["http://localhost:4200"]).await?;
+    let golden: HashMap<String, Box<serde_json::value::RawValue>> =
+        serde_json::from_str(include_str!("../../../tools/rust-r1c/http-golden.json"))?;
+    let cases: Vec<Box<serde_json::value::RawValue>> = serde_json::from_str(golden["cases"].get())?;
+    let case = cases
+        .iter()
+        .find(|case| case.get().contains("\"unknown-get-valid-body\""))
+        .ok_or("missing 404 oracle")?;
+    let case: Value = serde_json::from_str(case.get())?;
+    let observed = &case["observed"];
+    let template = observed["body"]["rawText"]
+        .as_str()
+        .ok_or("missing actual 404 HTML")?;
     for (method, uri) in [
         (Method::POST, "/api"),
         (Method::DELETE, "/api/health"),
-        (Method::GET, "/api/auth/session"),
+        (Method::GET, "/api/auth/session?token=not-reflected"),
+        (Method::GET, "/api/not$implemented"),
+        (Method::GET, "/api/not^implemented"),
+        (Method::GET, "/api/not|implemented"),
+        (Method::GET, r"/api/not\implemented"),
     ] {
         let response = app
             .clone()
@@ -270,13 +287,27 @@ async fn unsupported_methods_and_unimplemented_routes_keep_nest_404_shape() -> T
                     .body(Body::empty())?,
             )
             .await?;
-        let (status, headers, body) = json_response(response).await?;
-        assert_eq!(status, StatusCode::NOT_FOUND);
+        let (parts, body) = response.into_parts();
+        let bytes = to_bytes(body, 1024 * 1024).await?;
+        assert_eq!(parts.status, StatusCode::NOT_FOUND);
         assert_eq!(
-            body,
-            json!({"statusCode":404,"message":format!("Cannot {method} {uri}"),"error":"Not Found"})
+            std::str::from_utf8(&bytes)?,
+            template.replace(
+                "GET /api/auth/not-implemented",
+                &format!("{method} {}", uri.split('?').next().ok_or("path")?)
+            )
         );
-        assert!(!headers.contains_key(header::ALLOW));
+        for name in [
+            "content-type",
+            "content-security-policy",
+            "x-content-type-options",
+        ] {
+            assert_eq!(
+                parts.headers[name].to_str()?,
+                observed["headers"][name].as_str().ok_or("oracle header")?
+            );
+        }
+        assert!(!parts.headers.contains_key(header::ALLOW));
     }
     Ok(())
 }
@@ -439,11 +470,11 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_is_the_exact_three_operation_subset_with_existing_health_schemas() -> TestResult {
+fn openapi_has_seven_operations_and_preserves_existing_health_schemas() -> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 3);
+    assert_eq!(paths.len(), 7);
     assert!(public_security_matches(&document, &existing));
     for path in ["/api", "/api/health", "/api/health/readiness"] {
         let operation = &document["paths"][path]["get"];
@@ -468,7 +499,6 @@ fn openapi_is_the_exact_three_operation_subset_with_existing_health_schemas() ->
     let schemas = document["components"]["schemas"]
         .as_object()
         .ok_or("missing schemas")?;
-    assert_eq!(schemas.len(), 3);
     for name in [
         "HealthCheckDto",
         "HealthChecksDto",
@@ -480,6 +510,48 @@ fn openapi_is_the_exact_three_operation_subset_with_existing_health_schemas() ->
         normalize_schema(&mut expected);
         assert_eq!(actual, expected, "schema {name}");
     }
+    Ok(())
+}
+
+#[test]
+fn auth_documentation_preserves_original_paths_recursive_schemas_and_security() -> TestResult {
+    let document = http::openapi();
+    let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
+    assert_eq!(document["openapi"], existing["openapi"]);
+    for path in [
+        "/api/auth/sessions",
+        "/api/auth/session",
+        "/api/auth/csrf-token",
+        "/api/auth/session:logout",
+    ] {
+        assert_eq!(
+            document["paths"][path], existing["paths"][path],
+            "documented auth path {path}"
+        );
+    }
+    let schemas = document["components"]["schemas"]
+        .as_object()
+        .ok_or("missing schemas")?;
+    for (name, schema) in schemas {
+        if ![
+            "HealthCheckDto",
+            "HealthChecksDto",
+            "HealthDependencyCheckDto",
+        ]
+        .contains(&name.as_str())
+        {
+            assert_eq!(
+                schema, &existing["components"]["schemas"][name],
+                "auth metadata {name}"
+            );
+        }
+    }
+    assert_eq!(
+        document["components"]["securitySchemes"],
+        existing["components"]["securitySchemes"]
+    );
+    // These assertions certify document preservation only. Runtime transport
+    // and persistence are exercised by independent HTTP and PG15 tests.
     Ok(())
 }
 

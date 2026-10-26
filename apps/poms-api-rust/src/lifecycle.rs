@@ -21,11 +21,14 @@ pub async fn serve(
 ) -> Result<(), ShutdownError> {
     let (stop, mut stopped) = watch::channel(false);
     let mut server = tokio::spawn(async move {
-        axum::serve(listener, router)
-            .with_graceful_shutdown(async move {
-                let _ = stopped.changed().await;
-            })
-            .await
+        axum::serve(
+            listener,
+            router.into_make_service_with_connect_info::<std::net::SocketAddr>(),
+        )
+        .with_graceful_shutdown(async move {
+            let _ = stopped.changed().await;
+        })
+        .await
     });
 
     tokio::select! {

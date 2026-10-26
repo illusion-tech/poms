@@ -1,0 +1,12 @@
+FROM localhost/poms-r0e-build:1
+
+# The caller verifies the immutable parent image before building. Keep prior
+# acceptance images available; only this derivative owns the new compiler.
+RUN rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy && \
+    rustup default 1.99.1 && \
+    rustc --version --verbose && cargo --version && getconf GNU_LIBC_VERSION
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends make && \
+    rm -rf /var/lib/apt/lists/*
+LABEL org.poms.scope="rust-r1c" org.poms.purpose="test-compatible-auth-validation"
+WORKDIR /workspace
+CMD ["bash"]

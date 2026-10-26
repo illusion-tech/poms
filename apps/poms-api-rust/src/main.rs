@@ -1,10 +1,19 @@
 use poms_api_rust::{config::Config, database::Database, http, lifecycle, logging};
 use serde_json::json;
-use std::{process::ExitCode, time::Instant};
+use std::{process::ExitCode, sync::Arc, time::Instant};
 use tokio::net::TcpListener;
 
-#[tokio::main]
-async fn main() -> ExitCode {
+fn main() -> ExitCode {
+    match poms_api_rust::process_runtime::run(run()) {
+        Ok(result) => result,
+        Err(_) => {
+            logging::event("startup_failed", json!({"stage": "runtime"}));
+            ExitCode::FAILURE
+        }
+    }
+}
+
+async fn run() -> ExitCode {
     let started_at = Instant::now();
     let args: Vec<String> = std::env::args().skip(1).collect();
     if args.as_slice() == ["--openapi"] {
@@ -86,12 +95,20 @@ async fn main() -> ExitCode {
         .local_addr()
         .map(|a| a.to_string())
         .unwrap_or_default();
-    let router = http::router(
+    let auth = poms_api_rust::auth::http::AuthHttpState {
+        cookies: poms_api_rust::auth::cookie::AuthCookieService::from_auth_config(&config.auth),
+        service: Arc::new(poms_api_rust::auth::service::AuthService::new(
+            database.clone(),
+            config.auth.clone(),
+        )),
+    };
+    let router = http::router_with_auth(
         http::AppState {
             database: database.clone(),
             started_at,
         },
         &config.cors_origins,
+        auth,
     );
     logging::event(
         "listening",

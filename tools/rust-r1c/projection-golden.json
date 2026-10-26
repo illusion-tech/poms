@@ -1,0 +1,796 @@
+{
+    "sourceHead": "1013afef266602e7c98eb433bd0f14483be3d7fd",
+    "meaning": "Original TS projection and policy; audit is a recorded double, no HTTP or DB.",
+    "sourceManifest": [
+        { "file": "libs/shared/contracts/src/lib/shared-contracts.ts", "sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a" },
+        {
+            "file": "apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.service.ts",
+            "sha256": "477605485578fb1ecbe67479aa9069b0e74f72d1fab45f8b07529f8e7cfd1c5a"
+        },
+        {
+            "file": "apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.policy.ts",
+            "sha256": "80e2ef1e99761415d86b19d3a31e2e9095c03f31b8de178d3ddc784524f7a48d"
+        },
+        { "file": "package.json", "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75" },
+        { "file": "pnpm-lock.yaml", "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533" },
+        { "file": ".prettierrc.json", "sha256": "f166d6ede6e719d2d534412e5b85c49fe2b83a5d08c15d08ae9b26765cca2dfe" }
+    ],
+    "generatorSha256": "dff4b1a8d5a0c820c32925dd673ca45fc9ebc631c49584430c376a21d0f577b2",
+    "dependencies": { "typescript": "6.0.3", "zod": "4.6.1", "nest": "12.0.1" },
+    "auditFailurePropagated": true,
+    "observations": [
+        {
+            "id": "masked-anonymous",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "amount", "rawValue": "SYNTHETIC-PRIVATE-123.00" },
+                    { "key": "absent", "rawValue": null }
+                ],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "amount": {
+                    "fieldPackageKey": "contract-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "absent": { "fieldPackageKey": "contract-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["amount"],
+                        "hiddenFieldCount": 1,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "denied-anonymous",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "amount", "rawValue": "SYNTHETIC-PRIVATE-123.00" },
+                    { "key": "absent", "rawValue": null }
+                ],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" },
+                "modeWhenUnauthorized": "denied"
+            },
+            "output": {
+                "amount": {
+                    "fieldPackageKey": "contract-finance",
+                    "mode": "denied",
+                    "value": null,
+                    "displayText": "敏感字段不可见",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "absent": { "fieldPackageKey": "contract-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.denied",
+                    "severity": "warning",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "denied",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["amount"],
+                        "hiddenFieldCount": 1,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "null-only-no-audit",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [{ "key": "nil", "rawValue": null, "displayTextWhenFull": "" }],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": { "nil": { "fieldPackageKey": "contract-finance", "mode": "full", "value": null, "displayText": "", "reasonCode": "field-package-not-applicable" } },
+            "events": []
+        },
+        {
+            "id": "empty-fields-no-audit",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {},
+            "events": []
+        },
+        {
+            "id": "field-text-wins-empty",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [{ "key": "x", "rawValue": "", "maskedDisplayText": "" }],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" },
+                "maskedDisplayText": "global"
+            },
+            "output": { "x": { "fieldPackageKey": "contract-finance", "mode": "masked", "value": null, "displayText": "", "reasonCode": "missing-sensitive-read-permission" } },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["x"],
+                        "hiddenFieldCount": 1,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "denied-text-precedence",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "x", "rawValue": "x", "deniedDisplayText": "field" },
+                    { "key": "y", "rawValue": "y" }
+                ],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" },
+                "modeWhenUnauthorized": "denied",
+                "deniedDisplayText": "global"
+            },
+            "output": {
+                "x": { "fieldPackageKey": "contract-finance", "mode": "denied", "value": null, "displayText": "field", "reasonCode": "missing-sensitive-read-permission" },
+                "y": { "fieldPackageKey": "contract-finance", "mode": "denied", "value": null, "displayText": "global", "reasonCode": "missing-sensitive-read-permission" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.denied",
+                    "severity": "warning",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "denied",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["x", "y"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "duplicate-field-count",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "x", "rawValue": "x" },
+                    { "key": "x", "rawValue": "y" }
+                ],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "x": { "fieldPackageKey": "contract-finance", "mode": "masked", "value": null, "displayText": "敏感字段已隐藏", "reasonCode": "missing-sensitive-read-permission" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["x", "x"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "prototype-key-wire-omission",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "__proto__", "rawValue": "x" },
+                    { "key": "constructor", "rawValue": "y" }
+                ],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "constructor": {
+                    "fieldPackageKey": "contract-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["__proto__", "constructor"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "request-nullish-not-empty",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "amount", "rawValue": "SYNTHETIC-PRIVATE-123.00" },
+                    { "key": "absent", "rawValue": null }
+                ],
+                "user": null,
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "", "method": "", "requestId": "", "ip": "", "userAgent": "" }
+            },
+            "output": {
+                "amount": {
+                    "fieldPackageKey": "contract-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "absent": { "fieldPackageKey": "contract-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": null,
+                    "principal": null,
+                    "requestId": "",
+                    "path": "",
+                    "method": "",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": "",
+                    "userAgent": "",
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["amount"],
+                        "hiddenFieldCount": 1,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "contract-finance-denied",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": {
+                    "fieldPackageKey": "contract-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "full": {
+                    "fieldPackageKey": "contract-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "null": { "fieldPackageKey": "contract-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": "cbb00000-0000-4000-8000-000000000001",
+                    "principal": "synthetic",
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "contract:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "contract-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["empty", "full"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "contract:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "contract-finance-allowed",
+            "input": {
+                "fieldPackageKey": "contract-finance",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown", "contract:finance:sensitive:read"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": { "fieldPackageKey": "contract-finance", "mode": "full", "value": "", "displayText": "", "reasonCode": "allowed" },
+                "full": { "fieldPackageKey": "contract-finance", "mode": "full", "value": "42.00", "displayText": "custom", "reasonCode": "allowed" },
+                "null": { "fieldPackageKey": "contract-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": []
+        },
+        {
+            "id": "operating-finance-denied",
+            "input": {
+                "fieldPackageKey": "operating-finance",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": {
+                    "fieldPackageKey": "operating-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "full": {
+                    "fieldPackageKey": "operating-finance",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "null": { "fieldPackageKey": "operating-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": "cbb00000-0000-4000-8000-000000000001",
+                    "principal": "synthetic",
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "operating:finance:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "operating-finance",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["empty", "full"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "operating:finance:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "operating-finance-allowed",
+            "input": {
+                "fieldPackageKey": "operating-finance",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown", "operating:finance:sensitive:read"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": { "fieldPackageKey": "operating-finance", "mode": "full", "value": "", "displayText": "", "reasonCode": "allowed" },
+                "full": { "fieldPackageKey": "operating-finance", "mode": "full", "value": "42.00", "displayText": "custom", "reasonCode": "allowed" },
+                "null": { "fieldPackageKey": "operating-finance", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": []
+        },
+        {
+            "id": "commission-compensation-denied",
+            "input": {
+                "fieldPackageKey": "commission-compensation",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": {
+                    "fieldPackageKey": "commission-compensation",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "full": {
+                    "fieldPackageKey": "commission-compensation",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "null": { "fieldPackageKey": "commission-compensation", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": "cbb00000-0000-4000-8000-000000000001",
+                    "principal": "synthetic",
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "commission:amount:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "commission-compensation",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["empty", "full"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "commission:amount:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "commission-compensation-allowed",
+            "input": {
+                "fieldPackageKey": "commission-compensation",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown", "commission:amount:sensitive:read"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": { "fieldPackageKey": "commission-compensation", "mode": "full", "value": "", "displayText": "", "reasonCode": "allowed" },
+                "full": { "fieldPackageKey": "commission-compensation", "mode": "full", "value": "42.00", "displayText": "custom", "reasonCode": "allowed" },
+                "null": { "fieldPackageKey": "commission-compensation", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": []
+        },
+        {
+            "id": "labor-cost-rate-denied",
+            "input": {
+                "fieldPackageKey": "labor-cost-rate",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": {
+                    "fieldPackageKey": "labor-cost-rate",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "full": {
+                    "fieldPackageKey": "labor-cost-rate",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "null": { "fieldPackageKey": "labor-cost-rate", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": "cbb00000-0000-4000-8000-000000000001",
+                    "principal": "synthetic",
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "labor-cost-rate:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "labor-cost-rate",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["empty", "full"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "labor-cost-rate:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "labor-cost-rate-allowed",
+            "input": {
+                "fieldPackageKey": "labor-cost-rate",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown", "labor-cost-rate:sensitive:read"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": { "fieldPackageKey": "labor-cost-rate", "mode": "full", "value": "", "displayText": "", "reasonCode": "allowed" },
+                "full": { "fieldPackageKey": "labor-cost-rate", "mode": "full", "value": "42.00", "displayText": "custom", "reasonCode": "allowed" },
+                "null": { "fieldPackageKey": "labor-cost-rate", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": []
+        },
+        {
+            "id": "exception-approval-opinion-denied",
+            "input": {
+                "fieldPackageKey": "exception-approval-opinion",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": {
+                    "fieldPackageKey": "exception-approval-opinion",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "full": {
+                    "fieldPackageKey": "exception-approval-opinion",
+                    "mode": "masked",
+                    "value": null,
+                    "displayText": "敏感字段已隐藏",
+                    "reasonCode": "missing-sensitive-read-permission"
+                },
+                "null": { "fieldPackageKey": "exception-approval-opinion", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": [
+                {
+                    "eventType": "sensitive_field.masked",
+                    "severity": "info",
+                    "actorId": "cbb00000-0000-4000-8000-000000000001",
+                    "principal": "synthetic",
+                    "requestId": null,
+                    "path": "/synthetic/projection",
+                    "method": "QUERY",
+                    "permissionKey": "exception-approval-opinion:sensitive:read",
+                    "result": "blocked",
+                    "ip": null,
+                    "userAgent": null,
+                    "details": {
+                        "fieldPackageKey": "exception-approval-opinion",
+                        "projectionMode": "masked",
+                        "targetType": "synthetic",
+                        "targetId": "r1c-projection",
+                        "targetCount": 1,
+                        "sampleTargetIds": ["r1c-projection"],
+                        "fieldKeys": ["empty", "full"],
+                        "hiddenFieldCount": 2,
+                        "reasonCode": "missing-sensitive-read-permission",
+                        "requiredPermission": "exception-approval-opinion:sensitive:read",
+                        "auditAggregationMode": "sensitive-field-batch"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "exception-approval-opinion-allowed",
+            "input": {
+                "fieldPackageKey": "exception-approval-opinion",
+                "fields": [
+                    { "key": "empty", "rawValue": "" },
+                    { "key": "full", "rawValue": "42.00", "displayTextWhenFull": "custom" },
+                    { "key": "null", "rawValue": null }
+                ],
+                "user": { "sub": "cbb00000-0000-4000-8000-000000000001", "username": "synthetic", "permissions": ["legacy:unknown", "exception-approval-opinion:sensitive:read"] },
+                "targetType": "synthetic",
+                "targetId": "r1c-projection",
+                "requestContext": { "path": "/synthetic/projection" }
+            },
+            "output": {
+                "empty": { "fieldPackageKey": "exception-approval-opinion", "mode": "full", "value": "", "displayText": "", "reasonCode": "allowed" },
+                "full": { "fieldPackageKey": "exception-approval-opinion", "mode": "full", "value": "42.00", "displayText": "custom", "reasonCode": "allowed" },
+                "null": { "fieldPackageKey": "exception-approval-opinion", "mode": "full", "value": null, "displayText": "-", "reasonCode": "field-package-not-applicable" }
+            },
+            "events": []
+        }
+    ]
+}

@@ -1,0 +1,1509 @@
+{
+  "formatVersion": 1,
+  "recordedAtUtc": "2026-10-26T00:38:35.892991+00:00",
+  "scope": "R1C authentication/session/Cookie/CSRF/permission/projection/minimal-audit/bcrypt/v1 cipher compatibility; seven frozen operations; isolated PostgreSQL15.12; no deployment, platform writes, full business, general harness/client, browser acceptance or migration takeover",
+  "sourceBaseline": "1013afef266602e7c98eb433bd0f14483be3d7fd",
+  "sourceHashNormalization": "UTF-8 CRLF to LF only; submitted Windows sources equal verified Linux inputs; READMEs/lifecycle docs excluded",
+  "sourceFilesSha256": {
+    "apps/poms-api-rust/.gitignore": "fecafa5e093368be2f644386f9f4790d6d95a7714625f85fe9496b6d2a6903bb",
+    "apps/poms-api-rust/Cargo.lock": "c71359ee16354bc84c727b211ab47acf544b69f926421277996de21373d63128",
+    "apps/poms-api-rust/Cargo.toml": "ec9a25901cc2b4ccddec51c7952e22cbe864388d961b06d422e1e4eb528a5734",
+    "apps/poms-api-rust/rust-toolchain.toml": "f715f440167e20fd8ea9afa0498c3d1ab80174cfcb8cbc895f106a34d907a1e1",
+    "apps/poms-api-rust/src/auth/audit.rs": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+    "apps/poms-api-rust/src/auth/cookie.rs": "2835ed93bec92dc0f244015bc9f2e59124a85ab248adab2d1bb39551bf2aa71b",
+    "apps/poms-api-rust/src/auth/crypto.rs": "d2383516fcb61b55ea7f3fc13a44f0453dbc68a4cd0e1e3e98b57117cd3d42b1",
+    "apps/poms-api-rust/src/auth/guards.rs": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+    "apps/poms-api-rust/src/auth/http.rs": "79fe177e7bd4fd314e05a9eaf67adf636297b01fcddedcab63dbe7977d0d6f58",
+    "apps/poms-api-rust/src/auth/js_json.rs": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+    "apps/poms-api-rust/src/auth/mod.rs": "2cc98c1c5ef8b15daa9b025d269b5c2685e39ff28cc9784edb4387c3adbf6c24",
+    "apps/poms-api-rust/src/auth/model.rs": "757d6ecb03aa5f9c8cdacd4cdf70415ed9f3517c8b91b262c032dba2a1b4198f",
+    "apps/poms-api-rust/src/auth/projection.rs": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8",
+    "apps/poms-api-rust/src/auth/service.rs": "f76b79ef2f0a612567605cc550393ef78b762644d1662428739d26c3379bbbd1",
+    "apps/poms-api-rust/src/auth/store.rs": "0de0982974ce56bf8d7c6e143c25416f67e5a72dadcb36dd683688ab39008b82",
+    "apps/poms-api-rust/src/compat/json.rs": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+    "apps/poms-api-rust/src/compat/mod.rs": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+    "apps/poms-api-rust/src/compat/permissions.rs": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2",
+    "apps/poms-api-rust/src/compat/scalars.rs": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+    "apps/poms-api-rust/src/config.rs": "9401037c5f824243f611bf01f22dd1ef34988d2bd405b8c056c734c6c3d70aac",
+    "apps/poms-api-rust/src/database.rs": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+    "apps/poms-api-rust/src/error.rs": "44321d4617bf0ae5482e8300191f9c88c34ee0a568bc9b29177a79582ecf524e",
+    "apps/poms-api-rust/src/http.rs": "6b89c3ed4d87fbca5dd9fed3f0403e36bd888325a12a0b9732689e66238598b2",
+    "apps/poms-api-rust/src/lib.rs": "e901a0c28b29c616db8aa72d219a4c8b7af4edda5949a5a45469483c3def56cd",
+    "apps/poms-api-rust/src/lifecycle.rs": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f",
+    "apps/poms-api-rust/src/logging.rs": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8",
+    "apps/poms-api-rust/src/main.rs": "54e24b1a072124fe6f512c518aa781850f21bf424096b5d033d9a770f6d17444",
+    "apps/poms-api-rust/src/process_runtime.rs": "0d8c0c84a25d23fb6d290f973cca77dfd25b528f108a3462b332f6437aef8845",
+    "apps/poms-api-rust/src/shared/generated.rs": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+    "apps/poms-api-rust/src/shared/mod.rs": "aa696a3406fc0f6c77a641fa4aee8a5eddf324b36b13b458256efe302e16e048",
+    "apps/poms-api-rust/tests/auth_cookie.rs": "bd288c881563ca7f6a3f13634a4be3ebe2775e2c5de2123021a912a0becb20f9",
+    "apps/poms-api-rust/tests/auth_crypto.rs": "69e669bdb903fad69d6ce6066099d1059a7809e35a7a50a27d9a9daeebcf2dc4",
+    "apps/poms-api-rust/tests/auth_database.rs": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b",
+    "apps/poms-api-rust/tests/auth_guards.rs": "0b18e32cf1dc3537ab03746013587d731dea4769d5d72d134d461f54a535ea5b",
+    "apps/poms-api-rust/tests/auth_http.rs": "cfb3f7b00b8715c5c2530588b88be8edab9284eab292fb00ba3ddd09c691cf41",
+    "apps/poms-api-rust/tests/auth_projection.rs": "54f227013970f51c1106aa5833950efc26cb94e71eb09c840b42411b3d36de8e",
+    "apps/poms-api-rust/tests/auth_projection_db.rs": "f4b05f7f0a1f661b5896d9b61fd9d10b125348157e8ca7fd2273ca5aa6efe223",
+    "apps/poms-api-rust/tests/database.rs": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649",
+    "apps/poms-api-rust/tests/http.rs": "7e372fc3fe4ed49b09ea7640d744d4713c455856c8edfc8efbed2594475bf0bd",
+    "apps/poms-api-rust/tests/json_compat.rs": "65a006e3ea2c23b5f862edc601453334bbb9586ab6a2d59c2f821b7c09dfc837",
+    "apps/poms-api-rust/tests/permissions.rs": "e4738afd19485747af6cff370e563064cb183a3e15a7ef053fbbf107d57ef35b",
+    "apps/poms-api-rust/tests/process_runtime.rs": "da4f7d93649ec8351e1ce835a3b008ca39b9080e6172d62365634ed24da75c0b",
+    "apps/poms-api-rust/tests/scalars.rs": "f2c8c1425cd767dba11a731e75aec269cc98e1af3c497aa8793f18de90a4a4a8",
+    "apps/poms-api-rust/tests/shared_compat_regression.rs": "eb1b186e75268fd0328927a3ac232bcd7c2546901ccc1d9f50bb9a4d10f35162",
+    "apps/poms-api-rust/tests/shared_generated.rs": "b01ddd28793e14304cc7e6d24fce874154bbc3b92a026be2b19a1752af9e9086",
+    "apps/poms-api-rust/tests/support/r1c_guard.rs": "d285bd55b4b034f1274eb65dd1ff528cacff10e0f12c109f2ab2d8b263fb7f44",
+    "tools/rust-r1a/system-test.mjs": "07dec1ed8484def3ffb4c12a41a42b9ef6d115ba754345025355100e19ea1dab",
+    "tools/rust-r1c/Containerfile.build": "16166b28ed477d0b59ccb57cfa842d5a20cb90ed85c15777235f85a905c2fd89",
+    "tools/rust-r1c/build.sh": "568416b02d247eebdc41c8eab990dc6b9281ec5465c1dd480147063c11963590",
+    "tools/rust-r1c/check.sh": "b5a77311e98fe198b321be4c2f7197f7642ea6deb3361e35841c8a54dd6c2a09",
+    "tools/rust-r1c/crypto-cases.json": "5be672849b80fffc300441e30c41ad8f242ceb41ac4a9d2b71da6a157ca9dbbd",
+    "tools/rust-r1c/crypto-golden.json": "8e10db8d80eea6fa33b20a5161f6a7e5d38a3076d39de28070cb9484a8bfa8c2",
+    "tools/rust-r1c/crypto-oracle.mjs": "36f1313fead4602c254a23231db9a889c6007763a86f5234344d3ff8b3fe570a",
+    "tools/rust-r1c/crypto-oracle.test.mjs": "dd6fdb9917e39df58fd272b5cb195ad5773390c69847eaa4fb52aa81cc61a9cc",
+    "tools/rust-r1c/database-environment.mjs": "aca0e2cb2e9652d3f74f2defdb1c1715d6b5c421cf82d0d01cc0016772e2ec7e",
+    "tools/rust-r1c/database-environment.test.mjs": "cc9f479563e54e1893963aaf500f4a0e0fb1fd49707350c67c5378207e90e448",
+    "tools/rust-r1c/environment.sh": "ea1da693d90575bdf84faac46e54b6dde0df7331c0e635d53d24d7995d85bbc6",
+    "tools/rust-r1c/http-database.mjs": "7e2fd9cd78c796a99250ad3a01f5963ed2eede2fcbdf528c585506572901f4fa",
+    "tools/rust-r1c/http-env.mock.ts": "8518346d224bfe01bad3b9c6dac09994753e63a075fe8034a6a7ebb90dbc8e1f",
+    "tools/rust-r1c/http-golden.json": "6c5d81d4d3de4dabacaac82511a7aae9aec72a27bb97b94cd7083857ae38765b",
+    "tools/rust-r1c/http-jest.config.cjs": "91335c9e37cdec715039a1e8a3d72e4a037cbb0e00d3ee129783a88b5020fa90",
+    "tools/rust-r1c/http-openapi.json": "dbf404e181a27f178365478485c6361975da7f1d7d4ff2c747e75f0e389b1cfa",
+    "tools/rust-r1c/http-oracle.mjs": "31415ad2e8ea9ef9f54009ca273c5008e1a14a86ee090ae01edea8c3dab72ca5",
+    "tools/rust-r1c/http-oracle.spec.ts": "652cab51e373b26a7f492e9ed11c421b4651c6b079fca19aa1da578bd19efe4e",
+    "tools/rust-r1c/http-preload.cjs": "2e199be28614bf4858da24b024e9b984b4fb70781ce51e86f07cfb943d8c6adb",
+    "tools/rust-r1c/http-profile-fallback.json": "1e620341051ffb11c16f6a8e866396ae423d93923c436a6e9b124589cc2d14ae",
+    "tools/rust-r1c/http-tsconfig.json": "e0fbb15dcc4055bd0b8cedfb0ed29d24242a5860a48cb9a2bc0d4c0baef2d6be",
+    "tools/rust-r1c/projection-golden.json": "5fcab716b5116d08afdb2c3b28fe3787220e4eb188281e3b237160fb217597b0",
+    "tools/rust-r1c/projection-oracle.mjs": "dff4b1a8d5a0c820c32925dd673ca45fc9ebc631c49584430c376a21d0f577b2",
+    "tools/rust-r1c/session-bridge.mjs": "64b318d72c528103eda14d3b633f2731bd8e15c7f3abf9f7202bb41030ee90ea",
+    "tools/rust-r1c/session-source.json": "b5e177775215527d2aaeaf0739728465664de3035d5ea1b7819ceca8c7a80659",
+    "tools/rust-r1c/session-source.mjs": "97329165709fa66cc10cc08d423bee212f9db6702d3cd4607e94820d5f356ef1",
+    "tools/rust-r1c/verify-openapi.mjs": "f21ea0f6f931fee63856a34760bcac931528f8c03f182489a6793889275db95a"
+  },
+  "build": {
+    "imageId": "ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273",
+    "distribution": "Debian 12",
+    "architecture": "x86_64",
+    "glibc": "2.36",
+    "rust": "1.99.1",
+    "nodeLinux": "24.16.0",
+    "nodeWindows": "24.19.0",
+    "binaryPath": "/home/wangzishi/.local/share/poms-r1c/target/release/poms-api-rust",
+    "binarySha256": "bd7f4804377bbd3db1b93a0e0e6e93fd0fa594ef70cd607d2a3d9fec16ac3c3f",
+    "lockPackageRecords": 254,
+    "lockDeltaFromR1B": {
+      "added": [
+        [
+          "adler2",
+          "2.0.1"
+        ],
+        [
+          "alloc-no-stdlib",
+          "3.0.0"
+        ],
+        [
+          "alloc-stdlib",
+          "0.3.0"
+        ],
+        [
+          "base64",
+          "0.23.1"
+        ],
+        [
+          "bcrypt",
+          "0.19.3"
+        ],
+        [
+          "blowfish",
+          "0.10.0"
+        ],
+        [
+          "brotli-decompressor",
+          "6.2.0"
+        ],
+        [
+          "cipher",
+          "0.5.2"
+        ],
+        [
+          "const-oid",
+          "0.10.2"
+        ],
+        [
+          "crc32fast",
+          "1.5.3"
+        ],
+        [
+          "flate2",
+          "1.1.10"
+        ],
+        [
+          "foreign-types",
+          "0.3.2"
+        ],
+        [
+          "foreign-types-shared",
+          "0.1.1"
+        ],
+        [
+          "inout",
+          "0.2.5"
+        ],
+        [
+          "miniz_oxide",
+          "0.9.1"
+        ],
+        [
+          "openssl",
+          "0.10.81"
+        ],
+        [
+          "openssl-macros",
+          "0.1.1"
+        ],
+        [
+          "openssl-src",
+          "300.6.1+3.6.3"
+        ],
+        [
+          "openssl-sys",
+          "0.9.117"
+        ],
+        [
+          "simd-adler32",
+          "0.3.10"
+        ]
+      ],
+      "removed": [],
+      "existingVersionsChanged": false
+    },
+    "runtimeImageId": "8da84df25d28176be84164040cd45e128c6b4c6a80b7d7cbe17fe2b9f198efc2",
+    "maximumRequiredGlibcSymbol": "2.34",
+    "runtimeValidation": "ldd has no unresolved dependency and release --openapi executes in isolated Debian12 runtime image",
+    "existingBuildImagesPreserved": true
+  },
+  "ordinaryRust": {
+    "suites": [
+      {
+        "suite": "Running unittests src/lib.rs",
+        "passed": 24,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running unittests src/main.rs",
+        "passed": 0,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/auth_cookie.rs",
+        "passed": 3,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/auth_crypto.rs",
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/auth_database.rs",
+        "passed": 1,
+        "failed": 0,
+        "ignored": 11
+      },
+      {
+        "suite": "Running tests/auth_guards.rs",
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/auth_http.rs",
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/auth_projection.rs",
+        "passed": 2,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/auth_projection_db.rs",
+        "passed": 0,
+        "failed": 0,
+        "ignored": 1
+      },
+      {
+        "suite": "Running tests/database.rs",
+        "passed": 1,
+        "failed": 0,
+        "ignored": 8
+      },
+      {
+        "suite": "Running tests/http.rs",
+        "passed": 15,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/json_compat.rs",
+        "passed": 5,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/permissions.rs",
+        "passed": 3,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/process_runtime.rs",
+        "passed": 1,
+        "failed": 0,
+        "ignored": 1
+      },
+      {
+        "suite": "Running tests/scalars.rs",
+        "passed": 8,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/shared_compat_regression.rs",
+        "passed": 2,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Running tests/shared_generated.rs",
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "suite": "Doc-tests poms_api_rust",
+        "passed": 0,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "testsPassed": 81,
+    "ignored": 21,
+    "ignoredMeaning": "Explicit real-database tests run separately; one process child fixture invoked by the ordinary parent test, not counted as a separate ordinary pass"
+  },
+  "logs": {
+    "check": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-check.log",
+      "bytes": 15998,
+      "sha256": "b216727b44556c07056a10113b98c3061d9e52c0bcea6480b965500619c402a5"
+    },
+    "oracles": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-oracles.log",
+      "bytes": 5902,
+      "sha256": "0237e297dbc3e607da46ed5a7d5d45b1c30f3f054eb8c9c061f0b54e0ac0806e"
+    },
+    "crypto-roundtrip": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-crypto-roundtrip.log",
+      "bytes": 286,
+      "sha256": "3fa38b67c678e40b2f10140c5a75a3b411f94068b96a5af2a65ecce38fd38efb"
+    },
+    "db": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-db.log",
+      "bytes": 1895,
+      "sha256": "8b531cab90fba069bf5f52db5e4d51fe0eb2e970b205df8d8b8fc906dd583fed"
+    },
+    "http-db": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-http-db.log",
+      "bytes": 18463,
+      "sha256": "6f42578c19f03a8963090b8b75beb55bac3bb0799e0daffed444a62135250df0"
+    },
+    "foundation-db": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-foundation-db.log",
+      "bytes": 1239,
+      "sha256": "1a35c5d3fc159ac44eaacf0b735f236726aae20408cffc10bf31a7c0aa2dbde5"
+    },
+    "foundation-system": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-foundation-system.log",
+      "bytes": 2320,
+      "sha256": "85fe4a527c793b195fad94364435962575e6201970af59c10c61647c00b66e1c"
+    },
+    "catalog": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-catalog.log",
+      "bytes": 27507,
+      "sha256": "3ae65bed36688a3817b52fb801e040cdc341e3216d8b53af7acfd9e064ed5a3c"
+    },
+    "openapi-check": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-openapi-check.log",
+      "bytes": 163,
+      "sha256": "af6e564ad33a2466b62b603e36a0b0e6aed19bd35261b4a2ca723030d026a223"
+    },
+    "abi": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-abi.log",
+      "bytes": 589,
+      "sha256": "4a9a31d71de9a06a72c9f0e28f36173ba1aa571b8eee11f4a806db646b3b66c2"
+    },
+    "final-tool-check.log": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-tool-check.log",
+      "bytes": 642,
+      "sha256": "3a37acbee49435f045c4963e68d94764bfe0462df04cf714387107f057963afb"
+    },
+    "final-tool-lint-with-graph.log": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-tool-lint-with-graph.log",
+      "bytes": 295,
+      "sha256": "92dd90c076e987890c1e6373e1f3f20b5337b0576992818c1802431186dcd9a4"
+    },
+    "final-openapi.json": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-openapi.json",
+      "bytes": 17076,
+      "sha256": "a08aa280b7c73dddc01caf196981527570cec4c955428b69cee819bb7378bad2"
+    },
+    "final-docs-links.json": {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/final-docs-links.json",
+      "bytes": 576,
+      "sha256": "55d608792ad37e455ba93078a88ad45b7dafaed62352070369f00c5ec2301876"
+    }
+  },
+  "validation": [
+    {
+      "command": "bash tools/rust-r1c/check.sh check",
+      "result": "pass",
+      "steps": [
+        "cargo fmt --check",
+        "cargo clippy --locked --all-targets -- -D warnings",
+        "cargo test --locked",
+        "cargo build --locked --release"
+      ],
+      "network": "none"
+    },
+    {
+      "command": "bash tools/rust-r1c/check.sh oracles",
+      "result": "pass",
+      "nodeTests": 13,
+      "network": "none",
+      "originalHttpCases": 75,
+      "httpRepository": "double, not real database"
+    },
+    {
+      "command": "bash tools/rust-r1c/check.sh crypto-roundtrip",
+      "result": "pass",
+      "actualOriginalTsDecryptions": 7,
+      "recoveredNonemptyPlaintexts": 6,
+      "expectedLegacyEmptyCiphertextRejection": 1,
+      "source": "fresh Rust runtime random-IV encryption, original Node TypeScript decryption outcomes"
+    },
+    {
+      "command": "bash tools/rust-r1c/check.sh db",
+      "result": "pass",
+      "realAuthTests": 11,
+      "realProjectionTests": 1,
+      "database": "poms_r1c_rust",
+      "bidirectionalSessionInterop": true
+    },
+    {
+      "command": "bash tools/rust-r1c/check.sh http-db",
+      "result": "pass",
+      "casesPerServer": 29,
+      "servers": 2,
+      "assertions": 558,
+      "comparison": "real Nest/MikroORM and Rust/SQLx on independent PG15 copies; declared dynamic value and unordered collection normalization only",
+      "ownedCleanup": {
+        "result": "pass",
+        "phase": "owned-cleanup",
+        "databases": 2,
+        "events": 0,
+        "sessions": 0,
+        "users": 0
+      }
+    },
+    {
+      "command": "bash tools/rust-r1c/check.sh foundation-db",
+      "result": "pass",
+      "tests": 8,
+      "database": "poms_r0e_rust",
+      "persistentFixtureWrites": false
+    },
+    {
+      "command": "bash tools/rust-r1c/check.sh foundation-system",
+      "result": "pass",
+      "checks": 78
+    },
+    {
+      "command": "release --openapi in bare Debian12 runtime; node tools/rust-r1c/verify-openapi.mjs <output>",
+      "result": "pass",
+      "operations": 7,
+      "healthSchemas": 3,
+      "authReachableSchemas": 10,
+      "source": "existing full OpenAPI",
+      "fullSpecChanged": false,
+      "runtimeBehaviorClaim": false
+    },
+    {
+      "command": "pnpm exec eslint tools/rust-r1c/*.{mjs,cjs,ts} tools/rust-r1a/system-test.mjs --max-warnings 0; pnpm exec prettier --check same source and R1C JSON; pnpm exec tsc -p tools/rust-r1c/http-tsconfig.json --noEmit",
+      "result": "pass",
+      "newWarnings": 0,
+      "nxProjectGraph": "generated before final lint; no skipped dependency rule in final run"
+    },
+    {
+      "command": "pnpm run format:md:check; explicit README table formatting; git diff --check; local Markdown links",
+      "result": "pass",
+      "markdownFiles": 9,
+      "localLinks": 49,
+      "localLinksScope": "relative Markdown file targets; fragment anchors not certified"
+    }
+  ],
+  "coverage": {
+    "r0fAuthWitness": 119,
+    "r0fAuthGoldenSha256": "a498e7098b3233878eb7ad7110927f620b3fc7d2edc811bbdc49951339b1d479",
+    "crypto": {
+      "bcrypt": 119,
+      "encryptions": 7,
+      "decryptions": 49,
+      "options": 9,
+      "tokens": 4,
+      "hashes": 5,
+      "total": 193
+    },
+    "sensitiveProjectionOriginalCases": 19,
+    "httpOriginalCases": 75,
+    "httpParserAndDtoNegativesConsumedByRust": 37,
+    "httpStrictLogoutSurrogate": "additional original golden consumed by private unit test",
+    "r1b": {
+      "enumFamilies": 205,
+      "enumValues": 778,
+      "r0Snapshots": 455,
+      "scalarCases": 98,
+      "jsonFields": 21,
+      "jsonObjects": 11,
+      "permissionCases": 18,
+      "rawJson": 1
+    },
+    "realDatabaseTests": 20,
+    "realHttp": {
+      "result": "pass",
+      "kind": "real-http-and-pg15",
+      "sourceHead": "1013afef266602e7c98eb433bd0f14483be3d7fd",
+      "sourceManifestSha256": "adab4a58e337268f66a6f6c58cd64072a15696a1ad2fe73a6a3830af10656ddd",
+      "generatorSha256": "7e2fd9cd78c796a99250ad3a01f5963ed2eede2fcbdf528c585506572901f4fa",
+      "casesPerServer": 29,
+      "assertions": 558,
+      "routes": [
+        "POST /api/auth/sessions",
+        "GET /api/auth/session",
+        "GET /api/auth/csrf-token",
+        "POST /api/auth/session:logout"
+      ],
+      "databases": [
+        "poms_r1c_nest",
+        "poms_r1c_rust"
+      ],
+      "originalDtoMetadata": true,
+      "realMikroOrm": true,
+      "requestContext": true,
+      "originalEnvLoaderCalls": 26,
+      "permissionOrderEvidence": {
+        "classification": "accepted-db-specific-difference",
+        "source": "PlatformRepository.findActiveRolePermissionAssignments; PlatformService.getPermissionsForUser filter/map/Set",
+        "originalSelects": [
+          "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = ?"
+        ],
+        "normalizationPaths": [
+          "body.permissions",
+          "body.user.permissions"
+        ],
+        "checks": "string array, unique first-occurrence set, exact fixture raw membership including unknown keys, top-level/profile original sequence equality",
+        "productOrderChanged": false,
+        "rawObservations": [
+          {
+            "server": "nest",
+            "id": "anonymous-session",
+            "permissions": [],
+            "userPermissions": null
+          },
+          {
+            "server": "nest",
+            "id": "login",
+            "permissions": [
+              "future:raw:permission",
+              "project:read"
+            ],
+            "userPermissions": [
+              "future:raw:permission",
+              "project:read"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "current-session",
+            "permissions": [
+              "future:raw:permission",
+              "project:read"
+            ],
+            "userPermissions": [
+              "future:raw:permission",
+              "project:read"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "permissions-changed",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "touch-due",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "post-logout-anonymous",
+            "permissions": [],
+            "userPermissions": null
+          },
+          {
+            "server": "nest",
+            "id": "login-for-disabled",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-audit-failure",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-expired",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-protected-expiry",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-protected-disabled",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "anonymous-session",
+            "permissions": [],
+            "userPermissions": null
+          },
+          {
+            "server": "rust",
+            "id": "login",
+            "permissions": [
+              "project:read",
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "project:read",
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "current-session",
+            "permissions": [
+              "project:read",
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "project:read",
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "permissions-changed",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "touch-due",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "post-logout-anonymous",
+            "permissions": [],
+            "userPermissions": null
+          },
+          {
+            "server": "rust",
+            "id": "login-for-disabled",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-audit-failure",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-expired",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-protected-expiry",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-protected-disabled",
+            "permissions": [
+              "future:raw:permission"
+            ],
+            "userPermissions": [
+              "future:raw:permission"
+            ]
+          }
+        ]
+      },
+      "organizationOrderEvidence": {
+        "classification": "accepted-db-specific-difference",
+        "source": "PlatformRepository.findActiveUserOrgMemberships; PlatformService.#buildUserOrgUnits filter/flatMap",
+        "originalSelects": [
+          "select \"u0\".* from \"poms\".\"user_org_membership\" as \"u0\" where \"u0\".\"status\" = ?"
+        ],
+        "normalizationPaths": [
+          "body.user.orgUnits"
+        ],
+        "checks": "unique ids and complete exact fixture objects; primary, secondary, unknown membership and inactive organization are retained",
+        "expectedFixtureObjects": [
+          {
+            "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+            "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+            "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+            "description": null,
+            "membershipType": "primary"
+          },
+          {
+            "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+            "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+            "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+            "description": null,
+            "membershipType": "secondary"
+          },
+          {
+            "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+            "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+            "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+            "description": null,
+            "membershipType": "future-membership"
+          }
+        ],
+        "inactiveOrganizationId": "e7b2f96e-6586-401e-9a34-d614341fb091",
+        "productOrderChanged": false,
+        "rawObservations": [
+          {
+            "server": "nest",
+            "id": "login",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "current-session",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "permissions-changed",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "touch-due",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-disabled",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-audit-failure",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-expired",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-protected-expiry",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "nest",
+            "id": "login-for-protected-disabled",
+            "orgUnits": [
+              {
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "membershipType": "primary"
+              },
+              {
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "membershipType": "future-membership"
+              },
+              {
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091",
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "membershipType": "secondary"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "current-session",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "permissions-changed",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "touch-due",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-disabled",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-audit-failure",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-expired",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-protected-expiry",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          },
+          {
+            "server": "rust",
+            "id": "login-for-protected-disabled",
+            "orgUnits": [
+              {
+                "code": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "description": null,
+                "id": "1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c",
+                "membershipType": "primary",
+                "name": "R1C HTTP org 1ab2eeed-0baf-48f4-bd5b-ba3c3f8b3e4c"
+              },
+              {
+                "code": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "description": null,
+                "id": "e7b2f96e-6586-401e-9a34-d614341fb091",
+                "membershipType": "secondary",
+                "name": "R1C HTTP org e7b2f96e-6586-401e-9a34-d614341fb091"
+              },
+              {
+                "code": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "description": null,
+                "id": "6e798af6-78dc-46a7-8007-18f4747cbe6c",
+                "membershipType": "future-membership",
+                "name": "R1C HTTP org 6e798af6-78dc-46a7-8007-18f4747cbe6c"
+              }
+            ]
+          }
+        ]
+      },
+      "roleOrderEvidence": {
+        "classification": "strict-single-assignment-comparison",
+        "source": "PlatformRepository.findActiveUserRoleAssignments; PlatformService.#loadUserAggregationContext current.push(role.name)",
+        "originalSelects": [
+          "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = ?"
+        ],
+        "activeFixtureAssignments": 1,
+        "normalized": false,
+        "limitation": "No cross-database ordering assertion for multiple role assignments"
+      },
+      "comparisonArrayPolicy": {
+        "normalizedPaths": [
+          "body.permissions",
+          "body.user.permissions",
+          "body.user.orgUnits"
+        ],
+        "allOtherArraysComparedAsReceived": true
+      },
+      "cors": {
+        "origin": "https://r1c-http.invalid",
+        "credentials": true,
+        "originalBuilderSha256": "f4ffbb117a05dce485ce23ce58bb852ab6071d99eea7a60f36a273107d7386b5",
+        "scope": "Matching explicit Origin and preflight; unrelated framework fingerprint headers are excluded"
+      },
+      "normalizedObservationsSha256": "56c2112bc30a5ec9b1cf1f04223d6d80c8afe9ba487e06963dfd34b3c5837ee6",
+      "ownedCleanup": true
+    },
+    "processAssertions": {
+      "status": "ok",
+      "checks": 78,
+      "assertions": [
+        "root-http-contract",
+        "request-id-present",
+        "liveness-status",
+        "health-live-identity",
+        "health-checkedAt-utc",
+        "health-uptime-integer",
+        "health-database-presence",
+        "readiness-real-pg15-200",
+        "health-ready-identity",
+        "health-checkedAt-utc",
+        "health-uptime-integer",
+        "health-database-presence",
+        "health-database-duration",
+        "database-success-message",
+        "unknown-route-error",
+        "unsupported-method-error",
+        "cors-preflight",
+        "cors-credentials",
+        "cors-denied-origin",
+        "exit-SIGTERM-0",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "shutdown_complete-recorded",
+        "listener-released",
+        "lazy-readiness-db-failure-503",
+        "health-not_ready-identity",
+        "health-checkedAt-utc",
+        "health-uptime-integer",
+        "health-database-presence",
+        "health-database-duration",
+        "exit-SIGINT-0",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "shutdown_complete-recorded",
+        "listener-released",
+        "exit-SIGTERM-0",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "startup_cancelled-recorded",
+        "listener-released",
+        "startup-SIGTERM-bounded",
+        "startup-SIGTERM-never-listens",
+        "exit-SIGINT-0",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "startup_cancelled-recorded",
+        "listener-released",
+        "startup-SIGINT-bounded",
+        "startup-SIGINT-never-listens",
+        "eager-db-failure",
+        "exit-SIGTERM-1",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "eager-db-failure-no-listening",
+        "invalid-port",
+        "exit-SIGTERM-11",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "invalid-port-no-listening",
+        "missing-explicit-file",
+        "exit-SIGTERM-11",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "missing-explicit-file-no-listening",
+        "occupied-port-fails",
+        "exit-SIGTERM-1",
+        "logs-no-synthetic-secret",
+        "logs-no-runtime-password",
+        "logs-structured-events",
+        "occupied-port-still-owned",
+        "occupied-port-stage"
+      ]
+    },
+    "notClaimed": [
+      "exhaustive V8/body-parser/qs inputs",
+      "multi-persisted-role response ordering across independent databases",
+      "full business endpoints",
+      "full platform writes",
+      "generic E2E/client generation",
+      "browser integration",
+      "deployment or production readiness"
+    ]
+  },
+  "database": {
+    "container": "poms-r0e-pg15",
+    "imageId": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "version": "15.12",
+    "listen": "127.0.0.1:15432",
+    "databases": [
+      "poms_r1c_nest",
+      "poms_r1c_rust"
+    ],
+    "sourceMigrationClasses": 92,
+    "tablesPerCopy": 107,
+    "catalogScope": {
+      "tables": 10,
+      "fields": 121,
+      "sha256": "6190b395b2acb8bccd2832cfe4a7ce3f29259b3714ca95cb55ba6082e33c077b"
+    },
+    "marker": "ae621cfc-3e3b-436d-9b70-4173191ece90",
+    "runtimeRole": "poms_r1c_app",
+    "adminFlags": false,
+    "roleMemberships": 0,
+    "schemaCreate": false,
+    "credentials": "owner-only local files and Podman secrets, never committed",
+    "existingPg17": "not connected or changed by these tools; Windows service metadata verified separately",
+    "existingPg17ServiceReadOnlyObservation": {
+      "name": "postgresql-x64-17",
+      "state": "Running",
+      "startMode": "Auto",
+      "processId": 6996,
+      "businessDataAccess": false
+    }
+  },
+  "review": {
+    "mode": "solo worktree, non-author cross review",
+    "httpCookieGuards": [
+      "C reviewed A final source/parser fixes",
+      "B reviewed original DB behavior interfaces"
+    ],
+    "databaseSessionAudit": [
+      "C reviewed B sealed request-local dirty flush and explicit rollback",
+      "root verified actual SQL trace and real PG15 outputs"
+    ],
+    "crypto": [
+      "A/B non-author checks of C crypto compatibility",
+      "root integrated original service oracle and fresh roundtrip"
+    ],
+    "rootIntegration": [
+      "A reviewed fallback/OpenAPI/lifecycle/configuration",
+      "C reviewed environment secret guards and final unordered comparison limits"
+    ],
+    "openP1P2": 0,
+    "noGateBypass": true
+  },
+  "drift": [
+    {
+      "id": "R1C-CP01",
+      "classification": "existing-baseline-drift",
+      "resolution": "Express finalhandler HTML404 replaces inferred R1A JSON404; historical evidence retained"
+    },
+    {
+      "id": "R1C-CP02",
+      "classification": "new-real-drift",
+      "resolution": "secret-safe failure messages and role replication/membership guard"
+    },
+    {
+      "id": "R1C-CP03",
+      "classification": "new-real-drift",
+      "resolution": "audit timestamps use JS millisecond precision"
+    },
+    {
+      "id": "R1C-CP04",
+      "classification": "new-real-drift",
+      "resolution": "bounded process runtime shutdown when blocking bcrypt work already started"
+    },
+    {
+      "id": "R1C-CP05",
+      "classification": "new-real-drift",
+      "resolution": "preserve managed session flush after audit, CAS concurrency and insert rollback"
+    },
+    {
+      "id": "R1C-CP06",
+      "classification": "new-real-drift",
+      "resolution": "JSON UTF16/parser/form and extended-year compatibility"
+    },
+    {
+      "id": "R1C-CP07",
+      "classification": "accepted-db-specific-difference",
+      "resolution": "raw observations retained; only verified unordered permission and organization membership collections compared by exact content"
+    },
+    {
+      "id": "R1C-CP08",
+      "classification": "tool-noise",
+      "resolution": "fixed public gzip bytes across Windows/Linux; original observations unchanged"
+    }
+  ],
+  "priorFailedEvidence": [
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/http-db-diagnostic.log",
+      "bytes": 18711,
+      "sha256": "01bbeab4b61c1f0610660fe7ed6b38122d6fadae2517115419b661d5b01cb101",
+      "result": "failed, retained; superseded by final-http-db.log; not counted as pass"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/previous-http-db-20261026T002927185870095.log",
+      "bytes": 23818,
+      "sha256": "a2128dfd28710332fd3ba827418fb4b552d31881ee7db88bebec2f25d7adfbb6",
+      "result": "failed, retained; superseded by final-http-db.log; not counted as pass"
+    },
+    {
+      "path": "/home/wangzishi/.local/share/poms-r1c/logs/previous-http-db-20261026T003734300694382.log",
+      "bytes": 33623,
+      "sha256": "c753ae096d0fc844687b43f901f6da171cd8a8d6c018fb433cf6047eb5d0c7ec",
+      "result": "failed, retained; superseded by final-http-db.log; not counted as pass"
+    }
+  ],
+  "sourceScope": {
+    "originalTypeScriptFullOpenapiSharedTypesProductMigrationsPackageLockChanged": false,
+    "checkedAgainst": "1013afef266602e7c98eb433bd0f14483be3d7fd",
+    "protectedPaths": [
+      "apps/poms-api",
+      "libs",
+      "package.json",
+      "pnpm-lock.yaml",
+      "tools/rust-r1b",
+      "tools/rust-r0f-auth-compat"
+    ],
+    "rustMigrationOwnership": false,
+    "deployed": false,
+    "parentR1Status": "Doing; R1D/R1E remain Todo"
+  }
+}

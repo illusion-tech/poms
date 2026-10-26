@@ -1,8 +1,8 @@
 # POMS Rust 后端基础
 
-独立 Cargo workspace；基础切片 [R1A](../../docs/design/archive/slices/rust-r1a-application-baseline.md)提供工程与 SQLx，[R1B](../../docs/design/archive/slices/rust-r1b-shared-types-baseline.md)提供共享类型单向导出及标量/JSON/权限兼容。现有 Nest 后端和完整 OpenAPI/client 保持原位。
+独立 Cargo workspace；基础切片 [R1A](../../docs/design/archive/slices/rust-r1a-application-baseline.md)提供工程与 SQLx，[R1B](../../docs/design/archive/slices/rust-r1b-shared-types-baseline.md)提供共享类型单向导出及标量/JSON/权限兼容，[R1C](../../docs/design/rust-r1c-auth-session-baseline.md)提供认证、会话、Cookie/CSRF、权限与密文兼容。现有 Nest 后端和完整 OpenAPI/client 保持原位。
 
-使用固定 Rust 1.97.1、Axum 0.8.9、SQLx 0.9.0 与 Cargo.lock。推荐在 Linux checkout 中通过[固定环境工具](../../tools/rust-r1a/README.md)构建，产物目标为当前 TEST 的 Debian12/glibc2.36。不要把 WSL Debian13 原生构建自动当成 TEST 可部署包。
+使用固定 Rust **1.99.1**、Axum 0.8.9、SQLx 0.9.0 与 Cargo.lock。推荐在 Linux checkout 中通过[当前固定环境工具](../../tools/rust-r1c/README.md)构建，产物目标为当前 TEST 的 Debian12/glibc2.36。不要把 WSL Debian13 原生构建自动当成 TEST 可部署包。历史切片的旧编译器与验收记录仍按原提交保留。
 
 ```bash
 cd apps/poms-api-rust
@@ -10,10 +10,12 @@ cargo fmt --check
 cargo clippy --locked --all-targets -- -D warnings
 cargo test --locked
 cargo build --locked --release
-cargo run --locked -- --openapi > openapi-r1a.json
+cargo run --locked -- --openapi > openapi-r1.json
 ```
 
-`--openapi` 只输出本阶段三操作规范，不读取环境文件或连接数据库。HTTP 范围为 `GET /api`、`GET /api/health`、`GET /api/health/readiness`；其余业务仍由 Nest 提供。共享类型只从现有 TypeScript 来源机械生成，维护与兼容复算见 [R1B 工具](../../tools/rust-r1b/README.md)；认证 handler、多后端 E2E 与父阶段集成验收由 R1C–E 控制。
+`--openapi` 只输出本阶段七操作规范，不读取环境文件或连接数据库。HTTP 包含 `GET /api`、`GET /api/health`、`GET /api/health/readiness`，以及登录 `POST /api/auth/sessions`、当前会话 `GET /api/auth/session`、CSRF `GET /api/auth/csrf-token` 和退出 `POST /api/auth/session:logout`；其余业务仍由 Nest 提供。共享类型只从现有 TypeScript 来源机械生成，维护与兼容复算见 [R1B 工具](../../tools/rust-r1b/README.md)。认证 OpenAPI 元信息也由现有完整规范单向导出，保留其 3.0 语义；实际 handler、JSON、Cookie 和数据库行为有独立验证，不以元信息相等替代。
+
+会话 token/CSRF 采用原 base64url 与 SHA-256 存储合同，bcryptjs 和 AES-256-GCM v1 密文按原实现互通。账户、角色、权限和组织读取直接使用现有 schema；未知 raw permission 不被强枚举过滤。每次会话解析重新读取当前权限，touch/轮换/撤销采用原 guarded SQL；后续审计保留原 MikroORM 的请求局部 dirty snapshot flush：安全事件与额外版本 CAS 同事务，失败只回滚这次 flush，先前 raw 会话更新仍保留，公共查询不额外写入。未匹配路由/方法按本轮实测原 Nest/Express 返回 HTML 404，详见 R1C 纠偏记录。通用多后端 harness 和真实浏览器综合验收属于 R1D/E。
 
 配置沿用现有公开环境名与 dotenv 选择规则。`POMS_ENV_FILE` 显式文件覆盖进程环境；否则优先当前目录 `.env`，再 `apps/poms-api/.env`，文件值不覆盖已有进程值。缺失显式文件/非法配置退出 11。启动不会执行 migration/seed。使用自己的隔离配置启动前，明确检查 DB_HOST/DB_PORT/DB_DATABASE/DB_USER；本项目不要求迁移或清理原 PG17 开发库。
 

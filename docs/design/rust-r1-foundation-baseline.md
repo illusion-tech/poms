@@ -1,7 +1,7 @@
 # RUST-R1 应用与兼容基础实施输入
 
 **最后更新**: 2026-10-26
-**Gate Status**: `Pass`（实施输入）；R1A #62 G3/G4 已交付；R1B #63 Done，R1C–E Todo，父阶段未完成
+**Gate Status**: `Pass`（实施输入）；R1A #62 G3/G4 已交付；R1B #63 Done，R1C #64 Doing，R1D/E Todo，父阶段未完成
 **Parent / Owner**: [RUST-R1 #60](https://github.com/illusion-tech/poms/issues/60) / 主代理；总体 [#57](https://github.com/illusion-tech/poms/issues/57)
 **Slice Type**: `cross-layer-high-risk`，本文件定义 R1 工程边界与验收输入
 **正式前置**: [R0 基线](archive/slices/rust-r0-baseline.md)与[执行追踪](rust-migration-execution-tracker.md)

@@ -1,0 +1,41 @@
+{
+    "formatVersion": 1,
+    "bcryptSalt": "$2b$04$abcdefghijklmnopqrstuu",
+    "keySource": "public-r1c-crypto-vector-key",
+    "passwords": [
+        { "name": "empty", "units": [] },
+        { "name": "ascii", "text": "synthetic password" },
+        { "name": "whitespace", "text": "  synthetic password  " },
+        { "name": "embedded-nul", "text": "ab\u0000cd" },
+        { "name": "chinese", "text": "公开测试密码" },
+        { "name": "astral", "text": "🔒😀密码" },
+        { "name": "nfc", "text": "é" },
+        { "name": "nfd", "text": "é" },
+        { "name": "high-surrogate", "units": [55296] },
+        { "name": "low-surrogate", "units": [56320] },
+        { "name": "reversed-surrogates", "units": [56320, 55296] },
+        { "name": "surrogate-pair", "units": [55357, 56832] },
+        { "name": "ascii-71", "repeat": "a", "count": 71 },
+        { "name": "ascii-72", "repeat": "a", "count": 72 },
+        { "name": "ascii-73", "repeat": "a", "count": 73 },
+        { "name": "ascii-255", "repeat": "a", "count": 255 },
+        { "name": "ascii-256", "repeat": "a", "count": 256 },
+        { "name": "split-2byte", "repeat": "a", "count": 71, "suffix": "é", "candidateSuffix": "ê" },
+        { "name": "exact-2byte", "repeat": "a", "count": 70, "suffix": "é", "candidateSuffix": "ê" },
+        { "name": "split-4byte", "repeat": "a", "count": 69, "suffix": "😀", "candidateSuffix": "😁" },
+        { "name": "exact-4byte", "repeat": "a", "count": 68, "suffix": "😀", "candidateSuffix": "😁" },
+        { "name": "split-wtf8", "repeat": "a", "count": 71, "suffixUnits": [55296], "candidateUnits": [55297] }
+    ],
+    "plaintexts": [
+        { "name": "ascii", "text": "synthetic secret" },
+        { "name": "unicode", "text": "固定中文🔒\nsecond line" },
+        { "name": "empty", "text": "" },
+        { "name": "nul", "text": "raw\u0000secret" },
+        { "name": "high-surrogate", "units": [55296] },
+        { "name": "low-surrogate", "units": [56320] },
+        { "name": "json", "text": "{\"synthetic\":true,\"label\":\"中文\"}" }
+    ],
+    "nonceLengths": [1, 2, 3, 8, 11, 12, 13, 16, 31, 32, 64, 127, 128],
+    "tagLengths": [0, 1, 2, 3, 4, 5, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17],
+    "tokenTexts": ["", "synthetic-session-token", "中文 + token", "line\nvalue", "nul\u0000token"]
+}

@@ -1,0 +1,215 @@
+{
+    "openapi": "3.0.0",
+    "info": { "title": "POMS R1C auth documentation metadata exported from TS SSOT", "version": "0.1.0" },
+    "paths": {
+        "/api/auth/sessions": {
+            "post": {
+                "operationId": "AuthController_createPasswordAuthSession",
+                "parameters": [],
+                "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreatePasswordAuthSessionRequest" } } } },
+                "responses": { "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrentAuthSessionView" } } } } },
+                "security": [{ "pomsCsrf": [] }],
+                "summary": "创建账号密码认证会话",
+                "tags": ["Auth"]
+            }
+        },
+        "/api/auth/session": {
+            "get": {
+                "operationId": "AuthController_getCurrentAuthSession",
+                "parameters": [],
+                "responses": { "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrentAuthSessionView" } } } } },
+                "summary": "获取当前认证会话",
+                "tags": ["Auth"]
+            }
+        },
+        "/api/auth/csrf-token": {
+            "get": {
+                "operationId": "AuthController_getCsrfToken",
+                "parameters": [],
+                "responses": { "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CsrfTokenView" } } } } },
+                "summary": "获取 CSRF token",
+                "tags": ["Auth"]
+            }
+        },
+        "/api/auth/session:logout": {
+            "post": {
+                "operationId": "AuthController_logoutCurrentAuthSession",
+                "parameters": [],
+                "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LogoutAuthSessionRequest" } } } },
+                "responses": { "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthSessionLogoutResult" } } } } },
+                "security": [{ "pomsCsrf": [] }, { "pomsSession": [] }],
+                "summary": "登出当前认证会话",
+                "tags": ["Auth"]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreatePasswordAuthSessionRequest": { "type": "object", "properties": { "username": { "type": "string", "minLength": 1 }, "password": { "type": "string", "minLength": 1 } }, "required": ["username", "password"] },
+            "CurrentAuthSessionView": {
+                "type": "object",
+                "properties": {
+                    "authenticated": { "type": "boolean" },
+                    "status": { "allOf": [{ "$ref": "#/components/schemas/CurrentAuthSessionStatus" }], "nullable": true },
+                    "user": { "allOf": [{ "$ref": "#/components/schemas/SanitizedUserWithOrgUnits" }], "nullable": true },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "platform:users:manage",
+                                "platform:roles:manage",
+                                "platform:navigation:manage",
+                                "platform:org-units:manage",
+                                "platform:dictionaries:manage",
+                                "platform:identity-providers:manage",
+                                "platform:org-sync:manage",
+                                "platform:attachment-storage-providers:manage",
+                                "platform:system-settings:manage",
+                                "customer:read",
+                                "customer:write",
+                                "commission:rule-versions:manage",
+                                "commission:assignments:manage",
+                                "commission:calculations:manage",
+                                "commission:payouts:manage",
+                                "commission:adjustments:manage",
+                                "contract:finance:manage",
+                                "contract:finance:sensitive:read",
+                                "operating:finance:sensitive:read",
+                                "commission:amount:sensitive:read",
+                                "labor-cost-rate:sensitive:read",
+                                "exception-approval-opinion:sensitive:read",
+                                "lead:read",
+                                "lead:write",
+                                "lead:assign",
+                                "lead:score:override",
+                                "project:read",
+                                "project:write",
+                                "project:delete",
+                                "nav:dashboard:view",
+                                "nav:customers:view",
+                                "nav:platform:view",
+                                "nav:leads:view",
+                                "nav:attachments:view",
+                                "nav:projects:view",
+                                "nav:contracts:view",
+                                "nav:profile:view"
+                            ]
+                        }
+                    },
+                    "expiresAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                        "nullable": true
+                    },
+                    "csrf": { "$ref": "#/components/schemas/AuthSessionCsrfHint" }
+                },
+                "required": ["authenticated", "status", "user", "permissions", "expiresAt", "csrf"]
+            },
+            "CurrentAuthSessionStatus": { "type": "string", "enum": ["active"] },
+            "SanitizedUserWithOrgUnits": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string", "format": "uuid", "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$" },
+                    "displayName": { "type": "string" },
+                    "username": { "type": "string" },
+                    "roles": { "type": "array", "items": { "type": "string" } },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "platform:users:manage",
+                                "platform:roles:manage",
+                                "platform:navigation:manage",
+                                "platform:org-units:manage",
+                                "platform:dictionaries:manage",
+                                "platform:identity-providers:manage",
+                                "platform:org-sync:manage",
+                                "platform:attachment-storage-providers:manage",
+                                "platform:system-settings:manage",
+                                "customer:read",
+                                "customer:write",
+                                "commission:rule-versions:manage",
+                                "commission:assignments:manage",
+                                "commission:calculations:manage",
+                                "commission:payouts:manage",
+                                "commission:adjustments:manage",
+                                "contract:finance:manage",
+                                "contract:finance:sensitive:read",
+                                "operating:finance:sensitive:read",
+                                "commission:amount:sensitive:read",
+                                "labor-cost-rate:sensitive:read",
+                                "exception-approval-opinion:sensitive:read",
+                                "lead:read",
+                                "lead:write",
+                                "lead:assign",
+                                "lead:score:override",
+                                "project:read",
+                                "project:write",
+                                "project:delete",
+                                "nav:dashboard:view",
+                                "nav:customers:view",
+                                "nav:platform:view",
+                                "nav:leads:view",
+                                "nav:attachments:view",
+                                "nav:projects:view",
+                                "nav:contracts:view",
+                                "nav:profile:view"
+                            ]
+                        }
+                    },
+                    "email": { "type": "string", "format": "email", "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$", "nullable": true },
+                    "avatarUrl": { "type": "string", "format": "uri", "nullable": true },
+                    "isActive": { "type": "boolean" },
+                    "lastLoginAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                        "nullable": true
+                    },
+                    "emailVerified": { "type": "boolean" },
+                    "phoneVerified": { "type": "boolean" },
+                    "phone": { "type": "string", "nullable": true },
+                    "orgUnits": { "type": "array", "items": { "$ref": "#/components/schemas/UserOrgUnitSummary" } }
+                },
+                "required": ["id", "displayName", "username", "roles", "permissions", "email", "avatarUrl", "isActive", "lastLoginAt", "emailVerified", "phoneVerified", "phone", "orgUnits"]
+            },
+            "UserOrgUnitSummary": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string", "format": "uuid", "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$" },
+                    "name": { "type": "string" },
+                    "code": { "type": "string", "nullable": true },
+                    "description": { "type": "string", "nullable": true },
+                    "membershipType": { "$ref": "#/components/schemas/UserOrgUnitMembershipType" }
+                },
+                "required": ["id", "name", "code", "description", "membershipType"]
+            },
+            "UserOrgUnitMembershipType": { "type": "string", "enum": ["primary", "secondary"] },
+            "AuthSessionCsrfHint": { "type": "object", "properties": { "cookieName": { "type": "string", "minLength": 1 }, "headerName": { "type": "string", "minLength": 1 } }, "required": ["cookieName", "headerName"] },
+            "CsrfTokenView": {
+                "type": "object",
+                "properties": {
+                    "cookieName": { "type": "string", "minLength": 1 },
+                    "headerName": { "type": "string", "minLength": 1 },
+                    "token": { "type": "string", "minLength": 32 },
+                    "expiresAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    }
+                },
+                "required": ["cookieName", "headerName", "token", "expiresAt"]
+            },
+            "LogoutAuthSessionRequest": { "type": "object", "properties": {}, "additionalProperties": false },
+            "AuthSessionLogoutResult": {
+                "type": "object",
+                "properties": { "authenticated": { "type": "boolean", "enum": [false] }, "resultStatus": { "type": "string", "enum": ["logged-out"] }, "revoked": { "type": "boolean" } },
+                "required": ["authenticated", "resultStatus", "revoked"]
+            }
+        },
+        "securitySchemes": { "pomsSession": { "type": "apiKey", "in": "cookie", "name": "poms_session" }, "pomsCsrf": { "type": "apiKey", "in": "header", "name": "X-CSRF-Token" } }
+    }
+}

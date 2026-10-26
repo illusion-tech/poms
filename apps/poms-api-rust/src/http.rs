@@ -1,4 +1,4 @@
-//! The R1A HTTP surface is the three existing public GET operations only.
+//! Existing public health operations plus the R1C authentication surface.
 //! OpenAPI is returned to the CLI; it does not add a documentation HTTP route.
 
 use std::{
@@ -161,17 +161,61 @@ fn dependency_reference() -> Ref {
 
 #[derive(OpenApi)]
 #[openapi(
-    info(title = "POMS API (R1A subset)", version = "0.1.0"),
+    info(title = "POMS API (R1 subset)", version = "0.1.0"),
     paths(root, liveness, readiness),
     components(schemas(HealthCheckDto, HealthChecksDto, HealthDependencyCheckDto))
 )]
 struct ApplicationApi;
 
-pub fn openapi() -> utoipa::openapi::OpenApi {
-    ApplicationApi::openapi()
+pub fn openapi() -> serde_json::Value {
+    let mut document = serde_json::to_value(ApplicationApi::openapi())
+        .unwrap_or_else(|_| panic!("invalid static health OpenAPI metadata"));
+    let authentication = crate::auth::http::openapi();
+    // Keep the TS-owned OpenAPI 3.0 schema vocabulary intact. Deserializing it
+    // as Utoipa's OpenAPI 3.1 types would narrow or discard existing metadata.
+    document["openapi"] = authentication["openapi"].clone();
+    for (path, operation) in authentication["paths"].as_object().into_iter().flatten() {
+        document["paths"][path] = operation.clone();
+    }
+    for (kind, entries) in authentication["components"]
+        .as_object()
+        .into_iter()
+        .flatten()
+    {
+        for (name, value) in entries.as_object().into_iter().flatten() {
+            if document["components"][kind].is_null() {
+                document["components"][kind] = json!({});
+            }
+            document["components"][kind][name] = value.clone();
+        }
+    }
+    document
 }
 
 pub fn router(state: AppState, cors_origins: &[String]) -> Router {
+    wrap_router(health_routes(state), cors_origins)
+}
+
+pub fn router_with_auth(
+    state: AppState,
+    cors_origins: &[String],
+    auth: crate::auth::http::AuthHttpState,
+) -> Router {
+    wrap_router(
+        health_routes(state).merge(crate::auth::http::router(auth)),
+        cors_origins,
+    )
+}
+
+fn health_routes(state: AppState) -> Router {
+    Router::new()
+        .route("/api", get(root))
+        .route("/api/health", get(liveness))
+        .route("/api/health/readiness", get(readiness))
+        .with_state(state)
+}
+
+fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
     let policy = CorsPolicy {
         origins: cors_origins
             .iter()
@@ -179,18 +223,15 @@ pub fn router(state: AppState, cors_origins: &[String]) -> Router {
             .collect::<Result<Vec<_>, _>>()
             .ok(),
     };
-    let application = Router::new()
-        .route("/api", get(root))
-        .route("/api/health", get(liveness))
-        .route("/api/health/readiness", get(readiness))
+    let application = application
         // Nest reports an unmatched method as 404, not Axum's default 405.
         .method_not_allowed_fallback(not_found)
-        .fallback(not_found)
-        .with_state(state);
+        .fallback(not_found);
     // MethodRouter adds Allow after its route-level layers finish. Enclose the
     // complete router so the Nest 404 normalization runs after that final step.
     Router::new()
         .fallback_service(application)
+        .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }
 
@@ -268,8 +309,46 @@ fn milliseconds(started: Instant) -> u64 {
     u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX)
 }
 
-async fn not_found(method: Method, OriginalUri(uri): OriginalUri) -> ApiError {
-    ApiError::not_found(&method, &uri)
+async fn not_found(method: Method, OriginalUri(uri): OriginalUri) -> Response {
+    // The actual Nest/Express bootstrap falls through to finalhandler. R1A's
+    // JSON assumption was corrected using the R1C original HTTP oracle.
+    let path = encode_resource_path(uri.path());
+    let message = format!("Cannot {method} {path}")
+        .replace('&', "&amp;")
+        .replace('"', "&quot;")
+        .replace('\'', "&#39;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;");
+    let html = format!(
+        "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>{message}</pre>\n</body>\n</html>\n"
+    );
+    (
+        StatusCode::NOT_FOUND,
+        [
+            (header::CONTENT_TYPE, "text/html; charset=utf-8"),
+            (header::CONTENT_SECURITY_POLICY, "default-src 'none'"),
+            (header::X_CONTENT_TYPE_OPTIONS, "nosniff"),
+        ],
+        html,
+    )
+        .into_response()
+}
+
+fn encode_resource_path(path: &str) -> String {
+    let mut encoded = String::new();
+    let bytes = path.as_bytes();
+    for (index, &byte) in bytes.iter().enumerate() {
+        let safe = matches!(byte, b'!' | b'#'..=b'$' | b'&'..=b';' | b'=' | b'?'..=b'_' | b'a'..=b'z' | b'|' | b'~')
+            || (byte == b'%'
+                && bytes.get(index + 1).is_some_and(u8::is_ascii_hexdigit)
+                && bytes.get(index + 2).is_none_or(u8::is_ascii_hexdigit));
+        if safe {
+            encoded.push(char::from(byte));
+        } else {
+            encoded.push_str(&format!("%{byte:02X}"));
+        }
+    }
+    encoded
 }
 
 #[derive(Clone)]
@@ -296,6 +375,10 @@ async fn observe_and_cors(
         "/api" => "/api",
         "/api/health" => "/api/health",
         "/api/health/readiness" => "/api/health/readiness",
+        "/api/auth/sessions" => "/api/auth/sessions",
+        "/api/auth/session" => "/api/auth/session",
+        "/api/auth/session:logout" => "/api/auth/session:logout",
+        "/api/auth/csrf-token" => "/api/auth/csrf-token",
         _ => "<unmatched>",
     };
     let preflight = request.method() == Method::OPTIONS;
