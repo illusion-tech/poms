@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-26
-**状态**: G0 范围与拆片完成；R2A 已交付 / G4；首片三操作之外仍未交付，B–M 为 Todo / G1 未冻结；本文不是其余切片的实施授权
+**状态**: G0 范围与拆片完成；R2A 已交付 / G4；R2B已冻结G1并进入Doing；C–M为Todo / G1未冻结；本文不是其余切片的实施授权
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -30,7 +30,7 @@ R0 清单的产品源参考仍为 `033aedd0`。本次对 `apps/poms-api/src`、`
 
 ## 3. 互斥拆片与建议依赖
 
-以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M 已建立为 #67 的原生子 Issue，全部仍为 Todo / G1 未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
+以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M已建立为#67的原生子Issue；R2B已按[独立基线](rust-r2b-role-permissions-baseline.md)冻结G1并进入Doing，C–M仍为Todo / G1未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
 
 | TID      | Issue                                                  | HTTP 数 | 独立交付范围                                          | 建议前置与额外输入                                                           |
 | -------- | ------------------------------------------------------ | ------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |

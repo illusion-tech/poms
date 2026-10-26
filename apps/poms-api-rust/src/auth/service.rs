@@ -14,7 +14,7 @@ use super::{
     crypto,
     model::{
         AuthError, AuthErrorKind, AuthUser, CreatedCsrf, CreatedSession, RequestInfo,
-        ResolvedSession, Session, SessionFlush, clock_now,
+        ResolvedSession, RoleReadSnapshot, Session, SessionFlush, clock_now,
     },
     store,
 };
@@ -99,6 +99,16 @@ impl AuthService {
         &self,
         user_id: Uuid,
     ) -> Result<Option<AuthUser>, AuthError> {
+        Ok(self
+            .resolve_active_user_with_roles(user_id)
+            .await?
+            .map(|(user, _)| user))
+    }
+
+    async fn resolve_active_user_with_roles(
+        &self,
+        user_id: Uuid,
+    ) -> Result<Option<(AuthUser, Vec<RoleReadSnapshot>)>, AuthError> {
         let account = self
             .database
             .with_connection(move |connection| {
@@ -108,12 +118,23 @@ impl AuthService {
         let Some(account) = account.filter(|account| account.is_active) else {
             return Ok(None);
         };
-        let permissions = self.permissions_for_user(account.id).await?;
-        Ok(Some(AuthUser {
-            user_id: account.id,
-            username: account.username,
-            permissions,
-        }))
+        let id = account.id;
+        let (permissions, roles) = self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(
+                    async move { store::permissions_with_role_snapshots(connection, id).await },
+                )
+            })
+            .await?;
+        Ok(Some((
+            AuthUser {
+                user_id: account.id,
+                username: account.username,
+                permissions,
+            },
+            roles,
+        )))
     }
 
     pub async fn create_session(
@@ -211,7 +232,9 @@ impl AuthService {
             return Err(AuthError::authentication(Code::SessionExpired)
                 .with_pending(SessionFlush::between(&initial, &session)));
         }
-        let Some(user) = self.resolve_active_auth_user(session.user_id).await? else {
+        let Some((user, role_snapshots)) =
+            self.resolve_active_user_with_roles(session.user_id).await?
+        else {
             let id = session.id;
             let snapshot = self
                 .database
@@ -263,6 +286,7 @@ impl AuthService {
         Ok(ResolvedSession {
             session,
             user,
+            role_snapshots,
             pending_flush,
         })
     }

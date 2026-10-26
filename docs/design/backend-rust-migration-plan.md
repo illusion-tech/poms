@@ -261,3 +261,7 @@ R0 的盘点成果见 [API 契约清单](rust-r0-api-contract-inventory.md)、[�
 - [Microsoft WSL 文件系统说明](https://learn.microsoft.com/en-us/windows/wsl/filesystems)：Linux 工具链的源码与产物存放建议。
 
 2026-10-26 R2 进展：R2A 实现 `2924bf30c1a0751df129d2137b6667628d1fdf4a` 已合入 main 并推送；合入后21项适配器检查与单向导航来源检查通过，98当前源码/82权威来源指纹一致。四组合12浏览器、26run零残留和schema失败分类见[收口记录](archive/slices/rust-r2a-closeout.md)及[机器验收](rust-r2a-validation.json)。G4随本归档提交推送及Issue同步生效；仅#68完成，R2父#67与总体#57保持Open，B–M保持Todo，#61待决路线不变，PG17保留。
+
+### 2026-10-27 RUST-R2B G1冻结
+
+R2B #69按[角色权限基线](rust-r2b-role-permissions-baseline.md)于2026-10-26T19:32:29Z冻结，来源HEAD `9734515f84ebe1a4833d207124adbfbe378f691f`；A/B输入复核与C独立复核Pass，现为Doing。范围为八个现有角色/权限操作，真实Nest/PG/HTTP及原页面验收、G3和G4尚待完成。仅使用新PG15副本，PG17及旧证据保留；R2父#67保持Open，C–M为Todo，#61不变。

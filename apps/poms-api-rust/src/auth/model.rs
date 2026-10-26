@@ -97,9 +97,38 @@ impl fmt::Debug for CreatedSession {
 pub struct ResolvedSession {
     pub session: Session,
     pub user: AuthUser,
-    /// Managed changes are flushed only if this request later persists an
-    /// audit event. Dropping a public-read result does not persist them again.
+    /// Original request identity-map Role values, loaded during authorization.
+    /// This is not a wire contract, shared cache or persisted session field.
+    pub role_snapshots: Vec<RoleReadSnapshot>,
+    /// Managed changes are flushed only if this request later persists business
+    /// entities or an audit event. Dropping a read result does not flush again.
     pub pending_flush: Option<SessionFlush>,
+}
+
+/// The complete Role read performed by the original getPermissionsForUser.
+/// Inactive assigned roles are retained even though they grant no permissions.
+#[derive(Clone)]
+pub struct RoleReadSnapshot {
+    pub id: Uuid,
+    pub role_key: String,
+    pub name: String,
+    pub description: Option<String>,
+    pub is_active: bool,
+    pub is_system_role: bool,
+    pub display_order: i32,
+    pub row_version: i32,
+    pub created_at: DateTime<Utc>,
+    pub created_by: Option<Uuid>,
+    pub updated_at: DateTime<Utc>,
+    pub updated_by: Option<Uuid>,
+}
+
+impl fmt::Debug for RoleReadSnapshot {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("RoleReadSnapshot")
+            .field("row_version", &self.row_version)
+            .finish_non_exhaustive()
+    }
 }
 
 #[derive(Clone, Default)]

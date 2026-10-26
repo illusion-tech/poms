@@ -1,0 +1,423 @@
+{
+  "permissions": [
+    {
+      "key": "platform:users:manage",
+      "name": "platform:users:manage",
+      "description": "管理用户账号",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:roles:manage",
+      "name": "platform:roles:manage",
+      "description": "管理角色与权限",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:navigation:manage",
+      "name": "platform:navigation:manage",
+      "description": "管理导航菜单",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:org-units:manage",
+      "name": "platform:org-units:manage",
+      "description": "管理组织单元",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:dictionaries:manage",
+      "name": "platform:dictionaries:manage",
+      "description": "管理业务配置字典",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:identity-providers:manage",
+      "name": "platform:identity-providers:manage",
+      "description": "管理外部身份提供商配置",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:org-sync:manage",
+      "name": "platform:org-sync:manage",
+      "description": "管理外部组织同步",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:attachment-storage-providers:manage",
+      "name": "platform:attachment-storage-providers:manage",
+      "description": "管理附件存储 Provider 配置",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "platform:system-settings:manage",
+      "name": "platform:system-settings:manage",
+      "description": "管理系统设置",
+      "group": "平台管理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "customer:read",
+      "name": "customer:read",
+      "description": "查看客户主数据",
+      "group": "客户",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "customer:write",
+      "name": "customer:write",
+      "description": "创建/维护客户主数据",
+      "group": "客户",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "commission:rule-versions:manage",
+      "name": "commission:rule-versions:manage",
+      "description": "管理提成规则版本",
+      "group": "提成治理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "commission:assignments:manage",
+      "name": "commission:assignments:manage",
+      "description": "管理提成角色分配",
+      "group": "提成治理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "commission:calculations:manage",
+      "name": "commission:calculations:manage",
+      "description": "管理提成计算结果",
+      "group": "提成治理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "commission:payouts:manage",
+      "name": "commission:payouts:manage",
+      "description": "管理提成发放",
+      "group": "提成治理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "commission:adjustments:manage",
+      "name": "commission:adjustments:manage",
+      "description": "管理提成调整",
+      "group": "提成治理",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "contract:finance:manage",
+      "name": "contract:finance:manage",
+      "description": "管理合同资金事实",
+      "group": "合同资金",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "contract:finance:sensitive:read",
+      "name": "contract:finance:sensitive:read",
+      "description": "查看合同资金敏感字段",
+      "group": "敏感字段",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "operating:finance:sensitive:read",
+      "name": "operating:finance:sensitive:read",
+      "description": "查看经营核算敏感字段",
+      "group": "敏感字段",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "commission:amount:sensitive:read",
+      "name": "commission:amount:sensitive:read",
+      "description": "查看提成金额敏感字段",
+      "group": "敏感字段",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "labor-cost-rate:sensitive:read",
+      "name": "labor-cost-rate:sensitive:read",
+      "description": "查看人力成本率敏感字段",
+      "group": "敏感字段",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "exception-approval-opinion:sensitive:read",
+      "name": "exception-approval-opinion:sensitive:read",
+      "description": "查看例外审批与保留意见敏感字段",
+      "group": "敏感字段",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "lead:read",
+      "name": "lead:read",
+      "description": "查看销售线索",
+      "group": "线索",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "lead:write",
+      "name": "lead:write",
+      "description": "登记/维护销售线索",
+      "group": "线索",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "lead:assign",
+      "name": "lead:assign",
+      "description": "分配/改派销售线索负责人",
+      "group": "线索",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "lead:score:override",
+      "name": "lead:score:override",
+      "description": "审批线索评分人工覆盖",
+      "group": "线索",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "project:read",
+      "name": "project:read",
+      "description": "查看项目",
+      "group": "项目",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "project:write",
+      "name": "project:write",
+      "description": "创建/编辑项目",
+      "group": "项目",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "project:delete",
+      "name": "project:delete",
+      "description": "删除项目",
+      "group": "项目",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:dashboard:view",
+      "name": "nav:dashboard:view",
+      "description": "查看工作台菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:customers:view",
+      "name": "nav:customers:view",
+      "description": "查看客户菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:platform:view",
+      "name": "nav:platform:view",
+      "description": "查看平台管理菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:leads:view",
+      "name": "nav:leads:view",
+      "description": "查看线索菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:attachments:view",
+      "name": "nav:attachments:view",
+      "description": "查看附件中心菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:projects:view",
+      "name": "nav:projects:view",
+      "description": "查看项目菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:contracts:view",
+      "name": "nav:contracts:view",
+      "description": "查看合同菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    },
+    {
+      "key": "nav:profile:view",
+      "name": "nav:profile:view",
+      "description": "查看个人中心菜单",
+      "group": "导航",
+      "status": "active",
+      "isSystemPermission": true,
+      "sourceType": "system-seeded",
+      "deprecatedBy": null
+    }
+  ],
+  "minimumPermissions": {
+    "platform-admin": [
+      "platform:users:manage",
+      "platform:roles:manage",
+      "platform:navigation:manage",
+      "platform:org-units:manage",
+      "platform:dictionaries:manage",
+      "platform:identity-providers:manage",
+      "platform:org-sync:manage",
+      "platform:attachment-storage-providers:manage",
+      "platform:system-settings:manage",
+      "customer:read",
+      "customer:write",
+      "commission:rule-versions:manage",
+      "commission:assignments:manage",
+      "commission:calculations:manage",
+      "commission:payouts:manage",
+      "commission:adjustments:manage",
+      "contract:finance:manage",
+      "contract:finance:sensitive:read",
+      "operating:finance:sensitive:read",
+      "commission:amount:sensitive:read",
+      "labor-cost-rate:sensitive:read",
+      "exception-approval-opinion:sensitive:read",
+      "lead:read",
+      "lead:write",
+      "lead:assign",
+      "lead:score:override",
+      "project:read",
+      "project:write",
+      "project:delete",
+      "nav:dashboard:view",
+      "nav:customers:view",
+      "nav:platform:view",
+      "nav:leads:view",
+      "nav:attachments:view",
+      "nav:projects:view",
+      "nav:contracts:view",
+      "nav:profile:view"
+    ],
+    "project-viewer": [
+      "project:read",
+      "nav:dashboard:view",
+      "nav:attachments:view",
+      "nav:projects:view",
+      "nav:contracts:view",
+      "nav:profile:view"
+    ]
+  }
+}

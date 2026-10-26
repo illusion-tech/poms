@@ -12,7 +12,7 @@ use serde_json::{Value, json};
 use sqlx::{PgConnection, Row, postgres::PgRow};
 use uuid::Uuid;
 
-use super::model::{AuthUser, RequestInfo, Session, SessionFlush, clock_now};
+use super::model::{AuthUser, RequestInfo, RoleReadSnapshot, Session, SessionFlush, clock_now};
 use crate::{
     compat::{permissions::RawPermission, scalars::js_iso_string},
     shared::generated::{AuthSessionRevokedReason, AuthSessionStatus},
@@ -311,7 +311,8 @@ pub async fn revoke_active_sessions_for_user(
     Ok(rows.len())
 }
 
-/// Called only inside the audit flush transaction, after its event INSERT.
+/// Called inside an original ORM-equivalent flush: business entities or audit.
+/// The caller owns operation ordering and consumes this request-local state once.
 /// Apply exactly changed properties and the original updatedAt onUpdate hook.
 /// The optimistic predicate uses the applied raw snapshot's current version.
 pub async fn flush_managed_session(
@@ -425,6 +426,17 @@ pub async fn permissions_for_user(
     connection: &mut PgConnection,
     user_id: Uuid,
 ) -> Result<Vec<RawPermission>, sqlx::Error> {
+    Ok(permissions_with_role_snapshots(connection, user_id)
+        .await?
+        .0)
+}
+
+/// Preserve the early findRolesByIds identity-map values for this request.
+/// Permission union order and raw unknown keys remain unchanged.
+pub async fn permissions_with_role_snapshots(
+    connection: &mut PgConnection,
+    user_id: Uuid,
+) -> Result<(Vec<RawPermission>, Vec<RoleReadSnapshot>), sqlx::Error> {
     let assignments =
         sqlx::query("SELECT user_id,role_id FROM poms.user_role_assignment WHERE status='active'")
             .fetch_all(&mut *connection)
@@ -436,16 +448,39 @@ pub async fn permissions_for_user(
         }
     }
     if assigned_ids.is_empty() {
-        return Ok(Vec::new());
+        return Ok((Vec::new(), Vec::new()));
     }
-    let active_ids: Vec<Uuid> =
-        sqlx::query_scalar("SELECT id FROM poms.role WHERE id=ANY($1) AND is_active=true")
-            .bind(&assigned_ids)
-            .fetch_all(&mut *connection)
-            .await?;
-    let active_ids: HashSet<_> = active_ids.into_iter().collect();
+    let rows = sqlx::query(
+        "SELECT id,role_key,name,description,is_active,is_system_role,display_order,row_version,\
+         created_at,created_by,updated_at,updated_by FROM poms.role WHERE id=ANY($1)",
+    )
+    .bind(&assigned_ids)
+    .fetch_all(&mut *connection)
+    .await?;
+    let mut snapshots = Vec::with_capacity(rows.len());
+    for row in rows {
+        snapshots.push(RoleReadSnapshot {
+            id: row.try_get("id")?,
+            role_key: row.try_get("role_key")?,
+            name: row.try_get("name")?,
+            description: row.try_get("description")?,
+            is_active: row.try_get("is_active")?,
+            is_system_role: row.try_get("is_system_role")?,
+            display_order: row.try_get("display_order")?,
+            row_version: row.try_get("row_version")?,
+            created_at: row.try_get("created_at")?,
+            created_by: row.try_get("created_by")?,
+            updated_at: row.try_get("updated_at")?,
+            updated_by: row.try_get("updated_by")?,
+        });
+    }
+    let active_ids: HashSet<_> = snapshots
+        .iter()
+        .filter(|role| role.is_active)
+        .map(|role| role.id)
+        .collect();
     if active_ids.is_empty() {
-        return Ok(Vec::new());
+        return Ok((Vec::new(), snapshots));
     }
     let assignments = sqlx::query(
         "SELECT role_id,permission_key FROM poms.role_permission_assignment WHERE status='active'",
@@ -462,7 +497,7 @@ pub async fn permissions_for_user(
             }
         }
     }
-    Ok(permissions)
+    Ok((permissions, snapshots))
 }
 
 /// Minimal reads for the existing profile projection. Memberships are filtered

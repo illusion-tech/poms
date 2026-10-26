@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "scope": "R2 operation ownership and dependencies; only R2A delivered, B-M remain Todo with individual G1 required",
+  "scope": "R2 operation ownership and dependencies; R2A delivered, R2B Doing with G1 Pass, C-M remain Todo with individual G1 required",
   "currentHead": "19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3",
   "parentIssue": 67,
   "rootIssue": 57,
@@ -55,7 +55,7 @@
     "parameterNameDifferences": 5,
     "canonicalDecisionPending": 0,
     "missingInventory": 0,
-    "allSlicesG1": "R2A Pass; R2B-R2M Todo"
+    "allSlicesG1": "R2A/R2B Pass; R2C-R2M Todo"
   },
   "slices": [
     {
@@ -78,8 +78,8 @@
       "taskId": "RUST-R2B",
       "title": "角色与权限",
       "issue": 69,
-      "status": "Todo",
-      "g1": "Todo",
+      "status": "Doing",
+      "g1": "Pass",
       "publicOperations": 8,
       "proposedDependencies": [
         "R1",
@@ -87,7 +87,10 @@
       ],
       "nonHttpAndDomainInputs": [
         "平台 bootstrap 角色/权限固定数据"
-      ]
+      ],
+      "baseline": "docs/design/rust-r2b-role-permissions-baseline.md",
+      "frozenAt": "2026-10-26T19:32:29Z",
+      "sourceHead": "9734515f84ebe1a4833d207124adbfbe378f691f"
     },
     {
       "taskId": "RUST-R2C",

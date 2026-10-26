@@ -1,0 +1,99 @@
+{
+  "formatVersion": 1,
+  "source": {
+    "git": "https://github.com/unicode-org/icu4x.git",
+    "revision": "38a49da495248dd1ded84cf306e4ca42e64d5bb3",
+    "packageVersion": "2.1.1",
+    "cldr": "48.0.0",
+    "icuexport": "release-78.1rc",
+    "han": "unihan",
+    "archiveUrl": "https://github.com/unicode-org/icu/releases/download/release-78.1rc/icu4x-icuexportdata-78.1rc.zip",
+    "archiveSha256": "486751335ea00fb12cb3b4d52ddefd3df9b61ff81e1546ba506d3c41cec45a54"
+  },
+  "producer": {
+    "rust": "1.99.1",
+    "operation": "SourceDataProvider::new_custom().with_icuexport(verified local directory).with_collation_root_han(Unihan)",
+    "request": "DataRequest::default()",
+    "serialization": "serde_json::to_vec(typed payload.get()); opaque bytes",
+    "files": [
+      {
+        "path": "tools/rust-r2b/collation-export/Cargo.toml",
+        "bytes": 721,
+        "rawBytesSha256": "69d367fbc00da14dee556649565b63611b9109c79afe146f96243fa8ad6adad0"
+      },
+      {
+        "path": "tools/rust-r2b/collation-export/Cargo.lock",
+        "bytes": 35708,
+        "rawBytesSha256": "d8088feae3356af89c50dfc6d047592b491bc8f6a7a45ba490c6e057d77e55a2"
+      },
+      {
+        "path": "tools/rust-r2b/collation-export/rust-toolchain.toml",
+        "bytes": 51,
+        "rawBytesSha256": "ca67e66659a82661386e5a08471c913cb8b3f7c7ce37592207d3f513589a41c2"
+      },
+      {
+        "path": "tools/rust-r2b/collation-export/src/main.rs",
+        "bytes": 1602,
+        "rawBytesSha256": "7a6f24e926b6b6e4728e1378dda15f27599cac9ebb9ed9fd5e3f180dbb8f76c5"
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "tools/rust-r2b/collation/source/collation/unihan/root_standard_data.toml",
+      "bytes": 1316371,
+      "rawBytesSha256": "1c9ab1a374a795c67eab06f916579e48ee9bab05873443f8e8936385ab7704cd"
+    },
+    {
+      "path": "tools/rust-r2b/collation/source/collation/unihan/root_standard_jamo.toml",
+      "bytes": 2741,
+      "rawBytesSha256": "661f741f62b2cb2da5ee60372406fd8ef322b0cc0c0e0bb67a90b6c6d29bf647"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "tools/rust-r2b/collation/root.json",
+      "bytes": 1260299,
+      "rawBytesSha256": "44a4fc9d480363f9cd2b344dc26bb6dae6146a036e69c89134b53ba91d3197bc"
+    },
+    {
+      "path": "tools/rust-r2b/collation/jamo.json",
+      "bytes": 2623,
+      "rawBytesSha256": "47e37d476f6963232d9436bca366142cf0000861df7e19506b443d064116e72c"
+    }
+  ],
+  "golden": {
+    "cases": {
+      "path": "tools/rust-r2b/collation/cases.json",
+      "bytes": 5127,
+      "rawBytesSha256": "74b90b0eb34beb79a7b0ada5de5ee2161998e35d88beb068974a00ddf233fba3"
+    },
+    "originalNodeOracle": {
+      "path": "tools/rust-r2b/collation/golden.json",
+      "bytes": 14728,
+      "rawBytesSha256": "8cdd4a0421af8151c327c1b17660f61a7ab12bc672e1e2a250da3f8364205f03"
+    },
+    "knownKeys": 37,
+    "strings": 484,
+    "comparisonCount": 234256
+  },
+  "generator": {
+    "path": "tools/rust-r2b/export-roles-collation.mjs",
+    "bytes": 5431,
+    "rawBytesSha256": "00d627dd6c4d3ae97ec931b8d75b2c2bc03f19d7201de5146a681c47c895e061"
+  },
+  "runtime": {
+    "locale": "en-US",
+    "replacedMarkers": [
+      "CollationRootV1",
+      "CollationJamoV1"
+    ],
+    "otherMarkers": "Seven original same-revision Baked markers",
+    "behavior": "Typed safe serde parsing, errors fail without fallback; stable sort preserves equivalent-key assignment order"
+  },
+  "verification": {
+    "replay": "node tools/rust-r2b/export-roles-collation.mjs --check --replay",
+    "checkDoesNotImplyReplay": true,
+    "scope": "Pure fixed-source/data check; not Nest HTTP, database or all-Unicode certification"
+  }
+}

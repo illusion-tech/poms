@@ -111,6 +111,12 @@ pub struct ParsedBody {
     raw: Option<Arc<str>>,
 }
 
+impl ParsedBody {
+    pub(crate) fn raw(&self) -> Option<&str> {
+        self.raw.as_deref()
+    }
+}
+
 const BODY_LIMIT: usize = 100 * 1024;
 
 struct ChunkReader {

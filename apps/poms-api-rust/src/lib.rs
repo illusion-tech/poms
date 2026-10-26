@@ -8,4 +8,5 @@ pub mod lifecycle;
 pub mod logging;
 pub mod navigation;
 pub mod process_runtime;
+pub mod roles;
 pub mod shared;

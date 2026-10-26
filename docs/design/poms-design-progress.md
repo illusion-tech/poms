@@ -682,3 +682,7 @@ R1D的[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏�
 R1E 实现 `afbf4ee51baa8543981e66472d04a4d7389a9adb` 已集成推送 main，远端 HEAD 一致；集成后 19 项适配器检查通过。[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[纠偏](archive/slices/rust-r1e-corrective-checkpoint.md)与[机器验收](rust-r1e-validation.json)保留四组合 64 项 stage、36 项原 Nest legacy（11 项 route-mock）、80 个唯一 run 清理全通过，C 非作者审查无剩余 P1/P2。R1 总体和 R1E 生命周期文件归档，G4 随本归档提交及 Issue 同步生效；既有 PrimeUI 提示、R2 真实 404、Nest 组织 create 201 / OpenAPI 200 差异继续保留，PG17 保留且本轮未执行其 SQL 或变更。
 
 2026-10-26 R2 进展：R2A 实现 `2924bf30c1a0751df129d2137b6667628d1fdf4a` 已合入 main 并推送；合入后21项适配器检查与单向导航来源检查通过，98当前源码/82权威来源指纹一致。四组合12浏览器、26run零残留和schema失败分类见[收口记录](archive/slices/rust-r2a-closeout.md)及[机器验收](rust-r2a-validation.json)。G4随本归档提交推送及Issue同步生效；仅#68完成，R2父#67与总体#57保持Open，B–M保持Todo，#61待决路线不变，PG17保留。
+
+### 2026-10-27 RUST-R2B G1冻结
+
+R2B #69按[角色权限基线](rust-r2b-role-permissions-baseline.md)于2026-10-26T19:32:29Z冻结，来源HEAD `9734515f84ebe1a4833d207124adbfbe378f691f`；A/B输入复核与C独立复核Pass，现为Doing。范围为八个现有角色/权限操作，真实Nest/PG/HTTP及原页面验收、G3和G4尚待完成。仅使用新PG15副本，PG17及旧证据保留；R2父#67保持Open，C–M为Todo，#61不变。

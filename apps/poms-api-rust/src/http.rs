@@ -1,4 +1,4 @@
-//! Existing public health, authentication and R2A navigation operations.
+//! Existing public health, authentication, navigation and role operations.
 //! OpenAPI is returned to the CLI; it does not add a documentation HTTP route.
 
 use std::{
@@ -161,7 +161,7 @@ fn dependency_reference() -> Ref {
 
 #[derive(OpenApi)]
 #[openapi(
-    info(title = "POMS API (R2A subset)", version = "0.1.0"),
+    info(title = "POMS API (R2B subset)", version = "0.1.0"),
     paths(root, liveness, readiness),
     components(schemas(HealthCheckDto, HealthChecksDto, HealthDependencyCheckDto))
 )]
@@ -174,7 +174,11 @@ pub fn openapi() -> serde_json::Value {
     // Keep the TS-owned OpenAPI 3.0 schema vocabulary intact. Deserializing it
     // as Utoipa's OpenAPI 3.1 types would narrow or discard existing metadata.
     document["openapi"] = authentication["openapi"].clone();
-    for subset in [authentication, crate::navigation::http::openapi()] {
+    for subset in [
+        authentication,
+        crate::navigation::http::openapi(),
+        crate::roles::http::openapi(),
+    ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
             assert!(
@@ -209,10 +213,14 @@ pub fn router_with_auth(
     cors_origins: &[String],
     auth: crate::auth::http::AuthHttpState,
 ) -> Router {
+    let roles = std::sync::Arc::new(crate::roles::service::RolesService::new(
+        state.database.clone(),
+    ));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
-            .merge(crate::navigation::http::router(auth)),
+            .merge(crate::navigation::http::router(auth.clone()))
+            .merge(crate::roles::http::router(auth, roles)),
         cors_origins,
     )
 }
@@ -241,6 +249,7 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
     // complete router so the Nest 404 normalization runs after that final step.
     Router::new()
         .fallback_service(application)
+        .layer(middleware::from_fn(crate::roles::http::normalize_uri))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }
@@ -319,7 +328,7 @@ fn milliseconds(started: Instant) -> u64 {
     u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX)
 }
 
-async fn not_found(method: Method, OriginalUri(uri): OriginalUri) -> Response {
+pub(crate) async fn not_found(method: Method, OriginalUri(uri): OriginalUri) -> Response {
     // The actual Nest/Express bootstrap falls through to finalhandler. R1A's
     // JSON assumption was corrected using the R1C original HTTP oracle.
     let path = encode_resource_path(uri.path());
