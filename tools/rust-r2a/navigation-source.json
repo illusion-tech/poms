@@ -1,0 +1,432 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3",
+  "textNormalization": {
+    "encoding": "utf8",
+    "rule": "text.replace(/\\r\\n/g, '\\n')",
+    "preserves": "BOM, bare CR, Unicode, other whitespace and escape sequences",
+    "hashes": "sha256 of normalized UTF-8 text, not raw bytes"
+  },
+  "sourceGuard": {
+    "axes": [
+      "working-vs-reference",
+      "index-vs-reference",
+      "untracked-scoped-inputs"
+    ],
+    "scope": [
+      ".gitattributes",
+      ".prettierrc.json",
+      "package.json",
+      "pnpm-lock.yaml",
+      "tsconfig.base.json",
+      "apps/poms-api/src/app/features/navigation",
+      "apps/poms-api/src/app/features/platform/platform.controller.ts",
+      "apps/poms-api/src/app/features/platform/platform.service.ts",
+      "apps/poms-api/src/app/core/runtime-audit",
+      "apps/poms-api/src/app/core/auth",
+      "libs/shared/contracts/src",
+      "libs/api/contracts/src",
+      "libs/vendor/nestjs-zod/src",
+      "libs/shared/api-spec/openapi.json",
+      "docs/design/api-route-canonical-inventory.md"
+    ],
+    "checkIsReadOnly": true
+  },
+  "dependencies": [
+    {
+      "name": "typescript",
+      "version": "6.0.3"
+    },
+    {
+      "name": "zod",
+      "version": "4.6.1"
+    },
+    {
+      "name": "@nestjs/common",
+      "version": "12.0.1"
+    },
+    {
+      "name": "reflect-metadata",
+      "version": "0.2.2"
+    }
+  ],
+  "node": "24.x; actual patch version is reported by the runner, not embedded in portable payloads",
+  "authority": {
+    "tree": "apps/poms-api/src/app/features/navigation/navigation.constants.ts",
+    "service": "apps/poms-api/src/app/features/navigation/navigation.service.ts",
+    "shared": "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "completeOpenApi": "libs/shared/api-spec/openapi.json"
+  },
+  "nativeOracle": {
+    "sharedImports": [
+      "zod"
+    ],
+    "serviceImports": [
+      "node:crypto:createHash",
+      "@nestjs/common:Injectable",
+      "./navigation.constants:NAVIGATION_TREE"
+    ],
+    "originalMethods": [
+      "getNavigationForUser",
+      "getAllNavigationItems",
+      "getNavigationAuditSnapshot"
+    ],
+    "syntheticBoundary": "Only the const tree binding is replaced in the controlled process. Shared schemas and original methods execute unchanged.",
+    "notClaimed": "No Nest HTTP, browser, database, adapter, transaction or deployment execution; vm is not a security boundary for untrusted code."
+  },
+  "coverage": {
+    "permissions": 37,
+    "nodes": 25,
+    "routes": 16,
+    "fieldsPerNode": 13,
+    "originalTreePermissionCases": 43,
+    "cases": 50,
+    "syntheticCases": 6,
+    "openApiOperations": 3,
+    "openApiSchemas": 5
+  },
+  "sourceFiles": [
+    {
+      "path": ".gitattributes",
+      "normalizedUtf8Sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c"
+    },
+    {
+      "path": ".prettierrc.json",
+      "normalizedUtf8Sha256": "f166d6ede6e719d2d534412e5b85c49fe2b83a5d08c15d08ae9b26765cca2dfe"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session-cookie.service.spec.ts",
+      "normalizedUtf8Sha256": "f4ac44d8a9582283ccac4f70a2341b609dab54de5bdeafe49ca009b42e693f9f"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session-cookie.service.ts",
+      "normalizedUtf8Sha256": "d6ad42450b55e006153771e9b4bd72be3ebde198dc639e123d0e589279aeb0ed"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+      "normalizedUtf8Sha256": "6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.repository.spec.ts",
+      "normalizedUtf8Sha256": "1b1186ee4e6ef3388245cdcd8090384e419ef74f9c83ecb93e7357d0d476463a"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+      "normalizedUtf8Sha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.service.spec.ts",
+      "normalizedUtf8Sha256": "5e5ad41bea711f664ad84ae84c56f2946c2cf2102d2ebb7ec2b307c30a305a64"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+      "normalizedUtf8Sha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth.controller.spec.ts",
+      "normalizedUtf8Sha256": "061b40fa5de9f701552018a2cd8f71eb7c34a01191b6559bd20d111a7c339a25"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+      "normalizedUtf8Sha256": "503ef7836a9141bf11e50ef22a07d0a26e593466d6ee4edbb9e32c40fc8f46e9"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth.module.ts",
+      "normalizedUtf8Sha256": "ae71dd28c959449e4dea26a7f745ad2bbeb522be169cbb69e0e3382b8de24766"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/decorators/authenticated.decorator.ts",
+      "normalizedUtf8Sha256": "605a1a5a0464093da27955cae524b2d9b4e46c08806692c9c0ee989cfe0ba34c"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/decorators/has-any-permissions.decorator.ts",
+      "normalizedUtf8Sha256": "761be292873cc8b0185db299a90d25c5f8faf7854821fcb5de30550c7aba2c65"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/decorators/has-permissions.decorator.ts",
+      "normalizedUtf8Sha256": "78079649972a417dc9582b8604d48b452ba08316dbdf32299760a33c08acdbf3"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/decorators/public.decorator.ts",
+      "normalizedUtf8Sha256": "3605a73aa4696ecacc45e5e3269f571ba41d4bd8018ce155e10b8d2c8bf1bd66"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.spec.ts",
+      "normalizedUtf8Sha256": "4b3bd12bd01b8dd80f9d017ad26ae4037ce4ff2da5c6d6ab41f490257b29e3d3"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "normalizedUtf8Sha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/permissions.guard.spec.ts",
+      "normalizedUtf8Sha256": "2e16ea2851aa0acc889db15054f7a6eeeb2555ceacb3a0bf76985e4a34b0c2f2"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "normalizedUtf8Sha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.spec.ts",
+      "normalizedUtf8Sha256": "6166913bcc802e9f938b0906e849431113211dce2fd7caf2994f2f8753a62628"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "normalizedUtf8Sha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts",
+      "normalizedUtf8Sha256": "8cf897ef5c9bd365708dbefbb88158b12e29e18b5881cdbe6dd95aff986f7789"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts",
+      "normalizedUtf8Sha256": "c6db32b268247deb198a0763c2330a8c341f7ec55c40ca271b84e84da13ca3ed"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.controller.ts",
+      "normalizedUtf8Sha256": "e4f302417722781f327bd7585376a8419e7bdda297d8795f9a3d8880952331d9"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.module.ts",
+      "normalizedUtf8Sha256": "4a4adcc3d5ce9fe8fa82a2062d63de19d678f3fe33e92f64c248987896a2887e"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+      "normalizedUtf8Sha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.spec.ts",
+      "normalizedUtf8Sha256": "82cec30dd1a7dc7df77d2c9cee5e36ca043cad1ff30e8b1cbaa6cfa5f94011df"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "normalizedUtf8Sha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/security-event.entity.ts",
+      "normalizedUtf8Sha256": "48a83b8ee48adb854277a4ea7def8dc816b1cc29fec984649bcac0740bf3271f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.constants.ts",
+      "normalizedUtf8Sha256": "066c851f11b408b3ed16a6662cf760110d7b17fff79d8392cff6822dd9ab9cbd"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.controller.spec.ts",
+      "normalizedUtf8Sha256": "5f33e78f709d4bf0c489b165ba30ab7e36a0b4609a01dca3ba4b0282b9d57ab7"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.controller.ts",
+      "normalizedUtf8Sha256": "83b2084480019f3381eaf587d73ed7291328c04feb0041b9639ce009e7131157"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.module.ts",
+      "normalizedUtf8Sha256": "40bee6e3ec9ca06557ddefe4594034cba83b4f6199c2934e7abfd435e51f3344"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.service.spec.ts",
+      "normalizedUtf8Sha256": "49360af27c9a97132842a6ffa9f0fb17aa1e65ffa9ad59f4cbb82fdd057d7455"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.service.ts",
+      "normalizedUtf8Sha256": "824537f73759bca12c2014437767604a6dfe8f6470d53be9b2e7bb483276bf92"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/navigation/navigation.service.visibility.spec.ts",
+      "normalizedUtf8Sha256": "9a547747ed08db0c22a0191c9d9cb6ef67bb1e8a04d18133196bc065486555ab"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/platform.controller.ts",
+      "normalizedUtf8Sha256": "84d2985622098536ddd1c3b4d6fadeacccb84b5b7b460cf8e23d18213afed45b"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/platform.service.ts",
+      "normalizedUtf8Sha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db"
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "normalizedUtf8Sha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f"
+    },
+    {
+      "path": "libs/api/contracts/src/index.ts",
+      "normalizedUtf8Sha256": "ea69f75aea20022e1cd30614e9141025e7d78788c8b350523ce98531dfab5d6c"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/api-contracts.module.ts",
+      "normalizedUtf8Sha256": "3d2840cefda6dbba62a6e96e4199480e09702117e5aaa086c85e714bdd0439b4"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/approval/approval.dto.ts",
+      "normalizedUtf8Sha256": "335cdaeb3b547cd06edc39d9cf92be935b5aa939121c149633cd5a759231fb14"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+      "normalizedUtf8Sha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/auth/user.dto.ts",
+      "normalizedUtf8Sha256": "963c161515949a6737f96290ce04c7b312803778ac51fb7781de9022742ea495"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/business-discussion/business-discussion.dto.ts",
+      "normalizedUtf8Sha256": "a57292403a62b8689b62399b9f0da590a55642335f26fa2a795673f1558194fb"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/commission/commission.dto.ts",
+      "normalizedUtf8Sha256": "8a5f289d85215103cef368eb362aaa3e73dbe4e233c05fd6895c60c8202b80af"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/contract-finance/contract-finance.dto.ts",
+      "normalizedUtf8Sha256": "9a59edc7db89aae6a9282e1ae40549bd836df8828d9953f1fa16ff169947c2d1"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "normalizedUtf8Sha256": "f9c62075d41e98ac8215f19d40bb6267763bdd1e4a505f788303bafdb36dfa9a"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/customer/customer.dto.ts",
+      "normalizedUtf8Sha256": "970cee8071a20ea167b979f8d83054ce1e98570e09fd53af59e08ce683280a18"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/dictionary/dictionary.dto.ts",
+      "normalizedUtf8Sha256": "b28bc0b0045cc3f95629ff4511d28a64503efdb70f149c1f666e2ca2a5c0353e"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/external-org-sync/external-org-sync.dto.ts",
+      "normalizedUtf8Sha256": "f47da9ad780f5b0b9d812d643bf3774063f930ed5ec74dc64e36b01b0e868ffc"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+      "normalizedUtf8Sha256": "248a52ac080fd29d5baef42be0f9eb451df8298c608fc874cc6fd30957dcd6a0"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/lead/lead.dto.ts",
+      "normalizedUtf8Sha256": "25353c6d777b87079d71f954e246ff0af3b14a044063ec603fa2087a1f929be2"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/project-cost/project-cost.dto.ts",
+      "normalizedUtf8Sha256": "92cf1da4823eb50999da05730e26b941820993321082605779eddd51ea888523"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/project/project.dto.ts",
+      "normalizedUtf8Sha256": "fed724729bca607925602f837286bbc0ee283cc178ca2fce521a35ac427e3a4a"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/runtime-audit/runtime-audit.dto.ts",
+      "normalizedUtf8Sha256": "de4b2f2e8bedd39ee283dd1272875c6a9f0601400f69b0bc5b36e55816b14514"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/sales-follow-up/sales-follow-up.dto.ts",
+      "normalizedUtf8Sha256": "736470cab550bf399d0ce2f495b805d4a6bdabdc3e7f756564929550904a6d6b"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/sales-intelligence/sales-intelligence.dto.ts",
+      "normalizedUtf8Sha256": "f77a701abc36f52d7c3d10ed8709522795884614fbb2fe9545b44afccb1bc5ca"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/sensitive-field-projection/sensitive-field-projection.dto.ts",
+      "normalizedUtf8Sha256": "3384de3f45a0b9d9e4d09f5c2067f5e7c5d6a3cdd169ea9137586448c23ffe88"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/system-setting/system-setting.dto.ts",
+      "normalizedUtf8Sha256": "e98122bfcc3603ad7ada3ba9ea3109718af917b70fb75d38c4c6d935bec835ab"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "normalizedUtf8Sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+    },
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "normalizedUtf8Sha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "normalizedUtf8Sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/assert.ts",
+      "normalizedUtf8Sha256": "131f559ac084d19ff9566a576b1cba193b83505cdf5654870035949259cf39f4"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/cleanupOpenApiDoc.ts",
+      "normalizedUtf8Sha256": "0498c70489ad2f8745d86913c03a0c64b14970943567732d5f4e2a82bb978c5a"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/const.ts",
+      "normalizedUtf8Sha256": "054103368466e521c5c5531b2d581ecf1e3dc8dee6ab05f118d372a408eed045"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/dto.ts",
+      "normalizedUtf8Sha256": "83f71a127cfe8b652025007098851016e2b22ea064dd97b4a0f0a605d5426160"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/exception.ts",
+      "normalizedUtf8Sha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/guard.ts",
+      "normalizedUtf8Sha256": "c4f20233691a146e28da2b008c6481703054780510517cc8fb57bec78207ec95"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/index.ts",
+      "normalizedUtf8Sha256": "2270d850f15f5c61dd84863f72290a584e7d58c031c0c4099229c20dfc84864a"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "normalizedUtf8Sha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/response.ts",
+      "normalizedUtf8Sha256": "257bd9aecb2332963b14af9eabfae030c0f3710351ccbe2372646526d1498c5b"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "normalizedUtf8Sha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/symbols.ts",
+      "normalizedUtf8Sha256": "85f7698785dc39e0bde25f3703644a2ab41c6c7cc44488c506898840bf1bc76a"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/types.ts",
+      "normalizedUtf8Sha256": "2cd9fbf0ece55ac51b407fa34be3582e9fa7b4866ddd31882093c27cb21acea2"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/utils.ts",
+      "normalizedUtf8Sha256": "6e10dc72e6d7747c9a53aa9b5be63e066af5b3dd95c23cde7e04f37d26b73ca9"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/validate.ts",
+      "normalizedUtf8Sha256": "6fb5056e500c9650e9056fd6e5043940ce7be3565aef608dd86fda708be356b5"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/zodV3ToOpenApi.ts",
+      "normalizedUtf8Sha256": "2d783a186364ff49f4f4a35f63edae0644d41ca09da52d1859d77253a75c067d"
+    },
+    {
+      "path": "package.json",
+      "normalizedUtf8Sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "normalizedUtf8Sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "normalizedUtf8Sha256": "dbc80f2af10676eafcd3a6bf9e83beb0dc24f57edf4f510af36773fe22d14242"
+    }
+  ],
+  "generatorManifest": [
+    {
+      "path": "tools/rust-r2a/export-navigation.mjs",
+      "normalizedUtf8Sha256": "a13204172f35412658a1155f1ef2beb696cc54e9507926cda35091ecb05b1159"
+    },
+    {
+      "path": "tools/rust-r2a/export-navigation.oracle.mjs",
+      "normalizedUtf8Sha256": "d95df32164c2a49d10f9000f7f1e71e9fc4f056f70355f1e8b70d96c3ca669c4"
+    },
+    {
+      "path": "tools/rust-r2a/export-navigation.test.mjs",
+      "normalizedUtf8Sha256": "b92312aa3614c7b25f13ec1ba566bc86dcb329b010fd1277d01a3536af5bda4e"
+    }
+  ]
+}

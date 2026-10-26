@@ -55,7 +55,7 @@ test('managed plan follows the adapter effective port, preserves all eight legac
     assert.equal(plan.adminOrigin, 'http://127.0.0.1:4800');
     assert.equal(plan.suite, 'legacy');
     assert.equal(plan.testMatch.length, 8);
-    const files = fs.readdirSync(path.join(root, 'apps/poms-admin-e2e/src')).filter((name) => name.endsWith('.spec.ts') && name !== 'r1d-auth.smoke.spec.ts' && name !== 'r1e-stage.spec.ts');
+    const files = fs.readdirSync(path.join(root, 'apps/poms-admin-e2e/src')).filter((name) => name.endsWith('.spec.ts') && !['r1d-auth.smoke.spec.ts', 'r1e-stage.spec.ts', 'r2a-navigation.spec.ts'].includes(name));
     assert.deepEqual(plan.testMatch.map((entry) => entry.slice(3)).sort(), files.sort());
     assert(!JSON.stringify(plan).includes('must-not-escape-plan'));
     assert(!JSON.stringify(plan).includes('envFile'));
@@ -91,6 +91,32 @@ test('stage uses its isolated profile, precise backend, test-only bootstrap and 
     const external = { POMS_ADMIN_E2E_SUITE: 'stage', POMS_API_BASE_URL: 'http://127.0.0.1:4703', POMS_ADMIN_BASE_URL: 'http://127.0.0.1:4800', POMS_R1E_BACKEND: 'rust', POMS_ENV_FILE: '/must-not-read.env' };
     assert.equal(resolveBrowserPlan({ env: external, cwd: root, deps }).stageBackend, 'rust');
     assert.throws(() => resolveBrowserPlan({ env: { ...external, POMS_R1E_BACKEND: undefined }, cwd: root, deps }));
+});
+
+test('navigation uses the R2A profile and original app bootstrap, refusing mismatched backend or old profiles', async () => {
+    const { deps, calls } = mockedDependencies({ apiPort: 5101 });
+    const env = { POMS_ADMIN_E2E_SUITE: 'navigation', POMS_E2E_MODE: 'managed-rust', POMS_E2E_ENV_PROFILE: 'r2a', POMS_ADMIN_PORT_SEED: '800' };
+    const plan = resolveBrowserPlan({ env, cwd: root, platform: 'linux', deps });
+    assert.equal(plan.stageBackend, 'rust');
+    assert.equal(plan.apiSuite, 'foundation');
+    assert.equal(plan.adminOrigin, 'http://127.0.0.1:5200');
+    assert.deepEqual(plan.testMatch, ['**/r2a-navigation.spec.ts']);
+    const servers = await startBrowserServers({ env, cwd: root, platform: 'linux', deps });
+    const options = calls.find(([name]) => name === 'admin-start')[1];
+    assert(!options.args.some((arg) => arg.startsWith('--configuration=')));
+    assert.equal(options.env.POMS_E2E_ENV_PROFILE, undefined);
+    await servers.stop();
+    for (const bad of [
+        { ...env, POMS_E2E_ENV_PROFILE: undefined },
+        { ...env, POMS_E2E_ENV_PROFILE: 'r1e' },
+        { ...env, POMS_R2A_BACKEND: 'nest' }
+    ]) {
+        assert.throws(() => resolveBrowserPlan({ env: bad, cwd: root, platform: 'linux', deps }));
+    }
+    assert.throws(() => resolveBrowserPlan({ env, cwd: root, platform: 'win32', deps }));
+    const external = { POMS_ADMIN_E2E_SUITE: 'navigation', POMS_API_BASE_URL: 'http://127.0.0.1:5101', POMS_R2A_BACKEND: 'rust', POMS_ENV_FILE: '/must-not-read.env' };
+    assert.equal(resolveBrowserPlan({ env: external, cwd: root, deps }).stageBackend, 'rust');
+    assert.throws(() => resolveBrowserPlan({ env: { ...external, POMS_R2A_BACKEND: undefined }, cwd: root, deps }));
 });
 
 test('both external URLs use actual external parsing, never read an envfile, and never spawn or stop an external service', async () => {

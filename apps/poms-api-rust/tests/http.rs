@@ -470,11 +470,11 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_has_seven_operations_and_preserves_existing_health_schemas() -> TestResult {
+fn openapi_has_ten_operations_and_preserves_existing_health_schemas() -> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 7);
+    assert_eq!(paths.len(), 10);
     assert!(public_security_matches(&document, &existing));
     for path in ["/api", "/api/health", "/api/health/readiness"] {
         let operation = &document["paths"][path]["get"];

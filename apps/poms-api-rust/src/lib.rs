@@ -6,5 +6,6 @@ pub mod error;
 pub mod http;
 pub mod lifecycle;
 pub mod logging;
+pub mod navigation;
 pub mod process_runtime;
 pub mod shared;

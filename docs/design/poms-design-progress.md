@@ -680,3 +680,5 @@ Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交�
 R1D的[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏记录](archive/slices/rust-r1d-corrective-checkpoint.md)和[机器验收](rust-r1d-validation.json)绑定实现c14333d5；七操作基础场景、四组Chromium smoke和完整client生成不扩大为R1E或R2验收。
 
 R1E 实现 `afbf4ee51baa8543981e66472d04a4d7389a9adb` 已集成推送 main，远端 HEAD 一致；集成后 19 项适配器检查通过。[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[纠偏](archive/slices/rust-r1e-corrective-checkpoint.md)与[机器验收](rust-r1e-validation.json)保留四组合 64 项 stage、36 项原 Nest legacy（11 项 route-mock）、80 个唯一 run 清理全通过，C 非作者审查无剩余 P1/P2。R1 总体和 R1E 生命周期文件归档，G4 随本归档提交及 Issue 同步生效；既有 PrimeUI 提示、R2 真实 404、Nest 组织 create 201 / OpenAPI 200 差异继续保留，PG17 保留且本轮未执行其 SQL 或变更。
+
+2026-10-26 R2 进展：[R2 #67](https://github.com/illusion-tech/poms/issues/67) 已完成[范围、依赖与待决路由梳理](rust-r2-scope-and-dependencies.md)，108 个操作划分为 A–L 加 M 阶段验收。首片 [R2A #68](https://github.com/illusion-tech/poms/issues/68) 按[三操作导航基线](rust-r2a-navigation-baseline.md)进入 G1 Pass / Doing，B–M 保持 Todo / G1 未冻结。父 R2 与总体 #57 均未完成，保留既有 PG17 实例和数据。

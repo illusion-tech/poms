@@ -1,4 +1,4 @@
-//! Existing public health operations plus the R1C authentication surface.
+//! Existing public health, authentication and R2A navigation operations.
 //! OpenAPI is returned to the CLI; it does not add a documentation HTTP route.
 
 use std::{
@@ -161,7 +161,7 @@ fn dependency_reference() -> Ref {
 
 #[derive(OpenApi)]
 #[openapi(
-    info(title = "POMS API (R1 subset)", version = "0.1.0"),
+    info(title = "POMS API (R2A subset)", version = "0.1.0"),
     paths(root, liveness, readiness),
     components(schemas(HealthCheckDto, HealthChecksDto, HealthDependencyCheckDto))
 )]
@@ -174,19 +174,27 @@ pub fn openapi() -> serde_json::Value {
     // Keep the TS-owned OpenAPI 3.0 schema vocabulary intact. Deserializing it
     // as Utoipa's OpenAPI 3.1 types would narrow or discard existing metadata.
     document["openapi"] = authentication["openapi"].clone();
-    for (path, operation) in authentication["paths"].as_object().into_iter().flatten() {
-        document["paths"][path] = operation.clone();
-    }
-    for (kind, entries) in authentication["components"]
-        .as_object()
-        .into_iter()
-        .flatten()
-    {
-        for (name, value) in entries.as_object().into_iter().flatten() {
-            if document["components"][kind].is_null() {
-                document["components"][kind] = json!({});
+    for subset in [authentication, crate::navigation::http::openapi()] {
+        assert_eq!(document["openapi"], subset["openapi"]);
+        for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
+            assert!(
+                document["paths"][path].is_null(),
+                "duplicate OpenAPI path {path}"
+            );
+            document["paths"][path] = operation.clone();
+        }
+        for (kind, entries) in subset["components"].as_object().into_iter().flatten() {
+            for (name, value) in entries.as_object().into_iter().flatten() {
+                if document["components"][kind].is_null() {
+                    document["components"][kind] = json!({});
+                }
+                let existing = &document["components"][kind][name];
+                assert!(
+                    existing.is_null() || existing == value,
+                    "conflicting OpenAPI component {kind}/{name}"
+                );
+                document["components"][kind][name] = value.clone();
             }
-            document["components"][kind][name] = value.clone();
         }
     }
     document
@@ -202,7 +210,9 @@ pub fn router_with_auth(
     auth: crate::auth::http::AuthHttpState,
 ) -> Router {
     wrap_router(
-        health_routes(state).merge(crate::auth::http::router(auth)),
+        health_routes(state)
+            .merge(crate::auth::http::router(auth.clone()))
+            .merge(crate::navigation::http::router(auth)),
         cors_origins,
     )
 }

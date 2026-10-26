@@ -455,6 +455,39 @@ impl AuthService {
             .await?)
     }
 
+    /// Match one original business audit flush, as observed by the R2A Nest
+    /// witness: INSERT the audit before an optional managed-session CAS UPDATE.
+    /// Both belong to this transaction; preceding raw touch remains committed.
+    pub async fn record_audit_log_with_session(
+        &self,
+        input: AuditLogInput,
+        pending: Option<&SessionFlush>,
+    ) -> Result<(), AuthError> {
+        let pending = pending.cloned();
+        Ok(self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(async move {
+                    let mut transaction = connection.begin().await?;
+                    let result: Result<(), sqlx::Error> = async {
+                        audit::insert_audit_log(&mut transaction, &input).await?;
+                        if let Some(pending) = pending.as_ref() {
+                            store::flush_managed_session(&mut transaction, pending).await?;
+                        }
+                        Ok(())
+                    }
+                    .await;
+                    if let Err(error) = result {
+                        transaction.rollback().await?;
+                        return Err(error);
+                    }
+                    transaction.commit().await?;
+                    Ok(())
+                })
+            })
+            .await?)
+    }
+
     async fn find_session(&self, token: &str) -> Result<Option<Session>, AuthError> {
         let token_hash = crypto::hash_token(token);
         Ok(self

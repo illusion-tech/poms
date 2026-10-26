@@ -12,7 +12,7 @@ function fixture(t, mode = 'nest', profile = 'r1d') {
     const file = path.join(directory, 'synthetic.env');
     fs.writeFileSync(
         file,
-        `NODE_ENV=test\nHOST=127.0.0.1\nPORT=${profile === 'r1e' ? '4900' : '4700'}\nDB_HOST=127.0.0.1\nDB_PORT=15432\nDB_DATABASE=poms_${profile}_${mode}\nDB_USER=poms_${profile}_app\nDB_PASSWORD=${'0'.repeat(64)}\nDB_SCHEMA=poms\nDB_CONNECT=true\nJWT_SECRET=public-synthetic-key-more-than-32-characters\n`
+        `NODE_ENV=test\nHOST=127.0.0.1\nPORT=${profile === 'r2a' ? '5100' : profile === 'r1e' ? '4900' : '4700'}\nDB_HOST=127.0.0.1\nDB_PORT=15432\nDB_DATABASE=poms_${profile}_${mode}\nDB_USER=poms_${profile}_app\nDB_PASSWORD=${'0'.repeat(64)}\nDB_SCHEMA=poms\nDB_CONNECT=true\nJWT_SECRET=public-synthetic-key-more-than-32-characters\n`
     );
     return file;
 }
@@ -51,6 +51,19 @@ test('explicit R1E profile admits only R1E tuple; absent profile remains R1D', (
     assert.equal(rust.suite, 'foundation');
     assert.equal(rust.managedEnvironment.database, 'poms_r1e_rust');
 });
+test('R2A admission rejects old copies and maps each backend to the new low-privilege database', (t) => {
+    for (const backend of ['nest', 'rust']) {
+        const file = fixture(t, backend, 'r2a');
+        const plan = resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r2a', POMS_E2E_MODE: `managed-${backend}`, POMS_ENV_FILE: file } });
+        assert.equal(plan.managedEnvironment.database, `poms_r2a_${backend}`);
+        assert.equal(plan.managedEnvironment.childEnv.DB_USER, 'poms_r2a_app');
+        assert.throws(() => resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r1e', POMS_E2E_MODE: `managed-${backend}`, POMS_ENV_FILE: file } }), /R1E environment mismatch/);
+        assert.throws(() => resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r2a', POMS_E2E_MODE: `managed-${backend}`, POMS_ENV_FILE: fixture(t, backend, 'r1e') } }), /R2A environment mismatch/);
+    }
+    const plan = resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: 'r2a', POMS_E2E_MODE: 'external', POMS_E2E_SUITE: 'foundation', POMS_API_BASE_URL: 'http://127.0.0.1:5101', POMS_ENV_FILE: '/missing' } });
+    assert.equal(plan.managedEnvironment, undefined);
+});
+
 test('unknown or aliased profile fails before filesystem access; valid external R1E reads no env', () => {
     for (const profile of ['', 'R1E', 'r1c', 'production']) {
         assert.throws(() => resolveApiPlan({ env: { POMS_E2E_ENV_PROFILE: profile, POMS_ENV_FILE: '/missing' } }), /POMS_E2E_ENV_PROFILE/);

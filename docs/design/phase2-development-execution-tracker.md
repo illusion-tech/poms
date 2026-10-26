@@ -481,3 +481,5 @@ Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7
 3. 当前实现反馈回写的执行层锚点。
 
 历史主线任务收口记录继续保留在 `archive/mainline-closure/phase2-mainline-task-tracker.md`；但当前工程进度不再回到那份历史文档维护。
+
+2026-10-26 R2 进展：[R2 #67](https://github.com/illusion-tech/poms/issues/67) 已完成[范围、依赖与待决路由梳理](rust-r2-scope-and-dependencies.md)，108 个操作划分为 A–L 加 M 阶段验收。首片 [R2A #68](https://github.com/illusion-tech/poms/issues/68) 按[三操作导航基线](rust-r2a-navigation-baseline.md)进入 G1 Pass / Doing，B–M 保持 Todo / G1 未冻结。父 R2 与总体 #57 均未完成，保留既有 PG17 实例和数据。

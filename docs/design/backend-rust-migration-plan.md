@@ -259,3 +259,5 @@ R0 的盘点成果见 [API 契约清单](rust-r0-api-contract-inventory.md)、[�
 - [SQLx 官方仓库](https://github.com/transact-rs/sqlx)：异步 SQL、PostgreSQL 与查询校验。
 - [Utoipa 官方文档](https://docs.rs/utoipa/latest/utoipa/)：Rust OpenAPI 描述及 Axum 集成。
 - [Microsoft WSL 文件系统说明](https://learn.microsoft.com/en-us/windows/wsl/filesystems)：Linux 工具链的源码与产物存放建议。
+
+2026-10-26 R2 进展：[R2 #67](https://github.com/illusion-tech/poms/issues/67) 已完成[范围、依赖与待决路由梳理](rust-r2-scope-and-dependencies.md)，108 个操作划分为 A–L 加 M 阶段验收。首片 [R2A #68](https://github.com/illusion-tech/poms/issues/68) 按[三操作导航基线](rust-r2a-navigation-baseline.md)进入 G1 Pass / Doing，B–M 保持 Todo / G1 未冻结。父 R2 与总体 #57 均未完成，保留既有 PG17 实例和数据。
