@@ -78,7 +78,7 @@
       "taskId": "RUST-R2B",
       "title": "角色与权限",
       "issue": 69,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 8,
       "proposedDependencies": [
@@ -88,9 +88,11 @@
       "nonHttpAndDomainInputs": [
         "平台 bootstrap 角色/权限固定数据"
       ],
-      "baseline": "docs/design/rust-r2b-role-permissions-baseline.md",
+      "baseline": "docs/design/archive/slices/rust-r2b-role-permissions-baseline.md",
       "frozenAt": "2026-10-26T19:32:29Z",
-      "sourceHead": "9734515f84ebe1a4833d207124adbfbe378f691f"
+      "sourceHead": "9734515f84ebe1a4833d207124adbfbe378f691f",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "implementationCommit": "31555b76d1d9a453aef44172211e4b35e30df573"
     },
     {
       "taskId": "RUST-R2C",
@@ -15778,5 +15780,10 @@
     "Non-HTTP business numbers, approval summaries, ConfirmationService confirmation transactions/progress, bootstrap data, request-time expiry and adapters are extra scope inputs, not extra OpenAPI operations.",
     "Existing POST users/roles/org-units default201 versus OpenAPI200 must be classified at the owning G1; no route/metadata repair is made here.",
     "PG17 is retained. No database connection, service start, source modification, Issue mutation or deployment is part of this inventory."
-  ]
+  ],
+  "stateAuthority": {
+    "currentDeliveryState": "slices[] owns current per-slice status, G1/G4 and implementationCommit; use each slice validation/closeout for actual evidence",
+    "operationStateFields": "operations[].g1 and operations[].implementation are retained G0 inventory snapshots, not current delivery status",
+    "historicalInventory": "currentHead, scope/source limitations and source/route-decision evidence retain their original inventory-phase meaning"
+  }
 }

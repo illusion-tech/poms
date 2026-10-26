@@ -6,7 +6,7 @@
 - 类型：`cross-layer-high-risk`，包含真实角色/权限关系写入、认证权限联动、审计和原 Angular 页面；无产品 DDL 变更。
 - 起点：`9734515f84ebe1a4833d207124adbfbe378f691f`；独立工作树 `codex/poms-r2b-role-permissions`，继续采用 solo worktree checkpoint。
 - 日期：2026-10-27（Asia/Tokyo）；G1 Reviewer：A/B输入复核、C独立复核；冻结时点：2026-10-26T19:32:29Z（2026-10-27 04:32:29 JST）。
-- Tracker：[Rust 迁移追踪](rust-migration-execution-tracker.md) RUST-R2B；[R2 范围](rust-r2-scope-and-dependencies.md)、[108 操作归属](rust-r2-operation-slices.json)。
+- Tracker：[Rust 迁移追踪](../../rust-migration-execution-tracker.md) RUST-R2B；[R2 范围](../../rust-r2-scope-and-dependencies.md)、[108 操作归属](../../rust-r2-operation-slices.json)。
 
 ## 1. 范围和下游边界
 
@@ -20,13 +20,13 @@
 
 | 输入           | 权威来源                                                                                                                                                      | 本片消费                                                                                        |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| 阶段与业务     | [迁移计划](backend-rust-migration-plan.md)、[角色权限设计](platform-governance/role-permission-design.md)                                                     | 角色关系、最低权限、立即收敛和历史保留；设计8.3旧 slash/POST接口建议不作为URI权威               |
-| 路由           | [canonical inventory](api-route-canonical-inventory.md)、[R0F基线](archive/slices/rust-r0f-route-baseline.md)、ADR-015/018                                    | 八个现有 aligned 操作，含冒号启停命令和PUT权限替换                                              |
+| 阶段与业务     | [迁移计划](../../backend-rust-migration-plan.md)、[角色权限设计](../../platform-governance/role-permission-design.md)                                         | 角色关系、最低权限、立即收敛和历史保留；设计8.3旧 slash/POST接口建议不作为URI权威               |
+| 路由           | [canonical inventory](../../api-route-canonical-inventory.md)、[R0F基线](rust-r0f-route-baseline.md)、ADR-015/018                                             | 八个现有 aligned 操作，含冒号启停命令和PUT权限替换                                              |
 | 原行为         | `apps/poms-api/src/app/features/platform/platform.controller.ts`、`platform.service.ts`、`platform.repository.ts`                                             | 读写、排序、错误、保护、两次flush及当前请求身份                                                 |
 | DTO和字典      | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/api/contracts/src/lib/auth/user.dto.ts`、`libs/vendor/nestjs-zod/src/`                             | 四类输入schema、输出字段、37项PERMISSION_KEYS/PermissionsMeta、strip/trim/null/数值和错误issues |
 | 持久化         | 同目录 `role.entity.ts`、`role-permission-assignment.entity.ts`、`user-role-assignment.entity.ts`；`Migration20260325153000_init_platform_governance_core.ts` | 三表、行版本、历史、FK/partial unique、时间和actor字段                                          |
 | seed与认证     | `apps/poms-api/src/seeders/platform-bootstrap.seeder.ts`、`core/platform/dev-platform.fixtures.ts`、`core/auth/`                                              | 显式bootstrap固定数据；逐请求实时权限；不得把seed放入Rust启动/GET                               |
-| 审计与已有Rust | `core/runtime-audit/`、Rust `auth/{audit,model,service,store,http,guards}.rs`、[R2A收口](archive/slices/rust-r2a-closeout.md)                                 | 12列audit、原请求局部pending session CAS、认证raw touch；不照搬R2A单次审计事务覆盖角色命令      |
+| 审计与已有Rust | `core/runtime-audit/`、Rust `auth/{audit,model,service,store,http,guards}.rs`、[R2A收口](rust-r2a-closeout.md)                                                | 12列audit、原请求局部pending session CAS、认证raw touch；不照搬R2A单次审计事务覆盖角色命令      |
 | 原客户端       | `apps/poms-admin/src/app/features/platform/role-list.ts`、`libs/admin/data-access/src/lib/platform/platform.store.ts`及其实际导入                             | 原页面、表单与生成客户端；测试不替换产品bootstrap或mock路由                                     |
 
 Rust1.99.1和既有依赖保持固定。排序使用 ICU4X `icu_collator` 的[官方源码 revision](https://github.com/unicode-org/icu4x/tree/38a49da495248dd1ded84cf306e4ca42e64d5bb3) `38a49da495248dd1ded84cf306e4ca42e64d5bb3` 独立git source；该revision实际workspace包版本为2.1.1，不能按tag名称误写2.1.0。collator/locale/normalizer/properties四份data manifest均为CLDR48.0.0、icuexport release-78.1rc。运行依赖增量仅同revision的22个git包及registry的synstructure0.13.2、utf16_iter1.0.5、write16 1.0.0；原253个registry依赖的name/version/source/checksum保持不变。原第254项是本地root package，scratch替换它，不纳入原依赖不变计数。原idna_adapter1.2.2与registry ICU2.4 URL依赖链保持原样，不能借排序回退它们。金额为 N/A；没有新增日期字段或外部标识模型。
@@ -144,3 +144,7 @@ Windows external Rust由独立Linux owner持有，browser退出后确认同一ow
 Pass。最终审查候选原始字节SHA256=`026fd079a401310ee2d56ef90eafd0f9dc5c21a2425b7d629ff03952a4fc9b63`，来源HEAD=`9734515f84ebe1a4833d207124adbfbe378f691f`。A合同复核报告SHA256=`e4f7847bff42191dfbd413adc1da8846a58c27759ca587fd172000038d1fb095`；B持久化复核报告SHA256=`4a5f1d9b39f1c2a375c024078902972b804eab27d27a80cdfce51f0d56cf3839`并确认后续排序补充不改变已通过范围；C最终独立复核报告SHA256=`86bb213b07b6d5903809b610448943476277d01ee4b232a022805cc43e28d5f4`，无剩余阻断或P1/P2。报告保存在本片独立证据目录；本次冻结仅更新Gate元数据，未改变被审合同。
 
 排序依赖决策报告SHA256=`da845a5301e338990757921a81e27f076284eec732e2e7b71b6b7e04127d5c9f`，纯探针报告SHA256=`f7599675a689efffb547c1a2a432359b6e72b25696612fe5bf5b19c2da06c644`；runtime scaffold lock规范化SHA256=`73783b67967c03a7b6ded3c4a2f459bfe448f5a593e94288b3baac7035b87718`。冻结前没有编写Rust角色产品代码或执行新数据库写入。放行八操作及必要工具的G2实现；真实Nest/PG/HTTP和原页面验收、G3独立审查及G4仍待完成，不放行R2C–M。
+
+## 最终归档指向
+
+正文保留2026-10-26T19:32:29Z的G1冻结输入及当时Pending矩阵；实际G3/G4结论见[收口记录](rust-r2b-closeout.md)与[机器验收](../../rust-r2b-validation.json)。原始27567字节的SHA256为`050beeeb213072aec185c0d60cefde3171924153d3450d14fa1ad7cf27f2e4e6`，可从实现提交`31555b76d1d9a453aef44172211e4b35e30df573`的`docs/design/rust-r2b-role-permissions-baseline.md`及独立证据`g1-frozen/`原件恢复。本归档版仅更新相对链接并追加本节，其新hash另记，不冒充冻结原字节。

@@ -3,8 +3,8 @@
 - 切片：`RUST-R2B` / [#69](https://github.com/illusion-tech/poms/issues/69)；父 [R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)。
 - 类型：`cross-layer-high-risk`；执行方式：独立managed worktree及专用Linux checkout，solo worktree checkpoint。
 - 起点：`9734515f84ebe1a4833d207124adbfbe378f691f`。主代理负责集成、环境、HTTP/UI验收与治理；A负责契约、HTTP入口及排序；B负责持久化、事务与数据库测试；C为非产品作者独立审查。
-- 正式输入：[冻结基线](rust-r2b-role-permissions-baseline.md)、[R2范围](rust-r2-scope-and-dependencies.md)、[108操作归属](rust-r2-operation-slices.json)。失败、原行为与纠正见[纠偏记录](rust-r2b-corrective-checkpoint.md)。
-- 当前gate：G1 Pass、G3 Pass；G4仍待实现提交、推送、集成后检查与归档。
+- 正式输入：[冻结基线](rust-r2b-role-permissions-baseline.md)、[R2范围](../../rust-r2-scope-and-dependencies.md)、[108操作归属](../../rust-r2-operation-slices.json)。失败、原行为与纠正见[纠偏记录](rust-r2b-corrective-checkpoint.md)。
+- 当前gate：G1 Pass、G3 Pass；实现已集成推送并通过集成后检查，G4随本归档提交推送和Issue同步生效。
 
 ## 1. 交付边界
 
@@ -49,10 +49,18 @@ PG8在URI/HEAD修正前执行，其53个输入中51个仍逐字节相同，仅�
 
 仅使用新`poms_r2b_nest`、`poms_r2b_rust`和低权`poms_r2b_app`。固定系统角色通过连续控制锁、持久化快照和逐步授权记录精确恢复，普通fixture按明确run/actor/角色身份清理；不使用reseed或全库清空。Windows PG17只观测服务元数据，当前仍Running/Auto/PID6768，没有连接SQL或修改实例与数据。旧PG15副本保留。
 
-最终51个run二次清理均为0/0，5份系统lease均已恢复，58份journal目录与字节保持不变。Windows external Rust在两套测试退出后仍为同PID16、同ee21二进制，随后由owner正常回收；Windows/Linux的5100/5101/5200均无监听。详见[机器验收记录](rust-r2b-validation.json)。工作树回收前还须逐文件保存本轮原始证据。
+最终51个run二次清理均为0/0，5份系统lease均已恢复，58份journal目录与字节保持不变。Windows external Rust在两套测试退出后仍为同PID16、同ee21二进制，随后由owner正常回收；Windows/Linux的5100/5101/5200均无监听。详见[机器验收记录](../../rust-r2b-validation.json)。工作树回收前还须逐文件保存本轮原始证据。
 
 ## 4. Gate与G4
 
 C于2026-10-26T22:10:46.396Z完成最终非作者G3审查，结论Pass，未关闭P1/P2均为0。审查报告SHA256为`2eec6e4ce96c00d90f366b7bc0794c66079c7536609eb7c05ac3e343a9ea6dd0`；受审机器汇总SHA256为`36edff6a1b625dc817de83aeb22ffd4700561bd334585e4dc1de0745c3afd477`，157文件来源清单SHA256为`fe396c6297a10812a971897e1d8c517cc89567bb8c004fc293b25b6a716f233d`。产品与工具输入保持冻结，后续仅补G3/G4元数据，原受审文件另存原字节。
 
-实现提交/推送、solo集成后检查及G4生命周期文档归档尚待完成；未提前把#69或父任务标记Done。
+实现`31555b76d1d9a453aef44172211e4b35e30df573`已按solo worktree流程快进集成并推送main。集成后22项适配器测试、角色及导航单向导出、累计18操作OpenAPI与完整579客户端校验通过；157份源码/工具输入前后一致。集成检查不冒充重跑旧数据库或浏览器矩阵。
+
+## 5. G4归档与状态
+
+三份生命周期文件已迁入本目录，长期[机器验收](../../rust-r2b-validation.json)保留在设计根层。原G1与C受审汇总按原字节独立保留；归档仅变更链接和交付状态，产品源码、实际运行版本及失败分类不变。108操作JSON的operations、sourceManifest和routeDecisions保持原G0快照；当前状态由slices拥有，只将R2B更新为Done。
+
+G4随本归档提交推送和GitHub状态核对生效，最终归档提交SHA由#69的G4评论绑定。只关闭R2B #69；R2A/B累计交付R2的11操作，其余97操作与阶段验收未完成。父#67/#57保持Open，R2C–M为Todo，#61不变。
+
+工作树回收前，Windows原始报告、失败轮次、脚本与截图逐文件复制并校验至`E:/projects/poms/tmp/rust-r2b`，回执为`evidence-preservation.json`；Linux checkout、受控新旧PG15数据库、private journals与二进制继续保留原位置。可再生的工具缓存单独列为排除项，不把它们称作已保存。PG17只作服务元数据观察，保留实例与数据。

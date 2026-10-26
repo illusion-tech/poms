@@ -60,5 +60,6 @@
 | `fe-73`    | Admin initial bundle budget 告警收敛                                                               | 1 个文件  |
 | `rust-r0`  | Rust 迁移基线、R0E 环境与 R0F 路由/认证输入                                                        | 5 个文件  |
 | `rust-r1`  | Rust R1总体、R1A工程、R1B共享类型、R1C认证会话、R1D双后端E2E/client、R1E认证UI与阶段验收基线及纠偏 | 9 个文件  |
+| `rust-r2`  | Rust R2A导航与R2B角色权限的基线、纠偏及收口                                                        | 6 个文件  |
 
 Rust 数据兼容说明和机器清单作为长期参考保留在设计根层。

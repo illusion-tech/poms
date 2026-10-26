@@ -5,7 +5,7 @@
   "sourceBaseline": "9734515f84ebe1a4833d207124adbfbe378f691f",
   "issue": 69,
   "parentIssue": 67,
-  "overallStatus": "runtime-complete-independent-G3-pass-G4-pending",
+  "overallStatus": "delivered-G4-effective-upon-archive-push-and-issue-reconciliation",
   "authorScope": "Root aggregation of actual reports; this aggregation does not itself constitute independent review.",
   "scope": "Eight existing role/permission operations; cumulative 18 operations. No product DDL, frontend product edits, deployment or performance claim.",
   "runtime": {
@@ -7083,12 +7083,10 @@
   "gates": {
     "G1": "Pass",
     "G3": "Pass",
-    "G4": "Pending commit/push/integration/archive/issue reconciliation"
+    "G4": "Pass upon archive push and issue reconciliation"
   },
   "requiredRemainingEvidence": [
-    "Commit and push",
-    "Post-integration checks",
-    "G4 archive and issue reconciliation"
+    "Archive commit push and final issue reconciliation"
   ],
   "independentG3": {
     "report": {
@@ -7311,5 +7309,135 @@
       ]
     },
     "reviewValidity": "This Pass binds the157-file source manifest, ee21 binary and actual referenced evidence. Product/source changes require re-review. Subsequent G3/G4 metadata/archive/commit updates may reference this exact prior aggregation hash without pretending those metadata bytes were runtime inputs."
+  },
+  "closure": {
+    "implementationCommit": "31555b76d1d9a453aef44172211e4b35e30df573",
+    "integration": {
+      "report": {
+        "path": "tmp/rust-r2b/post-integration.json",
+        "sha256": "fbcd715280b86cf3943c4a824d63fd5237a4f719037b51e4a1dcd96bef1342e5"
+      },
+      "result": "pass",
+      "adapterTests": 22,
+      "sourceFiles": 157,
+      "steps": [
+        {
+          "name": "adapters",
+          "exitCode": 0,
+          "log": "tmp/rust-r2b/integration-adapters.log",
+          "sha256": "96dc4b68162e4b139fc147f0e278e9ec5597f9243eb3c0f9e6f7e42ea5146c84"
+        },
+        {
+          "name": "role-source",
+          "exitCode": 0,
+          "log": "tmp/rust-r2b/integration-role-source.log",
+          "sha256": "b9208969850a7b8b0329c2c1c8a4e692d9e285bbab2a6f9da241f6b4c924de93"
+        },
+        {
+          "name": "navigation-source",
+          "exitCode": 0,
+          "log": "tmp/rust-r2b/integration-navigation-source.log",
+          "sha256": "7b01069d7cb9fe872a44d62c4ca9052c73787a8ed85021cbb7058e09ac430d65"
+        },
+        {
+          "name": "openapi",
+          "exitCode": 0,
+          "log": "tmp/rust-r2b/integration-openapi.log",
+          "sha256": "7ae5a21ba262a3d7b901aa728af52f4c3209aea7f44d9c037cc867220c8bd9fa"
+        }
+      ],
+      "independentReview": {
+        "path": "tmp/rust-r2b/c-post-integration-review.json",
+        "sha256": "06af96d227ce22b7881fa95e9b5fbc9cc3ff000913b509f31e073bce9d03607e",
+        "result": "pass"
+      }
+    },
+    "lifecycleFiles": [
+      "docs/design/archive/slices/rust-r2b-role-permissions-baseline.md",
+      "docs/design/archive/slices/rust-r2b-corrective-checkpoint.md",
+      "docs/design/archive/slices/rust-r2b-closeout.md"
+    ],
+    "effectiveWhen": "Archive commit is pushed to main and issue69/parent67 are reconciled; final archive commit SHA is bound by issue69 G4 comment",
+    "frozenG1Original": {
+      "implementationCommit": "31555b76d1d9a453aef44172211e4b35e30df573",
+      "path": "docs/design/rust-r2b-role-permissions-baseline.md",
+      "bytes": 27567,
+      "sha256": "050beeeb213072aec185c0d60cefde3171924153d3450d14fa1ad7cf27f2e4e6",
+      "preservedAt": "tmp/rust-r2b/g1-frozen/rust-r2b-role-permissions-baseline.md"
+    },
+    "evidencePreservation": {
+      "target": "E:/projects/poms/tmp/rust-r2b",
+      "report": "evidence-preservation.json",
+      "requiredBeforeWorktreeArchive": true,
+      "result": "pass",
+      "recordedAt": "2026-10-26T22:20:09.508Z",
+      "files": 462,
+      "bytes": 93744926,
+      "excluded": [
+        {
+          "path": "collation-probe/cargo-home",
+          "reason": "reproducible-tool-or-build-cache"
+        },
+        {
+          "path": "collation-probe/git",
+          "reason": "reproducible-tool-or-build-cache"
+        },
+        {
+          "path": "collation-probe/target",
+          "reason": "reproducible-tool-or-build-cache"
+        },
+        {
+          "path": "windows-browser-cache",
+          "reason": "reproducible-tool-or-build-cache"
+        }
+      ],
+      "receiptSha256": "a278f83d92289365cd6c2085ef02acfac16068965cc39a20538d2fbfcd64a256",
+      "laterEvidence": "Subsequent final review, commit and online-state receipts are copied separately with exact hashes before worktree archival; the initial snapshot is never relabelled as containing them."
+    },
+    "scope": {
+      "completedChild": 69,
+      "parentsRemainOpen": [
+        67,
+        57
+      ],
+      "unchangedRouteIssue": 61,
+      "remainingR2Operations": 97,
+      "remainingSlices": "R2C-M"
+    },
+    "pg17": "Preserved; service metadata only, no SQL or stop",
+    "archivedArtifacts": [
+      {
+        "file": "docs/design/archive/slices/rust-r2b-role-permissions-baseline.md",
+        "bytes": 28143,
+        "rawSha256": "724ac9b28ab6e15817ff8199917d24b2c4bd4cd444395eda30817cceda38b56f"
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r2b-corrective-checkpoint.md",
+        "bytes": 9623,
+        "rawSha256": "5475e70336cba2e6c968b960363db2dd0eb53ea06ea309ecdce3b9e1aab9dafd"
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r2b-closeout.md",
+        "bytes": 10854,
+        "rawSha256": "cf9ac5c27228217bfb0b6d1618cc8e2786646891fbcdbe5f01a0003c494af41f"
+      }
+    ],
+    "operationInventoryIntegrity": [
+      {
+        "key": "operations",
+        "count": 108,
+        "sha256": "82d7a0b5026af0b2f0f21e503567c9738982667beb90bdcf7620016288a4ce8e"
+      },
+      {
+        "key": "sourceManifest",
+        "count": 43,
+        "sha256": "f17553b6b5496584cd62908decf842f7f516042bddd824722a5a7b79676a754c"
+      },
+      {
+        "key": "routeDecisions",
+        "count": 9,
+        "sha256": "4e3f3a5b7ec8f3784d91ae69721feda4ad819599b522a01abcb8f300f8227374"
+      }
+    ]
   }
 }
