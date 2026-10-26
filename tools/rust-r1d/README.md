@@ -1,6 +1,6 @@
 # R1D 隔离验证环境
 
-本目录只准备 R1D 的新 PG15 数据副本，配合 [通用 E2E 工具](../e2e/README.md) 与 [客户端工具](../openapi/README.md)。正式范围见 [G1](../../docs/design/rust-r1d-e2e-client-baseline.md)；不执行部署，不连接现有 PG17，不接管 migration。
+本目录只准备 R1D 的新 PG15 数据副本，配合 [通用 E2E 工具](../e2e/README.md) 与 [客户端工具](../openapi/README.md)。正式范围见 [G1](../../docs/design/archive/slices/rust-r1d-e2e-client-baseline.md)；不执行部署，不连接现有 PG17，不接管 migration。
 
 `environment.sh` 必须由普通 WSL 用户在专用 Linux checkout 运行。它先调用 R0E 的只读身份检查，确认 `poms-r0e-pg15` 的固定镜像、volume、label 和 loopback:15432 绑定，再在容器网络中运行明确操作：
 

@@ -1,6 +1,6 @@
 # R1D 通用 E2E 运行工具
 
-本目录为 API Jest 与浏览器 Playwright 共用的测试基础设施，正式范围见 [R1D 基线](../../docs/design/rust-r1d-e2e-client-baseline.md)。浏览器参数与认证 smoke 见 [浏览器入口](browser-README.md)，隔离数据库准备见 [R1D 环境](../rust-r1d/README.md)。不新增产品 HTTP 路由，不接管 migration，不连接原 PG17。
+本目录为 API Jest 与浏览器 Playwright 共用的测试基础设施，正式范围见 [R1D 基线](../../docs/design/archive/slices/rust-r1d-e2e-client-baseline.md)。浏览器参数与认证 smoke 见 [浏览器入口](browser-README.md)，隔离数据库准备见 [R1D 环境](../rust-r1d/README.md)。不新增产品 HTTP 路由，不接管 migration，不连接原 PG17。
 
 ## API 模式与 suite
 

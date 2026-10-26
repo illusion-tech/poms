@@ -138,7 +138,7 @@
 
 ### 4.5 当前控制与实施入口
 
-Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-plan.md)、[执行追踪](rust-migration-execution-tracker.md)和 [R1 实施输入](rust-r1-foundation-baseline.md)统一索引；[R1B 基线](archive/slices/rust-r1b-shared-types-baseline.md)记录单向共享类型；本次 [R1C 基线](archive/slices/rust-r1c-auth-session-baseline.md)及[机器证据](rust-r1c-validation.json)记录认证/会话/密文与真实 PG15、HTTP 验收。工程任务状态由 GitHub [#60](https://github.com/illusion-tech/poms/issues/60) / [#64](https://github.com/illusion-tech/poms/issues/64)管理；R1C Done，父 R1 Doing，R1D/E Todo。
+Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-plan.md)、[执行追踪](rust-migration-execution-tracker.md)和 [R1 实施输入](rust-r1-foundation-baseline.md)统一索引；[R1B 基线](archive/slices/rust-r1b-shared-types-baseline.md)记录单向共享类型；本次 [R1C 基线](archive/slices/rust-r1c-auth-session-baseline.md)及[机器证据](rust-r1c-validation.json)记录认证/会话/密文与真实 PG15、HTTP 验收。工程任务状态由 GitHub [#60](https://github.com/illusion-tech/poms/issues/60) / [#64](https://github.com/illusion-tech/poms/issues/64)管理；R1C、R1D #65 Done，父 R1 Doing，R1E Todo。
 
 | 文档                                                              | 当前状态 | 作用                                                                                    | 是否可作为下游输入 |
 | ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- | ------------------ |
@@ -208,7 +208,7 @@ Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-p
 
 ## 5. 各业务域进度
 
-Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交付认证/会话基础，TypeScript 共享契约继续拥有编辑权。这些通过不会将下面原业务域的历史交付改记为 Rust 交付，也不代表通用 E2E/client、浏览器或完整资金计算链迁移完成。
+Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交付认证/会话基础，TypeScript 共享契约继续拥有编辑权。这些通过不会将下面原业务域的历史交付改记为 Rust 交付，R1D已交付通用E2E/client及真实浏览器启动认证smoke；R1E整体UI/阶段验收和完整资金计算链迁移仍未完成。
 
 | 业务域     | 需求边界   | HLD 边界   | 关键决策                             | 详细设计 | 当前判断                                                                                                                                              |
 | ---------- | ---------- | ---------- | ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -676,3 +676,5 @@ Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交�
 - 每次某文档从 `Draft` 进入 `Review` 或 `Accepted` 时，更新状态
 - 每次 `docs/design/README.md` 的分类或命名约定发生调整时，应回看本文件是否需要同步修正
 - 若后续阶段推翻当前 ADR 结论，应新增后续 ADR，并同步更新本文件，而不是静默改写历史状态
+
+R1D的[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏记录](archive/slices/rust-r1d-corrective-checkpoint.md)和[机器验收](rust-r1d-validation.json)绑定实现c14333d5；七操作基础场景、四组Chromium smoke和完整client生成不扩大为R1E或R2验收。

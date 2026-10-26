@@ -2,7 +2,7 @@
 
 **Task**: [R1D #65](https://github.com/illusion-tech/poms/issues/65)
 **Baseline**: [G1 实施基线](rust-r1d-e2e-client-baseline.md)
-**状态**: G3 Pass；以下纠偏均已实际验证并经非作者复核
+**状态**: G3 / G4 Pass；以下纠偏均已实际验证并经非作者复核，实现c14333d5已推送，本记录归档
 
 ## CP01：共享类型构建路径不一致
 
@@ -10,7 +10,7 @@
 - 分类：`existing-baseline-drift`。未修改的 `libs/shared/contracts/project.json` 将 Nx 输出指定为 `dist/libs/shared/contracts`，而 `tsconfig.lib.json` 以及引用者要求 `dist/out-tsc/libs/shared/contracts`。后者仅有共享的 `tsconfig.lib.tsbuildinfo`，没有被引用的 `index.d.ts`。本轮的 API spec/client 内容未变化。
 - 修复范围：将 shared-contracts 的 Nx `outputPath` / `rootDir` 对齐已有 TypeScript outDir / rootDir。仅改 outputPath 后仍失败，已核已安装 Nx `normalize-options` 默认以 projectRoot 覆盖 TS rootDir，产物多出一层src。补显式rootDir后Windows Angular build通过；将生成包entry与 `outputFileName` 对齐实际 `index.js` / `index.d.ts`。仅修改该库 project.json 与 package.json，不改共享类型、产品运行代码或依赖。两元配置纳入主代理独占范围和 G3 非作者审查。
 - 验收：Windows shared/client、Nest、Angular构建通过，Linux原Angular服务实际启动通过；`dist/out-tsc/libs/shared/contracts/index.js` / `index.d.ts`与生成包entry一致。B/C非作者审查Pass。
-- 未完成范围：R1D 全部 G3/G4 仍待；R1E 及父 R1 完成边界不变。
+- 发现时未完成范围：R1D G3/G4当时仍待；现已完成本切片，R1E及父R1的剩余边界不变。
 
 ## CP02：共享 E2E 工具的测试入口边界
 
@@ -43,4 +43,4 @@
 - Windows Chromium14001属于缓存目录相关环境问题：同一官方完整153包在原目录失败、在新专用Temp缓存真实启动成功；308文件校验一致，未改manifest/系统配置或换旧版本。具体ACL原因未证明；完整浏览器四组原Angular认证smoke均通过。
 - 一次Windows foundation调用遗漏显式合成凭据，13项在请求前失败；补齐既定参数后13项通过。保留失败报告，不改变凭据合同或把失败算通过。
 
-所有纠偏均在用户已授权的R1D测试基础设施范围内，不改产品合同、DDL/迁移、Rust源码或完整client。原失败、最终源码/日志指纹及独立审查绑定于[机器证据](rust-r1d-validation.json)。
+所有纠偏均在用户已授权的R1D测试基础设施范围内，不改产品合同、DDL/迁移、Rust源码或完整client。原失败、最终源码/日志指纹及独立审查绑定于[机器证据](../../rust-r1d-validation.json)。

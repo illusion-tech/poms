@@ -4,12 +4,12 @@
 **Task / Parent**: [R1D #65](https://github.com/illusion-tech/poms/issues/65) / [R1 #60](https://github.com/illusion-tech/poms/issues/60)
 **Slice Type**: `cross-layer-high-risk`（测试基础设施与生成工具；产品 API/DDL 不变）
 **Owner**: 主代理集成/环境/Nx/治理；A 通用进程与 API E2E，B 客户端生成，C 浏览器启动；非作者交叉审查
-**Gate**: G1 Pass（2026-10-26）；G3 Pass，G4 待实现提交推送与归档，R1D Doing
+**Gate**: G1 / G3 / G4 Pass（2026-10-26）；R1D Done；父R1 Doing，R1E Todo
 **起点**: `e951b76bf65ea9c286e5e281a01e34b9f75c0fae`；独立 managed worktree 与 Linux checkout；solo worktree checkpoint
 
 ## 1. 范围与正式输入
 
-用户授权先冻结 R1D，再完成实现、验证、提交推送和 G4 归档；保留现有 PG17 实例和数据。直接输入为 [R1 实施输入](rust-r1-foundation-baseline.md)第 6/8 节、[迁移计划](backend-rust-migration-plan.md)、[R1C 已交付基线](archive/slices/rust-r1c-auth-session-baseline.md)、现有 E2E/Playwright/OpenAPI 工具与固定 pnpm lock。
+用户授权先冻结 R1D，再完成实现、验证、提交推送和 G4 归档；保留现有 PG17 实例和数据。直接输入为 [R1 实施输入](../../rust-r1-foundation-baseline.md)第 6/8 节、[迁移计划](../../backend-rust-migration-plan.md)、[R1C 已交付基线](rust-r1c-auth-session-baseline.md)、现有 E2E/Playwright/OpenAPI 工具与固定 pnpm lock。
 
 交付同一 API foundation 场景选择 managed-nest / managed-rust / external；HTTP readiness 与受控进程生命周期；Windows/Linux Node 浏览器启动、Angular proxy 及真实 Chromium 基础认证 smoke；固定完整 OpenAPI 的跨平台客户端生成和逐文件比较。保留 Nest 既有 14 suites / 72 tests 的完整入口与断言，不以 Rust 子集运行代替 Nest 回归。
 
@@ -29,7 +29,7 @@
 | 浏览器版本  | 实际Playwright1.63.0要求Chromium1243/153.0.8010.12；现有精确浏览器缺失                                                                                       | 使用专用cache/派生镜像安装固定浏览器，不改系统Chrome/Edge，不将旧缓存当通过证据              |
 | Java        | Windows已有 `C:/Program Files/Java/jdk-17` 17.0.12，但PATH默认Java11；R0E镜像Java17                                                                          | 显式选择已装Java17并核实际version，保留7.20.0 jar来源和指纹；不依赖Linux PowerShell/robocopy |
 
-日期、金额、ID、状态、权限、Cookie/CSRF等产品语义沿用现有 TypeScript、完整 OpenAPI 和 R1C；本切片不创建第二套类型权威。公共 route surface N/A（不新增/变更）；七操作仍由 [canonical inventory](api-route-canonical-inventory.md)和 [R0F 路由](archive/slices/rust-r0f-route-baseline.md)约束。产品字段/迁移矩阵 N/A（不改表/字段），历史迁移仅用于初始化新隔离库。
+日期、金额、ID、状态、权限、Cookie/CSRF等产品语义沿用现有 TypeScript、完整 OpenAPI 和 R1C；本切片不创建第二套类型权威。公共 route surface N/A（不新增/变更）；七操作仍由 [canonical inventory](../../api-route-canonical-inventory.md)和 [R0F 路由](rust-r0f-route-baseline.md)约束。产品字段/迁移矩阵 N/A（不改表/字段），历史迁移仅用于初始化新隔离库。
 
 ## 3. 模式、进程与数据合同
 
@@ -79,7 +79,7 @@ Pass：A 核对模式/suite/环境优先级与进程所有权，B 核对完整sp
 
 ## 7. G3 验收与非作者审查
 
-机器证据见 [rust-r1d-validation.json](rust-r1d-validation.json)，实际失败和修复见 [纠偏记录](rust-r1d-corrective-checkpoint.md)。证据绑定源码 LF SHA256、原始日志 SHA256、固定镜像/二进制、四份 Playwright JSON 中的脱敏附件和完整579文件生成清单；原始失败日志保留，不列为通过。
+机器证据见 [rust-r1d-validation.json](../../rust-r1d-validation.json)，实际失败和修复见 [纠偏记录](rust-r1d-corrective-checkpoint.md)。证据绑定源码 LF SHA256、原始日志 SHA256、固定镜像/二进制、四份 Playwright JSON 中的脱敏附件和完整579文件生成清单；原始失败日志保留，不列为通过。
 
 | 范围           | 实际结果与边界                                                                                                                                                                                                                                                                                                 |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -100,3 +100,11 @@ Windows完整Chromium在原私有缓存触发14001，官方ZIP重下载与308个
 迁移/entity/产品单测全量重跑不要求：本切片未改产品源、DDL或Rust二进制，已交付R1A/B/C证据仍有效；本次实际PG15初始化、catalog、72项既有E2E及跨后端基础场景承担相关回归。R1E整体UI/阶段集成、R2业务、部署均未执行。
 
 G3 结论：允许按solo worktree流程提交并集成main；G4/Done仅在推送核验、Issue状态回写和生命周期归档后成立。
+
+## 8. G4 交付与归档
+
+实现提交 [`c14333d5a625c15776adaddd780ef82044a54b1f`](https://github.com/illusion-tech/poms/commit/c14333d5a625c15776adaddd780ef82044a54b1f) 已快进集成main并推送，远端HEAD已核；[G3记录](https://github.com/illusion-tech/poms/issues/65#issuecomment-6406587538)绑定实际矩阵与无剩余P1/P2结论。基线和纠偏记录归档到本目录，机器验收保留在design索引。归档提交仅回写文档、状态与链接，56个实现源码和44份原始日志指纹仍匹配，不重复无关产品/数据库测试。
+
+R1D已交付可复用入口；R1E可以依赖该启动/基础场景/client工具，但仍须自己的G1、整体UI/阶段验收和独立审查。父#60与迁移总任务#57继续Open，不将七操作或四组启动smoke扩大为完整Rust业务通过。
+
+本轮失败与通过的原始报告、辅助脚本和清单保存在独立Linux R1D证据目录，Windows私有浏览器cache、PG15副本、Linux checkout和原R0/R1A/B/C证据保留；本轮Windows managed worktree在归档提交推送与状态核对后可回收。原PG17仍Running/Auto/PID6996，无SQL或数据操作，无部署。

@@ -15,7 +15,7 @@ cargo run --locked -- --openapi > openapi-r1.json
 
 `--openapi` 只输出本阶段七操作规范，不读取环境文件或连接数据库。HTTP 包含 `GET /api`、`GET /api/health`、`GET /api/health/readiness`，以及登录 `POST /api/auth/sessions`、当前会话 `GET /api/auth/session`、CSRF `GET /api/auth/csrf-token` 和退出 `POST /api/auth/session:logout`；其余业务仍由 Nest 提供。共享类型只从现有 TypeScript 来源机械生成，维护与兼容复算见 [R1B 工具](../../tools/rust-r1b/README.md)。认证 OpenAPI 元信息也由现有完整规范单向导出，保留其 3.0 语义；实际 handler、JSON、Cookie 和数据库行为有独立验证，不以元信息相等替代。
 
-会话 token/CSRF 采用原 base64url 与 SHA-256 存储合同，bcryptjs 和 AES-256-GCM v1 密文按原实现互通。账户、角色、权限和组织读取直接使用现有 schema；未知 raw permission 不被强枚举过滤。每次会话解析重新读取当前权限，touch/轮换/撤销采用原 guarded SQL；后续审计保留原 MikroORM 的请求局部 dirty snapshot flush：安全事件与额外版本 CAS 同事务，失败只回滚这次 flush，先前 raw 会话更新仍保留，公共查询不额外写入。未匹配路由/方法按本轮实测原 Nest/Express 返回 HTML 404，详见 R1C 纠偏记录。通用多后端 harness 和真实浏览器综合验收属于 R1D/E。
+会话 token/CSRF 采用原 base64url 与 SHA-256 存储合同，bcryptjs 和 AES-256-GCM v1 密文按原实现互通。账户、角色、权限和组织读取直接使用现有 schema；未知 raw permission 不被强枚举过滤。每次会话解析重新读取当前权限，touch/轮换/撤销采用原 guarded SQL；后续审计保留原 MikroORM 的请求局部 dirty snapshot flush：安全事件与额外版本 CAS 同事务，失败只回滚这次 flush，先前 raw 会话更新仍保留，公共查询不额外写入。未匹配路由/方法按本轮实测原 Nest/Express 返回 HTML 404，详见 R1C 纠偏记录。[R1D](../../docs/design/archive/slices/rust-r1d-e2e-client-baseline.md)已交付通用多后端harness、完整client生成与真实Chromium启动/基础认证smoke；整体浏览器旅程与阶段集成验收仍属R1E。
 
 配置沿用现有公开环境名与 dotenv 选择规则。`POMS_ENV_FILE` 显式文件覆盖进程环境；否则优先当前目录 `.env`，再 `apps/poms-api/.env`，文件值不覆盖已有进程值。缺失显式文件/非法配置退出 11。启动不会执行 migration/seed。使用自己的隔离配置启动前，明确检查 DB_HOST/DB_PORT/DB_DATABASE/DB_USER；本项目不要求迁移或清理原 PG17 开发库。
 
