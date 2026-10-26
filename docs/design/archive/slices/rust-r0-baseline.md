@@ -37,7 +37,7 @@ JSON 清单记录参与扫描的来源和哈希；校验命令重新生成后比
 | API、DTO、权限、模块     | [API 契约清单](../../rust-r0-api-contract-inventory.md) | [operations JSON](../../rust-r0-api-operations.json)、[生成工具](../../../../tools/rust-r0-api-inventory.mjs)      | AST / OpenAPI / 文本关联；不是 HTTP 实测  |
 | 实体、迁移、事务、类型   | [数据库清单](../../rust-r0-database-inventory.md)       | [数据库 JSON](../../rust-r0-database-inventory.json)、[生成工具](../../../../tools/rust-r0-database-inventory.mjs) | 源码静态解析；不是 migration/schema check |
 | 环境、测试入口、后台任务 | [环境清单](../../rust-r0-environment-inventory.md)      | 文档内的版本命令与时点                                                                                             | WSL/本机/TEST 只读实况；未执行安装/部署   |
-| 后续工程                 | [R1 实施输入](../../rust-r1-foundation-baseline.md)     | 本页第 6 节待办                                                                                                    | R0F 已冻结输入；Rust 产品实现尚未开始     |
+| 后续工程                 | [R1 实施输入](rust-r1-foundation-baseline.md)           | 本页第 6 节待办                                                                                                    | R0F 已冻结输入；Rust 产品实现尚未开始     |
 
 复核计数为 237 paths、291 operations、585 schemas；291 操作均匹配 controller 路由。78 个实体文件内实际声明 106 张表，不能把文件数当作表数；另有 92 个迁移文件、1775 个字段、79 个 numeric 字段、43 个 `transactional` 调用点（41 个内联回调和 2 个委托包装）。这些调用点计数不等于运行时事务次数。完整操作交付阶段为 R1/R2/R3/R4/R5 = 7/108/58/90/28；部分操作依赖后续域事实才能最终验收。
 

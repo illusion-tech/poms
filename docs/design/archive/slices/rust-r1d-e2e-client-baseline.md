@@ -9,7 +9,7 @@
 
 ## 1. 范围与正式输入
 
-用户授权先冻结 R1D，再完成实现、验证、提交推送和 G4 归档；保留现有 PG17 实例和数据。直接输入为 [R1 实施输入](../../rust-r1-foundation-baseline.md)第 6/8 节、[迁移计划](../../backend-rust-migration-plan.md)、[R1C 已交付基线](rust-r1c-auth-session-baseline.md)、现有 E2E/Playwright/OpenAPI 工具与固定 pnpm lock。
+用户授权先冻结 R1D，再完成实现、验证、提交推送和 G4 归档；保留现有 PG17 实例和数据。直接输入为 [R1 实施输入](rust-r1-foundation-baseline.md)第 6/8 节、[迁移计划](../../backend-rust-migration-plan.md)、[R1C 已交付基线](rust-r1c-auth-session-baseline.md)、现有 E2E/Playwright/OpenAPI 工具与固定 pnpm lock。
 
 交付同一 API foundation 场景选择 managed-nest / managed-rust / external；HTTP readiness 与受控进程生命周期；Windows/Linux Node 浏览器启动、Angular proxy 及真实 Chromium 基础认证 smoke；固定完整 OpenAPI 的跨平台客户端生成和逐文件比较。保留 Nest 既有 14 suites / 72 tests 的完整入口与断言，不以 Rust 子集运行代替 Nest 回归。
 

@@ -20,7 +20,7 @@
 
 | 输入             | 规则与来源                                                                                                                                                              |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R1 冻结          | [R1 输入](../../rust-r1-foundation-baseline.md)第 2、4、6、7 节；R1A 仅消费对应边界                                                                                     |
+| R1 冻结          | [R1 输入](rust-r1-foundation-baseline.md)第 2、4、6、7 节；R1A 仅消费对应边界                                                                                           |
 | 架构/环境        | [ADR-018](../../../adr/018-rust-backend-and-sqlx-persistence.md)、[R0E](rust-r0e-environment-baseline.md)；Debian12/glibc2.36 构建，PG15.12 验收                        |
 | route/DTO        | [canonical](../../api-route-canonical-inventory.md)、[R0F 路由](rust-r0f-route-baseline.md)第 4 节；现有 OpenAPI/controller/service                                     |
 | 错误             | [R0F 认证/错误样本](rust-r0f-auth-compat-baseline.md)；基础 HttpException JSON 形状，不提前实现认证 guards                                                              |

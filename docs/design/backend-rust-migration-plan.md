@@ -1,6 +1,6 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0 已完成，R1A 工程 #62 Done；父 R1 Doing，R1B #63、R1C #64 Done，R1D #65 Done，R1E #66 Doing
+**文档状态**: Active — R0 已完成；R1A–E 已交付，R1 #60 / R1E #66 G4 / Done 随本归档提交及 Issue 同步生效；总体 #57 与 R2–R7 未完成
 **最后更新**: 2026-10-26
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
@@ -24,7 +24,9 @@
 
 功能正确性、接口兼容、数据一致性、认证安全、可部署和可回滚仍是交付验收条件。资源消耗和费用降低是预期方向，本计划不承诺尚未测量的改善比例。
 
-2026-10-26 用户授权将下述代理配置和协作规则纳入本计划，并开始 R0。初轮完成架构决策、全量静态盘点、WSL 与既有环境只读核验和工程基线准备。随后用户授权 R0E 安装所需 WSL 工具、构建兼容镜像并创建隔离 PG15 验收库，结果见 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)；不启动 R1 业务实现或远程发布。用户确认本机已有 PostgreSQL 开发实例、尚未部署生产环境，当前兼容目标先对齐 TEST。随后用户授权提交推送并推进 R0F；R0A–E 已交付 `08daaf45`，在线总体任务为 [#57](https://github.com/illusion-tech/poms/issues/57)。各工程阶段按 G0–G4 形成可执行基线，阶段编号与 Issue 映射见执行追踪；本轮不启动 R1。
+2026-10-26 用户授权将下述代理配置和协作规则纳入本计划，并开始 R0。初轮完成架构决策、全量静态盘点、WSL 与既有环境只读核验和工程基线准备。随后用户授权 R0E 安装所需 WSL 工具、构建兼容镜像并创建隔离 PG15 验收库，结果见 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)；R0 当轮不启动 R1 业务实现或远程发布。用户确认本机已有 PostgreSQL 开发实例、尚未部署生产环境，当前兼容目标先对齐 TEST。随后用户授权提交推送并推进 R0F；R0A–E 已交付 `08daaf45`，在线总体任务为 [#57](https://github.com/illusion-tech/poms/issues/57)。各工程阶段按 G0–G4 形成可执行基线，阶段编号与 Issue 映射见执行追踪。
+
+后续 R1A–E 已按独立授权交付。[R1E 基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)与[机器证据](rust-r1e-validation.json)绑定实现 `afbf4ee51baa8543981e66472d04a4d7389a9adb`，已集成推送 main、远端 HEAD 一致，集成后 19 项适配器检查通过。R1 的七操作、认证与基础不代表完整业务或部署完成；#60 / #66 的 G4 随本归档提交及 Issue 同步生效，#57 与 R2–R7 仍未完成，PG17 保留。
 
 ### 1.1 代理配置与实际生效记录
 
@@ -120,11 +122,11 @@ apps/poms-api-rust/
 
 1. 在 Debian 的 Linux 文件系统中准备独立 checkout，例如 `~/projects/poms-rust`，使用 `codex/rust-backend-*` 分支；Windows 工作树与 WSL checkout 通过 Git 提交同步。
 2. Cargo 的源码与 `target/` 默认放在 Linux 文件系统。保留现有 `E:\projects\poms`，不将 Windows `node_modules` 或生成缓存直接复制到 Linux。
-3. R0E 已在固定 Debian 12 构建镜像内验证 Rust/Cargo 1.97.1、Node.js 24.16.0、pnpm 12.3.4、Deno 2.9.1、Java 17 与 PostgreSQL 客户端；具体版本、锁文件、features 和运行证据见 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)。产品级跨平台启动器、浏览器依赖与端到端行为仍由 R1 验证。
+3. R0E 已在固定 Debian 12 构建镜像内验证 Rust/Cargo 1.97.1、Node.js 24.16.0、pnpm 12.3.4、Deno 2.9.1、Java 17 与 PostgreSQL 客户端；这是 R0E 历史版本，证据见 [R0E 基线](archive/slices/rust-r0e-environment-baseline.md)。R1C 后使用 Rust 1.99.1；R1D/E 已验证跨平台启动器、浏览器依赖与已交付七操作的端到端行为，具体当前组合见 [R1E 机器证据](rust-r1e-validation.json)。
 4. 日常开发可继续直接使用 Windows 本机 PostgreSQL 17.4 及现有开发测试库，不自动 reset/seed。另设的 PG15 库专用于 TEST 兼容验收，已固定 PostgreSQL 15.12、`pgcrypto 1.3`、`btree_gist 1.7`、UTF8、`en_US.UTF-8` libc 排序规则和 `Etc/GMT-8` 会话时区；本机 `zh-CN` / `Asia/Shanghai` 的结果不能替代这项验证。使用可重复初始化的隔离数据，不对 TEST 原库执行重放或迁移演练。ADR-012 的 16+ 属既有设计与实况差异，本次不升级或降级既有数据库。
-5. API E2E 改为支持外部启动的服务或可选择的 NestJS/Rust 启动器；当前测试启动器硬编码构建 Node 后端，需要实际适配。
-6. Playwright 已支持外部前后端地址，但默认启动命令使用 PowerShell。将启动逻辑改为支持 Linux，明确两套 API 端口与前端代理目标，避免依赖未经验证的 Windows/WSL 网络互通假设。
-7. OpenAPI 客户端生成脚本目前依赖 PowerShell/Java。R0 冻结跨平台执行方案，R1 提供 Linux 可运行入口；保证规范化规则和生成输出一致，不复制两套独立生成逻辑。
+5. R0F 冻结时 API E2E 启动器硬编码构建 Node 后端；R1D 已提供 managed-nest / managed-rust / external 选择。R1E 复验双后端 foundation；external 不 build/spawn/seed/stop 后端，managed 仅清理本 run 拥有且身份匹配的进程。
+6. R0F 冻结时 Playwright 默认启动命令使用 PowerShell；R1D 已改为跨平台 Node 入口，R1E 完成 Linux managed Nest/Rust、Windows managed Nest / external Rust 四组合认证 UI 验收。API 端口与前端代理显式配置，Windows external Rust 由独立 Linux owner 持有并核验存活与清理。
+7. R0F 冻结时 OpenAPI 客户端生成脚本依赖 PowerShell/Java；R1D 已提供单一 Node 跨平台入口，R1E 复核固定 Java 17 / generator 7.20.0 的完整 579 文件集合与逐文件 SHA 一致。保留原规范化规则，Rust 七操作子集不覆盖完整客户端。
 8. WSL Debian 13.7 / x86_64 / glibc 2.41 负责开发和功能验证。当前发布兼容目标为已核实的 TEST Debian 12 / x86_64 / glibc 2.36；R0E 已用固定 Debian 12 镜像构建独立依赖 probe，并在纯运行镜像核验 ABI 与执行结果。此证据不替代 R6 的产品产物验收。用户确认尚未部署生产环境，未来 PROD 首次部署前重新核实其 OS/arch/glibc 与数据库参数。
 
 上述 Linux 文件位置遵循 [Microsoft WSL 文件系统建议](https://learn.microsoft.com/en-us/windows/wsl/filesystems)。本计划不执行 WSL 性能基准，也不修改 WSL 资源限制。

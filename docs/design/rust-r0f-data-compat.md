@@ -2,7 +2,7 @@
 
 **日期**：2026-10-26；**Issue**：[RUST-R0F #59](https://github.com/illusion-tech/poms/issues/59)；**范围**：[R0F G1](archive/slices/rust-r0f-compatibility-baseline.md) 内的离线样本。产品参考提交为 `033aedd028fc25ea990450a7854fc92c567cfb8a`，R0A–E 交付参考为 `08daaf45b12307bc4d53e01e509f23d265532de6`。
 
-本文件冻结现有 TypeScript 的可观察值、R1 的 10 表 121 字段及事务输入，不实现 Rust 产品，不运行 migration/seed，不读取真实业务行，不连接 PG17、TEST 或隔离 PG15。R1 总体及子切片仍按[实施输入](rust-r1-foundation-baseline.md)验收。
+本文件冻结现有 TypeScript 的可观察值、R1 的 10 表 121 字段及事务输入，不实现 Rust 产品，不运行 migration/seed，不读取真实业务行，不连接 PG17、TEST 或隔离 PG15。R1 总体及子切片仍按[实施输入](archive/slices/rust-r1-foundation-baseline.md)验收。
 
 ## 1. 产物与执行
 

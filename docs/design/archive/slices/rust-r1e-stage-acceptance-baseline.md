@@ -4,12 +4,12 @@
 **Task / Parent**: [R1E #66](https://github.com/illusion-tech/poms/issues/66) / [R1 #60](https://github.com/illusion-tech/poms/issues/60)
 **Slice Type**: `cross-layer-high-risk`（认证 UI 窄修与阶段验收；公共 API/DDL 不变）
 **Owner**: 主代理集成/运行/治理；A UI 与浏览器场景；B 隔离环境与受控 fixture；C 非作者审查
-**Gate**: G1 / G3 Pass（2026-10-26）；R1E Doing，待提交推送与G4；父 R1 Doing
+**Gate**: G1 / G3 Pass（2026-10-26）；R1E #66 与父 R1 #60 G4 / Done 随本归档提交及 Issue 同步生效
 **起点**: `70482a77091e0288e4708fbdf6a4fec5b5d51427`；独立 managed worktree + Linux checkout；solo worktree checkpoint
 
 ## 1. 范围与正式输入
 
-用户已授权先冻结 R1E，再完成整体 UI、阶段集成验收、独立审查、提交推送与 G4 归档，保留现有 PG17 实例和数据。这里的整体 UI 是 R1 已交付七操作所支持的原 Angular 认证壳与完整会话旅程。正式输入为 [R1 实施输入](rust-r1-foundation-baseline.md)第 1/4/6/8 节、[迁移计划](backend-rust-migration-plan.md)、[R1A](archive/slices/rust-r1a-application-baseline.md)/[R1B](archive/slices/rust-r1b-shared-types-baseline.md)/[R1C](archive/slices/rust-r1c-auth-session-baseline.md)/[R1D](archive/slices/rust-r1d-e2e-client-baseline.md) 已交付基线，以及起点原 Angular/AuthStore/guard/interceptor、完整 OpenAPI 和固定 lock。
+用户已授权先冻结 R1E，再完成整体 UI、阶段集成验收、独立审查、提交推送与 G4 归档，保留现有 PG17 实例和数据。这里的整体 UI 是 R1 已交付七操作所支持的原 Angular 认证壳与完整会话旅程。正式输入为 [R1 实施输入](rust-r1-foundation-baseline.md)第 1/4/6/8 节、[迁移计划](../../backend-rust-migration-plan.md)、[R1A](rust-r1a-application-baseline.md)/[R1B](rust-r1b-shared-types-baseline.md)/[R1C](rust-r1c-auth-session-baseline.md)/[R1D](rust-r1d-e2e-client-baseline.md) 已交付基线，以及起点原 Angular/AuthStore/guard/interceptor、完整 OpenAPI 和固定 lock。
 
 本轮交付双后端真实浏览器认证矩阵、导航失败时权限入口的窄修、明确区分实际 UI 操作与 Angular 拦截器集成的证据、原 Nest 回归、阶段依赖与生成结果核验、非作者审查和 R1 最终关闭依据。
 
@@ -17,10 +17,12 @@
 
 ## 2. 已核状态与 SSOT
 
+下表保留 G1 冻结时的现状与约束；实施及最终交付结论见第 7、8 节。
+
 | Concern           | 权威来源 / 已核现状                                                                         | 本轮规则                                                                                              |
 | ----------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | R1 阶段           | #62–65 均 Closed；实现 51572db5/5cc44100/69ab8ac8/c14333d5 已在 main；R1E 尚未交付          | 复核源码指纹与各自实验证据，新增本轮 UI/阶段证据，不把旧证据当本轮重跑                                |
-| 认证路由          | [canonical inventory](api-route-canonical-inventory.md)、R0F/R1C 七操作与完整 OpenAPI       | 不新增或改公共 route、DTO、operationId、状态码或 Cookie/CSRF 语义                                     |
+| 认证路由          | [canonical inventory](../../api-route-canonical-inventory.md)、R0F/R1C 七操作与完整 OpenAPI | 不新增或改公共 route、DTO、operationId、状态码或 Cookie/CSRF 语义                                     |
 | 会话与权限        | AuthStore、authGuard、permissionGuard、authSessionExpiredInterceptor、共享 PermissionKey    | 无 Bearer 回退；浏览器不人工补写认证 Cookie；权限仍由真实 session.user 提供                           |
 | UI 回退           | AppMenu 在 navigation 失败/空时使用未按权限过滤的 static fallback，可能显示无权入口         | G1 已识别窄修：按已有路由权限过滤 fallback 或失败闭合，保留工作台等无额外权限入口；不复制新的权限权威 |
 | R2 依赖           | 登录页查询 providers；AuthStore 登录/恢复并发查询 navigation/todos，失败分别提示或 catch 空 | Rust 的真实 404 单独观察并明确排除，不能 mock 成成功；原 Angular session.user 足以认证 R1             |
@@ -78,7 +80,7 @@ G3 只在所需验收和非作者审查通过后允许提交集成；G4 只在�
 
 ## 7. G3 验收记录
 
-G3 Pass。C非作者最终总审确认无剩余P1/P2，主代理集成；[机器验收记录](rust-r1e-validation.json)绑定35项当前源码、73项继承源码、逐轮原始结果和审查指纹。受审candidate原字节另存，审后只更新gate/review/closure元数据。浏览器失败、修复及复验按[纠偏记录](rust-r1e-corrective-checkpoint.md)保留；提交推送、合并后检查与G4仍待完成。
+G3 Pass。C非作者最终总审确认无剩余P1/P2，主代理集成；[机器验收记录](../../rust-r1e-validation.json)绑定35项当前源码、73项继承源码、逐轮原始结果和审查指纹。受审candidate原字节另存，审后只更新gate/review/closure元数据。浏览器失败、修复及复验按[纠偏记录](rust-r1e-corrective-checkpoint.md)保留；实现已集成推送，G4 收口见第 8 节。
 
 | 范围            | 已核结果 / 剩余条件                                                                                                                                                                                                                                                                                                                                                            |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -95,3 +97,11 @@ G3 Pass。C非作者最终总审确认无剩余P1/P2，主代理集成；[机器
 产品行为修改限于导航失败时按现有路由权限过滤静态 fallback，以及 CP04 初始化 401 保留当前内部返回地址；不会把隐藏菜单当作后端授权。真实 HTTP interceptor、实际 UI 操作与公开 session 恢复分开记录；Rust 对 R2 请求的实际 404 保留为排除项。完整客户端结果不由 Rust 七操作子集生成。
 
 桌面与390px窄屏截图已实际审看，认证壳与顶栏操作可达。原依赖的 `Invalid PrimeUI License` 提示仍可见，窄屏覆盖下方部分R2待办区域；本轮不修许可、不称截图无异常。既有Nest组织create实际201而OpenAPI声明200列为R2元数据限制；move200与真实层级断言保留。
+
+## 8. G4 交付与归档
+
+实现 `afbf4ee51baa8543981e66472d04a4d7389a9adb` 已 fast-forward 集成并推送 main，主代理核对远端 HEAD 一致。主仓 35 项最终源码与 73 项继承源码指纹全部匹配，集成后 19 项 API/browser 适配器检查通过；这些后检不重复计入浏览器、数据库或历史运行数量。
+
+最终证据为四组合共 64 项 stage、原 Nest legacy 36 项（其中 11 项有 route-mock）、80 个唯一 run 的再次清理全部 `cleaned / matched=0 / changed=0`，以及 C 非作者审查无剩余 P1/P2。各层实跑、继承、条件跳过及 ignored 入口按第 7 节和机器记录分别保留，不合计为一次全业务验收。
+
+本基线、[纠偏记录](rust-r1e-corrective-checkpoint.md)及 [R1 总体基线](rust-r1-foundation-baseline.md)归档至 `docs/design/archive/slices/`，长期机器证据留在设计根层。R1E #66 与父 R1 #60 的 G4 / Done 随本归档提交完成及主代理推送、Issue 同步生效。总体 #57 与 R2–R7 保持未完成；后续任务仍须单独 G1 授权。交付仅覆盖 R1 七操作、认证与基础，不代表 R2 业务、部署、迁移接管或性能改善通过，既有 PG17 保留。

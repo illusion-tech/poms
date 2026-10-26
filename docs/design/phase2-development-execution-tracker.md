@@ -29,7 +29,7 @@
 
 ## 1. 文档目标
 
-Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 已交付 [R1A #62](https://github.com/illusion-tech/poms/issues/62) 工程与 SQLx 基础（51572db5）；父阶段保持 Doing，R1B #63、R1C #64 Done，R1D #65 Done，R1E #66 Doing。不复用本板已完成任务编号，也不把原 TypeScript 交付状态改记为 Rust 交付状态。
+Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 七操作、认证与基础已交付。R1E #66 实现 afbf4ee5 已集成推送，集成后19项检查通过，[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)与[机器证据](rust-r1e-validation.json)保留64项stage、36项Nest legacy（11项mock）、80个run清理全通过和非作者审查无剩余P1/P2；父子G4 / Done随本归档提交及Issue同步生效。总体#57与R2–R7仍未完成，PG17保留。不复用本板已完成任务编号，也不把原 TypeScript 业务交付状态改记为 Rust 业务交付状态。
 
 本文档是第二阶段当前统一开发范围下的执行板，不承担历史论证职责。
 

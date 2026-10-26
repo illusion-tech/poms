@@ -1,6 +1,6 @@
 # R1E 专用环境与有限 fixture
 
-本目录服务于 [R1E 冻结基线](../../docs/design/rust-r1e-stage-acceptance-baseline.md)。它使用已有 PG15.12 隔离容器的 `15432`，仅允许新库 `poms_r1e_nest` / `poms_r1e_rust`、运行角色 `poms_r1e_app` 和 `r1e_control.marker=9c658fe8-bdde-4d12-84a7-8fb5f157f645`。不连接 PG17 / TEST，不修改旧验收库，不提供 drop/reset、任意 SQL 或任意用户操作。
+本目录服务于 [R1E 冻结基线](../../docs/design/archive/slices/rust-r1e-stage-acceptance-baseline.md)。它使用已有 PG15.12 隔离容器的 `15432`，仅允许新库 `poms_r1e_nest` / `poms_r1e_rust`、运行角色 `poms_r1e_app` 和 `r1e_control.marker=9c658fe8-bdde-4d12-84a7-8fb5f157f645`。不连接 PG17 / TEST，不修改旧验收库，不提供 drop/reset、任意 SQL 或任意用户操作。
 
 ## 环境准备
 

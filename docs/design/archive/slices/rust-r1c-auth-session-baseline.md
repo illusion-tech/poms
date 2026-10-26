@@ -9,7 +9,7 @@
 
 ## 1. 范围与正式输入
 
-用户授权将 Rust 升至最新 stable，并按已冻结输入交付 R1C；在隔离 PG15 验证，保留原 PG17 实例和数据。正式输入为 [R1 基线](../../rust-r1-foundation-baseline.md)、[R0F 路由](rust-r0f-route-baseline.md)、[数据/121 字段](../../rust-r0f-data-compat.md)、[认证兼容](rust-r0f-auth-compat-baseline.md)、ADR-017/018，以及这些基线绑定的现有 TypeScript、完整 OpenAPI 和 119 个认证样本。
+用户授权将 Rust 升至最新 stable，并按已冻结输入交付 R1C；在隔离 PG15 验证，保留原 PG17 实例和数据。正式输入为 [R1 基线](rust-r1-foundation-baseline.md)、[R0F 路由](rust-r0f-route-baseline.md)、[数据/121 字段](../../rust-r0f-data-compat.md)、[认证兼容](rust-r0f-auth-compat-baseline.md)、ADR-017/018，以及这些基线绑定的现有 TypeScript、完整 OpenAPI 和 119 个认证样本。
 
 本切片完成四个认证操作、会话及为其必需的账户/凭证/角色/组织读取、最小审计、Cookie/CSRF/default-deny/敏感字段投影、bcrypt 和 v1 密文。R1A 三 GET 回归，共七个已冻结操作。不实现完整平台写入、真实外部 provider、业务域、通用 E2E/client 入口（R1D）、真实浏览器综合验收（R1E）、SQL migration 接管（R6）或部署。
 

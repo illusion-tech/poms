@@ -12774,12 +12774,69 @@
   "gates": {
     "g1": "Pass with CP04/05 input correction recorded",
     "g3": "Pass",
-    "g4": "Pending"
+    "g4": "Pass"
   },
   "closure": {
     "issue": 66,
     "parentIssue": 60,
     "rootIssue": 57,
-    "state": "G3 Pass; implementation commit, remote integration and G4 pending; R2-R7 not delivered"
+    "state": "R1E and parent R1 complete with this archive commit and GitHub G4 closeout; R2-R7 remain Todo and root issue 57 remains open",
+    "implementationCommit": "afbf4ee51baa8543981e66472d04a4d7389a9adb",
+    "g4Evidence": {
+      "sourceCommit": "afbf4ee51baa8543981e66472d04a4d7389a9adb",
+      "primaryIntegration": {
+        "file": "tmp/rust-r1e/post-integration-implementation.json",
+        "sha256": "a61e0943076ffc1c84857c9daf025a62406f23eb660dac8979b6a75d35561cd9",
+        "receipt": {
+          "result": "pass",
+          "phase": "implementation",
+          "primaryHead": "afbf4ee51baa8543981e66472d04a4d7389a9adb",
+          "branch": "main",
+          "workingTreeClean": true,
+          "acceptedSourceFiles": 35,
+          "unchangedR1CSourceFiles": 73,
+          "checkedAtUtc": "2026-10-26T05:41:07.999Z"
+        }
+      },
+      "postIntegrationTests": {
+        "file": "tmp/rust-r1e/post-integration-adapters.log",
+        "sha256": "85fe27f93c8b44fb38610fe2432064f59149cb3f54d0ff0288e113f1f47d2974",
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "scope": "API and browser adapter checks in the merged primary checkout; no database operation"
+      },
+      "lifecycleArchive": {
+        "file": "tmp/rust-r1e/archive-move-receipt.json",
+        "sha256": "111a06246e12cc73029e0df9e09a120609ca2b729d0a089a08cd210079c8d13d",
+        "moves": {
+          "docs/design/rust-r1-foundation-baseline.md": "docs/design/archive/slices/rust-r1-foundation-baseline.md",
+          "docs/design/rust-r1e-stage-acceptance-baseline.md": "docs/design/archive/slices/rust-r1e-stage-acceptance-baseline.md",
+          "docs/design/rust-r1e-corrective-checkpoint.md": "docs/design/archive/slices/rust-r1e-corrective-checkpoint.md"
+        }
+      },
+      "rawEvidenceStorageTarget": "/home/wangzishi/.local/share/poms-r1e/evidence/r1e-final-windows",
+      "rawPreservationConfirmation": "Required before removing the managed worktree; final GitHub G4 closeout confirms the verified preservation manifest",
+      "historicalEvidencePolicy": "Preserve all original hashes, epochs, counts and baselineAtPlanning paths. The lifecycle mapping records current locations without rewriting historical captures.",
+      "archiveCommit": "The commit containing this G4 record; exact archive SHA and verified raw-preservation manifest are recorded in issue 66 and parent issue 60 G4 comments",
+      "archiveValidation": {
+        "checkedAtUtc": "2026-10-26T05:50:13.010Z",
+        "markdownFormat": "pass",
+        "gitDiffCheck": "pass",
+        "localLinks": {
+          "file": "tmp/rust-r1e/docs-links-g4.json",
+          "sha256": "27877fcf09b1c8e9e2e7e70de4b0b91ad3d6659983a1ee2480557eaca0e3c4d8",
+          "fileCount": 18,
+          "localLinks": 181,
+          "missing": 0
+        },
+        "acceptedSourceFiles": 35,
+        "unchangedR1CSourceFiles": 73,
+        "scope": "Documentation paths and closure metadata only; executable source and G3 evidence unchanged"
+      }
+    }
   }
 }

@@ -138,7 +138,7 @@
 
 ### 4.5 当前控制与实施入口
 
-Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-plan.md)、[执行追踪](rust-migration-execution-tracker.md)和 [R1 实施输入](rust-r1-foundation-baseline.md)统一索引；[R1B 基线](archive/slices/rust-r1b-shared-types-baseline.md)记录单向共享类型；本次 [R1C 基线](archive/slices/rust-r1c-auth-session-baseline.md)及[机器证据](rust-r1c-validation.json)记录认证/会话/密文与真实 PG15、HTTP 验收。工程任务状态由 GitHub [#60](https://github.com/illusion-tech/poms/issues/60) / [#64](https://github.com/illusion-tech/poms/issues/64)管理；R1C、R1D #65 Done，父 R1 Doing，R1E #66 Doing。
+Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-plan.md)、[执行追踪](rust-migration-execution-tracker.md)和 [R1 实施输入](archive/slices/rust-r1-foundation-baseline.md)统一索引；[R1B 基线](archive/slices/rust-r1b-shared-types-baseline.md)记录单向共享类型，[R1C 基线](archive/slices/rust-r1c-auth-session-baseline.md)及[机器证据](rust-r1c-validation.json)记录认证/会话/密文与真实 PG15、HTTP 验收。R1A–E 已交付，[R1E 基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)及[机器证据](rust-r1e-validation.json)记录七操作支持的认证 UI 与阶段验收；GitHub [#60](https://github.com/illusion-tech/poms/issues/60) / [#66](https://github.com/illusion-tech/poms/issues/66)的 G4 / Done 随本归档提交及 Issue 同步生效。总体 #57 与 R2–R7 未完成。
 
 | 文档                                                              | 当前状态 | 作用                                                                                    | 是否可作为下游输入 |
 | ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------- | ------------------ |
@@ -208,7 +208,7 @@ Rust 后端迁移的新增设计资产由[迁移计划](backend-rust-migration-p
 
 ## 5. 各业务域进度
 
-Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交付认证/会话基础，TypeScript 共享契约继续拥有编辑权。这些通过不会将下面原业务域的历史交付改记为 Rust 交付，R1D已交付通用E2E/client及真实浏览器启动认证smoke；R1E整体UI/阶段验收和完整资金计算链迁移仍未完成。
+Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交付认证/会话基础，TypeScript 共享契约继续拥有编辑权。R1D 已交付通用 E2E/client，R1E 已完成认证 UI 与阶段验收；这些结果不会将下面原业务域的历史交付改记为 Rust 交付。R2–R7 的平台、完整资金计算链、迁移接管与部署切换仍未完成。
 
 | 业务域     | 需求边界   | HLD 边界   | 关键决策                             | 详细设计 | 当前判断                                                                                                                                              |
 | ---------- | ---------- | ---------- | ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -678,3 +678,5 @@ Rust 迁移按独立 R0–R7 范围推进；R1B 提供共享类型，R1C 已交�
 - 若后续阶段推翻当前 ADR 结论，应新增后续 ADR，并同步更新本文件，而不是静默改写历史状态
 
 R1D的[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏记录](archive/slices/rust-r1d-corrective-checkpoint.md)和[机器验收](rust-r1d-validation.json)绑定实现c14333d5；七操作基础场景、四组Chromium smoke和完整client生成不扩大为R1E或R2验收。
+
+R1E 实现 `afbf4ee51baa8543981e66472d04a4d7389a9adb` 已集成推送 main，远端 HEAD 一致；集成后 19 项适配器检查通过。[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[纠偏](archive/slices/rust-r1e-corrective-checkpoint.md)与[机器验收](rust-r1e-validation.json)保留四组合 64 项 stage、36 项原 Nest legacy（11 项 route-mock）、80 个唯一 run 清理全通过，C 非作者审查无剩余 P1/P2。R1 总体和 R1E 生命周期文件归档，G4 随本归档提交及 Issue 同步生效；既有 PrimeUI 提示、R2 真实 404、Nest 组织 create 201 / OpenAPI 200 差异继续保留，PG17 保留且本轮未执行其 SQL 或变更。
