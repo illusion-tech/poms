@@ -6,7 +6,7 @@
 - 类型：`cross-layer-high-risk`；真实组织命令、级联更新、认证读取与审计；无产品DDL变更。
 - 起点：clean main `705973835d4c823ae8aa3988976e8d6a13b31dfe`；Windows managed worktree `codex/poms-r2c-org-units`，Linux专用checkout `/home/wangzishi/projects/poms-rust-r2c`；沿用solo worktree checkpoint。
 - 日期：2026-10-27（Asia/Tokyo）；G1冻结时间：2026-10-27T13:04:40.627Z；A/B输入复核与C独立复核均Pass。
-- Tracker：[Rust迁移追踪](rust-migration-execution-tracker.md)；[R2范围](rust-r2-scope-and-dependencies.md)、[108操作归属](rust-r2-operation-slices.json)。
+- Tracker：[Rust迁移追踪](../../rust-migration-execution-tracker.md)；[R2范围](../../rust-r2-scope-and-dependencies.md)、[108操作归属](../../rust-r2-operation-slices.json)。
 
 ## 1. 范围与下游边界
 
@@ -18,16 +18,16 @@
 
 原TypeScript产品、共享契约、完整OpenAPI、579个生成客户端、92份产品迁移及历史验收保持原位。新导出器绑定working tree、index和受保护目录untracked三轴；文本规范化仅允许CRLF→LF，opaque排序数据按原字节校验。
 
-| 领域           | 正式输入                                                                                                                                               | 本片消费与优先级                                                                        |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| 阶段与业务     | [迁移计划](backend-rust-migration-plan.md)、[组织设计](platform-governance/org-unit-design.md)、[ADR-002](../adr/002-org-unit-model-and-assignment.md) | 树结构、平台RBAC、归属关系边界；旧设计描述不覆盖已冻结的现行route/运行行为              |
-| 路由           | [canonical inventory](api-route-canonical-inventory.md)、[R0F](archive/slices/rust-r0f-route-baseline.md)、ADR-015/018                                 | inventory218–221及525–528八操作aligned；不重引入`/org-units/tree`或slash命令            |
-| 控制与服务     | `apps/poms-api/src/app/features/platform/platform.controller.ts`、`platform.service.ts`、`platform.repository.ts`                                      | 守卫、参数、查询次序、JS严格字符串判断、dirty检查、flush与审计                          |
-| DTO与响应      | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/api/contracts/src/lib/auth/user.dto.ts`、`libs/vendor/nestjs-zod/src/`                      | 原Zod4.6.1 schema执行oracle、未知字段剥离、UUID、null、字符串/数值和错误issues          |
-| 持久化         | `org-unit.entity.ts`、`user-org-membership.entity.ts`、`platform-user.entity.ts`、现有组织/平台migration                                               | org_unit完整行、parent FK、唯一索引、自引用CHECK、row_version、membership计数和外部引用 |
-| seed/认证/审计 | `core/platform/dev-platform.fixtures.ts`、`seeders/platform-bootstrap.seeder.ts`、`core/auth/`、`core/runtime-audit/`                                  | 显式平台bootstrap、每请求读取、raw touch、pending session CAS、业务和audit两次flush     |
-| 既有Rust       | [R2A收口](archive/slices/rust-r2a-closeout.md)、[R2B收口](archive/slices/rust-r2b-closeout.md)、`apps/poms-api-rust/src/auth`和`roles`                 | 复用已验证基础，按本片实际读取与flush确认组织快照，不把历史通过冒充本轮重跑             |
-| 原页面         | `apps/poms-admin/src/app/features/platform/org-unit-list.ts`、`libs/admin/data-access/src/lib/platform/platform.store.ts`及实际依赖                    | 原树表、搜索、创建/编辑/移动/启停及flat/tree刷新；不替换产品页面或mock目标接口          |
+| 领域           | 正式输入                                                                                                                                                                 | 本片消费与优先级                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| 阶段与业务     | [迁移计划](../../backend-rust-migration-plan.md)、[组织设计](../../platform-governance/org-unit-design.md)、[ADR-002](../../../adr/002-org-unit-model-and-assignment.md) | 树结构、平台RBAC、归属关系边界；旧设计描述不覆盖已冻结的现行route/运行行为              |
+| 路由           | [canonical inventory](../../api-route-canonical-inventory.md)、[R0F](rust-r0f-route-baseline.md)、ADR-015/018                                                            | inventory218–221及525–528八操作aligned；不重引入`/org-units/tree`或slash命令            |
+| 控制与服务     | `apps/poms-api/src/app/features/platform/platform.controller.ts`、`platform.service.ts`、`platform.repository.ts`                                                        | 守卫、参数、查询次序、JS严格字符串判断、dirty检查、flush与审计                          |
+| DTO与响应      | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/api/contracts/src/lib/auth/user.dto.ts`、`libs/vendor/nestjs-zod/src/`                                        | 原Zod4.6.1 schema执行oracle、未知字段剥离、UUID、null、字符串/数值和错误issues          |
+| 持久化         | `org-unit.entity.ts`、`user-org-membership.entity.ts`、`platform-user.entity.ts`、现有组织/平台migration                                                                 | org_unit完整行、parent FK、唯一索引、自引用CHECK、row_version、membership计数和外部引用 |
+| seed/认证/审计 | `core/platform/dev-platform.fixtures.ts`、`seeders/platform-bootstrap.seeder.ts`、`core/auth/`、`core/runtime-audit/`                                                    | 显式平台bootstrap、每请求读取、raw touch、pending session CAS、业务和audit两次flush     |
+| 既有Rust       | [R2A收口](rust-r2a-closeout.md)、[R2B收口](rust-r2b-closeout.md)、`apps/poms-api-rust/src/auth`和`roles`                                                                 | 复用已验证基础，按本片实际读取与flush确认组织快照，不把历史通过冒充本轮重跑             |
+| 原页面         | `apps/poms-admin/src/app/features/platform/org-unit-list.ts`、`libs/admin/data-access/src/lib/platform/platform.store.ts`及实际依赖                                      | 原树表、搜索、创建/编辑/移动/启停及flat/tree刷新；不替换产品页面或mock目标接口          |
 
 Rust工具链保持1.99.1，既有Cargo依赖身份固定。组织树需要`zh-CN`比较，不能把R2B的`en-US`有限证明扩大为中文排序等价。复用固定ICU4X revision `38a49da495248dd1ded84cf306e4ca42e64d5bb3`（package2.1.1）及原成对Unihan Root/Jamo NodeData provider，显式选择zh-CN并消费同revision的Baked中文tailoring；默认Baked provider不能替代。G0扩大804字符串的探针中，643204对well-formed比较的zh-CN/en-US NodeData结果均与Node一致；Baked中文有9464差异。孤立surrogate比较保留未一致标签，PG text读取的树名称不含该码元。新增同revision的icu_casemap及其compiled data用于完整Unicode上下文小写，804项有限探针一致。最终依赖与lock增量记录producer身份，不手调权重、不运行时调用Node；不把有限语料宣称为全Unicode证明。旧R2B排序行为及opaque数据保持。
 

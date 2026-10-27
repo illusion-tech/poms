@@ -5,7 +5,7 @@
   "sourceBaseline": "705973835d4c823ae8aa3988976e8d6a13b31dfe",
   "issue": 70,
   "parentIssue": 67,
-  "overallStatus": "G3-Pass-implementation-integration-G4-pending",
+  "overallStatus": "G3-Pass-integrated-G4-upon-archive-push-and-issue-reconciliation",
   "authorScope": "Root aggregation of actual reports; this aggregation is not independent review.",
   "scope": "Eight existing organization operations; cumulative22 paths/26 operations. R2A/B/C deliver19 of108 R2 operations;89 and stage acceptance remain. No product DDL, deployment, migration/write-authority transfer or performance claim.",
   "runtime": {
@@ -14343,12 +14343,155 @@
     "G1": "Pass",
     "G2": "Pass",
     "G3": "Pass",
-    "G4": "Pending"
+    "G4": "Pass upon archive push and issue reconciliation"
   },
   "g3ReviewedInput": {
     "file": "tmp/rust-r2c/g3-reviewed-validation.json",
     "bytes": 579874,
     "rawBytesSha256": "53413337ddc792172c5760dbf21e965a0c27a221af060c6d190788f752fd7c68"
   },
-  "g3IssueComment": "https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858"
+  "g3IssueComment": "https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858",
+  "closure": {
+    "implementationCommit": "319d5d89977704b9924fc7a401957d46f5d42668",
+    "integratedMainAndOrigin": "319d5d89977704b9924fc7a401957d46f5d42668",
+    "postIntegration": {
+      "file": "tmp/rust-r2c/integration-main/receipt.json",
+      "bytes": 54124,
+      "rawBytesSha256": "dafb5a869b96bf1b02b18cb6b052d236fdeddf33bcc12f5b126b28c68dd58480",
+      "result": "pass",
+      "steps": [
+        {
+          "name": "adapters",
+          "exe": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\34920_1793118909242\\node.exe",
+          "args": [
+            "--test",
+            "--test-reporter=tap",
+            "tools/e2e/api-server.test.cjs",
+            "tools/e2e/admin-launcher.test.cjs"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/adapters.log",
+          "sha256": "4ce854672771232bf9e62dd3009429abb9114a1f5b59495f12717c4aba30a3b8"
+        },
+        {
+          "name": "navigation-source",
+          "exe": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\34920_1793118909242\\node.exe",
+          "args": [
+            "tools/rust-r2a/export-navigation.mjs",
+            "--check"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/navigation-source.log",
+          "sha256": "7b01069d7cb9fe872a44d62c4ca9052c73787a8ed85021cbb7058e09ac430d65"
+        },
+        {
+          "name": "role-source",
+          "exe": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\34920_1793118909242\\node.exe",
+          "args": [
+            "tools/rust-r2b/export-roles.mjs",
+            "--check"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/role-source.log",
+          "sha256": "b9208969850a7b8b0329c2c1c8a4e692d9e285bbab2a6f9da241f6b4c924de93"
+        },
+        {
+          "name": "role-collation",
+          "exe": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\34920_1793118909242\\node.exe",
+          "args": [
+            "tools/rust-r2b/export-roles-collation.mjs",
+            "--check"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/role-collation.log",
+          "sha256": "4c7f1d00e0e7763113bd5f12b09fecce1e90b33bde84b03f36175ee637a7dbed"
+        },
+        {
+          "name": "organization-source",
+          "exe": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\34920_1793118909242\\node.exe",
+          "args": [
+            "tools/rust-r2c/export-org-units.mjs",
+            "--check"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/organization-source.log",
+          "sha256": "c47128815eccd9773e3ffd9474d2ef895ff81ac2ed6e1184f29e67c347578172"
+        },
+        {
+          "name": "openapi",
+          "exe": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\34920_1793118909242\\node.exe",
+          "args": [
+            "tools/rust-r2c/verify-openapi.mjs",
+            "E:\\projects\\worktrees\\poms-r2c-org-units\\poms\\tmp\\rust-r2c\\openapi-candidate-3.json"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/openapi.log",
+          "sha256": "79feb90e87bff3a1ed67736eaaec3f4213754d68ceb7d6572c52e6e8ee8aa371"
+        },
+        {
+          "name": "organization-collation-linux",
+          "exe": "wsl.exe",
+          "args": [
+            "-d",
+            "Debian",
+            "-u",
+            "wangzishi",
+            "--",
+            "podman",
+            "--cgroup-manager=cgroupfs",
+            "run",
+            "--rm",
+            "--network=none",
+            "--workdir=/workspace",
+            "--mount",
+            "type=bind,source=/home/wangzishi/projects/poms-rust-r2c,destination=/workspace",
+            "--env",
+            "GIT_OPTIONAL_LOCKS=0",
+            "40946b3f8c4be299594da0968be9656f010b2e73df6be115c9555e155528997d",
+            "node",
+            "tools/rust-r2c/export-org-units-collation.mjs",
+            "--check"
+          ],
+          "exitCode": 0,
+          "log": "tmp/rust-r2c/integration-main/organization-collation-linux.log",
+          "sha256": "f0a1bfcdd71ccaf6109025578157921a517eb91c51833db97318fe06586599f4"
+        }
+      ],
+      "adapterTests": {
+        "tests": 24,
+        "pass": 24,
+        "fail": 0,
+        "skipped": 0
+      },
+      "sourceFiles": 152,
+      "sourceBeforeEqualsAfter": true,
+      "boundary": "Checks after fast-forward on integrated main. Windows adapters/contract/source/OpenAPI; fixed Linux Node collation guard uses byte-matched integrated sources. No POMS server, DB or browser replay; adapter unit tests briefly own a synthetic readiness listener."
+    },
+    "issueComment": "https://github.com/illusion-tech/poms/issues/70#issuecomment-6447740498",
+    "lifecycleArchive": [
+      "docs/design/archive/slices/rust-r2c-org-units-baseline.md",
+      "docs/design/archive/slices/rust-r2c-corrective-checkpoint.md",
+      "docs/design/archive/slices/rust-r2c-closeout.md"
+    ],
+    "g4": "Pass upon archive push and issue reconciliation; archive commit is bound by Issue70 G4 comment",
+    "closeOnly": [
+      70
+    ],
+    "keepOpen": [
+      67,
+      57
+    ],
+    "remainingSlices": "RUST-R2D through RUST-R2M remain Todo",
+    "r2DeliveredOperations": 19,
+    "r2RemainingOperations": 89,
+    "stageAcceptance": "Pending",
+    "routeDecisionIssue61": "Unchanged",
+    "evidencePreservation": "Must copy/hash ignored reports, logs, screenshots and old failures to E:/projects/poms/tmp/rust-r2c before worktree archive; Linux checkout/private journals/PG15 and PG17 retained",
+    "independentIntegrationReview": {
+      "file": "tmp/rust-r2c/c-integration-review.json",
+      "bytes": 4637,
+      "rawBytesSha256": "bd817bdd5bec7c96c72a4ef7fad18a6daa293401aa44dd7019dd095f9fd46112",
+      "result": "Pass"
+    }
+  }
 }

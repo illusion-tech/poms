@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-05-13
-**Rust 迁移补充索引更新**: 2026-10-26；原第二阶段任务状态不变
+**Rust 迁移补充索引更新**: 2026-10-28；原第二阶段任务状态不变
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
 **关联文档**:
 
@@ -494,8 +494,12 @@ R2B实现`31555b76d1d9a453aef44172211e4b35e30df573`已合入main并推送，集�
 
 ### 2026-10-27 RUST-R2C G1冻结
 
-R2C #70按[组织基线](rust-r2c-org-units-baseline.md)于2026-10-27T13:04:40.627Z冻结，来源HEAD `705973835d4c823ae8aa3988976e8d6a13b31dfe`；A/B输入与C非作者独立审查Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/70#issuecomment-6442616855)。范围为八个现有组织操作，进入Doing；真实Nest SQL先见证对应flush/CAS，再完成PG/HTTP/并发及原页面四组合验证、G3和G4。使用新受控PG15副本，PG17与旧环境/证据保留。R2A/B累计交付11操作，其余97与阶段验收仍未交付；#67/#57保持Open，D–M Todo，#61不变。上方历史C–M状态以本条更新。
+R2C #70按[组织基线](archive/slices/rust-r2c-org-units-baseline.md)于2026-10-27T13:04:40.627Z冻结，来源HEAD `705973835d4c823ae8aa3988976e8d6a13b31dfe`；A/B输入与C非作者独立审查Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/70#issuecomment-6442616855)。范围为八个现有组织操作，进入Doing；真实Nest SQL先见证对应flush/CAS，再完成PG/HTTP/并发及原页面四组合验证、G3和G4。使用新受控PG15副本，PG17与旧环境/证据保留。R2A/B累计交付11操作，其余97与阶段验收仍未交付；#67/#57保持Open，D–M Todo，#61不变。上方历史C–M状态以本条更新。
 
 ### 2026-10-28 RUST-R2C G3通过
 
 R2C #70 [独立G3](https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858) Pass，未关闭P1/P2为0；实际双端HTTP各354/并发各6、PG7、四组合页面12/基础认证52及最终173纯测试通过，52run连续两次清理0/0。受审汇总原件已保全，准予实现提交/推送及solo main快进。集成后检查、G4归档和Issue同步待完成，#70保持Doing，父#67/#57保持Open，D–M Todo，PG17与旧环境/数据保留。
+
+### 2026-10-28 RUST-R2C G4收口
+
+R2C实现`319d5d89977704b9924fc7a401957d46f5d42668`已合入main并推送，集成后24项适配器0skip、导航/角色/组织来源与排序/OpenAPI共7步通过，152份来源前后与验收版本一致。八操作实际双端HTTP各354/并发各6、四组合基础认证52与原页面12、另行PG7通过；C独立G3未关闭P1/P2为0，52run最终连续两次清理0/0。旧失败、有限Unicode、UI许可提示与schema检查失败分类见[归档收口](archive/slices/rust-r2c-closeout.md)、[纠偏](archive/slices/rust-r2c-corrective-checkpoint.md)及[机器验收](rust-r2c-validation.json)。G4随本归档提交推送及Issue同步生效；仅#70完成，父#67/#57保持Open，D–M Todo，#61不变。R2A/B/C累计交付19个R2操作，剩余89操作与R2M阶段验收未交付，PG17与旧环境/数据保留。上方历史G1/G3和R2A/B段落保留当时状态，以本条为当前进度。

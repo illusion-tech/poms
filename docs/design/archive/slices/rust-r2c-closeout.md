@@ -2,8 +2,8 @@
 
 - 切片：`RUST-R2C` / [#70](https://github.com/illusion-tech/poms/issues/70)；父[R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体[#57](https://github.com/illusion-tech/poms/issues/57)。
 - 类型：`cross-layer-high-risk`；独立managed worktree与Linux checkout，solo worktree checkpoint。
-- 来源：`705973835d4c823ae8aa3988976e8d6a13b31dfe`；正式输入为[冻结基线](rust-r2c-org-units-baseline.md)、[R2范围](rust-r2-scope-and-dependencies.md)与[108操作归属](rust-r2-operation-slices.json)。
-- 当前Gate：G1 Pass；产品源码独立检查Pass；完整运行矩阵与最终清理已通过，完整非作者G3 Pass，未关闭P1/P2为0；实现提交、集成检查与G4待完成。
+- 来源：`705973835d4c823ae8aa3988976e8d6a13b31dfe`；正式输入为[冻结基线](rust-r2c-org-units-baseline.md)、[R2范围](../../rust-r2-scope-and-dependencies.md)与[108操作归属](../../rust-r2-operation-slices.json)。
+- 当前Gate：G1 Pass；产品源码独立检查Pass；完整运行矩阵与最终清理已通过，完整非作者G3 Pass，未关闭P1/P2为0；实现已集成推送，集成检查Pass；G4随本归档提交推送和Issue同步生效。
 - 主代理负责环境、公共接线、真实验收与治理；A负责契约/HTTP/排序，B负责持久化/事务/PG，C为非产品作者。C编写的并发比较工具另经B独立复核。
 
 ## 1. 交付边界
@@ -42,7 +42,7 @@ schema保留低权MikroORM CHECK introspection可见性与既有`lead_score_over
 
 ## 3. 来源、证据与环境
 
-[机器验收记录](rust-r2c-validation.json)绑定final03的两端354项HTTP、6调度并发、独立owner与严格比较原件；每端111份运行来源相同，最终交付清单152文件。先前失败owner、0调度并发与诊断结果保留原标签，不参与最终Pass计数。
+[机器验收记录](../../rust-r2c-validation.json)绑定final03的两端354项HTTP、6调度并发、独立owner与严格比较原件；每端111份运行来源相同，最终交付清单152文件。先前失败owner、0调度并发与诊断结果保留原标签，不参与最终Pass计数。
 
 原Angular产品、完整OpenAPI、579个生成客户端与92份产品migration保持不变。候选3的Rust来源、不可变二进制、工具版本和实际报告均以逐文件哈希绑定；工具修正前后的失败原件独立保留。G1历史Pending矩阵不改写为运行成功。
 
@@ -54,4 +54,10 @@ UI/foundation每次原运行回执绑定16个来源文件，前后及当前LF规
 
 ## 4. Gate与后续状态
 
-[独立G3](https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858) Pass；正式回执SHA256为`53559d8e9527448cc87ac87f6cb2efe2464c35dfdf4e9e77cbd35583f83eda94`。受审机器汇总`53413337ddc792172c5760dbf21e965a0c27a221af060c6d190788f752fd7c68`按原字节保全后仅追加Gate与审查元数据。实现提交、集成后检查、G4归档推送与Issue同步仍待完成；当前不标记#70 Done。完成后仅关闭#70，R2A/B/C累计交付19个R2操作，剩余89操作及R2M阶段验收未完成；父#67/#57保持Open，R2D–M为Todo，#61不变。
+[独立G3](https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858) Pass；正式回执SHA256为`53559d8e9527448cc87ac87f6cb2efe2464c35dfdf4e9e77cbd35583f83eda94`。受审机器汇总`53413337ddc792172c5760dbf21e965a0c27a221af060c6d190788f752fd7c68`按原字节保全后仅追加Gate与审查元数据。实现`319d5d89977704b9924fc7a401957d46f5d42668`已快进集成并推送main。[集成后检查](https://github.com/illusion-tech/poms/issues/70#issuecomment-6447740498)实际通过24项适配器与7步来源/排序/OpenAPI校验，152文件与验收版本一致；该检查未重跑数据库或浏览器。G4随本归档提交推送和Issue同步生效，最终归档SHA由#70的G4评论绑定。仅关闭#70，R2A/B/C累计交付19个R2操作，剩余89操作及R2M阶段验收未完成；父#67/#57保持Open，R2D–M为Todo，#61不变。
+
+## 5. G4归档与证据保全
+
+三份生命周期MD迁入本目录，长期[机器验收](../../rust-r2c-validation.json)保留设计根。原冻结G1与受审G3汇总按原字节保全；归档仅调整相对链接和交付状态，不改变产品/工具152来源、实际运行版本或失败分类。108操作JSON的operations、sourceManifest与routeDecisions保留原G0快照；当前交付状态由slices拥有，仅更新R2C。
+
+工作树回收前，Windows原始报告、失败轮次、脚本与截图必须逐文件复制并校验至`E:/projects/poms/tmp/rust-r2c`，回执为`evidence-preservation.json`；排除项仅为可再生`windows-browser-cache`。Linux checkout、受控新旧PG15数据库、private journals与二进制保留原位置。PG17只作服务元数据观察，实例与数据保留。

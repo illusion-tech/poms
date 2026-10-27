@@ -54,7 +54,7 @@ HTTP首轮实际在第52项权限拒绝处发现session预期少计一次：due�
 
 旧354项报告的诊断归一化还拒绝了16个原DTO错误中的Zod UUID pattern。两端这些400响应完整匹配各自冻结oracle；触发的是正则内nil/all-ffff字面量。窄修正必须先校验同case ID、完整请求、状态和错误正文，再仅对精确JSON路径及完整pattern值保留字面量；不能全局放行未知UUID或名为pattern的字段。旧owner失败仍禁止接受该轮，诊断结果不替代重新运行。
 
-完整诊断随后保留76个差异：两处属于注册run短标识的大写字面量，另外74处属于唯一`regression:current-session`响应中两组37项权限数组的顺序。后者沿用已冻结[R1C-CP07](archive/slices/rust-r1c-corrective-checkpoint.md#r1c-cp07-无显式顺序的数据库集合)的`accepted-db-specific-difference`：原assignment查询没有ORDER BY，本片原Nest见证又保留70次相同查询，相关六个产品文件未变。只对该精确case、route、身份、状态与authenticated值，在完整冻结37项集合、字符串、无重复及两处原数组逐项相同均通过后，排序比较副本的两个权限数组。原始次序保留，角色权限、组织、树、审计及其它数组不获得此豁免。
+完整诊断随后保留76个差异：两处属于注册run短标识的大写字面量，另外74处属于唯一`regression:current-session`响应中两组37项权限数组的顺序。后者沿用已冻结[R1C-CP07](rust-r1c-corrective-checkpoint.md#r1c-cp07-无显式顺序的数据库集合)的`accepted-db-specific-difference`：原assignment查询没有ORDER BY，本片原Nest见证又保留70次相同查询，相关六个产品文件未变。只对该精确case、route、身份、状态与authenticated值，在完整冻结37项集合、字符串、无重复及两处原数组逐项相同均通过后，排序比较副本的两个权限数组。原始次序保留，角色权限、组织、树、审计及其它数组不获得此豁免。
 
 ## schema与原构建启动器
 
@@ -66,4 +66,4 @@ HTTP首轮实际在第52项权限拒绝处发现session预期少计一次：due�
 
 范围仍为八个既有组织操作，无新增产品DDL。加入nullable hydration覆盖后的候选3已通过119项普通测试、fmt/clippy/release以及单独的locked/offline all-targets check；默认39项ignored另列，其中本片7项实际PG service显式执行通过且每run第二次清理0/0。四组合页面各3项、foundation各13项均已实际通过，UI源码回执前后覆盖16个文件；另外两个传递依赖仅有当前哈希，不扩称历史运行绑定。
 
-修订工具后重新执行final03，两端各354项HTTP及6调度并发均observed，独立owner均Pass且来源、二进制、PID/startTicks前后不变，测试后存活并由owner停止。完整计划与严格跨端比较均Pass；最终173项纯测试、lint零warning及浏览器types通过。52个登记run最终两次清理均0/0，journal与来源不变，PG17服务元数据及旧环境保留。完整非作者G3、提交集成与G4仍待完成；历史失败和工具诊断不改写为通过。
+修订工具后重新执行final03，两端各354项HTTP及6调度并发均observed，独立owner均Pass且来源、二进制、PID/startTicks前后不变，测试后存活并由owner停止。完整计划与严格跨端比较均Pass；最终173项纯测试、lint零warning及浏览器types通过。52个登记run最终两次清理均0/0，journal与来源不变，PG17服务元数据及旧环境保留。完整非作者G3已Pass，未关闭P1/P2为0；实现319d5d89已集成推送且集成后检查通过。G4随归档推送和Issue同步生效；历史失败和工具诊断不改写为通过。
