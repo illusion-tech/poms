@@ -7,6 +7,7 @@ pub mod http;
 pub mod lifecycle;
 pub mod logging;
 pub mod navigation;
+pub mod org_units;
 pub mod process_runtime;
 pub mod roles;
 pub mod shared;

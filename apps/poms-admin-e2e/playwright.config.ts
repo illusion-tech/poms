@@ -13,7 +13,9 @@ export default defineConfig({
     globalSetup: './src/support/server-setup.ts',
     fullyParallel: false,
     workers: 1,
-    timeout: plan.suite === 'stage' || plan.suite === 'navigation' || plan.suite === 'roles' ? 180_000 : 60_000,
+    // Windows organization journeys invoke the guarded WSL fixture repeatedly.
+    // This is a suite budget; individual HTTP/UI and fixture deadlines stay bounded.
+    timeout: plan.suite === 'organizations' ? 600_000 : plan.suite === 'stage' || plan.suite === 'navigation' || plan.suite === 'roles' ? 180_000 : 60_000,
     expect: { timeout: 10_000 },
     outputDir: '../../dist/playwright/poms-admin-e2e/results',
     reporter: [['list'], ['html', { open: 'never', outputFolder: '../../dist/playwright/poms-admin-e2e/report' }]],

@@ -491,3 +491,11 @@ R2B #69按[角色权限基线](archive/slices/rust-r2b-role-permissions-baseline
 ### 2026-10-27 RUST-R2B G4收口
 
 R2B实现`31555b76d1d9a453aef44172211e4b35e30df573`已合入main并推送，集成后22项适配器、角色/导航单向导出与OpenAPI检查通过，157份来源指纹一致。八操作的真实HTTP179/并发6/系统22、四组合基础认证52和原页面12通过；C独立G3未关闭P1/P2为0，51个run最终二次清理0/0。具体旧候选、schema失败分类与保留边界见[归档收口](archive/slices/rust-r2b-closeout.md)、[纠偏](archive/slices/rust-r2b-corrective-checkpoint.md)及[机器验收](rust-r2b-validation.json)。G4随本归档提交推送及Issue同步生效；仅#69完成，父#67/#57保持Open，C–M为Todo，#61不变。R2A/B累计交付11个R2操作，其余97及阶段验收未交付，PG17与旧环境/证据保留。上方G1与R2A段落是当时记录，不代表当前R2B状态。
+
+### 2026-10-27 RUST-R2C G1冻结
+
+R2C #70按[组织基线](rust-r2c-org-units-baseline.md)于2026-10-27T13:04:40.627Z冻结，来源HEAD `705973835d4c823ae8aa3988976e8d6a13b31dfe`；A/B输入与C非作者独立审查Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/70#issuecomment-6442616855)。范围为八个现有组织操作，进入Doing；真实Nest SQL先见证对应flush/CAS，再完成PG/HTTP/并发及原页面四组合验证、G3和G4。使用新受控PG15副本，PG17与旧环境/证据保留。R2A/B累计交付11操作，其余97与阶段验收仍未交付；#67/#57保持Open，D–M Todo，#61不变。上方历史C–M状态以本条更新。
+
+### 2026-10-28 RUST-R2C G3通过
+
+R2C #70 [独立G3](https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858) Pass，未关闭P1/P2为0；实际双端HTTP各354/并发各6、PG7、四组合页面12/基础认证52及最终173纯测试通过，52run连续两次清理0/0。受审汇总原件已保全，准予实现提交/推送及solo main快进。集成后检查、G4归档和Issue同步待完成，#70保持Doing，父#67/#57保持Open，D–M Todo，PG17与旧环境/数据保留。

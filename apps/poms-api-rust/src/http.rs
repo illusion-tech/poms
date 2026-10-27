@@ -1,4 +1,4 @@
-//! Existing public health, authentication, navigation and role operations.
+//! Existing public health, authentication, navigation, role and organization operations.
 //! OpenAPI is returned to the CLI; it does not add a documentation HTTP route.
 
 use std::{
@@ -161,7 +161,7 @@ fn dependency_reference() -> Ref {
 
 #[derive(OpenApi)]
 #[openapi(
-    info(title = "POMS API (R2B subset)", version = "0.1.0"),
+    info(title = "POMS API (R2C subset)", version = "0.1.0"),
     paths(root, liveness, readiness),
     components(schemas(HealthCheckDto, HealthChecksDto, HealthDependencyCheckDto))
 )]
@@ -178,6 +178,7 @@ pub fn openapi() -> serde_json::Value {
         authentication,
         crate::navigation::http::openapi(),
         crate::roles::http::openapi(),
+        crate::org_units::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -216,11 +217,15 @@ pub fn router_with_auth(
     let roles = std::sync::Arc::new(crate::roles::service::RolesService::new(
         state.database.clone(),
     ));
+    let org_units = std::sync::Arc::new(crate::org_units::OrgUnitsService::new(
+        state.database.clone(),
+    ));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
             .merge(crate::navigation::http::router(auth.clone()))
-            .merge(crate::roles::http::router(auth, roles)),
+            .merge(crate::roles::http::router(auth.clone(), roles))
+            .merge(crate::org_units::http::router(auth, org_units)),
         cors_origins,
     )
 }
@@ -250,6 +255,7 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
     Router::new()
         .fallback_service(application)
         .layer(middleware::from_fn(crate::roles::http::normalize_uri))
+        .layer(middleware::from_fn(crate::org_units::http::normalize_uri))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }

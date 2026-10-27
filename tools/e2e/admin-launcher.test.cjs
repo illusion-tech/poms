@@ -55,7 +55,9 @@ test('managed plan follows the adapter effective port, preserves all eight legac
     assert.equal(plan.adminOrigin, 'http://127.0.0.1:4800');
     assert.equal(plan.suite, 'legacy');
     assert.equal(plan.testMatch.length, 8);
-    const files = fs.readdirSync(path.join(root, 'apps/poms-admin-e2e/src')).filter((name) => name.endsWith('.spec.ts') && !['r1d-auth.smoke.spec.ts', 'r1e-stage.spec.ts', 'r2a-navigation.spec.ts', 'r2b-roles.spec.ts'].includes(name));
+    const files = fs
+        .readdirSync(path.join(root, 'apps/poms-admin-e2e/src'))
+        .filter((name) => name.endsWith('.spec.ts') && !['r1d-auth.smoke.spec.ts', 'r1e-stage.spec.ts', 'r2a-navigation.spec.ts', 'r2b-roles.spec.ts', 'r2c-organizations.spec.ts'].includes(name));
     assert.deepEqual(plan.testMatch.map((entry) => entry.slice(3)).sort(), files.sort());
     assert(!JSON.stringify(plan).includes('must-not-escape-plan'));
     assert(!JSON.stringify(plan).includes('envFile'));
@@ -129,11 +131,28 @@ test('roles uses the fixed R2B profile and original bootstrap, preserving extern
     const servers = await startBrowserServers({ env, cwd: root, platform: 'linux', deps });
     assert(!calls.find(([name]) => name === 'admin-start')[1].args.some((arg) => arg.startsWith('--configuration=')));
     await servers.stop();
-    for(const changes of [{POMS_E2E_ENV_PROFILE:'r2a'},{POMS_E2E_ENV_PROFILE:undefined},{POMS_R2B_BACKEND:'nest'}]) assert.throws(()=>resolveBrowserPlan({env:{...env,...changes},cwd:root,platform:'linux',deps}));
-    assert.throws(()=>resolveBrowserPlan({env,cwd:root,platform:'win32',deps}));
-    const external={POMS_ADMIN_E2E_SUITE:'roles',POMS_API_BASE_URL:'http://127.0.0.1:5101',POMS_R2B_BACKEND:'rust',POMS_ENV_FILE:'/must-not-read.env'};
-    assert.equal(resolveBrowserPlan({env:external,cwd:root,deps}).stageBackend,'rust');
-    assert.throws(()=>resolveBrowserPlan({env:{...external,POMS_R2B_BACKEND:undefined},cwd:root,deps}));
+    for (const changes of [{ POMS_E2E_ENV_PROFILE: 'r2a' }, { POMS_E2E_ENV_PROFILE: undefined }, { POMS_R2B_BACKEND: 'nest' }]) assert.throws(() => resolveBrowserPlan({ env: { ...env, ...changes }, cwd: root, platform: 'linux', deps }));
+    assert.throws(() => resolveBrowserPlan({ env, cwd: root, platform: 'win32', deps }));
+    const external = { POMS_ADMIN_E2E_SUITE: 'roles', POMS_API_BASE_URL: 'http://127.0.0.1:5101', POMS_R2B_BACKEND: 'rust', POMS_ENV_FILE: '/must-not-read.env' };
+    assert.equal(resolveBrowserPlan({ env: external, cwd: root, deps }).stageBackend, 'rust');
+    assert.throws(() => resolveBrowserPlan({ env: { ...external, POMS_R2B_BACKEND: undefined }, cwd: root, deps }));
+});
+
+test('organizations uses only R2C profile and preserves independent external Rust ownership', async () => {
+    const { deps, calls } = mockedDependencies({ apiPort: 5301 });
+    const env = { POMS_ADMIN_E2E_SUITE: 'organizations', POMS_E2E_MODE: 'managed-rust', POMS_E2E_ENV_PROFILE: 'r2c', POMS_ADMIN_PORT_SEED: '1000' };
+    const plan = resolveBrowserPlan({ env, cwd: root, platform: 'linux', deps });
+    assert.equal(plan.stageBackend, 'rust');
+    assert.equal(plan.adminOrigin, 'http://127.0.0.1:5400');
+    assert.deepEqual(plan.testMatch, ['**/r2c-organizations.spec.ts']);
+    const servers = await startBrowserServers({ env, cwd: root, platform: 'linux', deps });
+    assert(!calls.find(([name]) => name === 'admin-start')[1].args.some((arg) => arg.startsWith('--configuration=')));
+    await servers.stop();
+    for (const changes of [{ POMS_E2E_ENV_PROFILE: 'r2b' }, { POMS_E2E_ENV_PROFILE: undefined }, { POMS_R2C_BACKEND: 'nest' }]) assert.throws(() => resolveBrowserPlan({ env: { ...env, ...changes }, cwd: root, platform: 'linux', deps }));
+    assert.throws(() => resolveBrowserPlan({ env, cwd: root, platform: 'win32', deps }));
+    const external = { POMS_ADMIN_E2E_SUITE: 'organizations', POMS_API_BASE_URL: 'http://127.0.0.1:5301', POMS_R2C_BACKEND: 'rust', POMS_ENV_FILE: '/must-not-read.env' };
+    assert.equal(resolveBrowserPlan({ env: external, cwd: root, deps }).stageBackend, 'rust');
+    assert.throws(() => resolveBrowserPlan({ env: { ...external, POMS_R2C_BACKEND: undefined }, cwd: root, deps }));
 });
 
 test('both external URLs use actual external parsing, never read an envfile, and never spawn or stop an external service', async () => {
@@ -256,6 +275,7 @@ function collectPlaywright(suite) {
             POMS_E2E_SUITE: suite === 'legacy' ? 'nest-full' : 'foundation',
             POMS_ADMIN_E2E_SUITE: suite,
             POMS_R1E_BACKEND: 'rust',
+            POMS_R2C_BACKEND: 'rust',
             POMS_API_BASE_URL: 'http://127.0.0.1:47473',
             POMS_ADMIN_BASE_URL: 'http://127.0.0.1:48473',
             POMS_ENV_FILE: '/must-not-read/real.env'
@@ -284,4 +304,12 @@ test('actual Playwright --list stage performs no fixture action and selects only
     assert.match(result.stdout, /Total: 16 tests in 1 file/);
     assert(!result.stdout.includes('r1d-auth.smoke.spec.ts'));
     assert(!result.stdout.includes('contract-management.journey.spec.ts'));
+});
+
+test('actual Playwright --list organizations selects only original-page R2C journeys without fixture actions', () => {
+    const result = collectPlaywright('organizations');
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /r2c-organizations\.spec\.ts/);
+    assert.match(result.stdout, /Total: 3 tests in 1 file/);
+    assert(!result.stdout.includes('r2b-roles.spec.ts'));
 });

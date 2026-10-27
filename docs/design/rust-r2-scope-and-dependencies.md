@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-27
-**状态**: G0 范围与拆片完成；R2A 已交付 / G4；R2B已交付 / G4；C–M为Todo / G1未冻结；本文不是其余切片的实施授权
+**状态**: G0 范围与拆片完成；R2A 已交付 / G4；R2B已交付 / G4；R2C G1 Pass / Doing；D–M为Todo / G1未冻结；本文不是其余切片的实施授权
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -30,7 +30,7 @@ R0 清单的产品源参考仍为 `033aedd0`。本次对 `apps/poms-api/src`、`
 
 ## 3. 互斥拆片与建议依赖
 
-以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M已建立为#67的原生子Issue；R2B已按[独立基线](archive/slices/rust-r2b-role-permissions-baseline.md)冻结G1并完成八操作交付，C–M仍为Todo / G1未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
+以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M已建立为#67的原生子Issue；R2B已按[独立基线](archive/slices/rust-r2b-role-permissions-baseline.md)冻结G1并完成八操作交付，R2C已按[组织基线](rust-r2c-org-units-baseline.md)冻结G1进入Doing，D–M仍为Todo / G1未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
 
 | TID      | Issue                                                  | HTTP 数 | 独立交付范围                                          | 建议前置与额外输入                                                           |
 | -------- | ------------------------------------------------------ | ------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -250,3 +250,7 @@ R2A 实现 `2924bf30c1a0751df129d2137b6667628d1fdf4a` 已合入 main 并推送�
 ### 2026-10-27 RUST-R2B G4收口
 
 R2B实现`31555b76d1d9a453aef44172211e4b35e30df573`已合入main并推送，集成后22项适配器、角色/导航单向导出与OpenAPI检查通过，157份来源指纹一致。八操作的真实HTTP179/并发6/系统22、四组合基础认证52和原页面12通过；C独立G3未关闭P1/P2为0，51个run最终二次清理0/0。具体旧候选、schema失败分类与保留边界见[归档收口](archive/slices/rust-r2b-closeout.md)、[纠偏](archive/slices/rust-r2b-corrective-checkpoint.md)及[机器验收](rust-r2b-validation.json)。G4随本归档提交推送及Issue同步生效；仅#69完成，父#67/#57保持Open，C–M为Todo，#61不变。R2A/B累计交付11个R2操作，其余97及阶段验收未交付，PG17与旧环境/证据保留。上方G1与R2A段落是当时记录，不代表当前R2B状态。
+
+### 2026-10-27 RUST-R2C G1冻结
+
+R2C #70按[组织基线](rust-r2c-org-units-baseline.md)于2026-10-27T13:04:40.627Z冻结，来源HEAD `705973835d4c823ae8aa3988976e8d6a13b31dfe`；A/B输入与C非作者独立审查Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/70#issuecomment-6442616855)。范围为八个现有组织操作，进入Doing；真实Nest SQL先见证对应flush/CAS，再完成PG/HTTP/并发及原页面四组合验证、G3和G4。使用新受控PG15副本，PG17与旧环境/证据保留。R2A/B累计交付11操作，其余97与阶段验收仍未交付；#67/#57保持Open，D–M Todo，#61不变。上方历史C–M状态以本条更新。

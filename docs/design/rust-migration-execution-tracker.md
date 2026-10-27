@@ -2,8 +2,8 @@
 
 **最后更新**: 2026-10-27
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: `RUST-R0` / R1 已交付并完成 G4；R2 #67 Doing，108 操作已拆片，首片 R2A #68 Done / G4；R2B #69 Done / G4；#57 与 R2–R7 未完成
-**执行模式**: R0 main-only；R1A–E / R2A–B 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
+**当前状态**: `RUST-R0` / R1 已交付并完成 G4；R2 #67 Doing，108 操作已拆片，首片 R2A #68 Done / G4；R2B #69 Done / G4；R2C #70 G3 Pass / Doing；#57 与 R2–R7 未完成
+**执行模式**: R0 main-only；R1A–E / R2A–C 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
 
@@ -43,21 +43,21 @@
 | R1D #65   | Done | G4；c14333d5已推送；[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏](archive/slices/rust-r1d-corrective-checkpoint.md)与[机器证据](rust-r1d-validation.json)；双平台真实E2E/browser及579文件client一致             |
 | R1E #66   | Done | afbf4ee5 已集成推送；[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[机器证据](rust-r1e-validation.json)；64 stage、36 legacy（11 mock）、80 run清理及集成后19项通过，C无剩余P1/P2；G4随本归档提交及Issue同步生效 |
 
-| R2 子切片 | 状态 | Gate / 输入与边界                                                                                                                                                               |
-| --------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R2A #68   | Done | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效   |
-| R2B #69   | Done | 八操作；实现31555b76已集成推送，22项集成测试与157份来源检查通过；[收口](archive/slices/rust-r2b-closeout.md)、[机器验收](rust-r2b-validation.json)；G4随归档推送和Issue同步生效 |
-| R2C #70   | Todo | 组织 8 操作；G1 未冻结                                                                                                                                                          |
-| R2D #71   | Todo | 用户、owner-reference 与 profile 11 操作；G1 未冻结                                                                                                                             |
-| R2E #72   | Todo | 字典/设置 6 操作及非 HTTP 业务编号；G1 未冻结                                                                                                                                   |
-| R2F #73   | Todo | 审计/安全事件 4 操作；G1 未冻结                                                                                                                                                 |
-| R2G #74   | Todo | 身份 provider/外部登录 16 操作；G1 未冻结                                                                                                                                       |
-| R2H #75   | Todo | 外部组织同步 18 操作；G1 未冻结                                                                                                                                                 |
-| R2I #76   | Todo | 存储 provider 6 操作；G1 未冻结                                                                                                                                                 |
-| R2J #77   | Todo | 附件/上传/中心 19 操作；G1 未冻结                                                                                                                                               |
-| R2K #78   | Todo | 移交附件 5 操作；G1 前由 #61 裁决参数名并落实 R4 域输入                                                                                                                         |
-| R2L #79   | Todo | 审批/待办 4 操作及摘要/公共确认机制；真实 R3–R5 handler 逐域接入，G1 未冻结                                                                                                     |
-| R2M #80   | Todo | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                                                                               |
+| R2 子切片 | 状态  | Gate / 输入与边界                                                                                                                                                               |
+| --------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R2A #68   | Done  | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效   |
+| R2B #69   | Done  | 八操作；实现31555b76已集成推送，22项集成测试与157份来源检查通过；[收口](archive/slices/rust-r2b-closeout.md)、[机器验收](rust-r2b-validation.json)；G4随归档推送和Issue同步生效 |
+| R2C #70   | Doing | 组织8操作；[G1已冻结](rust-r2c-org-units-baseline.md)，G3 Pass；集成/G4待完成                                                                                                   |
+| R2D #71   | Todo  | 用户、owner-reference 与 profile 11 操作；G1 未冻结                                                                                                                             |
+| R2E #72   | Todo  | 字典/设置 6 操作及非 HTTP 业务编号；G1 未冻结                                                                                                                                   |
+| R2F #73   | Todo  | 审计/安全事件 4 操作；G1 未冻结                                                                                                                                                 |
+| R2G #74   | Todo  | 身份 provider/外部登录 16 操作；G1 未冻结                                                                                                                                       |
+| R2H #75   | Todo  | 外部组织同步 18 操作；G1 未冻结                                                                                                                                                 |
+| R2I #76   | Todo  | 存储 provider 6 操作；G1 未冻结                                                                                                                                                 |
+| R2J #77   | Todo  | 附件/上传/中心 19 操作；G1 未冻结                                                                                                                                               |
+| R2K #78   | Todo  | 移交附件 5 操作；G1 前由 #61 裁决参数名并落实 R4 域输入                                                                                                                         |
+| R2L #79   | Todo  | 审批/待办 4 操作及摘要/公共确认机制；真实 R3–R5 handler 逐域接入，G1 未冻结                                                                                                     |
+| R2M #80   | Todo  | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                                                                               |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -93,3 +93,11 @@ R2B #69按[角色权限基线](archive/slices/rust-r2b-role-permissions-baseline
 ### 2026-10-27 RUST-R2B G4收口
 
 R2B实现`31555b76d1d9a453aef44172211e4b35e30df573`已合入main并推送，集成后22项适配器、角色/导航单向导出与OpenAPI检查通过，157份来源指纹一致。八操作的真实HTTP179/并发6/系统22、四组合基础认证52和原页面12通过；C独立G3未关闭P1/P2为0，51个run最终二次清理0/0。具体旧候选、schema失败分类与保留边界见[归档收口](archive/slices/rust-r2b-closeout.md)、[纠偏](archive/slices/rust-r2b-corrective-checkpoint.md)及[机器验收](rust-r2b-validation.json)。G4随本归档提交推送及Issue同步生效；仅#69完成，父#67/#57保持Open，C–M为Todo，#61不变。R2A/B累计交付11个R2操作，其余97及阶段验收未交付，PG17与旧环境/证据保留。上方G1与R2A段落是当时记录，不代表当前R2B状态。
+
+### 2026-10-27 RUST-R2C G1冻结
+
+R2C #70按[组织基线](rust-r2c-org-units-baseline.md)于2026-10-27T13:04:40.627Z冻结，来源HEAD `705973835d4c823ae8aa3988976e8d6a13b31dfe`；A/B输入与C非作者独立审查Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/70#issuecomment-6442616855)。范围为八个现有组织操作，进入Doing；真实Nest SQL先见证对应flush/CAS，再完成PG/HTTP/并发及原页面四组合验证、G3和G4。使用新受控PG15副本，PG17与旧环境/证据保留。R2A/B累计交付11操作，其余97与阶段验收仍未交付；#67/#57保持Open，D–M Todo，#61不变。上方历史C–M状态以本条更新。
+
+### 2026-10-28 RUST-R2C G3通过
+
+R2C #70 [独立G3](https://github.com/illusion-tech/poms/issues/70#issuecomment-6447641858) Pass，未关闭P1/P2为0；实际双端HTTP各354/并发各6、PG7、四组合页面12/基础认证52及最终173纯测试通过，52run连续两次清理0/0。受审汇总原件已保全，准予实现提交/推送及solo main快进。集成后检查、G4归档和Issue同步待完成，#70保持Doing，父#67/#57保持Open，D–M Todo，PG17与旧环境/数据保留。

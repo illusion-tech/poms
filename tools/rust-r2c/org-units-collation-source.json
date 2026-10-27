@@ -1,0 +1,77 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "705973835d4c823ae8aa3988976e8d6a13b31dfe",
+  "originalComparator": {
+    "path": "apps/poms-api/src/app/features/platform/platform.service.ts",
+    "rule": "displayOrder -> createdAt.getTime() milliseconds -> name.localeCompare('zh-CN') -> id.localeCompare() default en-US"
+  },
+  "provider": {
+    "revision": "38a49da495248dd1ded84cf306e4ca42e64d5bb3",
+    "packageVersion": "2.1.1",
+    "pairedRoot": "Unchanged R2B NodeData Unihan Root/Jamo",
+    "tailoring": "Same-revision Baked, explicit zh-CN and en-US",
+    "caseMapping": "same-revision icu_casemap compiled_data, whole context with isolated UTF16 units retained"
+  },
+  "files": [
+    {
+      "path": "apps/poms-api/src/app/features/platform/platform.service.ts",
+      "normalizedUtf8Sha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db",
+      "hashRule": "UTF8 text CRLF to LF only"
+    },
+    {
+      "path": "tools/rust-r2b/roles-authority.json",
+      "normalizedUtf8Sha256": "d66d844f9706b67081fbba69d52b3215887119db1145d23d7cdf35cd052de6a3",
+      "hashRule": "UTF8 text CRLF to LF only"
+    },
+    {
+      "path": "tools/rust-r2b/collation/cases.json",
+      "normalizedUtf8Sha256": "74b90b0eb34beb79a7b0ada5de5ee2161998e35d88beb068974a00ddf233fba3",
+      "hashRule": "UTF8 text CRLF to LF only"
+    },
+    {
+      "path": "tools/rust-r2b/collation/source.json",
+      "normalizedUtf8Sha256": "a7dfd6fa1473f79de05b5db579628feb5d35e5f82e34c2af370b9ff75253e8d4",
+      "hashRule": "UTF8 text CRLF to LF only"
+    },
+    {
+      "path": "tools/rust-r2b/collation/root.json",
+      "rawBytesSha256": "44a4fc9d480363f9cd2b344dc26bb6dae6146a036e69c89134b53ba91d3197bc",
+      "hashRule": "Opaque raw bytes"
+    },
+    {
+      "path": "tools/rust-r2b/collation/jamo.json",
+      "rawBytesSha256": "47e37d476f6963232d9436bca366142cf0000861df7e19506b443d064116e72c",
+      "hashRule": "Opaque raw bytes"
+    },
+    {
+      "path": "tools/rust-r2c/export-org-units-collation.mjs",
+      "normalizedUtf8Sha256": "1ce1d62bf1b01c241e72d6b7e3d24c23728ad85179408407a08f9e3a6244803a",
+      "hashRule": "UTF8 text CRLF to LF only"
+    },
+    {
+      "path": "tools/rust-r2c/export-org-units-collation.test.mjs",
+      "normalizedUtf8Sha256": "c2bc3d43b8d0daaf53ce7126391a75c514dd55f3b542cd348e098aee9d3312a2",
+      "hashRule": "UTF8 text CRLF to LF only"
+    },
+    {
+      "path": "tools/rust-r2c/org-units-collation-cases.json",
+      "normalizedUtf8Sha256": "38e0a9bdc2093f736e892648cde9b3ea4feb912f9fbed9e0faf621023101bab9",
+      "hashRule": "UTF8 text CRLF to LF only"
+    }
+  ],
+  "golden": {
+    "path": "tools/rust-r2c/org-units-collation-golden.json",
+    "rawBytesSha256": "d364bcd8f0f9f3b880c2e47f1fb149a2b3b54414189c510ec59b5ff06ac71c3b"
+  },
+  "verification": {
+    "sourceGuardAxes": [
+      "working",
+      "index",
+      "untracked"
+    ],
+    "replay": "node tools/rust-r2c/export-org-units-collation.mjs --check",
+    "finiteComparisonsPerLocale": 643204,
+    "casingCases": 817,
+    "runtimeBehaviorClaim": false
+  }
+}

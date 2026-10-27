@@ -13,7 +13,7 @@ function suiteFor(mode, value) {
 function resolveApiPlan({ env = process.env, cwd = process.cwd() } = {}) {
     if (Object.keys(env).some((key) => key.toUpperCase() === 'POMS_E2E_ENV_PROFILE' && key !== 'POMS_E2E_ENV_PROFILE')) throw new Error('Environment profile must use its exact uppercase name');
     const profile = env.POMS_E2E_ENV_PROFILE ?? 'r1d';
-    if (!['r1d', 'r1e', 'r2a', 'r2b'].includes(profile)) throw new Error('Invalid POMS_E2E_ENV_PROFILE');
+    if (!['r1d', 'r1e', 'r2a', 'r2b', 'r2c'].includes(profile)) throw new Error('Invalid POMS_E2E_ENV_PROFILE');
     const mode = env.POMS_E2E_MODE === undefined ? 'managed-nest' : env.POMS_E2E_MODE;
     if (!['managed-nest', 'managed-rust', 'external'].includes(mode)) throw new Error('Invalid POMS_E2E_MODE');
     const suite = suiteFor(mode, env.POMS_E2E_SUITE);
@@ -21,7 +21,7 @@ function resolveApiPlan({ env = process.env, cwd = process.cwd() } = {}) {
     if (env.POMS_API_BASE_URL !== undefined) throw new Error('Managed API mode conflicts with POMS_API_BASE_URL');
     // Import and call this guard only for managed mode. External needs no local
     // dotenv/DB environment and cannot inherit its filesystem side effects.
-    const { loadManagedEnvironment } = profile === 'r2b' ? require('../rust-r2b/managed-environment.cjs') : profile === 'r2a' ? require('../rust-r2a/managed-environment.cjs') : profile === 'r1e' ? require('../rust-r1e/managed-environment.cjs') : require('../rust-r1d/managed-environment.cjs');
+    const { loadManagedEnvironment } = profile === 'r2c' ? require('../rust-r2c/managed-environment.cjs') : profile === 'r2b' ? require('../rust-r2b/managed-environment.cjs') : profile === 'r2a' ? require('../rust-r2a/managed-environment.cjs') : profile === 'r1e' ? require('../rust-r1e/managed-environment.cjs') : require('../rust-r1d/managed-environment.cjs');
     const managedEnvironment = loadManagedEnvironment({ mode, env, cwd });
     const target = runtime.resolveTarget({ mode, host: managedEnvironment.host, port: managedEnvironment.port });
     return Object.freeze({ target, suite, managedEnvironment });

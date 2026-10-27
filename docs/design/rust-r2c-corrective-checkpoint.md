@@ -1,0 +1,69 @@
+# RUST-R2C 纠偏记录
+
+- 当前状态：G2实际矩阵与最终清理已完成；完整非作者G3和G4尚未通过。
+- Slice：[#70](https://github.com/illusion-tech/poms/issues/70)；[冻结G1基线](rust-r2c-org-units-baseline.md)限定八个既有组织操作。
+- 来源HEAD：`705973835d4c823ae8aa3988976e8d6a13b31dfe`。本记录追加实际发现，保留G1原字节与历史Pending矩阵。
+
+## 原Nest行为与证据边界
+
+原Nest第一次69项观察结果为`observed`，原件SHA256为`4b6aa246c92423625d4077d8e59cc06113d522115669dea5e5c679f97ab05131`；补充49项原件为`c9cdd4cd34114f9070baf50b4610fe9045de490726e9381c0fd6d4b73005ecc8`。两轮均保存真实SQL配对、完整组织/审计/session快照、来源和原Nest构建身份，服务停止、二次cleanup为0/0。非产品作者复核回执为`a82c2eab2d26bc4ec80c291dc1c5e54e87317687fc8c746358be30470362f2a2`。这些是原行为见证，不等同于Rust差分或G3通过。
+
+第一轮名为late-session-CAS的工具条件误将raw touch识别为managed flush：正则从WHERE后继续搜索到RETURNING中的row_version。该原轮实际200、session版本增加3，只能证明raw-touch前的干预，不能声称晚期CAS。原六个见证文件及失败解释保留。补充工具把匹配限制在WHERE区间，要求managed UPDATE的row_version条件和单独RETURNING row_version，排除raw touch的coalesce/least。新见证实际出现managed UPDATE影响0行、500、业务事务回滚、无组织写入和审计；session版本增加2包含raw touch与fixture各1次，不全部计为产品写入。
+
+补充轮第一次运行已观察27项后因fixture响应allowlist缺少新fixtureFacts而终止，完整保留fail及已完成清理；修正为精确的四条membership/两条user或四条organization事实后，另一次完整49项运行通过。没有覆盖原失败报告。
+
+## flush、批量更新与弱竞争窗口
+
+实际SQL确定mixed cascade先flush pending session，再按id排序执行不带FOR UPDATE的(id,row_version)候选预检，随后一条CASE批量UPDATE按id集合写入；UPDATE本身没有row_version谓词。锁定的MikroORM源码批次为300，本片实际观察4条dirty行，不扩称所有批次尺寸均已实测。
+
+预检前改变第一、中间或最后一条dirty行的版本均导致500，整个业务flush回滚；已停用且未dirty的后代版本变化不触发该冲突。预检之后、CASE UPDATE之前改变版本则仍200，竞争行版本累计增加2。这一窗口是原行为，Rust保留相同预检和批量写入语义，不额外加入逐行CAS、全流程锁或重试。原业务flush与随后audit flush仍是两个事务，合法UTF-16输入可以先提交业务，再因jsonb审计编码失败返回500。
+
+## 请求内读取与UUID
+
+原组织认证流程不预加载组织。update先findAll：canonical id命中请求内旧实体；uppercase/compact等别名通过数据库UUID cast另查findOne。canonical实体在两次读取间被删除时仍沿旧对象写入并失败500，uppercase别名删除后为404。
+
+别名刷新把新non-null字段合入旧实体，数据库description或parent从non-null改为null时仍保留请求内旧nonnull字段；当前响应与audit保留旧字段，数据库保持null。Rust只在该请求内复现相同读取与合并，严格字符串入口、数据库cast入口分别保留。nullable的实际PG测试直接读取快照、改变run-owned行、再次读取并调用生产合并函数；它验证hydration与持久化关系，不冒称HTTP两个SELECT之间的真实barrier。
+
+code和同级名称两请求均越过预检后，实际竞争结果为200/500，失败来自23505；不能改标为业务预检409。相向move可以同时200并形成无根多节点环，树不输出该环；move/create与父级停用也可以同时成功并留下停用父级下的启用节点。这些是有限受控交错的观察，不是所有调度的穷尽证明。
+
+## 成员、排序与页面验收工具
+
+成员计数只统计status=active的关系行：disabled viewer的secondary且revoked_at非null关系仍计入，未知membership_type的active关系也计入；组织停用不改这些成员关系。childCount包括直接停用子级。
+
+实际四行排序见证使用同displayOrder、同毫秒不同微秒created_at。flat依PG微秒排序为中/国/八/阿，tree按JS毫秒再zh-CN比较为阿/八/国/中。缺省displayOrder按历史负值最大值加1计算；实际产生-2147483647，不把历史负值视作新增DTO合法输入。
+
+原页面测试初轮缺少完整Chromium缓存，后续使用已经存在且SHA一致的浏览器副本；另一轮暴露测试沿用旧菜单名称，按原页面实际“组织架构”修正locator。第三轮桌面与390px页面完成创建及部分操作后耗尽180秒总预算，均完成清理。Windows每次fixture经过WSL与受控Podman守卫，后续增加逐fixture耗时并将organizations总预算设为600秒，单次HTTP/UI及fixture的超时不放宽。
+
+同session权限撤销与恢复过程中，原页面还写入已有的authz.route.denied事件。测试snapshot原allowlist缺失该观察类型，现严格按原controller限制为ROUTE/blocked及exact requiredPermissions/returnUrl字段；其余事件规则保持。该既有安全事件接口不计为本片迁移操作。修正经独立静态复核，最终四组合运行与截图另行记录。
+
+第四轮Windows Nest桌面流程通过，窄屏与viewer在登录后到达`/dashboard`，但Playwright的URL谓词仍因默认等待load状态而超时。依据安装的1.63实现，将三处pathname断言改为在原10秒预算内轮询实际URL；真实登录响应、导航及flat/tree请求断言保留。修正后Linux Nest/Rust各3项、Windows Nest第五轮3项全部通过。原失败轮次、实际创建记录及各自第二次清理0/0保留。
+
+Linux实际截图仍显示既有Invalid PrimeUI License，旧文字检测字段`knownPrimeUiLicense=false`未能识别它；以截图为准，不能据该字段宣称提示消失。390px截图中表格在点击右侧操作后保持内部横向滚动，真实层级DOM与搜索祖先断言通过，不宣称同时展示全部列或完成响应式重设计。
+
+## HTTP与并发验收工具的独立纠偏
+
+独立审查发现最初HTTP比较器只将被watch的组织时间与PG绑定，未覆盖列表返回的其它组织；实际变异能够通过。修订要求每次成功响应及HEAD配对GET的全部组织按原次序获取固定低权只读PG事实，逐条校验ID与日期后才允许跨运行归一化。完整用例计划也改为从冻结DTO/URI/HEAD和明确业务清单独立重建，不以本轮实际跑过的项目反过来定义完整性。
+
+owner回执必须明确Pass，并提供相同PID与`/proc` startTicks、二进制和逐文件来源前后不变，以及验收后仍存活、由owner停止的事实。UUID形状的未知别名必须拒绝；刻意非法DTO字面量仅允许与该具体请求的冻结输入逐字一致，不能扩展为一般响应豁免。
+
+并发比较器最初对setup时间、version-only干预后的其它字段以及proof时点验证不足，三种变异负例均可通过。修订绑定每次setup的完整即时PG快照、要求干预仅增加版本且与最终数据库对应，并检查请求内proof与释放、取得锁、完成干预的因果时序；补充跨case组织、会话和审计连续性。工具纯测试与修订审查不替代实际双端并发运行。
+
+HTTP首轮实际在第52项权限拒绝处发现session预期少计一次：due请求先raw touch，再由原安全事件flush消费pending session CAS，实际增加2。工具修正仅调整有audit/security/已提交业务flush的默认预期，保留旧报告及源文件；显式覆盖、无session、未due与parser提前拒绝边界保持。
+
+后续Nest/Rust均完成354项观察，但两端并发首case在读取同run的组织快照时失败，整个owner回执仍为fail，不作为最终HTTP验收。源码显示Promise.all同时调用共享排他advisory lock的fixture；原传输层未保留stderr，不能声称捕获到具体fixture_busy错误。修正为按slot顺序await快照并记录准确阶段，真正的HTTP请求保持并发。独立复核与14项纯测试通过，旧两份报告均保留12项setup、0项已证明调度及第二次清理0/0标签。
+
+旧354项报告的诊断归一化还拒绝了16个原DTO错误中的Zod UUID pattern。两端这些400响应完整匹配各自冻结oracle；触发的是正则内nil/all-ffff字面量。窄修正必须先校验同case ID、完整请求、状态和错误正文，再仅对精确JSON路径及完整pattern值保留字面量；不能全局放行未知UUID或名为pattern的字段。旧owner失败仍禁止接受该轮，诊断结果不替代重新运行。
+
+完整诊断随后保留76个差异：两处属于注册run短标识的大写字面量，另外74处属于唯一`regression:current-session`响应中两组37项权限数组的顺序。后者沿用已冻结[R1C-CP07](archive/slices/rust-r1c-corrective-checkpoint.md#r1c-cp07-无显式顺序的数据库集合)的`accepted-db-specific-difference`：原assignment查询没有ORDER BY，本片原Nest见证又保留70次相同查询，相关六个产品文件未变。只对该精确case、route、身份、状态与authenticated值，在完整冻结37项集合、字符串、无重复及两处原数组逐项相同均通过后，排序比较副本的两个权限数组。原始次序保留，角色权限、组织、树、审计及其它数组不获得此豁免。
+
+## schema与原构建启动器
+
+首轮原migration-check启动器在迁移程序开始前触发离线依赖检查并超时，保留为launcher失败，不能据此分类schema。第二轮使用已锁定且实际安装的MikroORM7.0.11 CLI执行原migration:check及只读dump，两库实际check均exit1、dump均exit0。catalog前后相同且与R2B基线一致：107表、1778列、515约束、504索引、92迁移及0用户trigger。低权CHECK可见性与既有`lead_score_override.status`注释差异保持明确分类；168个提议有同名现存约束，不声称表达式逐项等价，提议DDL未执行。
+
+原Angular生产构建的早期轮次分别因Nx入口路径与依赖启动器失败，保留Fail/Incomplete标签。最终使用同一安装版本、原tsconfig与生产main.ts、优化和budget选项，显式构建原依赖后执行原生产target，通过；未安装或升级依赖、未覆盖供应链策略。原platform controller/service共79项通过，1886份保护源及579个原客户端前后哈希一致。
+
+## 当前完成边界
+
+范围仍为八个既有组织操作，无新增产品DDL。加入nullable hydration覆盖后的候选3已通过119项普通测试、fmt/clippy/release以及单独的locked/offline all-targets check；默认39项ignored另列，其中本片7项实际PG service显式执行通过且每run第二次清理0/0。四组合页面各3项、foundation各13项均已实际通过，UI源码回执前后覆盖16个文件；另外两个传递依赖仅有当前哈希，不扩称历史运行绑定。
+
+修订工具后重新执行final03，两端各354项HTTP及6调度并发均observed，独立owner均Pass且来源、二进制、PID/startTicks前后不变，测试后存活并由owner停止。完整计划与严格跨端比较均Pass；最终173项纯测试、lint零warning及浏览器types通过。52个登记run最终两次清理均0/0，journal与来源不变，PG17服务元数据及旧环境保留。完整非作者G3、提交集成与G4仍待完成；历史失败和工具诊断不改写为通过。

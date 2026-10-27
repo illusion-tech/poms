@@ -1,0 +1,4968 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "705973835d4c823ae8aa3988976e8d6a13b31dfe",
+  "oracle": "Actual original current shared Zod4.6.1 schemas; complete parsed payload and issues; non-wire own undefined explicitly labeled",
+  "wireCases": 265,
+  "nonWireCases": 3,
+  "cases": [
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\",\"isActive\":false,\"expectedVersion\":123}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for update"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\",\"isActive\":false,\"expectedVersion\":123}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for update"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\",\"isActive\":false}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for move"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\",\"isActive\":false,\"expectedVersion\":123}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for move"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "minimal-trim",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "nullable",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":null,\"parentId\":null,\"displayOrder\":0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":null,\"parentId\":null,\"displayOrder\":0}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description",
+          "parentId",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "strip",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"isActive\":false,\"rowVersion\":444,\"unknown\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "own-undefined",
+      "inputRaw": null,
+      "nonWireOwnUndefined": true,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description",
+          "parentId",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "own-undefined",
+      "inputRaw": null,
+      "nonWireOwnUndefined": true,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for update"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "own-undefined",
+      "inputRaw": null,
+      "nonWireOwnUndefined": true,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for move"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "null-parent",
+      "inputRaw": "{\"parentId\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason-only",
+      "inputRaw": "{\"reason\":\"why\",\"expectedVersion\":123}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for move"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "clear-description",
+      "inputRaw": "{\"description\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":null}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "untrimmed",
+      "inputRaw": "{\"reason\":\" \",\"comment\":\" c \",\"expectedVersion\":999}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\" \",\"comment\":\" c \",\"expectedVersion\":999}",
+        "ownKeys": [
+          "reason",
+          "comment",
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:null",
+      "inputRaw": "{\"name\":null,\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:empty",
+      "inputRaw": "{\"name\":\"\",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:space",
+      "inputRaw": "{\"name\":\" \",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:lone-high",
+      "inputRaw": "{\"name\":\"\\ud800\",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"\\ud800\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:lone-low",
+      "inputRaw": "{\"name\":\"\\udc00\",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"\\udc00\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:trim-set",
+      "inputRaw": "{\"name\":\"﻿ x \",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:not-trim",
+      "inputRaw": "{\"name\":\"x\",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:astral-at-limit",
+      "inputRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"code\":\"Code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:astral-above-limit",
+      "inputRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:array",
+      "inputRaw": "{\"name\":[],\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:long-array",
+      "inputRaw": "{\"name\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected array to have <=128 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:length-large",
+      "inputRaw": "{\"name\":{\"length\":129},\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:length-nan",
+      "inputRaw": "{\"name\":{\"length\":{}},\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "name:length-unconvertible",
+      "inputRaw": "{\"name\":{\"length\":{\"toString\":null}},\"code\":\" Code \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:null",
+      "inputRaw": "{\"name\":\" Name \",\"code\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:empty",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:space",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:lone-high",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"\\ud800\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:lone-low",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"\\udc00\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:trim-set",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"x\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:not-trim",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"x\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:astral-at-limit",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:astral-above-limit",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:array",
+      "inputRaw": "{\"name\":\" Name \",\"code\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:long-array",
+      "inputRaw": "{\"name\":\" Name \",\"code\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected array to have <=64 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:length-large",
+      "inputRaw": "{\"name\":\" Name \",\"code\":{\"length\":65}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:length-nan",
+      "inputRaw": "{\"name\":\" Name \",\"code\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "code:length-unconvertible",
+      "inputRaw": "{\"name\":\" Name \",\"code\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:null",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":null}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:empty",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\"\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:space",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\" \"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:lone-high",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\"\\ud800\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:lone-low",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\"\\udc00\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:trim-set",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\"﻿ x \"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:not-trim",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\"x\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:astral-at-limit",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:astral-above-limit",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:array",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:long-array",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:length-large",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":{\"length\":1001}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:length-nan",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "description:length-unconvertible",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"description\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:null",
+      "inputRaw": "{\"name\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:empty",
+      "inputRaw": "{\"name\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:space",
+      "inputRaw": "{\"name\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:lone-high",
+      "inputRaw": "{\"name\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"\\ud800\"}",
+        "ownKeys": [
+          "name"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:lone-low",
+      "inputRaw": "{\"name\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"\\udc00\"}",
+        "ownKeys": [
+          "name"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:trim-set",
+      "inputRaw": "{\"name\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\"}",
+        "ownKeys": [
+          "name"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:not-trim",
+      "inputRaw": "{\"name\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\"}",
+        "ownKeys": [
+          "name"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:astral-at-limit",
+      "inputRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "name"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:astral-above-limit",
+      "inputRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:array",
+      "inputRaw": "{\"name\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:long-array",
+      "inputRaw": "{\"name\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected array to have <=128 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:length-large",
+      "inputRaw": "{\"name\":{\"length\":129}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:length-nan",
+      "inputRaw": "{\"name\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "name:length-unconvertible",
+      "inputRaw": "{\"name\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:null",
+      "inputRaw": "{\"code\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:empty",
+      "inputRaw": "{\"code\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:space",
+      "inputRaw": "{\"code\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:lone-high",
+      "inputRaw": "{\"code\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"code\":\"\\ud800\"}",
+        "ownKeys": [
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:lone-low",
+      "inputRaw": "{\"code\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"code\":\"\\udc00\"}",
+        "ownKeys": [
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:trim-set",
+      "inputRaw": "{\"code\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"code\":\"x\"}",
+        "ownKeys": [
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:not-trim",
+      "inputRaw": "{\"code\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"code\":\"x\"}",
+        "ownKeys": [
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:astral-at-limit",
+      "inputRaw": "{\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:astral-above-limit",
+      "inputRaw": "{\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:array",
+      "inputRaw": "{\"code\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:long-array",
+      "inputRaw": "{\"code\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected array to have <=64 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:length-large",
+      "inputRaw": "{\"code\":{\"length\":65}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:length-nan",
+      "inputRaw": "{\"code\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "code:length-unconvertible",
+      "inputRaw": "{\"code\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:null",
+      "inputRaw": "{\"description\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":null}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:empty",
+      "inputRaw": "{\"description\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\"\"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:space",
+      "inputRaw": "{\"description\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\" \"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:lone-high",
+      "inputRaw": "{\"description\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\"\\ud800\"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:lone-low",
+      "inputRaw": "{\"description\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\"\\udc00\"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:trim-set",
+      "inputRaw": "{\"description\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\"﻿ x \"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:not-trim",
+      "inputRaw": "{\"description\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\"x\"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:astral-at-limit",
+      "inputRaw": "{\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:astral-above-limit",
+      "inputRaw": "{\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:array",
+      "inputRaw": "{\"description\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:long-array",
+      "inputRaw": "{\"description\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:length-large",
+      "inputRaw": "{\"description\":{\"length\":1001}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:length-nan",
+      "inputRaw": "{\"description\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "description:length-unconvertible",
+      "inputRaw": "{\"description\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:null",
+      "inputRaw": "{\"reason\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:empty",
+      "inputRaw": "{\"reason\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"\"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:space",
+      "inputRaw": "{\"reason\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\" \"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:lone-high",
+      "inputRaw": "{\"reason\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"\\ud800\"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:lone-low",
+      "inputRaw": "{\"reason\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"\\udc00\"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:trim-set",
+      "inputRaw": "{\"reason\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"﻿ x \"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:not-trim",
+      "inputRaw": "{\"reason\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"x\"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:astral-at-limit",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:astral-above-limit",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:array",
+      "inputRaw": "{\"reason\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:long-array",
+      "inputRaw": "{\"reason\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:length-large",
+      "inputRaw": "{\"reason\":{\"length\":1001}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:length-nan",
+      "inputRaw": "{\"reason\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "reason:length-unconvertible",
+      "inputRaw": "{\"reason\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:null",
+      "inputRaw": "{\"comment\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:empty",
+      "inputRaw": "{\"comment\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"\"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:space",
+      "inputRaw": "{\"comment\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\" \"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:lone-high",
+      "inputRaw": "{\"comment\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"\\ud800\"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:lone-low",
+      "inputRaw": "{\"comment\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"\\udc00\"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:trim-set",
+      "inputRaw": "{\"comment\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"﻿ x \"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:not-trim",
+      "inputRaw": "{\"comment\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"x\"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:astral-at-limit",
+      "inputRaw": "{\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "comment"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:astral-above-limit",
+      "inputRaw": "{\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "comment"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:array",
+      "inputRaw": "{\"comment\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:long-array",
+      "inputRaw": "{\"comment\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "comment"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:length-large",
+      "inputRaw": "{\"comment\":{\"length\":1001}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "comment"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:length-nan",
+      "inputRaw": "{\"comment\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "comment"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "comment:length-unconvertible",
+      "inputRaw": "{\"comment\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:null",
+      "inputRaw": "{\"parentId\":null,\"reason\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:empty",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\"\"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:space",
+      "inputRaw": "{\"parentId\":null,\"reason\":\" \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\" \"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:lone-high",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\"\\ud800\"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:lone-low",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"\\udc00\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\"\\udc00\"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:trim-set",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"﻿ x \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\"﻿ x \"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:not-trim",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"x\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\"x\"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:astral-at-limit",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "parentId",
+          "reason"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:astral-above-limit",
+      "inputRaw": "{\"parentId\":null,\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:array",
+      "inputRaw": "{\"parentId\":null,\"reason\":[]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:long-array",
+      "inputRaw": "{\"parentId\":null,\"reason\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:length-large",
+      "inputRaw": "{\"parentId\":null,\"reason\":{\"length\":1001}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:length-nan",
+      "inputRaw": "{\"parentId\":null,\"reason\":{\"length\":{}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "reason:length-unconvertible",
+      "inputRaw": "{\"parentId\":null,\"reason\":{\"length\":{\"toString\":null}}}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000-0000-4000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":\"a0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"A0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"A0000000-0000-4000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":\"A0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"00000000-0000-0000-0000-000000000000\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"00000000-0000-0000-0000-000000000000\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":\"00000000-0000-0000-0000-000000000000\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"ffffffff-ffff-ffff-ffff-ffffffffffff\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-8000-8000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000-0000-8000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":\"a0000000-0000-8000-8000-000000000001\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-0000-8000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000-0000-0000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-9000-8000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000-0000-9000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-4000-0000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000-0000-4000-0000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\" a0000000-0000-4000-8000-000000000001 \"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\" a0000000-0000-4000-8000-000000000001 \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"a0000000000040008000000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000000040008000000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:\"urn:uuid:a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"urn:uuid:a0000000-0000-4000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:1",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "parentId:null",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":null}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000-0000-4000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":\"a0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"A0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"A0000000-0000-4000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":\"A0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"00000000-0000-0000-0000-000000000000\"",
+      "inputRaw": "{\"parentId\":\"00000000-0000-0000-0000-000000000000\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":\"00000000-0000-0000-0000-000000000000\"}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"ffffffff-ffff-ffff-ffff-ffffffffffff\"",
+      "inputRaw": "{\"parentId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-8000-8000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000-0000-8000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":\"a0000000-0000-8000-8000-000000000001\"}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-0000-8000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000-0000-0000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-9000-8000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000-0000-9000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"a0000000-0000-4000-0000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000-0000-4000-0000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\" a0000000-0000-4000-8000-000000000001 \"",
+      "inputRaw": "{\"parentId\":\" a0000000-0000-4000-8000-000000000001 \"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"a0000000000040008000000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000000040008000000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:\"urn:uuid:a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"urn:uuid:a0000000-0000-4000-8000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:1",
+      "inputRaw": "{\"parentId\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "parentId:null",
+      "inputRaw": "{\"parentId\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:-1",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":-1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:-0",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":-0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":0}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:0",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":0}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:1",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":1}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:1.5",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:-1.5",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":-1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:2147483648",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":2147483648}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":2147483648}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:9007199254740991",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":9007199254740991}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":9007199254740991}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:9007199254740992",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:-9007199254740992",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":-9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:1e999",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":1e999}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:1.00000000000000001",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":1.00000000000000001}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":1}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:9007199254740990.9",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":9007199254740990.9}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"displayOrder\":9007199254740991}",
+        "ownKeys": [
+          "name",
+          "code",
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:\"3\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":\"3\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:true",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":true}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "displayOrder:null",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"displayOrder\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:-1",
+      "inputRaw": "{\"displayOrder\":-1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:-0",
+      "inputRaw": "{\"displayOrder\":-0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":0}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:0",
+      "inputRaw": "{\"displayOrder\":0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":0}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:1",
+      "inputRaw": "{\"displayOrder\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":1}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:1.5",
+      "inputRaw": "{\"displayOrder\":1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:-1.5",
+      "inputRaw": "{\"displayOrder\":-1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:2147483648",
+      "inputRaw": "{\"displayOrder\":2147483648}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":2147483648}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:9007199254740991",
+      "inputRaw": "{\"displayOrder\":9007199254740991}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":9007199254740991}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:9007199254740992",
+      "inputRaw": "{\"displayOrder\":9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:-9007199254740992",
+      "inputRaw": "{\"displayOrder\":-9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:1e999",
+      "inputRaw": "{\"displayOrder\":1e999}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:1.00000000000000001",
+      "inputRaw": "{\"displayOrder\":1.00000000000000001}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":1}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:9007199254740990.9",
+      "inputRaw": "{\"displayOrder\":9007199254740990.9}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":9007199254740991}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:\"3\"",
+      "inputRaw": "{\"displayOrder\":\"3\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:true",
+      "inputRaw": "{\"displayOrder\":true}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "displayOrder:null",
+      "inputRaw": "{\"displayOrder\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:-1",
+      "inputRaw": "{\"displayOrder\":-1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:-0",
+      "inputRaw": "{\"displayOrder\":-0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":0}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:0",
+      "inputRaw": "{\"displayOrder\":0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":0}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:1",
+      "inputRaw": "{\"displayOrder\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":1}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:1.5",
+      "inputRaw": "{\"displayOrder\":1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:-1.5",
+      "inputRaw": "{\"displayOrder\":-1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:2147483648",
+      "inputRaw": "{\"displayOrder\":2147483648}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":2147483648}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:9007199254740991",
+      "inputRaw": "{\"displayOrder\":9007199254740991}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":9007199254740991}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:9007199254740992",
+      "inputRaw": "{\"displayOrder\":9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:-9007199254740992",
+      "inputRaw": "{\"displayOrder\":-9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:1e999",
+      "inputRaw": "{\"displayOrder\":1e999}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:1.00000000000000001",
+      "inputRaw": "{\"displayOrder\":1.00000000000000001}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":1}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:9007199254740990.9",
+      "inputRaw": "{\"displayOrder\":9007199254740990.9}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":9007199254740991}",
+        "ownKeys": [
+          "displayOrder"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:\"3\"",
+      "inputRaw": "{\"displayOrder\":\"3\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:true",
+      "inputRaw": "{\"displayOrder\":true}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "displayOrder:null",
+      "inputRaw": "{\"displayOrder\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:-1",
+      "inputRaw": "{\"expectedVersion\":-1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:-0",
+      "inputRaw": "{\"expectedVersion\":-0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:0",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:1",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":1}",
+        "ownKeys": [
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:1.5",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:2147483648",
+      "inputRaw": "{\"expectedVersion\":2147483648}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":2147483648}",
+        "ownKeys": [
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:9007199254740991",
+      "inputRaw": "{\"expectedVersion\":9007199254740991}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":9007199254740991}",
+        "ownKeys": [
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:9007199254740992",
+      "inputRaw": "{\"expectedVersion\":9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:1e999",
+      "inputRaw": "{\"expectedVersion\":1e999}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:\"3\"",
+      "inputRaw": "{\"expectedVersion\":\"3\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitActivationRequest",
+      "name": "expectedVersion:null",
+      "inputRaw": "{\"expectedVersion\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:-1",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":-1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:-0",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":-0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:0",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":0}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:1",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":1}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"expectedVersion\":1}",
+        "ownKeys": [
+          "parentId",
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:1.5",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":1.5}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:2147483648",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":2147483648}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"expectedVersion\":2147483648}",
+        "ownKeys": [
+          "parentId",
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:9007199254740991",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":9007199254740991}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":null,\"expectedVersion\":9007199254740991}",
+        "ownKeys": [
+          "parentId",
+          "expectedVersion"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:9007199254740992",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":9007199254740992}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:1e999",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":1e999}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:\"3\"",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":\"3\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "expectedVersion:null",
+      "inputRaw": "{\"parentId\":null,\"expectedVersion\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "extra-uuid:\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "extra-uuid:\"a0000000-0000-4000-B000-000000000001\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"a0000000-0000-4000-B000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"code\":\"Code\",\"parentId\":\"a0000000-0000-4000-B000-000000000001\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "extra-uuid:\"\\ud800\"",
+      "inputRaw": "{\"name\":\" Name \",\"code\":\" Code \",\"parentId\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "extra-uuid:\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"",
+      "inputRaw": "{\"parentId\":\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "extra-uuid:\"a0000000-0000-4000-B000-000000000001\"",
+      "inputRaw": "{\"parentId\":\"a0000000-0000-4000-B000-000000000001\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"parentId\":\"a0000000-0000-4000-B000-000000000001\"}",
+        "ownKeys": [
+          "parentId"
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "extra-uuid:\"\\ud800\"",
+      "inputRaw": "{\"parentId\":\"\\ud800\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "duplicates-last-key-wins",
+      "inputRaw": "{\"description\":\"old\",\"description\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":null}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "duplicate-escaped-name",
+      "inputRaw": "{\"name\":\"old\",\"\\u006eame\":\"new\",\"code\":\"code\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"new\",\"code\":\"code\"}",
+        "ownKeys": [
+          "name",
+          "code"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "prototype-keys",
+      "inputRaw": "{\"__proto__\":{\"name\":\"bad\"},\"constructor\":true,\"description\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":null}",
+        "ownKeys": [
+          "description"
+        ]
+      }
+    },
+    {
+      "schema": "UpdateOrgUnitRequest",
+      "name": "all-invalid",
+      "inputRaw": "{\"name\":1,\"code\":null,\"description\":true,\"displayOrder\":\"3\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received number"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received null"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MoveOrgUnitRequest",
+      "name": "all-invalid",
+      "inputRaw": "{\"parentId\":false,\"displayOrder\":\"3\",\"reason\":1,\"expectedVersion\":null}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "parentId"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received number"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateOrgUnitRequest",
+      "name": "null-character",
+      "inputRaw": "{\"name\":\"N\\u0000\",\"code\":\"code\",\"description\":\"\\u0000\"}",
+      "nonWireOwnUndefined": false,
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"N\\u0000\",\"code\":\"code\",\"description\":\"\\u0000\"}",
+        "ownKeys": [
+          "name",
+          "code",
+          "description"
+        ]
+      }
+    }
+  ]
+}
