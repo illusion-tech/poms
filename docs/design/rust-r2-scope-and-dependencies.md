@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-28
-**状态**: G0 范围与拆片完成；R2A 已交付 / G4；R2B已交付 / G4；R2C已交付 / G4；R2D已交付（G4随归档提交推送与Issue同步生效）；E–M为Todo / G1未冻结；本文不是其余切片的实施授权
+**状态**: R2A–F已交付 / G4随本归档推送与Issue同步生效；累计40/108，余68操作及R2M；G–M为Todo，各自冻结G1，父#67/#57保持Open
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -276,4 +276,11 @@ R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归�
 
 ### 2026-10-28 RUST-R2E/F 联合G1冻结
 
-用户授权 E/F 联合批次，按[联合基线](rust-r2ef-foundation-audit-baseline.md)于2026-10-28T03:19:33.981Z冻结；来源main`7a343c543fe0031d7d6b42c1f7e18a7e861c72b7`。10个既有HTTP操作与9scope编号机制由两名作者按模块并行实现，主代理统一环境、Nest见证、公共回归和保全，C联合独审；G3/实际验收/G4待完成。[E G1](https://github.com/illusion-tech/poms/issues/72#issuecomment-6459786789)、[F G1](https://github.com/illusion-tech/poms/issues/73#issuecomment-6459788546)。仅新受控PG15 poms_r2ef_nest/poms_r2ef_rust，PG17实例和数据保留；当前仍交付30/108，不能提前记40/108，父#67/#57及G-M/#61保持各自状态。后续G/H与I/J并行主线、K/L跨域验收边界按更新后的迁移计划执行。
+用户授权 E/F 联合批次，按[联合基线](archive/slices/rust-r2ef-foundation-audit-baseline.md)于2026-10-28T03:19:33.981Z冻结；来源main`7a343c543fe0031d7d6b42c1f7e18a7e861c72b7`。10个既有HTTP操作与9scope编号机制由两名作者按模块并行实现，主代理统一环境、Nest见证、公共回归和保全，C联合独审；G3/实际验收/G4待完成。[E G1](https://github.com/illusion-tech/poms/issues/72#issuecomment-6459786789)、[F G1](https://github.com/illusion-tech/poms/issues/73#issuecomment-6459788546)。仅新受控PG15 poms_r2ef_nest/poms_r2ef_rust，PG17实例和数据保留；当前仍交付30/108，不能提前记40/108，父#67/#57及G-M/#61保持各自状态。后续G/H与I/J并行主线、K/L跨域验收边界按更新后的迁移计划执行。
+
+
+### 2026-10-28 RUST-R2E/F 联合G4收口
+
+R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https://github.com/illusion-tech/poms/issues/73) 共10个既有操作及9scope编号内部机制已交付，实现 `9b3086f6957dfed318a7a53d10cf245394d5282f` 已集成推送main。C联合G3 Pass，未关闭P0/P1/P2为0；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)和[归档收口](archive/slices/rust-r2ef-closeout.md)分列旧393完整对照与修后E54/18增量，最终Rust149/显式PG4/四组合UI8/基础认证26及40run二次零残留。
+
+本G4随归档提交推送与Issue核对生效，仅关闭#72/#73。R2A–F累计 **40/108**，剩余 **68个操作及R2M验收**；父#67/#57保持Doing/Open，G–M与#61依赖不变。原G1/G3原字节及旧失败保留，PG17实例和数据、旧环境均保留；无部署、产品DDL或性能结论。本条为最新状态，上方带日期的G1/旧切片状态保留历史含义。

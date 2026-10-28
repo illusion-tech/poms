@@ -11,7 +11,7 @@
 
 本批只迁移既有 10 个 HTTP 操作及 E 的业务编号内部机制。R2 当前已交付 30/108；本批实际 G4 后方可记 40/108，剩余 68 操作与 R2M 验收。G/H 与 I/J 的后续分组只更新排期，本轮不实施；K 的 #61 路由裁决与 R4 事实、L 的 R3–R5 handler、完整 R2M 仍待完成。
 
-正式输入为[迁移计划](backend-rust-migration-plan.md)、[R2 范围与依赖](rust-r2-scope-and-dependencies.md)、[108 操作归属](rust-r2-operation-slices.json)、[canonical inventory](api-route-canonical-inventory.md)、[R0 operations](rust-r0-api-operations.json)、完整 TypeScript DTO/Zod/OpenAPI 与现行 Nest controller/service/repository/entity。G0 在线正文与评论保存在 `tmp/rust-r2ef/g0-online-issues.json`，正式输入清单与原字节哈希随 G1 回执冻结。
+正式输入为[迁移计划](../../backend-rust-migration-plan.md)、[R2 范围与依赖](../../rust-r2-scope-and-dependencies.md)、[108 操作归属](../../rust-r2-operation-slices.json)、[canonical inventory](../../api-route-canonical-inventory.md)、[R0 operations](../../rust-r0-api-operations.json)、完整 TypeScript DTO/Zod/OpenAPI 与现行 Nest controller/service/repository/entity。G0 在线正文与评论保存在 `tmp/rust-r2ef/g0-online-issues.json`，正式输入清单与原字节哈希随 G1 回执冻结。
 
 TypeScript 继续单向拥有共享枚举、DTO、设置定义和业务编号规范；机械导出 neutral JSON 后供 Rust 使用。完整 OpenAPI 与 579 客户端文件、92 份历史产品 migration 均受来源保护。本批不改 TS 产品语义、公开路径、产品 DDL、依赖栈、正式环境或写入归属；无性能结论。
 

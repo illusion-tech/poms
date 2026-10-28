@@ -1,6 +1,6 @@
 # R2E＋R2F 联合工具与验收证据
 
-本目录承接同一批次的 E 公共基础与 F 运行审计迁移。正式范围见[迁移计划](../../docs/design/backend-rust-migration-plan.md)、[R2 操作归属](../../docs/design/rust-r2-operation-slices.json)、[canonical inventory](../../docs/design/api-route-canonical-inventory.md)及[联合基线](../../docs/design/rust-r2ef-foundation-audit-baseline.md)。本页记录已执行证据及其来源阶段；联合 G3 判断、G4 收口和 Issue 状态由主代理另行记录。
+本目录承接同一批次的 E 公共基础与 F 运行审计迁移。正式范围见[迁移计划](../../docs/design/backend-rust-migration-plan.md)、[R2 操作归属](../../docs/design/rust-r2-operation-slices.json)、[canonical inventory](../../docs/design/api-route-canonical-inventory.md)及[联合基线](../../docs/design/archive/slices/rust-r2ef-foundation-audit-baseline.md)。本页记录已执行证据及其来源阶段；联合 G3 判断、G4 收口和 Issue 状态由主代理另行记录。
 
 ## 范围与单向权威
 
@@ -11,7 +11,7 @@
 
 `e-export.mjs`、`f-export.mjs` 生成对应 authority、golden、source 和 OpenAPI 子集。E 有 276 个原 Zod wire 用例；F 有 315 个 request schema 用例及九 target × 37 permission 的 333 次原 service 探测。纯源 oracle、单元测试、实际 HTTP、SQL 和浏览器用例分别计数。
 
-[纠偏记录](../../docs/design/rust-r2ef-corrective-checkpoint.md)保留三个已经识别的边界：原 Zod 对相关字符串按实际 code point 计数；原 `BusinessNumberService.next(..., transactionalEm)` 仍通过未传 `ctx` 的 `getConnection().execute()` 独立消号；E 动态 capture 的非法 percent/UTF8 必须先于 method/auth 处理，字典 simple query 先截取 1000 个原始 pair，空 pair 也计数。
+[纠偏记录](../../docs/design/archive/slices/rust-r2ef-corrective-checkpoint.md)保留三个已经识别的边界：原 Zod 对相关字符串按实际 code point 计数；原 `BusinessNumberService.next(..., transactionalEm)` 仍通过未传 `ctx` 的 `getConnection().execute()` 独立消号；E 动态 capture 的非法 percent/UTF8 必须先于 method/auth 处理，字典 simple query 先截取 1000 个原始 pair，空 pair 也计数。
 
 Rust 默认 `next()` 保留独立分配。`next_with_connection()` 是明确借用 SQLx connection 的内部 primitive，其回滚测试证明该能力；原 Nest 九 scope 的真实见证显示外层事务回滚后编号仍已消耗。后续 caller 迁移须逐链确认事务语义。
 
@@ -100,3 +100,6 @@ cargo build --locked --offline --release
 ```
 
 HTTP、并发、SQL witness、PG 与 browser 命令会访问受控目标；共享同一个 backend 数据库的写入由主代理串行协调。`--self-test` / `--plan` 是对应工具的纯检查或计划输出，不能替代实际执行。独立 PG primitive、浏览器 HTTP、真实 UI、source oracle 和全量 HTTP 的结果不交叉冒名，也不累加成新的统一总数。
+
+
+联合G3已通过，实现`9b3086f6957dfed318a7a53d10cf245394d5282f`已推送main。G4随本次归档提交推送与Issue核对生效；[收口记录](../../docs/design/archive/slices/rust-r2ef-closeout.md)和[独审原件](../../docs/design/rust-r2ef-review.json)为当前入口。PG17与旧环境保留。原页面已有“Invalid PrimeUI License”提示保留为既有UI限制，未改变授权或掩盖提示。

@@ -142,7 +142,7 @@
       "taskId": "RUST-R2E",
       "title": "字典、系统设置与业务编号机制",
       "issue": 72,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 6,
       "proposedDependencies": [
@@ -152,17 +152,24 @@
       "nonHttpAndDomainInputs": [
         "BusinessNumberService 九种 scope；业务调用方随 R3/R4 接入"
       ],
-      "baseline": "docs/design/rust-r2ef-foundation-audit-baseline.md",
+      "baseline": "docs/design/archive/slices/rust-r2ef-foundation-audit-baseline.md",
       "g1FrozenAt": "2026-10-28T03:19:33.981Z",
       "g1ReviewedBaselineSha256": "65279d001e7a4a3553d4f9be179bce563dd8f1344039a2be8492788c350a35d6",
       "g1FrozenBaselineSha256": "ad54bc2f4635369d1696b60208eeb86fdbc7a39dc7696766254764d499a79f56",
-      "batchId": "RUST-R2EF"
+      "batchId": "RUST-R2EF",
+      "g3": "Pass",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "implementationCommit": "9b3086f6957dfed318a7a53d10cf245394d5282f",
+      "validation": "docs/design/rust-r2ef-validation.json",
+      "review": "docs/design/rust-r2ef-review.json",
+      "closeout": "docs/design/archive/slices/rust-r2ef-closeout.md",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/72#issuecomment-6461388851"
     },
     {
       "taskId": "RUST-R2F",
       "title": "审计读取与前端路由拒绝事件",
       "issue": 73,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 4,
       "proposedDependencies": [
@@ -172,11 +179,18 @@
       "nonHttpAndDomainInputs": [
         "按对象类型的审计权限与投影；不可暴露敏感快照"
       ],
-      "baseline": "docs/design/rust-r2ef-foundation-audit-baseline.md",
+      "baseline": "docs/design/archive/slices/rust-r2ef-foundation-audit-baseline.md",
       "g1FrozenAt": "2026-10-28T03:19:33.981Z",
       "g1ReviewedBaselineSha256": "65279d001e7a4a3553d4f9be179bce563dd8f1344039a2be8492788c350a35d6",
       "g1FrozenBaselineSha256": "ad54bc2f4635369d1696b60208eeb86fdbc7a39dc7696766254764d499a79f56",
-      "batchId": "RUST-R2EF"
+      "batchId": "RUST-R2EF",
+      "g3": "Pass",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "implementationCommit": "9b3086f6957dfed318a7a53d10cf245394d5282f",
+      "validation": "docs/design/rust-r2ef-validation.json",
+      "review": "docs/design/rust-r2ef-review.json",
+      "closeout": "docs/design/archive/slices/rust-r2ef-closeout.md",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/73#issuecomment-6461390917"
     },
     {
       "taskId": "RUST-R2G",
@@ -15817,8 +15831,29 @@
       72,
       73
     ],
-    "status": "Doing",
-    "baseline": "docs/design/rust-r2ef-foundation-audit-baseline.md",
-    "policy": "Parallel E/F implementation; unified common regression, independent review, evidence preservation and G4; per-slice outcomes remain separate"
+    "status": "Done",
+    "baseline": "docs/design/archive/slices/rust-r2ef-foundation-audit-baseline.md",
+    "policy": "Parallel E/F implementation; unified common regression, independent review, evidence preservation and G4; per-slice outcomes remain separate",
+    "g3": "Pass",
+    "g4": "Pass upon archive push and issue reconciliation",
+    "implementationCommit": "9b3086f6957dfed318a7a53d10cf245394d5282f",
+    "validation": "docs/design/rust-r2ef-validation.json",
+    "review": "docs/design/rust-r2ef-review.json",
+    "closeout": "docs/design/archive/slices/rust-r2ef-closeout.md"
+  },
+  "currentDeliverySummary": {
+    "deliveredOperations": 40,
+    "totalOperations": 108,
+    "remainingOperations": 68,
+    "deliveredSlices": [
+      "RUST-R2A",
+      "RUST-R2B",
+      "RUST-R2C",
+      "RUST-R2D",
+      "RUST-R2E",
+      "RUST-R2F"
+    ],
+    "parentState": "Doing/Open; R2M and G–M/#61 dependencies remain",
+    "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved"
   }
 }

@@ -306,3 +306,10 @@ R2D既有11操作完成实现与实际验收，[非作者G3 Pass](https://github
 ### 2026-10-28 RUST-R2D G4归档
 
 R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归档前集成静态检查实际8步通过、26项适配器0skip、1747来源前后核等；这不是新增数据库、HTTP或浏览器实跑，独立集成复核及原回执由[机器验收](rust-r2d-validation.json)的closure绑定。本片11操作的完整证据见[归档收口](archive/slices/rust-r2d-closeout.md)与[纠偏](archive/slices/rust-r2d-corrective-checkpoint.md)。G4随归档提交推送与Issue同步生效；届时仅#71完成，R2A/B/C/D累计30/108，剩余78操作及R2M阶段验收，父#67/#57保持Open，E–M与#61状态不变。G1原字节和G3受审原件保留，完整currentSourceManifest不删docs/tmp；集成检查时点在归档前，路径/hash迁移另记，不改写历史运行来源。旧失败、P3有限URI、schema既有差异及PG17/旧数据保留边界不变。上方带日期的历史状态保留，以本条为当前收口说明。
+
+
+### 2026-10-28 RUST-R2E/F 联合G4收口
+
+R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https://github.com/illusion-tech/poms/issues/73) 共10个既有操作及9scope编号内部机制已交付，实现 `9b3086f6957dfed318a7a53d10cf245394d5282f` 已集成推送main。C联合G3 Pass，未关闭P0/P1/P2为0；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)和[归档收口](archive/slices/rust-r2ef-closeout.md)分列旧393完整对照与修后E54/18增量，最终Rust149/显式PG4/四组合UI8/基础认证26及40run二次零残留。
+
+本G4随归档提交推送与Issue核对生效，仅关闭#72/#73。R2A–F累计 **40/108**，剩余 **68个操作及R2M验收**；父#67/#57保持Doing/Open，G–M与#61依赖不变。原G1/G3原字节及旧失败保留，PG17实例和数据、旧环境均保留；无部署、产品DDL或性能结论。本条为最新状态，上方带日期的G1/旧切片状态保留历史含义。
