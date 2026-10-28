@@ -529,3 +529,15 @@ R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归�
 R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https://github.com/illusion-tech/poms/issues/73) 共10个既有操作及9scope编号内部机制已交付，实现 `9b3086f6957dfed318a7a53d10cf245394d5282f` 已集成推送main。C联合G3 Pass，未关闭P0/P1/P2为0；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)和[归档收口](archive/slices/rust-r2ef-closeout.md)分列旧393完整对照与修后E54/18增量，最终Rust149/显式PG4/四组合UI8/基础认证26及40run二次零残留。
 
 本G4随归档提交推送与Issue核对生效，仅关闭#72/#73。R2A–F累计 **40/108**，剩余 **68个操作及R2M验收**；父#67/#57保持Doing/Open，G–M与#61依赖不变。原G1/G3原字节及旧失败保留，PG17实例和数据、旧环境均保留；无部署、产品DDL或性能结论。本条为最新状态，上方带日期的G1/旧切片状态保留历史含义。
+
+### 2026-10-28 RUST-R2G/H 联合G1冻结
+
+用户授权继续下一批，G #74（16操作）与H #75（18操作）按[身份/组织联合基线](rust-r2gh-identity-directory-baseline.md)于2026-10-28T07:28:50.263Z冻结，来源main`126ede22bb4b379ae656ccde9cee9d82da383be4`；同一candidate02经非作者C增量复核Pass，未关闭P0/P1/P2为0，首轮Block与原文保留。[G G1](https://github.com/illusion-tech/poms/issues/74#issuecomment-6463306038)、[H G1](https://github.com/illusion-tech/poms/issues/75#issuecomment-6463308940)已同步Doing。Root集中共享端口、环境、Nest见证和统一真实验收，两位独立上下文作者按模块并行；G3/G4仍待完成。仅新PG15 pair poms_r2gh_nest/poms_r2gh_rust，受控上游协议集成不宣称真实Feishu账号成功；PG17/primary/旧环境和数据保留。当前交付仍40/108，父#67/#57保持Open，I-M与#61状态不变。
+
+### 2026-10-28 RUST-R2G/H 实际验收完成，G3待审
+
+34个既有操作已实现并完成集中验收：candidate04的G07/H08每端128个用例HTTP响应、3组受控竞争，最终transport18、native PG每库12、四组合原页面8与基础认证52、Rust162/54 ignored分列；OpenAPI65 paths/81 operations递归对齐原规范。完整原spec/client/92 migration与TS/Angular产品保持不变。60个attempted run / 120份journal在final02全量连续两轮0/0，所有本批服务正常停止、四端口释放；旧失败UI残项的final01补清和marker纠偏单列，参见[纠偏](rust-r2gh-corrective-checkpoint.md)、[验收](rust-r2gh-validation.json)。非作者联合G3、提交推送/集成和G4仍待完成，仅#74/#75保持Doing，当前交付仍40/108；父#67/#57、I–M与#61不变。
+
+### 2026-10-29 RUST-R2G/H 同次G3最终通过
+
+[最终非作者review02](rust-r2gh-review02.json) Pass，P0/P1/P2/P3未关闭均为0；初审Block保持原字节，四项集中纠偏由[增量02](rust-r2gh-g3-delta02.json)与完整3,479项[受审来源](rust-r2gh-source-manifest.json)绑定。修后每端137 captured-case HTTP、3组竞争、transport20、双库4个外引拒绝反例0DML、工具23、Rust162/54 ignored与受影响Rust原页面4条复验均通过；72 backend/run/144 journal全量两轮0/0，owner正常停止与四端口释放。仅授权既有solo提交/推送及集成后核验，G4未完成、#74/#75仍Doing，当前40/108，父#67/#57及I–M/#61不变。

@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
-**日期**: 2026-10-28
-**状态**: R2A–F已交付 / G4随本归档推送与Issue同步生效；累计40/108，余68操作及R2M；G–M为Todo，各自冻结G1，父#67/#57保持Open
+**日期**: 2026-10-29
+**状态**: R2A–F已交付，累计40/108，余68操作及R2M；G/H Doing / 联合G3最终Pass，提交集成及G4待完成；I–M为Todo，父#67/#57保持Open
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次

@@ -13,7 +13,7 @@ function suiteFor(mode, value) {
 function resolveApiPlan({ env = process.env, cwd = process.cwd() } = {}) {
     if (Object.keys(env).some((key) => key.toUpperCase() === 'POMS_E2E_ENV_PROFILE' && key !== 'POMS_E2E_ENV_PROFILE')) throw new Error('Environment profile must use its exact uppercase name');
     const profile = env.POMS_E2E_ENV_PROFILE ?? 'r1d';
-    if (!['r1d', 'r1e', 'r2a', 'r2b', 'r2c', 'r2d', 'r2ef'].includes(profile)) throw new Error('Invalid POMS_E2E_ENV_PROFILE');
+    if (!['r1d', 'r1e', 'r2a', 'r2b', 'r2c', 'r2d', 'r2ef', 'r2gh'].includes(profile)) throw new Error('Invalid POMS_E2E_ENV_PROFILE');
     const mode = env.POMS_E2E_MODE === undefined ? 'managed-nest' : env.POMS_E2E_MODE;
     if (!['managed-nest', 'managed-rust', 'external'].includes(mode)) throw new Error('Invalid POMS_E2E_MODE');
     const suite = suiteFor(mode, env.POMS_E2E_SUITE);
@@ -22,7 +22,9 @@ function resolveApiPlan({ env = process.env, cwd = process.cwd() } = {}) {
     // Import and call this guard only for managed mode. External needs no local
     // dotenv/DB environment and cannot inherit its filesystem side effects.
     const { loadManagedEnvironment } =
-        profile === 'r2ef'
+        profile === 'r2gh'
+            ? require('../rust-r2gh/managed-environment.cjs')
+            : profile === 'r2ef'
             ? require('../rust-r2ef/managed-environment.cjs')
             : profile === 'r2d'
             ? require('../rust-r2d/managed-environment.cjs')

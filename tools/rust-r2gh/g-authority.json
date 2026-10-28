@@ -1,0 +1,1703 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/api/auth/external-login-sessions",
+      "operationId": "AuthController_createExternalLoginSession",
+      "source": {
+        "path": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+        "line": 175
+      },
+      "authorization": {
+        "mode": "public",
+        "all": [],
+        "any": [],
+        "csrf": "double-submit-header-cookie",
+        "evidence": [
+          "@Public()",
+          "@ApiSecurity('pomsCsrf')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "body",
+          "type": "CreateExternalLoginSessionRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        },
+        {
+          "parameter": "res",
+          "type": "HeaderResponse",
+          "decorators": [
+            "@Res({ passthrough: true })"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "CreateExternalLoginSessionRequestDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 48,
+          "schema": "CreateExternalLoginSessionRequestSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 48
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1299
+          },
+          "schemaReferences": [
+            {
+              "name": "CreateExternalLoginSessionRequestSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1299
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "CurrentAuthSessionViewDto",
+          "path": "libs/api/contracts/src/lib/auth/user.dto.ts",
+          "line": 62,
+          "schema": "CurrentAuthSessionViewSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/auth/user.dto.ts",
+            "line": 62
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1718
+          },
+          "schemaReferences": [
+            {
+              "name": "CurrentAuthSessionViewSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1718
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.consumeExternalLoginSession",
+        "this.platformService.resolveActiveAuthUser"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 424
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/auth/external-login-sessions"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/auth/external-login-sessions"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "route 已对齐；response / side effect 已由 `EX-66C` direct cutover 为 `Set-Cookie` session + `CurrentAuthSessionView`，不再返回 POMS JWT / `accessToken`。"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "operationId": "AuthController_listEnabledLoginProviders",
+      "source": {
+        "path": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+        "line": 145
+      },
+      "authorization": {
+        "mode": "public",
+        "all": [],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@Public()"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [],
+      "dtoSources": [
+        {
+          "name": "EnabledLoginProviderListDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 40,
+          "schema": "EnabledLoginProviderListSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 40
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1263
+          },
+          "schemaReferences": [
+            {
+              "name": "EnabledLoginProviderListSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1263
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.listEnabledLoginProviders"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 421
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/auth/identity-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/auth/identity-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64E` implemented; public login provider list, no secrets."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/identity-providers:callback",
+      "operationId": "AuthController_handleExternalLoginCallback",
+      "source": {
+        "path": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+        "line": 161
+      },
+      "authorization": {
+        "mode": "public",
+        "all": [],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@Public()"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "query",
+          "type": "ExternalLoginCallbackQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "ExternalLoginCallbackQueryDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 44,
+          "schema": "ExternalLoginCallbackQuerySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 44
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1276
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalLoginCallbackQuerySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1276
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "ExternalLoginCallbackResultDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 46,
+          "schema": "ExternalLoginCallbackResultSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 46
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1287
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalLoginCallbackResultSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1287
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.handleExternalLoginCallback"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 423
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/auth/identity-providers:callback"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/auth/identity-providers:callback"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64E` implemented; generic callback, state carries provider config identity."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/identity-providers/{id}:authorize",
+      "operationId": "AuthController_authorizeExternalLogin",
+      "source": {
+        "path": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+        "line": 153
+      },
+      "authorization": {
+        "mode": "public",
+        "all": [],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@Public()"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "ExternalLoginAuthorizeResultDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 42,
+          "schema": "ExternalLoginAuthorizeResultSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 42
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1267
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalLoginAuthorizeResultSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1267
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.authorizeExternalLogin"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 422
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/auth/identity-providers/{id}:authorize"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/auth/identity-providers/{id}:authorize"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64E` implemented; starts browser OAuth login flow."
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/external-identities/{id}:unbind",
+      "operationId": "ExternalIdentityController_unbindExternalIdentity",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/external-identity.controller.ts",
+        "line": 30
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:users:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:users:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "parameter": "body",
+          "type": "UnbindExternalIdentityRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "ExternalIdentityBindingDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 60,
+          "schema": "ExternalIdentityBindingSummarySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 60
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1316
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalIdentityBindingSummarySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1316
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "UnbindExternalIdentityRequestDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 66,
+          "schema": "UnbindExternalIdentityRequestSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 66
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1363
+          },
+          "schemaReferences": [
+            {
+              "name": "UnbindExternalIdentityRequestSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1363
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.unbindExternalIdentity"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 432
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/external-identities/{id}:unbind"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/external-identities/{id}:unbind"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64C` implemented; status transition with audit, not physical delete."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/identity-provider-oauth-grants:callback",
+      "operationId": "IdentityProviderOAuthGrantController_handleCurrentAdminProviderGrantCallback",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider-oauth-grant.controller.ts",
+        "line": 41
+      },
+      "authorization": {
+        "mode": "public",
+        "all": [],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@Public()"
+        ]
+      },
+      "responseStatusCodes": [
+        "200",
+        "302"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "query",
+          "type": "IdentityProviderOAuthCallbackQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "OAuthCallbackRequest",
+          "decorators": [
+            "@Request()"
+          ]
+        },
+        {
+          "parameter": "res",
+          "type": "OAuthCallbackResponse",
+          "decorators": [
+            "@Res({ passthrough: true })"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderOAuthCallbackQueryDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 54,
+          "schema": "IdentityProviderOAuthCallbackQuerySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 54
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1180
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderOAuthCallbackQuerySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1180
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "IdentityProviderOAuthGrantDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 50,
+          "schema": "IdentityProviderOAuthGrantSummarySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 50
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1148
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderOAuthGrantSummarySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1148
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.handleCurrentAdminProviderGrantCallback"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 436
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-provider-oauth-grants:callback"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-provider-oauth-grants:callback"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64D` implemented; generic grant callback, state carries provider config."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/identity-provider-oauth-grants/{identityProviderId}",
+      "operationId": "IdentityProviderOAuthGrantController_getCurrentAdminProviderGrant",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider-oauth-grant.controller.ts",
+        "line": 29
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:users:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:users:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "identityProviderId",
+          "type": "string",
+          "decorators": [
+            "@Param('identityProviderId', new ParseUUIDPipe())"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderOAuthGrantDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 50,
+          "schema": "IdentityProviderOAuthGrantSummarySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 50
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1148
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderOAuthGrantSummarySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1148
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.getCurrentAdminProviderGrant"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 434
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-provider-oauth-grants/{identityProviderId}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-provider-oauth-grants/{identityProviderId}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64D` implemented; current admin grant status."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/identity-provider-oauth-grants/{identityProviderId}:authorize",
+      "operationId": "IdentityProviderOAuthGrantController_authorizeCurrentAdminProviderGrant",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider-oauth-grant.controller.ts",
+        "line": 17
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:users:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:users:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "identityProviderId",
+          "type": "string",
+          "decorators": [
+            "@Param('identityProviderId', new ParseUUIDPipe())"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderOAuthAuthorizeResultDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 52,
+          "schema": "IdentityProviderOAuthAuthorizeResultSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 52
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1171
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderOAuthAuthorizeResultSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1171
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.authorizeCurrentAdminProviderGrant"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 435
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-provider-oauth-grants/{identityProviderId}:authorize"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-provider-oauth-grants/{identityProviderId}:authorize"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64D` implemented; starts per-admin Feishu grant flow."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/identity-providers",
+      "operationId": "IdentityProviderController_listIdentityProviderConfigs",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+        "line": 24
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:identity-providers:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:identity-providers:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "query",
+          "type": "IdentityProviderConfigListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderConfigListDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 28,
+          "schema": "IdentityProviderConfigListSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 28
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 640
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderConfigListSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 640
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "IdentityProviderConfigListQueryDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 30,
+          "schema": "IdentityProviderConfigListQuerySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 30
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 644
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderConfigListQuerySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 644
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.listIdentityProviderConfigs"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 425
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64B` implemented; platform management config list."
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/identity-providers",
+      "operationId": "IdentityProviderController_createIdentityProviderConfig",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+        "line": 36
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:identity-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:identity-providers:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "201"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "body",
+          "type": "CreateIdentityProviderConfigRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "CreateIdentityProviderConfigRequestDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 32,
+          "schema": "CreateIdentityProviderConfigRequestSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 32
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 653
+          },
+          "schemaReferences": [
+            {
+              "name": "CreateIdentityProviderConfigRequestSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 653
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "IdentityProviderConfigDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 26,
+          "schema": "IdentityProviderConfigDetailSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 26
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 636
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderConfigDetailSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 636
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.createIdentityProviderConfig"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 426
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/identity-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/identity-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64B` implemented; create provider config with write-only secret."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/identity-providers/{id}",
+      "operationId": "IdentityProviderController_getIdentityProviderConfig",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+        "line": 44
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:identity-providers:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:identity-providers:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderConfigDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 26,
+          "schema": "IdentityProviderConfigDetailSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 26
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 636
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderConfigDetailSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 636
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.getIdentityProviderConfig"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 427
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-providers/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-providers/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64B` implemented; config detail without raw secret."
+        }
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/platform/identity-providers/{id}",
+      "operationId": "IdentityProviderController_updateIdentityProviderConfig",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+        "line": 52
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:identity-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:identity-providers:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "parameter": "body",
+          "type": "UpdateIdentityProviderConfigRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderConfigDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 26,
+          "schema": "IdentityProviderConfigDetailSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 26
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 636
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderConfigDetailSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 636
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "UpdateIdentityProviderConfigRequestDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 34,
+          "schema": "UpdateIdentityProviderConfigRequestSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 34
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 675
+          },
+          "schemaReferences": [
+            {
+              "name": "UpdateIdentityProviderConfigRequestSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 675
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.updateIdentityProviderConfig"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 428
+          },
+          "canonical": [
+            {
+              "method": "PATCH",
+              "path": "/platform/identity-providers/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "PATCH",
+              "path": "/platform/identity-providers/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64B` implemented; update flags, scopes, redirect URI, secret write state."
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/identity-providers/{id}:testConnection",
+      "operationId": "IdentityProviderController_testIdentityProviderConnection",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+        "line": 60
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:identity-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:identity-providers:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "parameter": "body",
+          "type": "TestIdentityProviderConnectionRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "IdentityProviderConnectionTestResultDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 38,
+          "schema": "IdentityProviderConnectionTestResultSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 38
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 735
+          },
+          "schemaReferences": [
+            {
+              "name": "IdentityProviderConnectionTestResultSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 735
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "TestIdentityProviderConnectionRequestDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 36,
+          "schema": "TestIdentityProviderConnectionRequestSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 36
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 713
+          },
+          "schemaReferences": [
+            {
+              "name": "TestIdentityProviderConnectionRequestSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 713
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.testIdentityProviderConnection"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 429
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/identity-providers/{id}:testConnection"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/identity-providers/{id}:testConnection"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64B` implemented; validates config without persisting external user."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/identity-providers/{id}/external-users",
+      "operationId": "IdentityProviderController_searchExternalUsers",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+        "line": 69
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:users:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:users:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "parameter": "query",
+          "type": "ExternalUserSearchQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "ExternalUserSearchQueryDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 56,
+          "schema": "ExternalUserSearchQuerySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 56
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1191
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalUserSearchQuerySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1191
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "ExternalUserSearchResultDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 58,
+          "schema": "ExternalUserSearchResultSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 58
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1238
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalUserSearchResultSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1238
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.searchExternalUsers"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 433
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-providers/{id}/external-users"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/identity-providers/{id}/external-users"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64D` implemented; Feishu name fuzzy search through current admin grant."
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/users/{id}/external-identities",
+      "operationId": "ExternalIdentityController_listUserExternalIdentities",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/external-identity.controller.ts",
+        "line": 14
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:users:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:users:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "200"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "ExternalIdentityBindingListDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 62,
+          "schema": "ExternalIdentityBindingListSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 62
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1344
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalIdentityBindingListSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1344
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.listUserExternalIdentities"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 430
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/users/{id}/external-identities"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/users/{id}/external-identities"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64C` implemented; user detail binding list."
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/users/{id}/external-identities",
+      "operationId": "ExternalIdentityController_bindUserExternalIdentity",
+      "source": {
+        "path": "apps/poms-api/src/app/features/identity-provider/external-identity.controller.ts",
+        "line": 22
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:users:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:users:manage')"
+        ]
+      },
+      "responseStatusCodes": [
+        "201"
+      ],
+      "inputParameters": [
+        {
+          "parameter": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "parameter": "body",
+          "type": "BindUserExternalIdentityRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "parameter": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "dtoSources": [
+        {
+          "name": "BindUserExternalIdentityRequestDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 64,
+          "schema": "BindUserExternalIdentityRequestSchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 64
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1348
+          },
+          "schemaReferences": [
+            {
+              "name": "BindUserExternalIdentityRequestSchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1348
+            }
+          ],
+          "limitation": null
+        },
+        {
+          "name": "ExternalIdentityBindingDto",
+          "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+          "line": 60,
+          "schema": "ExternalIdentityBindingSummarySchema",
+          "schemaKind": "named-zod-schema",
+          "schemaExpressionSource": {
+            "path": "libs/api/contracts/src/lib/identity-provider/identity-provider.dto.ts",
+            "line": 60
+          },
+          "schemaSource": {
+            "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "line": 1316
+          },
+          "schemaReferences": [
+            {
+              "name": "ExternalIdentityBindingSummarySchema",
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 1316
+            }
+          ],
+          "limitation": null
+        }
+      ],
+      "serviceCallClues": [
+        "this.identityProviderService.bindUserExternalIdentity"
+      ],
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 431
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/users/{id}/external-identities"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/users/{id}/external-identities"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-64C` implemented; admin creates selected external subject binding."
+        }
+      ]
+    }
+  ],
+  "scopeMaxItems": 32,
+  "scopeMaxLength": 128,
+  "identityProviders": [
+    "feishu"
+  ],
+  "configStatuses": [
+    "draft",
+    "active",
+    "disabled",
+    "misconfigured"
+  ],
+  "searchGrantModes": [
+    "per-admin",
+    "service-account"
+  ]
+}

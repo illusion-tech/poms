@@ -51,15 +51,15 @@ function configure({ env = process.env, cwd = workspaceRoot, platform = process.
     if (platform === 'win32' && mode === 'managed-rust') throw configurationError('Windows uses an independently owned external Rust server');
     if (externalApi && mode !== 'external') throw configurationError('managed API mode cannot also specify an external API URL');
     const suite = env.POMS_ADMIN_E2E_SUITE ?? (mode === 'managed-nest' ? 'legacy' : undefined);
-    if (!['auth', 'legacy', 'stage', 'navigation', 'roles', 'organizations', 'users', 'foundation-audit'].includes(suite)) throw configurationError('explicit POMS_ADMIN_E2E_SUITE=auth|legacy|stage|navigation|roles|organizations|users|foundation-audit is required');
+    if (!['auth', 'legacy', 'stage', 'navigation', 'roles', 'organizations', 'users', 'foundation-audit', 'identity-directory'].includes(suite)) throw configurationError('explicit POMS_ADMIN_E2E_SUITE=auth|legacy|stage|navigation|roles|organizations|users|foundation-audit|identity-directory is required');
     if (mode === 'managed-rust' && suite === 'legacy') throw configurationError('Rust browser coverage uses an explicit auth or stage suite');
     if (suite === 'auth' && (typeof env.POMS_E2E_USERNAME !== 'string' || !env.POMS_E2E_USERNAME.trim() || typeof env.POMS_E2E_PASSWORD !== 'string' || !env.POMS_E2E_PASSWORD)) {
         throw configurationError('auth smoke requires explicit synthetic POMS_E2E_USERNAME and POMS_E2E_PASSWORD');
     }
     let stageBackend = null;
-    if (suite === 'stage' || suite === 'navigation' || suite === 'roles' || suite === 'organizations' || suite === 'users' || suite === 'foundation-audit') {
-        const backendKey = suite === 'foundation-audit' ? 'POMS_R2EF_BACKEND' : suite === 'users' ? 'POMS_R2D_BACKEND' : suite === 'organizations' ? 'POMS_R2C_BACKEND' : suite === 'roles' ? 'POMS_R2B_BACKEND' : suite === 'navigation' ? 'POMS_R2A_BACKEND' : 'POMS_R1E_BACKEND';
-        const profile = suite === 'foundation-audit' ? 'r2ef' : suite === 'users' ? 'r2d' : suite === 'organizations' ? 'r2c' : suite === 'roles' ? 'r2b' : suite === 'navigation' ? 'r2a' : 'r1e';
+    if (suite === 'stage' || suite === 'navigation' || suite === 'roles' || suite === 'organizations' || suite === 'users' || suite === 'foundation-audit' || suite === 'identity-directory') {
+        const backendKey = suite === 'identity-directory' ? 'POMS_R2GH_BACKEND' : suite === 'foundation-audit' ? 'POMS_R2EF_BACKEND' : suite === 'users' ? 'POMS_R2D_BACKEND' : suite === 'organizations' ? 'POMS_R2C_BACKEND' : suite === 'roles' ? 'POMS_R2B_BACKEND' : suite === 'navigation' ? 'POMS_R2A_BACKEND' : 'POMS_R1E_BACKEND';
+        const profile = suite === 'identity-directory' ? 'r2gh' : suite === 'foundation-audit' ? 'r2ef' : suite === 'users' ? 'r2d' : suite === 'organizations' ? 'r2c' : suite === 'roles' ? 'r2b' : suite === 'navigation' ? 'r2a' : 'r1e';
         stageBackend = mode === 'managed-nest' ? 'nest' : mode === 'managed-rust' ? 'rust' : env[backendKey];
         if (!['nest', 'rust'].includes(stageBackend)) throw configurationError(`external ${suite} requires explicit ${backendKey}=nest|rust`);
         if (env[backendKey] !== undefined && env[backendKey] !== stageBackend) throw configurationError(`${suite} backend conflicts with managed API mode`);
@@ -116,6 +116,8 @@ function configure({ env = process.env, cwd = workspaceRoot, platform = process.
                         ? ['**/r2c-organizations.spec.ts']
                         : suite === 'users'
                           ? ['**/r2d-users.spec.ts']
+                          : suite === 'identity-directory'
+                            ? ['**/g-browser.spec.ts', '**/h-browser.spec.ts']
                           : suite === 'foundation-audit'
                             ? ['**/r2ef-foundation-audit.spec.ts']
                           : legacyFiles.map((file) => `**/${file}`)

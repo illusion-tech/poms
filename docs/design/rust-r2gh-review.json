@@ -1,0 +1,321 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2GH-unified-G3-independent-non-author-review",
+  "reviewedAtUtc": "2026-10-28 13:41:22 UTC",
+  "reviewMode": "本批唯一正式联合 G3 完整审查；后续仅允许同一次审查的必要修复增量复核",
+  "reviewer": {
+    "agent": "/root/r2gh_review",
+    "role": "非作者 C",
+    "modelTarget": "gpt-6.1-sol",
+    "reasoningTarget": "max",
+    "fast": "未核实",
+    "productAuthorship": false,
+    "fixtureOrRunnerAuthorship": false
+  },
+  "frozenInput": {
+    "base": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+    "branchDeclared": "codex/poms-r2gh-identity-directory",
+    "validation": {
+      "path": "docs/design/rust-r2gh-validation.json",
+      "bytes": 28388,
+      "rawBytesSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c"
+    },
+    "immutableCopy": {
+      "path": "tmp/rust-r2gh/g3-reviewed-input01.json",
+      "bytes": 28388,
+      "rawBytesSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c"
+    },
+    "freeze": {
+      "path": "tmp/rust-r2gh/g3-freeze01.json",
+      "bytes": 1129,
+      "rawBytesSha256": "48849116043a6b0e533bdbac16fc9188848d9853435e842e1a910fa4676250c4"
+    },
+    "sourceUnion": {
+      "path": "tmp/rust-r2gh/g3-source-manifest01.json",
+      "files": 3406,
+      "bytes": 1058698,
+      "rawBytesSha256": "7533ed0952db15c14dae259034bac88517ff8e3b38c399816b468345f148db31",
+      "aggregateSha256": "7a9c6220b6a6dade2a6d417602910852356fa99a9b8e4a590f88148de0bac40d"
+    },
+    "linuxManifest": {
+      "path": "tmp/rust-r2gh/linux-evidence/linux-manifest-g3-01.json",
+      "bytes": 763317,
+      "rawBytesSha256": "4166ec081de85e64d61529cc2fc9bf65dca9c36429b01681ccced4bbc3522cd3"
+    },
+    "scope": {
+      "G": 16,
+      "H": 18,
+      "issues": [
+        74,
+        75
+      ],
+      "parents": [
+        67,
+        57
+      ],
+      "implementationCommitted": false
+    },
+    "inputHashesRecheckedBeforeReport": true
+  },
+  "decision": "Block",
+  "priorityCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 3,
+    "P3": 1
+  },
+  "canCommitOrMerge": false,
+  "canCloseChildren": false,
+  "findings": [
+    {
+      "id": "C-G3-01",
+      "priority": "P2",
+      "blocking": true,
+      "classification": "new-real-drift",
+      "title": "G 解密失败必须保留原 400 与 unreadable message",
+      "location": {
+        "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+        "start": 434,
+        "end": 439
+      },
+      "sourceEvidence": [
+        {
+          "file": "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+          "lines": [
+            27,
+            30,
+            38,
+            39
+          ],
+          "fact": "格式错误或解密认证失败均抛 BadRequestException，使用 identity options 的 unreadableMessage。"
+        },
+        {
+          "file": "apps/poms-api/src/app/features/identity-provider/identity-provider-secret.constants.ts",
+          "line": 6,
+          "fact": "Identity provider secret is not readable."
+        },
+        {
+          "file": "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+          "lines": [
+            225,
+            286,
+            287,
+            288,
+            390,
+            393,
+            394,
+            395,
+            470
+          ],
+          "fact": "登录/管理员 callback 仅重映射 AdapterError，其他解密异常原样保留；search catch 保存失败信息后重抛原解密异常。"
+        }
+      ],
+      "problem": "Rust decrypt helper 将任何 CryptoError 统一变成 ApiError::internal()。当已保存 client secret 或 grant access-token 密文破损，原 Nest 返回 400 和 Identity provider secret is not readable.，Rust 返回 500。H 同类路径已按 BadRequest(error.to_string()) 处理，但 G 的真实 HTTP corpus 未覆盖这个分支。",
+      "requiredFix": "将 SecretUnreadable 映射为原 400/message，保留其它内部 crypto 故障分类；不改变 readiness 的既有诊断包装、search 的 lastError 保存顺序或独立 flush。",
+      "requiredIncrementalEvidence": "用 run-owned provider/grant 注入坏密文，原 Nest/Rust 对照登录 callback、管理员 JSON callback、search；核 status/body、是否发上游请求、search lastError/版本/审计/分段 PG 事实与双次清理。补窄 helper 回归即可，不要求无关整批 UI 重跑。",
+      "proofLevel": "直接源对齐；C 未执行 HTTP 或 DB"
+    },
+    {
+      "id": "C-G3-02",
+      "priority": "P2",
+      "blocking": true,
+      "classification": "new-real-drift",
+      "title": "GH extension 清理前缺少完整逻辑外引与未知 FK 形状预检",
+      "location": {
+        "file": "tools/rust-r2gh/owned-fixture.mjs",
+        "start": 280,
+        "end": 335
+      },
+      "relatedLocations": [
+        {
+          "file": "tools/rust-r2gh/fixture-cleanup.mjs",
+          "start": 103,
+          "end": 126
+        },
+        {
+          "file": "tools/rust-r2gh/owned-fixture.mjs",
+          "start": 267,
+          "end": 282
+        }
+      ],
+      "problem": "assertReferences 只枚举指向 extension tables 的单列真实 FK，显式不查 audit_log，并跳过复合 FK。extension DELETE 已 COMMIT 后才调用 base cleanup；base 的全表逻辑扫描只用 base user/role/org IDs，不包含 provider/source/run/diff 等 GH IDs。因此 G1 冻结的完整未知 FK/逻辑外引阻断并未实现。",
+      "concreteCounterexample": "存在未登记 audit_log 行，target_type='UnregisteredGHReference'、target_id=本 run provider ID、operator_id=NULL、event_type='synthetic.foreign-reference'。它没有真实 FK，不被 adoptAudits 的 auditTypes 收编，也不含 base ID。两层 guard 都看不到它，cleanup 可删除 provider 并报 zero，留下外部逻辑引用。此为静态可执行反例描述，C 未创建该行。",
+      "requiredFix": "在首个 DELETE 前，以精确 journal 中 GH 和 base 对象 ID 的完整集合扫描所有既有表的逻辑引用，并按完整 ownership/原行身份只放行已登记行；在删除前识别未知或复合/变形 FK，而不是通过 cardinality=1 静默跳过。保持现有隔离库/role/marker、精确 ID、子树、审计所有权规则，不按 prefix 收编或清除未知行。",
+      "requiredIncrementalEvidence": "增加未知逻辑引用和复合/未知 FK 形状的拒绝反例，证明在任何 DELETE 前停止且不改 foreign row；增加正常 GH/base 引用可通过的正例。由 Root 在新 owned 数据上做双库 cleanup smoke 和全 journal 双轮 zero。若只修清理 guard，旧产品 HTTP/UI 结果保留其原 runtime 工具字节，无需机械重跑全 UI。",
+      "proofLevel": "fixture 两层源代码、现有 safety tests 与已冻结 cleanup 原件的完整审查；不是宣称当前数据库已出现该 foreign row"
+    },
+    {
+      "id": "C-G3-03",
+      "priority": "P2",
+      "blocking": true,
+      "classification": "new-real-drift",
+      "title": "不支持的上游 URL 协议被改写为通用网络错误",
+      "location": {
+        "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+        "start": 199,
+        "end": 217
+      },
+      "relatedLocations": [
+        {
+          "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+          "start": 311,
+          "end": 371
+        },
+        {
+          "file": "apps/poms-api-rust/src/identity_providers/adapter.rs",
+          "start": 215,
+          "end": 232
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "E:/projects/poms/node_modules/.pnpm/axios@1.20.0_debug@4.4.3_su_e4168974f8ce958516c02959aebbd2fb/node_modules/axios/lib/adapters/http.js",
+          "start": 783,
+          "end": 785,
+          "fact": "锁定 axios 对 unsupported protocol 生成 ERR_BAD_REQUEST 和 Unsupported protocol <scheme>。"
+        },
+        {
+          "file": "E:/projects/poms/node_modules/.pnpm/axios@1.20.0_debug@4.4.3_su_e4168974f8ce958516c02959aebbd2fb/node_modules/axios/dist/node/axios.cjs",
+          "line": 2188,
+          "fact": "锁定 Node adapter 协议集合为 http/https/file/data，不含 ftp。"
+        }
+      ],
+      "problem": "request_url 只做 Url::parse；例如 ftp://127.0.0.1:5900/oauth/token 是可解析 URL，但会在 reqwest 构造/发送阶段失败，随后落到 transport_error 的 ERR_NETWORK。原 axios 在网络前即返回 ERR_BAD_REQUEST/Unsupported protocol ftp:。G 无 response 错误直接投影 code，H 使用 message，故两个域的可见错误都漂移。现有 18 项 transport 没有此分支。",
+      "requiredFix": "保留原 unsupported-scheme 的 Axios 分类、code/message 和 adapter 位置；不要以通用 reqwest 错误代替，也不要把错误变成 API 启动失败或声称支持新供应商。",
+      "requiredIncrementalEvidence": "补有限原 axios/Rust transport 对照 unsupported ftp URL，证明零外部请求及一致 code/message；用一条 G 或 H adapter 错误投影验证可见契约。只补受影响共享 transport/adapter 检查，不扩大真实租户范围。",
+      "proofLevel": "锁定依赖源与 Rust 分支直接对照；C 未发网络请求"
+    },
+    {
+      "id": "C-G3-04",
+      "priority": "P3",
+      "blocking": false,
+      "classification": "tool-noise",
+      "title": "时间投影应限制到已声明的动态字段",
+      "location": {
+        "file": "tools/rust-r2gh/compat-acceptance.mjs",
+        "start": 154,
+        "end": 166
+      },
+      "problem": "normalize 按任意 ISO 时间文本投影为 timestamp/millisecondAligned，不检查字段路径。requestSnapshot 等合法任意 JSON 中的业务 ISO 字符串也会被投影；不同业务字符串若均为毫秒对齐日期，比较将无法区分。stateExpiresAt 当前只验可解析 ISO，实际时间收据没有单独证明 10 分钟 state/2 分钟 ticket TTL。",
+      "recommendation": "把动态时间字段按路径或来源显式登记；任意业务 JSON 文本保持原值。对 state/ticket 的签名 exp、响应时间和 PG 到期值补有限 TTL/相互一致性断言；否则把现有证据准确描述为时间格式/毫秒对齐投影，而非所有时间语义严格相等。",
+      "currentEvidenceLimit": "未发现本次实际记录中有产品失败被此规则掩盖；现有原始时间收据与已知原语义保留，因此本项不单独阻断 G3。"
+    }
+  ],
+  "coverageAndVerifiedEvidence": {
+    "integrity": {
+      "sourceCount": 3406,
+      "sourceBytes": 212415953,
+      "sourceMismatches": [],
+      "duplicatePaths": [],
+      "aggregateRecomputed": "7a9c6220b6a6dade2a6d417602910852356fa99a9b8e4a590f88148de0bac40d",
+      "aggregateDeclared": "7a9c6220b6a6dade2a6d417602910852356fa99a9b8e4a590f88148de0bac40d",
+      "linuxFiles": 3040,
+      "linuxBytes": 418309784,
+      "linuxMismatches": [],
+      "protectedOriginalSourceDifferences": []
+    },
+    "artifactReferences": "冻结 validation 内 56 个带 hash 的 artifact 引用已核：55 个由已验证 current/Linux 文件集合匹配；Linux manifest 因自引用排除而单独按 freeze/received 原字节核验，匹配。",
+    "g1": "candidate02、原 baseline/ports、C Pass 和 candidate01/首轮 Block 保留；G1 原 TS/UI/contracts/spec/client/migration 受保护来源未变。",
+    "productReadScope": [
+      "G16 router/guard/DTO/state、provider CRUD/status/readiness、binding/grant/search/ticket、auth session/cookie bridge与4表 SQL/CAS/audit",
+      "H18 router/AND权限/DTO、source lifecycle、mapping replacement/commands、真实 token/paged BFS目录、preview/diff/apply/父依赖/全部 descendants disable与5表/OrgUnit flush",
+      "Root provider projection/settings/cipher/state signer/reqwest query/error/raw JSON、Cargo/根router/config与共享auth可见性",
+      "源 oracle/descriptor、原TS/DDL对照、fixture准入/journal/adoption/cleanup、collector规范化/并发屏障、原Angular journey和实际保全原件"
+    ],
+    "runtimeIdentity": {
+      "nestOwnerSourceFiles": 447,
+      "rustOwnerSourceFiles": 537,
+      "sourceDifferencesFromCurrent": 0,
+      "linuxCurrentRustSourceFiles": 116,
+      "linuxRustSourceDifferences": 0,
+      "nestBinarySha256": "86847230bce15d6f903316e974021c86d471597f822fc69dd63fd2c3f2a54175",
+      "rustCandidate04BinarySha256": "ab7a2b6b0f1f57bfdb9a14adbb9c42f5b74edd0cddc94002e6688e7cc20c2464",
+      "acceptedOwners": "Nest acceptance01/03 与 Rust acceptance02/03 start/closeout 绑定其实际 sources/binary；相应 runtime 原件已保全。"
+    },
+    "actualHttp": {
+      "G": {
+        "artifact": "tmp/rust-r2gh/linux-evidence/compat-compat07.json",
+        "wholeResult": "fail",
+        "acceptedSelection": "G only",
+        "recordsPerBackend": 61,
+        "ordinaryCapturedResponsesPerBackend": 58,
+        "concurrentResponsesPerBackend": 4,
+        "comparison": "G pass; H mismatch h-diffs-concurrent-apply-empty retained"
+      },
+      "H": {
+        "artifact": "tmp/rust-r2gh/linux-evidence/compat-compat08.json",
+        "wholeResult": "pass",
+        "acceptedSelection": "H only",
+        "recordsPerBackend": 66,
+        "ordinaryCapturedResponsesPerBackend": 64,
+        "concurrentResponsesPerBackend": 2,
+        "orderingReceiptsPerBackend": 4
+      },
+      "capturedCaseResponsesPerBackend": 128,
+      "controlledRacesPerBackend": 3,
+      "raceResults": "ticket consume、provider update、run apply 均有真实 PG UPDATE Lock 等待 1→2 的证据；两端各组结果 [200,500]，未改成 DTO 409。",
+      "normalization": "逻辑 UUID alias、密文双向解密指纹/opaque验真、cookie个别时刻与相邻秒、仅完全相同 PG 微秒 timestamp 的组内次序投影有实际收据。任意时间文本投影局限另列 C-G3-04。",
+      "notCountedAsHttp": "PG-fact records、setup认证和 fixture SQL 不算 captured-case HTTP；G61/H66不直接当HTTP次数。"
+    },
+    "otherValidation": {
+      "transport": "transport03 实际 18 pass，绑定最终共享代码/probe e09e150c... 与原字节二进制；transport02 pass/01 fail 保留。不能覆盖 C-G3-03 未测分支。",
+      "nativePg": "每库12个真实 native constraint/delete-action case pass；这是直接低权限SQL，不替代产品HTTP。",
+      "originalWitnesses": "first02/edge02 pass；SQL和最终HTTP/PG佐证新Org pre-flush UUID不可用，child parent/mapping/diff org ID NULL，Rust保留原行为。",
+      "rust": "逐条 final-test01 test result 加总162 passed/0 failed/54 ignored；fmt、locked checks、clippy -D warnings、release成功。ignored不计已执行PG成功。",
+      "originalChecks": "原API/admin已配置lint/test、原Nest/admin build、browser typecheck、完整spec/client check有实际通过原件；混合首轮整份fail未误称整份pass。poms-admin-e2e没有lint/test target，N/A。",
+      "openapi": "递归元数据81操作（既有47+本批34）、65paths、34 own operations；完整原291 operations/585 schemas/client579/migration92受保护，未以Rust子集覆盖。",
+      "angular": "四组合每组合G/H两条原页面真实journey，共8；driver核expected2/unexpected0/skipped0，未用API route mocks。基础认证四组合各13，共52。有限journey不等于全部UI状态穷举。",
+      "schema": "两库 migration-check exit1为Failed-with-classification；低权限CHECK introspection与既有comment差异保留。dump exit0/catalog前后不变、双库catalog对齐及92精确迁移名有原件；未执行生成DDL，未逐条证明所有ORM建议CHECK表达式。",
+      "cleanup": "final02 60个backend/run、120journal连续双轮zero；final-state ports5700/5701/5800/5900 released，current owners normal stopped且source/binary unchanged。早期两UI中断base残项final01真实移除57/56后归零，未回写历史。completion-marker修正7 safety（旧5+新2）与双库fresh smoke原件存在；仅凭这些正常run不证明 C-G3-02 的未知逻辑外引反例已被阻断。"
+    }
+  },
+  "reviewerStaticChecks": [
+    {
+      "command": "git diff --check",
+      "result": "passed",
+      "exitCode": 0,
+      "writesProduct": false
+    },
+    {
+      "command": "deno run --cached-only --allow-read tools/format-md-tables.ts --check docs",
+      "result": "passed",
+      "exitCode": 0,
+      "networkAllowed": false,
+      "writesProduct": false
+    },
+    {
+      "command": "deno run --cached-only --allow-read tools/format-md-tables.ts --check",
+      "result": "usage-only invocation failed due missing path; corrected immediately",
+      "exitCode": 1,
+      "productOrMarkdownFailure": false
+    }
+  ],
+  "retainedLimits": [
+    "只认证 controlled synthetic loopback protocol integration；无真实 Feishu 测试租户/账号认证、外部目录写入、部署/切流或性能改善结论。",
+    "原 stateless/repeatable state、nonce不消费、tenantAllowlist只存取、ticket先消费后独立session及分段失败、安全错误回显范围保留。",
+    "H best-effort apply、预览后不新重验source/stale/authority、disable全部descendants和pre-flush NULL关系为现行边界，不在迁移内偷偷修复。",
+    "当前检查是有限输入/Unicode/number/transport matrix；发现的确切未覆盖漂移需修复，不能用有限矩阵Pass豁免。",
+    "C未执行DB、HTTP/网络服务、浏览器、安装或测试；运行结论来自逐字节绑定的原件及源审查。"
+  ],
+  "requiredContinuation": [
+    "保持 reviewed-input01、freeze01、source-manifest01、旧失败和此 Block 原字节；先一次处理全部 P2，再冻结 additive 修正输入供同一联合 G3 增量复核，不改写首审。",
+    "按 C-G3-01/02/03 的有限边界补实证及来源/binary绑定，只对受影响内容补回归；清理工具修正与产品证据epoch分开，保留旧runtime工具快照。",
+    "P3可作为明确保留的非阻断限制处理；若收紧投影，必须从原始数据重新对照受影响场景，不能只改report为pass。",
+    "本G3未通过，当前不允许实现提交/合并或G4关闭#74/#75；父#67/#57及其余34操作/R2M/#61继续原状态。"
+  ],
+  "reviewerActions": {
+    "writtenFiles": [
+      "docs/design/rust-r2gh-review.json",
+      "tmp/rust-r2gh/c-g3-review01.json"
+    ],
+    "identicalRawBytesRequired": true,
+    "productOrExistingEvidenceWrites": false,
+    "fixtureOrRunnerWrites": false,
+    "dbOrNetworkServiceOrBrowserOperations": false,
+    "installs": false,
+    "testExecutions": false,
+    "gitMutations": false,
+    "githubMutations": false
+  },
+  "conclusion": "本次为完整联合 G3，来源与已报告实际运行边界可追溯，历史失败未被冒充通过；仍有3个可执行P2未闭合，故Block。P0=0/P1=0/P2=3/P3=1。"
+}

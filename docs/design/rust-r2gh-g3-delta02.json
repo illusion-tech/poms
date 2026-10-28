@@ -1,0 +1,563 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2GH-same-joint-G3-concentrated-correction-delta",
+  "recordedAt": "2026-10-28T15:17:18.920Z",
+  "localDate": "2026-10-29 Asia/Tokyo",
+  "sourceBaseline": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "gate": "G3",
+  "decision": "Pending non-author incremental review of the same full G3",
+  "issues": [
+    74,
+    75
+  ],
+  "parents": [
+    67,
+    57
+  ],
+  "noNewPublicRoutesOrProductDdl": true,
+  "initialInput": {
+    "path": "docs/design/rust-r2gh-validation.json",
+    "bytes": 28388,
+    "rawBytesSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c"
+  },
+  "initialReview": {
+    "path": "docs/design/rust-r2gh-review.json",
+    "bytes": 18897,
+    "rawBytesSha256": "d8cf399c856d8d897a0b92f540727e850de86654e857b457b741d0987a65f50c"
+  },
+  "initialFreeze": {
+    "path": "tmp/rust-r2gh/g3-freeze01.json",
+    "bytes": 1129,
+    "rawBytesSha256": "48849116043a6b0e533bdbac16fc9188848d9853435e842e1a910fa4676250c4"
+  },
+  "initialSourceManifest": {
+    "path": "tmp/rust-r2gh/g3-source-manifest01.json",
+    "bytes": 1058698,
+    "rawBytesSha256": "7533ed0952db15c14dae259034bac88517ff8e3b38c399816b468345f148db31"
+  },
+  "initialVerdict": {
+    "decision": "Block",
+    "P0": 0,
+    "P1": 0,
+    "P2": 3,
+    "P3": 1
+  },
+  "initialRawInputsUnchanged": true,
+  "correctionStatus": [
+    {
+      "id": "C-G3-01",
+      "status": "Implemented and actually verified; awaiting C",
+      "product": "Only CryptoError::SecretUnreadable maps to original 400/message; other crypto errors/encrypt retain 500",
+      "evidence": "tmp/rust-r2gh/linux-evidence/compat-fixbad01.json",
+      "negativeCasesPerBackend": 4,
+      "setupCasesPerBackend": 5,
+      "behavior": [
+        "login JSON400",
+        "admin JSON400",
+        "admin HTML302 failed",
+        "search JSON400 with committed generic lastError/version/updater and no new audit/ticket"
+      ],
+      "faultScope": "Dedicated new owned provider/grant; exact row/column/hash durable fault intent, unreadable validation, finally exact original cipher restoration/decryption; no broad decrypt catch"
+    },
+    {
+      "id": "C-G3-02",
+      "status": "Implemented and actually verified; awaiting C",
+      "preDeleteGuard": "107 frozen tables; 28 complete incoming FK shapes; all GH/base known/dynamically owned IDs closed over UUID/text/JSON references before first DELETE; exact identity ownership",
+      "evidence": "tmp/rust-r2gh/linux-evidence/reference-guard-witness01.json",
+      "actualNegativeCasesPerBackend": 2,
+      "attemptedDmlOnRefusal": 0,
+      "nativeShapes": "Unregistered NULL-operator audit target_id and compact-uppercase UUID inside JSON",
+      "afterProbeRemoval": "Exact separately journaled synthetic row only removed, then normal cleanup and second-pass zero",
+      "pureCoverage": "Unknown/composite/schema/columns/actions/flags + dynamic auth/base IDs + exact identity failures; no product DDL"
+    },
+    {
+      "id": "C-G3-03",
+      "status": "Implemented and actually verified; awaiting C",
+      "product": "Axios Node protocol allowlist checked before send; unsupported ftp/ws preserve ERR_BAD_REQUEST and original Unsupported protocol message",
+      "evidence": "tmp/rust-r2gh/linux-evidence/transport-transport04.json",
+      "supportedBoundary": "Finite HTTP/TLS/proxy matrix plus unsupported ftp/ws. No new certification of file/data special adapter behavior or live vendor accounts."
+    },
+    {
+      "id": "C-G3-04",
+      "status": "Addressed and actually verified; awaiting C",
+      "harness": "Explicit original server-owned timestamp path allowlist; arbitrary business/requestSnapshot/raw-provider ISO strings remain literal. Original 600000ms state and 120000ms issued-ticket TTL bounded by actual request interval; signed state exp equals DTO expiry.",
+      "evidence": "tmp/rust-r2gh/linux-evidence/compat-fixfull01.json",
+      "pureRegression": "ISO business/requestSnapshot paths rejected by projection policy; state/ticket wrong TTL rejects"
+    }
+  ],
+  "productChanges": [
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+      "initialBytes": 84715,
+      "initialRawBytesSha256": "1e2381ec2aab8a578228a3991a404804d249594b9e25f17293e0b73286bf45d8",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/apps/poms-api-rust/src/identity_providers/service.rs",
+      "currentBytes": 84861,
+      "currentRawBytesSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "initialBytes": 12363,
+      "initialRawBytesSha256": "0bdb0e98dd1ea1cce4e4fd8624d4b16deda556224710de5ad50ace073ebe6c8f",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/apps/poms-api-rust/src/provider_support/upstream.rs",
+      "currentBytes": 12748,
+      "currentRawBytesSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f"
+    }
+  ],
+  "changedInitialSourceFiles": [
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+      "initialBytes": 84715,
+      "initialRawBytesSha256": "1e2381ec2aab8a578228a3991a404804d249594b9e25f17293e0b73286bf45d8",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/apps/poms-api-rust/src/identity_providers/service.rs",
+      "currentBytes": 84861,
+      "currentRawBytesSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "initialBytes": 12363,
+      "initialRawBytesSha256": "0bdb0e98dd1ea1cce4e4fd8624d4b16deda556224710de5ad50ace073ebe6c8f",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/apps/poms-api-rust/src/provider_support/upstream.rs",
+      "currentBytes": 12748,
+      "currentRawBytesSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f"
+    },
+    {
+      "file": "docs/design/rust-r2gh-corrective-checkpoint.md",
+      "initialBytes": 6417,
+      "initialRawBytesSha256": "f84a7774f12fb3c3122cd5c52bb9369069d0b39474ce45659241403fce5bc280",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/docs/design/rust-r2gh-corrective-checkpoint.md",
+      "currentBytes": 10039,
+      "currentRawBytesSha256": "af88d58117eebaef3ea7ed3979ef077d101c7a9198e50622d79b9fd4256bfacc"
+    },
+    {
+      "file": "tools/rust-r2gh/README.md",
+      "initialBytes": 6615,
+      "initialRawBytesSha256": "57b3e267290b1b3edfcb87ddd08a74d2afb87f78ce33779adafc2af76cbc8054",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/tools/rust-r2gh/README.md",
+      "currentBytes": 8075,
+      "currentRawBytesSha256": "6a119f7f1e3555af5875b97019d6241fe45a8ec45351b4850301050a6c08006b"
+    },
+    {
+      "file": "tools/rust-r2gh/compat-acceptance.mjs",
+      "initialBytes": 30382,
+      "initialRawBytesSha256": "6fe870b24e2e1bb2f26f1ad341b21f3d80938eb067050d1012046cb161f25e0f",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/tools/rust-r2gh/compat-acceptance.mjs",
+      "currentBytes": 31653,
+      "currentRawBytesSha256": "a011c5057ffc4e2cc636ac5cf38f2cf2925b568b99133ff2f7ffffa7de41da56"
+    },
+    {
+      "file": "tools/rust-r2gh/final-state.mjs",
+      "initialBytes": 3557,
+      "initialRawBytesSha256": "fdc40f06223f187015c68c59f4e82d1adb7920ef04db0ff90ce2462ea6e3a0eb",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/tools/rust-r2gh/final-state.mjs",
+      "currentBytes": 3793,
+      "currentRawBytesSha256": "7ed979b82771d0c13c106592a8324f10530f209a3da4002150f2661c74a79439"
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-safety.test.mjs",
+      "initialBytes": 6193,
+      "initialRawBytesSha256": "2426279c3b8fab7b29352fd90837474cf8f629c7434cfca027a7ad469a2665c7",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/tools/rust-r2gh/fixture-safety.test.mjs",
+      "currentBytes": 6227,
+      "currentRawBytesSha256": "d83a7d57f3293400895aab5655d06f913d9bcec81afaaffdf51b82ccfe15c146"
+    },
+    {
+      "file": "tools/rust-r2gh/owned-fixture.mjs",
+      "initialBytes": 22117,
+      "initialRawBytesSha256": "be2ed6b0017edbadc66556960f828a7b7cc996bc0b65a71bae9a44e1028c0505",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/tools/rust-r2gh/owned-fixture.mjs",
+      "currentBytes": 22717,
+      "currentRawBytesSha256": "2865017b2aca8f575cd400cfd62b6751fcd113321a7b478841c1768f38b0abc9"
+    },
+    {
+      "file": "tools/rust-r2gh/transport-acceptance.mjs",
+      "initialBytes": 12498,
+      "initialRawBytesSha256": "60e46b381f3014076de4c622737a37ea8787228120445f2bfcb6d00462520b77",
+      "immutableOriginal": "tmp/rust-r2gh/g3-reviewed-source01/tools/rust-r2gh/transport-acceptance.mjs",
+      "currentBytes": 13044,
+      "currentRawBytesSha256": "cd016a2f8e0f7ee804ba93f198481defb4966e685993ac47c13008c07d6c7d0e"
+    }
+  ],
+  "initialChangedSourceBytesPreserved": true,
+  "unchangedOriginalTsContractsUiSpecClientMigrations": true,
+  "actualHttpAndPg": {
+    "runs": [
+      {
+        "artifact": {
+          "path": "tmp/rust-r2gh/linux-evidence/compat-fixfull01.json",
+          "bytes": 17083954,
+          "rawBytesSha256": "90d742575a4d61e23165ed4ff13a0997018b718e504b9c4799fd7c5093da0699"
+        },
+        "result": "pass",
+        "selections": [
+          "G",
+          "H"
+        ],
+        "executions": [
+          {
+            "backend": "nest",
+            "group": "G",
+            "runId": "45ce44ce-8366-47d4-ab21-fae68ba5d0fc",
+            "records": 61,
+            "capturedOrdinaryHttpResponses": 58,
+            "capturedConcurrentHttpResponses": 4,
+            "capturedCaseHttpResponses": 62,
+            "controlledRaces": 2,
+            "boundedLifetimeAssertions": 5,
+            "timestampPathAllowlistVerified": true,
+            "twoPassCleanupZero": true
+          },
+          {
+            "backend": "rust",
+            "group": "G",
+            "runId": "45ce44ce-8366-47d4-ab21-fae68ba5d0fc",
+            "records": 61,
+            "capturedOrdinaryHttpResponses": 58,
+            "capturedConcurrentHttpResponses": 4,
+            "capturedCaseHttpResponses": 62,
+            "controlledRaces": 2,
+            "boundedLifetimeAssertions": 5,
+            "timestampPathAllowlistVerified": true,
+            "twoPassCleanupZero": true
+          },
+          {
+            "backend": "nest",
+            "group": "H",
+            "runId": "799d12fe-ab75-4162-b840-19e4ac021c69",
+            "records": 66,
+            "capturedOrdinaryHttpResponses": 64,
+            "capturedConcurrentHttpResponses": 2,
+            "capturedCaseHttpResponses": 66,
+            "controlledRaces": 1,
+            "boundedLifetimeAssertions": 0,
+            "timestampPathAllowlistVerified": true,
+            "twoPassCleanupZero": true
+          },
+          {
+            "backend": "rust",
+            "group": "H",
+            "runId": "799d12fe-ab75-4162-b840-19e4ac021c69",
+            "records": 66,
+            "capturedOrdinaryHttpResponses": 64,
+            "capturedConcurrentHttpResponses": 2,
+            "capturedCaseHttpResponses": 66,
+            "controlledRaces": 1,
+            "boundedLifetimeAssertions": 0,
+            "timestampPathAllowlistVerified": true,
+            "twoPassCleanupZero": true
+          }
+        ],
+        "comparisons": [
+          {
+            "group": "G",
+            "result": "pass",
+            "records": 61,
+            "mismatchCount": 0
+          },
+          {
+            "group": "H",
+            "result": "pass",
+            "records": 66,
+            "mismatchCount": 0
+          }
+        ]
+      },
+      {
+        "artifact": {
+          "path": "tmp/rust-r2gh/linux-evidence/compat-fixbad01.json",
+          "bytes": 534343,
+          "rawBytesSha256": "0b30fb384d677f3582106861f30efcb00268109e2bbe929cc147e799023c0488"
+        },
+        "result": "pass",
+        "selections": [
+          "GBadCipher"
+        ],
+        "executions": [
+          {
+            "backend": "nest",
+            "group": "GBadCipher",
+            "runId": "b31ca571-a797-4718-bdfc-2d81a320fb28",
+            "records": 10,
+            "capturedOrdinaryHttpResponses": 9,
+            "capturedConcurrentHttpResponses": 0,
+            "capturedCaseHttpResponses": 9,
+            "controlledRaces": 0,
+            "boundedLifetimeAssertions": 3,
+            "timestampPathAllowlistVerified": true,
+            "exactCipherFaultRestoration": true,
+            "twoPassCleanupZero": true
+          },
+          {
+            "backend": "rust",
+            "group": "GBadCipher",
+            "runId": "b31ca571-a797-4718-bdfc-2d81a320fb28",
+            "records": 10,
+            "capturedOrdinaryHttpResponses": 9,
+            "capturedConcurrentHttpResponses": 0,
+            "capturedCaseHttpResponses": 9,
+            "controlledRaces": 0,
+            "boundedLifetimeAssertions": 3,
+            "timestampPathAllowlistVerified": true,
+            "exactCipherFaultRestoration": true,
+            "twoPassCleanupZero": true
+          }
+        ],
+        "comparisons": [
+          {
+            "group": "GBadCipher",
+            "result": "pass",
+            "records": 10,
+            "mismatchCount": 0
+          }
+        ]
+      }
+    ],
+    "capturedCaseResponsesPerBackend": 137,
+    "fullGHCapturedCaseResponsesPerBackend": 128,
+    "badCipherCapturedResponsesPerBackend": 9,
+    "badCipherSetupPerBackend": 5,
+    "badCipherNegativePerBackend": 4,
+    "controlledRacesPerBackend": 3,
+    "concurrentResponsesPerBackend": 6,
+    "countBoundary": "Captured case responses only; record/PG-facts/race/setup types are independently counted, not conflated",
+    "strictBodyPgAuditComparison": true,
+    "timestampPolicyEpoch": "Explicit dynamic path allowlist and lifetime assertions",
+    "allSelectedExecutionsAndComparisonsPass": true
+  },
+  "nativeReferenceGuard": {
+    "artifact": {
+      "path": "tmp/rust-r2gh/linux-evidence/reference-guard-witness01.json",
+      "bytes": 3152,
+      "rawBytesSha256": "16dff744fd1617fd0381c20058421d0b426dda2cf261bf1a2c078af53f65aca1"
+    },
+    "negativeCases": 4,
+    "noDmlBeforeRefusal": true,
+    "cleanupSmokes": 2,
+    "unknownForeignKeyShapesArePureTests": true
+  },
+  "rust": {
+    "counts": {
+      "passed": 162,
+      "failed": 0,
+      "ignored": 54
+    },
+    "ignoredNotExecuted": true,
+    "logs": [
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/current-test05.log",
+        "bytes": 30672,
+        "rawBytesSha256": "43af1d837220f9559865bc1b521b2169c6cb646458fab1c00f9d7070ce61e26f"
+      },
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/current-clippy05.log",
+        "bytes": 138,
+        "rawBytesSha256": "466ac64da56eb990eb9bb2f0221e04638991df404c05ac4d62d2fc8a2f6f5d76"
+      },
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/current-release05.log",
+        "bytes": 129,
+        "rawBytesSha256": "bf683f0a91500f17d026d18b797eba164ef732068daf76ee69484e785d19337c"
+      },
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/current-probe05.log",
+        "bytes": 138,
+        "rawBytesSha256": "d53e27a8b72dad8377eec2061fb0af7fe3717e030a96afb4c931939179e460c7"
+      }
+    ],
+    "fmt": {
+      "path": "tmp/rust-r2gh/current-fmt05-exit.json",
+      "bytes": 241,
+      "rawBytesSha256": "d5a1848d0081945d7e9f4555c0e62bb37d2c31670512d70b0ac763c5c8f2e576"
+    },
+    "fmtLog": {
+      "path": "tmp/rust-r2gh/current-fmt05.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "finalBinarySha256": "e139ea76286687c90e16fe23c3b68d63e61ec22b810f7c313a1fd702761add7e",
+    "actualRuntimeSnapshot": {
+      "path": "tmp/rust-r2gh/linux-evidence/runtime-input/rust-fix01/manifest.json",
+      "bytes": 188255,
+      "rawBytesSha256": "32308f3743714ea819b34bcd2ceae70eb833e67c1bef85b5eaa10cacf1cf11a8"
+    },
+    "finalLinuxWindowsSourceBytesEqual": true
+  },
+  "transport": {
+    "artifact": {
+      "path": "tmp/rust-r2gh/linux-evidence/transport-transport04.json",
+      "bytes": 36084,
+      "rawBytesSha256": "d6aa9555648e5c402dee72dcac1213939c4a3aaf9848555d457f5c63127e48fb"
+    },
+    "passed": 20,
+    "unsupportedProtocolCases": 2,
+    "noOwnedHttpOrProxyRequestObservedForThoseCases": true,
+    "probe": {
+      "path": "tmp/rust-r2gh/linux-evidence/transport-input-transport04/provider_transport_probe",
+      "bytes": 178607896,
+      "rawBytesSha256": "8883f5731f71e6105168a9dfb4432891c0294a1a7708beaf586d3a23c2686b1d"
+    }
+  },
+  "pureToolChecks": {
+    "artifact": {
+      "path": "tmp/rust-r2gh/g3-correction-pure01.log",
+      "bytes": 2531,
+      "rawBytesSha256": "1455b5da2e46c0d49d3ff07fe2eb3503afb30531902a88131e7172715f98867e"
+    },
+    "passed": 23,
+    "overlapWithInitialFixtureSafety": 7,
+    "countBoundary": "This is one current 23-test run; do not add its 7 overlapping fixture tests again to the initial run."
+  },
+  "frontendAndFoundation": {
+    "finalRustReexecutedJourneys": [
+      {
+        "artifact": {
+          "path": "tmp/rust-r2gh/browser-win32-rust-ui07.json",
+          "bytes": 5604,
+          "rawBytesSha256": "6944868e0a380db920246ad1a9fd201d192428a49c9d514a89d200cd1b8179d6"
+        },
+        "platform": "win32",
+        "backend": "rust",
+        "node": "v24.19.0",
+        "browser": {
+          "revision": "1243",
+          "version": "153.0.8010.12",
+          "executable": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tmp\\rust-r2ef\\windows-browser-cache\\chromium-1243\\chrome-win64\\chrome.exe",
+          "cacheUse": "existing task-local cache; no installation or system-browser/profile change"
+        },
+        "journeys": 2,
+        "result": "pass"
+      },
+      {
+        "artifact": {
+          "path": "tmp/rust-r2gh/linux-evidence/browser-linux-rust-ui02.json",
+          "bytes": 5535,
+          "rawBytesSha256": "8e2eb63ecbc51b33ffe3f501e38c462b5fd79e544f22d43157481d7ce1429cec"
+        },
+        "platform": "linux",
+        "backend": "rust",
+        "node": "v24.16.0",
+        "browser": {
+          "executable": "/opt/poms-playwright/chromium-1243/chrome-linux64/chrome",
+          "version": "Google Chrome for Testing 153.0.8010.12",
+          "cacheUse": "existing fixed-image browser; no installation or host-browser/profile change"
+        },
+        "journeys": 2,
+        "result": "pass"
+      }
+    ],
+    "finalAcceptedMatrixJourneys": 8,
+    "originalNestAccepted": [
+      {
+        "path": "tmp/rust-r2gh/browser-win32-nest-ui06.json",
+        "bytes": 5610,
+        "rawBytesSha256": "44f24f5045b6710a1ea0a7b3e52dbceddfa1e3670c0a04acb4a9e3e9e36ef25d"
+      },
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/browser-linux-nest-ui01.json",
+        "bytes": 5533,
+        "rawBytesSha256": "192047c03f58fa0e18811f476c55ce9fd02183cd37cfe6ec7c2d1536f7a23835"
+      }
+    ],
+    "originalNestBinaryUnchanged": true,
+    "foundationReusedTests": 52,
+    "reuseBoundary": "Original Nest product bytes and seven-operation base-auth Rust sources are unchanged. Original Nest UI and foundation retain candidate04 labels; only final Rust two-platform G/H journeys were reexecuted after the two error branches changed. This is not a new full four-combination foundation rerun."
+  },
+  "recursiveOpenapi": {
+    "path": "tmp/rust-r2gh/openapi-verification02.json",
+    "bytes": 1355,
+    "rawBytesSha256": "fe7d4494704e1a7c07b4f212194236357262624922f57a1d2692ab422af903a4"
+  },
+  "finalGeneratedOpenapi": {
+    "path": "tmp/rust-r2gh/openapi-candidate05.json",
+    "bytes": 224895,
+    "rawBytesSha256": "bf2f5e67c44b1852e4a5bb1fdb8ad6e4a6473bfa113afa8c88781ba7298ac52f"
+  },
+  "fullSpecClientAndMigrationsUnchanged": true,
+  "retainedInitialEvidence": "Original full G1/G3/epoch04 inputs, initial 3P2+1P3 Block, old failures/recoveries/ignored/schema classification and raw source snapshots remain immutable and separately labeled. No early report is relabeled as final candidate05 execution.",
+  "cleanup": {
+    "artifact": {
+      "path": "tmp/rust-r2gh/linux-evidence/final-state02.json",
+      "bytes": 29784,
+      "rawBytesSha256": "53ace2c3b5083aedf7d74f61cbd1892650682340a53c5a2b7f320c7ffdba6343"
+    },
+    "finalSweep": {
+      "path": "tmp/rust-r2gh/linux-evidence/cleanup-journals-final03.json",
+      "bytes": 234329,
+      "rawBytesSha256": "f78ec1da60046dda6b2f767ff22de13388f1c7f0d481fe57e2f9badf85415191"
+    },
+    "backendRunPairs": 72,
+    "journals": 144,
+    "bothGlobalFinalPassesZero": true,
+    "fourPortsReleased": [
+      5700,
+      5701,
+      5800,
+      5900
+    ],
+    "latestOwnersStoppedNormally": true,
+    "latestOwnerCloseouts": [
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/owner-nest-fix01-closeout.json",
+        "bytes": 598,
+        "rawBytesSha256": "384b100eee6445bfb9c3f1d0a2ad8715a7b799c2fb512fe9c046db6b3b1db4a9"
+      },
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/owner-rust-fix01-closeout.json",
+        "bytes": 598,
+        "rawBytesSha256": "80552550bd0e0a04628fdacbb0fb807894d0f68044c06f203ef604335a0db9eb"
+      },
+      {
+        "path": "tmp/rust-r2gh/linux-evidence/upstream/fix01/closeout.json",
+        "bytes": 79153,
+        "rawBytesSha256": "d55d359acea1e91d087bf163f503e820abd85f328ab51018cdf1c76e68749af7"
+      }
+    ],
+    "cipherFaultColumnsRestoredBeforeCleanup": true
+  },
+  "additivePreservation": {
+    "received": {
+      "path": "tmp/rust-r2gh/linux-received-g3-02.json",
+      "bytes": 586,
+      "rawBytesSha256": "f7dd6d96638add6581434b67d6b1a49149b514bc66d62d145998c61a8893c8a2"
+    },
+    "manifest": {
+      "path": "tmp/rust-r2gh/linux-evidence/linux-manifest-g3-02.json",
+      "bytes": 300156,
+      "rawBytesSha256": "baf5904d98d41b93e7f39813bcf2fdbe3331a06f18e23efbbb631caa19b8fe0e"
+    },
+    "originalFilesUnchanged": 3040,
+    "addedFiles": 1179,
+    "addedRawBytes": 241191624,
+    "overwriteCount": 0,
+    "privateValueScan": {
+      "checkedFiles": 1179,
+      "matchedFiles": 0,
+      "valuesPrinted": false
+    }
+  },
+  "onlineRead": {
+    "path": "tmp/rust-r2gh/g3-online-state02.json",
+    "bytes": 30961,
+    "rawBytesSha256": "207c46d505e9be97c839ac953bab1e04d20b43b9f7e81f393e8da624c07f344f"
+  },
+  "correctiveCheckpoint": {
+    "path": "docs/design/rust-r2gh-corrective-checkpoint.md",
+    "bytes": 10039,
+    "rawBytesSha256": "af88d58117eebaef3ea7ed3979ef077d101c7a9198e50622d79b9fd4256bfacc"
+  },
+  "readme": {
+    "path": "tools/rust-r2gh/README.md",
+    "bytes": 8075,
+    "rawBytesSha256": "6a119f7f1e3555af5875b97019d6241fe45a8ec45351b4850301050a6c08006b"
+  },
+  "sourceManifestFile": "tmp/rust-r2gh/g3-source-manifest02.json",
+  "freezeFile": "tmp/rust-r2gh/g3-freeze02.json",
+  "remaining": {
+    "deliveryBeforeG4": "40/108",
+    "afterThisBatchG4Only": "74/108; remaining34 operations plus R2M acceptance",
+    "parentIssuesRemainOpen": true,
+    "IthroughMAnd61Unchanged": true,
+    "deployments": 0,
+    "realFeishuTenantCertification": false
+  },
+  "closure": "A separate additive G4 record is required. This initial-plus-delta review input is immutable after freeze."
+}

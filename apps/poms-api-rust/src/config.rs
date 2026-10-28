@@ -21,6 +21,37 @@ const KNOWN_ENVIRONMENT_KEYS: &[&str] = &[
     "JWT_SECRET",
     "POMS_SECRET_KEY",
     "POMS_ENV_FILE",
+    "IDENTITY_PROVIDER_SECRET_KEY",
+    "IDENTITY_PROVIDER_STATE_KEY",
+    "FEISHU_OPEN_API_BASE_URL",
+    "FEISHU_OAUTH_AUTHORIZE_URL",
+    "FEISHU_OAUTH_TOKEN_URL",
+    "FEISHU_USER_INFO_URL",
+    "FEISHU_USER_SEARCH_URL",
+    "FEISHU_USER_BATCH_URL",
+    "FEISHU_DEPARTMENT_BATCH_URL",
+    "FEISHU_TENANT_ACCESS_TOKEN_URL",
+    "FEISHU_DEPARTMENT_CHILDREN_URL_TEMPLATE",
+    "FEISHU_API_TIMEOUT_MS",
+    "FEISHU_ORG_DEPARTMENT_PAGE_SIZE",
+    "HTTP_PROXY",
+    "http_proxy",
+    "HTTPS_PROXY",
+    "https_proxy",
+    "ALL_PROXY",
+    "all_proxy",
+    "NO_PROXY",
+    "no_proxy",
+    "npm_config_http_proxy",
+    "NPM_CONFIG_HTTP_PROXY",
+    "npm_config_https_proxy",
+    "NPM_CONFIG_HTTPS_PROXY",
+    "npm_config_proxy",
+    "NPM_CONFIG_PROXY",
+    "npm_config_no_proxy",
+    "NPM_CONFIG_NO_PROXY",
+    "NODE_EXTRA_CA_CERTS",
+    "NODE_TLS_REJECT_UNAUTHORIZED",
     "AUTH_SESSION_IDLE_TIMEOUT_SECONDS",
     "AUTH_SESSION_ABSOLUTE_TIMEOUT_SECONDS",
     "AUTH_SESSION_LAST_SEEN_THROTTLE_SECONDS",
@@ -51,6 +82,7 @@ pub struct Config {
     pub port: u16,
     pub cors_origins: Vec<String>,
     pub auth: AuthConfig,
+    pub providers: crate::provider_support::ProviderSettings,
     pub database: DatabaseConfig,
     pub shutdown_timeout: Duration,
 }
@@ -94,6 +126,7 @@ impl fmt::Debug for Config {
             .field("port", &self.port)
             .field("cors_origins_count", &self.cors_origins.len())
             .field("auth", &self.auth)
+            .field("providers", &self.providers)
             .field("database", &self.database)
             .field("shutdown_timeout", &self.shutdown_timeout)
             .finish()
@@ -270,6 +303,7 @@ impl Config {
             port: port(values, "PORT", 3333)?,
             cors_origins,
             auth,
+            providers: crate::provider_support::ProviderSettings::from_map(values),
             database,
             shutdown_timeout: runtime_timeout(values, "SHUTDOWN_TIMEOUT_MS", 10000)?,
         })

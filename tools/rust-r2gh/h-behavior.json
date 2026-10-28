@@ -1,0 +1,5915 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "boundary": "Original service and Feishu adapter direct execution with synthetic dependencies; no HTTP, SQL, transaction, database or vendor claim",
+  "source": {
+    "id": "a0000000-0000-4000-8000-000000000001",
+    "rowVersion": 1,
+    "createdAt": "2026-10-28T01:02:03.123Z",
+    "updatedAt": "2026-10-28T01:02:03.123Z",
+    "createdBy": null,
+    "updatedBy": null,
+    "provider": "feishu",
+    "externalTenantId": null,
+    "displayName": "source",
+    "status": "active",
+    "providerConfigId": "a0000000-0000-4000-8000-000000000002",
+    "authoritativeOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+    "externalRootDepartmentId": null,
+    "syncScopes": []
+  },
+  "run": {
+    "id": "a0000000-0000-4000-8000-000000000004",
+    "rowVersion": 1,
+    "createdAt": "2026-10-28T01:02:03.123Z",
+    "updatedAt": "2026-10-28T01:02:03.123Z",
+    "createdBy": null,
+    "updatedBy": null,
+    "sourceId": "a0000000-0000-4000-8000-000000000001",
+    "status": "previewing",
+    "startedAt": "2026-10-28T01:02:03.123Z",
+    "finishedAt": null,
+    "requestSnapshot": {},
+    "resultSummary": {},
+    "errorSummary": null
+  },
+  "directorySnapshots": [
+    {
+      "raw": null,
+      "expected": null
+    },
+    {
+      "raw": [],
+      "expected": null
+    },
+    {
+      "raw": {},
+      "expected": null
+    },
+    {
+      "raw": "x",
+      "expected": null
+    },
+    {
+      "raw": {
+        "open_department_id": " a ",
+        "name": " Name ",
+        "order": "0x10"
+      },
+      "expected": {
+        "externalDepartmentId": " a ",
+        "externalParentDepartmentId": "fallback-parent",
+        "externalDepartmentName": " Name ",
+        "isActive": true,
+        "displayOrder": 16,
+        "raw": {
+          "open_department_id": " a ",
+          "name": " Name ",
+          "order": "0x10"
+        }
+      }
+    },
+    {
+      "raw": {
+        "department_id": "d",
+        "department_name": "部门",
+        "status": {
+          "is_deleted": "true"
+        }
+      },
+      "expected": {
+        "externalDepartmentId": "d",
+        "externalParentDepartmentId": "fallback-parent",
+        "externalDepartmentName": "部门",
+        "isActive": false,
+        "displayOrder": null,
+        "raw": {
+          "department_id": "d",
+          "department_name": "部门",
+          "status": {
+            "is_deleted": "true"
+          }
+        }
+      }
+    },
+    {
+      "raw": {
+        "id": "i",
+        "name": "N",
+        "parent_id": " ",
+        "parent_open_department_id": "parent",
+        "order": false,
+        "department_order": "1.5"
+      },
+      "expected": {
+        "externalDepartmentId": "i",
+        "externalParentDepartmentId": "parent",
+        "externalDepartmentName": "N",
+        "isActive": true,
+        "displayOrder": 1.5,
+        "raw": {
+          "id": "i",
+          "name": "N",
+          "parent_id": " ",
+          "parent_open_department_id": "parent",
+          "order": false,
+          "department_order": "1.5"
+        }
+      }
+    },
+    {
+      "raw": {
+        "open_department_id": 12,
+        "department_id": "fallback",
+        "name": "x",
+        "status": {
+          "deleted": 1
+        }
+      },
+      "expected": {
+        "externalDepartmentId": "fallback",
+        "externalParentDepartmentId": "fallback-parent",
+        "externalDepartmentName": "x",
+        "isActive": true,
+        "displayOrder": null,
+        "raw": {
+          "open_department_id": 12,
+          "department_id": "fallback",
+          "name": "x",
+          "status": {
+            "deleted": 1
+          }
+        }
+      }
+    },
+    {
+      "raw": {
+        "id": "d",
+        "name": "n",
+        "order": "Infinity",
+        "department_order": " 2 ",
+        "status": {
+          "is_deleted": "TRUE",
+          "deleted": "false"
+        }
+      },
+      "expected": {
+        "externalDepartmentId": "d",
+        "externalParentDepartmentId": "fallback-parent",
+        "externalDepartmentName": "n",
+        "isActive": true,
+        "displayOrder": 2,
+        "raw": {
+          "id": "d",
+          "name": "n",
+          "order": "Infinity",
+          "department_order": " 2 ",
+          "status": {
+            "is_deleted": "TRUE",
+            "deleted": "false"
+          }
+        }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "raw": {},
+      "result": {}
+    },
+    {
+      "raw": {
+        "code": 0,
+        "data": {
+          "items": []
+        }
+      },
+      "result": {
+        "items": []
+      }
+    },
+    {
+      "raw": {
+        "code": "0",
+        "items": []
+      },
+      "result": {
+        "code": "0",
+        "items": []
+      }
+    },
+    {
+      "raw": {
+        "code": "bad",
+        "data": null
+      },
+      "result": {
+        "code": "bad",
+        "data": null
+      }
+    },
+    {
+      "raw": [],
+      "result": {}
+    },
+    {
+      "raw": {
+        "code": "40011",
+        "msg": "page size"
+      },
+      "error": {
+        "message": "飞书部门分页大小超过限制，请将 page_size 调整为 50 或更小。（飞书返回：page size，code 40011）",
+        "providerCode": "40011",
+        "httpStatus": null,
+        "providerMessage": "page size",
+        "nextActions": [
+          "请确认 POMS 飞书部门读取参数使用 page_size <= 50 后重试。"
+        ]
+      }
+    },
+    {
+      "raw": {
+        "code": 999,
+        "msg": "permission denied"
+      },
+      "error": {
+        "message": "飞书应用身份通讯录权限未开通或未生效，请在飞书开放平台检查应用身份权限并发布应用。（飞书返回：permission denied，code 999）",
+        "providerCode": "999",
+        "httpStatus": null,
+        "providerMessage": "permission denied",
+        "nextActions": [
+          "请在飞书开放平台开通应用身份通讯录部门读取权限。",
+          "权限变更后请发布应用，再回到 POMS 重新测试组织同步可用性。"
+        ]
+      }
+    },
+    {
+      "raw": {
+        "code": 999,
+        "msg": "invalid access token"
+      },
+      "error": {
+        "message": "飞书访问令牌无效或已过期，请检查企业协同接入的 Client ID / Secret。（飞书返回：invalid access token，code 999）",
+        "providerCode": "999",
+        "httpStatus": null,
+        "providerMessage": "invalid access token",
+        "nextActions": [
+          "请重新保存企业协同接入的 Client Secret。",
+          "保存后先运行企业协同接入测试，再重新生成组织同步预览。"
+        ]
+      }
+    },
+    {
+      "raw": {
+        "code": 999,
+        "msg": "unknown issue"
+      },
+      "error": {
+        "message": "request failed: unknown issue（code 999）",
+        "providerCode": "999",
+        "httpStatus": null,
+        "providerMessage": "unknown issue",
+        "nextActions": [
+          "请结合飞书开放平台错误码、应用权限状态和应用发布状态排查。"
+        ]
+      }
+    }
+  ],
+  "pageSizes": [
+    {
+      "value": null,
+      "result": 50
+    },
+    {
+      "value": "",
+      "result": 50
+    },
+    {
+      "value": " ",
+      "result": 50
+    },
+    {
+      "value": "-1",
+      "result": 50
+    },
+    {
+      "value": "0",
+      "result": 50
+    },
+    {
+      "value": "0.5",
+      "result": 0
+    },
+    {
+      "value": "1.9",
+      "result": 1
+    },
+    {
+      "value": "50",
+      "result": 50
+    },
+    {
+      "value": "51",
+      "result": 50
+    },
+    {
+      "value": "0x10",
+      "result": 16
+    },
+    {
+      "value": "Infinity",
+      "result": 50
+    },
+    {
+      "value": "bad",
+      "result": 50
+    }
+  ],
+  "readAccess": {
+    "rootDepartmentId": " a/b 部门 ",
+    "rawItemCount": 5,
+    "expected": {
+      "rootDepartmentId": "a/b 部门",
+      "childDepartmentCount": 3
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:5900/open-apis/auth/v3/tenant_access_token/internal",
+        "bodyKeys": [
+          "app_id",
+          "app_secret"
+        ],
+        "appIdMatches": true,
+        "appSecretMatches": true,
+        "timeout": 10000
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:5900/open-apis/contact/v3/departments/a%2Fb%20%E9%83%A8%E9%97%A8/children",
+        "params": {
+          "department_id_type": "open_department_id",
+          "user_id_type": "open_id",
+          "fetch_child": false,
+          "page_size": 1
+        },
+        "bearerMatches": true,
+        "timeout": 10000
+      }
+    ],
+    "boundary": "Original adapter with synthetic axios dependency only; no network request"
+  },
+  "preview": [
+    {
+      "input": {
+        "name": "parent-child-create",
+        "departments": [
+          {
+            "externalDepartmentId": "parent",
+            "externalDepartmentName": "parent",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          },
+          {
+            "externalDepartmentId": "child",
+            "externalDepartmentName": "child",
+            "externalParentDepartmentId": "parent",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "parent",
+            "externalParentDepartmentId": "0",
+            "externalDepartmentName": "parent",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000102",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "child",
+            "externalParentDepartmentId": "parent",
+            "externalDepartmentName": "child",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000101",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "parent",
+            "action": "create_org_unit",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "parent",
+              "externalParentDepartmentId": "0",
+              "externalDepartmentName": "parent",
+              "targetName": "parent",
+              "targetCode": "EXT-FS-PARENT-346B382D",
+              "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+              "targetParentExternalDepartmentId": null,
+              "displayOrder": 0,
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000103",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "child",
+            "action": "create_org_unit",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "child",
+              "externalParentDepartmentId": "parent",
+              "externalDepartmentName": "child",
+              "targetName": "child",
+              "targetCode": "EXT-FS-CHILD-C28240D4",
+              "targetParentOrgUnitId": null,
+              "targetParentExternalDepartmentId": "parent",
+              "displayOrder": 3,
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 2,
+          "generatedItemCount": 2,
+          "actionCounts": {
+            "create_org_unit": 2
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "child-before-parent",
+        "departments": [
+          {
+            "externalDepartmentId": "child",
+            "externalDepartmentName": "child",
+            "externalParentDepartmentId": "parent",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          },
+          {
+            "externalDepartmentId": "parent",
+            "externalDepartmentName": "parent",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "child",
+            "externalParentDepartmentId": "parent",
+            "externalDepartmentName": "child",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000102",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "parent",
+            "externalParentDepartmentId": "0",
+            "externalDepartmentName": "parent",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000101",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "child",
+            "action": "create_org_unit",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "child",
+              "externalParentDepartmentId": "parent",
+              "externalDepartmentName": "child",
+              "targetName": "child",
+              "targetCode": "EXT-FS-CHILD-C28240D4",
+              "targetParentOrgUnitId": null,
+              "targetParentExternalDepartmentId": "parent",
+              "displayOrder": 3,
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000103",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "parent",
+            "action": "create_org_unit",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "parent",
+              "externalParentDepartmentId": "0",
+              "externalDepartmentName": "parent",
+              "targetName": "parent",
+              "targetCode": "EXT-FS-PARENT-346B382D",
+              "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+              "targetParentExternalDepartmentId": null,
+              "displayOrder": 0,
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 2,
+          "generatedItemCount": 2,
+          "actionCounts": {
+            "create_org_unit": 2
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "rename-before-move",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "new",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": 7,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000011",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "old",
+            "code": "C11",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "new",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "update_org_unit",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": {
+              "id": "a0000000-0000-4000-8000-000000000011",
+              "name": "old",
+              "code": "C11",
+              "parentId": null,
+              "isActive": true,
+              "displayOrder": 2,
+              "rowVersion": 1
+            },
+            "candidateSnapshot": {
+              "targetName": "new"
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 1,
+          "generatedItemCount": 1,
+          "actionCounts": {
+            "update_org_unit": 1
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "move-only",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": 7,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000011",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "x",
+            "code": "C11",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "move_org_unit",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": {
+              "id": "a0000000-0000-4000-8000-000000000011",
+              "name": "x",
+              "code": "C11",
+              "parentId": null,
+              "isActive": true,
+              "displayOrder": 2,
+              "rowVersion": 1
+            },
+            "candidateSnapshot": {
+              "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+              "targetParentExternalDepartmentId": null,
+              "displayOrder": 7
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 1,
+          "generatedItemCount": 1,
+          "actionCounts": {
+            "move_org_unit": 1
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "empty-missing-disable",
+        "departments": [],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000011",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "x",
+            "code": "C11",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "disable_org_unit",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": {
+              "id": "a0000000-0000-4000-8000-000000000011",
+              "name": "x",
+              "code": "C11",
+              "parentId": null,
+              "isActive": true,
+              "displayOrder": 2,
+              "rowVersion": 1
+            },
+            "candidateSnapshot": {
+              "externalDepartmentId": "x",
+              "externalDepartmentName": "x",
+              "reason": "external_department_missing"
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 0,
+          "generatedItemCount": 1,
+          "actionCounts": {
+            "disable_org_unit": 1
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "inactive-disable",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "isActive": false,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000011",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "x",
+            "code": "C11",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "disable_org_unit",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": {
+              "id": "a0000000-0000-4000-8000-000000000011",
+              "name": "x",
+              "code": "C11",
+              "parentId": null,
+              "isActive": true,
+              "displayOrder": 2,
+              "rowVersion": 1
+            },
+            "candidateSnapshot": {
+              "externalDepartmentId": "x",
+              "externalDepartmentName": "x",
+              "reason": "external_department_inactive"
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 1,
+          "generatedItemCount": 1,
+          "actionCounts": {
+            "disable_org_unit": 1
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "ignored-seen",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": null,
+            "status": "ignored",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": null,
+            "status": "ignored",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [],
+        "summary": {
+          "externalDepartmentCount": 1,
+          "generatedItemCount": 0,
+          "actionCounts": {}
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "missing-parent",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "missing",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalParentDepartmentId": "missing",
+            "externalDepartmentName": "x",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000101",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "conflict",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "x",
+              "externalDepartmentName": "x",
+              "externalParentDepartmentId": "missing",
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": "External parent department missing is not mapped or present in this preview.",
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 1,
+          "generatedItemCount": 1,
+          "actionCounts": {
+            "conflict": 1
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "mapped-target-inactive",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000011",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "x",
+            "code": "C11",
+            "description": null,
+            "parentId": null,
+            "isActive": false,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "conflict",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "x",
+              "externalDepartmentName": "x",
+              "externalParentDepartmentId": "0",
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": "Mapped OrgUnit is inactive.",
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 1,
+          "generatedItemCount": 1,
+          "actionCounts": {
+            "conflict": 1
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "duplicate-external-id-preserved",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "one",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          },
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "two",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": null,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalParentDepartmentId": "0",
+            "externalDepartmentName": "one",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000102",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalParentDepartmentId": "0",
+            "externalDepartmentName": "two",
+            "orgUnitId": null,
+            "status": "unmapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000101",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "create_org_unit",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "x",
+              "externalParentDepartmentId": "0",
+              "externalDepartmentName": "one",
+              "targetName": "one",
+              "targetCode": "EXT-FS-X-C3DA8FF0",
+              "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+              "targetParentExternalDepartmentId": null,
+              "displayOrder": 0,
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000103",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "create_org_unit",
+            "status": "pending",
+            "orgUnitId": null,
+            "beforeSnapshot": null,
+            "candidateSnapshot": {
+              "externalDepartmentId": "x",
+              "externalParentDepartmentId": "0",
+              "externalDepartmentName": "two",
+              "targetName": "two",
+              "targetCode": "EXT-FS-X-C3DA8FF0",
+              "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+              "targetParentExternalDepartmentId": null,
+              "displayOrder": 0,
+              "externalSnapshot": {
+                "publicSentinel": "kept"
+              }
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 2,
+          "generatedItemCount": 2,
+          "actionCounts": {
+            "create_org_unit": 2
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "name": "duplicate-managed-mapping-update-then-move",
+        "departments": [
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "new",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": 7,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          },
+          {
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "old",
+            "externalParentDepartmentId": "0",
+            "isActive": true,
+            "displayOrder": 7,
+            "raw": {
+              "publicSentinel": "kept"
+            }
+          }
+        ],
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "x",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {},
+            "lastSeenAt": null
+          }
+        ],
+        "orgUnits": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000003",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "root",
+            "code": "C3",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000011",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "name": "old",
+            "code": "C11",
+            "description": null,
+            "parentId": null,
+            "isActive": true,
+            "displayOrder": 2
+          }
+        ]
+      },
+      "expected": {
+        "mappings": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "old",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000010",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "sourceId": "a0000000-0000-4000-8000-000000000001",
+            "externalDepartmentId": "x",
+            "externalDepartmentName": "old",
+            "externalParentDepartmentId": "0",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "status": "mapped",
+            "externalSnapshot": {
+              "publicSentinel": "kept"
+            },
+            "lastSeenAt": "2026-10-28T01:02:03.123Z"
+          }
+        ],
+        "diffItems": [
+          {
+            "id": "a0000000-0000-4000-8000-000000000100",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "update_org_unit",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": {
+              "id": "a0000000-0000-4000-8000-000000000011",
+              "name": "old",
+              "code": "C11",
+              "parentId": null,
+              "isActive": true,
+              "displayOrder": 2,
+              "rowVersion": 1
+            },
+            "candidateSnapshot": {
+              "targetName": "new"
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          },
+          {
+            "id": "a0000000-0000-4000-8000-000000000101",
+            "rowVersion": 1,
+            "createdAt": "2026-10-28T01:02:03.123Z",
+            "updatedAt": "2026-10-28T01:02:03.123Z",
+            "createdBy": null,
+            "updatedBy": null,
+            "runId": "a0000000-0000-4000-8000-000000000004",
+            "externalDepartmentId": "x",
+            "action": "move_org_unit",
+            "status": "pending",
+            "orgUnitId": "a0000000-0000-4000-8000-000000000011",
+            "beforeSnapshot": {
+              "id": "a0000000-0000-4000-8000-000000000011",
+              "name": "old",
+              "code": "C11",
+              "parentId": null,
+              "isActive": true,
+              "displayOrder": 2,
+              "rowVersion": 1
+            },
+            "candidateSnapshot": {
+              "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+              "targetParentExternalDepartmentId": null,
+              "displayOrder": 7
+            },
+            "errorMessage": null,
+            "appliedAt": null
+          }
+        ],
+        "summary": {
+          "externalDepartmentCount": 2,
+          "generatedItemCount": 2,
+          "actionCounts": {
+            "update_org_unit": 1,
+            "move_org_unit": 1
+          }
+        }
+      }
+    }
+  ],
+  "codes": [
+    {
+      "externalDepartmentId": "simple",
+      "expected": "EXT-FS-SIMPLE-50C4C254"
+    },
+    {
+      "externalDepartmentId": "中文",
+      "expected": "EXT-FS-DEPT-18F86C9A"
+    },
+    {
+      "externalDepartmentId": "a b/c",
+      "expected": "EXT-FS-A-B-C-3BA98D77"
+    },
+    {
+      "externalDepartmentId": "--",
+      "expected": "EXT-FS-DEPT-0144939C"
+    },
+    {
+      "externalDepartmentId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "expected": "EXT-FS-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-031033DD"
+    }
+  ],
+  "diagnostics": [
+    {
+      "message": " tenant_access_token = public-fixture ",
+      "redacted": " tenant_access_token=<redacted> ",
+      "normalized": "tenant_access_token=<redacted>"
+    },
+    {
+      "message": "Bearer public-fixture, text",
+      "redacted": "Bearer <redacted> text",
+      "normalized": "Bearer <redacted> text"
+    },
+    {
+      "message": "CLIENT_SECRET:\"public-fixture\" tail",
+      "redacted": "CLIENT_SECRET:\"<redacted>\" tail",
+      "normalized": "CLIENT_SECRET:\"<redacted>\" tail"
+    },
+    {
+      "message": "not_secret=public-kept",
+      "redacted": "not_secret=public-kept",
+      "normalized": "not_secret=public-kept"
+    },
+    {
+      "message": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "redacted": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "normalized": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    {
+      "message": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "redacted": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "normalized": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+    }
+  ],
+  "selection": [
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "create_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "update_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "move_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "disable_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": true
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "map_existing_org_unit",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "ignore",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "approved",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "skipped",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "applied",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000999"
+      ],
+      "skipped": [],
+      "expected": false
+    },
+    {
+      "item": {
+        "id": "a0000000-0000-4000-8000-000000000201",
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedBy": null,
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "x",
+        "action": "conflict",
+        "status": "failed",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "x"
+        },
+        "errorMessage": null,
+        "appliedAt": null
+      },
+      "approved": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "skipped": [
+        "a0000000-0000-4000-8000-000000000201"
+      ],
+      "expected": false
+    }
+  ],
+  "orders": [
+    {
+      "name": "parent-before-child",
+      "items": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000201",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "child",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "child",
+            "targetParentExternalDepartmentId": "parent"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        },
+        {
+          "id": "a0000000-0000-4000-8000-000000000202",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "parent",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "parent"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        },
+        {
+          "id": "a0000000-0000-4000-8000-000000000203",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "rename",
+          "action": "update_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "rename"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        },
+        {
+          "id": "a0000000-0000-4000-8000-000000000204",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "disabled",
+          "action": "disable_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "disabled"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        }
+      ],
+      "selected": [
+        "a0000000-0000-4000-8000-000000000201",
+        "a0000000-0000-4000-8000-000000000202",
+        "a0000000-0000-4000-8000-000000000203",
+        "a0000000-0000-4000-8000-000000000204"
+      ],
+      "expected": [
+        "a0000000-0000-4000-8000-000000000202",
+        "a0000000-0000-4000-8000-000000000201",
+        "a0000000-0000-4000-8000-000000000203",
+        "a0000000-0000-4000-8000-000000000204"
+      ]
+    },
+    {
+      "name": "duplicate-create",
+      "items": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000201",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "x",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "x"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        },
+        {
+          "id": "a0000000-0000-4000-8000-000000000202",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "x",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "x"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        }
+      ],
+      "selected": [
+        "a0000000-0000-4000-8000-000000000201",
+        "a0000000-0000-4000-8000-000000000202"
+      ],
+      "error": {
+        "status": 400,
+        "message": "Org sync create diff items contain duplicate external department x."
+      }
+    },
+    {
+      "name": "cycle",
+      "items": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000201",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "a",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "a",
+            "targetParentExternalDepartmentId": "b"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        },
+        {
+          "id": "a0000000-0000-4000-8000-000000000202",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "b",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "b",
+            "targetParentExternalDepartmentId": "a"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        }
+      ],
+      "selected": [
+        "a0000000-0000-4000-8000-000000000201",
+        "a0000000-0000-4000-8000-000000000202"
+      ],
+      "error": {
+        "status": 400,
+        "message": "Org sync create diff items contain a circular parent dependency."
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "missing",
+      "items": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000201",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "child",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "child",
+            "targetParentExternalDepartmentId": "parent"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        }
+      ],
+      "mappings": [],
+      "error": {
+        "status": 400,
+        "message": "Org sync diff item a0000000-0000-4000-8000-000000000201 requires parent external department parent to be mapped or applied in the same request."
+      }
+    },
+    {
+      "name": "created",
+      "items": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000201",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "child",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "child",
+            "targetParentExternalDepartmentId": "parent"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        },
+        {
+          "id": "a0000000-0000-4000-8000-000000000202",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "parent",
+          "action": "create_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "parent"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        }
+      ],
+      "mappings": [],
+      "expected": true
+    },
+    {
+      "name": "ignored-binding-still-counts",
+      "items": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000201",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "runId": "a0000000-0000-4000-8000-000000000004",
+          "externalDepartmentId": "child",
+          "action": "move_org_unit",
+          "status": "pending",
+          "orgUnitId": null,
+          "beforeSnapshot": null,
+          "candidateSnapshot": {
+            "externalDepartmentId": "child",
+            "targetParentExternalDepartmentId": "parent"
+          },
+          "errorMessage": null,
+          "appliedAt": null
+        }
+      ],
+      "mappings": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000210",
+          "rowVersion": 1,
+          "createdAt": "2026-10-28T01:02:03.123Z",
+          "updatedAt": "2026-10-28T01:02:03.123Z",
+          "createdBy": null,
+          "updatedBy": null,
+          "sourceId": "a0000000-0000-4000-8000-000000000001",
+          "externalDepartmentId": "parent",
+          "externalDepartmentName": "parent",
+          "externalParentDepartmentId": "0",
+          "orgUnitId": "a0000000-0000-4000-8000-000000000211",
+          "status": "ignored",
+          "externalSnapshot": {},
+          "lastSeenAt": null
+        }
+      ],
+      "expected": true
+    }
+  ],
+  "unassignedPk": {
+    "items": [
+      {
+        "id": "a0000000-0000-4000-8000-000000000220",
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "parent",
+        "action": "create_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "parent",
+          "externalParentDepartmentId": "0",
+          "externalDepartmentName": "Parent",
+          "targetName": "Parent",
+          "targetCode": "PARENT",
+          "targetParentOrgUnitId": "a0000000-0000-4000-8000-000000000003",
+          "targetParentExternalDepartmentId": null,
+          "displayOrder": 0,
+          "externalSnapshot": {
+            "publicSentinel": "kept"
+          }
+        },
+        "errorMessage": null,
+        "appliedAt": null,
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "updatedBy": null
+      },
+      {
+        "id": "a0000000-0000-4000-8000-000000000221",
+        "runId": "a0000000-0000-4000-8000-000000000004",
+        "externalDepartmentId": "child",
+        "action": "create_org_unit",
+        "status": "pending",
+        "orgUnitId": null,
+        "beforeSnapshot": null,
+        "candidateSnapshot": {
+          "externalDepartmentId": "child",
+          "externalParentDepartmentId": "parent",
+          "externalDepartmentName": "Child",
+          "targetName": "Child",
+          "targetCode": "CHILD",
+          "targetParentOrgUnitId": null,
+          "targetParentExternalDepartmentId": "parent",
+          "displayOrder": 0,
+          "externalSnapshot": {
+            "publicSentinel": "kept"
+          }
+        },
+        "errorMessage": null,
+        "appliedAt": null,
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "updatedBy": null
+      }
+    ],
+    "orgUnits": [
+      {
+        "name": "Parent",
+        "code": "PARENT",
+        "description": null,
+        "parentId": "a0000000-0000-4000-8000-000000000003",
+        "isActive": true,
+        "displayOrder": 0,
+        "createdBy": null,
+        "updatedBy": null,
+        "rowVersion": 1
+      },
+      {
+        "name": "Child",
+        "code": "CHILD",
+        "description": null,
+        "parentId": null,
+        "isActive": true,
+        "displayOrder": 0,
+        "createdBy": null,
+        "updatedBy": null,
+        "rowVersion": 1
+      }
+    ],
+    "mappings": [
+      {
+        "id": "a0000000-0000-4000-8000-000000000230",
+        "sourceId": "a0000000-0000-4000-8000-000000000001",
+        "externalDepartmentId": "parent",
+        "externalParentDepartmentId": "0",
+        "externalDepartmentName": "parent",
+        "orgUnitId": null,
+        "status": "mapped",
+        "reviewState": "mapped",
+        "conflictReason": null,
+        "lastConflictRunId": null,
+        "lastConflictDiffItemId": null,
+        "externalSnapshot": {
+          "publicSentinel": "kept"
+        },
+        "lastSeenAt": null,
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "updatedBy": null
+      },
+      {
+        "id": "a0000000-0000-4000-8000-000000000231",
+        "sourceId": "a0000000-0000-4000-8000-000000000001",
+        "externalDepartmentId": "child",
+        "externalParentDepartmentId": "0",
+        "externalDepartmentName": "child",
+        "orgUnitId": null,
+        "status": "mapped",
+        "reviewState": "mapped",
+        "conflictReason": null,
+        "lastConflictRunId": null,
+        "lastConflictDiffItemId": null,
+        "externalSnapshot": {
+          "publicSentinel": "kept"
+        },
+        "lastSeenAt": null,
+        "rowVersion": 1,
+        "createdAt": "2026-10-28T01:02:03.123Z",
+        "createdBy": null,
+        "updatedAt": "2026-10-28T01:02:03.123Z",
+        "updatedBy": null
+      }
+    ],
+    "createdEntries": [
+      [
+        "parent",
+        null
+      ],
+      [
+        "child",
+        null
+      ]
+    ],
+    "boundary": "Original per-item source with repository.createOrgUnit returning an unassigned ID. This is a pure logic oracle; Root separately owns actual Nest/PG generated-PK evidence."
+  }
+}

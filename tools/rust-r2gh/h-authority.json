@@ -1,0 +1,984 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "authority": "Unchanged original TS/Zod; generated input only",
+  "schemas": {
+    "ExternalOrgSourceListQuery": {
+      "type": "object",
+      "fieldOrder": [
+        "provider",
+        "status"
+      ],
+      "fields": {
+        "provider": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "feishu",
+              "dingtalk",
+              "wecom"
+            ]
+          }
+        },
+        "status": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "draft",
+              "active",
+              "paused",
+              "archived"
+            ]
+          }
+        }
+      }
+    },
+    "CreateExternalOrgSourceRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "provider",
+        "externalTenantId",
+        "displayName",
+        "providerConfigId",
+        "authoritativeOrgUnitId",
+        "externalRootDepartmentId",
+        "syncScopes"
+      ],
+      "fields": {
+        "provider": {
+          "type": "enum",
+          "values": [
+            "feishu",
+            "dingtalk",
+            "wecom"
+          ]
+        },
+        "externalTenantId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 128
+                }
+              ]
+            }
+          }
+        },
+        "displayName": {
+          "type": "string",
+          "checks": [
+            {
+              "check": "overwrite"
+            },
+            {
+              "check": "min_length",
+              "minimum": 1
+            },
+            {
+              "check": "max_length",
+              "maximum": 128
+            }
+          ]
+        },
+        "providerConfigId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        "authoritativeOrgUnitId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        "externalRootDepartmentId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        "syncScopes": {
+          "type": "optional",
+          "inner": {
+            "type": "array",
+            "element": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 128
+                }
+              ]
+            },
+            "checks": [
+              {
+                "check": "max_length",
+                "maximum": 32
+              }
+            ]
+          }
+        }
+      }
+    },
+    "UpdateExternalOrgSourceRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "displayName",
+        "providerConfigId",
+        "authoritativeOrgUnitId",
+        "externalRootDepartmentId",
+        "syncScopes",
+        "expectedVersion"
+      ],
+      "fields": {
+        "displayName": {
+          "type": "optional",
+          "inner": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 128
+              }
+            ]
+          }
+        },
+        "providerConfigId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        "authoritativeOrgUnitId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        "externalRootDepartmentId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        "syncScopes": {
+          "type": "optional",
+          "inner": {
+            "type": "array",
+            "element": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 128
+                }
+              ]
+            },
+            "checks": [
+              {
+                "check": "max_length",
+                "maximum": 32
+              }
+            ]
+          }
+        },
+        "expectedVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        }
+      },
+      "checks": [
+        {
+          "type": "custom",
+          "check": "custom"
+        }
+      ]
+    },
+    "ActivateExternalOrgSourceRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    "PauseExternalOrgSourceRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ArchiveExternalOrgSourceRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ExternalDepartmentMappingListQuery": {
+      "type": "object",
+      "fieldOrder": [
+        "status",
+        "reviewState",
+        "search",
+        "externalDepartmentId",
+        "orgUnitId"
+      ],
+      "fields": {
+        "status": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "unmapped",
+              "mapped",
+              "conflict",
+              "ignored"
+            ]
+          }
+        },
+        "reviewState": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "unmapped",
+              "mapped",
+              "conflict",
+              "ignored",
+              "stale"
+            ]
+          }
+        },
+        "search": {
+          "type": "optional",
+          "inner": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 255
+              }
+            ]
+          }
+        },
+        "externalDepartmentId": {
+          "type": "optional",
+          "inner": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 255
+              }
+            ]
+          }
+        },
+        "orgUnitId": {
+          "type": "optional",
+          "inner": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+          }
+        }
+      }
+    },
+    "ExternalDepartmentMappingReplacementItem": {
+      "type": "object",
+      "fieldOrder": [
+        "externalDepartmentId",
+        "externalParentDepartmentId",
+        "externalDepartmentName",
+        "orgUnitId",
+        "status",
+        "externalSnapshot"
+      ],
+      "fields": {
+        "externalDepartmentId": {
+          "type": "string",
+          "checks": [
+            {
+              "check": "overwrite"
+            },
+            {
+              "check": "min_length",
+              "minimum": 1
+            },
+            {
+              "check": "max_length",
+              "maximum": 255
+            }
+          ]
+        },
+        "externalParentDepartmentId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        "externalDepartmentName": {
+          "type": "string",
+          "checks": [
+            {
+              "check": "overwrite"
+            },
+            {
+              "check": "min_length",
+              "minimum": 1
+            },
+            {
+              "check": "max_length",
+              "maximum": 255
+            }
+          ]
+        },
+        "orgUnitId": {
+          "type": "optional",
+          "inner": {
+            "type": "nullable",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        "status": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "unmapped",
+              "mapped",
+              "conflict",
+              "ignored"
+            ]
+          }
+        },
+        "externalSnapshot": {
+          "type": "optional",
+          "inner": {
+            "type": "record",
+            "key": {
+              "type": "string"
+            },
+            "value": {
+              "type": "unknown"
+            }
+          }
+        }
+      }
+    },
+    "ReplaceExternalDepartmentMappingsRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedSourceVersion",
+        "items"
+      ],
+      "fields": {
+        "expectedSourceVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        },
+        "items": {
+          "type": "array",
+          "element": {
+            "type": "object",
+            "fieldOrder": [
+              "externalDepartmentId",
+              "externalParentDepartmentId",
+              "externalDepartmentName",
+              "orgUnitId",
+              "status",
+              "externalSnapshot"
+            ],
+            "fields": {
+              "externalDepartmentId": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 255
+                  }
+                ]
+              },
+              "externalParentDepartmentId": {
+                "type": "optional",
+                "inner": {
+                  "type": "nullable",
+                  "inner": {
+                    "type": "string",
+                    "checks": [
+                      {
+                        "check": "overwrite"
+                      },
+                      {
+                        "check": "min_length",
+                        "minimum": 1
+                      },
+                      {
+                        "check": "max_length",
+                        "maximum": 255
+                      }
+                    ]
+                  }
+                }
+              },
+              "externalDepartmentName": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 255
+                  }
+                ]
+              },
+              "orgUnitId": {
+                "type": "optional",
+                "inner": {
+                  "type": "nullable",
+                  "inner": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+                  }
+                }
+              },
+              "status": {
+                "type": "optional",
+                "inner": {
+                  "type": "enum",
+                  "values": [
+                    "unmapped",
+                    "mapped",
+                    "conflict",
+                    "ignored"
+                  ]
+                }
+              },
+              "externalSnapshot": {
+                "type": "optional",
+                "inner": {
+                  "type": "record",
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "unknown"
+                  }
+                }
+              }
+            }
+          },
+          "checks": [
+            {
+              "check": "max_length",
+              "maximum": 1000
+            }
+          ]
+        }
+      }
+    },
+    "MapExternalDepartmentMappingRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "orgUnitId",
+        "expectedVersion"
+      ],
+      "fields": {
+        "orgUnitId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+        },
+        "expectedVersion": {
+          "type": "number",
+          "checks": [
+            {
+              "type": "number",
+              "check": "number_format",
+              "abort": false,
+              "format": "safeint"
+            },
+            {
+              "check": "greater_than",
+              "value": 0,
+              "inclusive": false
+            }
+          ]
+        }
+      }
+    },
+    "UnmapExternalDepartmentMappingRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "number",
+          "checks": [
+            {
+              "type": "number",
+              "check": "number_format",
+              "abort": false,
+              "format": "safeint"
+            },
+            {
+              "check": "greater_than",
+              "value": 0,
+              "inclusive": false
+            }
+          ]
+        }
+      }
+    },
+    "IgnoreExternalDepartmentMappingRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "number",
+          "checks": [
+            {
+              "type": "number",
+              "check": "number_format",
+              "abort": false,
+              "format": "safeint"
+            },
+            {
+              "check": "greater_than",
+              "value": 0,
+              "inclusive": false
+            }
+          ]
+        }
+      }
+    },
+    "RestoreExternalDepartmentMappingRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "number",
+          "checks": [
+            {
+              "type": "number",
+              "check": "number_format",
+              "abort": false,
+              "format": "safeint"
+            },
+            {
+              "check": "greater_than",
+              "value": 0,
+              "inclusive": false
+            }
+          ]
+        }
+      }
+    },
+    "OrgSyncRunListQuery": {
+      "type": "object",
+      "fieldOrder": [
+        "status",
+        "limit"
+      ],
+      "fields": {
+        "status": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "previewing",
+              "previewed",
+              "applying",
+              "applied",
+              "failed",
+              "cancelled"
+            ]
+          }
+        },
+        "limit": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "coerce": true,
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 1,
+                "inclusive": true
+              },
+              {
+                "check": "less_than",
+                "value": 100,
+                "inclusive": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    "CreateOrgSyncRunRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedSourceVersion",
+        "requestSnapshot"
+      ],
+      "fields": {
+        "expectedSourceVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        },
+        "requestSnapshot": {
+          "type": "optional",
+          "inner": {
+            "type": "record",
+            "key": {
+              "type": "string"
+            },
+            "value": {
+              "type": "unknown"
+            }
+          }
+        }
+      }
+    },
+    "OrgSyncDiffItemListQuery": {
+      "type": "object",
+      "fieldOrder": [
+        "action",
+        "status"
+      ],
+      "fields": {
+        "action": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "create_org_unit",
+              "update_org_unit",
+              "move_org_unit",
+              "disable_org_unit",
+              "map_existing_org_unit",
+              "ignore",
+              "conflict"
+            ]
+          }
+        },
+        "status": {
+          "type": "optional",
+          "inner": {
+            "type": "enum",
+            "values": [
+              "pending",
+              "approved",
+              "skipped",
+              "applied",
+              "failed"
+            ]
+          }
+        }
+      }
+    },
+    "ApplyOrgSyncRunRequest": {
+      "type": "object",
+      "fieldOrder": [
+        "expectedVersion",
+        "approvedDiffItemIds",
+        "skippedDiffItemIds"
+      ],
+      "fields": {
+        "expectedVersion": {
+          "type": "optional",
+          "inner": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        },
+        "approvedDiffItemIds": {
+          "type": "optional",
+          "inner": {
+            "type": "array",
+            "element": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        "skippedDiffItemIds": {
+          "type": "optional",
+          "inner": {
+            "type": "array",
+            "element": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        }
+      }
+    }
+  },
+  "uuidPattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+}

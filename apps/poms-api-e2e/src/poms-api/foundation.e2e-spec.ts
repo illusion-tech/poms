@@ -5,13 +5,13 @@ import type { CurrentAuthSessionView } from '../support/types';
 
 jest.setTimeout(120_000);
 const runId = randomUUID();
-// R2D/R2EF bind anonymous security events to the guarded fixture journal.
+// R2D/R2EF/R2GH bind anonymous security events to the guarded fixture journal.
 // Earlier foundation suites retain their original request identity.
 const fixtureRunId = process.env['POMS_E2E_FIXTURE_RUN_ID'];
-if (fixtureRunId && (!['r2d', 'r2ef'].includes(process.env['POMS_E2E_ENV_PROFILE'] ?? '') || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(fixtureRunId))) {
-    throw new Error('Foundation fixture identity requires an explicit R2D/R2EF profile and canonical run UUID');
+if (fixtureRunId && (!['r2d', 'r2ef', 'r2gh'].includes(process.env['POMS_E2E_ENV_PROFILE'] ?? '') || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(fixtureRunId))) {
+    throw new Error('Foundation fixture identity requires an explicit R2D/R2EF/R2GH profile and canonical run UUID');
 }
-const fixtureNamespace = process.env['POMS_E2E_ENV_PROFILE'] === 'r2ef' ? 'r2ef' : 'r2d';
+const fixtureNamespace = process.env['POMS_E2E_ENV_PROFILE'] === 'r2gh' ? 'r2gh' : process.env['POMS_E2E_ENV_PROFILE'] === 'r2ef' ? 'r2ef' : 'r2d';
 let sequence = 0;
 let credentials: { username: string; password: string };
 let created: FoundationSession[] = [];

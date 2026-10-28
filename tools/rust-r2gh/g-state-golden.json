@@ -1,0 +1,701 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "oracle": "Actual unchanged original private state methods; fixed clock and synthetic env, no runtime credentials",
+  "nowMs": 1800000000000,
+  "env": {
+    "IDENTITY_PROVIDER_STATE_KEY": "g-synthetic-state-key"
+  },
+  "cases": [
+    {
+      "method": "verifyOAuthState",
+      "name": "valid",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D_pPy059e0OGvcrRA3e0pFxVw",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "padding",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D_pPy059e0OGvcrRA3e0pFxVw=",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "standard-alphabet",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D/pPy059e0OGvcrRA3e0pFxVw",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "signature-whitespace",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D_pPy059e0OGvcrRA3e0pFxVw \n",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "signature-invalid-ignored",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D_pPy059e0OGvcrRA3e0pFxVw!",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "bad-signature",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D_pPy059e0OGvcrRA3e0pFabc",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state signature.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "signature-empty",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "extra-segment",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.FoolWYayCQ6C6Stkp5D_pPy059e0OGvcrRA3e0pFxVw.x",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "empty",
+      "state": "",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "no-dot",
+      "state": "x",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "no-nonce",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsImV4cCI6MTgwMDAwMDAwMDAwMX0.kObveyHbLSmghZ8lbAOXokd0lfze2_6HTpKGSoOpCfM",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "id-empty",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiIiLCJvcGVyYXRvcklkIjoiZy1zeW50aGV0aWMtYWRtaW4iLCJub25jZSI6Imlnbm9yZWQiLCJleHAiOjE4MDAwMDAwMDAwMDF9.Ffi7HNBx9vC5yrsoIfrS5ZLHbauArrGspH_DR8vVPy0",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "operator-empty",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiIiLCJub25jZSI6Imlnbm9yZWQiLCJleHAiOjE4MDAwMDAwMDAwMDF9.i5L4e8W0gwAl2ymwzCN__QtRhtBdr3iZFO8dKr-nj5U",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": ""
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "exp-equal",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMH0.mkkebK-PpzOf74_0k9OhLA-FQKiaueo0HIoK9bUZuAw",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Provider OAuth state has expired.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "exp-past",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTc5OTk5OTk5OTk5OX0.nCxkOhkSUWghFPzAlQC5oHVM8d2H9ely7jWcv8gLEeg",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Provider OAuth state has expired.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "exp-fraction",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMC41fQ.o3IolyinqL0ed9O9g3Wd8VGOffjxBc5ezomWaU-_exw",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "exp-string",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6IjE4MDAwMDAwMDAwMDEifQ.xZwWqIcRV6i4lTgMn5nmLeJ6jnPwjenUXOTE_oBuh6c",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "purpose-other",
+      "state": "eyJwdXJwb3NlIjoib3RoZXIiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.4yEenGtjJRo9mUE4hiIzI7KiUF0KCh9qtcQDwn5Zpw0",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "id-number",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOjEsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.mKdn41eoNZlkA9YYPFyy-rhlt82UmmFhpdX_k38kje8",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "unicode",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJcdWQ4MDDwn5iAIiwib3BlcmF0b3JJZCI6Imctc3ludGhldGljLWFkbWluIiwibm9uY2UiOiJpZ25vcmVkIiwiZXhwIjoxODAwMDAwMDAwMDAxfQ.Ra8_DUb-0zcAbhXLHQ2ucOqVEAhapq792E3mJjTryKA",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "\ud800😀",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "array",
+      "state": "W10.WBFtf97etLrHhUQzouZXkFDxm4sP8hbLBWtahMjbLwE",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "null",
+      "state": "bnVsbA.MG-7rWab4pqjUareFj0A3fB9Z8HHy8m7vrFWGhVl7uM",
+      "expected": {
+        "success": false,
+        "status": null,
+        "response": {
+          "name": "TypeError",
+          "message": "Cannot read properties of null (reading 'purpose')"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "exp-infinity",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MWU5OTl9.h6WoS1PwuI42S3O8CGe4qMPbDNbUlPIGAt2_hILYJng",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "invalid-json",
+      "state": "ew.qFc9QmSCnmY2kab-YZl1G2RZai1jPSrTzw2JjsSBM_4",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "verifyOAuthState",
+      "name": "duplicate-last-id",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItYWRtaW4tZ3JhbnQiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMSwiaWRlbnRpdHlQcm92aWRlckNvbmZpZ0lkIjoibGFzdCJ9.tT4U502yuqbko_fRjFCsdY4fjMogTloEl4vo4-UQo7s",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "last",
+          "operatorId": "g-synthetic-admin"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "valid",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o-5-MFOGCuqSYOvkQERFi6IoR7DXbw",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "padding",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o-5-MFOGCuqSYOvkQERFi6IoR7DXbw=",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "standard-alphabet",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o+5+MFOGCuqSYOvkQERFi6IoR7DXbw",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "signature-whitespace",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o-5-MFOGCuqSYOvkQERFi6IoR7DXbw \n",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "signature-invalid-ignored",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o-5-MFOGCuqSYOvkQERFi6IoR7DXbw!",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "bad-signature",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o-5-MFOGCuqSYOvkQERFi6IoR7Dabc",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state signature.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "signature-empty",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "extra-segment",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.I3Ooh1svXneR6o-5-MFOGCuqSYOvkQERFi6IoR7DXbw.x",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "empty",
+      "state": "",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "no-dot",
+      "state": "x",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "no-nonce",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsImV4cCI6MTgwMDAwMDAwMDAwMX0.1kkKwDl4KlzjopUx38ZVet3Z_KbsnN7MAZOPv1nt3DY",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "id-empty",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiIiLCJvcGVyYXRvcklkIjoiZy1zeW50aGV0aWMtYWRtaW4iLCJub25jZSI6Imlnbm9yZWQiLCJleHAiOjE4MDAwMDAwMDAwMDF9.H_jI1kJBJumbf4mnBZSoD1_z02-W-sTDTyddMVpC9gc",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": ""
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "operator-empty",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiIiLCJub25jZSI6Imlnbm9yZWQiLCJleHAiOjE4MDAwMDAwMDAwMDF9.0PFQ9Jd4jFw0cxGG0GVAqs9FEEf7bORvxoGghz6oPqQ",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "exp-equal",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMH0.c3FU858jdHicAv_nNu691E-pzwdmMVbTZIvfIRrGBXQ",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Provider OAuth state has expired.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "exp-past",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTc5OTk5OTk5OTk5OX0.RbbhqkXkTK7Trc2d0OlgIlqwy-DB_0XOLYgtQXZ3dC4",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Provider OAuth state has expired.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "exp-fraction",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMC41fQ.zx-HXCVOmGCsSRw1K0xhwxBVoQlBLs1vhFJGv9kOGDc",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "exp-string",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6IjE4MDAwMDAwMDAwMDEifQ.BD9ubK2rqiUhjsnAOc1q0WmcW_ypf4D7zBKjAC6kyw0",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "purpose-other",
+      "state": "eyJwdXJwb3NlIjoib3RoZXIiLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.4yEenGtjJRo9mUE4hiIzI7KiUF0KCh9qtcQDwn5Zpw0",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "id-number",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOjEsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMX0.CUaVTEzCXcMloLKpyleL4wgWFXCLueBhtshCF5zUBW8",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "unicode",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJcdWQ4MDDwn5iAIiwib3BlcmF0b3JJZCI6Imctc3ludGhldGljLWFkbWluIiwibm9uY2UiOiJpZ25vcmVkIiwiZXhwIjoxODAwMDAwMDAwMDAxfQ.ZNtUXBprSTXkeFojP1VVAoNvT1rFIflxpTKFegQ76o0",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "\ud800😀"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "array",
+      "state": "W10.WBFtf97etLrHhUQzouZXkFDxm4sP8hbLBWtahMjbLwE",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "null",
+      "state": "bnVsbA.MG-7rWab4pqjUareFj0A3fB9Z8HHy8m7vrFWGhVl7uM",
+      "expected": {
+        "success": false,
+        "status": null,
+        "response": {
+          "name": "TypeError",
+          "message": "Cannot read properties of null (reading 'purpose')"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "exp-infinity",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MWU5OTl9.rVdF1YKmJjgUA-tR5bxFgvYwcsi76fZUvDpBCb9pqXQ",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "g-synthetic-provider"
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "invalid-json",
+      "state": "ew.qFc9QmSCnmY2kab-YZl1G2RZai1jPSrTzw2JjsSBM_4",
+      "expected": {
+        "success": false,
+        "status": 401,
+        "response": {
+          "message": "Invalid provider OAuth state payload.",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    },
+    {
+      "method": "verifyExternalLoginState",
+      "name": "duplicate-last-id",
+      "state": "eyJwdXJwb3NlIjoiaWRlbnRpdHktcHJvdmlkZXItbG9naW4iLCJpZGVudGl0eVByb3ZpZGVyQ29uZmlnSWQiOiJnLXN5bnRoZXRpYy1wcm92aWRlciIsIm9wZXJhdG9ySWQiOiJnLXN5bnRoZXRpYy1hZG1pbiIsIm5vbmNlIjoiaWdub3JlZCIsImV4cCI6MTgwMDAwMDAwMDAwMSwiaWRlbnRpdHlQcm92aWRlckNvbmZpZ0lkIjoibGFzdCJ9.nWKH6BZ8acV9hGhpDrupJ0bsLoEH8WxrBQha9lDYs3s",
+      "expected": {
+        "success": true,
+        "data": {
+          "identityProviderConfigId": "last"
+        }
+      }
+    }
+  ],
+  "signatures": [
+    {
+      "env": {},
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "Tujr0gWYZxTI_KqzLeeFSevpx2Ghyty3FOLRlD4SSHs"
+    },
+    {
+      "env": {
+        "IDENTITY_PROVIDER_STATE_KEY": ""
+      },
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "5rzXYID63M0rM9PuQVYBpK9bDD_NHZimSTC7FmgyU4w"
+    },
+    {
+      "env": {
+        "IDENTITY_PROVIDER_SECRET_KEY": ""
+      },
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "5rzXYID63M0rM9PuQVYBpK9bDD_NHZimSTC7FmgyU4w"
+    },
+    {
+      "env": {
+        "JWT_SECRET": ""
+      },
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "5rzXYID63M0rM9PuQVYBpK9bDD_NHZimSTC7FmgyU4w"
+    },
+    {
+      "env": {
+        "IDENTITY_PROVIDER_STATE_KEY": "first",
+        "IDENTITY_PROVIDER_SECRET_KEY": "second",
+        "JWT_SECRET": "third"
+      },
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "iFbs-DUg3d_CXyP-LyWwWZaH_ojMP1LWFwfkelrkipA"
+    },
+    {
+      "env": {
+        "IDENTITY_PROVIDER_SECRET_KEY": "second",
+        "JWT_SECRET": "third"
+      },
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "l4VEEX_W119vJfPL7J3dfUNpA02uXpGZAKG-qmQpNJY"
+    },
+    {
+      "env": {
+        "JWT_SECRET": "third"
+      },
+      "encodedPayload": "g-synthetic-payload",
+      "signature": "o9Q9zBRJSHcntVASHu_lClcKm6CB9oqzpeH4tGsHna0"
+    }
+  ]
+}

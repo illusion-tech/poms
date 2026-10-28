@@ -183,6 +183,8 @@ pub fn openapi() -> serde_json::Value {
         crate::dictionary::http::openapi(),
         crate::system_settings::http::openapi(),
         crate::runtime_audit::http::openapi(),
+        crate::identity_providers::http::openapi(),
+        crate::external_org_sync::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -218,6 +220,31 @@ pub fn router_with_auth(
     cors_origins: &[String],
     auth: crate::auth::http::AuthHttpState,
 ) -> Router {
+    router_with_provider_settings(
+        state,
+        cors_origins,
+        auth,
+        crate::provider_support::ProviderSettings::default(),
+    )
+}
+
+pub fn router_with_provider_settings(
+    state: AppState,
+    cors_origins: &[String],
+    auth: crate::auth::http::AuthHttpState,
+    provider_settings: crate::provider_support::ProviderSettings,
+) -> Router {
+    let support = crate::provider_support::ProviderSupport::new(provider_settings);
+    let directory = crate::external_org_sync::DirectoryAdapter::new(support.clone());
+    let identity_providers =
+        std::sync::Arc::new(crate::identity_providers::IdentityProvidersService::new(
+            state.database.clone(),
+            support.clone(),
+            directory,
+        ));
+    let external_org_sync = std::sync::Arc::new(
+        crate::external_org_sync::ExternalOrgSyncService::new(state.database.clone(), support),
+    );
     let roles = std::sync::Arc::new(crate::roles::service::RolesService::new(
         state.database.clone(),
     ));
@@ -251,7 +278,18 @@ pub fn router_with_auth(
             ))
             .merge(crate::dictionary::http::router(auth.clone(), dictionary))
             .merge(crate::system_settings::http::router(auth.clone(), settings))
-            .merge(crate::runtime_audit::http::router(auth, runtime_audit)),
+            .merge(crate::runtime_audit::http::router(
+                auth.clone(),
+                runtime_audit,
+            ))
+            .merge(crate::identity_providers::http::router(
+                auth.clone(),
+                identity_providers,
+            ))
+            .merge(crate::external_org_sync::http::router(
+                auth,
+                external_org_sync,
+            )),
         cors_origins,
     )
 }
@@ -289,6 +327,12 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         ))
         .layer(middleware::from_fn(
             crate::runtime_audit::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::identity_providers::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::external_org_sync::http::normalize_uri,
         ))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
@@ -460,7 +504,33 @@ async fn observe_and_cors(
         if let Some(origin) = allowed_origin {
             headers.insert(header::ACCESS_CONTROL_ALLOW_ORIGIN, origin);
         }
-        headers.append(header::VARY, HeaderValue::from_static("Origin"));
+        // Original Nest CORS runs before the route's Express Vary additions.
+        // Emit one ordered value so redirects retain `Origin, Accept` as well.
+        let mut vary = vec!["Origin".to_owned()];
+        for value in headers.get_all(header::VARY) {
+            if let Ok(value) = value.to_str() {
+                for token in value
+                    .split(',')
+                    .map(str::trim)
+                    .filter(|token| !token.is_empty())
+                {
+                    if !vary
+                        .iter()
+                        .any(|previous| previous.eq_ignore_ascii_case(token))
+                    {
+                        vary.push(token.to_owned());
+                    }
+                }
+            }
+        }
+        let value = if vary.iter().any(|token| token == "*") {
+            "*".to_owned()
+        } else {
+            vary.join(", ")
+        };
+        if let Ok(value) = HeaderValue::from_str(&value) {
+            headers.insert(header::VARY, value);
+        }
         headers.insert(
             header::ACCESS_CONTROL_ALLOW_CREDENTIALS,
             HeaderValue::from_static("true"),

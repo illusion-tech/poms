@@ -799,13 +799,15 @@ fn anonymous_view() -> Value {
     clippy::result_large_err,
     reason = "Keep the native rejection response and its existing headers intact at the HTTP boundary."
 )]
-fn cookie_values(values: impl IntoIterator<Item = String>) -> Result<Vec<HeaderValue>, Response> {
+pub(crate) fn cookie_values(
+    values: impl IntoIterator<Item = String>,
+) -> Result<Vec<HeaderValue>, Response> {
     values
         .into_iter()
         .map(|value| cookie_header_value(&value).map_err(|_| ApiError::internal().into_response()))
         .collect()
 }
-fn attach_cookies(mut response: Response, values: Vec<HeaderValue>) -> Response {
+pub(crate) fn attach_cookies(mut response: Response, values: Vec<HeaderValue>) -> Response {
     for value in values {
         response.headers_mut().append(header::SET_COOKIE, value);
     }
@@ -822,7 +824,7 @@ fn clear_or_error(state: &AuthHttpState, error: &AuthError) -> Response {
     }
 }
 
-async fn session_view(
+pub(crate) async fn session_view(
     state: &AuthHttpState,
     session: &Session,
     user: &AuthUser,

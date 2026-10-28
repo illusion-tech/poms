@@ -1,0 +1,403 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2GH-same-full-G3-concentrated-correction-independent-review",
+  "reviewedAtUtc": "2026-10-28 15:33:22 UTC",
+  "reviewer": {
+    "agent": "/root/r2gh_review",
+    "role": "非作者 C",
+    "modelTarget": "gpt-6.1-sol",
+    "reasoningTarget": "max",
+    "fast": "未核实",
+    "productAuthorship": false,
+    "fixtureOrRunnerAuthorship": false
+  },
+  "reviewMode": "沿用初审的完整联合 G3；本件是一次集中修复后的必要增量复核，不重启新的全量 G3",
+  "decision": "Pass",
+  "priorityCountsOpen": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "newFindings": [],
+  "canProceedToImplementationCommitAndIntegrationChecks": true,
+  "g4Completed": false,
+  "canCloseChildrenBeforeG4": false,
+  "frozenInput": {
+    "base": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+    "branchDeclared": "codex/poms-r2gh-identity-directory",
+    "delta": {
+      "path": "docs/design/rust-r2gh-g3-delta02.json",
+      "bytes": 23102,
+      "rawBytesSha256": "4af59f8a4210e0a50afd6f73588634fcb55842729ea7bd551a6582a18e11a2db"
+    },
+    "immutableCopy": {
+      "path": "tmp/rust-r2gh/g3-reviewed-input02.json",
+      "bytes": 23102,
+      "rawBytesSha256": "4af59f8a4210e0a50afd6f73588634fcb55842729ea7bd551a6582a18e11a2db"
+    },
+    "freeze": {
+      "path": "tmp/rust-r2gh/g3-freeze02.json",
+      "bytes": 1543,
+      "rawBytesSha256": "b89d81d7f0002df2e2674a855b9fad2d41cd927c526a46400f915e6c581cf598"
+    },
+    "sourceManifest": {
+      "path": "tmp/rust-r2gh/g3-source-manifest02.json",
+      "bytes": 1081539,
+      "files": 3479,
+      "rawBytesSha256": "4786ebb41eebe9a40c0264fe36ca56b3ec0c321a311f597858bd21b66bd482c3",
+      "aggregateSha256": "5dabcf1110bef481e31da6d6147f487eb0c0bed5e421cd05f540d28698e1b8bf"
+    },
+    "additiveLinuxManifest": {
+      "path": "tmp/rust-r2gh/linux-evidence/linux-manifest-g3-02.json",
+      "bytes": 300156,
+      "rawBytesSha256": "baf5904d98d41b93e7f39813bcf2fdbe3331a06f18e23efbbb631caa19b8fe0e"
+    },
+    "scope": {
+      "G": 16,
+      "H": 18,
+      "issues": [
+        74,
+        75
+      ],
+      "parents": [
+        67,
+        57
+      ],
+      "newPublicRoutes": false,
+      "productDdlChanged": false
+    },
+    "finalRustBinarySha256": "e139ea76286687c90e16fe23c3b68d63e61ec22b810f7c313a1fd702761add7e",
+    "finalRustBinaryBytes": 26891048
+  },
+  "inheritedFullReview": {
+    "path": "docs/design/rust-r2gh-review.json",
+    "bytes": 18897,
+    "rawBytesSha256": "d8cf399c856d8d897a0b92f540727e850de86654e857b457b741d0987a65f50c",
+    "decisionAtThatTime": "Block",
+    "initialCounts": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 3,
+      "P3": 1
+    },
+    "immutableCopy": "tmp/rust-r2gh/c-g3-review01.json",
+    "validation": {
+      "path": "docs/design/rust-r2gh-validation.json",
+      "bytes": 28388,
+      "rawBytesSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c"
+    },
+    "freezeSha256": "48849116043a6b0e533bdbac16fc9188848d9853435e842e1a910fa4676250c4",
+    "sourceManifestSha256": "7533ed0952db15c14dae259034bac88517ff8e3b38c399816b468345f148db31",
+    "unchanged": true,
+    "carryForward": "初审对34路由、原TS/DTO/DDL/guard、业务与审计分段、H原pre-flush NULL关系、canonical/OpenAPI、fixture主体、原UI/认证及历史证据边界的完整审查结论。",
+    "oldBlockRelabeledOrOverwritten": false
+  },
+  "resolvedFindings": [
+    {
+      "id": "C-G3-01",
+      "originalPriority": "P2",
+      "status": "Closed",
+      "source": {
+        "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+        "lines": [
+          434,
+          439,
+          440
+        ]
+      },
+      "verification": "仅 CryptoErrorKind::SecretUnreadable 映射原 BadRequest 400/message，其他 crypto 和 encrypt 的 500 分类保留。产品该文件没有其它语义改动。",
+      "evidence": {
+        "path": "tmp/rust-r2gh/linux-evidence/compat-fixbad01.json",
+        "rawBytesSha256": "0b30fb384d677f3582106861f30efcb00268109e2bbe929cc147e799023c0488"
+      },
+      "actualResult": "两端各5次真实grant/binding/state setup及4负例，共9 captured HTTP/端；login JSON400、admin JSON400、admin HTML302失败跳转、search JSON400严格匹配。search先提交通用lastError、updater和+1版本，无新audit/ticket；callback owned领域及audit事实不变。",
+      "fixtureBoundary": "新增 OwnedCipherFaults 仅精确 owned table/id/column/valuehash，写前durable记录并实证不可读；finally只恢复原cipher列并验证hash/原明文指纹，保留真实失败业务写入。normalizer仅对此ledger匹配坏值输出unreadableVerified，其余强制decryptVerified；未restore禁止cleanup。",
+      "restorationVerified": true
+    },
+    {
+      "id": "C-G3-02",
+      "originalPriority": "P2",
+      "status": "Closed",
+      "sources": [
+        {
+          "file": "tools/rust-r2gh/fixture-complete-references.mjs",
+          "line": 149
+        },
+        {
+          "file": "tools/rust-r2gh/owned-fixture.mjs",
+          "lines": [
+            306,
+            308,
+            322
+          ]
+        }
+      ],
+      "verification": "OwnedFixture在BEGIN内首个DELETE之前调用完整预检。精确冻结107表和28条incoming FK完整形状，不过滤复合/未知schema，核columns/target/action/match/validation/deferrability；对GH+base已知及动态拥有的真实UUID做全表逻辑闭包扫描。GH必须精确ID+identity，原base rowOwned/子树/其它清理检查保留；没有按actor/prefix放宽此预检。",
+      "pureEvidence": "fixture-complete-references.test.mjs覆盖正例、NULL operator/多种UUID文本、动态session/credential/assignment/audit/security闭包、精确identity、未知/复合/foreign-schema或变形FK、同数量异表及子树逸出，均要求拒绝前无DML。",
+      "nativeEvidence": {
+        "path": "tmp/rust-r2gh/linux-evidence/reference-guard-witness01.json",
+        "rawBytesSha256": "16dff744fd1617fd0381c20058421d0b426dda2cf261bf1a2c078af53f65aca1"
+      },
+      "actualResult": "两库各2反例：UnregisteredGHReference target_id以及JSON内uppercase compact UUID；均complete_reference_foreign_row、0 DML尝试、owned facts不变、provider仍存在，probe不收编为owned。仅按独立durable记录移除精确probe行后，正常cleanup及第二轮0/0。",
+      "unknownFkTestBoundary": "未知/复合FK形状为纯测试，不宣称执行了产品DDL。"
+    },
+    {
+      "id": "C-G3-03",
+      "originalPriority": "P2",
+      "status": "Closed",
+      "source": {
+        "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+        "line": 208
+      },
+      "verification": "request_url发送前按原Axios Node allowlist分类。ftp/ws返回isAxiosError=true、ERR_BAD_REQUEST及原Unsupported protocol <scheme>:消息，不落入通用ERR_NETWORK，也不改变API启动行为。G/H既有错误wrapper未变，原投影边界保留。",
+      "evidence": {
+        "path": "tmp/rust-r2gh/linux-evidence/transport-transport04.json",
+        "rawBytesSha256": "d6aa9555648e5c402dee72dcac1213939c4a3aaf9848555d457f5c63127e48fb"
+      },
+      "actualResult": "最终rebuilt probe 20/20；新增ftp/ws与真实原Axios字段严格匹配，两个case均未观察到owned HTTP/proxy请求。",
+      "probeSha256": "8883f5731f71e6105168a9dfb4432891c0294a1a7708beaf586d3a23c2686b1d",
+      "limit": "有限矩阵不新增file/data特殊处理或真实供应商账号认证。"
+    },
+    {
+      "id": "C-G3-04",
+      "originalPriority": "P3",
+      "status": "Closed",
+      "source": {
+        "file": "tools/rust-r2gh/timestamp-policy.mjs",
+        "lines": [
+          19,
+          33
+        ]
+      },
+      "verification": "显式server-owned DB列、DTO和audit路径allowlist；业务、requestSnapshot与provider raw中的ISO文本保持字面。facts数组排序也收窄为before/after/facts顶层既定表集合。state签名payload exp与DTO expiry精确相等，state600000ms及新ticket120000ms受实际send/receive时间区间约束。",
+      "evidence": {
+        "path": "tmp/rust-r2gh/linux-evidence/compat-fixfull01.json",
+        "rawBytesSha256": "90d742575a4d61e23165ed4ff13a0997018b718e504b9c4799fd7c5093da0699"
+      },
+      "actualResult": "新规则下完整G/H双端零mismatch；G每端5个lifetime收据，另GBadCipher每端3个state收据，原值及签名expiry对应关系保留。纯测试拒绝业务ISO投影及错误TTL。",
+      "oldProjectionEvidenceRetained": true
+    }
+  ],
+  "independentIntegrity": {
+    "sourceCount": 3479,
+    "sourceBytes": 215740389,
+    "mismatches": [],
+    "aggregate": "5dabcf1110bef481e31da6d6147f487eb0c0bed5e421cd05f540d28698e1b8bf",
+    "declaredAggregate": "5dabcf1110bef481e31da6d6147f487eb0c0bed5e421cd05f540d28698e1b8bf",
+    "changedOldCount": 9,
+    "changedOldPaths": [
+      "apps/poms-api-rust/src/identity_providers/service.rs",
+      "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "docs/design/rust-r2gh-corrective-checkpoint.md",
+      "tools/rust-r2gh/README.md",
+      "tools/rust-r2gh/compat-acceptance.mjs",
+      "tools/rust-r2gh/final-state.mjs",
+      "tools/rust-r2gh/fixture-safety.test.mjs",
+      "tools/rust-r2gh/owned-fixture.mjs",
+      "tools/rust-r2gh/transport-acceptance.mjs"
+    ],
+    "removedOld": [],
+    "preservedChangedSources": [
+      {
+        "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+        "match": true
+      },
+      {
+        "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+        "match": true
+      },
+      {
+        "file": "docs/design/rust-r2gh-corrective-checkpoint.md",
+        "match": true
+      },
+      {
+        "file": "tools/rust-r2gh/README.md",
+        "match": true
+      },
+      {
+        "file": "tools/rust-r2gh/compat-acceptance.mjs",
+        "match": true
+      },
+      {
+        "file": "tools/rust-r2gh/final-state.mjs",
+        "match": true
+      },
+      {
+        "file": "tools/rust-r2gh/fixture-safety.test.mjs",
+        "match": true
+      },
+      {
+        "file": "tools/rust-r2gh/owned-fixture.mjs",
+        "match": true
+      },
+      {
+        "file": "tools/rust-r2gh/transport-acceptance.mjs",
+        "match": true
+      }
+    ],
+    "linux": [
+      {
+        "epoch": "01",
+        "count": 3040,
+        "bytes": 418309784,
+        "mismatches": []
+      },
+      {
+        "epoch": "02",
+        "count": 1179,
+        "bytes": 241191624,
+        "mismatches": []
+      }
+    ]
+  },
+  "provenanceChecks": {
+    "deltaArtifactReferences": 33,
+    "artifactReferenceMismatches": 0,
+    "oldNewLinuxFileOverlap": 0,
+    "unchangedOriginalTsUiContractsSpecClientMigrations": true,
+    "changedProductFilesOnly": [
+      "apps/poms-api-rust/src/identity_providers/service.rs",
+      "apps/poms-api-rust/src/provider_support/upstream.rs"
+    ],
+    "currentOwnerSources": [
+      {
+        "owner": "owner-nest-fix01-start",
+        "files": 447,
+        "mismatches": 0,
+        "binarySha256": "86847230bce15d6f903316e974021c86d471597f822fc69dd63fd2c3f2a54175"
+      },
+      {
+        "owner": "owner-rust-fix01-start",
+        "files": 537,
+        "mismatches": 0,
+        "binarySha256": "e139ea76286687c90e16fe23c3b68d63e61ec22b810f7c313a1fd702761add7e"
+      }
+    ],
+    "actualRuntimeToolSnapshots": "fixfull01/fixbad01各保全68件工具输入。67件与当前一致；唯一差异final-state.mjs不是compat导入/执行路径，只在收尾增加严格tag参数选择latest sweep/owner/output。当前final-state02与final03、fix01 closeout另绑定，检查断言未放宽。",
+    "sourceAndFrozenInputHashesRecheckedBeforeVerdict": true
+  },
+  "acceptedFinalEvidence": {
+    "fullGH": {
+      "report": "tmp/rust-r2gh/linux-evidence/compat-fixfull01.json",
+      "result": "pass",
+      "G": {
+        "recordsPerBackend": 61,
+        "ordinaryHttpPerBackend": 58,
+        "concurrentHttpPerBackend": 4
+      },
+      "H": {
+        "recordsPerBackend": 66,
+        "ordinaryHttpPerBackend": 64,
+        "concurrentHttpPerBackend": 2
+      },
+      "capturedHttpPerBackend": 128,
+      "controlledRacesPerBackend": 3,
+      "concurrentResponsesPerBackend": 6,
+      "races": "三组真实UPDATE等待屏障仍为1→2等待，各端每组[200,500]原CAS语义。"
+    },
+    "badCipher": {
+      "report": "tmp/rust-r2gh/linux-evidence/compat-fixbad01.json",
+      "result": "pass",
+      "recordsPerBackend": 10,
+      "setupHttpPerBackend": 5,
+      "negativeHttpPerBackend": 4,
+      "capturedHttpPerBackend": 9,
+      "upstream": "两端合计只有2个setup /oauth/token请求；没有为4个负例增加上游请求。"
+    },
+    "totalCapturedCaseResponsesPerBackend": 137,
+    "countBoundary": "128完整G/H + 9独立badcipher（5 setup+4负例）。records、PG-facts、race record与captured response分别计数；不把未捕获的基础认证/fixture操作混入。",
+    "rust": {
+      "passed": 162,
+      "failed": 0,
+      "ignored": 54,
+      "clippy": "-D warnings exit0",
+      "release": "exit0",
+      "probe": "exit0",
+      "fmt": "exit0",
+      "ignoredNotExecuted": true
+    },
+    "pureTools": {
+      "currentRunPassed": 23,
+      "failed": 0,
+      "overlapWithInitialFixtureSafety": 7,
+      "notAddedAgainToEarlierCounts": true
+    },
+    "originalAngular": {
+      "finalRustReexecuted": "Windows ui07与Linux ui02，各2条原页面journey pass",
+      "selectedMatrixJourneys": 8,
+      "originalNestReused": "两个平台原Nest UI保留旧epoch，原Nest产品/binary及相关路径不变",
+      "foundationReusedTests": 52,
+      "reuseBoundary": "基础认证来源未变，保留candidate04标签；不宣称重新跑了新全四组合foundation。"
+    },
+    "openapi": {
+      "paths": 65,
+      "operations": 81,
+      "ownOperations": 34,
+      "generatedSha256": "bf2f5e67c44b1852e4a5bb1fdb8ad6e4a6473bfa113afa8c88781ba7298ac52f",
+      "sameAsInitialCandidate04": true,
+      "recursiveVerification": "pass",
+      "fullOriginalChanged": false
+    },
+    "cleanup": {
+      "report": "tmp/rust-r2gh/linux-evidence/cleanup-journals-final03.json",
+      "result": "pass",
+      "backendRunPairs": 72,
+      "journals": 144,
+      "allRunsHaveTwoConsecutiveZeroPasses": true,
+      "finalState": "tmp/rust-r2gh/linux-evidence/final-state02.json",
+      "portsReleased": [
+        5700,
+        5701,
+        5800,
+        5900
+      ],
+      "latestOwners": "Nest/Rust/upstream fix01 normal stopped；source/binary unchanged",
+      "faultColumnsRestoredBeforeCleanup": true
+    }
+  },
+  "reviewerStaticChecks": [
+    {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "result": "passed",
+      "readOnly": true
+    },
+    {
+      "command": "deno run --cached-only --allow-read tools/format-md-tables.ts --check docs",
+      "exitCode": 0,
+      "result": "passed",
+      "readOnly": true,
+      "networkAllowed": false
+    }
+  ],
+  "retainedLimits": [
+    "旧G1首轮Block/后续Pass、完整G3初审Block、旧validation/freeze/source manifests、运行失败/恢复/ignored及schema分类仍为原字节；本件不把旧记录改成Pass。",
+    "原schema仍是双库Failed-with-classification，未执行建议DDL；原native约束、API/admin lint/test/build及完整spec/client证据按原范围继承。",
+    "仅controlled synthetic loopback protocol integration与隔离PG15证据，没有真实Feishu账号/租户认证或外部目录写入、部署/切流、性能结论。",
+    "原stateless state、tenantAllowlist只存取、ticket先消费后独立session、H best-effort与pre-flush NULL关系保留，没有偷偷加业务硬化。",
+    "这是有限输入/协议/Unicode/number矩阵，不是全环境或特殊file/data模式的通用Axios兼容认证。",
+    "C只读复核源码/原件及纯静态检查，未运行DB、HTTP/网络服务、浏览器、安装或测试，也未写产品/fixture/runner。"
+  ],
+  "nextBoundary": [
+    "同一次联合G3已通过当前冻结来源和candidate05；可按既有授权进行实现提交/推送及集成后必要来源/二进制一致性核验。",
+    "G4仍需单独的附加记录、原件保全、生命周期归档及GitHub/本地状态回写，完成后仅#74/#75可Done。",
+    "父#67/#57、余34操作及R2M、#61/R3–R5继续原范围；不为普通归档脚本新设独立Gate。",
+    "若产品或实际验收行为再变，只补受影响证据，不改写本次及初审原件。"
+  ],
+  "reviewerActions": {
+    "writtenFiles": [
+      "docs/design/rust-r2gh-review02.json",
+      "tmp/rust-r2gh/c-g3-review02.json"
+    ],
+    "identicalRawBytes": true,
+    "initialReviewOrExistingEvidenceChanged": false,
+    "productOrFixtureRunnerWrites": false,
+    "databaseOrNetworkServiceOrBrowserOperations": false,
+    "installs": false,
+    "testExecutions": false,
+    "gitMutations": false,
+    "githubMutations": false
+  },
+  "conclusion": "初审3项P2和1项P3已由集中修复、精确来源保留及实际增量关闭。无新增或未关闭P0/P1/P2/P3；同一次完整联合G3最终Pass。G4尚未完成。"
+}

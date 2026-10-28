@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { validateSource } from './fixture-guard.mjs';
+validateSource();
+assert.equal(process.argv.length, 2);
+const folder = 'tmp/rust-r2gh/', output = folder + 'catalog-alignment01.json';
+assert(!existsSync(output));
+const sha = value => createHash('sha256').update(value).digest('hex');
+const read = file => JSON.parse(readFileSync(folder + file));
+const observed = read('schema-check.json');
+assert.equal(observed.result, 'observed');
+assert.equal(observed.proposedSqlExecuted, false);
+const catalogs = ['nest', 'rust'].map(backend => {
+    const before = read(`schema-${backend}-before.json`), after = read(`schema-${backend}-after.json`);
+    assert.deepEqual(before, after);
+    assert.equal(before.migrations.length, 92);
+    return before;
+});
+assert.deepEqual(catalogs[0], catalogs[1], 'Both independent copies retain the complete same catalog definitions');
+const migrationFiles = readdirSync('apps/poms-api/src/migrations').filter(name => /^Migration.+\.ts$/.test(name)).sort();
+assert.equal(migrationFiles.length, 92);
+assert.deepEqual(catalogs[0].migrations.map(row => row.name).sort(), migrationFiles.map(name => name.slice(0, -3)), 'Exact original migration names');
+const tables = ['identity_provider_config', 'external_identity', 'identity_provider_oauth_grant', 'external_login_ticket', 'external_org_source', 'external_department_mapping', 'org_sync_run', 'org_sync_diff_item'];
+const own = Object.fromEntries(['columns', 'constraints', 'indexes'].map(key => [key, catalogs[0][key].filter(row => tables.includes(row.relname ?? row.tablename))]));
+const report = { formatVersion: 1, kind: 'read-only-catalog-cross-copy-alignment', result: 'pass', fullCatalogsEqual: true, beforeAfterEqual: true, migrations: 92, exactMigrationNamesEqual: true, catalogSha256: sha(JSON.stringify(catalogs[0])), originalProductMigrationFiles: migrationFiles.map(file => ({ file: 'apps/poms-api/src/migrations/' + file, rawBytesSha256: sha(readFileSync('apps/poms-api/src/migrations/' + file)) })), scopeTables: tables, scopeDefinitions: own, observedSchemaClassification: observed.copies.map(copy => ({ backend: copy.backend, status: copy.status, classification: copy.classification })), proposedSqlExecuted: false, ormProposedCheckExpressionEquivalenceClaim: false };
+writeFileSync(output, JSON.stringify(report, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ result: 'pass', fullCatalogsEqual: true, exactMigrationNamesEqual: true, migrations: 92, output }));

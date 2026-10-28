@@ -102,13 +102,14 @@ async fn run() -> ExitCode {
             config.auth.clone(),
         )),
     };
-    let router = http::router_with_auth(
+    let router = http::router_with_provider_settings(
         http::AppState {
             database: database.clone(),
             started_at,
         },
         &config.cors_origins,
         auth,
+        config.providers.clone(),
     );
     logging::event(
         "listening",

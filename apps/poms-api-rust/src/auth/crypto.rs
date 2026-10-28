@@ -375,7 +375,7 @@ impl SecretCipher {
     }
 }
 
-fn node_base64(input: &str) -> Vec<u8> {
+pub(crate) fn node_base64(input: &str) -> Vec<u8> {
     let mut out = Vec::new();
     let mut buffer = 0_u32;
     let mut bits = 0_u32;

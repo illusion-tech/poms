@@ -313,3 +313,20 @@ R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归�
 R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https://github.com/illusion-tech/poms/issues/73) 共10个既有操作及9scope编号内部机制已交付，实现 `9b3086f6957dfed318a7a53d10cf245394d5282f` 已集成推送main。C联合G3 Pass，未关闭P0/P1/P2为0；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)和[归档收口](archive/slices/rust-r2ef-closeout.md)分列旧393完整对照与修后E54/18增量，最终Rust149/显式PG4/四组合UI8/基础认证26及40run二次零残留。
 
 本G4随归档提交推送与Issue核对生效，仅关闭#72/#73。R2A–F累计 **40/108**，剩余 **68个操作及R2M验收**；父#67/#57保持Doing/Open，G–M与#61依赖不变。原G1/G3原字节及旧失败保留，PG17实例和数据、旧环境均保留；无部署、产品DDL或性能结论。本条为最新状态，上方带日期的G1/旧切片状态保留历史含义。
+
+
+### 2026-10-28 后续授权：R2G＋R2H联合批次
+
+用户在E/F G4交付后要求继续下一批，本次授权限定G/H的34个既有HTTP操作及其原provider/目录内部机制。当前仍交付40/108；本批仅G0/G1准备，未因授权自动Doing或Done。[联合基线](rust-r2gh-identity-directory-baseline.md)待C冻结共享provider/现有SecretCipher封装/独立state key/axios兼容HTTP/目录ports后，两名作者在独立上下文显式Sol/max并行，Root统一环境/运行验收/G3与G4。
+
+复用已干净的独立Windows检出并另开codex/poms-r2gh-identity-directory，不改primary；新Linux checkout/PG15 pair/role/marker及5700/5701/5800/5900隔离。只用受控合成上游真实协议，不能冒称真实Feishu账号成功；PG17、旧EF数据/原件保留。I/J为另一主线，仍待其独立授权/G1，不因本次G/H启动提前实施；K/L跨域和R2M边界不变。上方“本轮仅EF”保留原授权时点，当前以上述续授权为准。
+
+### 2026-10-28 R2G/H 实现与实际验收完成，联合G3待审
+
+G [#74](https://github.com/illusion-tech/poms/issues/74)16操作、H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已按联合G1并行实现。Root统一实际验收：同一candidate04的G07/H08每端128个用例HTTP响应及3组受控竞争，最终transport18、native PG每库12、四组合原页面8、基础认证52、Rust162通过/54 ignored；OpenAPI65 paths/81 operations递归对齐。完整原规范291/585、579 client与92 migration受保护，无产品DDL和原TS/Angular产品改动。
+
+60个attempted run / 120份base与GH journal最终连续两轮0/0，5700/5701/5800/5900已释放，原Nest/Rust与合成上游正常停止，source/binary不变。两个早期失败UI的base残项由final01独立补清，marker顺序纠偏及final02全量归零保留；旧失败、有限Unicode/时间投影、原H新组织UUID关联行为和schema Failed-with-classification见[纠偏记录](rust-r2gh-corrective-checkpoint.md)及[机器验收](rust-r2gh-validation.json)。尚待非作者联合G3、提交推送/集成和G4，当前仍交付40/108，#74/#75保持Doing，父#67/#57、I–M与#61边界不变。
+
+### 2026-10-29 R2G/H 同次联合G3最终通过
+
+[非作者终审](rust-r2gh-review02.json)最终Pass，未关闭P0/P1/P2/P3均为0。首审3 P2/1 P3的Block和初始原件保留，[集中纠偏增量](rust-r2gh-g3-delta02.json)绑定坏密文400、完整外引预检、不支持协议分类与精确时间投影/TTL；修后每端137个captured-case HTTP、3组竞争、transport20、真实guard4反例0DML、工具23、Rust162/54 ignored分列、Rust两平台原页面4条复验均通过。72 backend/run /144 journal最终两轮0/0，本批服务正常停止、四端口释放。G3评论已回写[G](https://github.com/illusion-tech/poms/issues/74#issuecomment-6473390122)/[H](https://github.com/illusion-tech/poms/issues/75#issuecomment-6473391109)，实现提交/推送、集成后核验与G4待完成，当前仍40/108；父#67/#57和I–M/#61保持原状态。

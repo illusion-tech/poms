@@ -1,0 +1,5256 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "oracle": "Actual unchanged original private service helpers, synthetic entities/fixed clock; no repository/audit/upstream execution",
+  "nowMs": 1800000000000,
+  "cases": [
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "draft:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "draft:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "active:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "active:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "disabled:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "disabled:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:false:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:false:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:false:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:false:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "disabled",
+          "enabled": false,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:true:false:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:true:false:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": true
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:true:true:false",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "hasMinimumActiveConfig",
+      "name": "misconfigured:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": false
+      }
+    },
+    {
+      "method": "normalizeConfigStatus",
+      "name": "misconfigured:true:true:true",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "mutated": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "misconfigured",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "toDetail",
+      "name": "config-64",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "secretConfigured": false,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "auditSnapshot",
+      "name": "config-65",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "secretConfigured": false,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1
+        }
+      }
+    },
+    {
+      "method": "basicConnectionChecks",
+      "name": "config-66",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          {
+            "key": "enabled",
+            "label": "总开关",
+            "status": "failed",
+            "message": "企业协同接入已停用。"
+          },
+          {
+            "key": "clientCredentials",
+            "label": "Client ID / Secret",
+            "status": "failed",
+            "message": "Client ID 和 Client Secret 不能为空。"
+          },
+          {
+            "key": "loginRedirectUri",
+            "label": "登录 Redirect URI",
+            "status": "skipped",
+            "message": "登录能力未启用。"
+          },
+          {
+            "key": "searchRedirectUri",
+            "label": "搜索 Redirect URI",
+            "status": "skipped",
+            "message": "搜索能力未启用。"
+          }
+        ]
+      }
+    },
+    {
+      "method": "testBasicConnection",
+      "name": "config-67",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "status": "failed",
+          "capability": "basic",
+          "message": "企业协同接入已停用。",
+          "checkedAt": "2027-01-15T08:00:00.000Z",
+          "checks": [
+            {
+              "key": "enabled",
+              "label": "总开关",
+              "status": "failed",
+              "message": "企业协同接入已停用。"
+            },
+            {
+              "key": "clientCredentials",
+              "label": "Client ID / Secret",
+              "status": "failed",
+              "message": "Client ID 和 Client Secret 不能为空。"
+            },
+            {
+              "key": "loginRedirectUri",
+              "label": "登录 Redirect URI",
+              "status": "skipped",
+              "message": "登录能力未启用。"
+            },
+            {
+              "key": "searchRedirectUri",
+              "label": "搜索 Redirect URI",
+              "status": "skipped",
+              "message": "搜索能力未启用。"
+            }
+          ],
+          "nextActions": []
+        }
+      }
+    },
+    {
+      "method": "assertBindingAllowed",
+      "name": "config-68",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Active and enabled identity provider config is required before binding external identities.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertLoginAllowed",
+      "name": "config-69",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Active and enabled identity provider config is required before external login.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertSearchGrantAllowed",
+      "name": "config-70",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": false,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Active and enabled identity provider config is required before searching external users.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "toDetail",
+      "name": "config-71",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "secretConfigured": true,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "auditSnapshot",
+      "name": "config-72",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "secretConfigured": true,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1
+        }
+      }
+    },
+    {
+      "method": "basicConnectionChecks",
+      "name": "config-73",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          {
+            "key": "enabled",
+            "label": "总开关",
+            "status": "passed",
+            "message": "企业协同接入总开关已启用。"
+          },
+          {
+            "key": "clientCredentials",
+            "label": "Client ID / Secret",
+            "status": "passed",
+            "message": "Client ID 和 Client Secret 已配置。"
+          },
+          {
+            "key": "loginRedirectUri",
+            "label": "登录 Redirect URI",
+            "status": "skipped",
+            "message": "登录能力未启用。"
+          },
+          {
+            "key": "searchRedirectUri",
+            "label": "搜索 Redirect URI",
+            "status": "skipped",
+            "message": "搜索能力未启用。"
+          }
+        ]
+      }
+    },
+    {
+      "method": "testBasicConnection",
+      "name": "config-74",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "capability": "basic",
+          "message": "本地配置检查通过。服务商网络连通性由对应适配器能力检查。",
+          "checkedAt": "2027-01-15T08:00:00.000Z",
+          "checks": [
+            {
+              "key": "enabled",
+              "label": "总开关",
+              "status": "passed",
+              "message": "企业协同接入总开关已启用。"
+            },
+            {
+              "key": "clientCredentials",
+              "label": "Client ID / Secret",
+              "status": "passed",
+              "message": "Client ID 和 Client Secret 已配置。"
+            },
+            {
+              "key": "loginRedirectUri",
+              "label": "登录 Redirect URI",
+              "status": "skipped",
+              "message": "登录能力未启用。"
+            },
+            {
+              "key": "searchRedirectUri",
+              "label": "搜索 Redirect URI",
+              "status": "skipped",
+              "message": "搜索能力未启用。"
+            }
+          ],
+          "nextActions": []
+        }
+      }
+    },
+    {
+      "method": "assertBindingAllowed",
+      "name": "config-75",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider config does not allow binding.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertLoginAllowed",
+      "name": "config-76",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider config does not allow external login.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertSearchGrantAllowed",
+      "name": "config-77",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": false,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider config does not allow external user search.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "toDetail",
+      "name": "config-78",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "secretConfigured": true,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "auditSnapshot",
+      "name": "config-79",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "secretConfigured": true,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1
+        }
+      }
+    },
+    {
+      "method": "basicConnectionChecks",
+      "name": "config-80",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          {
+            "key": "enabled",
+            "label": "总开关",
+            "status": "passed",
+            "message": "企业协同接入总开关已启用。"
+          },
+          {
+            "key": "clientCredentials",
+            "label": "Client ID / Secret",
+            "status": "passed",
+            "message": "Client ID 和 Client Secret 已配置。"
+          },
+          {
+            "key": "loginRedirectUri",
+            "label": "登录 Redirect URI",
+            "status": "failed",
+            "message": "启用登录能力时必须配置登录 Redirect URI。"
+          },
+          {
+            "key": "searchRedirectUri",
+            "label": "搜索 Redirect URI",
+            "status": "failed",
+            "message": "启用搜索能力时必须配置 Search Redirect URI。"
+          }
+        ]
+      }
+    },
+    {
+      "method": "testBasicConnection",
+      "name": "config-81",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "status": "failed",
+          "capability": "basic",
+          "message": "启用登录能力时必须配置登录 Redirect URI。",
+          "checkedAt": "2027-01-15T08:00:00.000Z",
+          "checks": [
+            {
+              "key": "enabled",
+              "label": "总开关",
+              "status": "passed",
+              "message": "企业协同接入总开关已启用。"
+            },
+            {
+              "key": "clientCredentials",
+              "label": "Client ID / Secret",
+              "status": "passed",
+              "message": "Client ID 和 Client Secret 已配置。"
+            },
+            {
+              "key": "loginRedirectUri",
+              "label": "登录 Redirect URI",
+              "status": "failed",
+              "message": "启用登录能力时必须配置登录 Redirect URI。"
+            },
+            {
+              "key": "searchRedirectUri",
+              "label": "搜索 Redirect URI",
+              "status": "failed",
+              "message": "启用搜索能力时必须配置 Search Redirect URI。"
+            }
+          ],
+          "nextActions": []
+        }
+      }
+    },
+    {
+      "method": "assertBindingAllowed",
+      "name": "config-82",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider config does not allow binding.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertLoginAllowed",
+      "name": "config-83",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider redirect URI is required before external login.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertSearchGrantAllowed",
+      "name": "config-84",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider search redirect URI is required before starting provider authorization.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "toDetail",
+      "name": "config-85",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "secretConfigured": true,
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      }
+    },
+    {
+      "method": "auditSnapshot",
+      "name": "config-86",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "secretConfigured": true,
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1
+        }
+      }
+    },
+    {
+      "method": "basicConnectionChecks",
+      "name": "config-87",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          {
+            "key": "enabled",
+            "label": "总开关",
+            "status": "passed",
+            "message": "企业协同接入总开关已启用。"
+          },
+          {
+            "key": "clientCredentials",
+            "label": "Client ID / Secret",
+            "status": "passed",
+            "message": "Client ID 和 Client Secret 已配置。"
+          },
+          {
+            "key": "loginRedirectUri",
+            "label": "登录 Redirect URI",
+            "status": "passed",
+            "message": "登录 Redirect URI 已配置。"
+          },
+          {
+            "key": "searchRedirectUri",
+            "label": "搜索 Redirect URI",
+            "status": "passed",
+            "message": "搜索 Redirect URI 已配置。"
+          }
+        ]
+      }
+    },
+    {
+      "method": "testBasicConnection",
+      "name": "config-88",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "capability": "basic",
+          "message": "本地配置检查通过。服务商网络连通性由对应适配器能力检查。",
+          "checkedAt": "2027-01-15T08:00:00.000Z",
+          "checks": [
+            {
+              "key": "enabled",
+              "label": "总开关",
+              "status": "passed",
+              "message": "企业协同接入总开关已启用。"
+            },
+            {
+              "key": "clientCredentials",
+              "label": "Client ID / Secret",
+              "status": "passed",
+              "message": "Client ID 和 Client Secret 已配置。"
+            },
+            {
+              "key": "loginRedirectUri",
+              "label": "登录 Redirect URI",
+              "status": "passed",
+              "message": "登录 Redirect URI 已配置。"
+            },
+            {
+              "key": "searchRedirectUri",
+              "label": "搜索 Redirect URI",
+              "status": "passed",
+              "message": "搜索 Redirect URI 已配置。"
+            }
+          ],
+          "nextActions": []
+        }
+      }
+    },
+    {
+      "method": "assertBindingAllowed",
+      "name": "config-89",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "message": "Identity provider config does not allow binding.",
+          "error": "Bad Request",
+          "statusCode": 400
+        }
+      }
+    },
+    {
+      "method": "assertLoginAllowed",
+      "name": "config-90",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true
+      }
+    },
+    {
+      "method": "assertSearchGrantAllowed",
+      "name": "config-91",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "active",
+          "enabled": true,
+          "loginEnabled": true,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": "synthetic-envelope",
+          "redirectUri": "https://example.invalid/login",
+          "searchRedirectUri": "https://example.invalid/search",
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        }
+      ],
+      "expected": {
+        "success": true
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:false:0",
+      "args": [
+        "feishu",
+        false,
+        []
+      ],
+      "expected": {
+        "success": true,
+        "result": []
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:false:26",
+      "args": [
+        "feishu",
+        false,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25"
+        ]
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:false:27",
+      "args": [
+        "feishu",
+        false,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26"
+        ]
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:false:32",
+      "args": [
+        "feishu",
+        false,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26",
+          "scope:27",
+          "scope:28",
+          "scope:29",
+          "scope:30",
+          "scope:31"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26",
+          "scope:27",
+          "scope:28",
+          "scope:29",
+          "scope:30",
+          "scope:31"
+        ]
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:false:33",
+      "args": [
+        "feishu",
+        false,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26",
+          "scope:27",
+          "scope:28",
+          "scope:29",
+          "scope:30",
+          "scope:31",
+          "scope:32"
+        ]
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "statusCode": 400,
+          "code": "identity_provider_search_scope_capacity_exceeded",
+          "message": "用户搜索最终授权范围最多支持 32 项。请减少额外 Search scopes。",
+          "maxScopes": 32,
+          "requiredScopes": [],
+          "effectiveScopeCount": 33,
+          "maxAdditionalScopes": 32
+        }
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:true:0",
+      "args": [
+        "feishu",
+        true,
+        []
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          "contact:user:search",
+          "contact:contact.base:readonly",
+          "contact:user.department:readonly",
+          "contact:department.base:readonly",
+          "contact:user.email:readonly",
+          "contact:user.phone:readonly"
+        ]
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:true:26",
+      "args": [
+        "feishu",
+        true,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": [
+          "contact:user:search",
+          "contact:contact.base:readonly",
+          "contact:user.department:readonly",
+          "contact:department.base:readonly",
+          "contact:user.email:readonly",
+          "contact:user.phone:readonly",
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25"
+        ]
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:true:27",
+      "args": [
+        "feishu",
+        true,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26"
+        ]
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "statusCode": 400,
+          "code": "identity_provider_search_scope_capacity_exceeded",
+          "message": "用户搜索最终授权范围最多支持 32 项。POMS 会自动请求 contact:user:search, contact:contact.base:readonly, contact:user.department:readonly, contact:department.base:readonly, contact:user.email:readonly, contact:user.phone:readonly，请减少额外 Search scopes。",
+          "maxScopes": 32,
+          "requiredScopes": [
+            "contact:user:search",
+            "contact:contact.base:readonly",
+            "contact:user.department:readonly",
+            "contact:department.base:readonly",
+            "contact:user.email:readonly",
+            "contact:user.phone:readonly"
+          ],
+          "effectiveScopeCount": 33,
+          "maxAdditionalScopes": 26
+        }
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:true:32",
+      "args": [
+        "feishu",
+        true,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26",
+          "scope:27",
+          "scope:28",
+          "scope:29",
+          "scope:30",
+          "scope:31"
+        ]
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "statusCode": 400,
+          "code": "identity_provider_search_scope_capacity_exceeded",
+          "message": "用户搜索最终授权范围最多支持 32 项。POMS 会自动请求 contact:user:search, contact:contact.base:readonly, contact:user.department:readonly, contact:department.base:readonly, contact:user.email:readonly, contact:user.phone:readonly，请减少额外 Search scopes。",
+          "maxScopes": 32,
+          "requiredScopes": [
+            "contact:user:search",
+            "contact:contact.base:readonly",
+            "contact:user.department:readonly",
+            "contact:department.base:readonly",
+            "contact:user.email:readonly",
+            "contact:user.phone:readonly"
+          ],
+          "effectiveScopeCount": 38,
+          "maxAdditionalScopes": 26
+        }
+      }
+    },
+    {
+      "method": "validateSearchGrantScopes",
+      "name": "capacity:true:33",
+      "args": [
+        "feishu",
+        true,
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26",
+          "scope:27",
+          "scope:28",
+          "scope:29",
+          "scope:30",
+          "scope:31",
+          "scope:32"
+        ]
+      ],
+      "expected": {
+        "success": false,
+        "status": 400,
+        "response": {
+          "statusCode": 400,
+          "code": "identity_provider_search_scope_capacity_exceeded",
+          "message": "用户搜索最终授权范围最多支持 32 项。POMS 会自动请求 contact:user:search, contact:contact.base:readonly, contact:user.department:readonly, contact:department.base:readonly, contact:user.email:readonly, contact:user.phone:readonly，请减少额外 Search scopes。",
+          "maxScopes": 32,
+          "requiredScopes": [
+            "contact:user:search",
+            "contact:contact.base:readonly",
+            "contact:user.department:readonly",
+            "contact:department.base:readonly",
+            "contact:user.email:readonly",
+            "contact:user.phone:readonly"
+          ],
+          "effectiveScopeCount": 39,
+          "maxAdditionalScopes": 26
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:102",
+      "args": [
+        []
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "scopes": [],
+          "isValid": true
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:103",
+      "args": [
+        [
+          " a ",
+          "a",
+          "",
+          " b "
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "scopes": [
+            "a",
+            "b"
+          ],
+          "isValid": true
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:104",
+      "args": [
+        [
+          "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "scopes": [
+            "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+          ],
+          "isValid": true
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:105",
+      "args": [
+        [
+          "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "scopes": [
+            "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+          ],
+          "isValid": false
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:106",
+      "args": [
+        [
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "scopes": [
+            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          ],
+          "isValid": false
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:107",
+      "args": [
+        [
+          "scope:0",
+          "scope:1",
+          "scope:2",
+          "scope:3",
+          "scope:4",
+          "scope:5",
+          "scope:6",
+          "scope:7",
+          "scope:8",
+          "scope:9",
+          "scope:10",
+          "scope:11",
+          "scope:12",
+          "scope:13",
+          "scope:14",
+          "scope:15",
+          "scope:16",
+          "scope:17",
+          "scope:18",
+          "scope:19",
+          "scope:20",
+          "scope:21",
+          "scope:22",
+          "scope:23",
+          "scope:24",
+          "scope:25",
+          "scope:26",
+          "scope:27",
+          "scope:28",
+          "scope:29",
+          "scope:30",
+          "scope:31",
+          "scope:32"
+        ]
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "scopes": [
+            "scope:0",
+            "scope:1",
+            "scope:2",
+            "scope:3",
+            "scope:4",
+            "scope:5",
+            "scope:6",
+            "scope:7",
+            "scope:8",
+            "scope:9",
+            "scope:10",
+            "scope:11",
+            "scope:12",
+            "scope:13",
+            "scope:14",
+            "scope:15",
+            "scope:16",
+            "scope:17",
+            "scope:18",
+            "scope:19",
+            "scope:20",
+            "scope:21",
+            "scope:22",
+            "scope:23",
+            "scope:24",
+            "scope:25",
+            "scope:26",
+            "scope:27",
+            "scope:28",
+            "scope:29",
+            "scope:30",
+            "scope:31",
+            "scope:32"
+          ],
+          "isValid": false
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:108",
+      "args": [
+        [
+          null
+        ]
+      ],
+      "expected": {
+        "success": false,
+        "status": null,
+        "response": {
+          "name": "TypeError",
+          "message": "Cannot read properties of null (reading 'trim')"
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:109",
+      "args": [
+        null
+      ],
+      "expected": {
+        "success": false,
+        "status": null,
+        "response": {
+          "name": "TypeError",
+          "message": "Cannot read properties of null (reading 'map')"
+        }
+      }
+    },
+    {
+      "method": "normalizeOAuthGrantScopeSnapshot",
+      "name": "snapshot:110",
+      "args": [
+        "x"
+      ],
+      "expected": {
+        "success": false,
+        "status": null,
+        "response": {
+          "name": "TypeError",
+          "message": "scopes.map is not a function"
+        }
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:111",
+      "args": [
+        "tenant_access_token=synthetic access_token:synthetic"
+      ],
+      "expected": {
+        "success": true,
+        "result": "tenant_access_token=<redacted> access_token:<redacted>"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:112",
+      "args": [
+        "Bearer synthetic"
+      ],
+      "expected": {
+        "success": true,
+        "result": "Bearer <redacted>"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:113",
+      "args": [
+        "{\"client_secret\":\"synthetic\"}"
+      ],
+      "expected": {
+        "success": true,
+        "result": "{\"client_secret\":\"<redacted>\"}"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:114",
+      "args": [
+        "app_secret = 'synthetic'"
+      ],
+      "expected": {
+        "success": true,
+        "result": "app_secret='<redacted>'"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:115",
+      "args": [
+        "TENANT_ACCESS_TOKEN=synthetic，failed"
+      ],
+      "expected": {
+        "success": true,
+        "result": "TENANT_ACCESS_TOKEN=<redacted>，failed"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:116",
+      "args": [
+        "prefix access_token=synthetic) suffix"
+      ],
+      "expected": {
+        "success": true,
+        "result": "prefix access_token=<redacted>) suffix"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:117",
+      "args": [
+        "not_a_secret=synthetic"
+      ],
+      "expected": {
+        "success": true,
+        "result": "not_a_secret=synthetic"
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:118",
+      "args": [
+        "access_token="
+      ],
+      "expected": {
+        "success": true,
+        "result": "access_token="
+      }
+    },
+    {
+      "method": "redactDiagnosticSecrets",
+      "name": "redact:119",
+      "args": [
+        "access_token: \"\""
+      ],
+      "expected": {
+        "success": true,
+        "result": "access_token: \"\""
+      }
+    },
+    {
+      "method": "toOAuthGrantSummary",
+      "name": "missing-grant",
+      "args": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "displayName": "Synthetic config",
+          "status": "draft",
+          "enabled": true,
+          "loginEnabled": false,
+          "bindingEnabled": false,
+          "searchEnabled": true,
+          "clientId": "synthetic-client",
+          "encryptedClientSecret": null,
+          "redirectUri": null,
+          "searchRedirectUri": null,
+          "loginScopes": [],
+          "searchScopes": [],
+          "tenantAllowlist": [],
+          "searchGrantMode": "per-admin",
+          "rowVersion": 1,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "createdBy": null,
+          "updatedAt": "2027-01-15T08:00:00.000Z",
+          "updatedBy": null
+        },
+        "a0000000-0000-4000-8000-000000000002",
+        null
+      ],
+      "expected": {
+        "success": true,
+        "result": {
+          "id": null,
+          "identityProviderConfigId": "a0000000-0000-4000-8000-000000000001",
+          "provider": "feishu",
+          "tenantId": null,
+          "pomsUserId": "a0000000-0000-4000-8000-000000000002",
+          "status": "missing",
+          "scopes": [],
+          "requiredScopes": [
+            "contact:user:search",
+            "contact:contact.base:readonly",
+            "contact:user.department:readonly",
+            "contact:department.base:readonly",
+            "contact:user.email:readonly",
+            "contact:user.phone:readonly"
+          ],
+          "missingRequiredScopes": [
+            "contact:user:search",
+            "contact:contact.base:readonly",
+            "contact:user.department:readonly",
+            "contact:department.base:readonly",
+            "contact:user.email:readonly",
+            "contact:user.phone:readonly"
+          ],
+          "grantedAt": null,
+          "expiresAt": null,
+          "refreshExpiresAt": null,
+          "lastUsedAt": null,
+          "lastError": null,
+          "rowVersion": null,
+          "updatedAt": null
+        }
+      }
+    }
+  ]
+}
