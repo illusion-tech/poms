@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+  "boundary": "Root alone provisions, journals, runs and cleans shared pair. This is a fixture request, not SQL execution or a passing receipt.",
+  "identity": {
+    "rustDatabase": "poms_r2ef_rust",
+    "nestDatabase": "poms_r2ef_nest",
+    "appRole": "poms_r2ef_app",
+    "marker": "a3580e72-e812-47b3-b41f-5066343f5c37"
+  },
+  "fixtureFile": {
+    "environment": "POMS_R2EF_PG_FIXTURE_FILE",
+    "containsSecrets": false,
+    "fields": {
+      "formatVersion": 1,
+      "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+      "database": "poms_r2ef_rust",
+      "marker": "a3580e72-e812-47b3-b41f-5066343f5c37",
+      "actorId": "root-owned UUID",
+      "dictionaryUpdateId": "root-owned active lead-source UUID, name E Original, description old, sortOrder 100, updatedBy actorId",
+      "dictionaryNoopId": "root-owned active lead-source UUID, name E Noop, updatedBy actorId",
+      "dictionaryInactiveId": "root-owned inactive item UUID",
+      "usageCases": [{ "id": "root-owned dictionary UUID", "domain": "one of four source domains", "code": "run-owned code", "usageCount": 2 }],
+      "setting": { "key": "attachment.max-upload-size-mb", "requestId": "root-journalled <=55 character request ID, plus pre-journalled -noop suffix", "snapshotId": "root journal exact original row or absence" },
+      "numberCases": [{ "scope": "one of nine source scopes", "utcYear": "root-reserved integer year", "initialNextValue": 401, "rowVersion": 7 }],
+      "numberConcurrency": { "scope": "lead", "utcYear": "separate root-reserved year", "initialNextValue": 1, "rowVersion": 3, "count": 12 },
+      "numberStandalone": { "scope": "project", "utcYear": "separate root-reserved year", "initialNextValue": 19, "rowVersion": 5 }
+    }
+  },
+  "dictionaryRows": {
+    "domains": ["attachment-category", "sales-follow-up-type", "expense-category", "lead-source"],
+    "usage": "Two real domain rows per source code: include a historical/inactive/deleted or voided state where the actual source table supports it; DictionaryRepository counts all states. No view/stub/new relation.",
+    "relations": {
+      "attachment-category": "poms.attachment.category; own version_group_id, distinct storage_key/checksum, non-sensitive synthetic metadata; no upload/filesystem action",
+      "sales-follow-up-type": "poms.sales_follow_up_record.follow_up_type; use owned customer/project/actor/org references and valid actual status/outcome",
+      "expense-category": "poms.expense_record.expense_category; owned project_id; original valid status/source_type and small synthetic decimal amount",
+      "lead-source": "poms.lead.source_code; owned customer/owner references and original valid required fields"
+    },
+    "sortAndSearch": "At least 3 same-domain items with differing sortOrder/code and one nullable description; include mixed code/name/description keyword hits, % and _ wildcard probes. Unique domain/code and IDs pre-journalled.",
+    "writeDefaults": "POST create's domain/code intent is journalled before HTTP; success ID is adopted by exact code/domain/actor. Include a row with is_system=true to show no extra edit ban.",
+    "errors": "Reserve missing ID; duplicate code; dirty and no-op rows; stale expectedVersion; optional oversized int4 sortOrder accepted by DTO then rejected by PG. No physical delete route."
+  },
+  "settings": {
+    "restore": "Snapshot exact registered row including presence/value_json/value_type/row_version/created_at/updated_at/updated_by before first mutation; restore exact bytes/absence after all runs.",
+    "cases": ["registered list and unknown stored key excluded", "absence returns virtual 50/version0/null without inserting", "absence version0 insertion has rowVersion1", "unknown key 404", "integer/range/stored JSONB validation", "explicit conflict 409", "same actor/value has no setting UPDATE but records audit", "independent audit failure leaves preceding setting business commit", "due/stale sessionCAS and business CAS"],
+    "auditAdoption": "Pre-journal targetType=SystemSetting,targetId=registeredKey,actorId,unique requestId; adopt newly generated audit IDs by exact ownership. Reject unknown observed rows."
+  },
+  "numbers": {
+    "noSeedPeriods": "Use only root-reserved year rows; never consume ambient 2026 sequences. Register scope/period intent before absent-row creation.",
+    "cases": ["all nine source scopes and descriptions", "first allocation absent row 1", "preexisting next_value continuation", "UTC cross-year independently of PG timezone", "padding>6 not truncated", "same-scope concurrent allocation uniqueness", "borrowed connection outer BEGIN/ROLLBACK and forced caller failure rollback", "default independent connection commit survives caller rollback", "raw upsert leaves row_version unchanged", "int4 overflow remains original database failure"],
+    "concurrency": "numberConcurrency period differs from all borrowed/standalone cases; root pre-journals its row and expected allocation span before test. Test must not clean or broaden ownership."
+  },
+  "nestSqlWitness": [
+    "dictionary create: INSERT + pending AuthSession CAS ordering and rollback",
+    "dictionary dirty/no-op update: session CAS versus dictionary CAS, changed columns, rowVersion/updatedAt",
+    "setting absent/create, dirty and no-op: first business flush versus second awaited audit flush",
+    "stale managed session/business CAS; raw touch remains separately committed",
+    "forced audit storage failure after completed setting flush",
+    "business number default connection and borrowed transaction rollback/concurrency"
+  ]
+}

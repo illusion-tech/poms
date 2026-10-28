@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "scope": "R2 operation ownership and dependencies; R2A delivered, R2B Doing with G1 Pass, C-M remain Todo with individual G1 required",
+  "scope": "R2 ownership and dependency inventory; A-D delivered30/108, E/F joint batch Doing/G1 Pass, G-M remain Todo with their own frozen inputs required",
   "currentHead": "19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3",
   "parentIssue": 67,
   "rootIssue": 57,
@@ -142,8 +142,8 @@
       "taskId": "RUST-R2E",
       "title": "字典、系统设置与业务编号机制",
       "issue": 72,
-      "status": "Todo",
-      "g1": "Todo",
+      "status": "Doing",
+      "g1": "Pass",
       "publicOperations": 6,
       "proposedDependencies": [
         "R1",
@@ -151,14 +151,19 @@
       ],
       "nonHttpAndDomainInputs": [
         "BusinessNumberService 九种 scope；业务调用方随 R3/R4 接入"
-      ]
+      ],
+      "baseline": "docs/design/rust-r2ef-foundation-audit-baseline.md",
+      "g1FrozenAt": "2026-10-28T03:19:33.981Z",
+      "g1ReviewedBaselineSha256": "65279d001e7a4a3553d4f9be179bce563dd8f1344039a2be8492788c350a35d6",
+      "g1FrozenBaselineSha256": "ad54bc2f4635369d1696b60208eeb86fdbc7a39dc7696766254764d499a79f56",
+      "batchId": "RUST-R2EF"
     },
     {
       "taskId": "RUST-R2F",
       "title": "审计读取与前端路由拒绝事件",
       "issue": 73,
-      "status": "Todo",
-      "g1": "Todo",
+      "status": "Doing",
+      "g1": "Pass",
       "publicOperations": 4,
       "proposedDependencies": [
         "R1",
@@ -166,7 +171,12 @@
       ],
       "nonHttpAndDomainInputs": [
         "按对象类型的审计权限与投影；不可暴露敏感快照"
-      ]
+      ],
+      "baseline": "docs/design/rust-r2ef-foundation-audit-baseline.md",
+      "g1FrozenAt": "2026-10-28T03:19:33.981Z",
+      "g1ReviewedBaselineSha256": "65279d001e7a4a3553d4f9be179bce563dd8f1344039a2be8492788c350a35d6",
+      "g1FrozenBaselineSha256": "ad54bc2f4635369d1696b60208eeb86fdbc7a39dc7696766254764d499a79f56",
+      "batchId": "RUST-R2EF"
     },
     {
       "taskId": "RUST-R2G",
@@ -4277,8 +4287,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2E",
@@ -4419,8 +4429,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2E",
@@ -4577,8 +4587,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2E",
@@ -4671,8 +4681,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2E",
@@ -4782,8 +4792,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2E",
@@ -4940,8 +4950,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2F",
@@ -5145,8 +5155,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2F",
@@ -5370,8 +5380,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2F",
@@ -5585,8 +5595,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2F",
@@ -5701,8 +5711,8 @@
       "inheritedPhaseDependencies": [
         "R1: compatibility foundation"
       ],
-      "g1": "Todo",
-      "implementation": "Todo"
+      "g1": "Pass",
+      "implementation": "Pending"
     },
     {
       "slice": "RUST-R2G",
@@ -15800,5 +15810,15 @@
     "operationStateFields": "operations[].g1 and operations[].implementation are retained G0 inventory snapshots, not current delivery status",
     "historicalInventory": "currentHead, scope/source limitations and source/route-decision evidence retain their original inventory-phase meaning",
     "historicalSummary": "summary.allSlicesG1 retains its original inventory snapshot; current G1/G4 and delivery status come from slices[]"
+  },
+  "executionBatch": {
+    "id": "RUST-R2EF",
+    "issues": [
+      72,
+      73
+    ],
+    "status": "Doing",
+    "baseline": "docs/design/rust-r2ef-foundation-audit-baseline.md",
+    "policy": "Parallel E/F implementation; unified common regression, independent review, evidence preservation and G4; per-slice outcomes remain separate"
   }
 }

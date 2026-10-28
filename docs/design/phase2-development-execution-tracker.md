@@ -517,3 +517,8 @@ R2D既有11操作完成实现与实际验收，[非作者G3 Pass](https://github
 ### 2026-10-28 RUST-R2D G4归档
 
 R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归档前集成静态检查实际8步通过、26项适配器0skip、1747来源前后核等；这不是新增数据库、HTTP或浏览器实跑，独立集成复核及原回执由[机器验收](rust-r2d-validation.json)的closure绑定。本片11操作的完整证据见[归档收口](archive/slices/rust-r2d-closeout.md)与[纠偏](archive/slices/rust-r2d-corrective-checkpoint.md)。G4随归档提交推送与Issue同步生效；届时仅#71完成，R2A/B/C/D累计30/108，剩余78操作及R2M阶段验收，父#67/#57保持Open，E–M与#61状态不变。G1原字节和G3受审原件保留，完整currentSourceManifest不删docs/tmp；集成检查时点在归档前，路径/hash迁移另记，不改写历史运行来源。旧失败、P3有限URI、schema既有差异及PG17/旧数据保留边界不变。上方带日期的历史状态保留，以本条为当前收口说明。
+
+
+### 2026-10-28 RUST-R2E/F 联合G1冻结
+
+用户授权 E/F 联合批次，按[联合基线](rust-r2ef-foundation-audit-baseline.md)于2026-10-28T03:19:33.981Z冻结；来源main`7a343c543fe0031d7d6b42c1f7e18a7e861c72b7`。10个既有HTTP操作与9scope编号机制由两名作者按模块并行实现，主代理统一环境、Nest见证、公共回归和保全，C联合独审；G3/实际验收/G4待完成。[E G1](https://github.com/illusion-tech/poms/issues/72#issuecomment-6459786789)、[F G1](https://github.com/illusion-tech/poms/issues/73#issuecomment-6459788546)。仅新受控PG15 poms_r2ef_nest/poms_r2ef_rust，PG17实例和数据保留；当前仍交付30/108，不能提前记40/108，父#67/#57及G-M/#61保持各自状态。后续G/H与I/J并行主线、K/L跨域验收边界按更新后的迁移计划执行。

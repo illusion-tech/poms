@@ -1,0 +1,125 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+  "permissionKeys": [
+    "platform:users:manage",
+    "platform:roles:manage",
+    "platform:navigation:manage",
+    "platform:org-units:manage",
+    "platform:dictionaries:manage",
+    "platform:identity-providers:manage",
+    "platform:org-sync:manage",
+    "platform:attachment-storage-providers:manage",
+    "platform:system-settings:manage",
+    "customer:read",
+    "customer:write",
+    "commission:rule-versions:manage",
+    "commission:assignments:manage",
+    "commission:calculations:manage",
+    "commission:payouts:manage",
+    "commission:adjustments:manage",
+    "contract:finance:manage",
+    "contract:finance:sensitive:read",
+    "operating:finance:sensitive:read",
+    "commission:amount:sensitive:read",
+    "labor-cost-rate:sensitive:read",
+    "exception-approval-opinion:sensitive:read",
+    "lead:read",
+    "lead:write",
+    "lead:assign",
+    "lead:score:override",
+    "project:read",
+    "project:write",
+    "project:delete",
+    "nav:dashboard:view",
+    "nav:customers:view",
+    "nav:platform:view",
+    "nav:leads:view",
+    "nav:attachments:view",
+    "nav:projects:view",
+    "nav:contracts:view",
+    "nav:profile:view"
+  ],
+  "entityTargetTypes": [
+    "lead",
+    "customer",
+    "customer-contact",
+    "opportunity-stakeholder",
+    "competitor-intelligence",
+    "sales-discovery-record",
+    "sales-follow-up-record",
+    "project",
+    "contract"
+  ],
+  "targetReadPermissions": {
+    "lead": [
+      "lead:read"
+    ],
+    "customer": [
+      "customer:read"
+    ],
+    "customer-contact": [
+      "customer:read"
+    ],
+    "opportunity-stakeholder": [
+      "lead:read",
+      "project:read"
+    ],
+    "competitor-intelligence": [
+      "lead:read",
+      "project:read"
+    ],
+    "sales-discovery-record": [
+      "lead:read",
+      "project:read"
+    ],
+    "sales-follow-up-record": [
+      "customer:read",
+      "lead:read",
+      "project:read"
+    ],
+    "project": [
+      "project:read"
+    ],
+    "contract": [
+      "project:read"
+    ]
+  },
+  "datetimePattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+  "uuidPattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+  "schemaKeys": {
+    "AuditLogListQuery": [
+      "from",
+      "to",
+      "eventType",
+      "targetType",
+      "targetId",
+      "operatorId",
+      "result",
+      "limit"
+    ],
+    "EntityAuditLogListQuery": [
+      "from",
+      "to",
+      "eventType",
+      "result",
+      "limit"
+    ],
+    "SecurityEventListQuery": [
+      "from",
+      "to",
+      "eventType",
+      "actorId",
+      "principal",
+      "path",
+      "permissionKey",
+      "result",
+      "limit"
+    ],
+    "RecordRouteDeniedSecurityEventRequest": [
+      "path",
+      "returnUrl",
+      "requiredPermissions"
+    ]
+  }
+}

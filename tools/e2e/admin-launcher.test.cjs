@@ -57,7 +57,7 @@ test('managed plan follows the adapter effective port, preserves all eight legac
     assert.equal(plan.testMatch.length, 8);
     const files = fs
         .readdirSync(path.join(root, 'apps/poms-admin-e2e/src'))
-        .filter((name) => name.endsWith('.spec.ts') && !['r1d-auth.smoke.spec.ts', 'r1e-stage.spec.ts', 'r2a-navigation.spec.ts', 'r2b-roles.spec.ts', 'r2c-organizations.spec.ts', 'r2d-users.spec.ts'].includes(name));
+        .filter((name) => name.endsWith('.spec.ts') && !['r1d-auth.smoke.spec.ts', 'r1e-stage.spec.ts', 'r2a-navigation.spec.ts', 'r2b-roles.spec.ts', 'r2c-organizations.spec.ts', 'r2d-users.spec.ts', 'r2ef-foundation-audit.spec.ts'].includes(name));
     assert.deepEqual(plan.testMatch.map((entry) => entry.slice(3)).sort(), files.sort());
     assert(!JSON.stringify(plan).includes('must-not-escape-plan'));
     assert(!JSON.stringify(plan).includes('envFile'));

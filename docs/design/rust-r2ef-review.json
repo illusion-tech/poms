@@ -1,0 +1,681 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2EF-G3-independent-review",
+  "reviewer": "C，未参与产品、fixture、observer 或验收 runner 编写",
+  "reviewedAt": "2026-10-28T05:16:03.8436252Z",
+  "gate": "G3",
+  "decision": "Pass",
+  "unclosedFindings": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "findings": [],
+  "input": {
+    "path": "docs/design/rust-r2ef-validation.json",
+    "bytes": 334655,
+    "rawBytesSha256": "e72173e3916ad4e66c52552a3d5ee2dff90f130efd220a169606a47e8f2011f4",
+    "immutableOriginal": "tmp/rust-r2ef/g3-reviewed-input01.json",
+    "immutableOriginalRawBytesSha256": "e72173e3916ad4e66c52552a3d5ee2dff90f130efd220a169606a47e8f2011f4",
+    "freeze": "tmp/rust-r2ef/g3-freeze01.json",
+    "freezeRawBytesSha256": "386b99d21d8c34bb37f12b4e3a6e09ae7a8004c61b03c4234f513bc6bdf55a1f",
+    "sourceBaseline": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+    "boundary": "本回执是同一次联合独审的最终结论；前期只读支持及必要修复复核属于本次审查。未改写受审输入的 closure 或任何字段。"
+  },
+  "integrity": {
+    "mainAndImmutableCopyMatch": true,
+    "primarySourceEntries": 996,
+    "primaryUniqueSourcePaths": 996,
+    "rawByteLengthHashAndNormalizedLfMismatches": 0,
+    "g1OriginalSourceEntriesChecked": 741,
+    "g1OriginalSourceRawHashChanges": 0,
+    "g1SupplementalSourceCount": 13,
+    "supplementalProvenance": {
+      "originalReceipt": "tmp/rust-r2ef/c-g1-review01.json",
+      "originalReceiptRawBytesSha256": "27d94324c927753346d97920eb518aca921b5a49b454c54f3d0587958405c0c1",
+      "historicalEntriesLocation": "受审主件 evidence.cSupplementalSources",
+      "unchangedInventoryAndProductSources": 11,
+      "updatedTaskStateDocuments": [
+        {
+          "file": "docs/design/rust-r2-scope-and-dependencies.md",
+          "g1HistoricalRawBytesSha256": "c1e5cf6f9fdda67734219bbba8f72a6a8bc46f27d6b33607b19a3978c64dc1ce",
+          "finalRawBytesSha256": "819b34b24497c71abfb8432c3561a71ebd03fca9bf3c0ffc44ed0a1eade94396"
+        },
+        {
+          "file": "docs/design/rust-r2-operation-slices.json",
+          "g1HistoricalRawBytesSha256": "61ee03b7226a0a749193671a2e35cb2613003bc41c860cd2e4e769a3bbdb7302",
+          "finalRawBytesSha256": "c4b638c146841c3562c9c159cec95789a9fa6e57679c8f8097a3d89ee205f325"
+        }
+      ],
+      "assessment": "两份任务文档包含已登记的 E/F G1 Pass/Doing 元数据；十个 method/path/operationId 仍唯一且范围未扩张。历史十三份指纹保留，当前两份指纹与最终996清单相符。"
+    },
+    "linuxEvidenceFilesChecked": 164,
+    "windowsEvidenceFilesChecked": 133,
+    "evidenceFileLengthOrRawHashMismatches": 0,
+    "linuxArchive": {
+      "path": "tmp/rust-r2ef/linux-evidence-g3-01.tar",
+      "rawBytesSha256": "0468f76cb68c49556455a38e7de416f99ba4e567284258095f0b2a16307c99ab",
+      "hashMatches": true
+    },
+    "compiledRustSourceEntries": 95,
+    "compiledSourceMismatches": 0,
+    "normalization": "仅 CRLF -> LF；Windows 当前原字节与清单一致，Linux 原字节和归一指纹均由已核对的独立 manifest/receive 原件保留。没有用归一指纹冒充原字节指纹。",
+    "binaryBoundary": "核对保全 manifest 和 owner 原件中的二进制指纹、进程身份及来源闭环；C 未连接 Linux 活进程或重新构建/执行二进制。"
+  },
+  "candidateEpochs": {
+    "candidate01": {
+      "rustBinaryRawBytesSha256": "ba50d871a70bf68636365cba9f859fae57affa391079db25869dcc1da2937786",
+      "scope": "E 两项 transport 修复前",
+      "completeHttp": {
+        "perBackend": 393,
+        "comparison": "tmp/rust-r2ef/linux-evidence/http-compare-actual02.json",
+        "result": "pass"
+      },
+      "reusedEvidence": "基础认证、持久化/编号 PG、原 Nest SQL 和四项受控并发；相关产品模块在两个 epoch 间未变。"
+    },
+    "candidate02": {
+      "rustBinaryRawBytesSha256": "8256dd9a8980b10b196491c85b77f3577afda871f225a48bdbd1463717ea593c",
+      "scope": "最终 Rust；只修改两个 E 动态路由族的异常参数解码，以及字典 simple-query 的1000原始pair截断",
+      "ownerSourceEntriesComparedPerEpoch": 517,
+      "changedProductFiles": [
+        "apps/poms-api-rust/src/dictionary/http.rs",
+        "apps/poms-api-rust/src/dictionary/validation.rs",
+        "apps/poms-api-rust/src/system_settings/http.rs"
+      ],
+      "transport": {
+        "cases": 18,
+        "comparison": "tmp/rust-r2ef/e-transport-compare-corrected02.json",
+        "result": "pass"
+      },
+      "affectedHttp": {
+        "casesPerBackend": 54,
+        "comparison": "tmp/rust-r2ef/http-compare-E54-affected02.json",
+        "result": "pass"
+      },
+      "interpretation": "最终候选通过旧候选的未受影响证据和本次窄增量建立验证闭环；没有将旧393项标成最终二进制重新实跑。"
+    }
+  },
+  "closedFindings": [
+    {
+      "id": "R2EF-C-E-PARAM-DECODE",
+      "priority": "P2",
+      "status": "closed",
+      "problem": "E 的非法 percent/UTF8 动态参数原先由 Axum Path 在 auth 后处理，产生与原 Express 的400优先级/错误体不一致。",
+      "initialEvidence": {
+        "path": "tmp/rust-r2ef/e-transport-win32-initial01.json",
+        "rawBytesSha256": "e2d0a7887e1b7df454de6e440cebede9eec796b9f82d3a6a445768d11f7d3d3b"
+      },
+      "correction": "字典 id 与设置 key 在现有 body parser 后、method/auth 前按原 capture 形状严格解码；成功拼写保留。",
+      "verification": "已读三份修后源码，原匿名/登录、GET/PATCH %FF/%ZZ 完整响应对照包含在 corrected02 18/18、E54及最终四组合UI中。"
+    },
+    {
+      "id": "R2EF-C-E-QUERY-MAXKEYS",
+      "priority": "P2",
+      "status": "closed",
+      "problem": "字典 simple query 漏掉原 Node parser 的1000原始pair上限，导致第1001字段参与校验。",
+      "correction": "先 split('&').take(1000)，再 percent/plus 解码，空pair计数。",
+      "verification": "已读修后实现和边界 unit；corrected02 中1001-pairs及1000-empty-pairs完整返回数组比较通过。最终149普通Rust测试及E54增量通过。"
+    }
+  ],
+  "sourceAssessment": [
+    {
+      "area": "E route/DTO/permission/usage",
+      "result": "satisfied",
+      "basis": "六操作保留原响应、五权限any读与manage写、Zod缺省/null/strip/整数/字符计数；usageCount读取四张真实域表，包含历史非active行。可选expectedVersion与内部managed CAS分开，脏列/no-op和无字典audit保持。"
+    },
+    {
+      "area": "E setting flush",
+      "result": "satisfied",
+      "basis": "单注册key、默认50/version0、1..500及损坏值行为保留；原SQL实证新行INSERT在pending session UPDATE前，dirty UPDATE为session先、业务后；第二audit flush独立，失败保留已提交业务。无重复消费pending。"
+    },
+    {
+      "area": "Number transaction correction",
+      "result": "satisfied",
+      "basis": "原TS实际MikroORM九scope均在BEGIN/ROLLBACK backendPID942之外由UPSERT backendPID943消号，after状态与未增row_version相符。默认独立分配保持；Rust借用连接primitive的回滚能力单独标识，不替代现行Nest caller语义或R3/R4接入。"
+    },
+    {
+      "area": "F read authorization and projection",
+      "result": "satisfied",
+      "basis": "三查询保留原默认/过滤/时间精度、九target二次权限和targetId字符串trim边界；显式summary投影、原snapshot/details和Node JSON Number行为保留，不新增业务实体存在性或全局重脱敏策略。"
+    },
+    {
+      "area": "F routeDenied",
+      "result": "satisfied",
+      "basis": "authenticated/CSRF、202空体、权限数组顺序和重复、会话actor/principal及原请求上下文保留；event INSERT与pending session CAS同flush回滚，前置raw touch分段保持。"
+    },
+    {
+      "area": "Fixture/observer/runner",
+      "result": "satisfied",
+      "basis": "新PG15精确DB/低权限角色/owner marker及环境守卫、durable intent和exact adoption、真实usage叶子与借用父记录完整快照、非UUID key与完整7列设置恢复均已查。清理锁表并拒绝未知FK/逻辑外引，仅精确PK和完整行删除；observer不记录参数/结果值，完整与增量比较器不删除业务字段或数组顺序。"
+    },
+    {
+      "area": "Last helper and docs delta",
+      "result": "satisfied",
+      "basis": "已查README和legacy fixture-protocol.cjs Linux入口改用既有受控fixture.sh；canonical batch入口未变。该helper改动不被宣称为新增产品验收；普通归档和在线状态回写由root集中核验，不增加新Gate。"
+    }
+  ],
+  "actualEvidenceReviewed": {
+    "finalRust": {
+      "commands": [
+        "fmt",
+        "locked/offline check --all-targets",
+        "clippy --all-targets -D warnings",
+        "test --all-targets",
+        "release"
+      ],
+      "allExitCodes": 0,
+      "ordinaryPassed": 149,
+      "ordinaryFailed": 0,
+      "ordinaryIgnored": 54,
+      "buildEpoch": "build-transport04 / candidate02"
+    },
+    "explicitPg": {
+      "passed": 4,
+      "artifact": "tmp/rust-r2ef/linux-evidence/database-rust-pg-actual02.json",
+      "boundary": "独立显式运行；不把54个普通ignored当成通过。"
+    },
+    "originalNestNumber": {
+      "scopesWithExplicitOuterRollback": 9,
+      "totalCases": 10,
+      "result": "observed",
+      "distinctTransactionAndAllocationBackendPidsConfirmed": true
+    },
+    "originalNestSql": {
+      "cases": 11,
+      "result": "observed",
+      "artifact": "tmp/rust-r2ef/linux-evidence/nest-sql-actual04.json",
+      "checked": "create/dirty/no-op、due/non-due、设置缺行50/version0无插入及create/version1、audit失败独立commit/rollback、routeDenied。"
+    },
+    "fullHttpCandidate01": {
+      "casesPerBackend": 393,
+      "comparedCases": 393,
+      "comparisonFailures": 0
+    },
+    "correctedTransportCandidate02": {
+      "comparedCases": 18,
+      "admissionMappingAndResponseDifferences": 0
+    },
+    "affectedEHttpCandidate02": {
+      "casesPerBackend": 54,
+      "comparisons": 54,
+      "capturedResponsesPerBackend": 56,
+      "headGetReferencesPerBackend": 2,
+      "comparisonFailures": 0,
+      "plannedF": 0,
+      "plannedRejectedDto": 0
+    },
+    "controlledConcurrencyCandidate01": {
+      "casesPerBackend": 4,
+      "controlledRequestsPerBackend": 5,
+      "provedPgBarriersPerBackend": 4,
+      "cleanupPassesPerBackend": 8,
+      "outcomesBothBackends": [
+        "dictionary-cas:500",
+        "dictionary-create-session-cas:500",
+        "route-denied-session-cas:500",
+        "dictionary-unique-create:201+500"
+      ],
+      "boundary": "受控状态/副作用断言与真实blocker证明；不声称穷举所有并发调度。"
+    },
+    "foundationAuth": {
+      "nestPassed": 13,
+      "rustPassed": 13,
+      "totalPassed": 26,
+      "suitesPerBackend": 1,
+      "boundary": "本批共享一轮；旧批次52不计入本次。"
+    },
+    "selectedUi": {
+      "combinations": [
+        "Linux/Nest",
+        "Linux/final-Rust",
+        "Windows/Nest",
+        "Windows/final-Rust"
+      ],
+      "passedPerCombination": 2,
+      "totalSelected": 8,
+      "skipped": 0,
+      "unexpected": 0,
+      "boundary": "原字典/设置UI、浏览器HTTP审计和前端拒绝事件。Windows为浏览器平台，Rust API实际运行Linux。"
+    },
+    "static": {
+      "adaptersPassed": 26,
+      "pinnedOracleChecksPassed": 11,
+      "originalEGolden": 276,
+      "originalFGolden": 315,
+      "originalTargetPermissionProbes": 333,
+      "adminTestsUtc": 368,
+      "apiLintTestsAndAdminLint": "原Nx组各目标通过；初始admin时区失败保留并有UTC复跑",
+      "productionBuild": "pass",
+      "browserTypecheck": "pass",
+      "newLintWarnings": 0
+    },
+    "openapiClientAndMigrations": {
+      "fullOriginalPaths": 237,
+      "fullOriginalOperations": 291,
+      "fullOriginalSchemas": 585,
+      "finalRustPaths": 38,
+      "finalRustOperations": 47,
+      "batchNewOperations": 10,
+      "clientFiles": 579,
+      "clientDifferences": 0,
+      "clientWritten": false,
+      "originalProductMigrations": 92,
+      "originalSourceHashDrift": 0
+    },
+    "schema": {
+      "result": "observed classified failures",
+      "perBackend": {
+        "migrationCheckExit": 1,
+        "readOnlyDumpExit": 0,
+        "catalogUnchanged": true
+      },
+      "classification": [
+        "existing-baseline-drift: low-privilege CHECK introspection visibility (owner541/app0)",
+        "existing-baseline-drift: lead_score_override.status comment"
+      ],
+      "proposedSqlExecuted": false
+    }
+  },
+  "lifecycleAssessment": {
+    "result": "satisfied",
+    "finalStateArtifact": "tmp/rust-r2ef/linux-evidence/final-state01.json",
+    "uniqueRuns": 40,
+    "independentZeroChecksPerRun": 2,
+    "eachFinalCheckMatched": 0,
+    "eachFinalCheckChanged": 0,
+    "eachExtensionRemaining": 0,
+    "journalRawHashesUnchanged": true,
+    "successfulOwnerCloseouts": 5,
+    "ownersStopped": true,
+    "releasedPorts": [
+      5500,
+      5501,
+      5600
+    ],
+    "PG17": {
+      "status": "Running",
+      "startType": "Automatic",
+      "evidence": "tmp/rust-r2ef/pg17-final-metadata02.json",
+      "boundary": "服务元数据原件；C及本批不以此宣称执行PG17 SQL。"
+    },
+    "failedEvidence": "旧失败、部分/中断和浏览器/Java/工具适配原件保留，未计作通过。"
+  },
+  "limitations": [
+    "有限DTO、Unicode、URI、SQL、受控并发及UI覆盖；86个不可直接HTTP承载的query corpus输入仍单列，不构成完整Express或Unicode证明。",
+    "原runtime HTTP为Node24.19，原corpus另以固定Node24.16再生；Linux浏览器镜像Node24.16。该差异已有明确记录。",
+    "审计敏感最小化沿用既有writer及显式投影；本片未执行全库敏感数据修复，也未伪造不存在的全局audit/security页面。",
+    "R3/R4业务编号caller、附件/身份提供商、K/L跨域事实、#61裁决及完整R2M未由本批关闭。",
+    "schema检查保留实际exit1分类，未将其写成无差异或执行建议DDL。"
+  ],
+  "gateDecision": {
+    "G3": "Pass，仅针对本回执绑定的最终候选及分epoch证据。",
+    "chosenWorkflowCanProceed": "可按既定solo-worktree流程提交和推送，并完成root必要集成/文档归档/在线状态集中核验。",
+    "G4": "Pending；本回执不宣称提交、推送、合并、归档或Issue关闭已经完成。",
+    "issueBoundary": "G4满足后仅#72/#73可完成；父#67/#57和其余切片保持各自未完成边界。累计40/108只在本批G4后生效。"
+  },
+  "actualReadSourceHashes": [
+    {
+      "file": "apps/poms-admin-e2e/src/r2ef-foundation-audit.spec.ts",
+      "bytes": 14254,
+      "rawBytesSha256": "6cb40eaa515567748a357b8836f8de5fc3414a588b19ec6e46024fb80488d020"
+    },
+    {
+      "file": "apps/poms-admin-e2e/src/support/r2ef-foundation-audit.ts",
+      "bytes": 9400,
+      "rawBytesSha256": "05f5322d26f432b1b060260a39c649f13fd4b4c9faf87eabd504a6e2944eeceb"
+    },
+    {
+      "file": "apps/poms-api-rust/src/business_numbers/mod.rs",
+      "bytes": 164,
+      "rawBytesSha256": "27f7dc7a9a03fd095bb2c79f3b2d43a0e9070937ad586c4fd851ca8be5213267"
+    },
+    {
+      "file": "apps/poms-api-rust/src/business_numbers/service.rs",
+      "bytes": 5337,
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb"
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/scalars.rs",
+      "bytes": 18815,
+      "rawBytesSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/http.rs",
+      "bytes": 10455,
+      "rawBytesSha256": "6ae7ba9811fb54e5c5b8c989577d8de3cda3ce6579cb79c8d706690f1414f79c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/mod.rs",
+      "bytes": 859,
+      "rawBytesSha256": "51466c1c5767454bf76b99eb36a3300eb41158c67c1bf0ee1e9b9ed78b131dd6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/model.rs",
+      "bytes": 1959,
+      "rawBytesSha256": "1e784726c2892c806327e4b2be50be6721a0c9f4d3959a6bd34088ecaee6c4c1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/service.rs",
+      "bytes": 13451,
+      "rawBytesSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/store.rs",
+      "bytes": 6863,
+      "rawBytesSha256": "ee932ed4e6d270e96706848abc91c0674d13a345034a3f1262b89ad41ded74cf"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/validation.rs",
+      "bytes": 20888,
+      "rawBytesSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/http.rs",
+      "bytes": 16944,
+      "rawBytesSha256": "52af40c57c56082d2cdb8fc203e75fd83867045bba022f0d16e2099920d3d125"
+    },
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 333,
+      "rawBytesSha256": "dc6d2bc0fadfaefd66c4df30eabc96245ab3a70365d8bf9888191595b1715807"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/http.rs",
+      "bytes": 17224,
+      "rawBytesSha256": "4efc9e9a90a7fe55359513425197d906e6893cb60fa885862c42b5e43f6d7fcf"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/mod.rs",
+      "bytes": 358,
+      "rawBytesSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/model.rs",
+      "bytes": 2521,
+      "rawBytesSha256": "bed5d304f7584672b4d3bc00abe1657b4e2a36681031a945e10306736f39c25b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/query.rs",
+      "bytes": 4837,
+      "rawBytesSha256": "2721f4491b535456d9bb1036343cf4978fa16cd34a70831db28f7b966a9dbd84"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/service.rs",
+      "bytes": 9300,
+      "rawBytesSha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/store.rs",
+      "bytes": 8652,
+      "rawBytesSha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/validation.rs",
+      "bytes": 19505,
+      "rawBytesSha256": "305cd62adfc55a43057d3410ce23e5f26c7676ef02e3b19aabc021491df09455"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/http.rs",
+      "bytes": 9732,
+      "rawBytesSha256": "d31362c552a57ff90362ad5736fca11b15c55c75c6ed7efe9fd4aac52778bcb8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/mod.rs",
+      "bytes": 1190,
+      "rawBytesSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/model.rs",
+      "bytes": 617,
+      "rawBytesSha256": "be9a3b507afbcf11852ad15059e8f5eea57a54640a84566bf1ef7a1d08faf2b9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/service.rs",
+      "bytes": 14025,
+      "rawBytesSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/store.rs",
+      "bytes": 3779,
+      "rawBytesSha256": "bb313f71acfd12bcfe03b8a5654e8c51d78a1685af5d392224bd9fc32ac39631"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/validation.rs",
+      "bytes": 816,
+      "rawBytesSha256": "6eca45833e7c426670c9c5450ca24c9473cd13a0ad25506349e2d0df722348b6"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "bytes": 26521,
+      "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+    },
+    {
+      "file": "docs/design/rust-r2-operation-slices.json",
+      "bytes": 497225,
+      "rawBytesSha256": "c4b638c146841c3562c9c159cec95789a9fa6e57679c8f8097a3d89ee205f325"
+    },
+    {
+      "file": "docs/design/rust-r2-scope-and-dependencies.md",
+      "bytes": 52352,
+      "rawBytesSha256": "819b34b24497c71abfb8432c3561a71ebd03fca9bf3c0ffc44ed0a1eade94396"
+    },
+    {
+      "file": "docs/design/rust-r2ef-corrective-checkpoint.md",
+      "bytes": 2886,
+      "rawBytesSha256": "0384eab6b9773a29624ec84241b9187e1791a3c9b96c490182b159b4de3d15db"
+    },
+    {
+      "file": "node_modules/.pnpm/@mikro-orm+sql@7.0.11_@mikro-orm+core@7.0.11/node_modules/@mikro-orm/sql/AbstractSqlConnection.js",
+      "bytes": 9407,
+      "rawBytesSha256": "b2ac63b610c20a71995cb388947e5e04caea610f098da8b446ce324635f43f7b"
+    },
+    {
+      "file": "node_modules/.pnpm/@mikro-orm+sql@7.0.11_@mikro-orm+core@7.0.11/node_modules/@mikro-orm/sql/SqlEntityManager.js",
+      "bytes": 1736,
+      "rawBytesSha256": "61b6dfc6ab2a756efe9d04cc0d11d307e6f8987818b7674aec19def220d36eb3"
+    },
+    {
+      "file": "node_modules/@mikro-orm/core/EntityManager.js",
+      "bytes": 77229,
+      "rawBytesSha256": "fd8ad48ef0199104f28246c72f836d64127c31391bdcac9f992a5465982a299e"
+    },
+    {
+      "file": "node_modules/@mikro-orm/core/unit-of-work/ChangeSetPersister.js",
+      "bytes": 20042,
+      "rawBytesSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3"
+    },
+    {
+      "file": "node_modules/@mikro-orm/core/unit-of-work/UnitOfWork.js",
+      "bytes": 47827,
+      "rawBytesSha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6"
+    },
+    {
+      "file": "node_modules/zod/v4/core/regexes.js",
+      "bytes": 10984,
+      "rawBytesSha256": "5ba289d538a54ad837b45001844c7be2ef862368085ecd98a4a71e4567c8787d"
+    },
+    {
+      "file": "tools/rust-r2c/witness-query-core.cjs",
+      "bytes": 7958,
+      "rawBytesSha256": "0372ba55802484450b5ae04770f29353129e1500ea9018a7b4f39fb4ad0f49c7"
+    },
+    {
+      "file": "tools/rust-r2d/user-query-match.cjs",
+      "bytes": 14517,
+      "rawBytesSha256": "181fae3452bda3c49b5662894759590403ad2189ea072258b132ca94e85853db"
+    },
+    {
+      "file": "tools/rust-r2d/user-query-preload.cjs",
+      "bytes": 11115,
+      "rawBytesSha256": "ad75f7ab9d470d953f72da778321b6abb423ac5e61c0ca556f2747e05f7498cd"
+    },
+    {
+      "file": "tools/rust-r2ef/batch-client.cjs",
+      "bytes": 2506,
+      "rawBytesSha256": "5698bdc0d7822c8bd5d1fbd15af9a01a8f84970cc23b43bec322b885fa37e07a"
+    },
+    {
+      "file": "tools/rust-r2ef/batch-extension.mjs",
+      "bytes": 36376,
+      "rawBytesSha256": "d809ddb45a220ec087ba363f98f3b1e247c0cdf20dc9e3558399ca859990da8b"
+    },
+    {
+      "file": "tools/rust-r2ef/batch-extension.test.mjs",
+      "bytes": 5016,
+      "rawBytesSha256": "12879ea21cd35b8c0b8129d88130a3138ff388e69e3e45dd83728c28119f971c"
+    },
+    {
+      "file": "tools/rust-r2ef/batch-fixture.mjs",
+      "bytes": 6863,
+      "rawBytesSha256": "5cabbe3091872b79fe015b4571c4f549d799c67636b164ce8e01654979b5add6"
+    },
+    {
+      "file": "tools/rust-r2ef/batch-protocol.cjs",
+      "bytes": 1385,
+      "rawBytesSha256": "5a512b0cd6ad06ffb12d0a0e72afe2b9aba28736b783ac2f4657dabdb980b9bb"
+    },
+    {
+      "file": "tools/rust-r2ef/browser-acceptance.mjs",
+      "bytes": 2906,
+      "rawBytesSha256": "699cc1c29b91b0c25116b3c00e8bab57340b51bd69009c394564a92b33d16dfd"
+    },
+    {
+      "file": "tools/rust-r2ef/compare-e-http.mjs",
+      "bytes": 17004,
+      "rawBytesSha256": "0cda6142764518839604482349b55ed9962108660af8d5ff9943e24134e75f25"
+    },
+    {
+      "file": "tools/rust-r2ef/compare-e-transport.mjs",
+      "bytes": 14702,
+      "rawBytesSha256": "c844710add23157ceffdc2f75b2992077d9f0c82512f11291311de052903547a"
+    },
+    {
+      "file": "tools/rust-r2ef/compare-http.mjs",
+      "bytes": 36713,
+      "rawBytesSha256": "0c8e810c9dd120391ef429b08d05c822e904f4c58f7702479d31fc42012409d7"
+    },
+    {
+      "file": "tools/rust-r2ef/database-acceptance.mjs",
+      "bytes": 4405,
+      "rawBytesSha256": "74e722461aab3e4c91ee0b34d4dc33525f22240ba17f0a7038b42629d55959ae"
+    },
+    {
+      "file": "tools/rust-r2ef/database-client.mjs",
+      "bytes": 2017,
+      "rawBytesSha256": "7ffe600962d4ef9281c9da803ffa512478f8d0c3dc15379f36a05c1d3997feec"
+    },
+    {
+      "file": "tools/rust-r2ef/database-environment.mjs",
+      "bytes": 22046,
+      "rawBytesSha256": "5ca296e37290651d1c0a09369b0664e7bd3d016469f42960957b135709755d5e"
+    },
+    {
+      "file": "tools/rust-r2ef/e-export.mjs",
+      "bytes": 6569,
+      "rawBytesSha256": "000fbae3f8ae8a5a4faa06378854b1e2d58218119461d587d130f5abb793d01b"
+    },
+    {
+      "file": "tools/rust-r2ef/e-transport-probe.mjs",
+      "bytes": 2701,
+      "rawBytesSha256": "d5ffd1b0276f972917207c03305dc0254e67821c18d1b8fdedab1a2be7c10619"
+    },
+    {
+      "file": "tools/rust-r2ef/f-export.mjs",
+      "bytes": 12842,
+      "rawBytesSha256": "1836aff1252c24f368935e8807da1c1a096e806201f2f23dce018c61d48c0ce2"
+    },
+    {
+      "file": "tools/rust-r2ef/f-protocol.mjs",
+      "bytes": 12959,
+      "rawBytesSha256": "aea10da4147a8497d84ba2d1ad701179f3824bc7168b406963dc42c89ee2d3b1"
+    },
+    {
+      "file": "tools/rust-r2ef/final-state.mjs",
+      "bytes": 4079,
+      "rawBytesSha256": "f2d07c8f6001f7e19ba73ec2bef781c5c68e9336780c5ed9add266064742fb4b"
+    },
+    {
+      "file": "tools/rust-r2ef/fixture-guard.mjs",
+      "bytes": 4858,
+      "rawBytesSha256": "e9c5166534cfe35d7c1d82a4c18cd77d777cfaff1a5b9a4fe93611e7b3cd85b0"
+    },
+    {
+      "file": "tools/rust-r2ef/fixture-protocol.cjs",
+      "bytes": 6856,
+      "rawBytesSha256": "acbab78d492413663772a46c0c4897976c0838372201e4e2772684e062b25142"
+    },
+    {
+      "file": "tools/rust-r2ef/fixture.sh",
+      "bytes": 2413,
+      "rawBytesSha256": "0f56fa9f11b71d8fa51e578c9d688f67858922f60bcf96a71b071a15f349f89d"
+    },
+    {
+      "file": "tools/rust-r2ef/foundation-acceptance.mjs",
+      "bytes": 2762,
+      "rawBytesSha256": "6630fe45ca8944c13a8294e0fdb2c844bfb2326892546525dcee54d95d042e2f"
+    },
+    {
+      "file": "tools/rust-r2ef/http-compat.mjs",
+      "bytes": 43193,
+      "rawBytesSha256": "ff9007e932b2151c346d4016561b30ab57aedb94274f5457cce813b3c8180639"
+    },
+    {
+      "file": "tools/rust-r2ef/http-concurrency.mjs",
+      "bytes": 34709,
+      "rawBytesSha256": "74827cb82fe3eb8f461b82d44827726977b6e6cce496cffc92db6b733f55ffac"
+    },
+    {
+      "file": "tools/rust-r2ef/nest-number-witness.mjs",
+      "bytes": 5208,
+      "rawBytesSha256": "4cc5266e24ed1f0dfa7091d197dcaec95af6c35152b506b9e1b9283c3647ef23"
+    },
+    {
+      "file": "tools/rust-r2ef/nest-query-preload.cjs",
+      "bytes": 8088,
+      "rawBytesSha256": "b77c23ed48b3f8d55498bcf30d1ccfe5f113db5cc6a8a23b36cb9a1ce96288db"
+    },
+    {
+      "file": "tools/rust-r2ef/nest-query-preload.test.cjs",
+      "bytes": 1986,
+      "rawBytesSha256": "7c4a913a0422365b7fe100aba30b4db4b7d540bf26420353782ee04f8b2fa39d"
+    },
+    {
+      "file": "tools/rust-r2ef/owner-run.mjs",
+      "bytes": 5260,
+      "rawBytesSha256": "1472ef2885cd2866b5145908d117ac6c831650b2d423f73a8bf575e8d2b301fc"
+    },
+    {
+      "file": "tools/rust-r2ef/README.md",
+      "bytes": 12822,
+      "rawBytesSha256": "a9d0415f43d398bd56ba5e102b3ba4bda22f82df76a2689b44a0bf52d0960f0e"
+    },
+    {
+      "file": "tools/rust-r2ef/schema-check.mjs",
+      "bytes": 10996,
+      "rawBytesSha256": "9c0f41a2eb52d8e34f697135f008db50d52fc4f265f24b2de874a9b30ffb28f4"
+    },
+    {
+      "file": "tools/rust-r2ef/shared-checks.mjs",
+      "bytes": 2452,
+      "rawBytesSha256": "d4fafcd37b67be2ff48f2d9b99630009e7b97dec729bb4ddc31176461ade79e8"
+    },
+    {
+      "file": "tools/rust-r2ef/sql-witness.mjs",
+      "bytes": 11143,
+      "rawBytesSha256": "c183b7e2140f9c732980e06f1d5036fb1b06b0fc37108e7eca1b8d5042969220"
+    }
+  ],
+  "reviewerActions": {
+    "readCodeAndFrozenEvidence": true,
+    "verifyExistingFileHashesAndCounts": true,
+    "writeThisReceiptOnly": true,
+    "productWrites": false,
+    "validationToolWrites": false,
+    "otherDocsWrites": false,
+    "git": false,
+    "remote": false,
+    "database": false,
+    "service": false,
+    "testsOrAcceptanceExecution": false
+  }
+}

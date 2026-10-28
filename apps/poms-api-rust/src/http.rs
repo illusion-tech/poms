@@ -180,6 +180,9 @@ pub fn openapi() -> serde_json::Value {
         crate::roles::http::openapi(),
         crate::org_units::http::openapi(),
         crate::users::http::openapi(),
+        crate::dictionary::http::openapi(),
+        crate::system_settings::http::openapi(),
+        crate::runtime_audit::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -224,6 +227,15 @@ pub fn router_with_auth(
     let users = std::sync::Arc::new(crate::users::service::UsersService::new(
         state.database.clone(),
     ));
+    let dictionary = std::sync::Arc::new(crate::dictionary::DictionaryService::new(
+        state.database.clone(),
+    ));
+    let settings = std::sync::Arc::new(crate::system_settings::SystemSettingsService::new(
+        state.database.clone(),
+    ));
+    let runtime_audit = std::sync::Arc::new(crate::runtime_audit::RuntimeAuditService::new(
+        state.database.clone(),
+    ));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
@@ -232,7 +244,14 @@ pub fn router_with_auth(
             .merge(crate::org_units::http::router(auth.clone(), org_units))
             // W01 original Nest witness: successful create uses 201, while the
             // unchanged TypeScript OpenAPI declaration continues to state 200.
-            .merge(crate::users::http::router(auth, users, StatusCode::CREATED)),
+            .merge(crate::users::http::router(
+                auth.clone(),
+                users,
+                StatusCode::CREATED,
+            ))
+            .merge(crate::dictionary::http::router(auth.clone(), dictionary))
+            .merge(crate::system_settings::http::router(auth.clone(), settings))
+            .merge(crate::runtime_audit::http::router(auth, runtime_audit)),
         cors_origins,
     )
 }
@@ -264,6 +283,13 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         .layer(middleware::from_fn(crate::roles::http::normalize_uri))
         .layer(middleware::from_fn(crate::org_units::http::normalize_uri))
         .layer(middleware::from_fn(crate::users::http::normalize_uri))
+        .layer(middleware::from_fn(crate::dictionary::http::normalize_uri))
+        .layer(middleware::from_fn(
+            crate::system_settings::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::runtime_audit::http::normalize_uri,
+        ))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }

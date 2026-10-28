@@ -1,0 +1,52 @@
+// Finite E-specific protocol for the root-owned shared HTTP runner. All
+// mutations require root-journalled identities before this function is used.
+import assert from 'node:assert/strict';
+const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+export function eHttpCases({dictionaryId,missingId,createCode}) {
+    assert(uuid.test(dictionaryId)&&uuid.test(missingId));assert(/^[a-z][a-z0-9-]*$/.test(createCode));
+    const item='/api/dictionaries/'+dictionaryId,key='/api/platform/system-settings/attachment.max-upload-size-mb';
+    const result=[];
+    const add=(id,method,route,expectedStatus,options={})=>result.push({id:'e:'+id,method,route,expectedStatus,...options});
+    add('dictionary-list','GET','/api/dictionaries',200);
+    for(const domain of ['attachment-category','sales-follow-up-type','expense-category','lead-source']) add('domain:'+domain,'GET','/api/dictionaries?domain='+domain,200,{assertion:'PG order domain/sort_order/code; real per-code usageCount'});
+    for(const keyword of ['%','_',' E ','\u0085'])add('keyword:'+keyword,'GET','/api/dictionaries?keyword='+encodeURIComponent(keyword),200,{assertion:'Original trim, ILIKE wildcards and nullable description'});
+    add('dictionary-inactive','GET','/api/dictionaries?status=inactive',200);
+    add('dictionary-unknown-query','GET','/api/dictionaries?unknown=strip',200);
+    add('dictionary-domain-invalid','GET','/api/dictionaries?domain=LEAD-SOURCE',400);
+    add('dictionary-status-invalid','GET','/api/dictionaries?status=ACTIVE',400);
+    add('dictionary-keyword-empty','GET','/api/dictionaries?keyword=%20',400);
+    add('dictionary-domain-duplicate','GET','/api/dictionaries?domain=lead-source&domain=lead-source',400);
+    add('dictionary-create','POST','/api/dictionaries',201,{json:{domain:'lead-source',code:createCode,name:' E Created ',description:null,unknown:true},adopt:'root exact domain/code/actor plus returned UUID before next mutation'});
+    add('dictionary-create-duplicate','POST','/api/dictionaries',409,{json:{domain:'lead-source',code:createCode,name:'duplicate'}});
+    add('dictionary-create-invalid','POST','/api/dictionaries',400,{json:{domain:'lead-source',code:'Upper_Case',name:' '}});
+    add('dictionary-update-clear','PATCH',item,200,{json:{name:' E Updated ',description:null,status:'inactive',sortOrder:101},assertion:'Only requested dirty fields plus operator/time/version; stable domain/code/isSystem'});
+    add('dictionary-update-noop','PATCH',item,200,{json:{name:'E Updated',description:null,status:'inactive',sortOrder:101},assertion:'Same actor and same values: no dictionary UPDATE or version/time bump'});
+    add('dictionary-update-conflict','PATCH',item,409,{json:{name:'conflict',expectedVersion:2147483647}});
+    add('dictionary-update-identity-strip','PATCH',item,200,{json:{name:'E Updated',domain:'attachment-category',code:'should-strip',isSystem:false},assertion:'Identity fields strip, same name no-op'});
+    add('dictionary-update-only-version','PATCH',item,400,{json:{expectedVersion:1}});
+    add('dictionary-update-only-unknown','PATCH',item,400,{json:{domain:'lead-source',code:'x'}});
+    add('dictionary-update-null-name','PATCH',item,400,{json:{name:null}});
+    add('dictionary-update-null-description','PATCH',item,200,{json:{description:null}});
+    add('dictionary-missing','PATCH','/api/dictionaries/'+missingId,404,{json:{name:'missing'}});
+    add('dictionary-invalid-id-native','PATCH','/api/dictionaries/not-a-uuid',500,{json:{name:'invalid id'}});
+    add('dictionary-int4-boundary','PATCH',item,500,{json:{sortOrder:2147483648},assertion:'Zod safe integer passes; original int4 persistence fails'});
+    add('settings-list','GET','/api/platform/system-settings',200,{assertion:'Exactly registry definitions in original order, unknown stored key excluded'});
+    add('settings-get','GET',key,200);
+    add('settings-unknown','GET','/api/platform/system-settings/unknown.setting',404);
+    add('settings-case-sensitive','GET','/api/platform/system-settings/ATTACHMENT.MAX-UPLOAD-SIZE-MB',404);
+    add('settings-update','PATCH',key,200,{json:{value:128},headers:{'x-request-id':'e-explicit-request','x-correlation-id':'e-ignored-correlation'},assertion:'Independent audit with full before/after; request-id precedence'});
+    add('settings-update-noop','PATCH',key,200,{json:{value:128},headers:{'x-request-id':''},assertion:'Same actor/value no setting UPDATE; one audit with empty requestId'});
+    add('settings-conflict','PATCH',key,409,{json:{value:129,expectedVersion:2147483647}});
+    for(const [id,value] of [['low',0],['high',501],['fraction',1.5],['null',null],['string','50']])add('settings-value:'+id,'PATCH',key,400,{json:{value}});
+    add('settings-value-before-version','PATCH',key,400,{json:{value:0,expectedVersion:2147483647}});
+    add('settings-negative-version','PATCH',key,400,{json:{value:50,expectedVersion:-1}});
+    add('settings-null-version','PATCH',key,400,{json:{value:50,expectedVersion:null}});
+    add('settings-unknown-key-write','PATCH','/api/platform/system-settings/unknown.setting',404,{json:{value:50}});
+    add('dictionary-case-tail-head','HEAD','/API/DICTIONARIES/?domain=lead-source',200,{assertion:'Same GET content length, empty HEAD body, original raw guard URI'});
+    add('settings-case-tail-head','HEAD','/API/PLATFORM/SYSTEM-SETTINGS/attachment.max-upload-size-mb/',200,{assertion:'Static segment normalization only; key bytes unchanged'});
+    for(const permission of ['lead:read','customer:read','project:read','contract:finance:manage','platform:dictionaries:manage'])add('dictionary-any:'+permission,'GET','/api/dictionaries',200,{actorOnlyPermission:permission});
+    add('dictionary-read-cannot-write','PATCH',item,403,{actorOnlyPermission:'lead:read',json:{name:'forbidden'}});
+    add('settings-wrong-permission','GET',key,403,{actorOnlyPermission:'platform:dictionaries:manage'});
+    return result;
+}
+export const ePgGroups=Object.freeze(['four-domain-real-usage','dictionary-dirty-noop-cas','settings-default-and-jsonb','settings-separate-audit-failure','managed-session-cas','numbers-nine-scopes','numbers-utc-and-padding','numbers-borrowed-rollback','numbers-independent-commit','numbers-concurrency-and-overflow']);

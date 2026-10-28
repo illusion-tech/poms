@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+  "rule": "Original TS/shared 37 permissions/full OpenAPI are the sole editable authority; generated inputs only",
+  "sources": [
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "normalizedUtf8Sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "normalizedUtf8Sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/runtime-audit/runtime-audit.dto.ts",
+      "normalizedUtf8Sha256": "de4b2f2e8bedd39ee283dd1272875c6a9f0601400f69b0bc5b36e55816b14514"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.controller.ts",
+      "normalizedUtf8Sha256": "e4f302417722781f327bd7585376a8419e7bdda297d8795f9a3d8880952331d9"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "normalizedUtf8Sha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+      "normalizedUtf8Sha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts",
+      "normalizedUtf8Sha256": "c6db32b268247deb198a0763c2330a8c341f7ec55c40ca271b84e84da13ca3ed"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts",
+      "normalizedUtf8Sha256": "8cf897ef5c9bd365708dbefbb88158b12e29e18b5881cdbe6dd95aff986f7789"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/security-event.entity.ts",
+      "normalizedUtf8Sha256": "48a83b8ee48adb854277a4ea7def8dc816b1cc29fec984649bcac0740bf3271f"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts",
+      "normalizedUtf8Sha256": "5d45f17a8abfeafe7cec0ce92c5b6fa1b2f8d096c07e2a8ca59d9b47564d9e08"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/exception.ts",
+      "normalizedUtf8Sha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "normalizedUtf8Sha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "normalizedUtf8Sha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a"
+    }
+  ],
+  "dependencies": {
+    "node": "24.x",
+    "typescript": "6.0.3",
+    "zod": "4.6.1"
+  },
+  "outputs": [
+    {
+      "path": "tools/rust-r2ef/f-authority.json",
+      "normalizedUtf8Sha256": "e1de058cdb890ddb77faa8c52d4b20ff5c3750ff4a8063b26aae591086f11e03"
+    },
+    {
+      "path": "tools/rust-r2ef/f-golden.json",
+      "normalizedUtf8Sha256": "508292412d05dd8ea2e434f690a3e1c81324cffd22555719fa6020268eb007d6"
+    },
+    {
+      "path": "tools/rust-r2ef/f-behavior.json",
+      "normalizedUtf8Sha256": "83392d651e7f68cb1d80b386f93da32e233a56e72e3c8a382831424141a0dc27"
+    },
+    {
+      "path": "tools/rust-r2ef/f-openapi.json",
+      "normalizedUtf8Sha256": "4f2539c9f1c06fda83a9880405e6bc6716fd2159f9d24874a668eb69eb8adaec"
+    }
+  ],
+  "evidence": {
+    "operations": 4,
+    "schemaCases": 315,
+    "targetPermissionProbes": 333,
+    "boundary": "Pure original source/schema execution; no Nest HTTP, SQL, database or UI claim"
+  }
+}

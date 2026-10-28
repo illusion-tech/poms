@@ -1,0 +1,5937 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+  "boundary": "Original Zod schema execution only; finite inputs, no HTTP or database claim",
+  "schemas": [
+    "AuditLogListQuery",
+    "EntityAuditLogListQuery",
+    "SecurityEventListQuery",
+    "RecordRouteDeniedSecurityEventRequest"
+  ],
+  "cases": [
+    {
+      "schema": "AuditLogListQuery",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"unknown\":true,\"offset\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"unknown\":true,\"offset\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"unknown\":true,\"offset\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}",
+        "ownKeys": []
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "unknown-strip",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"actorId\":\"spoof\",\"severity\":\"high\",\"unknown\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "all-invalid",
+      "inputRaw": "{\"from\":false,\"to\":false,\"eventType\":false,\"targetType\":false,\"targetId\":false,\"operatorId\":false,\"result\":false,\"limit\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "to"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetType"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetId"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "operatorId"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:one",
+      "inputRaw": "{\"limit\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:hundred",
+      "inputRaw": "{\"limit\":\"100\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:hex",
+      "inputRaw": "{\"limit\":\"0x10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":16}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:binary",
+      "inputRaw": "{\"limit\":\"0b10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:exponent",
+      "inputRaw": "{\"limit\":\"1e2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:plus",
+      "inputRaw": "{\"limit\":\"+2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:space",
+      "inputRaw": "{\"limit\":\" 2 \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:empty",
+      "inputRaw": "{\"limit\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:blank",
+      "inputRaw": "{\"limit\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:zero",
+      "inputRaw": "{\"limit\":\"0\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:negative",
+      "inputRaw": "{\"limit\":\"-1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:fraction",
+      "inputRaw": "{\"limit\":\"1.5\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:above",
+      "inputRaw": "{\"limit\":\"101\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 100,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected number to be <=100"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:nan",
+      "inputRaw": "{\"limit\":\"NaN\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:infinity",
+      "inputRaw": "{\"limit\":\"Infinity\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:null",
+      "inputRaw": "{\"limit\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:boolean",
+      "inputRaw": "{\"limit\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:one-array",
+      "inputRaw": "{\"limit\":[\"2\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:two-array",
+      "inputRaw": "{\"limit\":[\"2\",\"3\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:empty-array",
+      "inputRaw": "{\"limit\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:object",
+      "inputRaw": "{\"limit\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:object-toString",
+      "inputRaw": "{\"limit\":{\"toString\":null}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:unsafe",
+      "inputRaw": "{\"limit\":\"9007199254740992\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 100,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected number to be <=100"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:number",
+      "inputRaw": "{\"limit\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:utc",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:millis",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:fraction",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:minutes",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:offset",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03+00:00\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:lower",
+      "inputRaw": "{\"from\":\"2026-10-28t01:02:03z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:date",
+      "inputRaw": "{\"from\":\"2026-10-28\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:leap",
+      "inputRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:non-leap",
+      "inputRaw": "{\"from\":\"1900-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:year-zero",
+      "inputRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:invalid-day",
+      "inputRaw": "{\"from\":\"2026-02-30T00:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:24h",
+      "inputRaw": "{\"from\":\"2026-10-28T24:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:leap-second",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:60Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:trailing-lf",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\\n\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:trailing-cr",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\\r\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:trailing-separator",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:space",
+      "inputRaw": "{\"from\":\" 2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:null",
+      "inputRaw": "{\"from\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:array",
+      "inputRaw": "{\"from\":[\"2026-10-28T01:02:03Z\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:bad",
+      "inputRaw": "{\"from\":\"bad\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "reverse-range",
+      "inputRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+        "ownKeys": [
+          "from",
+          "to"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:empty",
+      "inputRaw": "{\"eventType\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:space",
+      "inputRaw": "{\"eventType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\" \"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:null",
+      "inputRaw": "{\"eventType\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:array",
+      "inputRaw": "{\"eventType\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:above",
+      "inputRaw": "{\"eventType\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:astral-at",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:astral-above",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:lone",
+      "inputRaw": "{\"eventType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"\\ud800\"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:length-object",
+      "inputRaw": "{\"eventType\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:empty",
+      "inputRaw": "{\"targetType\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "targetType"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:space",
+      "inputRaw": "{\"targetType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetType\":\" \"}",
+        "ownKeys": [
+          "targetType"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:null",
+      "inputRaw": "{\"targetType\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetType"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:array",
+      "inputRaw": "{\"targetType\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetType"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "targetType"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:above",
+      "inputRaw": "{\"targetType\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "targetType"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:astral-at",
+      "inputRaw": "{\"targetType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "targetType"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:astral-above",
+      "inputRaw": "{\"targetType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "targetType"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:lone",
+      "inputRaw": "{\"targetType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetType\":\"\\ud800\"}",
+        "ownKeys": [
+          "targetType"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:length-object",
+      "inputRaw": "{\"targetType\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetType"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "targetType"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:empty",
+      "inputRaw": "{\"targetId\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "targetId"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:space",
+      "inputRaw": "{\"targetId\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetId\":\" \"}",
+        "ownKeys": [
+          "targetId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:null",
+      "inputRaw": "{\"targetId\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetId"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:array",
+      "inputRaw": "{\"targetId\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetId"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "targetId"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:above",
+      "inputRaw": "{\"targetId\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "targetId"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:astral-at",
+      "inputRaw": "{\"targetId\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetId\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "targetId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:astral-above",
+      "inputRaw": "{\"targetId\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "targetId"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:lone",
+      "inputRaw": "{\"targetId\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetId\":\"\\ud800\"}",
+        "ownKeys": [
+          "targetId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:length-object",
+      "inputRaw": "{\"targetId\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "targetId"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "targetId"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"operatorId\":\"a0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"a0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "operatorId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"A0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"operatorId\":\"A0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"A0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "operatorId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"00000000-0000-0000-0000-000000000000\"",
+      "inputRaw": "{\"operatorId\":\"00000000-0000-0000-0000-000000000000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"00000000-0000-0000-0000-000000000000\"}",
+        "ownKeys": [
+          "operatorId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"ffffffff-ffff-ffff-ffff-ffffffffffff\"",
+      "inputRaw": "{\"operatorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+        "ownKeys": [
+          "operatorId"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"",
+      "inputRaw": "{\"operatorId\":\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "operatorId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"a0000000000040008000000000000001\"",
+      "inputRaw": "{\"operatorId\":\"a0000000000040008000000000000001\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "operatorId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"bad\"",
+      "inputRaw": "{\"operatorId\":\"bad\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "operatorId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:null",
+      "inputRaw": "{\"operatorId\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "operatorId"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:[]",
+      "inputRaw": "{\"operatorId\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "operatorId"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:\"\"",
+      "inputRaw": "{\"result\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:\"success\"",
+      "inputRaw": "{\"result\":\"success\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"result\":\"success\"}",
+        "ownKeys": [
+          "result"
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:\"blocked\"",
+      "inputRaw": "{\"result\":\"blocked\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:\"future\"",
+      "inputRaw": "{\"result\":\"future\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:null",
+      "inputRaw": "{\"result\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:[]",
+      "inputRaw": "{\"result\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "all-invalid",
+      "inputRaw": "{\"from\":false,\"to\":false,\"eventType\":false,\"result\":false,\"limit\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "to"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:one",
+      "inputRaw": "{\"limit\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:hundred",
+      "inputRaw": "{\"limit\":\"100\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:hex",
+      "inputRaw": "{\"limit\":\"0x10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":16}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:binary",
+      "inputRaw": "{\"limit\":\"0b10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:exponent",
+      "inputRaw": "{\"limit\":\"1e2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:plus",
+      "inputRaw": "{\"limit\":\"+2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:space",
+      "inputRaw": "{\"limit\":\" 2 \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:empty",
+      "inputRaw": "{\"limit\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:blank",
+      "inputRaw": "{\"limit\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:zero",
+      "inputRaw": "{\"limit\":\"0\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:negative",
+      "inputRaw": "{\"limit\":\"-1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:fraction",
+      "inputRaw": "{\"limit\":\"1.5\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:above",
+      "inputRaw": "{\"limit\":\"101\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 100,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected number to be <=100"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:nan",
+      "inputRaw": "{\"limit\":\"NaN\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:infinity",
+      "inputRaw": "{\"limit\":\"Infinity\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:null",
+      "inputRaw": "{\"limit\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:boolean",
+      "inputRaw": "{\"limit\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:one-array",
+      "inputRaw": "{\"limit\":[\"2\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:two-array",
+      "inputRaw": "{\"limit\":[\"2\",\"3\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:empty-array",
+      "inputRaw": "{\"limit\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:object",
+      "inputRaw": "{\"limit\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:object-toString",
+      "inputRaw": "{\"limit\":{\"toString\":null}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:unsafe",
+      "inputRaw": "{\"limit\":\"9007199254740992\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 100,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected number to be <=100"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:number",
+      "inputRaw": "{\"limit\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:utc",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:millis",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:fraction",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:minutes",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:offset",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03+00:00\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:lower",
+      "inputRaw": "{\"from\":\"2026-10-28t01:02:03z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:date",
+      "inputRaw": "{\"from\":\"2026-10-28\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:leap",
+      "inputRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:non-leap",
+      "inputRaw": "{\"from\":\"1900-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:year-zero",
+      "inputRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:invalid-day",
+      "inputRaw": "{\"from\":\"2026-02-30T00:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:24h",
+      "inputRaw": "{\"from\":\"2026-10-28T24:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:leap-second",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:60Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:trailing-lf",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\\n\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:trailing-cr",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\\r\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:trailing-separator",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:space",
+      "inputRaw": "{\"from\":\" 2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:null",
+      "inputRaw": "{\"from\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:array",
+      "inputRaw": "{\"from\":[\"2026-10-28T01:02:03Z\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:bad",
+      "inputRaw": "{\"from\":\"bad\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "reverse-range",
+      "inputRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+        "ownKeys": [
+          "from",
+          "to"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:empty",
+      "inputRaw": "{\"eventType\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:space",
+      "inputRaw": "{\"eventType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\" \"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:null",
+      "inputRaw": "{\"eventType\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:array",
+      "inputRaw": "{\"eventType\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:above",
+      "inputRaw": "{\"eventType\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:astral-at",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:astral-above",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:lone",
+      "inputRaw": "{\"eventType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"\\ud800\"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:length-object",
+      "inputRaw": "{\"eventType\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:\"\"",
+      "inputRaw": "{\"result\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:\"success\"",
+      "inputRaw": "{\"result\":\"success\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"result\":\"success\"}",
+        "ownKeys": [
+          "result"
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:\"blocked\"",
+      "inputRaw": "{\"result\":\"blocked\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:\"future\"",
+      "inputRaw": "{\"result\":\"future\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:null",
+      "inputRaw": "{\"result\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:[]",
+      "inputRaw": "{\"result\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "success",
+              "rejected",
+              "failed"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"success\"|\"rejected\"|\"failed\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "all-invalid",
+      "inputRaw": "{\"from\":false,\"to\":false,\"eventType\":false,\"actorId\":false,\"principal\":false,\"path\":false,\"permissionKey\":false,\"result\":false,\"limit\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "to"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "actorId"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "principal"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "blocked",
+              "failed",
+              "expired"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"blocked\"|\"failed\"|\"expired\""
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:one",
+      "inputRaw": "{\"limit\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:hundred",
+      "inputRaw": "{\"limit\":\"100\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:hex",
+      "inputRaw": "{\"limit\":\"0x10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":16}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:binary",
+      "inputRaw": "{\"limit\":\"0b10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:exponent",
+      "inputRaw": "{\"limit\":\"1e2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:plus",
+      "inputRaw": "{\"limit\":\"+2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:space",
+      "inputRaw": "{\"limit\":\" 2 \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:empty",
+      "inputRaw": "{\"limit\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:blank",
+      "inputRaw": "{\"limit\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:zero",
+      "inputRaw": "{\"limit\":\"0\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:negative",
+      "inputRaw": "{\"limit\":\"-1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:fraction",
+      "inputRaw": "{\"limit\":\"1.5\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:above",
+      "inputRaw": "{\"limit\":\"101\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 100,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected number to be <=100"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:nan",
+      "inputRaw": "{\"limit\":\"NaN\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:infinity",
+      "inputRaw": "{\"limit\":\"Infinity\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:null",
+      "inputRaw": "{\"limit\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:boolean",
+      "inputRaw": "{\"limit\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:one-array",
+      "inputRaw": "{\"limit\":[\"2\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:two-array",
+      "inputRaw": "{\"limit\":[\"2\",\"3\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:empty-array",
+      "inputRaw": "{\"limit\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too small: expected number to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:object",
+      "inputRaw": "{\"limit\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "NaN",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received NaN"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:object-toString",
+      "inputRaw": "{\"limit\":{\"toString\":null}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "limit"
+            ],
+            "message": "Invalid input: expected number, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:unsafe",
+      "inputRaw": "{\"limit\":\"9007199254740992\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 100,
+            "inclusive": true,
+            "path": [
+              "limit"
+            ],
+            "message": "Too big: expected number to be <=100"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:number",
+      "inputRaw": "{\"limit\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}",
+        "ownKeys": [
+          "limit"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:utc",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:millis",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:fraction",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:minutes",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:offset",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03+00:00\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:lower",
+      "inputRaw": "{\"from\":\"2026-10-28t01:02:03z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:date",
+      "inputRaw": "{\"from\":\"2026-10-28\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:leap",
+      "inputRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:non-leap",
+      "inputRaw": "{\"from\":\"1900-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:year-zero",
+      "inputRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+        "ownKeys": [
+          "from"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:invalid-day",
+      "inputRaw": "{\"from\":\"2026-02-30T00:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:24h",
+      "inputRaw": "{\"from\":\"2026-10-28T24:00:00Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:leap-second",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:60Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:trailing-lf",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\\n\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:trailing-cr",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\\r\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:trailing-separator",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:space",
+      "inputRaw": "{\"from\":\" 2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:null",
+      "inputRaw": "{\"from\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:array",
+      "inputRaw": "{\"from\":[\"2026-10-28T01:02:03Z\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:bad",
+      "inputRaw": "{\"from\":\"bad\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "datetime",
+            "pattern": "/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/",
+            "path": [
+              "from"
+            ],
+            "message": "Invalid ISO datetime"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "reverse-range",
+      "inputRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+        "ownKeys": [
+          "from",
+          "to"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:empty",
+      "inputRaw": "{\"eventType\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:space",
+      "inputRaw": "{\"eventType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\" \"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:null",
+      "inputRaw": "{\"eventType\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:array",
+      "inputRaw": "{\"eventType\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:above",
+      "inputRaw": "{\"eventType\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:astral-at",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:astral-above",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:lone",
+      "inputRaw": "{\"eventType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"\\ud800\"}",
+        "ownKeys": [
+          "eventType"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:length-object",
+      "inputRaw": "{\"eventType\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "eventType"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "eventType"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"actorId\":\"a0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"a0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "actorId"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"A0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"actorId\":\"A0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"A0000000-0000-4000-8000-000000000001\"}",
+        "ownKeys": [
+          "actorId"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"00000000-0000-0000-0000-000000000000\"",
+      "inputRaw": "{\"actorId\":\"00000000-0000-0000-0000-000000000000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"00000000-0000-0000-0000-000000000000\"}",
+        "ownKeys": [
+          "actorId"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"ffffffff-ffff-ffff-ffff-ffffffffffff\"",
+      "inputRaw": "{\"actorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+        "ownKeys": [
+          "actorId"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"",
+      "inputRaw": "{\"actorId\":\"FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "actorId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"a0000000000040008000000000000001\"",
+      "inputRaw": "{\"actorId\":\"a0000000000040008000000000000001\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "actorId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"bad\"",
+      "inputRaw": "{\"actorId\":\"bad\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+            "path": [
+              "actorId"
+            ],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:null",
+      "inputRaw": "{\"actorId\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "actorId"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:[]",
+      "inputRaw": "{\"actorId\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "actorId"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:empty",
+      "inputRaw": "{\"principal\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "principal"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:space",
+      "inputRaw": "{\"principal\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"principal\":\" \"}",
+        "ownKeys": [
+          "principal"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:null",
+      "inputRaw": "{\"principal\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "principal"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:array",
+      "inputRaw": "{\"principal\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "principal"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "principal"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:above",
+      "inputRaw": "{\"principal\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "principal"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:astral-at",
+      "inputRaw": "{\"principal\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"principal\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "principal"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:astral-above",
+      "inputRaw": "{\"principal\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "principal"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:lone",
+      "inputRaw": "{\"principal\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"principal\":\"\\ud800\"}",
+        "ownKeys": [
+          "principal"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:length-object",
+      "inputRaw": "{\"principal\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "principal"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "principal"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:empty",
+      "inputRaw": "{\"path\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:space",
+      "inputRaw": "{\"path\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\" \"}",
+        "ownKeys": [
+          "path"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:null",
+      "inputRaw": "{\"path\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:array",
+      "inputRaw": "{\"path\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:above",
+      "inputRaw": "{\"path\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:astral-at",
+      "inputRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "path"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:astral-above",
+      "inputRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:lone",
+      "inputRaw": "{\"path\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"\\ud800\"}",
+        "ownKeys": [
+          "path"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:length-object",
+      "inputRaw": "{\"path\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:empty",
+      "inputRaw": "{\"permissionKey\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:space",
+      "inputRaw": "{\"permissionKey\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKey\":\" \"}",
+        "ownKeys": [
+          "permissionKey"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:null",
+      "inputRaw": "{\"permissionKey\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:array",
+      "inputRaw": "{\"permissionKey\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:above",
+      "inputRaw": "{\"permissionKey\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:astral-at",
+      "inputRaw": "{\"permissionKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+        "ownKeys": [
+          "permissionKey"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:astral-above",
+      "inputRaw": "{\"permissionKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:lone",
+      "inputRaw": "{\"permissionKey\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKey\":\"\\ud800\"}",
+        "ownKeys": [
+          "permissionKey"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:length-object",
+      "inputRaw": "{\"permissionKey\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "permissionKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:\"\"",
+      "inputRaw": "{\"result\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "blocked",
+              "failed",
+              "expired"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"blocked\"|\"failed\"|\"expired\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:\"success\"",
+      "inputRaw": "{\"result\":\"success\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "blocked",
+              "failed",
+              "expired"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"blocked\"|\"failed\"|\"expired\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:\"blocked\"",
+      "inputRaw": "{\"result\":\"blocked\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"result\":\"blocked\"}",
+        "ownKeys": [
+          "result"
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:\"future\"",
+      "inputRaw": "{\"result\":\"future\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "blocked",
+              "failed",
+              "expired"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"blocked\"|\"failed\"|\"expired\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:null",
+      "inputRaw": "{\"result\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "blocked",
+              "failed",
+              "expired"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"blocked\"|\"failed\"|\"expired\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:[]",
+      "inputRaw": "{\"result\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "blocked",
+              "failed",
+              "expired"
+            ],
+            "path": [
+              "result"
+            ],
+            "message": "Invalid option: expected one of \"blocked\"|\"failed\"|\"expired\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "minimal",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "return-null",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":null,\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "duplicate-permissions",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"project:read\",\"lead:read\",\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"project:read\",\"lead:read\",\"project:read\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:empty",
+      "inputRaw": "{\"path\":\"\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:space",
+      "inputRaw": "{\"path\":\" \",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\" \",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:null",
+      "inputRaw": "{\"path\":null,\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:false",
+      "inputRaw": "{\"path\":false,\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:array",
+      "inputRaw": "{\"path\":[],\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:object-length",
+      "inputRaw": "{\"path\":{\"length\":0},\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:object-length-nan",
+      "inputRaw": "{\"path\":{\"length\":{}},\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "path"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too big: expected unknown to be <=255"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:object-length-throws",
+      "inputRaw": "{\"path\":{\"length\":{\"toString\":null}},\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "schemaException": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:at",
+      "inputRaw": "{\"path\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:above",
+      "inputRaw": "{\"path\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:astral-at",
+      "inputRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:astral-above",
+      "inputRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "path"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:lone-high",
+      "inputRaw": "{\"path\":\"\\ud800\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"\\ud800\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:lone-low",
+      "inputRaw": "{\"path\":\"\\udc00\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"\\udc00\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:nul",
+      "inputRaw": "{\"path\":\"a\\u0000b\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"a\\u0000b\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:empty",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:space",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\" \",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:null",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":null,\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:false",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:array",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:object-length",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:object-length-nan",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too big: expected unknown to be <=255"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:object-length-throws",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "schemaException": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:at",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:above",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:astral-at",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:astral-above",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 255,
+            "inclusive": true,
+            "path": [
+              "returnUrl"
+            ],
+            "message": "Too big: expected string to have <=255 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:lone-high",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"\\ud800\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:lone-low",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"\\udc00\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:nul",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"a\\u0000b\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"a\\u0000b\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+        "ownKeys": [
+          "path",
+          "returnUrl",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:missing",
+      "inputRaw": "{\"path\":\"/platform/users\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:null",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:empty",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:scalar",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":\"project:read\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:empty-string",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received string"
+          },
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:wrong",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"future:permission\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              0
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:mixed",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[null,false,\"bad\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              0
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              1
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              2
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:object",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:object-length",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:object-length-nan",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Invalid input: expected array, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "requiredPermissions"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "duplicates-last-win",
+      "inputRaw": "{\"path\":\"old\",\"path\":\"new\",\"requiredPermissions\":[\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"new\",\"requiredPermissions\":[\"project:read\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "escaped-key-last-win",
+      "inputRaw": "{\"path\":\"old\",\"\\u0070ath\":\"new\",\"requiredPermissions\":[\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"new\",\"requiredPermissions\":[\"project:read\"]}",
+        "ownKeys": [
+          "path",
+          "requiredPermissions"
+        ]
+      }
+    }
+  ]
+}

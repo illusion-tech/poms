@@ -1,0 +1,75 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+  "dictionaryDomains": [
+    "attachment-category",
+    "sales-follow-up-type",
+    "expense-category",
+    "lead-source"
+  ],
+  "statuses": [
+    "active",
+    "inactive"
+  ],
+  "settings": [
+    {
+      "key": "attachment.max-upload-size-mb",
+      "displayName": "附件上传大小上限",
+      "description": "控制单个附件上传会话允许声明的最大文件大小。Nginx client_max_body_size 必须大于或等于该值。",
+      "group": "附件",
+      "valueType": "integer",
+      "defaultValue": 50,
+      "minValue": 1,
+      "maxValue": 500,
+      "unit": "MB"
+    }
+  ],
+  "bytesPerMb": 1048576,
+  "businessNumbers": {
+    "customer": {
+      "prefix": "CUST",
+      "padding": 6,
+      "description": "客户编号"
+    },
+    "lead": {
+      "prefix": "LD",
+      "padding": 6,
+      "description": "线索编号"
+    },
+    "project": {
+      "prefix": "PRJ",
+      "padding": 6,
+      "description": "项目编号"
+    },
+    "contract": {
+      "prefix": "CT",
+      "padding": 6,
+      "description": "合同编号"
+    },
+    "cost-payment-fact": {
+      "prefix": "AC-PAY",
+      "padding": 6,
+      "description": "付款事实实际成本编号"
+    },
+    "cost-invoice": {
+      "prefix": "AC-INV",
+      "padding": 6,
+      "description": "发票实际成本编号"
+    },
+    "cost-expense": {
+      "prefix": "AC-EXP",
+      "padding": 6,
+      "description": "费用实际成本编号"
+    },
+    "cost-procurement": {
+      "prefix": "AC-PRC",
+      "padding": 6,
+      "description": "采购实际成本编号"
+    },
+    "cost-labor": {
+      "prefix": "AC-LBR",
+      "padding": 6,
+      "description": "人力实际成本编号"
+    }
+  }
+}
