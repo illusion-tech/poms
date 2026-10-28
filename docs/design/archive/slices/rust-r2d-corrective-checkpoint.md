@@ -1,6 +1,6 @@
 # RUST-R2D 纠偏记录
 
-- 当前状态：运行验证及最终81run清理完成；完整非作者G3 Pass、未关闭P1/P2为0，提交集成与G4待完成。下文保留各发现时点的Pending状态，最终结果见末节及收口记录。
+- 当前状态：运行验证及最终81run清理完成；完整非作者G3 Pass、未关闭P1/P2为0，实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前静态检查实跑通过；G4随归档提交推送与Issue同步生效。下文保留各发现时点的Pending状态，最终结果见末节及收口记录。
 - Slice：[#71](https://github.com/illusion-tech/poms/issues/71)；[冻结基线](rust-r2d-users-profile-baseline.md)限定11个既有用户、owner-reference 与 profile 操作。
 - 起点：`a22cba7360346242cb7709740b7eb954b92d1fd4`。本记录追加实际发现，不改写 G1 原件和当时的 Pending 矩阵。
 - 纠偏 owner：主代理；产品契约 A、持久化 B、非产品作者审查 C。最终交付仍限定本子片，父 #67/#57 保持打开。

@@ -118,7 +118,7 @@
       "taskId": "RUST-R2D",
       "title": "用户、owner-reference 与个人资料",
       "issue": 71,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 11,
       "proposedDependencies": [
@@ -128,13 +128,15 @@
       "nonHttpAndDomainInputs": [
         "密码写入、账户停用与既有会话失效联动"
       ],
-      "baseline": "docs/design/rust-r2d-users-profile-baseline.md",
+      "baseline": "docs/design/archive/slices/rust-r2d-users-profile-baseline.md",
       "g1FrozenAt": "2026-10-27T20:56:23.041Z",
       "g1CandidateSha256": "ad5f163596229ee1fc6cfdfe827cd9b1e13b9f6c5d7e18876591265e5dc5df2d",
       "scopeClarification": "Current createUser has no password/credential writer; preserve existing credentials and original disabled-user authentication/session behavior.",
       "g3": "Pass",
       "g3Comment": "https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041",
-      "validation": "docs/design/rust-r2d-validation.json"
+      "validation": "docs/design/rust-r2d-validation.json",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "implementationCommit": "9302fd7149257aa40584fc500fd76dd0c766b80d"
     },
     {
       "taskId": "RUST-R2E",

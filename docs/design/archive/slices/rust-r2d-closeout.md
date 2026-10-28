@@ -3,7 +3,7 @@
 - Slice：[#71](https://github.com/illusion-tech/poms/issues/71)，父 [R2 #67](https://github.com/illusion-tech/poms/issues/67) / [#57](https://github.com/illusion-tech/poms/issues/57)。
 - 类型：`cross-layer-high-risk`；独立 managed worktree / solo checkpoint；起点 `a22cba7360346242cb7709740b7eb954b92d1fd4`。
 - 输入：[G1 基线](rust-r2d-users-profile-baseline.md)、[纠偏记录](rust-r2d-corrective-checkpoint.md)。原 G1 字节保全为 `tmp/rust-r2d/g1-frozen-baseline.md`，SHA256 `f638206dc317d6fac66cd0aed26d95255a89c94f60502558dee93cbca4b1e455`。
-- 当前：完整非作者G3 Pass，未关闭P1/P2为0；提交推送、集成检查及G4待完成，尚不标记Done。
+- 当前：完整非作者G3 Pass，未关闭P1/P2为0；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项适配器/1747来源静态检查实跑通过；G4随归档提交推送与Issue同步生效。
 - 主代理负责环境、fixture、公共接线、实际验收和治理；A 负责契约/HTTP，B 负责持久化/服务/PG，C 为非产品作者；C 编写的取证工具另由 A/B 审查。
 
 ## 1. 交付范围与兼容边界
@@ -51,11 +51,11 @@ final01的parser null误分类、final02的跨块UTF-8解码、final03的未匹�
 
 ## 4. G3、集成与G4
 
-完整非作者[G3审查](https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041)已Pass，回执c-g3-final-review01.json SHA256 `4315b302aba6a2bc7277bc463887b2459d448a2f461edede53f33f87b1fa759e`，未关闭P1/P2为0；实现commit/push、main集成与集成后检查仍Pending。通过后仅关闭#71；R2累计将由19/108变为30/108，剩余78操作与R2M验收，父#67/#57保持Open，R2E–M及#61边界不变。
+完整非作者[G3审查](https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041)已Pass，回执c-g3-final-review01.json SHA256 `4315b302aba6a2bc7277bc463887b2459d448a2f461edede53f33f87b1fa759e`，未关闭P1/P2为0；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前集成静态检查实跑通过；G4随归档提交推送与Issue同步生效，届时仅关闭#71。R2累计30/108，剩余78操作与R2M验收，父#67/#57保持Open，R2E–M及#61边界不变。
 
 送C审查的validation最终原字节冻结为tmp/rust-r2d/g3-reviewed-validation02.json，SHA256 `6c45acd70bf814f2d924624baa9d3f630ea97a1d18513d879da48cf5b788c420`；先前读到的中间汇总保留为g3-reviewed-validation.json并明确superseded，差异由g3-input-freeze02.json记录，不作为最终G3输入。正式机器验收在其后追加已核Gate/closure元数据。原G3受审currentSourceManifest为1747项真实来源union，包括原baseline与实际tmp脚本，manifest SHA256 `3d5bb92cdafd037c6e5ee57630fb7be2a678057b934cf78b9eeeac7ef2933059`。先保全同路径证据，归档前集成检查逐项核对main/Linux全union，不删除docs/tmp条目规避检查。
 
-集成检查通过后，三份lifecycle MD迁至docs/design/archive/slices/，仅重定位相对链接及追加收口状态。G1原件与G3受审原件保留；closure单列pre-G4检查时点、manifest hash与旧/新路径及hash映射，文档迁移核验不冒称新runtime。Windows报告、截图、失败原件及Linux-only不同epoch证据先逐文件复制并校验；Linux checkout、private journals、二进制、PG15与旧环境保留，PG17实例和数据保留。证据保全回执、提交及最终G4信息待追加。
+集成检查通过后，三份lifecycle MD迁至docs/design/archive/slices/，仅重定位相对链接及追加收口状态。G1原件与G3受审原件保留；closure单列pre-G4检查时点、manifest hash与旧/新路径及hash映射，文档迁移核验不冒称新runtime。Windows报告、截图、失败原件及Linux-only不同epoch证据先逐文件复制并校验；Linux checkout、private journals、二进制、PG15与旧环境保留，PG17实例和数据保留。两端证据保全及集成回执、路径/hash迁移映射由设计根机器验收closure绑定；G4随归档提交推送与Issue同步生效。
 
 
 归档前集成来源对齐只涉及两份已被Windows静态检查验证的UI类型配置：Linux旧browser-tsconfig原字节保全为tmp/rust-r2d/c-audit-linux-browser-tsconfig-final01.json（SHA256 `02f717a1b82fefc98ac38a38e6e9fb5dcee9582832e6faef98b47d1eecc58b11`），再复制现版browser-tsconfig与此前仅Windows存在的tsconfig-ui-check。preintegration-source-alignment01.json记录实际变化；这只服务后续全union静态核对，不重标旧审计来源，也不宣称新增Linux tsc或runtime运行。

@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "kind": "RUST-R2D-actual-implementation-validation",
-  "recordedAt": "2026-10-28T01:08:09.136Z",
+  "recordedAt": "2026-10-28T02:09:40.970Z",
   "sourceBaseline": "a22cba7360346242cb7709740b7eb954b92d1fd4",
   "issue": 71,
   "parentIssue": 67,
   "superParentIssue": 57,
-  "overallStatus": "G3-Pass; commit-integration-G4-pending",
+  "overallStatus": "G3-and-main-integration-Pass; G4-archive-prepared-pending-push-and-issue-sync",
   "authorScope": "B read-only hash-bound aggregation. No test, SQL, fixture, service, browser, copy, Git mutation, or formal acceptance execution. C remains the independent gate reviewer; root makes closure decisions.",
   "scope": "Eleven existing users/profile/owner-reference operations. Rust cumulative30 paths/37 operations; R2D completion would move R2 from19/108 to30/108 with78 remaining. R2E-M and R2M stage acceptance remain outside this slice. Original TypeScript/OpenAPI/client/migrations stay authoritative.",
   "aggregationInput": {
@@ -62858,7 +62858,7 @@
       "hasCurrentMatchingEvidence": true
     }
   ],
-  "currentSourceManifestScope": "Actual-source-set union from draft02 plus pure06 and both full final05 owner/HTTP/concurrency/supplement sets, with original raw/LF rules and raw-only Root/Jamo. All current hashes match at least one explicit observed/accepted/static source epoch; no directory walk or old matrix replay claim. Final current manifest adds the two-file precommit whitespace static epoch; original full G3/source/runtime hashes remain in immutable input02 and separate original snapshots.",
+  "currentSourceManifestScope": "Historical pre-G4 source union checked in full on main and Linux at implementation commit 9302fd7149257aa40584fc500fd76dd0c766b80d. The exact original rows and manifest hash are retained. Lifecycle relocation and later governance-document changes are separately mapped in closure; this is not a claim that every historical path still exists after archive. Original pre-G4 scope: Actual-source-set union from draft02 plus pure06 and both full final05 owner/HTTP/concurrency/supplement sets, with original raw/LF rules and raw-only Root/Jamo. All current hashes match at least one explicit observed/accepted/static source epoch; no directory walk or old matrix replay claim. Final current manifest adds the two-file precommit whitespace static epoch; original full G3/source/runtime hashes remain in immutable input02 and separate original snapshots.",
   "g1Freeze": {
     "artifactId": "g1Freeze",
     "artifact": {
@@ -63648,12 +63648,45 @@
             "bytes": 3025,
             "rawBytesSha256": "c20cee89dcea71addefbe50a3ac98bdff2bb2af9834f2c9726a1fc06f29b6616"
           }
+        },
+        {
+          "artifactId": "postG3MetadataReview",
+          "artifact": {
+            "file": "tmp/rust-r2d/c-post-g3-metadata-docs-delta-review01.json",
+            "bytes": 6929,
+            "rawBytesSha256": "9a4438d8d819acc3c817fc5211957b7092dfce6cda7d982184d444e38928599c"
+          }
         }
       ]
     },
     "G4": {
-      "status": "pending",
-      "owner": "Root integration/commit/push/archive/Issue reconciliation"
+      "status": "archive-prepared-conditional-on-push-and-issue-sync",
+      "implementationCommit": "9302fd7149257aa40584fc500fd76dd0c766b80d",
+      "postIntegration": {
+        "artifactId": "mainIntegration",
+        "artifact": {
+          "file": "tmp/rust-r2d/integration-main-9302fd714925/receipt.json",
+          "bytes": 799297,
+          "rawBytesSha256": "44f13c9394621bfc1d0688fdccf15bb77ef6e148aabe394f5578aa02e0c6f015"
+        }
+      },
+      "independentIntegrationReview": {
+        "artifactId": "mainIntegrationReview",
+        "artifact": {
+          "file": "tmp/rust-r2d/c-integration-review01.json",
+          "bytes": 6550,
+          "rawBytesSha256": "5fb7ec0978d41612772fac19800df35daa7cf5a0a8707dcc6d880535f2283994"
+        }
+      },
+      "archive": {
+        "artifactId": "g4ArchiveRelocation",
+        "artifact": {
+          "file": "tmp/rust-r2d/archive-relocation01.json",
+          "bytes": 5679,
+          "rawBytesSha256": "413ba903826e63b05984c3794071e3a1983a00ab3b31fb25c54a22d86492769d"
+        }
+      },
+      "activation": "G4 takes effect only after this archive commit is pushed and Issue71 closeout is verified; final archive SHA and online state are bound by the Issue71 G4 comment and a separate immutable final receipt."
     }
   },
   "g3ReviewedInput": {
@@ -63666,15 +63699,19 @@
   },
   "g3IssueComment": "https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041",
   "closure": {
-    "status": "pending",
-    "commit": null,
-    "push": null,
+    "status": "implementation-integrated; archive-prepared-conditional-on-push-and-issue-sync",
+    "commit": "9302fd7149257aa40584fc500fd76dd0c766b80d",
+    "push": {
+      "branch": "main",
+      "verifiedCommit": "9302fd7149257aa40584fc500fd76dd0c766b80d"
+    },
     "issue71Done": false,
     "parentIssues67and57RemainOpen": true,
     "currentlyDeliveredR2": {
-      "delivered": 19,
+      "delivered": 30,
       "total": 108,
-      "remaining": 89
+      "remaining": 78,
+      "gateBoundary": "Implementation integrated; this child G4 activation still requires archive push and Issue reconciliation"
     },
     "afterR2dOnly": {
       "delivered": 30,
@@ -63699,15 +63736,230 @@
         "bytes": 746,
         "rawBytesSha256": "a2d42075d4a8861245dd073521a426ca1c0de6f707944b6fbd3cd3fb31c50d75"
       }
-    }
+    },
+    "preG4Validation": {
+      "artifactId": "preG4Validation",
+      "artifact": {
+        "file": "tmp/rust-r2d/pre-g4-validation01.json",
+        "bytes": 2551338,
+        "rawBytesSha256": "228f55f7d827efd0d6a7564f8d620134f142c6458274e5fc77b6fa4ed9316b52"
+      }
+    },
+    "preG4Integration": {
+      "checkedAt": "2026-10-28T01:22:52.757Z",
+      "acceptanceInput": {
+        "file": "docs/design/rust-r2d-validation.json",
+        "rawBytesSha256": "228f55f7d827efd0d6a7564f8d620134f142c6458274e5fc77b6fa4ed9316b52"
+      },
+      "sourceManifestSha256": "6086c966fc882df27755bab06a3296a1e653e65a3c27466c58c331ead577b950",
+      "sourceFiles": 1747,
+      "receipt": {
+        "artifactId": "mainIntegration",
+        "artifact": {
+          "file": "tmp/rust-r2d/integration-main-9302fd714925/receipt.json",
+          "bytes": 799297,
+          "rawBytesSha256": "44f13c9394621bfc1d0688fdccf15bb77ef6e148aabe394f5578aa02e0c6f015"
+        }
+      },
+      "review": {
+        "artifactId": "mainIntegrationReview",
+        "artifact": {
+          "file": "tmp/rust-r2d/c-integration-review01.json",
+          "bytes": 6550,
+          "rawBytesSha256": "5fb7ec0978d41612772fac19800df35daa7cf5a0a8707dcc6d880535f2283994"
+        }
+      },
+      "boundary": "Original source union validated before lifecycle relocation. No runtime rerun. Original manifest retained without removing docs/tmp entries."
+    },
+    "archiveRelocation": {
+      "receipt": {
+        "artifactId": "g4ArchiveRelocation",
+        "artifact": {
+          "file": "tmp/rust-r2d/archive-relocation01.json",
+          "bytes": 5679,
+          "rawBytesSha256": "413ba903826e63b05984c3794071e3a1983a00ab3b31fb25c54a22d86492769d"
+        }
+      },
+      "mapping": {
+        "formatVersion": 1,
+        "kind": "r2d-g4-lifecycle-relocation",
+        "result": "pass",
+        "startedAt": "2026-10-28T02:09:22.256Z",
+        "implementationCommit": "9302fd7149257aa40584fc500fd76dd0c766b80d",
+        "preG4SourceManifestSha256": "6086c966fc882df27755bab06a3296a1e653e65a3c27466c58c331ead577b950",
+        "sourceCount": 1747,
+        "integrationPhase": "Actual full-union static checks completed before lifecycle relocation; this run performs no runtime replay.",
+        "prerequisites": [
+          {
+            "file": "tmp/rust-r2d/evidence-preservation-final02.json",
+            "bytes": 1405238,
+            "rawSha256": "59241a453fbea9536627006778868dbb9297312f4dd8aab8e2f8b0d7bd5956af"
+          },
+          {
+            "file": "tmp/rust-r2d/linux-evidence-preservation-final02.json",
+            "bytes": 9871435,
+            "rawSha256": "d9e48a50e0bec3ff0b882125d421285b276b8d069942fc62de927f5964b3198d"
+          },
+          {
+            "file": "tmp/rust-r2d/integration-main-9302fd714925/receipt.json",
+            "bytes": 799297,
+            "rawSha256": "44f13c9394621bfc1d0688fdccf15bb77ef6e148aabe394f5578aa02e0c6f015"
+          }
+        ],
+        "relocations": [
+          {
+            "from": "docs/design/rust-r2d-users-profile-baseline.md",
+            "to": "docs/design/archive/slices/rust-r2d-users-profile-baseline.md",
+            "preservedOriginal": "tmp/rust-r2d/pre-g4-documents/rust-r2d-users-profile-baseline.md",
+            "beforeRawSha256": "f638206dc317d6fac66cd0aed26d95255a89c94f60502558dee93cbca4b1e455",
+            "beforeBytes": 24754,
+            "afterRawSha256": "d67bd5deeb4aff19162879d9a140dbffdf91df2e57459f302012299d0a7c1302",
+            "afterBytes": 25526
+          },
+          {
+            "from": "docs/design/rust-r2d-corrective-checkpoint.md",
+            "to": "docs/design/archive/slices/rust-r2d-corrective-checkpoint.md",
+            "preservedOriginal": "tmp/rust-r2d/pre-g4-documents/rust-r2d-corrective-checkpoint.md",
+            "beforeRawSha256": "c1bb53bc2a11b78a36b2143428c9d5c81f49b82ab1798a8654bcc91f696caedc",
+            "beforeBytes": 16160,
+            "afterRawSha256": "5568b21ed3e6467b367887e2cc9975673f8b55cc9b13913fa9e045e61651918e",
+            "afterBytes": 16279
+          },
+          {
+            "from": "docs/design/rust-r2d-closeout.md",
+            "to": "docs/design/archive/slices/rust-r2d-closeout.md",
+            "preservedOriginal": "tmp/rust-r2d/pre-g4-documents/rust-r2d-closeout.md",
+            "beforeRawSha256": "030acfd5f882aa9b2e57f83e713d474dcf9ee0df8f8711ceb5dfcf69bada4bae",
+            "beforeBytes": 10853,
+            "afterRawSha256": "339fafab0c1c3813d7769fc1c99448682df56bfca206a02579f4968b1cfb149a",
+            "afterBytes": 11129
+          }
+        ],
+        "updates": [
+          {
+            "file": "docs/design/README.md",
+            "beforeRawSha256": "cab2ed26888656798b1fcc7967b3872d57b03b0b2a3fd7646ebc35270c0a4185",
+            "afterRawSha256": "f99824ce84a5e5de35d10a372bfe6e4e25ad33510c580b3c9a29f7d1fbe4487a"
+          },
+          {
+            "file": "docs/design/archive/slices/README.md",
+            "beforeRawSha256": "2d6c4e1083fd01a9859a14c604c0a8a960d3abe476373725f499a0826b5d2c6a",
+            "afterRawSha256": "5f6d9cbd5303cea7a653fc787baf5f4e4e8e9e97d06bad383e62f0c16f7dd698"
+          },
+          {
+            "file": "docs/design/rust-migration-execution-tracker.md",
+            "beforeRawSha256": "2a2ad9eb5541486349f9faa319af7de5e651c8ad8cfd4edc61c7f273c4918041",
+            "afterRawSha256": "93fba5b8ca92e435a6fd563e63127f0a9edf4efa1663d132cca6eec0a8db6ff0"
+          },
+          {
+            "file": "docs/design/phase2-development-execution-tracker.md",
+            "beforeRawSha256": "1e00bc2febf06030ac9d4c8479682e43dfa4e3760f3c84023597fab70c0a801f",
+            "afterRawSha256": "708907d8a8ea81b534467e5ce3e0bb0ca33588287fb717a6bbb51ce5027a4921"
+          },
+          {
+            "file": "docs/design/backend-rust-migration-plan.md",
+            "beforeRawSha256": "b76b1c642cf2cf41b6a7ace98094235e6897be1a9645fcfeba82cfedff8d5b4e",
+            "afterRawSha256": "7aa3162d3a2dd636aa0be0e0e6081472bc97f3cbc369470779da9b08cab65d33"
+          },
+          {
+            "file": "docs/design/rust-r2-scope-and-dependencies.md",
+            "beforeRawSha256": "105cbdd7fadc74e6f485d3b0f1afc52a147cf6b7468d653cdce8122a4d1a7a4d",
+            "afterRawSha256": "c1e5cf6f9fdda67734219bbba8f72a6a8bc46f27d6b33607b19a3978c64dc1ce"
+          },
+          {
+            "file": "docs/design/rust-r2-operation-slices.json",
+            "beforeRawSha256": "514d41054b787d5fafb148a97e7712484bc775edc1e2cd2633927dac7d8b5fbf",
+            "afterRawSha256": "61ee03b7226a0a749193671a2e35cb2613003bc41c860cd2e4e769a3bbdb7302"
+          }
+        ],
+        "boundary": "G4随归档提交推送与Issue同步生效。This script does not edit validation/closure JSON, frozen inputs, product sources, Git or GitHub. Root owns the final closure mapping and online status.",
+        "formatter": {
+          "tool": "tools/format-md-tables.ts",
+          "args": [
+            "run",
+            "--allow-read",
+            "--allow-write",
+            "tools/format-md-tables.ts",
+            "E:\\projects\\worktrees\\poms-r2d-users-profile\\poms\\tmp\\rust-r2d\\archive-format-staging01"
+          ],
+          "exitCode": 0,
+          "scope": "Repository table formatter on only the selected staged Markdown files, before after-hashes are recorded; no whole-document Prettier rewrite.",
+          "log": "tmp/rust-r2d/archive-format-tables01.log"
+        },
+        "validationUnchanged": {
+          "file": "docs/design/rust-r2d-validation.json",
+          "rawSha256": "228f55f7d827efd0d6a7564f8d620134f142c6458274e5fc77b6fa4ed9316b52",
+          "currentSourceManifestUnchanged": true
+        },
+        "frozenOriginalsUnchanged": [
+          {
+            "file": "tmp/rust-r2d/g1-frozen-baseline.md",
+            "rawSha256": "f638206dc317d6fac66cd0aed26d95255a89c94f60502558dee93cbca4b1e455",
+            "bytes": 24754
+          },
+          {
+            "file": "tmp/rust-r2d/g3-reviewed-validation02.json",
+            "rawSha256": "6c45acd70bf814f2d924624baa9d3f630ea97a1d18513d879da48cf5b788c420",
+            "bytes": 2541386
+          }
+        ],
+        "finishedAt": "2026-10-28T02:09:23.140Z"
+      },
+      "boundary": "Relative Markdown link relocation and closeout state only. Frozen G1/G3 and runtime evidence remain immutable."
+    },
+    "evidencePreservation": {
+      "windows": {
+        "artifactId": "windowsPreservationFinal01",
+        "artifact": {
+          "file": "tmp/rust-r2d/evidence-preservation-final01.json",
+          "bytes": 1360826,
+          "rawBytesSha256": "221625db14aabb2865289ea64c296c7873e520c3125a24a9521170ae8dc84185"
+        }
+      },
+      "windowsIncrement": {
+        "artifactId": "windowsPreservationFinal02",
+        "artifact": {
+          "file": "tmp/rust-r2d/evidence-preservation-final02.json",
+          "bytes": 1405238,
+          "rawBytesSha256": "59241a453fbea9536627006778868dbb9297312f4dd8aab8e2f8b0d7bd5956af"
+        }
+      },
+      "linux": {
+        "artifactId": "linuxPreservationFinal02",
+        "artifact": {
+          "file": "tmp/rust-r2d/linux-evidence-preservation-final02.json",
+          "bytes": 9871435,
+          "rawBytesSha256": "d9e48a50e0bec3ff0b882125d421285b276b8d069942fc62de927f5964b3198d"
+        }
+      },
+      "linuxScriptReview": {
+        "artifactId": "linuxPreservationScriptReview02",
+        "artifact": {
+          "file": "tmp/rust-r2d/c-linux-preservation02-source-review01.json",
+          "bytes": 4024,
+          "rawBytesSha256": "d3435f2acb25d2dd757a93d79e34c139975aaaad77f35607d813cdbed12ce3fd"
+        }
+      },
+      "retainedFailedAttempt": {
+        "artifactId": "linuxPreservationFailed01",
+        "artifact": {
+          "file": "tmp/rust-r2d/linux-evidence-preservation-final01.json",
+          "bytes": 1648,
+          "rawBytesSha256": "5b179e3111f294553a08df78d6b322b3683ab9eabf6f604e4d50790f046bbb09"
+        }
+      },
+      "incrementalPolicy": "Later closeout receipts are append-only increments and must be preserved before worktree archive."
+    },
+    "activation": "G4 takes effect only after this archive commit is pushed and Issue71 closeout is verified; final archive SHA and online state are bound by the Issue71 G4 comment and a separate immutable final receipt."
   },
   "pending": [
     {
-      "item": "Root commit/push/main integration/static post-check/G4/Issue closure/evidence preservation before archive",
+      "item": "Push reviewed archive commit, reconcile and close only Issue71, preserve later receipts, then archive managed worktree",
       "status": "pending",
       "positions": [
         "gates.G4",
-        "closure"
+        "closure",
+        "closeoutSlots.G4"
       ]
     }
   ],
@@ -64611,6 +64863,56 @@
       "file": "tmp/rust-r2d/preintegration-oracle-format-alignment01.json",
       "bytes": 746,
       "rawBytesSha256": "a2d42075d4a8861245dd073521a426ca1c0de6f707944b6fbd3cd3fb31c50d75"
+    },
+    "postG3MetadataReview": {
+      "file": "tmp/rust-r2d/c-post-g3-metadata-docs-delta-review01.json",
+      "bytes": 6929,
+      "rawBytesSha256": "9a4438d8d819acc3c817fc5211957b7092dfce6cda7d982184d444e38928599c"
+    },
+    "mainIntegration": {
+      "file": "tmp/rust-r2d/integration-main-9302fd714925/receipt.json",
+      "bytes": 799297,
+      "rawBytesSha256": "44f13c9394621bfc1d0688fdccf15bb77ef6e148aabe394f5578aa02e0c6f015"
+    },
+    "mainIntegrationReview": {
+      "file": "tmp/rust-r2d/c-integration-review01.json",
+      "bytes": 6550,
+      "rawBytesSha256": "5fb7ec0978d41612772fac19800df35daa7cf5a0a8707dcc6d880535f2283994"
+    },
+    "windowsPreservationFinal01": {
+      "file": "tmp/rust-r2d/evidence-preservation-final01.json",
+      "bytes": 1360826,
+      "rawBytesSha256": "221625db14aabb2865289ea64c296c7873e520c3125a24a9521170ae8dc84185"
+    },
+    "windowsPreservationFinal02": {
+      "file": "tmp/rust-r2d/evidence-preservation-final02.json",
+      "bytes": 1405238,
+      "rawBytesSha256": "59241a453fbea9536627006778868dbb9297312f4dd8aab8e2f8b0d7bd5956af"
+    },
+    "linuxPreservationFinal02": {
+      "file": "tmp/rust-r2d/linux-evidence-preservation-final02.json",
+      "bytes": 9871435,
+      "rawBytesSha256": "d9e48a50e0bec3ff0b882125d421285b276b8d069942fc62de927f5964b3198d"
+    },
+    "linuxPreservationScriptReview02": {
+      "file": "tmp/rust-r2d/c-linux-preservation02-source-review01.json",
+      "bytes": 4024,
+      "rawBytesSha256": "d3435f2acb25d2dd757a93d79e34c139975aaaad77f35607d813cdbed12ce3fd"
+    },
+    "linuxPreservationFailed01": {
+      "file": "tmp/rust-r2d/linux-evidence-preservation-final01.json",
+      "bytes": 1648,
+      "rawBytesSha256": "5b179e3111f294553a08df78d6b322b3683ab9eabf6f604e4d50790f046bbb09"
+    },
+    "g4ArchiveRelocation": {
+      "file": "tmp/rust-r2d/archive-relocation01.json",
+      "bytes": 5679,
+      "rawBytesSha256": "413ba903826e63b05984c3794071e3a1983a00ab3b31fb25c54a22d86492769d"
+    },
+    "preG4Validation": {
+      "file": "tmp/rust-r2d/pre-g4-validation01.json",
+      "bytes": 2551338,
+      "rawBytesSha256": "228f55f7d827efd0d6a7564f8d620134f142c6458274e5fc77b6fa4ed9316b52"
     }
   },
   "currentSourceManifestSha256": "6086c966fc882df27755bab06a3296a1e653e65a3c27466c58c331ead577b950",
@@ -65119,14 +65421,36 @@
       "issue71Comment": "https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041"
     },
     "G4": {
-      "status": "pending",
-      "implementationCommit": null,
-      "originMainCommit": null,
-      "postIntegrationReceipt": null,
-      "preservationReceipt": null,
-      "linuxOnlyPreservation": null,
+      "status": "archive-prepared-conditional-on-push-and-issue-sync",
+      "implementationCommit": "9302fd7149257aa40584fc500fd76dd0c766b80d",
+      "originMainCommit": "9302fd7149257aa40584fc500fd76dd0c766b80d",
+      "postIntegrationReceipt": {
+        "artifactId": "mainIntegration",
+        "artifact": {
+          "file": "tmp/rust-r2d/integration-main-9302fd714925/receipt.json",
+          "bytes": 799297,
+          "rawBytesSha256": "44f13c9394621bfc1d0688fdccf15bb77ef6e148aabe394f5578aa02e0c6f015"
+        }
+      },
+      "preservationReceipt": {
+        "artifactId": "windowsPreservationFinal01",
+        "artifact": {
+          "file": "tmp/rust-r2d/evidence-preservation-final01.json",
+          "bytes": 1360826,
+          "rawBytesSha256": "221625db14aabb2865289ea64c296c7873e520c3125a24a9521170ae8dc84185"
+        }
+      },
+      "linuxOnlyPreservation": {
+        "artifactId": "linuxPreservationFinal02",
+        "artifact": {
+          "file": "tmp/rust-r2d/linux-evidence-preservation-final02.json",
+          "bytes": 9871435,
+          "rawBytesSha256": "d9e48a50e0bec3ff0b882125d421285b276b8d069942fc62de927f5964b3198d"
+        }
+      },
       "issue71Done": false,
-      "parents67and57RemainOpen": true
+      "parents67and57RemainOpen": true,
+      "activation": "G4 takes effect only after this archive commit is pushed and Issue71 closeout is verified; final archive SHA and online state are bound by the Issue71 G4 comment and a separate immutable final receipt."
     }
   },
   "reviewedInputHistoricalText": {
@@ -65145,7 +65469,7 @@
   },
   "rootAcceptance": {
     "scope": "R2D 11 existing operations only",
-    "currentAuthority": "gates and closure; historical per-epoch prose retains its original time boundary",
+    "currentAuthority": "gates and closure describe this pre-push archive proposal; the final Issue71 G4 comment and separate immutable final G4 receipt record activation after archive push and Issue reconciliation. Historical runtime evidence retains its original epoch.",
     "canCommit": true,
     "canMarkDone": false,
     "noNewP1P2": true,
@@ -65153,6 +65477,7 @@
     "currentSourceCount": 1747,
     "finalCurrentSourceManifestSha256": "6086c966fc882df27755bab06a3296a1e653e65a3c27466c58c331ead577b950",
     "originalG3SourceManifestSha256": "3d5bb92cdafd037c6e5ee57630fb7be2a678057b934cf78b9eeeac7ef2933059",
-    "formatOnlyDelta": "No product/runtime semantic change; two current source hashes admitted by independent delta review."
+    "formatOnlyDelta": "No product/runtime semantic change; two current source hashes admitted by independent delta review.",
+    "g4Activation": "G4 takes effect only after this archive commit is pushed and Issue71 closeout is verified; final archive SHA and online state are bound by the Issue71 G4 comment and a separate immutable final receipt."
   }
 }

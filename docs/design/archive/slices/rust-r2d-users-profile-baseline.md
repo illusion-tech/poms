@@ -6,7 +6,7 @@
 - 类型：`cross-layer-high-risk`；现有用户命令、关系替换、认证读取与审计；无产品DDL变更。
 - 起点：clean main `a22cba7360346242cb7709740b7eb954b92d1fd4`；Windows managed worktree `E:/projects/worktrees/poms-r2d-users-profile/poms`，分支`codex/poms-r2d-users-profile`；Linux专用checkout `/home/wangzishi/projects/poms-rust-r2d`；沿用solo worktree checkpoint。
 - 日期：2026-10-28（Asia/Tokyo）；G1冻结时间：2026-10-27T20:56:23.041Z；A/B/C同一候选复核均Pass。
-- Tracker：[Rust迁移追踪](rust-migration-execution-tracker.md)；[R2范围](rust-r2-scope-and-dependencies.md)、[108操作归属](rust-r2-operation-slices.json)。
+- Tracker：[Rust迁移追踪](../../rust-migration-execution-tracker.md)；[R2范围](../../rust-r2-scope-and-dependencies.md)、[108操作归属](../../rust-r2-operation-slices.json)。
 
 ## 1. 范围与下游边界
 
@@ -20,16 +20,16 @@
 
 原TS产品、共享契约、完整OpenAPI、579个生成客户端、92份产品迁移及历史验收保持。新导出绑定working tree、index及保护目录untracked三轴；文本只做CRLF→LF规范化，opaque文件按原字节。历史设计与现行cookie session、角色名称输出、colon命令存在年代差异，以ADR-017、当前canonical/controller/DTO和真实Nest行为共同冻结，不以旧文案改当前产品。
 
-| 领域       | 正式输入                                                                                                                                                                                           | 本片消费                                                                |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| 阶段与业务 | [迁移计划](backend-rust-migration-plan.md)、[用户设计](platform-governance/user-management-design.md)、[个人资料设计](platform-governance/profile-self-service-design.md)、ADR-001/002/008/017/018 | 用户与关系、profile只读/自助字段、认证边界                              |
-| 路由       | [canonical inventory](api-route-canonical-inventory.md)、[R0F](archive/slices/rust-r0f-route-baseline.md)、ADR-015                                                                                 | 第121–122、210–213、217、534–537行共11操作aligned；不增加alias          |
-| 控制与服务 | `apps/poms-api/src/app/features/platform/platform.controller.ts`、`platform.service.ts`、`platform.repository.ts`、`core/auth/auth.controller.ts`                                                  | 守卫、参数、JS严格比较、查询次序、dirty/flush/audit                     |
-| DTO与响应  | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/api/contracts/src/lib/auth/user.dto.ts`、`libs/vendor/nestjs-zod/src/`                                                                  | 原Zod4.6.1六类schema执行oracle，完整issues/ownKeys、原完整OpenAPI元数据 |
-| 持久化     | `platform-user.entity.ts`、`user-role-assignment.entity.ts`、`user-org-membership.entity.ts`、`org-unit.entity.ts`、`role.entity.ts`及现有migration                                                | 完整用户行、FK/唯一性、row_version、全部关系状态、日期/actor字段        |
-| 认证与审计 | `core/auth/`、`core/runtime-audit/`、dev fixtures、bootstrap seeder                                                                                                                                | 每请求认证快照、raw touch、pending session flush、业务/audit独立边界    |
-| 既有Rust   | [R2B收口](archive/slices/rust-r2b-closeout.md)、[R2C收口](archive/slices/rust-r2c-closeout.md)、`apps/poms-api-rust/src/auth`与`compat`                                                            | 复用已交付基础，新增用户快照按本片见证；旧Pass不是本轮运行证据          |
-| 原页面     | `apps/poms-admin/src/app/features/user-management/user-list.ts`、`features/profile/current-user-profile.ts`、`libs/admin/data-access/src/lib/platform/platform.store.ts`及实际依赖                 | 原用户管理/个人中心交互与顶部身份刷新；不替换页面或mock目标操作         |
+| 领域       | 正式输入                                                                                                                                                                                                             | 本片消费                                                                |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 阶段与业务 | [迁移计划](../../backend-rust-migration-plan.md)、[用户设计](../../platform-governance/user-management-design.md)、[个人资料设计](../../platform-governance/profile-self-service-design.md)、ADR-001/002/008/017/018 | 用户与关系、profile只读/自助字段、认证边界                              |
+| 路由       | [canonical inventory](../../api-route-canonical-inventory.md)、[R0F](rust-r0f-route-baseline.md)、ADR-015                                                                                                            | 第121–122、210–213、217、534–537行共11操作aligned；不增加alias          |
+| 控制与服务 | `apps/poms-api/src/app/features/platform/platform.controller.ts`、`platform.service.ts`、`platform.repository.ts`、`core/auth/auth.controller.ts`                                                                    | 守卫、参数、JS严格比较、查询次序、dirty/flush/audit                     |
+| DTO与响应  | `libs/shared/contracts/src/lib/shared-contracts.ts`、`libs/api/contracts/src/lib/auth/user.dto.ts`、`libs/vendor/nestjs-zod/src/`                                                                                    | 原Zod4.6.1六类schema执行oracle，完整issues/ownKeys、原完整OpenAPI元数据 |
+| 持久化     | `platform-user.entity.ts`、`user-role-assignment.entity.ts`、`user-org-membership.entity.ts`、`org-unit.entity.ts`、`role.entity.ts`及现有migration                                                                  | 完整用户行、FK/唯一性、row_version、全部关系状态、日期/actor字段        |
+| 认证与审计 | `core/auth/`、`core/runtime-audit/`、dev fixtures、bootstrap seeder                                                                                                                                                  | 每请求认证快照、raw touch、pending session flush、业务/audit独立边界    |
+| 既有Rust   | [R2B收口](rust-r2b-closeout.md)、[R2C收口](rust-r2c-closeout.md)、`apps/poms-api-rust/src/auth`与`compat`                                                                                                            | 复用已交付基础，新增用户快照按本片见证；旧Pass不是本轮运行证据          |
+| 原页面     | `apps/poms-admin/src/app/features/user-management/user-list.ts`、`features/profile/current-user-profile.ts`、`libs/admin/data-access/src/lib/platform/platform.store.ts`及实际依赖                                   | 原用户管理/个人中心交互与顶部身份刷新；不替换页面或mock目标操作         |
 
 Rust1.99.1、现有Cargo与ICU固定身份保持。本片没有新的localeCompare排序，`users/collation.rs`为N/A；不得为无ORDER BY关系数组新增排序规则。若实际发现需要更改依赖或新比较语义，先记录原因与受影响验证。
 
@@ -138,3 +138,7 @@ G3通过后实现提交/推送，solo模式快进main，集成后检查来源/�
 ## 9. G1复核记录
 
 A/B输入复核与C非产品作者独立复核均Pass，未关闭P1/P2为0。共同候选原字节SHA256为`ad5f163596229ee1fc6cfdfe827cd9b1e13b9f6c5d7e18876591265e5dc5df2d`，原件`tmp/rust-r2d/g1-reviewed-candidate.md`；三方回执、输入清单、最终冻结原件由`tmp/rust-r2d/g1-freeze.json`绑定。首候选两处DTO文案错误及Block回执保留，候选02已按原schema修正。候选到冻结只改Gate/时间/本记录，不改变实现输入。C回执的完整case plan、owner PID/startTicks/binary/source epoch、精确barrier与严格normalize要求作为G2工具冻结和G3验收的具体化要求。G1不能推出PG/HTTP/UI/G3/G4 Pass；上述矩阵保留当时Pending。
+
+## G4归档说明
+
+原G1字节保全于`tmp/rust-r2d/g1-frozen-baseline.md`，raw SHA256 `f638206dc317d6fac66cd0aed26d95255a89c94f60502558dee93cbca4b1e455`。本归档副本仅重定位相对链接及追加收口说明，原Pending矩阵不改写为运行成功。实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项适配器/1747来源静态检查实跑通过；G4随归档提交推送与Issue同步生效。实际交付、保留差异及父任务边界见[收口](rust-r2d-closeout.md)与[机器验收](../../rust-r2d-validation.json)。

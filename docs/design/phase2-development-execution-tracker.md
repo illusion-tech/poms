@@ -507,9 +507,13 @@ R2C实现`319d5d89977704b9924fc7a401957d46f5d42668`已合入main并推送，集�
 
 ### 2026-10-28 RUST-R2D G1冻结
 
-R2D #71按[用户/profile基线](rust-r2d-users-profile-baseline.md)于2026-10-27T20:56:23.041Z冻结，来源HEAD `a22cba7360346242cb7709740b7eb954b92d1fd4`；A/B与C同一候选复核Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/71#issuecomment-6453366467)。范围为11个现有操作，进入Doing；先见证Nest原UUID/快照/分段SQL再实现对应持久化，PG/HTTP/并发/四组合UI与G3/G4均待完成。原create不写credential，不新增密码API或批量session revoke。仅新受控PG15，PG17及旧环境数据保留。R2已交付19/108，尚余89操作与阶段验收；父#67/#57保持Open，E–M Todo，#61不变。此条更新上方历史R2D Todo描述。
+R2D #71按[用户/profile基线](archive/slices/rust-r2d-users-profile-baseline.md)于2026-10-27T20:56:23.041Z冻结，来源HEAD `a22cba7360346242cb7709740b7eb954b92d1fd4`；A/B与C同一候选复核Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/71#issuecomment-6453366467)。范围为11个现有操作，进入Doing；先见证Nest原UUID/快照/分段SQL再实现对应持久化，PG/HTTP/并发/四组合UI与G3/G4均待完成。原create不写credential，不新增密码API或批量session revoke。仅新受控PG15，PG17及旧环境数据保留。R2已交付19/108，尚余89操作与阶段验收；父#67/#57保持Open，E–M Todo，#61不变。此条更新上方历史R2D Todo描述。
 
 
 ### 2026-10-28 RUST-R2D G3通过
 
-R2D既有11操作完成实现与实际验收，[非作者G3 Pass](https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041)、未关闭P1/P2为0。final05双端各566顺序HTTP、16受控并发及4独立URI补例严格比较通过；PG11、四组合页面12与基础认证52、Rust125普通测试及工具184通过，默认50 ignored单列。81登记run最终各连续两次0/0，两个未初始化失败run按独立只读证明列N/A。受审原件及1747来源union由[机器验收](rust-r2d-validation.json)绑定，[收口记录](rust-r2d-closeout.md)保留schema失败分类、历史失败和有限URI/P3边界。尚待提交集成检查及G4；仅#71为本片范围，父#67/#57仍Open，PG17保留。
+R2D既有11操作完成实现与实际验收，[非作者G3 Pass](https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041)、未关闭P1/P2为0。final05双端各566顺序HTTP、16受控并发及4独立URI补例严格比较通过；PG11、四组合页面12与基础认证52、Rust125普通测试及工具184通过，默认50 ignored单列。81登记run最终各连续两次0/0，两个未初始化失败run按独立只读证明列N/A。受审原件及1747来源union由[机器验收](rust-r2d-validation.json)绑定，[收口记录](archive/slices/rust-r2d-closeout.md)保留schema失败分类、历史失败和有限URI/P3边界。尚待提交集成检查及G4；仅#71为本片范围，父#67/#57仍Open，PG17保留。
+
+### 2026-10-28 RUST-R2D G4归档
+
+R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归档前集成静态检查实际8步通过、26项适配器0skip、1747来源前后核等；这不是新增数据库、HTTP或浏览器实跑，独立集成复核及原回执由[机器验收](rust-r2d-validation.json)的closure绑定。本片11操作的完整证据见[归档收口](archive/slices/rust-r2d-closeout.md)与[纠偏](archive/slices/rust-r2d-corrective-checkpoint.md)。G4随归档提交推送与Issue同步生效；届时仅#71完成，R2A/B/C/D累计30/108，剩余78操作及R2M阶段验收，父#67/#57保持Open，E–M与#61状态不变。G1原字节和G3受审原件保留，完整currentSourceManifest不删docs/tmp；集成检查时点在归档前，路径/hash迁移另记，不改写历史运行来源。旧失败、P3有限URI、schema既有差异及PG17/旧数据保留边界不变。上方带日期的历史状态保留，以本条为当前收口说明。
