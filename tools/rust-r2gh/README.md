@@ -2,7 +2,7 @@
 
 本批迁移 G 的 16 个既有身份提供商、管理员授权、绑定及外部登录操作，以及 H 的 18 个组织源、目录预览、mapping / diff / apply 操作。来源 main 为 `126ede22bb4b379ae656ccde9cee9d82da383be4`。完整原 TypeScript 产品、Zod、Angular 页面、291 操作 / 585 schema 的 OpenAPI、579 个 generated-client 文件与 92 份历史 migration 保持不变。
 
-联合 G1 基线、[纠偏记录](../../docs/design/rust-r2gh-corrective-checkpoint.md)与最终 validation JSON 分别记录输入、运行语义修正和实际证据。G3 是非作者联合审查，G4 是后续提交 / 集成 / 归档和在线回写；不能仅因某项测试通过关闭父任务。
+联合 G1 基线、[纠偏记录](../../docs/design/archive/slices/rust-r2gh-corrective-checkpoint.md)与最终 validation JSON 分别记录输入、运行语义修正和实际证据。G3 是非作者联合审查，G4 是后续提交 / 集成 / 归档和在线回写；不能仅因某项测试通过关闭父任务。
 
 ## 运行入口与数据归属
 
@@ -50,3 +50,5 @@ candidate05 修正不可读密文 400 分类与不支持协议的 axios 错误�
 新 normalizer 只投影显式 server-owned timestamp 路径，任意 ISO 业务字符串保持字面；state/ticket TTL 有实际请求区间断言。Rust Windows ui07 / Linux ui02 各 2 条原页面再次通过；原 Nest 两平台页面与基础认证保留原候选及未改动来源的标签。最终全量为 72 backend/run / 144 journal，final03 连续两轮零残留，fix01 owner 正常停止、四端口释放。后续 G4 使用独立附加记录，不回写冻结输入。
 
 同一次联合 [G3 最终 Pass](../../docs/design/rust-r2gh-review02.json)，未关闭 P0/P1/P2/P3 均为0；完整受审 [source/evidence union](../../docs/design/rust-r2gh-source-manifest.json)是3,479项冻结清单的原字节副本。实现提交、main集成后核验与G4仍由后续附加记录承载。
+
+G4与当前计数见[归档收口](../../docs/design/archive/slices/rust-r2gh-closeout.md)：实现91cda75f已推送main，独立集成核验Pass；归档推送和Issue回写后仅#74/#75完成，R2累计74/108，余34＋R2M。冻结输入/首审Block/最终review02及完整来源不被closure回写。

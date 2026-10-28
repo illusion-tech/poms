@@ -1,6 +1,6 @@
 # RUST-R2G＋R2H 运行语义纠偏记录
 
-- Checkpoint Status：G3 Pass；同一次完整联合审查最终 P0/P1/P2/P3 未关闭均为0，见 [review02](rust-r2gh-review02.json)。首审 Block 与纠偏增量保持原字节，提交集成与 G4 待完成。
+- Checkpoint Status：G3 Pass，全部四项finding已在同次联合审查关闭；G4随本归档提交推送与子Issue回写生效，见[closeout](rust-r2gh-closeout.md)。
 - Parent：[#67](https://github.com/illusion-tech/poms/issues/67) / [#57](https://github.com/illusion-tech/poms/issues/57)；子项仅 #74 / #75。
 - Owner：Root；G/H 各自负责所属实现，非作者 C 负责联合 G3。
 - Slice Type：cross-layer-high-risk；日期 2026-10-28；正式输入为[联合基线](rust-r2gh-identity-directory-baseline.md)、原 TypeScript / Zod / migration / OpenAPI 与原 Angular 页面。

@@ -379,3 +379,5 @@
 - **G4 归档规则**：切片 `*-g3-g4-closeout.md` 写完并 commit 后，该切片所有 `*-baseline.md`、`*-closeout.md`、`*-corrective-checkpoint.md` 须在同一 commit 或紧跟 commit 中迁移至 `archive/slices/`
 
 - [R2E/F 联合收口](archive/slices/rust-r2ef-closeout.md)：实现`9b3086f6957dfed318a7a53d10cf245394d5282f`已推送，G3独审无未关闭P0/P1/P2；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)、[归档基线](archive/slices/rust-r2ef-foundation-audit-baseline.md)。G4随归档推送与Issue核对生效；R2A–F累计40/108、余68及R2M，父#67/#57 Open，G–M及#61不变，PG17保留。上方各旧切片计数保留其收口时点含义。
+
+- [R2G/H 联合收口](archive/slices/rust-r2gh-closeout.md)：34个既有操作，实现91cda75f已推送main，G3最终P0–P3未关闭0，独立集成核验Pass；[原件](rust-r2gh-validation.json)/[初审Block](rust-r2gh-review.json)/[增量02](rust-r2gh-g3-delta02.json)/[最终独审](rust-r2gh-review02.json)分列，受审全量清单保留；[G4来源快照](rust-r2gh-g4-source-manifest.json)分列归档时点。G4随归档推送与Issue回写生效，累计74/108、余34＋R2M，仅#74/#75完成，父#67/#57与I–M/#61保留。

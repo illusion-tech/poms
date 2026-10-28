@@ -1,0 +1,1080 @@
+{
+  "formatVersion": 1,
+  "kind": "Post-main-push integration static/source verification",
+  "result": "pass",
+  "implementation": "91cda75f8379a4085a37c14fc1fd25bde0a731dc",
+  "remoteMain": "91cda75f8379a4085a37c14fc1fd25bde0a731dc",
+  "node": "v24.19.0",
+  "startedAt": "2026-10-28T15:57:08.334Z",
+  "steps": [
+    {
+      "id": "diff-check",
+      "executable": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-diff-check.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "markdown-check",
+      "executable": "deno.exe",
+      "args": [
+        "run",
+        "--cached-only",
+        "--allow-read",
+        "tools/format-md-tables.ts",
+        "--check",
+        "docs/"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-markdown-check.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "adapters-26",
+      "executable": "current Node",
+      "args": [
+        "--test",
+        "tools/e2e/api-server.test.cjs",
+        "tools/e2e/admin-launcher.test.cjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-adapters-26.log",
+      "rawBytesSha256": "61e476d077a5063d47c2bcd7c6b9ff48994bebbbfd4d5ab4f6eb19d3a9102a84"
+    },
+    {
+      "id": "affected-tools-23",
+      "executable": "current Node",
+      "args": [
+        "--test",
+        "tools/rust-r2gh/fixture-safety.test.mjs",
+        "tools/rust-r2gh/fixture-complete-references.test.mjs",
+        "tools/rust-r2gh/timestamp-policy.test.mjs",
+        "tools/rust-r2gh/cipher-faults.test.mjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-affected-tools-23.log",
+      "rawBytesSha256": "ff28b2c10d5e99fffc202fb305c6adfc1c88726749ea5660b1858ac206abce9b"
+    },
+    {
+      "id": "g-source",
+      "executable": "current Node",
+      "args": [
+        "tools/rust-r2gh/g-export.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-g-source.log",
+      "rawBytesSha256": "7a38d356385ac2e6be9b4f3982f68ff83a5b3c60ac4c75814873da37be2718fc"
+    },
+    {
+      "id": "h-source",
+      "executable": "current Node",
+      "args": [
+        "tools/rust-r2gh/h-export.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-h-source.log",
+      "rawBytesSha256": "386bb118f7e41364b9572ce46dc183cd9ef83aeaf94a1d644895d8565647c653"
+    },
+    {
+      "id": "recursive-openapi",
+      "executable": "current Node",
+      "args": [
+        "tools/rust-r2gh/verify-openapi.mjs",
+        "tmp/rust-r2gh/openapi-candidate05.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-recursive-openapi.log",
+      "rawBytesSha256": "7744be1f0a546b068a36f29c16d59b9e712fceef38708b6121a41f3b817f4b89"
+    },
+    {
+      "id": "browser-typecheck",
+      "executable": "current Node",
+      "args": [
+        "installed TypeScript CLI",
+        "--project",
+        "tools/rust-r2gh/browser-tsconfig.json",
+        "--noEmit",
+        "--pretty",
+        "false"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "log": "tmp/rust-r2gh/post-integration01-browser-typecheck.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "boundary": "No DB/HTTP/browser/service start or new runtime certification; validates committed source and selected static regressions against the frozen G3.",
+  "configuredActionsWorkflows": false,
+  "reviewedSourceFiles": 3479,
+  "expectedGateMetadataChanges": 8,
+  "committedBlobChecks": [
+    {
+      "file": "apps/poms-api-e2e/src/poms-api/foundation.e2e-spec.ts",
+      "workingRawSha256": "b7c92ba63ee9718c34d35a2bb3f0426e4b8739717b60b6b11aa44db90cee97aa",
+      "committedRawSha256": "b7c92ba63ee9718c34d35a2bb3f0426e4b8739717b60b6b11aa44db90cee97aa",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.lock",
+      "workingRawSha256": "90200ec57d3adcbecc7c2a6d7642e3a1197a55fb7ba188b09fb7ac57497a7f7c",
+      "committedRawSha256": "90200ec57d3adcbecc7c2a6d7642e3a1197a55fb7ba188b09fb7ac57497a7f7c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.toml",
+      "workingRawSha256": "9685a0989c3362f4b3deeddda16bf075dc27f90b287e71894be18bc27c3b04c8",
+      "committedRawSha256": "9685a0989c3362f4b3deeddda16bf075dc27f90b287e71894be18bc27c3b04c8",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/examples/provider_transport_probe.rs",
+      "workingRawSha256": "0a014d5f18cc11cb456761c105e4fed52593a5b49a23e1e3bee7e62f18f5ef3f",
+      "committedRawSha256": "0a014d5f18cc11cb456761c105e4fed52593a5b49a23e1e3bee7e62f18f5ef3f",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/crypto.rs",
+      "workingRawSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+      "committedRawSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/http.rs",
+      "workingRawSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+      "committedRawSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/config.rs",
+      "workingRawSha256": "04c57b4bfdc1b0469476e9638e1ff90aeb994c1d647c9ac34ddcc21d815b7eea",
+      "committedRawSha256": "04c57b4bfdc1b0469476e9638e1ff90aeb994c1d647c9ac34ddcc21d815b7eea",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/error.rs",
+      "workingRawSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "committedRawSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/core.rs",
+      "workingRawSha256": "c04b94d0b25ff01ccd89b5ea74541a1bd5a4ef5c45f95a2c65d3f25ea91ee059",
+      "committedRawSha256": "c04b94d0b25ff01ccd89b5ea74541a1bd5a4ef5c45f95a2c65d3f25ea91ee059",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/directory.rs",
+      "workingRawSha256": "e6d6d1ea2cd4b15beab572b1cd9284d89dc5685201f2262219b22c9b9ec694c1",
+      "committedRawSha256": "e6d6d1ea2cd4b15beab572b1cd9284d89dc5685201f2262219b22c9b9ec694c1",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/http.rs",
+      "workingRawSha256": "fd5413b577ed57e6ff07cdef0c978b5eb5b2b45f66643d602bf82e12ab355b46",
+      "committedRawSha256": "fd5413b577ed57e6ff07cdef0c978b5eb5b2b45f66643d602bf82e12ab355b46",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/mod.rs",
+      "workingRawSha256": "3c7881efb561fd41e6122f03bf1459a4a2d2fc4a66875f3b321d0eac232a5893",
+      "committedRawSha256": "3c7881efb561fd41e6122f03bf1459a4a2d2fc4a66875f3b321d0eac232a5893",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/model.rs",
+      "workingRawSha256": "745d8c74a5f2e1111ea3a7e9ddf9c017dd1e548120616efdb7cc1b2fce3ddb82",
+      "committedRawSha256": "745d8c74a5f2e1111ea3a7e9ddf9c017dd1e548120616efdb7cc1b2fce3ddb82",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/service.rs",
+      "workingRawSha256": "8f0c47de17fa67ee6b95e299a767a6ec82e40e93ddba10c13baa03ab27956e61",
+      "committedRawSha256": "8f0c47de17fa67ee6b95e299a767a6ec82e40e93ddba10c13baa03ab27956e61",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/store.rs",
+      "workingRawSha256": "9caf24d53f919b9047b553b4614d0ab88783b1e00df80c1582a94d9f7759f11b",
+      "committedRawSha256": "9caf24d53f919b9047b553b4614d0ab88783b1e00df80c1582a94d9f7759f11b",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/validation.rs",
+      "workingRawSha256": "71c84fe717f6832366b82665054a0bc670a19526334561dd2f580d7a3c6b4f38",
+      "committedRawSha256": "71c84fe717f6832366b82665054a0bc670a19526334561dd2f580d7a3c6b4f38",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/http.rs",
+      "workingRawSha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a",
+      "committedRawSha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/adapter.rs",
+      "workingRawSha256": "82054d232507c568b17f294d29312424153a01108d7a9be36728e88232ceae0d",
+      "committedRawSha256": "82054d232507c568b17f294d29312424153a01108d7a9be36728e88232ceae0d",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/http.rs",
+      "workingRawSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238",
+      "committedRawSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/mod.rs",
+      "workingRawSha256": "618748110a1257107d28ed9af3ae750a0c9be13f33e9a3c98aa71f80e2f4e6d9",
+      "committedRawSha256": "618748110a1257107d28ed9af3ae750a0c9be13f33e9a3c98aa71f80e2f4e6d9",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/model.rs",
+      "workingRawSha256": "94e3b7747ab196c55e5cfa4635b3d3b121a19c9657944175b5cb1f452b32adcc",
+      "committedRawSha256": "94e3b7747ab196c55e5cfa4635b3d3b121a19c9657944175b5cb1f452b32adcc",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+      "workingRawSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9",
+      "committedRawSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/state.rs",
+      "workingRawSha256": "6ee2623e306eb72009495536a37871ceb85c4b4cad5d88db48432f6fb19acaf6",
+      "committedRawSha256": "6ee2623e306eb72009495536a37871ceb85c4b4cad5d88db48432f6fb19acaf6",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/store.rs",
+      "workingRawSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9",
+      "committedRawSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/validation.rs",
+      "workingRawSha256": "a302d3e59ce41e04f877599124843d11fcc719ace281274122dc052df5c4efff",
+      "committedRawSha256": "a302d3e59ce41e04f877599124843d11fcc719ace281274122dc052df5c4efff",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "workingRawSha256": "28c15586445a77619a8f9efce0804b4dbcaf3fd433eb0ef4d0a21094535a40d1",
+      "committedRawSha256": "28c15586445a77619a8f9efce0804b4dbcaf3fd433eb0ef4d0a21094535a40d1",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/main.rs",
+      "workingRawSha256": "b5cda6af76fad4346ecdc4026eadc2753bd69ac5fdc19befe070b3cfd992b483",
+      "committedRawSha256": "b5cda6af76fad4346ecdc4026eadc2753bd69ac5fdc19befe070b3cfd992b483",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/mod.rs",
+      "workingRawSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8",
+      "committedRawSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/settings.rs",
+      "workingRawSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+      "committedRawSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/state.rs",
+      "workingRawSha256": "06919e0cb9269bfb7d9209878199eee58fa29d304b01264523016abfb8a80514",
+      "committedRawSha256": "06919e0cb9269bfb7d9209878199eee58fa29d304b01264523016abfb8a80514",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "workingRawSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+      "committedRawSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/tests/http.rs",
+      "workingRawSha256": "4d6e6154c2f6f88823aa6c8c04a6360e81722d99dbbc617b74d1191e4b023359",
+      "committedRawSha256": "4d6e6154c2f6f88823aa6c8c04a6360e81722d99dbbc617b74d1191e4b023359",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "workingRawSha256": "6e7d1c68f50f5222f7ad13308d83b68ec9a6d74743f19948b05f933f296a79fa",
+      "committedRawSha256": "6e7d1c68f50f5222f7ad13308d83b68ec9a6d74743f19948b05f933f296a79fa",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/phase2-development-execution-tracker.md",
+      "workingRawSha256": "c3293ea7bb68c60fef25c66e1ef41f777417f0477b32b64b02ec610b4767cb7c",
+      "committedRawSha256": "c3293ea7bb68c60fef25c66e1ef41f777417f0477b32b64b02ec610b4767cb7c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-migration-execution-tracker.md",
+      "workingRawSha256": "467e12fb850a472b7edf046ff1566d6586f00e88b8ee3d25669b49c56c1f2bdb",
+      "committedRawSha256": "467e12fb850a472b7edf046ff1566d6586f00e88b8ee3d25669b49c56c1f2bdb",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2-operation-slices.json",
+      "workingRawSha256": "e1a82308c9245f9a4a06eaff8e2cf38fbcaba4f1e4592568b2efe14b7797c353",
+      "committedRawSha256": "e1a82308c9245f9a4a06eaff8e2cf38fbcaba4f1e4592568b2efe14b7797c353",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2-scope-and-dependencies.md",
+      "workingRawSha256": "8a2e18c4b8bc30c36c42ccc49d4048384685d5ec6cb2ac55ab87a5b941405ecf",
+      "committedRawSha256": "8a2e18c4b8bc30c36c42ccc49d4048384685d5ec6cb2ac55ab87a5b941405ecf",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-corrective-checkpoint.md",
+      "workingRawSha256": "e9c8822f8d48de70a99ef447e540c1c7a5d41141494d0e5c2e5c93b5fd0d7c2e",
+      "committedRawSha256": "e9c8822f8d48de70a99ef447e540c1c7a5d41141494d0e5c2e5c93b5fd0d7c2e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-g3-delta02.json",
+      "workingRawSha256": "4af59f8a4210e0a50afd6f73588634fcb55842729ea7bd551a6582a18e11a2db",
+      "committedRawSha256": "4af59f8a4210e0a50afd6f73588634fcb55842729ea7bd551a6582a18e11a2db",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-identity-directory-baseline.md",
+      "workingRawSha256": "0a6da4006aa2ffdc71274fdb91e5b54d8d423d64a90933edb7902373a6fdaf6a",
+      "committedRawSha256": "0a6da4006aa2ffdc71274fdb91e5b54d8d423d64a90933edb7902373a6fdaf6a",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-review.json",
+      "workingRawSha256": "d8cf399c856d8d897a0b92f540727e850de86654e857b457b741d0987a65f50c",
+      "committedRawSha256": "d8cf399c856d8d897a0b92f540727e850de86654e857b457b741d0987a65f50c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-review02.json",
+      "workingRawSha256": "993ff5175907a39bb5c2e4eadf213ad3cfa62a993d6ee71d0048a90cafb0f615",
+      "committedRawSha256": "993ff5175907a39bb5c2e4eadf213ad3cfa62a993d6ee71d0048a90cafb0f615",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-source-manifest.json",
+      "workingRawSha256": "4786ebb41eebe9a40c0264fe36ca56b3ec0c321a311f597858bd21b66bd482c3",
+      "committedRawSha256": "4786ebb41eebe9a40c0264fe36ca56b3ec0c321a311f597858bd21b66bd482c3",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "docs/design/rust-r2gh-validation.json",
+      "workingRawSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c",
+      "committedRawSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/e2e/admin-launcher.cjs",
+      "workingRawSha256": "649ac781e4276a3a79f3cb787a2ff2cd270922b81b1935c831aec57107270253",
+      "committedRawSha256": "649ac781e4276a3a79f3cb787a2ff2cd270922b81b1935c831aec57107270253",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/e2e/admin-launcher.d.cts",
+      "workingRawSha256": "763380752e71fd02b65e0917fd9ad0e1f6e8cac1051b4774732fbaa2a38f3401",
+      "committedRawSha256": "763380752e71fd02b65e0917fd9ad0e1f6e8cac1051b4774732fbaa2a38f3401",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/e2e/api-server.cjs",
+      "workingRawSha256": "4dc295f4e86a3fa5c393726bb4c6bebe4c9beb3b7abcd922434e225ce5b19962",
+      "committedRawSha256": "4dc295f4e86a3fa5c393726bb4c6bebe4c9beb3b7abcd922434e225ce5b19962",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/README.md",
+      "workingRawSha256": "d7a9c4060c3051950434d9694863d3c8a5c96447fecc42cf312b4b2e764ed508",
+      "committedRawSha256": "d7a9c4060c3051950434d9694863d3c8a5c96447fecc42cf312b4b2e764ed508",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/batch-cli.mjs",
+      "workingRawSha256": "b8f572d1f15a767bfff17dd7d8be0ee8b5f6805ddb73f671409e58745202b3ad",
+      "committedRawSha256": "b8f572d1f15a767bfff17dd7d8be0ee8b5f6805ddb73f671409e58745202b3ad",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/batch-client.cjs",
+      "workingRawSha256": "16bd75dc0a4de4a088c952d04a9e4953c949aa45f70307c0b2f9dd8259574a45",
+      "committedRawSha256": "16bd75dc0a4de4a088c952d04a9e4953c949aa45f70307c0b2f9dd8259574a45",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/batch-client.d.cts",
+      "workingRawSha256": "dcf8455f48856a72afb1328c5a99456212f04c3b98515a44c9f00e2e15e14e9a",
+      "committedRawSha256": "dcf8455f48856a72afb1328c5a99456212f04c3b98515a44c9f00e2e15e14e9a",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/batch-protocol.cjs",
+      "workingRawSha256": "fe5cdf6a17785db8bad10e70107da27fee99d0003d25565e4f654441cfc2b2f7",
+      "committedRawSha256": "fe5cdf6a17785db8bad10e70107da27fee99d0003d25565e4f654441cfc2b2f7",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/browser-acceptance.mjs",
+      "workingRawSha256": "2d9355921c568b5ad9f32dd6d0c768af189d7a5976cdd79c0fba40795f7a887a",
+      "committedRawSha256": "2d9355921c568b5ad9f32dd6d0c768af189d7a5976cdd79c0fba40795f7a887a",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/browser-sanitizer.mjs",
+      "workingRawSha256": "b160ab52847d7e4e49d1771439ecbff836faf99a193d12d69074a1ab85bc0a01",
+      "committedRawSha256": "b160ab52847d7e4e49d1771439ecbff836faf99a193d12d69074a1ab85bc0a01",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/browser-tsconfig.json",
+      "workingRawSha256": "68d655ba5d1c691911c194e56b2a762081fe9d52c2ed87d622915582cb3f5a5d",
+      "committedRawSha256": "68d655ba5d1c691911c194e56b2a762081fe9d52c2ed87d622915582cb3f5a5d",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/build-nest.mjs",
+      "workingRawSha256": "8e827950259201090b313352e03d856070eb417b5dd54b091829336f6c6cc59e",
+      "committedRawSha256": "8e827950259201090b313352e03d856070eb417b5dd54b091829336f6c6cc59e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/catalog-alignment.mjs",
+      "workingRawSha256": "89ae4a4bd1d396b8863b855ee3e0da77f366c0fd675aafa87d6d943f46161c46",
+      "committedRawSha256": "89ae4a4bd1d396b8863b855ee3e0da77f366c0fd675aafa87d6d943f46161c46",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/cipher-faults.mjs",
+      "workingRawSha256": "c064e487dcdf8daea1db87db153ec11a1bca7f224895c688e5c23aadb6d7c233",
+      "committedRawSha256": "c064e487dcdf8daea1db87db153ec11a1bca7f224895c688e5c23aadb6d7c233",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/cipher-faults.test.mjs",
+      "workingRawSha256": "c2b792ab5d458828dd66cf476cdb328e3121f867bcd0941aa11a4342319faaf2",
+      "committedRawSha256": "c2b792ab5d458828dd66cf476cdb328e3121f867bcd0941aa11a4342319faaf2",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/cleanup-journals.mjs",
+      "workingRawSha256": "c78d6845574919b9abfc84abc22edb442c5bb95f7b9497e8bb06b4ec60286430",
+      "committedRawSha256": "c78d6845574919b9abfc84abc22edb442c5bb95f7b9497e8bb06b4ec60286430",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/cleanup-owned.mjs",
+      "workingRawSha256": "ef871f62c7b7f894f612d40929e266b49c3b53c04f0788c72a55b42b0b30c4f2",
+      "committedRawSha256": "ef871f62c7b7f894f612d40929e266b49c3b53c04f0788c72a55b42b0b30c4f2",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/cleanup-smoke.mjs",
+      "workingRawSha256": "076ae580ad3d8b8cd19dc3ea3a573b2bf8f12f9e40b72a2efe870e047176740d",
+      "committedRawSha256": "076ae580ad3d8b8cd19dc3ea3a573b2bf8f12f9e40b72a2efe870e047176740d",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/compat-acceptance.mjs",
+      "workingRawSha256": "a011c5057ffc4e2cc636ac5cf38f2cf2925b568b99133ff2f7ffffa7de41da56",
+      "committedRawSha256": "a011c5057ffc4e2cc636ac5cf38f2cf2925b568b99133ff2f7ffffa7de41da56",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/controlled-upstream.mjs",
+      "workingRawSha256": "8d678ff2564ac7b6b0eaca5bcd3229ca11962d409f4c5fa80ab873e3211ab0b2",
+      "committedRawSha256": "8d678ff2564ac7b6b0eaca5bcd3229ca11962d409f4c5fa80ab873e3211ab0b2",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/database-client.mjs",
+      "workingRawSha256": "f84d7766d946c723043f6640088706df58cba51b4325cc10a14fe7d92308fe17",
+      "committedRawSha256": "f84d7766d946c723043f6640088706df58cba51b4325cc10a14fe7d92308fe17",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/database-environment.mjs",
+      "workingRawSha256": "ea4bfeba9b39d6c029803cc757fcd537dba0baebd0339eebdf8c485680a3e7ab",
+      "committedRawSha256": "ea4bfeba9b39d6c029803cc757fcd537dba0baebd0339eebdf8c485680a3e7ab",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/environment.sh",
+      "workingRawSha256": "fc87b3a5a0a4d449684f9de984adf0bad2f13798eb376c32a1445935897fdab4",
+      "committedRawSha256": "fc87b3a5a0a4d449684f9de984adf0bad2f13798eb376c32a1445935897fdab4",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/final-state.mjs",
+      "workingRawSha256": "7ed979b82771d0c13c106592a8324f10530f209a3da4002150f2661c74a79439",
+      "committedRawSha256": "7ed979b82771d0c13c106592a8324f10530f209a3da4002150f2661c74a79439",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-cleanup.mjs",
+      "workingRawSha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce",
+      "committedRawSha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-cli.mjs",
+      "workingRawSha256": "fbb13690ed54a7f6d7e0cf3ded20f1f438ef68d914dafae8d640ea56a591fa66",
+      "committedRawSha256": "fbb13690ed54a7f6d7e0cf3ded20f1f438ef68d914dafae8d640ea56a591fa66",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-complete-references.mjs",
+      "workingRawSha256": "5489418777b421fdb288ad128085d0375831565d6fd982334473c7949ebc7edb",
+      "committedRawSha256": "5489418777b421fdb288ad128085d0375831565d6fd982334473c7949ebc7edb",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-complete-references.test.mjs",
+      "workingRawSha256": "923bf6ac7b295f059cbe2c3b643caf5a9a5331c6211ad65aa7a3ba69c2da1d29",
+      "committedRawSha256": "923bf6ac7b295f059cbe2c3b643caf5a9a5331c6211ad65aa7a3ba69c2da1d29",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-core.mjs",
+      "workingRawSha256": "0ec551217c26f40bef4735487b57c929ebca04ba26f7eee60ebc38738e2df2cc",
+      "committedRawSha256": "0ec551217c26f40bef4735487b57c929ebca04ba26f7eee60ebc38738e2df2cc",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-guard.mjs",
+      "workingRawSha256": "de4b6e59aee239605adb5f1ddba79522118db245a169256492b0eddb95db0d1f",
+      "committedRawSha256": "de4b6e59aee239605adb5f1ddba79522118db245a169256492b0eddb95db0d1f",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-journal.mjs",
+      "workingRawSha256": "28c2873e7534c4f10869311a5884b578328bb02b786e57d344d4970b6f210bcc",
+      "committedRawSha256": "28c2873e7534c4f10869311a5884b578328bb02b786e57d344d4970b6f210bcc",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-protocol.cjs",
+      "workingRawSha256": "cd2a58868fd178c25174a41fff75320a0eff35b0740dfd03c569daae07139958",
+      "committedRawSha256": "cd2a58868fd178c25174a41fff75320a0eff35b0740dfd03c569daae07139958",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-protocol.d.cts",
+      "workingRawSha256": "ff0e17029adbaaabea44811e1baa20175b6d4d9a106e5b3d06691f8eac424b63",
+      "committedRawSha256": "ff0e17029adbaaabea44811e1baa20175b6d4d9a106e5b3d06691f8eac424b63",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-references.mjs",
+      "workingRawSha256": "006fd476dda19718277a51aa116793b9cc0502852cb87c91c9f093bb96d1009b",
+      "committedRawSha256": "006fd476dda19718277a51aa116793b9cc0502852cb87c91c9f093bb96d1009b",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-run.mjs",
+      "workingRawSha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523",
+      "committedRawSha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-safety.test.mjs",
+      "workingRawSha256": "d83a7d57f3293400895aab5655d06f913d9bcec81afaaffdf51b82ccfe15c146",
+      "committedRawSha256": "d83a7d57f3293400895aab5655d06f913d9bcec81afaaffdf51b82ccfe15c146",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-snapshot.mjs",
+      "workingRawSha256": "644e3c54dfb7e8d274ab1c00ab00361b164fdfa550a16d6018471b9d5506254c",
+      "committedRawSha256": "644e3c54dfb7e8d274ab1c00ab00361b164fdfa550a16d6018471b9d5506254c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture-users.mjs",
+      "workingRawSha256": "1e8a435289d015248ce350f8814d0207199ce8d77f0b67f8d680ef75a4a0db3e",
+      "committedRawSha256": "1e8a435289d015248ce350f8814d0207199ce8d77f0b67f8d680ef75a4a0db3e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/fixture.sh",
+      "workingRawSha256": "aa92fb104e9ce8bbc070c7638f4280a1ef129cd6f98aeeae0521255f653a1a5f",
+      "committedRawSha256": "aa92fb104e9ce8bbc070c7638f4280a1ef129cd6f98aeeae0521255f653a1a5f",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/foundation-acceptance.mjs",
+      "workingRawSha256": "989bd48d59bfcda3fd9e00c34faabfe9b5d8fc6a39990a96ec94bde3aaf12cb0",
+      "committedRawSha256": "989bd48d59bfcda3fd9e00c34faabfe9b5d8fc6a39990a96ec94bde3aaf12cb0",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-authority.json",
+      "workingRawSha256": "5e90a713539bfa0a95a306bda4346a2e7fb2729091ad9a8d53a9ea7515de6553",
+      "committedRawSha256": "5e90a713539bfa0a95a306bda4346a2e7fb2729091ad9a8d53a9ea7515de6553",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-badcipher-cases.mjs",
+      "workingRawSha256": "7911f98a9724d7259efe39b658efdf187991cd4f2263fbae447a2c81a91949da",
+      "committedRawSha256": "7911f98a9724d7259efe39b658efdf187991cd4f2263fbae447a2c81a91949da",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-behavior.json",
+      "workingRawSha256": "081b23b468642a9b60492da520d727d8307b41004af656fd174190302aeb2211",
+      "committedRawSha256": "081b23b468642a9b60492da520d727d8307b41004af656fd174190302aeb2211",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-browser.spec.ts",
+      "workingRawSha256": "f16817d688656b45b6d32215df69ab3a4478f93259a4f4637762daa72a2a7959",
+      "committedRawSha256": "f16817d688656b45b6d32215df69ab3a4478f93259a4f4637762daa72a2a7959",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-dto-rules.json",
+      "workingRawSha256": "046dc26a9d19f5db68b4a2a4eb8356ba625262d0ade77c0573fdbf14bb91dfe1",
+      "committedRawSha256": "046dc26a9d19f5db68b4a2a4eb8356ba625262d0ade77c0573fdbf14bb91dfe1",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-export.mjs",
+      "workingRawSha256": "94b5827ef70945f5da74bf968720a1268ceff2ab5902db3a9b83ba986806b859",
+      "committedRawSha256": "94b5827ef70945f5da74bf968720a1268ceff2ab5902db3a9b83ba986806b859",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-export.test.mjs",
+      "workingRawSha256": "42cbf435aadbb08bbeec6011cedc0116bd9209edf6994c408ebc6371a2f0e5bd",
+      "committedRawSha256": "42cbf435aadbb08bbeec6011cedc0116bd9209edf6994c408ebc6371a2f0e5bd",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-golden.json",
+      "workingRawSha256": "0af8727154a150e99c6a39816b7a88e25ad4f8f4940afb10fea9b04335ecbaac",
+      "committedRawSha256": "0af8727154a150e99c6a39816b7a88e25ad4f8f4940afb10fea9b04335ecbaac",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-http-cases.mjs",
+      "workingRawSha256": "4f6d59051834f87d2170d67af9c1f46fa697a3e6019081f4666ffdb5b1d17d13",
+      "committedRawSha256": "4f6d59051834f87d2170d67af9c1f46fa697a3e6019081f4666ffdb5b1d17d13",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-openapi.json",
+      "workingRawSha256": "14ae94c347df85bd4c69e625fc81339f5507c459f5eb2956da913bbc3b275322",
+      "committedRawSha256": "14ae94c347df85bd4c69e625fc81339f5507c459f5eb2956da913bbc3b275322",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-oracle.mjs",
+      "workingRawSha256": "3113e753c01211b1ead3976564d3abd9ae4d414b3ab035433403a3a89e7cd90f",
+      "committedRawSha256": "3113e753c01211b1ead3976564d3abd9ae4d414b3ab035433403a3a89e7cd90f",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-redirect-golden.json",
+      "workingRawSha256": "c996b82e81cf61c1a26e7c96a5498c425df11e6ad9dc4f8155d7ff6a408b7daf",
+      "committedRawSha256": "c996b82e81cf61c1a26e7c96a5498c425df11e6ad9dc4f8155d7ff6a408b7daf",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-source-verification-win32.json",
+      "workingRawSha256": "2d91a5cd513f85bed5f5fad5ed1847faeecea5b8730bfb15ee9ff29364ba8e39",
+      "committedRawSha256": "2d91a5cd513f85bed5f5fad5ed1847faeecea5b8730bfb15ee9ff29364ba8e39",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-source.json",
+      "workingRawSha256": "694d94d59583e49e3105c0fe7cb174c4e896e4c51bf2f2caec1324697b6bb22e",
+      "committedRawSha256": "694d94d59583e49e3105c0fe7cb174c4e896e4c51bf2f2caec1324697b6bb22e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/g-state-golden.json",
+      "workingRawSha256": "628d45a076f9595024edb673c0eebef2746d1cb72e869c05ed14c14b9cd68dae",
+      "committedRawSha256": "628d45a076f9595024edb673c0eebef2746d1cb72e869c05ed14c14b9cd68dae",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-authority.json",
+      "workingRawSha256": "c8d33b6a51a683288956a2ab67735adfc09bbff34374dad2e020ee198582050d",
+      "committedRawSha256": "c8d33b6a51a683288956a2ab67735adfc09bbff34374dad2e020ee198582050d",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-behavior.json",
+      "workingRawSha256": "8c7a648a3c130bafcdcb0f7dfc2097f9df86856fc9e3d508370721660278b345",
+      "committedRawSha256": "8c7a648a3c130bafcdcb0f7dfc2097f9df86856fc9e3d508370721660278b345",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-behavior.mjs",
+      "workingRawSha256": "22e6724b954873248177e45fe1cd9c5b3e6d58e8759d4e0356aa3149b8e1950c",
+      "committedRawSha256": "22e6724b954873248177e45fe1cd9c5b3e6d58e8759d4e0356aa3149b8e1950c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-browser.spec.ts",
+      "workingRawSha256": "79c825bc1172d2ef4a9c0cbc5a8ce25fdbb1512eda78b7987935987342f8bb9c",
+      "committedRawSha256": "79c825bc1172d2ef4a9c0cbc5a8ce25fdbb1512eda78b7987935987342f8bb9c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-export.mjs",
+      "workingRawSha256": "db3861c6e993aa1baf46315ddfab36a5015070ee96f6630793adfac6b30f2b52",
+      "committedRawSha256": "db3861c6e993aa1baf46315ddfab36a5015070ee96f6630793adfac6b30f2b52",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-golden.json",
+      "workingRawSha256": "c4cba38c25db9d6a5e0f96bccec8d86fca100598a4c12c8c6cbe72960cac7605",
+      "committedRawSha256": "c4cba38c25db9d6a5e0f96bccec8d86fca100598a4c12c8c6cbe72960cac7605",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-http-cases.mjs",
+      "workingRawSha256": "0c719fe3097c4c617293aaea7362b1e5973b7d962d2898f42f3764b5c959295e",
+      "committedRawSha256": "0c719fe3097c4c617293aaea7362b1e5973b7d962d2898f42f3764b5c959295e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-openapi.json",
+      "workingRawSha256": "b0744a6ed6bec3dad9aae69f400de9c30b138da62ae31cf2abee8e5c0ece0461",
+      "committedRawSha256": "b0744a6ed6bec3dad9aae69f400de9c30b138da62ae31cf2abee8e5c0ece0461",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-oracle.mjs",
+      "workingRawSha256": "5e5f112f4047d0d8591c77089976c35f95d753b9ba35908b9a410083a85cfb23",
+      "committedRawSha256": "5e5f112f4047d0d8591c77089976c35f95d753b9ba35908b9a410083a85cfb23",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/h-source.json",
+      "workingRawSha256": "8e88612607c2ab0a016ffb781128642a6c33ffd703137d92e633823df9693ca1",
+      "committedRawSha256": "8e88612607c2ab0a016ffb781128642a6c33ffd703137d92e633823df9693ca1",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/http-client.mjs",
+      "workingRawSha256": "413b58f2755861a5af543e5fe54f023ec6b483d14d7eb69d085392a73935fa0c",
+      "committedRawSha256": "413b58f2755861a5af543e5fe54f023ec6b483d14d7eb69d085392a73935fa0c",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/invoke-fixture.cjs",
+      "workingRawSha256": "8bbb645e684829fa87f44e30ce741337cc9fb56fb3f3a4759b643ed950f77893",
+      "committedRawSha256": "8bbb645e684829fa87f44e30ce741337cc9fb56fb3f3a4759b643ed950f77893",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/managed-environment.cjs",
+      "workingRawSha256": "d42cffdbad740df681d0decb0fbfbcffa8cf3443075f6ef0f6cda94dd1bdc7ad",
+      "committedRawSha256": "d42cffdbad740df681d0decb0fbfbcffa8cf3443075f6ef0f6cda94dd1bdc7ad",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/native-constraints.mjs",
+      "workingRawSha256": "21c89b0cef1b4e546fc7c766998aee053b6632135c290318adeb6176f81c2360",
+      "committedRawSha256": "21c89b0cef1b4e546fc7c766998aee053b6632135c290318adeb6176f81c2360",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/nest-edge-witness.mjs",
+      "workingRawSha256": "c3d4867925e44d3ec7b1bd675d66ff6f7444303e59b9eddf99496e930dd1fda7",
+      "committedRawSha256": "c3d4867925e44d3ec7b1bd675d66ff6f7444303e59b9eddf99496e930dd1fda7",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/nest-query-preload.cjs",
+      "workingRawSha256": "e2e58ca5de5c7aec65e936496f0214b9acb187b307fd98efb8dad304babf63b7",
+      "committedRawSha256": "e2e58ca5de5c7aec65e936496f0214b9acb187b307fd98efb8dad304babf63b7",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/nest-witness.mjs",
+      "workingRawSha256": "c22402183b0142683a163625723161a00d6d48e02a03784b3ac4d7b60753e28a",
+      "committedRawSha256": "c22402183b0142683a163625723161a00d6d48e02a03784b3ac4d7b60753e28a",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/owned-fixture.mjs",
+      "workingRawSha256": "2865017b2aca8f575cd400cfd62b6751fcd113321a7b478841c1768f38b0abc9",
+      "committedRawSha256": "2865017b2aca8f575cd400cfd62b6751fcd113321a7b478841c1768f38b0abc9",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/owner-run.mjs",
+      "workingRawSha256": "6228e1ffb748f641a8fb06762d0e04d25ebea9ab8c5d181c1f5724dd36dc0d2b",
+      "committedRawSha256": "6228e1ffb748f641a8fb06762d0e04d25ebea9ab8c5d181c1f5724dd36dc0d2b",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/playwright.config.ts",
+      "workingRawSha256": "53fe277f3e00972c7bb4d79cfba77ccdaa8687a38b38841ef1bfba96b1c349a0",
+      "committedRawSha256": "53fe277f3e00972c7bb4d79cfba77ccdaa8687a38b38841ef1bfba96b1c349a0",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/preserve-linux-increment.mjs",
+      "workingRawSha256": "85701ca213bee60dbed29f62d396d6824f245a57ca952c8a80bb226ad30e8348",
+      "committedRawSha256": "85701ca213bee60dbed29f62d396d6824f245a57ca952c8a80bb226ad30e8348",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/preserve-linux.mjs",
+      "workingRawSha256": "5f9b6f8c8a6e4ac24f571cfa0cc138e6dbdb23b356fa188d5a4bc9d4f614d91d",
+      "committedRawSha256": "5f9b6f8c8a6e4ac24f571cfa0cc138e6dbdb23b356fa188d5a4bc9d4f614d91d",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/preserve-owner-input.mjs",
+      "workingRawSha256": "c8f781806282d81a8b8993922f3aa5a1055171860489ed15e36baf771d306ad4",
+      "committedRawSha256": "c8f781806282d81a8b8993922f3aa5a1055171860489ed15e36baf771d306ad4",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/recover-edge01.mjs",
+      "workingRawSha256": "d0ae7768db5cbb51b152211f8fdeeac8924e31b691f85b9121cfc9146852207d",
+      "committedRawSha256": "d0ae7768db5cbb51b152211f8fdeeac8924e31b691f85b9121cfc9146852207d",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/recover-owned-first01.mjs",
+      "workingRawSha256": "c4e819032f61675a63d42a9ee339259d989e70df7d642de4470070339eb92735",
+      "committedRawSha256": "c4e819032f61675a63d42a9ee339259d989e70df7d642de4470070339eb92735",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/reference-guard-witness.mjs",
+      "workingRawSha256": "1e32a7227bbec510e73e3f908301181533a982444dd4073defaad0c5f44dcfed",
+      "committedRawSha256": "1e32a7227bbec510e73e3f908301181533a982444dd4073defaad0c5f44dcfed",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/schema-check.mjs",
+      "workingRawSha256": "f3b722108804b0bcee32aefadeb17f68a332ff0cd5baaa96cec508495304a2d8",
+      "committedRawSha256": "f3b722108804b0bcee32aefadeb17f68a332ff0cd5baaa96cec508495304a2d8",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/shared-checks.mjs",
+      "workingRawSha256": "53cfba334399bf4aa93af3794438feb9d805f895c469bef237301cdeb8267abc",
+      "committedRawSha256": "53cfba334399bf4aa93af3794438feb9d805f895c469bef237301cdeb8267abc",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/summarize-witness.mjs",
+      "workingRawSha256": "488e6c27e7d99a9e28562de6412d35b24d2311140086c4111fb39df16bccecd2",
+      "committedRawSha256": "488e6c27e7d99a9e28562de6412d35b24d2311140086c4111fb39df16bccecd2",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/timestamp-policy.mjs",
+      "workingRawSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b",
+      "committedRawSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/timestamp-policy.test.mjs",
+      "workingRawSha256": "f8aa23144297d6ed727da0ab1508aae8331190a551b717e0b1614b3f4a0382e2",
+      "committedRawSha256": "f8aa23144297d6ed727da0ab1508aae8331190a551b717e0b1614b3f4a0382e2",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/transport-acceptance.mjs",
+      "workingRawSha256": "cd016a2f8e0f7ee804ba93f198481defb4966e685993ac47c13008c07d6c7d0e",
+      "committedRawSha256": "cd016a2f8e0f7ee804ba93f198481defb4966e685993ac47c13008c07d6c7d0e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/transport-axios-worker.mjs",
+      "workingRawSha256": "924bd96fcd6754a6d63a13a9d3739d49ba6f9179eeda5835b30d1c476e38093e",
+      "committedRawSha256": "924bd96fcd6754a6d63a13a9d3739d49ba6f9179eeda5835b30d1c476e38093e",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/verify-openapi.mjs",
+      "workingRawSha256": "98c6d83bf73528ad6ded32bb956150c21fdea49f466f515a2abaad8039c510a5",
+      "committedRawSha256": "98c6d83bf73528ad6ded32bb956150c21fdea49f466f515a2abaad8039c510a5",
+      "rawEqual": true,
+      "strictLfEqual": true
+    },
+    {
+      "file": "tools/rust-r2gh/witness-inspect.mjs",
+      "workingRawSha256": "8a103be90086b901538256522b5b3e204e6ef368d2578fc6e7c54ca68b788677",
+      "committedRawSha256": "8a103be90086b901538256522b5b3e204e6ef368d2578fc6e7c54ca68b788677",
+      "rawEqual": true,
+      "strictLfEqual": true
+    }
+  ],
+  "sourceBeforeAfterEqual": true,
+  "sourceRowsSha256": "e8665f6f22e1db5fd1e0d98628f0ea8490d121cf3f7e760a58c3b0aa6588ea8c",
+  "sourceManifest": {
+    "path": "tmp/rust-r2gh/post-integration01-sources.json",
+    "bytes": 698510,
+    "rawBytesSha256": "d4b259cf3a49f552717c156d3b6adcfc52126af2457884d257f80551dc57a72c"
+  },
+  "rawBlobEqualCount": 134,
+  "finishedAt": "2026-10-28T15:57:17.406Z"
+}

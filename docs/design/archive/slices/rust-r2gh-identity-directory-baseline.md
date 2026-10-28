@@ -1,13 +1,15 @@
 # RUST-R2G＋R2H 身份与组织目录联合实施基线
 
+- 归档状态：G4随本归档提交推送与#74/#75在线回写生效；以下正式输入正文保留G1时点含义，当前74/108及余34＋R2M见[收口](rust-r2gh-closeout.md)。
+
 - G1 冻结时点：G1 Pass（2026-10-28T07:28:50.263Z），G/H Doing。候选02与非作者C增量复核P0/P1/P2=0；受审原文保全于tmp/rust-r2gh/g1-baseline-frozen.md。用户于2026-10-28要求“继续推进下一批”；本批限定G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作，父#67/#57继续Open。
-- 当前 Gate：同一次联合 [G3 最终 Pass](rust-r2gh-review02.json)，P0/P1/P2/P3未关闭均为0；[修复增量](rust-r2gh-g3-delta02.json)与首审Block独立保留。提交集成与G4待完成，仍Doing，当前交付仍40/108。
+- G3 记录：同一次联合[最终独审](../../rust-r2gh-review02.json) Pass，未关闭P0/P1/P2/P3均为0；实现91cda75f已推送main且集成核验通过。当前收口见同目录[closeout](rust-r2gh-closeout.md)。
 - 类型：cross-layer-high-risk；来源main `126ede22bb4b379ae656ccde9cee9d82da383be4`。复用干净隔离检出 `E:/projects/worktrees/poms-r2ef-foundation-audit/poms`（目录名保留上一批EF），新分支 `codex/poms-r2gh-identity-directory`；primary E:/projects/poms保持不变。采用此前已确认的solo checkpoint，G3后提交推送，G4归档/在线回写后才关闭本批子Issue。
-- 当前R2交付40/108；本批实际G4后才可记74/108，余34操作及R2M。I/J、K/L、#61/R3–R5边界不因本批提前Done。新建scope不是整个R2或外部生产接管。
+- G1计数起点为40/108；本批实际G4后才可记74/108，余34操作及R2M。I/J、K/L、#61/R3–R5边界不因本批提前Done。新建scope不是整个R2或外部生产接管。
 
 ## 1. 正式输入、单向权威与范围
 
-正式输入为[迁移计划](backend-rust-migration-plan.md)1.1/1.2/1.2.1、[R2范围](rust-r2-scope-and-dependencies.md)、[108操作归属](rust-r2-operation-slices.json)、[canonical inventory](api-route-canonical-inventory.md)、原TS controller/service/repository/entity、共享Zod/完整OpenAPI和原Angular页面；在线正文/comments/sub-issues/closing PR状态保存在tmp/rust-r2gh/g0-online-issues.json。G/H现为Open/Doing，联合G1已冻结；E/F已Closed且main126ede22已交付。本批只迁移已有34操作，无新公开route/参数/业务模型。
+正式输入为[迁移计划](../../backend-rust-migration-plan.md)1.1/1.2/1.2.1、[R2范围](../../rust-r2-scope-and-dependencies.md)、[108操作归属](../../rust-r2-operation-slices.json)、[canonical inventory](../../api-route-canonical-inventory.md)、原TS controller/service/repository/entity、共享Zod/完整OpenAPI和原Angular页面；在线正文/comments/sub-issues/closing PR状态保存在tmp/rust-r2gh/g0-online-issues.json。G/H现为Open/Doing，联合G1已冻结；E/F已Closed且main126ede22已交付。本批只迁移已有34操作，无新公开route/参数/业务模型。
 
 TypeScript/共享Zod/现行Nest继续拥有唯一语义；机械导出neutral输入供Rust，完整原spec291操作/585schema、579client文件及92历史migration受保护。金额N/A：本批无金额计算；时间/UUID/外部varchar ID、nullable、配置/组织/票据版本严格分开。无产品DDL、原TS产品修改、部署、生产写入权或性能/PoC门槛。
 

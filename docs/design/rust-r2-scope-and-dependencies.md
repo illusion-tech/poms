@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-29
-**状态**: R2A–F已交付，累计40/108，余68操作及R2M；G/H Doing / 联合G3最终Pass，提交集成及G4待完成；I–M为Todo，父#67/#57保持Open
+**状态**: R2A–H累计74/108；本批G4随归档推送与Issue回写生效，余34操作及R2M；I–M原状态/依赖保留，父#67/#57保持Open
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -284,3 +284,10 @@ R2D实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成并推送main。归�
 R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https://github.com/illusion-tech/poms/issues/73) 共10个既有操作及9scope编号内部机制已交付，实现 `9b3086f6957dfed318a7a53d10cf245394d5282f` 已集成推送main。C联合G3 Pass，未关闭P0/P1/P2为0；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)和[归档收口](archive/slices/rust-r2ef-closeout.md)分列旧393完整对照与修后E54/18增量，最终Rust149/显式PG4/四组合UI8/基础认证26及40run二次零残留。
 
 本G4随归档提交推送与Issue核对生效，仅关闭#72/#73。R2A–F累计 **40/108**，剩余 **68个操作及R2M验收**；父#67/#57保持Doing/Open，G–M与#61依赖不变。原G1/G3原字节及旧失败保留，PG17实例和数据、旧环境均保留；无部署、产品DDL或性能结论。本条为最新状态，上方带日期的G1/旧切片状态保留历史含义。
+
+
+### 2026-10-29 RUST-R2G/H 联合G4归档
+
+G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已交付，实现`91cda75f8379a4085a37c14fc1fd25bde0a731dc`已推送main；[同次最终G3](rust-r2gh-review02.json)与[独立集成核验](rust-r2gh-integration-review.json)均Pass，未关闭P0/P1/P2/P3为0。集成8步、26项适配器/23项工具与3479来源前后核等，134个提交blob逐字相同，不代表新增runtime实跑。[归档收口](archive/slices/rust-r2gh-closeout.md)、[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[初始验收](rust-r2gh-validation.json)/[增量](rust-r2gh-g3-delta02.json)与首审Block分开保留。
+
+G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累计 **74/108**，余 **34个操作及R2M阶段验收**，父#67/#57保持Open，I–M与#61不变。最新实际每端137 captured-case HTTP/3race、transport20、guard4反例0DML、Rust162/54 ignored分列、最终Rust两平台页面4条复验，72backend/run/144journal全量两轮0/0、四端口释放；PG17与旧数据保留，无部署或真实租户认证。上方日期段落保留各自历史含义，以本条为当前Rust收口。

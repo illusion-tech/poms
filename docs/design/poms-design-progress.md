@@ -690,3 +690,10 @@ R2B #69按[角色权限基线](archive/slices/rust-r2b-role-permissions-baseline
 ### 2026-10-27 RUST-R2B G4收口
 
 R2B实现`31555b76d1d9a453aef44172211e4b35e30df573`已合入main并推送，集成后22项适配器、角色/导航单向导出与OpenAPI检查通过，157份来源指纹一致。八操作的真实HTTP179/并发6/系统22、四组合基础认证52和原页面12通过；C独立G3未关闭P1/P2为0，51个run最终二次清理0/0。具体旧候选、schema失败分类与保留边界见[归档收口](archive/slices/rust-r2b-closeout.md)、[纠偏](archive/slices/rust-r2b-corrective-checkpoint.md)及[机器验收](rust-r2b-validation.json)。G4随本归档提交推送及Issue同步生效；仅#69完成，父#67/#57保持Open，C–M为Todo，#61不变。R2A/B累计交付11个R2操作，其余97及阶段验收未交付，PG17与旧环境/证据保留。上方G1与R2A段落是当时记录，不代表当前R2B状态。
+
+
+### 2026-10-29 RUST-R2G/H 联合G4归档
+
+G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已交付，实现`91cda75f8379a4085a37c14fc1fd25bde0a731dc`已推送main；[同次最终G3](rust-r2gh-review02.json)与[独立集成核验](rust-r2gh-integration-review.json)均Pass，未关闭P0/P1/P2/P3为0。集成8步、26项适配器/23项工具与3479来源前后核等，134个提交blob逐字相同，不代表新增runtime实跑。[归档收口](archive/slices/rust-r2gh-closeout.md)、[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[初始验收](rust-r2gh-validation.json)/[增量](rust-r2gh-g3-delta02.json)与首审Block分开保留。
+
+G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累计 **74/108**，余 **34个操作及R2M阶段验收**，父#67/#57保持Open，I–M与#61不变。最新实际每端137 captured-case HTTP/3race、transport20、guard4反例0DML、Rust162/54 ignored分列、最终Rust两平台页面4条复验，72backend/run/144journal全量两轮0/0、四端口释放；PG17与旧数据保留，无部署或真实租户认证。上方日期段落保留各自历史含义，以本条为当前Rust收口。

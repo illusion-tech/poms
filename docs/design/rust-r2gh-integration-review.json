@@ -1,0 +1,136 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2GH-read-only-post-integration-integrity-review",
+  "reviewedAtUtc": "2026-10-28 16:09:07 UTC",
+  "reviewer": {
+    "agent": "/root/r2gh_review",
+    "role": "非作者 C"
+  },
+  "reviewBoundary": "固定实现提交与post-integration原件的短完整性核对；不是新的G3或全量复审",
+  "result": "Pass",
+  "openFindings": [],
+  "priorityCountsOpen": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "implementation": "91cda75f8379a4085a37c14fc1fd25bde0a731dc",
+  "parent": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "subject": "feat(platform): 迁移身份接入与外部组织同步",
+  "bindings": {
+    "postIntegration": {
+      "path": "docs/design/rust-r2gh-post-integration.json",
+      "bytes": 46121,
+      "rawBytesSha256": "3e59ec0f2e81837e503a129b3a89f13abdf6597fc4d3070f840a1da6fd9ad531",
+      "immutableOriginal": "tmp/rust-r2gh/post-integration01.json"
+    },
+    "sources": {
+      "path": "docs/design/rust-r2gh-post-integration-sources.json",
+      "bytes": 698510,
+      "rawBytesSha256": "d4b259cf3a49f552717c156d3b6adcfc52126af2457884d257f80551dc57a72c",
+      "immutableOriginal": "tmp/rust-r2gh/post-integration01-sources.json"
+    },
+    "sourceRowsSha256": "e8665f6f22e1db5fd1e0d98628f0ea8490d121cf3f7e760a58c3b0aa6588ea8c",
+    "finalG3Review": {
+      "path": "docs/design/rust-r2gh-review02.json",
+      "rawBytesSha256": "993ff5175907a39bb5c2e4eadf213ad3cfa62a993d6ee71d0048a90cafb0f615"
+    },
+    "docsAndTmpPostIntegrationCopiesMatch": true
+  },
+  "independentVerification": {
+    "fixedCommit": "91cda75f8379a4085a37c14fc1fd25bde0a731dc",
+    "checkedBlobs": 134,
+    "blobMismatches": [],
+    "changedCommitPaths": 134,
+    "reportSetMissing": [],
+    "reportSetExtra": [],
+    "postRows": 3479,
+    "postRowsAggregate": "e8665f6f22e1db5fd1e0d98628f0ea8490d121cf3f7e760a58c3b0aa6588ea8c",
+    "declaredRowsAggregate": "e8665f6f22e1db5fd1e0d98628f0ea8490d121cf3f7e760a58c3b0aa6588ea8c",
+    "gateMetadataChanges": [
+      "docs/design/backend-rust-migration-plan.md",
+      "docs/design/phase2-development-execution-tracker.md",
+      "docs/design/rust-migration-execution-tracker.md",
+      "docs/design/rust-r2-operation-slices.json",
+      "docs/design/rust-r2-scope-and-dependencies.md",
+      "docs/design/rust-r2gh-corrective-checkpoint.md",
+      "docs/design/rust-r2gh-identity-directory-baseline.md",
+      "tools/rust-r2gh/README.md"
+    ],
+    "gateMetadataCount": 8,
+    "nonMetadataCodeChanged": [],
+    "stepCount": 8,
+    "stepOrLogMismatches": [],
+    "workflowFiles": 0
+  },
+  "verificationSummary": [
+    "本地固定Git提交存在，父提交精确为126ede22；以git cat-file --batch读取134个原始blob并独立SHA-256，全部同时匹配post-integration记录的committed/working原字节；没有line-ending例外。",
+    "固定提交的134个changed paths与回执134件blob集合完全相同，无漏件或多件。",
+    "3479行来源快照的序列聚合hash独立复算匹配；与G3 delta02相比只有声明的8个Gate元数据路径变化，产品/运行工具来源无变。",
+    "已读post-integration执行器：实际采集before/after来源并deepEqual，8步逐件检查exit0且记录原日志hash；C独立核对8份日志原字节，均匹配。adapters日志26 pass/0 fail、affected tools日志23 pass/0 fail。",
+    "G/H机械check、递归OpenAPI81与browser TS等通过属于本地静态/纯检查；本核验没有重启数据库、服务、HTTP或浏览器。"
+  ],
+  "localChecksObserved": [
+    "diff-check exit0",
+    "Deno Markdown cached-only exit0",
+    "adapters26 pass",
+    "affected tools23 pass",
+    "g-source --check exit0",
+    "h-source --check exit0",
+    "recursive OpenAPI81 exit0",
+    "browser TypeScript exit0"
+  ],
+  "remoteAndCiBoundary": {
+    "remoteMainAtPostIntegration": "回执中的实际ls-remote精确为91cda75f8379a4085a37c14fc1fd25bde0a731dc",
+    "recordedAt": "2026-10-28T15:57:08.334Z to 2026-10-28T15:57:17.406Z",
+    "CRepeatedRemoteQuery": false,
+    "configuredWorkflowFilesAtFixedCommit": 0,
+    "rootReportedCheckRuns": 0,
+    "rootReportedStatuses": 0,
+    "ciGreenClaim": false,
+    "acceptedEvidence": "仅实际本地checks，不把无远端检查说成CI绿"
+  },
+  "onlineG3Record": {
+    "source": "tmp/rust-r2gh/g3-pass-online02.json",
+    "reviewSha256Matched": true,
+    "issues": [
+      74,
+      75
+    ],
+    "comments": [
+      "https://github.com/illusion-tech/poms/issues/74#issuecomment-6473390122",
+      "https://github.com/illusion-tech/poms/issues/75#issuecomment-6473391109"
+    ],
+    "notAnIssueClosure": true
+  },
+  "g4Boundary": {
+    "completedByThisReview": false,
+    "owner": "Root",
+    "permittedNext": "按既有授权继续G4 docs/archive/index/closure与在线回写",
+    "onlyChildrenMayCloseAfterG4": [
+      74,
+      75
+    ],
+    "parentsRemainOpen": [
+      67,
+      57
+    ],
+    "laterDeclaredDocsArchiveMovesAreNotProductDrift": true,
+    "oldG3ReviewOrInputRewritten": false,
+    "noNewSmallScriptGate": true
+  },
+  "reviewerActions": {
+    "onlyWrittenFiles": [
+      "docs/design/rust-r2gh-integration-review.json",
+      "tmp/rust-r2gh/c-integration-review01.json"
+    ],
+    "identicalRawBytes": true,
+    "productOrExistingEvidenceWrites": false,
+    "dbServiceBrowserOrInstallOperations": false,
+    "testExecutions": false,
+    "gitMutations": false,
+    "githubMutations": false
+  },
+  "conclusion": "固定实现91cda75f与已通过G3的产品/运行工具来源保持一致，134件提交blob原字节与实际post-integration回执匹配，8步本地核验有真实日志。集成完整性Pass；G4仍由Root负责。"
+}

@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-05-13
-**Rust 迁移补充索引更新**: 2026-10-28；原第二阶段任务状态不变
+**Rust 迁移补充索引更新**: 2026-10-29；原第二阶段任务状态不变
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
 **关联文档**:
 
@@ -532,12 +532,19 @@ R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https:/
 
 ### 2026-10-28 RUST-R2G/H 联合G1冻结
 
-用户授权继续下一批，G #74（16操作）与H #75（18操作）按[身份/组织联合基线](rust-r2gh-identity-directory-baseline.md)于2026-10-28T07:28:50.263Z冻结，来源main`126ede22bb4b379ae656ccde9cee9d82da383be4`；同一candidate02经非作者C增量复核Pass，未关闭P0/P1/P2为0，首轮Block与原文保留。[G G1](https://github.com/illusion-tech/poms/issues/74#issuecomment-6463306038)、[H G1](https://github.com/illusion-tech/poms/issues/75#issuecomment-6463308940)已同步Doing。Root集中共享端口、环境、Nest见证和统一真实验收，两位独立上下文作者按模块并行；G3/G4仍待完成。仅新PG15 pair poms_r2gh_nest/poms_r2gh_rust，受控上游协议集成不宣称真实Feishu账号成功；PG17/primary/旧环境和数据保留。当前交付仍40/108，父#67/#57保持Open，I-M与#61状态不变。
+用户授权继续下一批，G #74（16操作）与H #75（18操作）按[身份/组织联合基线](archive/slices/rust-r2gh-identity-directory-baseline.md)于2026-10-28T07:28:50.263Z冻结，来源main`126ede22bb4b379ae656ccde9cee9d82da383be4`；同一candidate02经非作者C增量复核Pass，未关闭P0/P1/P2为0，首轮Block与原文保留。[G G1](https://github.com/illusion-tech/poms/issues/74#issuecomment-6463306038)、[H G1](https://github.com/illusion-tech/poms/issues/75#issuecomment-6463308940)已同步Doing。Root集中共享端口、环境、Nest见证和统一真实验收，两位独立上下文作者按模块并行；G3/G4仍待完成。仅新PG15 pair poms_r2gh_nest/poms_r2gh_rust，受控上游协议集成不宣称真实Feishu账号成功；PG17/primary/旧环境和数据保留。当前交付仍40/108，父#67/#57保持Open，I-M与#61状态不变。
 
 ### 2026-10-28 RUST-R2G/H 实际验收完成，G3待审
 
-34个既有操作已实现并完成集中验收：candidate04的G07/H08每端128个用例HTTP响应、3组受控竞争，最终transport18、native PG每库12、四组合原页面8与基础认证52、Rust162/54 ignored分列；OpenAPI65 paths/81 operations递归对齐原规范。完整原spec/client/92 migration与TS/Angular产品保持不变。60个attempted run / 120份journal在final02全量连续两轮0/0，所有本批服务正常停止、四端口释放；旧失败UI残项的final01补清和marker纠偏单列，参见[纠偏](rust-r2gh-corrective-checkpoint.md)、[验收](rust-r2gh-validation.json)。非作者联合G3、提交推送/集成和G4仍待完成，仅#74/#75保持Doing，当前交付仍40/108；父#67/#57、I–M与#61不变。
+34个既有操作已实现并完成集中验收：candidate04的G07/H08每端128个用例HTTP响应、3组受控竞争，最终transport18、native PG每库12、四组合原页面8与基础认证52、Rust162/54 ignored分列；OpenAPI65 paths/81 operations递归对齐原规范。完整原spec/client/92 migration与TS/Angular产品保持不变。60个attempted run / 120份journal在final02全量连续两轮0/0，所有本批服务正常停止、四端口释放；旧失败UI残项的final01补清和marker纠偏单列，参见[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[验收](rust-r2gh-validation.json)。非作者联合G3、提交推送/集成和G4仍待完成，仅#74/#75保持Doing，当前交付仍40/108；父#67/#57、I–M与#61不变。
 
 ### 2026-10-29 RUST-R2G/H 同次G3最终通过
 
 [最终非作者review02](rust-r2gh-review02.json) Pass，P0/P1/P2/P3未关闭均为0；初审Block保持原字节，四项集中纠偏由[增量02](rust-r2gh-g3-delta02.json)与完整3,479项[受审来源](rust-r2gh-source-manifest.json)绑定。修后每端137 captured-case HTTP、3组竞争、transport20、双库4个外引拒绝反例0DML、工具23、Rust162/54 ignored与受影响Rust原页面4条复验均通过；72 backend/run/144 journal全量两轮0/0，owner正常停止与四端口释放。仅授权既有solo提交/推送及集成后核验，G4未完成、#74/#75仍Doing，当前40/108，父#67/#57及I–M/#61不变。
+
+
+### 2026-10-29 RUST-R2G/H 联合G4归档
+
+G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已交付，实现`91cda75f8379a4085a37c14fc1fd25bde0a731dc`已推送main；[同次最终G3](rust-r2gh-review02.json)与[独立集成核验](rust-r2gh-integration-review.json)均Pass，未关闭P0/P1/P2/P3为0。集成8步、26项适配器/23项工具与3479来源前后核等，134个提交blob逐字相同，不代表新增runtime实跑。[归档收口](archive/slices/rust-r2gh-closeout.md)、[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[初始验收](rust-r2gh-validation.json)/[增量](rust-r2gh-g3-delta02.json)与首审Block分开保留。
+
+G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累计 **74/108**，余 **34个操作及R2M阶段验收**，父#67/#57保持Open，I–M与#61不变。最新实际每端137 captured-case HTTP/3race、transport20、guard4反例0DML、Rust162/54 ignored分列、最终Rust两平台页面4条复验，72backend/run/144journal全量两轮0/0、四端口释放；PG17与旧数据保留，无部署或真实租户认证。上方日期段落保留各自历史含义，以本条为当前Rust收口。
