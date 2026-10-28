@@ -15,7 +15,7 @@ export default defineConfig({
     workers: 1,
     // Windows organization journeys invoke the guarded WSL fixture repeatedly.
     // This is a suite budget; individual HTTP/UI and fixture deadlines stay bounded.
-    timeout: plan.suite === 'organizations' ? 600_000 : plan.suite === 'stage' || plan.suite === 'navigation' || plan.suite === 'roles' ? 180_000 : 60_000,
+    timeout: plan.suite === 'organizations' || plan.suite === 'users' ? 600_000 : plan.suite === 'stage' || plan.suite === 'navigation' || plan.suite === 'roles' ? 180_000 : 60_000,
     expect: { timeout: 10_000 },
     outputDir: '../../dist/playwright/poms-admin-e2e/results',
     reporter: [['list'], ['html', { open: 'never', outputFolder: '../../dist/playwright/poms-admin-e2e/report' }]],

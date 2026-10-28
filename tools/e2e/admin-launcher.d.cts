@@ -8,7 +8,7 @@ export interface BrowserPlan {
     readonly adminManaged: boolean;
     readonly adminHost: string;
     readonly adminPort: number;
-    readonly suite: 'auth' | 'legacy' | 'stage' | 'navigation' | 'roles' | 'organizations';
+    readonly suite: 'auth' | 'legacy' | 'stage' | 'navigation' | 'roles' | 'organizations' | 'users';
     readonly apiSuite: 'foundation' | 'nest-full';
     readonly stageBackend: 'nest' | 'rust' | null;
     readonly timeoutMs: number;

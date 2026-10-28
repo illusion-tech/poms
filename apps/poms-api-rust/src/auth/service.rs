@@ -102,13 +102,20 @@ impl AuthService {
         Ok(self
             .resolve_active_user_with_roles(user_id)
             .await?
-            .map(|(user, _)| user))
+            .map(|(user, _, _)| user))
     }
 
     async fn resolve_active_user_with_roles(
         &self,
         user_id: Uuid,
-    ) -> Result<Option<(AuthUser, Vec<RoleReadSnapshot>)>, AuthError> {
+    ) -> Result<
+        Option<(
+            AuthUser,
+            Vec<RoleReadSnapshot>,
+            super::model::UserReadSnapshot,
+        )>,
+        AuthError,
+    > {
         let account = self
             .database
             .with_connection(move |connection| {
@@ -130,10 +137,11 @@ impl AuthService {
         Ok(Some((
             AuthUser {
                 user_id: account.id,
-                username: account.username,
+                username: account.username.clone(),
                 permissions,
             },
             roles,
+            account,
         )))
     }
 
@@ -232,7 +240,7 @@ impl AuthService {
             return Err(AuthError::authentication(Code::SessionExpired)
                 .with_pending(SessionFlush::between(&initial, &session)));
         }
-        let Some((user, role_snapshots)) =
+        let Some((user, role_snapshots, user_snapshot)) =
             self.resolve_active_user_with_roles(session.user_id).await?
         else {
             let id = session.id;
@@ -286,6 +294,7 @@ impl AuthService {
         Ok(ResolvedSession {
             session,
             user,
+            user_snapshot,
             role_snapshots,
             pending_flush,
         })

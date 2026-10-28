@@ -11,3 +11,4 @@ pub mod org_units;
 pub mod process_runtime;
 pub mod roles;
 pub mod shared;
+pub mod users;

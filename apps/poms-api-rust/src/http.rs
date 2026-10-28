@@ -1,4 +1,4 @@
-//! Existing public health, authentication, navigation, role and organization operations.
+//! Existing health, authentication, navigation, role, organization and user operations.
 //! OpenAPI is returned to the CLI; it does not add a documentation HTTP route.
 
 use std::{
@@ -179,6 +179,7 @@ pub fn openapi() -> serde_json::Value {
         crate::navigation::http::openapi(),
         crate::roles::http::openapi(),
         crate::org_units::http::openapi(),
+        crate::users::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -220,12 +221,18 @@ pub fn router_with_auth(
     let org_units = std::sync::Arc::new(crate::org_units::OrgUnitsService::new(
         state.database.clone(),
     ));
+    let users = std::sync::Arc::new(crate::users::service::UsersService::new(
+        state.database.clone(),
+    ));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
             .merge(crate::navigation::http::router(auth.clone()))
             .merge(crate::roles::http::router(auth.clone(), roles))
-            .merge(crate::org_units::http::router(auth, org_units)),
+            .merge(crate::org_units::http::router(auth.clone(), org_units))
+            // W01 original Nest witness: successful create uses 201, while the
+            // unchanged TypeScript OpenAPI declaration continues to state 200.
+            .merge(crate::users::http::router(auth, users, StatusCode::CREATED)),
         cors_origins,
     )
 }
@@ -256,6 +263,7 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         .fallback_service(application)
         .layer(middleware::from_fn(crate::roles::http::normalize_uri))
         .layer(middleware::from_fn(crate::org_units::http::normalize_uri))
+        .layer(middleware::from_fn(crate::users::http::normalize_uri))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }

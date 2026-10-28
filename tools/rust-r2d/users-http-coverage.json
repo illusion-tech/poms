@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "a22cba7360346242cb7709740b7eb954b92d1fd4",
+  "schemaCases": 759,
+  "schemaWireCandidates": 753,
+  "nonWire": 6,
+  "actualHttpSelection": "All original source-schema rejected raw wire cases plus explicit valid business/format samples; parser and DTO entries are distinguished, without an all-wire valid HTTP claim",
+  "declaredRejectedDtoWireCases": 375,
+  "schemas": [
+    {
+      "schema": "CreatePlatformUserRequest",
+      "total": 120,
+      "wireRejected": 72,
+      "wireAccepted": 47,
+      "nonWire": 1
+    },
+    {
+      "schema": "UpdatePlatformUserRequest",
+      "total": 351,
+      "wireRejected": 125,
+      "wireAccepted": 225,
+      "nonWire": 1
+    },
+    {
+      "schema": "UpdateCurrentUserProfileRequest",
+      "total": 79,
+      "wireRejected": 53,
+      "wireAccepted": 25,
+      "nonWire": 1
+    },
+    {
+      "schema": "UpdatePlatformUserActivationRequest",
+      "total": 60,
+      "wireRejected": 32,
+      "wireAccepted": 27,
+      "nonWire": 1
+    },
+    {
+      "schema": "AssignUserRolesRequest",
+      "total": 66,
+      "wireRejected": 41,
+      "wireAccepted": 24,
+      "nonWire": 1
+    },
+    {
+      "schema": "AssignUserOrgMembershipsRequest",
+      "total": 83,
+      "wireRejected": 52,
+      "wireAccepted": 30,
+      "nonWire": 1
+    }
+  ],
+  "httpEntryLayers": {
+    "selectedWireCases": 375,
+    "jsonParserStrictRootCases": 18,
+    "zodDtoCases": 357,
+    "strictRootCaseIds": [
+      "dto:CreatePlatformUserRequest:null",
+      "dto:CreatePlatformUserRequest:string",
+      "dto:CreatePlatformUserRequest:number",
+      "dto:UpdatePlatformUserRequest:null",
+      "dto:UpdatePlatformUserRequest:string",
+      "dto:UpdatePlatformUserRequest:number",
+      "dto:UpdateCurrentUserProfileRequest:null",
+      "dto:UpdateCurrentUserProfileRequest:string",
+      "dto:UpdateCurrentUserProfileRequest:number",
+      "dto:UpdatePlatformUserActivationRequest:null",
+      "dto:UpdatePlatformUserActivationRequest:string",
+      "dto:UpdatePlatformUserActivationRequest:number",
+      "dto:AssignUserRolesRequest:null",
+      "dto:AssignUserRolesRequest:string",
+      "dto:AssignUserRolesRequest:number",
+      "dto:AssignUserOrgMembershipsRequest:null",
+      "dto:AssignUserOrgMembershipsRequest:string",
+      "dto:AssignUserOrgMembershipsRequest:number"
+    ],
+    "strictRootRawBodies": [
+      "null",
+      "\"x\"",
+      "1"
+    ],
+    "boundary": "Strict JSON primitive roots stop at body-parser before guards/DTO. Other raw rejected payloads continue through HTTP guards before DTO validation."
+  },
+  "validBoundary": "Original username/UTF16/length cases are pure-schema until a separately owned finite sample protocol exists. No silent username substitution.",
+  "runtimeBehaviorClaim": false,
+  "planSha256": "37975eb540c3fe0753f9f56a69e39acd6691c55d3006d452bae832872c00d405"
+}

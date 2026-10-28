@@ -1,0 +1,1016 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取当前登录用户信息",
+        "tags": [
+          "Auth"
+        ]
+      },
+      "patch": {
+        "operationId": "AuthController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCurrentUserProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsCsrf": []
+          },
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新当前登录用户基础资料",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/platform/owner-reference": {
+      "get": {
+        "operationId": "PlatformController_listOwnerReferenceData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerReferenceData"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取销售主责候选只读列表",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/users": {
+      "get": {
+        "operationId": "PlatformController_listUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformUserList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取平台用户列表",
+        "tags": [
+          "Platform"
+        ]
+      },
+      "post": {
+        "operationId": "PlatformController_createUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlatformUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建平台用户",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/users/{id}": {
+      "get": {
+        "operationId": "PlatformController_getUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformUserDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取平台用户详情",
+        "tags": [
+          "Platform"
+        ]
+      },
+      "patch": {
+        "operationId": "PlatformController_updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlatformUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformUserDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新平台用户基本信息",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/users/{id}/org-memberships": {
+      "put": {
+        "operationId": "PlatformController_assignUserOrgMemberships",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserOrgMembershipsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "分配用户组织关系",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/users/{id}/roles": {
+      "put": {
+        "operationId": "PlatformController_assignUserRoles",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRolesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SanitizedUserWithOrgUnits"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "分配用户角色",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/users/{id}:activate": {
+      "post": {
+        "operationId": "PlatformController_activateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlatformUserActivationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "启用平台用户",
+        "tags": [
+          "Platform"
+        ]
+      }
+    },
+    "/api/platform/users/{id}:deactivate": {
+      "post": {
+        "operationId": "PlatformController_deactivateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlatformUserActivationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "停用平台用户",
+        "tags": [
+          "Platform"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssignUserOrgMembershipsRequest": {
+        "type": "object",
+        "properties": {
+          "primaryOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "secondaryOrgUnitIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "primaryOrgUnitId"
+        ]
+      },
+      "AssignUserRolesRequest": {
+        "type": "object",
+        "properties": {
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "roleIds"
+        ]
+      },
+      "CreatePlatformUserRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "primaryOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "initialRoleIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "required": [
+          "username",
+          "displayName",
+          "primaryOrgUnitId"
+        ]
+      },
+      "OwnerReferenceData": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OwnerReferenceUser"
+            }
+          },
+          "orgUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OwnerReferenceOrgUnit"
+            }
+          }
+        },
+        "required": [
+          "users",
+          "orgUnits"
+        ]
+      },
+      "OwnerReferenceOrgUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "isActive"
+        ]
+      },
+      "OwnerReferenceUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "primaryOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "primaryOrgUnitName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "isActive",
+          "primaryOrgUnitId",
+          "primaryOrgUnitName"
+        ]
+      },
+      "PlatformUserDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "username": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "primaryOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "primaryOrgUnitName": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "lastLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "phoneVerified": {
+            "type": "boolean"
+          },
+          "orgUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserOrgUnitSummary"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "displayName",
+          "email",
+          "phone",
+          "isActive",
+          "primaryOrgUnitId",
+          "primaryOrgUnitName",
+          "roleNames",
+          "createdAt",
+          "updatedAt",
+          "avatarUrl",
+          "lastLoginAt",
+          "emailVerified",
+          "phoneVerified",
+          "orgUnits"
+        ]
+      },
+      "PlatformUserList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PlatformUserSummary"
+        }
+      },
+      "PlatformUserSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "username": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "primaryOrgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "primaryOrgUnitName": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "displayName",
+          "email",
+          "phone",
+          "isActive",
+          "primaryOrgUnitId",
+          "primaryOrgUnitName",
+          "roleNames",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "SanitizedUserWithOrgUnits": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "platform:users:manage",
+                "platform:roles:manage",
+                "platform:navigation:manage",
+                "platform:org-units:manage",
+                "platform:dictionaries:manage",
+                "platform:identity-providers:manage",
+                "platform:org-sync:manage",
+                "platform:attachment-storage-providers:manage",
+                "platform:system-settings:manage",
+                "customer:read",
+                "customer:write",
+                "commission:rule-versions:manage",
+                "commission:assignments:manage",
+                "commission:calculations:manage",
+                "commission:payouts:manage",
+                "commission:adjustments:manage",
+                "contract:finance:manage",
+                "contract:finance:sensitive:read",
+                "operating:finance:sensitive:read",
+                "commission:amount:sensitive:read",
+                "labor-cost-rate:sensitive:read",
+                "exception-approval-opinion:sensitive:read",
+                "lead:read",
+                "lead:write",
+                "lead:assign",
+                "lead:score:override",
+                "project:read",
+                "project:write",
+                "project:delete",
+                "nav:dashboard:view",
+                "nav:customers:view",
+                "nav:platform:view",
+                "nav:leads:view",
+                "nav:attachments:view",
+                "nav:projects:view",
+                "nav:contracts:view",
+                "nav:profile:view"
+              ]
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "avatarUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "lastLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "phoneVerified": {
+            "type": "boolean"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "orgUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserOrgUnitSummary"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "username",
+          "roles",
+          "permissions",
+          "email",
+          "avatarUrl",
+          "isActive",
+          "lastLoginAt",
+          "emailVerified",
+          "phoneVerified",
+          "phone",
+          "orgUnits"
+        ]
+      },
+      "UpdateCurrentUserProfileRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePlatformUserActivationRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        }
+      },
+      "UpdatePlatformUserRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 64,
+            "nullable": true
+          },
+          "avatarUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          }
+        }
+      },
+      "UserOrgUnitMembershipType": {
+        "type": "string",
+        "enum": [
+          "primary",
+          "secondary"
+        ]
+      },
+      "UserOrgUnitSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "membershipType": {
+            "$ref": "#/components/schemas/UserOrgUnitMembershipType"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "description",
+          "membershipType"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "pomsSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "poms_session"
+      },
+      "pomsCsrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token"
+      }
+    }
+  }
+}

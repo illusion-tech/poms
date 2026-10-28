@@ -12,7 +12,9 @@ use serde_json::{Value, json};
 use sqlx::{PgConnection, Row, postgres::PgRow};
 use uuid::Uuid;
 
-use super::model::{AuthUser, RequestInfo, RoleReadSnapshot, Session, SessionFlush, clock_now};
+use super::model::{
+    AuthUser, RequestInfo, RoleReadSnapshot, Session, SessionFlush, UserReadSnapshot, clock_now,
+};
 use crate::{
     compat::{permissions::RawPermission, scalars::js_iso_string},
     shared::generated::{AuthSessionRevokedReason, AuthSessionStatus},
@@ -348,20 +350,9 @@ pub async fn flush_managed_session(
     Ok(())
 }
 
-pub struct Account {
-    pub id: Uuid,
-    pub username: String,
-    pub display_name: String,
-    pub email: Option<String>,
-    pub avatar_url: Option<String>,
-    pub is_active: bool,
-    pub last_login_at: Option<DateTime<Utc>>,
-    pub email_verified: bool,
-    pub phone_verified: bool,
-    pub phone: Option<String>,
-}
+pub type Account = UserReadSnapshot;
 
-macro_rules! account_columns { () => { "id,username,display_name,email,avatar_url,is_active,last_login_at,email_verified,phone_verified,phone" }; }
+macro_rules! account_columns { () => { "id,username,display_name,email,avatar_url,is_active,last_login_at,email_verified,phone_verified,phone,primary_org_unit_id,row_version,created_at,updated_at,created_by,updated_by" }; }
 
 fn map_account(row: PgRow) -> Result<Account, sqlx::Error> {
     Ok(Account {
@@ -375,6 +366,12 @@ fn map_account(row: PgRow) -> Result<Account, sqlx::Error> {
         email_verified: row.try_get("email_verified")?,
         phone_verified: row.try_get("phone_verified")?,
         phone: row.try_get("phone")?,
+        primary_org_unit_id: row.try_get("primary_org_unit_id")?,
+        row_version: row.try_get("row_version")?,
+        created_at: row.try_get("created_at")?,
+        updated_at: row.try_get("updated_at")?,
+        created_by: row.try_get("created_by")?,
+        updated_by: row.try_get("updated_by")?,
     })
 }
 

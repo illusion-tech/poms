@@ -97,12 +97,43 @@ impl fmt::Debug for CreatedSession {
 pub struct ResolvedSession {
     pub session: Session,
     pub user: AuthUser,
+    /// Full user already read by authentication, scoped to this request only.
+    /// It is never serialized into the public AuthUser or persisted session.
+    pub user_snapshot: UserReadSnapshot,
     /// Original request identity-map Role values, loaded during authorization.
     /// This is not a wire contract, shared cache or persisted session field.
     pub role_snapshots: Vec<RoleReadSnapshot>,
     /// Managed changes are flushed only if this request later persists business
     /// entities or an audit event. Dropping a read result does not flush again.
     pub pending_flush: Option<SessionFlush>,
+}
+
+#[derive(Clone)]
+pub struct UserReadSnapshot {
+    pub id: Uuid,
+    pub username: String,
+    pub display_name: String,
+    pub email: Option<String>,
+    pub phone: Option<String>,
+    pub avatar_url: Option<String>,
+    pub email_verified: bool,
+    pub phone_verified: bool,
+    pub is_active: bool,
+    pub primary_org_unit_id: Option<Uuid>,
+    pub last_login_at: Option<DateTime<Utc>>,
+    pub row_version: i32,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+    pub created_by: Option<Uuid>,
+    pub updated_by: Option<Uuid>,
+}
+
+impl fmt::Debug for UserReadSnapshot {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("UserReadSnapshot")
+            .field("row_version", &self.row_version)
+            .finish_non_exhaustive()
+    }
 }
 
 /// The complete Role read performed by the original getPermissionsForUser.

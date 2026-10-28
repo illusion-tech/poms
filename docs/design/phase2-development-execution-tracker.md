@@ -503,3 +503,13 @@ R2C #70 [独立G3](https://github.com/illusion-tech/poms/issues/70#issuecomment-
 ### 2026-10-28 RUST-R2C G4收口
 
 R2C实现`319d5d89977704b9924fc7a401957d46f5d42668`已合入main并推送，集成后24项适配器0skip、导航/角色/组织来源与排序/OpenAPI共7步通过，152份来源前后与验收版本一致。八操作实际双端HTTP各354/并发各6、四组合基础认证52与原页面12、另行PG7通过；C独立G3未关闭P1/P2为0，52run最终连续两次清理0/0。旧失败、有限Unicode、UI许可提示与schema检查失败分类见[归档收口](archive/slices/rust-r2c-closeout.md)、[纠偏](archive/slices/rust-r2c-corrective-checkpoint.md)及[机器验收](rust-r2c-validation.json)。G4随本归档提交推送及Issue同步生效；仅#70完成，父#67/#57保持Open，D–M Todo，#61不变。R2A/B/C累计交付19个R2操作，剩余89操作与R2M阶段验收未交付，PG17与旧环境/数据保留。上方历史G1/G3和R2A/B段落保留当时状态，以本条为当前进度。
+
+
+### 2026-10-28 RUST-R2D G1冻结
+
+R2D #71按[用户/profile基线](rust-r2d-users-profile-baseline.md)于2026-10-27T20:56:23.041Z冻结，来源HEAD `a22cba7360346242cb7709740b7eb954b92d1fd4`；A/B与C同一候选复核Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/71#issuecomment-6453366467)。范围为11个现有操作，进入Doing；先见证Nest原UUID/快照/分段SQL再实现对应持久化，PG/HTTP/并发/四组合UI与G3/G4均待完成。原create不写credential，不新增密码API或批量session revoke。仅新受控PG15，PG17及旧环境数据保留。R2已交付19/108，尚余89操作与阶段验收；父#67/#57保持Open，E–M Todo，#61不变。此条更新上方历史R2D Todo描述。
+
+
+### 2026-10-28 RUST-R2D G3通过
+
+R2D既有11操作完成实现与实际验收，[非作者G3 Pass](https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041)、未关闭P1/P2为0。final05双端各566顺序HTTP、16受控并发及4独立URI补例严格比较通过；PG11、四组合页面12与基础认证52、Rust125普通测试及工具184通过，默认50 ignored单列。81登记run最终各连续两次0/0，两个未初始化失败run按独立只读证明列N/A。受审原件及1747来源union由[机器验收](rust-r2d-validation.json)绑定，[收口记录](rust-r2d-closeout.md)保留schema失败分类、历史失败和有限URI/P3边界。尚待提交集成检查及G4；仅#71为本片范围，父#67/#57仍Open，PG17保留。

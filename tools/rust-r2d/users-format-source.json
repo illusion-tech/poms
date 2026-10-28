@@ -1,0 +1,5308 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "a22cba7360346242cb7709740b7eb954b92d1fd4",
+  "originalRuntime": {
+    "node": "24.x",
+    "zod": "4.6.1",
+    "icu": "78.3",
+    "exactVersionReceipt": "Generator CLI reports the actual Node patch version; corpus bytes must regenerate identically on admitted Node24 runtimes"
+  },
+  "implementation": [
+    {
+      "packagePath": "zod/v4/core/schemas.cjs",
+      "normalizedUtf8Sha256": "103cfc4ee061b4b7c7110660980964dc6e18bb7bc52c6a4e39d99837060bffc4"
+    },
+    {
+      "packagePath": "zod/v4/core/checks.cjs",
+      "normalizedUtf8Sha256": "c715bc2237695d0e72bfeb01e0d0ea38e51b67bb4e1cf273ca0a41fa8b7fa65d"
+    },
+    {
+      "packagePath": "zod/v4/core/regexes.cjs",
+      "normalizedUtf8Sha256": "8e3f17d49499534e2bbc354bc3a8c75a754fe3d2b28e6742ace82228a291de6b"
+    }
+  ],
+  "url": {
+    "parser": "Original Zod parseURLObject uses WHATWG new URL(trimmed)",
+    "options": {
+      "normalize": false,
+      "hostname": null,
+      "protocol": null
+    },
+    "output": "ECMAScript UTF16 trim, parse for acceptance, delete all TAB/LF/CR from trimmed original; not URL.href",
+    "rustParser": "Already locked url 2.5.8 WHATWG parser; no added Cargo dependency",
+    "boundary": "Finite control/scheme/host/IPv4/IPv6/port/IDNA/file/opaque/percent/Unicode corpus; not complete Unicode or all WHATWG conformance",
+    "cases": [
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:null",
+        "inputRaw": "{\"avatarUrl\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":null}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:https",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:space",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:opaque",
+        "inputRaw": "{\"avatarUrl\":\"mailto:a@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"mailto:a@example.invalid\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:custom",
+        "inputRaw": "{\"avatarUrl\":\"anything:value\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"anything:value\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:file",
+        "inputRaw": "{\"avatarUrl\":\"file:///C:/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"file:///C:/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:ftp",
+        "inputRaw": "{\"avatarUrl\":\"ftp://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"ftp://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:relative",
+        "inputRaw": "{\"avatarUrl\":\"/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:bare",
+        "inputRaw": "{\"avatarUrl\":\"example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:http-colon",
+        "inputRaw": "{\"avatarUrl\":\"http:example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"http:example.invalid\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:bad-host",
+        "inputRaw": "{\"avatarUrl\":\"https://[invalid]/\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:unicode",
+        "inputRaw": "{\"avatarUrl\":\"https://例子.invalid/路\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://例子.invalid/路\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:newline",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/\\n\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:nul",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/\\u0000\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/\\u0000\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:lone",
+        "inputRaw": "{\"avatarUrl\":\"\\ud800\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:object",
+        "inputRaw": "{\"avatarUrl\":{}}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid input: expected string, received object"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:empty",
+        "inputRaw": "{\"avatarUrl\":\"\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "avatarUrl:long",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:0:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0000https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0000https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:0:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0000tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:0:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0000mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:0:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0000b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0000b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:0:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0000\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0000\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:1:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0001https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0001https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:1:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0001tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:1:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0001mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:1:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0001b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0001b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:1:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0001\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0001\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:2:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0002https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0002https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:2:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0002tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:2:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0002mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:2:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0002b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0002b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:2:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0002\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0002\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:3:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0003https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0003https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:3:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0003tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:3:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0003mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:3:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0003b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0003b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:3:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0003\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0003\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:4:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0004https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0004https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:4:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0004tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:4:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0004mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:4:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0004b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0004b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:4:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0004\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0004\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:5:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0005https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0005https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:5:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0005tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:5:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0005mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:5:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0005b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0005b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:5:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0005\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0005\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:6:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0006https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0006https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:6:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0006tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:6:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0006mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:6:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0006b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0006b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:6:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0006\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0006\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:7:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0007https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0007https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:7:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0007tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:7:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0007mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:7:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0007b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0007b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:7:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0007\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0007\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:8:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\bhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\bhttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:8:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\btps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:8:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\bmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:8:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\bb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\bb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:8:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:9:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\thttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:9:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\ttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:9:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\tmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:9:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\tb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/ab\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:9:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\t\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:10:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\nhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:10:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\ntps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:10:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\nmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:10:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\nb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/ab\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:10:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\n\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:11:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u000bhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:11:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u000btps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:11:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u000bmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:11:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000bb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000bb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:11:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:12:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\fhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:12:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\ftps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:12:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\fmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:12:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\fb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\fb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:12:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\f\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:13:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\rhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:13:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\rtps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:13:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\rmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:13:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\rb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/ab\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:13:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\r\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:14:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u000ehttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u000ehttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:14:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u000etps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:14:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u000emple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:14:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000eb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000eb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:14:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000e\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000e\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:15:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u000fhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u000fhttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:15:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u000ftps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:15:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u000fmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:15:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000fb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000fb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:15:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000f\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u000f\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:16:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0010https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0010https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:16:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0010tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:16:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0010mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:16:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0010b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0010b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:16:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0010\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0010\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:17:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0011https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0011https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:17:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0011tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:17:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0011mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:17:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0011b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0011b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:17:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0011\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0011\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:18:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0012https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0012https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:18:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0012tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:18:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0012mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:18:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0012b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0012b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:18:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0012\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0012\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:19:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0013https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0013https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:19:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0013tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:19:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0013mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:19:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0013b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0013b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:19:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0013\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0013\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:20:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0014https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0014https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:20:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0014tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:20:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0014mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:20:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0014b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0014b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:20:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0014\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0014\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:21:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0015https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0015https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:21:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0015tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:21:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0015mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:21:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0015b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0015b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:21:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0015\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0015\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:22:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0016https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0016https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:22:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0016tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:22:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0016mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:22:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0016b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0016b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:22:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0016\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0016\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:23:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0017https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0017https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:23:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0017tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:23:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0017mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:23:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0017b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0017b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:23:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0017\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0017\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:24:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0018https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0018https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:24:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0018tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:24:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0018mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:24:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0018b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0018b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:24:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0018\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0018\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:25:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u0019https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u0019https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:25:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u0019tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:25:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u0019mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:25:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0019b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0019b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:25:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0019\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u0019\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:26:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u001ahttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u001ahttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:26:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u001atps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:26:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u001ample.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:26:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001ab\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001ab\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:26:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:27:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u001bhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u001bhttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:27:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u001btps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:27:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u001bmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:27:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001bb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001bb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:27:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:28:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u001chttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u001chttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:28:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u001ctps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:28:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u001cmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:28:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001cb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001cb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:28:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001c\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001c\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:29:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u001dhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u001dhttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:29:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u001dtps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:29:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u001dmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:29:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001db\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001db\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:29:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001d\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001d\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:30:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u001ehttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u001ehttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:30:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u001etps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:30:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u001emple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:30:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001eb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001eb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:30:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001e\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001e\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:31:leading",
+        "inputRaw": "{\"avatarUrl\":\"\\u001fhttps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"\\u001fhttps://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:31:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht\\u001ftps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:31:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\u001fmple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:31:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001fb\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001fb\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:31:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001f\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\\u001f\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:32:leading",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:32:scheme",
+        "inputRaw": "{\"avatarUrl\":\"ht tps://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:32:host",
+        "inputRaw": "{\"avatarUrl\":\"https://exa mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:32:path",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a b\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a b\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-control:32:trailing",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:133",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:160",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:5760",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:6158",
+        "inputRaw": "{\"avatarUrl\":\"᠎https://example.invalid/a᠎\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8192",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8193",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8194",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8195",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8196",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8197",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8198",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8199",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8200",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8201",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8202",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8203",
+        "inputRaw": "{\"avatarUrl\":\"​https://example.invalid/a​\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8232",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8233",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8239",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:8287",
+        "inputRaw": "{\"avatarUrl\":\" https://example.invalid/a \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:12288",
+        "inputRaw": "{\"avatarUrl\":\"　https://example.invalid/a　\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-unicode-edge:65279",
+        "inputRaw": "{\"avatarUrl\":\"﻿https://example.invalid/a﻿\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:0",
+        "inputRaw": "{\"avatarUrl\":\"https://localhost/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://localhost/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:1",
+        "inputRaw": "{\"avatarUrl\":\"https://localhost./a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://localhost./a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:2",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid./a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid./a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:3",
+        "inputRaw": "{\"avatarUrl\":\"https://_service.example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://_service.example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:4",
+        "inputRaw": "{\"avatarUrl\":\"https://-a.example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://-a.example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:5",
+        "inputRaw": "{\"avatarUrl\":\"https://a-.example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://a-.example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:6",
+        "inputRaw": "{\"avatarUrl\":\"https://0x7f000001/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://0x7f000001/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:7",
+        "inputRaw": "{\"avatarUrl\":\"https://127.1/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://127.1/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:8",
+        "inputRaw": "{\"avatarUrl\":\"https://0177.1/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://0177.1/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:9",
+        "inputRaw": "{\"avatarUrl\":\"https://2130706433/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://2130706433/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:10",
+        "inputRaw": "{\"avatarUrl\":\"https://4294967295/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://4294967295/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:11",
+        "inputRaw": "{\"avatarUrl\":\"https://4294967296/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:12",
+        "inputRaw": "{\"avatarUrl\":\"https://256.1.1.1/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:13",
+        "inputRaw": "{\"avatarUrl\":\"https://1.2.3.4.5/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:14",
+        "inputRaw": "{\"avatarUrl\":\"https://[::1]/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://[::1]/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:15",
+        "inputRaw": "{\"avatarUrl\":\"https://[::ffff:192.0.2.1]/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://[::ffff:192.0.2.1]/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:16",
+        "inputRaw": "{\"avatarUrl\":\"https://[fe80::1%25eth0]/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:17",
+        "inputRaw": "{\"avatarUrl\":\"https://user:pass@example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://user:pass@example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:18",
+        "inputRaw": "{\"avatarUrl\":\"https://user@user@example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://user@user@example.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:19",
+        "inputRaw": "{\"avatarUrl\":\"https://%65xample.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://%65xample.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:20",
+        "inputRaw": "{\"avatarUrl\":\"https://exa%00mple.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:21",
+        "inputRaw": "{\"avatarUrl\":\"https://%FF.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:22",
+        "inputRaw": "{\"avatarUrl\":\"https://[v1.a]/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:23",
+        "inputRaw": "{\"avatarUrl\":\"https://例子.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://例子.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:24",
+        "inputRaw": "{\"avatarUrl\":\"https://faß.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://faß.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:25",
+        "inputRaw": "{\"avatarUrl\":\"https://ＦＯＯ.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://ＦＯＯ.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:26",
+        "inputRaw": "{\"avatarUrl\":\"https://K.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://K.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:27",
+        "inputRaw": "{\"avatarUrl\":\"https://é.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://é.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:28",
+        "inputRaw": "{\"avatarUrl\":\"https://é.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://é.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:29",
+        "inputRaw": "{\"avatarUrl\":\"https://☕.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://☕.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:30",
+        "inputRaw": "{\"avatarUrl\":\"https://\\ud800.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:31",
+        "inputRaw": "{\"avatarUrl\":\"https://a‍b.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-host:32",
+        "inputRaw": "{\"avatarUrl\":\"https://א.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://א.invalid/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:0",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:0/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:0/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:00",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:00/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:00/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:80",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:80/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:80/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:443",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:443/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:443/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:65535",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:65535/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:65535/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:65536",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:65536/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:-1",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:-1/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:+80",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:+80/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:00080",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:00080/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:00080/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:abc",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:abc/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:1.5",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:1.5/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-port:",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid:/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid:/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:0",
+        "inputRaw": "{\"avatarUrl\":\"HTTP://EXAMPLE.INVALID/a/../b?x=1#f\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"HTTP://EXAMPLE.INVALID/a/../b?x=1#f\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:1",
+        "inputRaw": "{\"avatarUrl\":\"https:///example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https:///example.invalid\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:2",
+        "inputRaw": "{\"avatarUrl\":\"https:////example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https:////example.invalid\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:3",
+        "inputRaw": "{\"avatarUrl\":\"https:\\\\example.invalid\\\\a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https:\\\\example.invalid\\\\a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:4",
+        "inputRaw": "{\"avatarUrl\":\"http://\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:5",
+        "inputRaw": "{\"avatarUrl\":\"http://?x\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:6",
+        "inputRaw": "{\"avatarUrl\":\"https://#fragment\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:7",
+        "inputRaw": "{\"avatarUrl\":\"//example.invalid/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:8",
+        "inputRaw": "{\"avatarUrl\":\"/relative\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:9",
+        "inputRaw": "{\"avatarUrl\":\"relative\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "code": "invalid_format",
+              "format": "url",
+              "path": [
+                "avatarUrl"
+              ],
+              "message": "Invalid URL"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:10",
+        "inputRaw": "{\"avatarUrl\":\"custom:opaque data\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom:opaque data\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:11",
+        "inputRaw": "{\"avatarUrl\":\"custom:opaque\\u0000data\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom:opaque\\u0000data\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:12",
+        "inputRaw": "{\"avatarUrl\":\"custom:\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom:\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:13",
+        "inputRaw": "{\"avatarUrl\":\"custom:/\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom:/\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:14",
+        "inputRaw": "{\"avatarUrl\":\"custom://\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom://\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:15",
+        "inputRaw": "{\"avatarUrl\":\"custom:///a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom:///a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:16",
+        "inputRaw": "{\"avatarUrl\":\"custom://host/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom://host/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:17",
+        "inputRaw": "{\"avatarUrl\":\"custom://%FF/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"custom://%FF/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:18",
+        "inputRaw": "{\"avatarUrl\":\"data:text/plain,hello\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"data:text/plain,hello\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:19",
+        "inputRaw": "{\"avatarUrl\":\"javascript:alert(1)\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"javascript:alert(1)\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:20",
+        "inputRaw": "{\"avatarUrl\":\"mailto:a@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"mailto:a@example.invalid\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:21",
+        "inputRaw": "{\"avatarUrl\":\"about:blank\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"about:blank\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:22",
+        "inputRaw": "{\"avatarUrl\":\"urn:uuid:a0000000-0000-4000-8000-000000000001\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"urn:uuid:a0000000-0000-4000-8000-000000000001\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:23",
+        "inputRaw": "{\"avatarUrl\":\"file:///C:/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"file:///C:/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:24",
+        "inputRaw": "{\"avatarUrl\":\"file://localhost/C:/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"file://localhost/C:/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:25",
+        "inputRaw": "{\"avatarUrl\":\"file://server/share/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"file://server/share/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:26",
+        "inputRaw": "{\"avatarUrl\":\"file:C|/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"file:C|/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:27",
+        "inputRaw": "{\"avatarUrl\":\"file:///C|/a\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"file:///C|/a\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:28",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/%\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/%\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:29",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/%FF\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/%FF\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:30",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/%00\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/%00\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:31",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/\\ud800\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/\\ud800\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:32",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/😀\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/😀\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:33",
+        "inputRaw": "{\"avatarUrl\":\"https://example.invalid/?q=a\\tb\\nc\\r\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/?q=abc\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "url-standard:34",
+        "inputRaw": "{\"avatarUrl\":\"https://exa\\nmple.invalid/ok\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"avatarUrl\":\"https://example.invalid/ok\"}",
+          "ownKeys": [
+            "avatarUrl"
+          ]
+        }
+      }
+    ]
+  },
+  "email": {
+    "rule": "Unchanged original shared Zod email pattern; profile trim is an outer transform",
+    "cases": [
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:null",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"email\":null,\"primaryOrgUnitId\":null,\"initialRoleIds\":[]}",
+          "ownKeys": [
+            "username",
+            "displayName",
+            "email",
+            "primaryOrgUnitId",
+            "initialRoleIds"
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:valid",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a+b@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"email\":\"a+b@example.invalid\",\"primaryOrgUnitId\":null,\"initialRoleIds\":[]}",
+          "ownKeys": [
+            "username",
+            "displayName",
+            "email",
+            "primaryOrgUnitId",
+            "initialRoleIds"
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:space",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\" a@example.invalid \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:empty",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:double-dot",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a..b@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:leading-dot",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\".a@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:newline",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a@example.invalid\\n\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:short-domain",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a@example.x\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:local-domain",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a@localhost\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:unicode",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"名字@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:unicode-domain",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a@例子.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:quoted",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"\\\"a\\\"@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:lone",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"\\ud800\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:array",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":[]}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:object",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":{}}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid input: expected string, received object"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:long",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"email\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.invalid\",\"primaryOrgUnitId\":null,\"initialRoleIds\":[]}",
+          "ownKeys": [
+            "username",
+            "displayName",
+            "email",
+            "primaryOrgUnitId",
+            "initialRoleIds"
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:nul",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":\"a\\u0000@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "CreatePlatformUserRequest",
+        "name": "email:clear",
+        "inputRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"primaryOrgUnitId\":null,\"email\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"username\":\" User \",\"displayName\":\" Name \",\"email\":null,\"primaryOrgUnitId\":null,\"initialRoleIds\":[]}",
+          "ownKeys": [
+            "username",
+            "displayName",
+            "email",
+            "primaryOrgUnitId",
+            "initialRoleIds"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:null",
+        "inputRaw": "{\"email\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":null}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:valid",
+        "inputRaw": "{\"email\":\"a+b@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":\"a+b@example.invalid\"}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:space",
+        "inputRaw": "{\"email\":\" a@example.invalid \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:empty",
+        "inputRaw": "{\"email\":\"\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:double-dot",
+        "inputRaw": "{\"email\":\"a..b@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:leading-dot",
+        "inputRaw": "{\"email\":\".a@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:newline",
+        "inputRaw": "{\"email\":\"a@example.invalid\\n\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:short-domain",
+        "inputRaw": "{\"email\":\"a@example.x\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:local-domain",
+        "inputRaw": "{\"email\":\"a@localhost\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:unicode",
+        "inputRaw": "{\"email\":\"名字@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:unicode-domain",
+        "inputRaw": "{\"email\":\"a@例子.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:quoted",
+        "inputRaw": "{\"email\":\"\\\"a\\\"@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:lone",
+        "inputRaw": "{\"email\":\"\\ud800\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:array",
+        "inputRaw": "{\"email\":[]}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:object",
+        "inputRaw": "{\"email\":{}}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid input: expected string, received object"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:long",
+        "inputRaw": "{\"email\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.invalid\"}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:nul",
+        "inputRaw": "{\"email\":\"a\\u0000@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "name": "email:clear",
+        "inputRaw": "{\"email\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":null}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:null",
+        "inputRaw": "{\"email\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":null}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:valid",
+        "inputRaw": "{\"email\":\"a+b@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":\"a+b@example.invalid\"}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:space",
+        "inputRaw": "{\"email\":\" a@example.invalid \"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":\"a@example.invalid\"}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:empty",
+        "inputRaw": "{\"email\":\"\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:double-dot",
+        "inputRaw": "{\"email\":\"a..b@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:leading-dot",
+        "inputRaw": "{\"email\":\".a@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:newline",
+        "inputRaw": "{\"email\":\"a@example.invalid\\n\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":\"a@example.invalid\"}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:short-domain",
+        "inputRaw": "{\"email\":\"a@example.x\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:local-domain",
+        "inputRaw": "{\"email\":\"a@localhost\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:unicode",
+        "inputRaw": "{\"email\":\"名字@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:unicode-domain",
+        "inputRaw": "{\"email\":\"a@例子.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:quoted",
+        "inputRaw": "{\"email\":\"\\\"a\\\"@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:lone",
+        "inputRaw": "{\"email\":\"\\ud800\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:array",
+        "inputRaw": "{\"email\":[]}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:object",
+        "inputRaw": "{\"email\":{}}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid input: expected string, received object"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:long",
+        "inputRaw": "{\"email\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.invalid\"}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:nul",
+        "inputRaw": "{\"email\":\"a\\u0000@example.invalid\"}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": false,
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "email",
+              "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+              "path": [
+                "email"
+              ],
+              "message": "Invalid email address"
+            }
+          ]
+        }
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "name": "email:clear",
+        "inputRaw": "{\"email\":null}",
+        "nonWireOwnUndefined": false,
+        "expected": {
+          "success": true,
+          "dataRaw": "{\"email\":null}",
+          "ownKeys": [
+            "email"
+          ]
+        }
+      }
+    ]
+  },
+  "runtimeBehaviorClaim": false
+}

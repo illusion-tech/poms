@@ -1,0 +1,3492 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "a22cba7360346242cb7709740b7eb954b92d1fd4",
+  "schemaLayers": {
+    "formatVersion": 1,
+    "sourceHead": "a22cba7360346242cb7709740b7eb954b92d1fd4",
+    "schemaCases": 759,
+    "schemaWireCandidates": 753,
+    "nonWire": 6,
+    "actualHttpSelection": "All original source-schema rejected raw wire cases plus explicit valid business/format samples; parser and DTO entries are distinguished, without an all-wire valid HTTP claim",
+    "declaredRejectedDtoWireCases": 375,
+    "schemas": [
+      {
+        "schema": "CreatePlatformUserRequest",
+        "total": 120,
+        "wireRejected": 72,
+        "wireAccepted": 47,
+        "nonWire": 1
+      },
+      {
+        "schema": "UpdatePlatformUserRequest",
+        "total": 351,
+        "wireRejected": 125,
+        "wireAccepted": 225,
+        "nonWire": 1
+      },
+      {
+        "schema": "UpdateCurrentUserProfileRequest",
+        "total": 79,
+        "wireRejected": 53,
+        "wireAccepted": 25,
+        "nonWire": 1
+      },
+      {
+        "schema": "UpdatePlatformUserActivationRequest",
+        "total": 60,
+        "wireRejected": 32,
+        "wireAccepted": 27,
+        "nonWire": 1
+      },
+      {
+        "schema": "AssignUserRolesRequest",
+        "total": 66,
+        "wireRejected": 41,
+        "wireAccepted": 24,
+        "nonWire": 1
+      },
+      {
+        "schema": "AssignUserOrgMembershipsRequest",
+        "total": 83,
+        "wireRejected": 52,
+        "wireAccepted": 30,
+        "nonWire": 1
+      }
+    ],
+    "httpEntryLayers": {
+      "selectedWireCases": 375,
+      "jsonParserStrictRootCases": 18,
+      "zodDtoCases": 357,
+      "strictRootCaseIds": [
+        "dto:CreatePlatformUserRequest:null",
+        "dto:CreatePlatformUserRequest:string",
+        "dto:CreatePlatformUserRequest:number",
+        "dto:UpdatePlatformUserRequest:null",
+        "dto:UpdatePlatformUserRequest:string",
+        "dto:UpdatePlatformUserRequest:number",
+        "dto:UpdateCurrentUserProfileRequest:null",
+        "dto:UpdateCurrentUserProfileRequest:string",
+        "dto:UpdateCurrentUserProfileRequest:number",
+        "dto:UpdatePlatformUserActivationRequest:null",
+        "dto:UpdatePlatformUserActivationRequest:string",
+        "dto:UpdatePlatformUserActivationRequest:number",
+        "dto:AssignUserRolesRequest:null",
+        "dto:AssignUserRolesRequest:string",
+        "dto:AssignUserRolesRequest:number",
+        "dto:AssignUserOrgMembershipsRequest:null",
+        "dto:AssignUserOrgMembershipsRequest:string",
+        "dto:AssignUserOrgMembershipsRequest:number"
+      ],
+      "strictRootRawBodies": [
+        "null",
+        "\"x\"",
+        "1"
+      ],
+      "boundary": "Strict JSON primitive roots stop at body-parser before guards/DTO. Other raw rejected payloads continue through HTTP guards before DTO validation."
+    },
+    "validBoundary": "Original username/UTF16/length cases are pure-schema until a separately owned finite sample protocol exists. No silent username substitution.",
+    "runtimeBehaviorClaim": false,
+    "planSha256": "37975eb540c3fe0753f9f56a69e39acd6691c55d3006d452bae832872c00d405"
+  },
+  "cases": 566,
+  "casePlan": [
+    {
+      "id": "create:target",
+      "group": "business",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "preflight:missing-detail",
+      "group": "business",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "preflight:missing-roles",
+      "group": "business",
+      "operation": "roles",
+      "method": "GET"
+    },
+    {
+      "id": "preflight:missing-orgs",
+      "group": "business",
+      "operation": "orgs",
+      "method": "GET"
+    },
+    {
+      "id": "business:profile",
+      "group": "business",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "business:update-profile",
+      "group": "business",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "business:owner-reference",
+      "group": "business",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "business:list",
+      "group": "business",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "business:detail",
+      "group": "business",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "business:update",
+      "group": "business",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "business:activate",
+      "group": "business",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "business:deactivate",
+      "group": "business",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "business:assign-roles",
+      "group": "business",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "business:assign-org-memberships",
+      "group": "business",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "business:create-duplicate",
+      "group": "business",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "profile:admin-contacts:false",
+      "group": "profile",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:admin-clear:false",
+      "group": "profile",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:admin-noop:false",
+      "group": "profile",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:self-trim:false",
+      "group": "profile",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:self-clear:false",
+      "group": "profile",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:self-noop:false",
+      "group": "profile",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:admin-contacts:true",
+      "group": "profile",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:admin-clear:true",
+      "group": "profile",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:admin-noop:true",
+      "group": "profile",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:self-trim:true",
+      "group": "profile",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:self-clear:true",
+      "group": "profile",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "profile:self-noop:true",
+      "group": "profile",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:trim",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:host-newline",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:opaque",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:idna",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:unpaired-path",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:overflow",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "format:url:nul",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "encoding:display-surrogate",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "encoding:display-nul",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "encoding:display-astral128",
+      "group": "encoding",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "assignments:roles-empty",
+      "group": "assignments",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:roles-valid",
+      "group": "assignments",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:roles-duplicate",
+      "group": "assignments",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:roles-inactive",
+      "group": "assignments",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:roles-missing",
+      "group": "assignments",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:roles-ignored-version",
+      "group": "assignments",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:org-valid",
+      "group": "assignments",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:org-same-primary",
+      "group": "assignments",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:org-duplicate",
+      "group": "assignments",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:org-inactive",
+      "group": "assignments",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:org-missing",
+      "group": "assignments",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "assignments:org-ignored-version",
+      "group": "assignments",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "guard:profile:none",
+      "group": "guards",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "guard:profile:viewer",
+      "group": "guards",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "guard:update-profile:none",
+      "group": "guards",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "guard:update-profile:viewer",
+      "group": "guards",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "guard:update-profile:csrf",
+      "group": "guards",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "guard:owner-reference:none",
+      "group": "guards",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "guard:owner-reference:viewer",
+      "group": "guards",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "guard:list:none",
+      "group": "guards",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "guard:list:viewer",
+      "group": "guards",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "guard:create:none",
+      "group": "guards",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "guard:create:viewer",
+      "group": "guards",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "guard:create:csrf",
+      "group": "guards",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "guard:detail:none",
+      "group": "guards",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "guard:detail:viewer",
+      "group": "guards",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "guard:update:none",
+      "group": "guards",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "guard:update:viewer",
+      "group": "guards",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "guard:update:csrf",
+      "group": "guards",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "guard:activate:none",
+      "group": "guards",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "guard:activate:viewer",
+      "group": "guards",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "guard:activate:csrf",
+      "group": "guards",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "guard:deactivate:none",
+      "group": "guards",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "guard:deactivate:viewer",
+      "group": "guards",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "guard:deactivate:csrf",
+      "group": "guards",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "guard:assign-roles:none",
+      "group": "guards",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "guard:assign-roles:viewer",
+      "group": "guards",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "guard:assign-roles:csrf",
+      "group": "guards",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "guard:assign-org-memberships:none",
+      "group": "guards",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "guard:assign-org-memberships:viewer",
+      "group": "guards",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "guard:assign-org-memberships:csrf",
+      "group": "guards",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "owner-any5:lead-write",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "owner-any5:lead-assign",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "owner-any5:project-write",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "owner-any5:users-manage",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "owner-any5:orgs-manage",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "zero-permission:profile",
+      "group": "owner-any5",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "zero-permission:update-profile",
+      "group": "owner-any5",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "zero-permission:owner-reference",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "zero-permission:list",
+      "group": "owner-any5",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "owner-any5:restore-viewer",
+      "group": "owner-any5",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:missing",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:null",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:string",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:number",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:empty",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:unknown-only",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:all-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:missing",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:null",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:array",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:string",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:number",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:all-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:missing",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:null",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:array",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:string",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:number",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:unknown-only",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:strip-or-strict",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:all-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:missing",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:null",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:array",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:string",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:number",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:all-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:missing",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:array",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:string",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:number",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:empty",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:unknown-only",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:all-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:missing",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:array",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:string",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:number",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:empty",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:unknown-only",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:all-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:null",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:empty",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:username:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:null",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:empty",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:displayName:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:phone:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:null",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:empty",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:array",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:displayName:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:array",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:phone:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:null",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:empty",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:space",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:array",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:displayName:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:empty",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:space",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:array",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:phone:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:null",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:array",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:reason:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:null",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:array",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:comment:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:array",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:reason:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:astral-above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:above-limit",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:array",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:long-array",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:length-large",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:length-nan",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:reason:length-unconvertible",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:space",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:empty",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:double-dot",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:leading-dot",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:newline",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:short-domain",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:local-domain",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:unicode",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:unicode-domain",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:quoted",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:lone",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:array",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:object",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:email:nul",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:space",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:empty",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:double-dot",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:leading-dot",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:newline",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:short-domain",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:local-domain",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:unicode",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:unicode-domain",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:quoted",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:lone",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:array",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:object",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:email:nul",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:empty",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:double-dot",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:leading-dot",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:short-domain",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:local-domain",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:unicode",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:unicode-domain",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:quoted",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:lone",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:array",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:object",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:email:nul",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:avatarUrl:relative",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:avatarUrl:bare",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:avatarUrl:bad-host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:avatarUrl:lone",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:avatarUrl:object",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:avatarUrl:empty",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:username",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:avatarUrl",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:roles",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:permissions",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:orgUnits",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:primaryOrgUnitId",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:isActive",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:emailVerified",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:phoneVerified",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:password",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:protected:passwordHash",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-4",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-6",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-7",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-8",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-9",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-10",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-11",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-12",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-13",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:primaryOrgUnitId:uuid-15",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-4",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-6",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-7",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-8",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-9",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-10",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-11",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-12",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-13",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-14",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:uuid-15",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:null",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:scalar",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:mixed-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:CreatePlatformUserRequest:initialRoleIds:object",
+      "group": "dto-rejected-wire",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-4",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-6",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-7",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-8",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-9",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-10",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-11",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-12",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-13",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-14",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:uuid-15",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:scalar",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:mixed-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:roleIds:object",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-4",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-6",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-7",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-8",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-9",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-10",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-11",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-12",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-13",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-14",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:primaryOrgUnitId:uuid-15",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-4",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-6",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-7",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-8",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-9",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-10",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-11",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-12",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-13",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-14",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:uuid-15",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:scalar",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:mixed-invalid",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:secondaryOrgUnitIds:object",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:-1",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:-0",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:0",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:1.5",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:9007199254740992",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:-9007199254740992",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:1e999",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:\"3\"",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:true",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:UpdatePlatformUserActivationRequest:expectedVersion:null",
+      "group": "dto-rejected-wire",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:-1",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:-0",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:0",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:1.5",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:9007199254740992",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:-9007199254740992",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:1e999",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:\"3\"",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:true",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserRolesRequest:expectedVersion:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:-1",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:-0",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:0",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:1.5",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:9007199254740992",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:-9007199254740992",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:1e999",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:\"3\"",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:true",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:AssignUserOrgMembershipsRequest:expectedVersion:null",
+      "group": "dto-rejected-wire",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:prototype-and-index-keys",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:0:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:0:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:1:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:1:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:2:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:2:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:3:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:3:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:4:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:4:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:5:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:5:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:6:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:6:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:7:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:7:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:8:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:8:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:11:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:11:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:12:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:12:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:14:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:14:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:15:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:15:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:16:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:16:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:17:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:17:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:18:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:18:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:19:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:19:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:20:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:20:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:21:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:21:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:22:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:22:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:23:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:23:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:24:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:24:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:25:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:25:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:26:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:26:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:27:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:27:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:28:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:28:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:29:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:29:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:30:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:30:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:31:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:31:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:32:scheme",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-control:32:host",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-unicode-edge:133",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-unicode-edge:6158",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-unicode-edge:8203",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:11",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:12",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:13",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:16",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:20",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:21",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:22",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:30",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-host:31",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-port:65536",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-port:-1",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-port:+80",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-port:abc",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-port:1.5",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-standard:4",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-standard:5",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-standard:6",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-standard:7",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-standard:8",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdatePlatformUserRequest:url-standard:9",
+      "group": "dto-rejected-wire",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:unknown-lone-key",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "dto:UpdateCurrentUserProfileRequest:unknown-escaped-keys",
+      "group": "dto-rejected-wire",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:profile:canonical",
+      "group": "uri",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "uri:profile:static-uppercase",
+      "group": "uri",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "uri:profile:one-trailing-slash",
+      "group": "uri",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "uri:profile:two-trailing-slashes",
+      "group": "uri",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "uri:profile:encoded-api",
+      "group": "uri",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "uri:update-profile:canonical",
+      "group": "uri",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update-profile:static-uppercase",
+      "group": "uri",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update-profile:one-trailing-slash",
+      "group": "uri",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update-profile:two-trailing-slashes",
+      "group": "uri",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update-profile:encoded-api",
+      "group": "uri",
+      "operation": "update-profile",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:owner-reference:canonical",
+      "group": "uri",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "uri:owner-reference:static-uppercase",
+      "group": "uri",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "uri:owner-reference:one-trailing-slash",
+      "group": "uri",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "uri:owner-reference:two-trailing-slashes",
+      "group": "uri",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "uri:owner-reference:encoded-api",
+      "group": "uri",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "uri:list:canonical",
+      "group": "uri",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "uri:list:static-uppercase",
+      "group": "uri",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "uri:list:one-trailing-slash",
+      "group": "uri",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "uri:list:two-trailing-slashes",
+      "group": "uri",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "uri:list:encoded-api",
+      "group": "uri",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "uri:create:canonical",
+      "group": "uri",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "uri:create:static-uppercase",
+      "group": "uri",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "uri:create:one-trailing-slash",
+      "group": "uri",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "uri:create:two-trailing-slashes",
+      "group": "uri",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "uri:create:encoded-api",
+      "group": "uri",
+      "operation": "create",
+      "method": "POST"
+    },
+    {
+      "id": "uri:detail:canonical",
+      "group": "uri",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "uri:detail:static-uppercase",
+      "group": "uri",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "uri:detail:one-trailing-slash",
+      "group": "uri",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "uri:detail:two-trailing-slashes",
+      "group": "uri",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "uri:detail:encoded-api",
+      "group": "uri",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "uri:update:canonical",
+      "group": "uri",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update:static-uppercase",
+      "group": "uri",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update:one-trailing-slash",
+      "group": "uri",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update:two-trailing-slashes",
+      "group": "uri",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:update:encoded-api",
+      "group": "uri",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "uri:activate:canonical",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:activate:static-uppercase",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:activate:one-trailing-slash",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:activate:two-trailing-slashes",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:activate:encoded-api",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:canonical",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:static-uppercase",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:one-trailing-slash",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:two-trailing-slashes",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:encoded-api",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:assign-roles:canonical",
+      "group": "uri",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-roles:static-uppercase",
+      "group": "uri",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-roles:one-trailing-slash",
+      "group": "uri",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-roles:two-trailing-slashes",
+      "group": "uri",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-roles:encoded-api",
+      "group": "uri",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-org-memberships:canonical",
+      "group": "uri",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-org-memberships:static-uppercase",
+      "group": "uri",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-org-memberships:one-trailing-slash",
+      "group": "uri",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-org-memberships:two-trailing-slashes",
+      "group": "uri",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:assign-org-memberships:encoded-api",
+      "group": "uri",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "uri:activate:uppercase-suffix",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:activate:encoded-colon",
+      "group": "uri",
+      "operation": "activate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:uppercase-suffix",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "uri:deactivate:encoded-colon",
+      "group": "uri",
+      "operation": "deactivate",
+      "method": "POST"
+    },
+    {
+      "id": "head:profile:canonical",
+      "group": "head",
+      "operation": "profile",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:profile:static-uppercase",
+      "group": "head",
+      "operation": "profile",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:profile:one-trailing-slash",
+      "group": "head",
+      "operation": "profile",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:profile:two-trailing-slashes",
+      "group": "head",
+      "operation": "profile",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:profile:encoded-api",
+      "group": "head",
+      "operation": "profile",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:owner-reference:canonical",
+      "group": "head",
+      "operation": "owner-reference",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:owner-reference:static-uppercase",
+      "group": "head",
+      "operation": "owner-reference",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:owner-reference:one-trailing-slash",
+      "group": "head",
+      "operation": "owner-reference",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:owner-reference:two-trailing-slashes",
+      "group": "head",
+      "operation": "owner-reference",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:owner-reference:encoded-api",
+      "group": "head",
+      "operation": "owner-reference",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:list:canonical",
+      "group": "head",
+      "operation": "list",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:list:static-uppercase",
+      "group": "head",
+      "operation": "list",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:list:one-trailing-slash",
+      "group": "head",
+      "operation": "list",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:list:two-trailing-slashes",
+      "group": "head",
+      "operation": "list",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:list:encoded-api",
+      "group": "head",
+      "operation": "list",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:detail:canonical",
+      "group": "head",
+      "operation": "detail",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:detail:static-uppercase",
+      "group": "head",
+      "operation": "detail",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:detail:one-trailing-slash",
+      "group": "head",
+      "operation": "detail",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:detail:two-trailing-slashes",
+      "group": "head",
+      "operation": "detail",
+      "method": "HEAD"
+    },
+    {
+      "id": "head:detail:encoded-api",
+      "group": "head",
+      "operation": "detail",
+      "method": "HEAD"
+    },
+    {
+      "id": "id-spelling:detail:uppercase",
+      "group": "id-spelling",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "id-spelling:detail:compact",
+      "group": "id-spelling",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "id-spelling:detail:braces",
+      "group": "id-spelling",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "id-spelling:detail:invalid",
+      "group": "id-spelling",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "id-spelling:detail:missing",
+      "group": "id-spelling",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "id-spelling:role-uppercase",
+      "group": "id-spelling",
+      "operation": "assign-roles",
+      "method": "PUT"
+    },
+    {
+      "id": "id-spelling:org-uppercase",
+      "group": "id-spelling",
+      "operation": "assign-org-memberships",
+      "method": "PUT"
+    },
+    {
+      "id": "sort:roles-history",
+      "group": "sort",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "sort:memberships-history",
+      "group": "sort",
+      "operation": "detail",
+      "method": "GET"
+    },
+    {
+      "id": "sort:owner-reference",
+      "group": "sort",
+      "operation": "owner-reference",
+      "method": "GET"
+    },
+    {
+      "id": "sort:full-users",
+      "group": "sort",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "parser:malformed",
+      "group": "parser",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "parser:wrong-content-type",
+      "group": "parser",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "parser:unsupported-charset",
+      "group": "parser",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "parser:scalar-json",
+      "group": "parser",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "parser:body-limit",
+      "group": "parser",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "parser:safe-malformed",
+      "group": "parser",
+      "operation": "profile",
+      "method": "GET"
+    },
+    {
+      "id": "parser:safe-ignored",
+      "group": "parser",
+      "operation": "list",
+      "method": "GET"
+    },
+    {
+      "id": "parser:urlencoded",
+      "group": "parser",
+      "operation": "update",
+      "method": "PATCH"
+    },
+    {
+      "id": "regression:permissions",
+      "group": "regression",
+      "operation": "permissions",
+      "method": "GET"
+    },
+    {
+      "id": "regression:roles",
+      "group": "regression",
+      "operation": "roles",
+      "method": "GET"
+    },
+    {
+      "id": "regression:orgs",
+      "group": "regression",
+      "operation": "orgs",
+      "method": "GET"
+    },
+    {
+      "id": "regression:navigation",
+      "group": "regression",
+      "operation": "navigation",
+      "method": "GET"
+    },
+    {
+      "id": "regression:session",
+      "group": "regression",
+      "operation": "session",
+      "method": "GET"
+    }
+  ],
+  "planSha256": "9a218b72b726ffd4ef0587a3c6a84a3985005b48e99356db1f49887b4a7ade5c",
+  "boundary": "Sequential original source-schema rejected raw wire with parser/DTO entry distinguished, plus explicit legal business/format/guard/URI samples; concurrency, SQL witness and browsers remain separate"
+}

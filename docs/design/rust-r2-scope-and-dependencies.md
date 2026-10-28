@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-28
-**状态**: G0 范围与拆片完成；R2A 已交付 / G4；R2B已交付 / G4；R2C已交付 / G4；D–M为Todo / G1未冻结；本文不是其余切片的实施授权
+**状态**: G0 范围与拆片完成；R2A 已交付 / G4；R2B已交付 / G4；R2C已交付 / G4；R2D G3 Pass / Doing（待集成与G4）；E–M为Todo / G1未冻结；本文不是其余切片的实施授权
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -37,7 +37,7 @@ R0 清单的产品源参考仍为 `033aedd0`。本次对 `apps/poms-api/src`、`
 | RUST-R2A | [#68](https://github.com/illusion-tech/poms/issues/68) | 3       | 当前用户导航、完整管理员导航、同步审计                | R1；静态树单向导出、权限过滤、真实 audit_log 与原请求上下文                  |
 | RUST-R2B | [#69](https://github.com/illusion-tech/poms/issues/69) | 8       | 角色 CRUD/启停、权限字典、角色权限替换                | R1/R2A 审计基础；平台 bootstrap 权威数据；角色权限变化即时反映到会话         |
 | RUST-R2C | [#70](https://github.com/illusion-tech/poms/issues/70) | 8       | 组织列表/树/详情、创建/更新/启停/移动                 | R1/R2A；父子循环/排序/激活约束、原乐观版本、平台组织固定数据                 |
-| RUST-R2D | [#71](https://github.com/illusion-tech/poms/issues/71) | 11      | 用户 8、owner-reference 1、个人资料 2                 | R2B/C；用户角色/primary 与 secondary membership、密码写入、停用会话联动      |
+| RUST-R2D | [#71](https://github.com/illusion-tech/poms/issues/71) | 11      | 用户 8、owner-reference 1、个人资料 2                 | R2B/C；用户角色/primary 与 secondary membership、既有凭据保持、停用会话联动  |
 | RUST-R2E | [#72](https://github.com/illusion-tech/poms/issues/72) | 6       | 字典 3、系统设置 3；另含无 HTTP 的业务编号机制        | R1/R2A；字典版本/唯一性、设置类型/审计；编号调用随 R3/R4 接入                |
 | RUST-R2F | [#73](https://github.com/illusion-tech/poms/issues/73) | 4       | audit/security 读取与路由拒绝事件                     | R1/R2A；目标类型授权/脱敏、查询默认值、202 写事件与请求上下文                |
 | RUST-R2G | [#74](https://github.com/illusion-tech/poms/issues/74) | 16      | identity-provider 12 + 外部登录 4                     | R2D/E/F；原 Feishu adapter、OAuth state/grant/ticket、密文、会话、单次消费   |
@@ -258,3 +258,13 @@ R2C #70按[组织基线](archive/slices/rust-r2c-org-units-baseline.md)于2026-1
 ### 2026-10-28 RUST-R2C G4收口
 
 R2C实现`319d5d89977704b9924fc7a401957d46f5d42668`已合入main并推送，集成后24项适配器0skip、导航/角色/组织来源与排序/OpenAPI共7步通过，152份来源前后与验收版本一致。八操作实际双端HTTP各354/并发各6、四组合基础认证52与原页面12、另行PG7通过；C独立G3未关闭P1/P2为0，52run最终连续两次清理0/0。旧失败、有限Unicode、UI许可提示与schema检查失败分类见[归档收口](archive/slices/rust-r2c-closeout.md)、[纠偏](archive/slices/rust-r2c-corrective-checkpoint.md)及[机器验收](rust-r2c-validation.json)。G4随本归档提交推送及Issue同步生效；仅#70完成，父#67/#57保持Open，D–M Todo，#61不变。R2A/B/C累计交付19个R2操作，剩余89操作与R2M阶段验收未交付，PG17与旧环境/数据保留。上方历史G1/G3和R2A/B段落保留当时状态，以本条为当前进度。
+
+
+### 2026-10-28 RUST-R2D G1冻结
+
+R2D #71按[用户/profile基线](rust-r2d-users-profile-baseline.md)于2026-10-27T20:56:23.041Z冻结，来源HEAD `a22cba7360346242cb7709740b7eb954b92d1fd4`；A/B与C同一候选复核Pass，未关闭P1/P2为0，[G1评论](https://github.com/illusion-tech/poms/issues/71#issuecomment-6453366467)。范围为11个现有操作，进入Doing；先见证Nest原UUID/快照/分段SQL再实现对应持久化，PG/HTTP/并发/四组合UI与G3/G4均待完成。原create不写credential，不新增密码API或批量session revoke。仅新受控PG15，PG17及旧环境数据保留。R2已交付19/108，尚余89操作与阶段验收；父#67/#57保持Open，E–M Todo，#61不变。此条更新上方历史R2D Todo描述。
+
+
+### 2026-10-28 RUST-R2D G3通过
+
+R2D既有11操作完成实现与实际验收，[非作者G3 Pass](https://github.com/illusion-tech/poms/issues/71#issuecomment-6457908041)、未关闭P1/P2为0。final05双端各566顺序HTTP、16受控并发及4独立URI补例严格比较通过；PG11、四组合页面12与基础认证52、Rust125普通测试及工具184通过，默认50 ignored单列。81登记run最终各连续两次0/0，两个未初始化失败run按独立只读证明列N/A。受审原件及1747来源union由[机器验收](rust-r2d-validation.json)绑定，[收口记录](rust-r2d-closeout.md)保留schema失败分类、历史失败和有限URI/P3边界。尚待提交集成检查及G4；仅#71为本片范围，父#67/#57仍Open，PG17保留。
