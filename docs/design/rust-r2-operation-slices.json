@@ -357,10 +357,11 @@
         "ApprovalSummaryService；R3/R4/R5 注册业务处理器与真实跨域事务",
         "ConfirmationService 公共确认引擎：confirmation_record / confirmation_participant / todo 事务、参与人确认与进度查询；真实域发起和消费随 R3/R4/R5 验证，不新增公共 API"
       ],
-      "activeSubSlices": [
+      "activeSubSlices": [],
+      "g1Boundary": "Only L1 #81 completed G4; four public routes, real domain handlers and full Todo enrichment remain unregistered/undelivered. Whole L G1 is still Todo.",
+      "completedSubSlices": [
         81
-      ],
-      "g1Boundary": "Only L1 #81 frozen; four public routes and domain handlers not frozen/delivered"
+      ]
     },
     {
       "taskId": "RUST-R2M",
@@ -15907,17 +15908,21 @@
       81,
       82
     ],
-    "status": "Doing",
+    "status": "Done",
     "g1": "Pass",
     "g3": "Pass",
-    "g4": "Pending",
+    "g4": "Pass",
     "baseline": "docs/design/rust-r2l1-k-route-baseline.md",
     "g1Review": "docs/design/rust-r2l1-g1-review01.json",
     "newDeliveredPublicOperations": 0,
     "currentR2Delivered": 99,
     "g3Review": "docs/design/rust-r2l1-g3-review01.json",
     "validation": "docs/design/rust-r2l1-validation.json",
-    "preservation": "docs/design/rust-r2l1-preservation.json"
+    "preservation": "docs/design/rust-r2l1-preservation.json",
+    "g4ClosedAt": "2026-10-29T08:27:12.233Z",
+    "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+    "integrationReview": "docs/design/rust-r2l1-integration-review01.json",
+    "closeout": "docs/design/rust-r2l1-g4-closeout.json"
   },
   "currentDeliverySummary": {
     "deliveredOperations": 99,
@@ -15935,8 +15940,15 @@
       "RUST-R2I",
       "RUST-R2J"
     ],
-    "parentState": "Doing/Open; K5/L4 and #61 dependencies remain; R2M acceptance not complete",
-    "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved"
+    "parentState": "Doing/Open；K5/L4业务操作和R2M验收未完成；#61仅K5参数子片完成，其他四项差异保留",
+    "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved",
+    "completedMechanismSubSlices": [
+      81
+    ],
+    "completedRouteParameterSubSlices": [
+      82
+    ],
+    "latestSubSliceImplementation": "894fc72c2a90f0c93988ad23bcfe87157bdc322d"
   },
   "executionBatchHistory": [
     {
@@ -16007,7 +16019,7 @@
       "taskId": "RUST-R2L1",
       "issue": 81,
       "parentIssue": 79,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 0,
       "scope": "Real Summary/Confirmation/Todo internal engines and mandatory same-transaction approval callback seam; no four L routes or domain handler delivery",
@@ -16023,13 +16035,17 @@
       "g3Comment": "https://github.com/illusion-tech/poms/issues/81#issuecomment-6491184697",
       "validation": "docs/design/rust-r2l1-validation.json",
       "preservation": "docs/design/rust-r2l1-preservation.json",
-      "g4": "Pending"
+      "g4": "Pass",
+      "g4ClosedAt": "2026-10-29T08:26:59Z",
+      "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+      "g4Comment": "https://github.com/illusion-tech/poms/issues/81#issuecomment-6491753348",
+      "closeout": "docs/design/rust-r2l1-g4-closeout.json"
     },
     {
       "taskId": "RUST-ROUTE-K",
       "issue": 82,
       "parentIssue": 61,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 0,
       "scope": "Five K path parameter decisions plus controller/spec/client/consumer synchronization; no K Rust business delivery",
@@ -16045,7 +16061,24 @@
       "g3Comment": "https://github.com/illusion-tech/poms/issues/82#issuecomment-6491187986",
       "validation": "docs/design/rust-r2l1-validation.json",
       "preservation": "docs/design/rust-r2l1-preservation.json",
-      "g4": "Pending"
+      "g4": "Pass",
+      "g4ClosedAt": "2026-10-29T08:27:15Z",
+      "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+      "g4Comment": "https://github.com/illusion-tech/poms/issues/82#issuecomment-6491758087",
+      "closeout": "docs/design/rust-r2l1-g4-closeout.json"
+    }
+  ],
+  "routeDecisionCloseouts": [
+    {
+      "issue": 82,
+      "parentIssue": 61,
+      "status": "Done",
+      "parameterOperations": 5,
+      "canonicalParameter": "id",
+      "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+      "permanentSourceInput": "687827d45da2047028f625a600fe207876d40d6f",
+      "newDeliveredPublicOperations": 0,
+      "otherFourRouteDifferencesRemainOpen": true
     }
   ]
 }

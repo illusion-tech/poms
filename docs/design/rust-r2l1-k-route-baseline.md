@@ -1,6 +1,6 @@
 # RUST-R2L1＋ROUTE-K 公共引擎与五项参数裁决实施基线
 
-- Gate Status：G1 Pass（2026-10-29T03:54:55.713Z）；同次非作者审查未关闭P0–P3为0，正式审查原件[review01](rust-r2l1-g1-review01.json)。受审原文已保全；以下仅Gate元数据更新，不改冻结范围，G3/G4尚未完成。
+- Gate Status：本子片G4 Pass（2026-10-29T08:27:12.233Z）；独立G3、main集成、固定提交复核、归档与在线读回完成，最终记录见[closeout](rust-r2l1-g4-closeout.md)。原G1/G3输入及历史状态按原hash保全，冻结范围不变，父项不因此Done。
 - 用户授权：2026-10-29“开始，先推进 L 的公共机制子片，并行处理 #61 中 K 的五项路由参数裁决”。沿用已授权的隔离 worktree、集中真实验证、独立审查和 solo 提交/推送/main 集成流程。
 - 子片：[L1 #81](https://github.com/illusion-tech/poms/issues/81)，父 #79；[ROUTE-K #82](https://github.com/illusion-tech/poms/issues/82)，父 #61。父 #79/#61/#67/#57 不因本批自动完成。
 - 来源 main：`20335a189ce1197ccd4211bdfbb314954421729e`；独立工作树复用 `E:/projects/worktrees/poms-r2ef-foundation-audit/poms`，新分支 `codex/poms-r2l1-public-k-route`；primary `E:/projects/poms` 在集成前保持。

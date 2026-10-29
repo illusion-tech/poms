@@ -311,3 +311,7 @@ L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审�
 ### 2026-10-29 L1 与 K5 参数子片 G3通过
 
 #81/#82 的[独立联合G3](rust-r2l1-g3-review01.json)于2026-10-29T07:51:44.838Z通过，开放P0–P3为0；[冻结验收](rust-r2l1-validation.json)与[归档锚点](rust-r2l1-preservation.json)保留原件，提交集成/G4尚待完成。真实双库41组、受控CAS/父状态/回调机制、Rust199通过/54历史ignored、共享1181tests及分类schema结果已分别核验。当前只完成内部机制与参数同步，本批0新增公共操作、R2仍99/108，父#79/#61与K/L剩余业务不因此Done。
+
+### 2026-10-29 L1 与 K5 参数子片 G4完成
+
+#81/#82已按[收口记录](rust-r2l1-g4-closeout.md)关闭，实现main 894fc72c2a90f0c93988ad23bcfe87157bdc322d 经独立固定提交复核，生命周期原件与小增量[路径/hash索引](rust-r2l1-g4-evidence.json)保全。L1内部公共机制与K5参数同步交付；L四公开路由、K五操作业务、真实域handler及R2M仍未完成。本批0新增公共操作，R2仍99/108；#61其他四项差异、父#79/#61/#78/#80/#67/#57保持Open。
