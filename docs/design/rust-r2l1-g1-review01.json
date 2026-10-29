@@ -1,0 +1,176 @@
+{
+    "formatVersion": 1,
+    "kind": "RUST-R2L1-ROUTE-K-joint-independent-G1-review",
+    "gate": "G1",
+    "result": "Pass",
+    "recordedAt": "2026-10-29T03:51:59.170Z",
+    "reviewer": {
+        "id": "C",
+        "nonAuthor": true,
+        "productFixtureRunnerCargoOrEnvironmentWrites": false
+    },
+    "sourceBaseline": "20335a189ce1197ccd4211bdfbb314954421729e",
+    "branch": "codex/poms-r2l1-public-k-route",
+    "issues": [
+        {
+            "child": 81,
+            "parent": 79
+        },
+        {
+            "child": 82,
+            "parent": 61
+        }
+    ],
+    "reviewedBaseline": {
+        "file": "docs/design/rust-r2l1-k-route-baseline.md",
+        "bytes": 12453,
+        "rawBytesSha256": "91eaf02a977626734056933d912d307f1c8f7ff060bebcc28fac2cef39dc9e41"
+    },
+    "reviewedInputs": [
+        {
+            "file": "docs/design/rust-r2l1/l-source-input.md",
+            "bytes": 28318,
+            "rawBytesSha256": "ade33a15774969673c06079ed18184fba86f86dcae777409b7b4acf5a5577ab0"
+        },
+        {
+            "file": "docs/design/rust-r2l1/l-sources.json",
+            "bytes": 48631,
+            "rawBytesSha256": "a3a4d3ac88dc67c18f104cc69eb856676143b874faf25f7464deb79c33bad795"
+        },
+        {
+            "file": "docs/design/rust-r2k-route/input.md",
+            "bytes": 16668,
+            "rawBytesSha256": "e54b7106975a398aa6365be1fb9dcf00b5964caec26a661e654ba73f3de44441"
+        },
+        {
+            "file": "docs/design/rust-r2k-route/route-proposal.json",
+            "bytes": 18872,
+            "rawBytesSha256": "4fec37aa479b56586f77d217535819beb768b1edc8565749b690b37b914ae4b2"
+        },
+        {
+            "file": "docs/design/rust-r2k-route/sources.json",
+            "bytes": 206892,
+            "rawBytesSha256": "d4873fa4f2427417d2ff7d2ae5607f0315660390302a320253def95bb9ba0715"
+        },
+        {
+            "file": "docs/design/rust-r2l1/g0-review-input.json",
+            "bytes": 37968,
+            "rawBytesSha256": "3e7678f746c14d8101f261e61b359c74280ca96c30b5b861f860b729a43183f2"
+        },
+        {
+            "file": "tmp/rust-r2l1/g0-online.json",
+            "bytes": 4212,
+            "rawBytesSha256": "f6ac3c8e06875535fa6a5ca9bb0bc1d8082756441040e364f4dcaaa6aa181040"
+        },
+        {
+            "file": "tmp/rust-r2l1/g0-online-delta01.json",
+            "bytes": 4173,
+            "rawBytesSha256": "cb303e30e1f4f3d1374d6246472fa51c2156860adc2f040108f251176c26e814"
+        },
+        {
+            "file": "tmp/rust-r2l1/environment-g0.json",
+            "bytes": 1510,
+            "rawBytesSha256": "ccaec6c568f287ef5b3e54a06af7186e2c33f5fdc6af3a3478f2c2a87a4b1fc0"
+        },
+        {
+            "file": "tmp/rust-r2l1/g1-input-format-delta.json",
+            "bytes": 869,
+            "rawBytesSha256": "172188f4ff5fa9f80a4c342a3c58a4d3ab3db78309b09252989cc39deaa907c6"
+        },
+        {
+            "file": "tmp/rust-r2l1/g1-input-aggregate-delta.json",
+            "bytes": 657,
+            "rawBytesSha256": "ba44b94bbd5c094c4093c98d197c5cec633a20fe2f75d483d5cdf0d76cf0414f"
+        }
+    ],
+    "findings": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 0,
+        "P3": 0,
+        "open": []
+    },
+    "sourceVerification": {
+        "LSourceRows": 95,
+        "LCurrentRawAndLfMatches": 91,
+        "LContextualG0MetadataDifferences": 4,
+        "KFocusedRows": 44,
+        "KCurrentRawAndLfMatches": 41,
+        "KContextualG0MetadataDifferences": 3,
+        "clientFilesRawAndLfMatched": 579,
+        "uniqueSourcePaths": 705,
+        "trackedFingerprintRowsComparedToBaseGit": 711,
+        "installedLockLinkedReferences": 7,
+        "LSourceSetDigest": "d1ddd2fdfd4f9577bb5f9785b8ca1b035aecda074021c34cc2c40bb02e0bd817",
+        "LAggregateFormula": "SHA256(UTF8(concatenate sources[] in existing array order: path+NUL+rawBytesSha256+NUL+lfSha256+LF))",
+        "clientTreeDigest": "6e9cc0b08050d5362d02171607bbb4d8bf99324e1f9ecffbaae0375197f64281",
+        "productChangesBeforeG1": 0,
+        "classification": "The differing contextual rows are Root-authorized G0 governance additions. Their frozen hashes still match base Git; they are not product drift or reasons to rewrite historical inputs.",
+        "governance": "Six tracked changes are documentation only. Original operation JSON fields, operations, slices, summaries, currentHead/history and99/108/rem9 deeply equal base; only subSlices81/82 are added asTodo/G1Pending.",
+        "online": "Fresh child bodies/state/comments/labels/projects/closingPR and native parent lists bind81→79 and82→61. Both children are OPEN with all five checklist items pending; original G0 receipt remains unchanged."
+    },
+    "acceptedScope": {
+        "L1": "Seven existing tables; complete Summary service/three repositories, Confirmation three commands/two progress queries and their real Todo lifecycle. Approval common state/mapping with supplied facts and mandatory same-transaction callback is an explicitly new internal extraction. No original registry exists, no production no-op/default-success handler, no HTTP wiring or false supported-domain fallback400.",
+        "transactions": "Summary standalone keeps two independent flushes; supersedesId does not automatically release the active unique key. Caller-owned Summary uses the caller connection. Confirmation/approval nested savepoints, managed parent state, failure continuation and flush/version behavior require named Native evidence before store finalization. Callback owns no transaction lifecycle and may not independently acquire/commit.",
+        "JSAndDDL": "Original interfaces add no Zod/HTTP restrictions. Raw UTF16/string equality, UUID hydration, nullish/truthy, Date/sort/version/default/constraint semantics follow source and actual Native calibration; no speculative lock/retry/uniformCAS/atomicity strengthening.",
+        "K5": "OptionA: exactly five canonical id parameters with controller decorator andParam, complete OpenAPI, generated five RequestParams, four actual named consumers and tests synchronized. Business DTO fields and positional store signatures remain; raw blob download URL stays unchanged. Noalias/newURL/operationId/permissions/schema semantics change.",
+        "KProof": "All five current operation payloads and their canonical digests checked against fullspec, five proposed slots unique and wire shapes equal, four actual generated-method call sites independently located.286 non-target operation canonical digest,585 components and other top-level digests independently recomputed.",
+        "counter": "This batch delivers0 public operations. R2 stays99/108, remainingK5/L4=9 plusR2M. Four L routes, Rust K business, real R3-R5 handlers and parent79/61/78/67/57 remain incomplete."
+    },
+    "generationInputCheckpoint": {
+        "accepted": true,
+        "scope": "Explicitly accept main baseline section4 as a restricted local source-input preservation sequence, not finalG3 or main release.",
+        "requirements": [
+            "After thisG1, focused K5 controller/Param and fullspec input changes must pass binding/URL and exact nonK elimination checks plus necessary lint; C must separately review the exact inputs/file set before S.",
+            "Root creates a real local feature checkpoint S only for those reviewed inputs. No main push or Issue completion; preserve S as a permanent reachable ancestor of the final integrated commit.",
+            "Preserve the old generation baseline bytes. Point the new baseline at S; change only authorized spec fingerprint/five path mappings.237paths/291operations/585schemas, operationIds, other five protected inputs, lockedJAR/config and three client metadata files remain protected.",
+            "Prove all six sourceHead working/index/untracked guards and normalized-LF fingerprints clean, then use the unchanged production CLI write/check. No runner bypass, hand-edited generated output or discarded input-anchor commit.",
+            "Complete all consumers/shared checks and independent finalG3 before main integration. Root owns closure before this batch main integration."
+        ],
+        "currentReadOnlyGuardCheck": "All six current protected inputs are clean to the original generator sourceHead and match the frozen fingerprints; no generation was executed."
+    },
+    "closedInputCorrections": [
+        {
+            "id": "G1-input01",
+            "status": "Closed",
+            "change": "L authorInput hash now binds actual post-tableformat MD ade33a15...; previous manifest bytes retained. Pre-format MD63ac was only a declaration; no claim its bytes were preserved."
+        },
+        {
+            "id": "G1-input02",
+            "status": "Closed",
+            "change": "L aggregate description now states existing array order; d1ddd2 digest independently reproduced. All95 source rows unchanged across both preserved pre-G1 manifests."
+        },
+        {
+            "id": "G1-input03",
+            "status": "Closed",
+            "change": "Additive fresh81/82 bodies and native parent readback supplied; original G0 receipt immutable."
+        }
+    ],
+    "requiredPostG1Evidence": [
+        "Root first witnesses original services/repositories with lockedMikroORM and freshPG: standalone Summary partial persistence, caller rollback/failure continuation, Confirmation nested/savepoint and managed parent state, actual flush/version/CAS behavior. Unknown outcomes are pending calibration, not predeclaredPass.",
+        "Real isolated dual-PG L1 service/probe rows/results/errors/versions/order/null/UTF16 and bounded concurrency. Callback owned control-row commit/failure/caller rollback evidence is separate from any domain parity claim.",
+        "K5 five actual controller bindings and generated URL/named-key proof, four consumers and applicable tests/typechecks; exact five-slot inverse mapping/fullspec comparison, unchanged other286operations/585schemas and complete original CLI generation/check/build. No fake successful handover/ZIP business acceptance.",
+        "Applicable Rust fmt/all-target tests/strictclippy/release, API/admin/library lint/test/build and schema/migration result with explicitdriftclassification. Missing targets areN/A with reasons; ignored and failed checks retain real status.",
+        "Fresh exact-owned intents/identities and complete source-authority schema/reference preflight; reject unknownFK/UUID/text/JSON references before deletion, preserve unowned seeded definitions, consecutive doublecleanup0/0. Preserve raw source/binary/evidence, normal owner/PG shutdown and primary archive verification.",
+        "Final independentG3, commit/integration integrity andG4 archive/online readback. OldIJ/R0 evidence, old environments andPG17 remain untouched."
+    ],
+    "environmentBoundary": {
+        "artifact": {
+            "file": "tmp/rust-r2l1/environment-g0.json",
+            "bytes": 1510,
+            "rawBytesSha256": "ccaec6c568f287ef5b3e54a06af7186e2c33f5fdc6af3a3478f2c2a87a4b1fc0"
+        },
+        "status": "Read-only G0 observed inventory and proposed isolation; not service/PG acceptance.",
+        "proposed": "Fresh L1 checkout/private root, newPG15 container/volume/secrets/marker and dual databases,17432→15432, optional7700/7701/7800. FixedPG/build images andNode24.19 path/hash bound by input. Recheck ownership/admission before actual creation; no old environment reuse or installation authorized by this review."
+    },
+    "notClaimed": {
+        "compileOrTests": false,
+        "DBOrHTTPOrBrowserAcceptance": false,
+        "environmentMutation": false,
+        "generationExecuted": false,
+        "inputCheckpointCreated": false,
+        "G3": false,
+        "G4": false
+    },
+    "nextBoundary": "G1 permits Root to freeze the actual reviewed baseline and update81/82 toDoing. Preserve the91eaf02a... reviewed baseline bytes if only Gate metadata is updated. The later short S-input review remains mandatory; thisG1 does not preapprove unknown code. Only81/82 may finish after their completeG4, while parent scope and99/108 remain unchanged."
+}

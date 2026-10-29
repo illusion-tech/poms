@@ -1,3 +1,4 @@
+pub mod approval_common;
 pub mod attachment_storage;
 pub mod attachments;
 pub mod auth;

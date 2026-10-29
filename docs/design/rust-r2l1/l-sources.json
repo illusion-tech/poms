@@ -1,0 +1,929 @@
+{
+  "schemaVersion": 1,
+  "taskId": "RUST-R2L1",
+  "issue": 81,
+  "parentIssue": 79,
+  "gate": "G1 Pending",
+  "sourceHead": "20335a189ce1197ccd4211bdfbb314954421729e",
+  "branch": "codex/poms-r2l1-public-k-route",
+  "capturedAt": "2026-10-29T03:28:20.2817993Z",
+  "author": "I",
+  "runtimeExecuted": false,
+  "publicOperationsDelivered": 0,
+  "currentR2DeliveredOperations": 99,
+  "currentR2TotalOperations": 108,
+  "sourceAuthority": "Original checked-in TS, contracts and migrations at sourceHead; installed lock-linked ORM source is a separate reference; contextual governance may change under Root authority.",
+  "hashAlgorithm": {
+    "raw": "SHA-256 over original bytes",
+    "lf": "SHA-256 over UTF-8 decoded bytes after CRLF to LF replacement only; BOM and all other characters preserved",
+    "aggregate": "SHA-256 over UTF-8 concatenation in existing sources array order: path + NUL + rawBytesSha256 + NUL + lfSha256 + LF",
+    "sourceSetSha256": "d1ddd2fdfd4f9577bb5f9785b8ca1b035aecda074021c34cc2c40bb02e0bd817"
+  },
+  "authorInput": {
+    "path": "docs/design/rust-r2l1/l-source-input.md",
+    "rawBytesSha256": "ade33a15774969673c06079ed18184fba86f86dcae777409b7b4acf5a5577ab0"
+  },
+  "tables": [
+    "poms.approval_record",
+    "poms.todo_item",
+    "poms.confirmation_record",
+    "poms.confirmation_participant",
+    "poms.approval_summary_package_definition",
+    "poms.approval_summary_snapshot",
+    "poms.approval_summary_field_projection"
+  ],
+  "deferredPublicOperations": [
+    {
+      "method": "GET",
+      "path": "/api/approval-records/{id}",
+      "operationId": "ApprovalController_getApprovalRecord"
+    },
+    {
+      "method": "POST",
+      "path": "/api/approval-records/{id}:approve",
+      "operationId": "ApprovalController_approveRecord"
+    },
+    {
+      "method": "POST",
+      "path": "/api/approval-records/{id}:reject",
+      "operationId": "ApprovalController_rejectRecord"
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/todos",
+      "operationId": "ApprovalController_getMyTodos"
+    }
+  ],
+  "originalRegistration": {
+    "appModule": "apps/poms-api/src/app/app.module.ts:57-58",
+    "approvalModule": "apps/poms-api/src/app/features/approval/approval.module.ts:26-50",
+    "summaryModule": "apps/poms-api/src/app/features/approval-summary/approval-summary.module.ts:12-23",
+    "handlerRegistryExists": false,
+    "directDomainBranches": "apps/poms-api/src/app/features/approval/approval.service.ts:511-650"
+  },
+  "mandatoryNativeWitness": [
+    "Summary standalone first snapshot commit and second projection flush failure",
+    "Summary caller-owned transaction rollback and failure continuation",
+    "Confirmation standalone and default nested transaction/savepoint behavior with parent managed state",
+    "Actual single/batched version SQL, returned versions and one same-version race",
+    "Original unsupported approval combination rollback and public validation order"
+  ],
+  "sourceCount": 95,
+  "sources": [
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.entity.ts",
+      "role": "original-product-authority",
+      "rawBytes": 7976,
+      "rawBytesSha256": "12153557a98534d9fc2910e47b169607ac97df2f5369dbefbb4837ce77a41c39",
+      "lfBytes": 7976,
+      "lfSha256": "12153557a98534d9fc2910e47b169607ac97df2f5369dbefbb4837ce77a41c39",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api-rust/src/runtime_audit/mod.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 358,
+      "rawBytesSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102",
+      "lfBytes": 358,
+      "lfSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/audit.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 4747,
+      "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+      "lfBytes": 4747,
+      "lfSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/model.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "lfBytes": 10433,
+      "lfSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/js_json.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 6503,
+      "rawBytesSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "lfBytes": 6503,
+      "lfSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/error.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 2564,
+      "rawBytesSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "lfBytes": 2564,
+      "lfSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/database.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 11644,
+      "rawBytesSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+      "lfBytes": 11644,
+      "lfSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/http.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 20866,
+      "rawBytesSha256": "cab399eed7f73a1c0db9b1cd6d31a30492ab12bec11a6259daa453e77f4a4727",
+      "lfBytes": 20866,
+      "lfSha256": "cab399eed7f73a1c0db9b1cd6d31a30492ab12bec11a6259daa453e77f4a4727",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/src/lib.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 484,
+      "rawBytesSha256": "06c23edce427af0c72446b39537dde7ba9ebec896c69cd40d7bd92c28cbc2ccc",
+      "lfBytes": 484,
+      "lfSha256": "06c23edce427af0c72446b39537dde7ba9ebec896c69cd40d7bd92c28cbc2ccc",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "role": "original-foundation-authority",
+      "rawBytes": 4036,
+      "rawBytesSha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306",
+      "lfBytes": 4036,
+      "lfSha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306",
+      "notes": "Source only; no deployment env, old database or real credentials accessed."
+    },
+    {
+      "path": "apps/poms-api-rust/src/compat/mod.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 52,
+      "rawBytesSha256": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+      "lfBytes": 52,
+      "lfSha256": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "role": "original-foundation-authority",
+      "rawBytes": 4389,
+      "rawBytesSha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+      "lfBytes": 4389,
+      "lfSha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+      "notes": "Source only; no deployment env, old database or real credentials accessed."
+    },
+    {
+      "path": "apps/poms-api/src/seeders/database.seeder.ts",
+      "role": "original-foundation-authority",
+      "rawBytes": 80434,
+      "rawBytesSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+      "lfBytes": 80434,
+      "lfSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+      "notes": "Source only; no deployment env, old database or real credentials accessed."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "role": "original-foundation-authority",
+      "rawBytes": 2360,
+      "rawBytesSha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c",
+      "lfBytes": 2360,
+      "lfSha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c",
+      "notes": "Source only; no deployment env, old database or real credentials accessed."
+    },
+    {
+      "path": "apps/poms-api/src/mikro-orm.config.ts",
+      "role": "original-foundation-authority",
+      "rawBytes": 240,
+      "rawBytesSha256": "8d4095a226daad0109ab2f2c5e4aca878743c7631a6aa9d2c3d18f22a15e6ed6",
+      "lfBytes": 240,
+      "lfSha256": "8d4095a226daad0109ab2f2c5e4aca878743c7631a6aa9d2c3d18f22a15e6ed6",
+      "notes": "Source only; no deployment env, old database or real credentials accessed."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 12884,
+      "rawBytesSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3",
+      "lfBytes": 12884,
+      "lfSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260423130000_ex23_acceptance_record.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 3536,
+      "rawBytesSha256": "642d6bb2d045f3b7b9f6d4179b9f0c23dea8cc8345e283e469ff73b687efb219",
+      "lfBytes": 3536,
+      "lfSha256": "642d6bb2d045f3b7b9f6d4179b9f0c23dea8cc8345e283e469ff73b687efb219",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 23948,
+      "rawBytesSha256": "4bc97bbcc54f66fcd9aa63eb64010b1c350f986667e9aabf3acdd89452e985b7",
+      "lfBytes": 23948,
+      "lfSha256": "4bc97bbcc54f66fcd9aa63eb64010b1c350f986667e9aabf3acdd89452e985b7",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418183000_ex13b1_gate_review_summary_anchor.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 3247,
+      "rawBytesSha256": "1552dbdc6b31dc93dc3272417fca92f9d2b0d25e180fc76ba22c04f1f9b98b46",
+      "lfBytes": 3247,
+      "lfSha256": "1552dbdc6b31dc93dc3272417fca92f9d2b0d25e180fc76ba22c04f1f9b98b46",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416143000_ex09d_commission_freeze_dispute_chain.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 7516,
+      "rawBytesSha256": "18ff243ed7c9dcecf2c557fb76a91b66ef20253bc2ee4be995c52da0aacc0604",
+      "lfBytes": 7516,
+      "lfSha256": "18ff243ed7c9dcecf2c557fb76a91b66ef20253bc2ee4be995c52da0aacc0604",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416130000_ex09a_commission_freeze_chain.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 3914,
+      "rawBytesSha256": "12c0ba0ef8fc9e1c8a9a15868d832aedaa0b54756dc8252deeef44c20a157e70",
+      "lfBytes": 3914,
+      "lfSha256": "12c0ba0ef8fc9e1c8a9a15868d832aedaa0b54756dc8252deeef44c20a157e70",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "role": "original-foundation-authority",
+      "rawBytes": 3613,
+      "rawBytesSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+      "lfBytes": 3613,
+      "lfSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+      "notes": "Source only; no deployment env, old database or real credentials accessed."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 10335,
+      "rawBytesSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf",
+      "lfBytes": 10335,
+      "lfSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api-rust/src/compat/scalars.rs",
+      "role": "existing-rust-foundation",
+      "rawBytes": 18815,
+      "rawBytesSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+      "lfBytes": 18815,
+      "lfSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "apps/poms-api-rust/Cargo.lock",
+      "role": "existing-rust-foundation",
+      "rawBytes": 77585,
+      "rawBytesSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d",
+      "lfBytes": 77585,
+      "lfSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": "docs/design/workflow-and-approval-design.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 18528,
+      "rawBytesSha256": "25e6ca31b6c2984ea876aa0deeeff708a49c42adf655d54417208e7fd8134ff5",
+      "lfBytes": 18528,
+      "lfSha256": "25e6ca31b6c2984ea876aa0deeeff708a49c42adf655d54417208e7fd8134ff5",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 168452,
+      "rawBytesSha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
+      "lfBytes": 168452,
+      "lfSha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/design/rust-migration-execution-tracker.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 28096,
+      "rawBytesSha256": "e7eee8e0bbb3f3a42948d16d60e0d3ac4a89890cd715b99c8b099c6f159247b1",
+      "lfBytes": 28096,
+      "lfSha256": "e7eee8e0bbb3f3a42948d16d60e0d3ac4a89890cd715b99c8b099c6f159247b1",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/design/rust-r2-operation-slices.json",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 505998,
+      "rawBytesSha256": "6a1d246563423aa65840e806b7e7d4a4f2a4ddd1e03b7e2676f7b6422e69afac",
+      "lfBytes": 505998,
+      "lfSha256": "6a1d246563423aa65840e806b7e7d4a4f2a4ddd1e03b7e2676f7b6422e69afac",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/design/rust-r2-scope-and-dependencies.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 55727,
+      "rawBytesSha256": "ffbb46f4dc64dc4cef09f1d7b40e7e29d6cc7189edc1cbc5db0cc5b4e4fd1b84",
+      "lfBytes": 55727,
+      "lfSha256": "ffbb46f4dc64dc4cef09f1d7b40e7e29d6cc7189edc1cbc5db0cc5b4e4fd1b84",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 45000,
+      "rawBytesSha256": "bb70322bcd42c071ca044f73c8a07180dc71e393a6d297316b048f260fb59488",
+      "lfBytes": 45000,
+      "lfSha256": "bb70322bcd42c071ca044f73c8a07180dc71e393a6d297316b048f260fb59488",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/reference/implementation-baseline-package-template.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 7845,
+      "rawBytesSha256": "ef865b6c010c4d25a74f2d89bc296c4a62435ca3e63fd0e8babc1af0a400690c",
+      "lfBytes": 7845,
+      "lfSha256": "ef865b6c010c4d25a74f2d89bc296c4a62435ca3e63fd0e8babc1af0a400690c",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "lfBytes": 3561,
+      "lfSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 9479,
+      "rawBytesSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "lfBytes": 9479,
+      "lfSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "apps/poms-api-rust/Cargo.toml",
+      "role": "existing-rust-foundation",
+      "rawBytes": 3152,
+      "rawBytesSha256": "9f59fd107bbf7a7f24cd0b15fe4215329ab69d29b77bfb23f8d31692086a2d3f",
+      "lfBytes": 3152,
+      "lfSha256": "9f59fd107bbf7a7f24cd0b15fe4215329ab69d29b77bfb23f8d31692086a2d3f",
+      "notes": "Root owns shared wiring and dependencies; no product edits before joint G1 Pass."
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "lfBytes": 10211,
+      "lfSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "node_modules/@mikro-orm/postgresql/package.json",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 1601,
+      "rawBytesSha256": "fd91899f0f1303ccf1e11221716ce47cad2ad5f278bb8bfa4d4a6be940b2c745",
+      "lfBytes": 1601,
+      "lfSha256": "fd91899f0f1303ccf1e11221716ce47cad2ad5f278bb8bfa4d4a6be940b2c745",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/entity/EntityFactory.js",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 20784,
+      "rawBytesSha256": "73d87b22e79da6140c1108e75934b0d7338853990f8c41b8bb1bcd57a1999fbb",
+      "lfBytes": 20784,
+      "lfSha256": "73d87b22e79da6140c1108e75934b0d7338853990f8c41b8bb1bcd57a1999fbb",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/unit-of-work/ChangeSetPersister.js",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 20042,
+      "rawBytesSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3",
+      "lfBytes": 20042,
+      "lfSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/unit-of-work/UnitOfWork.js",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 47827,
+      "rawBytesSha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6",
+      "lfBytes": 47827,
+      "lfSha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/utils/TransactionManager.js",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 8259,
+      "rawBytesSha256": "86730a73e8d8dc96b248fec5449e2527e81f7a998f66e773eb1e34ef1fbf441d",
+      "lfBytes": 8259,
+      "lfSha256": "86730a73e8d8dc96b248fec5449e2527e81f7a998f66e773eb1e34ef1fbf441d",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/EntityManager.js",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 77229,
+      "rawBytesSha256": "fd8ad48ef0199104f28246c72f836d64127c31391bdcac9f992a5465982a299e",
+      "lfBytes": 77229,
+      "lfSha256": "fd8ad48ef0199104f28246c72f836d64127c31391bdcac9f992a5465982a299e",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/package.json",
+      "role": "installed-lock-linked-reference",
+      "rawBytes": 1814,
+      "rawBytesSha256": "504ba0239af796c71407eec88c65915046ac2bd3deed870ff97ef014c21f215c",
+      "lfBytes": 1814,
+      "lfSha256": "504ba0239af796c71407eec88c65915046ac2bd3deed870ff97ef014c21f215c",
+      "notes": "Local source reference, MikroORM 7.0.11; no Node service or PG runtime claim."
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "role": "locked-original-dependency-authority",
+      "rawBytes": 837627,
+      "rawBytesSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "lfBytes": 837627,
+      "lfSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "notes": "Repository declaration/lock authoritative; installed versions separately hashed references."
+    },
+    {
+      "path": "package.json",
+      "role": "locked-original-dependency-authority",
+      "rawBytes": 4286,
+      "rawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "lfBytes": 4286,
+      "lfSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "notes": "Repository declaration/lock authoritative; installed versions separately hashed references."
+    },
+    {
+      "path": "CLAUDE.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 13794,
+      "rawBytesSha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf",
+      "lfBytes": 13794,
+      "lfSha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "docs/design/interface-command-design.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 57062,
+      "rawBytesSha256": "cac2071b3340d6901da6bc60ac8245d9f412147f6ddf3af86c0e25c9173f8858",
+      "lfBytes": 57062,
+      "lfSha256": "cac2071b3340d6901da6bc60ac8245d9f412147f6ddf3af86c0e25c9173f8858",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415090000_ex08a1_project_handover_core.ts",
+      "role": "existing-schema-reference-protection",
+      "rawBytes": 14726,
+      "rawBytesSha256": "ab9378f7df4659ba3d0b72bf1e96a3cd8f3c441031276b14053b726f5a68afa7",
+      "lfBytes": 14726,
+      "lfSha256": "ab9378f7df4659ba3d0b72bf1e96a3cd8f3c441031276b14053b726f5a68afa7",
+      "notes": "References common tables from deferred domains; preserve during historical migration/catalog verification."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501120000_ex56b_todo_approval_enum_checks.ts",
+      "role": "direct-existing-schema-authority",
+      "rawBytes": 5173,
+      "rawBytesSha256": "33365fac6d29c8f911a0b73fa224840ad31a8add7ad01d4d6ca0d79543a707ff",
+      "lfBytes": 5173,
+      "lfSha256": "33365fac6d29c8f911a0b73fa224840ad31a8add7ad01d4d6ca0d79543a707ff",
+      "notes": "Existing DDL and enum cutover; no product migration planned."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.module.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 2724,
+      "rawBytesSha256": "7727480e96f35298eb1cfaa18854cd371c348ed1796f38adea7622b86e7e694e",
+      "lfBytes": 2724,
+      "lfSha256": "7727480e96f35298eb1cfaa18854cd371c348ed1796f38adea7622b86e7e694e",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission.module.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 3494,
+      "rawBytesSha256": "e014a46dcc5a868bbd0075d830fac45811a7ed0beecdaaa5ade332dde56f0ddd",
+      "lfBytes": 3494,
+      "lfSha256": "e014a46dcc5a868bbd0075d830fac45811a7ed0beecdaaa5ade332dde56f0ddd",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.module.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 1442,
+      "rawBytesSha256": "5a04b1fcd610e9b8cae2f04dcee3149e08067c62da0adfe5d62eca909fb9a210",
+      "lfBytes": 1442,
+      "lfSha256": "5a04b1fcd610e9b8cae2f04dcee3149e08067c62da0adfe5d62eca909fb9a210",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/app.module.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 3560,
+      "rawBytesSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "lfBytes": 3560,
+      "lfSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "role": "existing-contract-authority",
+      "rawBytes": 1129475,
+      "rawBytesSha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+      "lfBytes": 1129475,
+      "lfSha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+      "notes": "L1 changes zero HTTP operations and does not alter original DTO, schema or generated client."
+    },
+    {
+      "path": "libs/api/contracts/src/lib/approval/approval.dto.ts",
+      "role": "existing-contract-authority",
+      "rawBytes": 922,
+      "rawBytesSha256": "335cdaeb3b547cd06edc39d9cf92be935b5aa939121c149633cd5a759231fb14",
+      "lfBytes": 922,
+      "lfSha256": "335cdaeb3b547cd06edc39d9cf92be935b5aa939121c149633cd5a759231fb14",
+      "notes": "L1 changes zero HTTP operations and does not alter original DTO, schema or generated client."
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "role": "existing-contract-authority",
+      "rawBytes": 435382,
+      "rawBytesSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+      "lfBytes": 435382,
+      "lfSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+      "notes": "L1 changes zero HTTP operations and does not alter original DTO, schema or generated client."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/todo-item.entity.ts",
+      "role": "original-product-authority",
+      "rawBytes": 3816,
+      "rawBytesSha256": "74e9796a6c21333118eb4be277fa5ec40d087acbddc6c55f4ab6da580bdbc66c",
+      "lfBytes": 3816,
+      "lfSha256": "74e9796a6c21333118eb4be277fa5ec40d087acbddc6c55f4ab6da580bdbc66c",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/confirmation.service.ts",
+      "role": "original-product-authority",
+      "rawBytes": 16313,
+      "rawBytesSha256": "d7d9cb63e591e5a8b47051ac6ab7b491fad5cb5580c6a76a8d929fe7d163eefc",
+      "lfBytes": 16313,
+      "lfSha256": "d7d9cb63e591e5a8b47051ac6ab7b491fad5cb5580c6a76a8d929fe7d163eefc",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/project-cost.module.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 5412,
+      "rawBytesSha256": "317c6ce9e76cf49c585069de06bee4ceaf490595ca44b580b581023a57bceb57",
+      "lfBytes": 5412,
+      "lfSha256": "317c6ce9e76cf49c585069de06bee4ceaf490595ca44b580b581023a57bceb57",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/confirmation.service.spec.ts",
+      "role": "existing-mocked-test-guidance",
+      "rawBytes": 9555,
+      "rawBytesSha256": "96ea0232e18fc7d38c406629faa91795462a7a53c155ef94180a86f979d902f2",
+      "lfBytes": 9555,
+      "lfSha256": "96ea0232e18fc7d38c406629faa91795462a7a53c155ef94180a86f979d902f2",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "role": "original-product-authority",
+      "rawBytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+      "lfBytes": 60841,
+      "lfSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval.service.spec.ts",
+      "role": "existing-mocked-test-guidance",
+      "rawBytes": 52264,
+      "rawBytesSha256": "fb96522d59e9aceee620301448f5dd57f048dcdad667c1ddb7337966e0f4a1a1",
+      "lfBytes": 52264,
+      "lfSha256": "fb96522d59e9aceee620301448f5dd57f048dcdad667c1ddb7337966e0f4a1a1",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval.module.ts",
+      "role": "original-product-authority",
+      "rawBytes": 2578,
+      "rawBytesSha256": "1cae2a16e82f8a17871abdae4f03c4d8bf284133c622f7ab791f5b42dd47b958",
+      "lfBytes": 2578,
+      "lfSha256": "1cae2a16e82f8a17871abdae4f03c4d8bf284133c622f7ab791f5b42dd47b958",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval.controller.ts",
+      "role": "original-product-authority",
+      "rawBytes": 2574,
+      "rawBytesSha256": "31d5880ea043c567d21852e91bd180e05bfd35a93806b4cafa958d4a93575a17",
+      "lfBytes": 2574,
+      "lfSha256": "31d5880ea043c567d21852e91bd180e05bfd35a93806b4cafa958d4a93575a17",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval.controller.spec.ts",
+      "role": "existing-mocked-test-guidance",
+      "rawBytes": 3160,
+      "rawBytesSha256": "808caebfdaf8b30fdc85b69cad969b286738924457328a88379c3e4dba2a21d8",
+      "lfBytes": 3160,
+      "lfSha256": "808caebfdaf8b30fdc85b69cad969b286738924457328a88379c3e4dba2a21d8",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval-record.entity.ts",
+      "role": "original-product-authority",
+      "rawBytes": 3554,
+      "rawBytesSha256": "f9e573fca9eae17f2921899312466d64a3da81f5fd7f043ffebff543e82239c5",
+      "lfBytes": 3554,
+      "lfSha256": "f9e573fca9eae17f2921899312466d64a3da81f5fd7f043ffebff543e82239c5",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.service.ts",
+      "role": "original-product-authority",
+      "rawBytes": 3782,
+      "rawBytesSha256": "bb5445de83a8a8bee682d2272f2933a2b6da85fd546276c633b67846e9c6d696",
+      "lfBytes": 3782,
+      "lfSha256": "bb5445de83a8a8bee682d2272f2933a2b6da85fd546276c633b67846e9c6d696",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.repository.ts",
+      "role": "original-product-authority",
+      "rawBytes": 3524,
+      "rawBytesSha256": "70ad012fa88f9dcb46584885e35044cd77db2e33411c127853f857219590f1de",
+      "lfBytes": 3524,
+      "lfSha256": "70ad012fa88f9dcb46584885e35044cd77db2e33411c127853f857219590f1de",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.module.ts",
+      "role": "original-product-authority",
+      "rawBytes": 1062,
+      "rawBytesSha256": "65f4de69d8e78ea79cbf87c6be491cf614fc269fc685ff363f4dec68eecdca0b",
+      "lfBytes": 1062,
+      "lfSha256": "65f4de69d8e78ea79cbf87c6be491cf614fc269fc685ff363f4dec68eecdca0b",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/confirmation-record.entity.ts",
+      "role": "original-product-authority",
+      "rawBytes": 5825,
+      "rawBytesSha256": "d74dac5a0e34abdbe1a0c0af5f3e013b4058c60623a2802f326e6c649781f8e8",
+      "lfBytes": 5825,
+      "lfSha256": "d74dac5a0e34abdbe1a0c0af5f3e013b4058c60623a2802f326e6c649781f8e8",
+      "notes": "Seven-table common engines, registration and explicit domain seam; source is not a runtime witness."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts",
+      "role": "direct-existing-schema-authority",
+      "rawBytes": 39038,
+      "rawBytesSha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20",
+      "lfBytes": 39038,
+      "lfSha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20",
+      "notes": "Existing DDL and enum cutover; no product migration planned."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover.module.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 2088,
+      "rawBytesSha256": "d40c44dd75e6577a8d5b53479b5ab8763a703110043bd99efa51384ed1c25abd",
+      "lfBytes": 2088,
+      "lfSha256": "d40c44dd75e6577a8d5b53479b5ab8763a703110043bd99efa51384ed1c25abd",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-query.service.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 86242,
+      "rawBytesSha256": "f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d",
+      "lfBytes": 86242,
+      "lfSha256": "f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415110000_ex08a3_confirmation_record.ts",
+      "role": "direct-existing-schema-authority",
+      "rawBytes": 7040,
+      "rawBytesSha256": "cd30de58727826af7b41519f8bf3402c9a9d0cdc6b8aa76c0d6d6f2316a960e8",
+      "lfBytes": 7040,
+      "lfSha256": "cd30de58727826af7b41519f8bf3402c9a9d0cdc6b8aa76c0d6d6f2316a960e8",
+      "notes": "Existing DDL and enum cutover; no product migration planned."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415100000_ex08a2_approval_summary_snapshot.ts",
+      "role": "direct-existing-schema-authority",
+      "rawBytes": 13013,
+      "rawBytesSha256": "ec42a5074ff2e39d8defe3657513f4b3d30df21c38b8b454bb03533e40286a3d",
+      "lfBytes": 13013,
+      "lfSha256": "ec42a5074ff2e39d8defe3657513f4b3d30df21c38b8b454bb03533e40286a3d",
+      "notes": "Existing DDL and enum cutover; no product migration planned."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322235500_init_approval_and_todo.ts",
+      "role": "direct-existing-schema-authority",
+      "rawBytes": 3004,
+      "rawBytesSha256": "736d5a1fa69846219f809e77c737e7b2aa3f13bb66374bef4a18cc72a91e56fc",
+      "lfBytes": 3004,
+      "lfSha256": "736d5a1fa69846219f809e77c737e7b2aa3f13bb66374bef4a18cc72a91e56fc",
+      "notes": "Existing DDL and enum cutover; no product migration planned."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-gate-binding.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 6691,
+      "rawBytesSha256": "46df73dae2b9e08405dccdbe9bb13e21c946b83e993c387a6ba894c7be1f2c47",
+      "lfBytes": 6691,
+      "lfSha256": "46df73dae2b9e08405dccdbe9bb13e21c946b83e993c387a6ba894c7be1f2c47",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/commission-gate-review-record.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 3293,
+      "rawBytesSha256": "8aa44f6aafab3a9a9413387837e6c64d2b1c457504e8b4abc49634e20ec586d0",
+      "lfBytes": 3293,
+      "lfSha256": "8aa44f6aafab3a9a9413387837e6c64d2b1c457504e8b4abc49634e20ec586d0",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 4183,
+      "rawBytesSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "lfBytes": 4183,
+      "lfSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 6261,
+      "rawBytesSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef",
+      "lfBytes": 6261,
+      "lfSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 6042,
+      "rawBytesSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea",
+      "lfBytes": 6042,
+      "lfSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-finance/receipt-record.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 2235,
+      "rawBytesSha256": "fd0dc3b431826558d18eb85019ae5dd31c05d9220c6830176b9f04ac0fa2fcd5",
+      "lfBytes": 2235,
+      "lfSha256": "fd0dc3b431826558d18eb85019ae5dd31c05d9220c6830176b9f04ac0fa2fcd5",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 28670,
+      "rawBytesSha256": "a36a8dce979e5b294015a6839e063927a11377492469f35878e21453d78edcf2",
+      "lfBytes": 28670,
+      "lfSha256": "a36a8dce979e5b294015a6839e063927a11377492469f35878e21453d78edcf2",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-freeze-dispute-record.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 5307,
+      "rawBytesSha256": "e95724f06f02527fb55ee4e649a803d2f7b50da8aa3c5d81e07457aebb8341cf",
+      "lfBytes": 5307,
+      "lfSha256": "e95724f06f02527fb55ee4e649a803d2f7b50da8aa3c5d81e07457aebb8341cf",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-rule-explanation-snapshot.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 6052,
+      "rawBytesSha256": "f054cb9789bf15120c13babcd77149b8830d753b593948d9fff2342cf015e13c",
+      "lfBytes": 6052,
+      "lfSha256": "f054cb9789bf15120c13babcd77149b8830d753b593948d9fff2342cf015e13c",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-final-settlement-snapshot.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 11025,
+      "rawBytesSha256": "02bc6553c80891668be4fd0622a0374978868140aff277552a684e7c839a0ff3",
+      "lfBytes": 11025,
+      "lfSha256": "02bc6553c80891668be4fd0622a0374978868140aff277552a684e7c839a0ff3",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-role-assignment.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 5772,
+      "rawBytesSha256": "67feb8bec6560d204dbe3ce3ebb71f5cae23eb3b7b74fab6dbe63c1647175832",
+      "lfBytes": 5772,
+      "lfSha256": "67feb8bec6560d204dbe3ce3ebb71f5cae23eb3b7b74fab6dbe63c1647175832",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-adjustment.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 3596,
+      "rawBytesSha256": "05f34d8ca6ee8cb33d922c844dd6711611dfc1b5f661adf4989cd1b9f9c7b175",
+      "lfBytes": 3596,
+      "lfSha256": "05f34d8ca6ee8cb33d922c844dd6711611dfc1b5f661adf4989cd1b9f9c7b175",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-payout.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 5051,
+      "rawBytesSha256": "b57beb92ed750ed070f185f983fcbca8a7ac4a7c8f03a3061cf518579c6f07f1",
+      "lfBytes": 5051,
+      "lfSha256": "b57beb92ed750ed070f185f983fcbca8a7ac4a7c8f03a3061cf518579c6f07f1",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 9907,
+      "rawBytesSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "lfBytes": 9907,
+      "lfSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission.controller.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 17602,
+      "rawBytesSha256": "88264a4fb5c6671806c1f7d251fd01b2729391ce099c902345ad76e1c2d1c36f",
+      "lfBytes": 17602,
+      "lfSha256": "88264a4fb5c6671806c1f7d251fd01b2729391ce099c902345ad76e1c2d1c36f",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 13462,
+      "rawBytesSha256": "64c73595aac3bb6fee5995b7d660d293ff28eff27474ce8d6f9ac1ff9a88beb2",
+      "lfBytes": 13462,
+      "lfSha256": "64c73595aac3bb6fee5995b7d660d293ff28eff27474ce8d6f9ac1ff9a88beb2",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+      "role": "registration-or-deferred-domain-consumer",
+      "rawBytes": 154399,
+      "rawBytesSha256": "0f927362f18c05add1bc4d2df0a48a2f5d850b5b93de58e114427b41ad146bc6",
+      "lfBytes": 154399,
+      "lfSha256": "0f927362f18c05add1bc4d2df0a48a2f5d850b5b93de58e114427b41ad146bc6",
+      "notes": "Shows real imports and direct calls; domain implementation and full field matrix excluded from L1."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-departure-exception-decision.entity.ts",
+      "role": "deferred-domain-import-metadata",
+      "rawBytes": 5681,
+      "rawBytesSha256": "b74962fe058f4808832ca9fbf880e085d6925d9ea0eeca38a4999311bc6dd7eb",
+      "lfBytes": 5681,
+      "lfSha256": "b74962fe058f4808832ca9fbf880e085d6925d9ea0eeca38a4999311bc6dd7eb",
+      "notes": "Original ApprovalService import; mechanical Native loading preserves real metadata, not an implementation commitment."
+    },
+    {
+      "path": "docs/design/table-structure-freeze-design.md",
+      "role": "contextual-governance-or-design-snapshot",
+      "rawBytes": 64112,
+      "rawBytesSha256": "70bb473545f07a8c137ad38f1a3b7f0393241f64f78e5ec68af2c7ad2f5a0cc0",
+      "lfBytes": 64112,
+      "lfSha256": "70bb473545f07a8c137ad38f1a3b7f0393241f64f78e5ec68af2c7ad2f5a0cc0",
+      "notes": "Context snapshot: Root-authorized task updates are not contract drift and must not rewrite original product hashes."
+    }
+  ]
+}

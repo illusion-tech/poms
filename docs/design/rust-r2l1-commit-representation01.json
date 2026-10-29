@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2L1-explicit-commit-representation-addendum01",
+  "result": "pass",
+  "at": "2026-10-29T07:48:50.505Z",
+  "frozenValidationRawBytesSha256": "ef2bedbab3eb99edcfb44d209a12f22cd9de80f60558e9073f8d0a16131878b3",
+  "initialArchiveRawBytesSha256": "9bdc7797259e5dac8ca541e76d80aacc282345267dcd2f33783d4bd2443afbce",
+  "unchangedRawSourceRows": 218,
+  "derivedSourceRows": 2,
+  "onlyListedPathsMayUseDerivedRepresentation": true,
+  "paths": [
+    {
+      "file": "tools/rust-r2l1/l-candidate01.json",
+      "originalRawBytesSha256": "29608df30a7259c8953d7ab1d367c712c05e1dd9a7f7b18eff76783790dc02e9",
+      "derivedLfBytesSha256": "efaea8da4884786de63ed571f046a0711d36c69b8dfcba31c5fc00ef7b8fbb7c",
+      "derivation": "UTF8 decode, replace only CRLF with LF, UTF8 encode; no other replacement",
+      "indexGitBlob": "72af3943884c0f3093002fd36cd2e8ef4ea1c6ea",
+      "derivedSnapshot": "E:/projects/poms/tmp/rust-r2l1/addenda/commit-representation01/derived/tools/rust-r2l1/l-candidate01.json",
+      "bytesBefore": 8707,
+      "bytesAfter": 8518,
+      "windowsLinuxOriginalRawEqual": true,
+      "exactDerivedBytesEqualIndex": true,
+      "jsonSemanticEqual": true,
+      "originalRawRetainedInInitialArchive": true
+    },
+    {
+      "file": "tools/rust-r2l1/source-protection.mjs",
+      "originalRawBytesSha256": "473763be5793568531353f15fe4859f65d74e6e442af21f3f62740664dd8f3f3",
+      "derivedLfBytesSha256": "2cacb1782930de8a91037ae0144b91cc55a103ad8a31349fdfd34c817657a584",
+      "derivation": "UTF8 decode, replace only CRLF with LF, UTF8 encode; no other replacement",
+      "indexGitBlob": "090698b6f4b805c9d4adedef70fb5df0ce7143f9",
+      "derivedSnapshot": "E:/projects/poms/tmp/rust-r2l1/addenda/commit-representation01/derived/tools/rust-r2l1/source-protection.mjs",
+      "bytesBefore": 4897,
+      "bytesAfter": 4896,
+      "windowsLinuxOriginalRawEqual": true,
+      "exactDerivedBytesEqualIndex": true,
+      "jsonSemanticEqual": "not-json; complete text equals exact CRLF-to-LF result",
+      "originalRawRetainedInInitialArchive": true
+    }
+  ],
+  "productRustChanged": false,
+  "runtimeRerunClaimed": false,
+  "postIntegrationRule": "Compare committed blob bytes exactly with original raw SHA for218 rows and the recorded derived LF SHA for these2 paths; reject any third representation delta."
+}

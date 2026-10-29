@@ -346,7 +346,7 @@
       "taskId": "RUST-R2L",
       "title": "审批、待办与摘要公共机制",
       "issue": 79,
-      "status": "Todo",
+      "status": "Doing",
       "g1": "Todo",
       "publicOperations": 4,
       "proposedDependencies": [
@@ -356,7 +356,11 @@
       "nonHttpAndDomainInputs": [
         "ApprovalSummaryService；R3/R4/R5 注册业务处理器与真实跨域事务",
         "ConfirmationService 公共确认引擎：confirmation_record / confirmation_participant / todo 事务、参与人确认与进度查询；真实域发起和消费随 R3/R4/R5 验证，不新增公共 API"
-      ]
+      ],
+      "activeSubSlices": [
+        81
+      ],
+      "g1Boundary": "Only L1 #81 frozen; four public routes and domain handlers not frozen/delivered"
     },
     {
       "taskId": "RUST-R2M",
@@ -15898,28 +15902,22 @@
     "historicalSummary": "summary.allSlicesG1 retains its original inventory snapshot; current G1/G4 and delivery status come from slices[]"
   },
   "executionBatch": {
-    "id": "RUST-R2IJ",
+    "id": "RUST-R2L1-ROUTE-K",
     "issues": [
-      76,
-      77
+      81,
+      82
     ],
-    "policy": "Parallel I/J authors; Root unified actual validation/preservation; independent joint G3; solo main integration and separate G4",
+    "status": "Doing",
     "g1": "Pass",
-    "status": "Done",
     "g3": "Pass",
-    "g4": "Pass upon archive push and issue reconciliation",
-    "baseline": "docs/design/archive/slices/rust-r2ij-storage-attachments-baseline.md",
-    "g1Review": "docs/design/rust-r2ij-g1-review01.json",
-    "review": "docs/design/rust-r2ij-review01.json",
-    "validation": "docs/design/rust-r2ij-validation.json",
-    "validationDelta": "docs/design/rust-r2ij-g3-delta01.json",
-    "sourceManifest": "docs/design/rust-r2ij-source-manifest.json",
-    "preservation": "docs/design/rust-r2ij-preservation.json",
-    "implementationCommit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
-    "closeout": "docs/design/archive/slices/rust-r2ij-closeout.md",
-    "closure": "docs/design/rust-r2ij-g4-closure.json",
-    "integration": "docs/design/rust-r2ij-post-integration.json",
-    "integrationReview": "docs/design/rust-r2ij-integration-review.json"
+    "g4": "Pending",
+    "baseline": "docs/design/rust-r2l1-k-route-baseline.md",
+    "g1Review": "docs/design/rust-r2l1-g1-review01.json",
+    "newDeliveredPublicOperations": 0,
+    "currentR2Delivered": 99,
+    "g3Review": "docs/design/rust-r2l1-g3-review01.json",
+    "validation": "docs/design/rust-r2l1-validation.json",
+    "preservation": "docs/design/rust-r2l1-preservation.json"
   },
   "currentDeliverySummary": {
     "deliveredOperations": 99,
@@ -15978,6 +15976,76 @@
       "closeout": "docs/design/archive/slices/rust-r2gh-closeout.md",
       "closure": "docs/design/rust-r2gh-g4-closure.json",
       "integrationReview": "docs/design/rust-r2gh-integration-review.json"
+    },
+    {
+      "id": "RUST-R2IJ",
+      "issues": [
+        76,
+        77
+      ],
+      "policy": "Parallel I/J authors; Root unified actual validation/preservation; independent joint G3; solo main integration and separate G4",
+      "g1": "Pass",
+      "status": "Done",
+      "g3": "Pass",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "baseline": "docs/design/archive/slices/rust-r2ij-storage-attachments-baseline.md",
+      "g1Review": "docs/design/rust-r2ij-g1-review01.json",
+      "review": "docs/design/rust-r2ij-review01.json",
+      "validation": "docs/design/rust-r2ij-validation.json",
+      "validationDelta": "docs/design/rust-r2ij-g3-delta01.json",
+      "sourceManifest": "docs/design/rust-r2ij-source-manifest.json",
+      "preservation": "docs/design/rust-r2ij-preservation.json",
+      "implementationCommit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+      "closeout": "docs/design/archive/slices/rust-r2ij-closeout.md",
+      "closure": "docs/design/rust-r2ij-g4-closure.json",
+      "integration": "docs/design/rust-r2ij-post-integration.json",
+      "integrationReview": "docs/design/rust-r2ij-integration-review.json"
+    }
+  ],
+  "subSlices": [
+    {
+      "taskId": "RUST-R2L1",
+      "issue": 81,
+      "parentIssue": 79,
+      "status": "Doing",
+      "g1": "Pass",
+      "publicOperations": 0,
+      "scope": "Real Summary/Confirmation/Todo internal engines and mandatory same-transaction approval callback seam; no four L routes or domain handler delivery",
+      "baseline": "docs/design/rust-r2l1-k-route-baseline.md",
+      "g1FrozenAt": "2026-10-29T03:54:55.713Z",
+      "g1ReviewedBaselineRawBytesSha256": "91eaf02a977626734056933d912d307f1c8f7ff060bebcc28fac2cef39dc9e41",
+      "g1Review": "docs/design/rust-r2l1-g1-review01.json",
+      "g1Comment": "https://github.com/illusion-tech/poms/issues/81#issuecomment-6487472452",
+      "g3": "Pass",
+      "g3ReviewedAt": "2026-10-29T07:51:44.838Z",
+      "g3Review": "docs/design/rust-r2l1-g3-review01.json",
+      "g3ReviewRawBytesSha256": "180ddefbe56d558b37203eddfaed10c3a7e9553b2009532677787361b1564aac",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/81#issuecomment-6491184697",
+      "validation": "docs/design/rust-r2l1-validation.json",
+      "preservation": "docs/design/rust-r2l1-preservation.json",
+      "g4": "Pending"
+    },
+    {
+      "taskId": "RUST-ROUTE-K",
+      "issue": 82,
+      "parentIssue": 61,
+      "status": "Doing",
+      "g1": "Pass",
+      "publicOperations": 0,
+      "scope": "Five K path parameter decisions plus controller/spec/client/consumer synchronization; no K Rust business delivery",
+      "baseline": "docs/design/rust-r2l1-k-route-baseline.md",
+      "g1FrozenAt": "2026-10-29T03:54:55.713Z",
+      "g1ReviewedBaselineRawBytesSha256": "91eaf02a977626734056933d912d307f1c8f7ff060bebcc28fac2cef39dc9e41",
+      "g1Review": "docs/design/rust-r2l1-g1-review01.json",
+      "g1Comment": "https://github.com/illusion-tech/poms/issues/82#issuecomment-6487474405",
+      "g3": "Pass",
+      "g3ReviewedAt": "2026-10-29T07:51:44.838Z",
+      "g3Review": "docs/design/rust-r2l1-g3-review01.json",
+      "g3ReviewRawBytesSha256": "180ddefbe56d558b37203eddfaed10c3a7e9553b2009532677787361b1564aac",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/82#issuecomment-6491187986",
+      "validation": "docs/design/rust-r2l1-validation.json",
+      "preservation": "docs/design/rust-r2l1-preservation.json",
+      "g4": "Pending"
     }
   ]
 }

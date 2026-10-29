@@ -1,0 +1,489 @@
+{
+  "formatVersion": 1,
+  "kind": "G0-source-and-decision-proposal",
+  "status": "G1Pending",
+  "issue": 82,
+  "parentIssue": 61,
+  "baseHead": "20335a189ce1197ccd4211bdfbb314954421729e",
+  "branch": "codex/poms-r2l1-public-k-route",
+  "scope": "Only K5 path parameter decision and actual synchronization; no Rust K implementation or five-operation delivery credit",
+  "recommended": "Adopt canonical id for exactly five operations; no aliases; preserve operationIds and concrete URI values",
+  "operations": [
+    {
+      "operationId": "AttachmentHandoverController_getChecklist",
+      "method": "GET",
+      "source": {
+        "controller": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+        "decoratorLine": 15,
+        "bindingLine": 19,
+        "sourceDecorator": "    @Get('project-handovers/:handoverId/attachment-checklist')",
+        "sourceBinding": "    getChecklist(@Param('handoverId') handoverId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {",
+        "spec": "libs/shared/api-spec/openapi.json",
+        "specPathLine": 3706,
+        "specOperationLine": 3708,
+        "client": "libs/shared/api-client/api/attachment-handover.service.ts",
+        "clientMethod": "attachmentHandoverControllerGetChecklist",
+        "requestInterface": "AttachmentHandoverControllerGetChecklistRequestParams",
+        "clientInterfaceLine": 43
+      },
+      "currentPath": "/api/project-handovers/{handoverId}/attachment-checklist",
+      "currentCanonicalDesignPath": "/project-handovers/{id}/attachment-checklist",
+      "currentParameter": {
+        "name": "handoverId",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedPath": "/api/project-handovers/{id}/attachment-checklist",
+      "proposedParameter": {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedDecorator": "    @Get('project-handovers/:id/attachment-checklist')",
+      "proposedBinding": "    getChecklist(@Param('id') handoverId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {",
+      "semanticLocalVariableRetained": "handoverId",
+      "currentOperation": {
+        "operationId": "AttachmentHandoverController_getChecklist",
+        "parameters": [
+          {
+            "name": "handoverId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectHandoverAttachmentChecklistView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目移交附件清单",
+        "tags": [
+          "Attachment Handover"
+        ]
+      },
+      "currentOperationCanonicalSha256": "3714b6f81a519a0cc707625c36e2bde55f46d9c760515b4943a00e65472321b4",
+      "currentAndProposedWireShape": "/api/project-handovers/{_}/attachment-checklist",
+      "operationIdChange": false,
+      "concreteUrlValueChange": false,
+      "aliasAdded": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_refreshChecklist",
+      "method": "POST",
+      "source": {
+        "controller": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+        "decoratorLine": 23,
+        "bindingLine": 28,
+        "sourceDecorator": "    @Post('project-handovers/:handoverId/attachment-checklist\\\\:refresh')",
+        "sourceBinding": "    refreshChecklist(@Param('handoverId') handoverId: string, @Body() body: RefreshProjectHandoverAttachmentChecklistRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {",
+        "spec": "libs/shared/api-spec/openapi.json",
+        "specPathLine": 3742,
+        "specOperationLine": 3744,
+        "client": "libs/shared/api-client/api/attachment-handover.service.ts",
+        "clientMethod": "attachmentHandoverControllerRefreshChecklist",
+        "requestInterface": "AttachmentHandoverControllerRefreshChecklistRequestParams",
+        "clientInterfaceLine": 51
+      },
+      "currentPath": "/api/project-handovers/{handoverId}/attachment-checklist:refresh",
+      "currentCanonicalDesignPath": "/project-handovers/{id}/attachment-checklist:refresh",
+      "currentParameter": {
+        "name": "handoverId",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedPath": "/api/project-handovers/{id}/attachment-checklist:refresh",
+      "proposedParameter": {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedDecorator": "    @Post('project-handovers/:id/attachment-checklist\\\\:refresh')",
+      "proposedBinding": "    refreshChecklist(@Param('id') handoverId: string, @Body() body: RefreshProjectHandoverAttachmentChecklistRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {",
+      "semanticLocalVariableRetained": "handoverId",
+      "currentOperation": {
+        "operationId": "AttachmentHandoverController_refreshChecklist",
+        "parameters": [
+          {
+            "name": "handoverId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshProjectHandoverAttachmentChecklistRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectHandoverAttachmentChecklistView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "刷新项目移交附件清单",
+        "tags": [
+          "Attachment Handover"
+        ]
+      },
+      "currentOperationCanonicalSha256": "5d0f5a2baa24204d8933ac69ff009160e79921098bf04ee7a6637990659cfc27",
+      "currentAndProposedWireShape": "/api/project-handovers/{_}/attachment-checklist:refresh",
+      "operationIdChange": false,
+      "concreteUrlValueChange": false,
+      "aliasAdded": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_createDownloadPackage",
+      "method": "POST",
+      "source": {
+        "controller": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+        "decoratorLine": 32,
+        "bindingLine": 37,
+        "sourceDecorator": "    @Post('project-handovers/:handoverId/attachment-download-packages')",
+        "sourceBinding": "    createDownloadPackage(@Param('handoverId') handoverId: string, @Body() body: CreateProjectHandoverAttachmentDownloadPackageRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {",
+        "spec": "libs/shared/api-spec/openapi.json",
+        "specPathLine": 3788,
+        "specOperationLine": 3790,
+        "client": "libs/shared/api-client/api/attachment-handover.service.ts",
+        "clientMethod": "attachmentHandoverControllerCreateDownloadPackage",
+        "requestInterface": "AttachmentHandoverControllerCreateDownloadPackageRequestParams",
+        "clientInterfaceLine": 34
+      },
+      "currentPath": "/api/project-handovers/{handoverId}/attachment-download-packages",
+      "currentCanonicalDesignPath": "/project-handovers/{id}/attachment-download-packages",
+      "currentParameter": {
+        "name": "handoverId",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedPath": "/api/project-handovers/{id}/attachment-download-packages",
+      "proposedParameter": {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedDecorator": "    @Post('project-handovers/:id/attachment-download-packages')",
+      "proposedBinding": "    createDownloadPackage(@Param('id') handoverId: string, @Body() body: CreateProjectHandoverAttachmentDownloadPackageRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {",
+      "semanticLocalVariableRetained": "handoverId",
+      "currentOperation": {
+        "operationId": "AttachmentHandoverController_createDownloadPackage",
+        "parameters": [
+          {
+            "name": "handoverId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectHandoverAttachmentDownloadPackageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentDownloadPackageSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建项目移交附件批量下载包",
+        "tags": [
+          "Attachment Handover"
+        ]
+      },
+      "currentOperationCanonicalSha256": "6e55e275dfdb749538ba7eedc81b4c1a0ae84cb3fc0559efeb2ff90766aa2b18",
+      "currentAndProposedWireShape": "/api/project-handovers/{_}/attachment-download-packages",
+      "operationIdChange": false,
+      "concreteUrlValueChange": false,
+      "aliasAdded": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_getDownloadPackage",
+      "method": "GET",
+      "source": {
+        "controller": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+        "decoratorLine": 41,
+        "bindingLine": 45,
+        "sourceDecorator": "    @Get('attachment-download-packages/:packageId')",
+        "sourceBinding": "    getDownloadPackage(@Param('packageId') packageId: string, @Request() req: { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {",
+        "spec": "libs/shared/api-spec/openapi.json",
+        "specPathLine": 3834,
+        "specOperationLine": 3836,
+        "client": "libs/shared/api-client/api/attachment-handover.service.ts",
+        "clientMethod": "attachmentHandoverControllerGetDownloadPackage",
+        "requestInterface": "AttachmentHandoverControllerGetDownloadPackageRequestParams",
+        "clientInterfaceLine": 47
+      },
+      "currentPath": "/api/attachment-download-packages/{packageId}",
+      "currentCanonicalDesignPath": "/attachment-download-packages/{id}",
+      "currentParameter": {
+        "name": "packageId",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedPath": "/api/attachment-download-packages/{id}",
+      "proposedParameter": {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedDecorator": "    @Get('attachment-download-packages/:id')",
+      "proposedBinding": "    getDownloadPackage(@Param('id') packageId: string, @Request() req: { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {",
+      "semanticLocalVariableRetained": "packageId",
+      "currentOperation": {
+        "operationId": "AttachmentHandoverController_getDownloadPackage",
+        "parameters": [
+          {
+            "name": "packageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentDownloadPackageSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件下载包状态",
+        "tags": [
+          "Attachment Handover"
+        ]
+      },
+      "currentOperationCanonicalSha256": "71034bcc694cbdfe307f2dfada5cc6e67d93b306d81402834329944f53cd90b4",
+      "currentAndProposedWireShape": "/api/attachment-download-packages/{_}",
+      "operationIdChange": false,
+      "concreteUrlValueChange": false,
+      "aliasAdded": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_downloadPackage",
+      "method": "GET",
+      "source": {
+        "controller": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+        "decoratorLine": 49,
+        "bindingLine": 53,
+        "sourceDecorator": "    @Get('attachment-download-packages/:packageId/download')",
+        "sourceBinding": "    async downloadPackage(@Param('packageId') packageId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {",
+        "spec": "libs/shared/api-spec/openapi.json",
+        "specPathLine": 3870,
+        "specOperationLine": 3872,
+        "client": "libs/shared/api-client/api/attachment-handover.service.ts",
+        "clientMethod": "attachmentHandoverControllerDownloadPackage",
+        "requestInterface": "AttachmentHandoverControllerDownloadPackageRequestParams",
+        "clientInterfaceLine": 39
+      },
+      "currentPath": "/api/attachment-download-packages/{packageId}/download",
+      "currentCanonicalDesignPath": "/attachment-download-packages/{id}/download",
+      "currentParameter": {
+        "name": "packageId",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedPath": "/api/attachment-download-packages/{id}/download",
+      "proposedParameter": {
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proposedDecorator": "    @Get('attachment-download-packages/:id/download')",
+      "proposedBinding": "    async downloadPackage(@Param('id') packageId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {",
+      "semanticLocalVariableRetained": "packageId",
+      "currentOperation": {
+        "operationId": "AttachmentHandoverController_downloadPackage",
+        "parameters": [
+          {
+            "name": "packageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "下载附件批量包",
+        "tags": [
+          "Attachment Handover"
+        ]
+      },
+      "currentOperationCanonicalSha256": "678996e301972ded44ea80c7441dfb0af98f1740466aa3f2984d5aa7a5743b1c",
+      "currentAndProposedWireShape": "/api/attachment-download-packages/{_}/download",
+      "operationIdChange": false,
+      "concreteUrlValueChange": false,
+      "aliasAdded": false
+    }
+  ],
+  "consumers": [
+    {
+      "source": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "line": 257,
+      "generatedMethod": "attachmentHandoverControllerGetChecklist",
+      "callKind": "named-request-object",
+      "currentKey": "handoverId",
+      "proposedKey": "id: handoverId",
+      "storePublicSignatureChange": false,
+      "storeMethod": "loadHandoverAttachmentChecklist"
+    },
+    {
+      "source": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "line": 278,
+      "generatedMethod": "attachmentHandoverControllerRefreshChecklist",
+      "callKind": "named-request-object",
+      "currentKey": "handoverId",
+      "proposedKey": "id: handoverId",
+      "storePublicSignatureChange": false,
+      "storeMethod": "refreshHandoverAttachmentChecklist"
+    },
+    {
+      "source": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "line": 302,
+      "generatedMethod": "attachmentHandoverControllerCreateDownloadPackage",
+      "callKind": "named-request-object",
+      "currentKey": "handoverId: input.handoverId",
+      "proposedKey": "id: input.handoverId",
+      "storePublicSignatureChange": false,
+      "storeMethod": "createHandoverAttachmentDownloadPackage"
+    },
+    {
+      "source": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "line": 324,
+      "generatedMethod": "attachmentHandoverControllerGetDownloadPackage",
+      "callKind": "named-request-object",
+      "currentKey": "packageId",
+      "proposedKey": "id: packageId",
+      "storePublicSignatureChange": false,
+      "storeMethod": "loadHandoverAttachmentDownloadPackage"
+    }
+  ],
+  "rawDownloadConsumer": {
+    "source": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+    "line": 338,
+    "kind": "raw-concrete-url-plus-positional-store-parameter",
+    "proposedChange": "none",
+    "blobBehaviorRetained": true
+  },
+  "namedConsumerTests": {
+    "source": "apps/poms-admin/src/app/features/project/project-workspace.store.spec.ts",
+    "keyAssertionLines": [
+      979,
+      982,
+      1045
+    ],
+    "rawDownloadAssertionLine": 1059,
+    "missingCoverage": "Add explicit GetDownloadPackage named-key assertion after G1"
+  },
+  "unchangedBindings": {
+    "r4Operations": [
+      "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "ProjectHandoverController_confirmProjectHandover"
+    ],
+    "r3r4Lookups": "remain under open parent61",
+    "businessDtoProperties": "handoverId/packageId fields are not globally renamed",
+    "rustKIssue78": "remains Todo; no operation count increment"
+  }
+}

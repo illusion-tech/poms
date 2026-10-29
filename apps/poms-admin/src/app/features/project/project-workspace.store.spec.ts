@@ -977,10 +977,10 @@ describe('ProjectWorkspaceStore', () => {
         await expect(store.refreshHandoverAttachmentChecklist('handover-1')).resolves.toEqual(checklist);
 
         expect(attachmentHandoverApiMock.attachmentHandoverControllerGetChecklist).toHaveBeenCalledWith({
-            handoverId: 'handover-1'
+            id: 'handover-1'
         });
         expect(attachmentHandoverApiMock.attachmentHandoverControllerRefreshChecklist).toHaveBeenCalledWith({
-            handoverId: 'handover-1',
+            id: 'handover-1',
             refreshProjectHandoverAttachmentChecklistRequest: {
                 preserveManualExclusions: true,
                 includeHistoricalSelections: true
@@ -990,7 +990,7 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.handoverAttachmentError()).toBeNull();
     });
 
-    it('creates and downloads project handover attachment package', async () => {
+    it('creates, downloads and reloads project handover attachment package', async () => {
         const downloadPackage = {
             id: 'package-1',
             handoverId: 'handover-1',
@@ -1012,7 +1012,13 @@ describe('ProjectWorkspaceStore', () => {
             failedReason: null
         } as AttachmentDownloadPackageSummary;
 
+        const refreshedPackage: AttachmentDownloadPackageSummary = {
+            ...downloadPackage,
+            downloadCount: 1,
+            downloadedAt: '2026-04-20T10:35:00.000Z'
+        };
         attachmentHandoverApiMock.attachmentHandoverControllerCreateDownloadPackage.mockReturnValue(of(downloadPackage));
+        attachmentHandoverApiMock.attachmentHandoverControllerGetDownloadPackage.mockReturnValue(of(refreshedPackage));
         httpClientMock.get.mockReturnValue(
             of(
                 new HttpResponse({
@@ -1043,7 +1049,7 @@ describe('ProjectWorkspaceStore', () => {
         });
 
         expect(attachmentHandoverApiMock.attachmentHandoverControllerCreateDownloadPackage).toHaveBeenCalledWith({
-            handoverId: 'handover-1',
+            id: 'handover-1',
             createProjectHandoverAttachmentDownloadPackageRequest: {
                 selectionIds: ['selection-1'],
                 expectedSelectionVersions: [
@@ -1061,6 +1067,10 @@ describe('ProjectWorkspaceStore', () => {
             responseType: 'blob'
         });
         expect(store.handoverAttachmentDownloadPackage()).toEqual(downloadPackage);
+
+        await expect(store.loadHandoverAttachmentDownloadPackage('package-1')).resolves.toEqual(refreshedPackage);
+        expect(attachmentHandoverApiMock.attachmentHandoverControllerGetDownloadPackage).toHaveBeenCalledWith({ id: 'package-1' });
+        expect(store.handoverAttachmentDownloadPackage()).toEqual(refreshedPackage);
     });
 
     it('loads operating overview and unified accounting into shared state', async () => {

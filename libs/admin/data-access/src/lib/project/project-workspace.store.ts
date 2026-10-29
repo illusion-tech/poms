@@ -255,7 +255,7 @@ export class ProjectWorkspaceStore {
         try {
             const checklist = await firstValueFrom(
                 this.#attachmentHandoverApi.attachmentHandoverControllerGetChecklist({
-                    handoverId
+                    id: handoverId
                 })
             );
             this.#handoverAttachmentChecklist.set(checklist);
@@ -276,7 +276,7 @@ export class ProjectWorkspaceStore {
         try {
             const checklist = await firstValueFrom(
                 this.#attachmentHandoverApi.attachmentHandoverControllerRefreshChecklist({
-                    handoverId,
+                    id: handoverId,
                     refreshProjectHandoverAttachmentChecklistRequest: {
                         preserveManualExclusions: true,
                         includeHistoricalSelections: true
@@ -300,7 +300,7 @@ export class ProjectWorkspaceStore {
         try {
             const summary = await firstValueFrom(
                 this.#attachmentHandoverApi.attachmentHandoverControllerCreateDownloadPackage({
-                    handoverId: input.handoverId,
+                    id: input.handoverId,
                     createProjectHandoverAttachmentDownloadPackageRequest: {
                         selectionIds: input.selectionIds,
                         expectedSelectionVersions: input.expectedSelectionVersions,
@@ -322,7 +322,7 @@ export class ProjectWorkspaceStore {
     async loadHandoverAttachmentDownloadPackage(packageId: string): Promise<AttachmentDownloadPackageSummary> {
         const summary = await firstValueFrom(
             this.#attachmentHandoverApi.attachmentHandoverControllerGetDownloadPackage({
-                packageId
+                id: packageId
             })
         );
         this.#handoverAttachmentDownloadPackage.set(summary);

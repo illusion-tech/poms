@@ -558,3 +558,17 @@ G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累�
 R2I [#76](https://github.com/illusion-tech/poms/issues/76) 六操作与R2J [#77](https://github.com/illusion-tech/poms/issues/77) 十九操作已交付，实现`568c0ba39dc8dbc687c04f55f690e4f36c0af5d0`已集成推送main；[联合最终G3](rust-r2ij-review01.json)和[独立集成核验](rust-r2ij-integration-review.json)均Pass，未关闭P1/P2为0。[初始验收](rust-r2ij-validation.json)、[同次纠偏增量](rust-r2ij-g3-delta01.json)、[完整来源](rust-r2ij-source-manifest.json)及[保全锚点](rust-r2ij-preservation.json)分别保留时点与原字节；[归档收口](archive/slices/rust-r2ij-closeout.md)解释路径/hash映射。
 
 G4随本归档提交推送与在线回写核对生效，仅关闭#76/#77。R2A–J累计 **99/108**，余 **9个操作（K5/L4）及R2M阶段验收**；父#67/#57保持Open，K/L/M、#61和R3–R5边界不变。PG17实例和数据、旧环境及新PG15保留；本批API/OBS/新PG15已正常停止，无部署、真实OBS租户认证或性能结论。上方带日期的旧计数与G1/Pending记录保留历史含义，以本条为当前状态。
+
+### 2026-10-29 L1 与 K5 参数子片 G0
+
+用户授权 [L1 #81](https://github.com/illusion-tech/poms/issues/81)（父#79）与 [ROUTE-K #82](https://github.com/illusion-tech/poms/issues/82)（父#61）并行推进；来源main `20335a189ce1197ccd4211bdfbb314954421729e`，独立分支 `codex/poms-r2l1-public-k-route`。联合[基线候选](rust-r2l1-k-route-baseline.md)与独立输入已形成，G1仍Pending，产品尚未改动。
+
+L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审批协调机制，0公共HTTP；四条L路由和真实R3–R5业务分支继续待验。K5候选采用canonical `{id}`，同步controller绑定、完整spec/client及命名参数对象consumer；原生成器六项冻结保护不绕过，先局部输入checkpoint再gen。#61其他四项与K#78不关闭，R2仍 **99/108**，父#79/#61/#67/#57保持未完成。
+
+### 2026-10-29 L1 与 K5 参数子片 G1冻结
+
+#81/#82于2026-10-29T03:54:55.713Z按[联合基线](rust-r2l1-k-route-baseline.md)冻结，非作者[联合审查](rust-r2l1-g1-review01.json)Pass，未关闭P0–P3为0。两个子片进入Doing，父#79/#61仅反映活动子片、整体不Done；L四路由、K五操作业务与R3–R5仍待各自验收。L1先Native事务见证再定store，K5统一{id}并按受限S输入checkpoint保留原生成器保护。本批0新增已交付公共操作，R2仍99/108，G3/集成/G4尚未完成。
+
+### 2026-10-29 L1 与 K5 参数子片 G3通过
+
+#81/#82 的[独立联合G3](rust-r2l1-g3-review01.json)于2026-10-29T07:51:44.838Z通过，开放P0–P3为0；[冻结验收](rust-r2l1-validation.json)与[归档锚点](rust-r2l1-preservation.json)保留原件，提交集成/G4尚待完成。真实双库41组、受控CAS/父状态/回调机制、Rust199通过/54历史ignored、共享1181tests及分类schema结果已分别核验。当前只完成内部机制与参数同步，本批0新增公共操作、R2仍99/108，父#79/#61与K/L剩余业务不因此Done。

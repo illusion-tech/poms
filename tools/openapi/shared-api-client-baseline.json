@@ -1,6 +1,6 @@
 {
     "formatVersion": 1,
-    "sourceHead": "e951b76bf65ea9c286e5e281a01e34b9f75c0fae",
+    "sourceHead": "687827d45da2047028f625a600fe207876d40d6f",
     "fingerprint": "SHA256 of UTF-8 text after CRLF-to-LF only; output normalization is separately defined by the legacy PS oracle",
     "generator": {
         "version": "7.20.0",
@@ -12,7 +12,7 @@
     "protectedSources": [
         {
             "file": "libs/shared/api-spec/openapi.json",
-            "sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+            "sha256": "641e17b2193e137a99791466feb10fd85b1c23bd6188e8b9165f78df6a259c05"
         },
         {
             "file": "tools/openapi/typescript-angular.config.json",
@@ -46,8 +46,8 @@
             "/api/approval-records/{id}:approve",
             "/api/approval-records/{id}:reject",
             "/api/attachment-center-records",
-            "/api/attachment-download-packages/{packageId}",
-            "/api/attachment-download-packages/{packageId}/download",
+            "/api/attachment-download-packages/{id}",
+            "/api/attachment-download-packages/{id}/download",
             "/api/attachment-upload-sessions",
             "/api/attachment-upload-sessions/{id}",
             "/api/attachment-upload-sessions/{id}/object",
@@ -219,10 +219,10 @@
             "/api/project-archive-records/{id}:replace",
             "/api/project-archive-records/{id}:void",
             "/api/project-handovers/{handoverId}",
-            "/api/project-handovers/{handoverId}/attachment-checklist",
-            "/api/project-handovers/{handoverId}/attachment-checklist:refresh",
-            "/api/project-handovers/{handoverId}/attachment-download-packages",
             "/api/project-handovers/{handoverId}:confirm",
+            "/api/project-handovers/{id}/attachment-checklist",
+            "/api/project-handovers/{id}/attachment-checklist:refresh",
+            "/api/project-handovers/{id}/attachment-download-packages",
             "/api/project-operating-snapshots",
             "/api/project-operating-snapshots/{id}",
             "/api/projects",
@@ -310,12 +310,12 @@
             },
             {
                 "method": "get",
-                "path": "/api/attachment-download-packages/{packageId}",
+                "path": "/api/attachment-download-packages/{id}",
                 "operationId": "AttachmentHandoverController_getDownloadPackage"
             },
             {
                 "method": "get",
-                "path": "/api/attachment-download-packages/{packageId}/download",
+                "path": "/api/attachment-download-packages/{id}/download",
                 "operationId": "AttachmentHandoverController_downloadPackage"
             },
             {
@@ -730,7 +730,7 @@
             },
             {
                 "method": "get",
-                "path": "/api/project-handovers/{handoverId}/attachment-checklist",
+                "path": "/api/project-handovers/{id}/attachment-checklist",
                 "operationId": "AttachmentHandoverController_getChecklist"
             },
             {
@@ -1560,12 +1560,12 @@
             },
             {
                 "method": "post",
-                "path": "/api/project-handovers/{handoverId}/attachment-checklist:refresh",
+                "path": "/api/project-handovers/{id}/attachment-checklist:refresh",
                 "operationId": "AttachmentHandoverController_refreshChecklist"
             },
             {
                 "method": "post",
-                "path": "/api/project-handovers/{handoverId}/attachment-download-packages",
+                "path": "/api/project-handovers/{id}/attachment-download-packages",
                 "operationId": "AttachmentHandoverController_createDownloadPackage"
             },
             {

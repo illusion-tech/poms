@@ -383,3 +383,9 @@
 - [R2G/H 联合收口](archive/slices/rust-r2gh-closeout.md)：34个既有操作，实现91cda75f已推送main，G3最终P0–P3未关闭0，独立集成核验Pass；[原件](rust-r2gh-validation.json)/[初审Block](rust-r2gh-review.json)/[增量02](rust-r2gh-g3-delta02.json)/[最终独审](rust-r2gh-review02.json)分列，受审全量清单保留；[G4来源快照](rust-r2gh-g4-source-manifest.json)分列归档时点。G4随归档推送与Issue回写生效，累计74/108、余34＋R2M，仅#74/#75完成，父#67/#57与I–M/#61保留。
 
 - [R2I/J 联合收口](archive/slices/rust-r2ij-closeout.md)：25个既有操作，实现568c0ba3已推送，联合G3及独立集成核验Pass；[初始验收](rust-r2ij-validation.json)/[纠偏增量](rust-r2ij-g3-delta01.json)/[最终独审](rust-r2ij-review01.json)/[完整来源](rust-r2ij-source-manifest.json)/[保全锚点](rust-r2ij-preservation.json)分列。G4随归档推送与Issue回写生效，累计99/108，余K5/L4共9操作＋R2M；父#67/#57、K/L/M及#61保留。
+
+### 2026-10-29 L1 与 K5 参数子片 G0
+
+- [联合G1候选](rust-r2l1-k-route-baseline.md)：L1#81内部公共引擎与#82五项参数裁决/契约同步，当前Todo/G1Pending，0新增已交付公共操作；L4/K5与R3–R5真实域条件保留，计数99/108。
+
+- [L1/K5 子片冻结验收](rust-r2l1-validation.json)、[独立G3](rust-r2l1-g3-review01.json)与[证据归档](rust-r2l1-preservation.json)：G3 Pass，提交集成/G4待完成，0新增公共操作。

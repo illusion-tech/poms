@@ -1,0 +1,453 @@
+{
+    "formatVersion": 1,
+    "kind": "RUST-R2L1-ROUTE-K-independent-joint-G3-review",
+    "gate": "G3",
+    "result": "Pass",
+    "recordedAt": "2026-10-29T07:51:44.838Z",
+    "reviewer": {
+        "task": "/root/r2ij_review",
+        "role": "Non-author C",
+        "productAuthor": false,
+        "fixtureAuthor": false,
+        "runnerAuthor": false,
+        "reviewMethod": "Read-only source/evidence/Git/index examination; in-memory offline comparator replay; full read-only archive verification and existing-extraction rehash. No ORM, database, HTTP, browser, service or container execution; no Git mutations."
+    },
+    "scope": {
+        "issues": [
+            81,
+            82
+        ],
+        "L1": "Seven-table internal common approval/confirmation/summary engine; mandatory same-transaction domain callback.",
+        "K5": "Five existing Nest path-parameter labels and named contract consumers synchronized to id.",
+        "newPublicOperations": 0,
+        "LPublicRoutesRegistered": 0,
+        "LPublicRoutesDeferred": 4,
+        "R2Delivered": 99,
+        "R2Total": 108,
+        "R2Remaining": 9,
+        "wholeParentsCompleted": false,
+        "implementationCommit": null,
+        "mainIntegrated": false,
+        "G4Effective": false
+    },
+    "decision": "Pass for the frozen, finite #81/#82 child-slice implementation and evidence. No open P0/P1/P2/P3 finding remains within that scope. This is not whole K/L completion, main integration, deployment or G4.",
+    "openFindings": {
+        "P0": [],
+        "P1": [],
+        "P2": [],
+        "P3": []
+    },
+    "reviewedInputs": {
+        "sourceBaseline": "20335a189ce1197ccd4211bdfbb314954421729e",
+        "currentHeadAndPermanentGeneratorInputAncestor": "687827d45da2047028f625a600fe207876d40d6f",
+        "validation": {
+            "file": "docs/design/rust-r2l1-validation.json",
+            "bytes": 79038,
+            "sha256": "ef2bedbab3eb99edcfb44d209a12f22cd9de80f60558e9073f8d0a16131878b3"
+        },
+        "G1": {
+            "review": "docs/design/rust-r2l1-g1-review01.json",
+            "reviewSha256": "604491d4eaabff5cb167595c81fcc9321345743853d0504711e30823c26adf15",
+            "reviewedOriginalSha256": "91eaf02a977626734056933d912d307f1c8f7ff060bebcc28fac2cef39dc9e41",
+            "currentMetadataBaselineSha256": "b0e9835502efc40b5aa9a81e3d89984a11e1f40d20b513502e272c250e4cbe57"
+        },
+        "corrective": {
+            "file": "docs/design/rust-r2l1-corrective-checkpoint.md",
+            "sha256": "abb29d0641020d3f140f799ca20331fc7bbf87bb10c17e7f0ece0fad7baddd15"
+        },
+        "preservation": {
+            "file": "docs/design/rust-r2l1-preservation.json",
+            "sha256": "ee07df08c9cb833199af16be8c3a666afcd81ae4e18b970d01c76b11c1df4faa"
+        },
+        "sourceCoverageAddendum": {
+            "file": "docs/design/rust-r2l1-preservation-addendum01.json",
+            "sha256": "ec73a8575e5062f2cdc7824cbda876fd7754389f69ea83c7d511a6c9a825a41c"
+        },
+        "commitRepresentation": {
+            "file": "docs/design/rust-r2l1-commit-representation01.json",
+            "sha256": "e10503f8ba0535587bb54159bf862a2798167001e190558fcfee52ecd66831dc"
+        }
+    },
+    "sourceAndProvenance": {
+        "artifactReferencesIndependentlyHashed": 49,
+        "currentSourceFiles": 220,
+        "windowsLinuxRawBytesAndNormalizedLfEqual": true,
+        "normalizedSourceDigest": "f5b76925830ae7f56a3ab18928a3aaea3ba0a04c0ce1a1b678cbc33580df506c",
+        "digestFormula": "SHA256(UTF8(JSON.stringify(sourceFiles.map(row=>({file:row.file,sha256:row.normalizedLfSha256}))))); preserve sourceFiles array order and object key order file,sha256.",
+        "protection": {
+            "file": "tmp/rust-r2l1/source-protection-final01.json",
+            "sha256": "1ece09b1e472268c9c12aa7af845aa2f7b6e487830b7eeaf449c628f4c12a6a7",
+            "currentFiles": 1387,
+            "existingBaseFiles": 1386,
+            "unchangedExistingBaseFiles": 1381,
+            "changedExistingBaseFiles": 5,
+            "newExplicitControllerTest": 1,
+            "allowedKFiles": [
+                "apps/poms-admin/src/app/features/project/project-workspace.store.spec.ts",
+                "apps/poms-api/src/app/features/attachment/attachment-handover.controller.spec.ts",
+                "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+                "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+                "libs/shared/api-client/api/attachment-handover.service.ts",
+                "libs/shared/api-spec/openapi.json"
+            ]
+        },
+        "runtimeCapsules": [
+            {
+                "file": "tmp/rust-r2l1/runtime-input/common-candidate05-final/manifest.json",
+                "sha256": "57381c54c8b1eaf8b711ebe08c22e400d81bd0f459fca24ca2d0c5938a1b043d",
+                "files": 235
+            },
+            {
+                "file": "tmp/rust-r2l1/runtime-input/k-nest-k01/manifest.json",
+                "sha256": "0842c6e0dbe792b81a2e153608125445b474cb375a95e85321cf5ac77404fb35",
+                "files": 459
+            }
+        ],
+        "allCapsulePayloadsRehashed": true,
+        "capsuleProductSourcesEqualCurrent": true,
+        "candidate05ProbeBinarySha256": "e878bd4c8850f35f5408bc07a6afc08e958de491809a106f1c04ab09fa784d5d",
+        "epochBoundary": "Alpha08 ran with the original 7470-byte required oracle d325a8b4b2465660c47a245a0796b83201e66638f9a8e19afea630411b4c5afb retained in its capsule. The current 210ec8a6db9ae4fd51c055dc3aac69230cb4e8f3d6970e15d7a8542bfa82dc8c oracle adds exact observed Windows/Linux Node24.19 inspect provenance admission and projects only that metadata field. Old Golden, SDK hashes, all vectors and product sources remain unchanged."
+    },
+    "sourceReview": {
+        "L1": "Reviewed store/session/service and seven-table mapping, dirty snapshots, CREATE/UPDATE grouping, original CAS/nested transaction behavior, detached read-only bindings, explicit null/default/undefined and raw UTF-16 handling. Final C5 product files bind to their actual runtime capsule.",
+        "domainSeam": "ApprovalDomainHandler is mandatory; it receives the same borrowed PgConnection. Production has no default/no-op success handler. Original ApprovalService has no registry; supported contract/commission handlers without Rust domain implementations remain deferred, rather than being presented as original unsupported400.",
+        "sourceScope": "Only the internal Rust module export is added; existing Rust HTTP/router and prior implementation stay protected. Four L public routes are unregistered. K business service behavior and five domain operations are not claimed as delivered."
+    },
+    "actualVerification": {
+        "L1Pairs": {
+            "input": "tmp/rust-r2l1/common-acceptance-alpha08.json",
+            "inputSha256": "3a12d3df17a92abe192d0c6f3fdd205bdbce395646767340186f22582f1429c2",
+            "perBackend": 41,
+            "originalNestObserved": true,
+            "rustObserved": true,
+            "comparison": "tmp/rust-r2l1/common-diff-alpha08-clock01.json",
+            "comparisonSha256": "0eb37b74942f5ec2745d3ae918f72c20a1a9ba48ab80ca270c2fac54c9abe078",
+            "normalizerSha256": "1dfc8c5b4098428c1f2f670299bdc247b8576c10d90590ac647048608d295bdd",
+            "reviewerOfflineReportExactlyReproduced": true,
+            "differences": 0,
+            "bothDoubleCleanupZero": true
+        },
+        "clockMethod": "Before timestamp substitution, verify actual per-step bounds, original Native mutation table/row template, unchanged old values, and returned Date versus actual PG milliseconds or historical before. Fixed2020 values stay exact. Observable arrays preserve order; only equal original created_at tie buckets may permute internally and bucket sizes remain compared.",
+        "comparatorNegatives": {
+            "file": "tmp/rust-r2l1/common-diff-negative-alpha08.json",
+            "sha256": "8d298a2d032bbcd79c6997742dced960e2e0975cbf930fa86334730a2854a826",
+            "synthetic": true,
+            "actualOrmPgExecuted": false,
+            "cases": 2,
+            "reviewerReplayedRejections": [
+                "stale updated_at rejected in actual write step",
+                "returned confirmedAt differing from actual PG milliseconds rejected"
+            ]
+        },
+        "managedParent": {
+            "file": "tmp/rust-r2l1/common-managed-parent02.json",
+            "sha256": "b1e5990f31da023026623b55dac936372c706da500c22265bca2ec0ba5d3cb21",
+            "bothStates": [
+                "pending",
+                "approved",
+                "pending"
+            ],
+            "bothDatabaseBeforeEqualsAfter": true,
+            "bothDoubleCleanupZero": true
+        },
+        "CAS": {
+            "file": "tmp/rust-r2l1/common-concurrency-cas02.json",
+            "sha256": "dcb38da25f5a51ca95cd8fd58c4cfa3224575f28b2feab4289401905ff336c2b",
+            "perBackendWaitingUpdates": 2,
+            "perBackendSuccess": 1,
+            "perBackendOptimisticFailure": 1,
+            "errorExact": "The optimistic lock on entity ConfirmationRecord failed",
+            "loserParticipantAndTodoExactlyRolledBack": true,
+            "bothDoubleCleanupZero": true
+        },
+        "callback": {
+            "file": "tmp/rust-r2l1/common-callback-seam03.json",
+            "sha256": "52951963404374274e7738f612a0d5dbfac99375ec3d04c2e8a922295107ec73",
+            "rustOnly": true,
+            "actualModes": [
+                "commit-approved",
+                "commit-rejected",
+                "failure-after-write",
+                "caller-rollback"
+            ],
+            "doubleCleanupZero": true,
+            "boundary": "Controlled example callback updates an exact owned approval witness row. This proves the same-transaction seam, not real contract/commission domain approval."
+        },
+        "pureOracles": {
+            "helperCases": 36,
+            "requiredCases": 21,
+            "nodeQuoteCases": 13,
+            "insertParameterCases": 7,
+            "linuxPortableCheck": "tmp/rust-r2l1/l-required-portable-check-linux01.json",
+            "linuxPortableCheckSha256": "40e4e9d6205ab05b3f63fd19993e254897b7caf90ccf2bd40e231ec707b9ef23",
+            "boundary": "Finite pure SDK/helper evidence is separate from actual service/ORM/PG cases."
+        },
+        "K5": {
+            "file": "tmp/rust-r2l1/k-http-actual01.json",
+            "sha256": "51c225db06a29bbd945d22ef3e6d80b2f9a143ba393a09f083d585158b65e8a7",
+            "actualRequests": 9,
+            "authCsrfDenials": 4,
+            "authenticatedPgConfirmedAbsentIdEchoes": 5,
+            "domainBeforeAfterEqual": true,
+            "doubleCleanupZero": true,
+            "boundary": "No successful handover/checklist/ZIP business path or Rust K domain delivery is claimed."
+        },
+        "rust": {
+            "fmt": "Pass",
+            "check": "Pass",
+            "allTargetsTests": {
+                "binaries": 28,
+                "passed": 199,
+                "failed": 0,
+                "ignored": 54
+            },
+            "strictClippy": "Pass",
+            "releaseIncludingBinsAndExamples": "Pass",
+            "logAndExitHashesVerified": true
+        },
+        "shared": {
+            "logicalGroups": 7,
+            "logHashesVerified": true,
+            "api": {
+                "suites": 73,
+                "tests": 813
+            },
+            "admin": {
+                "suites": 56,
+                "tests": 368
+            },
+            "checks": [
+                "API/admin lint+test",
+                "shared-api-client build",
+                "admin-data-access lint",
+                "admin-data-access build",
+                "admin-e2e configured typecheck",
+                "OpenAPI/generated-client check",
+                "admin production build"
+            ],
+            "substitutions": "Two pnpm bootstrap launchers replaced by the same installed locked tsc6.0.3 with identical project/config. Admin production skips only three dependencies already built in this run; original launcher failures/stops remain retained.",
+            "adminE2eLintTest": "N/A: targets do not exist",
+            "browserExecutionClaimed": false
+        },
+        "schema": {
+            "file": "tmp/rust-r2l1/schema-check-readonly02.json",
+            "sha256": "f4035f83180c94a6ca4c9a508fa545750e5efa2c0901889aa3b1ba69b6602379",
+            "eachMigrationCheckExit": 1,
+            "eachSchemaDumpExit": 0,
+            "status": "failed-with-classification",
+            "classification": [
+                "Existing low-privilege MikroORM CHECK introspection visibility",
+                "Existing lead_score_override.status comment mismatch"
+            ],
+            "bothCatalogsAnd92MigrationsUnchanged": true,
+            "proposedDdlExecuted": false,
+            "migrationCheckPassClaimed": false
+        }
+    },
+    "KContractAndGenerator": {
+        "parameterOperations": 5,
+        "fullSpec": {
+            "paths": 237,
+            "operations": 291,
+            "schemas": 585,
+            "otherFullOperationsDeepEqual": 286,
+            "onlyTargetParameterNamesChanged": true
+        },
+        "controller": "Five decorator labels plus five Param lookup keys change; other controller bytes equal baseline. Focused 10-unit evidence is separately bound to S and does not substitute for the nine real authenticated/PG HTTP observations.",
+        "checkpoint": {
+            "commit": "687827d45da2047028f625a600fe207876d40d6f",
+            "parent": "20335a189ce1197ccd4211bdfbb314954421729e",
+            "exactFiles": 3,
+            "independentlyApproved": true,
+            "actualAncestor": true,
+            "mustRemainPermanentAncestor": true,
+            "mainPushAtThisCheckpointClaimed": false
+        },
+        "generator": {
+            "originalRunnerUnchanged": true,
+            "fixedSixInputGuardPreserved": true,
+            "actualWriteAndCheckPassed": true,
+            "networkNone": true,
+            "files": 579,
+            "changedFile": "api/attachment-handover.service.ts",
+            "otherFilesUnchanged": 578,
+            "threeGeneratorMetadataFilesUnchanged": true,
+            "windowsLinuxCompleteCurrentTreeEqual": true,
+            "sixReceiptHashesVerified": true,
+            "newBaselineSha256": "3a94db9997d0a9b094b194ba32ef6a2632b8385a95e39cc5a5904ec071816468",
+            "oldBaselineSha256": "f9dd1caa0268cfa868608bf5961fc75e3bd5ed99f519af88c04458e55fd14041",
+            "oldBaselineRetained": true
+        },
+        "compatibility": "Named RequestParams keys intentionally change to id. Positional values, concrete URI shape, operationIds, auth, business DTOs and raw download URL remain unchanged; all named consumers are synchronized. Other four #61 decisions remain unresolved."
+    },
+    "correctedFindings": [
+        {
+            "id": "C-L-FIX-01/03",
+            "severity": "P1",
+            "area": "Fixture tooling",
+            "status": "Closed",
+            "resolution": "Lock table and prove PK absent before directCreate intent; record exact XID/xmin and acknowledged COMMIT before ownership. Cleaned/observed intents never adopt a later matching row. Actual preexisting-PK and later-B negatives reject with zero DML and no new ownership."
+        },
+        {
+            "id": "C-L-FIX-02",
+            "severity": "P2",
+            "area": "Fixture tooling",
+            "status": "Closed",
+            "resolution": "Use original participant_role_key/participant_status/participant_display_name. Original alpha01 failure retained; exact-owned recovery04 and subsequent calibration/safety/final cleanup remain separate evidence."
+        },
+        {
+            "id": "R2L-G3-CLEAR",
+            "severity": "P2",
+            "status": "Closed",
+            "resolution": "Detached old bindings allow read-only data access after clear without becoming managed or pointing to a new entity. Corrected C5 finite corpus matches original behavior."
+        },
+        {
+            "id": "R2L-G3-REQUIRED",
+            "severity": "P2",
+            "status": "Closed",
+            "resolution": "Original CREATE-only required validation occurs per INSERT group after BEGIN and before INSERT, retaining original inspect/error semantics. It is not moved to repository create, UPDATE or a new HTTP validation boundary; null/undefined cases pass strict Alpha08 comparison."
+        },
+        {
+            "id": "C-L-G3-PARENT",
+            "severity": "P2",
+            "status": "Closed",
+            "resolution": "Failed fork propagates data/original changes only for preexisting parent objects; child-only identity/write queues/certificates are not merged. Actual parent01 discrepancy is retained, and parent02 plus Alpha08 now match Native pending/approved/pending with unchanged PG."
+        },
+        {
+            "id": "C-L-G3-DEFAULT",
+            "severity": "P2",
+            "status": "Closed",
+            "resolution": "Separate undefined constructor defaults, nullish onCreate, INSERT-only rowValue/default fallback and later hydration. Explicit status:null remains null in the original object through save while DB receives active; subsequent find hydrates active. Alpha06/07 preserve the original discrepancy; Alpha08 stages now match. The earlier prediction that Native save should fail was disproven and is not an accepted product fact."
+        },
+        {
+            "id": "C-L-G3-CLOCK",
+            "severity": "P2",
+            "area": "Comparator",
+            "status": "Closed",
+            "resolution": "Replace whole-run-only time masking with per-step Native mutation/PG linkage checks. Offline exact 41-case replay and two synthetic rejections verify the correction before normalization."
+        }
+    ],
+    "fixtureAndCleanup": {
+        "sourceAuthoritySha256": "97d786bee12bbc7d2d0bb2f22162b382f567cf3bc3d333ba3f401ec459202b6e",
+        "authority": {
+            "migrationSources": 92,
+            "tables": 107,
+            "columns": 1778,
+            "primaryKeys": 107,
+            "allForeignKeys": 207,
+            "targetIncomingForeignKeys": 35,
+            "incomingSourceSchemasRestricted": false,
+            "uuidTextJsonClosureBeforeDeletion": true
+        },
+        "priorLimitedReview": {
+            "file": "tmp/rust-r2l1/fixture-supplement-review01.json",
+            "sha256": "a7e337fea97d03bf18040867886cd022f9af5c5833da9e3896968f2048dc4662",
+            "carriedWithoutRerunningDatabase": true,
+            "runtimeHelperSha256": "386040f6c3e3ce989d4f559c19b590467626c8d031d0e81633f8f93ffd4fece6",
+            "boundary": "refs01 is bound to its actual old helper. Compact target_id and JSON references coexist in the same unowned row. Lost ACK is synthetic after a real COMMIT, not a physical disconnect/restart test; wrong expected xmin is a journal mutation followed by exact recovery."
+        },
+        "rustOwnershipBranch": {
+            "runtimeHelperSha256": "b65c9c5c826db47938c3a48eeeb0dfeda3b3fc144731ce5c9d9dd2d4cfec8500",
+            "actualAlpha08RustCommittedCreateCertificates": 34,
+            "closedAgainstCurrentActualRun": true,
+            "returnedDtoAloneGrantsOwnership": false
+        },
+        "finalAudit": {
+            "file": "tmp/rust-r2l1/final-clean-state-final01.json",
+            "sha256": "b76d436a1b7daba741eec0dde98544185ce73d52a72f91092d50c99578c15f69",
+            "backendRuns": 33,
+            "allJournalsCleaned": true,
+            "allBaseCountsZero": true,
+            "allCompleteReferenceGuardsVerified": true,
+            "rowsAdmitted": 0,
+            "foreignRows": 0,
+            "deleteStatements": 0,
+            "localObjects": 0
+        },
+        "shutdown": {
+            "receipt": "tmp/rust-r2l1/environment-final-stop01.json",
+            "sha256": "4cc1ba9d0f4e47371b5b1a8c121c6f8b05c9fe08f4e646109791ab4d0b09afd7",
+            "ownedPg15Stopped": true,
+            "fivePortsFree": true,
+            "oldContainersUnchanged": true,
+            "privateFilesAndVolumesRetained": true,
+            "windowsPg17": "Running service metadata only; no SQL or service mutation"
+        }
+    },
+    "preservationVerification": {
+        "archive": "E:/projects/poms/tmp/rust-r2l1/final01-evidence.tar.gz",
+        "archiveSha256": "9bdc7797259e5dac8ca541e76d80aacc282345267dcd2f33783d4bd2443afbce",
+        "archiveBytes": 17154813,
+        "manifestSha256": "6197d966299762e54384d5cc189766db80fbf5c521b1d7ac411174a5b48943ef",
+        "files": 2915,
+        "payloadBytes": 113336847,
+        "reviewerFullReadOnlyTarVerification": "Pass",
+        "reviewerExistingPrimaryExtractionRescan": "Pass",
+        "extraFiles": 0,
+        "missingFiles": 0,
+        "primaryRecordsRawEqual": true,
+        "archiveModesVerified": true,
+        "windowsExtractedPosixModesClaimed": false,
+        "sourceCoverage": {
+            "directInitialArchive": 217,
+            "independentAddendum": 3,
+            "total": 220,
+            "actualPrimarySnapshotsAnd203BaselineBlobsVerified": true
+        },
+        "tool": {
+            "file": "tools/rust-r2l1/preserve-evidence.mjs",
+            "sha256": "5fdb33ec46ef765563e5977caaafba4794ff5382b932357370dcb324d3e23f91",
+            "explicitAdditionalRootInputs": [
+                ".gitattributes",
+                "openapitools.json",
+                "package.json",
+                "pnpm-lock.yaml",
+                "tsconfig.base.json"
+            ],
+            "PaxFallbackAndStreamingVerifierEqualAfterBatchLabelSubstitution": true
+        },
+        "exclusions": "Private environments, whole dependency trees, old-batch temporary evidence and internal ROOT-CHECKPOINT are excluded. No scan against private secret values is claimed.",
+        "originalTransferFailure": "Missing explicit destination parent; first attempt failed before destination creation. The same immutable tar was verified/extracted on the second attempt; original stderr is retained."
+    },
+    "commitRepresentationReview": {
+        "indexSourcesVerified": 220,
+        "originalRawMatches": 218,
+        "onlyExplicitDerivedPaths": [
+            "tools/rust-r2l1/l-candidate01.json",
+            "tools/rust-r2l1/source-protection.mjs"
+        ],
+        "derivation": "Only UTF8 CRLF-to-LF replacement; complete derived bytes equal index and independent primary snapshots. JSON deep-equal/text-exact checks passed. Original Windows/Linux bytes equal frozen validation and remain in the original archive.",
+        "semanticProductChange": false,
+        "runtimeRerunRequired": false,
+        "postIntegrationRule": "Compare 218 source blobs with frozen raw hashes and only the two listed paths with explicit derived LF hashes. Reject any third difference; do not globally normalize raw integrity checks."
+    },
+    "retainedLimits": [
+        "Earlier failed, stopped, observed-difference and partial capsule/tool attempts retain their original labels. No older failed run is retroactively marked passed.",
+        "54 historical external-PG Rust tests stay ignored. Older R1/IJ runtime suites were not rerun as new L1 evidence; protected-source checks do not turn them into current runtime passes.",
+        "Dual migration-check remains exit1 with existing drift classification; no proposed schema SQL was executed.",
+        "The pure oracle and synthetic comparator tests are not service/ORM/PG executions. Fixed callback seam cases are Rust-only, not Native domain approval parity.",
+        "Four L routes, real domain handlers, full Todo enrichment, K business checklist/ZIP delivery, remaining #61 decisions, R2M acceptance and R3-R5 are outside this child slice.",
+        "No browser UI, deployment, production OBS tenant or performance certification is claimed by this L1/K-route packet."
+    ],
+    "G4Conditions": {
+        "currentStatus": "Pending",
+        "required": [
+            "Commit the reviewed implementation with permanent S ancestry and the explicit two-file representation map.",
+            "Integrate that exact commit into main and perform short non-author fixed-commit integrity review.",
+            "Archive lifecycle/closure records and perform actual GitHub closeout/readback for child issues #81/#82 only."
+        ],
+        "closeableChildrenAfterThoseSteps": [
+            81,
+            82
+        ],
+        "parentsRemainOpenOrPartial": [
+            79,
+            61,
+            78,
+            67,
+            57
+        ],
+        "r2CountRemains": "99/108; remaining9 and R2M remain unfinished",
+        "noDoneOrMainIntegrationClaimAtG3": true
+    }
+}

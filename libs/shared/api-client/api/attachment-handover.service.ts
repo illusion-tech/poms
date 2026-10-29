@@ -32,24 +32,24 @@ import { BaseService } from '../api.base.service';
 
 
 export interface AttachmentHandoverControllerCreateDownloadPackageRequestParams {
-    handoverId: string;
+    id: string;
     createProjectHandoverAttachmentDownloadPackageRequest: CreateProjectHandoverAttachmentDownloadPackageRequest;
 }
 
 export interface AttachmentHandoverControllerDownloadPackageRequestParams {
-    packageId: string;
+    id: string;
 }
 
 export interface AttachmentHandoverControllerGetChecklistRequestParams {
-    handoverId: string;
+    id: string;
 }
 
 export interface AttachmentHandoverControllerGetDownloadPackageRequestParams {
-    packageId: string;
+    id: string;
 }
 
 export interface AttachmentHandoverControllerRefreshChecklistRequestParams {
-    handoverId: string;
+    id: string;
     refreshProjectHandoverAttachmentChecklistRequest: RefreshProjectHandoverAttachmentChecklistRequest;
 }
 
@@ -65,7 +65,7 @@ export class AttachmentHandoverApi extends BaseService {
 
     /**
      * 创建项目移交附件批量下载包
-     * @endpoint post /api/project-handovers/{handoverId}/attachment-download-packages
+     * @endpoint post /api/project-handovers/{id}/attachment-download-packages
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -75,9 +75,9 @@ export class AttachmentHandoverApi extends BaseService {
     public attachmentHandoverControllerCreateDownloadPackage(requestParameters: AttachmentHandoverControllerCreateDownloadPackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttachmentDownloadPackageSummary>>;
     public attachmentHandoverControllerCreateDownloadPackage(requestParameters: AttachmentHandoverControllerCreateDownloadPackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttachmentDownloadPackageSummary>>;
     public attachmentHandoverControllerCreateDownloadPackage(requestParameters: AttachmentHandoverControllerCreateDownloadPackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const handoverId = requestParameters?.handoverId;
-        if (handoverId === null || handoverId === undefined) {
-            throw new Error('Required parameter handoverId was null or undefined when calling attachmentHandoverControllerCreateDownloadPackage.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling attachmentHandoverControllerCreateDownloadPackage.');
         }
         const createProjectHandoverAttachmentDownloadPackageRequest = requestParameters?.createProjectHandoverAttachmentDownloadPackageRequest;
         if (createProjectHandoverAttachmentDownloadPackageRequest === null || createProjectHandoverAttachmentDownloadPackageRequest === undefined) {
@@ -120,7 +120,7 @@ export class AttachmentHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachment-download-packages`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachment-download-packages`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<AttachmentDownloadPackageSummary>('post', `${basePath}${localVarPath}`,
             {
@@ -138,7 +138,7 @@ export class AttachmentHandoverApi extends BaseService {
 
     /**
      * 下载附件批量包
-     * @endpoint get /api/attachment-download-packages/{packageId}/download
+     * @endpoint get /api/attachment-download-packages/{id}/download
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -148,9 +148,9 @@ export class AttachmentHandoverApi extends BaseService {
     public attachmentHandoverControllerDownloadPackage(requestParameters: AttachmentHandoverControllerDownloadPackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
     public attachmentHandoverControllerDownloadPackage(requestParameters: AttachmentHandoverControllerDownloadPackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
     public attachmentHandoverControllerDownloadPackage(requestParameters: AttachmentHandoverControllerDownloadPackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const packageId = requestParameters?.packageId;
-        if (packageId === null || packageId === undefined) {
-            throw new Error('Required parameter packageId was null or undefined when calling attachmentHandoverControllerDownloadPackage.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling attachmentHandoverControllerDownloadPackage.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -179,7 +179,7 @@ export class AttachmentHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/attachment-download-packages/${this.configuration.encodeParam({name: "packageId", value: packageId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/download`;
+        let localVarPath = `/api/attachment-download-packages/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/download`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -196,7 +196,7 @@ export class AttachmentHandoverApi extends BaseService {
 
     /**
      * 获取项目移交附件清单
-     * @endpoint get /api/project-handovers/{handoverId}/attachment-checklist
+     * @endpoint get /api/project-handovers/{id}/attachment-checklist
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -206,9 +206,9 @@ export class AttachmentHandoverApi extends BaseService {
     public attachmentHandoverControllerGetChecklist(requestParameters: AttachmentHandoverControllerGetChecklistRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectHandoverAttachmentChecklistView>>;
     public attachmentHandoverControllerGetChecklist(requestParameters: AttachmentHandoverControllerGetChecklistRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectHandoverAttachmentChecklistView>>;
     public attachmentHandoverControllerGetChecklist(requestParameters: AttachmentHandoverControllerGetChecklistRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const handoverId = requestParameters?.handoverId;
-        if (handoverId === null || handoverId === undefined) {
-            throw new Error('Required parameter handoverId was null or undefined when calling attachmentHandoverControllerGetChecklist.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling attachmentHandoverControllerGetChecklist.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -238,7 +238,7 @@ export class AttachmentHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachment-checklist`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachment-checklist`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectHandoverAttachmentChecklistView>('get', `${basePath}${localVarPath}`,
             {
@@ -255,7 +255,7 @@ export class AttachmentHandoverApi extends BaseService {
 
     /**
      * 获取附件下载包状态
-     * @endpoint get /api/attachment-download-packages/{packageId}
+     * @endpoint get /api/attachment-download-packages/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -265,9 +265,9 @@ export class AttachmentHandoverApi extends BaseService {
     public attachmentHandoverControllerGetDownloadPackage(requestParameters: AttachmentHandoverControllerGetDownloadPackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttachmentDownloadPackageSummary>>;
     public attachmentHandoverControllerGetDownloadPackage(requestParameters: AttachmentHandoverControllerGetDownloadPackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttachmentDownloadPackageSummary>>;
     public attachmentHandoverControllerGetDownloadPackage(requestParameters: AttachmentHandoverControllerGetDownloadPackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const packageId = requestParameters?.packageId;
-        if (packageId === null || packageId === undefined) {
-            throw new Error('Required parameter packageId was null or undefined when calling attachmentHandoverControllerGetDownloadPackage.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling attachmentHandoverControllerGetDownloadPackage.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -297,7 +297,7 @@ export class AttachmentHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/attachment-download-packages/${this.configuration.encodeParam({name: "packageId", value: packageId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/attachment-download-packages/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<AttachmentDownloadPackageSummary>('get', `${basePath}${localVarPath}`,
             {
@@ -314,7 +314,7 @@ export class AttachmentHandoverApi extends BaseService {
 
     /**
      * 刷新项目移交附件清单
-     * @endpoint post /api/project-handovers/{handoverId}/attachment-checklist:refresh
+     * @endpoint post /api/project-handovers/{id}/attachment-checklist:refresh
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -324,9 +324,9 @@ export class AttachmentHandoverApi extends BaseService {
     public attachmentHandoverControllerRefreshChecklist(requestParameters: AttachmentHandoverControllerRefreshChecklistRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectHandoverAttachmentChecklistView>>;
     public attachmentHandoverControllerRefreshChecklist(requestParameters: AttachmentHandoverControllerRefreshChecklistRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectHandoverAttachmentChecklistView>>;
     public attachmentHandoverControllerRefreshChecklist(requestParameters: AttachmentHandoverControllerRefreshChecklistRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const handoverId = requestParameters?.handoverId;
-        if (handoverId === null || handoverId === undefined) {
-            throw new Error('Required parameter handoverId was null or undefined when calling attachmentHandoverControllerRefreshChecklist.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling attachmentHandoverControllerRefreshChecklist.');
         }
         const refreshProjectHandoverAttachmentChecklistRequest = requestParameters?.refreshProjectHandoverAttachmentChecklistRequest;
         if (refreshProjectHandoverAttachmentChecklistRequest === null || refreshProjectHandoverAttachmentChecklistRequest === undefined) {
@@ -369,7 +369,7 @@ export class AttachmentHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachment-checklist:refresh`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachment-checklist:refresh`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectHandoverAttachmentChecklistView>('post', `${basePath}${localVarPath}`,
             {
