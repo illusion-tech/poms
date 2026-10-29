@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "kind": "independent-fixed-K-candidate-commit-integrity-review",
+  "result": "Pass",
+  "reviewedAt": "2026-10-29T19:00:22.612Z",
+  "scope": "Fixed pushed candidate integrity only. This is not a new G3/runtime certification or main/G4 integration completion.",
+  "implementationCommit": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+  "originalImplementationCommit": "889d6f79d51640cb9dbf5a9b10e41e6554ebe1be",
+  "styleCorrectionCommit": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+  "base": "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+  "permanentInputAncestor": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+  "commitChain": [
+    "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+    "ee0f4847cae292fe5cee1d1eec065b7194607683",
+    "889d6f79d51640cb9dbf5a9b10e41e6554ebe1be",
+    "9e5d23c2a591ed934595f9c9dfe278bad5af821d"
+  ],
+  "inputs": [
+    {
+      "file": "docs/design/rust-r2k-commit-representation01.json",
+      "bytes": 150776,
+      "rawBytesSha256": "bde8f0c23c2bf137a023d977b43128c6d299cf37b3d955126cabedb619dc23a3"
+    },
+    {
+      "file": "docs/design/rust-r2k-commit-whitespace-delta01.json",
+      "bytes": 1738,
+      "rawBytesSha256": "bef40ba043c9a59ff91a77e506e9753c299fec17b40975273b5587691f61d4b1"
+    },
+    {
+      "file": "docs/design/rust-r2k-g3-review01.json",
+      "bytes": 17303,
+      "rawBytesSha256": "a1687c924e58d2bc0256f5d6a12e4e51aaf34c6c6671307aaed226f7ab5e29f5"
+    },
+    {
+      "file": "docs/design/rust-r2k-validation.json",
+      "bytes": 271198,
+      "rawBytesSha256": "a647bf6e4fe92aea9b204bfa5ddedc33d8136eeeb48389552c8fc3922745af9e"
+    },
+    {
+      "file": "docs/design/rust-r2k-validation-delta01.json",
+      "bytes": 15089,
+      "rawBytesSha256": "3dd347f7e236ff27725176d0e7053b3ffa97c97fd79020558e282ed3d4644054"
+    },
+    {
+      "file": "docs/design/rust-r2k-preservation.json",
+      "bytes": 1624,
+      "rawBytesSha256": "8d44b06059101e53b0aa0d0db48cc5e00049495b6769024d81370e1ee878a2ed"
+    },
+    {
+      "file": "docs/design/rust-r2k-source-supplement01.json",
+      "bytes": 4470,
+      "rawBytesSha256": "585897692041571e5932fc63b46c15b641cf1959e756366769cc9cb73e934253"
+    }
+  ],
+  "commitChecks": {
+    "S2IsPermanentAncestor": true,
+    "originalImplementationParentIsS2": true,
+    "styleCommitParentIsOriginalImplementation": true,
+    "originalStageAndSourceUnionEntries": 331,
+    "all331OriginalIndexBlobDigestsMatch889d": true,
+    "all331FinalBlobDigestsMatchWithOnlyExactToolEOFException": true,
+    "stageMapIsUnionNot331ChangedBlobs": true,
+    "originalStageDeclaredChangedFiles": 126,
+    "originalImplementationChangedBlobs": 127,
+    "originalImplementationExtraSelfReport": "docs/design/rust-r2k-commit-representation01.json; excluded from its own331 map and independently committed-byte checked.",
+    "styleCommitChangedBlobs": [
+      "docs/design/rust-r2k-commit-whitespace-delta01.json",
+      "tools/rust-r2k/k-faults.mjs"
+    ],
+    "finalDiffCheckExit": 0
+  },
+  "reviewedSourceMapping": {
+    "frozenSourceFiles": 308,
+    "finalCommitNormalizedLfExact": 307,
+    "explicitToolEOFException": 1,
+    "originalNormalizedDigest": "7118e0b0dc50d189bab050d0c3d0c8928c22d98e555491d740dde47aaaf1c61d",
+    "finalNormalizedDigest": "8bda459a8f909b51c9feda7cde2c4918d605648c91623ac50fda411f4d1584cf",
+    "EOF": {
+      "file": "tools/rust-r2k/k-faults.mjs",
+      "before": {
+        "bytes": 11506,
+        "rawBytesSha256": "c60763e076bfab882324b2e8cb4cac84b22e5a981f3c57598ae58f62f6d28162"
+      },
+      "after": {
+        "bytes": 11505,
+        "rawBytesSha256": "0df62b9941fc8d423d6f9c97dcc486c16651ec9d551e95c59fc8975c139a0afd"
+      },
+      "proof": "Original ends with two LF bytes. Final is exactly original bytes with the last1 LF removed; every other byte is identical. Original is preserved in the initial archive payload, derived bytes in primary addenda/whitespace01 snapshot; manifest equals committed whitespace delta bytes.",
+      "semanticOrProductChange": false
+    },
+    "historicalCRLFMaps": {
+      "files": [
+        "tools/rust-r2l1/l-candidate01.json",
+        "tools/rust-r2l1/source-protection.mjs"
+      ],
+      "scope": "Only two already declared non-target old L1 current raw representations normalize to their exact S2/index/commit LF bytes. This is separate from the one new EOF correction; no global raw/LF waiver."
+    }
+  },
+  "protectedScope": {
+    "nativeControllerSpecAndTestEqualS2": true,
+    "AngularAdminAndDataAccessSourceEqualS2": true,
+    "fullOpenApiAndSharedContractsEqualS2": true,
+    "generatedClientFiles": 579,
+    "generatedClientOnlyChangedAfterS2": "libs/shared/api-client/api/project-handover.service.ts",
+    "other578ClientGitBlobIdsExactlyEqualS2": true,
+    "allowedR4ParameterDeltaOnly": true,
+    "earlierG1S2AndGeneratorIndependentReviewsRemainAuthoritative": true
+  },
+  "immutableEvidence": {
+    "committedAndCurrentExactFiveDocs": true,
+    "G3": "a1687c924e58d2bc0256f5d6a12e4e51aaf34c6c6671307aaed226f7ab5e29f5",
+    "validation": "a647bf6e4fe92aea9b204bfa5ddedc33d8136eeeb48389552c8fc3922745af9e",
+    "validationDelta": "3dd347f7e236ff27725176d0e7053b3ffa97c97fd79020558e282ed3d4644054",
+    "preservation": "8d44b06059101e53b0aa0d0db48cc5e00049495b6769024d81370e1ee878a2ed",
+    "rootSourceSupplement": "585897692041571e5932fc63b46c15b641cf1959e756366769cc9cb73e934253",
+    "primaryArchive": "E:/projects/poms/tmp/rust-r2k/final01-evidence.tar.gz",
+    "archiveSha256IndependentlyRecomputed": "c0c496299e588a5045883b65f512678b277b96712a4a9331620fbd1374111c18",
+    "primaryManifestSha256": "758ff263e3591336b281968269a6a60d1079b2b20168d478f0f144f22f07dca4",
+    "initialArchiveAndValidationNotRewritten": true,
+    "old889dAndWhitespaceWarningReplayRetained": true,
+    "newEOFDoesNotRelabelOldRuntimeCapsules": true
+  },
+  "liveGitReadbackBeforeWritingThisReview": {
+    "featureBranch": "codex/poms-r2k-handover-r4-route",
+    "featureHead": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+    "featureWorkingTreeClean": true,
+    "remoteFeature": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+    "primaryBranch": "main",
+    "primaryHead": "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+    "primaryWorkingTreeClean": true,
+    "remoteMain": "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+    "mainNotUpdated": true,
+    "mainIntegrationCertified": false,
+    "remoteCiGreenClaimed": false
+  },
+  "governance": {
+    "G3StillPassWithExplicitToolOnlyByteAddendum": true,
+    "currentDeliveryStill99of108": true,
+    "implementationCandidateMayProceedToRootMainIntegration": true,
+    "G4StillPending": true,
+    "issue78And83NotClosedByThisReview": true,
+    "parentsR4WholeL4MRemainOutsideCompletionClaim": true,
+    "followingRequired": "Root main FF/readback, then the explicit docs/archival/online G4 metadata cycle and its short fixed-commit verification."
+  },
+  "openFindings": {
+    "P0": [],
+    "P1": [],
+    "P2": [],
+    "P3": []
+  },
+  "reviewerBoundary": "Read-only Git/blob/source/JSON/hash/primary archive verification. No product/fixture/tool/environment change, Git mutation, DB/ORM/server/HTTP/UI execution or new runtime test.",
+  "reviewerWrites": [
+    "docs/design/rust-r2k-integration-review01.json",
+    "tmp/rust-r2k/c-integration-review01.json"
+  ]
+}

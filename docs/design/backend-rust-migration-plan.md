@@ -368,11 +368,11 @@ L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审�
 
 ### 2026-10-29 K业务与R4两参数联合批次 G0
 
-用户续授权K #78五业务＋原最小R4事实读取适配，与#83两项移交参数裁决并行，来源main f23490d0f0e145fb030d8f070726dd2aa00cf074。[联合基线候选](rust-r2k-r4-route-baseline.md)待G1；当前产品未改，K与#83仍Todo，不提前计104/108。原prepared-state/实际Native确认的来源观察不认证RustR4写链，K不加confirmed或snapshot消费门槛；L4/R2M、两lookup、父#61/#67/#57与整个R3–R5不因此完成。
+用户续授权K #78五业务＋原最小R4事实读取适配，与#83两项移交参数裁决并行，来源main f23490d0f0e145fb030d8f070726dd2aa00cf074。[联合基线候选](archive/slices/rust-r2k-r4-route-baseline.md)待G1；当前产品未改，K与#83仍Todo，不提前计104/108。原prepared-state/实际Native确认的来源观察不认证RustR4写链，K不加confirmed或snapshot消费门槛；L4/R2M、两lookup、父#61/#67/#57与整个R3–R5不因此完成。
 
 ### 2026-10-29 K与R4两参数联合G1冻结
 
-#78/#83于2026-10-29T10:00:47.319Z按[联合基线](rust-r2k-r4-route-baseline.md)及[独立审查](rust-r2kr4-g1-review01.json)进入Doing，开放P0–P3为0。K只迁五业务和原最小只读事实，Native-before-store及完整PG/存储/ZIP/UI/故障验收待执行；R4参数经新永久S2及原生成器受控同步，0新业务操作。原prepared-state与Native确认仅作来源观察，seed定义只读借用，不冒称RustR4业务/新draft API。当前仍99/108，G3/集成/G4及104/108条件均待完成，L/M与父项不关闭。
+#78/#83于2026-10-29T10:00:47.319Z按[联合基线](archive/slices/rust-r2k-r4-route-baseline.md)及[独立审查](rust-r2kr4-g1-review01.json)进入Doing，开放P0–P3为0。K只迁五业务和原最小只读事实，Native-before-store及完整PG/存储/ZIP/UI/故障验收待执行；R4参数经新永久S2及原生成器受控同步，0新业务操作。原prepared-state与Native确认仅作来源观察，seed定义只读借用，不冒称RustR4业务/新draft API。当前仍99/108，G3/集成/G4及104/108条件均待完成，L/M与父项不关闭。
 
 
 ### 2026-10-30 K 与 R4 两参数联合 G3 通过

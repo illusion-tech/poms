@@ -10,6 +10,6 @@ K #78 交付五个既有公共操作及四类原最小只读 facts；#83 同步 
 - 完整原 spec 仅两项参数标签改变，其余 289 operations / 585 schemas 不变；579 client 文件仅目标 service 改变，其余 578 不变。原生成器六输入保护和 write/check 保留，92 迁移及 Cargo 未变。
 - 双库 migration-check 的 exit 1 仍按既有低权限 CHECK 可见性/注释漂移分类；readonly dump 均 0，未执行建议 SQL。最终 34 backend/run 全表引用预检、登记数据/local 对象双零及借用两定义原字节均通过；新 PG15 已停、五端口释放，旧环境和 Windows PG17 保留。
 
-冻结的[机器验收](rust-r2k-validation.json)与[纠偏记录](rust-r2k-corrective-checkpoint.md)分别保留实际时点。旧 99 个 R2 操作承接原验收与当前源码保护/回归，不冒称本批重新实跑全部旧 HTTP。公开归档、非作者联合 G3、固定提交复核、main 集成和在线 G4 都以其独立增量为准。
+冻结的[机器验收](../../rust-r2k-validation.json)与[纠偏记录](rust-r2k-corrective-checkpoint.md)分别保留实际时点。旧 99 个 R2 操作承接原验收与当前源码保护/回归，不冒称本批重新实跑全部旧 HTTP。公开归档、非作者联合 G3、固定提交复核、main 集成和在线 G4 都以其独立增量为准。
 
 L 四路由、真实 R3–R5 handler、R2M、整个 R4、两项业务号 lookup 与父 #61/#67/#57 保持未完成；无部署、真实云租户或性能结论。

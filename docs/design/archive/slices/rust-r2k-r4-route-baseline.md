@@ -1,6 +1,6 @@
 # RUST-R2K / ROUTE-R4-HANDOVER 联合实施基线
 
-- Gate Status：G1 Pass（2026-10-29T10:00:47.319Z）；非作者联合审查[review01](rust-r2kr4-g1-review01.json)开放P0–P3为0。原受审scope与输入已保全，以下仅Gate元数据更新；G3/实际验收/G4仍待完成。
+- Gate Status：G1 Pass（2026-10-29T10:00:47.319Z）；非作者联合审查[review01](../../rust-r2kr4-g1-review01.json)开放P0–P3为0。原受审scope与输入已保全，以下仅Gate元数据更新；G3/实际验收/G4仍待完成。
 - 用户授权：2026-10-29“好的，启动”，承接已说明的K五业务＋最小R4真实事实读取，并行R4两项参数裁决，完整G0–G4。
 - Task：RUST-R2K #78（父#67）；RUST-ROUTE-R4-HANDOVER #83（父#61）。
 - 类型：K为persistence/api/binary/storage跨层高风险；R4参数为api/生成契约同步，联合按cross-layer-high-risk验证。
