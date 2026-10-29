@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "kind": "K-five-operations-and-R4-two-parameters-G4-closeout",
-  "result": "Ready",
+  "result": "Pass",
   "recordedAt": "2026-10-29T19:04:24.741Z",
   "issues": [
     78,
@@ -97,7 +97,7 @@
     "KExistingOperationsDelivered": 5,
     "R4ParameterOperations": 2,
     "newR4BusinessOperations": 0,
-    "currentR2Delivered": 99,
+    "currentR2Delivered": 104,
     "afterActualG4R2Delivered": 104,
     "R2Total": 108,
     "LPublicOperationsRemaining": 4,
@@ -105,8 +105,38 @@
     "wholeR4Pending": true,
     "twoBusinessLookupDecisionsPending": true,
     "noDeploymentPerformed": true,
-    "noPG17SqlOrServiceMutation": true
+    "noPG17SqlOrServiceMutation": true,
+    "remainingR2PublicOperations": 4
   },
-  "g4": "Pending actual online Issue closeout after this lifecycle/readiness metadata is pushed",
-  "selfHashBoundary": "The actual ready-metadata commit and final closeout commit are recorded by later additive receipts; this file never claims its own future Git hash."
+  "g4": "Pass",
+  "selfHashBoundary": "The actual ready-metadata commit and final closeout commit are recorded by later additive receipts; this file never claims its own future Git hash.",
+  "g4ClosedAtObserved": "2026-10-29T19:18:53.672Z",
+  "metadataReadyCommit": "33882f3f598048f837e4053653271646240f9eda",
+  "onlineG4": "docs/design/rust-r2k-online-g4.json",
+  "g4ReadyReview": "docs/design/rust-r2k-g4-ready-review01.json",
+  "g4ReadyMain": "docs/design/rust-r2k-g4-ready-main01.json",
+  "closedIssues": [
+    78,
+    83
+  ],
+  "parentIssuesStillOpen": [
+    61,
+    67,
+    57
+  ],
+  "LAndMIssuesStillOpen": [
+    79,
+    80
+  ],
+  "onlineComments": [
+    {
+      "issue": 78,
+      "url": "https://github.com/illusion-tech/poms/issues/78#issuecomment-6506154711"
+    },
+    {
+      "issue": 83,
+      "url": "https://github.com/illusion-tech/poms/issues/83#issuecomment-6506157374"
+    }
+  ],
+  "evidenceIndex": "docs/design/rust-r2k-evidence-index.json"
 }

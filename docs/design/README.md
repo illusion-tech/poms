@@ -392,6 +392,8 @@
 
 - [L1/K5 子片G4收口](rust-r2l1-g4-closeout.md)：#81/#82已关闭，0新增公共操作、R2仍99/108，父项及领域业务保持未完成。
 
-- [K业务与R4两参数联合基线](archive/slices/rust-r2k-r4-route-baseline.md)：#78/#83，G3 Pass、待提交集成/G4，仍99/108。
+- [K业务与R4两参数联合基线](archive/slices/rust-r2k-r4-route-baseline.md)：#78/#83，G4 Pass，当前104/108；L四操作及R2M待验。
 
-- [K与R4两参数联合G3](rust-r2k-g3-review01.json)：实际验收及主区保全已核，仍待提交集成/G4。
+- [K与R4两参数联合G3](rust-r2k-g3-review01.json)：实际验收、主区保全与固定提交已核；G4完成，见归档收口。
+
+- [K与R4两参数G4收口](archive/slices/rust-r2k-closeout.md)：#78/#83已关闭，104/108；[证据索引](rust-r2k-evidence-index.json)保留原始与增量路径。

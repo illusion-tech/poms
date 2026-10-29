@@ -331,7 +331,7 @@
       "taskId": "RUST-R2K",
       "title": "移交附件清单与下载包",
       "issue": 78,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 5,
       "proposedDependencies": [
@@ -359,7 +359,17 @@
       "validationDelta": "docs/design/rust-r2k-validation-delta01.json",
       "sourceSupplement": "docs/design/rust-r2k-source-supplement01.json",
       "preservation": "docs/design/rust-r2k-preservation.json",
-      "g3Comment": "https://github.com/illusion-tech/poms/issues/78#issuecomment-6505490004"
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/78#issuecomment-6505490004",
+      "g4": "Pass",
+      "g4ClosedAtObserved": "2026-10-29T19:18:53.672Z",
+      "implementationCommit": "889d6f79d51640cb9dbf5a9b10e41e6554ebe1be",
+      "finalCodeCandidate": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+      "metadataReadyCommit": "33882f3f598048f837e4053653271646240f9eda",
+      "integrationReview": "docs/design/rust-r2k-integration-review01.json",
+      "g4ReadyReview": "docs/design/rust-r2k-g4-ready-review01.json",
+      "closeout": "docs/design/rust-r2k-closeout.json",
+      "onlineG4": "docs/design/rust-r2k-online-g4.json",
+      "g4Comment": "https://github.com/illusion-tech/poms/issues/78#issuecomment-6506154711"
     },
     {
       "taskId": "RUST-R2L",
@@ -15927,13 +15937,13 @@
       78,
       83
     ],
-    "status": "Doing",
+    "status": "Done",
     "g1": "Pass",
     "g3": "Pass",
-    "g4": "Pending",
+    "g4": "Pass",
     "baseline": "docs/design/archive/slices/rust-r2k-r4-route-baseline.md",
-    "newDeliveredPublicOperations": 0,
-    "currentR2Delivered": 99,
+    "newDeliveredPublicOperations": 5,
+    "currentR2Delivered": 104,
     "targetPublicOperationsAfterKG4": 104,
     "g1FrozenAt": "2026-10-29T10:00:47.319Z",
     "g1Review": "docs/design/rust-r2kr4-g1-review01.json",
@@ -15948,12 +15958,18 @@
     "mainIntegration": "docs/design/rust-r2k-main-integration01.json",
     "integrationReview": "docs/design/rust-r2k-integration-review01.json",
     "lifecyclePathMap": "docs/design/rust-r2k-lifecycle-path-map.json",
-    "closeout": "docs/design/rust-r2k-closeout.json"
+    "closeout": "docs/design/rust-r2k-closeout.json",
+    "g4ClosedAtObserved": "2026-10-29T19:18:53.672Z",
+    "implementationCommit": "889d6f79d51640cb9dbf5a9b10e41e6554ebe1be",
+    "finalCodeCandidate": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+    "metadataReadyCommit": "33882f3f598048f837e4053653271646240f9eda",
+    "g4ReadyReview": "docs/design/rust-r2k-g4-ready-review01.json",
+    "onlineG4": "docs/design/rust-r2k-online-g4.json"
   },
   "currentDeliverySummary": {
-    "deliveredOperations": 99,
+    "deliveredOperations": 104,
     "totalOperations": 108,
-    "remainingOperations": 9,
+    "remainingOperations": 4,
     "deliveredSlices": [
       "RUST-R2A",
       "RUST-R2B",
@@ -15964,17 +15980,21 @@
       "RUST-R2G",
       "RUST-R2H",
       "RUST-R2I",
-      "RUST-R2J"
+      "RUST-R2J",
+      "RUST-R2K"
     ],
-    "parentState": "Doing/Open；K5/L4业务操作和R2M验收未完成；#61仅K5参数子片完成，其他四项差异保留",
+    "parentState": "Doing/Open；L四公开操作、真实域handler与R2M待验；#61两个参数组已交付，两业务号lookup继续待裁决",
     "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved",
     "completedMechanismSubSlices": [
       81
     ],
     "completedRouteParameterSubSlices": [
-      82
+      82,
+      83
     ],
-    "latestSubSliceImplementation": "894fc72c2a90f0c93988ad23bcfe87157bdc322d"
+    "latestSubSliceImplementation": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+    "latestImplementationCommit": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+    "latestCloseout": "docs/design/rust-r2k-closeout.json"
   },
   "executionBatchHistory": [
     {
@@ -16119,7 +16139,7 @@
       "taskId": "RUST-ROUTE-R4-HANDOVER",
       "issue": 83,
       "parentIssue": 61,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 0,
       "scope": "Two R4 handover path parameter decisions/controller-spec-client sync; no Rust R4 domain write delivery",
@@ -16135,7 +16155,17 @@
       "validationDelta": "docs/design/rust-r2k-validation-delta01.json",
       "sourceSupplement": "docs/design/rust-r2k-source-supplement01.json",
       "preservation": "docs/design/rust-r2k-preservation.json",
-      "g3Comment": "https://github.com/illusion-tech/poms/issues/83#issuecomment-6505492028"
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/83#issuecomment-6505492028",
+      "g4": "Pass",
+      "g4ClosedAtObserved": "2026-10-29T19:18:53.672Z",
+      "implementationCommit": "889d6f79d51640cb9dbf5a9b10e41e6554ebe1be",
+      "finalCodeCandidate": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+      "metadataReadyCommit": "33882f3f598048f837e4053653271646240f9eda",
+      "integrationReview": "docs/design/rust-r2k-integration-review01.json",
+      "g4ReadyReview": "docs/design/rust-r2k-g4-ready-review01.json",
+      "closeout": "docs/design/rust-r2k-closeout.json",
+      "onlineG4": "docs/design/rust-r2k-online-g4.json",
+      "g4Comment": "https://github.com/illusion-tech/poms/issues/83#issuecomment-6506157374"
     }
   ],
   "routeDecisionCloseouts": [
@@ -16149,6 +16179,17 @@
       "permanentSourceInput": "687827d45da2047028f625a600fe207876d40d6f",
       "newDeliveredPublicOperations": 0,
       "otherFourRouteDifferencesRemainOpen": true
+    },
+    {
+      "issue": 83,
+      "parentIssue": 61,
+      "status": "Done",
+      "parameterOperations": 2,
+      "canonicalParameter": "id",
+      "implementationCommit": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
+      "permanentSourceInput": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+      "newDeliveredPublicOperations": 0,
+      "twoBusinessLookupDecisionsRemainOpen": true
     }
   ]
 }

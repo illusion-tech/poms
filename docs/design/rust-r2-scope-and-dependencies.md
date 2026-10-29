@@ -328,3 +328,8 @@ L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审�
 ### 2026-10-30 K 与 R4 两参数联合 G3 通过
 
 #78/#83 的[非作者联合 G3](rust-r2k-g3-review01.json)通过，[冻结验收](rust-r2k-validation.json)、[分类增量](rust-r2k-validation-delta01.json)、[原来源补证](rust-r2k-source-supplement01.json)与[保全锚点](rust-r2k-preservation.json)分别保留原字节和边界。Rust211通过/54历史ignored、共享1185tests、K43请求/端及实际ZIP/并发/故障/OBS/UI均已核；schema既有分类与OBS断连生命周期差异明列。当前仍Doing、99/108，提交集成、固定提交复核和G4待完成；只有K完整G4后可104/108，L4/R2M、整个R4、两lookup和父项保持未完成。
+
+
+### 2026-10-30 K 与 R4 两参数联合 G4 完成
+
+K [#78](https://github.com/illusion-tech/poms/issues/78)五业务及参数[#83](https://github.com/illusion-tech/poms/issues/83)已完成并关闭；代码候选`9e5d23c2a591ed934595f9c9dfe278bad5af821d`、独立固定提交与归档准备复核均通过，S2永久祖先保留。[归档收口](archive/slices/rust-r2k-closeout.md)、[实际在线回执](rust-r2k-online-g4.json)与[证据索引](rust-r2k-evidence-index.json)分列原字节及小增量。生命周期10件已移archive/slices，根机器索引长期保留；旧失败/partial/uncertified及54literal/3根来源补证、单EOF修正均保留各自时点。当前R2A–K累计 **104/108**，余 **L四公开操作及R2M验收**；真实域handler、两lookup、整个R4与父#61/#67/#57继续未完成，PG17与旧环境保留，无部署或性能结论。上方较早日期的G1/G3/99进度为历史时点，以本条和GitHub原生Issue为当前状态。
