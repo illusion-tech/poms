@@ -1,7 +1,7 @@
 # POMS 后端 Rust 重构计划
 
 **文档状态**: Active — R0 已完成；R1A–E 已交付，R1 #60 / R1E #66 G4 / Done 随本归档提交及 Issue 同步生效；总体 #57 与 R2–R7 未完成
-**最后更新**: 2026-10-28
+**最后更新**: 2026-10-29
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
 
@@ -340,4 +340,10 @@ G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累�
 
 ### 2026-10-29 I/J批次授权
 
-用户在上一轮“下一批是什么？”答复后明确“开始”，授权R2I#76与R2J#77共25个既有操作完整G0–G4。沿用1.1/1.2的模型、独立分工、集中实际验收与solo集成规则；联合G1已按[基线](rust-r2ij-storage-attachments-baseline.md)冻结，Issue Doing，G3/G4仍Pending。先前1.2.1“本轮仅含E/F”为该历史授权时点，不限制本次新授权；K/L/M、#61、R3–R5、父#67/#57及生产部署不在本批。
+用户在上一轮“下一批是什么？”答复后明确“开始”，授权R2I#76与R2J#77共25个既有操作完整G0–G4。沿用1.1/1.2的模型、独立分工、集中实际验收与solo集成规则；联合G1已按[基线](archive/slices/rust-r2ij-storage-attachments-baseline.md)冻结，Issue Doing，G3/G4仍Pending。先前1.2.1“本轮仅含E/F”为该历史授权时点，不限制本次新授权；K/L/M、#61、R3–R5、父#67/#57及生产部署不在本批。
+
+### 2026-10-29 RUST-R2I/J 联合G4归档
+
+R2I [#76](https://github.com/illusion-tech/poms/issues/76) 六操作与R2J [#77](https://github.com/illusion-tech/poms/issues/77) 十九操作已交付，实现`568c0ba39dc8dbc687c04f55f690e4f36c0af5d0`已集成推送main；[联合最终G3](rust-r2ij-review01.json)和[独立集成核验](rust-r2ij-integration-review.json)均Pass，未关闭P1/P2为0。[初始验收](rust-r2ij-validation.json)、[同次纠偏增量](rust-r2ij-g3-delta01.json)、[完整来源](rust-r2ij-source-manifest.json)及[保全锚点](rust-r2ij-preservation.json)分别保留时点与原字节；[归档收口](archive/slices/rust-r2ij-closeout.md)解释路径/hash映射。
+
+G4随本归档提交推送与在线回写核对生效，仅关闭#76/#77。R2A–J累计 **99/108**，余 **9个操作（K5/L4）及R2M阶段验收**；父#67/#57保持Open，K/L/M、#61和R3–R5边界不变。PG17实例和数据、旧环境及新PG15保留；本批API/OBS/新PG15已正常停止，无部署、真实OBS租户认证或性能结论。上方带日期的旧计数与G1/Pending记录保留历史含义，以本条为当前状态。

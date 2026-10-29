@@ -106,8 +106,8 @@
 - `phase2-lx-t04-full-mainline-development-decision.md`：第二阶段 `LX-T04` 统一开发判断的当前精简入口，负责固定是否进入开发、统一开发范围、切片顺序与启动约束
 - `implementation-delivery-guide.md`：实施启动与交付流程说明，聚焦实施入口、切片流程、完成定义与文档回写约束
 - [backend-rust-migration-plan.md](backend-rust-migration-plan.md)：后端 Rust 重构计划，明确 WSL Debian 环境、兼容边界、分阶段实现、统一切换和回滚；不以性能实测作为立项前置条件
-- [rust-r2-scope-and-dependencies.md](rust-r2-scope-and-dependencies.md)：R2 #67 的 108 操作互斥拆片、依赖和待决路由；[机器映射](rust-r2-operation-slices.json)，首片 [R2A 导航基线](archive/slices/rust-r2a-navigation-baseline.md)，R2B按[角色权限基线](archive/slices/rust-r2b-role-permissions-baseline.md)交付八操作 / G4，R2C按[组织基线](archive/slices/rust-r2c-org-units-baseline.md)交付八操作 / G4，其余E–M单独冻结G1
-- [R2A 收口记录](archive/slices/rust-r2a-closeout.md)：三操作导航与真实同步审计已交付；[纠偏记录](archive/slices/rust-r2a-corrective-checkpoint.md)、[机器验收](rust-r2a-validation.json)。R2父任务继续Doing，R2B Done / G4，R2C Done / G4，E–M仍Todo。
+- [rust-r2-scope-and-dependencies.md](rust-r2-scope-and-dependencies.md)：R2 #67 的 108 操作互斥拆片、依赖和待决路由；[机器映射](rust-r2-operation-slices.json)，首片 [R2A 导航基线](archive/slices/rust-r2a-navigation-baseline.md)，R2B按[角色权限基线](archive/slices/rust-r2b-role-permissions-baseline.md)交付八操作 / G4，R2C按[组织基线](archive/slices/rust-r2c-org-units-baseline.md)交付八操作 / G4，当前R2A–J已交付，K/L/M按各自依赖继续推进
+- [R2A 收口记录](archive/slices/rust-r2a-closeout.md)：三操作导航与真实同步审计已交付；[纠偏记录](archive/slices/rust-r2a-corrective-checkpoint.md)、[机器验收](rust-r2a-validation.json)。本条保留R2A收口时点；当前R2父任务继续Doing，累计状态见最新I/J联合收口。
 - [R2D 收口记录](archive/slices/rust-r2d-closeout.md)：11个用户/owner-reference/profile操作；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项/1747来源静态检查通过；[基线](archive/slices/rust-r2d-users-profile-baseline.md)、[纠偏](archive/slices/rust-r2d-corrective-checkpoint.md)、[机器验收](rust-r2d-validation.json)。G4随归档提交推送与Issue同步生效；R2累计30/108、剩余78及R2M，父#67/#57 Open，E–M与#61不变，PG17保留。
 - [R2C 收口记录](archive/slices/rust-r2c-closeout.md)：八操作组织树与命令已交付；[纠偏记录](archive/slices/rust-r2c-corrective-checkpoint.md)、[机器验收](rust-r2c-validation.json)。R2A/B/C累计19/108，余89操作及R2M阶段验收；G4随归档推送和Issue同步生效。
 - [R2B 收口记录](archive/slices/rust-r2b-closeout.md)：八操作角色与权限已交付；[纠偏记录](archive/slices/rust-r2b-corrective-checkpoint.md)、[机器验收](rust-r2b-validation.json)。G4随本归档提交推送及Issue同步生效。
@@ -381,3 +381,5 @@
 - [R2E/F 联合收口](archive/slices/rust-r2ef-closeout.md)：实现`9b3086f6957dfed318a7a53d10cf245394d5282f`已推送，G3独审无未关闭P0/P1/P2；[机器验收](rust-r2ef-validation.json)、[独审原件](rust-r2ef-review.json)、[归档基线](archive/slices/rust-r2ef-foundation-audit-baseline.md)。G4随归档推送与Issue核对生效；R2A–F累计40/108、余68及R2M，父#67/#57 Open，G–M及#61不变，PG17保留。上方各旧切片计数保留其收口时点含义。
 
 - [R2G/H 联合收口](archive/slices/rust-r2gh-closeout.md)：34个既有操作，实现91cda75f已推送main，G3最终P0–P3未关闭0，独立集成核验Pass；[原件](rust-r2gh-validation.json)/[初审Block](rust-r2gh-review.json)/[增量02](rust-r2gh-g3-delta02.json)/[最终独审](rust-r2gh-review02.json)分列，受审全量清单保留；[G4来源快照](rust-r2gh-g4-source-manifest.json)分列归档时点。G4随归档推送与Issue回写生效，累计74/108、余34＋R2M，仅#74/#75完成，父#67/#57与I–M/#61保留。
+
+- [R2I/J 联合收口](archive/slices/rust-r2ij-closeout.md)：25个既有操作，实现568c0ba3已推送，联合G3及独立集成核验Pass；[初始验收](rust-r2ij-validation.json)/[纠偏增量](rust-r2ij-g3-delta01.json)/[最终独审](rust-r2ij-review01.json)/[完整来源](rust-r2ij-source-manifest.json)/[保全锚点](rust-r2ij-preservation.json)分列。G4随归档推送与Issue回写生效，累计99/108，余K5/L4共9操作＋R2M；父#67/#57、K/L/M及#61保留。

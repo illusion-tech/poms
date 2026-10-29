@@ -1,6 +1,6 @@
 # RUST-R2I＋R2J 存储与附件联合实施基线
 
-- Gate Status：G1 Pass（2026-10-28T18:07:35.477Z）；同一次[非作者联合审查](rust-r2ij-g1-review01.json)通过，P0/P1/P2/P3=0，I/J可进入Doing。受审原文保全于tmp/rust-r2ij/g1-baseline-reviewed-original.md，hash绑定原候选；以下仅补Gate状态，不改变冻结语义。尚无运行验收或G4完成声明。
+- Gate Status：G1 Pass（2026-10-28T18:07:35.477Z）；同一次[非作者联合审查](../../rust-r2ij-g1-review01.json)通过，P0/P1/P2/P3=0，I/J可进入Doing。受审原文保全于tmp/rust-r2ij/g1-baseline-reviewed-original.md，hash绑定原候选；以下仅补Gate状态，不改变冻结语义。尚无运行验收或G4完成声明。
 - 用户授权：2026-10-29 的“开始”，承接上一轮 R2I＋R2J 共25操作提议，完成本批 G0–G4。父任务 [#67](https://github.com/illusion-tech/poms/issues/67) / [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。
 - 子片：[R2I #76](https://github.com/illusion-tech/poms/issues/76) 6操作、[R2J #77](https://github.com/illusion-tech/poms/issues/77) 19操作。类型：cross-layer-high-risk；当前起点74/108，只有本批实际 G4 后才能记99/108。
 - 基线：main `61d6df1e971e7e785382dc85c75273e584ee2545`。复用干净隔离工作树 `E:/projects/worktrees/poms-r2ef-foundation-audit/poms`，分支 `codex/poms-r2ij-storage-attachments`；primary `E:/projects/poms` 保留。采用既有 solo checkpoint 工作流，独立 G3 后提交推送、集成检查，G4 才归档和关闭子 Issue。
@@ -10,20 +10,20 @@
 
 本批只迁移现有25操作、本地与 OBS S3-compatible adapter、默认配置与密文、上传会话、附件版本/链接/预览/中心。没有新公开路由、旧 multipart 入口恢复、产品 DDL、原 TS 产品修改、生产部署、正式外部写入或性能 PoC。K/L/M、#61五项 K 参数裁决、R3–R5业务命令和父任务收口不在本批。
 
-| Input Type           | Source                                                                                                   | Authority / Boundary                               |
-| -------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Business / migration | [迁移计划](backend-rust-migration-plan.md) 1.1/1.2/1.2.1；[R2范围](rust-r2-scope-and-dependencies.md)    | 既定调度、隔离、模型、证据与交付规则               |
-| Route / ADR          | [108操作归属](rust-r2-operation-slices.json)；[canonical](api-route-canonical-inventory.md)；ADR-015/018 | I6/J19均canonical-match；K5独占#61                 |
-| DTO / OpenAPI        | `libs/api/contracts/src`、`libs/shared/contracts/src`、`libs/shared/api-spec/openapi.json`               | 现行 TS/Zod/完整规范继续单向拥有协议               |
-| Command / query      | `apps/poms-api/src/app/features/attachment/` 的现行controller/service/repository/mapper                  | 真实顺序、错误、权限、状态及副作用权威             |
-| Persistence          | 原 attachment/provider/session/link entity、92份历史migration                                            | 复用既有物理表/索引/约束，不新增migration          |
-| UI                   | 原存储配置页、AttachmentPanel、附件中心与stores                                                          | 保留现有 Angular/generated client 消费方式         |
-| I详细冻结输入        | [I输入](rust-r2ij/i-source-input.md)、[I来源](rust-r2ij/i-sources.json)                                  | 61件来源双哈希；候选正文由本包裁定后生效           |
-| J详细冻结输入        | [J输入](rust-r2ij/j-source-input.md)、[J来源](rust-r2ij/j-sources.json)                                  | 102件来源双哈希、19操作、31 schema闭包             |
-| G0独立盘点           | [依赖清单](rust-r2ij/g0-dependencies.json)                                                               | 25逐项依赖、6类真实业务projection及K排除清单       |
-| Environment          | [只读环境输入](rust-r2ij/environment-input.json)                                                         | 37来源；新IJ容器/volume/DB/端口与完整fixture支持链 |
+| Input Type           | Source                                                                                                               | Authority / Boundary                               |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Business / migration | [迁移计划](../../backend-rust-migration-plan.md) 1.1/1.2/1.2.1；[R2范围](../../rust-r2-scope-and-dependencies.md)    | 既定调度、隔离、模型、证据与交付规则               |
+| Route / ADR          | [108操作归属](../../rust-r2-operation-slices.json)；[canonical](../../api-route-canonical-inventory.md)；ADR-015/018 | I6/J19均canonical-match；K5独占#61                 |
+| DTO / OpenAPI        | `libs/api/contracts/src`、`libs/shared/contracts/src`、`libs/shared/api-spec/openapi.json`                           | 现行 TS/Zod/完整规范继续单向拥有协议               |
+| Command / query      | `apps/poms-api/src/app/features/attachment/` 的现行controller/service/repository/mapper                              | 真实顺序、错误、权限、状态及副作用权威             |
+| Persistence          | 原 attachment/provider/session/link entity、92份历史migration                                                        | 复用既有物理表/索引/约束，不新增migration          |
+| UI                   | 原存储配置页、AttachmentPanel、附件中心与stores                                                                      | 保留现有 Angular/generated client 消费方式         |
+| I详细冻结输入        | [I输入](../../rust-r2ij/i-source-input.md)、[I来源](../../rust-r2ij/i-sources.json)                                  | 61件来源双哈希；候选正文由本包裁定后生效           |
+| J详细冻结输入        | [J输入](../../rust-r2ij/j-source-input.md)、[J来源](../../rust-r2ij/j-sources.json)                                  | 102件来源双哈希、19操作、31 schema闭包             |
+| G0独立盘点           | [依赖清单](../../rust-r2ij/g0-dependencies.json)                                                                     | 25逐项依赖、6类真实业务projection及K排除清单       |
+| Environment          | [只读环境输入](../../rust-r2ij/environment-input.json)                                                               | 37来源；新IJ容器/volume/DB/端口与完整fixture支持链 |
 
-共享端口的锁定依赖源码依据及细节见 [I transport](rust-r2ij/i-transport-plan.md) 与 [J binary](rust-r2ij/j-binary-plan.md)；与本包第5节共同进入同一次联合G1。新鲜在线收据为 `tmp/rust-r2ij/g0-online-issues.json`（2026-10-28T17:59:40.456Z），#76/#77 body/comments/closing PR/labels/projects与sub-issues/blocked-by/blocking均已读取；两Issue Open/Todo，在线关系集合均空，正式依赖采用本包已完成能力，不把空关系解释为无依赖。
+共享端口的锁定依赖源码依据及细节见 [I transport](../../rust-r2ij/i-transport-plan.md) 与 [J binary](../../rust-r2ij/j-binary-plan.md)；与本包第5节共同进入同一次联合G1。新鲜在线收据为 `tmp/rust-r2ij/g0-online-issues.json`（2026-10-28T17:59:40.456Z），#76/#77 body/comments/closing PR/labels/projects与sub-issues/blocked-by/blocking均已读取；两Issue Open/Todo，在线关系集合均空，正式依赖采用本包已完成能力，不把空关系解释为无依赖。
 
 上述原始来源清单保留基线时点 raw/LF 指纹；后续治理状态修改不倒写原件。详细输入保留作者候选时点措辞，本包第5节的最终公共端口优先于候选中的ApiError/类型建议；候选本身没有独立Gate效力。来源/runtime/export/受控HTTP/真实租户证据分别记录，不将源码测试数量当作本次通过数。
 

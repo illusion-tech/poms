@@ -264,7 +264,7 @@
       "taskId": "RUST-R2I",
       "title": "附件存储提供商",
       "issue": 76,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 6,
       "proposedDependencies": [
@@ -277,15 +277,28 @@
       ],
       "g1FrozenAt": "2026-10-28T18:07:35.477Z",
       "g1CandidateSha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b",
-      "baseline": "docs/design/rust-r2ij-storage-attachments-baseline.md",
+      "baseline": "docs/design/archive/slices/rust-r2ij-storage-attachments-baseline.md",
       "batchId": "RUST-R2IJ",
-      "review": "docs/design/rust-r2ij-g1-review01.json"
+      "review": "docs/design/rust-r2ij-review01.json",
+      "g3": "Pass",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "g1Review": "docs/design/rust-r2ij-g1-review01.json",
+      "validation": "docs/design/rust-r2ij-validation.json",
+      "validationDelta": "docs/design/rust-r2ij-g3-delta01.json",
+      "sourceManifest": "docs/design/rust-r2ij-source-manifest.json",
+      "preservation": "docs/design/rust-r2ij-preservation.json",
+      "implementationCommit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+      "closeout": "docs/design/archive/slices/rust-r2ij-closeout.md",
+      "closure": "docs/design/rust-r2ij-g4-closure.json",
+      "integration": "docs/design/rust-r2ij-post-integration.json",
+      "integrationReview": "docs/design/rust-r2ij-integration-review.json",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/76#issuecomment-6484771664"
     },
     {
       "taskId": "RUST-R2J",
       "title": "附件基础、上传、版本与中心",
       "issue": 77,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 19,
       "proposedDependencies": [
@@ -297,9 +310,22 @@
       ],
       "g1FrozenAt": "2026-10-28T18:07:35.477Z",
       "g1CandidateSha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b",
-      "baseline": "docs/design/rust-r2ij-storage-attachments-baseline.md",
+      "baseline": "docs/design/archive/slices/rust-r2ij-storage-attachments-baseline.md",
       "batchId": "RUST-R2IJ",
-      "review": "docs/design/rust-r2ij-g1-review01.json"
+      "review": "docs/design/rust-r2ij-review01.json",
+      "g3": "Pass",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "g1Review": "docs/design/rust-r2ij-g1-review01.json",
+      "validation": "docs/design/rust-r2ij-validation.json",
+      "validationDelta": "docs/design/rust-r2ij-g3-delta01.json",
+      "sourceManifest": "docs/design/rust-r2ij-source-manifest.json",
+      "preservation": "docs/design/rust-r2ij-preservation.json",
+      "implementationCommit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+      "closeout": "docs/design/archive/slices/rust-r2ij-closeout.md",
+      "closure": "docs/design/rust-r2ij-g4-closure.json",
+      "integration": "docs/design/rust-r2ij-post-integration.json",
+      "integrationReview": "docs/design/rust-r2ij-integration-review.json",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/77#issuecomment-6484773738"
     },
     {
       "taskId": "RUST-R2K",
@@ -15872,31 +15898,33 @@
     "historicalSummary": "summary.allSlicesG1 retains its original inventory snapshot; current G1/G4 and delivery status come from slices[]"
   },
   "executionBatch": {
-    "id": "RUST-R2GH",
+    "id": "RUST-R2IJ",
     "issues": [
-      74,
-      75
+      76,
+      77
     ],
-    "status": "Done",
-    "baseline": "docs/design/archive/slices/rust-r2gh-identity-directory-baseline.md",
-    "policy": "Parallel G/H authors; Root unified real validation and preservation; non-author joint G3; separate commit/integration/G4",
+    "policy": "Parallel I/J authors; Root unified actual validation/preservation; independent joint G3; solo main integration and separate G4",
     "g1": "Pass",
+    "status": "Done",
     "g3": "Pass",
     "g4": "Pass upon archive push and issue reconciliation",
-    "validation": "docs/design/rust-r2gh-validation.json",
-    "review": "docs/design/rust-r2gh-review02.json",
-    "initialReview": "docs/design/rust-r2gh-review.json",
-    "validationDelta": "docs/design/rust-r2gh-g3-delta02.json",
-    "sourceManifest": "docs/design/rust-r2gh-source-manifest.json",
-    "implementationCommit": "91cda75f8379a4085a37c14fc1fd25bde0a731dc",
-    "closeout": "docs/design/archive/slices/rust-r2gh-closeout.md",
-    "closure": "docs/design/rust-r2gh-g4-closure.json",
-    "integrationReview": "docs/design/rust-r2gh-integration-review.json"
+    "baseline": "docs/design/archive/slices/rust-r2ij-storage-attachments-baseline.md",
+    "g1Review": "docs/design/rust-r2ij-g1-review01.json",
+    "review": "docs/design/rust-r2ij-review01.json",
+    "validation": "docs/design/rust-r2ij-validation.json",
+    "validationDelta": "docs/design/rust-r2ij-g3-delta01.json",
+    "sourceManifest": "docs/design/rust-r2ij-source-manifest.json",
+    "preservation": "docs/design/rust-r2ij-preservation.json",
+    "implementationCommit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+    "closeout": "docs/design/archive/slices/rust-r2ij-closeout.md",
+    "closure": "docs/design/rust-r2ij-g4-closure.json",
+    "integration": "docs/design/rust-r2ij-post-integration.json",
+    "integrationReview": "docs/design/rust-r2ij-integration-review.json"
   },
   "currentDeliverySummary": {
-    "deliveredOperations": 74,
+    "deliveredOperations": 99,
     "totalOperations": 108,
-    "remainingOperations": 34,
+    "remainingOperations": 9,
     "deliveredSlices": [
       "RUST-R2A",
       "RUST-R2B",
@@ -15905,9 +15933,11 @@
       "RUST-R2E",
       "RUST-R2F",
       "RUST-R2G",
-      "RUST-R2H"
+      "RUST-R2H",
+      "RUST-R2I",
+      "RUST-R2J"
     ],
-    "parentState": "Doing/Open; I-M and #61 dependencies remain; R2M acceptance not complete",
+    "parentState": "Doing/Open; K5/L4 and #61 dependencies remain; R2M acceptance not complete",
     "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved"
   },
   "executionBatchHistory": [
@@ -15926,6 +15956,28 @@
       "validation": "docs/design/rust-r2ef-validation.json",
       "review": "docs/design/rust-r2ef-review.json",
       "closeout": "docs/design/archive/slices/rust-r2ef-closeout.md"
+    },
+    {
+      "id": "RUST-R2GH",
+      "issues": [
+        74,
+        75
+      ],
+      "status": "Done",
+      "baseline": "docs/design/archive/slices/rust-r2gh-identity-directory-baseline.md",
+      "policy": "Parallel G/H authors; Root unified real validation and preservation; non-author joint G3; separate commit/integration/G4",
+      "g1": "Pass",
+      "g3": "Pass",
+      "g4": "Pass upon archive push and issue reconciliation",
+      "validation": "docs/design/rust-r2gh-validation.json",
+      "review": "docs/design/rust-r2gh-review02.json",
+      "initialReview": "docs/design/rust-r2gh-review.json",
+      "validationDelta": "docs/design/rust-r2gh-g3-delta02.json",
+      "sourceManifest": "docs/design/rust-r2gh-source-manifest.json",
+      "implementationCommit": "91cda75f8379a4085a37c14fc1fd25bde0a731dc",
+      "closeout": "docs/design/archive/slices/rust-r2gh-closeout.md",
+      "closure": "docs/design/rust-r2gh-g4-closure.json",
+      "integrationReview": "docs/design/rust-r2gh-integration-review.json"
     }
   ]
 }

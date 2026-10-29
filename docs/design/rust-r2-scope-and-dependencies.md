@@ -1,7 +1,7 @@
 # RUST-R2 范围、操作归属与依赖盘点
 
 **日期**: 2026-10-29
-**状态**: R2A–H累计74/108；本批G4随归档推送与Issue回写生效，余34操作及R2M；I–M原状态/依赖保留，父#67/#57保持Open
+**状态**: R2A–J累计99/108；I/J G4随归档推送与Issue核对生效，余K5/L4共9操作及R2M；父#67/#57保持Open
 **父任务**: [RUST-R2 #67](https://github.com/illusion-tech/poms/issues/67)，总体 [#57](https://github.com/illusion-tech/poms/issues/57)；首片 [RUST-R2A #68](https://github.com/illusion-tech/poms/issues/68)
 **起点**: clean main `19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3`；独立工作树 `codex/poms-r2a-navigation`
 **机器清单**: [rust-r2-operation-slices.json](rust-r2-operation-slices.json)。所有公共操作按 method/path 与 operationId 各唯一登记一次
@@ -30,7 +30,7 @@ R0 清单的产品源参考仍为 `033aedd0`。本次对 `apps/poms-api/src`、`
 
 ## 3. 互斥拆片与建议依赖
 
-以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M已建立为#67的原生子Issue；R2B已按[独立基线](archive/slices/rust-r2b-role-permissions-baseline.md)冻结G1并完成八操作交付，R2C已按[组织基线](archive/slices/rust-r2c-org-units-baseline.md)完成八操作交付，D–M仍为Todo / G1未冻结，对应编号见下表。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
+以下为 G0 的建议实施顺序和输入依赖，不替代每片 G1。R2A #68 为首片，已按[独立基线](archive/slices/rust-r2a-navigation-baseline.md)冻结 G1；B–M已建立为#67的原生子Issue；R2B已按[独立基线](archive/slices/rust-r2b-role-permissions-baseline.md)冻结G1并完成八操作交付，R2C已按[组织基线](archive/slices/rust-r2c-org-units-baseline.md)完成八操作交付，当前状态以机器清单slices[]及本文最新G4段为准，对应编号见下表；本节依赖说明保留G0输入边界。公共 HTTP 计数不包括内部服务、adapter 或验收任务。
 
 | TID      | Issue                                                  | HTTP 数 | 独立交付范围                                          | 建议前置与额外输入                                                           |
 | -------- | ------------------------------------------------------ | ------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -291,3 +291,9 @@ R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https:/
 G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已交付，实现`91cda75f8379a4085a37c14fc1fd25bde0a731dc`已推送main；[同次最终G3](rust-r2gh-review02.json)与[独立集成核验](rust-r2gh-integration-review.json)均Pass，未关闭P0/P1/P2/P3为0。集成8步、26项适配器/23项工具与3479来源前后核等，134个提交blob逐字相同，不代表新增runtime实跑。[归档收口](archive/slices/rust-r2gh-closeout.md)、[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[初始验收](rust-r2gh-validation.json)/[增量](rust-r2gh-g3-delta02.json)与首审Block分开保留。
 
 G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累计 **74/108**，余 **34个操作及R2M阶段验收**，父#67/#57保持Open，I–M与#61不变。最新实际每端137 captured-case HTTP/3race、transport20、guard4反例0DML、Rust162/54 ignored分列、最终Rust两平台页面4条复验，72backend/run/144journal全量两轮0/0、四端口释放；PG17与旧数据保留，无部署或真实租户认证。上方日期段落保留各自历史含义，以本条为当前Rust收口。
+
+### 2026-10-29 RUST-R2I/J 联合G4归档
+
+R2I [#76](https://github.com/illusion-tech/poms/issues/76) 六操作与R2J [#77](https://github.com/illusion-tech/poms/issues/77) 十九操作已交付，实现`568c0ba39dc8dbc687c04f55f690e4f36c0af5d0`已集成推送main；[联合最终G3](rust-r2ij-review01.json)和[独立集成核验](rust-r2ij-integration-review.json)均Pass，未关闭P1/P2为0。[初始验收](rust-r2ij-validation.json)、[同次纠偏增量](rust-r2ij-g3-delta01.json)、[完整来源](rust-r2ij-source-manifest.json)及[保全锚点](rust-r2ij-preservation.json)分别保留时点与原字节；[归档收口](archive/slices/rust-r2ij-closeout.md)解释路径/hash映射。
+
+G4随本归档提交推送与在线回写核对生效，仅关闭#76/#77。R2A–J累计 **99/108**，余 **9个操作（K5/L4）及R2M阶段验收**；父#67/#57保持Open，K/L/M、#61和R3–R5边界不变。PG17实例和数据、旧环境及新PG15保留；本批API/OBS/新PG15已正常停止，无部署、真实OBS租户认证或性能结论。上方带日期的旧计数与G1/Pending记录保留历史含义，以本条为当前状态。

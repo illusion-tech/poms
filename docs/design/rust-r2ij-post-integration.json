@@ -1,0 +1,1389 @@
+{
+  "formatVersion": 1,
+  "result": "pass",
+  "at": "2026-10-29T00:51:19.253Z",
+  "commit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+  "parent": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "subject": "feat(attachment): 迁移存储配置与附件上传版本管理",
+  "boundary": "Read-only exact implementation commit/blob-to-working-tree/reviewed-snapshot integrity. No new DB/HTTP/UI execution claimed.",
+  "reviewedManifest": {
+    "file": "docs/design/rust-r2ij-source-manifest.json",
+    "sha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97",
+    "files": 11911
+  },
+  "files": [
+    {
+      "file": "apps/poms-api-rust/Cargo.lock",
+      "bytes": 77585,
+      "commitBlobSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.toml",
+      "bytes": 3152,
+      "commitBlobSha256": "9f59fd107bbf7a7f24cd0b15fe4215329ab69d29b77bfb23f8d31692086a2d3f",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/examples/attachment_storage_probe.rs",
+      "bytes": 16866,
+      "commitBlobSha256": "6a9be29e85a07d6bddfcb8ee1ae3a4ec5f3e44b9e38e1f71db7294f51c4472ff",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/http.rs",
+      "bytes": 9917,
+      "commitBlobSha256": "e28167072cdea752e86964d9e1d3802731715040997f4a67dcf49e52434c1347",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/local.rs",
+      "bytes": 6654,
+      "commitBlobSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/mod.rs",
+      "bytes": 377,
+      "commitBlobSha256": "a39f771ead155b7f51b59add2b584e22ec79ad9cbb6ed4597734423d1e5093d7",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/model.rs",
+      "bytes": 8580,
+      "commitBlobSha256": "63cf78e5c8206905451cbf6e1d00ebdfa8f1c0c94e4fdfaeb538d43e9d18cfbb",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/obs_s3.rs",
+      "bytes": 43813,
+      "commitBlobSha256": "858e47a1cfdfba6aadabf3e644ae888466b926bf570cc5ef7f68c5e8102dba3d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 11017,
+      "commitBlobSha256": "728eb662ca1f8ae459b7144956c87e6108702072b09d366ea55e0a7844f0b123",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+      "bytes": 31151,
+      "commitBlobSha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/store.rs",
+      "bytes": 13211,
+      "commitBlobSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/validation.rs",
+      "bytes": 22215,
+      "commitBlobSha256": "1dba62af04f8ee9d8e5837cf499f4f96d5ed823e602861b5a5f97bb2713357a8",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/http.rs",
+      "bytes": 16499,
+      "commitBlobSha256": "55c80fa88ffa1d32cd409c47eb8935a47588b718adb993f7c8db1f52bd04a8a1",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/mod.rs",
+      "bytes": 198,
+      "commitBlobSha256": "ff1fed9ff2c38bd05b7ebd117bcb61e7023701367144e49301a9cb4425910214",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/model.rs",
+      "bytes": 3367,
+      "commitBlobSha256": "eeefe72fd3e12d625577e8df45301506668ae35aa00f9faff3cce7909fcb1fc5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68345,
+      "commitBlobSha256": "00d87bb83762496b7caed12a50cb13cde8a148674e0fec574a0a405c4654d9b5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 26242,
+      "commitBlobSha256": "9e69079394ad4b5c28b72fae998ed792db8265b5dd2e4445184b3de05b91a37c",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/validation.rs",
+      "bytes": 25514,
+      "commitBlobSha256": "c1978d1ce953e030d7a2b94f9a26ff7e7d85c2094537426ac43a366b623d6ced",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/binary_http.rs",
+      "bytes": 18667,
+      "commitBlobSha256": "2ab6c26dee1fee3eefe6a6b514cb7ceb8e38fd8f7b6c344480f510537f1bf8af",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/config.rs",
+      "bytes": 43499,
+      "commitBlobSha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/http.rs",
+      "bytes": 20866,
+      "commitBlobSha256": "cab399eed7f73a1c0db9b1cd6d31a30492ab12bec11a6259daa453e77f4a4727",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 484,
+      "commitBlobSha256": "06c23edce427af0c72446b39537dde7ba9ebec896c69cd40d7bd92c28cbc2ccc",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/main.rs",
+      "bytes": 4444,
+      "commitBlobSha256": "57eed170423302511910a0f3a72eef73b65ee69df1f0039b7e250cafefa7a50a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/http.rs",
+      "bytes": 21973,
+      "commitBlobSha256": "adb347dacca28f2cf1ea814caa951f45d18ffa7013d42984bf0b821095b70d09",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "bytes": 43843,
+      "commitBlobSha256": "c0540a37373eedf75bc2399cd36f9ca400b38f472decc52f30aeefa3dec5d16b",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/phase2-development-execution-tracker.md",
+      "bytes": 375717,
+      "commitBlobSha256": "247eef096682966c1e46a2b05fe9b6bc99fff181f11903f135025ab423fbc1f1",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-migration-execution-tracker.md",
+      "bytes": 27274,
+      "commitBlobSha256": "e398d9ef6f817474f335a928404121712cb4cd1011f869beecbf4be50760950a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2-operation-slices.json",
+      "bytes": 503080,
+      "commitBlobSha256": "dd0d66bcfbfcfdce4399463000ad06d56596bf8060934a659c683f4287c556d5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-corrective-checkpoint.md",
+      "bytes": 13371,
+      "commitBlobSha256": "9abb57a1e6af091e2a13e9b8365d23eac9f7a9d072988eadcb7910a059e1567d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-g1-review01.json",
+      "bytes": 12520,
+      "commitBlobSha256": "d51ad5b9f8ae1695e9e5eba360f4c790dc0c853d3382aa79ee5bdea12fe426f2",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-g3-checkpoint.md",
+      "bytes": 2374,
+      "commitBlobSha256": "83b3aa3878b9c4aba0dc16613ea931d032819b2757fea432157899fde073f91c",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-g3-delta01.json",
+      "bytes": 87222,
+      "commitBlobSha256": "6164d682faccf26aacacfe641d3c7ae7f9ab03623c2b9ea76a67163371a2deb8",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-g3-delta01.md",
+      "bytes": 1428,
+      "commitBlobSha256": "5f8a74d9f07c62ab945cbcdf9139a448d01823eba72b608df96e857f458941c1",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-preservation.json",
+      "bytes": 4451,
+      "commitBlobSha256": "3abc8562472e0abefdf4c4244dba2ec9b8d42f71dca2d1e89c5a32662bc5c3da",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": false,
+      "metadataOutsideFirstArchive": true
+    },
+    {
+      "file": "docs/design/rust-r2ij-review01.json",
+      "bytes": 13437,
+      "commitBlobSha256": "4ff88f4098bf67a65566a9ef5b9b1e57fe441bb0558d12e073960910b4b90ac5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": false,
+      "metadataOutsideFirstArchive": true
+    },
+    {
+      "file": "docs/design/rust-r2ij-source-manifest.json",
+      "bytes": 3218422,
+      "commitBlobSha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": false,
+      "metadataOutsideFirstArchive": true
+    },
+    {
+      "file": "docs/design/rust-r2ij-storage-attachments-baseline.md",
+      "bytes": 29136,
+      "commitBlobSha256": "121e39dc3e25bdd841ec618f0674f1a2d6c7db82b8d7dca1a174da16dfb86682",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij-validation.json",
+      "bytes": 175277,
+      "commitBlobSha256": "2751c07cdbd71cf4958015b2dccf9923b7a76cb88bbff2b59ec4be2803aee3a4",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/environment-input.json",
+      "bytes": 36031,
+      "commitBlobSha256": "e5233db48b899c0ba731e6a38e669727e6420661da4e4b608aa488db36ebbcae",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/g0-dependencies.json",
+      "bytes": 102553,
+      "commitBlobSha256": "c5f2046afecc2bdff35f26c1cfca81b3c7ce9d38e19b182cf5194858c301d9dd",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/i-source-input.md",
+      "bytes": 33064,
+      "commitBlobSha256": "5ff60f4df5826f092a04367447ca5e789089ea7a1f28dc5de7a53e7af20c96e8",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/i-sources.json",
+      "bytes": 85051,
+      "commitBlobSha256": "fec5b1f8bcbf41834ed1359d910f02d48a5a69e55b2d41c5cb6d27cf4686df19",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/i-transport-plan.md",
+      "bytes": 27828,
+      "commitBlobSha256": "bbfaa4a15160f324a31f51f6d0a96e3bba5ee0338fef5b1a3c14ed4eeee33be0",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/j-binary-plan.md",
+      "bytes": 28259,
+      "commitBlobSha256": "63d9d72e512013fb03445f956badfa89ea2d54e839d279a545b8261f9b090934",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/j-source-input.md",
+      "bytes": 43427,
+      "commitBlobSha256": "296a7d7369d12b82a4f7ad80720755fdfbfff696a84c3d27b13a5ddc77001f47",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "docs/design/rust-r2ij/j-sources.json",
+      "bytes": 192634,
+      "commitBlobSha256": "264427719a2bad5606cdcfdb9c8665d6fb4b1d27500ef0442ad4ec75ba6c7adf",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/additional-source-inputs.json",
+      "bytes": 243937,
+      "commitBlobSha256": "3ef9ea7163b83524d1ba9b97b1f9d7afa3e576cf1008ebc4a3e1fc341532c49a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/auth-acceptance.mjs",
+      "bytes": 6025,
+      "commitBlobSha256": "94122bc684d6a8676179da815fb1c5976e8f138683bb5558602c0e582dd867c6",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/auth-scenario.mjs",
+      "bytes": 10461,
+      "commitBlobSha256": "75139c78b9e13bfd5ad136645bef9fb9f2afc37a8f17dd40df883d8956812683",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/build-nest.mjs",
+      "bytes": 1703,
+      "commitBlobSha256": "c159d5fc07e57dfe6a7f4a268705c26e889038eab9420c8714b32424cb2186fc",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/catalog-cli.mjs",
+      "bytes": 1249,
+      "commitBlobSha256": "53c52f4766149f084ab427e9735f84e3853ddefa7b01ccc3fb4330f4ef3baaf8",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/catalog-complete.mjs",
+      "bytes": 6690,
+      "commitBlobSha256": "1673bd363061c61459495cac22c4726527a438ac8f8ac41bd580eab10a2a3895",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/critical-acceptance.mjs",
+      "bytes": 9211,
+      "commitBlobSha256": "e5f90dd1e31fca76886c11d681b0d16c8f56ec9c0f628c561d1c354ca4c1a2fa",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/critical-scenario.mjs",
+      "bytes": 9057,
+      "commitBlobSha256": "f6e63fd4d19b62b2e2ff92418ebd522b1a1d5027021007787d90676b8e68ce73",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/database-client.mjs",
+      "bytes": 2018,
+      "commitBlobSha256": "5cd5533a55579c3da33a04876f5ef700eac547136c888c13a44815913a72aa8d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/database-environment.mjs",
+      "bytes": 22941,
+      "commitBlobSha256": "ca80eb5376e508e9c6024961df20272382f9d6d6a27f78c66886b3b76bfe829d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/environment.sh",
+      "bytes": 5871,
+      "commitBlobSha256": "c213d8953fc5a96d18fd4dd1a11631d05f0ff35b17509fec7077d8e1184ae092",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/final-clean-state.mjs",
+      "bytes": 4091,
+      "commitBlobSha256": "d4a3f991df993e8e29e89230d4143f5ec1b87305d6c4689a10395cf3160dde7f",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-cleanup.mjs",
+      "bytes": 10633,
+      "commitBlobSha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-cli.mjs",
+      "bytes": 3271,
+      "commitBlobSha256": "62d8b8842aceb70b2c2d26d417b091a1774194945915087555aa86a58995ffa7",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-complete-references.mjs",
+      "bytes": 7932,
+      "commitBlobSha256": "e40c9b400d17fa6eba3e5de768a66b970b52070d133bfbc1bfddebdf46fd4212",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-core.mjs",
+      "bytes": 7004,
+      "commitBlobSha256": "d84b07f5c0ca28fb81211c7fb0c426f959c50964043701445edaa2208b73f98a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-extension-journal.mjs",
+      "bytes": 2179,
+      "commitBlobSha256": "da749ba787336ffe53dc45b6ed4ceb7db8f0fa9437f0484f29f17b1e2677195a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-guard.mjs",
+      "bytes": 4858,
+      "commitBlobSha256": "5b782f62423682a56af41db21923caf515c3b7cda77034cdf7aff7800ae7a607",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-history.mjs",
+      "bytes": 3263,
+      "commitBlobSha256": "15e8747578022c5fda320b1d1f3d18f84cafbf86a67ce21b9d398aebf4b62363",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-journal.mjs",
+      "bytes": 5361,
+      "commitBlobSha256": "5ab3096fe2677e97bda836fc88984726d8514d7bee86797a0331d9f78386742a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-objects.mjs",
+      "bytes": 4188,
+      "commitBlobSha256": "219ef2eafe146d0b4a19fde0646af7a46d64985159ad9e71d84c31b7c104867d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-owner-probe.mjs",
+      "bytes": 4167,
+      "commitBlobSha256": "922ec7de6a4bdf6b6b5cce8cac3e7ef099172b632a7b4f24d0569cc91b97dfb4",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-permissions.mjs",
+      "bytes": 1408,
+      "commitBlobSha256": "c981c466acfae3208e60696340cf728d9de459ed46406c0887809c99583e034f",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-projections.mjs",
+      "bytes": 5672,
+      "commitBlobSha256": "a4adba381e7dbfcc906620a29d09bece0fab066dcacee22b1dcb8ffd0e5aa4de",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-protocol.cjs",
+      "bytes": 6856,
+      "commitBlobSha256": "659bf3cae158586dbbcf697943adde228e7d55c334d07fb18cf92bdc527ffab3",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-protocol.d.cts",
+      "bytes": 4115,
+      "commitBlobSha256": "ff0e17029adbaaabea44811e1baa20175b6d4d9a106e5b3d06691f8eac424b63",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-references.mjs",
+      "bytes": 3664,
+      "commitBlobSha256": "3aa7ef95cf2c76937e86889d9d1cd902e9dc8fe8444019b81733edf9a871870d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-run.mjs",
+      "bytes": 2926,
+      "commitBlobSha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-smoke.mjs",
+      "bytes": 1789,
+      "commitBlobSha256": "87b6a0775945c6594ac0282e7157a4309a12039115a57303e568ec6f0ad4eafa",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-snapshot.mjs",
+      "bytes": 5327,
+      "commitBlobSha256": "644e3c54dfb7e8d274ab1c00ab00361b164fdfa550a16d6018471b9d5506254c",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-users.mjs",
+      "bytes": 6949,
+      "commitBlobSha256": "1e8a435289d015248ce350f8814d0207199ce8d77f0b67f8d680ef75a4a0db3e",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/fixture.sh",
+      "bytes": 2079,
+      "commitBlobSha256": "5862e94e58fa48a3cf3ad45a998a58638ed5101c927586bd1cff08c9ae4c0aa6",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/freeze-g3-delta.mjs",
+      "bytes": 10790,
+      "commitBlobSha256": "93dbb2ff438e7f635e624d6f9ab2e10f86192fb72e8a19cb5f283d10bb329fa5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/freeze-validation.mjs",
+      "bytes": 13035,
+      "commitBlobSha256": "1b80c4468d4690eec3d83bae5fca94e79dead730a1bd6ddd18ddd93bc5633e19",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/http-client.mjs",
+      "bytes": 5472,
+      "commitBlobSha256": "24ceeaa3891beb59a65b08132476a4609a292ee0b2ea6c5234cdb1c45ef0a9e2",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-authority.json",
+      "bytes": 12225,
+      "commitBlobSha256": "0680338d4825a33c59e3c48682e3fb93db82772284df67da0de79d8b0760eb3e",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-dto-golden.json",
+      "bytes": 61302,
+      "commitBlobSha256": "121f2a26c200a8030dad51a7cb8536f34df1960e8656066a148361ba4df87a7b",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-dto-rules.json",
+      "bytes": 12960,
+      "commitBlobSha256": "376ba4e41f91a20104af5d78e72ffaa700da8771b7ea8633e9459af362599267",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-export.mjs",
+      "bytes": 6426,
+      "commitBlobSha256": "8ed46cb9802bfcbf9c7d96a3fb861e6267e8b9a4555d4faa2f95e36bbc082963",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-header-export.mjs",
+      "bytes": 2271,
+      "commitBlobSha256": "4a66815429d53cbafed5e5d9e1eda89114c63a7f55d573bf9a013df54f78f104",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-header-golden.json",
+      "bytes": 10108,
+      "commitBlobSha256": "2023e1b0b073c9cd476d63c4bcd5cd6961aa538a03fdfd469bf2a17194b65c0a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-helper-export.mjs",
+      "bytes": 5592,
+      "commitBlobSha256": "cf576dc208fdd7727cd16bfa7c64aaa9a8d3603a300bbb6819af3cc45d65f4df",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-helper-golden.json",
+      "bytes": 115801,
+      "commitBlobSha256": "825242ff17051dddee0f1f2a5ec6ae62c4b50984123b7f330884ad7c906f0c54",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-http-cases.mjs",
+      "bytes": 1909,
+      "commitBlobSha256": "b3206872f6acfea8446329a220dc7a61d1bc8fa25a7f48eb3b62a3d342376c7d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-openapi.json",
+      "bytes": 16769,
+      "commitBlobSha256": "e37382a0aa6c43b49e8042e2a89727333fcc6e7464c1fdbbdb5fb14ed4fecdfe",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-self-query-cas-owner.mjs",
+      "bytes": 17327,
+      "commitBlobSha256": "06e83886837a778a1a5aa0aff540b5b179bfd03d5069da259e6bfb88f1073960",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-self-query-cas-witness.mjs",
+      "bytes": 9266,
+      "commitBlobSha256": "bb1c4a38c3f13259602b95cb31f8d6756825d2fbfe1483499baf1b0eee2356b0",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/i-transport-oracle.mjs",
+      "bytes": 11128,
+      "commitBlobSha256": "dbaf88ba7212b61fba68cb364943b5fe597430b8be1a46faa5075637a888e66b",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/integration-integrity.mjs",
+      "bytes": 2774,
+      "commitBlobSha256": "3b9514bc1e24f07bd4847d97ed79f9852c509d5717405e84db6641b8a2f60380",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/invoke-fixture.cjs",
+      "bytes": 3107,
+      "commitBlobSha256": "040ba1130cf71fdf9de481ced3ecf9aba2f9d1a17894d07e0dd62ba9792af976",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-behavior.json",
+      "bytes": 20286,
+      "commitBlobSha256": "66e054ecc2fd4039e2ea30574b79f8423b8030cb74d79ec2e8bceecdafdc342a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-behavior.mjs",
+      "bytes": 3682,
+      "commitBlobSha256": "5a8c821951e370e511706421df9d58606bb5c675b6c5cb37147a50d163f29757",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-README.md",
+      "bytes": 5288,
+      "commitBlobSha256": "885b43d889b18ae8c28e2c5d8e4e9c096bd3426292f68e0e75f7d581b3153f71",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-acceptance.mjs",
+      "bytes": 3998,
+      "commitBlobSha256": "50c4d4286132f5bc6ff002d55e6a26cbcb74035e4075bf037bba5731f641778c",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-cases.mjs",
+      "bytes": 11579,
+      "commitBlobSha256": "ad948b71ba593ea90ef816ec6294919c33d5eaecf8b34515fabf9dfc0dac8084",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-diff.mjs",
+      "bytes": 728,
+      "commitBlobSha256": "37eca55b32d8aea7e5e266cff8a6dca34548c1ccbed89242e829825ac17a8344",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-fixtures.mjs",
+      "bytes": 7125,
+      "commitBlobSha256": "31cd5ef0fe7383e8ec2acdfe3d38b8adffc767967da50deba138da4ba84ac73e",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-normalize.mjs",
+      "bytes": 5626,
+      "commitBlobSha256": "2b71f1a2de5f3e2587578447435f8fbbf56f91ed59185d66a1c03d76062bcd73",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-scenario.mjs",
+      "bytes": 15878,
+      "commitBlobSha256": "8accc098be4838b409173aab7a7da444d94bd9147c3ee4eb62cd8049a8bf6d96",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-dto-rules.json",
+      "bytes": 16392,
+      "commitBlobSha256": "7815280a911f9649bd9b3ebf45672e476130b09bacdf2711c62c6f5cdce55991",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-export.mjs",
+      "bytes": 6912,
+      "commitBlobSha256": "7a3544ebaad8a5bdded9babb988a908b9e165df2a9c77f8f65e2e6b7bfc5930e",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-golden.json",
+      "bytes": 771769,
+      "commitBlobSha256": "29a0b2e0f7f039debc4a552b81d0700f8c2d738b73749d45811be8f1c86e78d8",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-http-cases.mjs",
+      "bytes": 8913,
+      "commitBlobSha256": "2a58272408e2d82eb72faaa00ce6cc7633165be09b88035af4efbb5548797e57",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-openapi.json",
+      "bytes": 46914,
+      "commitBlobSha256": "7d4dd4f14e158d2662a7ce545e504c53b20022dea6b08acc9b9b1e33b1361cd0",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-preserve-README.md",
+      "bytes": 8705,
+      "commitBlobSha256": "849dfd610f497a4948b855d779dc9fba0964ddc791f42ba1dc2d3ae1eb103b39",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-preserve-evidence.mjs",
+      "bytes": 36373,
+      "commitBlobSha256": "7c995c5fe852badce902322d861d8aeb972b37f1d2927d1050e012bdb0f0b6b4",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-source.json",
+      "bytes": 21093,
+      "commitBlobSha256": "8d98b4137b012a79c2f937a6ce721ef1e15211f64b3d61a57e0730399038ce12",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-diagnostics.mjs",
+      "bytes": 5168,
+      "commitBlobSha256": "cd1b5533d43a00081173117064039d204cdbf5c4cdf0c341e6428ad26f7a1ee5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-README.md",
+      "bytes": 5092,
+      "commitBlobSha256": "b6ff41e2ea6afe27928fa7b20ffda2aa45fefd36e2cd0808fa05bafe288b314d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-acceptance.mjs",
+      "bytes": 4263,
+      "commitBlobSha256": "c01e8db72d5c1893e6fd557db3480d44d263ae41019dac82bfcd50fecfaba640",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-scenario.mjs",
+      "bytes": 17883,
+      "commitBlobSha256": "25705bf449a13943b3f717ab3ba1ea007a3cfe2c10361b725baa75d20dc8d2db",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-owner-fault.mjs",
+      "bytes": 4788,
+      "commitBlobSha256": "c4859d14e0ab9d897b9317563b811802ed3a70221d28817567d9e2e9e0506672",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-path-probes.mjs",
+      "bytes": 5097,
+      "commitBlobSha256": "28791b195d2946a31ed2264d639835327205542c1b53fb64ee3abd2a1fe57bfb",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/managed-environment.cjs",
+      "bytes": 5937,
+      "commitBlobSha256": "1e38b875d7a995877752f15bbb91ad2c31bbef05dd4ae5878716dd1a6ea6946b",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/nest-auth-uow-witness.mjs",
+      "bytes": 9902,
+      "commitBlobSha256": "a032444319d7fc06fb18b71b1ccde722461779517e1e04153fb1a1cb301afe5d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/nest-critical-witness.mjs",
+      "bytes": 7812,
+      "commitBlobSha256": "5693508dca13ec8a31e25b7e8bb246f2bbaedc41199f7a958ec2177870bd70d6",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/nest-history-witness.mjs",
+      "bytes": 3195,
+      "commitBlobSha256": "50e4830d954f5c1db944306d19527a4aab5ea8dc3bab2140df29dbdcc3ab27db",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/nest-query-preload.cjs",
+      "bytes": 8088,
+      "commitBlobSha256": "41daeee2934e871514bad11ffefa4dc9b2ed076d4df1ad033246eeaee4349f28",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-api-flow.mjs",
+      "bytes": 11746,
+      "commitBlobSha256": "1b776fedb2990064862f4fcc0a216609661a9436c5ac06e4591650d0a6f58b19",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-cipher-cross.mjs",
+      "bytes": 7882,
+      "commitBlobSha256": "d189580d0ccdfebd48c58f9f64d91f3e37497f6c31da64b0773c00b0e58b53e5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-client.mjs",
+      "bytes": 2138,
+      "commitBlobSha256": "9c674313074e48af2f35d6565358b984e156ae17775418aaf3de4de17909f53f",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-codec-golden.json",
+      "bytes": 4166,
+      "commitBlobSha256": "a3a0d9c440ea080f1db95f7e8944eeb6d739e988c84d0cbc345fd1505532a24c",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-codec-witness.mjs",
+      "bytes": 2992,
+      "commitBlobSha256": "2f7607c87eb3ca485f0aac3b8a49649391249155927d7e2e3029b0d86604c308",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-container-witness.mjs",
+      "bytes": 1197,
+      "commitBlobSha256": "ba7d4bad57b504a047587348f519817ab18dde4409c2e4a1f4db67b653520aa7",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-container.mjs",
+      "bytes": 2711,
+      "commitBlobSha256": "8373384600bf38a0c45104d70de883a708ed5c0916571daa4b8e671e4e122eae",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-delete.mjs",
+      "bytes": 5761,
+      "commitBlobSha256": "04f78b860cd4527cdeef4f5cbb883888c903727ad1fc349be75f89ad88429c58",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-enabled-surrogate.mjs",
+      "bytes": 6025,
+      "commitBlobSha256": "6eeddefb9504e4cbcbd62c6eb6a4b5dfed821af57172ed005f876a05d888aeb1",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-hydration-regression.mjs",
+      "bytes": 7625,
+      "commitBlobSha256": "3de7fc99b3b797532cc7e782acd83f192f971077d5621e02ed4925f16e7e8de9",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-protocol.mjs",
+      "bytes": 13911,
+      "commitBlobSha256": "e9868cdff76bb64986dc5194b6172aec68f94519e8e61f4faf0047f39906aa7e",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-route-golden.json",
+      "bytes": 4312,
+      "commitBlobSha256": "e99401faddeda36750c4dbba34bdc006057bfe42db3142c2c0227b3380a38fb0",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-server-close.mjs",
+      "bytes": 2546,
+      "commitBlobSha256": "a045edd2d8501fd05ac1bc828bf86a4a38abbffa9ca932e0cb93ecb64c9a2228",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-server-v2.mjs",
+      "bytes": 16759,
+      "commitBlobSha256": "aff28d09420ac4e68a4e2d4d32344971ae0fe21b9be6f61037de41d9c9b6b99a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-server.mjs",
+      "bytes": 16483,
+      "commitBlobSha256": "eddbba58f68f0c02a3fd63720656afd03d3e516c8cb2490bf5f7225b0112d9fd",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-userinfo-witness.mjs",
+      "bytes": 3486,
+      "commitBlobSha256": "7498d83b07729803e2e09507eb5911a1a501abf026cd2bb22eeca62158a181c7",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/obs-virtual.mjs",
+      "bytes": 7005,
+      "commitBlobSha256": "781a03dc00d1294cd007fe3139db9b51716b1cc917d18251c6f7d7ccdcf84dec",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/owned-fixture.mjs",
+      "bytes": 16165,
+      "commitBlobSha256": "a80af757ae016c803f77d6c85726bc09198326c9997b96b997bdf258f4afb567",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/owner-run.mjs",
+      "bytes": 5262,
+      "commitBlobSha256": "dfd6cc0cfdf3e4b83c6ab0ffa78dc7c2582b98202add69cd3eb7a4c10a475150",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/preserve-owner-input.mjs",
+      "bytes": 2669,
+      "commitBlobSha256": "363fed0a9dbc59650e160cad92c89fa2ccd59575d4829dfb823ac528e7f38d77",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/reference-authority.json",
+      "bytes": 427485,
+      "commitBlobSha256": "d016443d25e0ea40ef73bd6a8c8726b426b4521c0b40e0d394e96bf1d45ac0c2",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/reference-guard-witness.mjs",
+      "bytes": 7449,
+      "commitBlobSha256": "3a604407d80fb391a6a76a3e69edee2230ce652420970a4b13ffb07ae306d301",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/route-acceptance.mjs",
+      "bytes": 3282,
+      "commitBlobSha256": "644c96fed96545609d5096488b689dfaf66077bdb22ec53437fb03df36526191",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/rust-owner-run.mjs",
+      "bytes": 6117,
+      "commitBlobSha256": "8d277c59b0ea7647dc71287aa592baa0d064f0e83002aeec14fbb8701df3c6c2",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/schema-check.mjs",
+      "bytes": 11058,
+      "commitBlobSha256": "73269575b5dcb130e254cff98657811805817a83e82f5e98da4696d9b0808874",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/shared-checks.mjs",
+      "bytes": 2808,
+      "commitBlobSha256": "e93e0ff673e31438a683f1eebdbfd3b4da7b2c028b1b58968982bbf9e0384648",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/source-protection.mjs",
+      "bytes": 3245,
+      "commitBlobSha256": "a26b6ae29b7a52ba3dc6bbeb42b7f51f8875216d4b4eedf212c1a0049c017758",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/surface-acceptance.mjs",
+      "bytes": 7156,
+      "commitBlobSha256": "30732cb032815b9385b55cf227d0c261b77dccb295e96561c7168804b6ec55b2",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/timestamp-policy.mjs",
+      "bytes": 3896,
+      "commitBlobSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/transfer-windows-delta.mjs",
+      "bytes": 2846,
+      "commitBlobSha256": "1b5968ccd4ae6145762228ff57788d09df5365c63af4657c7a6c953283f3c7ca",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/transfer-windows-evidence.mjs",
+      "bytes": 2237,
+      "commitBlobSha256": "014dcf0c3a7e94a8f46e54469136deef59398c7e56e6f63fe535d29eb2bb4a05",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-acceptance.mjs",
+      "bytes": 17398,
+      "commitBlobSha256": "b02e2ea3760fefc2916098731e6df7d7a9bd6190ba83823261b3e49fbc56f893",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-build.mjs",
+      "bytes": 1775,
+      "commitBlobSha256": "ee2fb9c8166ade8b90ccdd78929df31014fa2109584960fe5fb77261421950ef",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-fixture-cli.mjs",
+      "bytes": 2058,
+      "commitBlobSha256": "43c01590348778cdc105f5d171f26b4e2076f1d45e13551b4d79c8771335d86a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-fixture-client.mjs",
+      "bytes": 1524,
+      "commitBlobSha256": "a9ede5ced4f421f6529af0abf237a5a3620a89cf1cea4f90a79d18f9c316b1b3",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/fixture-root.ts",
+      "bytes": 7496,
+      "commitBlobSha256": "ee5da3e88c8c6150a88cc8a12ae8a09ba6e5cea316324b11138285d072c19a4d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/index.html",
+      "bytes": 247,
+      "commitBlobSha256": "9f22feb98ac1a0f5568267e5c32cbd325156f162a6c7b6c0eabc3d647f3ac38d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/main.ts",
+      "bytes": 1514,
+      "commitBlobSha256": "be01f97f36ef9215d9c0b013f8300eef7e6b082d7af54000b6a73c87caeb1171",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/original-theme.ts",
+      "bytes": 4089,
+      "commitBlobSha256": "c1002792ced7b09c6a9d7ac6e94dfedadaa833fae1ebeadb895bab6628c5522d",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/source-navigation.ts",
+      "bytes": 513,
+      "commitBlobSha256": "1e18a4237a73efaa747407cdcc0df94045dae8699d118361704721cfb6516708",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/theme-source.json",
+      "bytes": 448,
+      "commitBlobSha256": "56a65a2100c79cad032d8dc7a4789a6ddc93127bf439b1e0c98a552e8769d94a",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/tsconfig.json",
+      "bytes": 242,
+      "commitBlobSha256": "85aea204dd7aa0646207543b2394865bb7403d1956c67deb27ff7e1f6e5da121",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/ui-static-server.mjs",
+      "bytes": 2290,
+      "commitBlobSha256": "bb6c749d3b1b7cc1520ce1c152803cca3f4f9953ac4c47cd1c577ae81baa89ab",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    },
+    {
+      "file": "tools/rust-r2ij/unicode-boundary.mjs",
+      "bytes": 4811,
+      "commitBlobSha256": "ceb475af5f140837f1d6be41d2b3b68c0de70ef1b517fb478eb95c95f0f5df19",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": true,
+      "metadataOutsideFirstArchive": false
+    }
+  ],
+  "changedFiles": 168,
+  "reviewedSnapshotMatches": 165,
+  "explicitAdditiveMetadata": [
+    {
+      "file": "docs/design/rust-r2ij-preservation.json",
+      "bytes": 4451,
+      "commitBlobSha256": "3abc8562472e0abefdf4c4244dba2ec9b8d42f71dca2d1e89c5a32662bc5c3da",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": false,
+      "metadataOutsideFirstArchive": true
+    },
+    {
+      "file": "docs/design/rust-r2ij-review01.json",
+      "bytes": 13437,
+      "commitBlobSha256": "4ff88f4098bf67a65566a9ef5b9b1e57fe441bb0558d12e073960910b4b90ac5",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": false,
+      "metadataOutsideFirstArchive": true
+    },
+    {
+      "file": "docs/design/rust-r2ij-source-manifest.json",
+      "bytes": 3218422,
+      "commitBlobSha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97",
+      "workingTreeSame": true,
+      "reviewedSnapshotSame": false,
+      "metadataOutsideFirstArchive": true
+    }
+  ],
+  "originalProductTreesUnchanged": true
+}

@@ -1,0 +1,75 @@
+{
+    "formatVersion": 1,
+    "kind": "RUST-R2IJ-fixed-implementation-commit-integration-review",
+    "result": "Pass",
+    "recordedAt": "2026-10-29T00:53:43.998Z",
+    "reviewer": {
+        "id": "C",
+        "nonAuthor": true
+    },
+    "implementationCommit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+    "parentCommit": "61d6df1e971e7e785382dc85c75273e584ee2545",
+    "boundary": "Short read-only fixed-commit integrity review following the same G3. No new source audit, test matrix, DB/HTTP/UI execution or G3 verdict.",
+    "checks": {
+        "changedBlobs": 168,
+        "rawEqualToWorktreeAndPrimary": 168,
+        "rawEqualToFinalReviewedManifest": 165,
+        "explicitAdditiveMetadata": [
+            "docs/design/rust-r2ij-preservation.json",
+            "docs/design/rust-r2ij-review01.json",
+            "docs/design/rust-r2ij-source-manifest.json"
+        ],
+        "method": "Independently read all 168 fixed commit blobs using git cat-file --batch, compare complete bytes against both working directories, and compare SHA256 with the final manifest for all 165 admitted source files. No LF or semantic equality exception.",
+        "protectedOriginalFiles": 1356,
+        "protectedChanges": 0,
+        "protectedBoundary": "The complete protected-file inventory has no changed paths in the fixed commit. Original Nest/Angular/contracts/OpenAPI/client and package/lock scopes remain unchanged from the base.",
+        "primaryHEAD": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+        "primaryCleanAtCheck": true,
+        "remoteMain": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+        "remoteFeature": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+        "remoteMethod": "Fresh read-only git ls-remote origin for both refs."
+    },
+    "reviewedAnchors": [
+        {
+            "file": "docs/design/rust-r2ij-review01.json",
+            "sha256": "4ff88f4098bf67a65566a9ef5b9b1e57fe441bb0558d12e073960910b4b90ac5"
+        },
+        {
+            "file": "docs/design/rust-r2ij-preservation.json",
+            "sha256": "3abc8562472e0abefdf4c4244dba2ec9b8d42f71dca2d1e89c5a32662bc5c3da"
+        },
+        {
+            "file": "docs/design/rust-r2ij-source-manifest.json",
+            "sha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97"
+        },
+        {
+            "file": "E:/projects/poms/tmp/rust-r2ij/final22f/evidence.tar.gz",
+            "sha256": "71b350281c9ca38bc7d3a6879923541c4b6f1736063cae864ab529ca89aca2b9"
+        }
+    ],
+    "rootReceipt": {
+        "file": "tmp/rust-r2ij/integration-impl01.json",
+        "formalRawCopy": "docs/design/rust-r2ij-post-integration.json",
+        "bytes": 51035,
+        "sha256": "d3f76045dc2191e513fcbba71259b0a88cad8211b53110d66438780b1888ea7a",
+        "independentlyRecomputed": true
+    },
+    "remoteCI": {
+        "file": "tmp/rust-r2ij/ci-state-impl01.json",
+        "sha256": "a44dec47b8efc700fa4488eaccf247061e0327d9841b60bac2fbf4b139b4a4ea",
+        "commit": "568c0ba39dc8dbc687c04f55f690e4f36c0af5d0",
+        "workflowInventoryCount": 2,
+        "repositoryWorkflowYamlFiles": 0,
+        "checkRuns": 0,
+        "statusEntries": 0,
+        "combinedStatus": "pending",
+        "greenCIClaimed": false,
+        "boundary": "The two online workflow entries are not repository YAML. With no checks/status entries, combined pending is not evidence that CI is running. Local recorded validation remains separate."
+    },
+    "findings": {
+        "P1": 0,
+        "P2": 0,
+        "open": []
+    },
+    "g4": "Pending separate governance archive, status/Issue reconciliation and final documentation checks. This receipt does not close parent Issues or certify new runtime coverage."
+}

@@ -1,7 +1,7 @@
 # POMS 第二阶段开发执行追踪板
 
 **文档状态**: Active
-**最后更新**: 2026-05-13
+**最后更新**: 2026-10-29
 **Rust 迁移补充索引更新**: 2026-10-29；原第二阶段任务状态不变
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
 **关联文档**:
@@ -551,4 +551,10 @@ G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累�
 
 ### 2026-10-29 RUST-R2I/J 联合G1冻结
 
-用户“开始”授权I#76六操作＋J#77十九操作完整G0–G4；[联合基线](rust-r2ij-storage-attachments-baseline.md)于2026-10-28T18:07:35.477Z冻结，同一次[非作者G1审查](rust-r2ij-g1-review01.json)Pass，P0/P1/P2/P3=0；在线两Issue已更新Doing与G1comment。本批共享存储、StorageFailure/UTF-16、audit后首块预取、分段flush/CAS、六目标只读projection及新PG15双库/对象/完整恢复范围均已冻结。实际运行、G3、提交集成与G4仍待完成，累计保持74/108；K/L/M、#61、R3–R5和父#67/#57不关闭。
+用户“开始”授权I#76六操作＋J#77十九操作完整G0–G4；[联合基线](archive/slices/rust-r2ij-storage-attachments-baseline.md)于2026-10-28T18:07:35.477Z冻结，同一次[非作者G1审查](rust-r2ij-g1-review01.json)Pass，P0/P1/P2/P3=0；在线两Issue已更新Doing与G1comment。本批共享存储、StorageFailure/UTF-16、audit后首块预取、分段flush/CAS、六目标只读projection及新PG15双库/对象/完整恢复范围均已冻结。实际运行、G3、提交集成与G4仍待完成，累计保持74/108；K/L/M、#61、R3–R5和父#67/#57不关闭。
+
+### 2026-10-29 RUST-R2I/J 联合G4归档
+
+R2I [#76](https://github.com/illusion-tech/poms/issues/76) 六操作与R2J [#77](https://github.com/illusion-tech/poms/issues/77) 十九操作已交付，实现`568c0ba39dc8dbc687c04f55f690e4f36c0af5d0`已集成推送main；[联合最终G3](rust-r2ij-review01.json)和[独立集成核验](rust-r2ij-integration-review.json)均Pass，未关闭P1/P2为0。[初始验收](rust-r2ij-validation.json)、[同次纠偏增量](rust-r2ij-g3-delta01.json)、[完整来源](rust-r2ij-source-manifest.json)及[保全锚点](rust-r2ij-preservation.json)分别保留时点与原字节；[归档收口](archive/slices/rust-r2ij-closeout.md)解释路径/hash映射。
+
+G4随本归档提交推送与在线回写核对生效，仅关闭#76/#77。R2A–J累计 **99/108**，余 **9个操作（K5/L4）及R2M阶段验收**；父#67/#57保持Open，K/L/M、#61和R3–R5边界不变。PG17实例和数据、旧环境及新PG15保留；本批API/OBS/新PG15已正常停止，无部署、真实OBS租户认证或性能结论。上方带日期的旧计数与G1/Pending记录保留历史含义，以本条为当前状态。

@@ -11,4 +11,4 @@
 - Schema：两库migration-check exit1，Failed-with-classification；只读dump exit0，92链与catalog前后不变，既有CHECK可见性/comment差异保留，生成DDL未执行。
 - 清理：65 backend/run的所有持久journal均cleaned；完整107表/1778列/107PK/121incoming FK与引用扫描无残留，0 DML，local对象0；每run原双次清理回执保留。全部API/OBS正常停止、source/binary不变；新PG15停止、五端口释放，volume/private保留；PG17只读服务观察、未执行SQL或服务更改。
 
-[机器输入](rust-r2ij-validation.json)在审查后不回写G4字段；归档/传输校验与非作者G3为独立增量。父#67/#57、K/L/M、#61、R3–R5、生产部署与性能主张均不在本片。
+[机器输入](../../rust-r2ij-validation.json)在审查后不回写G4字段；归档/传输校验与非作者G3为独立增量。父#67/#57、K/L/M、#61、R3–R5、生产部署与性能主张均不在本片。
