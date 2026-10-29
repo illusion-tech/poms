@@ -18,6 +18,7 @@ import {
     ProjectCompletionRecordSummarySchema,
     ProjectDetailViewSchema,
     ProjectListQuerySchema,
+    ProjectLookupQuerySchema,
     ProjectListSchema,
     ProjectPricingMarginReviewListSchema,
     ProjectPricingMarginReviewSummarySchema,
@@ -92,6 +93,8 @@ export class ProjectTimelineViewDto extends createZodDto(ProjectTimelineViewSche
 export class ProjectListDto extends createZodDto(ProjectListSchema) {}
 
 export class ProjectListQueryDto extends createZodDto(ProjectListQuerySchema) {}
+
+export class ProjectLookupQueryDto extends createZodDto(ProjectLookupQuerySchema) {}
 
 export class CreateProjectRequestDto extends createZodDto(CreateProjectRequestSchema) {}
 

@@ -9,6 +9,7 @@ import {
     ContractReadinessDetailSchema,
     ContractDetailViewSchema,
     ContractListQuerySchema,
+    ContractLookupQuerySchema,
     ContractListSchema,
     ContractSummarySchema,
     ContractTermSnapshotSummarySchema,
@@ -35,6 +36,8 @@ export class ContractTermSnapshotSummaryDto extends createZodDto(ContractTermSna
 export class ContractListDto extends createZodDto(ContractListSchema) {}
 
 export class ContractListQueryDto extends createZodDto(ContractListQuerySchema) {}
+
+export class ContractLookupQueryDto extends createZodDto(ContractLookupQuerySchema) {}
 
 export class CreateContractRequestDto extends createZodDto(CreateContractRequestSchema) {}
 

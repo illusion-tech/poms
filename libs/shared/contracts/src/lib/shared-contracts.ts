@@ -5408,6 +5408,14 @@ export const ProjectListQuerySchema = z
 
 export type ProjectListQuery = z.infer<typeof ProjectListQuerySchema>;
 
+export const ProjectLookupQuerySchema = z
+    .object({
+        projectNo: z.string().min(1)
+    })
+    .meta({ id: 'ProjectLookupQuery' });
+
+export type ProjectLookupQuery = z.infer<typeof ProjectLookupQuerySchema>;
+
 export const UpdateProjectBasicInfoRequestSchema = z
     .object({
         projectName: z.string().trim().min(1).max(255).optional(),
@@ -5723,6 +5731,14 @@ export const ContractListQuerySchema = z
     .meta({ id: 'ContractListQuery' });
 
 export type ContractListQuery = z.infer<typeof ContractListQuerySchema>;
+
+export const ContractLookupQuerySchema = z
+    .object({
+        contractNo: z.string().min(1)
+    })
+    .meta({ id: 'ContractLookupQuery' });
+
+export type ContractLookupQuery = z.infer<typeof ContractLookupQuerySchema>;
 
 export const CreateContractRequestSchema = z
     .object({

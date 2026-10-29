@@ -22,6 +22,7 @@ import {
     ProjectDetailViewDto,
     ProjectListDto,
     ProjectListQueryDto,
+    ProjectLookupQueryDto,
     ProjectPricingMarginReviewDto,
     ProjectPricingMarginReviewListDto,
     ProjectPricingMarginWorkspaceViewDto,
@@ -92,19 +93,6 @@ export class ProjectController {
         };
 
         return this.projectQueryService.listProjects(listQuery);
-    }
-
-    @Get('code/:projectNo')
-    @HasPermissions('project:read')
-    @ApiOperation({ summary: '按项目编码获取项目详情' })
-    @ApiOkResponse({ type: ProjectDto })
-    async getByCode(@Param('projectNo') projectNo: string): Promise<ProjectSummary> {
-        const project = await this.projectService.findByNo(projectNo);
-        if (!project) {
-            throw new NotFoundException(`Project no ${projectNo} not found`);
-        }
-
-        return mapProjectToSummary(project);
     }
 
     @Get(':projectId/workspace-guidance')
@@ -351,6 +339,26 @@ export class ProjectController {
             },
             req.user.sub
         );
+
+        return mapProjectToSummary(project);
+    }
+}
+
+@ApiTags('project')
+@ApiCookieAuth('pomsSession')
+@Controller()
+export class ProjectLookupController {
+    constructor(@Inject(ProjectService) private readonly projectService: ProjectService) {}
+
+    @Get('projects\\:lookup')
+    @HasPermissions('project:read')
+    @ApiOperation({ operationId: 'ProjectController_getByCode', summary: '按项目编码获取项目详情' })
+    @ApiOkResponse({ type: ProjectDto })
+    async getByCode(@Query() query: ProjectLookupQueryDto): Promise<ProjectSummary> {
+        const project = await this.projectService.findByNo(query.projectNo);
+        if (!project) {
+            throw new NotFoundException(`Project no ${query.projectNo} not found`);
+        }
 
         return mapProjectToSummary(project);
     }

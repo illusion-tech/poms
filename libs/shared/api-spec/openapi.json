@@ -5762,42 +5762,6 @@
         ]
       }
     },
-    "/api/projects/code/{projectNo}": {
-      "get": {
-        "operationId": "ProjectController_getByCode",
-        "parameters": [
-          {
-            "name": "projectNo",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProjectSummary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "pomsSession": []
-          }
-        ],
-        "summary": "按项目编码获取项目详情",
-        "tags": [
-          "project"
-        ]
-      }
-    },
     "/api/projects/{projectId}/workspace-guidance": {
       "get": {
         "operationId": "ProjectController_getWorkspaceGuidance",
@@ -6579,6 +6543,43 @@
           }
         ],
         "summary": "变更项目销售主责",
+        "tags": [
+          "project"
+        ]
+      }
+    },
+    "/api/projects:lookup": {
+      "get": {
+        "operationId": "ProjectController_getByCode",
+        "parameters": [
+          {
+            "name": "projectNo",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "按项目编码获取项目详情",
         "tags": [
           "project"
         ]
@@ -9419,42 +9420,6 @@
         ]
       }
     },
-    "/api/contracts/no/{contractNo}": {
-      "get": {
-        "operationId": "ContractController_getByNo",
-        "parameters": [
-          {
-            "name": "contractNo",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContractDetailView"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "pomsSession": []
-          }
-        ],
-        "summary": "按合同编号获取详情",
-        "tags": [
-          "contract"
-        ]
-      }
-    },
     "/api/contracts/{id}": {
       "get": {
         "operationId": "ContractController_getById",
@@ -9658,6 +9623,43 @@
           }
         ],
         "summary": "确认合同生效",
+        "tags": [
+          "contract"
+        ]
+      }
+    },
+    "/api/contracts:lookup": {
+      "get": {
+        "operationId": "ContractController_getByNo",
+        "parameters": [
+          {
+            "name": "contractNo",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractDetailView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "按合同编号获取详情",
         "tags": [
           "contract"
         ]

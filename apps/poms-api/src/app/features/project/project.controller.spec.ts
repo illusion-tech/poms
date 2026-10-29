@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { ProjectArchiveRecordController, ProjectController } from './project.controller';
+import { ProjectArchiveRecordController, ProjectController, ProjectLookupController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectService } from './project.service';
@@ -11,6 +11,7 @@ describe('ProjectController', () => {
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
     let controller: ProjectController;
+    let lookupController: ProjectLookupController;
     let archiveRecordController: ProjectArchiveRecordController;
     let projectQueryService: jest.Mocked<ProjectQueryService>;
     let projectService: jest.Mocked<ProjectService>;
@@ -42,7 +43,30 @@ describe('ProjectController', () => {
         } as unknown as jest.Mocked<ProjectService>;
 
         controller = new ProjectController(projectQueryService, projectService);
+        lookupController = new ProjectLookupController(projectService);
         archiveRecordController = new ProjectArchiveRecordController(projectService);
+    });
+
+    it.each(['PRJ-2026-001', ' PRJ-2026-001 ', '项目/一:二+ß', 'P'.repeat(65)])('forwards the exact business number %s and keeps the summary projection', async (projectNo) => {
+        projectService.findByNo.mockResolvedValue(createProjectEntity({ projectNo }));
+
+        const result = await lookupController.getByCode({ projectNo });
+
+        expect(projectService.findByNo).toHaveBeenCalledWith(projectNo);
+        expect(projectService.findByNo).toHaveBeenCalledTimes(1);
+        expect(projectService.findById).not.toHaveBeenCalled();
+        expect(projectQueryService.getProjectDetail).not.toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({ id: projectId, projectNo, createdAt: baseDate.toISOString(), plannedSignAt: null }));
+        expect(result).not.toHaveProperty('currentContractSummary');
+        expect(result).not.toHaveProperty('generatedAt');
+    });
+
+    it('preserves the business-number-specific project 404', async () => {
+        projectService.findByNo.mockResolvedValue(null);
+
+        await expect(lookupController.getByCode({ projectNo: 'unknown-project' })).rejects.toMatchObject({
+            response: { statusCode: 404, message: 'Project no unknown-project not found', error: 'Not Found' }
+        });
     });
 
     it('maps create payload plannedSignAt into Date and injects operator id', async () => {

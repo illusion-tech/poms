@@ -8,6 +8,7 @@ import {
     ContractDto,
     ContractListDto,
     ContractListQueryDto,
+    ContractLookupQueryDto,
     CreateContractRequestDto,
     SubmitContractReviewRequestDto,
     UpdateContractBasicInfoRequestDto
@@ -54,20 +55,6 @@ export class ContractController {
         const requestContext = buildSensitiveFieldProjectionRequestContext(req, '/contracts');
 
         return Promise.all(contracts.map((c) => mapContractToSummary(c, projectMap.get(c.projectId) ?? null, this.sensitiveFieldProjectionService, req.user, requestContext)));
-    }
-
-    @Get('no/:contractNo')
-    @HasPermissions('project:read')
-    @ApiOperation({ summary: '按合同编号获取详情' })
-    @ApiOkResponse({ type: ContractDetailViewDto })
-    async getByNo(@Param('contractNo') contractNo: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ContractDetailView> {
-        const contract = await this.contractService.findByNo(contractNo);
-        if (!contract) {
-            throw new NotFoundException(`Contract no ${contractNo} not found`);
-        }
-
-        const [project, snapshot] = await Promise.all([this.projectService.findById(contract.projectId), contract.currentSnapshotId ? this.contractTermSnapshotRepository.findById(contract.currentSnapshotId) : Promise.resolve(null)]);
-        return mapContractToDetailView(contract, project, snapshot, this.sensitiveFieldProjectionService, req.user, buildSensitiveFieldProjectionRequestContext(req, `/contracts/no/${contractNo}`));
     }
 
     @Get(':id')
@@ -152,6 +139,32 @@ export class ContractController {
     @ApiOkResponse({ type: CommandResultDto })
     activate(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ActivateContractRequestDto): Promise<CommandResult> {
         return this.contractService.activate(id, req.user.sub, body);
+    }
+}
+
+@ApiTags('contract')
+@ApiCookieAuth('pomsSession')
+@Controller()
+export class ContractLookupController {
+    constructor(
+        @Inject(ContractService) private readonly contractService: ContractService,
+        @Inject(ProjectService) private readonly projectService: ProjectService,
+        @Inject(ContractTermSnapshotRepository) private readonly contractTermSnapshotRepository: ContractTermSnapshotRepository,
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+    ) {}
+
+    @Get('contracts\\:lookup')
+    @HasPermissions('project:read')
+    @ApiOperation({ operationId: 'ContractController_getByNo', summary: '按合同编号获取详情' })
+    @ApiOkResponse({ type: ContractDetailViewDto })
+    async getByNo(@Query() query: ContractLookupQueryDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ContractDetailView> {
+        const contract = await this.contractService.findByNo(query.contractNo);
+        if (!contract) {
+            throw new NotFoundException(`Contract no ${query.contractNo} not found`);
+        }
+
+        const [project, snapshot] = await Promise.all([this.projectService.findById(contract.projectId), contract.currentSnapshotId ? this.contractTermSnapshotRepository.findById(contract.currentSnapshotId) : Promise.resolve(null)]);
+        return mapContractToDetailView(contract, project, snapshot, this.sensitiveFieldProjectionService, req.user, buildSensitiveFieldProjectionRequestContext(req, '/contracts:lookup'));
     }
 }
 

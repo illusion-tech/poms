@@ -15,7 +15,7 @@ import { ProjectOwnerReassignmentRecord } from './project-owner-reassignment-rec
 import { ProjectPricingMarginConditionItem, ProjectPricingMarginReview } from './project-pricing-margin-review.entity';
 import { ProjectBidCommercialMaterialItem, ProjectBidCommercialProcess, ProjectBidCommercialTimelineItem } from './project-bid-commercial-process.entity';
 import { ProjectTechnicalCostItem, ProjectTechnicalCostPackage, ProjectTechnicalRiskItem, ProjectTechnicalScopeItem } from './project-technical-cost-package.entity';
-import { ProjectArchiveRecordController, ProjectController } from './project.controller';
+import { ProjectArchiveRecordController, ProjectController, ProjectLookupController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectQueryService } from './project-query.service';
 import { ProjectRepository } from './project.repository';
@@ -48,7 +48,7 @@ import { ProjectService } from './project.service';
         BusinessNumberModule,
         CustomerModule
     ],
-    controllers: [ProjectController, ProjectArchiveRecordController],
+    controllers: [ProjectController, ProjectLookupController, ProjectArchiveRecordController],
     providers: [ProjectRepository, ProjectQueryService, ProjectService],
     exports: [ProjectQueryService, ProjectService]
 })

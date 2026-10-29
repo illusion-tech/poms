@@ -1,4 +1,5 @@
-import { ContractController } from './contract.controller';
+import { SensitiveFieldProjectionService } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
+import { ContractController, ContractLookupController } from './contract.controller';
 import { ContractService } from './contract.service';
 import { ApprovalService } from '../approval/approval.service';
 import { ProjectService } from '../project/project.service';
@@ -10,6 +11,7 @@ describe('ContractController', () => {
     const baseDate = new Date('2026-03-22T10:00:00.000Z');
 
     let controller: ContractController;
+    let lookupController: ContractLookupController;
     let contractService: jest.Mocked<ContractService>;
     let approvalService: jest.Mocked<ApprovalService>;
     let projectService: jest.Mocked<ProjectService>;
@@ -70,6 +72,104 @@ describe('ContractController', () => {
         };
 
         controller = new ContractController(contractService, approvalService, projectService, contractTermSnapshotRepository as never, sensitiveFieldProjectionService as never);
+        lookupController = new ContractLookupController(contractService, projectService, contractTermSnapshotRepository as never, sensitiveFieldProjectionService as never);
+    });
+
+    it.each(['CT-2026-001', ' CT-2026-001 ', '合同/一:二+ß', 'C'.repeat(65)])('forwards the exact contract business number %s and keeps UUID identity', async (contractNo) => {
+        contractService.findByNo.mockResolvedValue(createContractEntity({ contractNo }) as never);
+
+        const result = await lookupController.getByNo({ contractNo }, makeRequest());
+
+        expect(contractService.findByNo).toHaveBeenCalledWith(contractNo);
+        expect(contractService.findByNo).toHaveBeenCalledTimes(1);
+        expect(contractService.findById).not.toHaveBeenCalled();
+        expect(projectService.findById).toHaveBeenCalledWith(projectId);
+        expect(contractTermSnapshotRepository.findById).not.toHaveBeenCalled();
+        expect(result).toEqual(expect.objectContaining({ id: contractId, contractNo, currentTermSnapshot: null, signedAt: null, retentionDueDate: null }));
+        expect(result).not.toHaveProperty('signedAmount');
+    });
+
+    it('preserves the business-number-specific contract 404 before dependent reads', async () => {
+        contractService.findByNo.mockResolvedValue(null);
+
+        await expect(lookupController.getByNo({ contractNo: 'unknown-contract' }, makeRequest())).rejects.toMatchObject({
+            response: { statusCode: 404, message: 'Contract no unknown-contract not found', error: 'Not Found' }
+        });
+        expect(projectService.findById).not.toHaveBeenCalled();
+        expect(contractTermSnapshotRepository.findById).not.toHaveBeenCalled();
+        expect(sensitiveFieldProjectionService.projectStringField).not.toHaveBeenCalled();
+    });
+
+    it.each([
+        { originalUrl: '/api/contracts:lookup?contractNo=CT%2F1&extra=a+b', url: '/url', path: '/path', expected: '/api/contracts:lookup?contractNo=CT%2F1&extra=a+b' },
+        { url: '/api/contracts:lookup?contractNo=CT%2B1', path: '/path', expected: '/api/contracts:lookup?contractNo=CT%2B1' },
+        { path: '/contracts:lookup', expected: '/contracts:lookup' },
+        { expected: '/contracts:lookup' },
+        { originalUrl: '', url: '/url', expected: '' }
+    ])('preserves the original URL priority and missing-URL fallback: $expected', async ({ expected, ...requestPaths }) => {
+        contractService.findByNo.mockResolvedValue(createContractEntity() as never);
+
+        await lookupController.getByNo({ contractNo: 'HT-2026-001' }, {
+            ...requestPaths,
+            user: { sub: userId, username: 'reader', permissions: ['project:read'] },
+            method: 'GET',
+            headers: { 'x-request-id': 'lookup-context' }
+        });
+
+        expect(sensitiveFieldProjectionService.projectStringField).toHaveBeenCalledWith(expect.objectContaining({
+            requestContext: expect.objectContaining({ path: expected, requestId: 'lookup-context', method: 'GET' })
+        }));
+    });
+
+    it('uses the real projection service to batch masked contract and snapshot events separately', async () => {
+        const recordSecurityEvent = jest.fn().mockResolvedValue(undefined);
+        const projection = new SensitiveFieldProjectionService({ recordSecurityEvent } as never);
+        const projectedLookup = new ContractLookupController(contractService, projectService, contractTermSnapshotRepository as never, projection);
+        const snapshotId = '60000000-0000-4000-8000-000000000001';
+        const originalUrl = '/api/contracts:lookup?contractNo=HT%2F2026&extra=a+b';
+        contractService.findByNo.mockResolvedValue(createContractEntity({ currentSnapshotId: snapshotId }) as never);
+        contractTermSnapshotRepository.findById.mockResolvedValue(createTermSnapshot({ amountTaxExclusive: null, retentionRate: null }));
+
+        const result = await projectedLookup.getByNo({ contractNo: 'HT/2026' }, {
+            originalUrl,
+            method: 'GET',
+            headers: { 'x-request-id': 'lookup-projection' },
+            user: { sub: userId, username: 'reader', permissions: ['project:read'] }
+        });
+
+        expect(recordSecurityEvent).toHaveBeenCalledTimes(2);
+        expect(recordSecurityEvent).toHaveBeenNthCalledWith(1, expect.objectContaining({
+            eventType: 'sensitive_field.masked', path: originalUrl, method: 'GET', requestId: 'lookup-projection',
+            details: expect.objectContaining({ targetType: 'contract', targetId: contractId, fieldKeys: ['field'], hiddenFieldCount: 1 })
+        }));
+        expect(recordSecurityEvent).toHaveBeenNthCalledWith(2, expect.objectContaining({
+            eventType: 'sensitive_field.masked', path: originalUrl,
+            details: expect.objectContaining({
+                targetType: 'ContractSnapshot', targetId: snapshotId,
+                fieldKeys: ['amountTaxInclusiveProjection', 'taxRateProjection', 'downPaymentRateProjection', 'paymentTermsProjection'], hiddenFieldCount: 4
+            })
+        }));
+        expect(result.signedAmountProjection.mode).toBe('masked');
+        expect(result.currentTermSnapshot?.amountTaxExclusiveProjection).toEqual(expect.objectContaining({ mode: 'full', value: null, reasonCode: 'field-package-not-applicable' }));
+        expect(result.currentTermSnapshot).not.toHaveProperty('paymentTerms');
+    });
+
+    it('does not audit a fully authorized lookup or null snapshot fields', async () => {
+        const recordSecurityEvent = jest.fn().mockResolvedValue(undefined);
+        const projection = new SensitiveFieldProjectionService({ recordSecurityEvent } as never);
+        const projectedLookup = new ContractLookupController(contractService, projectService, contractTermSnapshotRepository as never, projection);
+        contractService.findByNo.mockResolvedValue(createContractEntity({ currentSnapshotId: '60000000-0000-4000-8000-000000000001' }) as never);
+        contractTermSnapshotRepository.findById.mockResolvedValue(createTermSnapshot({
+            amountTaxInclusive: null, amountTaxExclusive: null, taxRate: null, downPaymentRate: null, retentionRate: null, paymentTerms: null
+        }));
+
+        const result = await projectedLookup.getByNo({ contractNo: 'HT-2026-001' }, makeRequest());
+
+        expect(result.signedAmountProjection.mode).toBe('full');
+        expect(recordSecurityEvent).not.toHaveBeenCalled();
+        await projectedLookup.getByNo({ contractNo: 'HT-2026-001' }, makeRequest(['project:read']));
+        expect(recordSecurityEvent).toHaveBeenCalledTimes(1);
+        expect(recordSecurityEvent).toHaveBeenCalledWith(expect.objectContaining({ details: expect.objectContaining({ targetType: 'contract' }) }));
     });
 
     it('maps create payload signedAt into Date', async () => {
