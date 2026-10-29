@@ -1,0 +1,230 @@
+{
+    "formatVersion": 1,
+    "kind": "RUST-R2IJ-joint-independent-G3-review",
+    "recordedAt": "2026-10-29T00:48:54.677Z",
+    "gate": "G3",
+    "result": "Pass",
+    "reviewer": {
+        "id": "C",
+        "nonAuthor": true,
+        "productFixtureRunnerOrCargoEdits": false,
+        "method": "Read-only source review, source/receipt hashing, offline response/PG/audit/object comparisons, independent tar inspection and read-only full archive verification. Actual HTTP/PG/browser runs are the bound runner evidence; C did not rerun them."
+    },
+    "scope": {
+        "issues": [
+            76,
+            77
+        ],
+        "operations": 25,
+        "I": 6,
+        "J": 19,
+        "baseCommit": "61d6df1e971e7e785382dc85c75273e584ee2545",
+        "branch": "codex/poms-r2ij-storage-attachments"
+    },
+    "findings": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 0,
+        "P3": 0,
+        "open": []
+    },
+    "reviewedInputs": [
+        {
+            "file": "tmp/rust-r2ij/g1-baseline-reviewed-original.md",
+            "sha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b",
+            "boundary": "Frozen G1 semantics; later Gate metadata and corrective deltas are separate."
+        },
+        {
+            "file": "docs/design/rust-r2ij-validation.json",
+            "bytes": 175277,
+            "sha256": "2751c07cdbd71cf4958015b2dccf9923b7a76cb88bbff2b59ec4be2803aee3a4",
+            "sourceFiles": 250,
+            "normalizedDigest": "30ad5d1fad59a0124eb6f87bfcfea6223d265234de34d4e999238f7e08a7d500"
+        },
+        {
+            "file": "docs/design/rust-r2ij-g3-delta01.json",
+            "bytes": 87222,
+            "sha256": "6164d682faccf26aacacfe641d3c7ae7f9ab03623c2b9ea76a67163371a2deb8",
+            "sourceFiles": 256,
+            "normalizedDigest": "337345ff4f9659925bbfef124d92092cf3de6c50dee2268dc231a7e59b88221e"
+        },
+        {
+            "file": "docs/design/rust-r2ij-preservation.json",
+            "bytes": 4451,
+            "sha256": "3abc8562472e0abefdf4c4244dba2ec9b8d42f71dca2d1e89c5a32662bc5c3da"
+        },
+        {
+            "file": "docs/design/rust-r2ij-source-manifest.json",
+            "bytes": 3218422,
+            "sha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97"
+        }
+    ],
+    "sourceReview": {
+        "currentCandidate": "22",
+        "service": {
+            "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+            "sha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f"
+        },
+        "rustBinarySha256": "ce0122baca7473efedb74afb3c56874840f818540c0a4bca2b61529b53bd7e50",
+        "originalNestBinarySha256": "86847230bce15d6f903316e974021c86d471597f822fc69dd63fd2c3f2a54175",
+        "checks": "I/J routes, DTO/JS strings, target permissions/projections, managed identity/UUID refresh, AUTO/multiple flushes, auth coflush, single versus grouped updates, default/unique failure behavior, local/OBS streaming and binary headers were reviewed against the locked original source and actual witnesses.",
+        "finalDelta": "The sole production change after the initial input is I managed-self hydration. Every mapped clean scalar refreshes current and its comparison baseline; dirty typed/raw fields and original audit-before survive; original null filtering and fresh version are retained. CAS22 and hydrate22 close the actual counterexamples without added queries, transactions, locks or client-version rechecks.",
+        "protectedOriginals": 1356,
+        "protectedVerification": "Raw equality to base Git blobs independently checked; original Nest/Angular/contracts/OpenAPI/client/migrations remain unchanged.",
+        "finalManifestBindings": 253,
+        "unchangedContextOutsideTar": [
+            {
+                "file": "apps/poms-api-rust/.gitignore",
+                "sha256": "fecafa5e093368be2f644386f9f4790d6d95a7714625f85fe9496b6d2a6903bb"
+            },
+            {
+                "file": "apps/poms-api-rust/README.md",
+                "sha256": "9c78c03dbd119837efa0a5e04a7f0f63749e2f5974b4553fc276813de7af96f4"
+            },
+            {
+                "file": "apps/poms-api-rust/rust-toolchain.toml",
+                "sha256": "f715f440167e20fd8ea9afa0498c3d1ab80174cfcb8cbc895f106a34d907a1e1"
+            }
+        ],
+        "contextBoundary": "All three omitted context files are byte-identical on Windows, Linux and base Git; frozen delta hashes plus base Git retain their authority. They are not claimed to be members of the tar."
+    },
+    "requiredChecks": [
+        {
+            "check": "Rust candidate22",
+            "result": "Pass",
+            "testBinaries": 25,
+            "passed": 186,
+            "failed": 0,
+            "ignored": 54,
+            "other": "Strict clippy and release all-targets exit0; log totals and all three receipts independently checked."
+        },
+        {
+            "check": "Shared checks",
+            "result": "Pass",
+            "scope": "poms-api/admin lint and test, original Nest build, admin production build, browser/admin-e2e typecheck, OpenAPI/generated client check. admin-e2e has no lint/test target: N/A."
+        },
+        {
+            "check": "Read-only migration/schema",
+            "result": "failed-with-classification",
+            "scope": "Both locked ORM migration-check exit1, dump exit0; existing CHECK visibility/comments classification retained. Catalog and 92 migrations unchanged; proposed SQL never executed."
+        },
+        {
+            "check": "Public surface",
+            "result": "Pass",
+            "perBackendHTTP": 604,
+            "scope": "25 operations, 90 guard/HEAD and 514 DTO requests; exact stored responses and hashes checked."
+        },
+        {
+            "check": "Current critical/auth",
+            "result": "Pass",
+            "criticalPerBackend": 17,
+            "authSerialPerBackend": 11,
+            "authControlledRequestsPerBackend": 2,
+            "scope": "Current candidate22 actual reports; original unlocked grouped-update race and actual returned versions preserved."
+        },
+        {
+            "check": "J commands/binary/lifecycle/path",
+            "result": "Pass",
+            "commandPairs": 58,
+            "lifecyclePairs": 50,
+            "pathPairs": 3,
+            "rawRoutePairs": 32,
+            "scope": "Complete response/PG/audit/object comparisons; local directory read error, early errors/HEAD headers, header500 and preguard malformed-path behavior included."
+        },
+        {
+            "check": "I storage transport",
+            "result": "Pass",
+            "protocolPairs": 44,
+            "providerOperations": 88,
+            "wireRequestsPerEndpoint": 131,
+            "cancellationCases": 4,
+            "virtualRecords": 8,
+            "publicFlowRecordsPerBackend": 21,
+            "cipherCases": 4,
+            "exactCipherRestores": 2,
+            "targetedDeleteOperations": 6,
+            "scope": "Real bounded SigV4 upstream and real original Node provider. Cancellation proved peer abort while probe/stdin remained alive. Public-flow assertions are finite expected checks, not a strict 21-pair response comparison. Separate PUT200/DELETE204/HEAD404 verifies each delete success path."
+        },
+        {
+            "check": "Unicode/managed-self corrections",
+            "result": "Pass",
+            "unicodeSuccessHTTPPerBackend": 2,
+            "hydrationCasesPerBackend": 4,
+            "hydrationHTTPPerBackend": 5,
+            "managedSelfSchedules": 1,
+            "scope": "Actual Unicode codepoint success boundaries, clean/dirty lone-surrogate behavior and one deterministic initial-v1/self-v2 schedule. Exact catalog/ACL/RLS restoration and product-data preservation checked."
+        },
+        {
+            "check": "Original component browser acceptance",
+            "result": "Pass",
+            "runs": 4,
+            "stepsPerRun": 12,
+            "scope": "Native/Rust on Linux/Windows, three original components, real cookies/API/upload/preview/download/final/void/read-only interactions. Static/input manifests unchanged; this is a tool host, not R3 business-page takeover."
+        },
+        {
+            "check": "Reference safety and final cleanup",
+            "result": "Pass",
+            "negativeCases": 20,
+            "backendRuns": 83,
+            "nestRuns": 43,
+            "rustRuns": 40,
+            "tables": 107,
+            "columns": 1778,
+            "primaryKeys": 107,
+            "incomingEdges": 121,
+            "dmlStatements": 0,
+            "scope": "All 83 base/extension journals cleaned, all registered row/location/foreign counts zero and local objects zero. Per-run double cleanup retained. All API/OBS/owned PG stopped normally and scoped ports released."
+        }
+    ],
+    "carriedForward": {
+        "explicit": true,
+        "groups": "Surface17, J command10/lifecycle17a/path17, route15, I protocol/virtual/public/cipher/delete17, Unicode18, four component UI runs, original-source protection and shared/schema checks.",
+        "rationale": "Only the managed-self I service changed after initial validation. Its affected create/update/default/auth behavior was rerun by current critical22/auth22, hydrate22 and CAS22; unchanged DTO/router/adapter/binary/J/component groups are carried forward.",
+        "boundary": "Carried groups are not described as rerun on binary22."
+    },
+    "nonProductDeltas": {
+        "preservationTool": {
+            "file": "tools/rust-r2ij/j-preserve-evidence.mjs",
+            "sha256": "7c995c5fe852badce902322d861d8aeb972b37f1d2927d1050e012bdb0f0b6b4",
+            "deliverySha256": "44024ac3b39ebc6e50e1e4df1515a4a205e0f0a24054901368ea423405f4d31d",
+            "controlledFiles": 10,
+            "controlledBytes": 2097900,
+            "negativeCases": 27,
+            "review": "Exact 100-byte GNU PAX fallback predicate precedes legacy UTF8 decode; full strict PAX path alone identifies/extracts members. Existing privacy/path/link/manifest/destination guards unchanged. Device and split-UTF8 true GNU positives independently parsed, Windows payloads rehashed; all prior23 negatives retained."
+        },
+        "submissionText": {
+            "file": "tmp/rust-r2ij/submission-text-normalization01.json",
+            "sha256": "cbb4c6e57ee2a2786a503f5dee743ba7bf7b2047597f549f5065f380ace102eb",
+            "files": 5,
+            "review": "Original raw files retained on both platforms; current equals original with only CRLF converted to LF, four JSON values deeply equal. Current and original members independently checked in primary extraction. Historical initial/delta receipts unchanged."
+        }
+    },
+    "preservation": {
+        "tag": "final22f",
+        "files": 11911,
+        "payloadBytes": 730430010,
+        "archiveBytes": 263095013,
+        "archiveSha256": "71b350281c9ca38bc7d3a6879923541c4b6f1736063cae864ab529ca89aca2b9",
+        "manifestSha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97",
+        "primaryDirectory": "E:/projects/poms/tmp/rust-r2ij/final22f",
+        "linuxReceiptSha256": "e590c03cc2b3a5b0a4f66d1d99e4da52470185dac3f8d04f301be7177c9472ce",
+        "windowsReceiptSha256": "ebac373fe2871b24336cbb349cc9225d2049e06a81ce4b40c04c06558e1f7129",
+        "transferReceiptSha256": "fa3519987717b10ee06d1dac78bb6fc06014310fb549d9a40440901aefa85e54",
+        "CVerified": "All15 preservation references verified; full Linux tar independently reverified read-only; actual primary tar SHA checked; formal manifest equals primary embedded manifest. Windows actual verifier completed listing/payload checks and extracted-tree rescan.",
+        "extractedWindowsPosixModeBitsClaimed": false,
+        "reviewFileBoundary": "This additive review and preservation metadata follow the sealed tar to avoid a hash cycle; they do not rewrite its manifest."
+    },
+    "retainedBoundaries": [
+        "All original failed/partial/candidate evidence keeps its real status. Failed final22d/e archives remain retained outside the admitted tree and are not recertified.",
+        "Original second-default create500, new-version complete500, partial commit/audit failure and object residue behavior are compatibility results, not business fixes.",
+        "The 54 ignored legacy PG tests are not passes; actual isolated PG/HTTP/object evidence is separate.",
+        "Migration-check remains failed-with-classification; no proposed DDL was executed.",
+        "Actual OBS coverage uses an isolated synthetic SigV4 upstream, not a real Huawei OBS tenant. No deployment or performance acceptance.",
+        "Component-host browser coverage does not complete R3 CRUD or business pages. Finite codec/error/race cases do not prove every possible combination.",
+        "Source hypotheses disproved by actual Native paths or decoder results were superseded as source/tool noise, not retained as confirmed product defects."
+    ],
+    "g4": {
+        "result": "Pending",
+        "boundary": "G3 permits the scoped implementation to proceed to exact-source commit/integration and governance closure. Commit/push/main integration, post-integration raw checks, archive/status reconciliation and Issue76/77 closure are separate G4 work. Current delivery remains74/108 until G4;99/108 is conditional on I/J completion. K/L nine operations, R2M/#61/R3-R5 and parent67/57 remain open."
+    }
+}

@@ -1,0 +1,2387 @@
+{
+  "formatVersion": 1,
+  "scope": "RUST-R2I #76 read-only G0/G1 candidate input; six existing operations plus true local/OBS authority for J; not G1 Pass/runtime proof",
+  "generatedAtUtc": "2026-10-28T17:37:33.1281461Z",
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "branch": "codex/poms-r2ij-storage-attachments",
+  "workspace": "E:/projects/worktrees/poms-r2ef-foundation-audit/poms",
+  "textNormalization": {
+    "encoding": "UTF-8",
+    "rule": "text.replace(/\\r\\n/g, LF) only",
+    "preserves": "BOM, bare CR, Unicode and other whitespace",
+    "raw": "sha256 of source bytes",
+    "normalized": "sha256 of normalized UTF-8 bytes"
+  },
+  "evidenceBoundary": {
+    "productExecution": false,
+    "testsRun": false,
+    "storageExecution": false,
+    "networkRequests": false,
+    "databaseOperations": false,
+    "gitMutation": false,
+    "privateEnvRead": false,
+    "writes": [
+      "tmp/rust-r2ij/i-g1-input.md",
+      "tmp/rust-r2ij/i-g1-sources.json"
+    ]
+  },
+  "modelControl": {
+    "targetModel": "gpt-6.1-sol",
+    "targetReasoning": "max",
+    "fast": "unverified; no independent tool parameter",
+    "owner": "Root records invocation/runtime control evidence"
+  },
+  "canonicalBatch": {
+    "expectedCount": 25,
+    "iCount": 6,
+    "jCount": 19,
+    "projection": [
+      {
+        "slice": "RUST-R2I",
+        "method": "GET",
+        "path": "/api/platform/attachment-storage-providers",
+        "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2I",
+        "method": "POST",
+        "path": "/api/platform/attachment-storage-providers",
+        "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2I",
+        "method": "GET",
+        "path": "/api/platform/attachment-storage-providers/{id}",
+        "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2I",
+        "method": "PATCH",
+        "path": "/api/platform/attachment-storage-providers/{id}",
+        "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2I",
+        "method": "POST",
+        "path": "/api/platform/attachment-storage-providers/{id}:set-default",
+        "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2I",
+        "method": "POST",
+        "path": "/api/platform/attachment-storage-providers/{id}:testConnection",
+        "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachment-center-records",
+        "operationId": "AttachmentCenterRecordController_list",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions",
+        "operationId": "AttachmentUploadSessionController_create",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachment-upload-sessions/{id}",
+        "operationId": "AttachmentUploadSessionController_get",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}:abort",
+        "operationId": "AttachmentUploadSessionController_abort",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}:complete",
+        "operationId": "AttachmentUploadSessionController_complete",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "PUT",
+        "path": "/api/attachment-upload-sessions/{id}/object",
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+        "operationId": "AttachmentUploadSessionController_createUploadTarget",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments",
+        "operationId": "AttachmentController_list",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}",
+        "operationId": "AttachmentController_get",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "PATCH",
+        "path": "/api/attachments/{id}",
+        "operationId": "AttachmentController_update",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}:clear-final",
+        "operationId": "AttachmentController_clearFinal",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}:mark-final",
+        "operationId": "AttachmentController_markFinal",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}:void",
+        "operationId": "AttachmentController_void",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/download",
+        "operationId": "AttachmentController_download",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}/links",
+        "operationId": "AttachmentController_link",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "DELETE",
+        "path": "/api/attachments/{id}/links/{linkId}",
+        "operationId": "AttachmentController_unlink",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/preview",
+        "operationId": "AttachmentController_preview",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/thumbnail",
+        "operationId": "AttachmentController_thumbnail",
+        "canonicalInventoryStatus": "canonical-match"
+      },
+      {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/versions",
+        "operationId": "AttachmentController_versions",
+        "canonicalInventoryStatus": "canonical-match"
+      }
+    ],
+    "source": "docs/design/rust-r2-operation-slices.json"
+  },
+  "operations": [
+    {
+      "slice": "RUST-R2I",
+      "method": "GET",
+      "path": "/api/platform/attachment-storage-providers",
+      "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs",
+      "source": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 23
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 442
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；附件存储 provider 配置列表不返回 AK / SK、内部 storage key 或永久对象 URL。"
+        }
+      ],
+      "contract": {
+        "parameters": [
+          {
+            "name": "providerType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStorageProviderType"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+            }
+          },
+          {
+            "name": "enabled",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responseStatusCodes": [
+          "200"
+        ],
+        "schemaRefs": [
+          "#/components/schemas/AttachmentStorageProviderConfigList",
+          "#/components/schemas/AttachmentStorageProviderConfigStatus",
+          "#/components/schemas/AttachmentStorageProviderType"
+        ],
+        "inputParameters": [
+          {
+            "parameter": "query",
+            "type": "AttachmentStorageProviderConfigListQueryDto",
+            "decorators": [
+              "@Query()"
+            ]
+          }
+        ],
+        "returnType": "Promise<AttachmentStorageProviderConfigList>",
+        "dtoSources": [
+          {
+            "name": "AttachmentStorageProviderConfigListDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 59,
+            "schema": "AttachmentStorageProviderConfigListSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 59
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3680
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConfigListSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3680
+              }
+            ],
+            "limitation": null
+          },
+          {
+            "name": "AttachmentStorageProviderConfigListQueryDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 61,
+            "schema": "AttachmentStorageProviderConfigListQuerySchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 61
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3684
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConfigListQuerySchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3684
+              }
+            ],
+            "limitation": null
+          }
+        ]
+      },
+      "currentOpenApiOperation": {
+        "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs",
+        "parameters": [
+          {
+            "name": "providerType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStorageProviderType"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+            }
+          },
+          {
+            "name": "enabled",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件存储提供商配置列表",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers",
+      "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig",
+      "source": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 36
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 443
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；local / huawei-obs-s3 provider 配置创建，secret write-only。"
+        }
+      ],
+      "contract": {
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttachmentStorageProviderConfigRequest"
+              }
+            }
+          }
+        },
+        "responseStatusCodes": [
+          "201"
+        ],
+        "schemaRefs": [
+          "#/components/schemas/AttachmentStorageProviderConfigDetail",
+          "#/components/schemas/CreateAttachmentStorageProviderConfigRequest"
+        ],
+        "inputParameters": [
+          {
+            "parameter": "body",
+            "type": "CreateAttachmentStorageProviderConfigRequestDto",
+            "decorators": [
+              "@Body()"
+            ]
+          },
+          {
+            "parameter": "req",
+            "type": "{ user: UserPayload }",
+            "decorators": [
+              "@Request()"
+            ]
+          }
+        ],
+        "returnType": "Promise<AttachmentStorageProviderConfigDetail>",
+        "dtoSources": [
+          {
+            "name": "AttachmentStorageProviderConfigDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 57,
+            "schema": "AttachmentStorageProviderConfigDetailSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 57
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3676
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConfigDetailSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3676
+              }
+            ],
+            "limitation": null
+          },
+          {
+            "name": "CreateAttachmentStorageProviderConfigRequestDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 63,
+            "schema": "CreateAttachmentStorageProviderConfigRequestSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 63
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3694
+            },
+            "schemaReferences": [
+              {
+                "name": "CreateAttachmentStorageProviderConfigRequestSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3694
+              }
+            ],
+            "limitation": null
+          }
+        ]
+      },
+      "currentOpenApiOperation": {
+        "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttachmentStorageProviderConfigRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建附件存储提供商配置",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "GET",
+      "path": "/api/platform/attachment-storage-providers/{id}",
+      "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig",
+      "source": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 44
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 444
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；provider 配置详情只返回 secret configured 状态。"
+        }
+      ],
+      "contract": {
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null,
+        "responseStatusCodes": [
+          "200"
+        ],
+        "schemaRefs": [
+          "#/components/schemas/AttachmentStorageProviderConfigDetail"
+        ],
+        "inputParameters": [
+          {
+            "parameter": "id",
+            "type": "string",
+            "decorators": [
+              "@Param('id')"
+            ]
+          }
+        ],
+        "returnType": "Promise<AttachmentStorageProviderConfigDetail>",
+        "dtoSources": [
+          {
+            "name": "AttachmentStorageProviderConfigDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 57,
+            "schema": "AttachmentStorageProviderConfigDetailSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 57
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3676
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConfigDetailSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3676
+              }
+            ],
+            "limitation": null
+          }
+        ]
+      },
+      "currentOpenApiOperation": {
+        "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件存储提供商配置详情",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "PATCH",
+      "path": "/api/platform/attachment-storage-providers/{id}",
+      "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig",
+      "source": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 52
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 445
+          },
+          "canonical": [
+            {
+              "method": "PATCH",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "PATCH",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；provider 配置更新、启停、endpoint / bucket / keyPrefix 和 secret 轮换。"
+        }
+      ],
+      "contract": {
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAttachmentStorageProviderConfigRequest"
+              }
+            }
+          }
+        },
+        "responseStatusCodes": [
+          "200"
+        ],
+        "schemaRefs": [
+          "#/components/schemas/AttachmentStorageProviderConfigDetail",
+          "#/components/schemas/UpdateAttachmentStorageProviderConfigRequest"
+        ],
+        "inputParameters": [
+          {
+            "parameter": "id",
+            "type": "string",
+            "decorators": [
+              "@Param('id')"
+            ]
+          },
+          {
+            "parameter": "body",
+            "type": "UpdateAttachmentStorageProviderConfigRequestDto",
+            "decorators": [
+              "@Body()"
+            ]
+          },
+          {
+            "parameter": "req",
+            "type": "{ user: UserPayload }",
+            "decorators": [
+              "@Request()"
+            ]
+          }
+        ],
+        "returnType": "Promise<AttachmentStorageProviderConfigDetail>",
+        "dtoSources": [
+          {
+            "name": "AttachmentStorageProviderConfigDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 57,
+            "schema": "AttachmentStorageProviderConfigDetailSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 57
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3676
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConfigDetailSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3676
+              }
+            ],
+            "limitation": null
+          },
+          {
+            "name": "UpdateAttachmentStorageProviderConfigRequestDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 65,
+            "schema": "UpdateAttachmentStorageProviderConfigRequestSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 65
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3712
+            },
+            "schemaReferences": [
+              {
+                "name": "UpdateAttachmentStorageProviderConfigRequestSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3712
+              }
+            ],
+            "limitation": null
+          }
+        ]
+      },
+      "currentOpenApiOperation": {
+        "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAttachmentStorageProviderConfigRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新附件存储提供商配置",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers/{id}:set-default",
+      "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider",
+      "source": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 69
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 447
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:set-default"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:set-default"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；默认 provider 切换只允许 enabled + active provider 成为新上传默认值。"
+        }
+      ],
+      "contract": {
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetDefaultAttachmentStorageProviderRequest"
+              }
+            }
+          }
+        },
+        "responseStatusCodes": [
+          "200"
+        ],
+        "schemaRefs": [
+          "#/components/schemas/AttachmentStorageProviderConfigDetail",
+          "#/components/schemas/SetDefaultAttachmentStorageProviderRequest"
+        ],
+        "inputParameters": [
+          {
+            "parameter": "id",
+            "type": "string",
+            "decorators": [
+              "@Param('id')"
+            ]
+          },
+          {
+            "parameter": "body",
+            "type": "SetDefaultAttachmentStorageProviderRequestDto",
+            "decorators": [
+              "@Body()"
+            ]
+          },
+          {
+            "parameter": "req",
+            "type": "{ user: UserPayload }",
+            "decorators": [
+              "@Request()"
+            ]
+          }
+        ],
+        "returnType": "Promise<AttachmentStorageProviderConfigDetail>",
+        "dtoSources": [
+          {
+            "name": "AttachmentStorageProviderConfigDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 57,
+            "schema": "AttachmentStorageProviderConfigDetailSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 57
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3676
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConfigDetailSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3676
+              }
+            ],
+            "limitation": null
+          },
+          {
+            "name": "SetDefaultAttachmentStorageProviderRequestDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 69,
+            "schema": "SetDefaultAttachmentStorageProviderRequestSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 69
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3752
+            },
+            "schemaReferences": [
+              {
+                "name": "SetDefaultAttachmentStorageProviderRequestSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3752
+              }
+            ],
+            "limitation": null
+          }
+        ]
+      },
+      "currentOpenApiOperation": {
+        "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetDefaultAttachmentStorageProviderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "设为默认附件存储提供商",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers/{id}:testConnection",
+      "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection",
+      "source": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 60
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalInventoryStatus": "canonical-match",
+      "canonicalInventory": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 446
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:testConnection"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:testConnection"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；provider 连接测试只做本地配置完整性校验，不持久化测试对象，不泄露 secret。"
+        }
+      ],
+      "contract": {
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAttachmentStorageProviderConnectionRequest"
+              }
+            }
+          }
+        },
+        "responseStatusCodes": [
+          "200"
+        ],
+        "schemaRefs": [
+          "#/components/schemas/AttachmentStorageProviderConnectionTestResult",
+          "#/components/schemas/TestAttachmentStorageProviderConnectionRequest"
+        ],
+        "inputParameters": [
+          {
+            "parameter": "id",
+            "type": "string",
+            "decorators": [
+              "@Param('id')"
+            ]
+          },
+          {
+            "parameter": "body",
+            "type": "TestAttachmentStorageProviderConnectionRequestDto",
+            "decorators": [
+              "@Body()"
+            ]
+          }
+        ],
+        "returnType": "Promise<AttachmentStorageProviderConnectionTestResult>",
+        "dtoSources": [
+          {
+            "name": "AttachmentStorageProviderConnectionTestResultDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 71,
+            "schema": "AttachmentStorageProviderConnectionTestResultSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 71
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3760
+            },
+            "schemaReferences": [
+              {
+                "name": "AttachmentStorageProviderConnectionTestResultSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3760
+              }
+            ],
+            "limitation": null
+          },
+          {
+            "name": "TestAttachmentStorageProviderConnectionRequestDto",
+            "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+            "line": 67,
+            "schema": "TestAttachmentStorageProviderConnectionRequestSchema",
+            "schemaKind": "named-zod-schema",
+            "schemaExpressionSource": {
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 67
+            },
+            "schemaSource": {
+              "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+              "line": 3744
+            },
+            "schemaReferences": [
+              {
+                "name": "TestAttachmentStorageProviderConnectionRequestSchema",
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3744
+              }
+            ],
+            "limitation": null
+          }
+        ]
+      },
+      "currentOpenApiOperation": {
+        "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAttachmentStorageProviderConnectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConnectionTestResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "测试附件存储提供商配置完整性",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    }
+  ],
+  "canonicalRows": [
+    {
+      "line": 442,
+      "text": "| `platform-attachment-storage` | `listAttachmentStorageProviderConfigs`    | `GET /platform/attachment-storage-providers`                      | `GET /platform/attachment-storage-providers`                      | `GET /platform/attachment-storage-providers`                      | `ADR-015` + `EX-65A` + `EX-65B` | `N/A`      | `EX-65B` implemented；附件存储 provider 配置列表不返回 AK / SK、内部 storage key 或永久对象 URL。                         | `B14` | `aligned` |"
+    },
+    {
+      "line": 443,
+      "text": "| `platform-attachment-storage` | `createAttachmentStorageProviderConfig`   | `POST /platform/attachment-storage-providers`                     | `POST /platform/attachment-storage-providers`                     | `POST /platform/attachment-storage-providers`                     | `ADR-015` + `EX-65A` + `EX-65B` | `N/A`      | `EX-65B` implemented；local / huawei-obs-s3 provider 配置创建，secret write-only。                                        | `B14` | `aligned` |"
+    },
+    {
+      "line": 444,
+      "text": "| `platform-attachment-storage` | `getAttachmentStorageProviderConfig`      | `GET /platform/attachment-storage-providers/{id}`                 | `GET /platform/attachment-storage-providers/{id}`                 | `GET /platform/attachment-storage-providers/{id}`                 | `ADR-015` + `EX-65A` + `EX-65B` | `N/A`      | `EX-65B` implemented；provider 配置详情只返回 secret configured 状态。                                                    | `B14` | `aligned` |"
+    },
+    {
+      "line": 445,
+      "text": "| `platform-attachment-storage` | `updateAttachmentStorageProviderConfig`   | `PATCH /platform/attachment-storage-providers/{id}`               | `PATCH /platform/attachment-storage-providers/{id}`               | `PATCH /platform/attachment-storage-providers/{id}`               | `ADR-015` + `EX-65A` + `EX-65B` | `N/A`      | `EX-65B` implemented；provider 配置更新、启停、endpoint / bucket / keyPrefix 和 secret 轮换。                             | `B14` | `aligned` |"
+    },
+    {
+      "line": 446,
+      "text": "| `platform-attachment-storage` | `testAttachmentStorageProviderConnection` | `POST /platform/attachment-storage-providers/{id}:testConnection` | `POST /platform/attachment-storage-providers/{id}:testConnection` | `POST /platform/attachment-storage-providers/{id}:testConnection` | `ADR-015` + `EX-65A` + `EX-65B` | `N/A`      | `EX-65B` implemented；provider 连接测试只做本地配置完整性校验，不持久化测试对象，不泄露 secret。                          | `B14` | `aligned` |"
+    },
+    {
+      "line": 447,
+      "text": "| `platform-attachment-storage` | `setDefaultAttachmentStorageProvider`     | `POST /platform/attachment-storage-providers/{id}:set-default`    | `POST /platform/attachment-storage-providers/{id}:set-default`    | `POST /platform/attachment-storage-providers/{id}:set-default`    | `ADR-015` + `EX-65A` + `EX-65B` | `N/A`      | `EX-65B` implemented；默认 provider 切换只允许 enabled + active provider 成为新上传默认值。                               | `B14` | `aligned` |"
+    }
+  ],
+  "providerComponentSchemas": {
+    "AttachmentStorageProviderConfigSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "providerType": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderType"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "endpoint": {
+          "type": "string",
+          "nullable": true
+        },
+        "region": {
+          "type": "string",
+          "nullable": true
+        },
+        "bucket": {
+          "type": "string",
+          "nullable": true
+        },
+        "keyPrefix": {
+          "type": "string",
+          "nullable": true
+        },
+        "forcePathStyle": {
+          "type": "boolean"
+        },
+        "accessKeyConfigured": {
+          "type": "boolean"
+        },
+        "secretAccessKeyConfigured": {
+          "type": "boolean"
+        },
+        "credentialsUpdatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "providerType",
+        "displayName",
+        "status",
+        "enabled",
+        "isDefault",
+        "endpoint",
+        "region",
+        "bucket",
+        "keyPrefix",
+        "forcePathStyle",
+        "accessKeyConfigured",
+        "secretAccessKeyConfigured",
+        "credentialsUpdatedAt",
+        "rowVersion",
+        "createdAt",
+        "createdBy",
+        "updatedAt",
+        "updatedBy"
+      ]
+    },
+    "AttachmentStorageProviderType": {
+      "type": "string",
+      "enum": [
+        "local",
+        "huawei-obs-s3"
+      ]
+    },
+    "AttachmentStorageProviderConfigStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "disabled",
+        "misconfigured"
+      ]
+    },
+    "AttachmentStorageProviderConfigList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AttachmentStorageProviderConfigSummary"
+      }
+    },
+    "CreateAttachmentStorageProviderConfigRequest": {
+      "type": "object",
+      "properties": {
+        "providerType": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderType"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "endpoint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "nullable": true
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "nullable": true
+        },
+        "bucket": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "nullable": true
+        },
+        "keyPrefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "nullable": true
+        },
+        "forcePathStyle": {
+          "type": "boolean"
+        },
+        "accessKeyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "secretAccessKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "providerType",
+        "displayName"
+      ]
+    },
+    "AttachmentStorageProviderConfigDetail": {
+      "$ref": "#/components/schemas/AttachmentStorageProviderConfigSummary"
+    },
+    "UpdateAttachmentStorageProviderConfigRequest": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+        },
+        "endpoint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "nullable": true
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "nullable": true
+        },
+        "bucket": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "nullable": true
+        },
+        "keyPrefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "nullable": true
+        },
+        "forcePathStyle": {
+          "type": "boolean"
+        },
+        "accessKeyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "nullable": true
+        },
+        "secretAccessKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "TestAttachmentStorageProviderConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "AttachmentStorageProviderConnectionTestStatus": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed"
+      ]
+    },
+    "AttachmentStorageProviderConnectionTestResult": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderConnectionTestStatus"
+        },
+        "message": {
+          "type": "string"
+        },
+        "checkedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "status",
+        "message",
+        "checkedAt"
+      ]
+    },
+    "SetDefaultAttachmentStorageProviderRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "sources": [
+    {
+      "path": "CLAUDE.md",
+      "role": "governance",
+      "sizeBytes": 13794,
+      "rawBytesSha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf",
+      "normalizedUtf8Sha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "role": "governance",
+      "sizeBytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "normalizedUtf8Sha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "role": "governance",
+      "sizeBytes": 9479,
+      "rawBytesSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "normalizedUtf8Sha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/source-map.md",
+      "role": "governance",
+      "sizeBytes": 2836,
+      "rawBytesSha256": "6b098f1da8902507695c6224477b4ad2309c792fd7077714eb428373437efba8",
+      "normalizedUtf8Sha256": "6b098f1da8902507695c6224477b4ad2309c792fd7077714eb428373437efba8"
+    },
+    {
+      "path": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "role": "governance",
+      "sizeBytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "normalizedUtf8Sha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb"
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "role": "governance",
+      "sizeBytes": 43341,
+      "rawBytesSha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b",
+      "normalizedUtf8Sha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b"
+    },
+    {
+      "path": "docs/design/rust-r2-scope-and-dependencies.md",
+      "role": "governance",
+      "sizeBytes": 54537,
+      "rawBytesSha256": "a045fa9bafda93c8c5b3cd2947ad56d22d7ab08e87d1faed6bcc1dd8307b9efc",
+      "normalizedUtf8Sha256": "a045fa9bafda93c8c5b3cd2947ad56d22d7ab08e87d1faed6bcc1dd8307b9efc"
+    },
+    {
+      "path": "docs/design/rust-r2-operation-slices.json",
+      "role": "governance",
+      "sizeBytes": 502466,
+      "rawBytesSha256": "1131d94e9bb8dc7843e80cd2233df5fb97e32508dcdc68a4f3717420434955cd",
+      "normalizedUtf8Sha256": "1131d94e9bb8dc7843e80cd2233df5fb97e32508dcdc68a4f3717420434955cd"
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "role": "governance",
+      "sizeBytes": 168452,
+      "rawBytesSha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
+      "normalizedUtf8Sha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f"
+    },
+    {
+      "path": "docs/design/ex-65a-attachment-storage-provider-upload-session-baseline.md",
+      "role": "design",
+      "sizeBytes": 28861,
+      "rawBytesSha256": "ed9a67b07a5ef8aa9d8f72ce6f948947cb40f037eb9ccd1e7e37ec00f7a7fa96",
+      "normalizedUtf8Sha256": "ed9a67b07a5ef8aa9d8f72ce6f948947cb40f037eb9ccd1e7e37ec00f7a7fa96"
+    },
+    {
+      "path": "docs/design/ex-65b-attachment-storage-provider-config-runtime-baseline.md",
+      "role": "design",
+      "sizeBytes": 19667,
+      "rawBytesSha256": "d34ccd06581b1796c1aea8100e590002d5d40936f164ca2697354d92ca1c78b0",
+      "normalizedUtf8Sha256": "d34ccd06581b1796c1aea8100e590002d5d40936f164ca2697354d92ca1c78b0"
+    },
+    {
+      "path": "docs/design/ex-65b-attachment-storage-provider-config-runtime-closeout.md",
+      "role": "design",
+      "sizeBytes": 9593,
+      "rawBytesSha256": "1b9bb887827398a4902de0565ee651611c53e291f8c02adeb179751c7427180a",
+      "normalizedUtf8Sha256": "1b9bb887827398a4902de0565ee651611c53e291f8c02adeb179751c7427180a"
+    },
+    {
+      "path": "docs/design/ex-65c-attachment-storage-provider-runtime-baseline.md",
+      "role": "design",
+      "sizeBytes": 16228,
+      "rawBytesSha256": "8e218ac13a56676d7b4ce563eaba58ba9ade2e9c67033f5790c4d105b9d6d8b8",
+      "normalizedUtf8Sha256": "8e218ac13a56676d7b4ce563eaba58ba9ade2e9c67033f5790c4d105b9d6d8b8"
+    },
+    {
+      "path": "docs/design/ex-65c-attachment-storage-provider-runtime-closeout.md",
+      "role": "design",
+      "sizeBytes": 9367,
+      "rawBytesSha256": "a06e3beb32ed0ca8b93473fb6dc352980decee9457a802bcfe9d2fdc408e722f",
+      "normalizedUtf8Sha256": "a06e3beb32ed0ca8b93473fb6dc352980decee9457a802bcfe9d2fdc408e722f"
+    },
+    {
+      "path": "docs/design/ex-65e-attachment-storage-provider-integration-closeout-baseline.md",
+      "role": "design",
+      "sizeBytes": 9059,
+      "rawBytesSha256": "74afa2acef05364e3581c51e7d34cc2480f3b0e56bd2006f24a85babb6c7538b",
+      "normalizedUtf8Sha256": "74afa2acef05364e3581c51e7d34cc2480f3b0e56bd2006f24a85babb6c7538b"
+    },
+    {
+      "path": "docs/design/ex-65e-attachment-storage-provider-integration-closeout.md",
+      "role": "design",
+      "sizeBytes": 13372,
+      "rawBytesSha256": "8b5c43125d8f0f0efd9411be093b7f24490c5625a224967eb22013966fe39a0c",
+      "normalizedUtf8Sha256": "8b5c43125d8f0f0efd9411be093b7f24490c5625a224967eb22013966fe39a0c"
+    },
+    {
+      "path": "docs/design/fe-60a-attachment-storage-provider-config-frontend-baseline.md",
+      "role": "design",
+      "sizeBytes": 7331,
+      "rawBytesSha256": "3ed2a05a1a5955f4776eb8d0b1942715c93a8a3840123fc3ae0e38be1012433c",
+      "normalizedUtf8Sha256": "3ed2a05a1a5955f4776eb8d0b1942715c93a8a3840123fc3ae0e38be1012433c"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+      "role": "provider",
+      "sizeBytes": 4713,
+      "rawBytesSha256": "41ddb87385b90964f7468508737cd8c9a3803a545929561936525762e94309af",
+      "normalizedUtf8Sha256": "41ddb87385b90964f7468508737cd8c9a3803a545929561936525762e94309af"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.ts",
+      "role": "provider",
+      "sizeBytes": 16366,
+      "rawBytesSha256": "a0fa9e9837cd4494767f2df3624f787f154d82445eadf8759c80c89367cdc7f7",
+      "normalizedUtf8Sha256": "a0fa9e9837cd4494767f2df3624f787f154d82445eadf8759c80c89367cdc7f7"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.repository.ts",
+      "role": "provider",
+      "sizeBytes": 2476,
+      "rawBytesSha256": "64c5531b23974b645cc31acb03345205785cfbd0216d1b83a6ebb88d69c22d15",
+      "normalizedUtf8Sha256": "64c5531b23974b645cc31acb03345205785cfbd0216d1b83a6ebb88d69c22d15"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-config.entity.ts",
+      "role": "provider",
+      "sizeBytes": 4091,
+      "rawBytesSha256": "a8faab06794da0f6fd22de65b015686c06496536b723e093db0f015580bc05db",
+      "normalizedUtf8Sha256": "a8faab06794da0f6fd22de65b015686c06496536b723e093db0f015580bc05db"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-registry.service.ts",
+      "role": "provider",
+      "sizeBytes": 10278,
+      "rawBytesSha256": "b3c7fe0ad90890702583d064ee3489948537ccc076be2ff7c7a25607c79572dd",
+      "normalizedUtf8Sha256": "b3c7fe0ad90890702583d064ee3489948537ccc076be2ff7c7a25607c79572dd"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-secret.constants.ts",
+      "role": "provider",
+      "sizeBytes": 392,
+      "rawBytesSha256": "b7ee74a61e1d26e5d1d262e75ca763b6011b325db8413c7d81059cdbee117804",
+      "normalizedUtf8Sha256": "b7ee74a61e1d26e5d1d262e75ca763b6011b325db8413c7d81059cdbee117804"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-object-storage-provider.types.ts",
+      "role": "provider",
+      "sizeBytes": 2662,
+      "rawBytesSha256": "f3a704f43fd9cbc1594771e086986efe7664ab9dca62c94394e8802ad2919ae1",
+      "normalizedUtf8Sha256": "f3a704f43fd9cbc1594771e086986efe7664ab9dca62c94394e8802ad2919ae1"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage.service.ts",
+      "role": "provider",
+      "sizeBytes": 4807,
+      "rawBytesSha256": "2c37b1ff16fafda3cd6e78ead88630fd94848aaba44c078f97861dde874e0202",
+      "normalizedUtf8Sha256": "2c37b1ff16fafda3cd6e78ead88630fd94848aaba44c078f97861dde874e0202"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/local-attachment-object-storage.provider.ts",
+      "role": "provider",
+      "sizeBytes": 3553,
+      "rawBytesSha256": "987f3ba46fa8b6fc95c5f66485dbe69adb76e9c328370276182fa26f862cbc9b",
+      "normalizedUtf8Sha256": "987f3ba46fa8b6fc95c5f66485dbe69adb76e9c328370276182fa26f862cbc9b"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.ts",
+      "role": "provider",
+      "sizeBytes": 14261,
+      "rawBytesSha256": "07ceaf9af08afd5a71a0d0f684c0209f6c6173e532c853a23209b656a1dc1048",
+      "normalizedUtf8Sha256": "07ceaf9af08afd5a71a0d0f684c0209f6c6173e532c853a23209b656a1dc1048"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.module.ts",
+      "role": "provider",
+      "sizeBytes": 3404,
+      "rawBytesSha256": "4f7bfc6b6dd3eaea58fbb8252b24f1d5299e5f5913f4189c1f272d435564268d",
+      "normalizedUtf8Sha256": "4f7bfc6b6dd3eaea58fbb8252b24f1d5299e5f5913f4189c1f272d435564268d"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+      "role": "dependency",
+      "sizeBytes": 2539,
+      "rawBytesSha256": "43a50b8181c0fa3773bb3544daaeba5d0639f9c4ec4aa9048e25cd4f1362d84a",
+      "normalizedUtf8Sha256": "43a50b8181c0fa3773bb3544daaeba5d0639f9c4ec4aa9048e25cd4f1362d84a"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "role": "dependency",
+      "sizeBytes": 8958,
+      "rawBytesSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4",
+      "normalizedUtf8Sha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+      "role": "dependency",
+      "sizeBytes": 1890,
+      "rawBytesSha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d",
+      "normalizedUtf8Sha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "role": "dependency",
+      "sizeBytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "normalizedUtf8Sha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/crypto.rs",
+      "role": "dependency",
+      "sizeBytes": 15085,
+      "rawBytesSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+      "normalizedUtf8Sha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5"
+    },
+    {
+      "path": "apps/poms-api-rust/src/error.rs",
+      "role": "dependency",
+      "sizeBytes": 2564,
+      "rawBytesSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "normalizedUtf8Sha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84"
+    },
+    {
+      "path": "apps/poms-api-rust/src/provider_support/settings.rs",
+      "role": "dependency",
+      "sizeBytes": 1617,
+      "rawBytesSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+      "normalizedUtf8Sha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef"
+    },
+    {
+      "path": "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "role": "dependency",
+      "sizeBytes": 12748,
+      "rawBytesSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+      "normalizedUtf8Sha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/config.rs",
+      "role": "dependency",
+      "sizeBytes": 43135,
+      "rawBytesSha256": "04c57b4bfdc1b0469476e9638e1ff90aeb994c1d647c9ac34ddcc21d815b7eea",
+      "normalizedUtf8Sha256": "04c57b4bfdc1b0469476e9638e1ff90aeb994c1d647c9ac34ddcc21d815b7eea"
+    },
+    {
+      "path": "apps/poms-api-rust/src/http.rs",
+      "role": "dependency",
+      "sizeBytes": 19446,
+      "rawBytesSha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a",
+      "normalizedUtf8Sha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a"
+    },
+    {
+      "path": "apps/poms-api-rust/Cargo.toml",
+      "role": "dependency",
+      "sizeBytes": 3004,
+      "rawBytesSha256": "9685a0989c3362f4b3deeddda16bf075dc27f90b287e71894be18bc27c3b04c8",
+      "normalizedUtf8Sha256": "9685a0989c3362f4b3deeddda16bf075dc27f90b287e71894be18bc27c3b04c8"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "role": "contract",
+      "sizeBytes": 435382,
+      "rawBytesSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+      "normalizedUtf8Sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+      "role": "contract",
+      "sizeBytes": 4874,
+      "rawBytesSha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892",
+      "normalizedUtf8Sha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "role": "contract",
+      "sizeBytes": 1129475,
+      "rawBytesSha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+      "normalizedUtf8Sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+    },
+    {
+      "path": "libs/shared/api-client/api/attachment-storage-provider.service.ts",
+      "role": "contract",
+      "sizeBytes": 32119,
+      "rawBytesSha256": "321b03e881394ecc4b81d20fe2e0ee4bb327bd489b04d5eee6a8141a5e103e4c",
+      "normalizedUtf8Sha256": "321b03e881394ecc4b81d20fe2e0ee4bb327bd489b04d5eee6a8141a5e103e4c"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+      "role": "persistence",
+      "sizeBytes": 3697,
+      "rawBytesSha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5",
+      "normalizedUtf8Sha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/platform-bootstrap.seeder.ts",
+      "role": "persistence",
+      "sizeBytes": 4457,
+      "rawBytesSha256": "2236e3d28581f75a9cfc1bc6a987e9c95aca62cc2022a86b24326c7f8c63e291",
+      "normalizedUtf8Sha256": "2236e3d28581f75a9cfc1bc6a987e9c95aca62cc2022a86b24326c7f8c63e291"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/platform/dev-platform.fixtures.ts",
+      "role": "persistence",
+      "sizeBytes": 16239,
+      "rawBytesSha256": "ba9531566a79a581b00fd73a7fbb2c61810cfb8881d5b5064ee648e762f3623b",
+      "normalizedUtf8Sha256": "ba9531566a79a581b00fd73a7fbb2c61810cfb8881d5b5064ee648e762f3623b"
+    },
+    {
+      "path": "libs/admin/data-access/src/lib/attachment-storage-provider/attachment-storage-provider.store.ts",
+      "role": "frontend",
+      "sizeBytes": 4682,
+      "rawBytesSha256": "2fb4596d7aac9ac19029ef105233d16a93d098cabcc2adab72c4fa0ab02da6b5",
+      "normalizedUtf8Sha256": "2fb4596d7aac9ac19029ef105233d16a93d098cabcc2adab72c4fa0ab02da6b5"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/platform/attachment-storage-provider-list.ts",
+      "role": "frontend",
+      "sizeBytes": 37307,
+      "rawBytesSha256": "9cb434d5b2d3dbbcaea6bf4f4d73fcbe4633812f1d70ced663a0b2b4b88054b1",
+      "normalizedUtf8Sha256": "9cb434d5b2d3dbbcaea6bf4f4d73fcbe4633812f1d70ced663a0b2b4b88054b1"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/platform/attachment-storage-provider-card.ts",
+      "role": "frontend",
+      "sizeBytes": 14515,
+      "rawBytesSha256": "0b4bf2df7cae3dd0201bf593737820d5d8f0d5af853ca251183701c32738d1d9",
+      "normalizedUtf8Sha256": "0b4bf2df7cae3dd0201bf593737820d5d8f0d5af853ca251183701c32738d1d9"
+    },
+    {
+      "path": "apps/poms-admin/src/app/shared/ui/attachment-storage-provider-presentation.ts",
+      "role": "frontend",
+      "sizeBytes": 1670,
+      "rawBytesSha256": "b8da20b6f3b65cadbb6cb9c7f1c53154e60d30da0c21a55a4b96f981f71b41c4",
+      "normalizedUtf8Sha256": "b8da20b6f3b65cadbb6cb9c7f1c53154e60d30da0c21a55a4b96f981f71b41c4"
+    },
+    {
+      "path": "apps/poms-admin/src/app.routes.ts",
+      "role": "frontend",
+      "sizeBytes": 18649,
+      "rawBytesSha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7",
+      "normalizedUtf8Sha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.spec.ts",
+      "role": "tests",
+      "sizeBytes": 5359,
+      "rawBytesSha256": "dc25546521c30afb0bb0989b9410023947ec43ec15a90ce5ee577c28f155ad6f",
+      "normalizedUtf8Sha256": "dc25546521c30afb0bb0989b9410023947ec43ec15a90ce5ee577c28f155ad6f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.spec.ts",
+      "role": "tests",
+      "sizeBytes": 10006,
+      "rawBytesSha256": "a69ed0d0f4ffdeb8ceeaa595351ba6ecb480744128467fb4d795b6f6897ed7c5",
+      "normalizedUtf8Sha256": "a69ed0d0f4ffdeb8ceeaa595351ba6ecb480744128467fb4d795b6f6897ed7c5"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-registry.service.spec.ts",
+      "role": "tests",
+      "sizeBytes": 7884,
+      "rawBytesSha256": "0cddca724cae18fb5ea9aa670418daf63296e9110dc3658d9b29f47787de1ad3",
+      "normalizedUtf8Sha256": "0cddca724cae18fb5ea9aa670418daf63296e9110dc3658d9b29f47787de1ad3"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.spec.ts",
+      "role": "tests",
+      "sizeBytes": 6999,
+      "rawBytesSha256": "0fc04e4a49423c99b1ef3851d4100c3f8dd70e94ebbf9695e06be6b3c39025d6",
+      "normalizedUtf8Sha256": "0fc04e4a49423c99b1ef3851d4100c3f8dd70e94ebbf9695e06be6b3c39025d6"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/local-attachment-object-storage.provider.spec.ts",
+      "role": "tests",
+      "sizeBytes": 3464,
+      "rawBytesSha256": "6650d5b422e58096a8fd16890e0ea75bb796b7f83d336bbb69e38a7f25420169",
+      "normalizedUtf8Sha256": "6650d5b422e58096a8fd16890e0ea75bb796b7f83d336bbb69e38a7f25420169"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/secret/secret-cipher.service.spec.ts",
+      "role": "tests",
+      "sizeBytes": 1073,
+      "rawBytesSha256": "2e1e4b6c0ae936da2200ca4d852c92b630eb507354a58185ef4bb2c3fab18a96",
+      "normalizedUtf8Sha256": "2e1e4b6c0ae936da2200ca4d852c92b630eb507354a58185ef4bb2c3fab18a96"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/platform/attachment-storage-provider-list.spec.ts",
+      "role": "tests",
+      "sizeBytes": 12638,
+      "rawBytesSha256": "6d0797f393129e0305ba1d5dcf0984d7ae6099956c079bbe3c1656fa5036c641",
+      "normalizedUtf8Sha256": "6d0797f393129e0305ba1d5dcf0984d7ae6099956c079bbe3c1656fa5036c641"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/platform/attachment-storage-provider-card.spec.ts",
+      "role": "tests",
+      "sizeBytes": 5973,
+      "rawBytesSha256": "734ce070303848fdb3ef4cd5dec821542bf4d4e2da4883c2f63d3bf9a4393206",
+      "normalizedUtf8Sha256": "734ce070303848fdb3ef4cd5dec821542bf4d4e2da4883c2f63d3bf9a4393206"
+    },
+    {
+      "path": "docs/design/ex-65d-attachment-upload-session-runtime-baseline.md",
+      "role": "shared-design",
+      "sizeBytes": 14381,
+      "rawBytesSha256": "caa2b69c1085aacc8e5197db23bf1d257677e32ee52c18e50a670bea6fbd4252",
+      "normalizedUtf8Sha256": "caa2b69c1085aacc8e5197db23bf1d257677e32ee52c18e50a670bea6fbd4252"
+    },
+    {
+      "path": "docs/design/ex-65d-attachment-upload-session-runtime-closeout.md",
+      "role": "shared-design",
+      "sizeBytes": 10334,
+      "rawBytesSha256": "592b9bc3eaa7a9cd55590202f4a7ec9c10200cce578c91c26439c0a57262c395",
+      "normalizedUtf8Sha256": "592b9bc3eaa7a9cd55590202f4a7ec9c10200cce578c91c26439c0a57262c395"
+    }
+  ],
+  "nativeRuntimeSourceProbe": {
+    "source": "node:internal/deps/undici/undici",
+    "nodeVersion": "v24.19.0",
+    "undiciVersion": "7.29.0",
+    "nodeExecutable": "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\44040_1793208933783\\node.exe",
+    "nodeExecutableRawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+    "sizeBytes": 775871,
+    "rawBytesSha256": "28b68c5c4e1336cbc31d4991d5291a02e70edce061e44af92f4f477d8ff4c908",
+    "normalizedUtf8Sha256": "19e00833036e7d25f20da1bc70dd4b19dd3081c051bfc9eea8f70d026534cad4",
+    "extraction": "read-only process.binding(natives) source and binary hash; no fetch/network/provider execution",
+    "defaultMatches": [
+      {
+        "line": 3288,
+        "text": "      timeout = timeout == null ? 1e4 : timeout;\r"
+      },
+      {
+        "line": 9356,
+        "text": "        this[kBodyTimeout] = bodyTimeout != null ? bodyTimeout : 3e5;\r"
+      },
+      {
+        "line": 9357,
+        "text": "        this[kHeadersTimeout] = headersTimeout != null ? headersTimeout : 3e5;\r"
+      },
+      {
+        "line": 12564,
+        "text": "        redirect: init.redirect ?? \"follow\",\r"
+      },
+      {
+        "line": 13498,
+        "text": "      if (request.redirectCount === 20) {\r"
+      }
+    ],
+    "redirectFunction": [
+      {
+        "line": 13480,
+        "text": "    function httpRedirectFetch(fetchParams, response) {\r"
+      },
+      {
+        "line": 13481,
+        "text": "      const request = fetchParams.request;\r"
+      },
+      {
+        "line": 13482,
+        "text": "      const actualResponse = response.internalResponse ? response.internalResponse : response;\r"
+      },
+      {
+        "line": 13483,
+        "text": "      let locationURL;\r"
+      },
+      {
+        "line": 13484,
+        "text": "      try {\r"
+      },
+      {
+        "line": 13485,
+        "text": "        locationURL = responseLocationURL(\r"
+      },
+      {
+        "line": 13486,
+        "text": "          actualResponse,\r"
+      },
+      {
+        "line": 13487,
+        "text": "          requestCurrentURL(request).hash\r"
+      },
+      {
+        "line": 13488,
+        "text": "        );\r"
+      },
+      {
+        "line": 13489,
+        "text": "        if (locationURL == null) {\r"
+      },
+      {
+        "line": 13490,
+        "text": "          return response;\r"
+      },
+      {
+        "line": 13491,
+        "text": "        }\r"
+      },
+      {
+        "line": 13492,
+        "text": "      } catch (err) {\r"
+      },
+      {
+        "line": 13493,
+        "text": "        return Promise.resolve(makeNetworkError(err));\r"
+      },
+      {
+        "line": 13494,
+        "text": "      }\r"
+      },
+      {
+        "line": 13495,
+        "text": "      if (!urlIsHttpHttpsScheme(locationURL)) {\r"
+      },
+      {
+        "line": 13496,
+        "text": "        return Promise.resolve(makeNetworkError(\"URL scheme must be a HTTP(S) scheme\"));\r"
+      },
+      {
+        "line": 13497,
+        "text": "      }\r"
+      },
+      {
+        "line": 13498,
+        "text": "      if (request.redirectCount === 20) {\r"
+      },
+      {
+        "line": 13499,
+        "text": "        return Promise.resolve(makeNetworkError(\"redirect count exceeded\"));\r"
+      },
+      {
+        "line": 13500,
+        "text": "      }\r"
+      },
+      {
+        "line": 13501,
+        "text": "      request.redirectCount += 1;\r"
+      },
+      {
+        "line": 13502,
+        "text": "      if (request.mode === \"cors\" && (locationURL.username || locationURL.password) && !sameOrigin(request, locationURL)) {\r"
+      },
+      {
+        "line": 13503,
+        "text": "        return Promise.resolve(makeNetworkError('cross origin not allowed for request mode \"cors\"'));\r"
+      },
+      {
+        "line": 13504,
+        "text": "      }\r"
+      },
+      {
+        "line": 13505,
+        "text": "      if (request.responseTainting === \"cors\" && (locationURL.username || locationURL.password)) {\r"
+      },
+      {
+        "line": 13506,
+        "text": "        return Promise.resolve(makeNetworkError(\r"
+      },
+      {
+        "line": 13507,
+        "text": "          'URL cannot contain credentials for request mode \"cors\"'\r"
+      },
+      {
+        "line": 13508,
+        "text": "        ));\r"
+      },
+      {
+        "line": 13509,
+        "text": "      }\r"
+      },
+      {
+        "line": 13510,
+        "text": "      if (actualResponse.status !== 303 && request.body != null && request.body.source == null) {\r"
+      },
+      {
+        "line": 13511,
+        "text": "        return Promise.resolve(makeNetworkError());\r"
+      },
+      {
+        "line": 13512,
+        "text": "      }\r"
+      },
+      {
+        "line": 13513,
+        "text": "      if ([301, 302].includes(actualResponse.status) && request.method === \"POST\" || actualResponse.status === 303 && !GET_OR_HEAD.includes(request.method)) {\r"
+      },
+      {
+        "line": 13514,
+        "text": "        request.method = \"GET\";\r"
+      },
+      {
+        "line": 13515,
+        "text": "        request.body = null;\r"
+      },
+      {
+        "line": 13516,
+        "text": "        for (const headerName of requestBodyHeader) {\r"
+      },
+      {
+        "line": 13517,
+        "text": "          request.headersList.delete(headerName);\r"
+      },
+      {
+        "line": 13518,
+        "text": "        }\r"
+      },
+      {
+        "line": 13519,
+        "text": "      }\r"
+      },
+      {
+        "line": 13520,
+        "text": "      if (!sameOrigin(requestCurrentURL(request), locationURL)) {\r"
+      },
+      {
+        "line": 13521,
+        "text": "        request.headersList.delete(\"authorization\", true);\r"
+      },
+      {
+        "line": 13522,
+        "text": "        request.headersList.delete(\"proxy-authorization\", true);\r"
+      },
+      {
+        "line": 13523,
+        "text": "        request.headersList.delete(\"cookie\", true);\r"
+      },
+      {
+        "line": 13524,
+        "text": "        request.headersList.delete(\"host\", true);\r"
+      },
+      {
+        "line": 13525,
+        "text": "      }\r"
+      },
+      {
+        "line": 13526,
+        "text": "      if (request.body != null) {\r"
+      },
+      {
+        "line": 13527,
+        "text": "        assert(request.body.source != null);\r"
+      },
+      {
+        "line": 13528,
+        "text": "        request.body = safelyExtractBody(request.body.source)[0];\r"
+      },
+      {
+        "line": 13529,
+        "text": "      }\r"
+      },
+      {
+        "line": 13530,
+        "text": "      const timingInfo = fetchParams.timingInfo;\r"
+      },
+      {
+        "line": 13531,
+        "text": "      timingInfo.redirectEndTime = timingInfo.postRedirectStartTime = coarsenedSharedCurrentTime(fetchParams.crossOriginIsolatedCapability);\r"
+      },
+      {
+        "line": 13532,
+        "text": "      if (timingInfo.redirectStartTime === 0) {\r"
+      },
+      {
+        "line": 13533,
+        "text": "        timingInfo.redirectStartTime = timingInfo.startTime;\r"
+      },
+      {
+        "line": 13534,
+        "text": "      }\r"
+      },
+      {
+        "line": 13535,
+        "text": "      request.urlList.push(locationURL);\r"
+      },
+      {
+        "line": 13536,
+        "text": "      setRequestReferrerPolicyOnRedirect(request, actualResponse);\r"
+      },
+      {
+        "line": 13537,
+        "text": "      return mainFetch(fetchParams, true);\r"
+      },
+      {
+        "line": 13538,
+        "text": "    }\r"
+      }
+    ]
+  },
+  "staticTestCounts": [
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.spec.ts",
+      "staticItCount": 2,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.spec.ts",
+      "staticItCount": 6,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-registry.service.spec.ts",
+      "staticItCount": 5,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.spec.ts",
+      "staticItCount": 6,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/local-attachment-object-storage.provider.spec.ts",
+      "staticItCount": 3,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-api/src/app/core/secret/secret-cipher.service.spec.ts",
+      "staticItCount": 2,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/platform/attachment-storage-provider-list.spec.ts",
+      "staticItCount": 10,
+      "executedInThisStage": false
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/platform/attachment-storage-provider-card.spec.ts",
+      "staticItCount": 5,
+      "executedInThisStage": false
+    }
+  ],
+  "negativeSourceFindings": [
+    {
+      "scope": "apps/poms-api/src/seeders + attachment feature runtime",
+      "finding": "No provider-config seed and no direct OBS credential env fallback found; bootstrap permission follows shared PERMISSION_KEYS",
+      "evidence": "platform-bootstrap.seeder.ts + dev-platform.fixtures.ts + registry/provider/secret constant hashes"
+    },
+    {
+      "scope": "apps/poms-api/src",
+      "finding": "No fetch global dispatcher override in scoped source search; concrete Node/dispatcher behavior still to verify in Root acceptance runtime",
+      "notClaimed": "No claim about unknown host configuration or deployment private env"
+    }
+  ],
+  "requiredRootDecisions": [
+    "Freeze I/J public port and shared wiring ownership",
+    "Classify stale canonical/OpenAPI testConnection description as existing-baseline-drift and freeze true probe/no-config-mutation semantics",
+    "Freeze fetch-compatible redirect/retry/timeout/stream behavior without adopting GH Axios policy",
+    "Freeze config-flush then audit-flush boundary, optimistic version/no-op and unique constraint race comparisons",
+    "Freeze isolated default/provider/session/object fixture, side effects and full restoration receipts",
+    "Freeze pre-header stream failure (400 raw message under existing MIME/disposition) versus provider 404/502 and post-header stream termination; bare Body proposal is not yet final"
+  ],
+  "unexecutedValidation": [
+    "HTTP session/CSRF/permission and exact DTO errors",
+    "PostgreSQL migration/DDL/index/version/concurrency and audit failure boundary",
+    "Real local filesystem bytes/metadata/path cleanup",
+    "Isolated S3-compatible HTTP signing/presign/redirect/network retry/errors/stream/timeout tests",
+    "Real Huawei OBS tenant smoke; no real credentials read",
+    "Original UI runtime and generated client regression"
+  ],
+  "companionInputDocument": {
+    "path": "tmp/rust-r2ij/i-g1-input.md",
+    "role": "companion-g1-candidate",
+    "sizeBytes": 32383,
+    "rawBytesSha256": "fb7b9c95cd46f6e9d933c604212c37e771899da4a1ec92b98a608169a65adb01",
+    "normalizedUtf8Sha256": "fb7b9c95cd46f6e9d933c604212c37e771899da4a1ec92b98a608169a65adb01"
+  },
+  "sourceStabilityVerified": {
+    "sourceCount": 61,
+    "allRawAndLfHashesMatch": true,
+    "verifiedAtUtc": "2026-10-28T17:37:33.1830179Z",
+    "kind": "source hashing only; no product/runtime tests"
+  }
+}

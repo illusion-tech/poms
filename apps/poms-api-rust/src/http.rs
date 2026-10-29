@@ -185,6 +185,8 @@ pub fn openapi() -> serde_json::Value {
         crate::runtime_audit::http::openapi(),
         crate::identity_providers::http::openapi(),
         crate::external_org_sync::http::openapi(),
+        crate::attachment_storage::http::openapi(),
+        crate::attachments::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -234,6 +236,29 @@ pub fn router_with_provider_settings(
     auth: crate::auth::http::AuthHttpState,
     provider_settings: crate::provider_support::ProviderSettings,
 ) -> Router {
+    router_with_runtime_settings(
+        state,
+        cors_origins,
+        auth,
+        provider_settings,
+        crate::attachment_storage::AttachmentRuntimeSettings::default(),
+    )
+}
+
+pub fn router_with_runtime_settings(
+    state: AppState,
+    cors_origins: &[String],
+    auth: crate::auth::http::AuthHttpState,
+    provider_settings: crate::provider_support::ProviderSettings,
+    storage_settings: crate::attachment_storage::AttachmentRuntimeSettings,
+) -> Router {
+    let attachment_storage = std::sync::Arc::new(
+        crate::attachment_storage::AttachmentStorage::new(state.database.clone(), storage_settings),
+    );
+    let attachments = std::sync::Arc::new(crate::attachments::AttachmentsService::new(
+        state.database.clone(),
+        attachment_storage.clone(),
+    ));
     let support = crate::provider_support::ProviderSupport::new(provider_settings);
     let directory = crate::external_org_sync::DirectoryAdapter::new(support.clone());
     let identity_providers =
@@ -287,9 +312,14 @@ pub fn router_with_provider_settings(
                 identity_providers,
             ))
             .merge(crate::external_org_sync::http::router(
-                auth,
+                auth.clone(),
                 external_org_sync,
-            )),
+            ))
+            .merge(crate::attachment_storage::http::router(
+                auth.clone(),
+                attachment_storage,
+            ))
+            .merge(crate::attachments::http::router(auth, attachments)),
         cors_origins,
     )
 }
@@ -334,6 +364,10 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         .layer(middleware::from_fn(
             crate::external_org_sync::http::normalize_uri,
         ))
+        .layer(middleware::from_fn(
+            crate::attachment_storage::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(crate::attachments::http::normalize_uri))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }
@@ -485,6 +519,7 @@ async fn observe_and_cors(
         _ => "<unmatched>",
     };
     let preflight = request.method() == Method::OPTIONS;
+    let method = request.method().clone();
     let origin = request.headers().get(header::ORIGIN).cloned();
     let mut response = if policy.origins.is_none() {
         ApiError::internal().into_response()
@@ -495,6 +530,7 @@ async fn observe_and_cors(
         next.run(request).await
     };
 
+    crate::binary_http::normalize_head_response(&method, &mut response);
     let headers = response.headers_mut();
     if let Some(origins) = &policy.origins {
         let allowed_origin = match origins.as_slice() {

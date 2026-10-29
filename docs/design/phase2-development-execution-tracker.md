@@ -548,3 +548,7 @@ R2E [#72](https://github.com/illusion-tech/poms/issues/72) 与 R2F [#73](https:/
 G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已交付，实现`91cda75f8379a4085a37c14fc1fd25bde0a731dc`已推送main；[同次最终G3](rust-r2gh-review02.json)与[独立集成核验](rust-r2gh-integration-review.json)均Pass，未关闭P0/P1/P2/P3为0。集成8步、26项适配器/23项工具与3479来源前后核等，134个提交blob逐字相同，不代表新增runtime实跑。[归档收口](archive/slices/rust-r2gh-closeout.md)、[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[初始验收](rust-r2gh-validation.json)/[增量](rust-r2gh-g3-delta02.json)与首审Block分开保留。
 
 G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累计 **74/108**，余 **34个操作及R2M阶段验收**，父#67/#57保持Open，I–M与#61不变。最新实际每端137 captured-case HTTP/3race、transport20、guard4反例0DML、Rust162/54 ignored分列、最终Rust两平台页面4条复验，72backend/run/144journal全量两轮0/0、四端口释放；PG17与旧数据保留，无部署或真实租户认证。上方日期段落保留各自历史含义，以本条为当前Rust收口。
+
+### 2026-10-29 RUST-R2I/J 联合G1冻结
+
+用户“开始”授权I#76六操作＋J#77十九操作完整G0–G4；[联合基线](rust-r2ij-storage-attachments-baseline.md)于2026-10-28T18:07:35.477Z冻结，同一次[非作者G1审查](rust-r2ij-g1-review01.json)Pass，P0/P1/P2/P3=0；在线两Issue已更新Doing与G1comment。本批共享存储、StorageFailure/UTF-16、audit后首块预取、分段flush/CAS、六目标只读projection及新PG15双库/对象/完整恢复范围均已冻结。实际运行、G3、提交集成与G4仍待完成，累计保持74/108；K/L/M、#61、R3–R5和父#67/#57不关闭。

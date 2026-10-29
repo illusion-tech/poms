@@ -1,0 +1,2162 @@
+{
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "kind": "Finite original unchanged Zod evaluation; no storage/runtime",
+  "cases": [
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "true",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "42",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"unexpected\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"expectedVersion\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"expectedVersion\":1e+100}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "true",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "42",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"unexpected\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1e+100}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "displayName"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "true",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "42",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"unexpected\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          },
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1e+100}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          },
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "true",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "42",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"unexpected\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"expectedVersion\":1e+100}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "TestAttachmentStorageProviderConnectionRequest",
+      "inputRaw": "{\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "true",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "42",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"unexpected\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"expectedVersion\":1e+100}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "SetDefaultAttachmentStorageProviderRequest",
+      "inputRaw": "{\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":\"\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":false}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":\"false\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":true}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":\"0\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":true}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":\"true\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":true}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":false}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":false}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":false}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":false}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":[]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":true}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":[\"false\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":true}"
+      }
+    },
+    {
+      "schema": "AttachmentStorageProviderConfigListQuery",
+      "inputRaw": "{\"enabled\":{}}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":true}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "displayName"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "displayName"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"﻿ a 　\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"a\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "displayName"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"huawei-obs-s3\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"huawei-obs-s3\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"s3\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":null,\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":1,\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ],
+            "path": [
+              "providerType"
+            ],
+            "message": "Invalid option: expected one of \"local\"|\"huawei-obs-s3\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":null}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "endpoint"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "endpoint"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "endpoint"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "endpoint"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"endpoint\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "endpoint"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "endpoint"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":null}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "region"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "region"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "region"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "region"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"region\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "region"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "region"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":null}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "bucket"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "bucket"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "bucket"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "bucket"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"bucket\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "bucket"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "bucket"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":null}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyPrefix"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyPrefix"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyPrefix"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyPrefix"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"keyPrefix\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyPrefix"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyPrefix"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"accessKeyId\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "accessKeyId"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Invalid input: expected string, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\",\"displayName\":\"Synthetic local\",\"secretAccessKey\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "secretAccessKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"displayName\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayName\":\"x\"}"
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"secretAccessKey\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"secretAccessKey\":null}"
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"providerType\":\"local\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"isDefault\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"enabled\":false}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"enabled\":false}"
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"endpoint\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"endpoint\":null}"
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"expectedVersion\":1,\"unknown\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateAttachmentStorageProviderConfigRequest",
+      "inputRaw": "{\"displayName\":\"\",\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "displayName"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    }
+  ]
+}

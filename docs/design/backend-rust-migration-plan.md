@@ -337,3 +337,7 @@ G [#74](https://github.com/illusion-tech/poms/issues/74)16操作、H [#75](https
 G [#74](https://github.com/illusion-tech/poms/issues/74)16操作与H [#75](https://github.com/illusion-tech/poms/issues/75)18操作已交付，实现`91cda75f8379a4085a37c14fc1fd25bde0a731dc`已推送main；[同次最终G3](rust-r2gh-review02.json)与[独立集成核验](rust-r2gh-integration-review.json)均Pass，未关闭P0/P1/P2/P3为0。集成8步、26项适配器/23项工具与3479来源前后核等，134个提交blob逐字相同，不代表新增runtime实跑。[归档收口](archive/slices/rust-r2gh-closeout.md)、[纠偏](archive/slices/rust-r2gh-corrective-checkpoint.md)、[初始验收](rust-r2gh-validation.json)/[增量](rust-r2gh-g3-delta02.json)与首审Block分开保留。
 
 G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累计 **74/108**，余 **34个操作及R2M阶段验收**，父#67/#57保持Open，I–M与#61不变。最新实际每端137 captured-case HTTP/3race、transport20、guard4反例0DML、Rust162/54 ignored分列、最终Rust两平台页面4条复验，72backend/run/144journal全量两轮0/0、四端口释放；PG17与旧数据保留，无部署或真实租户认证。上方日期段落保留各自历史含义，以本条为当前Rust收口。
+
+### 2026-10-29 I/J批次授权
+
+用户在上一轮“下一批是什么？”答复后明确“开始”，授权R2I#76与R2J#77共25个既有操作完整G0–G4。沿用1.1/1.2的模型、独立分工、集中实际验收与solo集成规则；联合G1已按[基线](rust-r2ij-storage-attachments-baseline.md)冻结，Issue Doing，G3/G4仍Pending。先前1.2.1“本轮仅含E/F”为该历史授权时点，不限制本次新授权；K/L/M、#61、R3–R5、父#67/#57及生产部署不在本批。

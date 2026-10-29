@@ -1,0 +1,4411 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2IJ-frozen-actual-validation",
+  "recordedAt": "2026-10-28T22:49:27.457Z",
+  "sourceBaseline": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "issues": [
+    76,
+    77
+  ],
+  "parents": [
+    67,
+    57
+  ],
+  "workflow": "Isolated joint worktree; parallel I/J authors; unified actual validation; separate independent G3, implementation/integration and G4 archive",
+  "verdictBoundary": "Observed validation input only. Independent G3 and public archive-transfer anchors are separate immutable receipts. This original is never rewritten with G4 fields.",
+  "scope": {
+    "I": 6,
+    "J": 19,
+    "currentlyDeliveredBeforeG4": 74,
+    "deliveredThisBatchIfG4Pass": 25,
+    "R2AfterG4": 99,
+    "R2Total": 108,
+    "remainingAfterG4": 9,
+    "R2MAcceptanceStillRequired": true,
+    "parentsRemainOpen": true,
+    "noNewProductRoutes": true,
+    "noProductDdl": true,
+    "noOriginalTypeScriptOrAngularProductChange": true,
+    "noDeployment": true,
+    "noPerformanceClaim": true,
+    "noLiveObsTenantCertification": true
+  },
+  "G1": {
+    "baseline": {
+      "path": "docs/design/rust-r2ij-storage-attachments-baseline.md",
+      "origin": "windows",
+      "bytes": 29136,
+      "rawBytesSha256": "121e39dc3e25bdd841ec618f0674f1a2d6c7db82b8d7dca1a174da16dfb86682"
+    },
+    "review": {
+      "path": "docs/design/rust-r2ij-g1-review01.json",
+      "origin": "windows",
+      "bytes": 12520,
+      "rawBytesSha256": "d51ad5b9f8ae1695e9e5eba360f4c790dc0c853d3382aa79ee5bdea12fe426f2"
+    },
+    "frozenOriginal": {
+      "path": "tmp/rust-r2ij/g1-baseline-reviewed-original.md",
+      "origin": "windows",
+      "bytes": 28851,
+      "rawBytesSha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b"
+    },
+    "metadataDelta": {
+      "path": "tmp/rust-r2ij/g1-metadata-delta.json",
+      "origin": "windows",
+      "bytes": 539,
+      "rawBytesSha256": "448ee2a2bc5c5a953c4f8da2599a0a8168f7896f4a40eacffb29be1d96362a4a"
+    }
+  },
+  "sourceProtection": {
+    "path": "tmp/rust-r2ij/source-protection-final17.json",
+    "origin": "windows",
+    "bytes": 275711,
+    "rawBytesSha256": "a0861125093c34d59ce47eaace9e28a0071763671fa0cb0bb965ee67c18b823a"
+  },
+  "counts": {
+    "paths": 237,
+    "operations": 291,
+    "schemas": 585,
+    "trackedClientFiles": 579,
+    "migrations": 92,
+    "ijOperations": 25,
+    "ijSchemaEntries": 42,
+    "protectedFiles": 1356
+  },
+  "sourceFiles": [
+    {
+      "file": "apps/poms-api-rust/.gitignore",
+      "bytes": 27,
+      "rawBytesSha256": "fecafa5e093368be2f644386f9f4790d6d95a7714625f85fe9496b6d2a6903bb",
+      "normalizedLfSha256": "fecafa5e093368be2f644386f9f4790d6d95a7714625f85fe9496b6d2a6903bb"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.lock",
+      "bytes": 77585,
+      "rawBytesSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d",
+      "normalizedLfSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.toml",
+      "bytes": 3152,
+      "rawBytesSha256": "9f59fd107bbf7a7f24cd0b15fe4215329ab69d29b77bfb23f8d31692086a2d3f",
+      "normalizedLfSha256": "9f59fd107bbf7a7f24cd0b15fe4215329ab69d29b77bfb23f8d31692086a2d3f"
+    },
+    {
+      "file": "apps/poms-api-rust/README.md",
+      "bytes": 5225,
+      "rawBytesSha256": "9c78c03dbd119837efa0a5e04a7f0f63749e2f5974b4553fc276813de7af96f4",
+      "normalizedLfSha256": "9c78c03dbd119837efa0a5e04a7f0f63749e2f5974b4553fc276813de7af96f4"
+    },
+    {
+      "file": "apps/poms-api-rust/examples/attachment_storage_probe.rs",
+      "bytes": 16866,
+      "rawBytesSha256": "6a9be29e85a07d6bddfcb8ee1ae3a4ec5f3e44b9e38e1f71db7294f51c4472ff",
+      "normalizedLfSha256": "6a9be29e85a07d6bddfcb8ee1ae3a4ec5f3e44b9e38e1f71db7294f51c4472ff"
+    },
+    {
+      "file": "apps/poms-api-rust/examples/provider_transport_probe.rs",
+      "bytes": 2834,
+      "rawBytesSha256": "0a014d5f18cc11cb456761c105e4fed52593a5b49a23e1e3bee7e62f18f5ef3f",
+      "normalizedLfSha256": "0a014d5f18cc11cb456761c105e4fed52593a5b49a23e1e3bee7e62f18f5ef3f"
+    },
+    {
+      "file": "apps/poms-api-rust/rust-toolchain.toml",
+      "bytes": 86,
+      "rawBytesSha256": "f715f440167e20fd8ea9afa0498c3d1ab80174cfcb8cbc895f106a34d907a1e1",
+      "normalizedLfSha256": "f715f440167e20fd8ea9afa0498c3d1ab80174cfcb8cbc895f106a34d907a1e1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/http.rs",
+      "bytes": 9917,
+      "rawBytesSha256": "e28167072cdea752e86964d9e1d3802731715040997f4a67dcf49e52434c1347",
+      "normalizedLfSha256": "e28167072cdea752e86964d9e1d3802731715040997f4a67dcf49e52434c1347"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/local.rs",
+      "bytes": 6654,
+      "rawBytesSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28",
+      "normalizedLfSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/mod.rs",
+      "bytes": 377,
+      "rawBytesSha256": "a39f771ead155b7f51b59add2b584e22ec79ad9cbb6ed4597734423d1e5093d7",
+      "normalizedLfSha256": "a39f771ead155b7f51b59add2b584e22ec79ad9cbb6ed4597734423d1e5093d7"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/model.rs",
+      "bytes": 8580,
+      "rawBytesSha256": "63cf78e5c8206905451cbf6e1d00ebdfa8f1c0c94e4fdfaeb538d43e9d18cfbb",
+      "normalizedLfSha256": "63cf78e5c8206905451cbf6e1d00ebdfa8f1c0c94e4fdfaeb538d43e9d18cfbb"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/obs_s3.rs",
+      "bytes": 43813,
+      "rawBytesSha256": "858e47a1cfdfba6aadabf3e644ae888466b926bf570cc5ef7f68c5e8102dba3d",
+      "normalizedLfSha256": "858e47a1cfdfba6aadabf3e644ae888466b926bf570cc5ef7f68c5e8102dba3d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 11017,
+      "rawBytesSha256": "728eb662ca1f8ae459b7144956c87e6108702072b09d366ea55e0a7844f0b123",
+      "normalizedLfSha256": "728eb662ca1f8ae459b7144956c87e6108702072b09d366ea55e0a7844f0b123"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+      "bytes": 23815,
+      "rawBytesSha256": "543aeacf3028cefb243715915c85f8efe8e9c555aa090c69066ad2c397f2cd9a",
+      "normalizedLfSha256": "543aeacf3028cefb243715915c85f8efe8e9c555aa090c69066ad2c397f2cd9a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/store.rs",
+      "bytes": 13211,
+      "rawBytesSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e",
+      "normalizedLfSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/validation.rs",
+      "bytes": 22215,
+      "rawBytesSha256": "1dba62af04f8ee9d8e5837cf499f4f96d5ed823e602861b5a5f97bb2713357a8",
+      "normalizedLfSha256": "1dba62af04f8ee9d8e5837cf499f4f96d5ed823e602861b5a5f97bb2713357a8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/http.rs",
+      "bytes": 16499,
+      "rawBytesSha256": "55c80fa88ffa1d32cd409c47eb8935a47588b718adb993f7c8db1f52bd04a8a1",
+      "normalizedLfSha256": "55c80fa88ffa1d32cd409c47eb8935a47588b718adb993f7c8db1f52bd04a8a1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/mod.rs",
+      "bytes": 198,
+      "rawBytesSha256": "ff1fed9ff2c38bd05b7ebd117bcb61e7023701367144e49301a9cb4425910214",
+      "normalizedLfSha256": "ff1fed9ff2c38bd05b7ebd117bcb61e7023701367144e49301a9cb4425910214"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/model.rs",
+      "bytes": 3367,
+      "rawBytesSha256": "eeefe72fd3e12d625577e8df45301506668ae35aa00f9faff3cce7909fcb1fc5",
+      "normalizedLfSha256": "eeefe72fd3e12d625577e8df45301506668ae35aa00f9faff3cce7909fcb1fc5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68345,
+      "rawBytesSha256": "00d87bb83762496b7caed12a50cb13cde8a148674e0fec574a0a405c4654d9b5",
+      "normalizedLfSha256": "00d87bb83762496b7caed12a50cb13cde8a148674e0fec574a0a405c4654d9b5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 26242,
+      "rawBytesSha256": "9e69079394ad4b5c28b72fae998ed792db8265b5dd2e4445184b3de05b91a37c",
+      "normalizedLfSha256": "9e69079394ad4b5c28b72fae998ed792db8265b5dd2e4445184b3de05b91a37c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/validation.rs",
+      "bytes": 25514,
+      "rawBytesSha256": "c1978d1ce953e030d7a2b94f9a26ff7e7d85c2094537426ac43a366b623d6ced",
+      "normalizedLfSha256": "c1978d1ce953e030d7a2b94f9a26ff7e7d85c2094537426ac43a366b623d6ced"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/audit.rs",
+      "bytes": 4747,
+      "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+      "normalizedLfSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/cookie.rs",
+      "bytes": 6742,
+      "rawBytesSha256": "2835ed93bec92dc0f244015bc9f2e59124a85ab248adab2d1bb39551bf2aa71b",
+      "normalizedLfSha256": "2835ed93bec92dc0f244015bc9f2e59124a85ab248adab2d1bb39551bf2aa71b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/crypto.rs",
+      "bytes": 15085,
+      "rawBytesSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+      "normalizedLfSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/guards.rs",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+      "normalizedLfSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/http.rs",
+      "bytes": 39425,
+      "rawBytesSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+      "normalizedLfSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/js_json.rs",
+      "bytes": 6503,
+      "rawBytesSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "normalizedLfSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/mod.rs",
+      "bytes": 161,
+      "rawBytesSha256": "2cc98c1c5ef8b15daa9b025d269b5c2685e39ff28cc9784edb4387c3adbf6c24",
+      "normalizedLfSha256": "2cc98c1c5ef8b15daa9b025d269b5c2685e39ff28cc9784edb4387c3adbf6c24"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/model.rs",
+      "bytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "normalizedLfSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/projection.rs",
+      "bytes": 8800,
+      "rawBytesSha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8",
+      "normalizedLfSha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/service.rs",
+      "bytes": 20275,
+      "rawBytesSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80",
+      "normalizedLfSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22001,
+      "rawBytesSha256": "a6a7677af340e14dda9758f8eb4685841d122a5cd3d5343a1719d5efba7c6c8e",
+      "normalizedLfSha256": "a6a7677af340e14dda9758f8eb4685841d122a5cd3d5343a1719d5efba7c6c8e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/binary_http.rs",
+      "bytes": 18667,
+      "rawBytesSha256": "2ab6c26dee1fee3eefe6a6b514cb7ceb8e38fd8f7b6c344480f510537f1bf8af",
+      "normalizedLfSha256": "2ab6c26dee1fee3eefe6a6b514cb7ceb8e38fd8f7b6c344480f510537f1bf8af"
+    },
+    {
+      "file": "apps/poms-api-rust/src/business_numbers/mod.rs",
+      "bytes": 164,
+      "rawBytesSha256": "27f7dc7a9a03fd095bb2c79f3b2d43a0e9070937ad586c4fd851ca8be5213267",
+      "normalizedLfSha256": "27f7dc7a9a03fd095bb2c79f3b2d43a0e9070937ad586c4fd851ca8be5213267"
+    },
+    {
+      "file": "apps/poms-api-rust/src/business_numbers/service.rs",
+      "bytes": 5337,
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb",
+      "normalizedLfSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb"
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/json.rs",
+      "bytes": 4995,
+      "rawBytesSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+      "normalizedLfSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed"
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/mod.rs",
+      "bytes": 52,
+      "rawBytesSha256": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+      "normalizedLfSha256": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/permissions.rs",
+      "bytes": 2414,
+      "rawBytesSha256": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2",
+      "normalizedLfSha256": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2"
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/scalars.rs",
+      "bytes": 18815,
+      "rawBytesSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+      "normalizedLfSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/config.rs",
+      "bytes": 43499,
+      "rawBytesSha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7",
+      "normalizedLfSha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7"
+    },
+    {
+      "file": "apps/poms-api-rust/src/database.rs",
+      "bytes": 11644,
+      "rawBytesSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+      "normalizedLfSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/http.rs",
+      "bytes": 10455,
+      "rawBytesSha256": "6ae7ba9811fb54e5c5b8c989577d8de3cda3ce6579cb79c8d706690f1414f79c",
+      "normalizedLfSha256": "6ae7ba9811fb54e5c5b8c989577d8de3cda3ce6579cb79c8d706690f1414f79c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/mod.rs",
+      "bytes": 859,
+      "rawBytesSha256": "51466c1c5767454bf76b99eb36a3300eb41158c67c1bf0ee1e9b9ed78b131dd6",
+      "normalizedLfSha256": "51466c1c5767454bf76b99eb36a3300eb41158c67c1bf0ee1e9b9ed78b131dd6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/model.rs",
+      "bytes": 1959,
+      "rawBytesSha256": "1e784726c2892c806327e4b2be50be6721a0c9f4d3959a6bd34088ecaee6c4c1",
+      "normalizedLfSha256": "1e784726c2892c806327e4b2be50be6721a0c9f4d3959a6bd34088ecaee6c4c1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/service.rs",
+      "bytes": 13451,
+      "rawBytesSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e",
+      "normalizedLfSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/store.rs",
+      "bytes": 6863,
+      "rawBytesSha256": "ee932ed4e6d270e96706848abc91c0674d13a345034a3f1262b89ad41ded74cf",
+      "normalizedLfSha256": "ee932ed4e6d270e96706848abc91c0674d13a345034a3f1262b89ad41ded74cf"
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/validation.rs",
+      "bytes": 20888,
+      "rawBytesSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6",
+      "normalizedLfSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/error.rs",
+      "bytes": 2564,
+      "rawBytesSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "normalizedLfSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/core.rs",
+      "bytes": 38233,
+      "rawBytesSha256": "c04b94d0b25ff01ccd89b5ea74541a1bd5a4ef5c45f95a2c65d3f25ea91ee059",
+      "normalizedLfSha256": "c04b94d0b25ff01ccd89b5ea74541a1bd5a4ef5c45f95a2c65d3f25ea91ee059"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/directory.rs",
+      "bytes": 19265,
+      "rawBytesSha256": "e6d6d1ea2cd4b15beab572b1cd9284d89dc5685201f2262219b22c9b9ec694c1",
+      "normalizedLfSha256": "e6d6d1ea2cd4b15beab572b1cd9284d89dc5685201f2262219b22c9b9ec694c1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/http.rs",
+      "bytes": 16724,
+      "rawBytesSha256": "fd5413b577ed57e6ff07cdef0c978b5eb5b2b45f66643d602bf82e12ab355b46",
+      "normalizedLfSha256": "fd5413b577ed57e6ff07cdef0c978b5eb5b2b45f66643d602bf82e12ab355b46"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/mod.rs",
+      "bytes": 434,
+      "rawBytesSha256": "3c7881efb561fd41e6122f03bf1459a4a2d2fc4a66875f3b321d0eac232a5893",
+      "normalizedLfSha256": "3c7881efb561fd41e6122f03bf1459a4a2d2fc4a66875f3b321d0eac232a5893"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/model.rs",
+      "bytes": 17272,
+      "rawBytesSha256": "745d8c74a5f2e1111ea3a7e9ddf9c017dd1e548120616efdb7cc1b2fce3ddb82",
+      "normalizedLfSha256": "745d8c74a5f2e1111ea3a7e9ddf9c017dd1e548120616efdb7cc1b2fce3ddb82"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/service.rs",
+      "bytes": 50581,
+      "rawBytesSha256": "8f0c47de17fa67ee6b95e299a767a6ec82e40e93ddba10c13baa03ab27956e61",
+      "normalizedLfSha256": "8f0c47de17fa67ee6b95e299a767a6ec82e40e93ddba10c13baa03ab27956e61"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/store.rs",
+      "bytes": 23927,
+      "rawBytesSha256": "9caf24d53f919b9047b553b4614d0ab88783b1e00df80c1582a94d9f7759f11b",
+      "normalizedLfSha256": "9caf24d53f919b9047b553b4614d0ab88783b1e00df80c1582a94d9f7759f11b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/external_org_sync/validation.rs",
+      "bytes": 24332,
+      "rawBytesSha256": "71c84fe717f6832366b82665054a0bc670a19526334561dd2f580d7a3c6b4f38",
+      "normalizedLfSha256": "71c84fe717f6832366b82665054a0bc670a19526334561dd2f580d7a3c6b4f38"
+    },
+    {
+      "file": "apps/poms-api-rust/src/http.rs",
+      "bytes": 20866,
+      "rawBytesSha256": "cab399eed7f73a1c0db9b1cd6d31a30492ab12bec11a6259daa453e77f4a4727",
+      "normalizedLfSha256": "cab399eed7f73a1c0db9b1cd6d31a30492ab12bec11a6259daa453e77f4a4727"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/adapter.rs",
+      "bytes": 25713,
+      "rawBytesSha256": "82054d232507c568b17f294d29312424153a01108d7a9be36728e88232ceae0d",
+      "normalizedLfSha256": "82054d232507c568b17f294d29312424153a01108d7a9be36728e88232ceae0d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/http.rs",
+      "bytes": 25597,
+      "rawBytesSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238",
+      "normalizedLfSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/mod.rs",
+      "bytes": 238,
+      "rawBytesSha256": "618748110a1257107d28ed9af3ae750a0c9be13f33e9a3c98aa71f80e2f4e6d9",
+      "normalizedLfSha256": "618748110a1257107d28ed9af3ae750a0c9be13f33e9a3c98aa71f80e2f4e6d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/model.rs",
+      "bytes": 2518,
+      "rawBytesSha256": "94e3b7747ab196c55e5cfa4635b3d3b121a19c9657944175b5cb1f452b32adcc",
+      "normalizedLfSha256": "94e3b7747ab196c55e5cfa4635b3d3b121a19c9657944175b5cb1f452b32adcc"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+      "bytes": 84861,
+      "rawBytesSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9",
+      "normalizedLfSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/state.rs",
+      "bytes": 5993,
+      "rawBytesSha256": "6ee2623e306eb72009495536a37871ceb85c4b4cad5d88db48432f6fb19acaf6",
+      "normalizedLfSha256": "6ee2623e306eb72009495536a37871ceb85c4b4cad5d88db48432f6fb19acaf6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/store.rs",
+      "bytes": 16970,
+      "rawBytesSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9",
+      "normalizedLfSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/identity_providers/validation.rs",
+      "bytes": 20526,
+      "rawBytesSha256": "a302d3e59ce41e04f877599124843d11fcc719ace281274122dc052df5c4efff",
+      "normalizedLfSha256": "a302d3e59ce41e04f877599124843d11fcc719ace281274122dc052df5c4efff"
+    },
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 484,
+      "rawBytesSha256": "06c23edce427af0c72446b39537dde7ba9ebec896c69cd40d7bd92c28cbc2ccc",
+      "normalizedLfSha256": "06c23edce427af0c72446b39537dde7ba9ebec896c69cd40d7bd92c28cbc2ccc"
+    },
+    {
+      "file": "apps/poms-api-rust/src/lifecycle.rs",
+      "bytes": 5654,
+      "rawBytesSha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f",
+      "normalizedLfSha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/logging.rs",
+      "bytes": 683,
+      "rawBytesSha256": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8",
+      "normalizedLfSha256": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/main.rs",
+      "bytes": 4444,
+      "rawBytesSha256": "57eed170423302511910a0f3a72eef73b65ee69df1f0039b7e250cafefa7a50a",
+      "normalizedLfSha256": "57eed170423302511910a0f3a72eef73b65ee69df1f0039b7e250cafefa7a50a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/navigation/http.rs",
+      "bytes": 3043,
+      "rawBytesSha256": "3bc78e566a936ee84e177508dd526178cc92d5e2a9491777d278c15172dc40fc",
+      "normalizedLfSha256": "3bc78e566a936ee84e177508dd526178cc92d5e2a9491777d278c15172dc40fc"
+    },
+    {
+      "file": "apps/poms-api-rust/src/navigation/mod.rs",
+      "bytes": 352,
+      "rawBytesSha256": "3d89feedd16c544db77597a21cee1cc9453c67db926adb6ab38cd99856dfe57c",
+      "normalizedLfSha256": "3d89feedd16c544db77597a21cee1cc9453c67db926adb6ab38cd99856dfe57c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/navigation/model.rs",
+      "bytes": 1242,
+      "rawBytesSha256": "52fdc0da9b01f04fd36c3efc15da8f14af6078b97b36c0c3495bdd54914bd889",
+      "normalizedLfSha256": "52fdc0da9b01f04fd36c3efc15da8f14af6078b97b36c0c3495bdd54914bd889"
+    },
+    {
+      "file": "apps/poms-api-rust/src/navigation/service.rs",
+      "bytes": 4233,
+      "rawBytesSha256": "d84bd330ea27a8cb2206e0e597aae16c968efc9bda1798faad707823ac3acf4a",
+      "normalizedLfSha256": "d84bd330ea27a8cb2206e0e597aae16c968efc9bda1798faad707823ac3acf4a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/collation.rs",
+      "bytes": 7854,
+      "rawBytesSha256": "0a8f1b7e946603d933c2e44d608067ba64a4274c124f6c72931bf4aa0d6b73fe",
+      "normalizedLfSha256": "0a8f1b7e946603d933c2e44d608067ba64a4274c124f6c72931bf4aa0d6b73fe"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/http.rs",
+      "bytes": 16838,
+      "rawBytesSha256": "b184a46dd9b48b4341e56137718bcc2139ff2f94e900c5c3bd77e26c31f13fe8",
+      "normalizedLfSha256": "b184a46dd9b48b4341e56137718bcc2139ff2f94e900c5c3bd77e26c31f13fe8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/mod.rs",
+      "bytes": 233,
+      "rawBytesSha256": "174835d6e06f3e719b87771e4c1f0adfdffdc48e122b6efb7b4ad5a611599932",
+      "normalizedLfSha256": "174835d6e06f3e719b87771e4c1f0adfdffdc48e122b6efb7b4ad5a611599932"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/model.rs",
+      "bytes": 3387,
+      "rawBytesSha256": "f131b5523abfaf45c4af5487fa2d4eefc2c6291261891a81370f297a9bba8155",
+      "normalizedLfSha256": "f131b5523abfaf45c4af5487fa2d4eefc2c6291261891a81370f297a9bba8155"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/service.rs",
+      "bytes": 35615,
+      "rawBytesSha256": "7b5a59d8d46b98eb0a71eedfb8b271a96921ce914ee8e4f641c87cb9786612c8",
+      "normalizedLfSha256": "7b5a59d8d46b98eb0a71eedfb8b271a96921ce914ee8e4f641c87cb9786612c8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/store.rs",
+      "bytes": 11209,
+      "rawBytesSha256": "0e9487f6fc19a2ba69fa2a3507dacea6fc15124289fd3e41b642e136f235b017",
+      "normalizedLfSha256": "0e9487f6fc19a2ba69fa2a3507dacea6fc15124289fd3e41b642e136f235b017"
+    },
+    {
+      "file": "apps/poms-api-rust/src/org_units/validation.rs",
+      "bytes": 19293,
+      "rawBytesSha256": "f49e0367c06a1d045e50fa23d9967ef90c1c077a64f80b740c5eabfb8b179195",
+      "normalizedLfSha256": "f49e0367c06a1d045e50fa23d9967ef90c1c077a64f80b740c5eabfb8b179195"
+    },
+    {
+      "file": "apps/poms-api-rust/src/process_runtime.rs",
+      "bytes": 818,
+      "rawBytesSha256": "0d8c0c84a25d23fb6d290f973cca77dfd25b528f108a3462b332f6437aef8845",
+      "normalizedLfSha256": "0d8c0c84a25d23fb6d290f973cca77dfd25b528f108a3462b332f6437aef8845"
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/mod.rs",
+      "bytes": 3225,
+      "rawBytesSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8",
+      "normalizedLfSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/settings.rs",
+      "bytes": 1617,
+      "rawBytesSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+      "normalizedLfSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef"
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/state.rs",
+      "bytes": 2171,
+      "rawBytesSha256": "06919e0cb9269bfb7d9209878199eee58fa29d304b01264523016abfb8a80514",
+      "normalizedLfSha256": "06919e0cb9269bfb7d9209878199eee58fa29d304b01264523016abfb8a80514"
+    },
+    {
+      "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "bytes": 12748,
+      "rawBytesSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+      "normalizedLfSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/collation.rs",
+      "bytes": 5570,
+      "rawBytesSha256": "f4a02160f4ec501aa5a71282193f4de219ebf799bc0cbf3290090552437183ec",
+      "normalizedLfSha256": "f4a02160f4ec501aa5a71282193f4de219ebf799bc0cbf3290090552437183ec"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/http.rs",
+      "bytes": 22125,
+      "rawBytesSha256": "f997f3031a8e5785f6f10b8edb0b11ac09e1d782f475270caea6561b68e7d389",
+      "normalizedLfSha256": "f997f3031a8e5785f6f10b8edb0b11ac09e1d782f475270caea6561b68e7d389"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/mod.rs",
+      "bytes": 1301,
+      "rawBytesSha256": "a35d11bb3d3041a742a9fe0ad58619ccbd3b9ea19f5c524a9f26118b9d8c85e4",
+      "normalizedLfSha256": "a35d11bb3d3041a742a9fe0ad58619ccbd3b9ea19f5c524a9f26118b9d8c85e4"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/model.rs",
+      "bytes": 3122,
+      "rawBytesSha256": "b8c3e4872ddaddae1efe343619c456ba7fde612739c7f6d9f6c8371162a3f9e1",
+      "normalizedLfSha256": "b8c3e4872ddaddae1efe343619c456ba7fde612739c7f6d9f6c8371162a3f9e1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/service.rs",
+      "bytes": 33205,
+      "rawBytesSha256": "41944f8f62263fbcb61a6d0e4ca5809e53646dbe83ad300f217fc25988656da3",
+      "normalizedLfSha256": "41944f8f62263fbcb61a6d0e4ca5809e53646dbe83ad300f217fc25988656da3"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/store.rs",
+      "bytes": 9212,
+      "rawBytesSha256": "8c124fe3c93303a5f55c3fbf35fe4019802da507def4ec0abbfd39638b98309c",
+      "normalizedLfSha256": "8c124fe3c93303a5f55c3fbf35fe4019802da507def4ec0abbfd39638b98309c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/roles/validation.rs",
+      "bytes": 17550,
+      "rawBytesSha256": "68785a01e0c9173c1fc90adcb022ce92c5bab7dfbf1847c1921f19924999bf2d",
+      "normalizedLfSha256": "68785a01e0c9173c1fc90adcb022ce92c5bab7dfbf1847c1921f19924999bf2d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/http.rs",
+      "bytes": 17224,
+      "rawBytesSha256": "4efc9e9a90a7fe55359513425197d906e6893cb60fa885862c42b5e43f6d7fcf",
+      "normalizedLfSha256": "4efc9e9a90a7fe55359513425197d906e6893cb60fa885862c42b5e43f6d7fcf"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/mod.rs",
+      "bytes": 358,
+      "rawBytesSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102",
+      "normalizedLfSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/model.rs",
+      "bytes": 2521,
+      "rawBytesSha256": "bed5d304f7584672b4d3bc00abe1657b4e2a36681031a945e10306736f39c25b",
+      "normalizedLfSha256": "bed5d304f7584672b4d3bc00abe1657b4e2a36681031a945e10306736f39c25b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/query.rs",
+      "bytes": 4837,
+      "rawBytesSha256": "2721f4491b535456d9bb1036343cf4978fa16cd34a70831db28f7b966a9dbd84",
+      "normalizedLfSha256": "2721f4491b535456d9bb1036343cf4978fa16cd34a70831db28f7b966a9dbd84"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/service.rs",
+      "bytes": 9300,
+      "rawBytesSha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9",
+      "normalizedLfSha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/store.rs",
+      "bytes": 8652,
+      "rawBytesSha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2",
+      "normalizedLfSha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2"
+    },
+    {
+      "file": "apps/poms-api-rust/src/runtime_audit/validation.rs",
+      "bytes": 19505,
+      "rawBytesSha256": "305cd62adfc55a43057d3410ce23e5f26c7676ef02e3b19aabc021491df09455",
+      "normalizedLfSha256": "305cd62adfc55a43057d3410ce23e5f26c7676ef02e3b19aabc021491df09455"
+    },
+    {
+      "file": "apps/poms-api-rust/src/shared/generated.rs",
+      "bytes": 315819,
+      "rawBytesSha256": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+      "normalizedLfSha256": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245"
+    },
+    {
+      "file": "apps/poms-api-rust/src/shared/mod.rs",
+      "bytes": 167,
+      "rawBytesSha256": "aa696a3406fc0f6c77a641fa4aee8a5eddf324b36b13b458256efe302e16e048",
+      "normalizedLfSha256": "aa696a3406fc0f6c77a641fa4aee8a5eddf324b36b13b458256efe302e16e048"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/http.rs",
+      "bytes": 9732,
+      "rawBytesSha256": "d31362c552a57ff90362ad5736fca11b15c55c75c6ed7efe9fd4aac52778bcb8",
+      "normalizedLfSha256": "d31362c552a57ff90362ad5736fca11b15c55c75c6ed7efe9fd4aac52778bcb8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/mod.rs",
+      "bytes": 1190,
+      "rawBytesSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858",
+      "normalizedLfSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/model.rs",
+      "bytes": 617,
+      "rawBytesSha256": "be9a3b507afbcf11852ad15059e8f5eea57a54640a84566bf1ef7a1d08faf2b9",
+      "normalizedLfSha256": "be9a3b507afbcf11852ad15059e8f5eea57a54640a84566bf1ef7a1d08faf2b9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/service.rs",
+      "bytes": 14025,
+      "rawBytesSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8",
+      "normalizedLfSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/store.rs",
+      "bytes": 3779,
+      "rawBytesSha256": "bb313f71acfd12bcfe03b8a5654e8c51d78a1685af5d392224bd9fc32ac39631",
+      "normalizedLfSha256": "bb313f71acfd12bcfe03b8a5654e8c51d78a1685af5d392224bd9fc32ac39631"
+    },
+    {
+      "file": "apps/poms-api-rust/src/system_settings/validation.rs",
+      "bytes": 816,
+      "rawBytesSha256": "6eca45833e7c426670c9c5450ca24c9473cd13a0ad25506349e2d0df722348b6",
+      "normalizedLfSha256": "6eca45833e7c426670c9c5450ca24c9473cd13a0ad25506349e2d0df722348b6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/http.rs",
+      "bytes": 20122,
+      "rawBytesSha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10",
+      "normalizedLfSha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/mod.rs",
+      "bytes": 81,
+      "rawBytesSha256": "3a7a89e34ac935c7855cb1ac0baafb3d875ca6fdb69f149625d222679adafa34",
+      "normalizedLfSha256": "3a7a89e34ac935c7855cb1ac0baafb3d875ca6fdb69f149625d222679adafa34"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/model.rs",
+      "bytes": 7392,
+      "rawBytesSha256": "4460e658e9f18693fb363ef634bac11a622bb8e47b1a7dd4518a67c13d39ca74",
+      "normalizedLfSha256": "4460e658e9f18693fb363ef634bac11a622bb8e47b1a7dd4518a67c13d39ca74"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/service.rs",
+      "bytes": 39760,
+      "rawBytesSha256": "d8871e921c35d2ab2f190185da23733caaaa8ad25af4095d8f2e3b3c1b2f3f70",
+      "normalizedLfSha256": "d8871e921c35d2ab2f190185da23733caaaa8ad25af4095d8f2e3b3c1b2f3f70"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/store.rs",
+      "bytes": 15028,
+      "rawBytesSha256": "a7e185d2b0eb97cf340ac88ebc652409124083fc769c1c5f22cfcc3d6d1ec606",
+      "normalizedLfSha256": "a7e185d2b0eb97cf340ac88ebc652409124083fc769c1c5f22cfcc3d6d1ec606"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/validation.rs",
+      "bytes": 30367,
+      "rawBytesSha256": "af00e5b6511c43ec37489741a9b837ba11e9a785431e947177e72999770315f6",
+      "normalizedLfSha256": "af00e5b6511c43ec37489741a9b837ba11e9a785431e947177e72999770315f6"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_cookie.rs",
+      "bytes": 5015,
+      "rawBytesSha256": "bd288c881563ca7f6a3f13634a4be3ebe2775e2c5de2123021a912a0becb20f9",
+      "normalizedLfSha256": "bd288c881563ca7f6a3f13634a4be3ebe2775e2c5de2123021a912a0becb20f9"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_crypto.rs",
+      "bytes": 9256,
+      "rawBytesSha256": "69e669bdb903fad69d6ce6066099d1059a7809e35a7a50a27d9a9daeebcf2dc4",
+      "normalizedLfSha256": "69e669bdb903fad69d6ce6066099d1059a7809e35a7a50a27d9a9daeebcf2dc4"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "bytes": 43422,
+      "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b",
+      "normalizedLfSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_guards.rs",
+      "bytes": 6351,
+      "rawBytesSha256": "0b18e32cf1dc3537ab03746013587d731dea4769d5d72d134d461f54a535ea5b",
+      "normalizedLfSha256": "0b18e32cf1dc3537ab03746013587d731dea4769d5d72d134d461f54a535ea5b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_http.rs",
+      "bytes": 10066,
+      "rawBytesSha256": "cfb3f7b00b8715c5c2530588b88be8edab9284eab292fb00ba3ddd09c691cf41",
+      "normalizedLfSha256": "cfb3f7b00b8715c5c2530588b88be8edab9284eab292fb00ba3ddd09c691cf41"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_projection.rs",
+      "bytes": 1961,
+      "rawBytesSha256": "54f227013970f51c1106aa5833950efc26cb94e71eb09c840b42411b3d36de8e",
+      "normalizedLfSha256": "54f227013970f51c1106aa5833950efc26cb94e71eb09c840b42411b3d36de8e"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_projection_db.rs",
+      "bytes": 3121,
+      "rawBytesSha256": "f4b05f7f0a1f661b5896d9b61fd9d10b125348157e8ca7fd2273ca5aa6efe223",
+      "normalizedLfSha256": "f4b05f7f0a1f661b5896d9b61fd9d10b125348157e8ca7fd2273ca5aa6efe223"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "bytes": 22387,
+      "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649",
+      "normalizedLfSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "bytes": 26521,
+      "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b",
+      "normalizedLfSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/http.rs",
+      "bytes": 21973,
+      "rawBytesSha256": "adb347dacca28f2cf1ea814caa951f45d18ffa7013d42984bf0b821095b70d09",
+      "normalizedLfSha256": "adb347dacca28f2cf1ea814caa951f45d18ffa7013d42984bf0b821095b70d09"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/json_compat.rs",
+      "bytes": 6335,
+      "rawBytesSha256": "65a006e3ea2c23b5f862edc601453334bbb9586ab6a2d59c2f821b7c09dfc837",
+      "normalizedLfSha256": "65a006e3ea2c23b5f862edc601453334bbb9586ab6a2d59c2f821b7c09dfc837"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation.rs",
+      "bytes": 7990,
+      "rawBytesSha256": "783edf3227420719ea0550a4e5d34f499e4810453bb8ddc76a953be9dce78794",
+      "normalizedLfSha256": "783edf3227420719ea0550a4e5d34f499e4810453bb8ddc76a953be9dce78794"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "bytes": 19687,
+      "rawBytesSha256": "78a8c93814e038b097464267ac889b0af20a1fdc96b9aca02a43fa7f2f64e8ea",
+      "normalizedLfSha256": "78a8c93814e038b097464267ac889b0af20a1fdc96b9aca02a43fa7f2f64e8ea"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "bytes": 37152,
+      "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6",
+      "normalizedLfSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/permissions.rs",
+      "bytes": 3070,
+      "rawBytesSha256": "e4738afd19485747af6cff370e563064cb183a3e15a7ef053fbbf107d57ef35b",
+      "normalizedLfSha256": "e4738afd19485747af6cff370e563064cb183a3e15a7ef053fbbf107d57ef35b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/process_runtime.rs",
+      "bytes": 3403,
+      "rawBytesSha256": "da4f7d93649ec8351e1ce835a3b008ca39b9080e6172d62365634ed24da75c0b",
+      "normalizedLfSha256": "da4f7d93649ec8351e1ce835a3b008ca39b9080e6172d62365634ed24da75c0b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "bytes": 38500,
+      "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205",
+      "normalizedLfSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/scalars.rs",
+      "bytes": 13063,
+      "rawBytesSha256": "f2c8c1425cd767dba11a731e75aec269cc98e1af3c497aa8793f18de90a4a4a8",
+      "normalizedLfSha256": "f2c8c1425cd767dba11a731e75aec269cc98e1af3c497aa8793f18de90a4a4a8"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/shared_compat_regression.rs",
+      "bytes": 2422,
+      "rawBytesSha256": "eb1b186e75268fd0328927a3ac232bcd7c2546901ccc1d9f50bb9a4d10f35162",
+      "normalizedLfSha256": "eb1b186e75268fd0328927a3ac232bcd7c2546901ccc1d9f50bb9a4d10f35162"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/shared_generated.rs",
+      "bytes": 27098,
+      "rawBytesSha256": "b01ddd28793e14304cc7e6d24fce874154bbc3b92a026be2b19a1752af9e9086",
+      "normalizedLfSha256": "b01ddd28793e14304cc7e6d24fce874154bbc3b92a026be2b19a1752af9e9086"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/support/r1c_guard.rs",
+      "bytes": 4879,
+      "rawBytesSha256": "d285bd55b4b034f1274eb65dd1ff528cacff10e0f12c109f2ab2d8b263fb7f44",
+      "normalizedLfSha256": "d285bd55b4b034f1274eb65dd1ff528cacff10e0f12c109f2ab2d8b263fb7f44"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "bytes": 56451,
+      "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed",
+      "normalizedLfSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+    },
+    {
+      "file": "tools/rust-r2ij/auth-acceptance.mjs",
+      "bytes": 6025,
+      "rawBytesSha256": "94122bc684d6a8676179da815fb1c5976e8f138683bb5558602c0e582dd867c6",
+      "normalizedLfSha256": "94122bc684d6a8676179da815fb1c5976e8f138683bb5558602c0e582dd867c6"
+    },
+    {
+      "file": "tools/rust-r2ij/auth-scenario.mjs",
+      "bytes": 10461,
+      "rawBytesSha256": "75139c78b9e13bfd5ad136645bef9fb9f2afc37a8f17dd40df883d8956812683",
+      "normalizedLfSha256": "75139c78b9e13bfd5ad136645bef9fb9f2afc37a8f17dd40df883d8956812683"
+    },
+    {
+      "file": "tools/rust-r2ij/build-nest.mjs",
+      "bytes": 1703,
+      "rawBytesSha256": "c159d5fc07e57dfe6a7f4a268705c26e889038eab9420c8714b32424cb2186fc",
+      "normalizedLfSha256": "c159d5fc07e57dfe6a7f4a268705c26e889038eab9420c8714b32424cb2186fc"
+    },
+    {
+      "file": "tools/rust-r2ij/catalog-cli.mjs",
+      "bytes": 1249,
+      "rawBytesSha256": "53c52f4766149f084ab427e9735f84e3853ddefa7b01ccc3fb4330f4ef3baaf8",
+      "normalizedLfSha256": "53c52f4766149f084ab427e9735f84e3853ddefa7b01ccc3fb4330f4ef3baaf8"
+    },
+    {
+      "file": "tools/rust-r2ij/catalog-complete.mjs",
+      "bytes": 6690,
+      "rawBytesSha256": "1673bd363061c61459495cac22c4726527a438ac8f8ac41bd580eab10a2a3895",
+      "normalizedLfSha256": "1673bd363061c61459495cac22c4726527a438ac8f8ac41bd580eab10a2a3895"
+    },
+    {
+      "file": "tools/rust-r2ij/critical-acceptance.mjs",
+      "bytes": 9211,
+      "rawBytesSha256": "e5f90dd1e31fca76886c11d681b0d16c8f56ec9c0f628c561d1c354ca4c1a2fa",
+      "normalizedLfSha256": "e5f90dd1e31fca76886c11d681b0d16c8f56ec9c0f628c561d1c354ca4c1a2fa"
+    },
+    {
+      "file": "tools/rust-r2ij/critical-scenario.mjs",
+      "bytes": 9057,
+      "rawBytesSha256": "f6e63fd4d19b62b2e2ff92418ebd522b1a1d5027021007787d90676b8e68ce73",
+      "normalizedLfSha256": "f6e63fd4d19b62b2e2ff92418ebd522b1a1d5027021007787d90676b8e68ce73"
+    },
+    {
+      "file": "tools/rust-r2ij/database-client.mjs",
+      "bytes": 2018,
+      "rawBytesSha256": "5cd5533a55579c3da33a04876f5ef700eac547136c888c13a44815913a72aa8d",
+      "normalizedLfSha256": "5cd5533a55579c3da33a04876f5ef700eac547136c888c13a44815913a72aa8d"
+    },
+    {
+      "file": "tools/rust-r2ij/database-environment.mjs",
+      "bytes": 22941,
+      "rawBytesSha256": "ca80eb5376e508e9c6024961df20272382f9d6d6a27f78c66886b3b76bfe829d",
+      "normalizedLfSha256": "ca80eb5376e508e9c6024961df20272382f9d6d6a27f78c66886b3b76bfe829d"
+    },
+    {
+      "file": "tools/rust-r2ij/environment.sh",
+      "bytes": 5871,
+      "rawBytesSha256": "c213d8953fc5a96d18fd4dd1a11631d05f0ff35b17509fec7077d8e1184ae092",
+      "normalizedLfSha256": "c213d8953fc5a96d18fd4dd1a11631d05f0ff35b17509fec7077d8e1184ae092"
+    },
+    {
+      "file": "tools/rust-r2ij/final-clean-state.mjs",
+      "bytes": 4091,
+      "rawBytesSha256": "d4a3f991df993e8e29e89230d4143f5ec1b87305d6c4689a10395cf3160dde7f",
+      "normalizedLfSha256": "d4a3f991df993e8e29e89230d4143f5ec1b87305d6c4689a10395cf3160dde7f"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-cleanup.mjs",
+      "bytes": 10633,
+      "rawBytesSha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce",
+      "normalizedLfSha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-cli.mjs",
+      "bytes": 3271,
+      "rawBytesSha256": "62d8b8842aceb70b2c2d26d417b091a1774194945915087555aa86a58995ffa7",
+      "normalizedLfSha256": "62d8b8842aceb70b2c2d26d417b091a1774194945915087555aa86a58995ffa7"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-complete-references.mjs",
+      "bytes": 7932,
+      "rawBytesSha256": "e40c9b400d17fa6eba3e5de768a66b970b52070d133bfbc1bfddebdf46fd4212",
+      "normalizedLfSha256": "e40c9b400d17fa6eba3e5de768a66b970b52070d133bfbc1bfddebdf46fd4212"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-core.mjs",
+      "bytes": 7004,
+      "rawBytesSha256": "d84b07f5c0ca28fb81211c7fb0c426f959c50964043701445edaa2208b73f98a",
+      "normalizedLfSha256": "d84b07f5c0ca28fb81211c7fb0c426f959c50964043701445edaa2208b73f98a"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-extension-journal.mjs",
+      "bytes": 2179,
+      "rawBytesSha256": "da749ba787336ffe53dc45b6ed4ceb7db8f0fa9437f0484f29f17b1e2677195a",
+      "normalizedLfSha256": "da749ba787336ffe53dc45b6ed4ceb7db8f0fa9437f0484f29f17b1e2677195a"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-guard.mjs",
+      "bytes": 4858,
+      "rawBytesSha256": "5b782f62423682a56af41db21923caf515c3b7cda77034cdf7aff7800ae7a607",
+      "normalizedLfSha256": "5b782f62423682a56af41db21923caf515c3b7cda77034cdf7aff7800ae7a607"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-history.mjs",
+      "bytes": 3263,
+      "rawBytesSha256": "15e8747578022c5fda320b1d1f3d18f84cafbf86a67ce21b9d398aebf4b62363",
+      "normalizedLfSha256": "15e8747578022c5fda320b1d1f3d18f84cafbf86a67ce21b9d398aebf4b62363"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-journal.mjs",
+      "bytes": 5361,
+      "rawBytesSha256": "5ab3096fe2677e97bda836fc88984726d8514d7bee86797a0331d9f78386742a",
+      "normalizedLfSha256": "5ab3096fe2677e97bda836fc88984726d8514d7bee86797a0331d9f78386742a"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-objects.mjs",
+      "bytes": 4188,
+      "rawBytesSha256": "219ef2eafe146d0b4a19fde0646af7a46d64985159ad9e71d84c31b7c104867d",
+      "normalizedLfSha256": "219ef2eafe146d0b4a19fde0646af7a46d64985159ad9e71d84c31b7c104867d"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-owner-probe.mjs",
+      "bytes": 4167,
+      "rawBytesSha256": "922ec7de6a4bdf6b6b5cce8cac3e7ef099172b632a7b4f24d0569cc91b97dfb4",
+      "normalizedLfSha256": "922ec7de6a4bdf6b6b5cce8cac3e7ef099172b632a7b4f24d0569cc91b97dfb4"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-permissions.mjs",
+      "bytes": 1408,
+      "rawBytesSha256": "c981c466acfae3208e60696340cf728d9de459ed46406c0887809c99583e034f",
+      "normalizedLfSha256": "c981c466acfae3208e60696340cf728d9de459ed46406c0887809c99583e034f"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-projections.mjs",
+      "bytes": 5672,
+      "rawBytesSha256": "a4adba381e7dbfcc906620a29d09bece0fab066dcacee22b1dcb8ffd0e5aa4de",
+      "normalizedLfSha256": "a4adba381e7dbfcc906620a29d09bece0fab066dcacee22b1dcb8ffd0e5aa4de"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-protocol.cjs",
+      "bytes": 6856,
+      "rawBytesSha256": "659bf3cae158586dbbcf697943adde228e7d55c334d07fb18cf92bdc527ffab3",
+      "normalizedLfSha256": "659bf3cae158586dbbcf697943adde228e7d55c334d07fb18cf92bdc527ffab3"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-protocol.d.cts",
+      "bytes": 4115,
+      "rawBytesSha256": "ff0e17029adbaaabea44811e1baa20175b6d4d9a106e5b3d06691f8eac424b63",
+      "normalizedLfSha256": "ff0e17029adbaaabea44811e1baa20175b6d4d9a106e5b3d06691f8eac424b63"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-references.mjs",
+      "bytes": 3664,
+      "rawBytesSha256": "3aa7ef95cf2c76937e86889d9d1cd902e9dc8fe8444019b81733edf9a871870d",
+      "normalizedLfSha256": "3aa7ef95cf2c76937e86889d9d1cd902e9dc8fe8444019b81733edf9a871870d"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-run.mjs",
+      "bytes": 2926,
+      "rawBytesSha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523",
+      "normalizedLfSha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-smoke.mjs",
+      "bytes": 1789,
+      "rawBytesSha256": "87b6a0775945c6594ac0282e7157a4309a12039115a57303e568ec6f0ad4eafa",
+      "normalizedLfSha256": "87b6a0775945c6594ac0282e7157a4309a12039115a57303e568ec6f0ad4eafa"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-snapshot.mjs",
+      "bytes": 5327,
+      "rawBytesSha256": "644e3c54dfb7e8d274ab1c00ab00361b164fdfa550a16d6018471b9d5506254c",
+      "normalizedLfSha256": "644e3c54dfb7e8d274ab1c00ab00361b164fdfa550a16d6018471b9d5506254c"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-users.mjs",
+      "bytes": 6949,
+      "rawBytesSha256": "1e8a435289d015248ce350f8814d0207199ce8d77f0b67f8d680ef75a4a0db3e",
+      "normalizedLfSha256": "1e8a435289d015248ce350f8814d0207199ce8d77f0b67f8d680ef75a4a0db3e"
+    },
+    {
+      "file": "tools/rust-r2ij/fixture.sh",
+      "bytes": 2079,
+      "rawBytesSha256": "5862e94e58fa48a3cf3ad45a998a58638ed5101c927586bd1cff08c9ae4c0aa6",
+      "normalizedLfSha256": "5862e94e58fa48a3cf3ad45a998a58638ed5101c927586bd1cff08c9ae4c0aa6"
+    },
+    {
+      "file": "tools/rust-r2ij/freeze-validation.mjs",
+      "bytes": 13035,
+      "rawBytesSha256": "1b80c4468d4690eec3d83bae5fca94e79dead730a1bd6ddd18ddd93bc5633e19",
+      "normalizedLfSha256": "1b80c4468d4690eec3d83bae5fca94e79dead730a1bd6ddd18ddd93bc5633e19"
+    },
+    {
+      "file": "tools/rust-r2ij/http-client.mjs",
+      "bytes": 5472,
+      "rawBytesSha256": "24ceeaa3891beb59a65b08132476a4609a292ee0b2ea6c5234cdb1c45ef0a9e2",
+      "normalizedLfSha256": "24ceeaa3891beb59a65b08132476a4609a292ee0b2ea6c5234cdb1c45ef0a9e2"
+    },
+    {
+      "file": "tools/rust-r2ij/i-authority.json",
+      "bytes": 12225,
+      "rawBytesSha256": "0680338d4825a33c59e3c48682e3fb93db82772284df67da0de79d8b0760eb3e",
+      "normalizedLfSha256": "0680338d4825a33c59e3c48682e3fb93db82772284df67da0de79d8b0760eb3e"
+    },
+    {
+      "file": "tools/rust-r2ij/i-dto-golden.json",
+      "bytes": 61302,
+      "rawBytesSha256": "121f2a26c200a8030dad51a7cb8536f34df1960e8656066a148361ba4df87a7b",
+      "normalizedLfSha256": "121f2a26c200a8030dad51a7cb8536f34df1960e8656066a148361ba4df87a7b"
+    },
+    {
+      "file": "tools/rust-r2ij/i-dto-rules.json",
+      "bytes": 12960,
+      "rawBytesSha256": "376ba4e41f91a20104af5d78e72ffaa700da8771b7ea8633e9459af362599267",
+      "normalizedLfSha256": "376ba4e41f91a20104af5d78e72ffaa700da8771b7ea8633e9459af362599267"
+    },
+    {
+      "file": "tools/rust-r2ij/i-export.mjs",
+      "bytes": 6426,
+      "rawBytesSha256": "8ed46cb9802bfcbf9c7d96a3fb861e6267e8b9a4555d4faa2f95e36bbc082963",
+      "normalizedLfSha256": "8ed46cb9802bfcbf9c7d96a3fb861e6267e8b9a4555d4faa2f95e36bbc082963"
+    },
+    {
+      "file": "tools/rust-r2ij/i-header-export.mjs",
+      "bytes": 2271,
+      "rawBytesSha256": "4a66815429d53cbafed5e5d9e1eda89114c63a7f55d573bf9a013df54f78f104",
+      "normalizedLfSha256": "4a66815429d53cbafed5e5d9e1eda89114c63a7f55d573bf9a013df54f78f104"
+    },
+    {
+      "file": "tools/rust-r2ij/i-header-golden.json",
+      "bytes": 10108,
+      "rawBytesSha256": "2023e1b0b073c9cd476d63c4bcd5cd6961aa538a03fdfd469bf2a17194b65c0a",
+      "normalizedLfSha256": "2023e1b0b073c9cd476d63c4bcd5cd6961aa538a03fdfd469bf2a17194b65c0a"
+    },
+    {
+      "file": "tools/rust-r2ij/i-helper-export.mjs",
+      "bytes": 5592,
+      "rawBytesSha256": "cf576dc208fdd7727cd16bfa7c64aaa9a8d3603a300bbb6819af3cc45d65f4df",
+      "normalizedLfSha256": "cf576dc208fdd7727cd16bfa7c64aaa9a8d3603a300bbb6819af3cc45d65f4df"
+    },
+    {
+      "file": "tools/rust-r2ij/i-helper-golden.json",
+      "bytes": 115801,
+      "rawBytesSha256": "825242ff17051dddee0f1f2a5ec6ae62c4b50984123b7f330884ad7c906f0c54",
+      "normalizedLfSha256": "825242ff17051dddee0f1f2a5ec6ae62c4b50984123b7f330884ad7c906f0c54"
+    },
+    {
+      "file": "tools/rust-r2ij/i-http-cases.mjs",
+      "bytes": 1909,
+      "rawBytesSha256": "b3206872f6acfea8446329a220dc7a61d1bc8fa25a7f48eb3b62a3d342376c7d",
+      "normalizedLfSha256": "b3206872f6acfea8446329a220dc7a61d1bc8fa25a7f48eb3b62a3d342376c7d"
+    },
+    {
+      "file": "tools/rust-r2ij/i-openapi.json",
+      "bytes": 16769,
+      "rawBytesSha256": "e37382a0aa6c43b49e8042e2a89727333fcc6e7464c1fdbbdb5fb14ed4fecdfe",
+      "normalizedLfSha256": "e37382a0aa6c43b49e8042e2a89727333fcc6e7464c1fdbbdb5fb14ed4fecdfe"
+    },
+    {
+      "file": "tools/rust-r2ij/i-transport-oracle.mjs",
+      "bytes": 11128,
+      "rawBytesSha256": "dbaf88ba7212b61fba68cb364943b5fe597430b8be1a46faa5075637a888e66b",
+      "normalizedLfSha256": "dbaf88ba7212b61fba68cb364943b5fe597430b8be1a46faa5075637a888e66b"
+    },
+    {
+      "file": "tools/rust-r2ij/invoke-fixture.cjs",
+      "bytes": 3107,
+      "rawBytesSha256": "040ba1130cf71fdf9de481ced3ecf9aba2f9d1a17894d07e0dd62ba9792af976",
+      "normalizedLfSha256": "040ba1130cf71fdf9de481ced3ecf9aba2f9d1a17894d07e0dd62ba9792af976"
+    },
+    {
+      "file": "tools/rust-r2ij/j-behavior.json",
+      "bytes": 20286,
+      "rawBytesSha256": "66e054ecc2fd4039e2ea30574b79f8423b8030cb74d79ec2e8bceecdafdc342a",
+      "normalizedLfSha256": "66e054ecc2fd4039e2ea30574b79f8423b8030cb74d79ec2e8bceecdafdc342a"
+    },
+    {
+      "file": "tools/rust-r2ij/j-behavior.mjs",
+      "bytes": 3682,
+      "rawBytesSha256": "5a8c821951e370e511706421df9d58606bb5c675b6c5cb37147a50d163f29757",
+      "normalizedLfSha256": "5a8c821951e370e511706421df9d58606bb5c675b6c5cb37147a50d163f29757"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-README.md",
+      "bytes": 5288,
+      "rawBytesSha256": "885b43d889b18ae8c28e2c5d8e4e9c096bd3426292f68e0e75f7d581b3153f71",
+      "normalizedLfSha256": "885b43d889b18ae8c28e2c5d8e4e9c096bd3426292f68e0e75f7d581b3153f71"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-acceptance.mjs",
+      "bytes": 3998,
+      "rawBytesSha256": "50c4d4286132f5bc6ff002d55e6a26cbcb74035e4075bf037bba5731f641778c",
+      "normalizedLfSha256": "50c4d4286132f5bc6ff002d55e6a26cbcb74035e4075bf037bba5731f641778c"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-cases.mjs",
+      "bytes": 11579,
+      "rawBytesSha256": "ad948b71ba593ea90ef816ec6294919c33d5eaecf8b34515fabf9dfc0dac8084",
+      "normalizedLfSha256": "ad948b71ba593ea90ef816ec6294919c33d5eaecf8b34515fabf9dfc0dac8084"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-diff.mjs",
+      "bytes": 728,
+      "rawBytesSha256": "37eca55b32d8aea7e5e266cff8a6dca34548c1ccbed89242e829825ac17a8344",
+      "normalizedLfSha256": "37eca55b32d8aea7e5e266cff8a6dca34548c1ccbed89242e829825ac17a8344"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-fixtures.mjs",
+      "bytes": 7125,
+      "rawBytesSha256": "31cd5ef0fe7383e8ec2acdfe3d38b8adffc767967da50deba138da4ba84ac73e",
+      "normalizedLfSha256": "31cd5ef0fe7383e8ec2acdfe3d38b8adffc767967da50deba138da4ba84ac73e"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-normalize.mjs",
+      "bytes": 5626,
+      "rawBytesSha256": "2b71f1a2de5f3e2587578447435f8fbbf56f91ed59185d66a1c03d76062bcd73",
+      "normalizedLfSha256": "2b71f1a2de5f3e2587578447435f8fbbf56f91ed59185d66a1c03d76062bcd73"
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-scenario.mjs",
+      "bytes": 15878,
+      "rawBytesSha256": "8accc098be4838b409173aab7a7da444d94bd9147c3ee4eb62cd8049a8bf6d96",
+      "normalizedLfSha256": "8accc098be4838b409173aab7a7da444d94bd9147c3ee4eb62cd8049a8bf6d96"
+    },
+    {
+      "file": "tools/rust-r2ij/j-dto-rules.json",
+      "bytes": 16392,
+      "rawBytesSha256": "7815280a911f9649bd9b3ebf45672e476130b09bacdf2711c62c6f5cdce55991",
+      "normalizedLfSha256": "7815280a911f9649bd9b3ebf45672e476130b09bacdf2711c62c6f5cdce55991"
+    },
+    {
+      "file": "tools/rust-r2ij/j-export.mjs",
+      "bytes": 6912,
+      "rawBytesSha256": "7a3544ebaad8a5bdded9babb988a908b9e165df2a9c77f8f65e2e6b7bfc5930e",
+      "normalizedLfSha256": "7a3544ebaad8a5bdded9babb988a908b9e165df2a9c77f8f65e2e6b7bfc5930e"
+    },
+    {
+      "file": "tools/rust-r2ij/j-golden.json",
+      "bytes": 771769,
+      "rawBytesSha256": "29a0b2e0f7f039debc4a552b81d0700f8c2d738b73749d45811be8f1c86e78d8",
+      "normalizedLfSha256": "29a0b2e0f7f039debc4a552b81d0700f8c2d738b73749d45811be8f1c86e78d8"
+    },
+    {
+      "file": "tools/rust-r2ij/j-http-cases.mjs",
+      "bytes": 8913,
+      "rawBytesSha256": "2a58272408e2d82eb72faaa00ce6cc7633165be09b88035af4efbb5548797e57",
+      "normalizedLfSha256": "2a58272408e2d82eb72faaa00ce6cc7633165be09b88035af4efbb5548797e57"
+    },
+    {
+      "file": "tools/rust-r2ij/j-openapi.json",
+      "bytes": 46914,
+      "rawBytesSha256": "7d4dd4f14e158d2662a7ce545e504c53b20022dea6b08acc9b9b1e33b1361cd0",
+      "normalizedLfSha256": "7d4dd4f14e158d2662a7ce545e504c53b20022dea6b08acc9b9b1e33b1361cd0"
+    },
+    {
+      "file": "tools/rust-r2ij/j-preserve-README.md",
+      "bytes": 6324,
+      "rawBytesSha256": "3224fd0642112eee8f750b7fb24b386d47798a868c533e29b85dabe3c8de44c4",
+      "normalizedLfSha256": "3224fd0642112eee8f750b7fb24b386d47798a868c533e29b85dabe3c8de44c4"
+    },
+    {
+      "file": "tools/rust-r2ij/j-preserve-evidence.mjs",
+      "bytes": 30479,
+      "rawBytesSha256": "995951afe0fe08dcd0527e47ac8fc34b4d32b594431a8b098616b36ed8e0f902",
+      "normalizedLfSha256": "995951afe0fe08dcd0527e47ac8fc34b4d32b594431a8b098616b36ed8e0f902"
+    },
+    {
+      "file": "tools/rust-r2ij/j-source.json",
+      "bytes": 21093,
+      "rawBytesSha256": "8d98b4137b012a79c2f937a6ce721ef1e15211f64b3d61a57e0730399038ce12",
+      "normalizedLfSha256": "8d98b4137b012a79c2f937a6ce721ef1e15211f64b3d61a57e0730399038ce12"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-diagnostics.mjs",
+      "bytes": 5168,
+      "rawBytesSha256": "cd1b5533d43a00081173117064039d204cdbf5c4cdf0c341e6428ad26f7a1ee5",
+      "normalizedLfSha256": "cd1b5533d43a00081173117064039d204cdbf5c4cdf0c341e6428ad26f7a1ee5"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-README.md",
+      "bytes": 5092,
+      "rawBytesSha256": "b6ff41e2ea6afe27928fa7b20ffda2aa45fefd36e2cd0808fa05bafe288b314d",
+      "normalizedLfSha256": "b6ff41e2ea6afe27928fa7b20ffda2aa45fefd36e2cd0808fa05bafe288b314d"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-acceptance.mjs",
+      "bytes": 4263,
+      "rawBytesSha256": "c01e8db72d5c1893e6fd557db3480d44d263ae41019dac82bfcd50fecfaba640",
+      "normalizedLfSha256": "c01e8db72d5c1893e6fd557db3480d44d263ae41019dac82bfcd50fecfaba640"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-scenario.mjs",
+      "bytes": 17883,
+      "rawBytesSha256": "25705bf449a13943b3f717ab3ba1ea007a3cfe2c10361b725baa75d20dc8d2db",
+      "normalizedLfSha256": "25705bf449a13943b3f717ab3ba1ea007a3cfe2c10361b725baa75d20dc8d2db"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-owner-fault.mjs",
+      "bytes": 4788,
+      "rawBytesSha256": "c4859d14e0ab9d897b9317563b811802ed3a70221d28817567d9e2e9e0506672",
+      "normalizedLfSha256": "c4859d14e0ab9d897b9317563b811802ed3a70221d28817567d9e2e9e0506672"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-path-probes.mjs",
+      "bytes": 5097,
+      "rawBytesSha256": "28791b195d2946a31ed2264d639835327205542c1b53fb64ee3abd2a1fe57bfb",
+      "normalizedLfSha256": "28791b195d2946a31ed2264d639835327205542c1b53fb64ee3abd2a1fe57bfb"
+    },
+    {
+      "file": "tools/rust-r2ij/managed-environment.cjs",
+      "bytes": 5937,
+      "rawBytesSha256": "1e38b875d7a995877752f15bbb91ad2c31bbef05dd4ae5878716dd1a6ea6946b",
+      "normalizedLfSha256": "1e38b875d7a995877752f15bbb91ad2c31bbef05dd4ae5878716dd1a6ea6946b"
+    },
+    {
+      "file": "tools/rust-r2ij/nest-auth-uow-witness.mjs",
+      "bytes": 9902,
+      "rawBytesSha256": "a032444319d7fc06fb18b71b1ccde722461779517e1e04153fb1a1cb301afe5d",
+      "normalizedLfSha256": "a032444319d7fc06fb18b71b1ccde722461779517e1e04153fb1a1cb301afe5d"
+    },
+    {
+      "file": "tools/rust-r2ij/nest-critical-witness.mjs",
+      "bytes": 7812,
+      "rawBytesSha256": "5693508dca13ec8a31e25b7e8bb246f2bbaedc41199f7a958ec2177870bd70d6",
+      "normalizedLfSha256": "5693508dca13ec8a31e25b7e8bb246f2bbaedc41199f7a958ec2177870bd70d6"
+    },
+    {
+      "file": "tools/rust-r2ij/nest-history-witness.mjs",
+      "bytes": 3195,
+      "rawBytesSha256": "50e4830d954f5c1db944306d19527a4aab5ea8dc3bab2140df29dbdcc3ab27db",
+      "normalizedLfSha256": "50e4830d954f5c1db944306d19527a4aab5ea8dc3bab2140df29dbdcc3ab27db"
+    },
+    {
+      "file": "tools/rust-r2ij/nest-query-preload.cjs",
+      "bytes": 8088,
+      "rawBytesSha256": "41daeee2934e871514bad11ffefa4dc9b2ed076d4df1ad033246eeaee4349f28",
+      "normalizedLfSha256": "41daeee2934e871514bad11ffefa4dc9b2ed076d4df1ad033246eeaee4349f28"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-api-flow.mjs",
+      "bytes": 11746,
+      "rawBytesSha256": "1b776fedb2990064862f4fcc0a216609661a9436c5ac06e4591650d0a6f58b19",
+      "normalizedLfSha256": "1b776fedb2990064862f4fcc0a216609661a9436c5ac06e4591650d0a6f58b19"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-cipher-cross.mjs",
+      "bytes": 7882,
+      "rawBytesSha256": "d189580d0ccdfebd48c58f9f64d91f3e37497f6c31da64b0773c00b0e58b53e5",
+      "normalizedLfSha256": "d189580d0ccdfebd48c58f9f64d91f3e37497f6c31da64b0773c00b0e58b53e5"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-client.mjs",
+      "bytes": 2138,
+      "rawBytesSha256": "9c674313074e48af2f35d6565358b984e156ae17775418aaf3de4de17909f53f",
+      "normalizedLfSha256": "9c674313074e48af2f35d6565358b984e156ae17775418aaf3de4de17909f53f"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-codec-golden.json",
+      "bytes": 4166,
+      "rawBytesSha256": "a3a0d9c440ea080f1db95f7e8944eeb6d739e988c84d0cbc345fd1505532a24c",
+      "normalizedLfSha256": "a3a0d9c440ea080f1db95f7e8944eeb6d739e988c84d0cbc345fd1505532a24c"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-codec-witness.mjs",
+      "bytes": 2992,
+      "rawBytesSha256": "2f7607c87eb3ca485f0aac3b8a49649391249155927d7e2e3029b0d86604c308",
+      "normalizedLfSha256": "2f7607c87eb3ca485f0aac3b8a49649391249155927d7e2e3029b0d86604c308"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-container-witness.mjs",
+      "bytes": 1197,
+      "rawBytesSha256": "ba7d4bad57b504a047587348f519817ab18dde4409c2e4a1f4db67b653520aa7",
+      "normalizedLfSha256": "ba7d4bad57b504a047587348f519817ab18dde4409c2e4a1f4db67b653520aa7"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-container.mjs",
+      "bytes": 2711,
+      "rawBytesSha256": "8373384600bf38a0c45104d70de883a708ed5c0916571daa4b8e671e4e122eae",
+      "normalizedLfSha256": "8373384600bf38a0c45104d70de883a708ed5c0916571daa4b8e671e4e122eae"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-delete.mjs",
+      "bytes": 5761,
+      "rawBytesSha256": "04f78b860cd4527cdeef4f5cbb883888c903727ad1fc349be75f89ad88429c58",
+      "normalizedLfSha256": "04f78b860cd4527cdeef4f5cbb883888c903727ad1fc349be75f89ad88429c58"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-protocol.mjs",
+      "bytes": 13911,
+      "rawBytesSha256": "e9868cdff76bb64986dc5194b6172aec68f94519e8e61f4faf0047f39906aa7e",
+      "normalizedLfSha256": "e9868cdff76bb64986dc5194b6172aec68f94519e8e61f4faf0047f39906aa7e"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-route-golden.json",
+      "bytes": 4459,
+      "rawBytesSha256": "5d33168f16e102ee00174f24a878c926f9f1975a8a232926c56017d1620f693c",
+      "normalizedLfSha256": "e99401faddeda36750c4dbba34bdc006057bfe42db3142c2c0227b3380a38fb0"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-server-close.mjs",
+      "bytes": 2546,
+      "rawBytesSha256": "a045edd2d8501fd05ac1bc828bf86a4a38abbffa9ca932e0cb93ecb64c9a2228",
+      "normalizedLfSha256": "a045edd2d8501fd05ac1bc828bf86a4a38abbffa9ca932e0cb93ecb64c9a2228"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-server-v2.mjs",
+      "bytes": 16759,
+      "rawBytesSha256": "aff28d09420ac4e68a4e2d4d32344971ae0fe21b9be6f61037de41d9c9b6b99a",
+      "normalizedLfSha256": "aff28d09420ac4e68a4e2d4d32344971ae0fe21b9be6f61037de41d9c9b6b99a"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-server.mjs",
+      "bytes": 16483,
+      "rawBytesSha256": "eddbba58f68f0c02a3fd63720656afd03d3e516c8cb2490bf5f7225b0112d9fd",
+      "normalizedLfSha256": "eddbba58f68f0c02a3fd63720656afd03d3e516c8cb2490bf5f7225b0112d9fd"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-userinfo-witness.mjs",
+      "bytes": 3486,
+      "rawBytesSha256": "7498d83b07729803e2e09507eb5911a1a501abf026cd2bb22eeca62158a181c7",
+      "normalizedLfSha256": "7498d83b07729803e2e09507eb5911a1a501abf026cd2bb22eeca62158a181c7"
+    },
+    {
+      "file": "tools/rust-r2ij/obs-virtual.mjs",
+      "bytes": 7005,
+      "rawBytesSha256": "781a03dc00d1294cd007fe3139db9b51716b1cc917d18251c6f7d7ccdcf84dec",
+      "normalizedLfSha256": "781a03dc00d1294cd007fe3139db9b51716b1cc917d18251c6f7d7ccdcf84dec"
+    },
+    {
+      "file": "tools/rust-r2ij/owned-fixture.mjs",
+      "bytes": 16165,
+      "rawBytesSha256": "a80af757ae016c803f77d6c85726bc09198326c9997b96b997bdf258f4afb567",
+      "normalizedLfSha256": "a80af757ae016c803f77d6c85726bc09198326c9997b96b997bdf258f4afb567"
+    },
+    {
+      "file": "tools/rust-r2ij/owner-run.mjs",
+      "bytes": 5262,
+      "rawBytesSha256": "dfd6cc0cfdf3e4b83c6ab0ffa78dc7c2582b98202add69cd3eb7a4c10a475150",
+      "normalizedLfSha256": "dfd6cc0cfdf3e4b83c6ab0ffa78dc7c2582b98202add69cd3eb7a4c10a475150"
+    },
+    {
+      "file": "tools/rust-r2ij/preserve-owner-input.mjs",
+      "bytes": 2669,
+      "rawBytesSha256": "363fed0a9dbc59650e160cad92c89fa2ccd59575d4829dfb823ac528e7f38d77",
+      "normalizedLfSha256": "363fed0a9dbc59650e160cad92c89fa2ccd59575d4829dfb823ac528e7f38d77"
+    },
+    {
+      "file": "tools/rust-r2ij/reference-authority.json",
+      "bytes": 427485,
+      "rawBytesSha256": "d016443d25e0ea40ef73bd6a8c8726b426b4521c0b40e0d394e96bf1d45ac0c2",
+      "normalizedLfSha256": "d016443d25e0ea40ef73bd6a8c8726b426b4521c0b40e0d394e96bf1d45ac0c2"
+    },
+    {
+      "file": "tools/rust-r2ij/reference-guard-witness.mjs",
+      "bytes": 7449,
+      "rawBytesSha256": "3a604407d80fb391a6a76a3e69edee2230ce652420970a4b13ffb07ae306d301",
+      "normalizedLfSha256": "3a604407d80fb391a6a76a3e69edee2230ce652420970a4b13ffb07ae306d301"
+    },
+    {
+      "file": "tools/rust-r2ij/route-acceptance.mjs",
+      "bytes": 3282,
+      "rawBytesSha256": "644c96fed96545609d5096488b689dfaf66077bdb22ec53437fb03df36526191",
+      "normalizedLfSha256": "644c96fed96545609d5096488b689dfaf66077bdb22ec53437fb03df36526191"
+    },
+    {
+      "file": "tools/rust-r2ij/rust-owner-run.mjs",
+      "bytes": 6117,
+      "rawBytesSha256": "8d277c59b0ea7647dc71287aa592baa0d064f0e83002aeec14fbb8701df3c6c2",
+      "normalizedLfSha256": "8d277c59b0ea7647dc71287aa592baa0d064f0e83002aeec14fbb8701df3c6c2"
+    },
+    {
+      "file": "tools/rust-r2ij/schema-check.mjs",
+      "bytes": 11058,
+      "rawBytesSha256": "73269575b5dcb130e254cff98657811805817a83e82f5e98da4696d9b0808874",
+      "normalizedLfSha256": "73269575b5dcb130e254cff98657811805817a83e82f5e98da4696d9b0808874"
+    },
+    {
+      "file": "tools/rust-r2ij/shared-checks.mjs",
+      "bytes": 2808,
+      "rawBytesSha256": "e93e0ff673e31438a683f1eebdbfd3b4da7b2c028b1b58968982bbf9e0384648",
+      "normalizedLfSha256": "e93e0ff673e31438a683f1eebdbfd3b4da7b2c028b1b58968982bbf9e0384648"
+    },
+    {
+      "file": "tools/rust-r2ij/source-protection.mjs",
+      "bytes": 3245,
+      "rawBytesSha256": "a26b6ae29b7a52ba3dc6bbeb42b7f51f8875216d4b4eedf212c1a0049c017758",
+      "normalizedLfSha256": "a26b6ae29b7a52ba3dc6bbeb42b7f51f8875216d4b4eedf212c1a0049c017758"
+    },
+    {
+      "file": "tools/rust-r2ij/surface-acceptance.mjs",
+      "bytes": 7156,
+      "rawBytesSha256": "30732cb032815b9385b55cf227d0c261b77dccb295e96561c7168804b6ec55b2",
+      "normalizedLfSha256": "30732cb032815b9385b55cf227d0c261b77dccb295e96561c7168804b6ec55b2"
+    },
+    {
+      "file": "tools/rust-r2ij/timestamp-policy.mjs",
+      "bytes": 3896,
+      "rawBytesSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b",
+      "normalizedLfSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b"
+    },
+    {
+      "file": "tools/rust-r2ij/transfer-windows-evidence.mjs",
+      "bytes": 2237,
+      "rawBytesSha256": "014dcf0c3a7e94a8f46e54469136deef59398c7e56e6f63fe535d29eb2bb4a05",
+      "normalizedLfSha256": "014dcf0c3a7e94a8f46e54469136deef59398c7e56e6f63fe535d29eb2bb4a05"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-acceptance.mjs",
+      "bytes": 17398,
+      "rawBytesSha256": "b02e2ea3760fefc2916098731e6df7d7a9bd6190ba83823261b3e49fbc56f893",
+      "normalizedLfSha256": "b02e2ea3760fefc2916098731e6df7d7a9bd6190ba83823261b3e49fbc56f893"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-build.mjs",
+      "bytes": 1775,
+      "rawBytesSha256": "ee2fb9c8166ade8b90ccdd78929df31014fa2109584960fe5fb77261421950ef",
+      "normalizedLfSha256": "ee2fb9c8166ade8b90ccdd78929df31014fa2109584960fe5fb77261421950ef"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-fixture-cli.mjs",
+      "bytes": 2058,
+      "rawBytesSha256": "43c01590348778cdc105f5d171f26b4e2076f1d45e13551b4d79c8771335d86a",
+      "normalizedLfSha256": "43c01590348778cdc105f5d171f26b4e2076f1d45e13551b4d79c8771335d86a"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-fixture-client.mjs",
+      "bytes": 1524,
+      "rawBytesSha256": "a9ede5ced4f421f6529af0abf237a5a3620a89cf1cea4f90a79d18f9c316b1b3",
+      "normalizedLfSha256": "a9ede5ced4f421f6529af0abf237a5a3620a89cf1cea4f90a79d18f9c316b1b3"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/fixture-root.ts",
+      "bytes": 7496,
+      "rawBytesSha256": "ee5da3e88c8c6150a88cc8a12ae8a09ba6e5cea316324b11138285d072c19a4d",
+      "normalizedLfSha256": "ee5da3e88c8c6150a88cc8a12ae8a09ba6e5cea316324b11138285d072c19a4d"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/index.html",
+      "bytes": 247,
+      "rawBytesSha256": "9f22feb98ac1a0f5568267e5c32cbd325156f162a6c7b6c0eabc3d647f3ac38d",
+      "normalizedLfSha256": "9f22feb98ac1a0f5568267e5c32cbd325156f162a6c7b6c0eabc3d647f3ac38d"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/main.ts",
+      "bytes": 1514,
+      "rawBytesSha256": "be01f97f36ef9215d9c0b013f8300eef7e6b082d7af54000b6a73c87caeb1171",
+      "normalizedLfSha256": "be01f97f36ef9215d9c0b013f8300eef7e6b082d7af54000b6a73c87caeb1171"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/original-theme.ts",
+      "bytes": 4089,
+      "rawBytesSha256": "c1002792ced7b09c6a9d7ac6e94dfedadaa833fae1ebeadb895bab6628c5522d",
+      "normalizedLfSha256": "c1002792ced7b09c6a9d7ac6e94dfedadaa833fae1ebeadb895bab6628c5522d"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/source-navigation.ts",
+      "bytes": 513,
+      "rawBytesSha256": "1e18a4237a73efaa747407cdcc0df94045dae8699d118361704721cfb6516708",
+      "normalizedLfSha256": "1e18a4237a73efaa747407cdcc0df94045dae8699d118361704721cfb6516708"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/theme-source.json",
+      "bytes": 448,
+      "rawBytesSha256": "56a65a2100c79cad032d8dc7a4789a6ddc93127bf439b1e0c98a552e8769d94a",
+      "normalizedLfSha256": "56a65a2100c79cad032d8dc7a4789a6ddc93127bf439b1e0c98a552e8769d94a"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-host/tsconfig.json",
+      "bytes": 242,
+      "rawBytesSha256": "85aea204dd7aa0646207543b2394865bb7403d1956c67deb27ff7e1f6e5da121",
+      "normalizedLfSha256": "85aea204dd7aa0646207543b2394865bb7403d1956c67deb27ff7e1f6e5da121"
+    },
+    {
+      "file": "tools/rust-r2ij/ui-static-server.mjs",
+      "bytes": 2290,
+      "rawBytesSha256": "bb6c749d3b1b7cc1520ce1c152803cca3f4f9953ac4c47cd1c577ae81baa89ab",
+      "normalizedLfSha256": "bb6c749d3b1b7cc1520ce1c152803cca3f4f9953ac4c47cd1c577ae81baa89ab"
+    },
+    {
+      "file": "tools/rust-r2ij/unicode-boundary.mjs",
+      "bytes": 4811,
+      "rawBytesSha256": "ceb475af5f140837f1d6be41d2b3b68c0de70ef1b517fb478eb95c95f0f5df19",
+      "normalizedLfSha256": "ceb475af5f140837f1d6be41d2b3b68c0de70ef1b517fb478eb95c95f0f5df19"
+    }
+  ],
+  "sourceFilesNormalizedDigest": "30ad5d1fad59a0124eb6f87bfcfea6223d265234de34d4e999238f7e08a7d500",
+  "httpAndPg": {
+    "surface": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/surface-surface17.json",
+        "origin": "linux",
+        "bytes": 1333283,
+        "rawBytesSha256": "60592908e407fb82f6d4c30d2a69e517f78996d545023e6199e15af25fc1e521"
+      },
+      "perBackend": 604,
+      "guards": 90,
+      "validation": 514,
+      "operations": 25
+    },
+    "critical": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/critical-comparison-critical17.json",
+        "origin": "linux",
+        "bytes": 949,
+        "rawBytesSha256": "24a0a163bad7e8f469022901926947a0e94e4507f27cf3d08718efd1411f51f6"
+      },
+      "perBackend": 17
+    },
+    "auth": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/auth-comparison-auth17.json",
+        "origin": "linux",
+        "bytes": 759,
+        "rawBytesSha256": "979befb57c67a7571ae00b8498a32d58dac285a06b5277fc87e0747b9458427e"
+      },
+      "perBackendSerial": 11,
+      "perBackendConcurrentRequests": 2
+    },
+    "commands": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/j-command-comparison-command10.json",
+        "origin": "linux",
+        "bytes": 1654,
+        "rawBytesSha256": "dbb37538c021cc1f729c9bb521b032b2f44a8b8c755cf3788b904944cc79659b"
+      },
+      "pairedCases": 58,
+      "boundary": "api10 original command/local binary acceptance carried forward; later source deltas are codec, typed PG failure text and malformed-route order, separately actually revalidated"
+    },
+    "uploadLifecycle": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/j-upload-comparison-lifecycle17a.json",
+        "origin": "linux",
+        "bytes": 1699,
+        "rawBytesSha256": "c95209deb8574053167185fc3bb3a7bcfb3162366d9a78e3b01dfc99f2d9871e"
+      },
+      "pairedCases": 50
+    },
+    "jPath": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/j-upload-path-path17.json",
+        "origin": "linux",
+        "bytes": 17692,
+        "rawBytesSha256": "3abbd26010c3eee2a6d4d2afd720601a816e861005c99942457c9a39aa6bd716"
+      },
+      "pairedCases": 3
+    },
+    "rawRoute": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/route-comparison-route15.json",
+        "origin": "windows",
+        "bytes": 521,
+        "rawBytesSha256": "5dee0f42241e795d2a51b79037c498cf3a94eaca24be2d588376ddcfd76ea3f0"
+      },
+      "pairedCases": 32
+    }
+  },
+  "storage": {
+    "protocol": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/obs-protocol-transport17.json",
+        "origin": "linux",
+        "bytes": 443619,
+        "rawBytesSha256": "de80e6de5a6a8381a81119c7f463b1f2edae507e701f58b925c0a5de23d99bf2"
+      },
+      "pairedProbeOperations": 44,
+      "totalDualProbeOperations": 88,
+      "cancellationProof": "Four peer-abort witnesses while probe process remains alive/stdin open"
+    },
+    "virtual": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/obs-virtual-virtual17.json",
+        "origin": "linux",
+        "bytes": 32179,
+        "rawBytesSha256": "98482c0f8f4d1180c79a070003b3f9f467d2bee786c34ae31514acaa3a50e52e"
+      },
+      "records": 8
+    },
+    "publicFlow": {
+      "nest": {
+        "path": "tmp/rust-r2ij/obs-api-nest-obsapi05.json",
+        "origin": "linux",
+        "bytes": 70622,
+        "rawBytesSha256": "4fb56d905f30790d25291e836598c21a47c6c91bcd031cc0a5dffb5f4af9ece7"
+      },
+      "rust": {
+        "path": "tmp/rust-r2ij/obs-api-rust-obsapi17.json",
+        "origin": "linux",
+        "bytes": 70129,
+        "rawBytesSha256": "8a02d5675f07b96b4d47b92690dbb99a4af8752ecd945578ab924d2022e8984d"
+      },
+      "recordsPerBackend": 21,
+      "pomsHttpPerBackend": 20,
+      "realPresignedObsPutPerBackend": 1
+    },
+    "cipher": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/obs-cipher-cipher17.json",
+        "origin": "linux",
+        "bytes": 14032,
+        "rawBytesSha256": "3c983100d0d348ee1f14220899cf78882e01264bf8e4188c0d41fbabb09ebb7e"
+      },
+      "cases": 4,
+      "exactColumnRestores": 2
+    },
+    "delete": {
+      "artifact": {
+        "path": "tmp/rust-r2ij/obs-delete-delete17.json",
+        "origin": "linux",
+        "bytes": 18387,
+        "rawBytesSha256": "d06f4a0305b0e7e3e3094a83aa727073ef093cbafd95dd7c62205c5f07582431"
+      },
+      "actualOperations": 6,
+      "boundary": "Each backend real PUT200→DELETE204→HEAD404; separate from prior best-effort404 swallow vector"
+    }
+  },
+  "unicode": {
+    "artifact": {
+      "path": "tmp/rust-r2ij/unicode-boundary-unicode18.json",
+      "origin": "linux",
+      "bytes": 12666,
+      "rawBytesSha256": "59606ddb0d03f7f52786567cec58ecf30c447278d8e80f9e4750af1fd720bfb7"
+    },
+    "successfulCasesPerBackend": 2,
+    "boundary": "Actual request/response strings, codepoint/UTF16 length and PG char/octet lengths; owner18/03 source+binary equal prior accepted17/02"
+  },
+  "ui": [
+    {
+      "artifact": {
+        "path": "tmp/rust-r2ij/ui-linux-nest-ui07/report.json",
+        "origin": "linux",
+        "bytes": 89282,
+        "rawBytesSha256": "7ebe128b13fcf1e44b258bd745c10115f7d9d377dc5f3da2ae7430449b4dd8db"
+      },
+      "platform": "linux",
+      "backend": "nest",
+      "steps": 12,
+      "scope": "Actual original components in test-only Angular host; no R3 business page handoff, request interception, direct API substitutes or store calls",
+      "buildFiles": 325,
+      "inputSnapshots": 21,
+      "download": {
+        "bytes": 68,
+        "sha256": "1206f9d3b441f79f05d47c2d722c11236e11769101efadde7c24083e3fa18ab5",
+        "suggestedFilename": "ui-b2cb4e50-1af6-40d3-bc21-059066c42240.png"
+      },
+      "versionFailure": {
+        "httpStatus": 500,
+        "attachmentsUnchanged": true,
+        "sessionStates": [
+          {
+            "operation": "create-version",
+            "status": "aborted",
+            "rowVersion": 5
+          },
+          {
+            "operation": "create-attachment",
+            "status": "completed",
+            "rowVersion": 5
+          }
+        ]
+      },
+      "cleanup": {
+        "guard": {
+          "tables": 107,
+          "columns": 1778,
+          "primaryKeys": 107,
+          "incomingForeignKeys": 121,
+          "implicitPrimaryKeyNames": [
+            {
+              "table": "internal_cost_rate_version",
+              "name": "internal_cost_rate_version_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "poms_migrations",
+              "name": "poms_migrations_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "project_actual_cost_record",
+              "name": "project_actual_cost_record_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            }
+          ],
+          "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+          "incomingSha256": "e439c2574739fa411e0627663a521cedc8fb707383d96e7f9ee36769cdb7f98f",
+          "tablesLocked": 107,
+          "logicalScanPasses": 1,
+          "tableScans": 107,
+          "rowsAdmitted": 0,
+          "ownedUuidCount": 35,
+          "locationRows": 0,
+          "foreignRows": 0,
+          "deletesIssued": 0
+        },
+        "storageObjectsBefore": 0,
+        "filesDeleted": 0,
+        "rowsDeleted": 0,
+        "cleanupIntentId": "729c3a06-a10b-42a8-ac46-ffd2962e0274",
+        "base": {
+          "before": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "after": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "guard": {
+            "tablesScanned": 107,
+            "rowsAdmitted": 0,
+            "foreignRows": 0,
+            "unknownForeignKeys": 0
+          }
+        },
+        "matched": 0,
+        "changed": 0,
+        "directoriesRemoved": 0,
+        "zero": true
+      }
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2ij/ui-win32-nest-ui08/report.json",
+        "origin": "windows",
+        "bytes": 89281,
+        "rawBytesSha256": "f35d8fb7cd8eb9ef8433eb97d20bda04e33f40a61a6c27f74dc9a1567c646024"
+      },
+      "platform": "win32",
+      "backend": "nest",
+      "steps": 12,
+      "scope": "Actual original components in test-only Angular host; no R3 business page handoff, request interception, direct API substitutes or store calls",
+      "buildFiles": 325,
+      "inputSnapshots": 21,
+      "download": {
+        "bytes": 68,
+        "sha256": "1206f9d3b441f79f05d47c2d722c11236e11769101efadde7c24083e3fa18ab5",
+        "suggestedFilename": "ui-17769cc2-7548-4c43-a5de-fac2c3a79fb3.png"
+      },
+      "versionFailure": {
+        "httpStatus": 500,
+        "attachmentsUnchanged": true,
+        "sessionStates": [
+          {
+            "operation": "create-version",
+            "status": "aborted",
+            "rowVersion": 5
+          },
+          {
+            "operation": "create-attachment",
+            "status": "completed",
+            "rowVersion": 5
+          }
+        ]
+      },
+      "cleanup": {
+        "guard": {
+          "tables": 107,
+          "columns": 1778,
+          "primaryKeys": 107,
+          "incomingForeignKeys": 121,
+          "implicitPrimaryKeyNames": [
+            {
+              "table": "internal_cost_rate_version",
+              "name": "internal_cost_rate_version_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "poms_migrations",
+              "name": "poms_migrations_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "project_actual_cost_record",
+              "name": "project_actual_cost_record_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            }
+          ],
+          "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+          "incomingSha256": "e439c2574739fa411e0627663a521cedc8fb707383d96e7f9ee36769cdb7f98f",
+          "tablesLocked": 107,
+          "logicalScanPasses": 1,
+          "tableScans": 107,
+          "rowsAdmitted": 0,
+          "ownedUuidCount": 35,
+          "locationRows": 0,
+          "foreignRows": 0,
+          "deletesIssued": 0
+        },
+        "storageObjectsBefore": 0,
+        "filesDeleted": 0,
+        "rowsDeleted": 0,
+        "cleanupIntentId": "e6e04fb7-e859-4b0d-b416-71fd1b77d96a",
+        "base": {
+          "before": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "after": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "guard": {
+            "tablesScanned": 107,
+            "rowsAdmitted": 0,
+            "foreignRows": 0,
+            "unknownForeignKeys": 0
+          }
+        },
+        "matched": 0,
+        "changed": 0,
+        "directoriesRemoved": 0,
+        "zero": true
+      }
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2ij/ui-linux-rust-ui09/report.json",
+        "origin": "linux",
+        "bytes": 89282,
+        "rawBytesSha256": "c53b700ffbe9b76efe56f29042ffb58d588402fff6d3697c3b2955cd95cbe33f"
+      },
+      "platform": "linux",
+      "backend": "rust",
+      "steps": 12,
+      "scope": "Actual original components in test-only Angular host; no R3 business page handoff, request interception, direct API substitutes or store calls",
+      "buildFiles": 325,
+      "inputSnapshots": 21,
+      "download": {
+        "bytes": 68,
+        "sha256": "1206f9d3b441f79f05d47c2d722c11236e11769101efadde7c24083e3fa18ab5",
+        "suggestedFilename": "ui-9b2cf73a-282e-4f3e-9fed-87f7b9df9522.png"
+      },
+      "versionFailure": {
+        "httpStatus": 500,
+        "attachmentsUnchanged": true,
+        "sessionStates": [
+          {
+            "operation": "create-attachment",
+            "status": "completed",
+            "rowVersion": 5
+          },
+          {
+            "operation": "create-version",
+            "status": "aborted",
+            "rowVersion": 5
+          }
+        ]
+      },
+      "cleanup": {
+        "guard": {
+          "tables": 107,
+          "columns": 1778,
+          "primaryKeys": 107,
+          "incomingForeignKeys": 121,
+          "implicitPrimaryKeyNames": [
+            {
+              "table": "internal_cost_rate_version",
+              "name": "internal_cost_rate_version_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "poms_migrations",
+              "name": "poms_migrations_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "project_actual_cost_record",
+              "name": "project_actual_cost_record_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            }
+          ],
+          "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+          "incomingSha256": "e439c2574739fa411e0627663a521cedc8fb707383d96e7f9ee36769cdb7f98f",
+          "tablesLocked": 107,
+          "logicalScanPasses": 1,
+          "tableScans": 107,
+          "rowsAdmitted": 0,
+          "ownedUuidCount": 35,
+          "locationRows": 0,
+          "foreignRows": 0,
+          "deletesIssued": 0
+        },
+        "storageObjectsBefore": 0,
+        "filesDeleted": 0,
+        "rowsDeleted": 0,
+        "cleanupIntentId": "d3688754-64d5-4f8b-933e-ffaee4c2104b",
+        "base": {
+          "before": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "after": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "guard": {
+            "tablesScanned": 107,
+            "rowsAdmitted": 0,
+            "foreignRows": 0,
+            "unknownForeignKeys": 0
+          }
+        },
+        "matched": 0,
+        "changed": 0,
+        "directoriesRemoved": 0,
+        "zero": true
+      }
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2ij/ui-win32-rust-ui10/report.json",
+        "origin": "windows",
+        "bytes": 89281,
+        "rawBytesSha256": "34f5a399405c631053484daebee7a9075edcdeb67050b0bae2712b129fb0197f"
+      },
+      "platform": "win32",
+      "backend": "rust",
+      "steps": 12,
+      "scope": "Actual original components in test-only Angular host; no R3 business page handoff, request interception, direct API substitutes or store calls",
+      "buildFiles": 325,
+      "inputSnapshots": 21,
+      "download": {
+        "bytes": 68,
+        "sha256": "1206f9d3b441f79f05d47c2d722c11236e11769101efadde7c24083e3fa18ab5",
+        "suggestedFilename": "ui-040b7551-6b2f-42cb-a348-21495da3fd52.png"
+      },
+      "versionFailure": {
+        "httpStatus": 500,
+        "attachmentsUnchanged": true,
+        "sessionStates": [
+          {
+            "operation": "create-attachment",
+            "status": "completed",
+            "rowVersion": 5
+          },
+          {
+            "operation": "create-version",
+            "status": "aborted",
+            "rowVersion": 5
+          }
+        ]
+      },
+      "cleanup": {
+        "guard": {
+          "tables": 107,
+          "columns": 1778,
+          "primaryKeys": 107,
+          "incomingForeignKeys": 121,
+          "implicitPrimaryKeyNames": [
+            {
+              "table": "internal_cost_rate_version",
+              "name": "internal_cost_rate_version_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "poms_migrations",
+              "name": "poms_migrations_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "project_actual_cost_record",
+              "name": "project_actual_cost_record_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            }
+          ],
+          "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+          "incomingSha256": "e439c2574739fa411e0627663a521cedc8fb707383d96e7f9ee36769cdb7f98f",
+          "tablesLocked": 107,
+          "logicalScanPasses": 1,
+          "tableScans": 107,
+          "rowsAdmitted": 0,
+          "ownedUuidCount": 35,
+          "locationRows": 0,
+          "foreignRows": 0,
+          "deletesIssued": 0
+        },
+        "storageObjectsBefore": 0,
+        "filesDeleted": 0,
+        "rowsDeleted": 0,
+        "cleanupIntentId": "27b4ac62-b14c-45c3-baa3-ce12ff332526",
+        "base": {
+          "before": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "after": {
+            "users": 0,
+            "credentials": 0,
+            "sessions": 0,
+            "roles": 0,
+            "organizations": 0,
+            "assignments": 0,
+            "memberships": 0,
+            "permissions": 0,
+            "audits": 0,
+            "events": 0
+          },
+          "guard": {
+            "tablesScanned": 107,
+            "rowsAdmitted": 0,
+            "foreignRows": 0,
+            "unknownForeignKeys": 0
+          }
+        },
+        "matched": 0,
+        "changed": 0,
+        "directoriesRemoved": 0,
+        "zero": true
+      }
+    }
+  ],
+  "rust": {
+    "testBinaries": 25,
+    "passed": 183,
+    "failed": 0,
+    "ignored": 54,
+    "log": {
+      "path": "tmp/rust-r2ij/current17-all-targets-test.log",
+      "origin": "linux",
+      "bytes": 33142,
+      "rawBytesSha256": "49fb925c7ed18b51ee836f92eca23011b05d8a400343470b708d9a7e57b6ae41"
+    },
+    "receipt": {
+      "path": "tmp/rust-r2ij/current17-all-targets-test-exit.json",
+      "origin": "linux",
+      "bytes": 196,
+      "rawBytesSha256": "a206916f84a256747cc88fd8c244f31d13ffe3558ef9211167fd71dec33c84f5"
+    },
+    "clippy": {
+      "path": "tmp/rust-r2ij/candidate17-clippy-exit.json",
+      "origin": "linux",
+      "bytes": 167,
+      "rawBytesSha256": "b5e6b46eac2689ced936aac2d36e4be424cad21e4795a6c1c23343f544991bd7"
+    },
+    "release": {
+      "path": "tmp/rust-r2ij/candidate17-release-exit.json",
+      "origin": "linux",
+      "bytes": 168,
+      "rawBytesSha256": "b8c1b2c8ff6a56e3af24e5e8c9f251b029b40d1b0626d048b9f3f55eedfd83c0"
+    },
+    "format": {
+      "path": "tmp/rust-r2ij/candidate17-formatted.tar.gz",
+      "origin": "linux",
+      "bytes": 426216,
+      "rawBytesSha256": "8d90505947aa5f393f6647a1ead4358d84fcbb3b27562cc12dddfc5689b5a1bc"
+    }
+  },
+  "shared": {
+    "artifact": {
+      "path": "tmp/rust-r2ij/shared-checks-linux-shared01.json",
+      "origin": "linux",
+      "bytes": 1835,
+      "rawBytesSha256": "0c4621f037ce22cf1bac7172527a9ae9f233a7b67e37e0f27795f6b5532f4fe2"
+    },
+    "steps": [
+      {
+        "id": "lint-tests",
+        "args": [
+          "installed nx CLI",
+          "run-many",
+          "--targets=lint,test",
+          "--projects=poms-api,poms-admin,poms-admin-e2e",
+          "--parallel=2",
+          "--skip-nx-cache"
+        ],
+        "log": "tmp/rust-r2ij/shared-linux-shared01-lint-tests.log",
+        "result": "pass",
+        "logSha256": "f3051dbdccff94936831fc88a92e91efea45d2593eae805b97d7dac9f5d8109e"
+      },
+      {
+        "id": "admin-production-build",
+        "args": [
+          "installed nx CLI",
+          "run",
+          "poms-admin:build",
+          "--skip-nx-cache"
+        ],
+        "log": "tmp/rust-r2ij/shared-linux-shared01-admin-production-build.log",
+        "result": "pass",
+        "logSha256": "31b9e1b0ce577b2cf819f7458d2e19f3654cc06b5dc2beffaf23555e722437d8"
+      },
+      {
+        "id": "admin-e2e-typecheck",
+        "args": [
+          "installed tsc CLI",
+          "--project",
+          "tools/e2e/browser-tsconfig.json",
+          "--noEmit",
+          "--pretty",
+          "false"
+        ],
+        "log": "tmp/rust-r2ij/shared-linux-shared01-admin-e2e-typecheck.log",
+        "result": "pass",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "openapi-client",
+        "args": [
+          "installed nx CLI",
+          "run",
+          "shared-api-client:check",
+          "--skip-nx-cache"
+        ],
+        "log": "tmp/rust-r2ij/shared-linux-shared01-openapi-client.log",
+        "result": "pass",
+        "logSha256": "bcc380318005613387ba9c65d5e37d6a81bca8a21665df0f8f812175e10886bb"
+      }
+    ],
+    "nestBuild": {
+      "path": "tmp/rust-r2ij/nest-build-nest01.json",
+      "origin": "linux",
+      "bytes": 320,
+      "rawBytesSha256": "6423a3917434b5c5056451f08d6dee3f280f70d111aeaed8a1e76dd51a427447"
+    },
+    "adminE2eLintTest": "N/A: project has only e2e target; typecheck and real browser separately passed",
+    "newLintWarnings": false
+  },
+  "schema": {
+    "artifact": {
+      "path": "tmp/rust-r2ij/schema-check.json",
+      "origin": "linux",
+      "bytes": 241605,
+      "rawBytesSha256": "bcaa9763a6acc5e099d376fc6fbe4a6f394b1b9f1d58f59c32f4e3aa866b739f"
+    },
+    "result": "failed-with-classification",
+    "copies": [
+      {
+        "backend": "nest",
+        "database": "poms_r2ij_nest",
+        "status": "failed-with-classification",
+        "phase": "complete",
+        "before": {
+          "path": "tmp/rust-r2ij/schema-nest-before.json",
+          "rawBytesSha256": "ffaeecdb57b3e2dd12b83c8208f3f5d0c7c54c23c2f7707a2c2cc2be3a76931e"
+        },
+        "catalogSha256": "b53c815c60d91c16366fe748388588c9cd620000ead9a03e7c5a975e0d100996",
+        "visibility": {
+          "owner": 541,
+          "app": 0
+        },
+        "check": {
+          "operation": "migration-check",
+          "launcher": {
+            "kind": "installed-locked-mikro-orm",
+            "originalNxTarget": "poms-api:migration-check",
+            "originalTargetCommand": "corepack pnpm exec mikro-orm migration:check",
+            "originalTargetArgs": [
+              "--config",
+              "apps/poms-api/src/mikro-orm.config.ts"
+            ],
+            "originalTargetValidated": true,
+            "installedCli": {
+              "entry": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+              "version": "7.0.11",
+              "packageSha256": "059ab1871103196668a0cc90177ceb8a2b3340177cbde91ec46cc13ce53eecf6",
+              "entrySha256": "de8997de977395c2043c9ecf550fe89784eab445237d7f32a1dbb00f720fa246"
+            },
+            "substitution": "Use the same installed locked CLI as R2C schema-check-2; this R2IJ run does not claim to execute the Nx/corepack/pnpm launcher."
+          },
+          "argv": [
+            "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+            "migration:check",
+            "--config",
+            "apps/poms-api/src/mikro-orm.config.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "log": "tmp/rust-r2ij/schema-nest-migration-check.log",
+          "rawBytesSha256": "67a3581ca7a6f7517c41f9b7ac847101a79527dde5154a225ce25bcefe6fa1e5"
+        },
+        "dump": {
+          "operation": "schema-dump",
+          "launcher": {
+            "kind": "installed-locked-mikro-orm",
+            "originalNxTarget": "poms-api:migration-check",
+            "originalTargetCommand": "corepack pnpm exec mikro-orm migration:check",
+            "originalTargetArgs": [
+              "--config",
+              "apps/poms-api/src/mikro-orm.config.ts"
+            ],
+            "originalTargetValidated": true,
+            "installedCli": {
+              "entry": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+              "version": "7.0.11",
+              "packageSha256": "059ab1871103196668a0cc90177ceb8a2b3340177cbde91ec46cc13ce53eecf6",
+              "entrySha256": "de8997de977395c2043c9ecf550fe89784eab445237d7f32a1dbb00f720fa246"
+            },
+            "substitution": "Use the same installed locked CLI as R2C schema-check-2; this R2IJ run does not claim to execute the Nx/corepack/pnpm launcher."
+          },
+          "argv": [
+            "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+            "schema:update",
+            "--dump",
+            "--config",
+            "apps/poms-api/src/mikro-orm.config.ts"
+          ],
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "log": "tmp/rust-r2ij/schema-nest-schema-dump.log",
+          "rawBytesSha256": "4b1be1b99bbd92624960bb296745c1a58020c41fc4409bf457d3b3dd88f83f9d"
+        },
+        "after": {
+          "path": "tmp/rust-r2ij/schema-nest-after.json",
+          "rawBytesSha256": "ffaeecdb57b3e2dd12b83c8208f3f5d0c7c54c23c2f7707a2c2cc2be3a76931e"
+        },
+        "catalogUnchanged": true,
+        "classification": [
+          "existing-baseline-drift: low-privilege MikroORM CHECK introspection visibility",
+          "existing-baseline-drift: lead_score_override.status comment mismatch"
+        ],
+        "counts": {
+          "tables": 107,
+          "columns": 1778,
+          "constraints": 515,
+          "indexes": 504,
+          "migrations": 92,
+          "triggers": 0
+        },
+        "proposedChecks": [
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_approval_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_business_domain",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_target_object_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_current_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_decision",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment",
+            "constraint": "chk_attachment_security_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment",
+            "constraint": "chk_attachment_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_link",
+            "constraint": "chk_attachment_link_target_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_link",
+            "constraint": "chk_attachment_link_relation_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_link",
+            "constraint": "chk_attachment_link_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "constraint": "chk_attachment_storage_provider_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "constraint": "chk_attachment_storage_provider_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_operation_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_upload_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_provider_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_max_size_bytes",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_target_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_security_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_relation_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_version",
+            "constraint": "chk_commission_rule_version_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "dictionary_item",
+            "constraint": "chk_dictionary_item_domain",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "dictionary_item",
+            "constraint": "chk_dictionary_item_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "dictionary_item",
+            "constraint": "chk_dictionary_item_code_format",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_config",
+            "constraint": "chk_identity_provider_config_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_config",
+            "constraint": "chk_identity_provider_config_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_config",
+            "constraint": "chk_identity_provider_config_search_grant_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "constraint": "chk_internal_cost_rate_version_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "constraint": "chk_internal_cost_rate_version_scope_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "constraint": "chk_internal_cost_rate_version_rate_unit",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_unit",
+            "constraint": "chk_org_unit_parent_not_self",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_org_source",
+            "constraint": "chk_external_org_source_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_org_source",
+            "constraint": "chk_external_org_source_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_department_mapping",
+            "constraint": "chk_external_department_mapping_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_sync_run",
+            "constraint": "chk_org_sync_run_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_sync_diff_item",
+            "constraint": "chk_org_sync_diff_item_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_sync_diff_item",
+            "constraint": "chk_org_sync_diff_item_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "constraint": "chk_identity_provider_oauth_grant_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "constraint": "chk_identity_provider_oauth_grant_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_identity",
+            "constraint": "chk_external_identity_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_identity",
+            "constraint": "chk_external_identity_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_login_ticket",
+            "constraint": "chk_external_login_ticket_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_login_ticket",
+            "constraint": "chk_external_login_ticket_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer",
+            "constraint": "chk_customer_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_budget_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_urgency",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_estimated_amount_non_negative",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_snapshot_kind",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_system_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_effective_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_system_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_effective_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_effective_score_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_requested_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_requested_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_system_score_at_request_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_system_rating_at_request",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "constraint": "chk_lead_owner_assignment_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer_contact",
+            "constraint": "chk_customer_contact_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer_contact",
+            "constraint": "chk_customer_contact_gender",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer_alias",
+            "constraint": "chk_customer_alias_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "auth_session",
+            "constraint": "chk_auth_session_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "auth_session",
+            "constraint": "chk_auth_session_revoked_reason",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project",
+            "constraint": "chk_project_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project",
+            "constraint": "chk_project_current_stage",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_anchor",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_role",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_attitude",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_influence",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_access",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_baseline_package",
+            "constraint": "chk_operating_baseline_package_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_baseline_package",
+            "constraint": "chk_operating_baseline_package_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "change_package_baseline",
+            "constraint": "chk_change_package_baseline_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "contract",
+            "constraint": "chk_contract_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "payable_record",
+            "constraint": "chk_payable_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "payment_record",
+            "constraint": "chk_payment_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "invoice_record",
+            "constraint": "chk_invoice_record_invoice_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "invoice_record",
+            "constraint": "chk_invoice_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "invoice_record",
+            "constraint": "chk_invoice_record_exception_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "expense_record",
+            "constraint": "chk_expense_record_source_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "expense_record",
+            "constraint": "chk_expense_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_intelligence_anchor",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_position",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_customer_preference",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_win_probability",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_calculation",
+            "constraint": "chk_commission_calculation_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_stage_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_payout_kind",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_selected_tier",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_adjustment",
+            "constraint": "chk_commission_adjustment_adjustment_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_adjustment",
+            "constraint": "chk_commission_adjustment_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "contract_term_snapshot",
+            "constraint": "chk_contract_term_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_snapshot_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "business_discussion_thread",
+            "constraint": "chk_business_discussion_thread_target",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "constraint": "chk_accounting_tax_treatment_snapshot_deductibility_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "constraint": "chk_accounting_tax_treatment_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_role_assignment",
+            "constraint": "chk_commission_role_assignment_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "constraint": "chk_cfdr_arbitration_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "constraint": "chk_cfdr_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_freeze_change_request",
+            "constraint": "chk_cfcr_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_departure_exception_decision",
+            "constraint": "chk_cded_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_download_package",
+            "constraint": "chk_adp_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_download_package_item",
+            "constraint": "chk_adpi_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_cost_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_labor_period_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_source_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "constraint": "chk_cost_stage_attribution_snapshot_attribution_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "constraint": "chk_cost_stage_attribution_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_archive_record",
+            "constraint": "chk_project_archive_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_handover_attachment_selection",
+            "constraint": "chk_phas_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_snapshot_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_restatement_record",
+            "constraint": "chk_operating_restatement_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "constraint": "chk_data_maturity_evaluation_result_data_maturity_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "constraint": "chk_data_maturity_evaluation_result_cost_action_recommendation",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "constraint": "chk_data_maturity_evaluation_result_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_signal_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_risk_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_formula_boundary_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_binding_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_data_maturity_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_cost_action_recommendation",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_review_decision",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_resolved_cost_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_resolved_current_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_resolved_data_maturity",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "receipt_record",
+            "constraint": "chk_receipt_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_data_maturity_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_final_settlement_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_non_retention_settlement_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_retention_settlement_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_cost_action_recommendation",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "constraint": "chk_cres_current_stage_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "constraint": "chk_cres_gate_decision_code",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "constraint": "chk_cres_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "sales_discovery_record",
+            "constraint": "chk_sales_discovery_anchor",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "sales_follow_up_record",
+            "constraint": "chk_sales_follow_up_outcome",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "sales_follow_up_record",
+            "constraint": "chk_sales_follow_up_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "business_discussion_comment",
+            "constraint": "chk_business_discussion_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "shared_cost_allocation_basis",
+            "constraint": "chk_shared_cost_allocation_basis_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "shared_cost_allocation_result",
+            "constraint": "chk_shared_cost_allocation_result_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "system_setting",
+            "constraint": "chk_system_setting_value_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_source_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_todo_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_business_domain",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_target_object_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_priority",
+            "sameNamedConstraintExists": true
+          }
+        ],
+        "matchingArchivedR2BCatalog": true,
+        "allCheckExpressionsCompared": false,
+        "proposedSqlExecuted": false
+      },
+      {
+        "backend": "rust",
+        "database": "poms_r2ij_rust",
+        "status": "failed-with-classification",
+        "phase": "complete",
+        "before": {
+          "path": "tmp/rust-r2ij/schema-rust-before.json",
+          "rawBytesSha256": "ffaeecdb57b3e2dd12b83c8208f3f5d0c7c54c23c2f7707a2c2cc2be3a76931e"
+        },
+        "catalogSha256": "b53c815c60d91c16366fe748388588c9cd620000ead9a03e7c5a975e0d100996",
+        "visibility": {
+          "owner": 541,
+          "app": 0
+        },
+        "check": {
+          "operation": "migration-check",
+          "launcher": {
+            "kind": "installed-locked-mikro-orm",
+            "originalNxTarget": "poms-api:migration-check",
+            "originalTargetCommand": "corepack pnpm exec mikro-orm migration:check",
+            "originalTargetArgs": [
+              "--config",
+              "apps/poms-api/src/mikro-orm.config.ts"
+            ],
+            "originalTargetValidated": true,
+            "installedCli": {
+              "entry": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+              "version": "7.0.11",
+              "packageSha256": "059ab1871103196668a0cc90177ceb8a2b3340177cbde91ec46cc13ce53eecf6",
+              "entrySha256": "de8997de977395c2043c9ecf550fe89784eab445237d7f32a1dbb00f720fa246"
+            },
+            "substitution": "Use the same installed locked CLI as R2C schema-check-2; this R2IJ run does not claim to execute the Nx/corepack/pnpm launcher."
+          },
+          "argv": [
+            "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+            "migration:check",
+            "--config",
+            "apps/poms-api/src/mikro-orm.config.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "log": "tmp/rust-r2ij/schema-rust-migration-check.log",
+          "rawBytesSha256": "bcb91c4080406ec2ced78cdd7247a51775ddbae2fdb771c069164e5ed21e4881"
+        },
+        "dump": {
+          "operation": "schema-dump",
+          "launcher": {
+            "kind": "installed-locked-mikro-orm",
+            "originalNxTarget": "poms-api:migration-check",
+            "originalTargetCommand": "corepack pnpm exec mikro-orm migration:check",
+            "originalTargetArgs": [
+              "--config",
+              "apps/poms-api/src/mikro-orm.config.ts"
+            ],
+            "originalTargetValidated": true,
+            "installedCli": {
+              "entry": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+              "version": "7.0.11",
+              "packageSha256": "059ab1871103196668a0cc90177ceb8a2b3340177cbde91ec46cc13ce53eecf6",
+              "entrySha256": "de8997de977395c2043c9ecf550fe89784eab445237d7f32a1dbb00f720fa246"
+            },
+            "substitution": "Use the same installed locked CLI as R2C schema-check-2; this R2IJ run does not claim to execute the Nx/corepack/pnpm launcher."
+          },
+          "argv": [
+            "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+            "schema:update",
+            "--dump",
+            "--config",
+            "apps/poms-api/src/mikro-orm.config.ts"
+          ],
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "log": "tmp/rust-r2ij/schema-rust-schema-dump.log",
+          "rawBytesSha256": "ef3e8e1d6191157ebbdf2231ef4a4c0090df7d7c513923a7baad32b2ac4f5434"
+        },
+        "after": {
+          "path": "tmp/rust-r2ij/schema-rust-after.json",
+          "rawBytesSha256": "ffaeecdb57b3e2dd12b83c8208f3f5d0c7c54c23c2f7707a2c2cc2be3a76931e"
+        },
+        "catalogUnchanged": true,
+        "classification": [
+          "existing-baseline-drift: low-privilege MikroORM CHECK introspection visibility",
+          "existing-baseline-drift: lead_score_override.status comment mismatch"
+        ],
+        "counts": {
+          "tables": 107,
+          "columns": 1778,
+          "constraints": 515,
+          "indexes": 504,
+          "migrations": 92,
+          "triggers": 0
+        },
+        "proposedChecks": [
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_approval_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_business_domain",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_target_object_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_current_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "approval_record",
+            "constraint": "chk_approval_record_decision",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment",
+            "constraint": "chk_attachment_security_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment",
+            "constraint": "chk_attachment_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_link",
+            "constraint": "chk_attachment_link_target_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_link",
+            "constraint": "chk_attachment_link_relation_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_link",
+            "constraint": "chk_attachment_link_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "constraint": "chk_attachment_storage_provider_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "constraint": "chk_attachment_storage_provider_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_operation_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_upload_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_provider_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_max_size_bytes",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_target_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_security_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_upload_session",
+            "constraint": "chk_attachment_upload_session_relation_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_version",
+            "constraint": "chk_commission_rule_version_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "dictionary_item",
+            "constraint": "chk_dictionary_item_domain",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "dictionary_item",
+            "constraint": "chk_dictionary_item_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "dictionary_item",
+            "constraint": "chk_dictionary_item_code_format",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_config",
+            "constraint": "chk_identity_provider_config_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_config",
+            "constraint": "chk_identity_provider_config_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_config",
+            "constraint": "chk_identity_provider_config_search_grant_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "constraint": "chk_internal_cost_rate_version_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "constraint": "chk_internal_cost_rate_version_scope_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "constraint": "chk_internal_cost_rate_version_rate_unit",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_unit",
+            "constraint": "chk_org_unit_parent_not_self",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_org_source",
+            "constraint": "chk_external_org_source_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_org_source",
+            "constraint": "chk_external_org_source_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_department_mapping",
+            "constraint": "chk_external_department_mapping_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_sync_run",
+            "constraint": "chk_org_sync_run_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_sync_diff_item",
+            "constraint": "chk_org_sync_diff_item_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "org_sync_diff_item",
+            "constraint": "chk_org_sync_diff_item_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "constraint": "chk_identity_provider_oauth_grant_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "constraint": "chk_identity_provider_oauth_grant_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_identity",
+            "constraint": "chk_external_identity_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_identity",
+            "constraint": "chk_external_identity_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_login_ticket",
+            "constraint": "chk_external_login_ticket_provider",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "external_login_ticket",
+            "constraint": "chk_external_login_ticket_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer",
+            "constraint": "chk_customer_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_budget_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_urgency",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_estimated_amount_non_negative",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead",
+            "constraint": "chk_lead_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_snapshot_kind",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_system_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_effective_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_system_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_effective_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "constraint": "chk_lss_effective_score_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_requested_score_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_requested_rating",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_system_score_at_request_range",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_score_override",
+            "constraint": "chk_lso_system_rating_at_request",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "constraint": "chk_lead_owner_assignment_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer_contact",
+            "constraint": "chk_customer_contact_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer_contact",
+            "constraint": "chk_customer_contact_gender",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "customer_alias",
+            "constraint": "chk_customer_alias_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "auth_session",
+            "constraint": "chk_auth_session_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "auth_session",
+            "constraint": "chk_auth_session_revoked_reason",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project",
+            "constraint": "chk_project_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project",
+            "constraint": "chk_project_current_stage",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_anchor",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_role",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_attitude",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_influence",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "constraint": "chk_opportunity_stakeholder_access",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_baseline_package",
+            "constraint": "chk_operating_baseline_package_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_baseline_package",
+            "constraint": "chk_operating_baseline_package_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "change_package_baseline",
+            "constraint": "chk_change_package_baseline_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "contract",
+            "constraint": "chk_contract_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "payable_record",
+            "constraint": "chk_payable_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "payment_record",
+            "constraint": "chk_payment_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "invoice_record",
+            "constraint": "chk_invoice_record_invoice_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "invoice_record",
+            "constraint": "chk_invoice_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "invoice_record",
+            "constraint": "chk_invoice_record_exception_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "expense_record",
+            "constraint": "chk_expense_record_source_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "expense_record",
+            "constraint": "chk_expense_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_intelligence_anchor",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_position",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_customer_preference",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "constraint": "chk_competitor_win_probability",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_calculation",
+            "constraint": "chk_commission_calculation_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_stage_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_payout_kind",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_selected_tier",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_payout",
+            "constraint": "chk_commission_payout_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_adjustment",
+            "constraint": "chk_commission_adjustment_adjustment_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_adjustment",
+            "constraint": "chk_commission_adjustment_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "contract_term_snapshot",
+            "constraint": "chk_contract_term_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_snapshot_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "period_closing_snapshot",
+            "constraint": "chk_period_closing_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "business_discussion_thread",
+            "constraint": "chk_business_discussion_thread_target",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "constraint": "chk_accounting_tax_treatment_snapshot_deductibility_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "constraint": "chk_accounting_tax_treatment_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_role_assignment",
+            "constraint": "chk_commission_role_assignment_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "constraint": "chk_cfdr_arbitration_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "constraint": "chk_cfdr_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_freeze_change_request",
+            "constraint": "chk_cfcr_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_departure_exception_decision",
+            "constraint": "chk_cded_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_download_package",
+            "constraint": "chk_adp_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "attachment_download_package_item",
+            "constraint": "chk_adpi_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_cost_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_labor_period_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_actual_cost_record",
+            "constraint": "chk_project_actual_cost_record_source_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "constraint": "chk_cost_stage_attribution_snapshot_attribution_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "constraint": "chk_cost_stage_attribution_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_archive_record",
+            "constraint": "chk_project_archive_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_handover_attachment_selection",
+            "constraint": "chk_phas_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_snapshot_mode",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "project_operating_snapshot",
+            "constraint": "chk_project_operating_snapshot_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_restatement_record",
+            "constraint": "chk_operating_restatement_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "constraint": "chk_data_maturity_evaluation_result_data_maturity_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "constraint": "chk_data_maturity_evaluation_result_cost_action_recommendation",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "constraint": "chk_data_maturity_evaluation_result_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_signal_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_risk_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_formula_boundary_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "constraint": "chk_operating_signal_evaluation_result_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_binding_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_data_maturity_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_cost_action_recommendation",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "constraint": "chk_operating_signal_gate_binding_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_review_decision",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_resolved_cost_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_resolved_current_action",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_resolved_data_maturity",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "operating_signal_review_record",
+            "constraint": "chk_os_review_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "receipt_record",
+            "constraint": "chk_receipt_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_data_maturity_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_final_settlement_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_non_retention_settlement_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_retention_settlement_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_baseline_selection_source",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_cost_action_recommendation",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_current_action_level",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "constraint": "chk_cfss_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "constraint": "chk_cres_current_stage_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "constraint": "chk_cres_gate_decision_code",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "constraint": "chk_cres_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "sales_discovery_record",
+            "constraint": "chk_sales_discovery_anchor",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "sales_follow_up_record",
+            "constraint": "chk_sales_follow_up_outcome",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "sales_follow_up_record",
+            "constraint": "chk_sales_follow_up_record_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "business_discussion_comment",
+            "constraint": "chk_business_discussion_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "shared_cost_allocation_basis",
+            "constraint": "chk_shared_cost_allocation_basis_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "shared_cost_allocation_result",
+            "constraint": "chk_shared_cost_allocation_result_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "system_setting",
+            "constraint": "chk_system_setting_value_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_source_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_todo_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_business_domain",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_target_object_type",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_status",
+            "sameNamedConstraintExists": true
+          },
+          {
+            "table": "todo_item",
+            "constraint": "chk_todo_item_priority",
+            "sameNamedConstraintExists": true
+          }
+        ],
+        "matchingArchivedR2BCatalog": true,
+        "allCheckExpressionsCompared": false,
+        "proposedSqlExecuted": false
+      }
+    ],
+    "proposedSqlExecuted": false
+  },
+  "cleanup": {
+    "artifact": {
+      "path": "tmp/rust-r2ij/final-clean-state-final18.json",
+      "origin": "linux",
+      "bytes": 133202,
+      "rawBytesSha256": "d80fed16910a7bbf0d8f67fe07ad8c2edf591c758dab87c85e6c9cdc25debd3f"
+    },
+    "backendRuns": 65,
+    "journalStates": "all cleaned; no unresolved registered faults",
+    "fullReferenceScanDml": 0,
+    "priorPerRunDoubleCleanupPreserved": true,
+    "shutdown": {
+      "path": "tmp/rust-r2ij/environment-final-stop18.json",
+      "origin": "linux",
+      "bytes": 532,
+      "rawBytesSha256": "228f8833d4906e89d5c82a67216b54e10b1d28334680654db84bd49e8df22899"
+    },
+    "obsStop": {
+      "path": "tmp/rust-r2ij/obs-server-obs02-closeout.json",
+      "origin": "linux",
+      "bytes": 391,
+      "rawBytesSha256": "902e1556df986563fb8fd7389f991257312143c13f39ef55d71935b1f1a12619"
+    },
+    "owners": [
+      {
+        "backend": "nest",
+        "tag": "witness01",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-nest-witness01-start.json",
+          "origin": "linux",
+          "bytes": 83985,
+          "rawBytesSha256": "d88eb0fbb966d75a0e88b9dadc1d627ae8df28b3467d3b0c4ed75bef849e4da1"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-nest-witness01-closeout.json",
+          "origin": "linux",
+          "bytes": 602,
+          "rawBytesSha256": "4b168704a6ad3cb79fba7fa165e99df9735794002a95ea8a04d956eb015f7500"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/nest-witness01/manifest.json",
+          "origin": "linux",
+          "bytes": 163185,
+          "rawBytesSha256": "155b5c45b24aad5622f6c5801182491e6770ad78651c9e4d9a69d943eb6d4fdb"
+        }
+      },
+      {
+        "backend": "nest",
+        "tag": "witness02",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-nest-witness02-start.json",
+          "origin": "linux",
+          "bytes": 83985,
+          "rawBytesSha256": "fed8be6b11745ac7010eda7d481d7cdd5eec1ac8b069cc9a3b07c126ede02b67"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-nest-witness02-closeout.json",
+          "origin": "linux",
+          "bytes": 602,
+          "rawBytesSha256": "4bdd9ee30692f24a247c423b7a1c04f07a6495ef9ba8359048014996f112d379"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/nest-witness02/manifest.json",
+          "origin": "linux",
+          "bytes": 163185,
+          "rawBytesSha256": "0be3e6bf144a222c1f4f67cdeaf0e627773f9ec9964f4d5d22388f6fde239d57"
+        }
+      },
+      {
+        "backend": "nest",
+        "tag": "witness03",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-nest-witness03-start.json",
+          "origin": "linux",
+          "bytes": 83985,
+          "rawBytesSha256": "05d53024c9280b84ce499b84e6a79b3d9b378d273ca3bd584c253a4707ceba63"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-nest-witness03-closeout.json",
+          "origin": "linux",
+          "bytes": 602,
+          "rawBytesSha256": "8f5d56ec54482ac80ea40a911e0ca1c4f8d36f6436206e2723d6f080f6dd5554"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/nest-witness03/manifest.json",
+          "origin": "linux",
+          "bytes": 163185,
+          "rawBytesSha256": "76d5afd6a8e709c66279feb440ca7625ad8080fbbe337be6bbb110b3b8ee0760"
+        }
+      },
+      {
+        "backend": "rust",
+        "tag": "api05",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-rust-api05-start.json",
+          "origin": "linux",
+          "bytes": 107604,
+          "rawBytesSha256": "297f494e7a88b59ee7a30d672de2fe6471d6eeafcf19a32efcd9a3c0d3b2dc91"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-rust-api05-closeout.json",
+          "origin": "linux",
+          "bytes": 692,
+          "rawBytesSha256": "0cf501b56fa8f0a9515134e6d701e6399c14ceb556f2094ce1f7cd7b1a7e4691"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/rust-api05/manifest.json",
+          "origin": "linux",
+          "bytes": 206382,
+          "rawBytesSha256": "0a6daf12b0bb80fb4604d0427059cab60b7748b259426c9bf60684c72181c199"
+        }
+      },
+      {
+        "backend": "rust",
+        "tag": "api08",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-rust-api08-start.json",
+          "origin": "linux",
+          "bytes": 107604,
+          "rawBytesSha256": "3e71ebee24a1a558891f6a2b3ae5ce36727472afa512586e2d2713c22e6937bb"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-rust-api08-closeout.json",
+          "origin": "linux",
+          "bytes": 692,
+          "rawBytesSha256": "94500eaee79741a7f32c0ce6545f379a716aa4008f10a3b64bd3d1cdab38ff7f"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/rust-api08/manifest.json",
+          "origin": "linux",
+          "bytes": 206382,
+          "rawBytesSha256": "ab6f982d3d640748db851d1df93bcf719e4a8e214ea2443e41855829644ae849"
+        }
+      },
+      {
+        "backend": "rust",
+        "tag": "api10",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-rust-api10-start.json",
+          "origin": "linux",
+          "bytes": 107604,
+          "rawBytesSha256": "f6c64d8f843d76423932533a519f540125d48f388558e0254a9eb838e0f7bf7f"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-rust-api10-closeout.json",
+          "origin": "linux",
+          "bytes": 692,
+          "rawBytesSha256": "5f73bd7b75a2414d48b181cad751df6ced59ca4c591b70763d5719d40a7a639d"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/rust-api10/manifest.json",
+          "origin": "linux",
+          "bytes": 206382,
+          "rawBytesSha256": "aead9761cd729999dfef311453336c152105ea70b49eb3a55f0357bcda77ed12"
+        }
+      },
+      {
+        "backend": "rust",
+        "tag": "api14",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-rust-api14-start.json",
+          "origin": "linux",
+          "bytes": 107604,
+          "rawBytesSha256": "7b54f805faa6e8b19d76e8309032dabf9d3db6b44983cd65dd029864ce4634be"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-rust-api14-closeout.json",
+          "origin": "linux",
+          "bytes": 692,
+          "rawBytesSha256": "902383dfae628c1a7eb51a811943657d611924e717ef0f4cc06c3ba200e45ea3"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/rust-api14/manifest.json",
+          "origin": "linux",
+          "bytes": 206382,
+          "rawBytesSha256": "e651b16648219560b8016cc3161a4c04ddbe3dd3f2506fbdb3fd4301877aebc0"
+        }
+      },
+      {
+        "backend": "rust",
+        "tag": "api17",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-rust-api17-start.json",
+          "origin": "linux",
+          "bytes": 107906,
+          "rawBytesSha256": "9db856491327ba2fefcab9ec71126fed4ff99621e7593168c2dd70d410539862"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-rust-api17-closeout.json",
+          "origin": "linux",
+          "bytes": 692,
+          "rawBytesSha256": "2eb08049fbec271616c3185834a473495673ea4055a02d9d65b2d0d021df8c2e"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/rust-api17/manifest.json",
+          "origin": "linux",
+          "bytes": 206958,
+          "rawBytesSha256": "5602a39de47dd7943aa88c617470c8ac6296fdc41186a601b6f5d9b3b85809c8"
+        }
+      },
+      {
+        "backend": "rust",
+        "tag": "api18",
+        "start": {
+          "path": "tmp/rust-r2ij/owner-rust-api18-start.json",
+          "origin": "linux",
+          "bytes": 107906,
+          "rawBytesSha256": "8a99610c059f3896ef9f4927fb17dbe92121802ef6a3e717e5ddebf0e60b181e"
+        },
+        "closeout": {
+          "path": "tmp/rust-r2ij/owner-rust-api18-closeout.json",
+          "origin": "linux",
+          "bytes": 692,
+          "rawBytesSha256": "89bbfae8c1bf1685016c5e2c6b557f38c5e6ef3867a33d0ca04228bdd2930d95"
+        },
+        "runtimeInput": {
+          "path": "tmp/rust-r2ij/runtime-input/rust-api18/manifest.json",
+          "origin": "linux",
+          "bytes": 206958,
+          "rawBytesSha256": "bae62c53fe7f8172113c756b38942d6018e38dbe3ea792472b36067bc98053f1"
+        }
+      }
+    ]
+  },
+  "formal": {
+    "checkpoint": {
+      "path": "docs/design/rust-r2ij-g3-checkpoint.md",
+      "origin": "windows",
+      "bytes": 2374,
+      "rawBytesSha256": "83b3aa3878b9c4aba0dc16613ea931d032819b2757fea432157899fde073f91c"
+    },
+    "corrective": {
+      "path": "docs/design/rust-r2ij-corrective-checkpoint.md",
+      "origin": "windows",
+      "bytes": 13373,
+      "rawBytesSha256": "b9cb54cb31535cc4308bb39566ff50c672aeae2e17cf544db3e5bdd501626854"
+    }
+  },
+  "preservation": {
+    "policy": "Complete public Linux evidence plus verified Windows origin transfer; private env/journals and internal continuation checkpoint excluded. Archive transfer verification and G3 receipts are recorded separately, preventing self-referential rewriting.",
+    "windowsTransfer": {
+      "path": "tmp/rust-r2ij/windows-transfer-manifest.json",
+      "origin": "linux",
+      "bytes": 67923,
+      "rawBytesSha256": "e56f39c49079832dc58daa8f21e6f7fcfe5f75cd0020ecd149304f0aba381dd1"
+    },
+    "anchorRecord": "docs/design/rust-r2ij-preservation.json"
+  },
+  "knownBoundaries": [
+    "54 legacy explicit DB tests are ignored, not passed; actual new PG evidence is the retained HTTP/PG/object harness.",
+    "Original complete create-version and second enabled-default create500/segmented flush residues are preserved, not represented as product fixes.",
+    "All protocol/Unicode vectors are finite controlled evidence; actual Huawei OBS tenant and R3/R4 business-page handoff are not certified.",
+    "Old failed/partial/stopped candidates, source hypotheses superseded by real Native responses, and tool failures remain labelled in the public snapshot."
+  ]
+}

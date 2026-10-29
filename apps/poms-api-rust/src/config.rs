@@ -20,6 +20,8 @@ const KNOWN_ENVIRONMENT_KEYS: &[&str] = &[
     "CORS_ORIGIN",
     "JWT_SECRET",
     "POMS_SECRET_KEY",
+    "ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY",
+    "POMS_ATTACHMENT_LOCAL_ROOT",
     "POMS_ENV_FILE",
     "IDENTITY_PROVIDER_SECRET_KEY",
     "IDENTITY_PROVIDER_STATE_KEY",
@@ -83,6 +85,7 @@ pub struct Config {
     pub cors_origins: Vec<String>,
     pub auth: AuthConfig,
     pub providers: crate::provider_support::ProviderSettings,
+    pub attachment_storage: crate::attachment_storage::AttachmentRuntimeSettings,
     pub database: DatabaseConfig,
     pub shutdown_timeout: Duration,
 }
@@ -127,6 +130,7 @@ impl fmt::Debug for Config {
             .field("cors_origins_count", &self.cors_origins.len())
             .field("auth", &self.auth)
             .field("providers", &self.providers)
+            .field("attachment_storage", &self.attachment_storage)
             .field("database", &self.database)
             .field("shutdown_timeout", &self.shutdown_timeout)
             .finish()
@@ -304,6 +308,9 @@ impl Config {
             cors_origins,
             auth,
             providers: crate::provider_support::ProviderSettings::from_map(values),
+            attachment_storage: crate::attachment_storage::AttachmentRuntimeSettings::from_map(
+                values,
+            ),
             database,
             shutdown_timeout: runtime_timeout(values, "SHUTDOWN_TIMEOUT_MS", 10000)?,
         })

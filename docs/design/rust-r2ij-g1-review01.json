@@ -1,0 +1,270 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2IJ same-pass non-author joint G1 review",
+  "reviewer": "C; no product, fixture, runner, shared module, Cargo or formal governance authorship",
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "branch": "codex/poms-r2ij-storage-attachments",
+  "reviewedAtUtc": "2026-10-28T18:09:58.556Z",
+  "decision": "G1 Review Pass",
+  "gate": {
+    "I": "G1 Review Pass for existing 6-operation boundary",
+    "J": "G1 Review Pass for existing 19-operation boundary",
+    "jointInputReadyForRootFreeze": true,
+    "rootNextAction": "Record exact reviewed hashes and freeze time, reconcile local/online G1 and Doing state, then dispatch G2 within this frozen ownership. This review does not write online state or start implementation.",
+    "G3Passed": false,
+    "G4Completed": false,
+    "canCloseChildrenNow": false,
+    "canCloseR2OrRootParent": false,
+    "deliveryCount": "Remains 74/108. The 99/108 count is conditional on actual I/J G4; K/L nine operations, R2M, #61 and R3-R5 remain separate."
+  },
+  "priorityCountsOpen": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "findings": [],
+  "candidateBinding": {
+    "main": {
+      "path": "docs/design/rust-r2ij-storage-attachments-baseline.md",
+      "rawBytesSha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b",
+      "reviewedOriginalPath": "tmp/rust-r2ij/g1-baseline-reviewed-original.md"
+    },
+    "ITransport": {
+      "path": "docs/design/rust-r2ij/i-transport-plan.md",
+      "rawBytesSha256": "bbfaa4a15160f324a31f51f6d0a96e3bba5ee0338fef5b1a3c14ed4eeee33be0"
+    },
+    "JBinary": {
+      "path": "docs/design/rust-r2ij/j-binary-plan.md",
+      "rawBytesSha256": "63d9d72e512013fb03445f956badfa89ea2d54e839d279a545b8261f9b090934"
+    },
+    "online": {
+      "path": "tmp/rust-r2ij/g0-online-issues.json",
+      "rawBytesSha256": "25e024216c1bbb688f7e29907407210b9e259ddee9a5d8d0a0ab906ffe7f54dd",
+      "at": "2026-10-28T17:59:40.456Z"
+    },
+    "supersededJCopy": "Earlier incomplete J plan copies and e16a2064... hash are not this review input. Final formatted 28259-byte J plan above is authoritative for this same review.",
+    "precedence": "Main section 5 final ports and shared decisions override the retained earlier author-candidate ApiError/type suggestions. Supplemental I/J plans are explicit final inputs from Root; old candidate files remain provenance without independent gate effect."
+  },
+  "independentChecks": {
+    "sourceManifests": {
+      "I": 61,
+      "J": 102,
+      "rawHashesMatched": 163,
+      "CRLFOnlyNormalizedHashesMatched": 163
+    },
+    "exactOperations": {
+      "I": 6,
+      "J": 19,
+      "mainRouteRows": 25,
+      "canonicalMatch": 25,
+      "excludedK": 5
+    },
+    "exactRecursiveSchemas": {
+      "I": 11,
+      "J": 31
+    },
+    "ITransport": {
+      "archivesMatchedCargoLock": 8,
+      "cachedSourcesMatchedArchiveEntriesAndDualHashes": 18
+    },
+    "JBinary": {
+      "sourcesDualHashesMatched": 23,
+      "registry": 12,
+      "workspaceAndAbsolute": 11,
+      "nativeNode": "v24.19.0",
+      "nativeModule": "_http_outgoing",
+      "nativeBytes": 37804,
+      "nativeRawAndNormalizedHashesMatched": true,
+      "serverCreated": false
+    },
+    "mainLocalLinksResolved": 13,
+    "sourceIntegrityOnly": true
+  },
+  "closedClarifications": [
+    {
+      "item": "StorageFailure and stream timing",
+      "status": "Closed",
+      "detail": "One JsString message, final ApiError mapping, I-open -> J-success-audit -> Root-first-frame; HEAD drain and raw400/late200 boundaries explicit."
+    },
+    {
+      "item": "Shared getter and request UoW",
+      "status": "Closed",
+      "detail": "Existing dedicated max-size getter, ResolvedSession.pending_flush/user_snapshot and public flush_managed_session verified; request context consumes pending state at first real flush, no repeated old CAS."
+    },
+    {
+      "item": "UUID semantics",
+      "status": "Closed",
+      "detail": "Request spelling, PG identity, draft return and real requery separated by method; no blanket lowercase/raw-first-response rule or new path ParseUUID400."
+    },
+    {
+      "item": "Isolation and support graph",
+      "status": "Closed",
+      "detail": "New IJ stores/ports/controlled OBS, correct host/image boundary and fixed Node images; handover term/two-summary chain registered; seed definitions read-only, absent fails."
+    },
+    {
+      "item": "Default and cleanup",
+      "status": "Closed",
+      "detail": "Unowned enabled default refuses; owned-only field restoration; complete DB+object preflight before first deletion, exact hash/location/reference ownership and cipher restoration; no prefix/actor adoption."
+    },
+    {
+      "item": "Scope, drift and precedence",
+      "status": "Closed",
+      "detail": "Only I6/J19. Main section5 overrides old candidate ports; true testConnection side effects classified; K/L/M/#61/R3-R5 and parents remain separate."
+    }
+  ],
+  "onlineInput": {
+    "path": "tmp/rust-r2ij/g0-online-issues.json",
+    "sha256": "25e024216c1bbb688f7e29907407210b9e259ddee9a5d8d0a0ab906ffe7f54dd",
+    "at": "2026-10-28T17:59:40.456Z",
+    "provenance": "Root fresh gh body/comments/closingPR/labels/projects and REST sub_issues/blocked_by/blocking, reviewed locally by C",
+    "issues": [
+      {
+        "number": 76,
+        "stateAtG0": "OPEN/Todo",
+        "comments": 0,
+        "closingPRs": 0,
+        "subIssues": 0,
+        "blockedBy": 0,
+        "blocking": 0
+      },
+      {
+        "number": 77,
+        "stateAtG0": "OPEN/Todo",
+        "comments": 0,
+        "closingPRs": 0,
+        "subIssues": 0,
+        "blockedBy": 0,
+        "blocking": 0
+      }
+    ],
+    "note": "Empty edges do not erase source/text dependencies. Root subsequently owns G1/Doing updates; this is the preserved G0 receipt."
+  },
+  "metadataOnlyIncrement": {
+    "reviewedOriginalPath": "tmp/rust-r2ij/g1-baseline-reviewed-original.md",
+    "reviewedOriginalSha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b",
+    "currentFormalBaselinePath": "docs/design/rust-r2ij-storage-attachments-baseline.md",
+    "currentFormalBaselineSha256": "121e39dc3e25bdd841ec618f0674f1a2d6c7db82b8d7dca1a174da16dfb86682",
+    "changedLines": [
+      3,
+      160
+    ],
+    "verification": "Only first Gate paragraph and final reviewer paragraph changed to Pass/freeze time/provenance; all other lines byte-identical. No semantic input changed.",
+    "freezeReceipt": "tmp/rust-r2ij/g1-freeze.json",
+    "isNewGateReview": false
+  },
+  "unexecutedAndG3Boundary": [
+    "No product compile or HTTP/PG/FS/browser/storage/concurrency/schema acceptance in this review; final-candidate required checks and actual original-Nest witnesses remain pending. No G3 exception is granted.",
+    "Known raw HEAD/decompression/redirect/retry/timeout/proxy/TLS/errors and stream/HEAD/Range/UTF16 differences require original target-runtime evidence; minimal Cargo/source feasibility is not full Node fetch compatibility.",
+    "Actual CAS/no-op/UoW/coflush/failure residue, cleanup rejection tests, cipher restoration and lawful repeat DB/object zero checks remain required; no IJ environment or cleanup success claimed.",
+    "Original Angular UI uses real services; unavailable R3/R4 prerequisites retain partial labels. Live Huawei OBS auth, deployment, K/L/M/#61 and parent closure remain outside.",
+    "G3 receipts bind new final source after implementation. Preserve reviewed G1 originals and historical GH evidence."
+  ],
+  "reviewerActions": {
+    "productEdited": false,
+    "fixtureOrRunnerEdited": false,
+    "cargoEdited": false,
+    "formalDocsEdited": false,
+    "oldGHEvidenceEdited": false,
+    "privateEnvOrRealOBSCredentialsRead": false,
+    "databaseConnected": false,
+    "productRuntimeOrAcceptanceTestsRun": false,
+    "networkCallsByCForThisG1": false,
+    "containersOrServicesStartedByC": false,
+    "gitMutations": false,
+    "output": "Only tmp/rust-r2ij/g1-review01.json for the formal G1 review; earlier separately assigned G0/environment input files retained"
+  },
+  "inputManifest": [
+    {
+      "path": "tmp/rust-r2ij/g1-baseline-reviewed-original.md",
+      "rawBytes": 28851,
+      "rawBytesSha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b",
+      "normalizedUtf8Sha256": "af0aa1f527d1eaa4cf114ff9cc04c1d4ec36ee4b24e8c22b8a139ddfea5c138b"
+    },
+    {
+      "path": "docs/design/rust-r2ij/i-source-input.md",
+      "rawBytes": 33064,
+      "rawBytesSha256": "5ff60f4df5826f092a04367447ca5e789089ea7a1f28dc5de7a53e7af20c96e8",
+      "normalizedUtf8Sha256": "5ff60f4df5826f092a04367447ca5e789089ea7a1f28dc5de7a53e7af20c96e8"
+    },
+    {
+      "path": "docs/design/rust-r2ij/i-sources.json",
+      "rawBytes": 87437,
+      "rawBytesSha256": "8ead171c93143d020d976b5be7aaf992e168a9f50e0fac3694aee053ab17471e",
+      "normalizedUtf8Sha256": "fec5b1f8bcbf41834ed1359d910f02d48a5a69e55b2d41c5cb6d27cf4686df19"
+    },
+    {
+      "path": "docs/design/rust-r2ij/j-source-input.md",
+      "rawBytes": 43427,
+      "rawBytesSha256": "296a7d7369d12b82a4f7ad80720755fdfbfff696a84c3d27b13a5ddc77001f47",
+      "normalizedUtf8Sha256": "296a7d7369d12b82a4f7ad80720755fdfbfff696a84c3d27b13a5ddc77001f47"
+    },
+    {
+      "path": "docs/design/rust-r2ij/j-sources.json",
+      "rawBytes": 192634,
+      "rawBytesSha256": "264427719a2bad5606cdcfdb9c8665d6fb4b1d27500ef0442ad4ec75ba6c7adf",
+      "normalizedUtf8Sha256": "264427719a2bad5606cdcfdb9c8665d6fb4b1d27500ef0442ad4ec75ba6c7adf"
+    },
+    {
+      "path": "docs/design/rust-r2ij/i-transport-plan.md",
+      "rawBytes": 27828,
+      "rawBytesSha256": "bbfaa4a15160f324a31f51f6d0a96e3bba5ee0338fef5b1a3c14ed4eeee33be0",
+      "normalizedUtf8Sha256": "bbfaa4a15160f324a31f51f6d0a96e3bba5ee0338fef5b1a3c14ed4eeee33be0"
+    },
+    {
+      "path": "docs/design/rust-r2ij/j-binary-plan.md",
+      "rawBytes": 28259,
+      "rawBytesSha256": "63d9d72e512013fb03445f956badfa89ea2d54e839d279a545b8261f9b090934",
+      "normalizedUtf8Sha256": "63d9d72e512013fb03445f956badfa89ea2d54e839d279a545b8261f9b090934"
+    },
+    {
+      "path": "docs/design/rust-r2ij/g0-dependencies.json",
+      "rawBytes": 104941,
+      "rawBytesSha256": "ff119394b760319cbd87020ac1e02f632e5f2c386874380291bb862c4a0e668a",
+      "normalizedUtf8Sha256": "c5f2046afecc2bdff35f26c1cfca81b3c7ce9d38e19b182cf5194858c301d9dd"
+    },
+    {
+      "path": "docs/design/rust-r2ij/environment-input.json",
+      "rawBytes": 36746,
+      "rawBytesSha256": "34bf1115420447f89114e83dd14de02fc347a26ac725e7f89d167cfb27ebe909",
+      "normalizedUtf8Sha256": "e5233db48b899c0ba731e6a38e669727e6420661da4e4b608aa488db36ebbcae"
+    },
+    {
+      "path": "tmp/rust-r2ij/g0-online-issues.json",
+      "rawBytes": 5467,
+      "rawBytesSha256": "25e024216c1bbb688f7e29907407210b9e259ddee9a5d8d0a0ab906ffe7f54dd",
+      "normalizedUtf8Sha256": "25e024216c1bbb688f7e29907407210b9e259ddee9a5d8d0a0ab906ffe7f54dd"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/model.rs",
+      "rawBytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "normalizedUtf8Sha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/store.rs",
+      "rawBytes": 22001,
+      "rawBytesSha256": "a6a7677af340e14dda9758f8eb4685841d122a5cd3d5343a1719d5efba7c6c8e",
+      "normalizedUtf8Sha256": "a6a7677af340e14dda9758f8eb4685841d122a5cd3d5343a1719d5efba7c6c8e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/service.rs",
+      "rawBytes": 20275,
+      "rawBytesSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80",
+      "normalizedUtf8Sha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/js_json.rs",
+      "rawBytes": 6503,
+      "rawBytesSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "normalizedUtf8Sha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162"
+    },
+    {
+      "path": "apps/poms-api-rust/src/system_settings/service.rs",
+      "rawBytes": 14025,
+      "rawBytesSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8",
+      "normalizedUtf8Sha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8"
+    }
+  ],
+  "fingerprintRule": "Exact raw SHA256; normalized SHA256 decodes UTF8 preserving BOM and replaces CRLF only with LF"
+}

@@ -1,4 +1,7 @@
+pub mod attachment_storage;
+pub mod attachments;
 pub mod auth;
+pub mod binary_http;
 pub mod business_numbers;
 pub mod compat;
 pub mod config;

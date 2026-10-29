@@ -1,0 +1,107 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2IJ-final-public-evidence-preservation",
+  "result": "pass",
+  "recordedAt": "2026-10-29T00:44:19.009Z",
+  "tag": "final22f",
+  "sourceBaseline": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "linuxSourceRoot": "/home/wangzishi/projects/poms-rust-r2ij",
+  "freeze": {
+    "file": "tmp/rust-r2ij/public-freeze-final22f.json",
+    "bytes": 3048,
+    "rawBytesSha256": "453b7f66e4e83436b24f05e64435df15371f93675af7de53de1aba1940fbf4dd"
+  },
+  "initialValidation": {
+    "file": "docs/design/rust-r2ij-validation.json",
+    "bytes": 175277,
+    "rawBytesSha256": "2751c07cdbd71cf4958015b2dccf9923b7a76cb88bbff2b59ec4be2803aee3a4"
+  },
+  "sameReviewDelta": {
+    "file": "docs/design/rust-r2ij-g3-delta01.json",
+    "bytes": 87222,
+    "rawBytesSha256": "6164d682faccf26aacacfe641d3c7ae7f9ab03623c2b9ea76a67163371a2deb8"
+  },
+  "currentManagedSelfSource": {
+    "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+    "bytes": 31151,
+    "rawBytesSha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f"
+  },
+  "files": 11911,
+  "payloadBytes": 730430010,
+  "archive": {
+    "file": "evidence.tar.gz",
+    "bytes": 263095013,
+    "rawBytesSha256": "71b350281c9ca38bc7d3a6879923541c4b6f1736063cae864ab529ca89aca2b9"
+  },
+  "sourceManifest": {
+    "file": "docs/design/rust-r2ij-source-manifest.json",
+    "bytes": 3218422,
+    "rawBytesSha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97"
+  },
+  "primaryEvidenceDirectory": "E:/projects/poms/tmp/rust-r2ij/final22f",
+  "linuxCapture": {
+    "receipt": {
+      "file": "linux-receipt.json",
+      "bytes": 15855,
+      "rawBytesSha256": "e590c03cc2b3a5b0a4f66d1d99e4da52470185dac3f8d04f301be7177c9472ce",
+      "originalLinuxFile": "tmp/rust-r2ij-preserved/final22f/receipt.json"
+    },
+    "sourceFilesAndIdentitiesUnchanged": true,
+    "snapshotFilesVerified": true,
+    "independentTarVerification": true
+  },
+  "windowsTransfer": {
+    "tarCopies": 1,
+    "receipt": {
+      "file": "transfer.json",
+      "bytes": 1110,
+      "rawBytesSha256": "fa3519987717b10ee06d1dac78bb6fc06014310fb549d9a40440901aefa85e54"
+    },
+    "verification": {
+      "file": "windows-verify.json",
+      "bytes": 12838,
+      "rawBytesSha256": "ebac373fe2871b24336cbb349cc9225d2049e06a81ce4b40c04c06558e1f7129"
+    },
+    "allListingAndPayloadHashesVerified": true,
+    "extractedTreeIndependentlyRescanned": true,
+    "archiveModesChecked": true,
+    "extractedPosixModeBitsClaimed": false
+  },
+  "nonProductRepresentationDeltas": {
+    "preservationTool": {
+      "file": "tools/rust-r2ij/j-preserve-evidence.mjs",
+      "bytes": 36373,
+      "rawBytesSha256": "7c995c5fe852badce902322d861d8aeb972b37f1d2927d1050e012bdb0f0b6b4"
+    },
+    "delivery": {
+      "file": "tmp/rust-r2ij/j-preserve-delivery04.json",
+      "bytes": 4383,
+      "rawBytesSha256": "44024ac3b39ebc6e50e1e4df1515a4a205e0f0a24054901368ea423405f4d31d"
+    },
+    "controlledLinux": {
+      "file": "tmp/rust-r2ij/j-preserve-selftest-linux07.json",
+      "bytes": 4599,
+      "rawBytesSha256": "b5ade7242940d364540ebdfc097c2496577b797814e5d7fe82062c22ad6bbf9b"
+    },
+    "controlledWindows": {
+      "file": "tmp/rust-r2ij/j-preserve-selftest-windows07.json",
+      "bytes": 3028,
+      "rawBytesSha256": "03768320d9dd6e3c38591a68dff48ee3a63a4251b2bdfb76403d47297cdaf6e4"
+    },
+    "controlledNegativeCases": 27,
+    "submissionTextNormalization": {
+      "file": "tmp/rust-r2ij/submission-text-normalization01.json",
+      "bytes": 2884,
+      "rawBytesSha256": "cbb4c6e57ee2a2786a503f5dee743ba7bf7b2047597f549f5065f380ace102eb"
+    },
+    "failedArchiveAttempts": {
+      "file": "tmp/rust-r2ij/archive-attempts01.json",
+      "bytes": 2310,
+      "rawBytesSha256": "32e4fcefa4449e8ee56d1430a547907e5c406025ed3e1f07e28dcd71310c67d5"
+    }
+  },
+  "admissionBoundary": "Public admitted files only. Private env/keys/journals and internal ROOT-CHECKPOINT were excluded, not scanned by archive. Prior targeted scan checked only the two known fresh DB passwords; no general secret-scan claim.",
+  "retentionBoundary": "Failed final22d/e snapshots/tars/manifests remain unchanged outside admitted source; old tools and all prior failed/partial/candidate receipts retained. Current archive is final22f only.",
+  "g3": "Independent review recorded separately",
+  "g4": "Not concluded by preservation; requires commit/integration/archive/online reconciliation"
+}

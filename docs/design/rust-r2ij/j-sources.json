@@ -1,0 +1,5435 @@
+{
+  "formatVersion": 1,
+  "scope": "RUST-R2J G0/G1 read-only candidate input; no G1/G2/runtime claim",
+  "baseHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "branch": "codex/poms-r2ij-storage-attachments",
+  "workspaceRoot": "E:/projects/worktrees/poms-r2ef-foundation-audit/poms",
+  "generatedAt": "2026-10-28T17:40:40.456Z",
+  "normalization": {
+    "encoding": "utf8",
+    "rule": "text.replace(/\\r\\n/g, '\\n')",
+    "preserves": "BOM, bare CR, Unicode, other whitespace and escape sequences",
+    "raw": "SHA256 of exact bytes",
+    "lf": "SHA256 of CRLF-normalized UTF8 text"
+  },
+  "evidenceLabels": {
+    "sourceInspection": "performed: local source, exact operation projection, hashes; relevant sections inspected, hash always covers whole file",
+    "inheritedMockTests": "source only; not executed in this task",
+    "databaseRuntime": "not run",
+    "httpRuntime": "not run",
+    "browserRuntime": "not run",
+    "controlledObjectStorage": "not run",
+    "realObsTenant": "not run",
+    "externalWrite": "none",
+    "gitMutation": "none",
+    "privateEnvOrCredentials": "not read"
+  },
+  "readScopeNotes": {
+    "originalJ": "19 public methods and all reachable J service/repository/entity/mapper/preview/DTO helpers; K handover/download package methods remain out of scope",
+    "contracts": "J schemas, enums, DictionaryCode; complete OpenAPI J operation/schema closure extracted",
+    "nativeSupport": "relevant parser, validation, serializer, audit and persistence sections",
+    "targetProjectionsAndSeams": "relevant table/field and lead copy seam sections; no claim that full R3/R4 implementation was audited",
+    "angular": "complete J panel/center/store and relevant original tests inspected; business page entry declarations searched",
+    "seedSearch": "rg case-insensitive attachment search across six files: no matches",
+    "historicalDocumentation": "relevant input/closeout/exception sections; no inherited runtime certification"
+  },
+  "candidateInputNote": {
+    "path": "tmp/rust-r2ij/j-g1-input.md",
+    "rawBytes": 40527,
+    "rawSha256": "e6262a39d7bae89a208de31f17fd64465e1b90b5b829cfb6c5434dfbb18b33b2",
+    "lfNormalizedUtf8Sha256": "e6262a39d7bae89a208de31f17fd64465e1b90b5b829cfb6c5434dfbb18b33b2"
+  },
+  "sourceCount": 102,
+  "sources": [
+    {
+      "path": "CLAUDE.md",
+      "group": "governance",
+      "rawBytes": 13794,
+      "rawSha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf",
+      "lfNormalizedBytes": 13794,
+      "lfNormalizedUtf8Sha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "group": "governance",
+      "rawBytes": 10211,
+      "rawSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "lfNormalizedBytes": 10211,
+      "lfNormalizedUtf8Sha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "group": "governance",
+      "rawBytes": 9479,
+      "rawSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "lfNormalizedBytes": 9479,
+      "lfNormalizedUtf8Sha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd"
+    },
+    {
+      "path": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "group": "governance",
+      "rawBytes": 3561,
+      "rawSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "lfNormalizedBytes": 3561,
+      "lfNormalizedUtf8Sha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb"
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "group": "governance",
+      "rawBytes": 43341,
+      "rawSha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b",
+      "lfNormalizedBytes": 43341,
+      "lfNormalizedUtf8Sha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b"
+    },
+    {
+      "path": "docs/design/rust-r2-scope-and-dependencies.md",
+      "group": "governance",
+      "rawBytes": 54537,
+      "rawSha256": "a045fa9bafda93c8c5b3cd2947ad56d22d7ab08e87d1faed6bcc1dd8307b9efc",
+      "lfNormalizedBytes": 54537,
+      "lfNormalizedUtf8Sha256": "a045fa9bafda93c8c5b3cd2947ad56d22d7ab08e87d1faed6bcc1dd8307b9efc"
+    },
+    {
+      "path": "docs/design/rust-r2-operation-slices.json",
+      "group": "governance",
+      "rawBytes": 502466,
+      "rawSha256": "1131d94e9bb8dc7843e80cd2233df5fb97e32508dcdc68a4f3717420434955cd",
+      "lfNormalizedBytes": 502466,
+      "lfNormalizedUtf8Sha256": "1131d94e9bb8dc7843e80cd2233df5fb97e32508dcdc68a4f3717420434955cd"
+    },
+    {
+      "path": "docs/design/rust-r0-api-operations.json",
+      "group": "governance",
+      "rawBytes": 2607939,
+      "rawSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c",
+      "lfNormalizedBytes": 2607939,
+      "lfNormalizedUtf8Sha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c"
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "group": "governance",
+      "rawBytes": 168452,
+      "rawSha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
+      "lfNormalizedBytes": 168452,
+      "lfNormalizedUtf8Sha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+      "group": "originalJ",
+      "rawBytes": 7617,
+      "rawSha256": "fe7c8ab9e718d3494b3024dd098592e1aa41d273aabbe263f7b6c94db0c7dade",
+      "lfNormalizedBytes": 7617,
+      "lfNormalizedUtf8Sha256": "fe7c8ab9e718d3494b3024dd098592e1aa41d273aabbe263f7b6c94db0c7dade"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+      "group": "originalJ",
+      "rawBytes": 4804,
+      "rawSha256": "931bb4caf3dc0937d464d6a39804128ff389662f383599881958fff7a53473ce",
+      "lfNormalizedBytes": 4804,
+      "lfNormalizedUtf8Sha256": "931bb4caf3dc0937d464d6a39804128ff389662f383599881958fff7a53473ce"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-center-record.controller.ts",
+      "group": "originalJ",
+      "rawBytes": 1084,
+      "rawSha256": "33b078a0221bf99cc25c3e5207b3e23a494e56bb9f9f199efdfd27bc9c78edfa",
+      "lfNormalizedBytes": 1084,
+      "lfNormalizedUtf8Sha256": "33b078a0221bf99cc25c3e5207b3e23a494e56bb9f9f199efdfd27bc9c78edfa"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "group": "originalJ",
+      "rawBytes": 104205,
+      "rawSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "lfNormalizedBytes": 104205,
+      "lfNormalizedUtf8Sha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+      "group": "originalJ",
+      "rawBytes": 15693,
+      "rawSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f",
+      "lfNormalizedBytes": 15693,
+      "lfNormalizedUtf8Sha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.entity.ts",
+      "group": "originalJ",
+      "rawBytes": 19232,
+      "rawSha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8",
+      "lfNormalizedBytes": 19232,
+      "lfNormalizedUtf8Sha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.entity.ts",
+      "group": "originalJ",
+      "rawBytes": 7443,
+      "rawSha256": "91c0cde339a88dccf4438dfe38fb49e291be9cb77fb465e61a0b2252be1c2367",
+      "lfNormalizedBytes": 7443,
+      "lfNormalizedUtf8Sha256": "91c0cde339a88dccf4438dfe38fb49e291be9cb77fb465e61a0b2252be1c2367"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.mapper.ts",
+      "group": "originalJ",
+      "rawBytes": 4340,
+      "rawSha256": "0b4607b08f340e76fa89fe6e27bc33ddd4049924cf5ef5abba421f9e118098a5",
+      "lfNormalizedBytes": 4340,
+      "lfNormalizedUtf8Sha256": "0b4607b08f340e76fa89fe6e27bc33ddd4049924cf5ef5abba421f9e118098a5"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-preview.util.ts",
+      "group": "originalJ",
+      "rawBytes": 1211,
+      "rawSha256": "9da3adb2955152dc611d4f41cf133da4ea4f404aee8cb8637a54f1f0294d9154",
+      "lfNormalizedBytes": 1211,
+      "lfNormalizedUtf8Sha256": "9da3adb2955152dc611d4f41cf133da4ea4f404aee8cb8637a54f1f0294d9154"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.module.ts",
+      "group": "originalJ",
+      "rawBytes": 3404,
+      "rawSha256": "4f7bfc6b6dd3eaea58fbb8252b24f1d5299e5f5913f4189c1f272d435564268d",
+      "lfNormalizedBytes": 3404,
+      "lfNormalizedUtf8Sha256": "4f7bfc6b6dd3eaea58fbb8252b24f1d5299e5f5913f4189c1f272d435564268d"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage.service.ts",
+      "group": "originalJ",
+      "rawBytes": 4807,
+      "rawSha256": "2c37b1ff16fafda3cd6e78ead88630fd94848aaba44c078f97861dde874e0202",
+      "lfNormalizedBytes": 4807,
+      "lfNormalizedUtf8Sha256": "2c37b1ff16fafda3cd6e78ead88630fd94848aaba44c078f97861dde874e0202"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-object-storage-provider.types.ts",
+      "group": "originalJ",
+      "rawBytes": 2662,
+      "rawSha256": "f3a704f43fd9cbc1594771e086986efe7664ab9dca62c94394e8802ad2919ae1",
+      "lfNormalizedBytes": 2662,
+      "lfNormalizedUtf8Sha256": "f3a704f43fd9cbc1594771e086986efe7664ab9dca62c94394e8802ad2919ae1"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.service.spec.ts",
+      "group": "originalJ",
+      "rawBytes": 32238,
+      "rawSha256": "c698e0d319307b8d73045a6ee76f4ecaa4e611a25d0a308c6ed656b1e2fea311",
+      "lfNormalizedBytes": 32238,
+      "lfNormalizedUtf8Sha256": "c698e0d319307b8d73045a6ee76f4ecaa4e611a25d0a308c6ed656b1e2fea311"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "group": "contracts",
+      "rawBytes": 435382,
+      "rawSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+      "lfNormalizedBytes": 435382,
+      "lfNormalizedUtf8Sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+    },
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "group": "contracts",
+      "rawBytes": 40,
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31",
+      "lfNormalizedBytes": 40,
+      "lfNormalizedUtf8Sha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+      "group": "contracts",
+      "rawBytes": 4874,
+      "rawSha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892",
+      "lfNormalizedBytes": 4874,
+      "lfNormalizedUtf8Sha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "group": "contracts",
+      "rawBytes": 1129475,
+      "rawSha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+      "lfNormalizedBytes": 1129475,
+      "lfNormalizedUtf8Sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+    },
+    {
+      "path": "libs/shared/api-client/api/attachment.service.ts",
+      "group": "contracts",
+      "rawBytes": 54503,
+      "rawSha256": "8872c03af91cc97baaf0f973a03bddc8bb3ecb7fa77e594257bd756edff03510",
+      "lfNormalizedBytes": 54503,
+      "lfNormalizedUtf8Sha256": "8872c03af91cc97baaf0f973a03bddc8bb3ecb7fa77e594257bd756edff03510"
+    },
+    {
+      "path": "libs/shared/api-client/api/attachment-upload-session.service.ts",
+      "group": "contracts",
+      "rawBytes": 29442,
+      "rawSha256": "9c037386ef5dbe59ae2d78b458273c3ede2c2d97b0a39f5c6087530f685cfbcd",
+      "lfNormalizedBytes": 29442,
+      "lfNormalizedUtf8Sha256": "9c037386ef5dbe59ae2d78b458273c3ede2c2d97b0a39f5c6087530f685cfbcd"
+    },
+    {
+      "path": "apps/poms-api/src/main.ts",
+      "group": "nativeSupport",
+      "rawBytes": 1789,
+      "rawSha256": "396fb58af4558de82089bd842149a5040e29088314f6e6cd7921f771b5a0a8a0",
+      "lfNormalizedBytes": 1789,
+      "lfNormalizedUtf8Sha256": "396fb58af4558de82089bd842149a5040e29088314f6e6cd7921f771b5a0a8a0"
+    },
+    {
+      "path": "apps/poms-api/src/app/app.module.ts",
+      "group": "nativeSupport",
+      "rawBytes": 3560,
+      "rawSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "lfNormalizedBytes": 3560,
+      "lfNormalizedUtf8Sha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.module.ts",
+      "group": "nativeSupport",
+      "rawBytes": 292,
+      "rawSha256": "71d0c0728649f411a5a806b7850815d428b90cf65c097dae4650822679879197",
+      "lfNormalizedBytes": 292,
+      "lfNormalizedUtf8Sha256": "71d0c0728649f411a5a806b7850815d428b90cf65c097dae4650822679879197"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "group": "nativeSupport",
+      "rawBytes": 2360,
+      "rawSha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c",
+      "lfNormalizedBytes": 2360,
+      "lfNormalizedUtf8Sha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "group": "nativeSupport",
+      "rawBytes": 8958,
+      "rawSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4",
+      "lfNormalizedBytes": 8958,
+      "lfNormalizedUtf8Sha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+      "group": "nativeSupport",
+      "rawBytes": 1890,
+      "rawSha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d",
+      "lfNormalizedBytes": 1890,
+      "lfNormalizedUtf8Sha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "group": "nativeSupport",
+      "rawBytes": 1877,
+      "rawSha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd",
+      "lfNormalizedBytes": 1877,
+      "lfNormalizedUtf8Sha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "group": "nativeSupport",
+      "rawBytes": 5144,
+      "rawSha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a",
+      "lfNormalizedBytes": 5144,
+      "lfNormalizedUtf8Sha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/validate.ts",
+      "group": "nativeSupport",
+      "rawBytes": 742,
+      "rawSha256": "6fb5056e500c9650e9056fd6e5043940ce7be3565aef608dd86fda708be356b5",
+      "lfNormalizedBytes": 742,
+      "lfNormalizedUtf8Sha256": "6fb5056e500c9650e9056fd6e5043940ce7be3565aef608dd86fda708be356b5"
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/exception.ts",
+      "group": "nativeSupport",
+      "rawBytes": 1004,
+      "rawSha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14",
+      "lfNormalizedBytes": 1004,
+      "lfNormalizedUtf8Sha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/system-setting/system-setting.service.ts",
+      "group": "nativeSupport",
+      "rawBytes": 7028,
+      "rawSha256": "5799136ee767d724bf1269f2b5591ab8fdf33823a131aba2915ed60da9ced0fa",
+      "lfNormalizedBytes": 7028,
+      "lfNormalizedUtf8Sha256": "5799136ee767d724bf1269f2b5591ab8fdf33823a131aba2915ed60da9ced0fa"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/system-setting/system-setting.registry.ts",
+      "group": "nativeSupport",
+      "rawBytes": 1524,
+      "rawSha256": "0fc10c652bf99992536e242e8d67670265249308cec5e48207e8f57d205a1b60",
+      "lfNormalizedBytes": 1524,
+      "lfNormalizedUtf8Sha256": "0fc10c652bf99992536e242e8d67670265249308cec5e48207e8f57d205a1b60"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 6042,
+      "rawSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea",
+      "lfNormalizedBytes": 6042,
+      "lfNormalizedUtf8Sha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 6261,
+      "rawSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef",
+      "lfNormalizedBytes": 6261,
+      "lfNormalizedUtf8Sha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 4183,
+      "rawSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "lfNormalizedBytes": 4183,
+      "lfNormalizedUtf8Sha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 9907,
+      "rawSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "lfNormalizedBytes": 9907,
+      "lfNormalizedUtf8Sha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up-record.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 8170,
+      "rawSha256": "f027ca0bf5d53c09530c5cc4841631d06bd2ef932d899a3251828383b554fe6c",
+      "lfNormalizedBytes": 8170,
+      "lfNormalizedUtf8Sha256": "f027ca0bf5d53c09530c5cc4841631d06bd2ef932d899a3251828383b554fe6c"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 15789,
+      "rawSha256": "a20265a409ce164fa66e84b6e9d6890d7f5db1214acf4a79fbf1249dffeeaa4a",
+      "lfNormalizedBytes": 15789,
+      "lfNormalizedUtf8Sha256": "a20265a409ce164fa66e84b6e9d6890d7f5db1214acf4a79fbf1249dffeeaa4a"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/platform-user.entity.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 2144,
+      "rawSha256": "9a51224004ab08a42f130612c82f4a5cd523d6611bff5e57df7f4108e6e80ef0",
+      "lfNormalizedBytes": 2144,
+      "lfNormalizedUtf8Sha256": "9a51224004ab08a42f130612c82f4a5cd523d6611bff5e57df7f4108e6e80ef0"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/lead/lead.service.ts",
+      "group": "targetProjectionsAndSeams",
+      "rawBytes": 25237,
+      "rawSha256": "379a5bc481148067ac52df9ff930cb61e3133609263bf19adb86fb3882784966",
+      "lfNormalizedBytes": 25237,
+      "lfNormalizedUtf8Sha256": "379a5bc481148067ac52df9ff930cb61e3133609263bf19adb86fb3882784966"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+      "group": "migrations",
+      "rawBytes": 9005,
+      "rawSha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b",
+      "lfNormalizedBytes": 9005,
+      "lfNormalizedUtf8Sha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501170000_ex56c_attachment_status_defaults.ts",
+      "group": "migrations",
+      "rawBytes": 635,
+      "rawSha256": "cd91781afd3f08fde9654f6fd2b94307c2bf0e8c04cbaec789a621190b937ddb",
+      "lfNormalizedBytes": 635,
+      "lfNormalizedUtf8Sha256": "cd91781afd3f08fde9654f6fd2b94307c2bf0e8c04cbaec789a621190b937ddb"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts",
+      "group": "migrations",
+      "rawBytes": 39038,
+      "rawSha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20",
+      "lfNormalizedBytes": 39038,
+      "lfNormalizedUtf8Sha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503170000_ex58c_configurable_dictionary_runtime.ts",
+      "group": "migrations",
+      "rawBytes": 7672,
+      "rawSha256": "56afc4bb4c90ae6d2d8564a8bb5867cbaf54e5ccae4d604c5d246038ae4ce2f5",
+      "lfNormalizedBytes": 7672,
+      "lfNormalizedUtf8Sha256": "56afc4bb4c90ae6d2d8564a8bb5867cbaf54e5ccae4d604c5d246038ae4ce2f5"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+      "group": "migrations",
+      "rawBytes": 2819,
+      "rawSha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87",
+      "lfNormalizedBytes": 2819,
+      "lfNormalizedUtf8Sha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+      "group": "migrations",
+      "rawBytes": 13522,
+      "rawSha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f",
+      "lfNormalizedBytes": 13522,
+      "lfNormalizedUtf8Sha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+      "group": "migrations",
+      "rawBytes": 8667,
+      "rawSha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b",
+      "lfNormalizedBytes": 8667,
+      "lfNormalizedUtf8Sha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260526100000_ex67a_system_setting.ts",
+      "group": "migrations",
+      "rawBytes": 3558,
+      "rawSha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a",
+      "lfNormalizedBytes": 3558,
+      "lfNormalizedUtf8Sha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a"
+    },
+    {
+      "path": "libs/admin/data-access/src/lib/attachment/attachment.store.ts",
+      "group": "angular",
+      "rawBytes": 23622,
+      "rawSha256": "d957ca65c27697e435aa2bc5c32e298560aff3de3c6413258e31385ecaa9e805",
+      "lfNormalizedBytes": 23622,
+      "lfNormalizedUtf8Sha256": "d957ca65c27697e435aa2bc5c32e298560aff3de3c6413258e31385ecaa9e805"
+    },
+    {
+      "path": "libs/admin/data-access/src/lib/attachment/attachment-center.store.ts",
+      "group": "angular",
+      "rawBytes": 3849,
+      "rawSha256": "1258446e66823ee095c3f310d929272a6634a61702e90f14cf7cb59f6471b2f1",
+      "lfNormalizedBytes": 3849,
+      "lfNormalizedUtf8Sha256": "1258446e66823ee095c3f310d929272a6634a61702e90f14cf7cb59f6471b2f1"
+    },
+    {
+      "path": "apps/poms-admin/src/app/shared/ui/attachment-panel.ts",
+      "group": "angular",
+      "rawBytes": 48923,
+      "rawSha256": "ed7ac10107843384aed31a283c037ba56309c2a765771ffdf1dfa04519686a7a",
+      "lfNormalizedBytes": 48923,
+      "lfNormalizedUtf8Sha256": "ed7ac10107843384aed31a283c037ba56309c2a765771ffdf1dfa04519686a7a"
+    },
+    {
+      "path": "apps/poms-admin/src/app/shared/ui/attachment-panel.spec.ts",
+      "group": "angular",
+      "rawBytes": 18383,
+      "rawSha256": "0f67ce34fe54b4ced1f75271d0fd18c928b28b45b8cfa4a9b11aec1221731c68",
+      "lfNormalizedBytes": 18383,
+      "lfNormalizedUtf8Sha256": "0f67ce34fe54b4ced1f75271d0fd18c928b28b45b8cfa4a9b11aec1221731c68"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/attachment/attachment-center.ts",
+      "group": "angular",
+      "rawBytes": 16384,
+      "rawSha256": "11a7753d956f1ba768df2845e85e01b4081cbed15c11cc876a47eccaa620907c",
+      "lfNormalizedBytes": 16384,
+      "lfNormalizedUtf8Sha256": "11a7753d956f1ba768df2845e85e01b4081cbed15c11cc876a47eccaa620907c"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/attachment/attachment-center.spec.ts",
+      "group": "angular",
+      "rawBytes": 6171,
+      "rawSha256": "a4150ca1ce2c59f270f236ac7812a9664f622cb29e94c4898f6a4de1a97c5fe9",
+      "lfNormalizedBytes": 6171,
+      "lfNormalizedUtf8Sha256": "a4150ca1ce2c59f270f236ac7812a9664f622cb29e94c4898f6a4de1a97c5fe9"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/customer/customer-workspace.ts",
+      "group": "angular",
+      "rawBytes": 46799,
+      "rawSha256": "520082399aae2fa0e891bbe883cf68828ad684b20080f06340731654a9b3b115",
+      "lfNormalizedBytes": 46799,
+      "lfNormalizedUtf8Sha256": "520082399aae2fa0e891bbe883cf68828ad684b20080f06340731654a9b3b115"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "group": "angular",
+      "rawBytes": 134217,
+      "rawSha256": "1f256fd2f2b5d976e3572799193bbebcc867a34cde387ea88b394ebb38493408",
+      "lfNormalizedBytes": 134217,
+      "lfNormalizedUtf8Sha256": "1f256fd2f2b5d976e3572799193bbebcc867a34cde387ea88b394ebb38493408"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-detail.ts",
+      "group": "angular",
+      "rawBytes": 81589,
+      "rawSha256": "ed1941e76752f406f08002230b984ebb7fed3c881428ede39f28dcfb92e8273c",
+      "lfNormalizedBytes": 81589,
+      "lfNormalizedUtf8Sha256": "ed1941e76752f406f08002230b984ebb7fed3c881428ede39f28dcfb92e8273c"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+      "group": "angular",
+      "rawBytes": 41313,
+      "rawSha256": "830d0547a0c627549f26b944dc230bd43952f23a8c0687b840b5bbe709b77279",
+      "lfNormalizedBytes": 41313,
+      "lfNormalizedUtf8Sha256": "830d0547a0c627549f26b944dc230bd43952f23a8c0687b840b5bbe709b77279"
+    },
+    {
+      "path": "apps/poms-api-rust/src/http.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 19446,
+      "rawSha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a",
+      "lfNormalizedBytes": 19446,
+      "lfNormalizedUtf8Sha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a"
+    },
+    {
+      "path": "apps/poms-api-rust/src/error.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 2564,
+      "rawSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "lfNormalizedBytes": 2564,
+      "lfNormalizedUtf8Sha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84"
+    },
+    {
+      "path": "apps/poms-api-rust/src/users/http.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 20122,
+      "rawSha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10",
+      "lfNormalizedBytes": 20122,
+      "lfNormalizedUtf8Sha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/http.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 39425,
+      "rawSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+      "lfNormalizedBytes": 39425,
+      "lfNormalizedUtf8Sha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/js_json.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 6503,
+      "rawSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "lfNormalizedBytes": 6503,
+      "lfNormalizedUtf8Sha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/audit.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 4747,
+      "rawSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+      "lfNormalizedBytes": 4747,
+      "lfNormalizedUtf8Sha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/provider_support/mod.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 3225,
+      "rawSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8",
+      "lfNormalizedBytes": 3225,
+      "lfNormalizedUtf8Sha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/dictionary/service.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 13451,
+      "rawSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e",
+      "lfNormalizedBytes": 13451,
+      "lfNormalizedUtf8Sha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/system_settings/service.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 14025,
+      "rawSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8",
+      "lfNormalizedBytes": 14025,
+      "lfNormalizedUtf8Sha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/runtime_audit/service.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 9300,
+      "rawSha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9",
+      "lfNormalizedBytes": 9300,
+      "lfNormalizedUtf8Sha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9"
+    },
+    {
+      "path": "apps/poms-api-rust/src/runtime_audit/store.rs",
+      "group": "existingRustSupport",
+      "rawBytes": 8652,
+      "rawSha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2",
+      "lfNormalizedBytes": 8652,
+      "lfNormalizedUtf8Sha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2"
+    },
+    {
+      "path": "docs/design/ex-65d-attachment-upload-session-runtime-baseline.md",
+      "group": "historicalDocumentation",
+      "rawBytes": 14381,
+      "rawSha256": "caa2b69c1085aacc8e5197db23bf1d257677e32ee52c18e50a670bea6fbd4252",
+      "lfNormalizedBytes": 14381,
+      "lfNormalizedUtf8Sha256": "caa2b69c1085aacc8e5197db23bf1d257677e32ee52c18e50a670bea6fbd4252"
+    },
+    {
+      "path": "docs/design/ex-65d-attachment-upload-session-runtime-closeout.md",
+      "group": "historicalDocumentation",
+      "rawBytes": 10334,
+      "rawSha256": "592b9bc3eaa7a9cd55590202f4a7ec9c10200cce578c91c26439c0a57262c395",
+      "lfNormalizedBytes": 10334,
+      "lfNormalizedUtf8Sha256": "592b9bc3eaa7a9cd55590202f4a7ec9c10200cce578c91c26439c0a57262c395"
+    },
+    {
+      "path": "docs/design/ex-65e-attachment-storage-provider-integration-closeout.md",
+      "group": "historicalDocumentation",
+      "rawBytes": 13372,
+      "rawSha256": "8b5c43125d8f0f0efd9411be093b7f24490c5625a224967eb22013966fe39a0c",
+      "lfNormalizedBytes": 13372,
+      "lfNormalizedUtf8Sha256": "8b5c43125d8f0f0efd9411be093b7f24490c5625a224967eb22013966fe39a0c"
+    },
+    {
+      "path": "docs/design/ex-69a-attachment-center-aggregate-query-corrective-checkpoint.md",
+      "group": "historicalDocumentation",
+      "rawBytes": 11121,
+      "rawSha256": "243232ec196f684a9b099efceb09f3ded5ac86ffda6a1532180ece9cde3ee85e",
+      "lfNormalizedBytes": 11121,
+      "lfNormalizedUtf8Sha256": "243232ec196f684a9b099efceb09f3ded5ac86ffda6a1532180ece9cde3ee85e"
+    },
+    {
+      "path": "docs/design/fe-60b-attachment-upload-session-frontend-closeout.md",
+      "group": "historicalDocumentation",
+      "rawBytes": 4879,
+      "rawSha256": "05f7d4fb26ade883d72dea922947ef9a9bdc1afe58fcb244aca761a3d529b7ed",
+      "lfNormalizedBytes": 4879,
+      "lfNormalizedUtf8Sha256": "05f7d4fb26ade883d72dea922947ef9a9bdc1afe58fcb244aca761a3d529b7ed"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/seed-utils.ts",
+      "group": "seedSearch",
+      "rawBytes": 1006,
+      "rawSha256": "a7a582fa25b7e149d919ae6fa84767281cc092ddfb798fe8fe3d4def7528d869",
+      "lfNormalizedBytes": 1006,
+      "lfNormalizedUtf8Sha256": "a7a582fa25b7e149d919ae6fa84767281cc092ddfb798fe8fe3d4def7528d869"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/README.md",
+      "group": "seedSearch",
+      "rawBytes": 1112,
+      "rawSha256": "9b8830c0e36bb342c7fc3e7f9b67e8517a8eb9bd902389fda2304b86933f214e",
+      "lfNormalizedBytes": 1112,
+      "lfNormalizedUtf8Sha256": "9b8830c0e36bb342c7fc3e7f9b67e8517a8eb9bd902389fda2304b86933f214e"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/platform-bootstrap.seeder.ts",
+      "group": "seedSearch",
+      "rawBytes": 4457,
+      "rawSha256": "2236e3d28581f75a9cfc1bc6a987e9c95aca62cc2022a86b24326c7f8c63e291",
+      "lfNormalizedBytes": 4457,
+      "lfNormalizedUtf8Sha256": "2236e3d28581f75a9cfc1bc6a987e9c95aca62cc2022a86b24326c7f8c63e291"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/dev-seed-data.ts",
+      "group": "seedSearch",
+      "rawBytes": 4316,
+      "rawSha256": "d2278a0db452e776ef248ebe6e92e8f147eba46b51ed13f313a72c2a86ab8aff",
+      "lfNormalizedBytes": 4316,
+      "lfNormalizedUtf8Sha256": "d2278a0db452e776ef248ebe6e92e8f147eba46b51ed13f313a72c2a86ab8aff"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/database.seeder.ts",
+      "group": "seedSearch",
+      "rawBytes": 80434,
+      "rawSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+      "lfNormalizedBytes": 80434,
+      "lfNormalizedUtf8Sha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/business-trial.seeder.ts",
+      "group": "seedSearch",
+      "rawBytes": 27315,
+      "rawSha256": "05348951462417e1058b1228c36f2ad39a9ef14002b09c44475b29edb6a5a5a9",
+      "lfNormalizedBytes": 27315,
+      "lfNormalizedUtf8Sha256": "05348951462417e1058b1228c36f2ad39a9ef14002b09c44475b29edb6a5a5a9"
+    },
+    {
+      "path": "node_modules/@nestjs/common/package.json",
+      "group": "fixedLocalDependency",
+      "rawBytes": 1206,
+      "rawSha256": "7ac7e54dc5d8fc3f1f9691fa97ac8a1c82fa36e5f7359cdc662580d3e885026e",
+      "lfNormalizedBytes": 1206,
+      "lfNormalizedUtf8Sha256": "7ac7e54dc5d8fc3f1f9691fa97ac8a1c82fa36e5f7359cdc662580d3e885026e",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@nestjs+common@12.0.1_refle_852443456c15183b42b7aadbc1112771/node_modules/@nestjs/common/package.json"
+    },
+    {
+      "path": "node_modules/@nestjs/common/file-stream/streamable-file.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 1821,
+      "rawSha256": "8cf78af8490034fdf624ebc76d4783a4f248a89bc3ff0afef3c74b0fae3ef279",
+      "lfNormalizedBytes": 1821,
+      "lfNormalizedUtf8Sha256": "8cf78af8490034fdf624ebc76d4783a4f248a89bc3ff0afef3c74b0fae3ef279",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@nestjs+common@12.0.1_refle_852443456c15183b42b7aadbc1112771/node_modules/@nestjs/common/file-stream/streamable-file.js"
+    },
+    {
+      "path": "node_modules/@nestjs/platform-express/adapters/express-adapter.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 16280,
+      "rawSha256": "7bf0aeefa56a9c862294470ac809361cdcc6310bd860cfb1ba66e8123c741d56",
+      "lfNormalizedBytes": 16280,
+      "lfNormalizedUtf8Sha256": "7bf0aeefa56a9c862294470ac809361cdcc6310bd860cfb1ba66e8123c741d56",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@nestjs+platform-express@12_0bf4df8ce85c1f1102d51590af2e592c/node_modules/@nestjs/platform-express/adapters/express-adapter.js"
+    },
+    {
+      "path": "node_modules/@nestjs/platform-express/adapters/utils/get-body-parser-options.util.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 352,
+      "rawSha256": "2bf494ca0cdbd74537be2348762d70bdb09c9d8b90c24e85dce4cde2938de6d7",
+      "lfNormalizedBytes": 352,
+      "lfNormalizedUtf8Sha256": "2bf494ca0cdbd74537be2348762d70bdb09c9d8b90c24e85dce4cde2938de6d7",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@nestjs+platform-express@12_0bf4df8ce85c1f1102d51590af2e592c/node_modules/@nestjs/platform-express/adapters/utils/get-body-parser-options.util.js"
+    },
+    {
+      "path": "node_modules/@nestjs/core/exceptions/base-exception-filter.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 3185,
+      "rawSha256": "dd96367bbf109c301f921e4fdd708df919519180d94fafea205d1f336d0d8405",
+      "lfNormalizedBytes": 3185,
+      "lfNormalizedUtf8Sha256": "dd96367bbf109c301f921e4fdd708df919519180d94fafea205d1f336d0d8405",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@nestjs+core@12.0.1_@nestjs_65e66693cac9a0c8ddfae555745aa14e/node_modules/@nestjs/core/exceptions/base-exception-filter.js"
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/unit-of-work/ChangeSetPersister.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 20042,
+      "rawSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3",
+      "lfNormalizedBytes": 20042,
+      "lfNormalizedUtf8Sha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@mikro-orm+core@7.0.11/node_modules/@mikro-orm/core/unit-of-work/ChangeSetPersister.js"
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/unit-of-work/UnitOfWork.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 47827,
+      "rawSha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6",
+      "lfNormalizedBytes": 47827,
+      "lfNormalizedUtf8Sha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@mikro-orm+core@7.0.11/node_modules/@mikro-orm/core/unit-of-work/UnitOfWork.js"
+    },
+    {
+      "path": "node_modules/@mikro-orm/core/EntityManager.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 77229,
+      "rawSha256": "fd8ad48ef0199104f28246c72f836d64127c31391bdcac9f992a5465982a299e",
+      "lfNormalizedBytes": 77229,
+      "lfNormalizedUtf8Sha256": "fd8ad48ef0199104f28246c72f836d64127c31391bdcac9f992a5465982a299e",
+      "resolvedPath": "E:/projects/poms/node_modules/.pnpm/@mikro-orm+core@7.0.11/node_modules/@mikro-orm/core/EntityManager.js"
+    },
+    {
+      "path": "E:/projects/poms/node_modules/.pnpm/body-parser@2.2.2_supports-color@8.1.1/node_modules/body-parser/index.js",
+      "logicalPackagePath": "body-parser/index.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 1312,
+      "rawSha256": "fe14883af3bde64155eb9243dab5e6870c27abcda01ab3e0f86fadb444ee5d12",
+      "lfNormalizedBytes": 1312,
+      "lfNormalizedUtf8Sha256": "fe14883af3bde64155eb9243dab5e6870c27abcda01ab3e0f86fadb444ee5d12"
+    },
+    {
+      "path": "E:/projects/poms/node_modules/.pnpm/body-parser@2.2.2_supports-color@8.1.1/node_modules/body-parser/lib/utils.js",
+      "logicalPackagePath": "body-parser/lib/utils.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 2031,
+      "rawSha256": "1fd0b4bea67032ff37f634afee68c8e5ef49b21e01eac72a9fae54e8b73dc11d",
+      "lfNormalizedBytes": 2031,
+      "lfNormalizedUtf8Sha256": "1fd0b4bea67032ff37f634afee68c8e5ef49b21e01eac72a9fae54e8b73dc11d"
+    },
+    {
+      "path": "E:/projects/poms/node_modules/.pnpm/body-parser@2.2.2_supports-color@8.1.1/node_modules/body-parser/lib/read.js",
+      "logicalPackagePath": "body-parser/lib/read.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 5401,
+      "rawSha256": "ebed855770724d389e6aed96a781634ff676c527825ed86debfaa1715b95eccf",
+      "lfNormalizedBytes": 5401,
+      "lfNormalizedUtf8Sha256": "ebed855770724d389e6aed96a781634ff676c527825ed86debfaa1715b95eccf"
+    },
+    {
+      "path": "E:/projects/poms/node_modules/.pnpm/body-parser@2.2.2_supports-color@8.1.1/node_modules/body-parser/lib/types/json.js",
+      "logicalPackagePath": "body-parser/lib/types/json.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 3573,
+      "rawSha256": "6e7968715f4fc7b1b60a61cd842833ab594ca090a963ebb2977a953cc5945dd5",
+      "lfNormalizedBytes": 3573,
+      "lfNormalizedUtf8Sha256": "6e7968715f4fc7b1b60a61cd842833ab594ca090a963ebb2977a953cc5945dd5"
+    },
+    {
+      "path": "E:/projects/poms/node_modules/.pnpm/body-parser@2.2.2_supports-color@8.1.1/node_modules/body-parser/lib/types/urlencoded.js",
+      "logicalPackagePath": "body-parser/lib/types/urlencoded.js",
+      "group": "fixedLocalDependency",
+      "rawBytes": 3611,
+      "rawSha256": "9d514567ef3a850a4d4cfb135df036fb76d328385c30d3bc121217ad0fc302e4",
+      "lfNormalizedBytes": 3611,
+      "lfNormalizedUtf8Sha256": "9d514567ef3a850a4d4cfb135df036fb76d328385c30d3bc121217ad0fc302e4"
+    },
+    {
+      "path": "E:/projects/poms/node_modules/.pnpm/body-parser@2.2.2_supports-color@8.1.1/node_modules/body-parser/package.json",
+      "logicalPackagePath": "body-parser/package.json",
+      "group": "fixedLocalDependency",
+      "rawBytes": 1359,
+      "rawSha256": "d3796a4d3c8e1a7217c443a26daa4699edb78e26fd4e18922f14a7dd4f62cdb7",
+      "lfNormalizedBytes": 1359,
+      "lfNormalizedUtf8Sha256": "d3796a4d3c8e1a7217c443a26daa4699edb78e26fd4e18922f14a7dd4f62cdb7"
+    }
+  ],
+  "operationCount": 19,
+  "exactOperations": [
+    {
+      "method": "GET",
+      "path": "/api/attachment-center-records",
+      "operationId": "AttachmentCenterRecordController_list",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachment-center-records",
+        "operationId": "AttachmentCenterRecordController_list",
+        "module": "attachment",
+        "controller": "AttachmentCenterRecordController",
+        "controllerMethod": "list",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-center-record.controller.ts",
+          "line": 14
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentCenterRecordList"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentCenterRecord[]>",
+          "dtoSources": [
+            {
+              "name": "AttachmentCenterRecordListDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 39,
+              "schema": "AttachmentCenterRecordListSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 39
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3918
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentCenterRecordListSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3918
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.listAttachmentCenterRecords"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 384
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachment-center-records"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachment-center-records"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "将 FE-49 前端聚合留白纠偏为受控后端读模型；只返回可读业务对象的 latest active 附件记录。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "86f9d754cb48c6d46aa323a01a20f29dd2811adbc8142dbe7bd7f811488648d9",
+      "openapiOperation": {
+        "operationId": "AttachmentCenterRecordController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentCenterRecordList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件中心聚合记录列表",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "43872d446aef68138c141c718abd78bf4c7956adad541a2eb14015e64132bc71",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-center-records')",
+        "routeDecoratorSource": "@Get()",
+        "decoratorAndMethodSignatureLf": "    @Get()\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @ApiOperation({ summary: '获取附件中心聚合记录列表' })\n    @ApiOkResponse({ type: AttachmentCenterRecordListDto })\n    list(@Request() req: { user: UserPayload }): Promise<AttachmentCenterRecord[]> {",
+        "routeDecoratorLine": 14,
+        "methodSignatureLine": 18,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "operationId": "AttachmentUploadSessionController_create",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions",
+        "operationId": "AttachmentUploadSessionController_create",
+        "module": "attachment",
+        "controller": "AttachmentUploadSessionController",
+        "controllerMethod": "create",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+          "line": 25
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAttachmentUploadSessionRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "201"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentUploadSessionSummary",
+            "#/components/schemas/CreateAttachmentUploadSessionRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "body",
+              "type": "CreateAttachmentUploadSessionRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentUploadSessionSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentUploadSessionDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 45,
+              "schema": "AttachmentUploadSessionSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 45
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4022
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentUploadSessionSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4022
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "CreateAttachmentUploadSessionRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 43,
+              "schema": "CreateAttachmentUploadSessionRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 43
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3979
+              },
+              "schemaReferences": [
+                {
+                  "name": "CreateAttachmentUploadSessionRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3979
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.createAttachmentUploadSession"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 448
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "`EX-65D` implemented；创建上传会话时冻结 provider、bucket、storage key、operation 和 metadata。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "6343eb289e5e50670b84cf411625509272bd6cf3c35466f41dff699b5d779600",
+      "openapiOperation": {
+        "operationId": "AttachmentUploadSessionController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttachmentUploadSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUploadSessionSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建附件上传会话",
+        "tags": [
+          "AttachmentUploadSession"
+        ]
+      },
+      "openapiOperationJsonSha256": "0f65520f9bac36125e2dd105835285e39cc24e2a0c55de088750a7cc599ba397",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-upload-sessions')",
+        "routeDecoratorSource": "@Post()",
+        "decoratorAndMethodSignatureLf": "    @Post()\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @ApiOperation({ summary: '创建附件上传会话' })\n    @ApiCreatedResponse({ type: AttachmentUploadSessionDto })\n    create(@Body() body: CreateAttachmentUploadSessionRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentUploadSessionSummary> {",
+        "routeDecoratorLine": 25,
+        "methodSignatureLine": 29,
+        "successStatus": 201,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachment-upload-sessions/{id}",
+      "operationId": "AttachmentUploadSessionController_get",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachment-upload-sessions/{id}",
+        "operationId": "AttachmentUploadSessionController_get",
+        "module": "attachment",
+        "controller": "AttachmentUploadSessionController",
+        "controllerMethod": "get",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+          "line": 33
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentUploadSessionSummary"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentUploadSessionSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentUploadSessionDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 45,
+              "schema": "AttachmentUploadSessionSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 45
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4022
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentUploadSessionSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4022
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.getAttachmentUploadSession"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 449
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachment-upload-sessions/{id}"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachment-upload-sessions/{id}"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "`EX-65D` implemented；读取会话摘要，不暴露 provider secret、AK / SK 或永久对象 URL。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "d77f7244d198d35d979eefdbb0dcd1f277c70c386f177fe3208998f16fb69299",
+      "openapiOperation": {
+        "operationId": "AttachmentUploadSessionController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUploadSessionSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件上传会话",
+        "tags": [
+          "AttachmentUploadSession"
+        ]
+      },
+      "openapiOperationJsonSha256": "d6c6911410e5a1b863e0f899e8c6e1619fd1ee7b6ca16a283a1df1860acc8382",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-upload-sessions')",
+        "routeDecoratorSource": "@Get(':id')",
+        "decoratorAndMethodSignatureLf": "    @Get(':id')\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @ApiOperation({ summary: '获取附件上传会话' })\n    @ApiOkResponse({ type: AttachmentUploadSessionDto })\n    get(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<AttachmentUploadSessionSummary> {",
+        "routeDecoratorLine": 33,
+        "methodSignatureLine": 37,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}:abort",
+      "operationId": "AttachmentUploadSessionController_abort",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}:abort",
+        "operationId": "AttachmentUploadSessionController_abort",
+        "module": "attachment",
+        "controller": "AttachmentUploadSessionController",
+        "controllerMethod": "abort",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+          "line": 71
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AbortAttachmentUploadSessionRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AbortAttachmentUploadSessionRequest",
+            "#/components/schemas/AttachmentUploadSessionSummary"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "AbortAttachmentUploadSessionRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentUploadSessionSummary>",
+          "dtoSources": [
+            {
+              "name": "AbortAttachmentUploadSessionRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 55,
+              "schema": "AbortAttachmentUploadSessionRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 55
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4102
+              },
+              "schemaReferences": [
+                {
+                  "name": "AbortAttachmentUploadSessionRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4102
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "AttachmentUploadSessionDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 45,
+              "schema": "AttachmentUploadSessionSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 45
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4022
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentUploadSessionSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4022
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.abortAttachmentUploadSession"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 453
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions/{id}:abort"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions/{id}:abort"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "`EX-65D` implemented；状态转为 aborted 并 best-effort 清理 provider 临时对象。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "d69721ec6ea99802a01d4b25f8429053cc10e76bf071d85fa8a198ce6d1f8724",
+      "openapiOperation": {
+        "operationId": "AttachmentUploadSessionController_abort",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AbortAttachmentUploadSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUploadSessionSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "中止附件上传会话",
+        "tags": [
+          "AttachmentUploadSession"
+        ]
+      },
+      "openapiOperationJsonSha256": "31326d61f555fdb79ea93101f2dd50b12b8c52201ed8d5f9674ab95b4996d029",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-upload-sessions')",
+        "routeDecoratorSource": "@Post(':id\\\\:abort')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id\\\\:abort')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '中止附件上传会话' })\n    @ApiOkResponse({ type: AttachmentUploadSessionDto })\n    abort(@Param('id') id: string, @Body() body: AbortAttachmentUploadSessionRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentUploadSessionSummary> {",
+        "routeDecoratorLine": 71,
+        "methodSignatureLine": 76,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}:complete",
+      "operationId": "AttachmentUploadSessionController_complete",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}:complete",
+        "operationId": "AttachmentUploadSessionController_complete",
+        "module": "attachment",
+        "controller": "AttachmentUploadSessionController",
+        "controllerMethod": "complete",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+          "line": 62
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompleteAttachmentUploadSessionRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary",
+            "#/components/schemas/CompleteAttachmentUploadSessionRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "CompleteAttachmentUploadSessionRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "CompleteAttachmentUploadSessionRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 53,
+              "schema": "CompleteAttachmentUploadSessionRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 53
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4093
+              },
+              "schemaReferences": [
+                {
+                  "name": "CompleteAttachmentUploadSessionRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4093
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.completeAttachmentUploadSession"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 452
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions/{id}:complete"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions/{id}:complete"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "`EX-65D` implemented；后端 `headObject`、size 和 checksum 校验通过后才创建 active 附件或版本。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "6df26be3b55d00b1475a32ddb2fb4bd619aa2295c62275c53c2124cf6cbf3428",
+      "openapiOperation": {
+        "operationId": "AttachmentUploadSessionController_complete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteAttachmentUploadSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "完成附件上传会话并创建附件记录",
+        "tags": [
+          "AttachmentUploadSession"
+        ]
+      },
+      "openapiOperationJsonSha256": "4ee3b7bddfff69c72c48b3675d6db1c8881dff7a6d4a823ff1ab9ab8bcf9a9d5",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-upload-sessions')",
+        "routeDecoratorSource": "@Post(':id\\\\:complete')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id\\\\:complete')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '完成附件上传会话并创建附件记录' })\n    @ApiOkResponse({ type: AttachmentDto })\n    complete(@Param('id') id: string, @Body() body: CompleteAttachmentUploadSessionRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 62,
+        "methodSignatureLine": 67,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/attachment-upload-sessions/{id}/object",
+      "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "PUT",
+        "path": "/api/attachment-upload-sessions/{id}/object",
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "module": "attachment",
+        "controller": "AttachmentUploadSessionController",
+        "controllerMethod": "proxyUploadObject",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+          "line": 50
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentUploadTargetResult"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "IncomingMessage & { user: UserPayload }",
+              "decorators": [
+                "@Req()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentUploadTargetResult>",
+          "dtoSources": [
+            {
+              "name": "AttachmentUploadTargetResultDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 51,
+              "schema": "AttachmentUploadTargetResultSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 51
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4082
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentUploadTargetResultSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4082
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.proxyUploadAttachmentObject"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 451
+            },
+            "canonical": [
+              {
+                "method": "PUT",
+                "path": "/attachment-upload-sessions/{id}/object"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "PUT",
+                "path": "/attachment-upload-sessions/{id}/object"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "`EX-65D` implemented；local provider 二进制 proxy 上传使用后端鉴权和 session owner 校验。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "1757c5ebe8ef4a85c2c886f03e7b3f31403416d8746680690b2286dbee32cf72",
+      "openapiOperation": {
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUploadTargetResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "通过 POMS 后端代理上传附件对象",
+        "tags": [
+          "AttachmentUploadSession"
+        ]
+      },
+      "openapiOperationJsonSha256": "8239ec4e4d08b0ccb64d96959279f7e69b8dc2d678ca7dc33bb51e1481c74ceb",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-upload-sessions')",
+        "routeDecoratorSource": "@Put(':id/object')",
+        "decoratorAndMethodSignatureLf": "    @Put(':id/object')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiConsumes('application/octet-stream')\n    @ApiBody({ schema: { type: 'string', format: 'binary' } })\n    @ApiOperation({ summary: '通过 POMS 后端代理上传附件对象' })\n    @ApiOkResponse({ type: AttachmentUploadTargetResultDto })\n    async proxyUploadObject(@Param('id') id: string, @Req() req: IncomingMessage & { user: UserPayload }): Promise<AttachmentUploadTargetResult> {",
+        "routeDecoratorLine": 50,
+        "methodSignatureLine": 57,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": "IncomingMessage fully buffered after global body parsers and guards; no controller cap",
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+        "operationId": "AttachmentUploadSessionController_createUploadTarget",
+        "module": "attachment",
+        "controller": "AttachmentUploadSessionController",
+        "controllerMethod": "createUploadTarget",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+          "line": 41
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAttachmentUploadTargetRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentUploadTarget",
+            "#/components/schemas/CreateAttachmentUploadTargetRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "CreateAttachmentUploadTargetRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentUploadTarget>",
+          "dtoSources": [
+            {
+              "name": "AttachmentUploadTargetDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 49,
+              "schema": "AttachmentUploadTargetSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 49
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4067
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentUploadTargetSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4067
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "CreateAttachmentUploadTargetRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 47,
+              "schema": "CreateAttachmentUploadTargetRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 47
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4059
+              },
+              "schemaReferences": [
+                {
+                  "name": "CreateAttachmentUploadTargetRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4059
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.createAttachmentUploadTarget"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 450
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions/{id}/upload-targets"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachment-upload-sessions/{id}/upload-targets"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "`EX-65D` implemented；local 返回 POMS proxy target，OBS 返回短期 presigned PUT；multipart target 暂作为 `EX65D-E3` 转交。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "efc102adddd40328476bff2ba4df03f6f4fd58697c8341f151ce6a2446be6e6c",
+      "openapiOperation": {
+        "operationId": "AttachmentUploadSessionController_createUploadTarget",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttachmentUploadTargetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUploadTarget"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建附件上传目标",
+        "tags": [
+          "AttachmentUploadSession"
+        ]
+      },
+      "openapiOperationJsonSha256": "006a27623ff2363c4999898daacd333777d600a01f765201fbf0a523f42085fd",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachment-upload-sessions')",
+        "routeDecoratorSource": "@Post(':id/upload-targets')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id/upload-targets')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '创建附件上传目标' })\n    @ApiOkResponse({ type: AttachmentUploadTargetDto })\n    createUploadTarget(@Param('id') id: string, @Body() body: CreateAttachmentUploadTargetRequestDto, @Request() req: { user: UserPayload }): Promise<AttachmentUploadTarget> {",
+        "routeDecoratorLine": 41,
+        "methodSignatureLine": 46,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments",
+      "operationId": "AttachmentController_list",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments",
+        "operationId": "AttachmentController_list",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "list",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 25
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "targetType",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "$ref": "#/components/schemas/AttachmentTargetType"
+              }
+            },
+            {
+              "name": "targetId",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                "type": "string"
+              }
+            },
+            {
+              "name": "category",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "$ref": "#/components/schemas/AttachmentCategory"
+              }
+            },
+            {
+              "name": "status",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "$ref": "#/components/schemas/AttachmentStatus"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentCategory",
+            "#/components/schemas/AttachmentList",
+            "#/components/schemas/AttachmentStatus",
+            "#/components/schemas/AttachmentTargetType"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "query",
+              "type": "AttachmentListQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary[]>",
+          "dtoSources": [
+            {
+              "name": "AttachmentListDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 37,
+              "schema": "AttachmentListSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 37
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3901
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentListSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3901
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "AttachmentListQueryDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 41,
+              "schema": "AttachmentListQuerySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 41
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3930
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentListQuerySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3930
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.listAttachments"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 372
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachments"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachments"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增按 targetType + targetId 查询附件集合，不做全局网盘列表。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "08790dcd1bef92b22d6e4798255b7917b826050d018063c59c1704fdeebb1427",
+      "openapiOperation": {
+        "operationId": "AttachmentController_list",
+        "parameters": [
+          {
+            "name": "targetType",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentTargetType"
+            }
+          },
+          {
+            "name": "targetId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentCategory"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "按业务对象获取附件列表",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "ecb0192a4068fa5648c5682be30ce8f47fd2af1fcc1ae6dc0f67130ee37f64a0",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Get()",
+        "decoratorAndMethodSignatureLf": "    @Get()\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @ApiOperation({ summary: '按业务对象获取附件列表' })\n    @ApiOkResponse({ type: AttachmentListDto })\n    list(@Query() query: AttachmentListQueryDto, @Request() req: { user: UserPayload }): Promise<AttachmentSummary[]> {",
+        "routeDecoratorLine": 25,
+        "methodSignatureLine": 29,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments/{id}",
+      "operationId": "AttachmentController_get",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}",
+        "operationId": "AttachmentController_get",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "get",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 41
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.getAttachment"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 373
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增附件元数据详情读取，必须经过业务对象权限和安全等级校验。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "572c24f99ead7b9f4823be27f9daa5a20d5cec8586cd3e5a86eb553064a5408a",
+      "openapiOperation": {
+        "operationId": "AttachmentController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件元数据",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "142469dd263be0cab18727b290caa1f0c51f05b9d0d0e2c2b5aa496d7cebc722",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Get(':id')",
+        "decoratorAndMethodSignatureLf": "    @Get(':id')\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @ApiOperation({ summary: '获取附件元数据' })\n    @ApiOkResponse({ type: AttachmentDto })\n    get(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 41,
+        "methodSignatureLine": 45,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/attachments/{id}",
+      "operationId": "AttachmentController_update",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "PATCH",
+        "path": "/api/attachments/{id}",
+        "operationId": "AttachmentController_update",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "update",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 96
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAttachmentRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary",
+            "#/components/schemas/UpdateAttachmentRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "UpdateAttachmentRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "UpdateAttachmentRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 73,
+              "schema": "UpdateAttachmentRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 73
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4111
+              },
+              "schemaReferences": [
+                {
+                  "name": "UpdateAttachmentRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4111
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.updateAttachment"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 375
+            },
+            "canonical": [
+              {
+                "method": "PATCH",
+                "path": "/attachments/{id}"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "PATCH",
+                "path": "/attachments/{id}"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增附件展示名、分类、安全等级与说明维护。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "50f98551ba40dbbcafebe5c2bed470c6d4cc8d952d76ed0627994fad09febe8d",
+      "openapiOperation": {
+        "operationId": "AttachmentController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAttachmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新附件元数据",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "e8b53e21c2836c057e6faa6727b2a3fa3926c523ef965bcb6bce009a193877f1",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Patch(':id')",
+        "decoratorAndMethodSignatureLf": "    @Patch(':id')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @ApiOperation({ summary: '更新附件元数据' })\n    @ApiOkResponse({ type: AttachmentDto })\n    update(@Param('id') id: string, @Body() body: UpdateAttachmentRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 96,
+        "methodSignatureLine": 100,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachments/{id}:clear-final",
+      "operationId": "AttachmentController_clearFinal",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}:clear-final",
+        "operationId": "AttachmentController_clearFinal",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "clearFinal",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 122
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClearAttachmentFinalRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary",
+            "#/components/schemas/ClearAttachmentFinalRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "ClearAttachmentFinalRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "ClearAttachmentFinalRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 81,
+              "schema": "ClearAttachmentFinalRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 81
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4142
+              },
+              "schemaReferences": [
+                {
+                  "name": "ClearAttachmentFinalRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4142
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.clearAttachmentFinal"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 395
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}:clear-final"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}:clear-final"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增最终版撤销命令，必须记录原因并写入审计。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "7d3aa615d1b77cf57489229582b7bcdeabcfa4a2cd6e13ff5bac0def3eedede4",
+      "openapiOperation": {
+        "operationId": "AttachmentController_clearFinal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClearAttachmentFinalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "撤销附件最终版标记",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "7813430d078c30fbb7195cd08c291b883e0727d93fc4cc5888c79c8acfaa0ca5",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Post(':id\\\\:clear-final')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id\\\\:clear-final')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '撤销附件最终版标记' })\n    @ApiOkResponse({ type: AttachmentDto })\n    clearFinal(@Param('id') id: string, @Body() body: ClearAttachmentFinalRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 122,
+        "methodSignatureLine": 127,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachments/{id}:mark-final",
+      "operationId": "AttachmentController_markFinal",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}:mark-final",
+        "operationId": "AttachmentController_markFinal",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "markFinal",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 113
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarkAttachmentFinalRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary",
+            "#/components/schemas/MarkAttachmentFinalRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "MarkAttachmentFinalRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "MarkAttachmentFinalRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 79,
+              "schema": "MarkAttachmentFinalRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 79
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4134
+              },
+              "schemaReferences": [
+                {
+                  "name": "MarkAttachmentFinalRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4134
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.markAttachmentFinal"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 394
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}:mark-final"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}:mark-final"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增最终版标记命令，同一版本组只允许一个 active final。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "9904a508324b7d5f37e55b6731c2a3b09df4b98e344aa43e1b2ef63600a656fb",
+      "openapiOperation": {
+        "operationId": "AttachmentController_markFinal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkAttachmentFinalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "标记附件最终版",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "4e28df50e584744a13ed060e5e7396f7042b9dd38f70eec5645828ba5527b5ec",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Post(':id\\\\:mark-final')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id\\\\:mark-final')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '标记附件最终版' })\n    @ApiOkResponse({ type: AttachmentDto })\n    markFinal(@Param('id') id: string, @Body() body: MarkAttachmentFinalRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 113,
+        "methodSignatureLine": 118,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachments/{id}:void",
+      "operationId": "AttachmentController_void",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}:void",
+        "operationId": "AttachmentController_void",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "void",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 104
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidAttachmentRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary",
+            "#/components/schemas/VoidAttachmentRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "VoidAttachmentRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "VoidAttachmentRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 85,
+              "schema": "VoidAttachmentRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 85
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4160
+              },
+              "schemaReferences": [
+                {
+                  "name": "VoidAttachmentRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4160
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.voidAttachment"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 376
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}:void"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}:void"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增附件作废命令；不提供物理删除公共 API。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "e5157d6b9f017c29a3e315450c4579684378134191868abfc063ffade6b471d0",
+      "openapiOperation": {
+        "operationId": "AttachmentController_void",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidAttachmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "作废附件",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "99e08e0471edbc5aede0c292353441e94af6beaea943503d9017d7add3aa87d6",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Post(':id\\\\:void')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id\\\\:void')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '作废附件' })\n    @ApiOkResponse({ type: AttachmentDto })\n    void(@Param('id') id: string, @Body() body: VoidAttachmentRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 104,
+        "methodSignatureLine": 109,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments/{id}/download",
+      "operationId": "AttachmentController_download",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/download",
+        "operationId": "AttachmentController_download",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "download",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 75
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<StreamableFile>",
+          "dtoSources": []
+        },
+        "serviceCallClues": [
+          "this.attachmentService.openAttachmentDownload"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 374
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/download"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/download"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增后端鉴权下载，避免暴露永久公开文件 URL。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "a4b3289001643019a4dca36ee86052f130cfd8b48c6f6fdbdbbe74ebda1d0638",
+      "openapiOperation": {
+        "operationId": "AttachmentController_download",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "下载附件",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "e0af5ac121026caaa7885816ddcda939040913aedf7b9bfa9020cab5b872424a",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Get(':id/download')",
+        "decoratorAndMethodSignatureLf": "    @Get(':id/download')\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @Header('Cache-Control', 'private, no-store')\n    @ApiOperation({ summary: '下载附件' })\n    async download(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {",
+        "routeDecoratorLine": 75,
+        "methodSignatureLine": 79,
+        "successStatus": 200,
+        "responseKind": "Readable-backed StreamableFile",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachments/{id}/links",
+      "operationId": "AttachmentController_link",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "POST",
+        "path": "/api/attachments/{id}/links",
+        "operationId": "AttachmentController_link",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "link",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 131
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAttachmentLinkRequest"
+                }
+              }
+            }
+          },
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary",
+            "#/components/schemas/CreateAttachmentLinkRequest"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "body",
+              "type": "CreateAttachmentLinkRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            },
+            {
+              "name": "CreateAttachmentLinkRequestDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 83,
+              "schema": "CreateAttachmentLinkRequestSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 83
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 4150
+              },
+              "schemaReferences": [
+                {
+                  "name": "CreateAttachmentLinkRequestSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 4150
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.linkAttachment"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 377
+            },
+            "canonical": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}/links"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "POST",
+                "path": "/attachments/{id}/links"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增附件复用关联，用于线索转项目来源附件挂接。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "df3ac27e673ab0726eea023935f4cbb0655cf576d387eb5907a8e64ef5500291",
+      "openapiOperation": {
+        "operationId": "AttachmentController_link",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttachmentLinkRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "新增附件业务对象关联",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "7de3e9312c1a973b9fea7839a009dc0638440ba0b80e65e03b2657daf44182c9",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Post(':id/links')",
+        "decoratorAndMethodSignatureLf": "    @Post(':id/links')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '新增附件业务对象关联' })\n    @ApiOkResponse({ type: AttachmentDto })\n    link(@Param('id') id: string, @Body() body: CreateAttachmentLinkRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 131,
+        "methodSignatureLine": 136,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/attachments/{id}/links/{linkId}",
+      "operationId": "AttachmentController_unlink",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "DELETE",
+        "path": "/api/attachments/{id}/links/{linkId}",
+        "operationId": "AttachmentController_unlink",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "unlink",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 140
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ],
+          "csrf": "double-submit-and-session-bound-token",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "linkId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentSummary"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "linkId",
+              "type": "string",
+              "decorators": [
+                "@Param('linkId')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentSummary>",
+          "dtoSources": [
+            {
+              "name": "AttachmentDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 35,
+              "schema": "AttachmentSummarySchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 35
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3866
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentSummarySchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3866
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.unlinkAttachment"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 378
+            },
+            "canonical": [
+              {
+                "method": "DELETE",
+                "path": "/attachments/{id}/links/{linkId}"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "DELETE",
+                "path": "/attachments/{id}/links/{linkId}"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增取消业务对象关联；不删除文件本体。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "5919f8a734c4c06aacecea293ba68d90039062c42d4bb0bd73ac09b256a6df4b",
+      "openapiOperation": {
+        "operationId": "AttachmentController_unlink",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "linkId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "取消附件业务对象关联",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "dcd4837862379a2e036d884f5335bc19baa29644e2908857ddcd1b670a0f723f",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Delete(':id/links/:linkId')",
+        "decoratorAndMethodSignatureLf": "    @Delete(':id/links/:linkId')\n    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')\n    @HttpCode(HttpStatus.OK)\n    @ApiOperation({ summary: '取消附件业务对象关联' })\n    @ApiOkResponse({ type: AttachmentDto })\n    unlink(@Param('id') id: string, @Param('linkId') linkId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentSummary> {",
+        "routeDecoratorLine": 140,
+        "methodSignatureLine": 145,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments/{id}/preview",
+      "operationId": "AttachmentController_preview",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/preview",
+        "operationId": "AttachmentController_preview",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "preview",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 49
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<StreamableFile>",
+          "dtoSources": []
+        },
+        "serviceCallClues": [
+          "this.attachmentService.openAttachmentPreview"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 390
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/preview"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/preview"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增受控图片 / PDF 内联预览，复用附件读取权限和审计边界。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "ec047ae9b3112b2f98bd158b91c03e45fe3dbbe5c152fd77d34d8d5504154bc5",
+      "openapiOperation": {
+        "operationId": "AttachmentController_preview",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "预览附件",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "3148b974a362af2b09a599e259bed73fda89902dbf32cd0127a51a5496a3e12a",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Get(':id/preview')",
+        "decoratorAndMethodSignatureLf": "    @Get(':id/preview')\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @Header('Cache-Control', 'private, no-store')\n    @ApiOperation({ summary: '预览附件' })\n    async preview(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {",
+        "routeDecoratorLine": 49,
+        "methodSignatureLine": 53,
+        "successStatus": 200,
+        "responseKind": "Readable-backed StreamableFile",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments/{id}/thumbnail",
+      "operationId": "AttachmentController_thumbnail",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/thumbnail",
+        "operationId": "AttachmentController_thumbnail",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "thumbnail",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 62
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<StreamableFile>",
+          "dtoSources": []
+        },
+        "serviceCallClues": [
+          "this.attachmentService.openAttachmentThumbnail"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 391
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/thumbnail"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/thumbnail"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增图片缩略图读取接口；非图片类型返回不支持状态。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "a6c8644db3284e492ef73d213bc077f5c240a11a217a4652b3eddba1bb742ee1",
+      "openapiOperation": {
+        "operationId": "AttachmentController_thumbnail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件缩略图",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "b6f454436b58f4b2ff450efb161477a0b2f43cb7df3e4470a0f688ebe274a6a0",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Get(':id/thumbnail')",
+        "decoratorAndMethodSignatureLf": "    @Get(':id/thumbnail')\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @Header('Cache-Control', 'private, no-store')\n    @ApiOperation({ summary: '获取附件缩略图' })\n    async thumbnail(@Param('id') id: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {",
+        "routeDecoratorLine": 62,
+        "methodSignatureLine": 66,
+        "successStatus": 200,
+        "responseKind": "Readable-backed StreamableFile",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments/{id}/versions",
+      "operationId": "AttachmentController_versions",
+      "inventoryRow": {
+        "slice": "RUST-R2J",
+        "method": "GET",
+        "path": "/api/attachments/{id}/versions",
+        "operationId": "AttachmentController_versions",
+        "module": "attachment",
+        "controller": "AttachmentController",
+        "controllerMethod": "versions",
+        "source": {
+          "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+          "line": 88
+        },
+        "authorization": {
+          "mode": "permission",
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ],
+          "csrf": "safe-method-no-CSRF-check",
+          "evidence": [
+            "@ApiCookieAuth('pomsSession')",
+            "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+          ]
+        },
+        "contract": {
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": null,
+          "responseStatusCodes": [
+            "200"
+          ],
+          "schemaRefs": [
+            "#/components/schemas/AttachmentVersionList"
+          ],
+          "inputParameters": [
+            {
+              "parameter": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "parameter": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "returnType": "Promise<AttachmentVersionSummary[]>",
+          "dtoSources": [
+            {
+              "name": "AttachmentVersionListDto",
+              "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+              "line": 75,
+              "schema": "AttachmentVersionListSchema",
+              "schemaKind": "named-zod-schema",
+              "schemaExpressionSource": {
+                "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+                "line": 75
+              },
+              "schemaSource": {
+                "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                "line": 3926
+              },
+              "schemaReferences": [
+                {
+                  "name": "AttachmentVersionListSchema",
+                  "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+                  "line": 3926
+                }
+              ],
+              "limitation": null
+            }
+          ]
+        },
+        "serviceCallClues": [
+          "this.attachmentService.listAttachmentVersions"
+        ],
+        "canonicalInventoryStatus": "canonical-match",
+        "canonicalInventory": [
+          {
+            "source": {
+              "path": "docs/design/api-route-canonical-inventory.md",
+              "line": 392
+            },
+            "canonical": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/versions"
+              }
+            ],
+            "currentImplemented": [
+              {
+                "method": "GET",
+                "path": "/attachments/{id}/versions"
+              }
+            ],
+            "status": "aligned",
+            "drift": null,
+            "action": "新增附件版本历史查询，业务对象常规列表默认只展示 latest。"
+          }
+        ],
+        "inheritedPhaseDependencies": [
+          "R1: compatibility foundation"
+        ],
+        "g1": "Todo",
+        "implementation": "Todo"
+      },
+      "inventoryRowJsonSha256": "c279d1afae2506b021155d09a309cb51f7b9026529a9339fa76cf705ed969018",
+      "openapiOperation": {
+        "operationId": "AttachmentController_versions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentVersionList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件版本历史",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "openapiOperationJsonSha256": "0d955d979fda494fae4c9f76a4a893669185dc0cb30b0f844e6377c3a5c3df9c",
+      "native": {
+        "controllerPrefixSource": "@Controller('attachments')",
+        "routeDecoratorSource": "@Get(':id/versions')",
+        "decoratorAndMethodSignatureLf": "    @Get(':id/versions')\n    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')\n    @ApiOperation({ summary: '获取附件版本历史' })\n    @ApiOkResponse({ type: AttachmentVersionListDto })\n    versions(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<AttachmentVersionSummary[]> {",
+        "routeDecoratorLine": 88,
+        "methodSignatureLine": 92,
+        "successStatus": 200,
+        "responseKind": "json",
+        "binaryBodyRead": null,
+        "pathUuidValidation": "none: @Param string, no ParseUUIDPipe"
+      }
+    }
+  ],
+  "schemaClosureCount": 31,
+  "exactSchemas": {
+    "AbortAttachmentUploadSessionRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      }
+    },
+    "AttachmentCategory": {
+      "$ref": "#/components/schemas/DictionaryCode"
+    },
+    "AttachmentCenterRecord": {
+      "type": "object",
+      "properties": {
+        "targetType": {
+          "$ref": "#/components/schemas/AttachmentTargetType"
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetNo": {
+          "type": "string"
+        },
+        "targetName": {
+          "type": "string"
+        },
+        "targetOwnerName": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachment": {
+          "$ref": "#/components/schemas/AttachmentSummary"
+        }
+      },
+      "required": [
+        "targetType",
+        "targetId",
+        "targetNo",
+        "targetName",
+        "targetOwnerName",
+        "attachment"
+      ]
+    },
+    "AttachmentCenterRecordList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AttachmentCenterRecord"
+      }
+    },
+    "AttachmentLinkStatus": {
+      "type": "string",
+      "enum": [
+        "active",
+        "unlinked"
+      ]
+    },
+    "AttachmentLinkSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "attachmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetType": {
+          "$ref": "#/components/schemas/AttachmentTargetType"
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "relationType": {
+          "$ref": "#/components/schemas/AttachmentRelationType"
+        },
+        "status": {
+          "$ref": "#/components/schemas/AttachmentLinkStatus"
+        },
+        "linkedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "linkedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "unlinkedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "unlinkedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "attachmentId",
+        "targetType",
+        "targetId",
+        "relationType",
+        "status",
+        "linkedBy",
+        "linkedAt",
+        "unlinkedBy",
+        "unlinkedAt"
+      ]
+    },
+    "AttachmentList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AttachmentSummary"
+      }
+    },
+    "AttachmentRelationType": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "source",
+        "evidence",
+        "final",
+        "handover"
+      ]
+    },
+    "AttachmentSecurityLevel": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "internal",
+        "sensitive",
+        "confidential",
+        "restricted"
+      ]
+    },
+    "AttachmentStatus": {
+      "type": "string",
+      "enum": [
+        "active",
+        "voided",
+        "deleted",
+        "failed"
+      ]
+    },
+    "AttachmentStorageProviderType": {
+      "type": "string",
+      "enum": [
+        "local",
+        "huawei-obs-s3"
+      ]
+    },
+    "AttachmentSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "originalName": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "extension": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "checksumSha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "category": {
+          "$ref": "#/components/schemas/AttachmentCategory"
+        },
+        "securityLevel": {
+          "$ref": "#/components/schemas/AttachmentSecurityLevel"
+        },
+        "status": {
+          "$ref": "#/components/schemas/AttachmentStatus"
+        },
+        "description": {
+          "type": "string",
+          "nullable": true
+        },
+        "previousAttachmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "changeNote": {
+          "type": "string",
+          "nullable": true
+        },
+        "versionGroupId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "versionNo": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "isLatest": {
+          "type": "boolean"
+        },
+        "isFinal": {
+          "type": "boolean"
+        },
+        "previewSupported": {
+          "type": "boolean"
+        },
+        "previewMimeType": {
+          "type": "string",
+          "nullable": true
+        },
+        "previewUrl": {
+          "type": "string",
+          "nullable": true
+        },
+        "thumbnailAvailable": {
+          "type": "boolean"
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "nullable": true
+        },
+        "uploadedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "uploadedByName": {
+          "type": "string",
+          "nullable": true
+        },
+        "uploadedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AttachmentLinkSummary"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "originalName",
+        "displayName",
+        "extension",
+        "mimeType",
+        "sizeBytes",
+        "checksumSha256",
+        "category",
+        "securityLevel",
+        "status",
+        "description",
+        "previousAttachmentId",
+        "changeNote",
+        "versionGroupId",
+        "versionNo",
+        "isLatest",
+        "isFinal",
+        "previewSupported",
+        "previewMimeType",
+        "previewUrl",
+        "thumbnailAvailable",
+        "thumbnailUrl",
+        "uploadedBy",
+        "uploadedByName",
+        "uploadedAt",
+        "updatedAt",
+        "deletedAt",
+        "links"
+      ]
+    },
+    "AttachmentTargetType": {
+      "type": "string",
+      "enum": [
+        "lead",
+        "customer",
+        "project",
+        "contract",
+        "sales-follow-up",
+        "project-handover"
+      ]
+    },
+    "AttachmentUploadMode": {
+      "type": "string",
+      "enum": [
+        "proxy",
+        "presigned-put",
+        "multipart"
+      ]
+    },
+    "AttachmentUploadSessionOperationType": {
+      "type": "string",
+      "enum": [
+        "create-attachment",
+        "create-version"
+      ]
+    },
+    "AttachmentUploadSessionStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "uploading",
+        "uploaded",
+        "validating",
+        "completed",
+        "failed",
+        "expired",
+        "aborted"
+      ]
+    },
+    "AttachmentUploadSessionSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "operationType": {
+          "$ref": "#/components/schemas/AttachmentUploadSessionOperationType"
+        },
+        "status": {
+          "$ref": "#/components/schemas/AttachmentUploadSessionStatus"
+        },
+        "uploadMode": {
+          "$ref": "#/components/schemas/AttachmentUploadMode"
+        },
+        "providerType": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderType"
+        },
+        "targetType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/AttachmentTargetType"
+            }
+          ],
+          "nullable": true
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "baseAttachmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "completedAttachmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "originalName": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "extension": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "maxSizeBytes": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "checksumSha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "category": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/AttachmentCategory"
+            }
+          ],
+          "nullable": true
+        },
+        "securityLevel": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/AttachmentSecurityLevel"
+            }
+          ],
+          "nullable": true
+        },
+        "relationType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/AttachmentRelationType"
+            }
+          ],
+          "nullable": true
+        },
+        "description": {
+          "type": "string",
+          "nullable": true
+        },
+        "changeNote": {
+          "type": "string",
+          "nullable": true
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "uploadedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "abortedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "failedReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "operationType",
+        "status",
+        "uploadMode",
+        "providerType",
+        "targetType",
+        "targetId",
+        "baseAttachmentId",
+        "completedAttachmentId",
+        "originalName",
+        "displayName",
+        "extension",
+        "mimeType",
+        "sizeBytes",
+        "maxSizeBytes",
+        "checksumSha256",
+        "category",
+        "securityLevel",
+        "relationType",
+        "description",
+        "changeNote",
+        "expiresAt",
+        "uploadedAt",
+        "completedAt",
+        "abortedAt",
+        "failedReason",
+        "rowVersion",
+        "createdAt",
+        "createdBy",
+        "updatedAt"
+      ]
+    },
+    "AttachmentUploadTarget": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "uploadMode": {
+          "$ref": "#/components/schemas/AttachmentUploadMode"
+        },
+        "method": {
+          "$ref": "#/components/schemas/AttachmentUploadTargetMethod"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "providerType": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderType"
+        },
+        "maxSizeBytes": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sessionId",
+        "uploadMode",
+        "method",
+        "url",
+        "headers",
+        "expiresAt",
+        "providerType",
+        "maxSizeBytes"
+      ]
+    },
+    "AttachmentUploadTargetMethod": {
+      "type": "string",
+      "enum": [
+        "PUT"
+      ]
+    },
+    "AttachmentUploadTargetResult": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/AttachmentUploadSessionStatus"
+        },
+        "uploadedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sessionId",
+        "status",
+        "uploadedAt",
+        "rowVersion"
+      ]
+    },
+    "AttachmentVersionList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AttachmentVersionSummary"
+      }
+    },
+    "AttachmentVersionSummary": {
+      "$ref": "#/components/schemas/AttachmentSummary"
+    },
+    "ClearAttachmentFinalRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "CompleteAttachmentUploadSessionRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "checksumSha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      }
+    },
+    "CreateAttachmentLinkRequest": {
+      "type": "object",
+      "properties": {
+        "targetType": {
+          "$ref": "#/components/schemas/AttachmentTargetType"
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "relationType": {
+          "default": "normal",
+          "$ref": "#/components/schemas/AttachmentRelationType"
+        }
+      },
+      "required": [
+        "targetType",
+        "targetId"
+      ]
+    },
+    "CreateAttachmentUploadSessionRequest": {
+      "type": "object",
+      "properties": {
+        "operationType": {
+          "$ref": "#/components/schemas/AttachmentUploadSessionOperationType"
+        },
+        "targetType": {
+          "$ref": "#/components/schemas/AttachmentTargetType"
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "baseAttachmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "originalName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "mimeType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "checksumSha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "category": {
+          "$ref": "#/components/schemas/AttachmentCategory"
+        },
+        "securityLevel": {
+          "$ref": "#/components/schemas/AttachmentSecurityLevel"
+        },
+        "relationType": {
+          "$ref": "#/components/schemas/AttachmentRelationType"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 4000,
+          "nullable": true
+        },
+        "changeNote": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "operationType",
+        "originalName",
+        "sizeBytes"
+      ]
+    },
+    "CreateAttachmentUploadTargetRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "DictionaryCode": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "MarkAttachmentFinalRequest": {
+      "type": "object",
+      "properties": {
+        "note": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        }
+      }
+    },
+    "UpdateAttachmentRequest": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "category": {
+          "$ref": "#/components/schemas/AttachmentCategory"
+        },
+        "securityLevel": {
+          "$ref": "#/components/schemas/AttachmentSecurityLevel"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 4000,
+          "nullable": true
+        }
+      }
+    },
+    "VoidAttachmentRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    }
+  },
+  "operationSetSha256": "68771bbe7e1a1b602437cb6b734fe857bdd140668653fed471f167da2fe65dd2",
+  "schemaClosureJsonSha256": "1009b146f15a065fbc6dc53809e22cb0c9d0ed218590143b476f2401df4abedb",
+  "inheritedInventoryMetadata": "inventoryRow g1/implementation fields are retained exactly as historical source; candidate does not change their state",
+  "staticVerification": {
+    "performedAt": "2026-10-28T17:43:01.465Z",
+    "sourceRawHashes": {
+      "checked": 102,
+      "passed": 102
+    },
+    "sourceLfHashes": {
+      "checked": 102,
+      "passed": 102
+    },
+    "exactOperations": {
+      "inventoryRows": 19,
+      "openapiOperations": 19,
+      "uniqueMethodPaths": 19,
+      "uniqueOperationIds": 19,
+      "nativeDecoratorBlocks": 19,
+      "markdownRows": 19,
+      "schemaClosure": 31
+    },
+    "gitReadOnlyState": {
+      "head": "61d6df1e971e7e785382dc85c75273e584ee2545",
+      "branch": "codex/poms-r2ij-storage-attachments",
+      "statusShort": "empty",
+      "diffNameOnly": "empty"
+    },
+    "runtimeValidation": "not run; source/hash checks only",
+    "issues": []
+  }
+}

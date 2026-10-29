@@ -102,7 +102,7 @@ async fn run() -> ExitCode {
             config.auth.clone(),
         )),
     };
-    let router = http::router_with_provider_settings(
+    let router = http::router_with_runtime_settings(
         http::AppState {
             database: database.clone(),
             started_at,
@@ -110,6 +110,7 @@ async fn run() -> ExitCode {
         &config.cors_origins,
         auth,
         config.providers.clone(),
+        config.attachment_storage.clone(),
     );
     logging::event(
         "listening",

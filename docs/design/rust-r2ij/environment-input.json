@@ -1,0 +1,715 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2IJ read-only environment and fixture input inventory",
+  "gateDecision": "No G1/G3 decision; proposed preparation only",
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "branch": "codex/poms-r2ij-storage-attachments",
+  "reviewerRole": "Non-author C; only environment-input.json written in this task",
+  "liveObservation": {
+    "windowsCwd": "E:/projects/worktrees/poms-r2ef-foundation-audit/poms",
+    "wsl": {
+      "distribution": "Debian",
+      "state": "Running",
+      "generation": 2,
+      "uid": 1000,
+      "user": "wangzishi",
+      "debianVersion": "13.7",
+      "podmanVersion": "5.4.2"
+    },
+    "hostNode": "wsl.exe -d Debian --exec node --version failed: execvpe(node) No such file or directory. Do not assume a host Node runtime or install one; use the existing frozen build/browser images during later authorized execution.",
+    "containers": [
+      {
+        "name": "poms-r0e-pg15",
+        "state": "running",
+        "imageId": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+        "scope": "rust-r0e",
+        "network": "slirp4netns",
+        "published": "127.0.0.1:15432->15432/tcp",
+        "volume": "poms-r0e-pg15-data",
+        "volumeScope": "rust-r0e"
+      }
+    ],
+    "databaseBinaryOnly": {
+      "postgresVersion": "15.12",
+      "glibc": "2.34",
+      "glibcRpm": "glibc-2.34-283.el9_8.x86_64",
+      "localeRpm": "glibc-langpack-en-2.34-283.el9_8.x86_64",
+      "method": "Read-only postgres --version/getconf/rpm -q in already-running PG container; no psql/client connection or SQL executed"
+    },
+    "images": [
+      {
+        "purpose": "PG15",
+        "id": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+        "scope": "rust-r0e",
+        "labelPurpose": "isolated-postgresql-15.12",
+        "platform": "linux/amd64"
+      },
+      {
+        "purpose": "Rust/Nest build and Node harness",
+        "id": "ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273",
+        "scope": "rust-r1c",
+        "labelPurpose": "test-compatible-auth-validation",
+        "platform": "linux/amd64"
+      },
+      {
+        "purpose": "Browser acceptance",
+        "id": "40946b3f8c4be299594da0968be9656f010b2e73df6be115c9555e155528997d",
+        "scope": "rust-r1d",
+        "labelPurpose": "test-compatible-auth-validation",
+        "platform": "linux/amd64"
+      }
+    ],
+    "versionBoundary": "Live WSL host Debian13.7, PG container UBI/glibc2.34 and historical build-image Debian12/glibc2.36 are different environments. Image IDs/labels were rechecked; no new container was created to re-execute its build/browser runtime version checks.",
+    "ports": {
+      "checked": [
+        15432,
+        16432,
+        5700,
+        5701,
+        5800,
+        5900,
+        6700,
+        6701,
+        6800,
+        6900
+      ],
+      "wslListeners": [
+        {
+          "address": "127.0.0.1",
+          "port": 15432,
+          "process": "rootlessport",
+          "pidAtObservation": 799
+        }
+      ],
+      "windowsListeners": [
+        {
+          "address": "127.0.0.1",
+          "port": 15432,
+          "pidAtObservation": 37220
+        }
+      ],
+      "candidatePortsUnboundAtObservation": [
+        16432,
+        6700,
+        6701,
+        6800,
+        6900
+      ],
+      "reservation": "None. Recheck both surfaces immediately before binding; this observation does not reserve ports or prove future availability."
+    },
+    "paths": {
+      "existingGHCheckout": "/home/wangzishi/projects/poms-rust-r2gh",
+      "existingNodeModules": "/home/wangzishi/projects/poms-rust-r2d/node_modules",
+      "existingGHState": "/home/wangzishi/.local/share/poms-r2gh",
+      "newIJCheckout": {
+        "path": "/home/wangzishi/projects/poms-rust-r2ij",
+        "existsAtObservation": false
+      },
+      "newIJState": {
+        "path": "/home/wangzishi/.local/share/poms-r2ij",
+        "existsAtObservation": false
+      },
+      "privateFiles": "No private env/secret file content was read; only public source literals and directory/container/image metadata were inspected"
+    },
+    "sourceReuse": {
+      "migrationFiles": 92,
+      "lockRawSha256OnWindowsAndR2DAndGH": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "packageRawSha256OnWindowsAndGH": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "nodeModulesLimit": "Directory exists and declared lock matches. It may be read-only mounted after Root validates module resolution; installed package contents/version integrity was not fully re-certified here."
+    }
+  },
+  "proposedIsolatedEnvironment": {
+    "status": "Not created or started; Root must freeze exact names/marker/ports and implement guards",
+    "scopeLabel": "rust-r2ij",
+    "checkout": "/home/wangzishi/projects/poms-rust-r2ij",
+    "stateRoot": "/home/wangzishi/.local/share/poms-r2ij",
+    "stateProtection": "New 0700 state/private directories, 0600 regular non-symlink private credentials and exact journals; use exclusive create/fsync/atomic rename. Never reuse, print or overwrite old GH/private/deployment files.",
+    "pgContainer": "poms-r2ij-pg15",
+    "pgVolume": "poms-r2ij-pg15-data",
+    "pgImage": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "pgNetwork": "Rootless slirp4netns, no-new-privileges, loopback-only 127.0.0.1:16432->15432/tcp; independent named volume; never mount existing R0E/GH data or Windows PG17 data",
+    "pgPortCaveat": "Frozen pg-entrypoint.sh hardcodes postgres -p15432. A fresh image-based IJ container can map host16432 to internal15432. Guard connection transport port16432 separately from server current_setting(port)=15432. Image scope rust-r0e and new container/volume scope rust-r2ij are distinct checks.",
+    "ownerRoleCaveat": "Frozen entrypoint initializes poms_r0e_owner. Retain that owner name only within the new cluster unless Root explicitly freezes a new entrypoint; a proposed poms_r2ij_owner is not available automatically.",
+    "secrets": {
+      "newOwnerSecretName": "poms-r2ij-owner-password",
+      "entrypointTargetFilename": "r0e-password",
+      "newAppSecretName": "poms-r2ij-app-password",
+      "policy": "Fresh generated synthetic instance credentials only, private files or Podman secrets, never in reports/command lines; do not read or reuse R0E/GH passwords"
+    },
+    "databases": [
+      "poms_r2ij_nest",
+      "poms_r2ij_rust"
+    ],
+    "applicationRole": "poms_r2ij_app",
+    "marker": "Fresh UUID generated and frozen by Root, one r2ij_control.marker row per exact allowed database; no marker exists from this task",
+    "requiredDBIdentity": "PG150012, isolated GUC on, internal port15432, exact owner/current/session user, database allowlist, UTF8/libc/en_US.UTF-8, stored+actual collation2.34, TimeZone Etc/GMT-8, pgcrypto1.3/btree_gist1.7; verify after creation. App role no superuser/createdb/createrole/bypassrls/replication/role memberships/schema CREATE/marker access.",
+    "migrationAndSeed": "Run only frozen 92 historical migrations via original authority then original DatabaseSeeder on these fresh controlled copies, with one durable initialization intent. Retain schema/seed source hashes and classified schema diff; no generated DDL, reseeding existing DBs, TEST access or PG17 changes. Initial seeded rows are a preserved baseline, not owned per-run cleanup targets.",
+    "runtimes": {
+      "Nest": {
+        "port": 6700
+      },
+      "Rust": {
+        "port": 6701
+      },
+      "browserOrigin": "http://127.0.0.1:6800",
+      "controlledOBS": "http://127.0.0.1:6900"
+    },
+    "runtimeNetworkPlan": "Run later build/API/fixture/OBS/browser helper processes in existing frozen images with explicitly scoped network=host to reach loopback16432 and API/OBS ports. Do not silently combine DB-container network namespace port15432 with host managed env DB_PORT16432; choose and freeze one context per helper.",
+    "localStorage": "Separate host state objects/<backend>/<ownerTag>, bind only each backend subtree as writable /r2ij-objects/<backend>/<ownerTag>; set POMS_ATTACHMENT_LOCAL_ROOT before API startup. Owner tag fixes a server root; each run uses exact journaled keys. Never rely on cwd storage/attachments or share Nest/Rust roots. Reconcile all interrupted runs before deleting any directory; no recursive cleanup.",
+    "OBSStorage": "New controlled upstream object state under IJ state only; exact backend+run bucket/key registries and synthetic AK/SK. No live vendor endpoints/credentials or deployment env. Support signed bucket HEAD, object PUT/HEAD/stream GET/DELETE, presigned PUT validation/expiry/metadata and deliberate network/status/stream failures. Stub accepting every signature is insufficient.",
+    "virtualHostCases": "Default controlled cases can use forcePathStyle=true. freezePathStyle=false needs scoped container DNS/--add-host names mapping controlled bucket-host endpoints to loopback; do not edit host DNS/hosts or depend on external resolution. Preserve original URL/path/query/SigV4 behavior in comparison.",
+    "lifecycle": "Before start assert both host port tables and exact metadata; record process PID/start identity, source/binary hashes, owner/backend/tag, bound origin and receipt path. Stop only owned matching processes; preserve volume and evidence; verify ports released. Any stale owner/journal mismatch blocks, never kill-by-port/prune/reset/drop."
+  },
+  "oldGHMechanismsToPortIntoNewIJTools": [
+    {
+      "sources": [
+        "tools/rust-r2gh/environment.sh",
+        "tools/rust-r2gh/database-environment.mjs",
+        "tools/rust-r2gh/fixture.sh",
+        "tools/rust-r2gh/fixture-guard.mjs",
+        "tools/rust-r2gh/managed-environment.cjs"
+      ],
+      "retain": "Exact image/container/volume/scope/ports/UID/path checks, ambient DB/process override rejection, explicit private env allowlist, owner-only marker verification and least-privilege app role",
+      "changeInNewIJOnly": "New checkout/state/container/volume/DB pair/role/marker/control-schema/ports, attachment secret+local-root env keys, fixed controlled OBS origin; old GH hardcoded paths cannot be reused unchanged"
+    },
+    {
+      "sources": [
+        "tools/rust-r2gh/fixture-protocol.cjs",
+        "tools/rust-r2gh/fixture-journal.mjs",
+        "tools/rust-r2gh/fixture-core.mjs",
+        "tools/rust-r2gh/fixture-run.mjs"
+      ],
+      "retain": "Run UUID/backend/action exact shape, durable intent before writes, private regular-file checks, known owned base users/roles/orgs and session/security/request identity, exact row identity and partial/interrupted run handling",
+      "changeInNewIJOnly": "r2ij namespaces, new table/action descriptors and permissions profiles for provider manage, each target read/write, uploader, missing permission, confidential/restricted and CSRF; do not create duplicate handwritten permission SSOT"
+    },
+    {
+      "sources": [
+        "tools/rust-r2gh/owned-fixture.mjs",
+        "tools/rust-r2gh/fixture-cleanup.mjs",
+        "tools/rust-r2gh/fixture-complete-references.mjs"
+      ],
+      "retain": "C-G3-02 complete pre-first-DELETE guard inside BEGIN after requests settle: exact frozen 107-table set/locks and complete incoming FK shape, UUID text+JSON compact-uppercase logical closure, exact row identity, base subtree checks and no unknown adoption",
+      "changeInNewIJOnly": "Register IJ provider/upload/attachment/link/audit/security objects plus six target fixtures and supporting snapshots/definitions. Extend incoming target tables/expected edges from original source migrations, not live discovery alone. GH function has GH-only identity keys and is not IJ coverage by direct invocation."
+    },
+    {
+      "sources": [
+        "tools/rust-r2gh/cipher-faults.mjs",
+        "tools/rust-r2gh/cipher-faults.test.mjs"
+      ],
+      "retain": "Durable exact owned row/column/original/fault hashes before injection, actual unreadability, strict ledger-only normalization, finally original column restoration and plaintext fingerprint verification; pending faults block cleanup",
+      "changeInNewIJOnly": "attachment_storage_provider_config encrypted_access_key_id/encrypted_secret_access_key only; retain actual product status/version/audit side effects rather than whole-row rollback"
+    },
+    {
+      "sources": [
+        "tools/rust-r2gh/timestamp-policy.mjs",
+        "tools/rust-r2gh/timestamp-policy.test.mjs",
+        "tools/rust-r2gh/compat-acceptance.mjs"
+      ],
+      "retain": "Explicit dynamic timestamp path and fact-array path allowlists; preserve literal ISO text in arbitrary request/business/provider snapshots",
+      "changeInNewIJOnly": "Exact IJ DB/DTO/audit field paths, session expiresAt-createdAt=3600000ms with send/receive bounds, signed target X-Amz-Date/Expires floor+clamp/supplied expiry relation; no blanket time projection"
+    },
+    {
+      "sources": [
+        "tools/rust-r2gh/owner-run.mjs",
+        "tools/rust-r2gh/browser-acceptance.mjs",
+        "tools/rust-r2gh/reference-guard-witness.mjs",
+        "tools/rust-r2gh/cleanup-journals.mjs",
+        "tools/rust-r2gh/final-state.mjs"
+      ],
+      "retain": "Original Nest source/SQL witness, runtime process provenance, final shared candidate, exact cleanup twice zero and original failed/partial receipts preserved",
+      "changeInNewIJOnly": "New IJ controlled upstream, binary stream/header/raw request captures, exact new output paths, DB plus filesystem/OBS zero receipts; no reuse of old GH runtime results as IJ acceptance"
+    }
+  ],
+  "sixBusinessProjectionFixturePlan": [
+    {
+      "targetType": "customer",
+      "table": "customer",
+      "requiredWithoutDeclaredDefault": [
+        "customer_no",
+        "display_name"
+      ],
+      "projection": [
+        "id",
+        "customer_no",
+        "display_name"
+      ],
+      "ownershipIdentity": [
+        "id",
+        "customer_no",
+        "display_name"
+      ],
+      "relations": "Optional owned owner user/org; keep merged_into_customer_id null. Preserve original seeds; new unique number identifies this row only."
+    },
+    {
+      "targetType": "lead",
+      "table": "lead",
+      "requiredWithoutDeclaredDefault": [
+        "lead_no",
+        "lead_name",
+        "customer_id",
+        "customer_name",
+        "source_code"
+      ],
+      "projection": [
+        "id",
+        "lead_no",
+        "lead_name"
+      ],
+      "ownershipIdentity": [
+        "id",
+        "lead_no",
+        "customer_id"
+      ],
+      "relations": "customer_id -> exact owned customer; source/status valid original shared values. No lead conversion or generated project workflow."
+    },
+    {
+      "targetType": "project",
+      "table": "project",
+      "requiredWithoutDeclaredDefault": [
+        "project_no",
+        "project_name",
+        "status",
+        "current_stage"
+      ],
+      "projection": [
+        "id",
+        "project_no",
+        "project_name"
+      ],
+      "ownershipIdentity": [
+        "id",
+        "project_no",
+        "customer_id",
+        "source_lead_id"
+      ],
+      "relations": "Optional customer/source lead reference only owned rows; nullable owner UUIDs remain null or exact owned user/org; do not invent row-scope permissions."
+    },
+    {
+      "targetType": "contract",
+      "table": "contract",
+      "requiredWithoutDeclaredDefault": [
+        "project_id",
+        "contract_no",
+        "status"
+      ],
+      "projection": [
+        "id",
+        "contract_no",
+        "project_id"
+      ],
+      "ownershipIdentity": [
+        "id",
+        "contract_no",
+        "project_id"
+      ],
+      "relations": "project_id -> exact owned project; center name comes from real project row. No activation, amendment, readiness, finance or approval transaction is claimed."
+    },
+    {
+      "targetType": "sales-follow-up",
+      "table": "sales_follow_up_record",
+      "requiredWithoutDeclaredDefault": [
+        "customer_id",
+        "follow_up_type",
+        "occurred_at",
+        "summary",
+        "outcome"
+      ],
+      "projection": [
+        "id"
+      ],
+      "ownershipIdentity": [
+        "id",
+        "customer_id",
+        "lead_id",
+        "project_id",
+        "summary"
+      ],
+      "relations": "customer_id required, optional lead/project/owner only exact owned rows; self supersedes/replaced_by null; omitted from attachment center exactly as Nest. Synthetic occurrence timestamp stays business data, not dynamic timestamp."
+    },
+    {
+      "targetType": "project-handover",
+      "table": "project_handover",
+      "requiredWithoutDeclaredDefault": [
+        "project_id",
+        "contract_summary_snapshot_id",
+        "effective_handover_baseline_snapshot_id",
+        "summary_snapshot_id"
+      ],
+      "projection": [
+        "id"
+      ],
+      "ownershipIdentity": [
+        "id",
+        "project_id",
+        "contract_summary_snapshot_id",
+        "effective_handover_baseline_snapshot_id",
+        "summary_snapshot_id"
+      ],
+      "relations": "Exact owned project, two approval_summary_snapshot rows and contract_term_snapshot; nullable rebaseline null, draft state. Test-only valid foreign-key scaffolding, never evidence that R4 handover or R2K workflow is delivered."
+    }
+  ],
+  "handoverSupportingFixtureBoundary": {
+    "supportRows": [
+      {
+        "table": "contract_term_snapshot",
+        "requiredWithoutDeclaredDefault": [
+          "contract_id"
+        ],
+        "identity": [
+          "id",
+          "contract_id",
+          "version"
+        ],
+        "parent": "exact owned contract",
+        "outsideLinks": "source_readiness_id/source_baseline_id remain null"
+      },
+      {
+        "table": "approval_summary_snapshot",
+        "instances": 2,
+        "requiredWithoutDeclaredDefault": [
+          "target_type",
+          "target_id",
+          "approval_scenario_key",
+          "summary_package_id",
+          "summary_package_key",
+          "projection_level",
+          "export_policy",
+          "business_status_at_snapshot"
+        ],
+        "identity": [
+          "id",
+          "target_type",
+          "target_id",
+          "summary_package_id",
+          "summary_package_key"
+        ],
+        "logicalReferences": "contract summary target_id -> owned project; handover summary target_id -> preplanned owned handover; no actual confirmation execution"
+      },
+      {
+        "table": "approval_summary_package_definition",
+        "policy": "Prefer exact original DatabaseSeeder definitions contract-handover-summary/project-handover-confirmation as read-only baseline references; verify id/key/scenario/status/projection/export identity before use and preserve. If missing, fail preparation rather than modifying original definitions. Any alternative fresh run-owned definitions require explicit new G1 table/identity/constraints/cleanup coverage."
+      }
+    ],
+    "seedSource": "apps/poms-api/src/seeders/database.seeder.ts:1200-1213,1546-1558",
+    "notClaimed": [
+      "R4 handover confirmation",
+      "R2K attachment checklist or package",
+      "approval/confirmation public engines",
+      "business workflow/transaction completion"
+    ],
+    "testMatrix": "Each target exists/missing and target-type read/write combinations, session createdBy mismatch, uploader vs linked permission branches, confidential/restricted permissions, four-type center labels and dangling targets. Use actual original PG schema rows and separate six-type access from four-type center projection."
+  },
+  "restoreAndCleanupScope": {
+    "preexistingRows": "Never modify original seeded users/roles/orgs/provider/default/dictionaries/settings/business records. If any targeted row/key or enabled default is unowned, refuse before mutation. Scoped settings/clock fault tests need a new exact column ledger or an isolated disposable backend DB with separately frozen restoration; no global restore-all SQL.",
+    "ownedIJRows": [
+      "attachment_storage_provider_config",
+      "attachment_upload_session",
+      "attachment",
+      "attachment_link",
+      "audit_log",
+      "security_event"
+    ],
+    "ownedProjectionRows": [
+      "customer",
+      "lead",
+      "project",
+      "contract",
+      "sales_follow_up_record",
+      "project_handover",
+      "contract_term_snapshot",
+      "approval_summary_snapshot"
+    ],
+    "ownedBaseRows": [
+      "platform_user",
+      "role",
+      "org_unit",
+      "local_credential",
+      "auth_session",
+      "user_role_assignment",
+      "user_org_membership",
+      "role_permission_assignment"
+    ],
+    "unknownReferences": "All 107 frozen original poms tables and complete incoming shapes into new IJ/base/projection/support targets; include attachment_download_package, attachment_download_package_item, project_handover_attachment_selection and snapshot target_id JSON/text even though K is out of scope. Any unregistered referencing row blocks cleanup; do not adopt/delete it.",
+    "locationReferences": "UUID closure alone cannot detect provider configurations because attachment/upload locations store provider+bucket+key, no configId. Before provider/object deletion inspect exact storage locations and prefix resolution across attachment/upload_session/download_package, including unowned rows. Unknown object/consumer or changed hash blocks, never delete by provider prefix alone.",
+    "objectOwnership": "Durable pre-write exact backend/run/location/expected byte count/SHA256/row linkage ledger. Capture changed/missing/orphan state after failed/expired/abort/stream cases. Preflight DB+all owned objects before first destructive action. Local canonical containment+no symlinks, OBS exact synthetic bucket/key, no recursive/root/bucket/prefix cleanup. testConnection temp writes need exact observed registered key under dedicated owner root; no blanket .poms-storage-test prefix deletion.",
+    "order": "After owned requests/processes settle, restore only registered fault columns and verify hashes/fingerprints; acquire complete reference guards and object preflight. Delete exact owned upload sessions and attachment links before attachment rows; preserve/handle version chain dependencies. Delete owned handover before its snapshots/term snapshot, follow-up before customer/lead/project, term before contract, contract before project, project before lead, lead before customer, then exact owned audit/security/base rows. Re-evaluate actual frozen FK/identity graph; this prose is not executable deletion SQL.",
+    "distributedFailure": "DB and filesystem/OBS cleanup is not one atomic transaction. Journal each phase durably; do not mark cleaned until both stores verify zero. Abort on new reference or changed object, preserve residuals for exact recovery and do not rewrite historical round outcomes.",
+    "repeatZero": "Two fresh per-backend exact DB/object residue scans after lawful cleanup, preserved results and final runtime/port/source/binary identity checks; no statement of actual zero is made by this inventory."
+  },
+  "sourcePaths": [
+    "CLAUDE.md",
+    ".agents/skills/poms-implementation-governance/SKILL.md",
+    ".agents/skills/poms-github-task-governance/SKILL.md",
+    "docs/design/backend-rust-migration-plan.md",
+    "docs/design/rust-r0-database-inventory.json",
+    "docs/design/rust-r0-environment-inventory.md",
+    "docs/design/rust-r0e-database-notes.md",
+    "tools/rust-r0e/pg-entrypoint.sh",
+    "tools/rust-r0e/environment.sh",
+    "tools/rust-r1c/Containerfile.build",
+    "tools/rust-r2gh/environment.sh",
+    "tools/rust-r2gh/database-environment.mjs",
+    "tools/rust-r2gh/managed-environment.cjs",
+    "tools/rust-r2gh/fixture.sh",
+    "tools/rust-r2gh/fixture-guard.mjs",
+    "tools/rust-r2gh/fixture-core.mjs",
+    "tools/rust-r2gh/fixture-protocol.cjs",
+    "tools/rust-r2gh/fixture-journal.mjs",
+    "tools/rust-r2gh/fixture-run.mjs",
+    "tools/rust-r2gh/fixture-cleanup.mjs",
+    "tools/rust-r2gh/owned-fixture.mjs",
+    "tools/rust-r2gh/fixture-complete-references.mjs",
+    "tools/rust-r2gh/cipher-faults.mjs",
+    "tools/rust-r2gh/timestamp-policy.mjs",
+    "tools/rust-r2gh/owner-run.mjs",
+    "tools/rust-r2gh/batch-cli.mjs",
+    "apps/poms-api/src/app/features/customer/customer.entity.ts",
+    "apps/poms-api/src/app/features/lead/lead.entity.ts",
+    "apps/poms-api/src/app/features/project/project.entity.ts",
+    "apps/poms-api/src/app/features/contract/contract.entity.ts",
+    "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up-record.entity.ts",
+    "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+    "apps/poms-api/src/app/features/approval-summary/approval-summary.entity.ts",
+    "apps/poms-api/src/seeders/database.seeder.ts",
+    "tmp/rust-r2ij/c-g0-dependencies.json",
+    "pnpm-lock.yaml",
+    "package.json"
+  ],
+  "limits": {
+    "privateValuesRead": false,
+    "dbConnected": false,
+    "sqlExecuted": false,
+    "containersCreatedOrStartedOrStopped": false,
+    "servicesStarted": false,
+    "networkAcceptanceRun": false,
+    "installedAnything": false,
+    "productOrGovernanceOrGHEvidenceEdited": false,
+    "completionClaim": "Environment observations plus unexecuted IJ isolation/fixture proposal only; does not alter non-author role or approve a gate"
+  },
+  "recordedAtUtc": "2026-10-28T17:53:11.1558841Z",
+  "sourceManifest": [
+    {
+      "path": "CLAUDE.md",
+      "rawBytes": 13794,
+      "rawBytesSha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf",
+      "normalizedUtf8Sha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "rawBytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "normalizedUtf8Sha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8"
+    },
+    {
+      "path": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "rawBytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "normalizedUtf8Sha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb"
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "rawBytes": 43341,
+      "rawBytesSha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b",
+      "normalizedUtf8Sha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b"
+    },
+    {
+      "path": "docs/design/rust-r0-database-inventory.json",
+      "rawBytes": 6912040,
+      "rawBytesSha256": "4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3",
+      "normalizedUtf8Sha256": "4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3"
+    },
+    {
+      "path": "docs/design/rust-r0-environment-inventory.md",
+      "rawBytes": 54028,
+      "rawBytesSha256": "4cdb76cf88e2c4eeabd75193f86a81a16aac4f663ac388ee7cf7f93cdcb0d343",
+      "normalizedUtf8Sha256": "4cdb76cf88e2c4eeabd75193f86a81a16aac4f663ac388ee7cf7f93cdcb0d343"
+    },
+    {
+      "path": "docs/design/rust-r0e-database-notes.md",
+      "rawBytes": 24826,
+      "rawBytesSha256": "cbf0f24f866bdf1dbe3c695116515d3215769188b50de70860ad62a7ca045167",
+      "normalizedUtf8Sha256": "cbf0f24f866bdf1dbe3c695116515d3215769188b50de70860ad62a7ca045167"
+    },
+    {
+      "path": "tools/rust-r0e/pg-entrypoint.sh",
+      "rawBytes": 765,
+      "rawBytesSha256": "3618e82d89cb7746bb2638665ccbd613d0e7909b1b7e9f5482c1bc4d1c90f94d",
+      "normalizedUtf8Sha256": "3618e82d89cb7746bb2638665ccbd613d0e7909b1b7e9f5482c1bc4d1c90f94d"
+    },
+    {
+      "path": "tools/rust-r0e/environment.sh",
+      "rawBytes": 5823,
+      "rawBytesSha256": "ef47a131b70a81e0325d66ed2f1007c4ba46c4d4a4599ea390d1c4f163bb2ef6",
+      "normalizedUtf8Sha256": "ef47a131b70a81e0325d66ed2f1007c4ba46c4d4a4599ea390d1c4f163bb2ef6"
+    },
+    {
+      "path": "tools/rust-r1c/Containerfile.build",
+      "rawBytes": 644,
+      "rawBytesSha256": "16166b28ed477d0b59ccb57cfa842d5a20cb90ed85c15777235f85a905c2fd89",
+      "normalizedUtf8Sha256": "16166b28ed477d0b59ccb57cfa842d5a20cb90ed85c15777235f85a905c2fd89"
+    },
+    {
+      "path": "tools/rust-r2gh/environment.sh",
+      "rawBytes": 3543,
+      "rawBytesSha256": "fc87b3a5a0a4d449684f9de984adf0bad2f13798eb376c32a1445935897fdab4",
+      "normalizedUtf8Sha256": "fc87b3a5a0a4d449684f9de984adf0bad2f13798eb376c32a1445935897fdab4"
+    },
+    {
+      "path": "tools/rust-r2gh/database-environment.mjs",
+      "rawBytes": 22793,
+      "rawBytesSha256": "ea4bfeba9b39d6c029803cc757fcd537dba0baebd0339eebdf8c485680a3e7ab",
+      "normalizedUtf8Sha256": "ea4bfeba9b39d6c029803cc757fcd537dba0baebd0339eebdf8c485680a3e7ab"
+    },
+    {
+      "path": "tools/rust-r2gh/managed-environment.cjs",
+      "rawBytes": 5617,
+      "rawBytesSha256": "d42cffdbad740df681d0decb0fbfbcffa8cf3443075f6ef0f6cda94dd1bdc7ad",
+      "normalizedUtf8Sha256": "d42cffdbad740df681d0decb0fbfbcffa8cf3443075f6ef0f6cda94dd1bdc7ad"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture.sh",
+      "rawBytes": 2413,
+      "rawBytesSha256": "aa92fb104e9ce8bbc070c7638f4280a1ef129cd6f98aeeae0521255f653a1a5f",
+      "normalizedUtf8Sha256": "aa92fb104e9ce8bbc070c7638f4280a1ef129cd6f98aeeae0521255f653a1a5f"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-guard.mjs",
+      "rawBytes": 4858,
+      "rawBytesSha256": "de4b6e59aee239605adb5f1ddba79522118db245a169256492b0eddb95db0d1f",
+      "normalizedUtf8Sha256": "de4b6e59aee239605adb5f1ddba79522118db245a169256492b0eddb95db0d1f"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-core.mjs",
+      "rawBytes": 7004,
+      "rawBytesSha256": "0ec551217c26f40bef4735487b57c929ebca04ba26f7eee60ebc38738e2df2cc",
+      "normalizedUtf8Sha256": "0ec551217c26f40bef4735487b57c929ebca04ba26f7eee60ebc38738e2df2cc"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-protocol.cjs",
+      "rawBytes": 6856,
+      "rawBytesSha256": "cd2a58868fd178c25174a41fff75320a0eff35b0740dfd03c569daae07139958",
+      "normalizedUtf8Sha256": "cd2a58868fd178c25174a41fff75320a0eff35b0740dfd03c569daae07139958"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-journal.mjs",
+      "rawBytes": 5361,
+      "rawBytesSha256": "28c2873e7534c4f10869311a5884b578328bb02b786e57d344d4970b6f210bcc",
+      "normalizedUtf8Sha256": "28c2873e7534c4f10869311a5884b578328bb02b786e57d344d4970b6f210bcc"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-run.mjs",
+      "rawBytes": 2926,
+      "rawBytesSha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523",
+      "normalizedUtf8Sha256": "ab001588a2cdd34dfef72573cdd2ea8f49169f61a3ba30a376ee1efbf60bd523"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-cleanup.mjs",
+      "rawBytes": 10633,
+      "rawBytesSha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce",
+      "normalizedUtf8Sha256": "6cc7fbf7d29bd2386bbb188b7bfc16b8ed4c2ec9821b69f3b9c54804f2ff43ce"
+    },
+    {
+      "path": "tools/rust-r2gh/owned-fixture.mjs",
+      "rawBytes": 22717,
+      "rawBytesSha256": "2865017b2aca8f575cd400cfd62b6751fcd113321a7b478841c1768f38b0abc9",
+      "normalizedUtf8Sha256": "2865017b2aca8f575cd400cfd62b6751fcd113321a7b478841c1768f38b0abc9"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-complete-references.mjs",
+      "rawBytes": 14916,
+      "rawBytesSha256": "5489418777b421fdb288ad128085d0375831565d6fd982334473c7949ebc7edb",
+      "normalizedUtf8Sha256": "5489418777b421fdb288ad128085d0375831565d6fd982334473c7949ebc7edb"
+    },
+    {
+      "path": "tools/rust-r2gh/cipher-faults.mjs",
+      "rawBytes": 6416,
+      "rawBytesSha256": "c064e487dcdf8daea1db87db153ec11a1bca7f224895c688e5c23aadb6d7c233",
+      "normalizedUtf8Sha256": "c064e487dcdf8daea1db87db153ec11a1bca7f224895c688e5c23aadb6d7c233"
+    },
+    {
+      "path": "tools/rust-r2gh/timestamp-policy.mjs",
+      "rawBytes": 3896,
+      "rawBytesSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b",
+      "normalizedUtf8Sha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b"
+    },
+    {
+      "path": "tools/rust-r2gh/owner-run.mjs",
+      "rawBytes": 5262,
+      "rawBytesSha256": "6228e1ffb748f641a8fb06762d0e04d25ebea9ab8c5d181c1f5724dd36dc0d2b",
+      "normalizedUtf8Sha256": "6228e1ffb748f641a8fb06762d0e04d25ebea9ab8c5d181c1f5724dd36dc0d2b"
+    },
+    {
+      "path": "tools/rust-r2gh/batch-cli.mjs",
+      "rawBytes": 6085,
+      "rawBytesSha256": "b8f572d1f15a767bfff17dd7d8be0ee8b5f6805ddb73f671409e58745202b3ad",
+      "normalizedUtf8Sha256": "b8f572d1f15a767bfff17dd7d8be0ee8b5f6805ddb73f671409e58745202b3ad"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "rawBytes": 6042,
+      "rawBytesSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea",
+      "normalizedUtf8Sha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "rawBytes": 6261,
+      "rawBytesSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef",
+      "normalizedUtf8Sha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "rawBytes": 4183,
+      "rawBytesSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "normalizedUtf8Sha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "rawBytes": 9907,
+      "rawBytesSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "normalizedUtf8Sha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up-record.entity.ts",
+      "rawBytes": 8170,
+      "rawBytesSha256": "f027ca0bf5d53c09530c5cc4841631d06bd2ef932d899a3251828383b554fe6c",
+      "normalizedUtf8Sha256": "f027ca0bf5d53c09530c5cc4841631d06bd2ef932d899a3251828383b554fe6c"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "rawBytes": 15789,
+      "rawBytesSha256": "a20265a409ce164fa66e84b6e9d6890d7f5db1214acf4a79fbf1249dffeeaa4a",
+      "normalizedUtf8Sha256": "a20265a409ce164fa66e84b6e9d6890d7f5db1214acf4a79fbf1249dffeeaa4a"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.entity.ts",
+      "rawBytes": 7976,
+      "rawBytesSha256": "12153557a98534d9fc2910e47b169607ac97df2f5369dbefbb4837ce77a41c39",
+      "normalizedUtf8Sha256": "12153557a98534d9fc2910e47b169607ac97df2f5369dbefbb4837ce77a41c39"
+    },
+    {
+      "path": "apps/poms-api/src/seeders/database.seeder.ts",
+      "rawBytes": 80434,
+      "rawBytesSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+      "normalizedUtf8Sha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd"
+    },
+    {
+      "path": "tmp/rust-r2ij/c-g0-dependencies.json",
+      "rawBytes": 104941,
+      "rawBytesSha256": "ff119394b760319cbd87020ac1e02f632e5f2c386874380291bb862c4a0e668a",
+      "normalizedUtf8Sha256": "c5f2046afecc2bdff35f26c1cfca81b3c7ce9d38e19b182cf5194858c301d9dd"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "rawBytes": 837627,
+      "rawBytesSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "normalizedUtf8Sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+    },
+    {
+      "path": "package.json",
+      "rawBytes": 4286,
+      "rawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "normalizedUtf8Sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+    }
+  ],
+  "fingerprintRule": "Exact raw bytes SHA256 plus UTF8 decode preserving BOM and CRLF-only to LF normalized SHA256"
+}

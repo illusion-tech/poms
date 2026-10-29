@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {randomUUID,createHash} from 'node:crypto';
+import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+import {OwnedFixture} from './owned-fixture.mjs';
+const [tag,nestTag,rustTag]=process.argv.slice(2);assert([tag,nestTag,rustTag].every(value=>/^[a-z0-9-]{1,35}$/.test(value)));
+const file=`tmp/rust-r2ij/unicode-boundary-${tag}.json`;assert(!existsSync(file));const hash=bytes=>createHash('sha256').update(bytes).digest('hex'),runId=randomUUID();
+const report={formatVersion:1,result:'pending',tag,runId,at:new Date().toISOString(),scope:'Two actual successful HTTP/PG codepoint-boundary inputs per backend; originalName remains legal ASCII, no upload success invented',backends:[]};
+try{
+    for(const [backend,ownerTag,priorTag] of [['nest',nestTag,'witness02'],['rust',rustTag,'api17']]){
+        const ownerFile=`tmp/rust-r2ij/owner-${backend}-${ownerTag}-start.json`,owner=JSON.parse(readFileSync(ownerFile)),prior=JSON.parse(readFileSync(`tmp/rust-r2ij/owner-${backend}-${priorTag}-start.json`));assert.equal(owner.binarySha256,prior.binarySha256);assert.deepEqual(owner.sourceFiles,prior.sourceFiles);assert.equal(hash(readFileSync(owner.binary)),owner.binarySha256);
+        const item={backend,ownerTag,binarySha256:owner.binarySha256,ownerReceiptSha256:hash(readFileSync(ownerFile)),sameProductAndBinaryAsPriorAcceptedOwner:true,cases:[]};report.backends.push(item);let fixture;
+        try{
+            fixture=await OwnedFixture.open(backend,runId);const targets=await fixture.targets(),session=await fixture.login(owner.origin);
+            const display128='😀'.repeat(128);await fixture.assertOwnedDefault();await fixture.planCreation('provider',{provider_type:'local',key_prefix:'ij-'+runId+'/unicode128'});
+            const created=await fixture.request(session,'POST','/api/platform/attachment-storage-providers',{json:{providerType:'local',displayName:display128,enabled:false,keyPrefix:'ij-'+runId+'/unicode128'}});assert.equal(created.status,201);assert.equal(created.body.displayName,display128);await fixture.adoptRuntime();
+            const iRow=(await fixture.client.query('select char_length(display_name)::int as codepoints,octet_length(display_name)::int as utf8_bytes from poms.attachment_storage_provider_config where id=$1::uuid',[created.body.id])).rows[0];assert.deepEqual(iRow,{codepoints:128,utf8_bytes:512});item.cases.push({name:'I-displayName-128-emoji',status:created.status,requestCodepoints:128,requestUtf16Units:256,responseCodepoints:Array.from(created.body.displayName).length,responseUtf16Units:created.body.displayName.length,responseTextSha256:hash(Buffer.from(created.body.displayName)),pg:iRow});
+            const display255='😀'.repeat(255),originalName='unicode-'+runId+'.png',category=(await fixture.client.query("select code from poms.dictionary_item where domain='attachment-category' and status='active' order by sort_order,code limit 1")).rows[0].code;
+            await fixture.planCreation('session',{operation_type:'create-attachment',original_name:originalName});const upload=await fixture.request(session,'POST','/api/attachment-upload-sessions',{json:{operationType:'create-attachment',originalName,displayName:display255,mimeType:'image/png',sizeBytes:1,category,targetType:'customer',targetId:targets.customer}});assert.equal(upload.status,201);assert.equal(upload.body.displayName,display255);await fixture.adoptRuntime();
+            const jRow=(await fixture.client.query('select char_length(display_name)::int as codepoints,octet_length(display_name)::int as utf8_bytes from poms.attachment_upload_session where id=$1::uuid',[upload.body.id])).rows[0];assert.deepEqual(jRow,{codepoints:255,utf8_bytes:1020});item.cases.push({name:'J-displayName-255-emoji',status:upload.status,requestCodepoints:255,requestUtf16Units:510,responseCodepoints:Array.from(upload.body.displayName).length,responseUtf16Units:upload.body.displayName.length,responseTextSha256:hash(Buffer.from(upload.body.displayName)),pg:jRow});item.result='pass';
+        }finally{if(fixture){item.cleanup1=await fixture.cleanup();item.cleanup2=await fixture.cleanup();assert(item.cleanup2.zero&&item.cleanup2.matched===0&&item.cleanup2.changed===0);await fixture.close();}}
+    }
+    assert.deepEqual(report.backends[1].cases,report.backends[0].cases);report.result='pass';
+}catch(error){report.result='fail';report.failure={name:error.name,message:error.message};process.exitCode=1;}
+finally{report.finishedAt=new Date().toISOString();writeFileSync(file,JSON.stringify(report,null,2)+'\n',{flag:'wx',mode:0o600});console.log(JSON.stringify({result:report.result,backends:report.backends.map(item=>({backend:item.backend,result:item.result,cases:item.cases.length,zero:item.cleanup2?.zero})),failure:report.failure}));}
