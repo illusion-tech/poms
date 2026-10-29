@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "kind": "K-tool-only-single-trailing-LF-correction",
+  "result": "pass",
+  "at": "2026-10-29T18:52:26.653Z",
+  "originalImplementationCommit": "889d6f79d51640cb9dbf5a9b10e41e6554ebe1be",
+  "file": "tools/rust-r2k/k-faults.mjs",
+  "original": {
+    "bytes": 11506,
+    "rawBytesSha256": "c60763e076bfab882324b2e8cb4cac84b22e5a981f3c57598ae58f62f6d28162",
+    "preserved": "E:/projects/poms/tmp/rust-r2k/final01/tools/rust-r2k/k-faults.mjs"
+  },
+  "current": {
+    "bytes": 11505,
+    "rawBytesSha256": "0df62b9941fc8d423d6f9c97dcc486c16651ec9d551e95c59fc8975c139a0afd",
+    "normalizedLfSha256": "0df62b9941fc8d423d6f9c97dcc486c16651ec9d551e95c59fc8975c139a0afd",
+    "snapshot": "E:\\projects\\poms\\tmp\\rust-r2k\\addenda\\whitespace01\\snapshot\\tools\\rust-r2k\\k-faults.mjs"
+  },
+  "operation": "Remove exactly one trailing LF from a file ending with two LFs; every other byte is identical.",
+  "sourceUnion": {
+    "files": 308,
+    "unchangedFiles": 307,
+    "explicitToolOnlyDifference": "tools/rust-r2k/k-faults.mjs",
+    "originalDigest": "7118e0b0dc50d189bab050d0c3d0c8928c22d98e555491d740dde47aaaf1c61d",
+    "currentLfDigest": "8bda459a8f909b51c9feda7cde2c4918d605648c91623ac50fda411f4d1584cf"
+  },
+  "semanticOrProductChange": false,
+  "originalStageMapUnchanged": true,
+  "originalValidationArchiveAndRuntimeCapsulesUnchanged": true,
+  "readOnlyReplay": "tmp/rust-r2k/889d-whitespace-check-replay01.json",
+  "classification": "The precommit whitespace warning was accidentally allowed to continue by the shell. Keep original pushed commit and failure replay; a separate correction commit is required before main integration. No runtime rerun is claimed or needed for the sole EOF byte deletion."
+}
