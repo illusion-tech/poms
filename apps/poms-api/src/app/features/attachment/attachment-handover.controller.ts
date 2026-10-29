@@ -12,45 +12,45 @@ import { AttachmentService } from './attachment.service';
 export class AttachmentHandoverController {
     constructor(@Inject(AttachmentService) private readonly attachmentService: AttachmentService) {}
 
-    @Get('project-handovers/:handoverId/attachment-checklist')
+    @Get('project-handovers/:id/attachment-checklist')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取项目移交附件清单' })
     @ApiOkResponse({ type: ProjectHandoverAttachmentChecklistViewDto })
-    getChecklist(@Param('handoverId') handoverId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {
+    getChecklist(@Param('id') handoverId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {
         return this.attachmentService.getProjectHandoverAttachmentChecklist(handoverId, req.user, getRequestId(req));
     }
 
-    @Post('project-handovers/:handoverId/attachment-checklist\\:refresh')
+    @Post('project-handovers/:id/attachment-checklist\\:refresh')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '刷新项目移交附件清单' })
     @ApiOkResponse({ type: ProjectHandoverAttachmentChecklistViewDto })
-    refreshChecklist(@Param('handoverId') handoverId: string, @Body() body: RefreshProjectHandoverAttachmentChecklistRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {
+    refreshChecklist(@Param('id') handoverId: string, @Body() body: RefreshProjectHandoverAttachmentChecklistRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverAttachmentChecklistView> {
         return this.attachmentService.refreshProjectHandoverAttachmentChecklist(handoverId, body, req.user, getRequestId(req));
     }
 
-    @Post('project-handovers/:handoverId/attachment-download-packages')
+    @Post('project-handovers/:id/attachment-download-packages')
     @HasPermissions('project:read')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '创建项目移交附件批量下载包' })
     @ApiOkResponse({ type: AttachmentDownloadPackageSummaryDto })
-    createDownloadPackage(@Param('handoverId') handoverId: string, @Body() body: CreateProjectHandoverAttachmentDownloadPackageRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {
+    createDownloadPackage(@Param('id') handoverId: string, @Body() body: CreateProjectHandoverAttachmentDownloadPackageRequestDto, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {
         return this.attachmentService.createProjectHandoverAttachmentDownloadPackage(handoverId, body, req.user, getRequestId(req));
     }
 
-    @Get('attachment-download-packages/:packageId')
+    @Get('attachment-download-packages/:id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取附件下载包状态' })
     @ApiOkResponse({ type: AttachmentDownloadPackageSummaryDto })
-    getDownloadPackage(@Param('packageId') packageId: string, @Request() req: { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {
+    getDownloadPackage(@Param('id') packageId: string, @Request() req: { user: UserPayload }): Promise<AttachmentDownloadPackageSummary> {
         return this.attachmentService.getAttachmentDownloadPackage(packageId, req.user);
     }
 
-    @Get('attachment-download-packages/:packageId/download')
+    @Get('attachment-download-packages/:id/download')
     @HasPermissions('project:read')
     @Header('Cache-Control', 'private, no-store')
     @ApiOperation({ summary: '下载附件批量包' })
-    async downloadPackage(@Param('packageId') packageId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {
+    async downloadPackage(@Param('id') packageId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<StreamableFile> {
         const { downloadPackage, stream } = await this.attachmentService.openAttachmentDownloadPackage(packageId, req.user, getRequestId(req));
         const encodedName = encodeURIComponent(downloadPackage.fileName ?? `${downloadPackage.id}.zip`);
         return new StreamableFile(stream, {

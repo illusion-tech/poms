@@ -3703,12 +3703,12 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}/attachment-checklist": {
+    "/api/project-handovers/{id}/attachment-checklist": {
       "get": {
         "operationId": "AttachmentHandoverController_getChecklist",
         "parameters": [
           {
-            "name": "handoverId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
@@ -3739,12 +3739,12 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}/attachment-checklist:refresh": {
+    "/api/project-handovers/{id}/attachment-checklist:refresh": {
       "post": {
         "operationId": "AttachmentHandoverController_refreshChecklist",
         "parameters": [
           {
-            "name": "handoverId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
@@ -3785,12 +3785,12 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}/attachment-download-packages": {
+    "/api/project-handovers/{id}/attachment-download-packages": {
       "post": {
         "operationId": "AttachmentHandoverController_createDownloadPackage",
         "parameters": [
           {
-            "name": "handoverId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
@@ -3831,12 +3831,12 @@
         ]
       }
     },
-    "/api/attachment-download-packages/{packageId}": {
+    "/api/attachment-download-packages/{id}": {
       "get": {
         "operationId": "AttachmentHandoverController_getDownloadPackage",
         "parameters": [
           {
-            "name": "packageId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
@@ -3867,12 +3867,12 @@
         ]
       }
     },
-    "/api/attachment-download-packages/{packageId}/download": {
+    "/api/attachment-download-packages/{id}/download": {
       "get": {
         "operationId": "AttachmentHandoverController_downloadPackage",
         "parameters": [
           {
-            "name": "packageId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
