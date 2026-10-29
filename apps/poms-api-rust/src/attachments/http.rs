@@ -1,4 +1,4 @@
-//! Exactly the original J19 routes. Shared binary transport runs after service audit.
+//! The original J19/K5 routes. Shared binary transport runs after service audit.
 use super::{
     model::{RequestData, Wire},
     service::{AttachmentsService, CallContext},
@@ -45,6 +45,11 @@ enum Op {
     History,
     Link,
     Unlink,
+    HandoverChecklist,
+    RefreshHandoverChecklist,
+    CreateHandoverPackage,
+    GetPackage,
+    DownloadPackage,
 }
 impl Op {
     fn writing(self) -> bool {
@@ -65,6 +70,23 @@ impl Op {
     }
 }
 fn policy(op: Op) -> RoutePolicy {
+    if matches!(
+        op,
+        Op::HandoverChecklist
+            | Op::RefreshHandoverChecklist
+            | Op::CreateHandoverPackage
+            | Op::GetPackage
+            | Op::DownloadPackage
+    ) {
+        return RoutePolicy {
+            all: vec![if op == Op::RefreshHandoverChecklist {
+                PermissionKey::ProjectWrite
+            } else {
+                PermissionKey::ProjectRead
+            }],
+            ..RoutePolicy::default()
+        };
+    }
     RoutePolicy {
         any: if op.writing() {
             vec![
@@ -106,12 +128,39 @@ pub fn router(auth: AuthHttpState, service: Arc<AttachmentsService>) -> Router {
         .route("/api/attachments/{id}/versions", get(dispatch))
         .route("/api/attachments/{id}/links", post(dispatch))
         .route("/api/attachments/{id}/links/{linkId}", delete(dispatch))
+        .route(
+            "/api/project-handovers/{id}/attachment-checklist",
+            get(dispatch),
+        )
+        .route(
+            "/api/project-handovers/{id}/attachment-checklist:refresh",
+            post(dispatch),
+        )
+        .route(
+            "/api/project-handovers/{id}/attachment-download-packages",
+            post(dispatch),
+        )
+        .route("/api/attachment-download-packages/{id}", get(dispatch))
+        .route(
+            "/api/attachment-download-packages/{id}/download",
+            get(dispatch),
+        )
         .layer(Extension(service))
         .with_state(auth)
 }
 pub fn openapi() -> Value {
-    serde_json::from_str(include_str!("../../../../tools/rust-r2ij/j-openapi.json"))
-        .unwrap_or_else(|_| panic!("original J19 OpenAPI"))
+    let mut output: Value =
+        serde_json::from_str(include_str!("../../../../tools/rust-r2ij/j-openapi.json"))
+            .unwrap_or_else(|_| panic!("original J19 OpenAPI"));
+    let k: Value = serde_json::from_str(include_str!("../../../../tools/rust-r2k/k-openapi.json"))
+        .unwrap_or_else(|_| panic!("original K5 OpenAPI"));
+    for (path, operation) in k["paths"].as_object().into_iter().flatten() {
+        output["paths"][path] = operation.clone();
+    }
+    for (name, schema) in k["components"]["schemas"].as_object().into_iter().flatten() {
+        output["components"]["schemas"][name] = schema.clone();
+    }
+    output
 }
 fn command<'a>(value: &'a str, suffix: &str) -> Option<&'a str> {
     let at = value.len().checked_sub(suffix.len())?;
@@ -167,6 +216,25 @@ fn operation(method: &Method, path: &str) -> Option<Op> {
         ["", "api", "attachments", _, "versions"] if safe => Op::History,
         ["", "api", "attachments", _, "links"] if *method == Method::POST => Op::Link,
         ["", "api", "attachments", _, "links", _] if *method == Method::DELETE => Op::Unlink,
+        ["", "api", "project-handovers", _, "attachment-checklist"] if safe => {
+            Op::HandoverChecklist
+        }
+        [
+            "",
+            "api",
+            "project-handovers",
+            _,
+            "attachment-checklist:refresh",
+        ] if *method == Method::POST => Op::RefreshHandoverChecklist,
+        [
+            "",
+            "api",
+            "project-handovers",
+            _,
+            "attachment-download-packages",
+        ] if *method == Method::POST => Op::CreateHandoverPackage,
+        ["", "api", "attachment-download-packages", _] if safe => Op::GetPackage,
+        ["", "api", "attachment-download-packages", _, "download"] if safe => Op::DownloadPackage,
         _ => return None,
     })
 }
@@ -192,6 +260,8 @@ fn canonical_path(path: &str) -> Option<String> {
             "attachments",
             "attachment-upload-sessions",
             "attachment-center-records",
+            "project-handovers",
+            "attachment-download-packages",
         ]
         .iter()
         .any(|v| parts[2].eq_ignore_ascii_case(v))
@@ -227,6 +297,17 @@ fn invalid_registered_capture(path: &str) -> Option<&str> {
             "object" | "upload-targets",
         ] => &[3],
         ["", "api", "attachments", _, "links", _] => &[3, 5],
+        [
+            "",
+            "api",
+            "project-handovers",
+            _,
+            "attachment-checklist"
+            | "attachment-checklist:refresh"
+            | "attachment-download-packages",
+        ]
+        | ["", "api", "attachment-download-packages", _]
+        | ["", "api", "attachment-download-packages", _, "download"] => &[3],
         _ => &[],
     };
     indices.iter().find_map(|&index| {
@@ -333,6 +414,14 @@ async fn dispatch(
         Op::Void => Some(("VoidAttachmentRequest", parsed.raw())),
         Op::Link => Some(("CreateAttachmentLinkRequest", parsed.raw())),
         Op::List => Some(("AttachmentListQuery", Some(query.as_str()))),
+        Op::RefreshHandoverChecklist => Some((
+            "RefreshProjectHandoverAttachmentChecklistRequest",
+            parsed.raw(),
+        )),
+        Op::CreateHandoverPackage => Some((
+            "CreateProjectHandoverAttachmentDownloadPackageRequest",
+            parsed.raw(),
+        )),
         _ => None,
     };
     let input = match schema
@@ -344,13 +433,21 @@ async fn dispatch(
     };
     let mut ctx = CallContext::new(&resolved);
     let request_id = metadata.request_id.as_deref();
-    if matches!(op, Op::Download | Op::Preview | Op::Thumbnail) {
+    if matches!(
+        op,
+        Op::Download | Op::Preview | Op::Thumbnail | Op::DownloadPackage
+    ) {
         let kind = match op {
             Op::Preview => "preview",
             Op::Thumbnail => "thumbnail",
             _ => "download",
         };
-        return match service.binary(&id, kind, request_id, &mut ctx).await {
+        let payload = if op == Op::DownloadPackage {
+            service.download_package(&id, request_id, &mut ctx).await
+        } else {
+            service.binary(&id, kind, request_id, &mut ctx).await
+        };
+        return match payload {
             Ok(payload) => match binary_http::respond(payload, &parts.method).await {
                 Ok(response) => response,
                 Err(error) => binary_http::controller_error(error).await,
@@ -381,6 +478,18 @@ async fn dispatch(
         Op::History => service.history(&id, &mut ctx).await,
         Op::Link => service.link(&id, &input, request_id, &mut ctx).await,
         Op::Unlink => service.unlink(&id, &link_id, request_id, &mut ctx).await,
+        Op::HandoverChecklist => service.handover_checklist(&id, request_id, &mut ctx).await,
+        Op::RefreshHandoverChecklist => {
+            service
+                .refresh_handover_checklist(&id, &input, request_id, &mut ctx)
+                .await
+        }
+        Op::CreateHandoverPackage => {
+            service
+                .create_handover_download_package(&id, &input, request_id, &mut ctx)
+                .await
+        }
+        Op::GetPackage => service.get_download_package(&id, &mut ctx).await,
         _ => return ApiError::internal().into_response(),
     };
     match result {

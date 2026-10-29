@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "kind": "K-author-A-candidate05-jsonb-wire-compaction",
+  "at": "2026-10-29T13:16:18.196Z",
+  "evidence": [
+    {
+      "file": "tmp/rust-r2k/k-http-nest-beta02.json",
+      "sha256": "c1aecaf329e5b2d65a5e254451bd81da69a881af053cc739a5b48b2f62c86a28",
+      "case": "k.package.summary",
+      "contentLength": 643,
+      "JSONstringifyBodyBytes": 643
+    },
+    {
+      "file": "tmp/rust-r2k/k-http-rust-beta02.json",
+      "sha256": "78e6834f4fe82cdec830a88e1d1aed480678518d11449238b51f0bdc38fc0503",
+      "case": "k.package.summary",
+      "contentLength": 653,
+      "JSONstringifyBodyBytes": 643
+    }
+  ],
+  "delta": [
+    "K-only checklist/package HTTP mapper serialization now compacts PG JSON syntax whitespace, retaining original PG member order and Node literal wellformed Unicode/lone-surrogate behavior",
+    "Existing ZIP pretty JSON writer unchanged; compact writer removes only syntax whitespace after its ordered UTF16-aware traversal",
+    "J request/service/wire behavior and stored PG raw JSON unchanged",
+    "Two independent Node/Native-byte regressions added; old DTO/ZIP goldens remain unchanged"
+  ],
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/handover.rs",
+      "bytes": 40191,
+      "rawBytesSha256": "aad9581a3452d6f07da7a8a6233148a1c22cfdb149c4adfd52c2c877aba953af",
+      "normalizedLfSha256": "aad9581a3452d6f07da7a8a6233148a1c22cfdb149c4adfd52c2c877aba953af"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/zip.rs",
+      "bytes": 13199,
+      "rawBytesSha256": "a605cb56d3c2f2bb87a22ae160a3982af90c9c4d4e0d36783d30c395154c51f3",
+      "normalizedLfSha256": "a605cb56d3c2f2bb87a22ae160a3982af90c9c4d4e0d36783d30c395154c51f3"
+    },
+    {
+      "file": "tools/rust-r2k/k-wire-export.mjs",
+      "bytes": 2615,
+      "rawBytesSha256": "bc3232779d4bdcc5683b2ad4ffbd1d0a11aa448fb62122e4605cb62656481932",
+      "normalizedLfSha256": "bc3232779d4bdcc5683b2ad4ffbd1d0a11aa448fb62122e4605cb62656481932"
+    },
+    {
+      "file": "tools/rust-r2k/k-wire-golden.json",
+      "bytes": 7561,
+      "rawBytesSha256": "a1b27a15a1e3b781428469c3f7b19c7003a80c4ddba4b5d5b362f07d13dab525",
+      "normalizedLfSha256": "a1b27a15a1e3b781428469c3f7b19c7003a80c4ddba4b5d5b362f07d13dab525"
+    }
+  ],
+  "pureChecks": {
+    "originalExporter": "Pass",
+    "wireExporter": "Pass actual immutable beta02 source hash + Node JSON.stringify4vectors",
+    "gitDiffCheck": "Pass"
+  },
+  "rustChecks": "Pending Root centralized candidate05 compilation and real fresh-tag HTTP verification",
+  "observer": {
+    "file": "tools/rust-r2k/k-pg-create-observer.mjs",
+    "unchanged": true,
+    "uppercaseAuditTarget": "Existing lower only canonical UUID text guard; no cast/NEW mutation"
+  }
+}

@@ -3,6 +3,10 @@ use super::{
     model::{RequestData, Wire, js, trim_js},
     store::{self, AuditWrite, Entity, Table},
 };
+#[path = "handover.rs"]
+mod handover;
+#[path = "zip.rs"]
+pub(super) mod zip;
 use crate::{
     attachment_storage::{AttachmentStorage, ObjectLocation, StorageFailure},
     auth::{
@@ -12,6 +16,7 @@ use crate::{
     binary_http::BinaryPayload,
     database::Database,
     dictionary::service::{DictionaryError, DictionaryService},
+    handover_facts::HandoverFacts,
     system_settings::service::{SystemSettingsError, SystemSettingsService},
 };
 use axum::{body::Body, http::StatusCode};
@@ -247,12 +252,14 @@ pub struct AttachmentsService {
     storage: Arc<AttachmentStorage>,
     dictionary: DictionaryService,
     settings: SystemSettingsService,
+    facts: HandoverFacts,
 }
 impl AttachmentsService {
     pub fn new(database: Database, storage: Arc<AttachmentStorage>) -> Self {
         Self {
             dictionary: DictionaryService::new(database.clone()),
             settings: SystemSettingsService::new(database.clone()),
+            facts: HandoverFacts::new(database.clone()),
             database,
             storage,
         }
@@ -272,6 +279,11 @@ impl AttachmentsService {
                     Table::Attachment => format!("Attachment {id} not found"),
                     Table::Link => format!("Attachment link {id} not found"),
                     Table::Session => format!("Attachment upload session {id} not found"),
+                    Table::HandoverSelection => format!("Attachment selection {id} not found"),
+                    Table::DownloadPackage => format!("Attachment download package {id} not found"),
+                    Table::DownloadPackageItem => {
+                        format!("Attachment download package item {id} not found")
+                    }
                 })
             })?;
         Ok(ctx.track(row))
@@ -317,6 +329,7 @@ impl AttachmentsService {
             operator: ctx.session.user.user_id,
             request_id: request_id.map(str::to_owned),
             metadata,
+            result: "success".into(),
         };
         store::flush(
             &self.database,

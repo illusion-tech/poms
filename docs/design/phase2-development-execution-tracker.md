@@ -576,3 +576,16 @@ L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审�
 ### 2026-10-29 L1 与 K5 参数子片 G4完成
 
 #81/#82已按[收口记录](rust-r2l1-g4-closeout.md)关闭，实现main 894fc72c2a90f0c93988ad23bcfe87157bdc322d 经独立固定提交复核，生命周期原件与小增量[路径/hash索引](rust-r2l1-g4-evidence.json)保全。L1内部公共机制与K5参数同步交付；L四公开路由、K五操作业务、真实域handler及R2M仍未完成。本批0新增公共操作，R2仍99/108；#61其他四项差异、父#79/#61/#78/#80/#67/#57保持Open。
+
+### 2026-10-29 K业务与R4两参数联合批次 G0
+
+用户续授权K #78五业务＋原最小R4事实读取适配，与#83两项移交参数裁决并行，来源main f23490d0f0e145fb030d8f070726dd2aa00cf074。[联合基线候选](rust-r2k-r4-route-baseline.md)待G1；当前产品未改，K与#83仍Todo，不提前计104/108。原prepared-state/实际Native确认的来源观察不认证RustR4写链，K不加confirmed或snapshot消费门槛；L4/R2M、两lookup、父#61/#67/#57与整个R3–R5不因此完成。
+
+### 2026-10-29 K与R4两参数联合G1冻结
+
+#78/#83于2026-10-29T10:00:47.319Z按[联合基线](rust-r2k-r4-route-baseline.md)及[独立审查](rust-r2kr4-g1-review01.json)进入Doing，开放P0–P3为0。K只迁五业务和原最小只读事实，Native-before-store及完整PG/存储/ZIP/UI/故障验收待执行；R4参数经新永久S2及原生成器受控同步，0新业务操作。原prepared-state与Native确认仅作来源观察，seed定义只读借用，不冒称RustR4业务/新draft API。当前仍99/108，G3/集成/G4及104/108条件均待完成，L/M与父项不关闭。
+
+
+### 2026-10-30 K 与 R4 两参数联合 G3 通过
+
+#78/#83 的[非作者联合 G3](rust-r2k-g3-review01.json)通过，[冻结验收](rust-r2k-validation.json)、[分类增量](rust-r2k-validation-delta01.json)、[原来源补证](rust-r2k-source-supplement01.json)与[保全锚点](rust-r2k-preservation.json)分别保留原字节和边界。Rust211通过/54历史ignored、共享1185tests、K43请求/端及实际ZIP/并发/故障/OBS/UI均已核；schema既有分类与OBS断连生命周期差异明列。当前仍Doing、99/108，提交集成、固定提交复核和G4待完成；只有K完整G4后可104/108，L4/R2M、整个R4、两lookup和父项保持未完成。

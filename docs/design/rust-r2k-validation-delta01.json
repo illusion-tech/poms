@@ -1,0 +1,499 @@
+{
+  "formatVersion": 1,
+  "kind": "K-validation-additive-attempt-ledger-classification",
+  "result": "pass",
+  "at": "2026-10-29T18:22:46.781Z",
+  "originalValidation": {
+    "file": "docs/design/rust-r2k-validation.json",
+    "origin": "windows",
+    "bytes": 271198,
+    "rawBytesSha256": "a647bf6e4fe92aea9b204bfa5ddedc33d8136eeeb48389552c8fc3922745af9e"
+  },
+  "originalValidationUnchanged": true,
+  "correction": "The frozen attempts array contains 34 actual run reports plus one independent review artifact accidentally selected by the native-calibration prefix. The review is not an execution. Preserve all originals; this current ledger excludes only that non-run review.",
+  "excludedNonExecutionReview": [
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/native-calibration-review01.json",
+        "origin": "linux",
+        "bytes": 13167,
+        "rawBytesSha256": "32ce687f955d61c71921d20b8737d5b6e5897e21a94e95cce21075a6fea53476"
+      },
+      "originalResult": "Observed Native evidence reviewed; not Rust equality or Gate Pass"
+    }
+  ],
+  "actualBackendRunReports": [
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-beta01.json",
+        "origin": "linux",
+        "bytes": 1263315,
+        "rawBytesSha256": "88d446244ca49553369c8de160fea9084b651e9fbf0ad4ebcac6b4704c608fc0"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "beta01",
+      "http": 0,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-beta02.json",
+        "origin": "linux",
+        "bytes": 4924339,
+        "rawBytesSha256": "c1aecaf329e5b2d65a5e254451bd81da69a881af053cc739a5b48b2f62c86a28"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "beta02",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-fault01.json",
+        "origin": "linux",
+        "bytes": 8994642,
+        "rawBytesSha256": "5bb9ea50c32f77bb5285ad1075a3652a10cd6cce119bb21878662987e19490a7"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "fault01",
+      "http": 25,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-gamma01.json",
+        "origin": "linux",
+        "bytes": 6203900,
+        "rawBytesSha256": "f71b6aa2c09a4745bc4589d5226d49723dab5ab648f6fb23c97bc12060842127"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "gamma01",
+      "http": 23,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-gamma02.json",
+        "origin": "linux",
+        "bytes": 18222637,
+        "rawBytesSha256": "84a1260ccc9110e2e61c6367616c8c49e6c85705457ee887959014b8b6912f04"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "gamma02",
+      "http": 58,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-gamma03.json",
+        "origin": "linux",
+        "bytes": 19488985,
+        "rawBytesSha256": "1ca3a2ee35be440d112fd43fd936ffe65c8a99da20eac03550ce42e5f27a0540"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "gamma03",
+      "http": 60,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-gamma04.json",
+        "origin": "linux",
+        "bytes": 8410909,
+        "rawBytesSha256": "62e8eb33c3f7c64e52c1706c9bf34cff31b5d8be0ca78a720bda4d8e8f95a6f3"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "gamma04",
+      "http": 30,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-gamma05.json",
+        "origin": "linux",
+        "bytes": 23713158,
+        "rawBytesSha256": "b99fb3e51a4562d561ae81704b8d7f5782e38aca9381e8fdd2a073016d818fe3"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "gamma05",
+      "http": 69,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-obs02.json",
+        "origin": "linux",
+        "bytes": 6574083,
+        "rawBytesSha256": "e6cec18b07032d03308da9d377ce6f9d8d8be9c500a3dbd9e5e0e6b1cd359c8f"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "obs02",
+      "http": 23,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-obs03.json",
+        "origin": "linux",
+        "bytes": 4838337,
+        "rawBytesSha256": "57fde96170ceb9a11e6054d004d5192d751bbcc3c08e87ff23f41a3b34a04cd5"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "obs03",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-obs04.json",
+        "origin": "linux",
+        "bytes": 6213967,
+        "rawBytesSha256": "cd4e07c2154dbb8ee7861761fb58af7c60acf093a4df90f31c2ae034b8903f73"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "obs04",
+      "http": 23,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-obs05.json",
+        "origin": "linux",
+        "bytes": 6870352,
+        "rawBytesSha256": "fe275c3329ad39db53a341bc96404fd8572fc6f310ec7bf5c27a53cc7fcbce68"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "obs05",
+      "http": 24,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-race01.json",
+        "origin": "linux",
+        "bytes": 4905604,
+        "rawBytesSha256": "a6c7d2dd091176c0700fd24fc513c73c376cad40eb207259df03c317117d69fc"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "race01",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-race02.json",
+        "origin": "linux",
+        "bytes": 5397407,
+        "rawBytesSha256": "b329884513f2118e4a066d3208e2ecbf46e782d0b7de4c570d1c3928391b5f54"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "race02",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-ui-cancel01.json",
+        "origin": "linux",
+        "bytes": 5610954,
+        "rawBytesSha256": "59c651f1ecbe835c50300789c640e4aabf7b9614eb2f140b2e186fb0defa905d"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "ui-cancel01",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-ui01.json",
+        "origin": "linux",
+        "bytes": 5151883,
+        "rawBytesSha256": "40fb1d5de03f41186ee8fbcd6e0c5a4bb117805d907018fdf7ceed917191f9a1"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "ui01",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-ui02.json",
+        "origin": "linux",
+        "bytes": 5440045,
+        "rawBytesSha256": "64ffb253db43e789b697723dfac7eab3a13e4cc665dc60473048658a2652b0a5"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "ui02",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-ui03.json",
+        "origin": "linux",
+        "bytes": 5787367,
+        "rawBytesSha256": "3667be82bfc0874dcb0261d595af16db744fa9ffe8283ffeebd6a9dcff93c59c"
+      },
+      "originalResult": "fail",
+      "backend": "nest",
+      "tag": "ui03",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-nest-ui04.json",
+        "origin": "linux",
+        "bytes": 7809856,
+        "rawBytesSha256": "1a46a201a1ac4bf79b21a62f1f1250064345cda8651c6e7674b613b4c6014afd"
+      },
+      "originalResult": "observed",
+      "backend": "nest",
+      "tag": "ui04",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-beta02.json",
+        "origin": "linux",
+        "bytes": 2640507,
+        "rawBytesSha256": "78e6834f4fe82cdec830a88e1d1aed480678518d11449238b51f0bdc38fc0503"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "beta02",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-fault01.json",
+        "origin": "linux",
+        "bytes": 5257903,
+        "rawBytesSha256": "51930815d1576c0901bb7cb37211aad3fd11a03037760a25edfb0f6ea242022f"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "fault01",
+      "http": 25,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-gamma03.json",
+        "origin": "linux",
+        "bytes": 10169878,
+        "rawBytesSha256": "41f33f5fc1524067164c68834768af97dbcf23c8617032d1b75409c7f36567f5"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "gamma03",
+      "http": 60,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-gamma05.json",
+        "origin": "linux",
+        "bytes": 12672724,
+        "rawBytesSha256": "12cb12c621cc0675775eee390ab5f63b3b6bc58c2d8a9f7b613e4ab6ee948280"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "gamma05",
+      "http": 69,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-obs02.json",
+        "origin": "linux",
+        "bytes": 3389695,
+        "rawBytesSha256": "71b2a41b70bb5106fc43412cd2a7afad61596e15e19fd8b4957cbcc850d45ae2"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "obs02",
+      "http": 23,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-obs03.json",
+        "origin": "linux",
+        "bytes": 3176825,
+        "rawBytesSha256": "7d2ec15df1f5128af9184f226ef0c0fd0e3ea18972c9612d5ec131af448a7408"
+      },
+      "originalResult": "fail",
+      "backend": "rust",
+      "tag": "obs03",
+      "http": 22,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-obs04.json",
+        "origin": "linux",
+        "bytes": 3520110,
+        "rawBytesSha256": "a12db84e4c22556e436ed9161b8282c9f8ef88cdb1a655412b1f04f120f06c85"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "obs04",
+      "http": 24,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-race01.json",
+        "origin": "linux",
+        "bytes": 2652960,
+        "rawBytesSha256": "9cc7a71d2f4c558a7e7124a919172effa3f30fc1988c7f0567277bfbb1e2f33a"
+      },
+      "originalResult": "fail",
+      "backend": "rust",
+      "tag": "race01",
+      "http": 18
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-race02.json",
+        "origin": "linux",
+        "bytes": 2821170,
+        "rawBytesSha256": "68a1d85d4ec71d61c51b811c8eff71b512e3b55cbb336ff7710a7e1d46b3b0b5"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "race02",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-ui-cancel01.json",
+        "origin": "linux",
+        "bytes": 3084941,
+        "rawBytesSha256": "00813a443ba5e4bc88f5907375b0824de2a47ad49ef25104b98bba66e7c44a8e"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "ui-cancel01",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/k-http-rust-ui04.json",
+        "origin": "linux",
+        "bytes": 4281964,
+        "rawBytesSha256": "2a0fb4c5fb744bcd074b7a56789751788f041debc6475d2b82bd0f38a9779972"
+      },
+      "originalResult": "observed",
+      "backend": "rust",
+      "tag": "ui04",
+      "http": 18,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/native-calibration-alpha01.json",
+        "origin": "linux",
+        "bytes": 1074606,
+        "rawBytesSha256": "ce3f0f54cce602e84a64f27c6d3ce52d62161b8899b31643fcf09505c57d2f2e"
+      },
+      "originalResult": "fail",
+      "tag": "alpha01",
+      "http": 0,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/native-calibration-alpha02.json",
+        "origin": "linux",
+        "bytes": 1252051,
+        "rawBytesSha256": "8b72bcd28b26b42197fc2ae7d53dade06b258511d3e693aac06a7cdff609b580"
+      },
+      "originalResult": "fail",
+      "tag": "alpha02",
+      "http": 0,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/native-calibration-alpha03.json",
+        "origin": "linux",
+        "bytes": 1684248,
+        "rawBytesSha256": "58a18a5fc3757dd645d6dd54d873c25926124fca7ffb7747025a13e7331373d8"
+      },
+      "originalResult": "fail",
+      "tag": "alpha03",
+      "http": 4,
+      "doubleZero": true
+    },
+    {
+      "artifact": {
+        "path": "tmp/rust-r2k/native-calibration-alpha04.json",
+        "origin": "linux",
+        "bytes": 3749839,
+        "rawBytesSha256": "0315402dce510dce6fd243f8a8fba29da9a69fa91b4c0622b200d5331b75cd26"
+      },
+      "originalResult": "observed",
+      "tag": "alpha04",
+      "http": 18,
+      "doubleZero": true
+    }
+  ],
+  "actualBackendRuns": 34,
+  "finalClean": {
+    "file": "tmp/rust-r2k/final-clean-state-final01.json",
+    "origin": "linux",
+    "bytes": 61295,
+    "rawBytesSha256": "f1fc6a552f309470548821f06980a49756659369be65500c4b2b08916f06bf7a"
+  },
+  "race01OriginalFailureRetained": {
+    "file": "tmp/rust-r2k/k-http-rust-race01.json",
+    "origin": "linux",
+    "bytes": 2652960,
+    "rawBytesSha256": "9cc7a71d2f4c558a7e7124a919172effa3f30fc1988c7f0567277bfbb1e2f33a"
+  },
+  "race01Recovery": [
+    {
+      "file": "tmp/rust-r2k/k-http-rust-race01-certificate-recovery.json",
+      "origin": "linux",
+      "bytes": 47944,
+      "rawBytesSha256": "5a4603cc26ec03f285ab70c3744a32d29eef0d1f3fe7b457a9442ead3632164e"
+    },
+    {
+      "file": "tmp/rust-r2k/k-http-rust-race01-file-recovery.json",
+      "origin": "linux",
+      "bytes": 1587,
+      "rawBytesSha256": "894c8638c165365041b3f8a00af65bc6e639ffd5a9065fe8150775af93ef0c3f"
+    }
+  ],
+  "recoveryBoundary": "The original Rust race01 report remains failed and lacks its own doubleZero. Separate restoration certificates and exact file recovery plus the final all-journal zero audit close its cleanup; no DTO-based ownership or original report rewrite.",
+  "staticChecks": {
+    "file": "tmp/rust-r2k/static-final01.json",
+    "origin": "windows",
+    "bytes": 135,
+    "rawBytesSha256": "9af14a26fc5fc588e77998147d8a514f9a1d75d2271bfe395a53157fcb1606c2"
+  },
+  "meaning": "Metadata and evidence classification only; no product, fixture, archive or runtime mutation."
+}

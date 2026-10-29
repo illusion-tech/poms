@@ -1,0 +1,128 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+  "schemas": {
+    "RefreshProjectHandoverAttachmentChecklistRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "preserveManualExclusions",
+          "rule": {
+            "type": "default",
+            "inner": {
+              "type": "boolean"
+            },
+            "defaultValue": true
+          }
+        },
+        {
+          "key": "includeHistoricalSelections",
+          "rule": {
+            "type": "default",
+            "inner": {
+              "type": "boolean"
+            },
+            "defaultValue": true
+          }
+        }
+      ]
+    },
+    "CreateProjectHandoverAttachmentDownloadPackageRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "selectionIds",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+              },
+              "checks": [
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "expectedSelectionVersions",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "object",
+                "fields": [
+                  {
+                    "key": "selectionId",
+                    "rule": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+                    }
+                  },
+                  {
+                    "key": "rowVersion",
+                    "rule": {
+                      "type": "number",
+                      "checks": [
+                        {
+                          "type": "number",
+                          "check": "number_format",
+                          "abort": false,
+                          "format": "safeint"
+                        },
+                        {
+                          "check": "greater_than",
+                          "value": 0,
+                          "inclusive": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "confirmedSensitiveExclusion",
+          "rule": {
+            "type": "default",
+            "inner": {
+              "type": "boolean"
+            },
+            "defaultValue": true
+          }
+        },
+        {
+          "key": "note",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 1000
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

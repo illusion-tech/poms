@@ -1,0 +1,783 @@
+{
+  "formatVersion": 1,
+  "kind": "original-K-section-mechanical-host-input",
+  "sourceCheckpoint": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+  "scope": "Only the original K section, methods, store, HttpClient and CSRF. No fabricated R4 response or full-page success.",
+  "sources": [
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "bytes": 40914,
+      "rawBytesSha256": "a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261",
+      "normalizedLfSha256": "a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261"
+    },
+    {
+      "file": "apps/poms-admin/src/app.config.ts",
+      "bytes": 5633,
+      "rawBytesSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9",
+      "normalizedLfSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "bytes": 38994,
+      "rawBytesSha256": "64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443",
+      "normalizedLfSha256": "64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443"
+    },
+    {
+      "file": "libs/shared/api-client/api/attachment-handover.service.ts",
+      "bytes": 23418,
+      "rawBytesSha256": "3e85d7079a20640a72f1fb0c0c6c0403ea0d8ee0ba011db38ecdd6bb450bb94e",
+      "normalizedLfSha256": "3e85d7079a20640a72f1fb0c0c6c0403ea0d8ee0ba011db38ecdd6bb450bb94e"
+    },
+    {
+      "file": "libs/shared/api-client/api/auth.service.ts",
+      "bytes": 40164,
+      "rawBytesSha256": "106c90b14379defece9b1b8a4eb24801e903e813a06e0a6247c992efe9b36a8d",
+      "normalizedLfSha256": "106c90b14379defece9b1b8a4eb24801e903e813a06e0a6247c992efe9b36a8d"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/poms-api/provide-poms-api-client.ts",
+      "bytes": 1114,
+      "rawBytesSha256": "78a8ca76eb469ee179786425c1504b614f560e71953cab905a6101ed163e8328",
+      "normalizedLfSha256": "78a8ca76eb469ee179786425c1504b614f560e71953cab905a6101ed163e8328"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/poms-api/poms-csrf.interceptor.ts",
+      "bytes": 1203,
+      "rawBytesSha256": "5a4e62f73317f1b404e09d52065b7cd1f17e024093be6981343a0c0e09ecce1c",
+      "normalizedLfSha256": "5a4e62f73317f1b404e09d52065b7cd1f17e024093be6981343a0c0e09ecce1c"
+    }
+  ],
+  "template": {
+    "source": {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 7484,
+      "endOffset": 18632,
+      "firstLine": 128,
+      "lastLine": 290,
+      "rawTextSha256": "ca3208614f833a02d5279848d0defc93afaec0fd44733eb565b5f76eee0ab7c2",
+      "normalizedLfSha256": "ca3208614f833a02d5279848d0defc93afaec0fd44733eb565b5f76eee0ab7c2"
+    },
+    "startOffset": 11987,
+    "endOffset": 18597,
+    "originalSha256": "c437b03c0f5dabef318d71729ca55c8a5fc5fbd78463ae07dd86ec58546a5e5e",
+    "projectedSha256": "ce1d3d5dfad22ea19eb3fcd000fcc10fba1388a88ee4e184f88da3a0b97f5570"
+  },
+  "constants": [
+    {
+      "name": "ATTACHMENT_CHECKLIST_STATUS_LABELS",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 5342,
+      "endOffset": 5803,
+      "firstLine": 89,
+      "lastLine": 95,
+      "rawTextSha256": "a31c23605912319411b75bbd9dd83979f124aac0799085ceda632d1ab9e0d808",
+      "normalizedLfSha256": "a31c23605912319411b75bbd9dd83979f124aac0799085ceda632d1ab9e0d808"
+    },
+    {
+      "name": "ATTACHMENT_CHECKLIST_STATUS_SEVERITIES",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 5805,
+      "endOffset": 6291,
+      "firstLine": 97,
+      "lastLine": 103,
+      "rawTextSha256": "5d37ccc490230f0da779ea33414e0b5634830e357a530754140ba150a41303bb",
+      "normalizedLfSha256": "5d37ccc490230f0da779ea33414e0b5634830e357a530754140ba150a41303bb"
+    },
+    {
+      "name": "DOWNLOAD_PACKAGE_STATUS_LABELS",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 6293,
+      "endOffset": 6706,
+      "firstLine": 105,
+      "lastLine": 112,
+      "rawTextSha256": "e95da22b3a61d840f9483c12531b481a5c66d729ff1d1e2a85f2e8cf45c10513",
+      "normalizedLfSha256": "e95da22b3a61d840f9483c12531b481a5c66d729ff1d1e2a85f2e8cf45c10513"
+    },
+    {
+      "name": "DOWNLOAD_PACKAGE_STATUS_SEVERITIES",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 6708,
+      "endOffset": 7154,
+      "firstLine": 114,
+      "lastLine": 121,
+      "rawTextSha256": "1e58e8187d5abbbda387c9dba8629ae51f919f2b7b8a65302d568f8c9dd40ecb",
+      "normalizedLfSha256": "1e58e8187d5abbbda387c9dba8629ae51f919f2b7b8a65302d568f8c9dd40ecb"
+    }
+  ],
+  "members": [
+    {
+      "name": "#workspaceStore",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 18743,
+      "endOffset": 18800,
+      "firstLine": 294,
+      "lastLine": 294,
+      "rawTextSha256": "8cbdae262764589a571619eed918c75def94de12fb71781d116059d1929d5eea",
+      "normalizedLfSha256": "8cbdae262764589a571619eed918c75def94de12fb71781d116059d1929d5eea"
+    },
+    {
+      "name": "handoverAttachmentChecklist",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19077,
+      "endOffset": 19165,
+      "firstLine": 300,
+      "lastLine": 300,
+      "rawTextSha256": "668e9d237ca56658efafe5d6bb8250710abedc7299912aab7488f59d4312234a",
+      "normalizedLfSha256": "668e9d237ca56658efafe5d6bb8250710abedc7299912aab7488f59d4312234a"
+    },
+    {
+      "name": "handoverAttachmentDownloadPackage",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19170,
+      "endOffset": 19270,
+      "firstLine": 301,
+      "lastLine": 301,
+      "rawTextSha256": "cf81d2b88d8017d7cf8e626f9aeeef5fdd167211b683795054162172d89fd3b1",
+      "normalizedLfSha256": "cf81d2b88d8017d7cf8e626f9aeeef5fdd167211b683795054162172d89fd3b1"
+    },
+    {
+      "name": "loadingHandoverAttachments",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19275,
+      "endOffset": 19361,
+      "firstLine": 302,
+      "lastLine": 302,
+      "rawTextSha256": "9a79ce64cf997400783ce23f843ece376062f1bc54e707dffdbb38b11e05b487",
+      "normalizedLfSha256": "9a79ce64cf997400783ce23f843ece376062f1bc54e707dffdbb38b11e05b487"
+    },
+    {
+      "name": "refreshingHandoverAttachments",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19366,
+      "endOffset": 19458,
+      "firstLine": 303,
+      "lastLine": 303,
+      "rawTextSha256": "ea4a81a7bd77a97119c14dec0ad21d275fc7c09b2c827a9e01d44c86bd04ca2c",
+      "normalizedLfSha256": "ea4a81a7bd77a97119c14dec0ad21d275fc7c09b2c827a9e01d44c86bd04ca2c"
+    },
+    {
+      "name": "creatingHandoverAttachmentPackage",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19463,
+      "endOffset": 19563,
+      "firstLine": 304,
+      "lastLine": 304,
+      "rawTextSha256": "2eb32964009344d644a470903cee315fc7ab5c54e331b7a4b9d5ed4e2b693348",
+      "normalizedLfSha256": "2eb32964009344d644a470903cee315fc7ab5c54e331b7a4b9d5ed4e2b693348"
+    },
+    {
+      "name": "downloadingHandoverAttachmentPackage",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19568,
+      "endOffset": 19674,
+      "firstLine": 305,
+      "lastLine": 305,
+      "rawTextSha256": "64e62afce4a19f1e9574d1ac58c31afff1c5ea74b2ad94a4381ed41b03f1cf09",
+      "normalizedLfSha256": "64e62afce4a19f1e9574d1ac58c31afff1c5ea74b2ad94a4381ed41b03f1cf09"
+    },
+    {
+      "name": "handoverAttachmentError",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19679,
+      "endOffset": 19759,
+      "firstLine": 306,
+      "lastLine": 306,
+      "rawTextSha256": "2645cdb704ddecc21f5d17f59186df2fd8ae5e41d6dccb7d7ea944348cfe3852",
+      "normalizedLfSha256": "2645cdb704ddecc21f5d17f59186df2fd8ae5e41d6dccb7d7ea944348cfe3852"
+    },
+    {
+      "name": "selectedHandoverAttachmentSelectionIds",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19844,
+      "endOffset": 19925,
+      "firstLine": 308,
+      "lastLine": 308,
+      "rawTextSha256": "e1b94b67154306acedaf8ffa14a9ae1b88ffc909a0d26326fe19171e71544c50",
+      "normalizedLfSha256": "e1b94b67154306acedaf8ffa14a9ae1b88ffc909a0d26326fe19171e71544c50"
+    },
+    {
+      "name": "selectedHandoverAttachmentCount",
+      "kind": "field",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 19930,
+      "endOffset": 20040,
+      "firstLine": 309,
+      "lastLine": 309,
+      "rawTextSha256": "587c67c2d27829a25734632e58ff6815cc4219b63ed326c82e78e2abf320c543",
+      "normalizedLfSha256": "587c67c2d27829a25734632e58ff6815cc4219b63ed326c82e78e2abf320c543"
+    },
+    {
+      "name": "refreshHandoverAttachmentChecklist",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 21797,
+      "endOffset": 22249,
+      "firstLine": 362,
+      "lastLine": 374,
+      "rawTextSha256": "f602d7bf77032cbb7222b713aa76ad7d6cfb0ab2bae237f96fd01654bc62b3f3",
+      "normalizedLfSha256": "f602d7bf77032cbb7222b713aa76ad7d6cfb0ab2bae237f96fd01654bc62b3f3"
+    },
+    {
+      "name": "createHandoverAttachmentDownloadPackage",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 22255,
+      "endOffset": 23158,
+      "firstLine": 376,
+      "lastLine": 400,
+      "rawTextSha256": "b68ed4fbd942b703e731b43959d3d2a1f91c3b6538f2a77cfc230ca3781f969d",
+      "normalizedLfSha256": "b68ed4fbd942b703e731b43959d3d2a1f91c3b6538f2a77cfc230ca3781f969d"
+    },
+    {
+      "name": "downloadHandoverAttachmentPackage",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 23164,
+      "endOffset": 23898,
+      "firstLine": 402,
+      "lastLine": 416,
+      "rawTextSha256": "81b3e8702fe6ad453343ab428c072653d03b4d54ef1f4b11dd053c262e0a34ce",
+      "normalizedLfSha256": "81b3e8702fe6ad453343ab428c072653d03b4d54ef1f4b11dd053c262e0a34ce"
+    },
+    {
+      "name": "loadHandoverAttachmentChecklist",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 23904,
+      "endOffset": 24321,
+      "firstLine": 418,
+      "lastLine": 427,
+      "rawTextSha256": "19b082167c92afdaa7db835a7748bea1a48c8879b725403ef5b5b9bf987aef10",
+      "normalizedLfSha256": "19b082167c92afdaa7db835a7748bea1a48c8879b725403ef5b5b9bf987aef10"
+    },
+    {
+      "name": "handoverAttachmentItems",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 24777,
+      "endOffset": 24916,
+      "firstLine": 444,
+      "lastLine": 446,
+      "rawTextSha256": "5ede87664e52cc751fcb899a4f88d6e2b3bd1872e39124824f0f403f60d842a6",
+      "normalizedLfSha256": "5ede87664e52cc751fcb899a4f88d6e2b3bd1872e39124824f0f403f60d842a6"
+    },
+    {
+      "name": "handoverAttachmentCountItems",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 24922,
+      "endOffset": 26361,
+      "firstLine": 448,
+      "lastLine": 495,
+      "rawTextSha256": "0c63e2c3999f283448c6bc786a68cb50a10aed69c8cee738dc26d665443bb713",
+      "normalizedLfSha256": "0c63e2c3999f283448c6bc786a68cb50a10aed69c8cee738dc26d665443bb713"
+    },
+    {
+      "name": "canSelectHandoverAttachment",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 26367,
+      "endOffset": 26625,
+      "firstLine": 497,
+      "lastLine": 499,
+      "rawTextSha256": "b44f578e7d9ce42b5e10ede842d92cb2e545200d1e06732c9fda4b159697b3f9",
+      "normalizedLfSha256": "b44f578e7d9ce42b5e10ede842d92cb2e545200d1e06732c9fda4b159697b3f9"
+    },
+    {
+      "name": "isHandoverAttachmentSelected",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 26631,
+      "endOffset": 26835,
+      "firstLine": 501,
+      "lastLine": 503,
+      "rawTextSha256": "63929d836921588b252c27f346aec3caab6835f0ce9a2b77a3d921539aea7c33",
+      "normalizedLfSha256": "63929d836921588b252c27f346aec3caab6835f0ce9a2b77a3d921539aea7c33"
+    },
+    {
+      "name": "toggleHandoverAttachmentSelection",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 26841,
+      "endOffset": 27425,
+      "firstLine": 505,
+      "lastLine": 518,
+      "rawTextSha256": "7ec02aee44141cf96c4664ccbe8c424c2ac0aa70dcf65cf90fb5b30b8793f73e",
+      "normalizedLfSha256": "7ec02aee44141cf96c4664ccbe8c424c2ac0aa70dcf65cf90fb5b30b8793f73e"
+    },
+    {
+      "name": "handoverAttachmentStatusLabel",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 27431,
+      "endOffset": 27589,
+      "firstLine": 520,
+      "lastLine": 522,
+      "rawTextSha256": "6bd56de17b7f512a3271f342ef933c97b897e95f96f1b435bde265203742e554",
+      "normalizedLfSha256": "6bd56de17b7f512a3271f342ef933c97b897e95f96f1b435bde265203742e554"
+    },
+    {
+      "name": "handoverAttachmentStatusSeverity",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 27595,
+      "endOffset": 27767,
+      "firstLine": 524,
+      "lastLine": 526,
+      "rawTextSha256": "b8af8b2ee0a002042807da5d962a03504fb2e077460c2644aa2f21cd04c73a7a",
+      "normalizedLfSha256": "b8af8b2ee0a002042807da5d962a03504fb2e077460c2644aa2f21cd04c73a7a"
+    },
+    {
+      "name": "downloadPackageStatusLabel",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 27773,
+      "endOffset": 27911,
+      "firstLine": 528,
+      "lastLine": 530,
+      "rawTextSha256": "0e8ced244f4bc82966fe355c398d70a6155133ac9b57a88a9094116968538f77",
+      "normalizedLfSha256": "0e8ced244f4bc82966fe355c398d70a6155133ac9b57a88a9094116968538f77"
+    },
+    {
+      "name": "downloadPackageStatusSeverity",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 27917,
+      "endOffset": 28069,
+      "firstLine": 532,
+      "lastLine": 534,
+      "rawTextSha256": "c48bb5fb91e5870851da1493e20d9e136af0a3b6a50f503d388d29bf24e8190e",
+      "normalizedLfSha256": "c48bb5fb91e5870851da1493e20d9e136af0a3b6a50f503d388d29bf24e8190e"
+    },
+    {
+      "name": "canDownloadHandoverAttachmentPackage",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 28075,
+      "endOffset": 28322,
+      "firstLine": 536,
+      "lastLine": 538,
+      "rawTextSha256": "df4aa751b82f9298def65bcb99b94a3e36d2c62fb78e826f0f7510e725f78a12",
+      "normalizedLfSha256": "df4aa751b82f9298def65bcb99b94a3e36d2c62fb78e826f0f7510e725f78a12"
+    },
+    {
+      "name": "handoverAttachmentSourceText",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 28328,
+      "endOffset": 28690,
+      "firstLine": 540,
+      "lastLine": 548,
+      "rawTextSha256": "7f6f564ae750a37f4c4b838281734bab882c24c7a73e5582a6a91c78d700a685",
+      "normalizedLfSha256": "7f6f564ae750a37f4c4b838281734bab882c24c7a73e5582a6a91c78d700a685"
+    },
+    {
+      "name": "formatDateTime",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 35203,
+      "endOffset": 35655,
+      "firstLine": 728,
+      "lastLine": 745,
+      "rawTextSha256": "e41c426c070e23fc6ffad1c05d6df7a2878d825dfc8736934995e09dd9247f81",
+      "normalizedLfSha256": "e41c426c070e23fc6ffad1c05d6df7a2878d825dfc8736934995e09dd9247f81"
+    },
+    {
+      "name": "syncSelectedHandoverAttachments",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 35888,
+      "endOffset": 36203,
+      "firstLine": 755,
+      "lastLine": 758,
+      "rawTextSha256": "4ce2148f52c693633d3103e2ce4b42b15545479a27efeb0a2f91c0f4da1fdc61",
+      "normalizedLfSha256": "4ce2148f52c693633d3103e2ce4b42b15545479a27efeb0a2f91c0f4da1fdc61"
+    },
+    {
+      "name": "handoverAttachmentSourceTypeLabel",
+      "kind": "method",
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 36209,
+      "endOffset": 36744,
+      "firstLine": 760,
+      "lastLine": 777,
+      "rawTextSha256": "209cfe62743e302949605680f71306722207b097eafc04df8c1cf6f8efc9a177",
+      "normalizedLfSha256": "209cfe62743e302949605680f71306722207b097eafc04df8c1cf6f8efc9a177"
+    }
+  ],
+  "importMappings": [
+    {
+      "text": "import { CommonModule } from '@angular/common';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 0,
+        "endOffset": 47,
+        "firstLine": 1,
+        "lastLine": 1,
+        "rawTextSha256": "f6e81c2290d37da2c3c86784c11581f25de57af19b4a0fbd17a55f9c92cfc39b",
+        "normalizedLfSha256": "f6e81c2290d37da2c3c86784c11581f25de57af19b4a0fbd17a55f9c92cfc39b"
+      }
+    },
+    {
+      "text": "import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 48,
+        "endOffset": 149,
+        "firstLine": 2,
+        "lastLine": 2,
+        "rawTextSha256": "6f9fc84b6ff0ec3bd22dfa195d4c75aea665fd9967312b2534e9390f62bf645e",
+        "normalizedLfSha256": "6f9fc84b6ff0ec3bd22dfa195d4c75aea665fd9967312b2534e9390f62bf645e"
+      }
+    },
+    {
+      "text": "import { ActivatedRoute } from '@angular/router';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 150,
+        "endOffset": 199,
+        "firstLine": 3,
+        "lastLine": 3,
+        "rawTextSha256": "3f72c0907860689d855e01f5430c01e3e58f153028f27232f712760861752688",
+        "normalizedLfSha256": "3f72c0907860689d855e01f5430c01e3e58f153028f27232f712760861752688"
+      }
+    },
+    {
+      "text": "import {\n    AttachmentDownloadPackageStatus,\n    ContractHandoverBaselineValidationStatus,\n    ContractHandoverCurrentBaselineSourceType,\n    ContractHandoverCurrentBaselineStatus,\n    ContractHandoverRebaselineBlockingStatus,\n    ContractHandoverRebaselineStatus,\n    ContractHandoverReceivablePlanInitStatus,\n    ProjectHandoverStatus,\n    ProjectHandoverAttachmentChecklistItemStatus,\n    ProjectHandoverParticipantConfirmationStatus,\n    ProjectHandoverReceiptJudgmentFreezeStatus,\n    type AttachmentDownloadPackageSummary,\n    type ContractHandoverSummaryView,\n    type ProjectHandoverAttachmentChecklistItem,\n    ProjectWorkspaceStore\n} from '@poms/admin-data-access';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 200,
+        "endOffset": 876,
+        "firstLine": 4,
+        "lastLine": 20,
+        "rawTextSha256": "a7d109204523e70ab76ce01d4553a88f633e44b33f6fb40de000cbe0485ed19d",
+        "normalizedLfSha256": "a7d109204523e70ab76ce01d4553a88f633e44b33f6fb40de000cbe0485ed19d"
+      }
+    },
+    {
+      "text": "import {\n    ContractHandoverBaselineValidationStatusLabel,\n    ContractHandoverBaselineValidationStatusSeverity,\n    ContractHandoverCurrentBaselineSourceTypeLabel,\n    ContractHandoverCurrentBaselineStatusLabel,\n    ContractHandoverCurrentBaselineStatusSeverity,\n    ContractHandoverRebaselineBlockingStatusLabel,\n    ContractHandoverRebaselineBlockingStatusSeverity,\n    ContractHandoverRebaselineStatusLabel,\n    ContractHandoverRebaselineStatusSeverity,\n    ContractHandoverReceivablePlanInitStatusLabel,\n    ContractHandoverReceivablePlanInitStatusSeverity,\n    ProjectHandoverParticipantConfirmationStatusLabel,\n    ProjectHandoverParticipantConfirmationStatusSeverity,\n    ProjectHandoverReceiptJudgmentFreezeStatusLabel,\n    ProjectHandoverReceiptJudgmentFreezeStatusSeverity,\n    ProjectHandoverStatusLabel,\n    ProjectHandoverStatusSeverity\n} from '@poms/shared-contracts';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 877,
+        "endOffset": 1761,
+        "firstLine": 21,
+        "lastLine": 39,
+        "rawTextSha256": "5b12e8cba136e34a2db077be6270497dcf6044f02d294f60ffe1e607fb345e6b",
+        "normalizedLfSha256": "5b12e8cba136e34a2db077be6270497dcf6044f02d294f60ffe1e607fb345e6b"
+      }
+    },
+    {
+      "text": "import { ButtonModule } from 'primeng/button';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 1762,
+        "endOffset": 1808,
+        "firstLine": 40,
+        "lastLine": 40,
+        "rawTextSha256": "027686824afde0308487825d1aa7a018e0c86a284a6c9ea70ad7f2907da53423",
+        "normalizedLfSha256": "027686824afde0308487825d1aa7a018e0c86a284a6c9ea70ad7f2907da53423"
+      }
+    },
+    {
+      "text": "import { TableModule } from 'primeng/table';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 1809,
+        "endOffset": 1853,
+        "firstLine": 41,
+        "lastLine": 41,
+        "rawTextSha256": "9388453308134094e00e4d50ce562805ad3a5170f89c6bf21087cfe74398b29f",
+        "normalizedLfSha256": "9388453308134094e00e4d50ce562805ad3a5170f89c6bf21087cfe74398b29f"
+      }
+    },
+    {
+      "text": "import { TagModule } from 'primeng/tag';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 1854,
+        "endOffset": 1894,
+        "firstLine": 42,
+        "lastLine": 42,
+        "rawTextSha256": "21c0a7b61f1287c171389374b5d774b092b451a6b77525cfa354a77fff1a0764",
+        "normalizedLfSha256": "21c0a7b61f1287c171389374b5d774b092b451a6b77525cfa354a77fff1a0764"
+      }
+    },
+    {
+      "text": "import { SectionCard } from '../../../apps/poms-admin/src/app/shared/ui/sectioncard';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 1895,
+        "endOffset": 1953,
+        "firstLine": 43,
+        "lastLine": 43,
+        "rawTextSha256": "27aafe30b422aec08385c7bc51a5791dc8254ab116749b057a7283fe0abe8d93",
+        "normalizedLfSha256": "27aafe30b422aec08385c7bc51a5791dc8254ab116749b057a7283fe0abe8d93"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/sectioncard",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/sectioncard"
+      }
+    },
+    {
+      "text": "import { WorkspaceActionLink } from '../../../apps/poms-admin/src/app/shared/ui/workspace-action-link';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 1954,
+        "endOffset": 2030,
+        "firstLine": 44,
+        "lastLine": 44,
+        "rawTextSha256": "2339269049b462dca7349f8c6a7268038e9eea90b2bc02517a940834d7a2875b",
+        "normalizedLfSha256": "2339269049b462dca7349f8c6a7268038e9eea90b2bc02517a940834d7a2875b"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/workspace-action-link",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/workspace-action-link"
+      }
+    },
+    {
+      "text": "import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../../apps/poms-admin/src/app/shared/ui/workspace-command-panel';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2031,
+        "endOffset": 2143,
+        "firstLine": 45,
+        "lastLine": 45,
+        "rawTextSha256": "3fd34a71b826d2970b818a72ebd00b0dfc8582bb15dc745873e8134d7cc98b78",
+        "normalizedLfSha256": "3fd34a71b826d2970b818a72ebd00b0dfc8582bb15dc745873e8134d7cc98b78"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/workspace-command-panel",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/workspace-command-panel"
+      }
+    },
+    {
+      "text": "import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../../apps/poms-admin/src/app/shared/ui/workspace-fact-grid';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2144,
+        "endOffset": 2244,
+        "firstLine": 46,
+        "lastLine": 46,
+        "rawTextSha256": "b2a7cdbf4b98dde0ef1fc5da51634ba67fba6b1864098e1b19a2f032560ebe44",
+        "normalizedLfSha256": "b2a7cdbf4b98dde0ef1fc5da51634ba67fba6b1864098e1b19a2f032560ebe44"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/workspace-fact-grid",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/workspace-fact-grid"
+      }
+    },
+    {
+      "text": "import { WorkspaceFeedback } from '../../../apps/poms-admin/src/app/shared/ui/workspace-feedback';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2245,
+        "endOffset": 2316,
+        "firstLine": 47,
+        "lastLine": 47,
+        "rawTextSha256": "9707904a56036f76e5e7c971c337571b3c258707147a07bc9cff9ba2f51c6648",
+        "normalizedLfSha256": "9707904a56036f76e5e7c971c337571b3c258707147a07bc9cff9ba2f51c6648"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/workspace-feedback",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/workspace-feedback"
+      }
+    },
+    {
+      "text": "import { WorkspaceLoading } from '../../../apps/poms-admin/src/app/shared/ui/workspace-loading';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2317,
+        "endOffset": 2386,
+        "firstLine": 48,
+        "lastLine": 48,
+        "rawTextSha256": "6e325127c2236b5b1fbcb4e3b3102c001856909e4b13fe648d96521dbfb67014",
+        "normalizedLfSha256": "6e325127c2236b5b1fbcb4e3b3102c001856909e4b13fe648d96521dbfb67014"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/workspace-loading",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/workspace-loading"
+      }
+    },
+    {
+      "text": "import { formatSensitiveAmountProjection } from '../../../apps/poms-admin/src/app/shared/ui/sensitive-visibility';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2387,
+        "endOffset": 2474,
+        "firstLine": 49,
+        "lastLine": 49,
+        "rawTextSha256": "708cdba6025be27711cd61105a1dcef512e5837778e5791e3e11a2b3e5c2c274",
+        "normalizedLfSha256": "708cdba6025be27711cd61105a1dcef512e5837778e5791e3e11a2b3e5c2c274"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/sensitive-visibility",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/sensitive-visibility"
+      }
+    },
+    {
+      "text": "import { contractStatusLabelOrFallback as sharedContractStatusLabel, contractStatusSeverityOrFallback as sharedContractStatusSeverity } from '../../../apps/poms-admin/src/app/shared/ui/status-presentation';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2475,
+        "endOffset": 2654,
+        "firstLine": 50,
+        "lastLine": 50,
+        "rawTextSha256": "a806d42528b86751c308f4b212ec10b87e8f3835afa945fe2e4817e5957dafe4",
+        "normalizedLfSha256": "a806d42528b86751c308f4b212ec10b87e8f3835afa945fe2e4817e5957dafe4"
+      },
+      "moduleLocationOnly": {
+        "from": "../../shared/ui/status-presentation",
+        "to": "../../../apps/poms-admin/src/app/shared/ui/status-presentation"
+      }
+    },
+    {
+      "text": "import { type UiTagSeverity } from '../../../apps/poms-admin/src/app/features/project/project-presentation';",
+      "source": {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "startOffset": 2655,
+        "endOffset": 2715,
+        "firstLine": 51,
+        "lastLine": 51,
+        "rawTextSha256": "04be2ec5f3750014a4d6b62d40d1c501cc3c764c72e20ad1bc63374c148ddac7",
+        "normalizedLfSha256": "04be2ec5f3750014a4d6b62d40d1c501cc3c764c72e20ad1bc63374c148ddac7"
+      },
+      "moduleLocationOnly": {
+        "from": "./project-presentation",
+        "to": "../../../apps/poms-admin/src/app/features/project/project-presentation"
+      }
+    }
+  ],
+  "locatorSeams": [
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 12191,
+      "endOffset": 12213,
+      "before": "handover()?.handoverId",
+      "after": "handoverId()",
+      "reason": "Only the actual Root-owned ID locator; no handover/summary DTO is fabricated"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 21884,
+      "endOffset": 21911,
+      "before": "this.handover()?.handoverId",
+      "after": "this.handoverId()",
+      "reason": "Only the actual Root-owned ID locator; no handover/summary DTO is fabricated"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 22347,
+      "endOffset": 22374,
+      "before": "this.handover()?.handoverId",
+      "after": "this.handoverId()",
+      "reason": "Only the actual Root-owned ID locator; no handover/summary DTO is fabricated"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 23996,
+      "endOffset": 24023,
+      "before": "this.handover()?.handoverId",
+      "after": "this.handoverId()",
+      "reason": "Only the actual Root-owned ID locator; no handover/summary DTO is fabricated"
+    }
+  ],
+  "lifecycleSeam": {
+    "originalOuterCatch": {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "startOffset": 21702,
+      "endOffset": 21785,
+      "firstLine": 357,
+      "lastLine": 359,
+      "rawTextSha256": "8278d9a760e9c7d1e4a88ee28c453172a01c349ad3203bb50b3366d48ae46caa",
+      "normalizedLfSha256": "8278d9a760e9c7d1e4a88ee28c453172a01c349ad3203bb50b3366d48ae46caa"
+    },
+    "behavior": "Call original K loader directly; preserve original outer catch selection reset. Skip R4 workspace reads."
+  },
+  "theme": {
+    "declarations": [
+      {
+        "name": "MyPreset",
+        "file": "apps/poms-admin/src/app.config.ts",
+        "startOffset": 812,
+        "endOffset": 3455,
+        "firstLine": 13,
+        "lastLine": 71,
+        "rawTextSha256": "7c9cbff0519577f955e994366178ff263981486d3a8e55df2d9af2c082927d4b",
+        "normalizedLfSha256": "7c9cbff0519577f955e994366178ff263981486d3a8e55df2d9af2c082927d4b"
+      },
+      {
+        "name": "POMS_PRIMENG_TRANSLATION_ZH_CN",
+        "file": "apps/poms-admin/src/app.config.ts",
+        "startOffset": 3457,
+        "endOffset": 4361,
+        "firstLine": 73,
+        "lastLine": 101,
+        "rawTextSha256": "2e94c34616292d256b19b403d9434e88d5207bab86fb11417328ccac413c0dd6",
+        "normalizedLfSha256": "2e94c34616292d256b19b403d9434e88d5207bab86fb11417328ccac413c0dd6"
+      }
+    ],
+    "imports": [
+      {
+        "text": "import Aura from '@primeuix/themes/aura';",
+        "source": {
+          "file": "apps/poms-admin/src/app.config.ts",
+          "startOffset": 224,
+          "endOffset": 265,
+          "firstLine": 3,
+          "lastLine": 3,
+          "rawTextSha256": "95d6bd167e7bebbc16b313f7730135d7cbad192e290d25f1be1ee0378a4cf38a",
+          "normalizedLfSha256": "95d6bd167e7bebbc16b313f7730135d7cbad192e290d25f1be1ee0378a4cf38a"
+        }
+      },
+      {
+        "text": "import type { Translation } from 'primeng/api';",
+        "source": {
+          "file": "apps/poms-admin/src/app.config.ts",
+          "startOffset": 525,
+          "endOffset": 572,
+          "firstLine": 7,
+          "lastLine": 7,
+          "rawTextSha256": "6416ab26db1b6f2e12cf1509c9568facecd9efaecf5432c82dfe60fe918bb5f4",
+          "normalizedLfSha256": "6416ab26db1b6f2e12cf1509c9568facecd9efaecf5432c82dfe60fe918bb5f4"
+        }
+      },
+      {
+        "text": "import { definePreset } from '@primeuix/themes';",
+        "source": {
+          "file": "apps/poms-admin/src/app.config.ts",
+          "startOffset": 762,
+          "endOffset": 810,
+          "firstLine": 11,
+          "lastLine": 11,
+          "rawTextSha256": "7d2a85b0eb6ba849d7105e6fdc2361d4b78da099fc4bd5ab120cf081a8b7a50b",
+          "normalizedLfSha256": "7d2a85b0eb6ba849d7105e6fdc2361d4b78da099fc4bd5ab120cf081a8b7a50b"
+        }
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "file": "tools/rust-r2k/k-ui-host/original-k-section.ts",
+      "rawBytesSha256": "2807fab94611c4ac45b1c9042b4c4bf1563970a0310ebf3193659538d2272982",
+      "normalizedLfSha256": "2807fab94611c4ac45b1c9042b4c4bf1563970a0310ebf3193659538d2272982",
+      "typeScriptProjectionCompiledSha256": "e28ea8b0c43e0f7cba10991ea3bc52a8a26c636d685f9c3a023f38ea5058dc5a"
+    },
+    {
+      "file": "tools/rust-r2k/k-ui-host/original-theme.ts",
+      "rawBytesSha256": "863f0cc3227a2d979cdddbc11155c452cb46631fad83248445551b82e9f5d149",
+      "normalizedLfSha256": "863f0cc3227a2d979cdddbc11155c452cb46631fad83248445551b82e9f5d149",
+      "typeScriptProjectionCompiledSha256": "64c6d170820a088bf76b9ceb72ffe9e0e91fc59daf6c84116c48d3676d90c362"
+    }
+  ],
+  "projectionTranspileIsAngularBuild": false,
+  "actualBrowserOrApiRun": false
+}

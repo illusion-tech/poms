@@ -391,3 +391,7 @@
 - [L1/K5 子片冻结验收](rust-r2l1-validation.json)、[独立G3](rust-r2l1-g3-review01.json)与[证据归档](rust-r2l1-preservation.json)：G3 Pass，提交集成/G4待完成，0新增公共操作。
 
 - [L1/K5 子片G4收口](rust-r2l1-g4-closeout.md)：#81/#82已关闭，0新增公共操作、R2仍99/108，父项及领域业务保持未完成。
+
+- [K业务与R4两参数联合基线](rust-r2k-r4-route-baseline.md)：#78/#83，G3 Pass、待提交集成/G4，仍99/108。
+
+- [K与R4两参数联合G3](rust-r2k-g3-review01.json)：实际验收及主区保全已核，仍待提交集成/G4。

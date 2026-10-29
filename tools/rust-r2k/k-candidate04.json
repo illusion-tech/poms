@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "kind": "K-author-A-candidate04-Native-alpha04-create-calibration",
+  "at": "2026-10-29T11:17:13.297Z",
+  "runtimeSource": {
+    "file": "tmp/rust-r2k/native-calibration-alpha04.json",
+    "sha256": "0315402dce510dce6fd243f8a8fba29da9a69fa91b4c0622b200d5331b75cd26"
+  },
+  "delta": [
+    "K-only metadata reverse-postorder CREATE grouping; old J schedule unchanged",
+    "Same-class CREATE batch max300, real DB RETURNING ids/versions, Link before Selection and Package before Item",
+    "Omit undefined unlinked fields from new K link payload; no new package preflush; same-query-class AUTO placement retained"
+  ],
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 36084,
+      "rawBytesSha256": "cf0ac00ee6d6d9c7beaf527cadfe652a0f940ee5ff12f877d1b448cf14075017",
+      "normalizedLfSha256": "cf0ac00ee6d6d9c7beaf527cadfe652a0f940ee5ff12f877d1b448cf14075017"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/handover.rs",
+      "bytes": 38862,
+      "rawBytesSha256": "bf9319bf163708e4bee7ba8885a84dd56c1087f037d2b0d0de910ff33643d923",
+      "normalizedLfSha256": "bf9319bf163708e4bee7ba8885a84dd56c1087f037d2b0d0de910ff33643d923"
+    },
+    {
+      "file": "tools/rust-r2k/k-native-insert-groups.json",
+      "bytes": 3789,
+      "rawBytesSha256": "59795066dec9e58fbbb260084940a9553f1bba6156aa086ab7816be7757808a3",
+      "normalizedLfSha256": "59795066dec9e58fbbb260084940a9553f1bba6156aa086ab7816be7757808a3"
+    }
+  ],
+  "goldensChanged": false,
+  "pureExporter": "Pass",
+  "RustBuildAndPairedRuntime": "Pending Root centralized checks/actual comparison"
+}

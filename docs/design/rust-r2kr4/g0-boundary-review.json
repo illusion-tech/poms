@@ -1,0 +1,173 @@
+{
+    "formatVersion": 1,
+    "kind": "RUST-R2K-R4-preliminary-non-author-G0-boundary-input",
+    "status": "Preliminary input; no G1/G3/G4 verdict",
+    "recordedAt": "2026-10-29T09:27:27.124Z",
+    "reviewer": {
+        "task": "/root/r2ij_review",
+        "role": "Non-author C",
+        "productOrFixtureAuthor": false,
+        "ormDatabaseOrEnvironmentExecuted": false
+    },
+    "observedBase": {
+        "head": "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+        "branch": "codex/poms-r2k-handover-r4-route",
+        "previousL1BatchCompleted": true,
+        "previousBatchReopened": false
+    },
+    "proposedScope": {
+        "K": "The five existing attachment-handover business operations, including real checklist refresh and package storage/download.",
+        "R4": "Only real facts required by original K and the two handover path-parameter decisions. No whole-R4 Rust delivery.",
+        "publicCountNow": 99,
+        "publicCountTotal": 108,
+        "conditionalCountAfterActualFiveKOperationsG4": 104,
+        "routeParameterDecisionAddsOperations": 0,
+        "countIncreasePreapproved": false
+    },
+    "blockingQuestionsForFormalG1": [
+        {
+            "id": "C-KR4-B01",
+            "question": "Freeze the exact K facts query contract, including all project contracts and project-or-sourceLead follow-ups with original ordering, ownership and null behavior. A handover-ID-only or empty facts port cannot satisfy this dependency."
+        },
+        {
+            "id": "C-KR4-B02",
+            "question": "Name the exact original database.seeder prepared-state recipe and source hash, every UUID-remapped row/reference and its ownership proof. Native confirm must really execute and produce its final state; mapped fixture rows alone do not certify Rust R4 commands."
+        },
+        {
+            "id": "C-KR4-B03",
+            "question": "Separate the actual K read set from freeze/snapshot provenance observations. Original K does not actively read snapshot/freeze fields in this call chain; do not introduce such reads, a confirmed-only gate or a changed candidate set."
+        },
+        {
+            "id": "C-KR4-B04",
+            "question": "Freeze new permanent S2 before generation, with exact focused inputs and non-author checkpoint review. Keep the original generator six-input guards, old baseline authority and both S/S2 ancestors."
+        }
+    ],
+    "sourceFindings": [
+        {
+            "source": "attachment.service.ts:1468-1484",
+            "finding": "Original context checks project read/write permission, existing handover, then existing project. It has no confirmed-only status gate."
+        },
+        {
+            "source": "attachment.service.ts:1497-1550; attachment.repository.ts:318-342",
+            "finding": "Candidates come from project, optional sourceLead, all project contracts, project OR sourceLead sales follow-ups and this handover. Active attachments resolve final version first, deduplicate by versionGroup and retain merged sourceRefs. Contract and follow-up query ordering are observable inputs."
+        },
+        {
+            "source": "attachment.service.ts:927-946,1024-1130",
+            "finding": "Existing selections bypass fresh candidate construction on checklist read. Package creation may refresh when selections are absent; read-authorized outer entry then encounters original write checks. Selection-version checks, exclusions, storage failure state and independent audit ordering need the real Native witness, not an idealized transaction rewrite."
+        },
+        {
+            "source": "attachment.service.ts:1689-1734",
+            "finding": "ZIP manifest/sourceRefs and actual original attachment bytes are used; package success cannot be represented by a synthetic ZIP or a URL-only placeholder."
+        }
+    ],
+    "acceptedProducerConsumerBoundary": {
+        "rootDecision": "Root accepted this boundary in the current G0 discussion.",
+        "productFactsPort": "Only the fields and row sets actually read by original K. Do not add snapshot/freeze queries or change eligibility.",
+        "producerProvenance": "Root follows a named original database.seeder prepared-state recipe, with fresh owned run UUID mapping, then really calls original Nest confirm to produce confirmed state and an optional receipt freeze. K reads the same actual handover/project/attachment facts.",
+        "frozenEvidence": "Snapshot/freeze rows and transitions are observed as original producer and boundary evidence. This is not a claim that K actively consumes unused snapshot fields.",
+        "missingDraftCreationApi": "Do not fabricate an absent draft-creation API or call direct prepared-state initialization a migrated Rust producer.",
+        "ownership": "Require exact intent-to-create provenance, complete UUID/text/JSON/FK reference closure and preflight before cleanup. Seeded definitions remain read-only unless separately owned. Restore controlled faults; retain failed/incomplete attempts.",
+        "authorization": "Reuse original project:read/write checks and existence/error order. Ownership here means fixture and referential provenance, not a new domain-owner authorization gate."
+    },
+    "minimumSufficientAcceptanceForIndependentK": [
+        "Real K five-operation HTTP behavior with original auth/CSRF/DTO/status/header/error and real PG state, audit and stored bytes, including actual successful package creation/read/download.",
+        "A bounded provenance path through the named prepared-state recipe and actual original Nest confirm, with any optional freeze observed separately; use exact owned facts shared by both implementations.",
+        "A source-derived valid draft context where original Nest allows it, so no confirmed-only restriction is introduced. This is a finite compatibility check, not a demand for all status/operation permutations.",
+        "Original candidate/source merge, final/history/manual-exclusion/security behavior; relevant selection conflicts, expiry and storage/stream failure stages with residual ownership and cleanup. Freeze a finite case set from actual source and observed uncertainty, not an exhaustive Cartesian matrix.",
+        "Only after the five K operations satisfy joint G3, integration and G4 may the current R2 count move99→104. The R4 adapter/parameter work adds no public-operation count by itself."
+    ],
+    "R4WorkRemaining": [
+        "Whole project-handover detail/query and confirm command delivery in Rust, readiness/participant-confirmation integration and actual cross-domain transactions.",
+        "Contract handover rebaseline, effective contract/snapshot producers, receipt-judgment freeze rules and associated lifecycle consumers beyond the narrow original-producer observation.",
+        "Missing real domain creation APIs, other R3/R4/R5 business flows, the remaining L four public operations and R2M acceptance. Parents must retain their own unfinished gates."
+    ],
+    "R4TwoParameterCheckpoint": {
+        "targets": [
+            "ProjectHandoverController_getProjectHandoverDetailByHandover",
+            "ProjectHandoverController_confirmProjectHandover"
+        ],
+        "canonical": "/project-handovers/{id} and /project-handovers/{id}:confirm",
+        "existingRuntimeKeys": "handoverId",
+        "checkpoint": "Create a new exact local feature input commit S2 after focused controller/spec checks and separate short non-author review; do not treat that checkpoint as full G3 or push it to main alone.",
+        "generation": "Use the original locked CLI/image/JAR and unchanged six-input guard against actual permanent S2; then baseline transition and actual write/check, complete generated-tree comparison and all named consumer updates.",
+        "guardedInvariants": {
+            "totalOperations": 291,
+            "nonTargetWholeOperationsToKeepEqual": 289,
+            "schemasToKeepEqual": 585,
+            "generatedFiles": 579,
+            "operationIdsUnchanged": true,
+            "concreteUriIdentityUnchanged": true
+        },
+        "ancestry": "Old S687827 remains history; new S2 must also remain an actual permanent ancestor of the final integrated implementation. No sourceHead shortcut, guard weakening, discarded baseline or invented future hash."
+    },
+    "sources": [
+        {
+            "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+            "lines": [
+                927,
+                944,
+                1024,
+                1133,
+                1138,
+                1468,
+                1497,
+                1689
+            ],
+            "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+        },
+        {
+            "file": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+            "lines": [
+                318,
+                331,
+                345
+            ],
+            "rawBytesSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"
+        },
+        {
+            "file": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+            "lines": [
+                15,
+                24,
+                33,
+                42,
+                50
+            ],
+            "rawBytesSha256": "91480255c1e9218b86bff6d45b902895c74a93d54611ae5a75eddaae4c236d7d"
+        },
+        {
+            "file": "apps/poms-api/src/app/features/project-handover/project-handover-command.service.ts",
+            "lines": [
+                34,
+                50,
+                62,
+                69
+            ],
+            "rawBytesSha256": "0ee79687f34de0edb344965e6e582ddb137af277c6cb40e6a0c5e93020df6814"
+        },
+        {
+            "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+            "lines": [
+                36,
+                44
+            ],
+            "rawBytesSha256": "ca20302a4dd82127c5c239f8826d69b1b7f03896f545094a053dfe5e02982606"
+        },
+        {
+            "file": "docs/adr/015-api-route-canonical-grammar.md",
+            "lines": [],
+            "rawBytesSha256": "bb40249594da13abb82deec14a10df530adb0d86bf1646379f72c5d90bcf795c"
+        },
+        {
+            "file": "tools/openapi/shared-api-client.mjs",
+            "lines": [],
+            "rawBytesSha256": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d"
+        },
+        {
+            "file": "tools/openapi/shared-api-client-baseline.json",
+            "lines": [],
+            "rawBytesSha256": "3a94db9997d0a9b094b194ba32ef6a2632b8385a95e39cc5a5904ec071816468"
+        }
+    ],
+    "next": "Wait for Root joint formal G1 candidate, online/environment input and both author inventories. These are G0 questions and conditions, not confirmed product defects or a Gate Pass."
+}

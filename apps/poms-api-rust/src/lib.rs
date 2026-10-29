@@ -10,6 +10,7 @@ pub mod database;
 pub mod dictionary;
 pub mod error;
 pub mod external_org_sync;
+pub mod handover_facts;
 pub mod http;
 pub mod identity_providers;
 pub mod lifecycle;

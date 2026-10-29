@@ -1,6 +1,6 @@
 {
     "formatVersion": 1,
-    "sourceHead": "687827d45da2047028f625a600fe207876d40d6f",
+    "sourceHead": "ee0f4847cae292fe5cee1d1eec065b7194607683",
     "fingerprint": "SHA256 of UTF-8 text after CRLF-to-LF only; output normalization is separately defined by the legacy PS oracle",
     "generator": {
         "version": "7.20.0",
@@ -12,7 +12,7 @@
     "protectedSources": [
         {
             "file": "libs/shared/api-spec/openapi.json",
-            "sha256": "641e17b2193e137a99791466feb10fd85b1c23bd6188e8b9165f78df6a259c05"
+            "sha256": "d41072377a822ac428faa39880f72f79c13b09f216fe74e32b68ea7f9d554f77"
         },
         {
             "file": "tools/openapi/typescript-angular.config.json",
@@ -218,11 +218,11 @@
             "/api/project-actual-cost-records/{id}:replace",
             "/api/project-archive-records/{id}:replace",
             "/api/project-archive-records/{id}:void",
-            "/api/project-handovers/{handoverId}",
-            "/api/project-handovers/{handoverId}:confirm",
+            "/api/project-handovers/{id}",
             "/api/project-handovers/{id}/attachment-checklist",
             "/api/project-handovers/{id}/attachment-checklist:refresh",
             "/api/project-handovers/{id}/attachment-download-packages",
+            "/api/project-handovers/{id}:confirm",
             "/api/project-operating-snapshots",
             "/api/project-operating-snapshots/{id}",
             "/api/projects",
@@ -725,7 +725,7 @@
             },
             {
                 "method": "get",
-                "path": "/api/project-handovers/{handoverId}",
+                "path": "/api/project-handovers/{id}",
                 "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover"
             },
             {
@@ -1555,7 +1555,7 @@
             },
             {
                 "method": "post",
-                "path": "/api/project-handovers/{handoverId}:confirm",
+                "path": "/api/project-handovers/{id}:confirm",
                 "operationId": "ProjectHandoverController_confirmProjectHandover"
             },
             {

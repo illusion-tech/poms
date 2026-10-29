@@ -1,0 +1,79 @@
+{
+  "formatVersion": 1,
+  "kind": "K-author-A-candidate06-ordered-source-refs-dirty-calibration",
+  "at": "2026-10-29T14:27:25.463Z",
+  "actualEvidence": [
+    {
+      "file": "tmp/rust-r2k/k-http-nest-gamma03.json",
+      "sha256": "1ca3a2ee35be440d112fd43fd936ffe65c8a99da20eac03550ce42e5f27a0540"
+    },
+    {
+      "file": "tmp/rust-r2k/k-http-rust-gamma03.json",
+      "sha256": "41f33f5fc1524067164c68834768af97dbcf23c8617032d1b75409c7f36567f5"
+    }
+  ],
+  "nativeObserved": {
+    "case": "advanced.multisource.refresh",
+    "nativeSelectionId": "2d9ab512-4cb3-4a2d-83dd-a65314bc92ab",
+    "rustSelectionId": "dfc8ae9e-c71e-4752-857b-15df91bcfaa6",
+    "nativeVersions": [
+      2,
+      3
+    ],
+    "rustVersions": [
+      2,
+      2
+    ],
+    "semanticPGRefsBeforeAfterEqual": true,
+    "nativeUpdateShapes": [
+      {
+        "sequence": 4049,
+        "sqlShape": "update \"poms\".\"project_handover_attachment_selection\" set \"source_refs\" = case when (\"id\" = ?text) then ?text when (\"id\" = ?text) then ?text else \"source_refs\" end, \"updated_at\" = case when (\"id\" = ?text) then ?text when (\"id\" = ?text) then ?text else \"updated_at\" end, \"row_version\" = \"row_version\" + ?number where \"id\" in (?text, ?text) returning \"id\", \"row_version\""
+      }
+    ]
+  },
+  "delta": [
+    "Only HandoverSelection.source_refs uses actual Node compact JSON.stringify ordered equality; semantic Value equality remains for all J fields",
+    "Original ordered JSON baseline captured on actual SQL hydration, refreshed only for clean fields, and published from current managed raw shadow only after successful commit",
+    "Same-request just-flushed raw baseline remains clean; dirty assignment survives identity refresh; syntax whitespace is not dirty",
+    "service.rs only widens child zip module visibility to sibling attachments store, no service/route/storage behavior change"
+  ],
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68932,
+      "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9",
+      "normalizedLfSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 41731,
+      "rawBytesSha256": "f3f0aa97716744e028ee0aa1ffe37d99b3ebd3d2c62882c3d17f06dd8a4283f1",
+      "normalizedLfSha256": "f3f0aa97716744e028ee0aa1ffe37d99b3ebd3d2c62882c3d17f06dd8a4283f1"
+    },
+    {
+      "file": "tools/rust-r2k/k-json-dirty-export.mjs",
+      "bytes": 7213,
+      "rawBytesSha256": "4c37cc5293b6ee62236f3314999517fcb773f6bbc88c234d90a1c3f9ba6ea422",
+      "normalizedLfSha256": "4c37cc5293b6ee62236f3314999517fcb773f6bbc88c234d90a1c3f9ba6ea422"
+    },
+    {
+      "file": "tools/rust-r2k/k-json-dirty-golden.json",
+      "bytes": 7870,
+      "rawBytesSha256": "7f117d06488a408876d3711d0dd16ba75367a38ec74bb4fce163f405c3f67d6c",
+      "normalizedLfSha256": "7f117d06488a408876d3711d0dd16ba75367a38ec74bb4fce163f405c3f67d6c"
+    }
+  ],
+  "testsAdded": [
+    "Actual gamma03 + actual JsonType/PostgreSqlPlatform conversion4vectors",
+    "Committed managed order, clean hydration vs dirty hydration, J isolation lifecycle regression"
+  ],
+  "oldGoldensChanged": false,
+  "pureChecks": {
+    "originalExporter": "Pass",
+    "orderedJsonExporterCheck": "Pass, immutable actual gamma03 reports + original AST helpers + locked SDK; no PG/HTTP",
+    "gitDiffCheck": "Pass"
+  },
+  "RustChecks": "Pending Root centralized candidate06 checks and actual fresh-tag comparison",
+  "comparatorTask": "Paused before writing new comparator per Root priority"
+}

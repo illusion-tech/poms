@@ -36,7 +36,7 @@ import { BaseService } from '../api.base.service';
 
 
 export interface ProjectHandoverControllerConfirmProjectHandoverRequestParams {
-    handoverId: string;
+    id: string;
     confirmProjectHandoverRequest: ConfirmProjectHandoverRequest;
 }
 
@@ -45,7 +45,7 @@ export interface ProjectHandoverControllerGetContractHandoverSummaryRequestParam
 }
 
 export interface ProjectHandoverControllerGetProjectHandoverDetailByHandoverRequestParams {
-    handoverId: string;
+    id: string;
 }
 
 export interface ProjectHandoverControllerGetProjectHandoverDetailByProjectRequestParams {
@@ -68,7 +68,7 @@ export class ProjectHandoverApi extends BaseService {
 
     /**
      * 确认项目移交
-     * @endpoint post /api/project-handovers/{handoverId}:confirm
+     * @endpoint post /api/project-handovers/{id}:confirm
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -78,9 +78,9 @@ export class ProjectHandoverApi extends BaseService {
     public projectHandoverControllerConfirmProjectHandover(requestParameters: ProjectHandoverControllerConfirmProjectHandoverRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ConfirmProjectHandoverResult>>;
     public projectHandoverControllerConfirmProjectHandover(requestParameters: ProjectHandoverControllerConfirmProjectHandoverRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ConfirmProjectHandoverResult>>;
     public projectHandoverControllerConfirmProjectHandover(requestParameters: ProjectHandoverControllerConfirmProjectHandoverRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const handoverId = requestParameters?.handoverId;
-        if (handoverId === null || handoverId === undefined) {
-            throw new Error('Required parameter handoverId was null or undefined when calling projectHandoverControllerConfirmProjectHandover.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectHandoverControllerConfirmProjectHandover.');
         }
         const confirmProjectHandoverRequest = requestParameters?.confirmProjectHandoverRequest;
         if (confirmProjectHandoverRequest === null || confirmProjectHandoverRequest === undefined) {
@@ -123,7 +123,7 @@ export class ProjectHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:confirm`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:confirm`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ConfirmProjectHandoverResult>('post', `${basePath}${localVarPath}`,
             {
@@ -200,7 +200,7 @@ export class ProjectHandoverApi extends BaseService {
 
     /**
      * 获取指定移交详情
-     * @endpoint get /api/project-handovers/{handoverId}
+     * @endpoint get /api/project-handovers/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -210,9 +210,9 @@ export class ProjectHandoverApi extends BaseService {
     public projectHandoverControllerGetProjectHandoverDetailByHandover(requestParameters: ProjectHandoverControllerGetProjectHandoverDetailByHandoverRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectHandoverDetailView>>;
     public projectHandoverControllerGetProjectHandoverDetailByHandover(requestParameters: ProjectHandoverControllerGetProjectHandoverDetailByHandoverRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectHandoverDetailView>>;
     public projectHandoverControllerGetProjectHandoverDetailByHandover(requestParameters: ProjectHandoverControllerGetProjectHandoverDetailByHandoverRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const handoverId = requestParameters?.handoverId;
-        if (handoverId === null || handoverId === undefined) {
-            throw new Error('Required parameter handoverId was null or undefined when calling projectHandoverControllerGetProjectHandoverDetailByHandover.');
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectHandoverControllerGetProjectHandoverDetailByHandover.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -242,7 +242,7 @@ export class ProjectHandoverApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "handoverId", value: handoverId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectHandoverDetailView>('get', `${basePath}${localVarPath}`,
             {

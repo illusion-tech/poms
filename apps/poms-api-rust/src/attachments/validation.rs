@@ -1,4 +1,4 @@
-//! Finite J descriptor from unchanged original Zod; execution is checked by its corpus.
+//! Finite J/K descriptors from unchanged original Zod; checked against original corpora.
 use super::model::RequestData;
 use crate::{
     auth::js_json::{JsObject, JsString, decode_string},
@@ -13,8 +13,16 @@ use std::sync::OnceLock;
 fn rules() -> &'static Value {
     static RULES: OnceLock<Value> = OnceLock::new();
     RULES.get_or_init(|| {
-        serde_json::from_str(include_str!("../../../../tools/rust-r2ij/j-dto-rules.json"))
-            .unwrap_or_else(|_| panic!("original J DTO descriptor"))
+        let mut rules: Value =
+            serde_json::from_str(include_str!("../../../../tools/rust-r2ij/j-dto-rules.json"))
+                .unwrap_or_else(|_| panic!("original J DTO descriptor"));
+        let k: Value =
+            serde_json::from_str(include_str!("../../../../tools/rust-r2k/k-dto-rules.json"))
+                .unwrap_or_else(|_| panic!("original K DTO descriptor"));
+        for (name, rule) in k["schemas"].as_object().into_iter().flatten() {
+            rules["schemas"][name] = rule.clone();
+        }
+        rules
     })
 }
 pub fn query_raw(query: Option<&str>) -> String {
@@ -326,6 +334,46 @@ fn check(
             .and_then(|v| serde_json::from_str::<Vec<&RawValue>>(v.get()).ok());
         let Some(values) = values else {
             errors.push(invalid_type("array", json_type(raw), path.to_vec()));
+            // Original Zod's min/max length checks use their own whenHasLength
+            // predicate, even after array's invalid_type (e.g. selectionIds="").
+            let length = if let Some(raw) = raw {
+                match json_type(Some(raw)) {
+                    "string" => decode_string(raw.get()).ok().map(|text| {
+                        (
+                            "string",
+                            char::decode_utf16(text.as_code_units().iter().copied()).count() as f64,
+                        )
+                    }),
+                    "object" => JsObject::parse(raw.get())
+                        .ok()
+                        .and_then(|object| object.get("length"))
+                        .map(|length| to_number(length).map(|length| ("unknown", length)))
+                        .transpose()?,
+                    _ => None,
+                }
+            } else {
+                None
+            };
+            if let Some((origin, length)) = length {
+                for constraint in checks {
+                    if let Some(min) = constraint["minimum"].as_u64()
+                        && matches!(
+                            length.partial_cmp(&(min as f64)),
+                            None | Some(std::cmp::Ordering::Less)
+                        )
+                    {
+                        length_error(origin, Some(min as usize), None, path, errors);
+                    }
+                    if let Some(max) = constraint["maximum"].as_u64()
+                        && matches!(
+                            length.partial_cmp(&(max as f64)),
+                            None | Some(std::cmp::Ordering::Greater)
+                        )
+                    {
+                        length_error(origin, None, Some(max as usize), path, errors);
+                    }
+                }
+            }
             return Ok(None);
         };
         let mut fields = Vec::new();
@@ -338,6 +386,11 @@ fn check(
             );
         }
         for constraint in checks {
+            if let Some(min) = constraint["minimum"].as_u64()
+                && values.len() < min as usize
+            {
+                length_error("array", Some(min as usize), None, path, errors);
+            }
             if let Some(max) = constraint["maximum"].as_u64()
                 && values.len() > max as usize
             {
@@ -549,17 +602,15 @@ mod tests {
             _ => Some(raw.get().into()),
         }
     }
-    #[tokio::test]
-    async fn original_zod_request_corpus_matches_entire_payload_and_issues() {
+    async fn check_original_corpus(raw: &str, expected_count: usize) {
         let corpus: Value =
-            serde_json::from_str(include_str!("../../../../tools/rust-r2ij/j-golden.json"))
-                .unwrap_or_else(|_| panic!("J corpus"));
+            serde_json::from_str(raw).unwrap_or_else(|_| panic!("original DTO corpus"));
         let cases = corpus["cases"]
             .as_array()
             .unwrap_or_else(|| panic!("J cases"));
         assert_eq!(
             cases.len(),
-            660,
+            expected_count,
             "The complete frozen original corpus must execute"
         );
         let mut mismatches = Vec::new();
@@ -600,10 +651,26 @@ mod tests {
             .unwrap_or_else(|_| "Mismatch JSON encoding failed".into());
         assert!(
             mismatches.is_empty(),
-            "{} / {} original J cases mismatched; first 40 complete actual/expected payloads:\n{}",
+            "{} / {} original attachment cases mismatched; first 40 complete actual/expected payloads:\n{}",
             mismatches.len(),
             cases.len(),
             preview
         );
+    }
+    #[tokio::test]
+    async fn original_zod_request_corpus_matches_entire_payload_and_issues() {
+        check_original_corpus(
+            include_str!("../../../../tools/rust-r2ij/j-golden.json"),
+            660,
+        )
+        .await;
+    }
+    #[tokio::test]
+    async fn original_k_zod_arrays_defaults_null_and_unicode_corpus() {
+        check_original_corpus(
+            include_str!("../../../../tools/rust-r2k/k-dto-golden.json"),
+            138,
+        )
+        .await;
     }
 }

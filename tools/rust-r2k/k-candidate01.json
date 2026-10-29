@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "kind": "K-author-A-candidate01-before-Root-build",
+  "at": "2026-10-29T10:17:56.644Z",
+  "g1": "tmp/rust-r2k/g1-freeze.json",
+  "status": "compile-ready-candidate-not-yet-compiled-or-runtime-validated",
+  "ownership": "Only attachments existing five files plus handover/zip, and tools/rust-r2k/k-*",
+  "construction": "AttachmentsService::new(Database,Arc<AttachmentStorage>) unchanged; private HandoverFacts::new(database.clone())",
+  "pureChecks": {
+    "nodeExporter": "Pass original Zod138/K5/16schemas; ZIP AST-only source helpers",
+    "nodeProtocol": "Pass source/request only",
+    "gitDiffCheck": "Pass"
+  },
+  "unverified": [
+    "All Rust compile/test/clippy/release until Root runs",
+    "Native K AUTO query-metadata flush scheduling and exact create-group order",
+    "Actual PG JSON/property-order/optimistic versions/auth coflush",
+    "Actual FS/OBS/ZIP/TTL/binary/audit-failure residuals; fresh R4 producer source chain"
+  ],
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/handover.rs",
+      "bytes": 30313,
+      "rawBytesSha256": "eee7700353c9d453ba0ab0277105378236f9484af47aa9363b2f6ead1a2123db",
+      "normalizedLfSha256": "eee7700353c9d453ba0ab0277105378236f9484af47aa9363b2f6ead1a2123db"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/http.rs",
+      "bytes": 19512,
+      "rawBytesSha256": "e25f72a2a38bcf78855255d034fd3062de534c57125cd3d90d4d70ae3e77b778",
+      "normalizedLfSha256": "e25f72a2a38bcf78855255d034fd3062de534c57125cd3d90d4d70ae3e77b778"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/model.rs",
+      "bytes": 4107,
+      "rawBytesSha256": "5f2d948f482be77845f30fde6bc536c66e9dc33f27cfacd997f47cd001c3d172",
+      "normalizedLfSha256": "5f2d948f482be77845f30fde6bc536c66e9dc33f27cfacd997f47cd001c3d172"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68874,
+      "rawBytesSha256": "f0c11fbdfb9064f773991087b048deab70cf0a76cc3cc3ebc2b20d4921cc2973",
+      "normalizedLfSha256": "f0c11fbdfb9064f773991087b048deab70cf0a76cc3cc3ebc2b20d4921cc2973"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 29472,
+      "rawBytesSha256": "2d9bdfe4960e0d3062b4779f79b8b69a6ae98a2715e42cfa69be8b1a4a57356c",
+      "normalizedLfSha256": "2d9bdfe4960e0d3062b4779f79b8b69a6ae98a2715e42cfa69be8b1a4a57356c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/validation.rs",
+      "bytes": 26409,
+      "rawBytesSha256": "dce08bbf54cce2e28970df70456eef67b8f4aef9dc891e77edb786989a41dace",
+      "normalizedLfSha256": "dce08bbf54cce2e28970df70456eef67b8f4aef9dc891e77edb786989a41dace"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/zip.rs",
+      "bytes": 9040,
+      "rawBytesSha256": "0d58978e439290ac2f14ceabbb5b5611de333997342695b243a8720ef2df1f51",
+      "normalizedLfSha256": "0d58978e439290ac2f14ceabbb5b5611de333997342695b243a8720ef2df1f51"
+    },
+    {
+      "file": "tools/rust-r2k/k-dto-golden.json",
+      "bytes": 97839,
+      "rawBytesSha256": "e8a48a5860cfadc4de22ddfdb1b920204893d142338b1d85bc8265a08c60e58a",
+      "normalizedLfSha256": "e8a48a5860cfadc4de22ddfdb1b920204893d142338b1d85bc8265a08c60e58a"
+    },
+    {
+      "file": "tools/rust-r2k/k-dto-rules.json",
+      "bytes": 3583,
+      "rawBytesSha256": "17526512cf01078495c91fd99db93c7b1bfeca19bfab1103ecab753d0847b7a9",
+      "normalizedLfSha256": "17526512cf01078495c91fd99db93c7b1bfeca19bfab1103ecab753d0847b7a9"
+    },
+    {
+      "file": "tools/rust-r2k/k-export.mjs",
+      "bytes": 12481,
+      "rawBytesSha256": "9ee9878940f4f09afe212c86986f2f33816d7d927b0d3eb74f28949443e33795",
+      "normalizedLfSha256": "9ee9878940f4f09afe212c86986f2f33816d7d927b0d3eb74f28949443e33795"
+    },
+    {
+      "file": "tools/rust-r2k/k-openapi.json",
+      "bytes": 20976,
+      "rawBytesSha256": "2bb5ba5e534b859fde0b1f7d8826ce7867e0f15645b8bf5f84b8938b6bdfc998",
+      "normalizedLfSha256": "2bb5ba5e534b859fde0b1f7d8826ce7867e0f15645b8bf5f84b8938b6bdfc998"
+    },
+    {
+      "file": "tools/rust-r2k/k-protocol.mjs",
+      "bytes": 2428,
+      "rawBytesSha256": "c8a0534483e7de8874125c8c9873e794d229d984992d4ff76614e7c97d456cde",
+      "normalizedLfSha256": "c8a0534483e7de8874125c8c9873e794d229d984992d4ff76614e7c97d456cde"
+    },
+    {
+      "file": "tools/rust-r2k/k-source.json",
+      "bytes": 1898,
+      "rawBytesSha256": "a72a27cb0fd549e56615e3364d9fcf428ad5e2030d7d398c5fb46257ce62f39b",
+      "normalizedLfSha256": "a72a27cb0fd549e56615e3364d9fcf428ad5e2030d7d398c5fb46257ce62f39b"
+    },
+    {
+      "file": "tools/rust-r2k/k-zip-golden.json",
+      "bytes": 11701,
+      "rawBytesSha256": "37f3d8d757d3976f707e6807a9aeeeae6584e7431a4f7b5731f8e7fab9cd4ae5",
+      "normalizedLfSha256": "37f3d8d757d3976f707e6807a9aeeeae6584e7431a4f7b5731f8e7fab9cd4ae5"
+    }
+  ]
+}

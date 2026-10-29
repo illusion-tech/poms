@@ -1,0 +1,571 @@
+{
+  "formatVersion": 1,
+  "result": "source-reverified",
+  "sourceHead": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+  "sourceInput": {
+    "path": "docs/design/rust-r2l1/reference-source-input.json",
+    "bytes": 1387925,
+    "rawBytesSha256": "97d786bee12bbc7d2d0bb2f22162b382f567cf3bc3d333ba3f401ec459202b6e"
+  },
+  "counts": {
+    "migrations": 92,
+    "tables": 107,
+    "columns": 1778,
+    "allForeignKeys": 207,
+    "incomingForeignKeys": 207
+  },
+  "migrations": [
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260322193000_init_project.ts",
+      "bytes": 3253,
+      "rawBytesSha256": "4caf9cc9ef4b4071bf1e0c9dc83fc7dee509ff100f9ed862dadff805d0927488",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260322233000_init_contract.ts",
+      "bytes": 2721,
+      "rawBytesSha256": "28a6ff1503db62c63133422b69562f2ca41f5fddff3ee1a68bf2779e35ed550d",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260322235500_init_approval_and_todo.ts",
+      "bytes": 3004,
+      "rawBytesSha256": "736d5a1fa69846219f809e77c737e7b2aa3f13bb66374bef4a18cc72a91e56fc",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260325153000_init_platform_governance_core.ts",
+      "bytes": 8958,
+      "rawBytesSha256": "8583cbeb7f5ec4ba42af26c47014871650c357e9bd79e7c2754df94c4131c402",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260325180000_add_password_hash_to_platform_user.ts",
+      "bytes": 436,
+      "rawBytesSha256": "3e72cf80554fb6ab53ec7579452739677aaa7ed14d728a9d23de24f92aa88cdc",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260325190000_init_commission_s10.ts",
+      "bytes": 4213,
+      "rawBytesSha256": "d2ddddc758365f12416de54725ad25725da8b985114502a97b280cae206042f1",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260325200000_init_commission_s11.ts",
+      "bytes": 6042,
+      "rawBytesSha256": "c693c296be97e02f9c285bde4df8f58a81fb3d3ca5ca3db4a1998e1307b29a4e",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260327090000_init_commission_s12.ts",
+      "bytes": 2866,
+      "rawBytesSha256": "38aa5b68ebfc46a725dd103ee7dd260bb1052afa2a3e0482268994fc00f6c4fc",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260327170000_init_contract_finance_facts.ts",
+      "bytes": 4045,
+      "rawBytesSha256": "6af62cbeb11c72e4013f389c9788dc9315c34d4e90f853e55f48d68df3d26e4d",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts",
+      "bytes": 2928,
+      "rawBytesSha256": "5d45f17a8abfeafe7cec0ce92c5b6fa1b2f8d096c07e2a8ca59d9b47564d9e08",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260404074500_add_org_unit_structure_constraints.ts",
+      "bytes": 1024,
+      "rawBytesSha256": "17f4c39ec62f15488f37aca9d0ae3a784014bf11f4df4aa8bb64b26f3bc289d5",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260405100000_extract_local_credential_and_add_verified_fields.ts",
+      "bytes": 2595,
+      "rawBytesSha256": "b9056ef64d7bcdca917edefdc3b35b495526d57078dfa3b096898be5227a390f",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260405113000_init_contract_readiness_chain.ts",
+      "bytes": 14621,
+      "rawBytesSha256": "11faff7ad079f5af7f0eecc7857df7f13f85784d681b468f81d5810f8e4d8e63",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260405164244_init_actual_cost.ts",
+      "bytes": 13595,
+      "rawBytesSha256": "53d9ebc777f7287529f31c280cfaee8ac6bac62cb6032089b4a7af65e41710b1",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260411120000_align_actual_cost_rate_version.ts",
+      "bytes": 4317,
+      "rawBytesSha256": "bc8947752c716acafd6cd511bce70af64f25057301c65ec252ac2da0b8036409",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412121500_add_payment_fact_source_current_unique.ts",
+      "bytes": 711,
+      "rawBytesSha256": "5c9b7fd9513e937d3b6d4ab62a8e4de9a29cad778ab0faa2f08be5082824a31b",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412152000_add_invoice_record.ts",
+      "bytes": 2616,
+      "rawBytesSha256": "27396bc8808315a4676ba35c9100170fa827a6a67bf5d1d40be2fd3ace615962",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412174000_add_invoice_source_current_unique.ts",
+      "bytes": 691,
+      "rawBytesSha256": "6c954d15b01870552162a8e99bbfd26fa425f06b78147a450cfb9d5c677b42b5",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412193000_add_expense_record.ts",
+      "bytes": 2520,
+      "rawBytesSha256": "716c0de0ac3700e3c5484e7b562edc00a834e8196bb6e10fdf2d7882422f0d48",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412195000_add_expense_source_current_unique.ts",
+      "bytes": 687,
+      "rawBytesSha256": "45e894632ac5783dfef0e8a2e64ef20e1d2a7902e5a261cc168ede0b201ad9aa",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412212000_add_payable_record.ts",
+      "bytes": 3382,
+      "rawBytesSha256": "f3c6b28de18b4e1550afc6b776f88daaf7a6203a7b920164ce8d48d7311be856",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412233000_add_procurement_source_current_unique.ts",
+      "bytes": 717,
+      "rawBytesSha256": "5e939d89dea8f2e2200539fa8e21e3110777cb2216b8ca530fc4ffd35a5e60c8",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260413093000_ex06d_payable_payment_tax_semantics.ts",
+      "bytes": 5423,
+      "rawBytesSha256": "ae423d970c79315cdd9b95df8f76620dee6c2a2e0ac269ff4d357895a1772626",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+      "bytes": 21302,
+      "rawBytesSha256": "8efe816a18ebb9b6c348f7c1ccb0b229a6882df2026a4135bbe6a34ff2925c94",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260414111805_ex07a_add_comments.ts",
+      "bytes": 33696,
+      "rawBytesSha256": "9daecfcd9c69a835189795e7e66ea1a52edd7068a8359a259933bd219700151b",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260414130000_ex07b_operating_restatement_record.ts",
+      "bytes": 3680,
+      "rawBytesSha256": "8e765bc065ba6c4b60dace5bc6b60ac31dfe5e7b3ffee72166978dcd577194b5",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260414131000_ex07b_operating_restatement_comments.ts",
+      "bytes": 3847,
+      "rawBytesSha256": "7de24decbad7285ca0d852b15ac7ffa535ba3b4db96fc0f8ce69c30349732a49",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415090000_ex08a1_project_handover_core.ts",
+      "bytes": 14726,
+      "rawBytesSha256": "ab9378f7df4659ba3d0b72bf1e96a3cd8f3c441031276b14053b726f5a68afa7",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415100000_ex08a2_approval_summary_snapshot.ts",
+      "bytes": 13013,
+      "rawBytesSha256": "ec42a5074ff2e39d8defe3657513f4b3d30df21c38b8b454bb03533e40286a3d",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415110000_ex08a3_confirmation_record.ts",
+      "bytes": 7040,
+      "rawBytesSha256": "cd30de58727826af7b41519f8bf3402c9a9d0cdc6b8aa76c0d6d6f2316a960e8",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415130000_ex08b3b0_contract_amendment.ts",
+      "bytes": 3401,
+      "rawBytesSha256": "db1f48224042faaf8396bffccfc6a59f3346d1009eda012bbef346d16e2230dc",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415131000_ex08b3b0_rebaseline_amendment_fk.ts",
+      "bytes": 1063,
+      "rawBytesSha256": "93b2699ec19d70cd2adef2adaa57abc4f2e812a2bffe1079101734a82578bf42",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415142000_ex08b3b1_rebaseline_project_chain.ts",
+      "bytes": 1958,
+      "rawBytesSha256": "614691d23dea82a19f1223f3e3e5041b6609edc27d8b1893c0e1a5f014fb7f65",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+      "bytes": 10335,
+      "rawBytesSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260416110000_ex07d3_tax_treatment_active_unique.ts",
+      "bytes": 556,
+      "rawBytesSha256": "9607762a9d7ca95a8f258dd2dbc5b00b719a47c377ec90ab547c3c5c68fe29c4",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260416111000_ex08d1_project_rebaseline_effective_unique.ts",
+      "bytes": 543,
+      "rawBytesSha256": "d7b8c43562b9351b41681ced2287a7657ede34b186d4540ec9dbfc43a7c5be5f",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260416130000_ex09a_commission_freeze_chain.ts",
+      "bytes": 3914,
+      "rawBytesSha256": "12c0ba0ef8fc9e1c8a9a15868d832aedaa0b54756dc8252deeef44c20a157e70",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260416143000_ex09d_commission_freeze_dispute_chain.ts",
+      "bytes": 7516,
+      "rawBytesSha256": "18ff243ed7c9dcecf2c557fb76a91b66ef20253bc2ee4be995c52da0aacc0604",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260416144500_ex09d_commission_freeze_dispute_comments.ts",
+      "bytes": 9829,
+      "rawBytesSha256": "f5703ce2009833cc5beb78bf8886f5427b730b4f19c81c971437e733cb98e6ed",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418110000_ex11d3_commission_current_unique.ts",
+      "bytes": 869,
+      "rawBytesSha256": "ab52363c4c7f623a2f0148691899aa2889de19bc64168a474bc0e5ee8aa01aa8",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418143000_ex12d1_commission_payout_compensating_chain.ts",
+      "bytes": 1929,
+      "rawBytesSha256": "2aa2992848ee446406cc7746aa136b941f74eb83f43040b870c37f089212e285",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418170000_ex13a_operating_signal_model.ts",
+      "bytes": 26196,
+      "rawBytesSha256": "5ebc7607a8c80e4a5368ed8508db7403cde0bf020c4072e9da1942f8c9580f54",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418183000_ex13b1_gate_review_summary_anchor.ts",
+      "bytes": 3247,
+      "rawBytesSha256": "1552dbdc6b31dc93dc3272417fca92f9d2b0d25e180fc76ba22c04f1f9b98b46",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts",
+      "bytes": 23948,
+      "rawBytesSha256": "4bc97bbcc54f66fcd9aa63eb64010b1c350f986667e9aabf3acdd89452e985b7",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418194500_ex14a_nullable_reference_fk_rules.ts",
+      "bytes": 2230,
+      "rawBytesSha256": "a6593dabb0132c3190c72d79063b9d700d6129d3fe8085837722d32303ff4f66",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260418195000_ex14a_rule_explanation_parent_fk_delete_rule.ts",
+      "bytes": 1291,
+      "rawBytesSha256": "ea6500a871d5dbbfdc3d055ff317bf364b307f13397fe3a1858eb12d60318f02",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260419120000_ex14d_retention_due_fact_source.ts",
+      "bytes": 891,
+      "rawBytesSha256": "19b96553deefe9199453dd3dd587846502d68483d93411802f7c88bec2d46c68",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260421110000_ex17_project_list_and_create_semantics.ts",
+      "bytes": 532,
+      "rawBytesSha256": "189aeada4ff1e0f40e988d1eb6521edefe39da0a252762dc52ad0c54a4e36ae1",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260422031100_add_contract_term_snapshot_core_fields.ts",
+      "bytes": 6872,
+      "rawBytesSha256": "df87f2b256d32e8846414fe22baabdb680e6445878591bfdd908021856be8397",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260423130000_ex23_acceptance_record.ts",
+      "bytes": 3536,
+      "rawBytesSha256": "642d6bb2d045f3b7b9f6d4179b9f0c23dea8cc8345e283e469ff73b687efb219",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424100000_ex24_project_completion_record.ts",
+      "bytes": 3627,
+      "rawBytesSha256": "2eca97690e6d20f1d4d9d6c9a3dda8ce06cb7a802729a1658bec8ce70d2b39fd",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424143000_ex25_project_archive_record.ts",
+      "bytes": 3594,
+      "rawBytesSha256": "35d1e2c399a4738f447feb183c83a21d78cdbe214a12ccbbcfed55bd5d65109a",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+      "bytes": 14622,
+      "rawBytesSha256": "0b44d3076ad6eca4ff61bfc77fa87d3fd8f2eb9e4b5631c4250b107b74b36be8",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+      "bytes": 11064,
+      "rawBytesSha256": "5d9986be33e056be76a1be48e5b1056514ae1e50fb4d2504a001eea07ccb6171",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+      "bytes": 12884,
+      "rawBytesSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260425103000_ex31_lead_minimal_fact_source.ts",
+      "bytes": 4035,
+      "rawBytesSha256": "b66ac6d96c221773ec90918f667e2d03cbae58283dc9f3048115b220ebc505d5",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260425113000_ex32_project_source_lead.ts",
+      "bytes": 1050,
+      "rawBytesSha256": "651350388f6f4c7a6521cdb47248a8129ce6a17bdd9c8ed3393817a4b9c78d5a",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260426100000_ex34a_project_archive_record_reversal_replacement.ts",
+      "bytes": 3245,
+      "rawBytesSha256": "8ba75108bbb08b230a2da41814a8c9b27a3a6e825e24f2cd058349640e23817c",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260426113000_ex35a_business_number_generation.ts",
+      "bytes": 9124,
+      "rawBytesSha256": "ff284c4066a1c6ff5bc180b562f1dfce3f61acc3e89b975a80aef0dee9063803",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260429100000_ex41a_project_owner_reassignment_record.ts",
+      "bytes": 3710,
+      "rawBytesSha256": "147ac2d3039c48a86102c674d8c1d80cf79372c2544ffc9eab3ea4c32b93d34e",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260429140000_ex42_customer_master_data.ts",
+      "bytes": 12833,
+      "rawBytesSha256": "a5cc60cd7780371de061c1812d65cda29c7598b56bb69c5c667f07565112df84",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260430100000_ex43_lead_source_and_profile_enrichment.ts",
+      "bytes": 8248,
+      "rawBytesSha256": "4fd3c1f2efe20dafcefe898fb80f125a826cc4955a05a33047da8a57d74a5632",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260430120000_ex44_sales_follow_up_record.ts",
+      "bytes": 5594,
+      "rawBytesSha256": "9c29fe492fa1a8480f44c0bfd3ca3038e4055247eb70bad4680f6ea53669e43e",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+      "bytes": 9005,
+      "rawBytesSha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260430160000_ex46_lead_owner_assignment_record.ts",
+      "bytes": 4055,
+      "rawBytesSha256": "4b8b40cf5bf76ff791eb8f5280f3d352199efd3d922a87c00baa8bf9a5e0bdf3",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260430180000_ex47_lead_scoring_and_gate_explanation.ts",
+      "bytes": 4138,
+      "rawBytesSha256": "f65f7088c89d82c74363ce5aa04fc06ee075ab336de2ab1ec6c3c2c1b6d9ca07",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260501100000_ex48a_sales_follow_up_change_lifecycle.ts",
+      "bytes": 4701,
+      "rawBytesSha256": "f5d49cde17b8475b39566491c3165992363ddb3774866aeac63c414ace07a6f9",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260501110000_ex56a_project_status_stage_checks.ts",
+      "bytes": 2597,
+      "rawBytesSha256": "6a575cf69150509957530c2adbd1cbbeb2dc5f99561a5c5881706d02ff046f3e",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260501120000_ex56b_todo_approval_enum_checks.ts",
+      "bytes": 5173,
+      "rawBytesSha256": "33365fac6d29c8f911a0b73fa224840ad31a8add7ad01d4d6ca0d79543a707ff",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260501160000_ex56c_crm_enum_checks.ts",
+      "bytes": 673,
+      "rawBytesSha256": "26799693a14f61f5ea621ce4f78ac4a8f344310a4842c13b747ab908c5e17073",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260501170000_ex56c_attachment_status_defaults.ts",
+      "bytes": 635,
+      "rawBytesSha256": "cd91781afd3f08fde9654f6fd2b94307c2bf0e8c04cbaec789a621190b937ddb",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260502100000_ex56d1_contract_finance_enum_checks.ts",
+      "bytes": 4863,
+      "rawBytesSha256": "4a55fdf4c91de107c55c8076295ac5f3f5c9295d958b4d226878b3abbc558c38",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260502120000_ex56d2_project_cost_operating_enum_checks.ts",
+      "bytes": 28473,
+      "rawBytesSha256": "51b76120a3fc144e3a24615d5d398ab6298f4c72da7877bf703bac3c91bccf2b",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260502133000_ex56d3_commission_enum_checks.ts",
+      "bytes": 11007,
+      "rawBytesSha256": "3eab6a5069cf068d97696054e86ac39d11677f5c442f79eec8a4f8379ee04673",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts",
+      "bytes": 39038,
+      "rawBytesSha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260503170000_ex58c_configurable_dictionary_runtime.ts",
+      "bytes": 7672,
+      "rawBytesSha256": "56afc4bb4c90ae6d2d8564a8bb5867cbaf54e5ccae4d604c5d246038ae4ce2f5",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+      "bytes": 25599,
+      "rawBytesSha256": "c8642a90e9ecf622f1a2c80a8c6908e36ea19774a7ea4e605acf3e930f1947f1",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260504110000_ex62_customer_contact_gender.ts",
+      "bytes": 856,
+      "rawBytesSha256": "c3414a36232692a4ea568e53699b16c49ea69761cd1ea21c88ac799960bb4034",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+      "bytes": 2819,
+      "rawBytesSha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+      "bytes": 13522,
+      "rawBytesSha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260506100000_ex54a_lead_score_history_override.ts",
+      "bytes": 10719,
+      "rawBytesSha256": "4bf313fd80784378ecace7d0fb9902a95a1705f870f50b0b7b617ea4c922be5c",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260507130000_ex64b_identity_provider_config.ts",
+      "bytes": 3569,
+      "rawBytesSha256": "bc75f9c308a3f47924a18932126230d4a8f9a8a4e476e2a18acec861c2db99cc",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260507143000_ex64c_external_identity_binding.ts",
+      "bytes": 5490,
+      "rawBytesSha256": "47d9182f7a1fea3c9029e6acd2854187378886f115477006e8ec557a3779900e",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260507160000_ex64d_identity_provider_oauth_grant.ts",
+      "bytes": 5801,
+      "rawBytesSha256": "8e7894a9557a16d68b6c948337baba33fb99cf0f78498c99a8e5cbc6509adc14",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260507173000_ex64e_external_login_ticket.ts",
+      "bytes": 4618,
+      "rawBytesSha256": "4904b98612863f32e77559fe33b84301bf894d1fe313030daafbcf827a63285d",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260511100000_ex64f_identity_provider_search_redirect_uri.ts",
+      "bytes": 863,
+      "rawBytesSha256": "5e2969fca80600147c45a0838b715a5ec390e772f44b611a4d6465e9c0640f5f",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+      "bytes": 3697,
+      "rawBytesSha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+      "bytes": 8667,
+      "rawBytesSha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260513100000_ex66b_auth_session.ts",
+      "bytes": 4503,
+      "rawBytesSha256": "d468f42a3615ad2d298541f8d20c994de94d1e109d516ef0645d05aa0e5b423d",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260526100000_ex67a_system_setting.ts",
+      "bytes": 3558,
+      "rawBytesSha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260529120000_ex70a_lead_source_dictionary_direct_cutover.ts",
+      "bytes": 7670,
+      "rawBytesSha256": "e0b5204d1901e7492b3ec49c0f979a6eeb2da8f8c89e7073b2e6063323081002",
+      "gitBlobMatches": true
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260610120000_ex72b_external_org_sync_persistence.ts",
+      "bytes": 12441,
+      "rawBytesSha256": "923ee191cd11a0777e5205ba5a59ee0f278bf68d14796c1b53e8914da8bbe2a0",
+      "gitBlobMatches": true
+    }
+  ]
+}

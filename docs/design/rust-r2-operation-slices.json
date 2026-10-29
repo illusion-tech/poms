@@ -331,8 +331,8 @@
       "taskId": "RUST-R2K",
       "title": "移交附件清单与下载包",
       "issue": 78,
-      "status": "Todo",
-      "g1": "Todo",
+      "status": "Doing",
+      "g1": "Pass",
       "publicOperations": 5,
       "proposedDependencies": [
         "RUST-R2J",
@@ -340,7 +340,26 @@
       ],
       "nonHttpAndDomainInputs": [
         "R4 移交事实读取/冻结证据；不能伪造移交数据"
-      ]
+      ],
+      "g0Batch": "RUST-R2K-ROUTE-R4-HANDOVER",
+      "routeParameterPrerequisite": {
+        "issue": 82,
+        "status": "Done"
+      },
+      "actualFactsPrerequisite": "Actual original Native prepared-state/confirm/freeze and current K consumption verified; not Rust R4 domain delivery",
+      "g1FrozenAt": "2026-10-29T10:00:47.319Z",
+      "g1Baseline": "docs/design/rust-r2k-r4-route-baseline.md",
+      "g1Review": "docs/design/rust-r2kr4-g1-review01.json",
+      "g1Comment": "https://github.com/illusion-tech/poms/issues/78#issuecomment-6493685229",
+      "g3": "Pass",
+      "g3Review": "docs/design/rust-r2k-g3-review01.json",
+      "g3ReviewRawBytesSha256": "a1687c924e58d2bc0256f5d6a12e4e51aaf34c6c6671307aaed226f7ab5e29f5",
+      "g3MirroredAt": "2026-10-29T18:47:40.889Z",
+      "validation": "docs/design/rust-r2k-validation.json",
+      "validationDelta": "docs/design/rust-r2k-validation-delta01.json",
+      "sourceSupplement": "docs/design/rust-r2k-source-supplement01.json",
+      "preservation": "docs/design/rust-r2k-preservation.json",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/78#issuecomment-6505490004"
     },
     {
       "taskId": "RUST-R2L",
@@ -15903,26 +15922,28 @@
     "historicalSummary": "summary.allSlicesG1 retains its original inventory snapshot; current G1/G4 and delivery status come from slices[]"
   },
   "executionBatch": {
-    "id": "RUST-R2L1-ROUTE-K",
+    "id": "RUST-R2K-ROUTE-R4-HANDOVER",
     "issues": [
-      81,
-      82
+      78,
+      83
     ],
-    "status": "Done",
+    "status": "Doing",
     "g1": "Pass",
     "g3": "Pass",
-    "g4": "Pass",
-    "baseline": "docs/design/rust-r2l1-k-route-baseline.md",
-    "g1Review": "docs/design/rust-r2l1-g1-review01.json",
+    "g4": "Pending",
+    "baseline": "docs/design/rust-r2k-r4-route-baseline.md",
     "newDeliveredPublicOperations": 0,
     "currentR2Delivered": 99,
-    "g3Review": "docs/design/rust-r2l1-g3-review01.json",
-    "validation": "docs/design/rust-r2l1-validation.json",
-    "preservation": "docs/design/rust-r2l1-preservation.json",
-    "g4ClosedAt": "2026-10-29T08:27:12.233Z",
-    "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
-    "integrationReview": "docs/design/rust-r2l1-integration-review01.json",
-    "closeout": "docs/design/rust-r2l1-g4-closeout.json"
+    "targetPublicOperationsAfterKG4": 104,
+    "g1FrozenAt": "2026-10-29T10:00:47.319Z",
+    "g1Review": "docs/design/rust-r2kr4-g1-review01.json",
+    "g3Review": "docs/design/rust-r2k-g3-review01.json",
+    "g3ReviewRawBytesSha256": "a1687c924e58d2bc0256f5d6a12e4e51aaf34c6c6671307aaed226f7ab5e29f5",
+    "g3MirroredAt": "2026-10-29T18:47:40.889Z",
+    "validation": "docs/design/rust-r2k-validation.json",
+    "validationDelta": "docs/design/rust-r2k-validation-delta01.json",
+    "sourceSupplement": "docs/design/rust-r2k-source-supplement01.json",
+    "preservation": "docs/design/rust-r2k-preservation.json"
   },
   "currentDeliverySummary": {
     "deliveredOperations": 99,
@@ -16012,6 +16033,28 @@
       "closure": "docs/design/rust-r2ij-g4-closure.json",
       "integration": "docs/design/rust-r2ij-post-integration.json",
       "integrationReview": "docs/design/rust-r2ij-integration-review.json"
+    },
+    {
+      "id": "RUST-R2L1-ROUTE-K",
+      "issues": [
+        81,
+        82
+      ],
+      "status": "Done",
+      "g1": "Pass",
+      "g3": "Pass",
+      "g4": "Pass",
+      "baseline": "docs/design/rust-r2l1-k-route-baseline.md",
+      "g1Review": "docs/design/rust-r2l1-g1-review01.json",
+      "newDeliveredPublicOperations": 0,
+      "currentR2Delivered": 99,
+      "g3Review": "docs/design/rust-r2l1-g3-review01.json",
+      "validation": "docs/design/rust-r2l1-validation.json",
+      "preservation": "docs/design/rust-r2l1-preservation.json",
+      "g4ClosedAt": "2026-10-29T08:27:12.233Z",
+      "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+      "integrationReview": "docs/design/rust-r2l1-integration-review01.json",
+      "closeout": "docs/design/rust-r2l1-g4-closeout.json"
     }
   ],
   "subSlices": [
@@ -16066,6 +16109,28 @@
       "implementationCommit": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
       "g4Comment": "https://github.com/illusion-tech/poms/issues/82#issuecomment-6491758087",
       "closeout": "docs/design/rust-r2l1-g4-closeout.json"
+    },
+    {
+      "taskId": "RUST-ROUTE-R4-HANDOVER",
+      "issue": 83,
+      "parentIssue": 61,
+      "status": "Doing",
+      "g1": "Pass",
+      "publicOperations": 0,
+      "scope": "Two R4 handover path parameter decisions/controller-spec-client sync; no Rust R4 domain write delivery",
+      "baseline": "docs/design/rust-r2k-r4-route-baseline.md",
+      "g1FrozenAt": "2026-10-29T10:00:47.319Z",
+      "g1Review": "docs/design/rust-r2kr4-g1-review01.json",
+      "g1Comment": "https://github.com/illusion-tech/poms/issues/83#issuecomment-6493688172",
+      "g3": "Pass",
+      "g3Review": "docs/design/rust-r2k-g3-review01.json",
+      "g3ReviewRawBytesSha256": "a1687c924e58d2bc0256f5d6a12e4e51aaf34c6c6671307aaed226f7ab5e29f5",
+      "g3MirroredAt": "2026-10-29T18:47:40.889Z",
+      "validation": "docs/design/rust-r2k-validation.json",
+      "validationDelta": "docs/design/rust-r2k-validation-delta01.json",
+      "sourceSupplement": "docs/design/rust-r2k-source-supplement01.json",
+      "preservation": "docs/design/rust-r2k-preservation.json",
+      "g3Comment": "https://github.com/illusion-tech/poms/issues/83#issuecomment-6505492028"
     }
   ],
   "routeDecisionCloseouts": [

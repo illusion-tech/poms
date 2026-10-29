@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "kind": "K-author-A-candidate02-specific-semantic-fix",
+  "at": "2026-10-29T10:28:10.609Z",
+  "previousCandidate": "tools/rust-r2k/k-candidate01.json",
+  "rootEvidence": "tmp/rust-r2k/rust-candidate01-test.log:147-207",
+  "delta": [
+    "ZIP JSON.stringify emits well-formed Unicode literally and escapes only controls/quote/backslash/unpaired surrogate, leaving shared JsString unchanged",
+    "Original array min/max checks retain whenHasLength after invalid_type; match original selectionIds empty string too_small"
+  ],
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/zip.rs",
+      "bytes": 11593,
+      "rawBytesSha256": "adde14fe7b13345997ec6b60a2126df71c8b82cf3600798b466821e90f6e8799",
+      "normalizedLfSha256": "adde14fe7b13345997ec6b60a2126df71c8b82cf3600798b466821e90f6e8799"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/validation.rs",
+      "bytes": 27882,
+      "rawBytesSha256": "49ce5ceb93159d36a8499e6d4e8358c63b390410e60b45e35e7734ac139ad37f",
+      "normalizedLfSha256": "49ce5ceb93159d36a8499e6d4e8358c63b390410e60b45e35e7734ac139ad37f"
+    }
+  ],
+  "goldensChanged": false,
+  "pureExporterCheck": "Pass",
+  "rustChecks": "Pending Root centralized build; candidate01 fmt/check Pass, test2fails preserved"
+}

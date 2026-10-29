@@ -23,6 +23,18 @@ impl RequestData {
     pub fn number(&self, key: &str) -> Option<f64> {
         self.object().get(key).and_then(|v| v.get().parse().ok())
     }
+    pub fn boolean(&self, key: &str) -> Option<bool> {
+        self.object().get(key).and_then(|v| match v.get() {
+            "true" => Some(true),
+            "false" => Some(false),
+            _ => None,
+        })
+    }
+    pub fn array(&self, key: &str) -> Option<Vec<&RawValue>> {
+        self.object()
+            .get(key)
+            .and_then(|v| serde_json::from_str(v.get()).ok())
+    }
 }
 impl std::fmt::Debug for RequestData {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -81,6 +93,20 @@ impl Wire {
             wire.0
         ))
     }
+    /// JSON.stringify object insertion order is part of the ZIP manifest bytes.
+    pub fn ordered<'a>(fields: impl IntoIterator<Item = (&'a str, Self)>) -> Self {
+        Self(format!(
+            "{{{}}}",
+            fields
+                .into_iter()
+                .map(|(key, value)| format!("{}:{}", json_key(key), value.0))
+                .collect::<Vec<_>>()
+                .join(",")
+        ))
+    }
+}
+fn json_key(key: &str) -> String {
+    js(key).json()
 }
 pub fn js(value: &str) -> JsString {
     JsString::from_code_units(value.encode_utf16().collect())
