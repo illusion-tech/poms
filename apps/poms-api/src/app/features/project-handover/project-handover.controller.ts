@@ -33,20 +33,20 @@ export class ProjectHandoverController {
         return this.projectHandoverQueryService.getProjectHandoverDetailByProjectId(projectId, req.user, buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/project-handover`));
     }
 
-    @Get('project-handovers/:handoverId')
+    @Get('project-handovers/:id')
     @HasPermissions('project:read')
     @ApiOperation({ summary: '获取指定移交详情' })
     @ApiOkResponse({ type: ProjectHandoverDetailViewDto })
-    getProjectHandoverDetailByHandover(@Param('handoverId') handoverId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverDetailView> {
+    getProjectHandoverDetailByHandover(@Param('id') handoverId: string, @Request() req: RuntimeAuditRequestLike & { user: UserPayload }): Promise<ProjectHandoverDetailView> {
         return this.projectHandoverQueryService.getProjectHandoverDetailByHandoverId(handoverId, req.user, buildSensitiveFieldProjectionRequestContext(req, `/project-handovers/${handoverId}`));
     }
 
-    @Post('project-handovers/:handoverId\\:confirm')
+    @Post('project-handovers/:id\\:confirm')
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认项目移交' })
     @ApiOkResponse({ type: ConfirmProjectHandoverResultDto })
-    confirmProjectHandover(@Param('handoverId') handoverId: string, @Request() req: { user: UserPayload }, @Body() body: ConfirmProjectHandoverRequestDto): Promise<ConfirmProjectHandoverResult> {
+    confirmProjectHandover(@Param('id') handoverId: string, @Request() req: { user: UserPayload }, @Body() body: ConfirmProjectHandoverRequestDto): Promise<ConfirmProjectHandoverResult> {
         return this.projectHandoverCommandService.confirmProjectHandover(handoverId, req.user.sub, body);
     }
 

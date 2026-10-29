@@ -9054,12 +9054,12 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}": {
+    "/api/project-handovers/{id}": {
       "get": {
         "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
         "parameters": [
           {
-            "name": "handoverId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
@@ -9090,12 +9090,12 @@
         ]
       }
     },
-    "/api/project-handovers/{handoverId}:confirm": {
+    "/api/project-handovers/{id}:confirm": {
       "post": {
         "operationId": "ProjectHandoverController_confirmProjectHandover",
         "parameters": [
           {
-            "name": "handoverId",
+            "name": "id",
             "required": true,
             "in": "path",
             "schema": {
