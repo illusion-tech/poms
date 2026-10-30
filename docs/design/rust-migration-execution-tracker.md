@@ -199,3 +199,10 @@ K [#78](https://github.com/illusion-tech/poms/issues/78)五业务及参数[#83](
 ### 2026-10-30 L 与两业务号 lookup 联合 G3
 
 RUST-R2L-LOOKUP 联合 G3 已通过，[非作者决定](rust-r2l-g3-review01.json)绑定[冻结验收](rust-r2l-validation.json)与[完整保全](rust-r2l-preservation.json)。原失败、四项 SQL wire 覆盖边界、54 ignored 与 source07 的有限路径复用均保留；不认领整个 R3–R5、部署或性能。当前仍 Doing、104/108，固定提交、main 集成、归档及在线 G4 待完成；只有实际 L G4 后可108/108，R2M及父#67/#57继续Open，#61按自身全部条件收口。
+
+
+### 2026-10-30 L 与业务号 lookup 实际 G4
+
+[#79](https://github.com/illusion-tech/poms/issues/79#issuecomment-6522264089)、[#84](https://github.com/illusion-tech/poms/issues/84#issuecomment-6522269219)与父路由项[#61](https://github.com/illusion-tech/poms/issues/61#issuecomment-6522275148)已完成并关闭；实现3b154bf447df9897a934e95cb218fbdb0beaba47、归档准备3f76064319094f1e61207b2f7008f226c30fa869均已实际集成并推送main，独立G3/固定提交/归档准备复核及[在线回执](rust-r2l-online-g4.json)分列。[归档收口](archive/slices/rust-r2l-closeout.md)、[证据索引](rust-r2l-evidence-index.json)与[生命周期映射](rust-r2l-lifecycle-path-map.json)保留初始包及后续小增量。
+
+当前R2A–L公开操作 **108/108**，剩余 **R2M #80 阶段集成验收**；#80为Todo、G1待冻结，#67/#57继续Doing/Open，整个R3–R7未因此迁移。#61自身六条件和三个原生子项全部完成；原104/99/早期Todo和Pending文句保留当时时点，当前以本条、currentDeliverySummary和GitHub原生状态为准。原失败/partial/54ignored、自然时钟差异、四项Rust SQL wire覆盖边界、首份副本异常及schema既有分类不回写。PG17和旧环境保留，本轮独立PG15已停止且保留数据卷，无部署或性能结论。

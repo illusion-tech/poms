@@ -1,0 +1,128 @@
+{
+  "kind": "Root-actual-archival-ready-primary-fast-forward-and-main-push",
+  "result": "pass",
+  "at": "2026-10-30T11:45:53.394Z",
+  "oldMain": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462",
+  "archiveReadyCommit": "3f76064319094f1e61207b2f7008f226c30fa869",
+  "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+  "lifecycleFilesMoved": 11,
+  "fullArchiveOrFrozenValidationRewritten": false,
+  "primaryCleanBeforeAfter": true,
+  "forceOrResetUsed": false,
+  "G4": "Pending independent archival-ready review and actual online reconciliation",
+  "calls": [
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "3f76064319094f1e61207b2f7008f226c30fa869\n"
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "symbolic-ref",
+        "--short",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "main\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "fetch",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "origin/main"
+      ],
+      "exitCode": 0,
+      "stdout": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "merge",
+        "--ff-only",
+        "3f76064319094f1e61207b2f7008f226c30fa869"
+      ],
+      "exitCode": 0,
+      "stdout": "Updating 7b6f5e1a..3f760643\nFast-forward\n docs/design/README.md                              |   2 +-\n docs/design/api-route-canonical-inventory.md       |   4 +-\n .../{ => archive/slices}/rust-r2l-closeout.md      |  13 +-\n .../{ => archive/slices}/rust-r2l-g3-checkpoint.md |  11 +-\n .../slices}/rust-r2l-lookup-baseline.md            |   0\n .../rust-r2l-lookup-corrective-checkpoint.md       |   0\n .../slices}/rust-r2l-lookup/g0-review.json         |   0\n .../{ => archive/slices}/rust-r2l-preservation.md  |   2 +-\n .../slices}/rust-r2l/l-source-input.md             |   0\n .../{ => archive/slices}/rust-r2l/l-sources.json   |   0\n .../slices}/rust-r2l/reference-source-input.json   |   0\n .../slices}/rust-r2lookup/lookup-input.md          |   0\n .../slices}/rust-r2lookup/lookup-sources.json      |   0\n docs/design/backend-rust-migration-plan.md         |   4 +-\n .../design/phase2-development-execution-tracker.md |   4 +-\n docs/design/rust-migration-execution-tracker.md    |   4 +-\n docs/design/rust-r2-operation-slices.json          |  19 +-\n docs/design/rust-r2-scope-and-dependencies.md      |   4 +-\n docs/design/rust-r2l-evidence-index.json           |  32 +\n docs/design/rust-r2l-lifecycle-format-delta01.json |  20 +\n docs/design/rust-r2l-lifecycle-path-map.json       | 736 +++++++++++++++++++++\n docs/design/rust-r2l-main-integration01.json       | 152 +++++\n 22 files changed, 983 insertions(+), 24 deletions(-)\n rename docs/design/{ => archive/slices}/rust-r2l-closeout.md (56%)\n rename docs/design/{ => archive/slices}/rust-r2l-g3-checkpoint.md (77%)\n rename docs/design/{ => archive/slices}/rust-r2l-lookup-baseline.md (100%)\n rename docs/design/{ => archive/slices}/rust-r2l-lookup-corrective-checkpoint.md (100%)\n rename docs/design/{ => archive/slices}/rust-r2l-lookup/g0-review.json (100%)\n rename docs/design/{ => archive/slices}/rust-r2l-preservation.md (89%)\n rename docs/design/{ => archive/slices}/rust-r2l/l-source-input.md (100%)\n rename docs/design/{ => archive/slices}/rust-r2l/l-sources.json (100%)\n rename docs/design/{ => archive/slices}/rust-r2l/reference-source-input.json (100%)\n rename docs/design/{ => archive/slices}/rust-r2lookup/lookup-input.md (100%)\n rename docs/design/{ => archive/slices}/rust-r2lookup/lookup-sources.json (100%)\n create mode 100644 docs/design/rust-r2l-evidence-index.json\n create mode 100644 docs/design/rust-r2l-lifecycle-format-delta01.json\n create mode 100644 docs/design/rust-r2l-lifecycle-path-map.json\n create mode 100644 docs/design/rust-r2l-main-integration01.json\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "push",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "3f76064319094f1e61207b2f7008f226c30fa869\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exitCode": 0,
+      "stdout": "3f76064319094f1e61207b2f7008f226c30fa869\trefs/heads/main\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    }
+  ]
+}

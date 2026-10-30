@@ -18,6 +18,14 @@
       "sha256": "462f819662c614ba16da9c3898fabb9a594b9abe12ed29cfb9628877bd10221e",
       "files": 51,
       "payloadBytes": 3315065
+    },
+    {
+      "file": "tmp/rust-r2l/preservation-addendum02.json",
+      "primary": "E:/projects/poms/tmp/rust-r2l/addenda02/manifest.json",
+      "bytes": 20141,
+      "sha256": "2ecaaa1ef2bb94577f3bb757e9587a995bfa6f85430717b083816099b1a6c49f",
+      "files": 52,
+      "payloadBytes": 1666196
     }
   ],
   "independentG3": "docs/design/rust-r2l-g3-review01.json",
@@ -28,5 +36,23 @@
   "immutableInitialPhase": true,
   "knownRustWireGaps": 4,
   "oldPartialFailuresAndIgnored54LabelsRetained": true,
-  "G4": "Pending actual online reconciliation and final independent verification"
+  "G4": "Pass actual online; final metadata commit/main and final consistency check recorded by later additive evidence",
+  "onlineG4": "docs/design/rust-r2l-online-g4.json",
+  "g4ReadyReview": "docs/design/rust-r2l-g4-ready-review01.json",
+  "archiveIntegration": "docs/design/rust-r2l-archive-integration01.json",
+  "currentStates": {
+    "closed": [
+      79,
+      84,
+      61
+    ],
+    "open": [
+      80,
+      67,
+      57
+    ],
+    "R2PublicOperations": "108/108",
+    "R2M": "Todo/G1 pending"
+  },
+  "additivePolicy": "Final commit/push and independent consistency decision are further tiny bound records; no full tar or frozen validation rewrite."
 }

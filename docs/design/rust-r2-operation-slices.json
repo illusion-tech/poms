@@ -375,7 +375,7 @@
       "taskId": "RUST-R2L",
       "title": "审批、待办与摘要公共机制",
       "issue": 79,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 4,
       "proposedDependencies": [
@@ -387,7 +387,7 @@
         "ConfirmationService 公共确认引擎：confirmation_record / confirmation_participant / todo 事务、参与人确认与进度查询；真实域发起和消费随 R3/R4/R5 验证，不新增公共 API"
       ],
       "activeSubSlices": [],
-      "g1Boundary": "Four existing L routes and necessary real domain consumers frozen and independently accepted at G3; fixed commit/main/G4 pending.",
+      "g1Boundary": "Four existing L routes and their necessary real-domain consumer closure delivered at G4; wholeR3/R4/R5 and R2M remain separate.",
       "completedSubSlices": [
         81
       ],
@@ -403,11 +403,17 @@
       "g3ReviewedAt": "2026-10-30T11:11:18.983Z",
       "validation": "docs/design/rust-r2l-validation.json",
       "preservation": "docs/design/rust-r2l-preservation.json",
-      "g4": "Pending",
+      "g4": "Pass",
       "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
       "integrationReview": "docs/design/rust-r2l-integration-review01.json",
       "g3Comment": "https://github.com/illusion-tech/poms/issues/79#issuecomment-6521363997",
-      "mainIntegration": "docs/design/rust-r2l-main-integration01.json"
+      "mainIntegration": "docs/design/rust-r2l-main-integration01.json",
+      "g4ClosedAtObserved": "2026-10-30T12:03:01.286Z",
+      "archiveReadyCommit": "3f76064319094f1e61207b2f7008f226c30fa869",
+      "g4ReadyReview": "docs/design/rust-r2l-g4-ready-review01.json",
+      "onlineG4": "docs/design/rust-r2l-online-g4.json",
+      "closeout": "docs/design/archive/slices/rust-r2l-closeout.md",
+      "g4Comment": "https://github.com/illusion-tech/poms/issues/79#issuecomment-6522264089"
     },
     {
       "taskId": "RUST-R2M",
@@ -15954,14 +15960,14 @@
       79,
       84
     ],
-    "status": "Doing",
+    "status": "Done",
     "g1": "Pass",
     "g3": "Pass",
-    "g4": "Pending",
+    "g4": "Pass",
     "baseline": "docs/design/archive/slices/rust-r2l-lookup-baseline.md",
     "sourceHead": "02b8956759352b2612bec5980cbe55ae77d0293f",
-    "newDeliveredPublicOperations": 0,
-    "currentR2Delivered": 104,
+    "newDeliveredPublicOperations": 4,
+    "currentR2Delivered": 108,
     "targetAfterLG4": 108,
     "g1FrozenAt": "2026-10-29T20:55:31.950Z",
     "g1Review": "docs/design/rust-r2l-lookup-g1-review01.json",
@@ -15976,12 +15982,18 @@
     "mainIntegration": "docs/design/rust-r2l-main-integration01.json",
     "mainIntegratedAt": "2026-10-30T11:23:36.418Z",
     "mainCommit": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462",
-    "G4": "Pending lifecycle archival and online reconciliation"
+    "g4ClosedAtObserved": "2026-10-30T12:03:01.286Z",
+    "archiveReadyCommit": "3f76064319094f1e61207b2f7008f226c30fa869",
+    "g4ReadyReview": "docs/design/rust-r2l-g4-ready-review01.json",
+    "onlineG4": "docs/design/rust-r2l-online-g4.json",
+    "closeout": "docs/design/archive/slices/rust-r2l-closeout.md",
+    "actualOnlineClosure": "docs/design/rust-r2l-online-g4.json",
+    "archiveIntegration": "docs/design/rust-r2l-archive-integration01.json"
   },
   "currentDeliverySummary": {
-    "deliveredOperations": 104,
+    "deliveredOperations": 108,
     "totalOperations": 108,
-    "remainingOperations": 4,
+    "remainingOperations": 0,
     "deliveredSlices": [
       "RUST-R2A",
       "RUST-R2B",
@@ -15993,9 +16005,10 @@
       "RUST-R2H",
       "RUST-R2I",
       "RUST-R2J",
-      "RUST-R2K"
+      "RUST-R2K",
+      "RUST-R2L"
     ],
-    "parentState": "Doing/Open；L与两lookup实现及固定提交复核已通过并实际main集成，生命周期归档/在线G4待完成；当前104/108，R2M独立验收未开始",
+    "parentState": "Doing/Open；R2A–L公开操作108/108已G4，R2M #80阶段集成验收仍Todo/G1待冻结，#67/#57保持Open；#61自身9项路由/参数裁决及原生82/83/84全部G4完成",
     "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved",
     "completedMechanismSubSlices": [
       81
@@ -16005,8 +16018,9 @@
       83
     ],
     "latestSubSliceImplementation": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
-    "latestImplementationCommit": "9e5d23c2a591ed934595f9c9dfe278bad5af821d",
-    "latestCloseout": "docs/design/rust-r2k-closeout.json"
+    "latestImplementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+    "latestCloseout": "docs/design/archive/slices/rust-r2l-closeout.md",
+    "latestOnlineG4": "docs/design/rust-r2l-online-g4.json"
   },
   "executionBatchHistory": [
     {
@@ -16218,7 +16232,7 @@
       "taskId": "RUST-ROUTE-BUSINESS-LOOKUP",
       "issue": 84,
       "parentIssue": 61,
-      "status": "Doing",
+      "status": "Done",
       "g1": "Pass",
       "publicOperations": 0,
       "scope": "Two business-number lookup decisions and controlled direct cutover; no Rust R3/R4 domain delivery",
@@ -16233,11 +16247,17 @@
       "g3ReviewedAt": "2026-10-30T11:11:18.983Z",
       "validation": "docs/design/rust-r2l-validation.json",
       "preservation": "docs/design/rust-r2l-preservation.json",
-      "g4": "Pending",
+      "g4": "Pass",
       "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
       "integrationReview": "docs/design/rust-r2l-integration-review01.json",
       "g3Comment": "https://github.com/illusion-tech/poms/issues/84#issuecomment-6521365605",
-      "mainIntegration": "docs/design/rust-r2l-main-integration01.json"
+      "mainIntegration": "docs/design/rust-r2l-main-integration01.json",
+      "g4ClosedAtObserved": "2026-10-30T12:03:01.286Z",
+      "archiveReadyCommit": "3f76064319094f1e61207b2f7008f226c30fa869",
+      "g4ReadyReview": "docs/design/rust-r2l-g4-ready-review01.json",
+      "onlineG4": "docs/design/rust-r2l-online-g4.json",
+      "closeout": "docs/design/archive/slices/rust-r2l-closeout.md",
+      "g4Comment": "https://github.com/illusion-tech/poms/issues/84#issuecomment-6522269219"
     }
   ],
   "routeDecisionCloseouts": [
@@ -16262,6 +16282,38 @@
       "permanentSourceInput": "ee0f4847cae292fe5cee1d1eec065b7194607683",
       "newDeliveredPublicOperations": 0,
       "twoBusinessLookupDecisionsRemainOpen": true
+    },
+    {
+      "issue": 84,
+      "parentIssue": 61,
+      "status": "Done",
+      "businessLookupDecisions": 2,
+      "canonicalPaths": [
+        "GET /api/projects:lookup",
+        "GET /api/contracts:lookup"
+      ],
+      "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+      "permanentSourceInput": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+      "newDeliveredRustR3R4PublicOperations": 0,
+      "onlineG4": "docs/design/rust-r2l-online-g4.json"
     }
-  ]
+  ],
+  "currentRouteDecisionSummary": {
+    "issue": 61,
+    "status": "Done",
+    "g4": "Pass",
+    "parameterDecisions": 7,
+    "businessLookupDecisions": 2,
+    "nativeChildren": [
+      82,
+      83,
+      84
+    ],
+    "allOwnSixCriteriaAndNativeChildrenComplete": true,
+    "newRustR3R4BusinessOperations": 0,
+    "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+    "onlineG4": "docs/design/rust-r2l-online-g4.json",
+    "g4Comment": "https://github.com/illusion-tech/poms/issues/61#issuecomment-6522275148",
+    "historicalRouteDecisionCloseoutFieldsKeepTheirOriginalTimeScope": true
+  }
 }

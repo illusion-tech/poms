@@ -1,6 +1,6 @@
 # RUST-R2L / BUSINESS-LOOKUP 收口记录
 
-- 当前状态：G4 Pending；实现3b154bf447df9897a934e95cb218fbdb0beaba47与固定复核后缀7b6f5e1ac896b29e2d623533d1a2b5f876e30462已实际干净快进并推送main；生命周期归档与在线回写待完成。
+- 当前状态：G4 Pass；实现3b154bf447df9897a934e95cb218fbdb0beaba47、归档准备3f76064319094f1e61207b2f7008f226c30fa869均已实际集成并推送main，独立G3、固定提交与收口准备复核、十一件生命周期归档及在线回写均已完成。
 - 工作项：L [#79](https://github.com/illusion-tech/poms/issues/79) 与 lookup [#84](https://github.com/illusion-tech/poms/issues/84)，后者父项 [#61](https://github.com/illusion-tech/poms/issues/61)。
 - [联合 G1](rust-r2l-lookup-baseline.md)、[实施校准](rust-r2l-lookup-corrective-checkpoint.md)、[联合 G3](rust-r2l-g3-checkpoint.md)、[机器验收](../../rust-r2l-validation.json)、[保全记录](rust-r2l-preservation.md)。
 
@@ -20,3 +20,10 @@ L 交付审批读取、批准、驳回、当前用户待办四个既有操作，
 [完整保全锚点](../../rust-r2l-preservation.json)固定123837文件/8212458261 bytes，主区正确tar为`E:/projects/poms/tmp/rust-r2l/final02-evidence.tar.gz`，SHA-256 `bd191c1626e5b0bb7cbcaa793ebd9f826337bd5f2dbe4aa5686ed1fca648220f`。原始tar只生成一次，首次复制失败文件、后续正确流式传输及Windows逐成员/提取复核分别保留。
 
 当前尚未关闭Issue或计108/108；在归档准备固定版本实际推送main、独立收口复核后，按在线G4事实补充最终状态。
+
+
+## 实际 G4
+
+2026-10-30T12:03:01.286Z，#79/#84/#61均Closed/completed；#61关闭前重新核对自身六项和原生#82/#83/#84全完成。#80/#67/#57保持Open，#80正文未改，R2公开操作108/108不代表阶段集成或完整Rust迁移完成。[实际在线回执](../../rust-r2l-online-g4.json)、[独立准备复核](../../rust-r2l-g4-ready-review01.json)、[实际归档主区集成](../../rust-r2l-archive-integration01.json)及[证据索引](../../rust-r2l-evidence-index.json)长期保留。
+
+本段是在线完成后的当前阶段；上方G4 Pending和固定归档版本的准备描述保留历史时点。初始tar/冻结验收与C原回执不重写，最终元数据由包含本段的main增量提交承载。
