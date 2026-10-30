@@ -1,8 +1,8 @@
 # RUST-R2L / BUSINESS-LOOKUP 联合 G3 检查点
 
-- Gate：G3 Pass；[非作者联合决定](rust-r2l-g3-review01.json)已绑定冻结验收与完整保全，无未闭 P0/P1/P2。允许提交和推送分支；固定提交复核、主区集成与 G4 随后实际执行。
+- Gate：G3 Pass；[非作者联合决定](../../rust-r2l-g3-review01.json)已绑定冻结验收与完整保全，无未闭 P0/P1/P2。允许提交和推送分支；固定提交复核、主区集成与 G4 随后实际执行。
 - 范围：#79 四个既有 L 公开操作及必要真实域消费闭包；#84 两业务号 lookup 裁决与直接契约切换。类型为 cross-layer-high-risk。
-- 正式输入：[联合 G1](rust-r2l-lookup-baseline.md)、[G1 独立审查](rust-r2l-lookup-g1-review01.json)、[实施校准](rust-r2l-lookup-corrective-checkpoint.md)。冻结时点、原件与 Gate-only 更新分列。
+- 正式输入：[联合 G1](rust-r2l-lookup-baseline.md)、[G1 独立审查](../../rust-r2l-lookup-g1-review01.json)、[实施校准](rust-r2l-lookup-corrective-checkpoint.md)。冻结时点、原件与 Gate-only 更新分列。
 - 模式：既有隔离 worktree，Root 负责集成/实际执行/保全；A/B 产品作者，C 非作者；新增 UoW 取证工具另经交叉审查。显式子代理模型请求不冒称服务层独立认证。
 
 ## 已完成的有界验证
@@ -27,4 +27,9 @@ L 完整 G4 后 R2 公开操作可记 108/108。#61 仅在自己的 canonical/lo
 
 ## 固定实现提交复核
 
-实现 `3b154bf447df9897a934e95cb218fbdb0beaba47` 已推送分支；[C 固定提交复核](rust-r2l-integration-review01.json)通过。169 项编译来源与 Git blob 全部 raw 一致，579 生成文件全树一致、仅两个 service 相对原基线变化，S2/S3 永久祖先保留。G3 候选之后仅有七个 Gate 文档/机器镜像与 C 决定，应用、库和工具无差异。主区快进、归档和 G4 随后实际执行。
+实现 `3b154bf447df9897a934e95cb218fbdb0beaba47` 已推送分支；[C 固定提交复核](../../rust-r2l-integration-review01.json)通过。169 项编译来源与 Git blob 全部 raw 一致，579 生成文件全树一致、仅两个 service 相对原基线变化，S2/S3 永久祖先保留。G3 候选之后仅有七个 Gate 文档/机器镜像与 C 决定，应用、库和工具无差异。主区快进、归档和 G4 随后实际执行。
+
+
+## 主区集成
+
+固定提交复核后，main于2026-10-30T11:23:36.418Z从02b89567干净快进至7b6f5e1ac896b29e2d623533d1a2b5f876e30462并实际推送；[原回执](../../rust-r2l-main-integration01.json)保留前后状态和remote核验。后续仅生命周期与状态镜像，不扩大运行认证范围。

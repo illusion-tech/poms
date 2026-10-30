@@ -1,6 +1,6 @@
 # RUST-R2L / BUSINESS-LOOKUP 证据保全
 
-完整保全已通过；长期锚点为 [机器保全](rust-r2l-preservation.json)，冻结机器验收的 raw/LF SHA-256 为 `866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae`。联合 G3 与实际 G4 仍是后续独立决定。
+完整保全已通过；长期锚点为 [机器保全](../../rust-r2l-preservation.json)，冻结机器验收的 raw/LF SHA-256 为 `866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae`。联合 G3 与实际 G4 仍是后续独立决定。
 
 只选本轮公开证据、实际 runtime 捕获源码、生成输出、构建产物/日志和正式输入。新旧成功、失败、partial 与 uncertified 原件均保留；私密环境、请求原字节/凭据目录、依赖树及内部执行续接笔记排除。私密原件保持原受控目录与权限，不随公开 tar 导出。
 

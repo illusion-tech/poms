@@ -1,0 +1,152 @@
+{
+  "kind": "Root-actual-clean-primary-fast-forward-and-main-push",
+  "result": "pass",
+  "at": "2026-10-30T11:23:36.418Z",
+  "oldMain": "02b8956759352b2612bec5980cbe55ae77d0293f",
+  "targetMain": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462",
+  "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+  "fixedCommitReview": "docs/design/rust-r2l-integration-review01.json",
+  "primaryCleanBeforeAndAfter": true,
+  "worktreeCleanAfter": true,
+  "nonFastForwardOrForceUsed": false,
+  "actualRuntimeOrDeploymentExecuted": false,
+  "oldPG17OrOtherEnvironmentChanged": false,
+  "calls": [
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "symbolic-ref",
+        "--short",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "main\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "02b8956759352b2612bec5980cbe55ae77d0293f\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "fetch",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "origin/main"
+      ],
+      "exitCode": 0,
+      "stdout": "02b8956759352b2612bec5980cbe55ae77d0293f\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "merge",
+        "--ff-only",
+        "7b6f5e1ac896b29e2d623533d1a2b5f876e30462"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "bytes": 22914,
+        "sha256": "df4c312f8d333a56e46387e4d78939ee5b11fd609c2377d564a3f807943428b9",
+        "summary": "Successful large Git ff output; not a source-file capture"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "push",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exitCode": 0,
+      "stdout": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462\trefs/heads/main\n"
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    }
+  ],
+  "G4": "Pending archival and actual online closeout"
+}

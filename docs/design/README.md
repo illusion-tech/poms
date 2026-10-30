@@ -398,7 +398,7 @@
 
 - [K与R4两参数G4收口](archive/slices/rust-r2k-closeout.md)：#78/#83已关闭，104/108；[证据索引](rust-r2k-evidence-index.json)保留原始与增量路径。
 
-- [L四操作与两业务号lookup联合基线候选](rust-r2l-lookup-baseline.md)：#79/#84，联合G1 Pass，实施/验收/G3/G4待完成，仍104/108。
+- [L四操作与两业务号lookup联合基线候选](archive/slices/rust-r2l-lookup-baseline.md)：#79/#84，联合G1 Pass，实施/验收/G3/G4待完成，仍104/108。
 
 
 ### 2026-10-30 L 与两业务号 lookup 联合 G3
