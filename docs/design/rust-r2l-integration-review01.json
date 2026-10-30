@@ -1,0 +1,95 @@
+{
+  "formatVersion": 1,
+  "kind": "POMS-R2L-LOOKUP-independent-fixed-implementation-commit-review",
+  "reviewer": "C /root/l_lookup_review",
+  "reviewedAt": "2026-10-30 11:19:54 UTC",
+  "result": "Pass",
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+  "tree": "9d58bbc81208a8bce2332f0ec3c299e091faafd2",
+  "parentS3": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+  "permanentS2": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+  "base": "02b8956759352b2612bec5980cbe55ae77d0293f",
+  "branch": "codex/poms-r2l-lookup",
+  "remoteLiveVerified": "git ls-remote origin refs/heads/codex/poms-r2l-lookup returned exact3b154bf447df9897a934e95cb218fbdb0beaba47",
+  "G3": {
+    "review": "docs/design/rust-r2l-g3-review01.json",
+    "rawBytesSha256": "934e2cae6f2f8106a46d5719269051f52ae2c2cd41651d0fd56b8a465fd5b110",
+    "reviewedCandidateTree": "431730cf252a5f51bf059534233c1b2c91d163fa",
+    "postG3Delta": {
+      "newFiles": [
+        "docs/design/rust-r2l-g3-review01.json"
+      ],
+      "modified": [
+        "docs/design/README.md",
+        "docs/design/backend-rust-migration-plan.md",
+        "docs/design/phase2-development-execution-tracker.md",
+        "docs/design/rust-migration-execution-tracker.md",
+        "docs/design/rust-r2-operation-slices.json",
+        "docs/design/rust-r2-scope-and-dependencies.md",
+        "docs/design/rust-r2l-g3-checkpoint.md"
+      ],
+      "CRead": "Complete exact diff excluding already-authored new C JSON; only G3Pass links/hashes and current-state mirror. G4Pending/Doing104 stay, parents/R2M remainOpen.",
+      "appsToolsLibsDifferenceCount": 0
+    }
+  },
+  "compiledAndGenerated": {
+    "result": "C-fixed-commit-source-and-client-qualified-pass",
+    "commit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+    "tree": "9d58bbc81208a8bce2332f0ec3c299e091faafd2",
+    "compiled169": {
+      "files": 169,
+      "rawEqual": 169,
+      "newlineOnly": [],
+      "bindingSha256": "f9c79ee04f593645715e48f680236dc4c807d64bca63dacdf5e8f4bfecbe7dbb",
+      "filesManifestSha256": "306bf96aac19bf9f7c5ebb696e51df07c92a233348afaf8bd66f4622da33f56a"
+    },
+    "clients": {
+      "files": 579,
+      "clientRawEqual": 579,
+      "clientLfOnly": 0,
+      "changedExactlyTwo": [
+        "libs/shared/api-client/api/contract.service.ts",
+        "libs/shared/api-client/api/project.service.ts"
+      ],
+      "remaining577UnchangedFromBase": true
+    },
+    "permanentS2S3Ancestors": true,
+    "frozenValidationAndG3RawUnchanged": true
+  },
+  "sourceSDKQualification": {
+    "NativeCode": "All original Node apps/contracts/shared-contract inputs unchanged from permanent S3; complete OpenAPI unchanged from S3. NativeS3 binary0ef7 and originalSDK7.0.11 qualification stay source-bound.",
+    "generatedClient": "Actual original CLI write/check review and all579 source manifest remain their original epoch. Fixed Git blobs exactly equal all579 current qualified raw files; only contract.service.ts and project.service.ts differ from base, other577 unchanged.",
+    "sixGuards": "G3 reviewed generator/S2/allowed-delta protections are unchanged; no app/tool/lib change from staged G3candidate431. .gitattributes, root lock/package and all92 migrations unchanged frombase.",
+    "formalG1": "G1a28 and exact original reviewed epoch preserved; current G3 JSON934e and frozen validation866ef remain exact Git blobs."
+  },
+  "representation": {
+    "compiled169RawEqual": 169,
+    "compiled169LfOnlyChanges": 0,
+    "generated579RawEqual": 579,
+    "generated579LfOnlyChanges": 0,
+    "currentGitBlobBytesMatchCompiledQualification": true,
+    "noUnreviewedFormattingOrProductChange": true,
+    "failedFirstReadOnlyChecker": "Initial Linux git cannot resolve Windows-managed worktree gitdir and returned128 before blob validation. Reran same pure checker through installed Windows git.exe, with successful full169/579 checks; no source, index staging, commit/ref, DB or runtime change."
+  },
+  "preservation": {
+    "anchor": "docs/design/rust-r2l-preservation.json",
+    "sha256": "8c524d18acd3af1381868a95c4e5dc59bcaa79dfe1c3165b804ce75afabdc024",
+    "archiveSha256": "bd191c1626e5b0bb7cbcaa793ebd9f826337bd5f2dbe4aa5686ed1fca648220f",
+    "noLargeTreeOrRuntimeReexecution": true,
+    "frozenValidationSha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae"
+  },
+  "decision": {
+    "primaryCleanFastForwardAllowed": true,
+    "mainPushAllowedAfterCleanAndExactFastForward": true,
+    "reviewAndOnlyIntegrationGateMetadataMayBeAddedAsDeclaredDocsSuffix": true,
+    "anyProductAppToolLibraryDeltaRequiresNewReview": true,
+    "G4Certified": false,
+    "mainIntegrationObserved": false,
+    "onlineIssueClosureObserved": false,
+    "R2Still104UntilActualG4": true
+  },
+  "boundary": "No new runtime, whole R3-R5, actual Rust SQL-wire or ignored54 certification. Existing finite G3 scopes and original failures remain unchanged."
+}
