@@ -155,6 +155,17 @@
    - `GET /commission-role-assignments/{id}?view=summary`
 5. `?view=` 不得用于暗中承载不同资源边界；如果字段集合、权限边界、生命周期或引用语义已经显著不同，应提升为稳定子资源或独立资源。
 
+### 4.2.1 业务号的只读单对象 lookup（2026-10-30，#84 联合 G1 冻结）
+
+本补充已按 RUST-R2L-LOOKUP 联合 G1 非作者独审与在线冻结生效（2026-10-29T20:55:31.950Z）；受审候选原字节另存，后续改变冻结边界须单独分类。
+
+1. UUID 仍是项目、合同的 canonical item identity，分别为 `/projects/{id}`、`/contracts/{id}`；业务号不是替代 UUID 的第二个 item identity。
+2. 当既有能力按一个唯一业务属性精确定位单对象，并需保持其既有单对象 DTO 与未命中 404 时，可采用只读 collection custom query：`GET /projects:lookup?projectNo=…`、`GET /contracts:lookup?contractNo=…`。此处是对 §4.2 查询语法的明确补充，不把 §4.3 的 POST command 规则自动解释成原先已有 GET 规则。
+3. 业务号位于 query，保持原字符串精确谓词，不 trim、大小写折叠、Unicode 归一化、coerce 或按 UUID 解析；数据库 varchar(64) 不自动成为新的请求 maxLength。要求单个非空 string；缺失、空或重复目标 key 的数组值按输入 DTO 拒绝。未知 query key 按原 Zod object 规则忽略；simple parser 下 bracket key 与有效 scalar 并存时仍使用 scalar。
+4. 项目 lookup 仍返回原 ProjectSummary，合同 lookup 仍返回原 ContractDetailView；不复用 collection list 的数组或分页响应。权限仍为 project:read，原敏感字段裁剪与访问审计保留。实际审计上下文优先 request.originalUrl，其原 query 和编码不重写；无 URL 的合同 fallback 才为 `/contracts:lookup`。
+5. 该 GET 不创建或变更业务对象；原认证会话触碰与敏感访问审计等既有副作用不删除。四项 L 操作按 UUID 直接读写关联实体，不依赖这些 lookup URI。
+6. 本次按 §4.5 直接切换旧 `/projects/code/{projectNo}`、`/contracts/no/{contractNo}`；controller、完整 OpenAPI、原生成 client 与实际调用方/测试统一同步，保留原 operationId。原路径移除，不登记新 alias 或 redirect。root-scoped Nest controller 须正确转义 literal colon 并经实际 HTTP 见证。
+
 ### 4.3 命令接口建模
 
 1. 普通字段维护优先使用标准资源语义：

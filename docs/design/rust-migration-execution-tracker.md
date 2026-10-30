@@ -43,21 +43,21 @@
 | R1D #65   | Done | G4；c14333d5已推送；[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏](archive/slices/rust-r1d-corrective-checkpoint.md)与[机器证据](rust-r1d-validation.json)；双平台真实E2E/browser及579文件client一致             |
 | R1E #66   | Done | afbf4ee5 已集成推送；[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[机器证据](rust-r1e-validation.json)；64 stage、36 legacy（11 mock）、80 run清理及集成后19项通过，C无剩余P1/P2；G4随本归档提交及Issue同步生效 |
 
-| R2 子切片 | 状态 | Gate / 输入与边界                                                                                                                                                                                                                                                                |
-| --------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R2A #68   | Done | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效                                                                                                    |
-| R2B #69   | Done | 八操作；实现31555b76已集成推送，22项集成测试与157份来源检查通过；[收口](archive/slices/rust-r2b-closeout.md)、[机器验收](rust-r2b-validation.json)；G4随归档推送和Issue同步生效                                                                                                  |
-| R2C #70   | Done | 组织8操作；实现319d5d89已集成推送，24项集成测试与152来源检查通过；[收口](archive/slices/rust-r2c-closeout.md)、[机器验收](rust-r2c-validation.json)；G4随归档推送和Issue同步生效                                                                                                 |
-| R2D #71   | Done | 11操作；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项/1747来源检查通过；[收口](archive/slices/rust-r2d-closeout.md)、[基线](archive/slices/rust-r2d-users-profile-baseline.md)、[机器验收](rust-r2d-validation.json)；G4随归档提交推送与Issue同步生效 |
-| R2E #72   | Done | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
-| R2F #73   | Done | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
-| R2G #74   | Done | 16操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
-| R2H #75   | Done | 18操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
-| R2I #76   | Done | 存储provider6操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                            |
-| R2J #77   | Done | 上传/附件/中心19操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                         |
-| R2K #78   | Done | 五操作与最小真实facts已完成G4；[收口](archive/slices/rust-r2k-closeout.md)，R2累计104/108                                                                                                                                                                                        |
-| R2L #79   | Todo | 审批/待办 4 操作及摘要/公共确认机制；真实 R3–R5 handler 逐域接入，G1 未冻结                                                                                                                                                                                                      |
-| R2M #80   | Todo | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                                                                                                                                                                                |
+| R2 子切片 | 状态  | Gate / 输入与边界                                                                                                                                                                                                                                                                |
+| --------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R2A #68   | Done  | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效                                                                                                    |
+| R2B #69   | Done  | 八操作；实现31555b76已集成推送，22项集成测试与157份来源检查通过；[收口](archive/slices/rust-r2b-closeout.md)、[机器验收](rust-r2b-validation.json)；G4随归档推送和Issue同步生效                                                                                                  |
+| R2C #70   | Done  | 组织8操作；实现319d5d89已集成推送，24项集成测试与152来源检查通过；[收口](archive/slices/rust-r2c-closeout.md)、[机器验收](rust-r2c-validation.json)；G4随归档推送和Issue同步生效                                                                                                 |
+| R2D #71   | Done  | 11操作；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项/1747来源检查通过；[收口](archive/slices/rust-r2d-closeout.md)、[基线](archive/slices/rust-r2d-users-profile-baseline.md)、[机器验收](rust-r2d-validation.json)；G4随归档提交推送与Issue同步生效 |
+| R2E #72   | Done  | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
+| R2F #73   | Done  | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
+| R2G #74   | Done  | 16操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
+| R2H #75   | Done  | 18操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
+| R2I #76   | Done  | 存储provider6操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                            |
+| R2J #77   | Done  | 上传/附件/中心19操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                         |
+| R2K #78   | Done  | 五操作与最小真实facts已完成G4；[收口](archive/slices/rust-r2k-closeout.md)，R2累计104/108                                                                                                                                                                                        |
+| R2L #79   | Doing | 四操作及必要真实域消费联合G1已冻结；L1已交付，实际验收/G3/G4待完成，R2仍104/108                                                                                                                                                                                                  |
+| R2M #80   | Todo  | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                                                                                                                                                                                |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -184,3 +184,18 @@ L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审�
 ### 2026-10-30 K 与 R4 两参数联合 G4 完成
 
 K [#78](https://github.com/illusion-tech/poms/issues/78)五业务及参数[#83](https://github.com/illusion-tech/poms/issues/83)已完成并关闭；代码候选`9e5d23c2a591ed934595f9c9dfe278bad5af821d`、独立固定提交与归档准备复核均通过，S2永久祖先保留。[归档收口](archive/slices/rust-r2k-closeout.md)、[实际在线回执](rust-r2k-online-g4.json)与[证据索引](rust-r2k-evidence-index.json)分列原字节及小增量。生命周期10件已移archive/slices，根机器索引长期保留；旧失败/partial/uncertified及54literal/3根来源补证、单EOF修正均保留各自时点。当前R2A–K累计 **104/108**，余 **L四公开操作及R2M验收**；真实域handler、两lookup、整个R4与父#61/#67/#57继续未完成，PG17与旧环境保留，无部署或性能结论。上方较早日期的G1/G3/99进度为历史时点，以本条和GitHub原生Issue为当前状态。
+
+
+### 2026-10-30 L四操作与业务号lookup联合 G0
+
+用户恢复授权本批完整G0–G4：L#79四操作＋必要真实合同/提成处理器及待办facts，与#84（父#61）两lookup裁决/必要切换并行。[联合基线候选](rust-r2l-lookup-baseline.md)待G1，当前产品未改，新隔离PG未启动。Root统共享架构/生成/Native验收与保全，A/B独占产品范围，C非作者审；子代理显式Sol6.1/max，Fast未核实。L1仅基础，不替代final/retention中途flush/双snapshot、真实待办与错误/时间语义。本批完整L G4后才可108/108，当前仍104/108，R2M及父#67/#57不关闭；#61按自己全部剩余条件收口。
+
+
+### 2026-10-30 L四操作与两lookup联合 G1冻结
+
+#79/#84按[联合基线](rust-r2l-lookup-baseline.md)于2026-10-29T20:55:31.950Z正式冻结，非作者[联合审查](rust-r2l-lookup-g1-review01.json)通过；原受审scope/inputs保全，Gate-only元数据另记。L覆盖实际三域分支、十五域/五写和原UoW/clock/中途flush，两个固定approver只读借用；lookup由#84按ADR补充直接切换纯GET :lookup与必填业务号query，UUID身份不变。新环境、实际Native校准/验收及G3/G4待执行，当前仍104/108；四L全G4后才108，R2M及父#67/#57保持未完成。
+
+
+### 2026-10-30 L 与两业务号 lookup 联合 G3
+
+RUST-R2L-LOOKUP 联合 G3 已通过，[非作者决定](rust-r2l-g3-review01.json)绑定[冻结验收](rust-r2l-validation.json)与[完整保全](rust-r2l-preservation.json)。原失败、四项 SQL wire 覆盖边界、54 ignored 与 source07 的有限路径复用均保留；不认领整个 R3–R5、部署或性能。当前仍 Doing、104/108，固定提交、main 集成、归档及在线 G4 待完成；只有实际 L G4 后可108/108，R2M及父#67/#57继续Open，#61按自身全部条件收口。

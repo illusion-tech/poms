@@ -467,6 +467,31 @@ impl ApprovalCommonService {
                 decision,
                 input,
                 handler,
+                public_result: false,
+            },
+        )
+        .await
+    }
+    /// The production four-operation adapter needs the original CommandResult;
+    /// the older internal probe continues receiving its raw record/domain pair.
+    pub async fn resolve_public_decision_with(
+        &self,
+        session: &mut CommonSession<'_, '_>,
+        id: Value,
+        actor: Value,
+        decision: ApprovalDecision,
+        input: Data,
+        handler: &dyn ApprovalDomainHandler,
+    ) -> Result<Value, CommonFailure> {
+        self.command(
+            session,
+            Command::Resolve {
+                id,
+                actor,
+                decision,
+                input,
+                handler,
+                public_result: true,
             },
         )
         .await
@@ -484,7 +509,13 @@ impl ApprovalCommonService {
         }
         child.trace.begin(true);
         let outcome = {
-            let mut borrowed = CommonSession::borrow(&mut tx, &mut child);
+            let mut borrowed = CommonSession {
+                connection: &mut tx,
+                state: &mut child,
+                participant: session.participant.as_mut().map(|participant| {
+                    &mut **participant as &mut dyn super::session::CommonFlushParticipant
+                }),
+            };
             let value = self.execute(&mut borrowed, command).await;
             match value {
                 Ok(mut value) => match store::flush(&mut borrowed).await {
@@ -835,6 +866,7 @@ impl ApprovalCommonService {
                 decision,
                 input,
                 handler,
+                public_result,
             } => {
                 let record = self
                     .approval_record(session, id.clone())
@@ -908,7 +940,6 @@ impl ApprovalCommonService {
                 } else {
                     nullish(get(&input, "comment"), Value::Null)
                 };
-                let now = Value::Date(Some(Timestamp::now()));
                 let status = Value::Text(decision.text());
                 store::assign(
                     session.state,
@@ -917,8 +948,8 @@ impl ApprovalCommonService {
                         ("currentStatus", status.clone()),
                         ("decision", status),
                         ("decisionComment", comment),
-                        ("decidedAt", now.clone()),
-                        ("closedAt", now.clone()),
+                        ("decidedAt", Value::Date(Some(Timestamp::now()))),
+                        ("closedAt", Value::Date(Some(Timestamp::now()))),
                         ("currentApproverUserId", Value::Null),
                     ]),
                 )?;
@@ -935,7 +966,7 @@ impl ApprovalCommonService {
                                     "canceled"
                                 }),
                             ),
-                            ("completedAt", now),
+                            ("completedAt", Value::Date(Some(Timestamp::now()))),
                         ]),
                     )?;
                 }
@@ -950,7 +981,34 @@ impl ApprovalCommonService {
                         })
                         .transpose()?,
                 };
-                let domain = handler.apply(&context, &mut *session.connection).await?;
+                let domain = handler.apply_with_session(&context, session).await?;
+                if public_result {
+                    return Ok(Value::Object(object([
+                        ("targetId", Value::Text(domain.target_id)),
+                        ("targetType", Value::Text(domain.target_type)),
+                        ("resultStatus", Value::Text(decision.text())),
+                        (
+                            "businessStatusAfter",
+                            Value::Text(domain.business_status_after),
+                        ),
+                        ("approvalRecordId", Value::Text(context.record.id.clone())),
+                        ("confirmationRecordId", Value::Null),
+                        (
+                            "todoItemIds",
+                            Value::Array(
+                                context
+                                    .todo
+                                    .as_ref()
+                                    .map(|todo| vec![Value::Text(todo.id.clone())])
+                                    .unwrap_or_default(),
+                            ),
+                        ),
+                        (
+                            "snapshotId",
+                            domain.snapshot_id.map(Value::Text).unwrap_or(Value::Null),
+                        ),
+                    ])));
+                }
                 Ok(Value::Object(object([
                     ("record", Value::Object(store::data(session.state, record)?)),
                     (
@@ -1187,5 +1245,6 @@ enum Command<'a> {
         decision: ApprovalDecision,
         input: Data,
         handler: &'a dyn ApprovalDomainHandler,
+        public_result: bool,
     },
 }

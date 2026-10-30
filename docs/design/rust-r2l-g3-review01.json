@@ -1,0 +1,390 @@
+{
+  "formatVersion": 1,
+  "kind": "POMS-RUST-R2L-BUSINESS-LOOKUP-independent-joint-G3-review",
+  "reviewer": "C /root/l_lookup_review",
+  "reviewedAt": "2026-10-30 11:08:15 UTC",
+  "gate": "G3",
+  "result": "Pass",
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "basis": "Independent nonauthor review of the frozen G1 scope, source changes, actual Native-first/Rust matrices, original failures and classifications, frozen validation, complete preservation and Primary byte/member verification. This approves the bounded implementation package; fixed Git commit/integration and G4 remain later steps.",
+  "identity": {
+    "worktree": "E:/projects/worktrees/poms-r2ef-foundation-audit/poms",
+    "primary": "E:/projects/poms",
+    "branch": "codex/poms-r2l-lookup",
+    "base": "02b8956759352b2612bec5980cbe55ae77d0293f",
+    "S2": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+    "S3": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+    "reviewedStagedTreeBeforeThisReview": "431730cf252a5f51bf059534233c1b2c91d163fa",
+    "fixedImplementationCommit": "Pending after this G3; not fabricated as already reviewed"
+  },
+  "scope": {
+    "L79": {
+      "RustPublicOperationsAdded": 4,
+      "operations": [
+        "GET /api/approval-records/{id}",
+        "POST /api/approval-records/{id}:approve",
+        "POST /api/approval-records/{id}:reject",
+        "GET /api/me/todos"
+      ],
+      "branches": [
+        "original Contract",
+        "original CommissionPayout including final and retention",
+        "original CommissionAdjustment"
+      ],
+      "shared": "Original same-metadata caller UoW/managed-auth participant, intermediate flushes, DTO/scalar/date rules, current/supersedes/version chains and six-kind Todo enrichment"
+    },
+    "lookup84": {
+      "NativeTransportChanges": 2,
+      "RustDomainOperationsAdded": 0,
+      "routes": [
+        "GET /api/projects:lookup?projectNo=...",
+        "GET /api/contracts:lookup?contractNo=..."
+      ],
+      "preserved": "Original UUID item identity, exact business-number predicate, operationIds, permissions, actual originalUrl sensitive audit, DTO/404/fallback; no old-route alias.",
+      "synchronization": "ADR/canonical, original controllers/module/DTO/schema, full OpenAPI, generated client and real typed consumers reviewed"
+    },
+    "parent61": "No issue closure is certified by this G3. Root must verify all direct children and own canonical/lookup/synchronization conditions at G4.",
+    "R2": "104/108 until four L operations complete actual G4; target108/108. R2M#80 and parents#67/#57 remain Open."
+  },
+  "immutableInputs": {
+    "validation": {
+      "path": "docs/design/rust-r2l-validation.json",
+      "bytes": 215253,
+      "sha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae"
+    },
+    "preservation": {
+      "path": "docs/design/rust-r2l-preservation.json",
+      "bytes": 5221,
+      "sha256": "8c524d18acd3af1381868a95c4e5dc59bcaa79dfe1c3165b804ce75afabdc024"
+    },
+    "independentRuntime": {
+      "path": "tmp/rust-r2l/runtime-necessary-review01.json",
+      "bytes": 21212,
+      "sha256": "fdeb0c0da574ac6a2fa7e8cbfcb111c1c57e8988f6ef8741f5e320c891f8503a"
+    },
+    "formalG1": {
+      "path": "docs/design/rust-r2l-lookup-g1-review01.json",
+      "sha256": "a28a20eb50a92644535cec5c3f5df875e9366a089de44fba7a41a9e5396eded1",
+      "onlineFrozenAt": "2026-10-29T20:55:31.950Z",
+      "issueComments": [
+        "6508135104",
+        "6508137029"
+      ]
+    }
+  },
+  "productReview": {
+    "originalSource": "Original ApprovalService three branches, actual gate/freeze/settlement call chain, two current/supersedes/version snapshot writers, intermediate em.flush, same caller UoW and Root managed auth participant reviewed. Approve does not inherit submit-only retention equality/non-retention/confirmation guards.",
+    "serializers": "Original four L/two lookup methods have no response serializer metadata; actual mapper/JSON behavior remains the oracle.",
+    "scalarsAndDates": "Exact JS Number/undefined/null/UTF16 and raw string versus number amount semantics; independent new Date sampling; Asia/Hong_Kong business dates, original Todo fixed UTC+8 reminders, reporting Asia/Tokyo.",
+    "finalProductCorrection": {
+      "classification": "new-real-drift fixed and actually revalidated",
+      "originalError": "Actual Rust internal multi-Todo CASE UPDATE failed42601 while original Native succeeded.",
+      "delta": "Only two leading token spaces in indices.len()>1 CASE WHEN/ELSE SQL. No version/order/column/guard/auth change.",
+      "beforeSha256": "54f567b8b0ddf1de253929642b892d6697ce1373bae03e22eb725994970b42a9",
+      "afterSha256": "eed38cd12eed19fd599f24a16481e5825224d2b708f67cf85f6a20426addb6d7",
+      "oldFailureAnd106ZeroRecoveryPreserved": true
+    },
+    "finalCompiledPackage": {
+      "epoch": "candidate08",
+      "sourceFiles": 169,
+      "mainBytes": 34026504,
+      "mainSha256": "ee558d02f8a5ee7f49d3e3aced266338282e958cf84bf1cb96ef2e3b61b8b475",
+      "bindingSha256": "f9c79ee04f593645715e48f680236dc4c807d64bca63dacdf5e8f4bfecbe7dbb",
+      "sourceManifestSha256": "306bf96aac19bf9f7c5ebb696e51df07c92a233348afaf8bd66f4622da33f56a",
+      "exampleBytes": 11702064,
+      "exampleSha256": "6ca1076b38f3e15d99d371da0b6da520a5a24860d271a6aa3190305bcb527dd5",
+      "exampleBindingSha256": "02ce51e544c48ef594f7632bc75685047af821d6c530bf56ded1caffcd742407",
+      "allFiveBuildChecksExit": 0,
+      "testPassed": 219,
+      "historicalIgnoredNotExecuted": 54
+    },
+    "priorNonAuthorSources": [
+      "tmp/rust-r2l/product-source-pre-review01.json",
+      "tmp/rust-r2l/candidate08-source-runtime-delta-review01.json",
+      "tmp/rust-r2l/lookup-input-s3-review01.json",
+      "tmp/rust-r2l/lookup-client-review01.json"
+    ]
+  },
+  "actualReview": {
+    "fullDetails": "tmp/rust-r2l/runtime-necessary-review01.json and exact frozen validation supply per-case/input hashes; previous C reviews remain their own epochs.",
+    "controlled114Final08": {
+      "CIndependentRecomputed": true,
+      "pure": 54,
+      "checks": 305477,
+      "paired": 114,
+      "failures": 0,
+      "gaps": 0,
+      "differences": 0,
+      "ownedObjectsEach": 127,
+      "directEach": 69,
+      "certifiedBirthsEach": 58,
+      "relatedTables": 40,
+      "rawColumnsAndDTOs": "Complete; empty tables and field presence retained.",
+      "authInputPreparationsEach": 108,
+      "dispatch": "Original Native114 versus final08 Rust60/Native54",
+      "cleanupEach": [
+        127,
+        0
+      ]
+    },
+    "contract31": {
+      "checks": 8253,
+      "paired": 31,
+      "failures": 0,
+      "gaps": 0,
+      "differences": 0,
+      "tableCoverage": "six full tables/67 nonempty physical columns, complete DTOs and typed identities",
+      "actualRustEpoch": "original final06/5b9",
+      "scopeReuse": "Exact unchanged single-row HTTP path only; not relabelled as08 execution."
+    },
+    "lookup": {
+      "legacyHttp": 34,
+      "currentHttp": 76,
+      "DIObservationsEach": 2,
+      "strictPairedCases": 26,
+      "completeTimestampProjectionsEach": 44,
+      "Nul": "Actual bothNative sides500/PostgreSQL08P01, no SDK creates; retained original boundary.",
+      "nullLayer": "Physical NOT NULL contract amount is preserved; DI null observation stays a separately limited layer.",
+      "notRustLookupDomainRuntime": true
+    },
+    "edges12": {
+      "CIndependentRecomputed": true,
+      "pure": 66,
+      "checks": 3133421,
+      "failures": 0,
+      "gaps": 0,
+      "unclassified": 0,
+      "naturalAuthInputDifferencesRetained": 1048,
+      "matrixSha256": "ae1cb2d684890299d566a6b4f81c96231c09513074ab51e44dc74e1640df77be",
+      "coverage": "Final/retention gate/date/approve-versus-submit, real current-race and late rollback windows; full39 non-auth table oracle and explicit auth transitions.",
+      "lateFailure": "Owned command PID/backend-start/query-start/role/database/application/blocker bound; HTTP500 and outer transaction settled while locker still held before release; five business tables unchanged.",
+      "pidEvidence": "Native actual processID and SQL; Rust actual owned socket/server BackendKeyData PID binding through passive filtered/drop-privilege observer. Prior Rust FSS insertion before Rule wait is exact compiled await-order inference, not independent wire completion.",
+      "old07Reuse": "Exact two-space delta confined to len>1; public HTTP has fresh request-local state, LIMIT1 dirty rows/current pair. Preserve original5b9 actual labels; this source-scope reuse excludes internal multi-Todo callers."
+    },
+    "callerUow": {
+      "CIndependentRecomputed": true,
+      "pure": 45,
+      "pairs": 4,
+      "checks": 30026,
+      "differences": 0,
+      "knownSqlWireGaps": 4,
+      "perPairChecks": {
+        "sc": 9369,
+        "sr": 8967,
+        "gr": 5878,
+        "gc": 5812
+      },
+      "semanticCoverage": "Managed current properties, original snapshots under519a defined counterparts, held bindings, queued/membership, cached reread/clear/ghost, same-transaction materialized row, actual caller commit/rollback and whole40 facts.",
+      "representationPolicy": "Only source/metadata/locked SDK-bound94 original optimistic-version representation cases,6 lossless participantsJson original representations,56 GC outer-flush clock pairs. Raw current/DB versions, keys, JSON and actual times retained; unknown differences still fail.",
+      "other35Tables": "Each backend full-row invariant independently checked; five write tables paired.",
+      "coverageBoundary": "Each result remains bounded-caller-UoW-gaps with exactly actual-Rust-example-SQL-is-not-captured; Native SQL, Rust source and real PG effects are distinct. Not arbitrary ORM/caller atomicity or SQL-wire equality."
+    },
+    "Todo42": {
+      "adoptedIndependentDChecks": 247,
+      "CAdditionalCriticalChecks": true,
+      "pairs": 2,
+      "casesEach": 5,
+      "completeDtoFieldsEach": 252,
+      "preparedRowsEach": 7,
+      "preparedFieldsEach": 124,
+      "onlyViewerPermission": "nav:dashboard:view",
+      "GETBeforeAfterTables": 42,
+      "otherBusinessTablesUnobserved": 65,
+      "actualTie": "createdAt ASC equal group complete membership; keep each real order, no fabricated ID tiebreak",
+      "cleanupEach": [
+        60,
+        0
+      ],
+      "source20Sha256": "4794a1721f8d838f50bb4831dcceace568c72a07e9f45b25758c35a78dc06134",
+      "DReceiptSha256": "3b11ec480427008a139f9a42d2cf7eff4bd0835b460bf1a7f0c26aed28fac19b",
+      "preparedSalesRowsNotNativeProducerCertified": true
+    },
+    "secondFreeze": {
+      "adoptedIndependentDChecks": 132,
+      "CAdditionalCriticalChecks": true,
+      "hookSourceSha256": "a30c933595c3765242e92158245d84485bc9a57e178e22cae39a525bc5528481",
+      "requestsReviewedEach": 6,
+      "masking400": "All five business tables invariant.",
+      "preparedCountercondition": "Exactly oldFSS.departure_exception_decision_id points to actual new decision; oldFSS old freeze stays; actual new role freeze/departure share original handover/baseline.",
+      "finalApprove": 200,
+      "cleanupEach": [
+        127,
+        0
+      ],
+      "DReceiptSha256": "da2bdaba4e463d69471be825b247ebfba6c17c19aab9c94fca546f21fbf59070",
+      "dateBoundaryScope": "This pair is second-freeze; missing/future/today is the separate egrd400/400/200 and past baseline already covered."
+    },
+    "originalAngularUi": {
+      "functionalNativeAndRustStepsEach": 7,
+      "cancelCases": "Both original login-stop runs remain stopped/nonbusiness, cleanup60/0; completed functional cases65/0.",
+      "sourceAndWire": "Actual original Workbench/Todo navigation/ContractDetail dialogs, empty reject reason sends noHTTP, real approve/reject original SDK/PG and CSRF/AuthStore/HttpClient.",
+      "boundaries": "Prior5b9 actual run labels remain. InvalidPrimeUIlicense banner and Workbench loading residue are preserved; no whole-page visual-polish claim. Later original dev.map entry extraction is source supplement, not retroactive runtime backfill."
+    },
+    "ownershipAndEnvironment": "Root alone used fresh isolated PG15 two DB/roles/marker; SDK direct/outer-commit and PG7 shadow/primary roles kept separate, full107 catalog/1778columns/207FK and cleanup doublezero, original fixed8/14 seed principals and3 definitions read-only. Temporary observer OID/definition/ACL restored. All new owners stopped, new volume/private retained, ports9700/9701/9800 free; WindowsPG17 remained Running untouched."
+  },
+  "preservationReview": {
+    "archive": {
+      "bytes": 3736503253,
+      "sha256": "bd191c1626e5b0bb7cbcaa793ebd9f826337bd5f2dbe4aa5686ed1fca648220f",
+      "sourceTarRegenerated": false,
+      "files": 123837,
+      "payloadBytes": 8212458261,
+      "manifestBytes": 35709371,
+      "manifestSha256": "e0091decf9877e10f285297eef2476d32f40c1ff28a70907865cee60b4449d12",
+      "filesArraySha256": "fa0940cbe09012b26b3bb67acaa230b9f425efe299d1ab19250e63ada79d2684"
+    },
+    "CManifestReview": "Independently rehashed manifest/array, counted/summed all123837 entries, checked sorting/case-NFC uniqueness/portable and private/env/dependency/oldbatch/checkpoint exclusion rules and critical current+historical members; no arbitrary secret-content scan claimed.",
+    "actualCaptureReceipt": {
+      "bytes": 16200,
+      "sha256": "4bc4b127a476ef2d39f2d5f6dfac2b9c3750741771c2895dcdeb4241f8847efa",
+      "sourceAndSnapshotUnchanged": true
+    },
+    "primary": {
+      "result": "C-primary02-independent-critical-bytes-and-complete-verification-record-check-pass",
+      "anchor": {
+        "file": "docs/design/rust-r2l-preservation.json",
+        "bytes": 5221,
+        "sha256": "8c524d18acd3af1381868a95c4e5dc59bcaa79dfe1c3165b804ce75afabdc024"
+      },
+      "transfer": {
+        "file": "tmp/rust-r2l/primary-transfer-final02.json",
+        "bytes": 17486,
+        "sha256": "bc10bca9c39f1f9469ad5d7bb178cd6db4f560a3af93d6ebcdda8f7bd6f91957",
+        "files": 123837,
+        "payloadBytes": 8212458261,
+        "destinationVerified": true,
+        "archiveSha256": "bd191c1626e5b0bb7cbcaa793ebd9f826337bd5f2dbe4aa5686ed1fca648220f",
+        "manifestSha256": "e0091decf9877e10f285297eef2476d32f40c1ff28a70907865cee60b4449d12",
+        "paxHeaders": 123838,
+        "legacyPaxTruncationCount": 109439
+      },
+      "criticalExtractedMembers": [
+        {
+          "file": "docs/design/rust-r2l-validation.json",
+          "bytes": 215253,
+          "rawBytesSha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae",
+          "mode": 420
+        },
+        {
+          "file": "apps/poms-api-rust/src/approval_common/store.rs",
+          "bytes": 35788,
+          "rawBytesSha256": "eed38cd12eed19fd599f24a16481e5825224d2b708f67cf85f6a20426addb6d7",
+          "mode": 420
+        },
+        {
+          "file": "tools/rust-r2l/l-shared-uow-compare.mjs",
+          "bytes": 29368,
+          "rawBytesSha256": "1ef87ebf0a92a8fc1eec659260b050acc91d732cd62c71d2b5eee0aae0dbb76f",
+          "mode": 420
+        },
+        {
+          "file": "tools/rust-r2l/l-shared-uow-representation.mjs",
+          "bytes": 14291,
+          "rawBytesSha256": "589d6e90ecb1a1868f8c0d7c1043884ed66a477b9174ca48b27936b90b585ffc",
+          "mode": 420
+        },
+        {
+          "file": "tools/rust-r2l/preserve-evidence.mjs",
+          "bytes": 37757,
+          "rawBytesSha256": "e8c05fef17d8b68b80b730321d35d94a1329dc798c413865aca267b08a462c77",
+          "mode": 420
+        },
+        {
+          "file": "tmp/rust-r2l/final-build-artifacts02/native-S3-main.js",
+          "bytes": 2958081,
+          "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+          "mode": 420
+        },
+        {
+          "file": "tmp/rust-r2l/final-build-artifacts02/rust-candidate08",
+          "bytes": 34026504,
+          "rawBytesSha256": "ee558d02f8a5ee7f49d3e3aced266338282e958cf84bf1cb96ef2e3b61b8b475",
+          "mode": 493
+        },
+        {
+          "file": "tmp/rust-r2l/final-build-artifacts02/rust-candidate08-uow-example",
+          "bytes": 11702064,
+          "rawBytesSha256": "6ca1076b38f3e15d99d371da0b6da520a5a24860d271a6aa3190305bcb527dd5",
+          "mode": 493
+        },
+        {
+          "file": "tmp/rust-r2l/windows-records-final01/tmp/rust-r2l/runtime-necessary-review01.json",
+          "bytes": 21212,
+          "rawBytesSha256": "fdeb0c0da574ac6a2fa7e8cbfcb111c1c57e8988f6ef8741f5e320c891f8503a",
+          "mode": 420
+        }
+      ],
+      "streamCopy": {
+        "file": "E:/projects/poms/tmp/rust-r2l/final02-records/stream-copy-receipt.json",
+        "bytes": 642,
+        "sha256": "1be7ea967d73c0e3fbb6bf77c28dffa3fce693df3609e9e11dfbf7bd846c650c"
+      },
+      "failed01": {
+        "receipt": {
+          "path": "tmp/rust-r2l/primary-transfer-final01.json",
+          "bytes": 1629,
+          "rawBytesSha256": "f9074375f4ac2dc14eef0573107403977fea4133c85c7c8fec5cd57a150d982f"
+        },
+        "file": "E:/projects/poms/tmp/rust-r2l/final01-evidence.tar.gz",
+        "bytes": 3736503253,
+        "actualSha256": "7c77baf6331c646455ecf3d690b3e39d16cdd4bd2b41579cbba99017dbf130ea",
+        "extracted": false,
+        "classification": "tool-noise / actual copied bytes differed; source tar remained correct; no unverified cause claimed; original failed file and receipt retained"
+      },
+      "all123837PayloadBytesRehashedByC": false,
+      "fullMemberVerificationByReviewedIndependentPrimaryProgram": true
+    },
+    "methods": "Reviewed actual native-Linux1MiB stream-copy program and original Windows verify/extract program full source and exact hashes. Reviewed independent GNU creation versus streaming Node tar parser, complete actual Primary all-member/all-extracted-byte verification. C additionally rehashed extracted frozen validation, store, policies, verifier, runtime receipt and all three final binaries; did not claim a duplicate full123837-file C payload rehash.",
+    "pax": {
+      "headers": 123838,
+      "legacyTruncatedFallbacks": 109439,
+      "semantics": "Actual full PAX names strictly resolved and header fallback bytes checked; no truncated path accepted as an alternative final target.",
+      "controlledNegatives": 30,
+      "controlledPositives": 6
+    },
+    "capacity": "Actual file count and35.7MB manifest exceeded old100000/32MiB. Only two limits became200000/64MiB; C exact LF inverse diff proved all other code unchanged. Initial rejection before output/tar creation remains classified.",
+    "failedTransfer01": "Actual same-size Primary01 hash7c77... differed from sourcebd191...; failed file/receipt preserved and not extracted. Independent source hash remained correct. Successful02 is a new copy of the same unique original tar; no cause invented.",
+    "laterAddenda": "This G3, fixed-commit representation, integration, lifecycle path map and G4 are additive small immutable evidence, not modifications to this frozen validation or original large tar."
+  },
+  "classifiedChecks": {
+    "schema": "Readonly migration-check exit1 existing-baseline-drift(CHECK visibility/comment), dumps0; original92 unchanged and complete107 catalog before/after equal. No generated DDL execution.",
+    "ignored": "All54 historical ignored keep labels and were not counted passed.",
+    "originalFailures": "Natural114308 strictFail, edge1048 natural inputs, original UOW42601/Source02 raw372/280, old stopped/partial/uncertified, failed UI expectation/source-epoch reconstruction and transfer01 retained with own times/labels; later passes never overwrite originals.",
+    "patchWhitespace": {
+      "result": "accepted-tool-noise-only",
+      "originalCachedCheckExit": 2,
+      "exactFlaggedLocations": [
+        "l-commission-capture-integration.patch:8",
+        "l-todo-profile-integration.patch:9",
+        "l-todo-profile-integration.patch:51",
+        "l-todo-profile-integration.patch:90",
+        "l-todo-profile-integration.patch:119"
+      ],
+      "CChecked": "Every flagged line is exactly one required unified-diff blank context marker; both original patch byte hashes match frozen sources and git apply --numstat parses; excluding exactly those2 patch artifacts all remaining staged diff --check exits0. Patch/program code not whitespace rewritten."
+    },
+    "frozenHistoricalClarifications": "Preservation anchor explicitly distinguishes Source02 retained raw failure from current Source03 result and corrects G3-before-fixed-commit sequence without changing frozen validation866ef."
+  },
+  "limitations": [
+    "Four known Rust UoW SQL-wire coverage gaps remain outside the equality claim; actual PG effects/source binding provide the stated finite L caller evidence.",
+    "No full R3-R5 producer/domain takeover, whole107 business-row equivalence, deployment, production traffic, cloud tenant, PG17 changes or performance certification.",
+    "Auth natural input differences and old actual07 labels remain explicit; only the reviewed unchanged HTTP branch is source-mapped to08.",
+    "Current helper representations follow explicit519a measurement contract, not unrestricted internal-object layout equality."
+  ],
+  "reviewerProcess": {
+    "CPrivateDBHTTPDMLProductFixtureToolOnlineWrites": false,
+    "CNewReviewJSONWritesOnly": true,
+    "GitDeviation": "One staged-tree check mistakenly invoked git write-tree and returned Root's already-existing431730cf. No add/commit/ref/working-file change, but strict zero internal Git object/cache writes cannot be claimed for that command. Reported to Root immediately; subsequent checks only cat-file/diff/ls-files/apply--numstat read operations."
+  },
+  "nextSequence": [
+    "Root commit and branch push the reviewed implementation, this G3 and only declared Gate/document metadata deltas.",
+    "C independently inspect exact fixed commit/tree, current raw versus Git LF/source-capture map, no unintended product delta.",
+    "Primary clean fast-forward and main push; perform declared lifecycle archive/link map and preserve all small deltas.",
+    "Actual online G4 #79/#84 and conditional #61 closure; local mirrors and count108 only when actual G4 complete; parents/R2M remain Open."
+  ],
+  "G4Certified": false,
+  "fixedCommitReviewCertified": false,
+  "mainIntegrated": false,
+  "onlineIssueClosureCertified": false
+}

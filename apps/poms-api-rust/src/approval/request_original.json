@@ -1,0 +1,1854 @@
+{
+  "formatVersion": 1,
+  "kind": "pure-original-approval-request-zod-oracle",
+  "runtime": "v24.19.0",
+  "source": {
+    "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "rawSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+  },
+  "ormPgExecuted": false,
+  "httpExecuted": false,
+  "cases": [
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "absent",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received undefined"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "false",
+      "inputRaw": "false",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "zero",
+      "inputRaw": "0",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "string",
+      "inputRaw": "\"text\"",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "valid",
+      "inputRaw": "{\"reason\":\" ﻿原因　\",\"comment\":\" ﻿意见 \",\"expectedVersion\":1,\"unknown\":\"stripped\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"意见\",\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "comment-empty",
+      "inputRaw": "{\"reason\":\"原因\",\"comment\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "comment-space",
+      "inputRaw": "{\"reason\":\"原因\",\"comment\":\" ﻿　\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "reason-empty",
+      "inputRaw": "{\"reason\":\"\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "reason-null",
+      "inputRaw": "{\"reason\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "all-null",
+      "inputRaw": "{\"reason\":null,\"comment\":null,\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received null"
+            },
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "unknown-nested",
+      "inputRaw": "{\"reason\":\"ok\",\"unknown\":{\"toString\":1}}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "comment-surrogate",
+      "inputRaw": "{\"reason\":\"x\",\"comment\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "all-types",
+      "inputRaw": "{\"reason\":[],\"comment\":{\"length\":0},\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected unknown to be >=1"
+            },
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "invalid-length-nan",
+      "inputRaw": "{\"reason\":{\"length\":\"NaN\"},\"comment\":{\"length\":\"NaN\"}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected unknown to be >=1"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected unknown to be <=1000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "invalid-length-array",
+      "inputRaw": "{\"reason\":[],\"comment\":[\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received array"
+            },
+            {
+              "origin": "array",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected array to have <=1000 items"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "invalid-length-object",
+      "inputRaw": "{\"reason\":{\"length\":256},\"comment\":{\"length\":1001}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected unknown to be <=1000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "length-toString-shadow",
+      "inputRaw": "{\"reason\":{\"length\":{\"toString\":1}},\"comment\":\"x\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"x\"}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "length-array-to-number",
+      "inputRaw": "{\"reason\":{\"length\":[]},\"comment\":{\"length\":[\"1001\"]}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected unknown to be <=1000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "reason-254",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "reason-255",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "reason-256",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "comment-999",
+      "inputRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "comment-1000",
+      "inputRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "comment-1001",
+      "inputRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected string to have <=1000 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-0",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-1",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-2",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-3",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-4",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "int",
+              "format": "safeint",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected int, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-5",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-0.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "int",
+              "format": "safeint",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected int, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-6",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-7",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_big",
+              "maximum": 9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too big: expected int to be <=9007199254740991"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-8",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_small",
+              "minimum": -9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected int to be >=-9007199254740991"
+            },
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-9",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1e+300}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_big",
+              "maximum": 9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too big: expected int to be <=9007199254740991"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-object",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":{\"valueOf\":1}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "version-array",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":[1]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "raw-39",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1e999}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "received": "Infinity",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received Infinity"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "raw-40",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-1e999}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "received": "-Infinity",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received -Infinity"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "raw-41",
+      "inputRaw": "{\"reason\":\"old\",\"reason\":\"new\",\"comment\":\" a \",\"comment\":\" b \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"comment\":\"b\"}"
+      }
+    },
+    {
+      "schema": "ApproveRecordRequest",
+      "name": "raw-42",
+      "inputRaw": "{\"reason\":\"ok\",\"__proto__\":{\"p\":1},\"constructor\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "absent",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received undefined"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "false",
+      "inputRaw": "false",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "zero",
+      "inputRaw": "0",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "string",
+      "inputRaw": "\"text\"",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received undefined"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "valid",
+      "inputRaw": "{\"reason\":\" ﻿原因　\",\"comment\":\" ﻿意见 \",\"expectedVersion\":1,\"unknown\":\"stripped\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"原因\",\"comment\":\"意见\",\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "comment-empty",
+      "inputRaw": "{\"reason\":\"原因\",\"comment\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "comment-space",
+      "inputRaw": "{\"reason\":\"原因\",\"comment\":\" ﻿　\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "reason-empty",
+      "inputRaw": "{\"reason\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "reason-null",
+      "inputRaw": "{\"reason\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "all-null",
+      "inputRaw": "{\"reason\":null,\"comment\":null,\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received null"
+            },
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received null"
+            },
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "unknown-nested",
+      "inputRaw": "{\"reason\":\"ok\",\"unknown\":{\"toString\":1}}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"ok\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "comment-surrogate",
+      "inputRaw": "{\"reason\":\"x\",\"comment\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"x\",\"comment\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "all-types",
+      "inputRaw": "{\"reason\":[],\"comment\":{\"length\":0},\"expectedVersion\":\"1\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received array"
+            },
+            {
+              "origin": "array",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too small: expected array to have >=1 items"
+            },
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected unknown to be >=1"
+            },
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "invalid-length-nan",
+      "inputRaw": "{\"reason\":{\"length\":\"NaN\"},\"comment\":{\"length\":\"NaN\"}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too small: expected unknown to be >=1"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 255,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too big: expected unknown to be <=255"
+            },
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too small: expected unknown to be >=1"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected unknown to be <=1000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "invalid-length-array",
+      "inputRaw": "{\"reason\":[],\"comment\":[\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\",\"x\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received array"
+            },
+            {
+              "origin": "array",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too small: expected array to have >=1 items"
+            },
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received array"
+            },
+            {
+              "origin": "array",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected array to have <=1000 items"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "invalid-length-object",
+      "inputRaw": "{\"reason\":{\"length\":256},\"comment\":{\"length\":1001}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 255,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too big: expected unknown to be <=255"
+            },
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected unknown to be <=1000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "length-toString-shadow",
+      "inputRaw": "{\"reason\":{\"length\":{\"toString\":1}},\"comment\":\"x\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed"
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "length-array-to-number",
+      "inputRaw": "{\"reason\":{\"length\":[]},\"comment\":{\"length\":[\"1001\"]}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "reason"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too small: expected unknown to be >=1"
+            },
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "comment"
+              ],
+              "message": "Invalid input: expected string, received object"
+            },
+            {
+              "origin": "unknown",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected unknown to be <=1000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "reason-254",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "reason-255",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "reason-256",
+      "inputRaw": "{\"reason\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 255,
+              "inclusive": true,
+              "path": [
+                "reason"
+              ],
+              "message": "Too big: expected string to have <=255 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "comment-999",
+      "inputRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "comment-1000",
+      "inputRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "comment-1001",
+      "inputRaw": "{\"reason\":\"ok\",\"comment\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "comment"
+              ],
+              "message": "Too big: expected string to have <=1000 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-0",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-1",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-2",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-3",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"ok\",\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-4",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "int",
+              "format": "safeint",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected int, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-5",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-0.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "int",
+              "format": "safeint",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected int, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-6",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"ok\",\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-7",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_big",
+              "maximum": 9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too big: expected int to be <=9007199254740991"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-8",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_small",
+              "minimum": -9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected int to be >=-9007199254740991"
+            },
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-9",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1e+300}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_big",
+              "maximum": 9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too big: expected int to be <=9007199254740991"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-object",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":{\"valueOf\":1}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "version-array",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":[1]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "raw-82",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":1e999}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "received": "Infinity",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received Infinity"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "raw-83",
+      "inputRaw": "{\"reason\":\"ok\",\"expectedVersion\":-1e999}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "received": "-Infinity",
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Invalid input: expected number, received -Infinity"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "raw-84",
+      "inputRaw": "{\"reason\":\"old\",\"reason\":\"new\",\"comment\":\" a \",\"comment\":\" b \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"new\",\"comment\":\"b\"}"
+      }
+    },
+    {
+      "schema": "RejectApprovalRecordRequest",
+      "name": "raw-85",
+      "inputRaw": "{\"reason\":\"ok\",\"__proto__\":{\"p\":1},\"constructor\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"ok\"}"
+      }
+    }
+  ]
+}

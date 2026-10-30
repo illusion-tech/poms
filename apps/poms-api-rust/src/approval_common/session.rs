@@ -1,4 +1,4 @@
-//! A caller lends one connection and the same seven-table state across its
+//! A caller lends one connection and the same bounded common/domain state across its
 //! service calls. Transaction/savepoint SQL is deliberately owned by the
 //! service/store layer, calibrated against the Native witness, not callbacks.
 
@@ -43,6 +43,9 @@ pub struct TrackedEntity {
 pub struct CommonState {
     pub entities: Vec<TrackedEntity>,
     pub trace: WriteTrace,
+    /// Explicit persistStack insertion order is separate from identity-map
+    /// discovery order. Re-persisting an entry keeps its first position.
+    pub(crate) persist_order: Vec<EntityHandle>,
 }
 
 impl CommonState {
@@ -64,14 +67,16 @@ impl CommonState {
             entity.managed = false;
             entity.queued = false;
         }
+        self.persist_order.clear();
     }
 }
 
-/// Pure borrowed-session construction. The future transaction implementation
+/// Pure borrowed-session construction. The transaction implementation
 /// must not acquire a second pool connection or absorb unmodelled domain UoW.
 pub struct CommonSession<'connection, 'state> {
     pub connection: &'connection mut PgConnection,
     pub state: &'state mut CommonState,
+    pub participant: Option<&'state mut dyn CommonFlushParticipant>,
 }
 
 impl<'connection, 'state> CommonSession<'connection, 'state> {
@@ -79,8 +84,37 @@ impl<'connection, 'state> CommonSession<'connection, 'state> {
         connection: &'connection mut PgConnection,
         state: &'state mut CommonState,
     ) -> Self {
-        Self { connection, state }
+        Self {
+            connection,
+            state,
+            participant: None,
+        }
     }
+
+    pub fn borrow_with_participant(
+        connection: &'connection mut PgConnection,
+        state: &'state mut CommonState,
+        participant: &'state mut dyn CommonFlushParticipant,
+    ) -> Self {
+        Self {
+            connection,
+            state,
+            participant: Some(participant),
+        }
+    }
+}
+
+pub type CommonFlushFuture<'a> =
+    Pin<Box<dyn Future<Output = Result<(), CommonFailure>> + Send + 'a>>;
+
+/// A request-local managed entity participant. Its owner supplies the pending
+/// change set; the shared flush controls ordering and transaction lifecycle.
+pub trait CommonFlushParticipant: Send {
+    fn has_pending(&self) -> bool;
+    /// Mirrors ChangeSetComputer's property initializers, before SQL execution.
+    /// Existing connection-only participants keep their original API behavior.
+    fn prepare_flush(&mut self) {}
+    fn flush_once<'a>(&'a mut self, connection: &'a mut PgConnection) -> CommonFlushFuture<'a>;
 }
 
 #[derive(Clone, Debug)]
@@ -103,4 +137,14 @@ pub trait ApprovalDomainHandler: Send + Sync {
         context: &'a DecisionContext,
         connection: &'a mut PgConnection,
     ) -> DomainDecisionFuture<'a>;
+
+    /// Production domains enlist in the caller's identity map and flushes.
+    /// Existing connection-only handlers keep their original API contract.
+    fn apply_with_session<'a>(
+        &'a self,
+        context: &'a DecisionContext,
+        session: &'a mut CommonSession<'_, '_>,
+    ) -> DomainDecisionFuture<'a> {
+        self.apply(context, &mut *session.connection)
+    }
 }

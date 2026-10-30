@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2L-LOOKUP-preservation-anchor",
+  "result": "pass",
+  "at": "2026-10-30T10:58:38.904Z",
+  "frozenValidation": {
+    "path": "docs/design/rust-r2l-validation.json",
+    "bytes": 215253,
+    "rawBytesSha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae"
+  },
+  "independentRuntimeNecessaryReview": {
+    "path": "tmp/rust-r2l/runtime-necessary-review01.json",
+    "bytes": 21212,
+    "rawBytesSha256": "fdeb0c0da574ac6a2fa7e8cbfcb111c1c57e8988f6ef8741f5e320c891f8503a"
+  },
+  "independentG3": "Pending separate C frozen-package decision",
+  "G4": "Pending actual commit/fixed-commit/main integration/lifecycle archival/online closeout",
+  "archive": {
+    "primary": "E:/projects/poms/tmp/rust-r2l/final02-evidence.tar.gz",
+    "linux": "/home/wangzishi/projects/poms-rust-r2l/tmp/rust-r2l-preserved/final01/evidence.tar.gz",
+    "bytes": 3736503253,
+    "rawBytesSha256": "bd191c1626e5b0bb7cbcaa793ebd9f826337bd5f2dbe4aa5686ed1fca648220f"
+  },
+  "files": 123837,
+  "payloadBytes": 8212458261,
+  "manifestRawBytesSha256": "e0091decf9877e10f285297eef2476d32f40c1ff28a70907865cee60b4449d12",
+  "primaryPayload": "E:/projects/poms/tmp/rust-r2l/final02",
+  "primaryRecords": "E:/projects/poms/tmp/rust-r2l/final02-records",
+  "capture": {
+    "path": "E:/projects/poms/tmp/rust-r2l/final02-records/capture-receipt.json",
+    "bytes": 16200,
+    "rawBytesSha256": "4bc4b127a476ef2d39f2d5f6dfac2b9c3750741771c2895dcdeb4241f8847efa"
+  },
+  "transfer": {
+    "path": "tmp/rust-r2l/primary-transfer-final02.json",
+    "bytes": 17486,
+    "rawBytesSha256": "bc10bca9c39f1f9469ad5d7bb178cd6db4f560a3af93d6ebcdda8f7bd6f91957"
+  },
+  "nativeStreamCopy": {
+    "file": "E:/projects/poms/tmp/rust-r2l/final02-records/stream-copy-receipt.json",
+    "bytes": 642,
+    "sha256": "1be7ea967d73c0e3fbb6bf77c28dffa3fce693df3609e9e11dfbf7bd846c650c"
+  },
+  "transferProgramsAndVerifier": [
+    {
+      "file": "E:/projects/poms/tmp/rust-r2l/final02-records/verify-program.mjs",
+      "bytes": 3095,
+      "sha256": "d9f1f884edeb976f20d2ff22eddf23d52197b901202facdde356bafe13ec5e94"
+    },
+    {
+      "file": "E:/projects/poms/tmp/rust-r2l/final02-records/stream-copy-program.py",
+      "bytes": 2129,
+      "sha256": "585ad41bc14d9b2fb6da5f0f66673e160c17bea7fcdaa946ddaaa9df0c3cbdf8"
+    },
+    {
+      "file": "E:/projects/poms/tmp/rust-r2l/final02-records/preserve-evidence-verifier.mjs",
+      "bytes": 37757,
+      "sha256": "e8c05fef17d8b68b80b730321d35d94a1329dc798c413865aca267b08a462c77"
+    }
+  ],
+  "firstTransferFailure": {
+    "receipt": {
+      "path": "tmp/rust-r2l/primary-transfer-final01.json",
+      "bytes": 1629,
+      "rawBytesSha256": "f9074375f4ac2dc14eef0573107403977fea4133c85c7c8fec5cd57a150d982f"
+    },
+    "file": "E:/projects/poms/tmp/rust-r2l/final01-evidence.tar.gz",
+    "bytes": 3736503253,
+    "actualSha256": "7c77baf6331c646455ecf3d690b3e39d16cdd4bd2b41579cbba99017dbf130ea",
+    "extracted": false,
+    "classification": "tool-noise / actual copied bytes differed; source tar remained correct; no unverified cause claimed; original failed file and receipt retained"
+  },
+  "allOriginalAndSnapshotFilesUnchanged": true,
+  "oneCompleteArchive": true,
+  "archiveModesVerified": true,
+  "WindowsExtractedPosixModesClaimed": false,
+  "primaryDestinationBytesAndMemberSetVerified": true,
+  "privateEnvironmentDependenciesAndInternalCheckpointsExcluded": true,
+  "privateRawProofsRemainInOriginalControlledLocation": true,
+  "capacityCorrection": {
+    "oldLimits": {
+      "files": 100000,
+      "manifestBytes": 33554432
+    },
+    "newLimits": {
+      "files": 200000,
+      "manifestBytes": 67108864
+    },
+    "sourceSha256": "e8c05fef17d8b68b80b730321d35d94a1329dc798c413865aca267b08a462c77",
+    "onlyTwoNumericLiteralsChanged": true,
+    "controlledNegativeTests": 30,
+    "controlledPositiveTests": 6,
+    "firstAttempt": "Rejected before output directory/tar creation; old source and correction receipts retained inside the complete evidence."
+  },
+  "historicalFrozenTextClarification": {
+    "source02": "retainedFailuresAndPartialBoundaries/new-UoW-saved-comparison describes the original Source02 strict372/280 differences, not a current unresolved product finding. finalActualEvidence/UoW and C fdeb RuntimeNecessaryReady describe current Source03 comparable measures and four explicit SQL-wire coverage gaps.",
+    "gateOrder": "Frozen earlier corrective wording about fixed commits is interpreted by authoritative G1 section9: scope/runtime/frozen validation/preservation -> C G3 -> commit/branch push -> independent fixed-commit check -> primary clean FF/main push -> archival and G4.",
+    "frozenValidationWasNotRewritten": true
+  },
+  "actualRuntimeBoundaries": {
+    "knownRustSqlWireCoverageGaps": 4,
+    "rawSource02DifferencesRetained": true,
+    "natural308AndEdge1048Retained": true,
+    "old07SourceScopeReuseNot08RuntimeReplay": true,
+    "ignored54NotCountedPassed": true,
+    "noWholeR3R4R5OrCloudDeploymentPerformanceClaim": true
+  },
+  "addendaPolicy": "G3/fixed-commit/integration/lifecycle/online G4 are small exact file/raw/LF additive records. Do not rewrite frozen validation or rebuild the complete archive."
+}

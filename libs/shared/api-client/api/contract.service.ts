@@ -297,7 +297,7 @@ export class ContractApi extends BaseService {
 
     /**
      * 按合同编号获取详情
-     * @endpoint get /api/contracts/no/{contractNo}
+     * @endpoint get /api/contracts:lookup
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -311,6 +311,17 @@ export class ContractApi extends BaseService {
         if (contractNo === null || contractNo === undefined) {
             throw new Error('Required parameter contractNo was null or undefined when calling contractControllerGetByNo.');
         }
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'contractNo',
+            <any>contractNo,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -339,11 +350,12 @@ export class ContractApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contracts/no/${this.configuration.encodeParam({name: "contractNo", value: contractNo, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/contracts:lookup`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ContractDetailView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

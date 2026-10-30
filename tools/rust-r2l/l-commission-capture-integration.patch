@@ -1,0 +1,45 @@
+--- a/tools/rust-r2l/l-commission-http-actual.mjs
++++ b/tools/rust-r2l/l-commission-http-actual.mjs
+@@ -20,6 +20,7 @@
+ import { inspectCommissionPreparedSource, buildCommissionPreparedRows } from './commission-prepared-source.mjs';
+ import * as recipe from './l-producer-recipes.mjs';
+ import { installPgCreateObserver, observedTables } from './l-pg-create-observer.mjs';
++import { createCommissionRequestCapture } from './l-commission-capture-requests.mjs';
+ 
+ const require = createRequire(import.meta.url);
+ const { fixtureCredentials } = require('./fixture-protocol.cjs');
+@@ -128,6 +129,7 @@
+     const save = () => { writePrivate(privateFile, raw); fs.writeFileSync(output, JSON.stringify(report,null,2) + '\n'); };
+     let f, native, pg, project, contract, prepared, admin, finance, vp, privateDefinitions, rustRuntime;
+     const workflow = {};
++    const captureLease = { active: false };
+     const phaseCompletion = Symbol('Root reviewed edge phase completed');
+     async function phase(name,details = {}) {
+         if (!hooks[name]) return;
+@@ -135,6 +137,6 @@
+         const result = await hooks[name]({
+             f,native,pg,rustRuntime,backend,consumerBackend,runId,report,project,contract,prepared,
+-            sessions:{ admin,finance,vp },call,send,facts,ownedRow,scope,commonWatch,snapshotWatch,decide,approvalFor,login,due,
++            sessions:{ admin,finance,vp },call,send,captureRequests,facts,ownedRow,scope,commonWatch,snapshotWatch,decide,approvalFor,login,due,
+             createCalculation,createPayout,submitPayout,payout,chains,recipe,workflow,
+             ...workflow,...details,
+         });
+@@ -203,6 +205,17 @@
+             sdkOnlyGeneratedTables: actual.filter((item) => !observedTables.includes(item.table)).map(({ table,id }) => ({ table,id })) };
+     }
++    async function captureRequests(options) {
++        return createCommissionRequestCapture({
++            fixture:f,native,pg,rustRuntime,runId,backend,consumerBackend,contexts,committed,report,raw,
++            scope,facts,certify,save,requestByteEvidence,redacted,lease:captureLease,
++        })(options);
++    }
++    async function call(...args) {
++        assert.equal(captureLease.active,false,'A normal call must not interleave the shared-case capture');
++        captureLease.active = true;
++        try { return await callOne(...args); } finally { captureLease.active = false; }
++    }
+-    async function call(session, name, method, route, options = {}, watch = [], { shadow = false, snapshots = false } = {}) {
++    async function callOne(session, name, method, route, options = {}, watch = [], { shadow = false, snapshots = false } = {}) {
+         const executionBackend = isL4ConsumerRoute(route) ? consumerBackend : 'native', observePg = executionBackend === 'rust' || shadow;
+         const s = scope(name,session.userId === null); session.identity = caseIdentity(runId,name);
+         const context = { runId, caseId: name, index: report.requests.length, op: executionBackend === 'rust' ? 'l.http' : 'l.producer' }, correlationId = 'l-commission-' + randomUUID(); contexts.set(correlationId,context);

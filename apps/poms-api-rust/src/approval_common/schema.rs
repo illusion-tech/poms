@@ -9,6 +9,21 @@ pub enum Table {
     Definition,
     Snapshot,
     Projection,
+    Contract,
+    ContractTerm,
+    Payout,
+    Adjustment,
+    RoleAssignment,
+    GateBinding,
+    GateReview,
+    FinalSettlement,
+    RuleExplanation,
+    Receipt,
+    DepartureDecision,
+    FreezeDispute,
+    Project,
+    Lead,
+    Customer,
 }
 #[derive(Clone, Copy, Debug)]
 pub struct Column {
@@ -21,6 +36,21 @@ pub struct Column {
     pub default_raw: bool,
 }
 impl Table {
+    pub fn read_only(self) -> bool {
+        matches!(
+            self,
+            Self::ContractTerm
+                | Self::RoleAssignment
+                | Self::GateBinding
+                | Self::GateReview
+                | Self::Receipt
+                | Self::DepartureDecision
+                | Self::FreezeDispute
+                | Self::Project
+                | Self::Lead
+                | Self::Customer
+        )
+    }
     pub fn name(self) -> &'static str {
         match self {
             Self::Todo => "todo_item",
@@ -30,6 +60,7 @@ impl Table {
             Self::Definition => "approval_summary_package_definition",
             Self::Projection => "approval_summary_field_projection",
             Self::Approval => "approval_record",
+            _ => super::domain_schema::name(self),
         }
     }
     pub fn class_name(self) -> &'static str {
@@ -41,6 +72,7 @@ impl Table {
             Self::Definition => "ApprovalSummaryPackageDefinition",
             Self::Projection => "ApprovalSummaryFieldProjection",
             Self::Approval => "ApprovalRecord",
+            _ => super::domain_schema::class_name(self),
         }
     }
     pub fn columns(self) -> &'static [Column] {
@@ -1022,6 +1054,7 @@ impl Table {
                     default_raw: true,
                 },
             ],
+            _ => super::domain_schema::columns(self),
         }
     }
 }

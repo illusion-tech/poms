@@ -1,0 +1,1141 @@
+{
+  "formatVersion": 1,
+  "kind": "pure-original-settlement-ts-oracle",
+  "runtime": "v24.19.0",
+  "sourceHashes": [
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/date/business-date.utils.ts",
+      "rawSha256": "da63a9963433b87f3c81d93104a30556b1c468e4b751ced4f8224e60fbcd8bb2"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.ts",
+      "rawSha256": "6dab7531b6a9220933b48869aa8c8772155d47701ecf602a414cf73cd4b815d9"
+    }
+  ],
+  "sourceImportsExecuted": [
+    "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "apps/poms-api/src/app/core/date/business-date.utils.ts",
+    "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.ts"
+  ],
+  "ormPgExecuted": false,
+  "httpExecuted": false,
+  "pendingFinalExpected": {
+    "currentStageStatus": "pending-final-settlement",
+    "gateDecisionCode": "allow-final-settlement",
+    "blockingReasonCategory": null,
+    "blockingReasonCode": null,
+    "blockingReasonSummary": null,
+    "gateDecisionSummary": "当前可进入最终结算。",
+    "nextActionSummary": "请登记最终阶段发放。"
+  },
+  "dateCases": [
+    {
+      "input": {
+        "name": "missing-null",
+        "value": null,
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": null,
+        "retentionDueStatus": "missing"
+      }
+    },
+    {
+      "input": {
+        "name": "empty-string",
+        "value": "",
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": null,
+        "retentionDueStatus": "missing"
+      }
+    },
+    {
+      "input": {
+        "name": "hk-before-midnight",
+        "value": "2026-10-30",
+        "now": "2026-10-29T15:59:59.999Z"
+      },
+      "expected": {
+        "retentionDueDate": "2026-10-30",
+        "retentionDueStatus": "pending"
+      }
+    },
+    {
+      "input": {
+        "name": "hk-at-midnight",
+        "value": "2026-10-30",
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": "2026-10-30",
+        "retentionDueStatus": "due"
+      }
+    },
+    {
+      "input": {
+        "name": "date-converted-in-hk",
+        "value": {
+          "$date": "2026-10-29T16:00:00.000Z"
+        },
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": "2026-10-30",
+        "retentionDueStatus": "due"
+      }
+    },
+    {
+      "input": {
+        "name": "string-is-only-sliced",
+        "value": "not-a-date-more",
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": "not-a-date",
+        "retentionDueStatus": "pending"
+      }
+    },
+    {
+      "input": {
+        "name": "surrogate-slice-boundary",
+        "value": "123456789😀x",
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": "123456789\ud83d",
+        "retentionDueStatus": "due"
+      }
+    },
+    {
+      "input": {
+        "name": "string-not-trimmed",
+        "value": " 2026-10-30",
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": " 2026-10-3",
+        "retentionDueStatus": "due"
+      }
+    },
+    {
+      "input": {
+        "name": "invalid-date",
+        "value": {
+          "$date": "invalid"
+        },
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "error": {
+        "name": "RangeError",
+        "message": "Invalid time value"
+      }
+    },
+    {
+      "input": {
+        "name": "year-of-era",
+        "value": {
+          "$date": "0001-01-01T00:00:00.000Z"
+        },
+        "now": "2026-10-29T16:00:00.000Z"
+      },
+      "expected": {
+        "retentionDueDate": "1-01-01",
+        "retentionDueStatus": "due"
+      }
+    }
+  ],
+  "draftCases": [
+    {
+      "name": "ready-default",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "settled-explicit",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null,
+        "markAsSettled": true
+      },
+      "expected": {
+        "finalSettlementStatus": "settled-all",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "settled-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": null,
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "settled-retention",
+          "gateDecisionCode": "settled-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前非质保部分与质保金部分均已结清。",
+          "nextActionSummary": null
+        }
+      }
+    },
+    {
+      "name": "settled-before-unmet",
+      "input": {
+        "openFreezeDispute": true,
+        "retentionDue": {
+          "retentionDueDate": null,
+          "retentionDueStatus": "missing"
+        },
+        "departureDecision": null,
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null,
+        "markAsSettled": true
+      },
+      "expected": {
+        "finalSettlementStatus": "settled-all",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "settled-retention",
+        "retentionDueDate": null,
+        "retentionDueStatus": "missing",
+        "retentionRequirementSummary": null,
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": null,
+        "ruleExplanation": {
+          "currentStageStatus": "settled-retention",
+          "gateDecisionCode": "settled-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前非质保部分与质保金部分均已结清。",
+          "nextActionSummary": null
+        }
+      }
+    },
+    {
+      "name": "dispute-first",
+      "input": {
+        "openFreezeDispute": true,
+        "retentionDue": {
+          "retentionDueDate": null,
+          "retentionDueStatus": "missing"
+        },
+        "departureDecision": null,
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": null,
+        "retentionDueStatus": "missing",
+        "retentionRequirementSummary": "待重大争议收口",
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": null,
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "exception",
+          "blockingReasonCode": "freeze-dispute-pending",
+          "blockingReasonSummary": "当前冻结版本存在待仲裁争议，后续发放已进入受控暂停。",
+          "gateDecisionSummary": "当前暂不能进入质保金结算。",
+          "nextActionSummary": "请先完成冻结后争议仲裁，再复核质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "missing-due",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": null,
+          "retentionDueStatus": "missing"
+        },
+        "departureDecision": null,
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": null,
+        "retentionDueStatus": "missing",
+        "retentionRequirementSummary": "待补齐合同质保期届满日期、离职 / 特例结论明确、质保金到账",
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": null,
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "retention",
+          "blockingReasonCode": "retention-due-fact-missing",
+          "blockingReasonSummary": "当前有效合同条款缺少质保期届满日期，暂不能进入质保金结算。",
+          "gateDecisionSummary": "当前暂不能进入质保金结算。",
+          "nextActionSummary": "请先补齐当前有效合同条款的质保期届满日期，再复核质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "pending-due",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-10-31",
+          "retentionDueStatus": "pending"
+        },
+        "departureDecision": null,
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-10-31",
+        "retentionDueStatus": "pending",
+        "retentionRequirementSummary": "待质保期届满、离职 / 特例结论明确、质保金到账",
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": null,
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "retention",
+          "blockingReasonCode": "retention-due-pending",
+          "blockingReasonSummary": "当前质保期尚未届满。",
+          "gateDecisionSummary": "当前暂不能进入质保金结算。",
+          "nextActionSummary": "请待合同约定质保期届满后再复核质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "missing-departure",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": null,
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待离职 / 特例结论明确、质保金到账",
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": null,
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "exception",
+          "blockingReasonCode": "departure-exception-pending",
+          "blockingReasonSummary": "离职 / 特例结论尚未明确。",
+          "gateDecisionSummary": "当前暂不能进入质保金结算。",
+          "nextActionSummary": "请先创建当前有效离职 / 特例结论，再复核质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "confirmation-before-receipt",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "待确认",
+          "confirmationRequirementSummary": "﻿ 请确认责任承接  "
+        },
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "请确认责任承接",
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": "待确认",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "special-case",
+          "blockingReasonCode": "departure-confirmation-pending",
+          "blockingReasonSummary": "请确认责任承接",
+          "gateDecisionSummary": "当前涉及离职 / 特例限制，暂不能进入质保金结算。",
+          "nextActionSummary": "请先完成责任承接确认，再复核质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "empty-confirmation-is-ready",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "",
+          "confirmationRequirementSummary": "﻿ 　"
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "missing-receipt",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": null,
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待质保金到账",
+        "retentionReceiptSummary": null,
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "retention",
+          "blockingReasonCode": "retention-receipt-pending",
+          "blockingReasonSummary": "质保金尚未到账。",
+          "gateDecisionSummary": "当前暂不能进入质保金结算。",
+          "nextActionSummary": "请财务确认质保金到账后再复核。"
+        }
+      }
+    },
+    {
+      "name": "review",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": " REVIEW-PENDING ",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待经营依据复核完成",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "review-retention",
+          "blockingReasonCategory": "operating-risk",
+          "blockingReasonCode": "final-gate-review-pending",
+          "blockingReasonSummary": "当前经营依据仍待复核，暂不能进入质保金结算。",
+          "gateDecisionSummary": "当前待补条件，暂不能进入质保金结算。",
+          "nextActionSummary": "请先完成经营核算复核，再处理质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "block-wins-review",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "review",
+        "gateReviewDecision": "block-risk",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待经营依据复核完成",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "operating-risk",
+          "blockingReasonCode": "final-gate-blocked",
+          "blockingReasonSummary": "当前经营依据已阻断质保金结算。",
+          "gateDecisionSummary": "当前已被经营风险阻断，暂不能进入质保金结算。",
+          "nextActionSummary": "请先完成经营核算复核，再处理质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "custom-review-text",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "review",
+        "gateReviewBlockingReasonCode": "﻿ custom-code ",
+        "gateNextActionSummary": " 先补依据　"
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待经营依据复核完成",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "review-retention",
+          "blockingReasonCategory": "operating-risk",
+          "blockingReasonCode": "custom-code",
+          "blockingReasonSummary": "当前经营依据仍待复核，暂不能进入质保金结算。",
+          "gateDecisionSummary": "当前待补条件，暂不能进入质保金结算。",
+          "nextActionSummary": "先补依据"
+        }
+      }
+    },
+    {
+      "name": "empty-review-text-fallback",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "review",
+        "gateReviewBlockingReasonCode": "﻿ ",
+        "gateNextActionSummary": "　"
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待经营依据复核完成",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "review-retention",
+          "blockingReasonCategory": "operating-risk",
+          "blockingReasonCode": "final-gate-review-pending",
+          "blockingReasonSummary": "当前经营依据仍待复核，暂不能进入质保金结算。",
+          "gateDecisionSummary": "当前待补条件，暂不能进入质保金结算。",
+          "nextActionSummary": "请先完成经营核算复核，再处理质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "nonprefix-not-blocked",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "blockade",
+        "gateReviewDecision": "reviewing",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "unicode-k-lowercase",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "360.00",
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "BLOCK",
+        "gateReviewDecision": null,
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "waiting-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "待经营依据复核完成",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 360.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "blocked-retention",
+          "gateDecisionCode": "block-retention",
+          "blockingReasonCategory": "operating-risk",
+          "blockingReasonCode": "final-gate-blocked",
+          "blockingReasonSummary": "当前经营依据已阻断质保金结算。",
+          "gateDecisionSummary": "当前已被经营风险阻断，暂不能进入质保金结算。",
+          "nextActionSummary": "请先完成经营核算复核，再处理质保金结算。"
+        }
+      }
+    },
+    {
+      "name": "receipt-string-preserved",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": "000360.0",
+          "receiptDate": {
+            "$date": "2026-10-29T15:59:59.999Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-29 / 000360.0",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-number-0",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": 0,
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 0.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-number-1",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": 0,
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 0.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-number-2",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": 1.005,
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 1.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-number-3",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": 2.675,
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 2.67",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-number-4",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": -1.005,
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / -1.00",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-number-5",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": 1e+21,
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / 1e+21",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    },
+    {
+      "name": "receipt-nan",
+      "input": {
+        "openFreezeDispute": false,
+        "retentionDue": {
+          "retentionDueDate": "2026-04-14",
+          "retentionDueStatus": "due"
+        },
+        "departureDecision": {
+          "decisionSummary": "允许进入质保金结算",
+          "confirmationRequirementSummary": null
+        },
+        "retentionReceipt": {
+          "receiptAmount": {
+            "$number": "NaN"
+          },
+          "receiptDate": {
+            "$date": "2026-10-29T16:00:00.000Z"
+          }
+        },
+        "gateBindingAction": "prompt",
+        "gateReviewDecision": "allow-retention",
+        "gateReviewBlockingReasonCode": null,
+        "gateNextActionSummary": null
+      },
+      "expected": {
+        "finalSettlementStatus": "pending-retention-settlement",
+        "nonRetentionSettlementStatus": "settled-non-retention",
+        "retentionSettlementStatus": "ready-retention",
+        "retentionDueDate": "2026-04-14",
+        "retentionDueStatus": "due",
+        "retentionRequirementSummary": "当前质保金已具备结算条件",
+        "retentionReceiptSummary": "质保金到账：2026-10-30 / NaN",
+        "departureExceptionSummary": "允许进入质保金结算",
+        "ruleExplanation": {
+          "currentStageStatus": "ready-retention",
+          "gateDecisionCode": "allow-retention",
+          "blockingReasonCategory": null,
+          "blockingReasonCode": null,
+          "blockingReasonSummary": null,
+          "gateDecisionSummary": "当前质保金已到账，且无重大争议，可进入质保金结算。",
+          "nextActionSummary": "请提交质保金结算审批并登记发放。"
+        }
+      }
+    }
+  ]
+}

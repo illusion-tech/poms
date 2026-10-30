@@ -321,6 +321,24 @@ pub async fn flush_managed_session(
     connection: &mut PgConnection,
     pending: &SessionFlush,
 ) -> Result<(), sqlx::Error> {
+    flush_managed_session_with_updated_at(connection, pending, None).await
+}
+
+/// L's original UoW samples onUpdate while computing changes, before any SQL
+/// groups run. Existing callers retain their clock sample at the bind stage.
+pub async fn flush_managed_session_at(
+    connection: &mut PgConnection,
+    pending: &SessionFlush,
+    updated_at: DateTime<Utc>,
+) -> Result<(), sqlx::Error> {
+    flush_managed_session_with_updated_at(connection, pending, Some(updated_at)).await
+}
+
+async fn flush_managed_session_with_updated_at(
+    connection: &mut PgConnection,
+    pending: &SessionFlush,
+    updated_at: Option<DateTime<Utc>>,
+) -> Result<(), sqlx::Error> {
     let changes = &pending.changes;
     let row=sqlx::query("UPDATE poms.auth_session SET \
         status=CASE WHEN $1 THEN $2 ELSE status END,\
@@ -340,7 +358,7 @@ pub async fn flush_managed_session(
         .bind(changes.last_ip.is_some()).bind(changes.last_ip.as_ref().and_then(|ip|ip.as_deref()))
         .bind(changes.revoked_at.is_some()).bind(changes.revoked_at.flatten())
         .bind(changes.revoked_reason.is_some()).bind(changes.revoked_reason.flatten().map(|reason|reason.as_str()))
-        .bind(clock_now()).bind(pending.id).bind(pending.expected_version)
+        .bind(updated_at.unwrap_or_else(clock_now)).bind(pending.id).bind(pending.expected_version)
         .fetch_optional(connection).await?;
     if row.is_none() {
         return Err(sqlx::Error::Protocol(

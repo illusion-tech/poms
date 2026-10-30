@@ -397,3 +397,10 @@
 - [K与R4两参数联合G3](rust-r2k-g3-review01.json)：实际验收、主区保全与固定提交已核；G4完成，见归档收口。
 
 - [K与R4两参数G4收口](archive/slices/rust-r2k-closeout.md)：#78/#83已关闭，104/108；[证据索引](rust-r2k-evidence-index.json)保留原始与增量路径。
+
+- [L四操作与两业务号lookup联合基线候选](rust-r2l-lookup-baseline.md)：#79/#84，联合G1 Pass，实施/验收/G3/G4待完成，仍104/108。
+
+
+### 2026-10-30 L 与两业务号 lookup 联合 G3
+
+RUST-R2L-LOOKUP 联合 G3 已通过，[非作者决定](rust-r2l-g3-review01.json)绑定[冻结验收](rust-r2l-validation.json)与[完整保全](rust-r2l-preservation.json)。原失败、四项 SQL wire 覆盖边界、54 ignored 与 source07 的有限路径复用均保留；不认领整个 R3–R5、部署或性能。当前仍 Doing、104/108，固定提交、main 集成、归档及在线 G4 待完成；只有实际 L G4 后可108/108，R2M及父#67/#57继续Open，#61按自身全部条件收口。

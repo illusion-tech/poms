@@ -857,7 +857,7 @@ export class ProjectApi extends BaseService {
 
     /**
      * 按项目编码获取项目详情
-     * @endpoint get /api/projects/code/{projectNo}
+     * @endpoint get /api/projects:lookup
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -871,6 +871,17 @@ export class ProjectApi extends BaseService {
         if (projectNo === null || projectNo === undefined) {
             throw new Error('Required parameter projectNo was null or undefined when calling projectControllerGetByCode.');
         }
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'projectNo',
+            <any>projectNo,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -899,11 +910,12 @@ export class ProjectApi extends BaseService {
             }
         }
 
-        let localVarPath = `/api/projects/code/${this.configuration.encodeParam({name: "projectNo", value: projectNo, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/projects:lookup`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ProjectSummary>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

@@ -1,7 +1,8 @@
 //! The seven existing approval support tables. This module exposes internal
-//! services only; the four original approval HTTP operations remain unwired.
+//! services only; the four original HTTP operations use the approval adapter.
 //! Original TS services, contracts and migrations own the behavior.
 
+mod domain_schema;
 mod error;
 pub mod js;
 pub mod model;
@@ -23,3 +24,4 @@ pub use service::{
 };
 pub use session::EntityHandle;
 pub use session::{ApprovalDomainHandler, CommonSession, CommonState, DomainDecisionOutcome};
+pub use session::{CommonFlushFuture, CommonFlushParticipant};

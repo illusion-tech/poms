@@ -1,6 +1,6 @@
 {
     "formatVersion": 1,
-    "sourceHead": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+    "sourceHead": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
     "fingerprint": "SHA256 of UTF-8 text after CRLF-to-LF only; output normalization is separately defined by the legacy PS oracle",
     "generator": {
         "version": "7.20.0",
@@ -12,7 +12,7 @@
     "protectedSources": [
         {
             "file": "libs/shared/api-spec/openapi.json",
-            "sha256": "d41072377a822ac428faa39880f72f79c13b09f216fe74e32b68ea7f9d554f77"
+            "sha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
         },
         {
             "file": "tools/openapi/typescript-angular.config.json",
@@ -108,12 +108,12 @@
             "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
             "/api/contract-term-snapshots/{id}",
             "/api/contracts",
-            "/api/contracts/no/{contractNo}",
             "/api/contracts/{contractId}/receipt-records",
             "/api/contracts/{id}",
             "/api/contracts/{id}/approval-record",
             "/api/contracts/{id}:activate",
             "/api/contracts/{id}:submitReview",
+            "/api/contracts:lookup",
             "/api/cost-stage-attributions/{id}",
             "/api/cost-stage-attributions/{id}:reclassify",
             "/api/customer-aliases/{id}",
@@ -226,7 +226,6 @@
             "/api/project-operating-snapshots",
             "/api/project-operating-snapshots/{id}",
             "/api/projects",
-            "/api/projects/code/{projectNo}",
             "/api/projects/{id}",
             "/api/projects/{id}:reassignOwner",
             "/api/projects/{projectId}/acceptance-records",
@@ -263,6 +262,7 @@
             "/api/projects/{projectId}/unified-accounting",
             "/api/projects/{projectId}/variance-risk-explanation",
             "/api/projects/{projectId}/workspace-guidance",
+            "/api/projects:lookup",
             "/api/receipt-records/{id}:confirm",
             "/api/sales-discovery-records",
             "/api/sales-discovery-records/{id}",
@@ -470,7 +470,7 @@
             },
             {
                 "method": "get",
-                "path": "/api/contracts/no/{contractNo}",
+                "path": "/api/contracts:lookup",
                 "operationId": "ContractController_getByNo"
             },
             {
@@ -910,7 +910,7 @@
             },
             {
                 "method": "get",
-                "path": "/api/projects/code/{projectNo}",
+                "path": "/api/projects:lookup",
                 "operationId": "ProjectController_getByCode"
             },
             {

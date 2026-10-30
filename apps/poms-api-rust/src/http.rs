@@ -187,6 +187,7 @@ pub fn openapi() -> serde_json::Value {
         crate::external_org_sync::http::openapi(),
         crate::attachment_storage::http::openapi(),
         crate::attachments::http::openapi(),
+        crate::approval::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -259,6 +260,7 @@ pub fn router_with_runtime_settings(
         state.database.clone(),
         attachment_storage.clone(),
     ));
+    let approval = crate::approval::ApprovalService::new(state.database.clone());
     let support = crate::provider_support::ProviderSupport::new(provider_settings);
     let directory = crate::external_org_sync::DirectoryAdapter::new(support.clone());
     let identity_providers =
@@ -319,7 +321,8 @@ pub fn router_with_runtime_settings(
                 auth.clone(),
                 attachment_storage,
             ))
-            .merge(crate::attachments::http::router(auth, attachments)),
+            .merge(crate::attachments::http::router(auth.clone(), attachments))
+            .merge(crate::approval::http::router(auth, approval)),
         cors_origins,
     )
 }
@@ -368,6 +371,7 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
             crate::attachment_storage::http::normalize_uri,
         ))
         .layer(middleware::from_fn(crate::attachments::http::normalize_uri))
+        .layer(middleware::from_fn(crate::approval::http::normalize_uri))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
 }

@@ -1,0 +1,187 @@
+--- a/tools/rust-r2l/fixture-core.mjs
++++ b/tools/rust-r2l/fixture-core.mjs
+@@ -4,6 +4,8 @@
+ import { authority } from './catalog-complete.mjs';
+ import { marker, databaseFor } from './fixture-guard.mjs';
+ import { commissionIdentities } from './fixture-commission-policy.mjs';
++import { profileFromEnvironment, assertProfileCertificateEnvelope } from './l-todo-profile-candidate.mjs';
++export const fixtureProfile = profileFromEnvironment(process.env);
+ 
+ export const canonical = (value) => Object.prototype.toString.call(value) === '[object Date]' ? value.toISOString() : Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonical(value[key])])) : value;
+ export const digest = (value) => createHash('sha256').update(JSON.stringify(canonical(value))).digest('hex');
+@@ -26,12 +28,12 @@
+     approval_record: ['approval_type', 'business_domain', 'target_object_type', 'target_object_id', 'project_id', 'initiator_user_id'],
+     todo_item: ['source_type', 'source_id', 'todo_type', 'business_domain', 'target_object_type', 'target_object_id', 'project_id'],
+     contract: ['project_id', 'contract_no', 'created_by'], project: ['project_no', 'created_by'], customer: ['customer_no', 'created_by'],
++    ...commissionIdentities, ...fixtureProfile.additionalIdentities
+-    ...commissionIdentities
+ }).map(([table, fields]) => [table, Object.freeze(fields)])));
+ export const columns = new Map(authority.tables.map((table) => [table.name, new Map(table.columns.map((column) => [column.name, column]))]));
+ export const supportedTables = Object.freeze(Object.keys(identities).sort());
+ export const unsupportedTables = Object.freeze(authority.tables.map((table) => table.name).filter((table) => !Object.hasOwn(identities, table)).sort());
++assert.equal(supportedTables.length, fixtureProfile.supportedTableCount); assert.equal(unsupportedTables.length, 107 - fixtureProfile.supportedTableCount);
+-assert.equal(supportedTables.length, 40); assert.equal(unsupportedTables.length, 67);
+ for (const [table, fields] of Object.entries(identities)) {
+     assert.deepEqual(authority.tables.find((entry) => entry.name === table)?.primaryKey.columns, ['id'], 'Only reviewed UUID-id tables admitted: ' + table);
+     assert(fields.every((field) => columns.get(table)?.has(field)), 'Unknown immutable field: ' + table);
+@@ -64,6 +66,7 @@
+     return { caseId, requestId: 'r2l:' + uuid(runId) + ':' + createHash('sha256').update(caseId).digest('hex').slice(0, 12), userAgent: 'poms-r2l-fixture/' + uuid(runId) };
+ }
+ export function assertCreationProof(journal, item, intent) {
++    assertProfileCertificateEnvelope(item, fixtureProfile);
+     assert(Object.hasOwn(identities, item.table), 'unsupported_fixture_table: ' + item.table);
+     assert.equal(item.table, intent.table);
+     const proof = item.proof, context = proof?.createContext;
+@@ -74,6 +77,7 @@
+     assert(!intent.beforeIds.includes(uuid(item.id)), 'Generated row was present before create');
+     const authority = journal.authorities.find((entry) => entry.id === item.authorityId);
+     assert(authority && authority.kind === proof.kind, 'Unregistered creation authority');
++    assertProfileCertificateEnvelope(authority, fixtureProfile);
+     assert.equal(authority.database, databaseFor(journal.backend));
+     assert.equal(authority.marker, marker);
+     if (proof.kind === 'mikro-orm-afterCreate-outer-commit') {
+--- a/tools/rust-r2l/fixture-journal.mjs
++++ b/tools/rust-r2l/fixture-journal.mjs
+@@ -5,14 +5,16 @@
+ import { databaseFor, marker, sourceHead } from './fixture-guard.mjs';
+ import { assertCreationProof, digest, identities, uuid, SEED_ACTORS } from './fixture-core.mjs';
+ import { canonicalDefinitions } from './fixture-commission-policy.mjs';
++import { fixtureProfile } from './fixture-core.mjs';
++import { stampProfileJournal, assertProfileJournal, validateSalesAnchorScope } from './l-todo-profile-candidate.mjs';
+ 
+ export function plannedJournal(backend, runId) {
+     assert(['nest', 'rust'].includes(backend));
++    return stampProfileJournal({ formatVersion: 1, fixtureSourceEpoch: 2, namespace: 'poms-r2l', marker, sourceHead, database: databaseFor(backend), backend, runId: uuid(runId), revision: 0,
++        state: 'planned', cases: [], objects: [], intents: [], directCreates: [], committedCreates: [], authorities: [], mutations: [], borrowed: { definitions: [] }, base: null, basePreparationConfig: null, preparedBatches: [], cleanup: [] }, fixtureProfile);
+-    return { formatVersion: 1, fixtureSourceEpoch: 2, namespace: 'poms-r2l', marker, sourceHead, database: databaseFor(backend), backend, runId: uuid(runId), revision: 0,
+-        state: 'planned', cases: [], objects: [], intents: [], directCreates: [], committedCreates: [], authorities: [], mutations: [], borrowed: { definitions: [] }, base: null, basePreparationConfig: null, preparedBatches: [], cleanup: [] };
+ }
+ export function validateJournal(journal, backend, runId) {
++    assert(journal && journal.formatVersion === 1); assertProfileJournal(journal, fixtureProfile);
+-    assert(journal && journal.formatVersion === 1 && journal.namespace === 'poms-r2l');
+     assert.equal(journal.runId, uuid(runId)); assert.equal(journal.backend, backend); assert.equal(journal.database, databaseFor(backend));
+     assert.equal(journal.marker, marker); assert.equal(journal.sourceHead, sourceHead);
+     assert(Number.isSafeInteger(journal.revision) && journal.revision >= 0);
+@@ -60,10 +62,16 @@
+             assert(intent); assertCreationProof(journal, certificate, intent);
+         }
+     }
++    if (fixtureProfile.name === 'todo42') for (const scope of journal.cases.filter(scope => scope.caseId !== 'base')) validateSalesAnchorScope(journal, scope);
+     return journal;
+ }
+ function assertStablePlans(previous, next) {
+     if (!previous) return;
++    assertProfileJournal(previous, fixtureProfile); assertProfileJournal(next, fixtureProfile);
++    if (fixtureProfile.name === 'todo42') for (const scope of previous.cases.filter(scope => scope.caseId !== 'base')) {
++        const current = next.cases.find(item => item.caseId === scope.caseId); assert(current);
++        for (const key of ['ownedCustomerIds','ownedLeadIds','salesProjectCustomers']) assert.equal(digest(current[key]), digest(scope[key]), 'Immutable explicit sales anchors changed');
++    }
+     if (previous.basePreparationConfig) assert.equal(digest(previous.basePreparationConfig), digest(next.basePreparationConfig), 'Immutable planned viewer configuration changed');
+     if (previous.borrowed.definitions.length) assert.equal(digest(previous.borrowed.definitions), digest(next.borrowed.definitions), 'Readonly definition before snapshot changed');
+     for (const plan of previous.preparedBatches ?? []) {
+--- a/tools/rust-r2l/fixture-references.mjs
++++ b/tools/rust-r2l/fixture-references.mjs
+@@ -2,6 +2,8 @@
+ import { authority, frozenTables, ident, verifyFullCatalog } from './catalog-complete.mjs';
+ import { columns, digest, identities, normalize, rowIdentity, rowKey, sameIdentity, uuid, uuidKey, SEED_ACTORS } from './fixture-core.mjs';
+ import { canonicalDefinitions, projectParentEdges, summaryTargetTables } from './fixture-commission-policy.mjs';
++import { fixtureProfile } from './fixture-core.mjs';
++import { assertTodo42SalesScope, assertTodo42CurrentSalesClosure } from './l-todo-profile-candidate.mjs';
+ 
+ export function uuidReferences(value, path = []) {
+     if (typeof value === 'string') {
+@@ -65,6 +67,7 @@
+     const actors = new Set([...scope.actors, ...scope.borrowedActors]);
+     const actor = row.created_by ?? row.operator_id ?? row.actor_id ?? row.initiator_user_id ?? row.reviewer_user_id ?? null;
+     if (actor !== null) assert(actors.has(uuid(actor)), 'Row actor is outside the real case');
++    if (assertTodo42SalesScope({ profile: fixtureProfile, journal, table, row, scope, additional })) return;
+     if (table === 'project' || table === 'lead' || table === 'customer') {
+         assert(scope.actors.includes(uuid(row.created_by)), 'Root facts require an owned case initiator');
+         return;
+@@ -119,6 +122,7 @@
+         const current = await selectId(client, object.table, object.id, lock);
+         if (current) { assert(sameIdentity(object.table, current.row, object.identity)); found.set(rowKey(object.table, current.row), current.row); }
+     }
++    assertTodo42CurrentSalesClosure(journal, found, fixtureProfile);
+     return { catalog, found, tablesScanned: frozenTables.length, scanDigest: digest(scanned) };
+ }
+ export function deletionGraph(journal, rows) {
+--- a/tools/rust-r2l/l-fixture.mjs
++++ b/tools/rust-r2l/l-fixture.mjs
+@@ -12,6 +12,8 @@
+ import { plannedBase, baseRows, viewerPermissionPlan, readCanonicalDefinitions, readSeedPrincipals, assertSeedUnchanged } from './fixture-users.mjs';
+ import { validateCommissionPreparedPlan, verifyPreparedPhysicalDefaults } from './fixture-prepared.mjs';
+ import { cleanup } from './fixture-cleanup.mjs';
++import { fixtureProfile } from './fixture-core.mjs';
++import { creationEnvelope, salesAnchorOptions, bindSalesProjectCustomers, validateSalesAnchorScope, assertProfileCertificateEnvelope, assertTodo42SalesScope, assertTodo42CandidateSalesClosure, assertPreparedSalesOnly } from './l-todo-profile-candidate.mjs';
+ const root = fileURLToPath(new URL('../../', import.meta.url));
+ const copy = (value) => structuredClone(value);
+ 
+@@ -31,9 +33,11 @@
+     get actors() { assert(this.j.base); return Object.fromEntries(this.j.base.accounts.map((entry) => [entry.account, entry.userId])); }
+     get base() { assert(this.j.base); return copy({ accounts: this.j.base.accounts, roles: this.j.base.roles, orgs: this.j.base.orgs }); }
+     get supportedTables() { return supportedTables; }
++    get fixtureProfile() { return fixtureProfile; }
++    creationEnvelope(value) { return creationEnvelope(value, fixtureProfile); }
+     get unsupportedTables() { return unsupportedTables; }
+     scope(caseId) { const scope = this.j.cases.find((entry) => entry.caseId === caseId); assert(scope, 'Unknown case'); return scope; }
++    defineCase(caseId, { actors = [], projects = [], borrowedActors = [], borrowedDefinitions = [], anonymous = false, ownedCustomerIds = [], ownedLeadIds = [] } = {}) {
+-    defineCase(caseId, { actors = [], projects = [], borrowedActors = [], borrowedDefinitions = [], anonymous = false } = {}) {
+         assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');
+         const identity = caseIdentity(this.runId, caseId);
+         const has = (table, id) => this.j.objects.some((entry) => entry.table === table && entry.id === uuid(id));
+@@ -42,6 +46,8 @@
+         assert(borrowedActors.every((id) => SEED_ACTORS.includes(uuid(id))) && (!borrowedActors.length || this.j.borrowed.principalSnapshot));
+         assert(borrowedDefinitions.every((id) => this.j.borrowed.definitions.some((entry) => entry.id === uuid(id) && entry.readOnly && entry.fullRowSha256 === digest(entry.row))), 'Definition must already have a complete readonly before snapshot');
+         const scope = { ...identity, actors: actors.map(uuid), projects: projects.map(uuid), borrowedActors: borrowedActors.map(uuid), borrowedDefinitions: borrowedDefinitions.map(uuid), anonymous: !!anonymous };
++        if (fixtureProfile.name === 'todo42') { Object.assign(scope, salesAnchorOptions({ ownedCustomerIds, ownedLeadIds })); scope.salesProjectCustomers = bindSalesProjectCustomers(this.j, scope); validateSalesAnchorScope(this.j, scope); }
++        else assert(ownedCustomerIds.length === 0 && ownedLeadIds.length === 0, 'Sales anchor options require explicit todo42 profile');
+         for (const key of ['actors', 'projects', 'borrowedActors', 'borrowedDefinitions']) assert.equal(new Set(scope[key]).size, scope[key].length);
+         assert(scope.actors.length || scope.borrowedActors.length || scope.anonymous);
+         const previous = this.j.cases.find((entry) => entry.caseId === caseId);
+@@ -95,6 +101,7 @@
+     }
+     async preflight() { await assertSeedUnchanged(this.client, this.j); const result = await scanReferences(this.client, this.j); return { catalog: result.catalog, tablesScanned: result.tablesScanned, scanDigest: result.scanDigest }; }
+     sourceAuthority(receipt) {
++        assertProfileCertificateEnvelope(receipt, fixtureProfile);
+         assert.equal(receipt.runId, this.runId); assert.equal(receipt.backend, this.backend);
+         assert.equal(receipt.database, databaseFor(this.backend)); assert.equal(receipt.marker, marker);
+         assert.equal(receipt.id, uuid(receipt.id));
+@@ -123,6 +130,7 @@
+     }
+     async intent(table, selector, { caseId }) {
+         assert.equal(this.j.state, 'prepared'); const scope = this.scope(caseId); selector = normalize(table, selector);
++        assertPreparedSalesOnly(table, selector, fixtureProfile);
+         assert(Object.keys(selector).length && Object.keys(selector).every((key) => identities[table].includes(key)), 'Intent selector must contain only immutable fields');
+         if (['customer', 'project'].includes(table)) assert(scope.actors.includes(uuid(selector.created_by)));
+         else if (table === 'auth_session') assert([...scope.actors, ...scope.borrowedActors].includes(uuid(selector.user_id)));
+@@ -195,13 +203,15 @@
+     }
+     #admit(item, additional = []) {
+         const scope = this.scope(item.caseId); assertNotBorrowed(this.j, item.id);
++        if (fixtureProfile.name === 'todo42' && item.proof.kind !== 'direct-committed-insert') assertPreparedSalesOnly(item.table, item.row, fixtureProfile);
+         if (item.caseId === 'base') {
+             const plan = this.j.base.rows.find((entry) => entry.table === item.table && entry.values.id === item.id);
+             assert(plan && identities[item.table].every((field) => digest(item.row[field] ?? null) === digest(plan.values[field] ?? null)));
+         } else { assertRowReferences(this.j, item.table, item.row, scope, additional); assertCaseScope(this.j, item.table, item.row, scope, additional); }
+         const previous = this.j.objects.find((entry) => entry.table === item.table && entry.id === item.id);
+         if (previous) { assert.equal(digest(previous.identity), digest(item.identity)); assert.equal(digest(previous.creationProof), digest(item.proof)); return; }
++        const nullableSalesRoot = fixtureProfile.name === 'todo42' && item.row.project_id == null && (item.table === 'sales_follow_up_record' || (item.table === 'todo_item' && item.row.source_type === 'sales-follow-up-record'));
++        const projectIds = item.caseId === 'base' || nullableSalesRoot || ['auth_session', 'audit_log', 'security_event', 'customer', 'commission_rule_version'].includes(item.table) ? [] : resolveOwnedProjectIds(this.j, item.table, item.row, { additional });
+-        const projectIds = item.caseId === 'base' || ['auth_session', 'audit_log', 'security_event', 'customer', 'commission_rule_version'].includes(item.table) ? [] : resolveOwnedProjectIds(this.j, item.table, item.row, { additional });
+         const projectId = projectIds.length === 1 ? projectIds[0] : null;
+         this.j.objects.push({ table: item.table, id: item.id, caseId: item.caseId, projectId, projectIds, identity: item.identity, creationProof: copy(item.proof), postcondition: item.postcondition });
+         if (item.table === 'project' && !scope.projects.includes(item.id)) scope.projects.push(item.id);
+@@ -293,8 +303,11 @@
+         assertRowReferences(this.j, table, values, this.scope(object.caseId));
+         await this.client.query('begin'); let change;
+         try {
++            await assertSeedUnchanged(this.client, this.j); const mutationScan = await scanReferences(this.client, this.j, { lock: true });
+-            await assertSeedUnchanged(this.client, this.j); await scanReferences(this.client, this.j, { lock: true });
+             const before = await selectId(this.client, table, id, true); assert(before && sameIdentity(table, before.row, object.identity));
++            const candidate = { ...before.row, ...values };
++            assertTodo42SalesScope({ profile: fixtureProfile, journal: this.j, table, row: candidate, scope: this.scope(object.caseId) });
++            assertTodo42CandidateSalesClosure(this.j, mutationScan.found, table, candidate, fixtureProfile);
+             const transaction = (await this.client.query('select pg_current_xact_id()::text as xid')).rows[0].xid;
+             change = { table, id: object.id, reason, values: copy(values), transaction, expectedXmin: String(BigInt(transaction) % 4294967296n), before: before.row, state: 'executing' };
+             this.j.mutations.push(change); this.save();

@@ -1,0 +1,322 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2L-LOOKUP-independent-G1-input-review",
+  "result": "Pass",
+  "reviewedAt": "2026-10-29T20:52:40Z",
+  "candidateEpoch": "04",
+  "sourceHead": "02b8956759352b2612bec5980cbe55ae77d0293f",
+  "branch": "codex/poms-r2l-lookup",
+  "reviewer": {
+    "task": "/root/l_lookup_review",
+    "role": "C / 独立非作者",
+    "productOrFixtureAuthorship": false,
+    "configuredRequest": {
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "forkTurns": "none"
+    },
+    "configurationEvidence": "Root 明确派发并报告创建工具接受上述配置；candidate01 保存三名子代理请求，live roster 确认 A/B/C 分立。此记录不推定不可观测的模型服务层实际配置。",
+    "Fast": "未核实；工具无独立 Fast 参数",
+    "originalPartialReviewer": "旧复用上下文只留下 Partial source review，不追认为本轮显式配置或 GatePass"
+  },
+  "gateMeaning": {
+    "G1": "Pass：epoch04 的联合设计与实施输入可冻结",
+    "actualOnlineFreeze": "Pending Root；本非作者没有调用或更新在线状态",
+    "beforeProductStart": [
+      "Root 保存本报告绑定的完整受审原字节及旧候选原件",
+      "Root 实际完成 #79/#84/#61 对应在线 G1 冻结并保留回执",
+      "仅按本报告批准的 Gate 元数据更新本地镜像并保存 before/after 指纹；输入业务语义不得变化"
+    ],
+    "G2NativeBeforeStore": "必需：新 Native SQL/事务/时钟/失败/并发校准之后，才冻结并实现生产 store 调度；此为已冻结实施顺序，不是已运行成果",
+    "S3BoundedReview": "必需：真实完整 export 形成精确 parameter/component 输入后，先独立短审，再创建永久 S3，之后原 CLI write/check",
+    "G3": "Pending",
+    "G4": "Pending",
+    "noAcceptanceOrDeploymentCertification": true
+  },
+  "reviewedInputs": [
+    {
+      "file": "docs/design/rust-r2l-lookup-baseline.md",
+      "bytes": 17990,
+      "rawBytesSha256": "ebbb6deb8e5684a1bfff5eced892842bfc4b6094d6aeff5f45cda2965d6f6a58",
+      "normalizedLfSha256": "ebbb6deb8e5684a1bfff5eced892842bfc4b6094d6aeff5f45cda2965d6f6a58",
+      "reading": "完整读 epoch01，随后逐次完整 diff 审查 epoch02/03/04；最终 hash/bytes 复核"
+    },
+    {
+      "file": "docs/adr/015-api-route-canonical-grammar.md",
+      "bytes": 17856,
+      "rawBytesSha256": "fb43482dbe9bf235de6d0ca29ea2247b99e43a657a28b133033c79a954f59e79",
+      "normalizedLfSha256": "fb43482dbe9bf235de6d0ca29ea2247b99e43a657a28b133033c79a954f59e79",
+      "reading": "原 §4.1–4.5 与新增 §4.2.1 全文、对 base 的增量"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 169667,
+      "rawBytesSha256": "5024ebe15311347f20455d3f36681b373ea443b874091cba6057a831d2b6a941",
+      "normalizedLfSha256": "5024ebe15311347f20455d3f36681b373ea443b874091cba6057a831d2b6a941",
+      "reading": "两 lookup 行、词汇表增量及全文件表格 cell-normalized semantic diff；除两行和明确新分类词外只有排版变化"
+    },
+    {
+      "file": "docs/design/rust-r2l/l-source-input.md",
+      "bytes": 25924,
+      "rawBytesSha256": "2e52c9d6e7139145bbd2fdeb1b35c4585c29da71b67b6522294153e38acf70a0",
+      "normalizedLfSha256": "2e52c9d6e7139145bbd2fdeb1b35c4585c29da71b67b6522294153e38acf70a0",
+      "reading": "完整"
+    },
+    {
+      "file": "docs/design/rust-r2l/l-sources.json",
+      "bytes": 214487,
+      "rawBytesSha256": "9e066798d3e3d2459c1d8a9907b5ce2ad4a987ff29d02feb7667382920e1c2c9",
+      "normalizedLfSha256": "f4e51fd21abcdb75ebc5a32b54fdc737e1f3280908a34290c5993c2b33a49d9a",
+      "reading": "结构化检查所有来源指纹及阅读等级；重点读 staticClosure/criticalArchitecture/ownership/completeness/validation，不声称276源全文独立深读"
+    },
+    {
+      "file": "docs/design/rust-r2lookup/lookup-input.md",
+      "bytes": 21847,
+      "rawBytesSha256": "82d33f7dccebaf0b889495ee3e424716ab246bde6c90458e382f6d92d9cf03be",
+      "normalizedLfSha256": "82d33f7dccebaf0b889495ee3e424716ab246bde6c90458e382f6d92d9cf03be",
+      "reading": "完整"
+    },
+    {
+      "file": "docs/design/rust-r2lookup/lookup-sources.json",
+      "bytes": 1154467,
+      "rawBytesSha256": "c79697e67fa7f77ef342adb169d5e77a8013a7cc6c4860e9f3544b82e0d3d1de",
+      "normalizedLfSha256": "c79697e67fa7f77ef342adb169d5e77a8013a7cc6c4860e9f3544b82e0d3d1de",
+      "reading": "结构化检查来源、完整spec/client/dependency指纹及allowlist/query/audit/consumer/ownership；不把哈希遍历当runtime验收"
+    }
+  ],
+  "priorEpochs": {
+    "preliminaryG0": {
+      "file": "docs/design/rust-r2l-lookup/g0-review.json",
+      "rawBytesSha256": "1af9f9ac9f2fbcb6b8be63bd8da6466ccc3e0e79919edcf2bddf20b54d9c7f5a",
+      "status": "Partial source review; no Gate decision；已核原件未变"
+    },
+    "candidate01Baseline": {
+      "file": "tmp/rust-r2l/baseline-reviewed-candidate01.md",
+      "rawBytesSha256": "a55016c5ab6286e40c24c58b85b2044caee417a6a97287a5ddd56a10cf0e69de"
+    },
+    "candidate01Canonical": {
+      "file": "tmp/rust-r2l/canonical-reviewed-candidate01.md",
+      "rawBytesSha256": "5ba3f7442e87f3973eb782367aae736ab13d30230f9a980153117e2eea8135ad"
+    },
+    "candidate02Baseline": {
+      "file": "tmp/rust-r2l/baseline-reviewed-candidate02.md",
+      "rawBytesSha256": "56606e41f7f51bb4f92e6d497abf99235463357ce38938f750d98fd4123b536d"
+    },
+    "candidate03Baseline": {
+      "file": "tmp/rust-r2l/baseline-reviewed-candidate03.md",
+      "rawBytesSha256": "32066a6266c2b17316d04a090f1f19ba22c6643a1b4845153c1b0fa26cb1c5a7"
+    },
+    "initialCandidateRecords": [
+      "tmp/rust-r2l/g1-candidate01.json",
+      "tmp/rust-r2l/g1-candidate-formatted01.json"
+    ],
+    "interpretation": "旧候选未获本报告 Pass；格式化前canonical fcb9…、格式化后5ba3…及后续5024…属不同epoch，不互相替代"
+  },
+  "correctedDuringReview": [
+    {
+      "id": "C-G1-01",
+      "priority": "P2 design input blocker",
+      "issue": "初候选 canonical/design method-path 字段混入 query 模板，与 B 正式输入及 OpenAPI path identity 不一致",
+      "resolution": "epoch02 统一为 GET /projects:lookup、GET /contracts:lookup；必填 query 进入 Action/DTO。新增 business-number-query-cutover 为本设计变更的准确分类。",
+      "status": "Closed before Pass"
+    },
+    {
+      "id": "C-G1-02",
+      "priority": "P2 design input blocker",
+      "issue": "baseline 将用户时区 Asia/Tokyo 与产品日期显示混写，可能令原 UTC+8 Todo 提醒偏移",
+      "resolution": "epoch03 明确业务date Asia/Hong_Kong、产品Todo固定UTC+8；仅验收报告展示时点使用用户Asia/Tokyo。",
+      "status": "Closed before Pass"
+    },
+    {
+      "id": "C-G1-03",
+      "priority": "P2 producer/ownership prerequisite",
+      "issue": "原 submit 在模块加载时固定两名 approver UUID；不能直接假定真实producer产出全部新owned actor",
+      "source": "ApprovalService:84–85,148,167,276,295,356,375；PlatformService.verifyCredentials:55–66；AuthSessionService.createSession:62–85",
+      "resolution": "epoch04 固定两principal只读借用，保留原producer输出；各新DB真实运行原producer，新initiator/org/project自有。user/credential/user-role/role-permission逐库不变，本批auth_session/audit另有before-absence/COMMIT/case证书；seed不进入owned/logical删除集合，credential完整值仅private。",
+      "status": "Closed before Pass"
+    }
+  ],
+  "frozenBoundaryReview": [
+    {
+      "id": "G0-L-01",
+      "result": "Satisfied at G1 input level",
+      "finding": "Contract/Payout/Adjustment原三分支及真实最小写集完整；合同批准仍pending-review，拒绝draft；payout nullish金额与批准字段清空原义；adjustment只改approved/rejected。支持组合不退化为unsupported/no-op。",
+      "authority": "baseline §1/§4/§5；A §5–8；ApprovalService:473–654"
+    },
+    {
+      "id": "G0-L-02",
+      "result": "Satisfied at G1 input level",
+      "finding": "旧apply签名保留，生产apply_with_session借同一CommonSession/CommonState。七表协议allowlist不扩，十五域按managed语义登记；Root一次消费auth participant与common/domain进入原同次change-set/flush协调，不将connection-only callback或三个末尾flush称等价。",
+      "sequence": "本批Native先校准组序/AUTO/两中途flush/失败/RETURNING/父对象，再定store。禁止另取连接、另行commit、未经事实新增FOR UPDATE或version WHERE。",
+      "authority": "baseline §5/§9；A §9；Rust session:72–105、service:474–533/913–953、store:339–410"
+    },
+    {
+      "id": "G0-L-03",
+      "result": "Satisfied at G1 input level",
+      "finding": "final/retention读取实际freeze、active binding/latest gate、due、receipt、departure、dispute；两current/version/supersedes链及中途em.flush已明确。retention approve不导入submit特有相等/nonRetention校验，不新增Confirmation gate；final只block，retention另review；当前approve不传markAsSettled，成功仍ready。",
+      "metadataCrossCheck": "独立读双snapshot、payout/adjustment实体，确认project/version unique、current partial unique、FK、rowVersion/hooks与numeric(18,2)；未宣称新PG实际catalog。",
+      "authority": "baseline §5/§9；A §6–8；ApprovalService:682–1108；settlement/date源"
+    },
+    {
+      "id": "G0-L-04",
+      "result": "Satisfied at G1 input level",
+      "finding": "详情三目标与Todo六目标真实enrichment；只当前assignee open/processing、createdAt ASC和原ties/数组、缺失null fallback、allowedActions、UTC+8提醒均冻结；不加owner/目标权限过滤或新一致性事务。",
+      "authority": "baseline §4；A §4；ApprovalService:398–470/1111–1251"
+    },
+    {
+      "id": "G0-LOOKUP-01",
+      "result": "Satisfied at G1 input level",
+      "finding": "明确新增ADR015 §4.2.1有限GET custom query，保UUID identity、两个operationId、exact业务号谓词和单对象/404。纯canonical method-path、root-scoped controller、literal colon、module注册、DTO及直接移除旧两URL均有边界。",
+      "query": "单required min1 string；不trim/coerce/casefold/Unicode normalize/UUID/max64；simple parser重复目标key拒绝，未知key strip；bracket-only缺目标拒绝，scalar+bracket用scalar；畸形percent/UTF8/NUL/长URL由实际Native有限校准，不预造统一400/404。",
+      "authority": "baseline §6；ADR015 §4.2.1；B §1–4"
+    },
+    {
+      "id": "G0-LOOKUP-02",
+      "result": "Satisfied at G1 input level",
+      "finding": "ProjectSummary与ContractDetailView不混用；原project/current snapshot、contract-finance敏感投影、准确target大小写/UUID/fieldKeys/batch审计均冻结。实际originalUrl优先并保query/编码，缺URL才用新constant fallback；GET auth/session/audit副作用保留。",
+      "responseBoundary": "全局Zod interceptor无response metadata即原样返回；ApiOkResponse不触发parse。本批无新增响应schema转换；输入仍由原具体Zod DTO解析。",
+      "authority": "baseline §4/§6；B §5；projection/request/runtime-audit helper及vendor serializer源"
+    },
+    {
+      "id": "GENERATION-S3",
+      "result": "Satisfied at G1 input level",
+      "finding": "保S2永久祖先；真实Node输入与完整export经非作者短审后创建永久S3，锚实际sourceHead再运行原CLI；六保护/worktree/index/untracked/hash不降低，原JAR/wrapper/config/legacy normalizer/package/lock/gitattributes保留。",
+      "acceptance": "291总operation、非目标289逐对象保护、原585schema逐名逐内容保护、path-item/top-level/其余components及579client全树。只有真实export产生时才允许两具名query component，经短审最小调整准确计数guard。",
+      "authority": "baseline §7；B §7/§8；原CLI loadBaseline/assertFrozenSources"
+    },
+    {
+      "id": "ENVIRONMENT-OWNERSHIP-PRESERVATION",
+      "result": "Satisfied at G1 input level",
+      "finding": "新namespace/datapair/role/marker/端口；原92迁移/full seed；107表/1778列/207FK与完整物理/逻辑UUID/text/JSON引用检查，均列实际待验。固定principals和canonical summary定义只读借用，新增行须before-absence+outer COMMIT+case证明；临时DDL先分类独审、回滚/还原catalog再清理；完整public输入与private边界明确。",
+      "preservation": "失败/partial/stopped/uncertified/ignored不回写；新源码、工具、binary/Native/UI及全部literal include形成真实运行capsule；Linux本地manifest+批量传输+独立tar逐成员/PAX验证，小增量另保全；旧namespace/PG17不变。",
+      "authority": "baseline §8–10；A §8/§10/§11；B §8"
+    }
+  ],
+  "independentChecks": [
+    {
+      "check": "最终七输入 raw bytes/hash 与 Root epoch04",
+      "result": "ran-and-passed",
+      "detail": "七件 bytes/raw 全匹配；A JSON 单独保留 CRLF-to-LF 指纹"
+    },
+    {
+      "check": "A/B 276/76来源 raw/LF复核",
+      "result": "ran-and-passed-with-explicit-design-epoch-deltas",
+      "detail": "产品/引用源0差异；A仅4、B仅5个已声明Root设计/治理doc epoch变化。没有把这些变化回写进作者base02 manifest，也不把它们称产品漂移。",
+      "changedGovernancePathsUnion": [
+        "docs/adr/015-api-route-canonical-grammar.md",
+        "docs/design/api-route-canonical-inventory.md",
+        "docs/design/backend-rust-migration-plan.md",
+        "docs/design/rust-r2-operation-slices.json",
+        "docs/design/rust-r2-scope-and-dependencies.md"
+      ],
+      "AAuthorReadGrades": {
+        "readComplete": 46,
+        "readFocused": 24,
+        "mechanicalAndFocused": 1,
+        "hashOnly": 205
+      },
+      "boundary": "上述是作者阅读等级，独立审查不冒称复制全部深读"
+    },
+    {
+      "check": "原完整spec独立逐对象复算",
+      "result": "ran-and-passed",
+      "node": "v24.19.0",
+      "paths": 237,
+      "operations": 291,
+      "nonTargetOperations": 289,
+      "schemas": 585,
+      "operationHashMismatches": 0,
+      "schemaHashMismatches": 0
+    },
+    {
+      "check": "原client全树与本地dependency来源",
+      "result": "ran-and-passed",
+      "clientFiles": 579,
+      "clientRecordedRows": 579,
+      "clientRawLfMismatches": 0,
+      "unrecordedTreeFiles": 0,
+      "dependencySources": 18,
+      "dependencyRawLfOrResolvedPathMismatches": 0,
+      "generatorExecuted": false
+    },
+    {
+      "check": "调用原loadBaseline/assertFrozenSources只读guard",
+      "result": "ran-and-passed",
+      "sourceHead": "ee0f4847cae292fe5cee1d1eec065b7194607683",
+      "protectedSources": 6,
+      "operationGuard": 291,
+      "schemaGuard": 585,
+      "generatorExecuted": false
+    },
+    {
+      "check": "受管及untracked产品/fixture/tool/依赖diff",
+      "result": "ran-and-passed",
+      "detail": "git status --short --untracked-files=all -- apps libs tools package.json pnpm-lock.yaml Cargo.toml Cargo.lock 为空；HEAD与分支匹配。仅既有Root设计/治理候选改动，C尚未写产品。"
+    },
+    {
+      "check": "git diff --check",
+      "result": "ran-and-passed",
+      "detail": "最终epoch04检查exit0"
+    },
+    {
+      "check": "Markdown",
+      "result": "ran-and-passed",
+      "detail": "C在epoch03运行全docs pnpm run format:md:check exit0；epoch04只改§8段落，C另运行原formatter --check baseline exit0。"
+    },
+    {
+      "check": "G0/在线关联来源",
+      "result": "read-receipt-only",
+      "receipt": "tmp/rust-r2l/g0-online.json",
+      "receiptRawBytesSha256": "ccbccc42a67d24b8ab3b804129dea0b479f14b87fcfdd5293b80b5d419dcca0a",
+      "detail": "#79；#84 native parent #61；G1 Pending。C未重新联网或修改Issue，正式在线G1由Root实际完成。"
+    }
+  ],
+  "reviewerSourceReadingBoundary": {
+    "focusedDirectReview": [
+      "ApprovalService原三分支、完整final/retention实际调用链、两snapshot写链、详情/Todo投影及固定approver producer点",
+      "Rust CommonSession/ApprovalDomainHandler、resolve调度、managed赋值与原flush入口",
+      "原Project/Contract controller与mapper、exact repository、request-context/runtime-audit路径优先级及敏感批事件",
+      "双snapshot、payout/adjustment、approval实体约束/version/hook；业务日期及receipt摘要算法",
+      "全局pipe/interceptor、共享approval DTO与vendor serializer metadata机制",
+      "原generator loadBaseline/assertFrozenSources、全spec/client逐对象/逐文件机械复算、消费者主store/调用扫描证据",
+      "POMS skills/governance summary、计划1.1/1.2、当前联合输入与治理增量"
+    ],
+    "notClaimed": [
+      "276个来源逐个全文独立深读",
+      "92迁移已在新PG执行或107/1778/207实际catalog已验",
+      "本批Native/Rust/HTTP/UI/并发/失败/保全已运行",
+      "作者配置请求即服务层实际Fast或模型运行度量",
+      "旧partial/历史L1/K成果替代本批实际验收"
+    ]
+  },
+  "approvalAndCompletionBoundaries": {
+    "L": "仅四既有公开操作加必要真实domain消费/写回和Todo facts，完整G4后才由104/108增至108/108",
+    "lookup": "#84是#61两lookup裁决与必要直接同步，0新增Rust R2/R3/R4业务operation",
+    "parentsRemainOpen": [
+      80,
+      67,
+      57
+    ],
+    "issue61": "仅在其全部lookup/canonical/实现/spec/client/consumer/验收及自身G4条件满足后可关闭",
+    "noProductionCloudPerformanceOrPG17Change": true
+  },
+  "openFindings": [],
+  "openPriorityCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "exceptionOrWaiver": "None；没有豁免实际Native/PG/UI、生成短审、共享回归、保全或G3/G4",
+  "mutations": {
+    "allowedOutputsOnly": [
+      "docs/design/rust-r2l-lookup-g1-review01.json",
+      "tmp/rust-r2l/g1-review01.json"
+    ],
+    "product": false,
+    "fixtureOrTool": false,
+    "databaseOrEnvironment": false,
+    "gitOrOnline": false,
+    "originalPartialOrCandidateRewritten": false,
+    "outputRequirement": "两份JSON同字节，新增后独立parse/hash验证；审查源或语义变化须新epoch/增量复核"
+  }
+}

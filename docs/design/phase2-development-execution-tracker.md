@@ -594,3 +594,18 @@ L1交付真实Summary、Confirmation/Todo及必选同事务callback的公共审�
 ### 2026-10-30 K 与 R4 两参数联合 G4 完成
 
 K [#78](https://github.com/illusion-tech/poms/issues/78)五业务及参数[#83](https://github.com/illusion-tech/poms/issues/83)已完成并关闭；代码候选`9e5d23c2a591ed934595f9c9dfe278bad5af821d`、独立固定提交与归档准备复核均通过，S2永久祖先保留。[归档收口](archive/slices/rust-r2k-closeout.md)、[实际在线回执](rust-r2k-online-g4.json)与[证据索引](rust-r2k-evidence-index.json)分列原字节及小增量。生命周期10件已移archive/slices，根机器索引长期保留；旧失败/partial/uncertified及54literal/3根来源补证、单EOF修正均保留各自时点。当前R2A–K累计 **104/108**，余 **L四公开操作及R2M验收**；真实域handler、两lookup、整个R4与父#61/#67/#57继续未完成，PG17与旧环境保留，无部署或性能结论。上方较早日期的G1/G3/99进度为历史时点，以本条和GitHub原生Issue为当前状态。
+
+
+### 2026-10-30 L四操作与业务号lookup联合 G0
+
+用户恢复授权本批完整G0–G4：L#79四操作＋必要真实合同/提成处理器及待办facts，与#84（父#61）两lookup裁决/必要切换并行。[联合基线候选](rust-r2l-lookup-baseline.md)待G1，当前产品未改，新隔离PG未启动。Root统共享架构/生成/Native验收与保全，A/B独占产品范围，C非作者审；子代理显式Sol6.1/max，Fast未核实。L1仅基础，不替代final/retention中途flush/双snapshot、真实待办与错误/时间语义。本批完整L G4后才可108/108，当前仍104/108，R2M及父#67/#57不关闭；#61按自己全部剩余条件收口。
+
+
+### 2026-10-30 L四操作与两lookup联合 G1冻结
+
+#79/#84按[联合基线](rust-r2l-lookup-baseline.md)于2026-10-29T20:55:31.950Z正式冻结，非作者[联合审查](rust-r2l-lookup-g1-review01.json)通过；原受审scope/inputs保全，Gate-only元数据另记。L覆盖实际三域分支、十五域/五写和原UoW/clock/中途flush，两个固定approver只读借用；lookup由#84按ADR补充直接切换纯GET :lookup与必填业务号query，UUID身份不变。新环境、实际Native校准/验收及G3/G4待执行，当前仍104/108；四L全G4后才108，R2M及父#67/#57保持未完成。
+
+
+### 2026-10-30 L 与两业务号 lookup 联合 G3
+
+RUST-R2L-LOOKUP 联合 G3 已通过，[非作者决定](rust-r2l-g3-review01.json)绑定[冻结验收](rust-r2l-validation.json)与[完整保全](rust-r2l-preservation.json)。原失败、四项 SQL wire 覆盖边界、54 ignored 与 source07 的有限路径复用均保留；不认领整个 R3–R5、部署或性能。当前仍 Doing、104/108，固定提交、main 集成、归档及在线 G4 待完成；只有实际 L G4 后可108/108，R2M及父#67/#57继续Open，#61按自身全部条件收口。

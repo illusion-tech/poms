@@ -1,0 +1,15 @@
+// Root orchestration: four paired, fresh variants. No shell command strings.
+import assert from 'node:assert/strict';import fs from 'node:fs';import{spawn}from'node:child_process';import{createHash}from'node:crypto';
+assert.equal(process.cwd(),'/home/wangzishi/projects/poms-rust-r2l');
+const file='tmp/rust-r2l/shared-uow-batch08-01.json';assert(!fs.existsSync(file));
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const pins=['l-shared-uow-actual.mjs','l-shared-uow-process.mjs','l-shared-uow-native.mjs','l-shared-uow-capture.mjs','l-shared-uow-measurements.mjs','native-app.mjs'].map(name=>{const file='tools/rust-r2l/'+name;return{file,rawBytesSha256:sha(fs.readFileSync(file))}});
+const report={kind:'bounded-fresh-four-variant-Native-Rust-UoW-batch',result:'running',startedAt:new Date().toISOString(),pins,steps:[],G3Certified:false};const save=()=>fs.writeFileSync(file,JSON.stringify(report,null,2)+'\n');save();
+try{for(const[code,variant]of[['sc','success-commit'],['sr','success-rollback'],['gr','gate-rollback'],['gc','gate-continue-commit']])for(const backend of['nest','rust']){
+ for(const pin of pins)assert.equal(sha(fs.readFileSync(pin.file)),pin.rawBytesSha256);
+ const tag='uow-'+backend[0]+'-'+code+'02',args=['tools/rust-r2l/l-shared-uow-actual.mjs',tag,backend,variant,'candidate08'];if(backend==='rust')args.push('tmp/rust-r2l/shared-uow-candidate08-binary-source.json','02ce51e544c48ef594f7632bc75685047af821d6c530bf56ded1caffcd742407');
+ const step={tag,backend,variant,result:'running',startedAt:new Date().toISOString()};report.steps.push(step);save();const env=Object.fromEntries(['PATH','HOME','LANG','WSL_INTEROP','WSLENV'].filter(k=>process.env[k]!==undefined).map(k=>[k,process.env[k]]));
+ const child=spawn(process.execPath,args,{cwd:process.cwd(),env,stdio:['ignore','pipe','pipe']}),output=createHash('sha256');child.stdout.on('data',b=>output.update(b));child.stderr.on('data',b=>output.update(b));step.exitCode=await new Promise((resolve,reject)=>{child.once('error',reject);child.once('close',resolve)});step.commandOutputSha256=output.digest('hex');
+ const ownerFile=`tmp/rust-r2l/shared-uow-${backend}-${tag}-owner.json`,raw=fs.readFileSync(ownerFile),owner=JSON.parse(raw);step.owner={file:ownerFile,rawBytesSha256:sha(raw)};assert.equal(step.exitCode,0);assert.equal(owner.exitCode,0);assert.equal(owner.result,'pass-bounded-variant-owner-not-cross-backend-equality');step.result='observed';step.finishedAt=new Date().toISOString();save();console.log(JSON.stringify({tag,backend,variant,result:'observed',completed:report.steps.length,total:8}));
+ }report.result='observed-eight-fresh-variants-not-cross-equality';
+}catch(error){report.result='stopped-on-first-failure';report.failure={name:error.name,message:error.message};if(report.steps.at(-1)?.result==='running')report.steps.at(-1).result='failed-or-incomplete';process.exitCode=1}finally{report.finishedAt=new Date().toISOString();save();console.log(JSON.stringify({result:report.result,file,completed:report.steps.filter(s=>s.result==='observed').length}))}

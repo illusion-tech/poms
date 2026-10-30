@@ -1,0 +1,271 @@
+{
+  "formatVersion": 1,
+  "kind": "preliminary-independent-g0-boundary-input",
+  "result": "Partial source review; no Gate decision",
+  "at": "2026-10-29T19:49:25.211Z",
+  "reviewer": "C (non-author; inherited context)",
+  "sourceHead": "02b8956759352b2612bec5980cbe55ae77d0293f",
+  "expectedBase": "02b8956759352b2612bec5980cbe55ae77d0293f",
+  "configurationBoundary": "本 agent 复用既有上下文；本轮没有显式 gpt-6.1-sol/max 独立上下文的配置回执，不据此宣称满足计划1.1/1.2。按 Root 指示落盘预审输入后停笔，由新显式配置非作者继续。",
+  "scope": {
+    "requested": "L 四公开操作、真实最小 domain writes/Todo 闭包，以及两个业务号 lookup 裁决/必要契约切换",
+    "notCertified": [
+      "正式 G0/G1",
+      "新环境或运行验收",
+      "整个合同/提成/R3–R5交付",
+      "父任务闭合",
+      "生成器新输入checkpoint或新客户端正确性"
+    ]
+  },
+  "designFreezeConditions": [
+    {
+      "id": "G0-L-01",
+      "priority": "P1 design prerequisite",
+      "status": "Open for joint G1",
+      "point": "三类真实 domain handler 必须完整，不能将已支持业务对伪装成 unsupported 或 no-op。",
+      "evidence": "ApprovalService 511–652",
+      "required": "合同 review approve 仍 pending-review/reject draft；payout approve 写 approvedAmount nullish fallback/approvedAt/approvedBy，reject 清空并 draft；adjustment approved/rejected。final/retention 对应真实快照写链必须纳入，unsupported 仅用于原实现本来不支持的 type/approval pair。"
+    },
+    {
+      "id": "G0-L-02",
+      "priority": "P1 design prerequisite",
+      "status": "Open for joint G1",
+      "point": "同连接回调不能自动代表共享 managed UoW 的中途 flush。",
+      "evidence": "approval_common/session.rs100–105；service.rs474–533/913–953；原 ApprovalService1014/1072",
+      "required": "G1明确 CommonSession/共享 flush 协作端口与 domain dirty 状态如何 enlist；callback 不得另取连接/自行 commit。Root先取得原Native SQL/事务/失败/版本 witness，再冻结 store 调度，覆盖 common approval/todo 与 domain/snapshot 在显式 flush 的顺序和整体回滚；不因复用L1就推定新组合已认证。"
+    },
+    {
+      "id": "G0-L-03",
+      "priority": "P1 design prerequisite",
+      "status": "Open for joint G1",
+      "point": "final/retention 需要真实事实读取和两条 current/version/supersedes 写链。",
+      "evidence": "ApprovalService682–978/980–1095",
+      "required": "冻结 current frozen role assignment、active final binding、handledAt/createdAt DESC gate review、ContractTermSnapshot.retentionDueDate、confirmed同project receipt、同freeze/current/active departure decision、confirmationRequirementSummary及open dispute的实际判断；冻结旧snapshot释放、新snapshot写入、金额/date/null/JS规则、约束失败与并发语义。仅实现这里实际调用的字段/读取，不顺带认证上游全域生产链。"
+    },
+    {
+      "id": "G0-L-04",
+      "priority": "P2 design prerequisite",
+      "status": "Open for joint G1",
+      "point": "Todo和approval详情有真实业务投影闭包，不是七公共表的直接序列化。",
+      "evidence": "ApprovalService398–470/1111–1251",
+      "required": "Todo覆盖contract/payout/adjustment/project/lead/customer和approval读取、只当前assignee open/processing、createdAt ASC原数组、missing关联null fallback、allowedActions原条件、sales-followup reminder UTC+8文本；详情覆盖三类targetTitle/targetStatus。不要静默加额外归属或状态过滤。"
+    },
+    {
+      "id": "G0-LOOKUP-01",
+      "priority": "P1 design prerequisite",
+      "status": "Open for joint G1",
+      "point": "业务号是唯一查询键，不是 UUID id 的参数别名。",
+      "evidence": "ADR015129–184；project.repository108–109；contract.repository38–39；canonical517/547",
+      "required": "正式裁决两条 canonical query surface，明确UUID canonical item identity保持、lookup输入来源/缺失/重复/空串/Unicode/URL解码/大小写及空白语义；当前源码为精确字段匹配，不能擅加trim/lower或把业务号送UUID查询。冻结具体DTO/404消息和旧route直接切换；alias必须另有真实获准例外。"
+    },
+    {
+      "id": "G0-LOOKUP-02",
+      "priority": "P1 design prerequisite",
+      "status": "Open for joint G1",
+      "point": "两个lookup响应与审计边界不同，不能合并成通用 id resolver 后默认复用另一投影。",
+      "evidence": "project.controller97–107/570–591；contract.controller59–84/158–268",
+      "required": "Project lookup原ProjectSummary而UUID详情走ProjectQueryService；Contract lookup原ContractDetailView并读取project/current term snapshot和财务字段敏感投影。保持project:read guard与原敏感masked/denied审计语义；新请求路径/上下文影响需显式裁决和验证，不漏掉GET的audit写副作用。"
+    }
+  ],
+  "g1RequiredEvidence": [
+    "主包精确四L路由＋两lookup裁决行、operation/DTO/guard/返回/错误/SSOT和排除项；当前104/108仅L完整G4后可108，R2M与父域不因此Done。",
+    "A/B原始source manifest与实际base blob；原业务分支/原公式/原查询字段及所有写表/关联依赖；不要求G1先跑新PG，但必须冻结G2 Native-before-store计划。",
+    "L1 mandatory handler＋共享事务/中途flush设计；common/domain期望版本、触发失败、CAS/多row更新及pending auth的真实见证计划。",
+    "有限真实矩阵：三supported pair双decision、payout普通/final/retention成功及关键事实拒绝、旧current替换/故障整体回滚、target缺失/unsupported、stale version/非assignee/guard与CSRF、详情/Todo多目标及missing fallback。排序/时间仅有证据的动态路径可归一。",
+    "lookup canonical、精确query输入、DTO/权限/敏感投影及audit上下文、200/不存在/非法/匿名/权限不足、旧URL不再作为未批准alias的验证计划。",
+    "本批新的永久生成input checkpoint（继承已永久S2而非复用其sourceHead）：先冻结确切controller/contracts/test/spec输入，focused实际检查＋独立短审后仅feature local commit；按原guard锚新spec，再原CLI write/check、全579tree与全非目标operation/components比较，checkpoint须最终永久祖先。精确受影响文件/非目标数量在正式输入中重算，不预设只改两个标签或只三个文件。",
+    "Root新隔离环境/DDL source catalog、完整incoming及UUID/text/JSON引用保护、提交证明与failure恢复、borrowed seed只读边界；具体临时DDL/clock/清理方案必须先冻结并实证，不复用旧runtime当新证据。",
+    "正式G3/G4继续风险匹配的共享检查、不可变失败/partial证据、源码与运行capsule、主区完整保全、固定实现提交复核及GitHub-first子片闭合；不得把source推断写成actual。"
+  ],
+  "findingsClassification": "以上为新切片设计待冻结条件和源机制观察；不是已确认当前产品回归，不写 G1/G3 Pass。",
+  "references": [
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.controller.ts",
+      "bytes": 2574,
+      "rawSha256": "31d5880ea043c567d21852e91bd180e05bfd35a93806b4cafa958d4a93575a17",
+      "normalizedLfSha256": "31d5880ea043c567d21852e91bd180e05bfd35a93806b4cafa958d4a93575a17",
+      "sections": [
+        "18–63: four public operations and guard declarations"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+      "normalizedLfSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+      "sections": [
+        "398–470: approval detail/Todo target read closure",
+        "473–654: error order and three supported domain pairs",
+        "682–978: final/retention real facts and constraints",
+        "980–1095: current/supersedes/version snapshot writes and intermediate flush",
+        "1111–1251: output projection/fallback/order/date helpers"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.ts",
+      "bytes": 18725,
+      "rawSha256": "6dab7531b6a9220933b48869aa8c8772155d47701ecf602a414cf73cd4b815d9",
+      "normalizedLfSha256": "6dab7531b6a9220933b48869aa8c8772155d47701ecf602a414cf73cd4b815d9",
+      "sections": [
+        "retention draft and due-date evaluation helpers"
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/session.rs",
+      "bytes": 3374,
+      "rawSha256": "da6704ef54dda764ae2b1158260baa3f193e54169998f6b68e8ad7ed67eeed69",
+      "normalizedLfSha256": "da6704ef54dda764ae2b1158260baa3f193e54169998f6b68e8ad7ed67eeed69",
+      "sections": [
+        "72–105: borrowed connection/state and mandatory domain handler"
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/service.rs",
+      "bytes": 43271,
+      "rawSha256": "8e25c04bab93066fe5b0bea1fdc4ecc2e475fca5b8269ec6ddc1673543ada7c7",
+      "normalizedLfSha256": "8e25c04bab93066fe5b0bea1fdc4ecc2e475fca5b8269ec6ddc1673543ada7c7",
+      "sections": [
+        "453–533: child state, transaction/savepoint and final common flush",
+        "837–971: managed approval/todo mutation then connection-only handler"
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/mod.rs",
+      "bytes": 746,
+      "rawSha256": "b18966816a1547bb5439bccaf1e5d401ffd1f6d3f0acbd35b13f3a82c7ec3b0c",
+      "normalizedLfSha256": "b18966816a1547bb5439bccaf1e5d401ffd1f6d3f0acbd35b13f3a82c7ec3b0c",
+      "sections": [
+        "public common API exports"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "bytes": 27264,
+      "rawSha256": "65c2920656efd8d784f84953adb54d568dc33ba67a90c1b9ad87656a384c342c",
+      "normalizedLfSha256": "65c2920656efd8d784f84953adb54d568dc33ba67a90c1b9ad87656a384c342c",
+      "sections": [
+        "97–107: exact business-number lookup and ProjectSummary",
+        "570–591: project summary fields"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.ts",
+      "bytes": 42650,
+      "rawSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323",
+      "normalizedLfSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323",
+      "sections": [
+        "131–132: repository lookup delegation"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "bytes": 22209,
+      "rawSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5",
+      "normalizedLfSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5",
+      "sections": [
+        "108–109: exact projectNo lookup"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "bytes": 4183,
+      "rawSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "normalizedLfSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "sections": [
+        "34: unique project_no storage field"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "bytes": 13462,
+      "rawSha256": "64c73595aac3bb6fee5995b7d660d293ff28eff27474ce8d6f9ac1ff9a88beb2",
+      "normalizedLfSha256": "64c73595aac3bb6fee5995b7d660d293ff28eff27474ce8d6f9ac1ff9a88beb2",
+      "sections": [
+        "59–84: lookup and UUID detail with original projection context",
+        "158–268: financial sensitive projection/current term snapshot"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.service.ts",
+      "bytes": 11498,
+      "rawSha256": "ae0f90726fc7f43bc18f0a7f0006c04c261d16de267749e471a3005f728fe314",
+      "normalizedLfSha256": "ae0f90726fc7f43bc18f0a7f0006c04c261d16de267749e471a3005f728fe314",
+      "sections": [
+        "71–72: repository lookup delegation"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.repository.ts",
+      "bytes": 7070,
+      "rawSha256": "e62ca9378de7741b10a9c5a358224e6e5f965c2316846780a04e44460fa226b1",
+      "normalizedLfSha256": "e62ca9378de7741b10a9c5a358224e6e5f965c2316846780a04e44460fa226b1",
+      "sections": [
+        "38–39: exact contractNo lookup"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "bytes": 9907,
+      "rawSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "normalizedLfSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "sections": [
+        "30: unique contract_no storage field"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.service.ts",
+      "bytes": 6890,
+      "rawSha256": "477605485578fb1ecbe67479aa9069b0e74f72d1fab45f8b07529f8e7cfd1c5a",
+      "normalizedLfSha256": "477605485578fb1ecbe67479aa9069b0e74f72d1fab45f8b07529f8e7cfd1c5a",
+      "sections": [
+        "sensitive projection masked/denied audit path"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection-request-context.ts",
+      "bytes": 773,
+      "rawSha256": "56d60ad0ce2b5dfddda54fe5c99fcd50d4df7610c0221566fdeb2018988fd49a",
+      "normalizedLfSha256": "56d60ad0ce2b5dfddda54fe5c99fcd50d4df7610c0221566fdeb2018988fd49a",
+      "sections": [
+        "runtime request context source"
+      ]
+    },
+    {
+      "file": "docs/adr/015-api-route-canonical-grammar.md",
+      "bytes": 15794,
+      "rawSha256": "bb40249594da13abb82deec14a10df530adb0d86bf1646379f72c5d90bcf795c",
+      "normalizedLfSha256": "bb40249594da13abb82deec14a10df530adb0d86bf1646379f72c5d90bcf795c",
+      "sections": [
+        "129–184: stable UUID identity, query/projection distinction and direct canonical switch"
+      ]
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 168819,
+      "rawSha256": "51480a6c81048c95d3c592c8500e2bed381fea2db514cc7c3625e392082f7cec",
+      "normalizedLfSha256": "51480a6c81048c95d3c592c8500e2bed381fea2db514cc7c3625e392082f7cec",
+      "sections": [
+        "517/547: two business-number lookups remain canonical-decision-pending"
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2-scope-and-dependencies.md",
+      "bytes": 61006,
+      "rawSha256": "c512e73d86f7b33fa9e50d8082abdfa0c11529360ca01436ea66614e29d74192",
+      "normalizedLfSha256": "c512e73d86f7b33fa9e50d8082abdfa0c11529360ca01436ea66614e29d74192",
+      "sections": [
+        "228–231: four L public operations; current 104/108 boundaries"
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2-operation-slices.json",
+      "bytes": 516456,
+      "rawSha256": "758397bc1a89a1507350121f121aa2507e1a14355c67cffe2245312fbb8ec883",
+      "normalizedLfSha256": "758397bc1a89a1507350121f121aa2507e1a14355c67cffe2245312fbb8ec883",
+      "sections": [
+        "four L operation inventory and current-delivery context"
+      ]
+    }
+  ],
+  "mutations": "仅新增本 JSON；未改产品/fixture/tool/环境/Git/在线状态，未启动 ORM/DB/HTTP/浏览器。"
+}
