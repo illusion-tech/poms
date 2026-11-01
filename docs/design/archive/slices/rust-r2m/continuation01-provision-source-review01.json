@@ -1,0 +1,176 @@
+{
+  "kind": "R2M-independent-C-continuation01-provision-source-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 07:26:59 UTC",
+  "reviewer": {
+    "role": "independent non-author C",
+    "agent": "/root/r2m_review",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "scope": "Only the fixed continuation01 whole-resource provision entry; no product, fixture, executable variant or runtime acceptance certification.",
+  "sourcePacket": {
+    "file": "tools/rust-r2m/continuation01-provision-source01.json",
+    "bytes": 7290,
+    "rawBytesSha256": "4265157ff4dbeb818951352ce925a98fe3bf208b423391c122b3d172e392212b"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/continuation01-profile.mjs",
+      "bytes": 4995,
+      "rawBytesSha256": "8bcecdf7a7005041e2e72fdec2e8e47fd142f2ab282568777d4b263370e0d725"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-common.mjs",
+      "bytes": 6326,
+      "rawBytesSha256": "a227b5ad7adcc9ad039eb417dd96768f24c02b4c24d44f0ba283885f982e388a"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-provision.mjs",
+      "bytes": 24410,
+      "rawBytesSha256": "954df1b90adadbc92ca77748e0bac087a7928b6100f60971694f4ed746101a45"
+    }
+  ],
+  "basis": [
+    {
+      "file": "docs/design/rust-r2m/continuation01-g1-extension.md",
+      "bytes": 5291,
+      "rawBytesSha256": "54902cd4aed08afcdf2269028d98943eeec4177474ef4a2b7636c4245a441fa0",
+      "readLevel": "complete current source"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-addendum01.json",
+      "bytes": 2953,
+      "rawBytesSha256": "9b8ba54958ae91a96c4d0cab147e0969a9b4282f009f1cbd465709f7e398152e",
+      "readLevel": "complete current public input"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-plan.json",
+      "bytes": 9943,
+      "rawBytesSha256": "1aae7a0653968797e5b21dc9fa9e045e13ccb249d6a582c19c90d3bf8e38c2bb",
+      "readLevel": "prior complete design review reused; current raw pin checked"
+    },
+    {
+      "file": "docs/design/rust-r2m/continuation01-design-review01.json",
+      "bytes": 5847,
+      "rawBytesSha256": "7739d5cf0a1502c2502993357683bc872cf392b90ceb8195dee616466b8cec95",
+      "readLevel": "prior independent design conclusion reused"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-provision-contract.md",
+      "bytes": 3965,
+      "rawBytesSha256": "e96406794f9a144b9be0d299a321df76dbe063ad4a065954f19acf4d5133d979",
+      "readLevel": "complete"
+    },
+    {
+      "file": "tmp/rust-r2m/continuation01-template-admission01.json",
+      "bytes": 2453,
+      "rawBytesSha256": "7f2a2d9edd6b9783285c82edf748015d8c934fb4b52c6f9d0098485ab5e7fab3",
+      "readLevel": "complete public metadata; private baseline not opened"
+    },
+    {
+      "file": "tmp/rust-r2m/m5-original-rust-quarantine01.json",
+      "bytes": 1951,
+      "rawBytesSha256": "e722a471ec3062a32e06c0010b4e09d0bbede21e8613da365668bb7f1d07190b",
+      "readLevel": "complete public actual receipt; private graph evidence not opened"
+    },
+    {
+      "file": "tmp/rust-r2m/recovered-api-nest-an4c01.json",
+      "bytes": 11024,
+      "rawBytesSha256": "ea1312f78bbb20a18984b7d41983f8e1adfc88400474c98c2b006019f304a5b8",
+      "readLevel": "raw pin and necessary public result/cleanup fields; no private evidence"
+    }
+  ],
+  "findings": [
+    {
+      "id": "fixed-authorized-resource-set",
+      "disposition": "Pass",
+      "sourceLines": "profile; provision 17-42,47-55,75-83",
+      "detail": "Only poms_r2m_c01_nest/rust and poms_r2m_c01_app under marker abd093b8-c584-45b3-9c62-6357ad6dfa5d and a new absent state/private root. Root approval and exact C pins precede secret reads and resource SQL. Existing root, role or database refuses; no adopt/resume/drop/reset/terminate path."
+    },
+    {
+      "id": "old-failed-graph-remains-isolated",
+      "disposition": "Pass",
+      "sourceLines": "provision 62-64,77,102-104",
+      "detail": "The connection allowlist excludes poms_r2m_rust. Maintenance reads exact old OID17085/name/owner/ACL/allowconn=false tuple and zero sessions/prepared transactions before and after. No old business query, row adoption, deletion or database rename is introduced. The Root quarantine public receipt preserves the uncertified audit as uncertified."
+    },
+    {
+      "id": "clean-template-and-clone-closure",
+      "disposition": "Pass",
+      "sourceLines": "provision 49,52,58,66-74,78,81-103",
+      "detail": "Template is exact recovered Native OID16385, old marker and complete 107-table seed digest 951d4d4c5ca3e4faa9a005d093c3714e6181c0068c94cd0bd34a75b6f118a22f. Actual provision repeats full catalog/rows, original database tuple and ACL before/after, and zero source sessions/prepared transactions immediately before each clone. Each new OID differs from source/old/other clone; initial complete product rows equal the source before marker/grant work. Cloned rows are whole isolated test resources, not fixture-owned rows."
+    },
+    {
+      "id": "original-cluster-policy-and-new-lowrole",
+      "disposition": "Pass",
+      "sourceLines": "provision 26-35,65,68,75,79,84-99,104",
+      "detail": "Actual original SSOT poms.r0e_isolated=on, PostgreSQL150012/server15432, owner and timezone are fixed. No database SET GUC is added; source DB settings remain exactly empty. New role is NOINHERIT, non-super/createdb/createrole/bypass/replication, no memberships, and receives only fixed new-DB runtime grants. Old app/PUBLIC are revoked in the new DBs. New app has no old-DB privilege and no marker/schema/database CREATE capability."
+    },
+    {
+      "id": "named-credential-reuse-and-new-files",
+      "disposition": "Pass",
+      "sourceLines": "common complete; profile continuationEnvironment; provision 58-60,100,105",
+      "detail": "Only the explicitly authorized original new-M maintenance owner-password and exact hashed seed evidence are read from old private paths. Parent lstat/no symlink, mode/nlink and same-fd/inode reads guard them. One owner credential copy is wx0600 in the new 0700 root and original bytes are checked unchanged. Fresh random app/JWT keys and literal new env/object roots are separate; no old env/business private tree is copied. The original env template differs only in the three admitted environment identity literals."
+    },
+    {
+      "id": "partial-state-diagnostics-and-close",
+      "disposition": "Pass",
+      "sourceLines": "provision 44-46,55,79-108",
+      "detail": "Every attempted role/DB creation is journaled before SQL and named partial resources remain on failure. Original name/message/stack/code plus rollback/close causes are private; public errors carry fixed categories and hashes. Independent business clients close, both new DBs and source return zero sessions, and advisory unlock/control close must succeed for maintenanceClosed=true. A close or unlock failure cannot become a successful resource receipt."
+    }
+  ],
+  "staticVerification": {
+    "packetReferencedFilesChecked": 23,
+    "rawByteAndHashMismatches": 0,
+    "currentThreeRuntimeSourcesRead": "complete",
+    "test": {
+      "file": "tools/rust-r2m/continuation01-provision.test.mjs",
+      "bytes": 19914,
+      "rawBytesSha256": "9d647c0eec28718adecc8d277dfb573f34efb900aa87d27eb5c16240018c49c5",
+      "readLevel": "complete source; production-flow AST extraction and Fake assertions inspected"
+    },
+    "authorPureEvidence": {
+      "file": "tools/rust-r2m/continuation01-provision-source01-pure-complete.txt",
+      "bytes": 2834,
+      "rawBytesSha256": "866597b007f9df6c1abe6b59f1e9af8b07026810cb06552513f0388c3a1e5d6c",
+      "tests": 26,
+      "pass": 26,
+      "fail": 0,
+      "skip": 0,
+      "classification": "author's Fake PG/files/ports, not actual provisioning; C read original log and tests, did not execute"
+    },
+    "meaningfulCoverage": "Actual production provision flow under Fake dependency injection; root/role absence, source busy/prepared/marker/observer, clone collision/row change, old/new role isolation, review pending, original driver+close errors, failed unlock and full-row preservation.",
+    "priorMatureProofReuse": "Existing QA lifecycle/filesystem source and complete catalog/reference authority reused at exact packet pins; no historical large-tree/runtime rerun.",
+    "preservedFailures": "Initial test regex classification failures and prior source-only check logs remain at packet pins; production admission was not relaxed."
+  },
+  "executionBoundary": {
+    "entry": "node tools/rust-r2m/continuation01-provision.mjs --provision --approval <Root-public-admission> --cap <fresh-matching-cap>",
+    "owner": "Root only",
+    "preconditionsAlreadyInSource": "Exact three C source pins, Root per-execution admission, fixed Linux cwd/Node24.19, no ambient overrides, exact fresh source/old metadata, original cleanup/quarantine receipts and live zero writers/ports/connections/prepared checks.",
+    "onlineG1ExtensionFreeze": "Root reported completed at https://github.com/illusion-tech/poms/issues/80#issuecomment-6540438703; this source review does not modify the original G1.",
+    "variantExecutionRequiresSeparateSourceReview": true,
+    "newPairRuntimeAcceptanceCertified": false,
+    "originalFailedM5RunPassed": false,
+    "originalAuditBirthCertified": false
+  },
+  "reviewerActivities": {
+    "sourceAndPublicMetadataRead": true,
+    "staticHashing": true,
+    "reviewJsonWrite": true,
+    "privateRead": false,
+    "environmentRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "container": false,
+    "processInspectionOrSignal": false,
+    "testsExecuted": false,
+    "productOrFixtureEdit": false,
+    "gitMutation": false
+  },
+  "actualVerified": false,
+  "G3": false,
+  "G4": false,
+  "conclusion": "SourceReady for exactly the three pinned provision sources and fixed continuation01 resources. No substantive source blocker found; live resource facts and truthful partial/close receipts remain Root's actual execution evidence."
+}

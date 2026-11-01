@@ -1,0 +1,219 @@
+{
+  "kind": "R2M-independent-C-original-UI4-package-item-reservation-source-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 08:38:15 UTC",
+  "reviewer": {
+    "agent": "/root/r2m_review",
+    "role": "independent non-author C",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/ui-package-intent-source01.json",
+    "bytes": 9400,
+    "rawBytesSha256": "e2436f9f82a97c80c238d33c2fc1b0a55b3e74276405597d5236c330baead168"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/fixture-ui-package-intent.mjs",
+      "bytes": 17749,
+      "rawBytesSha256": "f4c2de9800f8895c78fb31d2e36e4456d3ab73ac75180308af0044136644704a"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 46300,
+      "rawBytesSha256": "774dc0e4350cbcb3d502492cbe6ea6f2ef1c03e70754970689d518c8ced54940"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10352,
+      "rawBytesSha256": "3705769440b20905a178145ba35611399447bc49247fc6c5a4218fd7089864b2"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 13650,
+      "rawBytesSha256": "4f37a0e4b6f74405a9281856f8d2a6a0dff998d53796f45a365a0fc2b4868876"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 13039,
+      "rawBytesSha256": "090553a20fcdb02a1afae80d14d0acc8b20d4342922230a411e0ecee317b96e8"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 31582,
+      "rawBytesSha256": "d3a403a7c7a633a16cf838b2667237605d7c00e3c0308ce0c421537c39f39fdc"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 35225,
+      "rawBytesSha256": "9b765996b3c264e8d83878266504194c10e45571c769e89010d9862c4f407241"
+    }
+  ],
+  "scope": {
+    "logicalCase": "UI4",
+    "stepId": "package-create",
+    "caseId": "m.ui4.integration",
+    "operation": "m.http",
+    "method": "POST",
+    "route": "/api/project-handovers/{already-owned-handover}/attachment-download-packages",
+    "parentMaximum": 1,
+    "itemsMaximum": 64,
+    "onlyOneOriginalSelectedIdentity": true,
+    "originalEnvironmentOnly": true,
+    "continuationDerivedDeltaCertified": false,
+    "actualUIOrPlatformCertified": false,
+    "API_M4_Max10PermissionExtended": false
+  },
+  "necessaryFindings": [
+    {
+      "id": "independent-finite-UI-channel",
+      "result": "Pass",
+      "sourceLines": "helper8-15,31-45,82-98",
+      "detail": "Separate helper/method/admission/reservation id and immutable array. Exact UI4/package-create, m.ui4.integration/m.http and original Max64 cannot borrow the API M4.2/Max10 permission. Original API helper74cb and caller036da remain unchanged; ordinary intent missing-parent refusal is retained."
+    },
+    {
+      "id": "original-complete-browser-request",
+      "result": "Pass",
+      "detail": "Helper admits only the original four-field body: one actual owned selectionId, same explicit selectionId/rowVersion tuple, confirmedSensitiveExclusion=true and exact original Chinese note. C read the original component376–399 and store296–308 plus protected UI source pins. Actual route/method/body are decoded from the original browser exchange, not replaced by an API-shaped request. Unlisted fields, another step/op, multiple selections or missing original fields refuse."
+    },
+    {
+      "id": "no-selection-ownership-from-request",
+      "result": "Pass",
+      "sourceLines": "helper22-24,47-49,93-96",
+      "detail": "Selection must already have a genuine typed owned birth and independent visibility and belong to the already-owned handover/project; attachment must already be owned. A separate exact-PK current-row/xmin read verifies full immutable identity, actual request version, included status and owned attachment. Request/query IDs grant no ownership. Full107 preflight and child-before query reject foreign or changed rows; the new permit creates no parent placeholder or business row."
+    },
+    {
+      "id": "actual-parent-birth-remains-final-authority",
+      "result": "Pass",
+      "sourceLines": "helper25-30,51-80,100-106",
+      "detail": "Original ordinary Max1 parent intent retains its exact before observation and handover/project/admin selector. Final child.package_id must equal this exact parentIntent's unique real committed birth ID. Both create contexts and SDK outer-COMMIT contexts keep the actual run/case/index/op. Each actual transaction, original authority, independent whole row, generic reference/project/actor scope and allCaptured checks remain separate; no common XID is assumed. Reopen validation preserves original parent/child before evidence and the same persisted-child birth link."
+    },
+    {
+      "id": "Linux-and-Windows-real-callback-order",
+      "result": "Pass",
+      "detail": "Both actual onBeforeExchange methods defer only this one item intent; ordinary audit/security/Max1 parent construction remains. They allocate the original monotonic index, invoke the special method with original decoded body and unique original parent, then retain the original correlation/Windows Native ACK/PG begin/forwarded HTTP order. Other journeys and non-package exchanges use their original ordinary intent path. The two production callback methods were inspected, not just a parallel wrapper."
+    },
+    {
+      "id": "precise-source-admissions-and-profile",
+      "result": "Pass",
+      "detail": "Separate new CLI --ui-package-item-admission and preflight bind Root/run/backend/database/marker/cap/UI4/step/Max64; provider audit approval remains separately required. Actual helper checks SourceReady and all seven current source paths/raw hashes before reservation. Profile32→33 only adds this helper; owned table union62, PG538aa, reference resolver, policy, cleanup and product/UI browser script remain unchanged."
+    },
+    {
+      "id": "old-and-current-epochs-kept-separate",
+      "result": "Pass",
+      "detail": "All six old full source bodies/diff are retained. C independently reversed the four generic imports/method/additive binding/journal/profile hooks to complete exact previous hashes0dd729/3ee423/2ccc59/42a16. The old96 c01 generated manifest remains d0ed at review. This original-source conclusion does not authorize mixing these files into a running API capsule, reopening old journals under the new profile or using original1a6 admissions for c01."
+    }
+  ],
+  "staticVerification": {
+    "packetReferencesChecked": 28,
+    "rawByteOrHashMismatches": 0,
+    "sourceRead": "Complete new helper; complete six-file diff and both actual callback deltas; necessary original UI component/store/source statements; complete new callback tests and component proof/negative-test source; prior mature ordinary certificate/reference/PG/cleanup proof reused.",
+    "genericInverse": [
+      {
+        "file": "tools/rust-r2m/fixture.mjs",
+        "rawRollbackSha256": "0dd729d9aa7341e81c27eec25b33c0a9732a6e775e2e5c62f1523e4416ddba16",
+        "exact": true
+      },
+      {
+        "file": "tools/rust-r2m/fixture-core.mjs",
+        "rawRollbackSha256": "3ee4238b1187ab7dfd1863a2914275f8fad47a7fd27a76bc9b4cfffd9efb4187",
+        "exact": true
+      },
+      {
+        "file": "tools/rust-r2m/fixture-journal.mjs",
+        "rawRollbackSha256": "2ccc59d8e386b97546ecc4c839fcd7bfe480b9c883f9ed275dda18b5ea0e73eb",
+        "exact": true
+      },
+      {
+        "file": "tools/rust-r2m/fixture-profile.mjs",
+        "rawRollbackSha256": "42a16d2a0522702a3adc5e05b42efbcbdf30e71ecb5a5adb7a0c4fe9377ec434",
+        "exact": true
+      }
+    ],
+    "authorTests": [
+      {
+        "file": "tools/rust-r2m/fixture-ui-package-intent.test.mjs",
+        "bytes": 16044,
+        "rawBytesSha256": "8af7e12193687010bb5ae69d6b1850c24a4ed383e85ac0b62d7ce8180f72dec8"
+      },
+      {
+        "file": "tools/rust-r2m/ui-package-runtime-source01.test.mjs",
+        "bytes": 6559,
+        "rawBytesSha256": "a6eed6405ab56daf983af51448bdd3c770eaf6d70de887c07162c13664754167"
+      }
+    ],
+    "authorLog": {
+      "file": "tools/rust-r2m/ui-package-intent-source01-pure-wiring.txt",
+      "bytes": 9643,
+      "rawBytesSha256": "d8b5a479c31346f103cc0a80f1b832d45ba06b2050b38275946a376a42c1ee90",
+      "tests": 98,
+      "pass": 98,
+      "fail": 0,
+      "skip": 0,
+      "groups": {
+        "unchangedAPI": 40,
+        "UIComponent": 51,
+        "actualCallbackFake": 7
+      },
+      "syntaxLexicalFiles": 9,
+      "errors": 0,
+      "readLevel": "Original public source/log read; not executed by C"
+    },
+    "meaningfulCoverage": "Real special helper under Fake source/owner dependencies; actual Linux/Windows callbacks from AST; ordinary-path refusal, wrong input/scope/Root/source/before/selection/version/status/attachment, wrong parent/child context/SDK commit/query-only parent, before/journal mutation and old-package substitution negatives.",
+    "retainedBefore": {
+      "file": "tools/rust-r2m/ui-package-intent-before-source01.json",
+      "bytes": 218874,
+      "rawBytesSha256": "acf5c8d2e39300196949e8492e29e19a5dbc0c6c0ff970a362c2a8fac71e3ee9"
+    },
+    "actualByReviewer": false
+  },
+  "preservedProof": {
+    "APIHelper": {
+      "file": "tools/rust-r2m/fixture-package-intent.mjs",
+      "bytes": 14617,
+      "rawBytesSha256": "74cbebe2bbbb72fb68e4d49330a86486a2a7299b4a22df3f47b6abcbcbbb8c12"
+    },
+    "APICaller": {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 50044,
+      "rawBytesSha256": "036da085290013385da7c36918013461505ea53e7aa885da13fae730b72d5e80"
+    },
+    "oldDerived96": {
+      "file": "tools/rust-r2m/continuation01-variant-generated01.json",
+      "bytes": 5024493,
+      "rawBytesSha256": "d0ed2195a4c64a9617acb82adfe5e25c0719408b04971eb5b04dd4efa8e7e88d"
+    },
+    "PG": {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75083,
+      "rawBytesSha256": "538aa31a86bf59b18b6180577d371be31c7837492f406a763afc0575da72eaee"
+    },
+    "noProductOrSeederChange": true
+  },
+  "limits": [
+    "SourceReady is for exactly these seven original-namespace sources. c01 literal/derived-pin update must be separately checked and captured after the active API writer group closes; current Linux/derived96 remains frozen.",
+    "Root alone supplies new same-run UI package and provider-audit admissions, actual role/marker/build/browser/native/Windows-process identities and executes the original journey. This does not certify a real UI or Windows run.",
+    "No ordinary intent/reference/ownership/PG subject/actor/NULL/Max10 rule is widened. No response/query ID adoption, fake parent or retroactive old graph certificate.",
+    "Existing qualified UI1/2/3 and API results retain original epochs; this necessary UI4 delta does not itself require their broad rerun or add a dedicated full-debug/visual differential Gate.",
+    "Full107/schema/outside/final actual owned cleanup and the original UI4 assertions remain required; G3/G4 and issue closure are not granted."
+  ],
+  "activities": {
+    "sourceAndPublicOnly": true,
+    "staticHashesAndInverse": true,
+    "reviewJsonWrite": true,
+    "privateRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "testsExecuted": false,
+    "actualOSQueriesOrSignals": false,
+    "productOrFixtureEdit": false,
+    "gitMutation": false
+  },
+  "actualVerified": false,
+  "G3": false,
+  "G4": false,
+  "conclusion": "SourceReady for the exact original UI4 independent generated-item reservation and Linux/Windows caller wiring. New c01 derived epoch and actual evidence remain pending."
+}

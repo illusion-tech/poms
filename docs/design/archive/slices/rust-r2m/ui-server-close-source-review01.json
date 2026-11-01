@@ -1,0 +1,80 @@
+{
+  "kind": "POMS-R2M-independent-UI-proxy-owned-work-close-source-review",
+  "reviewedAtUtc": "2026-10-31 02:52:19 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "source": "Shared managed UI proxy closure used by Linux and Windows owners",
+    "businessBehaviorChanged": false,
+    "oldFailureSoleCauseCertified": false,
+    "PGRestorationCertified": false,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 13688,
+      "rawBytesSha256": "3103219a2d7a7ee7f80ba916cb5a6448eb172e5cd63cb365f800cc2af16b1a6d"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/rust-r2m/ui-server-close-source01.json",
+      "bytes": 5404,
+      "rawBytesSha256": "e2bc7604e32cfe5d07268c9e918a07b42a98d0f5cc7682dce3e9d213e18788e2"
+    },
+    {
+      "file": "tools/rust-r2m/ui-server-close-source01.diff",
+      "bytes": 10569,
+      "rawBytesSha256": "b11d849143fa8cb55da499e6aa65f9483ae718daf938c9f67014e4938cb0161e"
+    },
+    {
+      "file": "tools/rust-r2m/ui-server-close-before-source01.json",
+      "bytes": 14657,
+      "rawBytesSha256": "2395ad2b3538255a6d2fb9aa7435c54bee25d9fa7dcf5a524d2c7f1a764d0991"
+    }
+  ],
+  "reuse": {
+    "file": "docs/design/rust-r2m/ui-uncached-source-review01.json",
+    "rawBytesSha256": "b27653ae09d66f2760a4b73a1870aed89510412a9818fd51f1c072cd9879f03e",
+    "meaning": "Original6a2053 dispatch/forwarding/body/cache evidence contracts are reused unchanged; only real ownership/closure settlement is corrected."
+  },
+  "findings": [
+    {
+      "item": "whole accepted work lifetime",
+      "result": "Pass",
+      "detail": "Immediately tracked accepted-handler promises include queued before-hook work. Owned upstream-close, raw response/private retainer, after-exchange certification and original-error retention promises are tracked as well. Close repeats allSettled over the live set, including nested registrations, after transport closure; socket closure alone cannot imply completed handler/evidence."
+    },
+    {
+      "item": "one monotonic close result",
+      "result": "Pass",
+      "detail": "All calls share the same closePromise while pending and after success/failure. Success requires real transport closure and sockets/forwarded/handlers/evidence/ownedWork/active all0 before closed=true. Existing10-second deadline retains actual outstanding counts and closed=false/incomplete; background settlement cannot later turn the timed-out receipt into success."
+    },
+    {
+      "item": "original diagnostics",
+      "result": "Pass",
+      "detail": "Original before/upstream/raw/after failures retain name/message/stack/code privately. The first original Error is propagated only after tracked retention settles; public lifecycle includes fixed category/hash references, not raw messages. Failed raw retention cannot invoke a false after-certificate. No generic success or synthetic zero replaces a timeout or failure."
+    },
+    {
+      "item": "bounded force and unchanged semantics",
+      "result": "Pass",
+      "detail": "Deadline force only destroys already-owned sockets/upstream requests. Original request method/path/headers/body/dispatch/status/raw bytes and business assertions remain. No new business retry, fixture ownership, producer permission, PG restore or process-kill authorization is added. Old uir3a partial/late records remain and sole actual cause is not asserted."
+    }
+  ],
+  "readLevel": {
+    "production": "Complete supplied diff, relevant full factory close/tracking paths and current raw pin",
+    "tests": "Five meaningful deferred production-factory VM tests read; author combined29/0 and2 lexical0, no real listen/network",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "actual": "Root captures a matching source epoch for the one new server hash. SourceReady does not retroactively certify old close flags or prove actual PG AppQuiet; fresh actual closure/recovery evidence remains separate."
+}

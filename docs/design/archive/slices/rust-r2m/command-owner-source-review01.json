@@ -1,0 +1,108 @@
+{
+  "kind": "POMS-R2M-independent-M-only-long-command-owner-source-review",
+  "reviewedAtUtc": "2026-10-31 03:13:12 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "platform": "linux",
+    "cwd": "/home/wangzishi/projects/poms-rust-r2m",
+    "entry": "tools/rust-r2m/acceptance-api-runtime.mjs --run",
+    "mode": "api",
+    "backends": [
+      "nest",
+      "rust"
+    ],
+    "commandMaximumMs": 900000,
+    "startupMaximumMs": 60000,
+    "wholeWall900Claimed": false,
+    "generalRuntimeChanged": false,
+    "productChanged": false,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/command-owner.cjs",
+      "bytes": 20663,
+      "rawBytesSha256": "c506527120155c2115847d352317eb2dba2b4f4e9c30d6fb75f1fc416dc55b25"
+    },
+    {
+      "file": "tools/rust-r2m/run-api-owned.mjs",
+      "bytes": 3949,
+      "rawBytesSha256": "4c2407dbb0be3d9c8bf1600a0f1fcb0dc5d70fe5ea28921dd302477251571768"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/rust-r2m/audit-command-owner-source01.json",
+      "bytes": 4843,
+      "rawBytesSha256": "2919488252f15fd5595ce7f9557100f749df5dc7d97ff7ed1ed7060e9a67c193"
+    },
+    {
+      "file": "tools/rust-r2m/audit-command-owner-before-source01.json",
+      "bytes": 22723,
+      "rawBytesSha256": "fc7b8883a39ab725c55c131113e8fdc758c052e46149fe5ce45db93838df13d7"
+    },
+    {
+      "file": "tools/rust-r2m/audit-command-owner-source01.diff",
+      "bytes": 6708,
+      "rawBytesSha256": "36f5b7cf6edf3cedd19a4451ca368888e252b42d2654700a72089626e2e34ec8"
+    },
+    {
+      "file": "tools/e2e/runtime.cjs",
+      "bytes": 16694,
+      "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+      "unchanged": true
+    },
+    {
+      "file": "tools/e2e/runtime-worker.cjs",
+      "bytes": 2182,
+      "rawBytesSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+      "unchanged": true
+    }
+  ],
+  "findings": [
+    {
+      "item": "bounded command only",
+      "result": "Pass",
+      "detail": "New local module derives mature owner without editing generic runtime/worker. Only Linux fixed new-M cwd/currentNode/exact API entry, backend/tag/log namespace, inherited unmodified PATH/HOME/LANG and r2m-api ownership ID are admitted. Generic listener/start/readiness interfaces are not exported. Command budget≤900000/default180000 is separate from original startup≤60000; timer starts after handshake, so no false total-wall900 bound is claimed."
+    },
+    {
+      "item": "same birth and stop authority",
+      "result": "Pass",
+      "detail": "C independently extracted processIdentity1483chars/alive131/groupMembers345/stopOwned3334 and found exact equality with original runtimefa05. Original worker0ad9 is unchanged and explicitly addressed. Original IPC run-ID match, PID/start birth checks, same-group descendant cleanup, grace/kill bounds and refusal of forged/reused identity remain; no business retry or manufactured final report."
+    },
+    {
+      "item": "private log and diagnostics",
+      "result": "Pass",
+      "detail": "Fixed real directory components/mode700, precreated600 single-link log, O_NOFOLLOW append and opened dev/ino/size/mtime/ctime guard precede spawn. Root wrapper only changes require/budget/public ownerBudgetMs and retains original error name/message/stack/code plus enumerable property names in new private0600 exclusive output; unknown potentially cyclic values are not serialized or publicly exposed."
+    },
+    {
+      "item": "old failure retained",
+      "result": "Pass",
+      "detail": "Original300-second wrapper/source and an5c failed/no-top-report classification are preserved. New long-owner source cannot retroactively provide old stack or original close receipt. Existing generic startup/readiness/stop limits remain unchanged; new same-source normal run follows exact original-data recovery."
+    }
+  ],
+  "readLevel": {
+    "module": "Complete6708B exact derivation diff and necessary options/path/budget/launch code; maturity functions independently byte-equivalent",
+    "wrapper": "Complete small diff from preserved old wrapper; current raw3949B hash matched",
+    "tests": "Eight Fake kernel/IPC/timer/process/fs cases and output read; no real spawn/signal",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "authorChecks": {
+    "purePass": 8,
+    "pureFail": 0,
+    "lexicalMessages": 0,
+    "realSpawn": false
+  },
+  "actual": "Root first completes original236-row recovery, copies this exact module/wrapper into a fresh matching capsule and executes a fresh complete selection. This source result is not proof of900s actual execution, product performance or stage acceptance."
+}

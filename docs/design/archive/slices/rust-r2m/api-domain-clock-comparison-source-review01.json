@@ -1,0 +1,192 @@
+{
+  "kind": "POMS-R2M-independent-domain-clock-comparison-source-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 04:15:44 UTC",
+  "result": "SourceReady",
+  "gate": false,
+  "scope": "Pure finite physical timestamp/literal/TTL registry source02, not complete API9/M5 comparison.",
+  "candidate": {
+    "file": "tools/rust-r2m/comparison-api-domain-clock-source02.json",
+    "bytes": 6880,
+    "rawBytesSha256": "95c99e1a1d2cc6ff41ad71dfb12e5c034c7888693d7a569d2f644e3973a695ac"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "9b872e435007b38372d4a1fa16d29b2a0001a81e08a25aba0cd9868232605680"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock.test.mjs",
+      "bytes": 15812,
+      "rawBytesSha256": "e9acffb6ac8f38450d63b8c1c21c8710de4b19e942a1301fcba2b7f51119e15f"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock-contract.md",
+      "bytes": 7235,
+      "rawBytesSha256": "84bda451138aeb8cf5a9d441614020d9610d24af081aaa247632d3f7c603785d"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "originalSourceReferencePins": [
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+      "bytes": 134905,
+      "rawBytesSha256": "fc850544456ccafb506bc658c70d4053ace2edb361e646ec500cadb079feac67"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+      "bytes": 154399,
+      "rawBytesSha256": "0f927362f18c05add1bc4d2df0a48a2f5d850b5b93de58e114427b41ad146bc6"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "bytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+      "bytes": 73332,
+      "rawBytesSha256": "90a76597b44dd9631b62ada6cdb9ccd9eaf40ef86f3e438e92937d33abfbe7dd"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2l/l-todo-facts-source.mjs",
+      "bytes": 21646,
+      "rawBytesSha256": "7e1fdcd5aa3d0e9fab64c983398ed0326d9645b87134b7d0793d2f670b36dd88"
+    }
+  ],
+  "sourcePins": {
+    "matched": 12,
+    "total": 12,
+    "catalogColumnsChecked": 150,
+    "catalogTablesAvailable": 107,
+    "catalogMismatches": []
+  },
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/comparison-api-domain-clock.mjs",
+        "tools/rust-r2m/comparison-api-domain-clock-contract.md"
+      ],
+      "level": "Complete current source, complete01-to02 helper diff; full current raw hash."
+    },
+    {
+      "files": [
+        "tools/rust-r2m/comparison-api-domain-clock.test.mjs"
+      ],
+      "level": "All11 finite test cases and adversarial proof branches source-read; no reviewer execution."
+    },
+    {
+      "files": [
+        "apps/poms-api/src/app/features/approval/approval.service.ts",
+        "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+        "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+        "tools/rust-r2m/fixture-prepared-source.mjs",
+        "tools/rust-r2m/fixture-handover-prepared.mjs",
+        "tools/rust-r2l/l-todo-facts-source.mjs"
+      ],
+      "level": "Full raw hashes; necessary original finite clock/literal/TTL and prepared promotion sections source-read, with mature surrounding evidence reused."
+    },
+    {
+      "files": [
+        "tools/rust-r2m/reference-authority.json"
+      ],
+      "level": "Raw hash plus static150 named column/type cross-check against107 physical tables, no SQL."
+    },
+    {
+      "files": [
+        "tools/rust-r2m/fixture.mjs"
+      ],
+      "level": "Necessary exact updateOwned value-only SQL and committed mutation shape read; not entire mature fixture re-review."
+    }
+  ],
+  "findings": [
+    {
+      "id": "actual-origin-prerequisites",
+      "result": "Pass",
+      "detail": "Registry accepts only Root-supplied already verified typed journal objects, immutable identity, independent visibility and genuine birth slots. Runtime births bind original createContext; preparation binds full promoted direct-COMMIT capture. A capsule sourcePin is a reference binding, not independent execution proof. No query/response ID admission or ownership/cleanup authority is created."
+    },
+    {
+      "id": "exact-microseconds",
+      "result": "Pass",
+      "detail": "Date.parse only parses zero-fraction whole seconds, then BigInt retains every1-6 fractional digit. Calendar/offset round-trip and exact integer microsecond window/TTL arithmetic reject1us changes,7-digit fractions and invalid calendar normalization. Physical forms remain+08/max6; DTO formsZ/max3."
+    },
+    {
+      "id": "literal-and-operation-boundaries",
+      "result": "Pass",
+      "detail": "Finite operation/table/column allowlist only. Original prepared temporal values including fields outside runtime catalog remain literal. K identifies actual promoted sourcePlan INSERT by UUID reference and explicit columns, using captured full birth rather than invented params. All non-clock columns are retained for Root's strict comparison; this helper does not validate every non-temporal source-plan scalar."
+    },
+    {
+      "id": "named-special-cases",
+      "result": "Pass",
+      "detail": "Rule effective_from may become now only from proven NULL; request effectiveFrom and paidAt remain actual literals. Package exact original single now gives created_at+24h; upload1h/ticket2min and controlled grant2h/24h each subtract into actual independent source windows. Grant TTL must use the same bound real controlled-token proof as AES/state, not arbitrary caller values. Copied attachment uploaded_at must match an already registered owned session source."
+    },
+    {
+      "id": "actual-versions-and-poison",
+      "result": "Pass",
+      "detail": "Each physical version must contain all actual table columns and exact immutable identity. Literal mutations require exact existing committed journal before/after/values and txid/xmin. Unknown fields/time changes cannot be generalized by At$; failed method poisons further registry use, with rejected=true retained in receipt."
+    },
+    {
+      "id": "DTO-and-nested-unproven",
+      "result": "Pass-with-explicit-finite-scope",
+      "detail": "DTO may project only one actually observed full typed physical version with exact same instant. A genuine emitter that truncates PG sub-ms to JSDate ms requires a separate named source rule; missing proof is pending integration, not a product incompatibility conclusion. Nested audit snapshots, org failedAt, grant JSON/DTO, archive manifest and top-level generatedAt are instructions only and not automatically normalized."
+    }
+  ],
+  "authorChecks": {
+    "purePassed": 11,
+    "pureFailed": 0,
+    "skipped": 0,
+    "noUndefFiles": 2,
+    "noUndefErrors": 0,
+    "evidence": {
+      "file": "tmp/rust-r2m/domain-clock-source02-final-pure.json",
+      "bytes": 785,
+      "rawBytesSha256": "d3b2d9285dddd574dfc026e6be5614107a745cf4f29627f6d7c7eb8a866ba1f3"
+    },
+    "readLevel": "Public final author-check JSON and raw hash verified; reviewer did not execute tests. Initial lexical URL-global configuration finding and01 precision draft remain preserved."
+  },
+  "executionBoundary": {
+    "owner": "Root",
+    "mainApiComparatorModified": false,
+    "mainCallerStillRequiresReview": true,
+    "RootMustBindEveryActualSourceOperationWindowAndFullRawFrame": true,
+    "RootMustRetainStrictNonClockAndPreparedScalarComparison": true,
+    "DTOUnprovedPrecisionProjectionPending": true,
+    "nestedJsonReadModelIntegrationPending": true,
+    "actualComparisonCertified": false,
+    "privateRead": false,
+    "environmentRead": false,
+    "databaseHttpBrowserExecuted": false,
+    "testsExecutedByReviewer": false,
+    "ownershipGranted": false,
+    "productChanged": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "blockers": []
+}

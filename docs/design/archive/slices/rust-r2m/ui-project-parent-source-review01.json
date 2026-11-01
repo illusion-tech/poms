@@ -1,0 +1,63 @@
+{
+  "kind": "POMS-R2M-independent-explicit-UI-project-parent-source-review",
+  "reviewedAtUtc": "2026-10-31 01:41:29 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "permitted": "Exact independent variant adopted as Linux ui-runtime-sources.mjs for old approved04 profile28 and selected UI1-3",
+    "UI4ActualReady": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources-project-parent01.mjs",
+      "bytes": 17409,
+      "rawBytesSha256": "a8ae730ef393647f034c5f1c0ed4a0ee15206e7c1743b79ceb4965a62ea5cc9d",
+      "adoptAs": "tools/rust-r2m/ui-runtime-sources.mjs"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/rust-r2m/ui-project-parent-source01.json",
+      "bytes": 3125,
+      "rawBytesSha256": "0ddec6ee52689910e92d6abdc5fac2352a398d6d37919181100f53ce4cf4f5b3"
+    },
+    {
+      "file": "tools/rust-r2m/audit-attachment-before-source01.json",
+      "bytes": 59631,
+      "rawBytesSha256": "f50401d4f70b2bf17b9f9b3fc7542a750166551a8c8a66e80186fcdcee2e2b68",
+      "usedFor": "Exact original ui-runtime-sources.mjs base64 body17258B; independently decoded raw SHA c673875651b290fe97cf319b21253b16701bae3acd909393fd9b43891ece28b6"
+    }
+  ],
+  "findings": [
+    {
+      "item": "exact narrow delta",
+      "result": "Pass",
+      "detail": "Independent base64 raw-hash verification and complete line comparison yield only3 modified lines: UI3 prepareContract and resubmit approval/Todo intents add their actual project parent; UI4 package intent adds source project. No imports, source dependencies, actor/borrowed permissions, Native operation/context, proof retention, request/response/business/cache assertions change."
+    },
+    {
+      "item": "owned typed parent",
+      "result": "Pass",
+      "detail": "Already-planned/owned actual project ID is supplied before original fixed intents. Original Fixture still rejects missing/foreign typed project parent. New meaningful pure tests exercise that unchanged production branch; no fixture policy widening."
+    },
+    {
+      "item": "separate epoch",
+      "result": "Pass",
+      "detail": "Root copies only exact a8ae variant bytes to original Linux target and captures a fresh source epoch. Current Windows mixed M4/M5 source is not an equivalent input for old28. Separate UI4 provider NULL-audit adapter remains pending; this package does not certify UI4."
+    }
+  ],
+  "readLevel": {
+    "candidate": "Complete delta against independently decoded original body; relevant source/test contexts read",
+    "authorTests": "3pure/0fail receipt, no C execution",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "gitMutations": 0
+  },
+  "actual": "Root owns actual execution. Original uin13a had no browser/journey and remains partial; the recovery and new UI run are separate."
+}

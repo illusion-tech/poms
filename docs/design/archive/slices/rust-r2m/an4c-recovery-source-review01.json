@@ -1,0 +1,189 @@
+{
+  "kind": "POMS-R2M-independent-fixed-an4c-normal-writer-recovery-source-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 06:41:31 UTC",
+  "gate": false,
+  "privateRead": false,
+  "environmentRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecutedByReviewer": false,
+  "productOrFixtureEdited": false,
+  "gitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "result": "SourceReady",
+  "scope": {
+    "onlyRunId": "3cc41db5-c2e0-492a-b90e-262e56b32c90",
+    "backend": "nest",
+    "sourceCapId": "r2m-joint28",
+    "ownedRows": 117,
+    "ownedLocalFiles": 6,
+    "pendingMustBeZero": true,
+    "committedPreparationMutations": 3,
+    "settingOrNumberLease": false
+  },
+  "candidate": {
+    "file": "tools/rust-r2m/an4c-recovery-source01.json",
+    "bytes": 6447,
+    "rawBytesSha256": "c2a1d60b904b99f3c0c3e9849fbfec1536b5980cf9eec52518783199305eec24"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an4c.mjs",
+      "bytes": 19591,
+      "rawBytesSha256": "f004c25b6410f054884a4e603707fbfc38a65e1145147a041fe1d7fbe375bde8"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an4c.test.mjs",
+      "bytes": 10808,
+      "rawBytesSha256": "f20d1f30686f46947a2f08554a63e2bb36a742c560d2f759f7c6013a7719a4d5"
+    }
+  ],
+  "publicInputs": [
+    {
+      "file": "tmp/rust-r2m/an4c-recovery-metadata02.json",
+      "bytes": 10667,
+      "rawBytesSha256": "36026cc48bf143ef78f3de9832a147dcac5e34f292682ba17d5d8be501bb56dd"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4c.json",
+      "bytes": 48300,
+      "rawBytesSha256": "304a257834e31047413cf0314088a5cbab2c12d19e28df55e34ace332f351622"
+    }
+  ],
+  "fixedRootReferences": {
+    "report": {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4c.json",
+      "bytes": 48300,
+      "rawBytesSha256": "304a257834e31047413cf0314088a5cbab2c12d19e28df55e34ace332f351622"
+    },
+    "cap": {
+      "file": "tmp/rust-r2m/source-cap-joint28.json",
+      "bytes": 1432594,
+      "rawBytesSha256": "7bab4e01a800b0c887fc2872aa31552f45aeb64ebb458fde4e4c49451740a22a"
+    },
+    "ledger": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90.json",
+      "bytes": 1977818,
+      "rawBytesSha256": "404c888fc6d88d2b505baf62c0c1c6a1b057a75a12f65a763ed201f69dc8f629"
+    },
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00001.json",
+      "bytes": 432851,
+      "rawBytesSha256": "6c2b95dfbd159096e528d1b112a84f8bb0b7dbe834588bbcd31f0333bb9c2a88"
+    },
+    "sdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00333.json",
+      "bytes": 74729,
+      "rawBytesSha256": "47ecd4f02689a1b4c7cac9d2817cb984a40812738ed2c673ce1ba3e9e4733608"
+    },
+    "latestFacts": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00342.json",
+      "bytes": 569482,
+      "rawBytesSha256": "4c4b30761c52014b5ecb0915eb49a1b4b2734e89cc4f3257629777412332363a"
+    }
+  },
+  "reuse": {
+    "template": {
+      "file": "tools/rust-r2m/recover-closed-an4b.mjs",
+      "bytes": 18539,
+      "rawBytesSha256": "469a941d69dc209e79c4921d6a005c7f7e363b0e4c6b345349b049b5fd65dd81"
+    },
+    "review": {
+      "file": "docs/design/rust-r2m/an4b-recovery-source-review02.json",
+      "bytes": 3015,
+      "rawBytesSha256": "ac9c1e3cd216b6ed317ced9e968399bfd43e460aa11830f5f487e2c536aecb34"
+    },
+    "independentWholeSuffixCheck": {
+      "from": "async function assertWriterAbsent",
+      "equalAfterLiteralTagPIDCountSnapshotLabelOnly": true,
+      "oldAndNormalizedNewRawSha256": "b4a9a1eebf3a2381991482dad2d22f2cc84039f41a0d150c11a37dcc3ca47111"
+    }
+  },
+  "findings": [
+    {
+      "id": "honest-case-versus-writer-closure",
+      "result": "Pass",
+      "detail": "Original caseClosed vector[true,false,true,true] and results[observed,fail,fail,observed] remain exact. M4.2 false is not rewritten. Source allows recovery because the original final journal is already adopted/absent with0pending, SDK complete/0open, both actual writers stopped and PG footprint restored; logical case failure is not fabricated into a closed business success."
+    },
+    {
+      "id": "three-owned-committed-preparations",
+      "result": "Pass",
+      "detail": "Only distinct attachmentf7b01c7b latestfalse plus the two actual owned provider defaultfalse mutations are allowed. Exact original reason,9-key set, one boolean value, full before->after sole-column change, committed state/tx-xmin and existing ordinary ownership are required. No new mutation, restoration or selector correction is introduced."
+    },
+    {
+      "id": "real-local-files-and-current-facts",
+      "result": "Pass",
+      "detail": "Exactly6 actual seven-field local file proofs, no invented state; known row/key/provider/hash/run-prefix protections remain. Full original00342 latest107 is pinned, fresh current107 must match it with unknown0 and preflight107. Metadata02 does not fabricate a providers or fileStates projection."
+    },
+    {
+      "id": "unchanged-mature-recovery",
+      "result": "Pass",
+      "detail": "Original wx ledger before open, freshPID/5ports/app0/prepared0, exact old cap28 fixture+PG6d9 source, no-handle original owner footprintfa064, truthful normal writer drain, mature cleanup117+6 then0/0 and complete original baseline match remain byte-identical after literal normalization. No adopt/custom delete/lease action or old Rust failed-graph access."
+    }
+  ],
+  "authorChecks": {
+    "pureTests": 10,
+    "pass": 10,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/an4c-recovery-source01-pure.txt",
+      "bytes": 1267,
+      "rawBytesSha256": "8f0b3d3d73d91b32f259e5f1dd3a4429c34f82f458d65c4b54784e23d601d539"
+    },
+    "lexicalFiles": 2,
+    "lexicalErrors": 0,
+    "lexicalLog": {
+      "file": "tools/rust-r2m/an4c-recovery-source01-no-undef.json",
+      "bytes": 206,
+      "rawBytesSha256": "11cefa589f73f72de573e690469472e9d24bf92c1996fba8ed505008a60c8c9d"
+    },
+    "sourceOnlyCliExit": 0,
+    "sourceOnlyCliLog": {
+      "file": "tools/rust-r2m/an4c-recovery-source01-check.txt",
+      "bytes": 134,
+      "rawBytesSha256": "b0234a8c9011809265c85d14ac6e8d1faca7f9ead2a5a11112789adbf2e61f3b"
+    },
+    "actualSignalUsed": false,
+    "PIDTestsFakeOnly": true
+  },
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/recover-closed-an4c.mjs",
+        "tools/rust-r2m/recover-closed-an4c.test.mjs"
+      ],
+      "level": "Necessary complete new admission/test branches and exact old-template difference, static full suffix inverse equality;2 raw source pins checked. No reviewer execution."
+    },
+    {
+      "files": [
+        "tmp/rust-r2m/an4c-recovery-metadata02.json",
+        "tmp/rust-r2m/acceptance-api-nest-an4c.json"
+      ],
+      "level": "Both public raw hashes and actual case/vector/pending/mutation/writer/SDK metadata checked."
+    },
+    {
+      "files": [
+        "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90.json",
+        "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00001.json",
+        "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00333.json",
+        "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00342.json"
+      ],
+      "level": "Fixed path/byte/SHA metadata only; C did not read original private bytes."
+    }
+  ],
+  "execution": {
+    "owner": "Root",
+    "command": "node tools/rust-r2m/recover-closed-an4c.mjs --run",
+    "mustUseOriginalCap28AndPG6d9": true,
+    "copyOnlyFixedCLI": true,
+    "exactOriginalShapePrecheckAndFreshFivePortsRequired": true,
+    "actualRecoveryCertified": false,
+    "businessPassClaimed": false
+  },
+  "blockers": []
+}

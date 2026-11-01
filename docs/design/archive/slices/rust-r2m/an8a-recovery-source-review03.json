@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-an8a-followup03-single-revision-and-original-owner-catalogue-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T23:57:12Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/an8a-recovery-source03.json",
+    "bytes": 3846,
+    "rawBytesSha256": "a489114b8f39396ce83a5b4b7560aead0e337077c8388ea60ef4c96f5cab1707"
+  },
+  "priorReview": {
+    "file": "docs/design/rust-r2m/an8a-recovery-source-review02.json",
+    "bytes": 4990,
+    "rawBytesSha256": "e1e5db908712bcc42b3c7ab0f35457be365d7ff9c09477bff0e8facc6057fbed"
+  },
+  "diagnosis": {
+    "file": "tmp/rust-r2m/an8a-catalogue-readonly03.json",
+    "bytes": 22776,
+    "rawBytesSha256": "35bc7de17d54dd82df99de7dc369e5bff9fddd36364663b3d45039ef4b102503"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an8a03.mjs",
+      "bytes": 25945,
+      "rawBytesSha256": "ca5fbc5f6755bf44edd9eb2e2f907c213e87a0b2ae0e3f3170597774395b95af",
+      "readLevel": "Complete narrow02-to03 current/original ledger rebind, production map/guard/snapshot ordering and original-marker-validated owner READONLY catalogue changes; existing restore bodies not repeatedly audited"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an8a03.test.mjs",
+      "bytes": 10742,
+      "rawBytesSha256": "4e453b306fdf012bff3326fb650c62e42bc3d2f27a0450cf60d3254546c83b8d",
+      "readLevel": "Necessary actual-map/revision/owner-readonly/original-error and close pure assertions; no tests executed by C"
+    }
+  ],
+  "assessment": [
+    "The first missing-map and second catalogue-context actual failures remain preserved with original source01/source02 and their independent source reviews. The second attempt safely stopped before drain/number/setting/business DML. The current original journal is now exact837720-byte25d6233ac53215cb596bd17079bba4ff93e03bab7985c7a97a42bbbf112a08e2, not d2db. Original an8a02 wx snapshot remains837720-byte d2dbef9f61544f71ac3792346bd08fe74e5847371881981d71a7b9af762ccc98.",
+    "The real runner uses the same exported reference map, then assertAn8aOnlyOpenRevision requires precisely original.revision+1 and complete serialized JSON equality after reverting that one value. Both original and current raw byte hashes are separately fixed before parsing. The public diagnostic35bc independently binds the observed pair. A distinct03-current-before-open wx snapshot saves the actual current bytes before the next Fixture.open; no other field/state edit or blind original-hash reuse is admitted.",
+    "The same complete metadata function originally produced its expected catalogue under owner context. The public read-only diagnosis has originalfa064==current ownerfa064 with0 field differences, lowrole4db8 differing in definition deparse paths, and explicit owner/app search_path identities. This is not a product DDL repair and does not justify normalizing or dropping catalogue fields.",
+    "Fresh catalogue now uses a fixed original owner Client at127.0.0.1:20432/poms_r2m_nest/poms_r0e_owner, with the existing new-M regularPrivate owner-password guard. It validates actual marker/database/owner first, then explicitly BEGIN READ ONLY, checks original owner and exact search_path, runs the unchanged entire catalogue function and compares exactfa064. The owner query path permits only read-only metadata/identity queries and rolls back/closes in finally; primary original failure is preserved and public output remains fixed.",
+    "All old-joint17 source-profile, genuine72 owned rows, exact private baseline/number frames, stopped Native1841056 and five-port/fresh lowrole/work/transaction guards remain. The new lowrole fixture connection still reacquires only the fixed original setting advisory lock, with original PID and CAS/COMMIT/independent equality/unlocktrue unchanged. Original number18 fullrow+xmin one-COMMIT/107reference/two-independent-zero restore and original catalogue bodies remain inherited verbatim. Mature double cleanup and full107 equality with original00000 remain required.",
+    "Distinct03 output and private prefixes preserve both prior failed attempts. SourceReady permits only this exact next recovery attempt in the old joint17 epoch; future API04b/32bf and UI3535 sources must not replace that active profile before successful restoration. No actual recovery or API/UI/G3/G4 success is certified by C."
+  ],
+  "verification": {
+    "currentSources": "2/2 exact",
+    "publicDiagnosisRawBytesSha256": "35bc7de17d54dd82df99de7dc369e5bff9fddd36364663b3d45039ef4b102503",
+    "originalOwnerCatalogueSha256": "fa06480440bb01af6cfd9bb164eb3b2794f845dccaf96aa69ef05aa24646a238",
+    "publicOwnerOriginalDifferences": 0,
+    "authorPureTests": 24,
+    "failed": 0,
+    "skipped": 0,
+    "executedByC": false,
+    "productionMapGuardOrderingRead": true,
+    "explicitOwnerReadOnlyAndCleanupRead": true,
+    "originalMatureBodiesUnchanged": true
+  },
+  "executionBoundary": "Root alone may run recover-closed-an8a03.mjs --run after the unchanged exact runtime guards pass. C performed source/public-file reads and this review write only: no private read, DB/HTTP/browser/container, process inspection or stop, app/test execution, product/fixture edit or Git mutation. Actual restoration receipt and later independent actual/G3 review remain outstanding.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

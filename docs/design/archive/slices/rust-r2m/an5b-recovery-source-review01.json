@@ -1,0 +1,88 @@
+{
+  "kind": "POMS-R2M-independent-one-closed-an5b-domain-selector-recovery-source-review",
+  "reviewedAtUtc": "2026-10-31 01:59:19 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "runId": "75cd6cd6-128b-4ec2-b36a-e719a6a71ce6",
+    "backend": "nest",
+    "caseId": "m3.uow.v0",
+    "index": 57,
+    "op": "m.http",
+    "purpose": "Correct one original SDK-born domain role-assignment selector in a normally stopped partial run",
+    "NULLAuditPermissionGranted": false,
+    "futureRuntimePermissionGranted": false,
+    "productRuntimePass": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an5b.mjs",
+      "bytes": 10843,
+      "rawBytesSha256": "d69e8aeff91b0e886cb56ead92d077cac384a80267dec67cb73b1227c44cd60a"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m/an5b-recovery-pins01.json",
+      "bytes": 1844,
+      "rawBytesSha256": "164451eae644b397671662ef202e77f26ff48240cee3f6db79abe3a5bf6453f8"
+    },
+    {
+      "file": "tmp/rust-r2m/an5b-recovery-precheck01.json",
+      "bytes": 394,
+      "rawBytesSha256": "cae8a1c78b1cc4b2342ad6451b20b6a4fe5c30845a083b1f35e53cd48bbe6750"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an5b.json",
+      "bytes": 44773,
+      "rawBytesSha256": "27f0ae1df134b73e721d40647067642ee49d05328857e56089147c8c8365fa16",
+      "readLevel": "Root exact public metadata pin; target/case and partial semantics"
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-joint22.json",
+      "bytes": 1413426,
+      "rawBytesSha256": "b6b4ede689489d5f9761a71e2f4817d73509fe8b6be288dada196756464939aa",
+      "readLevel": "Existing source epoch metadata; no tree rehash"
+    }
+  ],
+  "findings": [
+    {
+      "item": "domain NULL source",
+      "result": "Pass",
+      "detail": "Original commission.service.ts createRoleAssignment lines281-293 creates project/version/status/participants without createdBy. Existing generic domain guard permits NULL creator while still requiring an actually proved explicit project parent. This is a domain immutable-selector correction and grants no NULL audit/security-principal permission."
+    },
+    {
+      "item": "one certified original birth",
+      "result": "Pass",
+      "detail": "Exactly pending intent50d54524-c669-4b77-af79-965bc75475a5 and SDK-born commission_role_assignment862285c4-d084-4d35-8653-dc18c9e3a19c, exact creation/COMMIT context run/case/index57/m.http, original POST201, full107 facts and draft/version1/current status. No other pending intent, no singleton/number lease. Existing146 objects remain proof-bound;147 after adoption is an expectation, not C actual."
+    },
+    {
+      "item": "narrow recovery only",
+      "result": "Pass",
+      "detail": "Exclusive original journal snapshot precedes Fixture.open. Append-only selectorCorrections retains originalIntent and declares unchanged scope/no future permission. Only this intent.created_by changes to NULL. It does not pretend the original NULL selector was measured before request. Mature adopt rechecks original registered SDK INSERT/outer-COMMIT authority and independent row; IDs are never obtained from a query for ownership."
+    },
+    {
+      "item": "fresh closure and restoration",
+      "result": "Pass",
+      "detail": "Original writer PID absent, five ports free, fresh marker/role-validated low connection with no other app work/prepared transaction, original owner PG exact-before/no handle. Unknown creates/mutations stop. Full107 preflight, drain, two exact mature cleanup passes and full normalized original107 rows equality remain mandatory; old an5b partial and original400 stay unchanged."
+    }
+  ],
+  "readLevel": {
+    "helper": "complete10843B source",
+    "originalProduct": "necessary createRoleAssignment source excerpt and existing domain/project guard branch",
+    "publicMetadata": "complete pins/precheck and relevant target source-bound certificate/mismatch metadata",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "authorChecks": "Root exact original shape plus7 adversarial rejections, no DB in precheck.",
+  "actual": "Root executes alone only after current Rust UI writers stop and five ports are freshly free; source readiness does not certify the expected147/0 outcome."
+}

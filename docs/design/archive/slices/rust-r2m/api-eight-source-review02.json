@@ -1,0 +1,262 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-finite-eight-API-source-and-precise-audit-identity-joint-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:58:19Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInputs": [
+    {
+      "file": "tools/rust-r2m/audit-identity-source01.json",
+      "bytes": 16840,
+      "rawBytesSha256": "1248fb154e4c75f1287999316724184014e64bc571020e1dbb68df84df9f7609"
+    },
+    {
+      "file": "tools/rust-r2m/audit-identity-source02.json",
+      "bytes": 1474,
+      "rawBytesSha256": "02239f097c4c77f3f26fadcd5893af1eb220b785b23d4fcc67668ef415bfbce4"
+    },
+    {
+      "file": "tools/rust-r2m/audit-identity-source03.json",
+      "bytes": 1961,
+      "rawBytesSha256": "083075193fb30fc153ff21bd5b2608305b296234b8e1035b7dd654f21d24c68b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-source03.json",
+      "bytes": 8002,
+      "rawBytesSha256": "cc9d5def825d44bbf6fd5c155f1973f01976dbd6f55f0bedecca805325e29023"
+    }
+  ],
+  "priorReview": "docs/design/rust-r2m/api-six-source-review01.json",
+  "readySelection": [
+    "M1.1",
+    "M1.2",
+    "M1.3",
+    "M1.4",
+    "M2.1",
+    "M2.2",
+    "M2.3",
+    "M2.4"
+  ],
+  "notCertifiedSelection": [
+    "M3.1",
+    "M3.2",
+    "M3.3",
+    "M3.4",
+    "M3.5",
+    "M4.1",
+    "M4.2",
+    "M4.3",
+    "M4.4",
+    "M5.1",
+    "M5.2",
+    "M5.3"
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 6518,
+      "rawBytesSha256": "3d71dbdb75f34643e324f762072f4891af0ae626a4bf3a41e333a95d8b074ad7",
+      "readLevel": "Complete small admission/projector source, necessary original source context and final same-operation/outer-COMMIT delta"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.test.mjs",
+      "bytes": 2478,
+      "rawBytesSha256": "5400a62a4c7aec1282eb3810d24852684d96e9f97b4554e967f7d7fdfb259f16",
+      "readLevel": "Necessary new pure assertions and exact source hash; tests not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 8486,
+      "rawBytesSha256": "129939a9cf19b35cbc86ea4382521f94ad4d29d610537239e261f08b43e793fd",
+      "readLevel": "Selected M1/M2 request, header, semantic and identity integration delta with prepare/failure/drain/restore context; future M3-M5 paths not certified"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-contract.md",
+      "bytes": 8618,
+      "rawBytesSha256": "a9be71ce4c0f2d9276b0cf10ee57d607547f6123eaf8ef19e164efe3a6b95ba9",
+      "readLevel": "Exact retained source bytes or bounded documented dependency, using prior independent source review where unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-expected.mjs",
+      "bytes": 13212,
+      "rawBytesSha256": "dac0b1a9eef7334d45e8294a6b8f01cb4fda4d4040290ac427daa9a066546b5f",
+      "readLevel": "Selected M1/M2 request, header, semantic and identity integration delta with prepare/failure/drain/restore context; future M3-M5 paths not certified"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-local-objects.mjs",
+      "bytes": 1945,
+      "rawBytesSha256": "209797b9039f15782003b79f4944e7343a90b1c7690368897b74912fa6bc76e9",
+      "readLevel": "Exact retained source bytes or bounded documented dependency, using prior independent source review where unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-preflight.mjs",
+      "bytes": 2877,
+      "rawBytesSha256": "7906452adb987a85be46556a93172f30f30fd17100de4d2f514a2c2a4da473cb",
+      "readLevel": "Exact retained source bytes or bounded documented dependency, using prior independent source review where unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c",
+      "readLevel": "Complete small admission/projector source, necessary original source context and final same-operation/outer-COMMIT delta"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+      "bytes": 2669,
+      "rawBytesSha256": "0ff2c368ebb2f555dff9e8a75ebc827ce4d3307c1d2e26da080e2049d0fe7e9d",
+      "readLevel": "Necessary new pure assertions and exact source hash; tests not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 38446,
+      "rawBytesSha256": "29b0b0ad39ab9c9c6f3aeb52ab745b5e651d1e43f27e22a57159690fd5a97704",
+      "readLevel": "Selected M1/M2 request, header, semantic and identity integration delta with prepare/failure/drain/restore context; future M3-M5 paths not certified"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 9354,
+      "rawBytesSha256": "bd5eed210f8ebc74a4e9bc6eb8f67149388c92ad33f549517e0c6f49b8defc04",
+      "readLevel": "Selected M1/M2 request, header, semantic and identity integration delta with prepare/failure/drain/restore context; future M3-M5 paths not certified"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "8730cbcb0a63158649b7ced2c4b07b6c77ba1eabd7ce0c2b025a0c25a028fb30",
+      "readLevel": "Selected M1/M2 request, header, semantic and identity integration delta with prepare/failure/drain/restore context; future M3-M5 paths not certified"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.test.mjs",
+      "bytes": 9476,
+      "rawBytesSha256": "741ba0e837cba52997489da99570b02985e91d3d6155d63fe90ef130e70ee924",
+      "readLevel": "Necessary new pure assertions and exact source hash; tests not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a",
+      "readLevel": "Exact retained source bytes or bounded documented dependency, using prior independent source review where unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared-result.mjs",
+      "bytes": 5323,
+      "rawBytesSha256": "1e14aaed530994e1c84336416a04708d48cce507a7084e0470eeb93bc17526cb",
+      "readLevel": "Exact retained source bytes or bounded documented dependency, using prior independent source review where unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity-contract.md",
+      "bytes": 3793,
+      "rawBytesSha256": "8444e0f83cb156f0e111a7d22c76d4a2c1dd8614ae1d48e1927932101ab0d02a",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "d1dd041bd719f3a773ae848fc136bf615ed4ca9b86b2cf831d1e6646ac507ac9",
+      "readLevel": "Complete small admission/projector source, necessary original source context and final same-operation/outer-COMMIT delta"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.test.mjs",
+      "bytes": 13701,
+      "rawBytesSha256": "3cb82571b8882c1054e2a749ac2ae01e232308121441451ce116241ba167e717",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 9633,
+      "rawBytesSha256": "38ec2e9d24a190b05adfc9af012e80efee8fae596ee9a4ab56c2e8c77faff02a",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12648,
+      "rawBytesSha256": "fb0975ac9b2de2f8b34fd2621678a4a07e45040b0088865c59078d13eaee40f6",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12792,
+      "rawBytesSha256": "c4cbf4b90ba33100f281a733ee8ac2693e1e9ed9ce0a99c21c17723e83774e6c",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15530,
+      "rawBytesSha256": "f9a6a775ac4336a7c172add916b6bbd23d89995ae15b0ebbdd7793300e8434b1",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 43734,
+      "rawBytesSha256": "3812c4cca78ccc0d9aec7a4412464387c5fddb13d8d190ddd2c6a854664ef883",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 73612,
+      "rawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f",
+      "readLevel": "Narrow preserved-old-to-current delta, exact raw hash, and necessary intent/adoption/scope/SQL/restore call context; mature unrelated proof not re-audited"
+    },
+    {
+      "file": "tools/rust-r2m/run-api-owned.mjs",
+      "bytes": 3373,
+      "rawBytesSha256": "3e3701632396f22fbd0fd69cc12513457ff01e3990216fbfd2405a4329eae54d",
+      "readLevel": "Complete small wrapper and new exact public approval flags; original owned process/log/deadline shape retained"
+    }
+  ],
+  "assessment": {
+    "precision": "Only current named M1/M2 m.http operations may use the new alternate audit_log storage identity. Ordinary case/request identity, security_event identity, owned/borrowed actors, immutable intents, tables and deletion authority remain unchanged. Source descriptors are independently reprojected from the protected exact original source bytes, not response/query IDs. Root approval binds the actual run/backend/database/new-M marker/source capsule/allowed source kind and this exact C source review.",
+    "platformNull": "The finite projector lists original role-permission, user-membership/deactivation, org/role/user-create handler/case/step/method/path pairs only. Original controller/service AST and RuntimeAudit source verify omission of request metadata and SQL NULL. Selectors require exact event/type/admin and a known typed owned target, or a previously established generated-parent intent. A generated typed target must have its own genuine committed create in the same actual case/index/op and be independently visible. Admission itself grants no ownership.",
+    "commitCorrection": "C found that a generated Native SDK parent could satisfy createContext index/op while its outer commitContext was checked only for run/case. Final A source03 pins d1dd041b helper and 38ec2e9d core: this alternate audit and its generated parent now require matching SDK outer commit run/case/index/op. PG retains its existing actual outer-status, same createContext and independent visibility checks. A source02 404e helper is superseded and must not be used for this run. Ordinary scopes were not broadened.",
+    "originalE": "The two original E setting header cells are selected by literal source step IDs and exact original recipe/controller/request resolver hashes. Caller preserves found.headers, actual e-explicit-request/e-ignored-correlation and the empty request-ID header. Actual wire identity and Native correlation-map key are kept separate from the unchanged ownership scope request ID. Each named E cell is admitted once per run at the globally unique allocated index. NULL and empty string remain distinct in both JavaScript and PG audit context.",
+    "genuineProof": "The audit intent is bound to one admission, exact selector, case/index/op and expectedMax1 before actual HTTP. SDK afterCreate plus outer COMMIT and independent row visibility, or actual PG INSERT/outer-commit proof, still supply creation authority. The journal validates admission projections and preserves existing admission entries immutably. The PG alternate request ID applies to audit_log only; security_event retains its original strict request-ID condition.",
+    "singleton": "The canonical attachment.max-upload-size-mb row remains migration-owned and never run-owned or deleted. Current ebfd7003 setting helper only adds exact E receipt validation: actual/ownership IDs, source step, index, method/path and request-body SHA. Original full-row expectedAfter, all-writer drain, CAS restore, actual COMMIT and different validated connection equality with full before row remain unchanged. Root must bind this exact new setting helper hash in a new same-run lease admission; the old 82ca helper review cannot admit these new bytes.",
+    "caller": "B caller03 allocates one actual index before projection/admission, preserves the true m.http operation, establishes ordinary typed parent intents first, passes exact context to PG, retains raw HTTP before SDK/PG certification and preserves original failures privately. E requests use their real correlation ID as the Native lookup key without rebinding it. Full107 complete fact frames and outside-scope comparisons remain required. M2.3 uses the actual supported unified audit query and requires the real owned platform-user-created event. M2.4 uses the separately reviewed same-run nextContext number lease channel, including exact drain/restore and full107 reference checks.",
+    "close": "Normal and preparation-failure paths independently attempt Native/Rust owner close, PG restore and extension close. No incomplete owner/observer/extension proof permits drain/delete. Setting and internal number restoration occur after real writer drain, then mature double cleanup. Current Root wrapper forwards only exact public same-run approval paths, retains original private 0600 log and owned 300000ms deadline.",
+    "sourceDependencyIndex": "B source03 manifest requiredAIdentityCandidate records A02 as the candidate available when it was submitted. This joint review explicitly supersedes that dependency reference with actual A03 d1dd041b/38ec2e9d bytes and the listed current setting/projectors. B fifteen code/document/test pins remain unchanged. The next actual source capsule and Root approval must bind these final combined bytes, not the older A02 candidate.",
+    "evidenceLimit": "This source review does not turn old failed an6a or any old journal into a pass. The earlier limited-six source review missed the original platform audit NULL behavior; the actual failure and explicit closed recovery remain preserved. Only M1.1 has separately reported actual observations so far; this review does not certify their comparison. M3-M5 additions remain source preparation and CLI rejects their actual selection. Future supplier/UoW/full20/UI/QA actual results and independent G3/G4 remain outstanding."
+  },
+  "verification": {
+    "currentACombinedPins": "12/12 independently matched after source03 overrides",
+    "currentBCallerPins": "15/15 independently matched",
+    "protectedOriginalSourcePins": "6/6 independently matched; necessary AST/request-resolver source behavior read",
+    "originalSevenDeltaOldBodies": "7/7 preserved original body hashes independently matched; no undeclared changed line in the declared narrow difference sets",
+    "authorAReportedPure": {
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "syntax": 3,
+      "executedByC": false
+    },
+    "authorBReportedPure": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "lexicalNoUndefErrors": 0,
+      "executedByC": false
+    },
+    "plannedConstructorOnly": {
+      "logicalCases": 8,
+      "requestRecipes": 45,
+      "internalProbeRecipes": 1,
+      "actualRequests": 0
+    }
+  },
+  "executionBoundary": "Root may bind this exact final source set in a new complete capsule and issue the already authorized exact same-run audit and singleton admissions, then run only the listed finite eight cases on the two designated new-M backends. SourceReady is not actual or parity certification. C performed source/public-file reads and this review-file write only: no private read, app/test/process start, DB/HTTP, product/fixture edit or Git mutation.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

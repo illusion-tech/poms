@@ -1,0 +1,167 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-handover-cohort-and-project-reference-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T20:28:13.913Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d",
+      "readLevel": "full helper and exact logical occurrence refinement"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.test.mjs",
+      "bytes": 6651,
+      "rawBytesSha256": "37c205cabe742302082326ccc7cde4a2a85291b67a46bea150639ebd3bbb4b8d",
+      "readLevel": "new negative/positive test definitions; not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 43059,
+      "rawBytesSha256": "d584991586902896caf8379e2e4a7ccbd636ff8d56f64b56330fbcc71d12d4f3",
+      "readLevel": "handover one-cohort method, source-only guards and direct promotion/recovery delta"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97",
+      "readLevel": "policy/profile source-only tables and source-set delta"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12646,
+      "rawBytesSha256": "60f9d48277c88dc8540ae7d8c9c000ab07917e4087462b004b12d0bb6747c982",
+      "readLevel": "policy/profile source-only tables and source-set delta"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15514,
+      "rawBytesSha256": "930133e7c8b5b49b0496cf93758ebf01cfd91277eb14a46545af7c66a689271f",
+      "readLevel": "project parent closure, cross-case actor/reference boundary and exact state-qualified logical field"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12324,
+      "rawBytesSha256": "3f5a4e1995c4f23f3d02a1ee8fd3e9b8101d6319c26bdb30e4a97da069db2d5d",
+      "readLevel": "logical/source-plan validation and immutable-history delta"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-safety.test.mjs",
+      "bytes": 19655,
+      "rawBytesSha256": "ace53a8c6d56758dd544c94c5d806a0d7b35b29bae3194b75e56c7c48a8fce35",
+      "readLevel": "new negative/positive test definitions; not executed by C"
+    }
+  ],
+  "sourceInputs": [
+    {
+      "file": "tools/rust-r2m/audit-handover-cohort-source02.json",
+      "bytes": 4298,
+      "rawBytesSha256": "52a06dcbc74b091999b8891118d30b087dec53f9aaf7a1b275f07b09a14a6350"
+    },
+    {
+      "file": "tools/rust-r2m/audit-handover-cohort-source01.json",
+      "bytes": 3623,
+      "rawBytesSha256": "9888b21651e80c11291a27aeb42f24d8efca8480a5cab37d7036d740a1dd495d",
+      "boundary": "pre-refinement source candidate retained; not a current approved runtime"
+    },
+    {
+      "file": "tools/rust-r2m/audit-project-reference-delta01.json",
+      "rawBytesSha256": "0f6a3f1a43e301fe763ea761dd3338cc3b804f24adfd7bfc23b102856a93d18c",
+      "boundary": "prior project-only delta retained; final combined source pins above govern this review"
+    }
+  ],
+  "necessaryAnchors": [
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36",
+      "normalizedLfSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36",
+      "readLevel": "pinned pure reader identity and plan reconstruction interface; no deep old K runtime rerun"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "rawBytesSha256": "a36a8dce979e5b294015a6839e063927a11377492469f35878e21453d78edcf2",
+      "readLevel": "437-476 readiness initialized-receivable-plan consumer only"
+    }
+  ],
+  "approvedBoundary": {
+    "fixtureUUIDTables": 62,
+    "priorFixtureUUIDTables": 59,
+    "addedPreparedOnlyTables": [
+      "commercial_release_baseline",
+      "commercial_baseline_diff_result",
+      "contract_readiness_package"
+    ],
+    "oldEpochs": "Root's already-running old27/profile59 capsules and journals are unchanged and cannot be reopened or relabelled as this source epoch.",
+    "logicalOccurrence": {
+      "table": "contract_readiness_package",
+      "rowId": "exact original recipe.fixture.readinessPackageId",
+      "column": "initialized_receivable_plan_version_id",
+      "jsonPath": null,
+      "rowOwnership": false,
+      "deletionPermission": false
+    }
+  },
+  "sourceConclusions": [
+    "Cross-case references require an already certified explicit scope.projects root or the named immutable contract/handover/attachment-link/package parent closure. Missing/foreign project and actor checks remain rejecting.",
+    "The three added tables reject generic single-row creation and generated adoption. They enter only the exact pinned original K source plan cohort.",
+    "The plan is completely rebuilt from the pinned original reader and approved actor/org/borrowed definition inputs, with exact SQL/columns/mappings and only the original fresh baseline back-pointer update.",
+    "All declared PKs must be absent before executing one transaction. The whole cohort is captured before commit and promoted only after actual ACK or committed recovery plus every row's xmin/identity/postcommit visibility.",
+    "The cohort must remain a prepared draft. Current actual Native confirmation is a setup/consumer qualification requirement for this test slice, not a new production confirmed gate or Rust R4 migration claim.",
+    "Logical receivable-plan identity is never a generic known UUID or row ownership. Only its exact readiness row/top-level column is allowed.",
+    "Executing logical validation requires the exact source-plan/transaction context. Postcommit use requires committed/promoted state plus verified whole-cohort capture and ACK or actual committed recovery; rolled-back/absent/unresolved states grant no authority.",
+    "Full107 reference scanning includes the no-row logical identity and preserves unknown/outside references as blockers; cleanup may delete only proven actual rows."
+  ],
+  "closedSourceFinding": {
+    "id": "C-M4-LOGICAL-01",
+    "initialCandidate": "source01",
+    "problem": "The logical no-row UUID was placed in a generic known set and remained usable for failed plan states.",
+    "resolution": "source02 fixes one table/row/column occurrence, removes generic-known treatment, qualifies transaction/commit state and preserves recoveredFromState before promotion.",
+    "negativeEvidence": "New pure cases reject the logical ID as attachment parent/other JSON occurrence and reject rolled-back/absent/unknown or unbound executing plans."
+  },
+  "pureEvidence": {
+    "authority": "A actual public log read and fingerprint checked by C; no C test execution",
+    "file": "tools/rust-r2m/audit-handover-cohort-source02-pure.txt",
+    "bytes": 3160,
+    "rawBytesSha256": "14beb81642a2558c5d75050e02227d7427dbfd308feb77042c47875e2539db5d",
+    "passed": 33,
+    "failed": 0,
+    "skipped": 0,
+    "syntaxFilesReported": 8,
+    "DB": 0,
+    "HTTP": 0
+  },
+  "callerIntegrationRequired": "insertHandoverPreparedBatch returns {rows,sourcePlanId,receipt}. A reviewed API/M4 caller must use applied.rows and retain the real receipt; the earlier M0 runtime's unused handover array assumption is not approved for actual M4.",
+  "actualUseRequirements": [
+    "Freeze a new exact fixture profile/source capsule only after old active journals are closed with their old source preserved.",
+    "Qualify actual original SQL/COMMIT, source-bound rows, Native confirmation and consumer/cleanup evidence before claiming M4 success.",
+    "If a legitimate additional physical/JSON logical consumer is found, keep the failure and add only its evidenced occurrence; do not restore a broad known-UUID bypass."
+  ],
+  "unresolvedSourceBlockers": [],
+  "notCertified": [
+    "Actual prepared SQL or Native confirmation",
+    "Rust R4 producer/whole-domain migration",
+    "New API/M4/UI caller implementation",
+    "M0 prior epochs relabelled",
+    "G3/G4"
+  ],
+  "executionByReviewer": {
+    "testsRun": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateReads": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

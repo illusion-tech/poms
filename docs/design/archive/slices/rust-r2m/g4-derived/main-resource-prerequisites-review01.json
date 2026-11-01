@@ -1,0 +1,140 @@
+{
+  "kind": "RUST-R2M-independent-limited-main-integration-and-resource-G4-prerequisite-review",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01T17:24:42.110Z",
+  "reviewedCommit": "bb25731632bafa7f75be9b77ff40754d51925dbb",
+  "scope": "Only actual mainFF/push source integration and ownedPG15/taskport shutdown with retained volumes, journals and oldRust quarantine; not final public archive, lifecycle metadata, online issue close or effective G4.",
+  "mainIntegrationPrerequisiteVerified": true,
+  "ownedResourceClosurePrerequisiteVerified": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputs": {
+    "fixedCommitC": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/fixed-commit-review01.json",
+      "bytes": 14613,
+      "rawBytesSha256": "f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0"
+    },
+    "primaryIntegrationActual": {
+      "file": "tmp/rust-r2m/primary-integration-receipt02.json",
+      "bytes": 2892,
+      "rawBytesSha256": "aaf260ff1a0f8540fae3ddd5f2ff2a5eb3d07f0df390abc6d445c2c7680e8f5e"
+    },
+    "primaryRawRepresentationDiagnostic": {
+      "file": "tmp/rust-r2m/primary-raw-diagnostic01.json",
+      "bytes": 9793,
+      "rawBytesSha256": "5d39449617c90395e4eb7dab5965cfe1bd130169fe2d6cee784ea3bf05045045"
+    },
+    "resourceCloseActual": {
+      "file": "tmp/rust-r2m-continuation01/final-resource-close01.json",
+      "bytes": 1484,
+      "rawBytesSha256": "42f1a784ece0cc6f154cf554a3a1b6f7d8798b2fbefca862ca105c9fc58a5d9b"
+    },
+    "resourceCloseRootSource": {
+      "file": "tmp/rust-r2m-continuation01/final-resource-close-root01.mjs",
+      "bytes": 4326,
+      "rawBytesSha256": "0d0fff01343e7394af50aedd22c3d622be23ecb3eae4cc9c2eea1d5a0200f3e1"
+    },
+    "codeSet": {
+      "file": "tmp/rust-r2m-continuation01/final-current-code-set01.json",
+      "bytes": 838258,
+      "rawBytesSha256": "0978f1fc9e31eb882e50819101621b34681b8d7dccf5a43476fb52ae9b709929"
+    }
+  },
+  "mainIntegration": {
+    "before": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "after": "bb25731632bafa7f75be9b77ff40754d51925dbb",
+    "mainLocalAndOriginTrackingRefsIndependentlyReadEqualFixedCommit": true,
+    "tree": "b0a1d10064a8334227918e032d8aa93c3d403d4f",
+    "actualRemotePushAndCleanPrimaryReportedByRoot": true,
+    "CNetworkRemoteOrPrimaryHostQuery": false,
+    "fixed4166GitBlobs": "Already independently checked exactly against originalcap11/CodeSet in fixedCommitC.",
+    "primaryCurrentRawExact": 4135,
+    "primaryInheritedUnchangedLFOnlyRepresentations": 31,
+    "all31AreOriginalCodeSetMembersAndNotChangedByImplementationIndependentlyChecked": true,
+    "all31LFEquality": "Root actual diagnostic normalizedLFMatches=true with exact primary rawSHA/bytecount per entry; raw representations remain separately recorded.",
+    "noClaimPrimaryWorking4166AllRawExact": true,
+    "noWorkingPrimaryLineEndingRewriteAndNoAcceptanceRunnerRawPinRelaxation": true,
+    "materializedG3Ready11PrimaryExact": true,
+    "postIntegrationDiffCheckExit": 0,
+    "postIntegrationMarkdownCheck": "Root directly reported exit0; no C rerun.",
+    "noProductOrAcceptanceRerunNeededOrClaimed": true
+  },
+  "resourceClose": {
+    "onlyContainerId": "b2aa3127ebf8c468bc494bce903cda97b1022f6ecc7a5465aaea2def425f8bb2",
+    "onlyContainerName": "poms-r2m-pg15",
+    "beforeRunning": true,
+    "afterRunning": false,
+    "retainedVolume": "poms-r2m-pg15-data",
+    "originalPrivateEvidenceRetainedNotDeleted": true,
+    "databaseCatalog": [
+      {
+        "oid": "27137",
+        "datname": "poms_r2m_c01_nest",
+        "datallowconn": true
+      },
+      {
+        "oid": "27149",
+        "datname": "poms_r2m_c01_rust",
+        "datallowconn": true
+      },
+      {
+        "oid": "16385",
+        "datname": "poms_r2m_nest",
+        "datallowconn": true
+      },
+      {
+        "oid": "17085",
+        "datname": "poms_r2m_rust",
+        "datallowconn": false
+      }
+    ],
+    "queryConnection": "Root regular owner readonly connection to c01Rust; pg_database metadata only for oldRust.",
+    "originalOldRust17085NotConnected": true,
+    "originalOldRustALLOW_CONNECTIONS": false,
+    "otherTaskConnections": 0,
+    "preparedTransactions": 0,
+    "checkedPorts": [
+      10070,
+      10071,
+      10080,
+      10090,
+      10091,
+      20432
+    ],
+    "taskPortsAndNewPGOwnerClosed": true,
+    "allTaskWritersStopped": "Accepted Root actual statement together with prior complete run owner closures and this bounded no-listener/no-task-DB-connection proof.",
+    "noBusinessDMLDDLDropDeleteResetOrVolumeJournalRemoval": true,
+    "PG17AndOtherContainersUntouched": true,
+    "sourceInspection": "Readonly begin/select/rollback/clientend followed only by exactId Podman inspect/stop and exact retained-volume inspect; no root child/host action executed by C.",
+    "privateDirectoryLstatIsNotClaimOfCPrivateContentRead": true,
+    "futureOldGraphDisposition": "Frozen G1 namedR6/R7 retains unchanged; this stop does not certify old missingaudit or delete its graph."
+  },
+  "findings": [],
+  "closureMeaning": "These two finite G4 prerequisites pass; final dual-origin archive/member verification, lifecycle metadata and actual online/local G4 consistency remain unapproved.",
+  "preservationAdvice": {
+    "heavyTwoInputScopes": "tmp/rust-r2m and tmp/rust-r2m-continuation01",
+    "freezeExactOriginRelativePathRawSHASetOnce": true,
+    "doNotWriteOrOverwriteFrozenHeavySourceMembersDuringTarAndMemberVerification": true,
+    "originalTarAndManifestNeverSelfIncludeTheirOutputs": true,
+    "laterSmallDerivedG4Evidence": "Keep in a separate explicitly bounded derived scope/manifest, e.g. tmp/rust-r2m-g4-derived or canonical archive metadata; pin exact rawSHA and mark generatedAfterHeavyFreeze rather than silently claiming inside prior tar.",
+    "noNeedToRegenerateHeavyTarToContainItsOwnReceipt": true,
+    "sourceOriginCollisions": "Same relativePath with different rawSHA remains separate by origin; no blind overwrite.",
+    "noNewAcceptanceOrPrivacyBlanketGate": true
+  },
+  "remaining": {
+    "lifecycleArchiveCopyAndC": "Pending",
+    "dualOriginTarSourceStoreManifestMemberVerificationAndC": "Pending",
+    "finalCanonicalG4MetadataAndOnline80_67Truth": "Pending",
+    "issue80And67": "Remain OPEN until actual respective conditions complete",
+    "issue57": "Remain OPEN",
+    "effectiveG4": false
+  },
+  "activity": {
+    "sourcePublicAndReadonlyGitOnly": true,
+    "privateDBHostRuntimeBrowserHTTPActions": 0,
+    "testsBuildsOrGitMutations": 0,
+    "existingSourceOrCapturedFilesWritten": 0,
+    "newOutputOutsideBothHeavyInputScopes": true
+  }
+}

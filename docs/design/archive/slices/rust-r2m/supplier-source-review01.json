@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-controlled-supplier-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T19:00:14.475Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/supplier-owner.mjs",
+      "bytes": 4549,
+      "rawBytesSha256": "ecea92cc27d3a9295edf4a7c40dd5d5b64d3c52878262d53de541d8dc92ebef0",
+      "readLevel": "full new owner implementation"
+    },
+    {
+      "file": "tools/rust-r2m/feishu-server.mjs",
+      "bytes": 8571,
+      "rawBytesSha256": "9c59c76f9d6993a7c76f14274812b6fb0175c1a6ad1fa8561f5afff327d18ef2",
+      "readLevel": "full current Feishu peer plus complete zero-context derivation diff"
+    },
+    {
+      "file": "tools/rust-r2m/obs-server.mjs",
+      "bytes": 48784,
+      "rawBytesSha256": "4c1f7e907d34e10821f31aab7726cf6e7678e067a618b7502d2b18c8df043283",
+      "readLevel": "new namespace/private/host/control/health/start-stop sections and complete zero-context derivation diff; unchanged deep protocol not re-reviewed"
+    },
+    {
+      "file": "tools/rust-r2m/obs-client.mjs",
+      "bytes": 3397,
+      "rawBytesSha256": "302e6fb4ac4ad876cdc550688797058af8785a702e34ebebe731781b1956f9fd",
+      "readLevel": "full control client and complete zero-context derivation diff"
+    }
+  ],
+  "matureReferenceSources": [
+    {
+      "file": "tools/rust-r2gh/controlled-upstream.mjs",
+      "bytes": 8310,
+      "rawBytesSha256": "8d678ff2564ac7b6b0eaca5bcd3229ca11962d409f4c5fa80ab873e3211ab0b2",
+      "readLevel": "raw fingerprint and complete old-to-new textual diff; inherited protocol acceptance is not a new execution"
+    },
+    {
+      "file": "tools/rust-r2k/k-obs-server.mjs",
+      "bytes": 48782,
+      "rawBytesSha256": "07d7c997505421cc47a2525a79a6cec87d0c016abbc559b37e43ffbaefeeb9e6",
+      "readLevel": "raw fingerprint and complete old-to-new textual diff; inherited protocol acceptance is not a new execution"
+    },
+    {
+      "file": "tools/rust-r2k/k-obs-client.mjs",
+      "bytes": 3395,
+      "rawBytesSha256": "8c79fc42c8ce48266f29f596cc832ac194d22f23e89f5bce08ed09da9cbda008",
+      "readLevel": "raw fingerprint and complete old-to-new textual diff; inherited protocol acceptance is not a new execution"
+    }
+  ],
+  "fixedBoundary": {
+    "root": "/home/wangzishi/projects/poms-rust-r2m",
+    "private": "/home/wangzishi/.local/share/poms-r2m/private",
+    "ports": {
+      "feishu": 10090,
+      "obs": 10091
+    },
+    "callbacks": "loopback127.0.0.1/localhost at10070/10071, or10080 with exact /auth/identity-providers:callback",
+    "tenants": "synthetic loopback only"
+  },
+  "sourceConclusions": [
+    "Importing supplier-owner and obs-client starts no process, opens no private state and makes no request. Root explicitly invokes startSupplier; child peer scripts are owned CLI entrypoints.",
+    "Fresh tags, private directories, exclusive0600 execution logs and fixed loopback ports prevent reuse of old private namespaces. Health binds scope/tag/source hash.",
+    "GH/K derivation diffs are limited to new M roots/names/ports/hosts/control/receipt prefixes and small readiness/owner wiring; no deep protocol semantics were silently rewritten.",
+    "Feishu callbacks remain confined to the frozen loopback endpoints; no actual vendor tenant or directory is addressed.",
+    "OBS retains exact key/byte-hash ownership, bounded control-token admission and zero-object/zero-active graceful shutdown before a valid stop receipt.",
+    "The owner retains exact source checks, uses the existing owned-process runtime and verifies released ports; there is no global process kill or old-instance stop."
+  ],
+  "actualUseBoundaries": [
+    "Root must bind these exact source hashes in the current capsule and verify actual health, case registration, object ownership, drain and port release.",
+    "gracefulPeerReceipt means peer closure was acknowledged; it is not successful M5 business/protocol acceptance. Preserve Feishu peerStop.result and any failed assertion/forced stop as their actual labels.",
+    "A shutdown or zero-state failure must remain failure/partial. The finally-owned stop preserves data; it must not manufacture a clean or passed supplier case.",
+    "Cloud-peer objects and control journals require actual exact cleanup/second-zero proof under Root ownership before final stage acceptance.",
+    "Public projections and raw private logs stay separate; this source review exposes no credentials, tokens or old private content."
+  ],
+  "unresolvedSourceBlockers": [],
+  "notCertified": [
+    "Actual supplier start/readiness",
+    "Actual provider/OAuth/OBS protocol or data results",
+    "Actual graceful/zero stop",
+    "Real cloud/vendor tenants",
+    "M0-M5/UI or G3/G4"
+  ],
+  "executionByReviewer": {
+    "privateReads": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "processesStarted": 0,
+    "testsRun": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

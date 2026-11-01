@@ -1,0 +1,73 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-uir1a-Rust-closed-UI1-recovery-incremental-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:17:27.488Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "priorReview": "docs/design/rust-r2m/ui1b-recovery-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uir1a.mjs",
+      "bytes": 6385,
+      "rawBytesSha256": "5a526594088fa31d123f3771e1f87bb6f75ed1fb69d4d2a0895cdf48a141f509",
+      "readLevel": "Complete bounded diff from reviewedUI1b: exact new run/tag/report/capsule/journal/private paths, Rust fixture/database/backend and fourth Rust owner; common guarded protocol reused"
+    }
+  ],
+  "publicReportRead": {
+    "file": "tmp/rust-r2m/ui-linux-rust-uir1a.json",
+    "bytes": 42532,
+    "rawBytesSha256": "b6367a821ba2b387fcbd8da3afcb1c6649d42a77259384419422dd316bd08a71",
+    "runId": "8d8471a1-c38e-4e6c-968c-79de7b5cdd70",
+    "result": "partial-preserved",
+    "sourceCapId": "r2m-ui13",
+    "manifestSha256": "43b6b0bd4e995c957c6dce602aeb324f1632899a28c971101d94fda874978c0b",
+    "oldWorker": 1833591,
+    "oldAnchor": 1833584,
+    "writersStopped": true,
+    "observerRestored": true,
+    "activePgCasePreserved": false
+  },
+  "inputPins": {
+    "capsule": {
+      "file": "tmp/rust-r2m/source-cap-ui13.json",
+      "rawBytesSha256": "b31fe089837071ae6c21bc8cbeced0e03804398e8c4895a49ced70e85d0c8992"
+    },
+    "originalJournalRawBytesSha256": "3ca4652562c8c652b6c98877f3b360536292b919783d065939e626f2ea52a268"
+  },
+  "privateEvidenceMetadataOnly": {
+    "finalSdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-8d8471a1-c38e-4e6c-968c-79de7b5cdd70/00044.json",
+      "bytes": 16421,
+      "rawBytesSha256": "c126dfbe55ac595fded7015c6e159d93c85861ec113e7e6580144d4a9cc7aea1"
+    },
+    "PGrestore": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-8d8471a1-c38e-4e6c-968c-79de7b5cdd70/00045.json",
+      "bytes": 2334,
+      "rawBytesSha256": "2fbdf8cbebb27f5cda2fb0b68d2fcd79f1af9eea1c3d4e0a173aa436daeb1de0"
+    },
+    "CReadPrivateContents": false
+  },
+  "assessment": [
+    "Exact Rust report/capsule/journal hashes and Rust-only private namespace are literal-bound. The original raw journal is still exclusively/no-follow/fsynced saved before Fixture.open; all prior private-parent/0700/0600/inode checks remain.",
+    "The public resource list independently records stopped/restored browser, UI server, Native preparer and Rust managed owner. The drain includes all four, while old known root worker/anchor must be absent and all five ports free. No present/recycled PID is killed or guessed.",
+    "Private original Native preparer SDK completion and exact PG observer restore are still checked by their hash-bound refs. Fresh Fixture.open('rust',runId) retains marker/source/profile/low-role protections; no non-idle app/prepared work, zero unknowns and full107 references must precede mature double cleanup.",
+    "No new adoption/row predicate, scope metadata correction, other backend deletion or original API failed-run ledger change is introduced."
+  ],
+  "originalOutcome": "Only anonymous-deep-link is observed; login-restore remains pending/fail with original private failure receipts. Root reports a reload/bridge-ready timing issue. C did not read that private error and does not assign whole UI1 Pass or rewrite earlier failed causes.",
+  "verification": {
+    "CExecutedRecoveryOrTestsOrDBHTTPOrBrowser": false,
+    "CReadPrivate": false,
+    "RootReportedSyntaxExitCode": 0
+  },
+  "executionBoundary": "Root may recover only this exact closed Rust uir1a run with matching reviewed62 fixture bytes. Preserve original partial evidence and raw journal. New bridge-ready, QA config, supplier or Windows source increments remain separately reviewed.",
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

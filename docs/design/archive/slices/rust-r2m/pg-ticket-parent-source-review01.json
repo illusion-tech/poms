@@ -1,0 +1,106 @@
+{
+  "kind": "POMS-R2M-independent-future-ticket-parent-PG-source-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 06:41:31 UTC",
+  "gate": false,
+  "privateRead": false,
+  "environmentRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecutedByReviewer": false,
+  "productOrFixtureEdited": false,
+  "gitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "result": "SourceReady",
+  "scope": "Future admitted source/environment epoch only; no retroactive old audit certificate.",
+  "candidate": {
+    "file": "tools/rust-r2m/pg-ticket-parent-source01.json",
+    "bytes": 3224,
+    "rawBytesSha256": "f044457acd081c1e7918d68f6583743880d328f72fd73e8107b38db6058ce004"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75083,
+      "rawBytesSha256": "538aa31a86bf59b18b6180577d371be31c7837492f406a763afc0575da72eaee"
+    },
+    {
+      "file": "tools/rust-r2m/pg-ticket-parent-source01.test.mjs",
+      "bytes": 8233,
+      "rawBytesSha256": "cd38804b7749d79f14d3386306a7ea04698388c85546cb48818d4834ce4c4ff7"
+    }
+  ],
+  "unchangedProfile": {
+    "file": "tools/rust-r2m/fixture-profile.mjs",
+    "bytes": 12948,
+    "rawBytesSha256": "9ae95ce33413044329d706acb8eaa606638acd61c145c0f1dd6656f84e13a667"
+  },
+  "independentStaticCheck": {
+    "newBytes": 75083,
+    "newRawSha256": "538aa31a86bf59b18b6180577d371be31c7837492f406a763afc0575da72eaee",
+    "onlyAddedNeededParent": "external_login_ticket",
+    "addedBytes": 24,
+    "removedOnlyTokenRawSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3",
+    "profileRawUnchanged": true,
+    "observedTablesStill34": true,
+    "DDLAndAllRemainingSourceByteIdentical": true
+  },
+  "findings": [
+    {
+      "id": "narrow-existing-owned-parent",
+      "result": "Pass",
+      "detail": "Adds only existing certified ticket to the ordinary neededParents loop. Original explicit same-scope selection, current immutable readOwned/visibility, actor/request/index/op/role/marker/intent/maximum checks remain. Mutable issued/consumed state grants no new birth."
+    },
+    {
+      "id": "negative-guard-cases",
+      "result": "Pass-source-inspection",
+      "detail": "Actual scopeFor source is extracted for Fake-owner12 cases: old omission reproduced; new same-scope ticket known; foreign/unowned/absent omitted; birth/visibility/identity changes reject; ordinary wrong request/excess limit/unknown selector still reject. Reviewer does not execute."
+    },
+    {
+      "id": "old-evidence-immutable",
+      "result": "Pass",
+      "detail": "Old6d9 capsules/journals/RowRoot certificates remain original. Existing failed audit2806 has no retroactive event or ownership from this change; old graph quarantine design remains separate."
+    }
+  ],
+  "authorChecks": {
+    "pureTests": 12,
+    "pass": 12,
+    "fail": 0,
+    "lexicalNoUndefFiles": 2,
+    "lexicalFindings": 0,
+    "log": {
+      "file": "tmp/rust-r2m/pg-ticket-parent-source01-pure.log",
+      "bytes": 1183,
+      "rawBytesSha256": "c1fc6bf97a7371ba69903da1e4657c38e7d759614c65f0664dd86d68a3fcf9a3"
+    },
+    "fakeOwnerOnly": true,
+    "noEnvironmentPrivateDatabaseHttpOrSpawnedService": true
+  },
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/pg-create-observer.mjs",
+        "tools/rust-r2m/pg-ticket-parent-source01.test.mjs"
+      ],
+      "level": "Exact24-byte diff and all Fake-scope tests source;2 current raw pins and unchanged profile checked."
+    },
+    {
+      "files": [
+        "tmp/rust-r2m/pg-ticket-parent-source01-pure.log"
+      ],
+      "level": "Author public log raw hash verified, no C test or DB execution."
+    }
+  ],
+  "executionBoundary": {
+    "newMatchingCapAndActualAdmissionRequired": true,
+    "oldRunReopenWithNewModuleForbidden": true,
+    "derivedContinuationProfileStillRequiresItsOwnConcreteLiteralSourceReview": true,
+    "actualM5ParityCertified": false,
+    "ownershipGranted": false
+  },
+  "blockers": []
+}

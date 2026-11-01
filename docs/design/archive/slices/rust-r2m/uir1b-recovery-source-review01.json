@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "reviewedAt": "2026-10-30T22:32:03.136Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "result": "SourceReady",
+  "G3Certified": false,
+  "G4Certified": false,
+  "kind": "R2M-uir1b-literal-only-closed-Rust-UI1-recovery-source-review-not-a-Gate",
+  "priorReview": "docs/design/rust-r2m/uir1a-recovery-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uir1b.mjs",
+      "bytes": 6385,
+      "rawBytesSha256": "0ad8259b653f9db7c56190850acebc9965d215799434bdd680b8bf465acdc507",
+      "readLevel": "Complete exact literal-only diff from reviewed5a526 Rust four-owner recovery protocol"
+    }
+  ],
+  "publicReportRead": {
+    "file": "tmp/rust-r2m/ui-linux-rust-uir1b.json",
+    "bytes": 47608,
+    "rawBytesSha256": "26f84e3dc815b7575ddb423ded13b06fc50609cc8843ffb297def18105399f8c",
+    "runId": "904830f5-344d-4b92-8609-05789a1d1093",
+    "result": "partial-preserved",
+    "sourceCapId": "r2m-ui14",
+    "manifestSha256": "303a86fd29f8f709dbc4df3c3860b1c103a5045a35cd2ec6fcbb301495ad32d1",
+    "worker": 1835042,
+    "anchor": 1835035,
+    "writersStopped": true,
+    "observerRestored": true,
+    "activePgCasePreserved": false,
+    "observedSteps": [
+      "anonymous-deep-link",
+      "login-restore",
+      "expired-session"
+    ],
+    "pendingStep": "relogin-and-topbar-logout"
+  },
+  "pins": {
+    "capsuleRawBytesSha256": "3ad95894da0039a705cec96d75a185a68466a3817b09d53b7c32dec77626e8d7",
+    "originalJournalRawBytesSha256": "1d0dc957720561f65bffd0fda8352eaf26a3bed28963110b3708c3aa0f028f73",
+    "finalSDK": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-904830f5-344d-4b92-8609-05789a1d1093/00058.json",
+      "bytes": 27330,
+      "rawBytesSha256": "fa4c57acc95fd63d6203b51053152ba7fb4a0ed23ba8a8197e32542d92eb19a6"
+    },
+    "PGrestore": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-904830f5-344d-4b92-8609-05789a1d1093/00059.json",
+      "bytes": 2334,
+      "rawBytesSha256": "230e835f445a42c142ee3cfa7932a53761f5c52b31052f3135f6518727f8adf0"
+    },
+    "CReadPrivateContents": false
+  },
+  "assessment": "Only exact run/tag/report/capsule/journal/snapshot/error/output names change. All reviewed private ancestry/mode/hash/wx-original, four real owner stop, old PID absence/five-port, original SDK/PG restore, fresh Rust marker/zero-unknown/full107 and mature double-cleanup obligations remain. No adoption, scope correction or new deletion path is added.",
+  "verification": {
+    "CExecutedRecoveryDBHTTPOrBrowser": false,
+    "CReadPrivate": false
+  },
+  "executionBoundary": "Root may recover this exact closed Rust run with matching reviewed62 source. First three observed steps are retained; the fourth target-closed failure remains partial/unknown cause until supported by actual new diagnostics. No full UI1 pass or retrospective cause is assigned.",
+  "blocks": []
+}

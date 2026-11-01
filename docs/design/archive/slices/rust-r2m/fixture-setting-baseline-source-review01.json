@@ -1,0 +1,128 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-baseline-setting-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T18:45:49.118Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "namespace": "poms-r2m",
+  "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "reviewScope": "Only the new environment-baseline singleton lease channel and the exact admission/journal/profile/cleanup integration delta. Previously reviewed fixture ownership is not reopened.",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12341,
+      "rawBytesSha256": "82ca4362e77d029eee5da7a99ea43335e9a6bba26c2a0630dc2d3a9b1b4eef14",
+      "readLevel": "full"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 38053,
+      "rawBytesSha256": "c1dfa679ca05be5731dad35569f83a8f1c223377ad933a803c1786b4cd1820ec",
+      "readLevel": "new import, three public methods and pre-cleanup restore assertion"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12496,
+      "rawBytesSha256": "00e8cef3a12bb787e6b7770a8ab7682cb6f99211a0b0691c3b4511dd3f69c83a",
+      "readLevel": "new helper in current profile source set"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 11112,
+      "rawBytesSha256": "4b8ce0edde4e2d32f62207796f65c4b29d982a7bef84398b2a84a8ee1c1528e5",
+      "readLevel": "lease validation and immutable admission/before fields"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 12668,
+      "rawBytesSha256": "32bdd9d54ad86c0717bc66bd8aa8cd700047d129f59b76226af5a0170a8ea7cc",
+      "readLevel": "same-scope string-key scan correction and cleanup-reference boundary"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-safety.test.mjs",
+      "bytes": 18665,
+      "rawBytesSha256": "12f09e5a779bfe7f6d6889f53b169cf614e0ab41ab1b1e8b6589e810b51a9058",
+      "readLevel": "three added singleton negative-test definitions; not executed by C"
+    }
+  ],
+  "auditInput": {
+    "file": "tools/rust-r2m/audit-fixture-source.json",
+    "bytes": 130708,
+    "rawBytesSha256": "e16bf8a1e44d81c5e97b4779cd0c0e517328ca7406ec565b302351a5d6e792e4",
+    "currentDeltaPinsVerified": 6
+  },
+  "correctiveCheckpoint": {
+    "file": "docs/design/rust-r2m-corrective-checkpoint.md",
+    "bytes": 4198,
+    "rawBytesSha256": "98d91ff613385aaf5fbed4bcbdd8c2cdec28b162ed1c5c77cd3cd4a56d84245e",
+    "readLevel": "Singleton admission, mutation and recovery scope read in full; Root URI/runtime progress remains Root-reported and is not independently certified by this source review",
+    "leaseCase": "m2-ui2.attachment-max-upload-size",
+    "bindingRule": "Preserve these exact public input bytes for actual admission even if later URI or Gate status is recorded additively."
+  },
+  "closedSourceRefinement": {
+    "initialCandidateHelperSha256": "850e77a2768be430ee58547342ce3e0f70a897ed6259dcbe9fce8e181d64ec00",
+    "change": "The final helper now asserts the checkpoint's one literal M2/UI2 lease case before any live use; it no longer accepts a different caller/admission case pair.",
+    "checkpointScopeAccepted": true
+  },
+  "formalPremise": {
+    "sourceProof": "tools/rust-r2m/audit-setting-baseline-input.json and original Migration20260526100000_ex67a_system_setting.ts up28-30",
+    "premise": "The original full92 chain creates the canonical attachment.max-upload-size-mb integer50 row. A seeder-only absence inference is invalid and is preserved as a corrected premise.",
+    "actualInitialRowStillRequired": "Exact seven-column row, value_type integer, value_json50, row_version1, updated_by null and created_at equal updated_at must be witnessed in each new R2M database.",
+    "runtimeRouteSource": "Current full OpenAPI /api/platform/system-settings/{key}"
+  },
+  "acceptedBoundaries": [
+    "Only attachment.max-upload-size-mb in the new marker-bound R2M databases; never run-owned, never deleted, no generic mutable-borrow permission.",
+    "The only accepted lease case is the literal m2-ui2.attachment-max-upload-size; M2/UI2 keep separate logicalCase/stepId metadata within that one scope.",
+    "Precise admission binds namespace, sourceHead, marker, backend, database, run, case and key, Root approval, exact corrective checkpoint bytes and this C source review with the exact helper hash.",
+    "A session advisory lock serializes this named singleton lease; the complete baseline row, source bindings, admission and tool hash are journalled and immutable.",
+    "Only completed GET/PATCH receipts on the fixed route with case request identity and request/response hashes are recorded; GET/rejection must preserve the expected full row, and successful writes must use an owned case actor.",
+    "After writer drain, every original and expected-after field is checked. CAS restore matches key, complete expected JSON and xmin and restores all logical fields, including version/times/updated_by.",
+    "Actual outer COMMIT ACK, different validated backend connection, committed transaction status, restored xmin and independent complete-row equality are all required before the lease becomes restored.",
+    "Fixture.cleanup asserts restored certification before any reference/delete SQL, so actors referenced by updated_by cannot be removed early.",
+    "Foreign changes, unknown mutation/COMMIT outcomes or failed independent proof remain blocked/preserved; SourceReady is not successful restoration evidence."
+  ],
+  "actualUseRequirements": [
+    "Root must create and freeze the stated corrective checkpoint and exact per-run/case admission before live use; the original G1 input and its mistaken absence premise remain historical.",
+    "M2/UI2 must share the declared singleton scope and preserve their logical-case metadata; no undeclared concurrent singleton writer.",
+    "Bind the final current fixture source set/capsule once before cases and do not change profile files while journals are active.",
+    "Keep actual complete rows and sensitive runtime material private; public evidence may expose safe hashes/status only.",
+    "Record actual PATCH/GET/noop/stale results and complete restoration evidence, then release the lease and only afterward clean run-owned actors."
+  ],
+  "pureEvidence": {
+    "authority": "A's actual source-readiness receipt and public pure log, not C execution",
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-fixture-pure.txt",
+      "bytes": 2420,
+      "sha256": "fa3e1bbedc94e8daf5e9ec584914045234ea57010d207bff5147c9314fc63eb0"
+    },
+    "boundary": "Synthetic/fake-client source checks only; no DB/HTTP/restore certificate."
+  },
+  "unresolvedSourceBlockers": [],
+  "notApprovedByThisReview": [
+    "Actual singleton mutation or restore as already passed",
+    "G3 or G4",
+    "Old databases or private reuse",
+    "Ownership/deletion of the baseline setting",
+    "General mutable-borrow operations"
+  ],
+  "executionByReviewer": {
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateReads": 0,
+    "testsRun": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

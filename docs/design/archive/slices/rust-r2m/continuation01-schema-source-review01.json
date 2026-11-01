@@ -1,0 +1,143 @@
+{
+  "kind": "R2M-independent-C-continuation01-schema-readonly-source-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 14:28:43 UTC",
+  "reviewer": {
+    "role": "independent non-product-author C",
+    "declaredModel": "gpt-6.1-sol",
+    "declaredReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/continuation01-schema-source01.json",
+    "bytes": 21242,
+    "rawBytesSha256": "bf1de331090e73b78b4f477da0f65238313a11a371e107a5c88ccf365c0c275f"
+  },
+  "reviewedSources": [
+    {
+      "bytes": 14277,
+      "file": "tools/rust-r2m/schema-check.mjs",
+      "rawBytesSha256": "088c2aaf1e2a6e43fa648c6f705933b9026c08b1891552172231a0dcf0022260"
+    },
+    {
+      "bytes": 14480,
+      "file": "tools/rust-r2m-continuation01/schema-check.mjs",
+      "rawBytesSha256": "bdd07f706e65e35d10b011fd01fc7c3c36a3a0d573b0250252fc368f33091c10"
+    },
+    {
+      "bytes": 4773,
+      "file": "tools/rust-r2m-continuation01/fixture-guard.mjs",
+      "rawBytesSha256": "c33e9024290138b6c1e9eb0992fc982e0baa8d4b9121ffe4257020b4a3725bbe"
+    },
+    {
+      "bytes": 3892,
+      "file": "tools/rust-r2m-continuation01/private-files.mjs",
+      "rawBytesSha256": "bac859fdc9d4f55b2b15660b8e3ef0e607f3690a42b96f5c839c5603856770dd"
+    },
+    {
+      "bytes": 7159,
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08"
+    },
+    {
+      "bytes": 16416,
+      "file": "tools/rust-r2c/schema-check.mjs",
+      "rawBytesSha256": "b99faec69128f1c3a82675a56276804cc0e544b1eb1ea4417cfed8b02c3ca071"
+    }
+  ],
+  "sourceVariant": {
+    "original": {
+      "file": "tools/rust-r2m/schema-check.mjs",
+      "bytes": 14277,
+      "rawBytesSha256": "088c2aaf1e2a6e43fa648c6f705933b9026c08b1891552172231a0dcf0022260"
+    },
+    "derived": {
+      "file": "tools/rust-r2m-continuation01/schema-check.mjs",
+      "bytes": 14480,
+      "rawBytesSha256": "bdd07f706e65e35d10b011fd01fc7c3c36a3a0d573b0250252fc368f33091c10"
+    },
+    "rules": [
+      {
+        "to": "tools/rust-r2m-continuation01/",
+        "from": "tools/rust-r2m/",
+        "count": 4
+      },
+      {
+        "to": "tmp/rust-r2m-continuation01/",
+        "from": "tmp/rust-r2m/",
+        "count": 6
+      },
+      {
+        "to": "/home/wangzishi/.local/share/poms-r2m-continuation01/private",
+        "from": "/home/wangzishi/.local/share/poms-r2m/private",
+        "count": 3
+      },
+      {
+        "to": "poms_r2m_c01_app",
+        "from": "poms_r2m_app",
+        "count": 2
+      }
+    ],
+    "wholeOriginalBase64DecodedAndHashVerified": true,
+    "wholeForwardSourceExactlyDerived": true,
+    "wholeInverseSourceExactlyOriginal": true,
+    "unlistedSourceChanges": false
+  },
+  "scope": {
+    "databases": [
+      "poms_r2m_c01_nest",
+      "poms_r2m_c01_rust"
+    ],
+    "lowRole": "poms_r2m_c01_app",
+    "privateRoot": "/home/wangzishi/.local/share/poms-r2m-continuation01/private",
+    "commands": [
+      "migration:check",
+      "schema:update --dump"
+    ],
+    "proposalSQLExecuted": false,
+    "oldQuarantinedDatabaseRead": false,
+    "newBusinessGate": false,
+    "actualSchemaResultCertified": false,
+    "G3": false,
+    "G4": false
+  },
+  "necessaryConditions": [
+    "只作tools/output/private/app role四类固定namespace文字映射，共4+6+3+2处；数据库由已审c01 databaseFor限定，marker/source/ambient guard不改。",
+    "仍校验原Nx migration-check target内容，使用已锁安装的mikro-orm CLI 7.0.11；不冒实际执行Nx/corepack/pnpm launcher。",
+    "两个owner/app连接及CLI均强制default_transaction_read_only=on；拒继承任意PGOPTIONS。migration:check与schema:update --dump不执行提议DDL。",
+    "原catalog helper逐副本BEGIN READ ONLY/ROLLBACK，全catalog before/after严格相等，92migration与原可见性/既有DDL差分类条件保持。",
+    "源、已锁CLI、OpenAPI/生成client输入以及旧依赖临时overlay lower anchors的before/after不变守卫保持；没有install、reseed、drop或新产品写入。",
+    "仅c01固定private白名单helper读取owner/app material与managed env；原CLI日志精确脱敏DB/JWT，公开输出不带原Error消息。",
+    "两个Windows遗留run按自身真实证据完成恢复与静默后才由Root执行；若实际失败/分类未闭合，保原failure和日志，不能因本SourceReady写成已过。"
+  ],
+  "independentReadLevels": [
+    {
+      "level": "full bounded derived source",
+      "note": "完整阅读14480B c01 schema入口及private-files，阅读原R2C catalog只读事务/查询和CLI/classification必要调用点。"
+    },
+    {
+      "level": "full byte mapping",
+      "note": "六pin当前raw长度/SHA全部匹配；解码sourcePacket整原14277B并与088c当前原件逐字节相等，四类全部文字映射及完整inverse都独立精确验证。"
+    },
+    {
+      "level": "unchanged dependency reuse",
+      "note": "复用已有c01 guard/loader/private规则和成熟R2C/R2M schema分类；不新增全测试矩阵或原53忽略测试重跑。"
+    }
+  ],
+  "authorValidation": {
+    "syntaxPassedReportedByRoot": true,
+    "testsRunByC": 0,
+    "actualRunByC": 0
+  },
+  "rootExecution": {
+    "command": "node tools/rust-r2m-continuation01/schema-check.mjs --container c01final01",
+    "afterBothWindowsRecoveriesAndFreshQuiescence": true,
+    "freshOutputRequired": true,
+    "actualCatalogAndSchemaClassificationStillPending": true
+  },
+  "limits": [
+    "SourceReady不证明c01实际migration-check/schema-dump结果；新库的真实只读结果与原已知schema drift分类仍须Root保全并独立核。",
+    "继承原catch/日志分类形状；没有把未保全的原Error stack或新的运行时事实冒成已存在。",
+    "不认证Windows实际旅程、恢复结果或G3/G4。"
+  ]
+}

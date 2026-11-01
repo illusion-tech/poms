@@ -1,0 +1,2255 @@
+{
+  "kind": "R2M-independent-C-Linux-UI4-two-arrangements-actual-review01",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-10-31 21:39:15 UTC",
+  "scope": {
+    "journey": "UI4",
+    "arrangements": [
+      "Linux-browser-managed-Native",
+      "Linux-browser-managed-Rust-with-explicit-original-Native-producers-readmodels"
+    ],
+    "sourceCapId": "r2m-c01-ui03",
+    "sourceCapsuleManifest": "2acd2cb73e83a71551747b3e41cba178932ec3460e8186a3c1da2d48f3357f3b",
+    "onlyDeclaredLocalProviderUiJourney": true,
+    "realObsUiOrR3FullDomainCertified": false,
+    "newWindowsCellsCertified": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "RootFullOriginalSafeMetadata": {
+    "file": "tmp/rust-r2m-continuation01/linux-ui4c-observed-metadata01.json",
+    "bytes": 209963,
+    "rawBytesSha256": "4aa0ea49bb531b5e234558e7a810f5c3f84a1f641994cede8c54fc206120a757"
+  },
+  "ACoverageMap": {
+    "file": "tmp/rust-r2m/delivery-audit-public03/linux-ui4-coverage-map01.json",
+    "bytes": 21437,
+    "rawBytesSha256": "3ad93ca63e4a0c3801f4c52a055185a83b14b45f400380e34f511767df723475"
+  },
+  "actualSourceCapsule": {
+    "file": "tmp/rust-r2m-continuation01/source-cap-c01-ui03.json",
+    "bytes": 1569722,
+    "rawBytesSha256": "72961709408b5a65b93b20e611d13ca6f5ca2427a9818ee4401c6fe3cf5be896"
+  },
+  "sourceQualification": {
+    "file": "docs/design/rust-r2m/ui4-upload-text-source-review01.json",
+    "bytes": 34273,
+    "rawBytesSha256": "1c327475cf69569b083c49644976c86ae57600227a9977ba0259bbc744366eca"
+  },
+  "frozenEvidenceRule": {
+    "file": "docs/design/rust-r2m/ui-evidence-requirements-review01.json",
+    "bytes": 8993,
+    "rawBytesSha256": "4c65cb79e699fd559843180da539c77aca97ed4f2f0a220110afbd257110c746"
+  },
+  "independentCompleteM4Actual": {
+    "file": "docs/design/rust-r2m/m4-four-actual-review01.json",
+    "bytes": 97196,
+    "rawBytesSha256": "c6754955b2a92eb58cfa40f752a5f1d16a20ff32d4139edbbb8962226995c5f9"
+  },
+  "previousLinuxAcceptedCells": [
+    {
+      "file": "docs/design/rust-r2m/ui12-actual-review01.json",
+      "bytes": 10810,
+      "rawBytesSha256": "842f566dfb0c005ff282eb84fcda15ea472dc53ffc0a497fa236dc5755bf56e9"
+    },
+    {
+      "file": "docs/design/rust-r2m/linux-ui3-actual-review01.json",
+      "bytes": 27718,
+      "rawBytesSha256": "2c0f81d76cd425ed098f011d6a4e449193060c8cb982e379e41eef44d89a2a28"
+    }
+  ],
+  "counts": {
+    "arrangements": 2,
+    "stepsPerSide": 6,
+    "HTTPPerSide": 76,
+    "aggregateHTTP": 152,
+    "perHttpFull107BeforeAfterValidationsPerSide": 152,
+    "aggregateBeforeAfterValidations": 304,
+    "stepPlusHttpPublicRefHashJoins": 164,
+    "M4MappedKeyRequestJoins": 30,
+    "rowsCleanedPerSide": 83,
+    "localFilesCleanedPerSide": 2,
+    "secondRowsAndFilesPerSide": 0,
+    "schemaTables": 107,
+    "schemaColumns": 1778,
+    "schemaForeignKeys": 207,
+    "unknownCreatesAndMutationsEveryHttp": 0
+  },
+  "sides": [
+    {
+      "backend": "nest",
+      "runId": "902905e8-aefa-4241-950d-bd2f4dd4ea31",
+      "report": {
+        "file": "tmp/rust-r2m-continuation01/ui-linux-nest-uin4c01c.json",
+        "bytes": 99236,
+        "rawBytesSha256": "d0147b2afeb1ead4a4ac5cd60ea7be41985b1ee09608f02b451df48fd8c938fb"
+      },
+      "originalResultPreserved": "observed-comparison-pending",
+      "sourceCapId": "r2m-c01-ui03",
+      "sourceCapsuleSha256": "2acd2cb73e83a71551747b3e41cba178932ec3460e8186a3c1da2d48f3357f3b",
+      "selection": [
+        "UI4"
+      ],
+      "platform": "linux",
+      "steps": [
+        {
+          "journey": "UI4",
+          "id": "upload",
+          "certifiedHTTP": 34,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00084.json",
+            "bytes": 1677541,
+            "rawBytesSha256": "0016f350a45d14b19166659aa4ba9ef3b7f608abbce78c32a18c5a8cf707ea9a",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "mark-final",
+          "certifiedHTTP": 2,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00089.json",
+            "bytes": 1710189,
+            "rawBytesSha256": "16af58c9213e8ff41d9ef839d43fb8babb1efdd8cfa12fc624e9c0c43da983e0",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "checklist-refresh-select",
+          "certifiedHTTP": 14,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00118.json",
+            "bytes": 1871167,
+            "rawBytesSha256": "81723ddf9788f142890084d544f8605fb4e055d7e381d0338caf68fa3d6541ac",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "package-create",
+          "certifiedHTTP": 1,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00121.json",
+            "bytes": 1934227,
+            "rawBytesSha256": "77d9ac81cac9fd65df6d08c0c320323c95d0027938c5a1b21893f07c57d994c9",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "package-download",
+          "certifiedHTTP": 2,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00128.json",
+            "bytes": 1986983,
+            "rawBytesSha256": "075efc61033ecceead7d91c5a17d5693c2ef1e19e20a33895b35cbbd478f520c",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "cancel-upload-dialog",
+          "certifiedHTTP": 23,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00175.json",
+            "bytes": 2135392,
+            "rawBytesSha256": "ac1518551507170260ca84cf9a39de603e9d3d2be435a5498b682650cb619fd3",
+            "private": true
+          }
+        }
+      ],
+      "counts": {
+        "steps": 6,
+        "HTTP": 76,
+        "perHttpFull107BeforeAfterValidations": 152,
+        "stepPlusHttpRawRefHashJoins": 82,
+        "M4MappedKeyRequests": 15,
+        "statuses": [
+          {
+            "Name": "200",
+            "Count": 67
+          },
+          {
+            "Name": "201",
+            "Count": 1
+          },
+          {
+            "Name": "400",
+            "Count": 8
+          }
+        ],
+        "actualExecutionBackends": [
+          {
+            "Name": "nest",
+            "Count": 76
+          }
+        ]
+      },
+      "full107PhysicalBaselineEqualRootVerified": true,
+      "initialAndAfterFull107Refs": [
+        {
+          "kind": "UI-global-full107-before-preparation",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00000.json",
+          "bytes": 432862,
+          "rawBytesSha256": "23e59d592fce4ef5e7f278e225a3edd6b2255fbc780a6341564d0a73f7fd1596",
+          "private": true
+        },
+        {
+          "kind": "UI-full107-after-double-zero",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00178.json",
+          "bytes": 432854,
+          "rawBytesSha256": "a9cc85ece938ffb66cd86d04a6fb1536c6341aae049178f108cacc6700bc3b72",
+          "private": true
+        }
+      ],
+      "cleanup": [
+        {
+          "state": "cleaned",
+          "deleted": 83,
+          "changedFiles": 2,
+          "firstZero": 0,
+          "secondZero": 0,
+          "tablesScanned": 107
+        },
+        {
+          "state": "cleaned",
+          "deleted": 0,
+          "changedFiles": 0,
+          "firstZero": 0,
+          "secondZero": 0,
+          "tablesScanned": 107
+        }
+      ],
+      "allMature107TableZerosVerified": true,
+      "writerLifecycle": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false
+      },
+      "allResources": [
+        {
+          "name": "browser-context-and-process",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "UI-server-owned-sockets-and-evidence",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "Native-final-witness",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "Native-managed-owner",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "PG-observer-exact-restore",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "fixture-final-drain-and-double-zero",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "fixture-client-close",
+          "result": "stopped-or-restored"
+        }
+      ],
+      "browser": {
+        "engine": "chromium",
+        "playwright": "1.63.0",
+        "platform": "linux",
+        "executable": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+          "actual": "/home/wangzishi/.local/share/poms-r2m-continuation01/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+          "bytes": 197422408,
+          "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+        },
+        "libraryPinMembers": 55,
+        "fontsConfig": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/browser-fonts/fonts.conf",
+          "bytes": 645,
+          "rawBytesSha256": "04ec850c044acce7e3de3869f3a4ad177a0f55efc86668b955fd5e3493cfabac"
+        },
+        "fontsMembers": 4,
+        "launchArguments": [
+          "--explicitly-allowed-ports=10080"
+        ],
+        "environmentKeys": [
+          "FONTCONFIG_FILE",
+          "FONTCONFIG_PATH",
+          "HOME",
+          "LANG",
+          "LD_LIBRARY_PATH",
+          "LOGNAME",
+          "PATH",
+          "USER"
+        ],
+        "databaseOrJwtEnvironmentInherited": false,
+        "originalCacheInput": {
+          "kind": "R2M-controlled-uncached-browser-input",
+          "sourceCapId": "r2m-c01-ui03",
+          "cacheDisabled": true,
+          "appliedBeforeFirstNavigation": true,
+          "actualCDPAcknowledged": [
+            {
+              "method": "Network.enable",
+              "params": {},
+              "ack": {}
+            },
+            {
+              "method": "Network.setCacheDisabled",
+              "params": {
+                "cacheDisabled": true
+              },
+              "ack": {}
+            }
+          ],
+          "privateEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00015.json",
+            "bytes": 613,
+            "rawBytesSha256": "94788dbf418747500c4cf25cc7b4dfb74f850a9a39759dda05aff0306deb1e40",
+            "private": true
+          },
+          "sessionCloseOwner": "same-owned-browser-context",
+          "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+        }
+      },
+      "background400": [
+        {
+          "stepId": "upload",
+          "index": 24,
+          "method": "GET",
+          "pathTemplate": "/api/opportunity-stakeholders",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "upload",
+          "index": 25,
+          "method": "GET",
+          "pathTemplate": "/api/competitor-intelligence-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "upload",
+          "index": 26,
+          "method": "GET",
+          "pathTemplate": "/api/sales-discovery-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "upload",
+          "index": 27,
+          "method": "GET",
+          "pathTemplate": "/api/sales-intelligence-gaps",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 69,
+          "method": "GET",
+          "pathTemplate": "/api/opportunity-stakeholders",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 70,
+          "method": "GET",
+          "pathTemplate": "/api/competitor-intelligence-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 71,
+          "method": "GET",
+          "pathTemplate": "/api/sales-discovery-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 72,
+          "method": "GET",
+          "pathTemplate": "/api/sales-intelligence-gaps",
+          "executionBackend": "nest",
+          "status": 400
+        }
+      ],
+      "publicCertificateRefs": [
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00017.json",
+          "bytes": 1396747,
+          "rawBytesSha256": "d5fb80d8425653335a958fa09555ef8a50031ff79fb06befc19b3c220e8acde9",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00019.json",
+          "bytes": 1401605,
+          "rawBytesSha256": "9f52c6441d617b9957319b003ebb0d00e719ccc5721c7ebe331c05ed15ab0f94",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00021.json",
+          "bytes": 1407100,
+          "rawBytesSha256": "ec3d4c6b33444160e4100d705d1c0c0fd5a3335ce8c072f6555feb8c2fd91e75",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00023.json",
+          "bytes": 1439644,
+          "rawBytesSha256": "fd0c4019254dcc38948ede1faf33ef419fd23350ac7a66d11ddc15e05d03b804",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00025.json",
+          "bytes": 1440213,
+          "rawBytesSha256": "2b3c29bc6cca47dbe99aa86b08b10b587e4e6018b5cd6fabd0497d19313b957e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00027.json",
+          "bytes": 1454050,
+          "rawBytesSha256": "bf9ee546e3c919c9042112f6c167822333486b5f6716c835dd492c2afe621a90",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00029.json",
+          "bytes": 1449748,
+          "rawBytesSha256": "cafb36d1eacf5940c3f7508f6f2e9a5c83adbdc4100abd4198526ed283279fa3",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00031.json",
+          "bytes": 1461531,
+          "rawBytesSha256": "cb3f284a8e043ed95678286a887a86cf0952a2b7749f9d97115c7b14f0d8f514",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00033.json",
+          "bytes": 1463385,
+          "rawBytesSha256": "35c13f2fb3e11c1919321fa55d96d84704502e0023ad47cda9e79c10a4ea2719",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00035.json",
+          "bytes": 1468410,
+          "rawBytesSha256": "896d5b0f9c1aa3e24ff23531a438534544a9fbbc78097784badd955f3018bfa7",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00037.json",
+          "bytes": 1470434,
+          "rawBytesSha256": "74a66752fe64d6b002243f8d4d7050bd58eecd302f654acdce081f1406e76926",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00039.json",
+          "bytes": 1475459,
+          "rawBytesSha256": "ad4e12c58b833f8b86b08463e3027231cd28be6100033c43f05a77ee500bc1db",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00041.json",
+          "bytes": 1489296,
+          "rawBytesSha256": "630728cc91c0fb5155e05941bf7898f92af8cf6d7a359d2157e82511fdc2e95a",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00043.json",
+          "bytes": 1484994,
+          "rawBytesSha256": "2dacfbc738fb9ca31658fdfeb7dd3e22fa42a1c90c15a333d1e2de297e797726",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00045.json",
+          "bytes": 1499346,
+          "rawBytesSha256": "1e895032df9b4888734bf829e7726fe4b26f64e7c94800c57c4fdd83d582295f",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00047.json",
+          "bytes": 1495044,
+          "rawBytesSha256": "6f9862478336393b88c8797134455d864e829e9fce56161d4fdd53524d951f32",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00049.json",
+          "bytes": 1506304,
+          "rawBytesSha256": "0e91e0f6b30bb888cee93d681ceef8dcb9429c1463f65208d3177e5abb57ff9d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00051.json",
+          "bytes": 1507986,
+          "rawBytesSha256": "c8e920e5154e55ad06f6bc10af01135c5ffc8faec41c432c945a85d09923356d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00053.json",
+          "bytes": 1512129,
+          "rawBytesSha256": "b4fd91f68c21f6c64e7413ed872c7e356ba7d6cec4d0ef6eb3bffc8c30c5ca6e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00055.json",
+          "bytes": 1515278,
+          "rawBytesSha256": "ed75aadb58674a37a4d987543089325703f5f822402093038e58be30e51d52a8",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00057.json",
+          "bytes": 1520308,
+          "rawBytesSha256": "5d7d058b3946834681ea8b38d7623d44786373d599fc1d05255005bc7e31f0d7",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00059.json",
+          "bytes": 1531864,
+          "rawBytesSha256": "1e73812c83ee1380f62b5260433861cb1f5bb9935c9f16cb3dfb3a9b92aade21",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00061.json",
+          "bytes": 1530402,
+          "rawBytesSha256": "d8f2aee601e9db439a64f3931f5dc59c28b706064964c95df9e9ae60f2f27bec",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00063.json",
+          "bytes": 1538053,
+          "rawBytesSha256": "74a72569a582d57442c008dbf07847ca4eb0ef1d8d0b36b4f58a49b555767d6e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00065.json",
+          "bytes": 1540540,
+          "rawBytesSha256": "606b670ae6d8f4d7fc3e26345e8bf3bb0d118ef7b2679e2d4977ac65a3de2e9e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00067.json",
+          "bytes": 1545586,
+          "rawBytesSha256": "59be790cdb48303c1dd891988cd8a1d9b7513c44a9399371ba5b26479c0c6b47",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00069.json",
+          "bytes": 1550587,
+          "rawBytesSha256": "e28a213bb2bf001eab4ee47b933ee8889bc75b04df467cf9259e578adde88303",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00071.json",
+          "bytes": 1555612,
+          "rawBytesSha256": "78de72d2e3aa0a5cd9de9865bc5ca573160cedb4477b8b4d1324a1061eb05e4c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00073.json",
+          "bytes": 1560499,
+          "rawBytesSha256": "25f308aac31790e50629e1c939ed9dd6cca410d0b2e62dc1038d3bcc4a384917",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00075.json",
+          "bytes": 1604379,
+          "rawBytesSha256": "2d70c5903fdd90159db32eb6da352e0ecea957b971ae2a827e86d2228da5cd4c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00077.json",
+          "bytes": 1607664,
+          "rawBytesSha256": "cd1b4a5cf5e1c7936dffaa6325bbb9ac829d33cad699bbd0a9dedcc53f798e1b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00079.json",
+          "bytes": 1612702,
+          "rawBytesSha256": "7ad8641001b4f246ee0b91f2e7312f40bb929d5de7ebe01ece7867e31f04b3ec",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00081.json",
+          "bytes": 1670997,
+          "rawBytesSha256": "9f05b77f017bd66341eb51fb6b24e06316b95673862042859c6e10f241677bfa",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00083.json",
+          "bytes": 1673768,
+          "rawBytesSha256": "349ee80af17591aba4773f4202935bd746a8f9ae8f0d3b1a87f2d597d9e8dfb2",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00086.json",
+          "bytes": 1710383,
+          "rawBytesSha256": "1687b56a985d2917824e987b5004fd1e428910fb6d422e94dd40c37fa59fe27f",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00088.json",
+          "bytes": 1714350,
+          "rawBytesSha256": "b275fcf61dc411790d3ab9bd6de34ad67feda534ff83f1a6e4648cf9a5d4b8e2",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00091.json",
+          "bytes": 1723774,
+          "rawBytesSha256": "7531d58c9dd9839b6315d7bfb9cb6007e2bcde4e1fc21895638e086b00f9650c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00093.json",
+          "bytes": 1729147,
+          "rawBytesSha256": "6863b7f27d8d27226ea6b19afb6363ebb66779659648e7e761d3640681b95611",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00095.json",
+          "bytes": 1731518,
+          "rawBytesSha256": "b0c0f7f3f759c46a6ee77bb5da9e2208fe5d01ade8e29c9f665f9da51e7db9ce",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00097.json",
+          "bytes": 1736891,
+          "rawBytesSha256": "99781452e801c88ab8eb80e3857c38a928d6532c823fa34357570046115fd860",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00099.json",
+          "bytes": 1751076,
+          "rawBytesSha256": "adcc4c376dd850beb857a7d5ff363cfbcea5eb1528da5af8c91e05652f9f93ac",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00101.json",
+          "bytes": 1747122,
+          "rawBytesSha256": "483b7145ef74411180ff089c9e8c85e1a6a30c06687c2125d76585e71f1d42db",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00103.json",
+          "bytes": 1761822,
+          "rawBytesSha256": "549166d0f918c340a4298da61c5e9cd56aa5c8c88f9cbf4ca91f0d5af6a0669b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00105.json",
+          "bytes": 1757868,
+          "rawBytesSha256": "a8ae85953b426f33012e9d35d1191a717aa006e3a28fb103ee3a0311c2646296",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00107.json",
+          "bytes": 1766133,
+          "rawBytesSha256": "e720b4c96255e60c15a497373ff1d4d8bb1d5c3ee6fb23cd783046cafd314151",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00109.json",
+          "bytes": 1773694,
+          "rawBytesSha256": "cc49b0854ad3623f625785bda6045b57c62983fe138bd8d49c79b96c2ece9205",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00111.json",
+          "bytes": 1777548,
+          "rawBytesSha256": "a932047bbb0c09edd62cd91d60fdd89364cae5341f2eee35635b8fa3fb423e01",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00113.json",
+          "bytes": 1783474,
+          "rawBytesSha256": "e3e39dc6ee35285949f8adcaa800afa257539846359dc9986baa9975f38e0c7b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00115.json",
+          "bytes": 1816059,
+          "rawBytesSha256": "73c322674e242cf56b502dd6282360e5ea6db22a81f4c7cd846fe8c05ed22428",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00117.json",
+          "bytes": 1875770,
+          "rawBytesSha256": "1633c8772dcd24f352aa7b82b351a351abf463288d8048f282e1c936353038f0",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00120.json",
+          "bytes": 1944071,
+          "rawBytesSha256": "c4a81b8fd78690d8e02365d310040bb317a00dcfd62f9f8fe39e8f5ec47b7687",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00125.json",
+          "bytes": 1987147,
+          "rawBytesSha256": "71183f67fa52358380cb95af41023b074031225101f9d1dce6c891dffad5c752",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00127.json",
+          "bytes": 1990716,
+          "rawBytesSha256": "fb1066801d8860a67fbc5480f42f3af7b9b7d27fd090652609b7b50347b36f47",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00130.json",
+          "bytes": 2001091,
+          "rawBytesSha256": "979e743e0a9111cde8be42925ba03a9d415c3e514ca12d1d8b7e42f67bb73c08",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00132.json",
+          "bytes": 2006932,
+          "rawBytesSha256": "d285ba1432cefa5d94fa437b194e1627cb8a779f222a923431379412cb38e85f",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00134.json",
+          "bytes": 2009771,
+          "rawBytesSha256": "b9a369e0664954f69af1959beb3f053caea3c19be0e43ec71d0c587bc948d946",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00136.json",
+          "bytes": 2015612,
+          "rawBytesSha256": "e480c90df50e286f85151a205cde3e623bd16123303068467106670813eaf3ac",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00138.json",
+          "bytes": 2030265,
+          "rawBytesSha256": "3c5b246a7cd6d83625dbea1aed8fb759ffb1fb5326b66715423526f12fada93e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00140.json",
+          "bytes": 2026779,
+          "rawBytesSha256": "49233e1b2611c651b8b4063033915805df45f7d5a275d903dad3abacf8434ec0",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00142.json",
+          "bytes": 2041947,
+          "rawBytesSha256": "e4d1e7f76fbb63afa5cb34c387ca4c4d30ecc364097a24fbc73ff70630587ab8",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00144.json",
+          "bytes": 2038461,
+          "rawBytesSha256": "e4e918610cbc960d03fb85fbb0e949a4c12db4fa18e9b11a1ca8ac8a33b505a5",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00146.json",
+          "bytes": 2050537,
+          "rawBytesSha256": "2f85146f4d414b94558d23ba968d9fe11ce85104d052456e31997a91b391d5e4",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00148.json",
+          "bytes": 2053035,
+          "rawBytesSha256": "4fa2846190b18c3aa5e07f4f539c479ba10e7a4a29c17ecf43737bc48767430d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00150.json",
+          "bytes": 2057994,
+          "rawBytesSha256": "4e4018391a697227a1a092bcd6372075b752df20ee00098c22906674b6305a5d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00152.json",
+          "bytes": 2061959,
+          "rawBytesSha256": "9fd0d6aa5d2cb4a9b1d31db18381f13b2da8cf80deb4a5ac00889a88dec8f6d2",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00154.json",
+          "bytes": 2069874,
+          "rawBytesSha256": "b509d19866c123609a39f5282803fbd827229068399a2b493d7c5ebe6983811d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00156.json",
+          "bytes": 2080177,
+          "rawBytesSha256": "4f0c9f65221542d8c57a45d748649334c180e9424da9a1ee771ef83705b6808f",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00158.json",
+          "bytes": 2079531,
+          "rawBytesSha256": "91012e968f8567575861577a0e366eea615736431373ae2b3f54edca8b687519",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00160.json",
+          "bytes": 2087998,
+          "rawBytesSha256": "3f5007767a9f1219b4bcb8ffe4706188ce1b922d631c1b9c81ac24af2a928502",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00162.json",
+          "bytes": 2091301,
+          "rawBytesSha256": "78a195cfc05f1654aaa00292e8d3fce240ce10773fc36313b108fb573daa7eca",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00164.json",
+          "bytes": 2097163,
+          "rawBytesSha256": "ec2407acca1be5cfdc43c5562bf2d25cafa856aafb6231f054994e2ec9b41e28",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00166.json",
+          "bytes": 2102980,
+          "rawBytesSha256": "fe279b47ea688ae158d03c0a77bfca23265fb200c68701d8072fc84348e31d61",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00168.json",
+          "bytes": 2108821,
+          "rawBytesSha256": "0cac14ebf67e026b67a7b7435e395ce5cc06d73072453e2828ec4c9b1ba3a91e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00170.json",
+          "bytes": 2114524,
+          "rawBytesSha256": "480fee4d683eed844386f5d8a7966306020657d129477e474e68c2deb7cf6ca4",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00172.json",
+          "bytes": 2121148,
+          "rawBytesSha256": "beafd0a050c4c775b0947b4e5568ef6c956604da2814c0e1bf8adf1e714cf0c8",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-902905e8-aefa-4241-950d-bd2f4dd4ea31/00174.json",
+          "bytes": 2126183,
+          "rawBytesSha256": "a6f29f8418eeac03b5f4861be025edb40e719cac19788f93d3d1578cfdd7c41a",
+          "private": true
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "runId": "ab314844-ec5c-4834-a8a8-c36de808931d",
+      "report": {
+        "file": "tmp/rust-r2m-continuation01/ui-linux-rust-uir4c01c.json",
+        "bytes": 99334,
+        "rawBytesSha256": "d640881cf32f0e5971bf6ad0ac5d613d9b7d16f6f2575397db7118c07e9f181f"
+      },
+      "originalResultPreserved": "observed-comparison-pending",
+      "sourceCapId": "r2m-c01-ui03",
+      "sourceCapsuleSha256": "2acd2cb73e83a71551747b3e41cba178932ec3460e8186a3c1da2d48f3357f3b",
+      "selection": [
+        "UI4"
+      ],
+      "platform": "linux",
+      "steps": [
+        {
+          "journey": "UI4",
+          "id": "upload",
+          "certifiedHTTP": 34,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00084.json",
+            "bytes": 1643489,
+            "rawBytesSha256": "d5e30bf102a5b8c9517254af32e51d88cf8d0ff513b19ba7ebb9d2bb6298c1f4",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "mark-final",
+          "certifiedHTTP": 2,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00089.json",
+            "bytes": 1658804,
+            "rawBytesSha256": "3515711bf0f532964c2255131c678758aa555c15345092f0a238690de31df1c7",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "checklist-refresh-select",
+          "certifiedHTTP": 14,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00118.json",
+            "bytes": 1784143,
+            "rawBytesSha256": "08a99c721631252dfa57f9276cdeea9981b0f9ae3bc073b131c3216db9e27e06",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "package-create",
+          "certifiedHTTP": 1,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00121.json",
+            "bytes": 1827130,
+            "rawBytesSha256": "e2ddff00a3e201c8f6ac433db7f56702b6e213e8b5497aaf61db85bf600d0498",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "package-download",
+          "certifiedHTTP": 2,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00128.json",
+            "bytes": 1855391,
+            "rawBytesSha256": "02d6f1f8511d19464d565c0d08721cc0d2e81eeb660ab9b6dba5ea4f1e5a3bde",
+            "private": true
+          }
+        },
+        {
+          "journey": "UI4",
+          "id": "cancel-upload-dialog",
+          "certifiedHTTP": 23,
+          "allCertificatesRetained": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00175.json",
+            "bytes": 2003834,
+            "rawBytesSha256": "15a57a2e566b4550e0db12b2b2dde5a71134ef862bf7361c7d1200aa154bdbdb",
+            "private": true
+          }
+        }
+      ],
+      "counts": {
+        "steps": 6,
+        "HTTP": 76,
+        "perHttpFull107BeforeAfterValidations": 152,
+        "stepPlusHttpRawRefHashJoins": 82,
+        "M4MappedKeyRequests": 15,
+        "statuses": [
+          {
+            "Name": "200",
+            "Count": 67
+          },
+          {
+            "Name": "201",
+            "Count": 1
+          },
+          {
+            "Name": "400",
+            "Count": 8
+          }
+        ],
+        "actualExecutionBackends": [
+          {
+            "Name": "nest",
+            "Count": 23
+          },
+          {
+            "Name": "rust",
+            "Count": 53
+          }
+        ]
+      },
+      "full107PhysicalBaselineEqualRootVerified": true,
+      "initialAndAfterFull107Refs": [
+        {
+          "kind": "UI-global-full107-before-preparation",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00000.json",
+          "bytes": 432862,
+          "rawBytesSha256": "9b3c7240024aa4aed7d2651875947e2390faaf0b3f45923c597f675dd66fb903",
+          "private": true
+        },
+        {
+          "kind": "UI-full107-after-double-zero",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00178.json",
+          "bytes": 432854,
+          "rawBytesSha256": "d360b303f9c32e48e817237f7a7cb368d6f4c9526c6340acd5a0f6b79b87354b",
+          "private": true
+        }
+      ],
+      "cleanup": [
+        {
+          "state": "cleaned",
+          "deleted": 83,
+          "changedFiles": 2,
+          "firstZero": 0,
+          "secondZero": 0,
+          "tablesScanned": 107
+        },
+        {
+          "state": "cleaned",
+          "deleted": 0,
+          "changedFiles": 0,
+          "firstZero": 0,
+          "secondZero": 0,
+          "tablesScanned": 107
+        }
+      ],
+      "allMature107TableZerosVerified": true,
+      "writerLifecycle": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": true
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": true
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false
+      },
+      "allResources": [
+        {
+          "name": "browser-context-and-process",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "UI-server-owned-sockets-and-evidence",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "Native-final-witness",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "Rust-managed-owner",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "Native-managed-owner",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "PG-observer-exact-restore",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "fixture-final-drain-and-double-zero",
+          "result": "stopped-or-restored"
+        },
+        {
+          "name": "fixture-client-close",
+          "result": "stopped-or-restored"
+        }
+      ],
+      "browser": {
+        "engine": "chromium",
+        "playwright": "1.63.0",
+        "platform": "linux",
+        "executable": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+          "actual": "/home/wangzishi/.local/share/poms-r2m-continuation01/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+          "bytes": 197422408,
+          "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+        },
+        "libraryPinMembers": 55,
+        "fontsConfig": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/browser-fonts/fonts.conf",
+          "bytes": 645,
+          "rawBytesSha256": "04ec850c044acce7e3de3869f3a4ad177a0f55efc86668b955fd5e3493cfabac"
+        },
+        "fontsMembers": 4,
+        "launchArguments": [
+          "--explicitly-allowed-ports=10080"
+        ],
+        "environmentKeys": [
+          "FONTCONFIG_FILE",
+          "FONTCONFIG_PATH",
+          "HOME",
+          "LANG",
+          "LD_LIBRARY_PATH",
+          "LOGNAME",
+          "PATH",
+          "USER"
+        ],
+        "databaseOrJwtEnvironmentInherited": false,
+        "originalCacheInput": {
+          "kind": "R2M-controlled-uncached-browser-input",
+          "sourceCapId": "r2m-c01-ui03",
+          "cacheDisabled": true,
+          "appliedBeforeFirstNavigation": true,
+          "actualCDPAcknowledged": [
+            {
+              "method": "Network.enable",
+              "params": {},
+              "ack": {}
+            },
+            {
+              "method": "Network.setCacheDisabled",
+              "params": {
+                "cacheDisabled": true
+              },
+              "ack": {}
+            }
+          ],
+          "privateEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00015.json",
+            "bytes": 613,
+            "rawBytesSha256": "dd69684a35490d8ebec0f7c747160d6cffa28f5a226de2a15b8f08337ccd156b",
+            "private": true
+          },
+          "sessionCloseOwner": "same-owned-browser-context",
+          "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+        }
+      },
+      "background400": [
+        {
+          "stepId": "upload",
+          "index": 24,
+          "method": "GET",
+          "pathTemplate": "/api/opportunity-stakeholders",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "upload",
+          "index": 25,
+          "method": "GET",
+          "pathTemplate": "/api/competitor-intelligence-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "upload",
+          "index": 26,
+          "method": "GET",
+          "pathTemplate": "/api/sales-discovery-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "upload",
+          "index": 27,
+          "method": "GET",
+          "pathTemplate": "/api/sales-intelligence-gaps",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 69,
+          "method": "GET",
+          "pathTemplate": "/api/opportunity-stakeholders",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 70,
+          "method": "GET",
+          "pathTemplate": "/api/competitor-intelligence-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 71,
+          "method": "GET",
+          "pathTemplate": "/api/sales-discovery-records",
+          "executionBackend": "nest",
+          "status": 400
+        },
+        {
+          "stepId": "cancel-upload-dialog",
+          "index": 72,
+          "method": "GET",
+          "pathTemplate": "/api/sales-intelligence-gaps",
+          "executionBackend": "nest",
+          "status": 400
+        }
+      ],
+      "publicCertificateRefs": [
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00017.json",
+          "bytes": 1396565,
+          "rawBytesSha256": "0da9f6ce9fd78b865e0cdb6fc8c045a782b3247f65cce0f96aede2677e75d00b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00019.json",
+          "bytes": 1401425,
+          "rawBytesSha256": "af3d3c3fe7abaa5df24d44c30485a89374a2eb7d9372e81a07295e2e3bcbf878",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00021.json",
+          "bytes": 1406918,
+          "rawBytesSha256": "d54ee9bb358c9ada08189e6304cfa103372f63265ce97b3d59f067d57337c54d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00023.json",
+          "bytes": 1428220,
+          "rawBytesSha256": "f64b9de0f47ee9497bad4c363e740d92fd6069bd8dd96a40ab8b95b799c7dabd",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00025.json",
+          "bytes": 1429299,
+          "rawBytesSha256": "d8427799db24caf614f722eba68c9377cd5f27759198e6223fc89b4af2e0df5e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00027.json",
+          "bytes": 1443132,
+          "rawBytesSha256": "0b5632fa0ce32c218b9faaaa03883198fc5315ec268d96a3833abe9fa40d61e6",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00029.json",
+          "bytes": 1438836,
+          "rawBytesSha256": "088feb18b2b26abc9f6ef42b294040536b2482d5d0ba65458cc8ae49be38504c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00031.json",
+          "bytes": 1450803,
+          "rawBytesSha256": "86cad703ee1fcf0083134f908abb0b7eb8e3083464d6ecdcb88cf36c1b5087c6",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00033.json",
+          "bytes": 1452469,
+          "rawBytesSha256": "876d7324816ecccf6ca1681713ffc5363fd241fd018e539da0eea44b4077a190",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00035.json",
+          "bytes": 1457496,
+          "rawBytesSha256": "f4eff4622035620908039b5058cd065ddd067e5a23efc09572cfe75676f1e6c3",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00037.json",
+          "bytes": 1459522,
+          "rawBytesSha256": "4bcb8327f0f802031919c541f52d04993f6bd6fe02ce4bb478bcee692709d6c1",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00039.json",
+          "bytes": 1464547,
+          "rawBytesSha256": "5b89822a2dc1a58777a43b7e193495d166eac86b9d5f249aebbc7f7001e2c246",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00041.json",
+          "bytes": 1478380,
+          "rawBytesSha256": "ee4498c79e7710c7e6399758eea827b1098dc0f82a739ae86af55e0a0b4a1a6c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00043.json",
+          "bytes": 1474084,
+          "rawBytesSha256": "d9d074fd83cb4a7c5881340c21eeaa4a6b36397cb992daff5e58b978080c5357",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00045.json",
+          "bytes": 1488430,
+          "rawBytesSha256": "c4f46a40eb5c293ce32640152e55d06b80bf2def5b6e9ef03e9f30913a9c4782",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00047.json",
+          "bytes": 1484134,
+          "rawBytesSha256": "6a77b5a68049480cd067f949e68f8f654c3514b97def59fb02818dfade8d27f5",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00049.json",
+          "bytes": 1496137,
+          "rawBytesSha256": "03713ae72d01c89d8acf5d0d4218048d6c40d8412f06296cac745d576670aaae",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00051.json",
+          "bytes": 1497258,
+          "rawBytesSha256": "fb33e3d39015d99b1086d7a05753d0f7614f4cd758ad90953ef9a2969e9a0fd7",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00053.json",
+          "bytes": 1501401,
+          "rawBytesSha256": "e0dfe3070b444e42a3dbdfc7f001de98735405eec9ea850124173fa081ddd542",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00055.json",
+          "bytes": 1504550,
+          "rawBytesSha256": "63da684718fb20c83c6c33de0aac2026b2aaefe23dc38355ac9c7c1ba5977f14",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00057.json",
+          "bytes": 1509398,
+          "rawBytesSha256": "c5d5b2e3f4214e5a9f5621685207809d0b1323f79dbb8692691ab48d7d25ea8e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00059.json",
+          "bytes": 1522056,
+          "rawBytesSha256": "080a32284840c7ad50de99ddb6f767953ae6ac1de9386996e628a5dea95f9a07",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00061.json",
+          "bytes": 1519674,
+          "rawBytesSha256": "9344ea1afebd9512f40c51e0aebc6586d2884bd2ee6d4f29c40413c807195527",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00063.json",
+          "bytes": 1527347,
+          "rawBytesSha256": "895ab6a585f8f254c5e27aa4a23a6afc2ed6e230f69c616ee2cba80eb3efbdd0",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00065.json",
+          "bytes": 1529812,
+          "rawBytesSha256": "c757f8e597990e726df3d7ca803534635f0270b831ea35cf912532939bc18a5c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00067.json",
+          "bytes": 1534858,
+          "rawBytesSha256": "ab934314001e8efcf5699e04bfff542c9a00c9282da4a8b6ce1692ab095c7fab",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00069.json",
+          "bytes": 1539859,
+          "rawBytesSha256": "4ac961e3d1aa165d11d67901757eb60e15d94bde91186952a20a0e3c774b767b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00071.json",
+          "bytes": 1544884,
+          "rawBytesSha256": "062a67466802ce03887a465b41f345380435dd82762635f55ca7bcb30bc9e06f",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00073.json",
+          "bytes": 1549771,
+          "rawBytesSha256": "52e71b9435ce89a43532df8a76cb36135b416937903ed6d595d31cf3f76d6cae",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00075.json",
+          "bytes": 1581708,
+          "rawBytesSha256": "4b8448e014ddc34bb04e1e182bfacfadd9786f6d959e8e51856454d829e0b89e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00077.json",
+          "bytes": 1586024,
+          "rawBytesSha256": "30c78bcad472c11f1b0eeff51e8b4b5bd5edeba098309fa85cb347d3fa82e572",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00079.json",
+          "bytes": 1591062,
+          "rawBytesSha256": "04ba3b2f821612c5f03d29e2cb0119e0bdb6a7197eee56cecae9d0d65be2d275",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00081.json",
+          "bytes": 1635185,
+          "rawBytesSha256": "26d3ab8a8e6e79b40499386a2b9c66fb7e6f6e4545c6eef169a3e02c50391b82",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00083.json",
+          "bytes": 1639494,
+          "rawBytesSha256": "ec2db1f450a7d1203e9b6b8cfeff652e805edddba335bcc4b08576afab831b19",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00086.json",
+          "bytes": 1658307,
+          "rawBytesSha256": "2633cdeaa4b514779b0a1c54419f4a3e621b9a1d2a62d8e5c67501ba370b9b9e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00088.json",
+          "bytes": 1662785,
+          "rawBytesSha256": "7002059adfe95d1ccc15a22fe4d792d2182fc2bc7a97b5ef3c49c7a9abec915b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00091.json",
+          "bytes": 1672209,
+          "rawBytesSha256": "04c9985ce041683d0b25bd484dcbff857fb7764bacaf5c9db3d1e9e2eec39e70",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00093.json",
+          "bytes": 1677582,
+          "rawBytesSha256": "8a9294b5bd9ed3bb8db47c021cf86a42e90740f06438f262159d8ef1380840bf",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00095.json",
+          "bytes": 1679955,
+          "rawBytesSha256": "11082e2d0fd70bcd8905f4a4572a58d068a9bb861379340bcce1d7fcd4e157aa",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00097.json",
+          "bytes": 1685328,
+          "rawBytesSha256": "3e215b5614eda49f17909abaca19b372abdf3f0086ce7bbf6bc510b752491e4a",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00099.json",
+          "bytes": 1699509,
+          "rawBytesSha256": "2bf67be8f9833b95f057194997c4559572771ce3478f061ecd857706543818ab",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00101.json",
+          "bytes": 1695561,
+          "rawBytesSha256": "a9233074a8dab97946ef62e3afcdd82e0d0c18fbd0973462da6db2a6f4fe7064",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00103.json",
+          "bytes": 1710255,
+          "rawBytesSha256": "9b7a438c49f7189e6a708dad8f642577376dd01b998da65f7a3ad1287998bf63",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00105.json",
+          "bytes": 1706307,
+          "rawBytesSha256": "db81548717dca44910f90b93745f2a5c49c03c55fc7fc7f22892cb3bf7375ccd",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00107.json",
+          "bytes": 1714754,
+          "rawBytesSha256": "77f1f338a6773a22cf2ab7da0c5845f06ae4249ca54e429d94a8ee530b0def5a",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00109.json",
+          "bytes": 1722315,
+          "rawBytesSha256": "4b1e5b7d5fb63b028dfbd02e8bb9c45336133433cf34da655a479443c9dd5f8d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00111.json",
+          "bytes": 1726169,
+          "rawBytesSha256": "1b04ec710a84a2a6ca6e380d59c244861acf710164b3ec7c75a8051a28219d8a",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00113.json",
+          "bytes": 1732095,
+          "rawBytesSha256": "2827ee150a86c05b67b6cdfee0b410c32c14e9b22db81a011ab30589b51ceb90",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00115.json",
+          "bytes": 1745805,
+          "rawBytesSha256": "946c0c4882abe314f73e0c6baa37abc0e55a6ec4979aba8be11c9bc798778f14",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00117.json",
+          "bytes": 1786985,
+          "rawBytesSha256": "edb89f1fb514e8445d5ffd3cc757110a396db3afa6c1bffcc7d9cabfbde8276d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00120.json",
+          "bytes": 1835214,
+          "rawBytesSha256": "e81f0d25d95679d41e3351c734177122bd4c4ea578559df60827f7eaef8a3875",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00125.json",
+          "bytes": 1854955,
+          "rawBytesSha256": "1849dc29108562ce29d7ab9512d100cdf347c31a87cdc1c8595ab05599c4bc26",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00127.json",
+          "bytes": 1858940,
+          "rawBytesSha256": "8aca10521a74058549c326b3d8f36351e79172d415b79d4e887e7853fc0624e1",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00130.json",
+          "bytes": 1869315,
+          "rawBytesSha256": "f0ac08b8c7d67cc593c05a3ce4cb61a8a937a24a4bfe0e312e0b2afe4b76811a",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00132.json",
+          "bytes": 1875156,
+          "rawBytesSha256": "b2286f61245b46227565a48cb71f16594b3884406b14d5a02047752cede6a4bf",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00134.json",
+          "bytes": 1877997,
+          "rawBytesSha256": "0eae830a72384bb4bc3af0b9c021b159e1f09ab0fbb0730a4c58635c2a7a185d",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00136.json",
+          "bytes": 1883838,
+          "rawBytesSha256": "0fe59144f9e7e7e9562ad24bb31849b5551288d582362d028bb49f2bcd62edb8",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00138.json",
+          "bytes": 1898487,
+          "rawBytesSha256": "5ba28c2875023fdb84b80e41c62e4b0cc52367856acd894740dc25ae80cbc480",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00140.json",
+          "bytes": 1895007,
+          "rawBytesSha256": "9c0a5c781076c6e103336aef02ae96872e40c8a52669cbc6b49e2107f0c22861",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00142.json",
+          "bytes": 1910169,
+          "rawBytesSha256": "088e2a773a63d19e595184def7b0fd44459b625205526092bdbd7f6a0f3f3fdc",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00144.json",
+          "bytes": 1906689,
+          "rawBytesSha256": "82d10853b95a0d90cc128f1a56851581a209f5aa77dd3838c5e10f197517bb02",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00146.json",
+          "bytes": 1919508,
+          "rawBytesSha256": "31b509d14df02d7125ecc245f8340d11b8a13b52b9a89484ae3637f7a67b8e85",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00148.json",
+          "bytes": 1921445,
+          "rawBytesSha256": "4d81a59729795df562cb776e7d45b9f15749e7c8b795280f9cac56d9d8bcdbb2",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00150.json",
+          "bytes": 1926404,
+          "rawBytesSha256": "8713758c30ae98b96964dfce271bbde3c3ba6073b5c2db67337bd80fbc0fe399",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00152.json",
+          "bytes": 1930369,
+          "rawBytesSha256": "d8d647ce6aac5acddbe879577ceeb41e8d8744c8d26aa9549f1afa841cb24c9b",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00154.json",
+          "bytes": 1938098,
+          "rawBytesSha256": "c76fe91aedbecbc83bc71e501dd90f8b40e9d4b7593be7cfddf0d9370aec705e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00156.json",
+          "bytes": 1949507,
+          "rawBytesSha256": "9a5e0a9de9bffb41b48ea1fc35adc5b36a3759abcbd4a9a2622c7657956a5487",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00158.json",
+          "bytes": 1947941,
+          "rawBytesSha256": "91fc59117ff0322cdfc5cf7b9a5428fff1db51b2838d027fd295ac25b56bff57",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00160.json",
+          "bytes": 1956430,
+          "rawBytesSha256": "c42b1884951c389dce02fe4debecfe9ba87d5c3ce300675d5833b7f2def1ee6f",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00162.json",
+          "bytes": 1959711,
+          "rawBytesSha256": "5278eb50429106cadc54918281a5700aacc4e44b09fa198c655c21aa50c0a1b6",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00164.json",
+          "bytes": 1965573,
+          "rawBytesSha256": "6e5eff7eff50fe4960103eae75e60430d0ae6dc34eaaa381159406a7e0cb9c42",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00166.json",
+          "bytes": 1971390,
+          "rawBytesSha256": "eb0d88fd0daeeaa518de0e1874fa64b7bbc4361c2ecdb04a48563da7dc96e58c",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00168.json",
+          "bytes": 1977231,
+          "rawBytesSha256": "614595c20c0de7dbdeb346bba87fa9fd7b2ee27cb1887cecf6a57e130532273e",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00170.json",
+          "bytes": 1982934,
+          "rawBytesSha256": "08fb2c39fe95daa19c3e077757ab400c8d2a4bda1fb229074acfb8be171da4e4",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00172.json",
+          "bytes": 1989374,
+          "rawBytesSha256": "89bc2c72e732cb3e66eb98642ee6de019aaa9ef659ab136f37ef28908369d292",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-ab314844-ec5c-4834-a8a8-c36de808931d/00174.json",
+          "bytes": 1994411,
+          "rawBytesSha256": "a1bc3cf67161522929a0ed6d1cb344bd5958c10ce9279ace9b961d7f2110c802",
+          "private": true
+        }
+      ]
+    }
+  ],
+  "originalSourceAndAssertionRead": {
+    "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+    "bytes": 25974,
+    "rawBytesSha256": "463555380d4c1848fb21dbc694f1869089d7eec31aa13a0abef89e8328d28428",
+    "readFrom": "tools/rust-r2m/ui4-upload-text-c01-candidate01/acceptance-ui-browser.mjs",
+    "readLevel": "Complete necessary original UI4 actions/assertions from actual-cap-equal public bytes; source97 conclusions inherited",
+    "assertions": [
+      "Original admin login/project route/upload dialog receives original controlled file buffer/category, actual completePOST200 returns UUID; dialog closes.",
+      "Actual original mark-final dialog and POST200 for independently certified actual uploaded attachment.",
+      "Real handover route, original refresh-scan UI -> actual POST200, uncheck other enabled selections and check the actual named owned uploaded row.",
+      "Actual create-package UI -> POST200/ready package UUID using original owned selection/current-version body and separately reviewed UI Max64 channel.",
+      "Real download click and Playwright download with no failure; retain complete bytes, inspect original STORE ZIP, package/handover manifest IDs and exact source upload SHA member, with CRC/header validation through reviewed original reader and now-complete M4 semantics.",
+      "Original cancel upload dialog closes without another upload; actual23-request step contains no POST upload-session creation and original logout200."
+    ],
+    "noFakeApiOrJsModelSet": true
+  },
+  "coverage": [
+    {
+      "M4": "M4.1",
+      "uiSteps": [
+        "upload",
+        "mark-final"
+      ],
+      "coverage": "Actual original local upload session/target/object/complete, listing and mark-final UI chain.",
+      "actualRequests": {
+        "nest": [
+          {
+            "stepId": "upload",
+            "index": 20,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 29,
+            "method": "POST",
+            "pathTemplate": "/api/attachment-upload-sessions",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 201
+          },
+          {
+            "stepId": "upload",
+            "index": 30,
+            "method": "POST",
+            "pathTemplate": "/api/attachment-upload-sessions/{uuid}/upload-targets",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 31,
+            "method": "PUT",
+            "pathTemplate": "/api/attachment-upload-sessions/{uuid}/object",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 32,
+            "method": "POST",
+            "pathTemplate": "/api/attachment-upload-sessions/{uuid}:complete",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 33,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "mark-final",
+            "index": 34,
+            "method": "POST",
+            "pathTemplate": "/api/attachments/{uuid}:mark-final",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "mark-final",
+            "index": 35,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "nest",
+            "status": 200
+          }
+        ],
+        "rust": [
+          {
+            "stepId": "upload",
+            "index": 20,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 29,
+            "method": "POST",
+            "pathTemplate": "/api/attachment-upload-sessions",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 201
+          },
+          {
+            "stepId": "upload",
+            "index": 30,
+            "method": "POST",
+            "pathTemplate": "/api/attachment-upload-sessions/{uuid}/upload-targets",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 31,
+            "method": "PUT",
+            "pathTemplate": "/api/attachment-upload-sessions/{uuid}/object",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 32,
+            "method": "POST",
+            "pathTemplate": "/api/attachment-upload-sessions/{uuid}:complete",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "upload",
+            "index": 33,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "mark-final",
+            "index": 34,
+            "method": "POST",
+            "pathTemplate": "/api/attachments/{uuid}:mark-final",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "mark-final",
+            "index": 35,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "rust",
+            "status": 200
+          }
+        ]
+      },
+      "separateApiObligations": [
+        "Original version-complete500/validating residue, source-prepared latest=false positive version2 and explicit history/latest assertions remain in the independent M4 API case; UI4 does not claim a version2 UI journey."
+      ]
+    },
+    {
+      "M4": "M4.2",
+      "uiSteps": [
+        "checklist-refresh-select",
+        "package-create",
+        "package-download"
+      ],
+      "coverage": "Actual refresh, selection, generated package+items and retained ZIP/manifest/CRC/source-payload UI assertions.",
+      "actualRequests": {
+        "nest": [
+          {
+            "stepId": "checklist-refresh-select",
+            "index": 48,
+            "method": "GET",
+            "pathTemplate": "/api/project-handovers/{uuid}/attachment-checklist",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "checklist-refresh-select",
+            "index": 49,
+            "method": "POST",
+            "pathTemplate": "/api/project-handovers/{uuid}/attachment-checklist:refresh",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "package-create",
+            "index": 50,
+            "method": "POST",
+            "pathTemplate": "/api/project-handovers/{uuid}/attachment-download-packages",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "package-download",
+            "index": 51,
+            "method": "GET",
+            "pathTemplate": "/api/attachment-download-packages/{uuid}/download",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "package-download",
+            "index": 52,
+            "method": "GET",
+            "pathTemplate": "/api/attachment-download-packages/{uuid}",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          }
+        ],
+        "rust": [
+          {
+            "stepId": "checklist-refresh-select",
+            "index": 48,
+            "method": "GET",
+            "pathTemplate": "/api/project-handovers/{uuid}/attachment-checklist",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "checklist-refresh-select",
+            "index": 49,
+            "method": "POST",
+            "pathTemplate": "/api/project-handovers/{uuid}/attachment-checklist:refresh",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "package-create",
+            "index": 50,
+            "method": "POST",
+            "pathTemplate": "/api/project-handovers/{uuid}/attachment-download-packages",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "package-download",
+            "index": 51,
+            "method": "GET",
+            "pathTemplate": "/api/attachment-download-packages/{uuid}/download",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "package-download",
+            "index": 52,
+            "method": "GET",
+            "pathTemplate": "/api/attachment-download-packages/{uuid}",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          }
+        ]
+      },
+      "separateApiObligations": [
+        "Original K prepared draft/Native-confirm source chain and API Max10 package reservation retain their API evidence; UI4 uses its independently reviewed actual body/Max64 channel."
+      ]
+    },
+    {
+      "M4": "M4.3",
+      "uiSteps": [
+        "cancel-upload-dialog"
+      ],
+      "coverage": "Actual cancellation closes the upload dialog without creating another upload; logout and related requests retain certificates.",
+      "actualRequests": {
+        "nest": [
+          {
+            "stepId": "cancel-upload-dialog",
+            "index": 65,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "nest",
+            "status": 200
+          },
+          {
+            "stepId": "cancel-upload-dialog",
+            "index": 74,
+            "method": "POST",
+            "pathTemplate": "/api/auth/session:logout",
+            "queryKeys": [],
+            "executionBackend": "nest",
+            "status": 200
+          }
+        ],
+        "rust": [
+          {
+            "stepId": "cancel-upload-dialog",
+            "index": 65,
+            "method": "GET",
+            "pathTemplate": "/api/attachments",
+            "queryKeys": [
+              "targetType",
+              "targetId"
+            ],
+            "executionBackend": "rust",
+            "status": 200
+          },
+          {
+            "stepId": "cancel-upload-dialog",
+            "index": 74,
+            "method": "POST",
+            "pathTemplate": "/api/auth/session:logout",
+            "queryKeys": [],
+            "executionBackend": "rust",
+            "status": 200
+          }
+        ]
+      },
+      "separateApiObligations": [
+        "This cancellation is a limited UI safety path, not coverage of controlled object read faults, stale-version, missing-object or permission negative API cases."
+      ]
+    },
+    {
+      "M4": "M4.4",
+      "uiSteps": [],
+      "coverage": "Not exercised by the declared local-provider UI4 journey.",
+      "actualRequests": {
+        "nest": [],
+        "rust": []
+      },
+      "separateApiObligations": [
+        "Controlled OBS SigV4/storage-provider/default-switch API case and its semantic/source-bound comparison remain separate; Linux UI4 does not certify real OBS tenants or external adapters."
+      ]
+    }
+  ],
+  "historicalMapDisposition": {
+    "originalMapResult": "two-Linux-UI4-journeys-observed-certificate-coverage-index-not-G3",
+    "originalM4Status": "Source05 SourceReady; Root measured outcome still pending",
+    "oldPendingComparisonTextUnmodified": true,
+    "closedBy": "New independent M4 actual C c675, not a rewrite of historical A pending receipt",
+    "M4_1": "UI upload/final primary path; API separately retains negative unprepared version500/validating and exact-owned prepared positive version2/history.",
+    "M4_2": "UI checklist/selection/package/download primary path; API complete source/DTO/physical/ZIP semantics now accepted. Original API Max10 and independently reviewed UI Max64 remain separate bounded channels.",
+    "M4_3": "UI cancellation safety only; full object-fault/stale/missing/permission negatives remain certified by separate M4 API scope, not by this cancellation.",
+    "M4_4": "OBS/provider/default/SigV4 business API scope accepted only in separate M4 C; local-provider UI4 does not claim an OBS UI or real tenant integration."
+  },
+  "inputAndInheritedBoundaries": {
+    "eightNative400PerSide": "Exactly four original customer-context-dependent readmodels twice: opportunity-stakeholders,competitor-intelligence-records,sales-discovery-records,sales-intelligence-gaps. All remain actual400 and full bodies are retained; no customer is invented or status rewritten.",
+    "rustExecutionSplit": "53 actual Rust and23 explicitly original Native HTTP per side; no claim all76 moved to Rust or all original R3 legacy routes migrated.",
+    "sourceScope": "97 previously qualified finite UI runtime/caller/fixture sources match original3428-member cap; actual cap metadata records Native0ef/Rust957 and UI4da artifacts, not rehashed whole binary by C.",
+    "uncached": "Actual same-owned-context CDP Network.enable/setCacheDisabled ACKs before navigation, no page.route mock or response/header rewrite; no cache/performance equivalence claim.",
+    "oldFailures": "First UI4 late failure and normal69 recovery histories remain real failures. New failed Windows UI4 scan-selector run is separate and does not retroactively alter these two original Linux positives."
+  },
+  "independentPublicChecks": {
+    "Root4aa0AndA3ad93RawHashes": true,
+    "bothOriginalPublicReportsRawBytesAndSha": true,
+    "all152HttpCertificateRefsJoinReportKindBytesSha": true,
+    "all12StepRefsJoinOriginalEvidenceAndDeclaredStepSha": true,
+    "everyStepCertificateCountAndObservedActualUiKind": true,
+    "all30MappedKeyRequestsMethodPathBackendStatusMatchRootSafe": true,
+    "allFull107InitialFinalRefsJoinReport": true,
+    "actual83Rows2FilesThenMatureDoubleZeroEach": true,
+    "allKnownWritersAndObserverRestoredNoActiveCase": true,
+    "actualLinuxBrowserVersionPins55Libs4FontsAndNoDbJwtInheritance": true,
+    "qualified97OriginalCapSourceMemberHashes": true,
+    "noDedicatedWholeUiDifferentialGateAdded": true
+  },
+  "readLevels": {
+    "C": "Read public reports and Root/A safe metadata, hash original references and previous qualified-source/cap correspondence, read necessary original browser assertions and map UI actions to accepted M4 API semantics. C did not open private records.",
+    "Root": "Originally executed each real journey and verified every private raw body length/SHA, step.network/certificate joins, SDKPG/complete107 all-column facts, unknown-create/mutation boundaries and initial/final physical baseline. These safe attestations and published reference joins remain explicit, not direct C private reads.",
+    "A": "Coverage map is a source/public index with historical M4 pending label, not independent actual acceptance. This new C links its fixed mappings to current M4 C and original Root positive runs."
+  },
+  "matrixDisposition": {
+    "thisReviewTwoLinuxCellsOnly": true,
+    "LinuxEightDeclaredCellsNowCoveredByC": [
+      "NativeUI1",
+      "NativeUI2",
+      "NativeUI3",
+      "NativeUI4",
+      "RustUI1",
+      "RustUI2",
+      "RustUI3",
+      "RustUI4"
+    ],
+    "WindowsCellCountRemains4Of8": true,
+    "wholeG3G4AndFinalGitStillPending": true
+  },
+  "findings": [],
+  "limits": [
+    "Use frozen4c65 minimal journey/original assertions, complete actual HTTP/schema/ownership/full107/cleanup plus corresponding full API semantics. No newly invented UI4 all-fields differential, whole producerDTO, DOM/pixel or cache gate is required.",
+    "All original statuses, method/backend split, report observed-comparison-pending labels and eight400 responses per side remain unchanged. Pass is the declared positive functional journey and original safety path.",
+    "No whole raw byte, ETag, pixel, numeric-session-version, opaque ciphertext or performance equality is asserted. Complete M4 comparison has its own qualified source projections and preserved internal-number differences.",
+    "No R3-R7 domain completion, real OBS tenant integration, Windows UI4 success, final G3/G4 or issue closure is granted.",
+    "C did no private/env/key/DB/HTTP/browser/PS/process/test/Git work and changed no existing captured source or receipt."
+  ]
+}

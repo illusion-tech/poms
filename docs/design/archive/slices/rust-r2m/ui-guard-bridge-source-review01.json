@@ -1,0 +1,71 @@
+{
+  "kind": "POMS-R2M-independent-original-UI-bridge-readiness-source-review",
+  "reviewedAtUtc": "2026-10-31 01:48:09 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "input": "Exact three technical bridge-ready waits on current original functional UI path",
+    "old28FixtureProfileCompatible": true,
+    "newM4M5FixtureRequired": false,
+    "productModified": false,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25661,
+      "rawBytesSha256": "228119de57fab433aa7c8ef6acee2f10176ceb0c465c30965d97c6214cf9d7aa"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-main.ts",
+      "bytes": 4911,
+      "rawBytesSha256": "5ae93a7e2ef410c39e814d394f1c71b8f1b973671d73cbc89c345db51cdd3a50",
+      "meaning": "Unchanged technical installation source; no UI rebuild behavior change in this delta"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/rust-r2m/ui-guard-bridge-source01.json",
+      "bytes": 3722,
+      "rawBytesSha256": "dde1a059326dedb9337d24b4da943027cf60ca512109432ad1ba432ba84de452"
+    },
+    {
+      "file": "tools/rust-r2m/ui-guard-bridge-before-source01.json",
+      "bytes": 34191,
+      "rawBytesSha256": "edbfdc98b2038fece3083495ee2523a63385f7762a90cc73108c851e52e55e86",
+      "meaning": "Original browser733 base64 decoded independently;25431B SHA733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032 verified"
+    }
+  ],
+  "findings": [
+    {
+      "item": "exact technical trigger",
+      "result": "Pass",
+      "detail": "Unchanged test entry installs version1 only after bootstrapApplication.then and an async ApprovalApi import. A completed navigation or200 response alone cannot prove that installation. Exact page.waitForFunction version1 waits are therefore concrete technical readiness checks."
+    },
+    {
+      "item": "only three waits",
+      "result": "Pass",
+      "detail": "Complete line comparison against preserved original733 yields exactly3 changed lines: UI2 post-guard fixed read waits before evaluating bridge; UI3 post-contract-navigation/actual approve+dialog completion waits before getApprovalRecord; snapshot helper waits before its first read, covering settings full navigation. No goto, API request, cookie, fixture, profile, permission or business assertion changes; no business retry or response mock."
+    },
+    {
+      "item": "meaningful failure preservation",
+      "result": "Pass",
+      "detail": "Source-only author tests execute actual step/snapshot arrows with a deferred bridge; they show no fixed GET/evaluation before readiness and original wait failure propagation. Existing raw failure receipts and original Native pass/Rust partial remain immutable."
+    }
+  ],
+  "readLevel": {
+    "sources": "Independent final raw pins; complete3-line diff and necessary unchanged installation source excerpts",
+    "authorTests": "15pure0fail metadata; no C execution",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "gitMutations": 0
+  },
+  "actual": "Root copies exact new browser only and captures matching new source epoch. Separate source/runtime proofs, unchanged strict UI assertions, real cache ACK/condition evidence, owner closure/full107 cleanup and pair comparison remain required."
+}

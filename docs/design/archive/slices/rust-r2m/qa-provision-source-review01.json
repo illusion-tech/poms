@@ -1,0 +1,141 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-three-isolated-QA-clones-provision-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T21:13:01.165Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInputs": [
+    {
+      "file": "tools/rust-r2m/audit-qa-source01.json",
+      "bytes": 2168,
+      "rawBytesSha256": "9ea5522ebc2d267a5d928da89b503048e5acc5715ed3eed1d6625269c33041b0",
+      "preserved": true
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-source02.json",
+      "bytes": 1147,
+      "rawBytesSha256": "c5a6af03e1da6cab87eb93e0406949b7e7a9a982998fecb695927fd35a3f4c2a",
+      "role": "Final original-failure-preservation-only delta"
+    }
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/audit-qa-admission.json",
+      "bytes": 5121,
+      "rawBytesSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1",
+      "readLevel": "Complete precise three-resource plan"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-common.mjs",
+      "bytes": 6749,
+      "rawBytesSha256": "8620f792d2f07011834359ba5de78dfef19c905a1a16814dc1e523ec1ae010d0",
+      "readLevel": "Complete plan/private/path/fingerprint/ambient/error helper source"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-provision.mjs",
+      "bytes": 15734,
+      "rawBytesSha256": "3ffc07ec3103cc93dae24ac1e2a9f18c86e4f8223504ff6459a0efd99cd2944c",
+      "readLevel": "Complete original provision source plus final private-failure-retention catch"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa.test.mjs",
+      "bytes": 1984,
+      "rawBytesSha256": "d4fb45329b13be1ce07d90bce223d4aef1d61b61b6356ef57eee160983aa0155",
+      "readLevel": "Complete pure source, not executed by C"
+    }
+  ],
+  "approvedAction": "Root may provision only the three exact new isolated QA databases/roles/env/object namespaces after this exact source is frozen and Root's public admission binds the original new-M seed captures and this review. No original test/runtime owner is approved by provisioning alone.",
+  "resources": [
+    {
+      "database": "poms_r2m_qa_nest_api",
+      "role": "poms_r2m_qa_nest_api_app",
+      "template": "poms_r2m_nest",
+      "marker": "23949557-c6d4-4b20-9524-71196b7cf3ce",
+      "intendedPhases": [
+        "foundation-nest",
+        "nest-full"
+      ]
+    },
+    {
+      "database": "poms_r2m_qa_rust_foundation",
+      "role": "poms_r2m_qa_rust_foundation_app",
+      "template": "poms_r2m_rust",
+      "marker": "b468f0fb-f38b-48b0-9d28-b36ebffbf2ca",
+      "intendedPhases": [
+        "foundation-rust"
+      ]
+    },
+    {
+      "database": "poms_r2m_qa_nest_legacy",
+      "role": "poms_r2m_qa_nest_legacy_app",
+      "template": "poms_r2m_nest",
+      "marker": "d63b5df0-b7f0-4ebc-a422-9699bc872755",
+      "intendedPhases": [
+        "legacy"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "bounded-independent-QA-resource-ownership",
+      "status": "source-ready",
+      "detail": "Whole new QA databases and named low roles/env/object roots are separate from the M fixture's per-row ownership. Names, role suffixes, template choices, three unique markers and every path are literal-admitted; all must be absent before first creation. No existing QA journal or resource is adopted. Whole resources/data are retained, including partial creation states; there is no reset/reseed/drop or backend termination."
+    },
+    {
+      "id": "source-review-before-private",
+      "status": "source-ready",
+      "detail": "Public Root execution admission must bind the exact plan, existing parent marker, stopped writers, completed M double zero, two exact original new-M full107 seed capture references/raw hashes/row digests and this exact SourceReady review. The code validates reviewedSources pins for plan/common/provision and source capsule inputs before opening any new-M private source/owner secret or PG connection."
+    },
+    {
+      "id": "new-M-only-control",
+      "status": "source-ready",
+      "detail": "Connections are literal allowlisted to the new M PG15 host127.0.0.1:20432/server15432 and exact postgres/M/three QA database names. Live current database/session user/version/port/isolated flag/timezone are checked. Only the new M owner-password and admitted new-M initial private facts are read with nofollow/private-mode/inode/stability checks; no old private or older PG instance is selected."
+    },
+    {
+      "id": "exact-clean-template-and-no-live-clone",
+      "status": "source-ready",
+      "detail": "Both current M product tables must exactly match the complete initial seed logical-row digests, with existing parent marker intact. Source full107 rows and product/control ACLs are captured before. Every template must have zero current connections immediately before CREATE DATABASE; no terminate_backend is used. Actual clone product rows must equal the admitted source seed. Source M full107 rows and ACLs must still equal before after all creations."
+    },
+    {
+      "id": "low-privilege-separation",
+      "status": "source-ready",
+      "detail": "Every QA role is LOGIN/NOINHERIT/NOSUPERUSER/NOCREATEDB/NOCREATEROLE/NOBYPASSRLS/NOREPLICATION, no memberships, bounded connections. Only its own QA CONNECT/TEMP and poms DML/sequence usage are granted; schema/database CREATE and both marker schemas remain inaccessible. Owner-only r2m_qa_control marker binds actual database, unique QA marker, template/parent marker/source row digest/plan. Each QA role is actually checked to have no protected M product-table privilege, with source M ACL unchanged. Existing PUBLIC CONNECT is explicitly not misrepresented as absence of connection permission or as a QA app grant."
+    },
+    {
+      "id": "fresh-private-env-and-objects",
+      "status": "source-ready",
+      "detail": "QA password/env/object roots must be absent and stay within exact new-M QA namespace. New random password is private; four exact env lines change only QA database/user/password/object root, and original source env raw bytes are rechecked unchanged. Journal creation/update uses guarded private exclusive/atomic files and records actual OIDs/states; arbitrary database/env names are rejected."
+    },
+    {
+      "id": "failure-preservation",
+      "status": "closed-at-source",
+      "detail": "C found source01 retained only the fixed public category and lost original PG/assert diagnostics. Final source02 first saves original name/message/stack/code into a unique new-M private QA failure file; journal/public failure stores only fixed category and private receipt metadata. It does not dump the environment/password object. Unknown/partial provisioning is preserved rather than silently cleaned or claimed ready."
+    }
+  ],
+  "verification": {
+    "planCommonProvisionPinsChecked": true,
+    "pureSourceRead": true,
+    "reportedPurePassed": 3,
+    "reportedPureFailed": 0,
+    "reportedSyntaxFiles": 3,
+    "CExecutedPureTests": false,
+    "CReadPrivate": false,
+    "CConnectedDBOrCreatedResourcesOrStartedApps": false
+  },
+  "executionBoundary": {
+    "RootAdmissionReviewPin": "Use this review file with its actual bytes/raw hash in nonAuthorSourceReview; reviewedSources above are the exact three required source pins. Root's original seed reference files/digests must be actual new-M initial captures, not reconstructed old-environment facts.",
+    "runnerBoundary": "Original Nest full, foundation and legacy runner/owner source and actual phase outcomes are separate and still pending. A QA clone/source check does not count as a test pass or migrated Rust business acceptance. Route-mocked legacy outcomes retain their real label.",
+    "resourceRetention": "Keep exact QA databases/roles/data/env/object namespaces and partial journals for audit. No per-row M ownership is inferred, and M fixture cleanup remains limited to its proven rows/keys.",
+    "notNewGate": true
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

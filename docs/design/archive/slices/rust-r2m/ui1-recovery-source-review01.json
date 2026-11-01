@@ -1,0 +1,102 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-ui09-uin1a-unique-closed-UI1-recovery-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T21:34:56.665Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-ui1.mjs",
+      "bytes": 6364,
+      "rawBytesSha256": "a2bc10dce3d591acb76458c0511268f0ce3e5df5c2e71d172e6da17b19cc3389",
+      "readLevel": "Complete original bounded recovery protocol and final read-before-private-parent/mode guard delta"
+    }
+  ],
+  "priorCandidate": {
+    "rawBytesSha256": "b574bbbb8861b03901f79bec5e10d58f8bc1001773a95aac8219640eccd16c5b",
+    "actualExecuted": false,
+    "finding": "C required private parent/no-symlink/permission checks before the first raw journal/evidence read and before snapshot creation; final source closes this gap."
+  },
+  "publicInputsRead": [
+    {
+      "file": "tmp/rust-r2m/ui-linux-nest-uin1a.json",
+      "bytes": 28446,
+      "rawBytesSha256": "2645e6b10613b0b678b70515c57fe866eba005741cbad13e3be9a191d1f77014",
+      "runId": "d20197cd-3992-4e97-9774-128cf936aa04",
+      "backend": "nest",
+      "tag": "uin1a",
+      "result": "partial-preserved",
+      "selection": [
+        "UI1"
+      ]
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-ui09.json",
+      "bytes": 1368384,
+      "rawBytesSha256": "fff29aba311d825b963d6404a48973eee300e524c91302ca0dbf87a36a077e8c",
+      "id": "r2m-ui09",
+      "manifestSha256": "c72047e687122c7f6089bcaf2deb503e678c7cf088ced92836a0b90a2fbcf745",
+      "readLevel": "Selected public capsule metadata, exact hash and current62 fixture pins; no repeated complete historical source-tree walk"
+    }
+  ],
+  "privateReferencesMetadataOnly": {
+    "journal": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-d20197cd-3992-4e97-9774-128cf936aa04.json",
+      "rawBytesSha256": "5a55cd1c2626f5687f6ae8028df0dab213c5c11e871931feae658ee825f901a0"
+    },
+    "actualFinalSdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-d20197cd-3992-4e97-9774-128cf936aa04/00006.json",
+      "bytes": 5143,
+      "rawBytesSha256": "75a4165ebd302717d8298e1a7dbd787e854f4648b02e5f976202785dbe41144a"
+    },
+    "actualPgRestore": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-d20197cd-3992-4e97-9774-128cf936aa04/00007.json",
+      "bytes": 2334,
+      "rawBytesSha256": "173d5b0b85e27539ee78bd103aca999b70888e3e262f16ba16fe848268cb033c"
+    },
+    "CReadContents": false
+  },
+  "dependencyEpoch": {
+    "profile": "new reviewed62 source epoch, not an old profile59 failed journal",
+    "fixtureRawBytesSha256": "d584991586902896caf8379e2e4a7ccbd636ff8d56f64b56330fbcc71d12d4f3",
+    "policyRawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97",
+    "referencesRawBytesSha256": "930133e7c8b5b49b0496cf93758ebf01cfd91277eb14a46545af7c66a689271f",
+    "priorReview": "docs/design/rust-r2m/handover-cohort-source-review01.json",
+    "old59Journals": "Already exact-cleaned and readonly comparison only; never reopened using new62 profile"
+  },
+  "findings": [
+    "Exact literal public report/source capsule/run/backend/tag/selection/result pins are checked. Private parent directories are lstat-checked before reading, cannot be symlinks and private root/descendants must deny group/other permissions. Private leaves require regular/nlink1/0600 before open, nofollow and opened inode/device/nlink/mode agreement.",
+    "Exact original raw journal hash must match before an exclusive nofollow/fsynced private snapshot is written. Snapshot execution-log ancestry is checked before the write; this happens before Fixture.open can increment revision or change journal metadata.",
+    "Both known old process IDs, worker1822384 and anchor1822377, must be absent; the script does not kill, guess or adopt any present/recycled PID. All five M runtime/supplier ports must be free.",
+    "Public writerLifecycle/resources show browser, proxy and Native individually stopped/restored, observer restored and no active PG case. The recovery additionally reads only the public-hash-bound exact private final SDK and PG restore receipts, verifying complete witness/no open or pending transaction and actual observerFootprintRestored/result.",
+    "Fresh Fixture.open retains original new-M marker/source/database/low-role protections. It requires no existing writer drain, zero other non-idle app activity/prepared transactions, zero unknown creates/mutations and full107 reference preflight before the mature explicit drain/cleanup.",
+    "No new ownership/adoption is performed. Only existing genuinely certified owned rows/keys are cleaned through the mature fixture path; cleanup is attempted twice and second deleted/object changes must be zero. Failure preserves a private original error receipt and incomplete public status."
+  ],
+  "originalFailureBoundary": {
+    "publicUIObservation": "UI1 result fail; only anonymous-deep-link step remains pending. Chrome/real original UI process actually started, but this does not prove the step succeeded.",
+    "cause": "Unknown: the old generic UI catch lost the actual action/onBefore error. C's earlier source review did not flag this inner diagnostic-loss defect. A new diagnostic epoch may expose a future reproduced cause; do not write one back into the old run.",
+    "UIAcceptanceCertified": false
+  },
+  "verification": {
+    "CExecutedRecoveryOrDBOrHTTPOrBrowser": false,
+    "CReadPrivate": false,
+    "RootReportedSyntaxExitCode": 0,
+    "sourceReviewOnly": true,
+    "RootReportedOwnedCount": 59,
+    "ownedCountIndependentlyReadByC": false
+  },
+  "executionBoundary": {
+    "approvedAction": "Root may execute this one exact closed UI1 recovery with its matching reviewed62 fixture bytes; retain original raw snapshot, precise recovery result and old partial UI report.",
+    "notUIResult": "Recovery SourceReady/cleanup never becomes a UI1 pass, G3 or G4. New UI diagnostic/API entry candidates require their own exact incremental source pins."
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

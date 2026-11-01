@@ -1,0 +1,1680 @@
+{
+  "kind": "R2M-independent-Windows-external-Rust-UI4-original-view-source-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01 13:44:17 UTC",
+  "input": {
+    "file": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/source01.json",
+    "bytes": 193725,
+    "rawBytesSha256": "9c1e0ad9d62f61340d64a7a3a7ed048cdcea9b72c6c00da2212aa3fa0b88bc59"
+  },
+  "newTmpOnly": true,
+  "intendedDestination": "docs/design/rust-r2m/windows-rust-ui4-view-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-attachment-recipes.mjs",
+      "bytes": 9593,
+      "rawBytesSha256": "66c64ce1a72f1f87a78ea4c0d7551ed051f2c69d543058bf34949d108f61d408"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-bindings.mjs",
+      "bytes": 9285,
+      "rawBytesSha256": "c87bf593837bf45f0c030ee7fe9b56cfe5f614640397d955beb0a425418c21e5"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-expected.mjs",
+      "bytes": 29877,
+      "rawBytesSha256": "fd87825d1bda3d88dcf8caa01785bbbf255be2157adb9961c521a536f9f04304"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-recipes.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "d8dc13a810119e9079b73ae7ff9f1a06129b2f1a1ab8c81924d0d15f7353d661"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-local-objects.mjs",
+      "bytes": 1945,
+      "rawBytesSha256": "209797b9039f15782003b79f4944e7343a90b1c7690368897b74912fa6bc76e9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-m4-source-check.mjs",
+      "bytes": 8573,
+      "rawBytesSha256": "3d2995fdac609c5045fda1b551f80e6f0c3613d2507ef5ee63ceae44114ccc27"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-preflight.mjs",
+      "bytes": 3065,
+      "rawBytesSha256": "d4dc2772e4b3bfda7822a85f2cc57fbaea0d8ef2a09a241b57fd66278b69664c"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-prepared-source-check.mjs",
+      "bytes": 6287,
+      "rawBytesSha256": "d2c173ba1bcfd0e068f5967b707e64143c2908c39f0fe047473fbcbae412ca55"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-principal-source.mjs",
+      "bytes": 2934,
+      "rawBytesSha256": "0dd3c8d88f7ae98f5965b9c170f619e38245f68abb18a0f68c79c7cc2b5f4b18"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "c006319de74f42167c1178fea16397fd0bfd8097e0caa10514cd20357c524848"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-runtime.mjs",
+      "bytes": 50558,
+      "rawBytesSha256": "1d8b9b37589fb71382ba4a593e7804d501d767fd13a5c73f38072299ce9ffe44"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-scenario.mjs",
+      "bytes": 16737,
+      "rawBytesSha256": "c441058ec0191652d5b32ac0f61af6d260688e99ab4e6e3d3c7e2b5e3a64ad6c"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-user-compatibility.mjs",
+      "bytes": 8414,
+      "rawBytesSha256": "f9d0adfc6c965f6533ec7f9fc418a83406edbf06e650d89ffbd96ce17ac1827c"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-zip.mjs",
+      "bytes": 7131,
+      "rawBytesSha256": "a50ace3ccbcd46e3c5930ab5d8840edb47cb229fe5928b1cb8c04ed477eb5e74"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api.mjs",
+      "bytes": 22491,
+      "rawBytesSha256": "5d5ad65693f0bcdf0098458df430f7126afab30ff5c7b9208fb5e89ea965adad"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api20-preflight.mjs",
+      "bytes": 9775,
+      "rawBytesSha256": "32cebb2d0a372f5fc0538a1d642ef7d12e384f394468dc491e7fe10beda802a7"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-bindings.mjs",
+      "bytes": 8011,
+      "rawBytesSha256": "7db433414ee038a23b3728ef391abfe335592ad96f65103000b07448e55ad633"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-extensions.mjs",
+      "bytes": 5044,
+      "rawBytesSha256": "e20be5abc48e88c9d2e5442a28e6d6ea33517a08c85fb20c8525adc0348d1679"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-prepared-result.mjs",
+      "bytes": 7780,
+      "rawBytesSha256": "f8532ada3d2b46ff64bdf4a1c9afb4e2b09b8992a3cdb4b988d99a547636d237"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-prepared.mjs",
+      "bytes": 4925,
+      "rawBytesSha256": "bca23f0184770837efa11ff38e7d0eb5b88323c433c72a3efe4c4cd54e5e563f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-producers.mjs",
+      "bytes": 18970,
+      "rawBytesSha256": "78ce9155ada145cb7f2a9f0b1de2ff3ee5f63c728ad1f35088dd71f0102d45fc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-runtime.mjs",
+      "bytes": 37829,
+      "rawBytesSha256": "18a62be53babeb73d0d410b8ffaa6cd8498c9f5c0dd596e24b373b8fdf9cb6e9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-suppliers.mjs",
+      "bytes": 12633,
+      "rawBytesSha256": "128ec79673b59a24fcf3fabd4eb030caadea0b6d340b87b59942cf77497651ee"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+      "bytes": 28495,
+      "rawBytesSha256": "edf1d3a45aeea6d7c8aea2d656c5ec8bcf66fc7de295b57835a045edcfb3b8a4"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-uow.mjs",
+      "bytes": 3486,
+      "rawBytesSha256": "99b26ba2a839fd6ef2405ce173e2cc53596344cc06b3e1b5581be30b5f1530c0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance.mjs",
+      "bytes": 20244,
+      "rawBytesSha256": "5809ceda5d1636e37ea484a40dfc6d8c6fb7950c45ed93805702d68527feb240"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-attachment-source.mjs",
+      "bytes": 6514,
+      "rawBytesSha256": "f24d4c4e42de88cde2459daf6878e634c3f4a61c8c019d5b466630e4151fa6f0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-private.mjs",
+      "bytes": 1860,
+      "rawBytesSha256": "f9746a7a2219e2b93b838f32b05af54962fc28c25217520f8c2aae1b4e1c72b9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/bridge-windows-ui.mjs",
+      "bytes": 20049,
+      "rawBytesSha256": "7a8bc0f97282c404221943d73d33a188b9f404f0facf638d78856be3218b15c3"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/capture-source.mjs",
+      "bytes": 4348,
+      "rawBytesSha256": "eca79ac2e0e22a9a42ab47d502eed8eabd40286720e3a1ce8f45ab3529707ab1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "dc47cbe28403204e691995bd3c33d8e327a17258ff0ea4130becfaa8e58d1b63"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/command-owner.cjs",
+      "bytes": 20693,
+      "rawBytesSha256": "b9507c52b677efb05a8a1b501c90024b30644dbfa87e0b975705e23bd8958038"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "868257505f4229fce029c4906503be314b18a9a34384c833f25509814be1746f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-opaque.mjs",
+      "bytes": 18136,
+      "rawBytesSha256": "0a24d5ef2d641e538fe96ed4d733ebe188cbfa8449533d565bfac0d843408ac0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-zip-logical.mjs",
+      "bytes": 22604,
+      "rawBytesSha256": "64de4593595b83a42ba6b99cce9dca3af94635dd21fb9f7079f3f4caa37ebf1b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/database-client.mjs",
+      "bytes": 2075,
+      "rawBytesSha256": "07a2953f0551bbb48b9195fa01ec2c981d1083c7c90b2fd52774aed4465c6755"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/feishu-server.mjs",
+      "bytes": 8700,
+      "rawBytesSha256": "2f34c887a0a41014e66ce7739bace2fc3d598f79550108e339c124fa0e174ecc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-audit-identity.mjs",
+      "bytes": 15075,
+      "rawBytesSha256": "98e38f0b7ebae1b36861c55ec5e62f474e4fe66c3314047c8967bc3bf0a71300"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-core.mjs",
+      "bytes": 10352,
+      "rawBytesSha256": "3705769440b20905a178145ba35611399447bc49247fc6c5a4218fd7089864b2"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-external-audit-identity.mjs",
+      "bytes": 13832,
+      "rawBytesSha256": "c797d1fb6a44ec2445ce84028c5df5453992e9d34f5777ed93853f3d8a816a7d"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-guard.mjs",
+      "bytes": 4773,
+      "rawBytesSha256": "c33e9024290138b6c1e9eb0992fc982e0baa8d4b9121ffe4257020b4a3725bbe"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-journal.mjs",
+      "bytes": 13699,
+      "rawBytesSha256": "007c5ad9a98c5be7630548e02c51fcc08dcd770ae83bf362c7aaa984b7843d8e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-objects.mjs",
+      "bytes": 6306,
+      "rawBytesSha256": "3acb41c9f23fd4e82a0bed844f5f0596fb72c788f5bf626faa9718174ed656c0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-package-intent.mjs",
+      "bytes": 14719,
+      "rawBytesSha256": "f1ef6047c6c6b344ba8c5b31b4e21dfad833525c422acfdf6a8a5f922bec7173"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-profile.mjs",
+      "bytes": 13579,
+      "rawBytesSha256": "906cd188ed0818b3736b991bcc3a0cb38e2995df226be0ce2bdf7f881c02c987"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-setting-baseline.mjs",
+      "bytes": 12496,
+      "rawBytesSha256": "420e7aa18441b27886f08da48eb96e045c06534ed3987b6ef2ae80b08c1248dc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+      "bytes": 17896,
+      "rawBytesSha256": "7e76fd0b05bb605cdb43f55158a0b17b6f17a95336d3d71edae84ff580c7a503"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "bytes": 46379,
+      "rawBytesSha256": "3d51c75d0433be524ac527d769996a5808cd6893f36dabbd2e6c2bd008819922"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/native-app.mjs",
+      "bytes": 8132,
+      "rawBytesSha256": "179992550eb15e93b78561c034573b6432a9d7bf826a58c31c7d075018fbf9c0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/native-write-witness.mjs",
+      "bytes": 17375,
+      "rawBytesSha256": "4421685beeb559b6bc5e8dd852f8803853a5623409926e00d7d84c85525c6da9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/number-lease.mjs",
+      "bytes": 7684,
+      "rawBytesSha256": "3e467f1e11b9f3b7f13bb1beeafe9deb438c3620e0542806aaa7bf9fa4cc346d"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/obs-client.mjs",
+      "bytes": 3412,
+      "rawBytesSha256": "5b8fe288a9dc9827679957f4e642d63f5405e2180c128645dbe3ca54a73ef46b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/obs-server.mjs",
+      "bytes": 48842,
+      "rawBytesSha256": "5c3095e972a3e654e4db71503e45af18076eb9fabd7ed95657fbf6b0ed09053c"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/pg-create-observer.mjs",
+      "bytes": 75161,
+      "rawBytesSha256": "7988f0a0fb5f7e9fd88a2889dc5faf3fe6381cd16568b94a54926c76c8f74322"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/private-files.mjs",
+      "bytes": 3892,
+      "rawBytesSha256": "bac859fdc9d4f55b2b15660b8e3ef0e607f3690a42b96f5c839c5603856770dd"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/query-pid-witness.cjs",
+      "bytes": 8229,
+      "rawBytesSha256": "13ddb43c02bd49e8638741d3cdc70b2347ef27f8f71da99d66b7af848bd294f5"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/reference-authority.json",
+      "bytes": 581500,
+      "rawBytesSha256": "5164a71d1a1a3af4e01951815a27b1ebb1a51e6bab22ebdb64a17794e7c6dca9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/run-api-owned.mjs",
+      "bytes": 4154,
+      "rawBytesSha256": "1c5d7efef514eef9161d0c7730fc71507d8ed70341eec25e65d1a34a6cc44d0a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/rust-app.mjs",
+      "bytes": 2908,
+      "rawBytesSha256": "9af182dfe7eaecbd6b86afa8d40bb4d42e2656214d264717e706778a7c18c056"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/scenario-input.mjs",
+      "bytes": 46053,
+      "rawBytesSha256": "dc282cfa6b0a212c1116366fac70130f3ed93b71f6ac3f9401fb9a9731e0a6ed"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/shared-uow-capture.mjs",
+      "bytes": 10422,
+      "rawBytesSha256": "484f5144d79b35a45a7ef2fdba861016dbd435498386356684d44b863b67039c"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/shared-uow-native.mjs",
+      "bytes": 16209,
+      "rawBytesSha256": "bf8755f155b53a46e389755cc302a1f8d2af0f173e7d1d400f9e409af02a82d5"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/supplier-owner.mjs",
+      "bytes": 4594,
+      "rawBytesSha256": "45aee0708460ceab2136f5ef40033c6fdcb58ae14b141b4e0b7f41d3b2821d00"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-browser.mjs",
+      "bytes": 7303,
+      "rawBytesSha256": "3ee0b3ca7c88d703e6dacef81b6658e0b460db3ad8ac4e9c83856a32c8d36d19"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-cache.mjs",
+      "bytes": 2828,
+      "rawBytesSha256": "ddf086eb16734f25ca6fa41c9c444b620b1561c3dbdc3afebb3e57a6a80d116e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-full.mjs",
+      "bytes": 31860,
+      "rawBytesSha256": "6c9eb2cabdcf97101001a0f3cc0c05ad2827e20168df2c0e696a043ebacd579a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-server.mjs",
+      "bytes": 13688,
+      "rawBytesSha256": "3103219a2d7a7ee7f80ba916cb5a6448eb172e5cd63cb365f800cc2af16b1a6d"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-sources.mjs",
+      "bytes": 22455,
+      "rawBytesSha256": "de73fde59ba3256355d2e8e23c414cb09bd4868e102ac2a42deedff705082003"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-managed-environment.cjs",
+      "bytes": 4537,
+      "rawBytesSha256": "08864215d2a62a34b7c7f323b42edf3b6cb500b7aaee8aad7419b01faa2e2d6e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-app.mjs",
+      "bytes": 16912,
+      "rawBytesSha256": "95ae4fe689af435b9204f603ffb59fcff8c01f180463e849ed7edd5fdd411aee"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-driver.mjs",
+      "bytes": 9388,
+      "rawBytesSha256": "402d35f0bc531a7f6d08556ff50dfd58f053a52ae727b4910025f6db755c7a08"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-environment.mjs",
+      "bytes": 2502,
+      "rawBytesSha256": "006147c827731dfcd42a1bdd5964b32785da358440a6a755e73185ca6401e808"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-process.ps1",
+      "bytes": 20923,
+      "rawBytesSha256": "207a21351872cb82874f78c1ae16e0754caa7a22d8eb09f5185b35661e2e509f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-server.mjs",
+      "bytes": 12201,
+      "rawBytesSha256": "999000ec09f585574d4abc8215ca6539c2234f13e9f1530900350ce9f94b83ef"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-setup-headers-contract01.md",
+      "bytes": 2311,
+      "rawBytesSha256": "88725afefc50b807b8560652cbcfcb409411485d17badf0523b223dd202adffe"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-setup-headers.test.mjs",
+      "bytes": 9230,
+      "rawBytesSha256": "730693cdf599cbbf64b3cadf23204b0f5dc6863b530169d28811e27017628ef5"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-ui34-budget-contract01.md",
+      "bytes": 3746,
+      "rawBytesSha256": "d33537c13ee5c8c98de96d6b9c6deb0e6e1ce020542a6059cbc6735669306b46"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-ui34-budget.test.mjs",
+      "bytes": 7580,
+      "rawBytesSha256": "0a18ce217d3ba41d6035770397405b9178a33f4042f7dc14d99f413a6fc9caa1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view-contract01.md",
+      "bytes": 3004,
+      "rawBytesSha256": "38979ca792c0587f1e8ad311592f35db53e5a0e44004360b9839e6d7676ba25a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view-input.mjs",
+      "bytes": 4267,
+      "rawBytesSha256": "d948feb7272a32d1d2d6cb13bec8b81cebb915c1c31166606ef22726320cf3b7"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view.test.mjs",
+      "bytes": 16157,
+      "rawBytesSha256": "7f7759cc6cc95ee78294834443d4684a968a9ff975a8ef157b4fc2ed7b5744d1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view-contract.md",
+      "bytes": 2973,
+      "rawBytesSha256": "92bb615016d9a56e105db271142fd36372e6adc1660c26e6668d15eb0aadb5a0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view-input.mjs",
+      "bytes": 6887,
+      "rawBytesSha256": "0f3fa0162a087966cd37de0687fc0303c94590c1a456a42e3ecfb12b694136eb"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view.test.mjs",
+      "bytes": 22190,
+      "rawBytesSha256": "f22e02ad9a515cc0bdd557b5f7d579ec1e4ba21f01ef79cd10e4c8bbc731a6bc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-batch-contract01.md",
+      "bytes": 5328,
+      "rawBytesSha256": "b636ef3c018a0da3e9d1afee72c2f374103a15e12b276ad1c550127eb0a32b76"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-batch.test.mjs",
+      "bytes": 7984,
+      "rawBytesSha256": "11bd8d9befa46047f9c2a95338594f365a744f15040184d6cda50e84eab71f66"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget-contract01.md",
+      "bytes": 4139,
+      "rawBytesSha256": "aac0ea0279b8f3bf66cc3f9ce3abaea7bab5f29cf150f7e5ae1c11807aea08e0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget-contract02.md",
+      "bytes": 1555,
+      "rawBytesSha256": "a711c796820be6473cac7e6c203c50c61a247200f53ad3ac98e5ddcc7d370edc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget.mjs",
+      "bytes": 4136,
+      "rawBytesSha256": "0f8ebb8ab2becdb5155853ff855391da1fc34ac8bf84cb3025610a068eb29222"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget.test.mjs",
+      "bytes": 10770,
+      "rawBytesSha256": "81c8fc5e7c8dedf9882124d6cf10098b3494dd2b3fa8905e9d0fa5e5f82b076a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-close-facts.mjs",
+      "bytes": 1183,
+      "rawBytesSha256": "a829dc2ee8f162f734e7f64731df5cd2faf8e6c35338f89112fd32c4d74960e7"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-command-owner.cjs",
+      "bytes": 21406,
+      "rawBytesSha256": "7af751ca7451697fcea0b9df59784f0cdb7f4b1be8d62567e94a59b8216233de"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-command-owner.test.cjs",
+      "bytes": 13560,
+      "rawBytesSha256": "eaac663396b7129ed03672d12a9b9ef3b5899ed6a109efdc266b4a5c61260630"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-driver.mjs",
+      "bytes": 16932,
+      "rawBytesSha256": "b0a5fd36f7537f1cf28d25b68e75b92b2304d57c21095666b2bbb6663b73114e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-http-session.mjs",
+      "bytes": 2661,
+      "rawBytesSha256": "adecc07ac028757f391044237071ced451c85274a9befb8452424b0bbe14bcc0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-owner-failure.mjs",
+      "bytes": 3243,
+      "rawBytesSha256": "67e3800654f42963f7d334a0ca90195ff231a5481688540838830899e1112b52"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-owner-failure.test.mjs",
+      "bytes": 4625,
+      "rawBytesSha256": "5497ad68abe568a044c0e7e3a884265ceab8013cd1e43078b405cee727b6d951"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-process.ps1",
+      "bytes": 20915,
+      "rawBytesSha256": "aac92357384d8b86c1c26dd6fa73f74df9172b5aace2192582a6ba2259c9d273"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-runtime.mjs",
+      "bytes": 37349,
+      "rawBytesSha256": "e3eace5d220554143e3da99b9e269089110065db69e2cd16ed8df48b6e1c092b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-transport.mjs",
+      "bytes": 1440,
+      "rawBytesSha256": "4e8e4ed5008c78d3f8b354a2a89db275172b824e696776038585d66fb6ef8c30"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui4-view-contract01.md",
+      "bytes": 7294,
+      "rawBytesSha256": "c8813880caa2385a12ce6708c2daa1bb2bf9e1aba16061e176e1b848047c3a26"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui4-view-input.mjs",
+      "bytes": 6776,
+      "rawBytesSha256": "6edec5cdce44d036f04725f3b53086c324e1c79a0bb9d67250df81f02f6e14e7"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui4-view-input.test.mjs",
+      "bytes": 29365,
+      "rawBytesSha256": "a22845ac0d1ba8f9d2ce784592199a504da595bd315c2955b4a39ec8f54644f8"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12171,
+      "rawBytesSha256": "1b1e22b15db9fd8b28f71aaa09c9d3e9c3ceb743b2fe1d96833d36a9a6495870"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native.test.mjs",
+      "bytes": 7188,
+      "rawBytesSha256": "cba0ec76abd27bf16d11aa69b84d5d95405d6eed8bb6381047a1a13fedb52475"
+    }
+  ],
+  "intendedRuntimeSources": [
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-attachment-recipes.mjs",
+      "bytes": 9593,
+      "rawBytesSha256": "66c64ce1a72f1f87a78ea4c0d7551ed051f2c69d543058bf34949d108f61d408",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-attachment-recipes.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-audit-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-bindings.mjs",
+      "bytes": 9285,
+      "rawBytesSha256": "c87bf593837bf45f0c030ee7fe9b56cfe5f614640397d955beb0a425418c21e5",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-bindings.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-expected.mjs",
+      "bytes": 29877,
+      "rawBytesSha256": "fd87825d1bda3d88dcf8caa01785bbbf255be2157adb9961c521a536f9f04304",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-expected.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-external-audit-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-recipes.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "d8dc13a810119e9079b73ae7ff9f1a06129b2f1a1ab8c81924d0d15f7353d661",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-external-recipes.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-local-objects.mjs",
+      "bytes": 1945,
+      "rawBytesSha256": "209797b9039f15782003b79f4944e7343a90b1c7690368897b74912fa6bc76e9",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-local-objects.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-m4-source-check.mjs",
+      "bytes": 8573,
+      "rawBytesSha256": "3d2995fdac609c5045fda1b551f80e6f0c3613d2507ef5ee63ceae44114ccc27",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-m4-source-check.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-preflight.mjs",
+      "bytes": 3065,
+      "rawBytesSha256": "d4dc2772e4b3bfda7822a85f2cc57fbaea0d8ef2a09a241b57fd66278b69664c",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-preflight.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-prepared-source-check.mjs",
+      "bytes": 6287,
+      "rawBytesSha256": "d2c173ba1bcfd0e068f5967b707e64143c2908c39f0fe047473fbcbae412ca55",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-prepared-source-check.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-principal-source.mjs",
+      "bytes": 2934,
+      "rawBytesSha256": "0dd3c8d88f7ae98f5965b9c170f619e38245f68abb18a0f68c79c7cc2b5f4b18",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-principal-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "c006319de74f42167c1178fea16397fd0bfd8097e0caa10514cd20357c524848",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-request-identity.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-runtime.mjs",
+      "bytes": 50558,
+      "rawBytesSha256": "1d8b9b37589fb71382ba4a593e7804d501d767fd13a5c73f38072299ce9ffe44",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-runtime.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-scenario.mjs",
+      "bytes": 16737,
+      "rawBytesSha256": "c441058ec0191652d5b32ac0f61af6d260688e99ab4e6e3d3c7e2b5e3a64ad6c",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-scenario.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-user-compatibility.mjs",
+      "bytes": 8414,
+      "rawBytesSha256": "f9d0adfc6c965f6533ec7f9fc418a83406edbf06e650d89ffbd96ce17ac1827c",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-user-compatibility.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-zip.mjs",
+      "bytes": 7131,
+      "rawBytesSha256": "a50ace3ccbcd46e3c5930ab5d8840edb47cb229fe5928b1cb8c04ed477eb5e74",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api-zip.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api.mjs",
+      "bytes": 22491,
+      "rawBytesSha256": "5d5ad65693f0bcdf0098458df430f7126afab30ff5c7b9208fb5e89ea965adad",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api20-preflight.mjs",
+      "bytes": 9775,
+      "rawBytesSha256": "32cebb2d0a372f5fc0538a1d642ef7d12e384f394468dc491e7fe10beda802a7",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-api20-preflight.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-bindings.mjs",
+      "bytes": 8011,
+      "rawBytesSha256": "7db433414ee038a23b3728ef391abfe335592ad96f65103000b07448e55ad633",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-bindings.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-dispatch.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-extensions.mjs",
+      "bytes": 5044,
+      "rawBytesSha256": "e20be5abc48e88c9d2e5442a28e6d6ea33517a08c85fb20c8525adc0348d1679",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-extensions.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-facts.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-prepared-result.mjs",
+      "bytes": 7780,
+      "rawBytesSha256": "f8532ada3d2b46ff64bdf4a1c9afb4e2b09b8992a3cdb4b988d99a547636d237",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-prepared-result.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-prepared.mjs",
+      "bytes": 4925,
+      "rawBytesSha256": "bca23f0184770837efa11ff38e7d0eb5b88323c433c72a3efe4c4cd54e5e563f",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-prepared.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-producers.mjs",
+      "bytes": 18970,
+      "rawBytesSha256": "78ce9155ada145cb7f2a9f0b1de2ff3ee5f63c728ad1f35088dd71f0102d45fc",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-producers.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-runtime.mjs",
+      "bytes": 37829,
+      "rawBytesSha256": "18a62be53babeb73d0d410b8ffaa6cd8498c9f5c0dd596e24b373b8fdf9cb6e9",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-runtime.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-suppliers.mjs",
+      "bytes": 12633,
+      "rawBytesSha256": "128ec79673b59a24fcf3fabd4eb030caadea0b6d340b87b59942cf77497651ee",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-suppliers.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+      "bytes": 28495,
+      "rawBytesSha256": "edf1d3a45aeea6d7c8aea2d656c5ec8bcf66fc7de295b57835a045edcfb3b8a4",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-ui-browser.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-uow.mjs",
+      "bytes": 3486,
+      "rawBytesSha256": "99b26ba2a839fd6ef2405ce173e2cc53596344cc06b3e1b5581be30b5f1530c0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-uow.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance.mjs",
+      "bytes": 20244,
+      "rawBytesSha256": "5809ceda5d1636e37ea484a40dfc6d8c6fb7950c45ed93805702d68527feb240",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-attachment-source.mjs",
+      "bytes": 6514,
+      "rawBytesSha256": "f24d4c4e42de88cde2459daf6878e634c3f4a61c8c019d5b466630e4151fa6f0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/audit-attachment-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/audit-error.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-private.mjs",
+      "bytes": 1860,
+      "rawBytesSha256": "f9746a7a2219e2b93b838f32b05af54962fc28c25217520f8c2aae1b4e1c72b9",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/audit-private.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/audit-schema-source.json"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/bridge-windows-ui.mjs",
+      "bytes": 20049,
+      "rawBytesSha256": "7a8bc0f97282c404221943d73d33a188b9f404f0facf638d78856be3218b15c3",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/bridge-windows-ui.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/capture-source.mjs",
+      "bytes": 4348,
+      "rawBytesSha256": "eca79ac2e0e22a9a42ab47d502eed8eabd40286720e3a1ce8f45ab3529707ab1",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/capture-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "dc47cbe28403204e691995bd3c33d8e327a17258ff0ea4130becfaa8e58d1b63",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/catalog-complete.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/command-owner.cjs",
+      "bytes": 20693,
+      "rawBytesSha256": "b9507c52b677efb05a8a1b501c90024b30644dbfa87e0b975705e23bd8958038",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/command-owner.cjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "868257505f4229fce029c4906503be314b18a9a34384c833f25509814be1746f",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-opaque.mjs",
+      "bytes": 18136,
+      "rawBytesSha256": "0a24d5ef2d641e538fe96ed4d733ebe188cbfa8449533d565bfac0d843408ac0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/comparison-api-opaque.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-zip-logical.mjs",
+      "bytes": 22604,
+      "rawBytesSha256": "64de4593595b83a42ba6b99cce9dca3af94635dd21fb9f7079f3f4caa37ebf1b",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/comparison-api-zip-logical.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/database-client.mjs",
+      "bytes": 2075,
+      "rawBytesSha256": "07a2953f0551bbb48b9195fa01ec2c981d1083c7c90b2fd52774aed4465c6755",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/database-client.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/feishu-server.mjs",
+      "bytes": 8700,
+      "rawBytesSha256": "2f34c887a0a41014e66ce7739bace2fc3d598f79550108e339c124fa0e174ecc",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/feishu-server.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-audit-identity.mjs",
+      "bytes": 15075,
+      "rawBytesSha256": "98e38f0b7ebae1b36861c55ec5e62f474e4fe66c3314047c8967bc3bf0a71300",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-audit-identity.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-cleanup.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-core.mjs",
+      "bytes": 10352,
+      "rawBytesSha256": "3705769440b20905a178145ba35611399447bc49247fc6c5a4218fd7089864b2",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-core.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-credentials.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-example.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-external-audit-identity.mjs",
+      "bytes": 13832,
+      "rawBytesSha256": "c797d1fb6a44ec2445ce84028c5df5453992e9d34f5777ed93853f3d8a816a7d",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-external-audit-identity.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-guard.mjs",
+      "bytes": 4773,
+      "rawBytesSha256": "c33e9024290138b6c1e9eb0992fc982e0baa8d4b9121ffe4257020b4a3725bbe",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-guard.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-handover-prepared.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-journal.mjs",
+      "bytes": 13699,
+      "rawBytesSha256": "007c5ad9a98c5be7630548e02c51fcc08dcd770ae83bf362c7aaa984b7843d8e",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-journal.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-keyed.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-objects.mjs",
+      "bytes": 6306,
+      "rawBytesSha256": "3acb41c9f23fd4e82a0bed844f5f0596fb72c788f5bf626faa9718174ed656c0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-objects.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-package-intent.mjs",
+      "bytes": 14719,
+      "rawBytesSha256": "f1ef6047c6c6b344ba8c5b31b4e21dfad833525c422acfdf6a8a5f922bec7173",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-package-intent.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-policy.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-prepared-source.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-prepared.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-profile.mjs",
+      "bytes": 13579,
+      "rawBytesSha256": "906cd188ed0818b3736b991bcc3a0cb38e2995df226be0ce2bdf7f881c02c987",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-profile.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-references.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-setting-baseline.mjs",
+      "bytes": 12496,
+      "rawBytesSha256": "420e7aa18441b27886f08da48eb96e045c06534ed3987b6ef2ae80b08c1248dc",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-setting-baseline.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+      "bytes": 17896,
+      "rawBytesSha256": "7e76fd0b05bb605cdb43f55158a0b17b6f17a95336d3d71edae84ff580c7a503",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-users.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "bytes": 46379,
+      "rawBytesSha256": "3d51c75d0433be524ac527d769996a5808cd6893f36dabbd2e6c2bd008819922",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/managed-environment.cjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/native-app.mjs",
+      "bytes": 8132,
+      "rawBytesSha256": "179992550eb15e93b78561c034573b6432a9d7bf826a58c31c7d075018fbf9c0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/native-app.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/native-write-witness.mjs",
+      "bytes": 17375,
+      "rawBytesSha256": "4421685beeb559b6bc5e8dd852f8803853a5623409926e00d7d84c85525c6da9",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/native-write-witness.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/number-lease.mjs",
+      "bytes": 7684,
+      "rawBytesSha256": "3e467f1e11b9f3b7f13bb1beeafe9deb438c3620e0542806aaa7bf9fa4cc346d",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/number-lease.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/obs-client.mjs",
+      "bytes": 3412,
+      "rawBytesSha256": "5b8fe288a9dc9827679957f4e642d63f5405e2180c128645dbe3ca54a73ef46b",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/obs-client.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/obs-server.mjs",
+      "bytes": 48842,
+      "rawBytesSha256": "5c3095e972a3e654e4db71503e45af18076eb9fabd7ed95657fbf6b0ed09053c",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/obs-server.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/pg-create-observer.mjs",
+      "bytes": 75161,
+      "rawBytesSha256": "7988f0a0fb5f7e9fd88a2889dc5faf3fe6381cd16568b94a54926c76c8f74322",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/pg-create-observer.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/private-files.mjs",
+      "bytes": 3892,
+      "rawBytesSha256": "bac859fdc9d4f55b2b15660b8e3ef0e607f3690a42b96f5c839c5603856770dd",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/private-files.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/query-pid-witness.cjs",
+      "bytes": 8229,
+      "rawBytesSha256": "13ddb43c02bd49e8638741d3cdc70b2347ef27f8f71da99d66b7af848bd294f5",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/query-pid-witness.cjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/reference-authority.json",
+      "bytes": 581500,
+      "rawBytesSha256": "5164a71d1a1a3af4e01951815a27b1ebb1a51e6bab22ebdb64a17794e7c6dca9",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/reference-authority.json"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/run-api-owned.mjs",
+      "bytes": 4154,
+      "rawBytesSha256": "1c5d7efef514eef9161d0c7730fc71507d8ed70341eec25e65d1a34a6cc44d0a",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/run-api-owned.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/rust-app.mjs",
+      "bytes": 2908,
+      "rawBytesSha256": "9af182dfe7eaecbd6b86afa8d40bb4d42e2656214d264717e706778a7c18c056",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/rust-app.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/scenario-expected.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/scenario-input.mjs",
+      "bytes": 46053,
+      "rawBytesSha256": "dc282cfa6b0a212c1116366fac70130f3ed93b71f6ac3f9401fb9a9731e0a6ed",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/scenario-input.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/shared-uow-capture.mjs",
+      "bytes": 10422,
+      "rawBytesSha256": "484f5144d79b35a45a7ef2fdba861016dbd435498386356684d44b863b67039c",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/shared-uow-capture.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/shared-uow-native.mjs",
+      "bytes": 16209,
+      "rawBytesSha256": "bf8755f155b53a46e389755cc302a1f8d2af0f173e7d1d400f9e409af02a82d5",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/shared-uow-native.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/supplier-owner.mjs",
+      "bytes": 4594,
+      "rawBytesSha256": "45aee0708460ceab2136f5ef40033c6fdcb58ae14b141b4e0b7f41d3b2821d00",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/supplier-owner.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-browser.mjs",
+      "bytes": 7303,
+      "rawBytesSha256": "3ee0b3ca7c88d703e6dacef81b6658e0b460db3ad8ac4e9c83856a32c8d36d19",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/ui-runtime-browser.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-cache.mjs",
+      "bytes": 2828,
+      "rawBytesSha256": "ddf086eb16734f25ca6fa41c9c444b620b1561c3dbdc3afebb3e57a6a80d116e",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/ui-runtime-cache.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-full.mjs",
+      "bytes": 31860,
+      "rawBytesSha256": "6c9eb2cabdcf97101001a0f3cc0c05ad2827e20168df2c0e696a043ebacd579a",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/ui-runtime-full.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-server.mjs",
+      "bytes": 13688,
+      "rawBytesSha256": "3103219a2d7a7ee7f80ba916cb5a6448eb172e5cd63cb365f800cc2af16b1a6d",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/ui-runtime-server.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-sources.mjs",
+      "bytes": 22455,
+      "rawBytesSha256": "de73fde59ba3256355d2e8e23c414cb09bd4868e102ac2a42deedff705082003",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/ui-runtime-sources.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-managed-environment.cjs",
+      "bytes": 4537,
+      "rawBytesSha256": "08864215d2a62a34b7c7f323b42edf3b6cb500b7aaee8aad7419b01faa2e2d6e",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-managed-environment.cjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-app.mjs",
+      "bytes": 16912,
+      "rawBytesSha256": "95ae4fe689af435b9204f603ffb59fcff8c01f180463e849ed7edd5fdd411aee",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-app.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-driver.mjs",
+      "bytes": 9388,
+      "rawBytesSha256": "402d35f0bc531a7f6d08556ff50dfd58f053a52ae727b4910025f6db755c7a08",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-driver.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-environment.mjs",
+      "bytes": 2502,
+      "rawBytesSha256": "006147c827731dfcd42a1bdd5964b32785da358440a6a755e73185ca6401e808",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-environment.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-process.ps1",
+      "bytes": 20923,
+      "rawBytesSha256": "207a21351872cb82874f78c1ae16e0754caa7a22d8eb09f5185b35661e2e509f",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-process.ps1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-server.mjs",
+      "bytes": 12201,
+      "rawBytesSha256": "999000ec09f585574d4abc8215ca6539c2234f13e9f1530900350ce9f94b83ef",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-server.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-setup-headers-contract01.md",
+      "bytes": 2311,
+      "rawBytesSha256": "88725afefc50b807b8560652cbcfcb409411485d17badf0523b223dd202adffe",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-setup-headers-contract01.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-setup-headers.test.mjs",
+      "bytes": 9230,
+      "rawBytesSha256": "730693cdf599cbbf64b3cadf23204b0f5dc6863b530169d28811e27017628ef5",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-setup-headers.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-ui34-budget-contract01.md",
+      "bytes": 3746,
+      "rawBytesSha256": "d33537c13ee5c8c98de96d6b9c6deb0e6e1ce020542a6059cbc6735669306b46",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-ui34-budget-contract01.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-ui34-budget.test.mjs",
+      "bytes": 7580,
+      "rawBytesSha256": "0a18ce217d3ba41d6035770397405b9178a33f4042f7dc14d99f413a6fc9caa1",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-native-ui34-budget.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view-contract01.md",
+      "bytes": 3004,
+      "rawBytesSha256": "38979ca792c0587f1e8ad311592f35db53e5a0e44004360b9839e6d7676ba25a",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-rust-ui2-view-contract01.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view-input.mjs",
+      "bytes": 4267,
+      "rawBytesSha256": "d948feb7272a32d1d2d6cb13bec8b81cebb915c1c31166606ef22726320cf3b7",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-rust-ui2-view-input.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view.test.mjs",
+      "bytes": 16157,
+      "rawBytesSha256": "7f7759cc6cc95ee78294834443d4684a968a9ff975a8ef157b4fc2ed7b5744d1",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-rust-ui2-view.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view-contract.md",
+      "bytes": 2973,
+      "rawBytesSha256": "92bb615016d9a56e105db271142fd36372e6adc1660c26e6668d15eb0aadb5a0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-rust-ui4-view-contract.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view-input.mjs",
+      "bytes": 6887,
+      "rawBytesSha256": "0f3fa0162a087966cd37de0687fc0303c94590c1a456a42e3ecfb12b694136eb",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-rust-ui4-view-input.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view.test.mjs",
+      "bytes": 22190,
+      "rawBytesSha256": "f22e02ad9a515cc0bdd557b5f7d579ec1e4ba21f01ef79cd10e4c8bbc731a6bc",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-rust-ui4-view.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-batch-contract01.md",
+      "bytes": 5328,
+      "rawBytesSha256": "b636ef3c018a0da3e9d1afee72c2f374103a15e12b276ad1c550127eb0a32b76",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-batch-contract01.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-batch.test.mjs",
+      "bytes": 7984,
+      "rawBytesSha256": "11bd8d9befa46047f9c2a95338594f365a744f15040184d6cda50e84eab71f66",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-batch.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget-contract01.md",
+      "bytes": 4139,
+      "rawBytesSha256": "aac0ea0279b8f3bf66cc3f9ce3abaea7bab5f29cf150f7e5ae1c11807aea08e0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-budget-contract01.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget-contract02.md",
+      "bytes": 1555,
+      "rawBytesSha256": "a711c796820be6473cac7e6c203c50c61a247200f53ad3ac98e5ddcc7d370edc",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-budget-contract02.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget.mjs",
+      "bytes": 4136,
+      "rawBytesSha256": "0f8ebb8ab2becdb5155853ff855391da1fc34ac8bf84cb3025610a068eb29222",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-budget.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-budget.test.mjs",
+      "bytes": 10770,
+      "rawBytesSha256": "81c8fc5e7c8dedf9882124d6cf10098b3494dd2b3fa8905e9d0fa5e5f82b076a",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-budget.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-close-facts.mjs",
+      "bytes": 1183,
+      "rawBytesSha256": "a829dc2ee8f162f734e7f64731df5cd2faf8e6c35338f89112fd32c4d74960e7",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-close-facts.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-command-owner.cjs",
+      "bytes": 21406,
+      "rawBytesSha256": "7af751ca7451697fcea0b9df59784f0cdb7f4b1be8d62567e94a59b8216233de",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-command-owner.cjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-command-owner.test.cjs",
+      "bytes": 13560,
+      "rawBytesSha256": "eaac663396b7129ed03672d12a9b9ef3b5899ed6a109efdc266b4a5c61260630",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-command-owner.test.cjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-driver.mjs",
+      "bytes": 16932,
+      "rawBytesSha256": "b0a5fd36f7537f1cf28d25b68e75b92b2304d57c21095666b2bbb6663b73114e",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-driver.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-http-session.mjs",
+      "bytes": 2661,
+      "rawBytesSha256": "adecc07ac028757f391044237071ced451c85274a9befb8452424b0bbe14bcc0",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-http-session.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-owner-failure.mjs",
+      "bytes": 3243,
+      "rawBytesSha256": "67e3800654f42963f7d334a0ca90195ff231a5481688540838830899e1112b52",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-owner-failure.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-owner-failure.test.mjs",
+      "bytes": 4625,
+      "rawBytesSha256": "5497ad68abe568a044c0e7e3a884265ceab8013cd1e43078b405cee727b6d951",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-owner-failure.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-process.ps1",
+      "bytes": 20915,
+      "rawBytesSha256": "aac92357384d8b86c1c26dd6fa73f74df9172b5aace2192582a6ba2259c9d273",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-process.ps1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-runtime.mjs",
+      "bytes": 37349,
+      "rawBytesSha256": "e3eace5d220554143e3da99b9e269089110065db69e2cd16ed8df48b6e1c092b",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-runtime.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-transport.mjs",
+      "bytes": 1440,
+      "rawBytesSha256": "4e8e4ed5008c78d3f8b354a2a89db275172b824e696776038585d66fb6ef8c30",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-transport.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui4-view-contract01.md",
+      "bytes": 7294,
+      "rawBytesSha256": "c8813880caa2385a12ce6708c2daa1bb2bf9e1aba16061e176e1b848047c3a26",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui4-view-contract01.md"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui4-view-input.mjs",
+      "bytes": 6776,
+      "rawBytesSha256": "6edec5cdce44d036f04725f3b53086c324e1c79a0bb9d67250df81f02f6e14e7",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui4-view-input.mjs"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui4-view-input.test.mjs",
+      "bytes": 29365,
+      "rawBytesSha256": "a22845ac0d1ba8f9d2ce784592199a504da595bd315c2955b4a39ec8f54644f8",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui4-view-input.test.mjs"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12171,
+      "rawBytesSha256": "1b1e22b15db9fd8b28f71aaa09c9d3e9c3ceb743b2fe1d96833d36a9a6495870",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m/windows-native-server.mjs"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native.test.mjs",
+      "bytes": 7188,
+      "rawBytesSha256": "cba0ec76abd27bf16d11aa69b84d5d95405d6eed8bb6381047a1a13fedb52475",
+      "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m/windows-native.test.mjs"
+    }
+  ],
+  "sourceSetSha256": "7f8efd392cdd7049d35b5bbff35b9e0bf4c09b7bc95dc0344d4f97bfb8c0acea",
+  "sourceSetDigestDefinition": "acceptance-source.sourceCapDigest: file-sorted three-field rows then recursively key-sort; compact UTF8 JSON, no LF; keys bytes,file,rawBytesSha256",
+  "sourceStatus": "Exact124 intended sources have been read from the candidate mirror or independently byte-verified against accepted121; none is installed by C",
+  "baseSource": {
+    "file": "tools/rust-r2m-continuation01/windows-rust-ui2-view-budget-source01.json",
+    "bytes": 99902,
+    "rawBytesSha256": "eea9e64b182383c438dfb6a9cfdfeb5096c1ad69b0f40fa4449c45b08a288da7"
+  },
+  "baseCReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui2-combined-source-review01.json",
+    "bytes": 67596,
+    "rawBytesSha256": "652b0a94bd800e25363109a876aeb5d94939ad32be53a64ea9f59007c25593d4"
+  },
+  "designReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui4-readiness-design-review01.json",
+    "bytes": 11990,
+    "rawBytesSha256": "7d9dd4f1c67fcf2e56dc66e26ffea3c9d3a319f776f03605aa8e003182e4a1be"
+  },
+  "scope": {
+    "onlyNewMode": "windows-external-rust",
+    "onlyNewJourney": "UI4",
+    "selection": [
+      "UI4"
+    ],
+    "APIBackend": "rust",
+    "APIPlatform": "linux",
+    "browserPlatform": "win32",
+    "attestation": "Original Root runtime-arrangement, exact sourceCap/origin, actual externalRust-owner proof SHA, already-certified project/handover and original pagePath",
+    "requiredReadModelExecution": "Original fixed per-route Native dispatch remains attributed as Native even within Rust arrangement; helper does not rewrite execution backend",
+    "controlledOriginalReadinessMs": 150000,
+    "originalActionExpectMs": 75000,
+    "noAdditionalGETOrRetryMockFallbackOrOwnership": true,
+    "noOperatorBudgetIdentityStopOrCleanupChange": true,
+    "noAPI10OrUI64AuthorityChange": true,
+    "originalG1ScopeNotExpanded": true,
+    "newSourceOnlyNotActualPass": true
+  },
+  "union": {
+    "prior": 121,
+    "changedExistingRuntime": 4,
+    "newMembers": 3,
+    "unchangedPrior": 117,
+    "intended": 124,
+    "changed": [
+      {
+        "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+        "before": {
+          "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+          "bytes": 27832,
+          "rawBytesSha256": "3d920e46260cadc53d2bc7de416bc579ed72bfbd9d0517b7a54761414ddbb08b"
+        },
+        "after": {
+          "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+          "bytes": 28495,
+          "rawBytesSha256": "edf1d3a45aeea6d7c8aea2d656c5ec8bcf66fc7de295b57835a045edcfb3b8a4"
+        },
+        "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/acceptance-ui-browser.mjs"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+        "before": {
+          "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+          "bytes": 17896,
+          "rawBytesSha256": "64f8d575c7094623ae080420cfc9ec0946e345ba6e43eabc1631075233df29c2"
+        },
+        "after": {
+          "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+          "bytes": 17896,
+          "rawBytesSha256": "7e76fd0b05bb605cdb43f55158a0b17b6f17a95336d3d71edae84ff580c7a503"
+        },
+        "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/windows-ui-driver.mjs",
+        "before": {
+          "file": "tools/rust-r2m-continuation01/windows-ui-driver.mjs",
+          "bytes": 16648,
+          "rawBytesSha256": "ec0552f1c267ab4e3eb0c9d40df70fe4b5ed6a342e6bbaf541265d2aacbe90a3"
+        },
+        "after": {
+          "file": "tools/rust-r2m-continuation01/windows-ui-driver.mjs",
+          "bytes": 16932,
+          "rawBytesSha256": "b0a5fd36f7537f1cf28d25b68e75b92b2304d57c21095666b2bbb6663b73114e"
+        },
+        "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-driver.mjs"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/windows-ui-runtime.mjs",
+        "before": {
+          "file": "tools/rust-r2m-continuation01/windows-ui-runtime.mjs",
+          "bytes": 37285,
+          "rawBytesSha256": "07af14cb6ecd9a09b313f9a87ed2e821fc179753949e80e9f67c332794bcec6c"
+        },
+        "after": {
+          "file": "tools/rust-r2m-continuation01/windows-ui-runtime.mjs",
+          "bytes": 37349,
+          "rawBytesSha256": "e3eace5d220554143e3da99b9e269089110065db69e2cd16ed8df48b6e1c092b"
+        },
+        "readFrom": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/candidate/tools/rust-r2m-continuation01/windows-ui-runtime.mjs"
+      }
+    ],
+    "new": [
+      {
+        "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view-input.mjs",
+        "bytes": 6887,
+        "rawBytesSha256": "0f3fa0162a087966cd37de0687fc0303c94590c1a456a42e3ecfb12b694136eb"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view.test.mjs",
+        "bytes": 22190,
+        "rawBytesSha256": "f22e02ad9a515cc0bdd557b5f7d579ec1e4ba21f01ef79cd10e4c8bbc731a6bc"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/windows-rust-ui4-view-contract.md",
+        "bytes": 2973,
+        "rawBytesSha256": "92bb615016d9a56e105db271142fd36372e6adc1660c26e6668d15eb0aadb5a0"
+      }
+    ],
+    "original121SnapshotExact": true,
+    "current121Exact": true,
+    "reuseReadLevel": "117 unchanged exact raw hashes retain priorC652b source review. Necessary new helper/test/contract and all four actual deltas were read; whole-body inverse checks independently bind every other byte."
+  },
+  "actualProductionWiring": {
+    "driver": "After validateRuntimeArrangement the actual createRustUi4ViewInput constructor uses arrangement, single selection and original inputs; optional spread and report field only when nonnull",
+    "input": "Exact keyset/kind, cap/origin10080, Rust/Linux API, Winbrowser, actual owner SHA, project/handover UUIDs, handover.project_id, exact pagePath and150000ms; frozen output; all other mode or nonsingleUI4 constructors return null",
+    "browser": "Original Native branch remains first; new externalRust branch then default original navigation. Every actual UI4 upload, handover-refresh and cancel callback is covered; mutual Native/Rust input combination rejected.",
+    "upload": "Register existing GET /api/projects/{ownedproject} before original project goto; complete200,finished,null-error/fullbody object and exact id, then original upload/button/dialog/file/category/complete assertion",
+    "handover": "Register existing contract-handover and project-handover GETs before original handover goto; complete200,finished/fullbody/projectId and exact handoverId, then original refresh/select assertions",
+    "cancel": "Register same original project-detail GET before original cancel-step goto; then original upload-dialog/cancel/not-visible/logout unchanged",
+    "failure": "Timeout,wrong status,unfinished or invalid body,wrong IDs or original goto failure rejects with original evidence; no button action is clicked through in the tested bad-data cases",
+    "helperMechanism": "Whole new helper mechanically inverts to the existing accepted Native helper using only named mode/platform/owner-field/function/receipt labels. The existing Native helper bytes remain unchanged."
+  },
+  "wholeFilePreservation": {
+    "independentlyVerifiedCompleteBrowserInverse": true,
+    "independentlyVerifiedCompleteDriverInverse": true,
+    "independentlyVerifiedRuntimeOnlyRequiredHelperAdditionInverse": true,
+    "independentlyVerifiedPackageOnlyBrowserHardpinInverse": true,
+    "independentlyVerifiedNewHelperWholeInverseToOldNative": true,
+    "NativeOriginalThreeCallersAndOtherModesPreserved": true,
+    "UI2UI3LinuxAndRustUI1OriginalArgumentsAndResultsPreserved": true,
+    "allOther117PriorRawBytesPreserved": true,
+    "allBudgetBridgeDriver75sTransportAndProcessStopSourceRawBytesPreserved": true,
+    "actualHTTPDispatchSourceRawBytesPreserved": true
+  },
+  "profileTransition": {
+    "profileName": "r2m-stage-continuation01",
+    "sourceCount": 33,
+    "profileModuleAndOrderedSourceListCodeUnchanged": true,
+    "before": "bcc807b590aa27c7ebf36a50cc92661ef330a8f2df3f9ae5d249039f37c41183",
+    "after": "86c911c4284bb43c83d362f18c08f6c8df84a8e75de8e28d9f9c650fe4c37479",
+    "onlyMemberRawChange": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+    "packageHelperBefore": "64f8d575c7094623ae080420cfc9ec0946e345ba6e43eabc1631075233df29c2",
+    "packageHelperAfter": "7e76fd0b05bb605cdb43f55158a0b17b6f17a95336d3d71edae84ff580c7a503",
+    "browserBefore": "3d920e46260cadc53d2bc7de416bc579ed72bfbd9d0517b7a54761414ddbb08b",
+    "browserAfter": "edf1d3a45aeea6d7c8aea2d656c5ec8bcf66fc7de295b57835a045edcfb3b8a4",
+    "independentlyRecomputedBothOrdered33Digests": true,
+    "independentlyRecomputedDeclaredCompact124UnionDigest": true,
+    "realSourceReaderOldBrowserPinRejectsAndExactNewPinAccepts": "Author actual verifySources function plus unchanged SourceReader, reviewed test and raw log; C did not execute Node",
+    "API10UI64TypedParentContextCommitGuardsWholeBytesUnchanged": true
+  },
+  "originalFailure": {
+    "input": {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-first-upload-diagnostic01.json",
+      "bytes": 22773,
+      "rawBytesSha256": "96ef8a7d61fe6e757eb05555db174d9c42a4492b5cc351246278332a56f4d8e8"
+    },
+    "meaning": "Root same-clock original full DOM project loading and original Native GET17 complete200/2101 bytes/own-id matched were retained after75s button failure; no original browser.finished time or product-performance claim",
+    "originalRunId": "f95f06d4-f903-42e5-89fe-01deebc80e20",
+    "originalZeroCompletedStepsAnd20HTTPRemainPartial": true,
+    "originalRootRetentionTimesNotBrowserFinishedOrPerformanceProof": true,
+    "oldBCCLedgerMustNotBeOpenedUnderNewProfile": true
+  },
+  "publicSourceProofs": {
+    "helperInverse": {
+      "file": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/helper-semantic-inverse01.json",
+      "bytes": 1608,
+      "rawBytesSha256": "477244ed5f234273b02977f228b49a97e7b742837e7305037dc4bcedd867cf48"
+    },
+    "runtimeInverse": {
+      "file": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/runtime-inverse01.json",
+      "bytes": 1270,
+      "rawBytesSha256": "670d74a9a5f0d9a23171b3baf6a409da6d01e47e76e897248401486d63cbc151"
+    },
+    "originalProductSources": [
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-detail.ts",
+        "bytes": 81589,
+        "rawBytesSha256": "ed1941e76752f406f08002230b984ebb7fed3c881428ede39f28dcfb92e8273c",
+        "storedFile": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/public-origin/apps/poms-admin/src/app/features/project/project-detail.ts"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/project/project.store.ts",
+        "bytes": 8858,
+        "rawBytesSha256": "07eb84f962d8729937f8df0397ba908c2016b403a9129a422579c771e77b1ab3",
+        "storedFile": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/public-origin/libs/admin/data-access/src/lib/project/project.store.ts"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+        "bytes": 38994,
+        "rawBytesSha256": "64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443",
+        "storedFile": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/public-origin/libs/admin/data-access/src/lib/project/project-workspace.store.ts"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "bytes": 40914,
+        "rawBytesSha256": "a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261",
+        "storedFile": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/public-origin/apps/poms-admin/src/app/features/project/project-contract-handover.ts"
+      }
+    ],
+    "unchangedReadModelDispatch": [
+      {
+        "file": "tools/rust-r2m-continuation01/ui-runtime-sources.mjs",
+        "bytes": 22455,
+        "rawBytesSha256": "de73fde59ba3256355d2e8e23c414cb09bd4868e102ac2a42deedff705082003"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/ui-runtime-server.mjs",
+        "bytes": 13688,
+        "rawBytesSha256": "3103219a2d7a7ee7f80ba916cb5a6448eb172e5cd63cb365f800cc2af16b1a6d"
+      },
+      {
+        "file": "tools/rust-r2m-continuation01/acceptance-dispatch.mjs",
+        "bytes": 4379,
+        "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594"
+      }
+    ],
+    "actualM3DirectSourceManifest": {
+      "file": "tools/rust-r2m/compare-api-five-source10.json",
+      "bytes": 39669,
+      "rawBytesSha256": "babc0804a9555228c4f381dd0ab141fcea33c30255b441c9e3d4a232567acfe8"
+    },
+    "M3Direct46AllActualRawHashesReverified": true
+  },
+  "authorValidation": {
+    "receipt": {
+      "file": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/pure01/receipt.json",
+      "bytes": 6857,
+      "rawBytesSha256": "7d01bb064180d4a76934f9de959882a5e83db6fee83812fe0b57e02b50a06ae5"
+    },
+    "testsPassed": 9,
+    "syntaxPassed": 6,
+    "normalImportsPassed": 5,
+    "originalAuthoringTestPathFailurePreserved": {
+      "file": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/authoring-failure01/receipt.json",
+      "bytes": 796,
+      "rawBytesSha256": "c2b1fd37c418741eb81e9c66d6ebc7ea3f80ff567646c73fe851a5ffa445cca8"
+    },
+    "actualProductionInterface": "Real driver constructor/spread/validator and actual three runUiJourneys callbacks extracted by AST and run with Fake page, real helper and exact Node SourceReader; no host/browser/HTTP/database",
+    "coveredNegativeAndPreservation": "Wrong targetmode/platform/owner/cap/IDs/body/status/finished and deadline/goto error; missing production caller AST; Native/default shapes; complete helper and runtime inverse",
+    "CTestOrNodeExecution": false
+  },
+  "independentVerification": {
+    "packet193725AndAll124CandidateRawPinsExact": true,
+    "fullIntendedAndReviewed124PathBytesHashesEqual": true,
+    "all121CurrentAndOriginalSnapshotExact": true,
+    "exactFourChangesThreeNew117Unchanged": true,
+    "allWholeRuntimeAndHelperInversesRecomputed": true,
+    "ordered33BeforeAfterRawDigestsRecomputed": true,
+    "compactFullUnionDigestRecomputed": true,
+    "originalProductPublicCopiesAndActualDispatchRawSourcesExact": true,
+    "directM3Protected46RawHashesExact": true,
+    "allPublicSourceProofAndReceiptRawHashesExact": true,
+    "actualFakeTestSourceReadAndNoNewPrivateFieldAssumptionsIntroduced": true,
+    "privateOrEnvironmentKeysDBHTTPBrowserHostAccessByC": 0,
+    "existingCapturedSourceDocsChangedByC": 0,
+    "newTmpOnly": true
+  },
+  "RootInstallation": {
+    "fixedOnlyInputSchema": "input.file,input.bytes,input.rawBytesSha256; no sourcePacket compatibility fallback",
+    "expectedInputFile": "tmp/rust-r2m/windows-rust-ui4-view-candidate01/source01.json",
+    "expectedInputBytes": 193725,
+    "expectedInputRawSHA": "9c1e0ad9d62f61340d64a7a3a7ed048cdcea9b72c6c00da2212aa3fa0b88bc59",
+    "priorRecoverySource": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/wr4c10a-recovery-source-review02.json",
+      "bytes": 18398,
+      "rawBytesSha256": "ec28f8071d745986faf72d6c060bba4d11616a2768fda11247f0391b8a8c89da"
+    },
+    "priorRecoveryActualStillPendingAtSourceDecision": true,
+    "order": [
+      "Root exact oldBCC wr4c10a resource restoration and actual69/noFiles/second0/PG5/initial107/fixtureclose receipt with originalSIGTERM/serverfalse/nonnormal retained",
+      "Root verify this C and all124 target/candidate pins, then install only4existing+3new",
+      "Root normal checks and fresh complete124/profile86c911 verification",
+      "Root fresh matching cap11, newUI4UUID and exact Root audit/package admissions",
+      "Root one fresh original complete six-step UI4 plus original HTTP/full107/schema/typedSDKPG/cleanup/owner proof and independent actual C"
+    ],
+    "installerIsOutsideRuntimeUnion": true,
+    "CDidNotInstallOrRun": true
+  },
+  "limits": [
+    "SourceReady for this current complete124 source union and only the new externalRustWin singleUI4 readiness input, not actual WindowsUI4 or overallG3/G4",
+    "Seven accepted Windows cells retain their original source/artifact epochs; no wholeDTO/pixel/performance gate or unrelated matrix rerun is added",
+    "Original Native support GET attribution, known backgrounds/statuses and complete original bytes must remain visible in subsequent actual evidence",
+    "Source01 failed69 recovery and its pre-open SDK-field error remain immutable; only actual successful02 resource closure permits installation",
+    "Pure and import success do not certify current graph restoration or a future journey"
+  ],
+  "findings": [],
+  "actualUI4Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

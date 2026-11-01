@@ -1,0 +1,28 @@
+{
+  "kind": "Root-R2M-QA-clone-execution-admission",
+  "rootAuthorized": true,
+  "planSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1",
+  "parentMarker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "writersStopped": true,
+  "sourceMDoubleZeroCompleted": true,
+  "sourceMInitialSeedEqualityRequired": true,
+  "sourceSeedReferences": [
+    {
+      "template": "poms_r2m_nest",
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-bcf23dac-3702-4733-9cb5-5dcb95126586/00000.json",
+      "rawBytesSha256": "65e2b527bdfeb9347582b1b1f7a005073c2aac4c01dd4104eeff5c8c8e602ca9",
+      "expectedRowsSha256": "951d4d4c5ca3e4faa9a005d093c3714e6181c0068c94cd0bd34a75b6f118a22f"
+    },
+    {
+      "template": "poms_r2m_rust",
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/rust-3fcde5b6-dd33-466a-ac08-e66f4cfad67f/00000.json",
+      "rawBytesSha256": "a1bb157251cea2b4a9806f3d7679e8c8fc7aaead6cc733bf457409cfab079f04",
+      "expectedRowsSha256": "09b24753898139e7be3d7100be52e3577a9b2d45f379330b8642aa5eb1318622"
+    }
+  ],
+  "nonAuthorSourceReview": {
+    "file": "docs/design/rust-r2m/qa-provision-source-review01.json",
+    "rawBytesSha256": "49ac97f4cdd71b16d2ab82dcf55f4b283ec47ff9ad310d80232f974aed5aae71"
+  },
+  "scope": "Three exact before-absent task-owned QA databases; keep all M rows/ACL unchanged and retain each original runner dataset; no old-instance/private/deployment access"
+}

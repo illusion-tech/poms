@@ -1,0 +1,553 @@
+{
+  "kind": "R2M-independent-C-Windows-Native-UI4-single-cell-actual-review01",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01 00:29:43 UTC",
+  "candidateStatus": "New TMP only; Root installs intended docs only after active cap09 run ends",
+  "intendedDestination": "docs/design/rust-r2m/windows-native-ui4-actual-review01.json",
+  "scope": {
+    "arrangement": "Windows managed Native API plus Windows browser",
+    "journey": "UI4",
+    "backend": "nest",
+    "runId": "3e3deedd-3900-47b8-9e94-e9a0fbeafa46",
+    "tag": "wn4c09a",
+    "sourceCapId": "r2m-c01-win09",
+    "sourceCapsuleSha256": "5a7414a81b5133f5d18afb2b309dcdc1d066f14f488ecfbe1d8f4e2326109507",
+    "onlyFreshWholeSixStepRun": true,
+    "noPartialStepSplicing": true,
+    "noFullDtoComparatorGate": true,
+    "notOverallG3G4": true
+  },
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn4c09a.json",
+      "bytes": 5817869,
+      "rawBytesSha256": "467959345d232ed629d1fc7a7505f3b8bf05d551dc2d22ce99948d237c075a34"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/windows-native-ui4c09-observed-metadata01.json",
+      "bytes": 76691,
+      "rawBytesSha256": "b2f1eecc7cd36c861780b5bc1bfe4acd05f980e37d13c15938833513e087d5e7"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/windows-native-ui4c09-typed-coverage01.json",
+      "bytes": 6584,
+      "rawBytesSha256": "723c2d72b1999b7bd9972e468c3f7f54f68a7ff770906e4d34d54bf965cbf843"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win09.json",
+      "bytes": 1872804,
+      "rawBytesSha256": "47c33fdd49c82c46b738bbba0428a741496363295d701730a8cacc3651925245"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/windows-single-journey-run-plan09.json",
+      "bytes": 1746,
+      "rawBytesSha256": "0b4eb1acb3856b37c1c8446f109bb58797004e1d47b273ec53120c5a2a2ea6a6"
+    }
+  ],
+  "sourceReview": {
+    "file": "docs/design/rust-r2m/windows-native-ui4-view-source-review03.json",
+    "bytes": 82719,
+    "rawBytesSha256": "a9819fdda06e7bd12129fc6e99332eb4cbfe1a6a503c2d94a081fd56f55ffe92"
+  },
+  "typedExtractorSourceReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/native09-typed-extractor-source-review01.json",
+    "bytes": 6397,
+    "rawBytesSha256": "b705d2b062f8ecb8f7b8458f78cb94a77c4134870869e81f79e2c567bae88d0c"
+  },
+  "typedExtractorProposal": {
+    "file": "tmp/rust-r2m/windows-cap09-observation-candidate01/native-source-proposal01.json",
+    "bytes": 3728,
+    "rawBytesSha256": "9090bad30ad8d425c4a71043e46c5b22a56ed057ca55e762e3cf0b56ead8b054"
+  },
+  "frozenSemanticRoute": [
+    {
+      "file": "docs/design/rust-r2m/ui-evidence-requirements-review01.json",
+      "bytes": 8993,
+      "rawBytesSha256": "4c65cb79e699fd559843180da539c77aca97ed4f2f0a220110afbd257110c746"
+    },
+    {
+      "file": "docs/design/rust-r2m/m4-four-actual-review01.json",
+      "bytes": 97196,
+      "rawBytesSha256": "c6754955b2a92eb58cfa40f752a5f1d16a20ff32d4139edbbb8962226995c5f9"
+    },
+    {
+      "file": "docs/design/rust-r2m/linux-ui4-actual-review01.json",
+      "bytes": 103129,
+      "rawBytesSha256": "dc4a1c2fe4876e18e93e2478d630cdcb6755b2d78ba0713b531b2be932a4a87d"
+    },
+    {
+      "file": "docs/design/rust-r2m/g1-public-validation-review01.json",
+      "bytes": 35854,
+      "rawBytesSha256": "b498da9d013078e784d182047cc7380426f191e3f07ba1832c2c973e54981f58"
+    }
+  ],
+  "sourceBinding": {
+    "actualSourceRead4137PinsEqualOriginalCap": true,
+    "C118IntendedPinsEqualCap": true,
+    "actualBrowserSource": "796a43ede14e5fd066ad7ba8512481903b79824925deb0aaa138c0a9eddf4c4a",
+    "NativeMain": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+    "RustReleaseUnchanged": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd",
+    "frontendBuild": "4da16dc4da1c3cca4f616f8b84d81c24e0a887ebbc93c90aa4850562154a717b",
+    "orchestrator": "linux",
+    "api": "win32",
+    "browser": "win32",
+    "mode": "windows-managed-nest",
+    "WindowsNodeSHA": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+    "WindowsBrowserSHA": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711",
+    "actualNativeOwnerRefOnly": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00072.json",
+      "bytes": 15151,
+      "rawBytesSha256": "fa0e0faee2cef2c6679773618d11a0fe3a04e535507faf18db04caf70f8627f1",
+      "private": true
+    },
+    "ownerShaMatchesArrangementViewTransport": true,
+    "runtimePlatformIndependentlyVerifiedByBrowserRemainsFalse": true,
+    "actualNativeOwnerProofSeparatelyRetained": true,
+    "noRustNativeWindowsBinaryClaim": true
+  },
+  "journey": {
+    "result": "observed",
+    "steps": [
+      {
+        "journey": "UI4",
+        "id": "upload",
+        "certifiedHTTP": 34,
+        "allCertificatesRetained": true,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00487.json",
+          "bytes": 1677558,
+          "rawBytesSha256": "8f2a89c3179c5a5b20864ebcd57a6a24263ae2a848cde22dbf74db3803f2b718",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "mark-final",
+        "certifiedHTTP": 2,
+        "allCertificatesRetained": true,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00516.json",
+          "bytes": 1710208,
+          "rawBytesSha256": "a19373d6bb736a291a188920342d2cc6e6012f7e552e859a33a51de0be4c2891",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "checklist-refresh-select",
+        "certifiedHTTP": 14,
+        "allCertificatesRetained": true,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00689.json",
+          "bytes": 1872768,
+          "rawBytesSha256": "d2f275c446dbf6d455f94e4bca616a7f2b9a7111f558fbf5e3c5a3999c35bc5b",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "package-create",
+        "certifiedHTTP": 1,
+        "allCertificatesRetained": true,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00707.json",
+          "bytes": 1935844,
+          "rawBytesSha256": "e669a2f71320eebde018f02e0786f0c71b50aeb266ee7593209633c9df6cffbf",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "package-download",
+        "certifiedHTTP": 2,
+        "allCertificatesRetained": true,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00746.json",
+          "bytes": 1988604,
+          "rawBytesSha256": "8a2882ad96b01a7537b84beb1544d5fff4bb325f7b206c2211a4d5ab58b5c10c",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "cancel-upload-dialog",
+        "certifiedHTTP": 23,
+        "allCertificatesRetained": true,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/01019.json",
+          "bytes": 2137009,
+          "rawBytesSha256": "5ae25a3e253ffb4ace1f1ecd25ea8b2a507d508238efc6aa7393aafebe8a5e82",
+          "private": true
+        }
+      }
+    ],
+    "actualStepHTTP": [
+      34,
+      2,
+      14,
+      1,
+      2,
+      23
+    ],
+    "actualHTTP": 76,
+    "stepAndHttpCertificatePublicRefJoins": 82,
+    "statuses": [
+      {
+        "code": 200,
+        "count": 67
+      },
+      {
+        "code": 201,
+        "count": 1
+      },
+      {
+        "code": 400,
+        "count": 8
+      }
+    ],
+    "allActualBackendNest": true,
+    "allCompleteBodyBytesAndRawRefsVerifiedByRoot": true,
+    "each76HasBeforeAfterFull107AndUnknown0": true,
+    "fakeApiResponsesNotUsed": true,
+    "responseFallbackNotUsed": true
+  },
+  "typed": {
+    "metadata": {
+      "file": "tmp/rust-r2m-continuation01/windows-native-ui4c09-typed-coverage01.json",
+      "bytes": 6584,
+      "rawBytesSha256": "723c2d72b1999b7bd9972e468c3f7f54f68a7ff770906e4d34d54bf965cbf843"
+    },
+    "originalSixStepRefs": [
+      {
+        "id": "upload",
+        "certifiedHTTP": 34,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00487.json",
+          "bytes": 1677558,
+          "rawBytesSha256": "8f2a89c3179c5a5b20864ebcd57a6a24263ae2a848cde22dbf74db3803f2b718",
+          "private": true
+        }
+      },
+      {
+        "id": "mark-final",
+        "certifiedHTTP": 2,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00516.json",
+          "bytes": 1710208,
+          "rawBytesSha256": "a19373d6bb736a291a188920342d2cc6e6012f7e552e859a33a51de0be4c2891",
+          "private": true
+        }
+      },
+      {
+        "id": "checklist-refresh-select",
+        "certifiedHTTP": 14,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00689.json",
+          "bytes": 1872768,
+          "rawBytesSha256": "d2f275c446dbf6d455f94e4bca616a7f2b9a7111f558fbf5e3c5a3999c35bc5b",
+          "private": true
+        }
+      },
+      {
+        "id": "package-create",
+        "certifiedHTTP": 1,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00707.json",
+          "bytes": 1935844,
+          "rawBytesSha256": "e669a2f71320eebde018f02e0786f0c71b50aeb266ee7593209633c9df6cffbf",
+          "private": true
+        }
+      },
+      {
+        "id": "package-download",
+        "certifiedHTTP": 2,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00746.json",
+          "bytes": 1988604,
+          "rawBytesSha256": "8a2882ad96b01a7537b84beb1544d5fff4bb325f7b206c2211a4d5ab58b5c10c",
+          "private": true
+        }
+      },
+      {
+        "id": "cancel-upload-dialog",
+        "certifiedHTTP": 23,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/01019.json",
+          "bytes": 2137009,
+          "rawBytesSha256": "5ae25a3e253ffb4ace1f1ecd25ea8b2a507d508238efc6aa7393aafebe8a5e82",
+          "private": true
+        }
+      }
+    ],
+    "selectedThreeOriginal200CertRefs": [
+      {
+        "kind": "actual-UI-one-HTTP-producer-certification",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00474.json",
+        "bytes": 1671023,
+        "rawBytesSha256": "dcd42f4d682ce6caf80b4259aa90ad59a980ec3ebf6d5b3385234a8cba18a8be",
+        "private": true
+      },
+      {
+        "kind": "actual-UI-one-HTTP-producer-certification",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00704.json",
+        "bytes": 1945697,
+        "rawBytesSha256": "ed73f92637d844cf5dd5462796d70d6c19f9036259a3c5e9b1fc327e8c20afeb",
+        "private": true
+      },
+      {
+        "kind": "actual-UI-one-HTTP-producer-certification",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00733.json",
+        "bytes": 1988777,
+        "rawBytesSha256": "a3a24452797c68f370b783f847dd1345aff82874be1281dbc774cc35099b6869",
+        "private": true
+      }
+    ],
+    "originalBrowserDownloadRef": {
+      "kind": "actual-original-Windows-UI-package-download",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00723.json",
+      "bytes": 2225,
+      "rawBytesSha256": "d0dc71587ad77f37e1d3a5445d72623fd08f64611b4662f63ed779781e435456",
+      "private": true
+    },
+    "checks": {
+      "journey": "UI4",
+      "rawDTOValuesExported": false,
+      "accountValuesExported": false,
+      "wholeDTOEqualityClaim": false,
+      "uploadWirePhysicalChecksumSizeAndOwnedLinkVerified": true,
+      "markSameAttachmentFinal": true,
+      "selectedPhysicalVersionAndPackageItemClosureVerified": true,
+      "readyPackageWireAndPhysicalIdentityVerified": true,
+      "originalBrowserDownloadEqualsFullHTTPBytes": true,
+      "ZIPManifestOwnedIDsAndOriginalPayloadHashVerified": true,
+      "ZIPEntries": 2,
+      "downloadRef": {
+        "kind": "actual-original-Windows-UI-package-download",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00723.json",
+        "bytes": 2225,
+        "rawBytesSha256": "d0dc71587ad77f37e1d3a5445d72623fd08f64611b4662f63ed779781e435456",
+        "private": true
+      },
+      "cancelFullBusinessRowsUnchanged": true,
+      "sensitiveExclusionDeepAPIProofNotReclaimed": true
+    },
+    "privateOriginalsReadonlyVerifiedByRoot": 10,
+    "refsUnchangedAtReadEnd": true,
+    "actualExtraction": true,
+    "originalFiniteUIUploadFinalSelectionVersionPackageItemDownloadCancelRelations": true,
+    "completeHTTPBytesEqualIndependentWindowsBrowserDownload": true,
+    "ZIPManifestOwnedIdsAndPayloadHashVerified": true,
+    "ZIPEntries": 2,
+    "cancelSixCompleteAttachmentBusinessOwnedRowSetsInvariant": true,
+    "authEffectsSeparate": true,
+    "M4DeepSensitiveProofNotReclaimed": true,
+    "accountDtoRawQueryNotExported": true
+  },
+  "background400": {
+    "count": 8,
+    "steps": [
+      "upload",
+      "cancel-upload-dialog"
+    ],
+    "fourPaths": [
+      "/api/opportunity-stakeholders",
+      "/api/competitor-intelligence-records",
+      "/api/sales-discovery-records",
+      "/api/sales-intelligence-gaps"
+    ],
+    "backend": "nest",
+    "existingKCustomerNullRequireContextBoundary": true,
+    "notConvertedTo200OrHiddenOrRetried": true,
+    "notRustFallback": true
+  },
+  "cache": {
+    "actualInput": {
+      "kind": "R2M-controlled-uncached-browser-input",
+      "sourceCapId": "r2m-c01-win09",
+      "cacheDisabled": true,
+      "appliedBeforeFirstNavigation": true,
+      "actualCDPAcknowledged": [
+        {
+          "method": "Network.enable",
+          "params": {},
+          "ack": {}
+        },
+        {
+          "method": "Network.setCacheDisabled",
+          "params": {
+            "cacheDisabled": true
+          },
+          "ack": {}
+        }
+      ],
+      "privateEvidence": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00079.json",
+        "bytes": 614,
+        "rawBytesSha256": "dbf737f07403af23169c20bf3f6379a69eb9db96b4792a5acce1458756d15608",
+        "private": true
+      },
+      "sessionCloseOwner": "same-owned-browser-context",
+      "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+    },
+    "twoActualCDPAcksVerified": true,
+    "all76RawHeaderConditionalNamesEmptyCount0": true,
+    "headersNotChanged": true,
+    "oldCached304200DifferencesRetained": true,
+    "cacheEquivalenceCertified": false,
+    "performanceCertified": false
+  },
+  "lifecycle": {
+    "writer": {
+      "attempted": {
+        "browser": true,
+        "server": true,
+        "native": true,
+        "rust": false
+      },
+      "stopped": {
+        "browser": true,
+        "server": true,
+        "native": true,
+        "rust": false
+      },
+      "writersStopped": true,
+      "observerRestored": true,
+      "activePgCasePreserved": false
+    },
+    "actualWindowsCloseFacts": {
+      "kind": "R2M-Windows-actual-terminal-close-facts",
+      "windowsTreeStopped": true,
+      "terminalAndCallbacksClosed": true,
+      "browserClosed": true,
+      "serverClosed": true,
+      "businessObserved": true,
+      "rejected": false
+    },
+    "browserClosed": true,
+    "terminalReceived": true,
+    "pendingCallbacks": 0,
+    "abortRequested": false,
+    "forcedStop": false,
+    "profileAcknowledged": true,
+    "windowsStop": {
+      "result": "owned-tree-stopped",
+      "unregisteredProcessesStopped": 0,
+      "alreadyGone": [
+        84828,
+        70844,
+        71012,
+        57360,
+        78056,
+        64756,
+        70592,
+        63732,
+        74304,
+        87436,
+        82820
+      ],
+      "foreignPidReuseSkipped": []
+    },
+    "serverClosed": true,
+    "transportClosed": true,
+    "serverCounts": {
+      "sockets": 0,
+      "forwarded": 0,
+      "handlers": 0,
+      "evidence": 0,
+      "ownedWork": 0,
+      "activeExchanges": 0
+    },
+    "RootReportedOuterExit0": true,
+    "noExtraNaturalExitOrPerformanceClaim": true
+  },
+  "data": {
+    "complete107InitialRowsEqualAfterDoubleZero": true,
+    "baselineRefsOnly": [
+      {
+        "kind": "UI-global-full107-before-preparation",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/00000.json",
+        "bytes": 432862,
+        "rawBytesSha256": "c32527b50a84a84555d78cf5c1ec52e3a822959fedca4240233c919bb66a4fa3",
+        "private": true
+      },
+      {
+        "kind": "UI-full107-after-double-zero",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-3e3deedd-3900-47b8-9e94-e9a0fbeafa46/01051.json",
+        "bytes": 432854,
+        "rawBytesSha256": "f486206d3852b1194353faf7fdbd95926656378ab84f004f51840a2da2b0acf6",
+        "private": true
+      }
+    ],
+    "cleanup": [
+      {
+        "state": "cleaned",
+        "deleted": 83,
+        "changedFiles": 2,
+        "firstZero": 0,
+        "secondZero": 0,
+        "tablesScanned": 107
+      },
+      {
+        "state": "cleaned",
+        "deleted": 0,
+        "changedFiles": 0,
+        "firstZero": 0,
+        "secondZero": 0,
+        "tablesScanned": 107
+      }
+    ],
+    "first83Rows2FilesSecond0Rows0Files": true,
+    "logicalPhysical107ZeroGuardsPassed": true,
+    "schema": "Existing G1/c01 classified schema and mature107 preflight/zero evidence, noDDL",
+    "failedEarlierRunsRemainSeparate": true
+  },
+  "verification": {
+    "allInputAndSourceReviewAndSourceRawHashesExact": true,
+    "all4137ActualSourceReadPinsJoinCapsule": true,
+    "exactC118SubsetJoinsCap": true,
+    "all76SafeCertRefsJoinReportEvidence": true,
+    "all76ActualProxyExchangeIndexMethodBackendStatusTransportAndRawRefsMatch": true,
+    "allSixStepRefCountsJoinReportAndTyped": true,
+    "typedThreeCertAndOriginalZipRefsJoinOriginalEvidence": true,
+    "allRequiredTypedBooleansTrue": true,
+    "WindowsExeAndOwnerRefSHAsMatch": true,
+    "privateRefsNotFollowedByC": true,
+    "testsAppDbHttpBrowserHostActionsByC": false,
+    "existingCapturedSourceDocsModified": false,
+    "newTmpOnly": true
+  },
+  "readLevels": {
+    "public": "Necessary complete original run/safe76/typed10ref metadata, actual source pin manifests, lifecycle and exchanges, source/interfaces and scoped M4/Linux/UI requirement reviews",
+    "private": "Originalref path/bytes/SHA only; no private payload/env/key opened",
+    "claim": "Original UI4 actions plus finite actual business/physical/wire/download/cancel proof, no wholeDTO/pixel/cache/opaque comparison Gate"
+  },
+  "overall": {
+    "WindowsAcceptedNow": 5,
+    "WindowsTotal": 8,
+    "UIAcceptedNow": 13,
+    "UITotal": 16,
+    "remainingWindowsExternalRust": [
+      "UI2",
+      "UI3",
+      "UI4"
+    ],
+    "RootRustUI2StillLiveAtReview": true,
+    "finalCensusHandoverOverallG3Pending": true
+  },
+  "findings": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,2812 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2M-pre-G1-integration-acceptance-input",
+  "status": "design-only; Root G1 decision required before runtime",
+  "sourceBaseline": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "task": {
+    "issue": 80,
+    "parentIssue": 67,
+    "rootIssue": 57,
+    "sliceType": "cross-layer-high-risk",
+    "newPublicOperations": 0
+  },
+  "owner": {
+    "design": "/root/r2m_acceptance",
+    "implementationAndEnvironment": "Root",
+    "independentReview": "non-author reviewer required for G3/G4",
+    "explicitModel": "gpt-6.1-sol",
+    "explicitReasoningEffort": "max",
+    "fast": "unverified"
+  },
+  "executionClaims": {
+    "testsRun": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "containersStarted": 0,
+    "browserRuns": 0,
+    "oldPrivateFilesRead": 0,
+    "scope": "Only repository source/document reads, Git metadata, static JSON analysis, Windows/Linux listener metadata, and these two assigned input files"
+  },
+  "formalInputs": [
+    "docs/design/backend-rust-migration-plan.md",
+    "docs/design/rust-r2-scope-and-dependencies.md",
+    "docs/design/rust-r2-operation-slices.json",
+    "docs/design/api-route-canonical-inventory.md",
+    "docs/adr/017-admin-web-cookie-session-auth.md",
+    "docs/adr/018-rust-backend-and-sqlx-persistence.md",
+    "docs/design/archive/slices/rust-r1e-stage-acceptance-baseline.md",
+    "docs/design/archive/slices/rust-r2k-closeout.md",
+    "docs/design/archive/slices/rust-r2l-closeout.md"
+  ],
+  "runtimeComposition": {
+    "entry": "apps/poms-api-rust/src/main.rs -> http::router_with_runtime_settings",
+    "router": "apps/poms-api-rust/src/http.rs",
+    "shared": [
+      "one Database clone family",
+      "one AuthHttpState / AuthService",
+      "one ProviderSupport shared by IdentityProvidersService / DirectoryAdapter / ExternalOrgSyncService",
+      "one AttachmentStorage shared by storage HTTP and AttachmentsService",
+      "one ApprovalService with the same Database"
+    ],
+    "registration": [
+      {
+        "module": "health",
+        "r1Operations": 3,
+        "r2Operations": 0
+      },
+      {
+        "module": "auth",
+        "r1Operations": 4,
+        "r2Operations": 0
+      },
+      {
+        "module": "navigation",
+        "slice": "A",
+        "r2Operations": 3
+      },
+      {
+        "module": "roles",
+        "slice": "B",
+        "r2Operations": 8
+      },
+      {
+        "module": "org_units",
+        "slice": "C",
+        "r2Operations": 8
+      },
+      {
+        "module": "users",
+        "slice": "D",
+        "r2Operations": 11
+      },
+      {
+        "module": "dictionary + system_settings",
+        "slice": "E",
+        "r2Operations": 6
+      },
+      {
+        "module": "runtime_audit",
+        "slice": "F",
+        "r2Operations": 4
+      },
+      {
+        "module": "identity_providers",
+        "slice": "G",
+        "r2Operations": 16
+      },
+      {
+        "module": "external_org_sync",
+        "slice": "H",
+        "r2Operations": 18
+      },
+      {
+        "module": "attachment_storage",
+        "slice": "I",
+        "r2Operations": 6
+      },
+      {
+        "module": "attachments",
+        "slice": "J",
+        "r2Operations": 19
+      },
+      {
+        "module": "attachments / handover_facts",
+        "slice": "K",
+        "r2Operations": 5,
+        "note": "K routes and K OpenAPI are merged inside attachments/http.rs; not a separately merged top-level router"
+      },
+      {
+        "module": "approval / approval_common",
+        "slice": "L",
+        "r2Operations": 4,
+        "note": "L selects four operations and recursive schema dependencies from the TS-owned full OpenAPI"
+      }
+    ],
+    "expectedCurrentSurface": {
+      "paths": 96,
+      "operations": 115,
+      "r1Operations": 7,
+      "r2Operations": 108,
+      "source": "Static composition at the baseline; emitted runtime OpenAPI still must be built and checked after G1",
+      "fullSpecPaths": 237,
+      "fullSpecOperations": 291,
+      "fullSpecSchemas": 585
+    },
+    "nonHttpMechanisms": [
+      {
+        "module": "business_numbers",
+        "status": "delivered internal service",
+        "currentProductCallerBoundary": "No business_numbers call found in current approval/approval_common. R3/R4 producer integration is not certified by R2M.",
+        "freshCheck": "real PG calls to next and next_with_connection; preserve Native independent EM semantics separately from Rust borrowed-connection rollback"
+      },
+      {
+        "module": "approval_common",
+        "status": "delivered summary, confirmation/todo and mandatory same-transaction callback mechanism",
+        "freshCheck": "one real shared UoW commit/rollback/error-continue sequence and exact summary/todo effects; no new public API"
+      },
+      {
+        "module": "approval",
+        "status": "real Contract / Payout / Adjustment minimum handlers delivered",
+        "freshCheck": "current candidate contract decision and todo, payout final/retention flush and two-snapshot effects, adjustment decision"
+      },
+      {
+        "module": "handover_facts",
+        "status": "four minimum read projections",
+        "boundary": "Do not add confirmed/snapshot gates or claim complete Rust R4 producer/write chain"
+      }
+    ]
+  },
+  "sourceProtection": {
+    "baselineMustBeAncestorOfCandidate": true,
+    "evidenceEpoch": "new R2M; bind candidate commit, raw source manifest and exact built executable identities before each accepted run",
+    "protectedProductScopes": [
+      "apps/poms-api/src",
+      "apps/poms-admin/src",
+      "libs/api/contracts/src",
+      "libs/shared/contracts/src",
+      "libs/shared/api-spec",
+      "libs/shared/api-client",
+      "package.json",
+      "pnpm-lock.yaml",
+      "openapitools.json",
+      ".gitattributes",
+      "tools/openapi"
+    ],
+    "rustCandidateScopes": [
+      "apps/poms-api-rust",
+      "tools/rust-r1b/shared-manifest.json",
+      "tools/rust-r2a/navigation-openapi.json",
+      "tools/rust-r2b/roles-openapi.json",
+      "tools/rust-r2c/org-units-openapi.json",
+      "tools/rust-r2d/users-openapi.json",
+      "tools/rust-r2ef",
+      "tools/rust-r2gh",
+      "tools/rust-r2ij",
+      "tools/rust-r2k",
+      "tools/rust-r2l"
+    ],
+    "checks": [
+      "git diff BASELINE -- protected-scopes",
+      "git diff --cached BASELINE -- protected-scopes",
+      "git ls-files --others --exclude-standard -- protected-scopes",
+      "raw and CRLF-to-LF SHA256 of declared inputs before and after",
+      "exact runtime source closure plus Rust binary / Native main.js hashes",
+      "freeze new R2M harness and synthetic adapter source before execution"
+    ],
+    "allowedChanges": "Root may implement the accepted R2M harness/profile and fixes through explicit source epochs; product/contract changes require a corrective checkpoint and affected reruns, not silent oracle edits",
+    "generator": {
+      "authority": "tools/openapi/shared-api-client-baseline.json",
+      "sourceHead": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+      "generatorVersion": "7.20.0",
+      "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+      "policy": "Keep six protected inputs and all existing guards; check into a fresh candidate namespace; no baseline reset or broad regen"
+    },
+    "fingerprintAlgorithm": "rawBytesSha256=SHA256(file bytes); normalizedLfSha256=SHA256(UTF8 text replacing CRLF with LF only), no trim/BOM rewrite",
+    "sourceFiles": [
+      {
+        "normalizedLfSha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c",
+        "rawBytesSha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c",
+        "file": ".gitattributes",
+        "bytes": 175
+      },
+      {
+        "normalizedLfSha256": "d7d343e9880b489fefba60d3d5d60e36fda1a29f8ff4fb79ce5ba5c11b42058b",
+        "rawBytesSha256": "d7d343e9880b489fefba60d3d5d60e36fda1a29f8ff4fb79ce5ba5c11b42058b",
+        "file": "apps/poms-admin-e2e/src/r1e-stage.spec.ts",
+        "bytes": 16795
+      },
+      {
+        "normalizedLfSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d",
+        "rawBytesSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d",
+        "file": "apps/poms-api-rust/Cargo.lock",
+        "bytes": 77585
+      },
+      {
+        "normalizedLfSha256": "210795507a47058e7d198b1d88ea1c653da2552622175974b171a96c183daaeb",
+        "rawBytesSha256": "210795507a47058e7d198b1d88ea1c653da2552622175974b171a96c183daaeb",
+        "file": "apps/poms-api-rust/Cargo.toml",
+        "bytes": 3245
+      },
+      {
+        "normalizedLfSha256": "f715f440167e20fd8ea9afa0498c3d1ab80174cfcb8cbc895f106a34d907a1e1",
+        "rawBytesSha256": "f715f440167e20fd8ea9afa0498c3d1ab80174cfcb8cbc895f106a34d907a1e1",
+        "file": "apps/poms-api-rust/rust-toolchain.toml",
+        "bytes": 86
+      },
+      {
+        "normalizedLfSha256": "3063af131554f2baf13b322f08d984eb47051bb8048d3f8a422b955f503645ce",
+        "rawBytesSha256": "3063af131554f2baf13b322f08d984eb47051bb8048d3f8a422b955f503645ce",
+        "file": "apps/poms-api-rust/src/approval_common/domain_schema.rs",
+        "bytes": 88205
+      },
+      {
+        "normalizedLfSha256": "ad52e8544fc680d1eb6e45c8b1c54a67a455d80135ed975981221784daa18047",
+        "rawBytesSha256": "ad52e8544fc680d1eb6e45c8b1c54a67a455d80135ed975981221784daa18047",
+        "file": "apps/poms-api-rust/src/approval_common/error.rs",
+        "bytes": 2938
+      },
+      {
+        "normalizedLfSha256": "35394edc597583d2c9c808c488a02e91e49703f44bd5a53aedc4e740896ab5a7",
+        "rawBytesSha256": "35394edc597583d2c9c808c488a02e91e49703f44bd5a53aedc4e740896ab5a7",
+        "file": "apps/poms-api-rust/src/approval_common/js.rs",
+        "bytes": 11080
+      },
+      {
+        "normalizedLfSha256": "10d9899f7a26e0e4754ed1a4cc309ce97eea598a31a07c62471c703a098a7639",
+        "rawBytesSha256": "10d9899f7a26e0e4754ed1a4cc309ce97eea598a31a07c62471c703a098a7639",
+        "file": "apps/poms-api-rust/src/approval_common/mod.rs",
+        "bytes": 828
+      },
+      {
+        "normalizedLfSha256": "919a15000aad9774621ecc17e0928bed83d424add6822740c34bef69b08f333b",
+        "rawBytesSha256": "919a15000aad9774621ecc17e0928bed83d424add6822740c34bef69b08f333b",
+        "file": "apps/poms-api-rust/src/approval_common/model.rs",
+        "bytes": 10771
+      },
+      {
+        "normalizedLfSha256": "5fc3494362d1a12f41181730d4ddfdc9dd249d6176784dc94265d3af5ec69bda",
+        "rawBytesSha256": "5fc3494362d1a12f41181730d4ddfdc9dd249d6176784dc94265d3af5ec69bda",
+        "file": "apps/poms-api-rust/src/approval_common/projection.rs",
+        "bytes": 5247
+      },
+      {
+        "normalizedLfSha256": "59b7417fa7e2e66b40482a30f8076f9b90a8af89abf94aee9cc1d15396d55fca",
+        "rawBytesSha256": "59b7417fa7e2e66b40482a30f8076f9b90a8af89abf94aee9cc1d15396d55fca",
+        "file": "apps/poms-api-rust/src/approval_common/protocol.rs",
+        "bytes": 9323
+      },
+      {
+        "normalizedLfSha256": "a04829024a5298375a220b0cd332fed6e1c0e663643b3d850f6a4f701dc71f9d",
+        "rawBytesSha256": "a04829024a5298375a220b0cd332fed6e1c0e663643b3d850f6a4f701dc71f9d",
+        "file": "apps/poms-api-rust/src/approval_common/receipt.rs",
+        "bytes": 3432
+      },
+      {
+        "normalizedLfSha256": "cd7a9117bd06b9df520b98bf7f4f73a9cef65516bac2b3a295a1a66be94b8433",
+        "rawBytesSha256": "cd7a9117bd06b9df520b98bf7f4f73a9cef65516bac2b3a295a1a66be94b8433",
+        "file": "apps/poms-api-rust/src/approval_common/required.rs",
+        "bytes": 5294
+      },
+      {
+        "normalizedLfSha256": "57de18e631c7c2cfab49afb9daab7eb5938d4ec5e040d96d1ef54da392768eb9",
+        "rawBytesSha256": "57de18e631c7c2cfab49afb9daab7eb5938d4ec5e040d96d1ef54da392768eb9",
+        "file": "apps/poms-api-rust/src/approval_common/schema.rs",
+        "bytes": 36415
+      },
+      {
+        "normalizedLfSha256": "edce898916a1459804fe27afaa7de6d74a1825e60a98bba11b24e2fda745c2a1",
+        "rawBytesSha256": "edce898916a1459804fe27afaa7de6d74a1825e60a98bba11b24e2fda745c2a1",
+        "file": "apps/poms-api-rust/src/approval_common/service.rs",
+        "bytes": 45646
+      },
+      {
+        "normalizedLfSha256": "e6afa3cb8edfff6e764c723b2aa1e0998600899f0002413d798e721b28bb04d9",
+        "rawBytesSha256": "e6afa3cb8edfff6e764c723b2aa1e0998600899f0002413d798e721b28bb04d9",
+        "file": "apps/poms-api-rust/src/approval_common/session.rs",
+        "bytes": 5088
+      },
+      {
+        "normalizedLfSha256": "eed38cd12eed19fd599f24a16481e5825224d2b708f67cf85f6a20426addb6d7",
+        "rawBytesSha256": "eed38cd12eed19fd599f24a16481e5825224d2b708f67cf85f6a20426addb6d7",
+        "file": "apps/poms-api-rust/src/approval_common/store.rs",
+        "bytes": 35788
+      },
+      {
+        "normalizedLfSha256": "8796189607bd0a7d069d7e12ae541d3b8e02896055d605a2c8025baad6266459",
+        "rawBytesSha256": "8796189607bd0a7d069d7e12ae541d3b8e02896055d605a2c8025baad6266459",
+        "file": "apps/poms-api-rust/src/approval_common/transition.rs",
+        "bytes": 10970
+      },
+      {
+        "normalizedLfSha256": "949be75195aec51c29d38b6b8999ccb510c9dbf77dc6de3513187785a765525a",
+        "rawBytesSha256": "949be75195aec51c29d38b6b8999ccb510c9dbf77dc6de3513187785a765525a",
+        "file": "apps/poms-api-rust/src/approval/context.rs",
+        "bytes": 1555
+      },
+      {
+        "normalizedLfSha256": "8ff262a4abbb55587f60d61add1a3aa7ef17a862a901ec374d92fb570c037f5d",
+        "rawBytesSha256": "8ff262a4abbb55587f60d61add1a3aa7ef17a862a901ec374d92fb570c037f5d",
+        "file": "apps/poms-api-rust/src/approval/domain.rs",
+        "bytes": 26954
+      },
+      {
+        "normalizedLfSha256": "58c0d9d81d40c0d45f1122b9bb017f4b46bf3de02213f79e8ccf63015fd59a47",
+        "rawBytesSha256": "58c0d9d81d40c0d45f1122b9bb017f4b46bf3de02213f79e8ccf63015fd59a47",
+        "file": "apps/poms-api-rust/src/approval/http.rs",
+        "bytes": 11996
+      },
+      {
+        "normalizedLfSha256": "ccfe61516446963a455854c2a14c74a99c9eece9cc5efe7e05e292be1154ce7b",
+        "rawBytesSha256": "ccfe61516446963a455854c2a14c74a99c9eece9cc5efe7e05e292be1154ce7b",
+        "file": "apps/poms-api-rust/src/approval/mod.rs",
+        "bytes": 311
+      },
+      {
+        "normalizedLfSha256": "7851c9511daff378f1c5b1aee5331356ec2484511978832739dfbf31c7689354",
+        "rawBytesSha256": "7851c9511daff378f1c5b1aee5331356ec2484511978832739dfbf31c7689354",
+        "file": "apps/poms-api-rust/src/approval/model.rs",
+        "bytes": 2515
+      },
+      {
+        "normalizedLfSha256": "66e7b73f981176783c7a195a32135a2b086e480bfe00bd15c675ce3b3f917784",
+        "rawBytesSha256": "66e7b73f981176783c7a195a32135a2b086e480bfe00bd15c675ce3b3f917784",
+        "file": "apps/poms-api-rust/src/approval/request_oracle.cjs",
+        "bytes": 3943
+      },
+      {
+        "normalizedLfSha256": "a25c520a0cbe3ca6d5e5cf8804078e8562c5230209b0041eb13360542a314ad5",
+        "rawBytesSha256": "a25c520a0cbe3ca6d5e5cf8804078e8562c5230209b0041eb13360542a314ad5",
+        "file": "apps/poms-api-rust/src/approval/request_original.json",
+        "bytes": 111011
+      },
+      {
+        "normalizedLfSha256": "116abb92571bfb85fe2d7f7a16ba79f3d6844d5e46fdb87cc0479bbcd233796e",
+        "rawBytesSha256": "116abb92571bfb85fe2d7f7a16ba79f3d6844d5e46fdb87cc0479bbcd233796e",
+        "file": "apps/poms-api-rust/src/approval/service.rs",
+        "bytes": 8961
+      },
+      {
+        "normalizedLfSha256": "9df27aa832f4d1f99398e2c6d91a86cf60317adac8e206377beffe68fc924f76",
+        "rawBytesSha256": "9df27aa832f4d1f99398e2c6d91a86cf60317adac8e206377beffe68fc924f76",
+        "file": "apps/poms-api-rust/src/approval/settlement_oracle.cjs",
+        "bytes": 6814
+      },
+      {
+        "normalizedLfSha256": "b103e3d0f118c140cb3a5d426c400bdddaf3075517a94a1a14e87b1996789a1d",
+        "rawBytesSha256": "b103e3d0f118c140cb3a5d426c400bdddaf3075517a94a1a14e87b1996789a1d",
+        "file": "apps/poms-api-rust/src/approval/settlement_original.json",
+        "bytes": 43134
+      },
+      {
+        "normalizedLfSha256": "78ad40daf9926ede88a933a6853ad445b6ee07798ba950ee8085003ccd52b7df",
+        "rawBytesSha256": "78ad40daf9926ede88a933a6853ad445b6ee07798ba950ee8085003ccd52b7df",
+        "file": "apps/poms-api-rust/src/approval/settlement.rs",
+        "bytes": 19171
+      },
+      {
+        "normalizedLfSha256": "97957681ab92aee9e9bd4b271d350c69f353c806f20207c45e7ebcc80bf672e1",
+        "rawBytesSha256": "97957681ab92aee9e9bd4b271d350c69f353c806f20207c45e7ebcc80bf672e1",
+        "file": "apps/poms-api-rust/src/approval/validation.rs",
+        "bytes": 3965
+      },
+      {
+        "normalizedLfSha256": "e28167072cdea752e86964d9e1d3802731715040997f4a67dcf49e52434c1347",
+        "rawBytesSha256": "e28167072cdea752e86964d9e1d3802731715040997f4a67dcf49e52434c1347",
+        "file": "apps/poms-api-rust/src/attachment_storage/http.rs",
+        "bytes": 9917
+      },
+      {
+        "normalizedLfSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28",
+        "rawBytesSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28",
+        "file": "apps/poms-api-rust/src/attachment_storage/local.rs",
+        "bytes": 6654
+      },
+      {
+        "normalizedLfSha256": "a39f771ead155b7f51b59add2b584e22ec79ad9cbb6ed4597734423d1e5093d7",
+        "rawBytesSha256": "a39f771ead155b7f51b59add2b584e22ec79ad9cbb6ed4597734423d1e5093d7",
+        "file": "apps/poms-api-rust/src/attachment_storage/mod.rs",
+        "bytes": 377
+      },
+      {
+        "normalizedLfSha256": "63cf78e5c8206905451cbf6e1d00ebdfa8f1c0c94e4fdfaeb538d43e9d18cfbb",
+        "rawBytesSha256": "63cf78e5c8206905451cbf6e1d00ebdfa8f1c0c94e4fdfaeb538d43e9d18cfbb",
+        "file": "apps/poms-api-rust/src/attachment_storage/model.rs",
+        "bytes": 8580
+      },
+      {
+        "normalizedLfSha256": "858e47a1cfdfba6aadabf3e644ae888466b926bf570cc5ef7f68c5e8102dba3d",
+        "rawBytesSha256": "858e47a1cfdfba6aadabf3e644ae888466b926bf570cc5ef7f68c5e8102dba3d",
+        "file": "apps/poms-api-rust/src/attachment_storage/obs_s3.rs",
+        "bytes": 43813
+      },
+      {
+        "normalizedLfSha256": "728eb662ca1f8ae459b7144956c87e6108702072b09d366ea55e0a7844f0b123",
+        "rawBytesSha256": "728eb662ca1f8ae459b7144956c87e6108702072b09d366ea55e0a7844f0b123",
+        "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+        "bytes": 11017
+      },
+      {
+        "normalizedLfSha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f",
+        "rawBytesSha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f",
+        "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+        "bytes": 31151
+      },
+      {
+        "normalizedLfSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e",
+        "rawBytesSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e",
+        "file": "apps/poms-api-rust/src/attachment_storage/store.rs",
+        "bytes": 13211
+      },
+      {
+        "normalizedLfSha256": "1dba62af04f8ee9d8e5837cf499f4f96d5ed823e602861b5a5f97bb2713357a8",
+        "rawBytesSha256": "1dba62af04f8ee9d8e5837cf499f4f96d5ed823e602861b5a5f97bb2713357a8",
+        "file": "apps/poms-api-rust/src/attachment_storage/validation.rs",
+        "bytes": 22215
+      },
+      {
+        "normalizedLfSha256": "0fb5f3c71b1167e76a339f4d5996e0c6fac1b964a01be03f92f148906d20e217",
+        "rawBytesSha256": "0fb5f3c71b1167e76a339f4d5996e0c6fac1b964a01be03f92f148906d20e217",
+        "file": "apps/poms-api-rust/src/attachments/handover.rs",
+        "bytes": 40635
+      },
+      {
+        "normalizedLfSha256": "bf3104acae5ce0ea4899887036a4328d87a9e6ef173ca830d46c375e179270ce",
+        "rawBytesSha256": "bf3104acae5ce0ea4899887036a4328d87a9e6ef173ca830d46c375e179270ce",
+        "file": "apps/poms-api-rust/src/attachments/http.rs",
+        "bytes": 20344
+      },
+      {
+        "normalizedLfSha256": "ff1fed9ff2c38bd05b7ebd117bcb61e7023701367144e49301a9cb4425910214",
+        "rawBytesSha256": "ff1fed9ff2c38bd05b7ebd117bcb61e7023701367144e49301a9cb4425910214",
+        "file": "apps/poms-api-rust/src/attachments/mod.rs",
+        "bytes": 198
+      },
+      {
+        "normalizedLfSha256": "bf68f01357c574b194869c9cd49651d000fb904db233f49c60c2746c72893b51",
+        "rawBytesSha256": "bf68f01357c574b194869c9cd49651d000fb904db233f49c60c2746c72893b51",
+        "file": "apps/poms-api-rust/src/attachments/model.rs",
+        "bytes": 4239
+      },
+      {
+        "normalizedLfSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9",
+        "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9",
+        "file": "apps/poms-api-rust/src/attachments/service.rs",
+        "bytes": 68932
+      },
+      {
+        "normalizedLfSha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403",
+        "rawBytesSha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403",
+        "file": "apps/poms-api-rust/src/attachments/store.rs",
+        "bytes": 42291
+      },
+      {
+        "normalizedLfSha256": "58b5bdc35dc70226ab77e2da9e90232d61b0d333c85613c65084896b7ae21f47",
+        "rawBytesSha256": "58b5bdc35dc70226ab77e2da9e90232d61b0d333c85613c65084896b7ae21f47",
+        "file": "apps/poms-api-rust/src/attachments/validation.rs",
+        "bytes": 28393
+      },
+      {
+        "normalizedLfSha256": "cf630e673353cec2ae91f139a09027aba01bd2a118ee4149766490b95f0592ef",
+        "rawBytesSha256": "cf630e673353cec2ae91f139a09027aba01bd2a118ee4149766490b95f0592ef",
+        "file": "apps/poms-api-rust/src/attachments/zip.rs",
+        "bytes": 13383
+      },
+      {
+        "normalizedLfSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+        "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+        "file": "apps/poms-api-rust/src/auth/audit.rs",
+        "bytes": 4747
+      },
+      {
+        "normalizedLfSha256": "2835ed93bec92dc0f244015bc9f2e59124a85ab248adab2d1bb39551bf2aa71b",
+        "rawBytesSha256": "2835ed93bec92dc0f244015bc9f2e59124a85ab248adab2d1bb39551bf2aa71b",
+        "file": "apps/poms-api-rust/src/auth/cookie.rs",
+        "bytes": 6742
+      },
+      {
+        "normalizedLfSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+        "rawBytesSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+        "file": "apps/poms-api-rust/src/auth/crypto.rs",
+        "bytes": 15085
+      },
+      {
+        "normalizedLfSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+        "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+        "file": "apps/poms-api-rust/src/auth/guards.rs",
+        "bytes": 12029
+      },
+      {
+        "normalizedLfSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+        "rawBytesSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+        "file": "apps/poms-api-rust/src/auth/http.rs",
+        "bytes": 39425
+      },
+      {
+        "normalizedLfSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+        "rawBytesSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+        "file": "apps/poms-api-rust/src/auth/js_json.rs",
+        "bytes": 6503
+      },
+      {
+        "normalizedLfSha256": "2cc98c1c5ef8b15daa9b025d269b5c2685e39ff28cc9784edb4387c3adbf6c24",
+        "rawBytesSha256": "2cc98c1c5ef8b15daa9b025d269b5c2685e39ff28cc9784edb4387c3adbf6c24",
+        "file": "apps/poms-api-rust/src/auth/mod.rs",
+        "bytes": 161
+      },
+      {
+        "normalizedLfSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+        "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+        "file": "apps/poms-api-rust/src/auth/model.rs",
+        "bytes": 10433
+      },
+      {
+        "normalizedLfSha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8",
+        "rawBytesSha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8",
+        "file": "apps/poms-api-rust/src/auth/projection.rs",
+        "bytes": 8800
+      },
+      {
+        "normalizedLfSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80",
+        "rawBytesSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80",
+        "file": "apps/poms-api-rust/src/auth/service.rs",
+        "bytes": 20275
+      },
+      {
+        "normalizedLfSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+        "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+        "file": "apps/poms-api-rust/src/auth/store.rs",
+        "bytes": 22695
+      },
+      {
+        "normalizedLfSha256": "2ab6c26dee1fee3eefe6a6b514cb7ceb8e38fd8f7b6c344480f510537f1bf8af",
+        "rawBytesSha256": "2ab6c26dee1fee3eefe6a6b514cb7ceb8e38fd8f7b6c344480f510537f1bf8af",
+        "file": "apps/poms-api-rust/src/binary_http.rs",
+        "bytes": 18667
+      },
+      {
+        "normalizedLfSha256": "27f7dc7a9a03fd095bb2c79f3b2d43a0e9070937ad586c4fd851ca8be5213267",
+        "rawBytesSha256": "27f7dc7a9a03fd095bb2c79f3b2d43a0e9070937ad586c4fd851ca8be5213267",
+        "file": "apps/poms-api-rust/src/business_numbers/mod.rs",
+        "bytes": 164
+      },
+      {
+        "normalizedLfSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb",
+        "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb",
+        "file": "apps/poms-api-rust/src/business_numbers/service.rs",
+        "bytes": 5337
+      },
+      {
+        "normalizedLfSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+        "rawBytesSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+        "file": "apps/poms-api-rust/src/compat/json.rs",
+        "bytes": 4995
+      },
+      {
+        "normalizedLfSha256": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+        "rawBytesSha256": "3f6c57854c8bc7a6dc48d11f4480861c0e09268ed3c701eaa03b774c24c1880a",
+        "file": "apps/poms-api-rust/src/compat/mod.rs",
+        "bytes": 52
+      },
+      {
+        "normalizedLfSha256": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2",
+        "rawBytesSha256": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2",
+        "file": "apps/poms-api-rust/src/compat/permissions.rs",
+        "bytes": 2414
+      },
+      {
+        "normalizedLfSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+        "rawBytesSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+        "file": "apps/poms-api-rust/src/compat/scalars.rs",
+        "bytes": 18815
+      },
+      {
+        "normalizedLfSha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7",
+        "rawBytesSha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7",
+        "file": "apps/poms-api-rust/src/config.rs",
+        "bytes": 43499
+      },
+      {
+        "normalizedLfSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+        "rawBytesSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+        "file": "apps/poms-api-rust/src/database.rs",
+        "bytes": 11644
+      },
+      {
+        "normalizedLfSha256": "6ae7ba9811fb54e5c5b8c989577d8de3cda3ce6579cb79c8d706690f1414f79c",
+        "rawBytesSha256": "6ae7ba9811fb54e5c5b8c989577d8de3cda3ce6579cb79c8d706690f1414f79c",
+        "file": "apps/poms-api-rust/src/dictionary/http.rs",
+        "bytes": 10455
+      },
+      {
+        "normalizedLfSha256": "51466c1c5767454bf76b99eb36a3300eb41158c67c1bf0ee1e9b9ed78b131dd6",
+        "rawBytesSha256": "51466c1c5767454bf76b99eb36a3300eb41158c67c1bf0ee1e9b9ed78b131dd6",
+        "file": "apps/poms-api-rust/src/dictionary/mod.rs",
+        "bytes": 859
+      },
+      {
+        "normalizedLfSha256": "1e784726c2892c806327e4b2be50be6721a0c9f4d3959a6bd34088ecaee6c4c1",
+        "rawBytesSha256": "1e784726c2892c806327e4b2be50be6721a0c9f4d3959a6bd34088ecaee6c4c1",
+        "file": "apps/poms-api-rust/src/dictionary/model.rs",
+        "bytes": 1959
+      },
+      {
+        "normalizedLfSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e",
+        "rawBytesSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e",
+        "file": "apps/poms-api-rust/src/dictionary/service.rs",
+        "bytes": 13451
+      },
+      {
+        "normalizedLfSha256": "ee932ed4e6d270e96706848abc91c0674d13a345034a3f1262b89ad41ded74cf",
+        "rawBytesSha256": "ee932ed4e6d270e96706848abc91c0674d13a345034a3f1262b89ad41ded74cf",
+        "file": "apps/poms-api-rust/src/dictionary/store.rs",
+        "bytes": 6863
+      },
+      {
+        "normalizedLfSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6",
+        "rawBytesSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6",
+        "file": "apps/poms-api-rust/src/dictionary/validation.rs",
+        "bytes": 20888
+      },
+      {
+        "normalizedLfSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+        "rawBytesSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+        "file": "apps/poms-api-rust/src/error.rs",
+        "bytes": 2564
+      },
+      {
+        "normalizedLfSha256": "c04b94d0b25ff01ccd89b5ea74541a1bd5a4ef5c45f95a2c65d3f25ea91ee059",
+        "rawBytesSha256": "c04b94d0b25ff01ccd89b5ea74541a1bd5a4ef5c45f95a2c65d3f25ea91ee059",
+        "file": "apps/poms-api-rust/src/external_org_sync/core.rs",
+        "bytes": 38233
+      },
+      {
+        "normalizedLfSha256": "e6d6d1ea2cd4b15beab572b1cd9284d89dc5685201f2262219b22c9b9ec694c1",
+        "rawBytesSha256": "e6d6d1ea2cd4b15beab572b1cd9284d89dc5685201f2262219b22c9b9ec694c1",
+        "file": "apps/poms-api-rust/src/external_org_sync/directory.rs",
+        "bytes": 19265
+      },
+      {
+        "normalizedLfSha256": "fd5413b577ed57e6ff07cdef0c978b5eb5b2b45f66643d602bf82e12ab355b46",
+        "rawBytesSha256": "fd5413b577ed57e6ff07cdef0c978b5eb5b2b45f66643d602bf82e12ab355b46",
+        "file": "apps/poms-api-rust/src/external_org_sync/http.rs",
+        "bytes": 16724
+      },
+      {
+        "normalizedLfSha256": "3c7881efb561fd41e6122f03bf1459a4a2d2fc4a66875f3b321d0eac232a5893",
+        "rawBytesSha256": "3c7881efb561fd41e6122f03bf1459a4a2d2fc4a66875f3b321d0eac232a5893",
+        "file": "apps/poms-api-rust/src/external_org_sync/mod.rs",
+        "bytes": 434
+      },
+      {
+        "normalizedLfSha256": "745d8c74a5f2e1111ea3a7e9ddf9c017dd1e548120616efdb7cc1b2fce3ddb82",
+        "rawBytesSha256": "745d8c74a5f2e1111ea3a7e9ddf9c017dd1e548120616efdb7cc1b2fce3ddb82",
+        "file": "apps/poms-api-rust/src/external_org_sync/model.rs",
+        "bytes": 17272
+      },
+      {
+        "normalizedLfSha256": "8f0c47de17fa67ee6b95e299a767a6ec82e40e93ddba10c13baa03ab27956e61",
+        "rawBytesSha256": "8f0c47de17fa67ee6b95e299a767a6ec82e40e93ddba10c13baa03ab27956e61",
+        "file": "apps/poms-api-rust/src/external_org_sync/service.rs",
+        "bytes": 50581
+      },
+      {
+        "normalizedLfSha256": "9caf24d53f919b9047b553b4614d0ab88783b1e00df80c1582a94d9f7759f11b",
+        "rawBytesSha256": "9caf24d53f919b9047b553b4614d0ab88783b1e00df80c1582a94d9f7759f11b",
+        "file": "apps/poms-api-rust/src/external_org_sync/store.rs",
+        "bytes": 23927
+      },
+      {
+        "normalizedLfSha256": "71c84fe717f6832366b82665054a0bc670a19526334561dd2f580d7a3c6b4f38",
+        "rawBytesSha256": "71c84fe717f6832366b82665054a0bc670a19526334561dd2f580d7a3c6b4f38",
+        "file": "apps/poms-api-rust/src/external_org_sync/validation.rs",
+        "bytes": 24332
+      },
+      {
+        "normalizedLfSha256": "08613aa4914cdd14e6f40cfe78224e79f45b960951045261b5fef6d6487c802b",
+        "rawBytesSha256": "08613aa4914cdd14e6f40cfe78224e79f45b960951045261b5fef6d6487c802b",
+        "file": "apps/poms-api-rust/src/handover_facts/mod.rs",
+        "bytes": 8336
+      },
+      {
+        "normalizedLfSha256": "c9775b00049716f6914dc6adce319d475896c5732504778050bc53308795e1c1",
+        "rawBytesSha256": "c9775b00049716f6914dc6adce319d475896c5732504778050bc53308795e1c1",
+        "file": "apps/poms-api-rust/src/http.rs",
+        "bytes": 21138
+      },
+      {
+        "normalizedLfSha256": "82054d232507c568b17f294d29312424153a01108d7a9be36728e88232ceae0d",
+        "rawBytesSha256": "82054d232507c568b17f294d29312424153a01108d7a9be36728e88232ceae0d",
+        "file": "apps/poms-api-rust/src/identity_providers/adapter.rs",
+        "bytes": 25713
+      },
+      {
+        "normalizedLfSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238",
+        "rawBytesSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238",
+        "file": "apps/poms-api-rust/src/identity_providers/http.rs",
+        "bytes": 25597
+      },
+      {
+        "normalizedLfSha256": "618748110a1257107d28ed9af3ae750a0c9be13f33e9a3c98aa71f80e2f4e6d9",
+        "rawBytesSha256": "618748110a1257107d28ed9af3ae750a0c9be13f33e9a3c98aa71f80e2f4e6d9",
+        "file": "apps/poms-api-rust/src/identity_providers/mod.rs",
+        "bytes": 238
+      },
+      {
+        "normalizedLfSha256": "94e3b7747ab196c55e5cfa4635b3d3b121a19c9657944175b5cb1f452b32adcc",
+        "rawBytesSha256": "94e3b7747ab196c55e5cfa4635b3d3b121a19c9657944175b5cb1f452b32adcc",
+        "file": "apps/poms-api-rust/src/identity_providers/model.rs",
+        "bytes": 2518
+      },
+      {
+        "normalizedLfSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9",
+        "rawBytesSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9",
+        "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+        "bytes": 84861
+      },
+      {
+        "normalizedLfSha256": "6ee2623e306eb72009495536a37871ceb85c4b4cad5d88db48432f6fb19acaf6",
+        "rawBytesSha256": "6ee2623e306eb72009495536a37871ceb85c4b4cad5d88db48432f6fb19acaf6",
+        "file": "apps/poms-api-rust/src/identity_providers/state.rs",
+        "bytes": 5993
+      },
+      {
+        "normalizedLfSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9",
+        "rawBytesSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9",
+        "file": "apps/poms-api-rust/src/identity_providers/store.rs",
+        "bytes": 16970
+      },
+      {
+        "normalizedLfSha256": "a302d3e59ce41e04f877599124843d11fcc719ace281274122dc052df5c4efff",
+        "rawBytesSha256": "a302d3e59ce41e04f877599124843d11fcc719ace281274122dc052df5c4efff",
+        "file": "apps/poms-api-rust/src/identity_providers/validation.rs",
+        "bytes": 20526
+      },
+      {
+        "normalizedLfSha256": "dbc5f72aba225f5101db1fcd5ad2142c7ad4450969b6c7d1963849d05633ad84",
+        "rawBytesSha256": "dbc5f72aba225f5101db1fcd5ad2142c7ad4450969b6c7d1963849d05633ad84",
+        "file": "apps/poms-api-rust/src/lib.rs",
+        "bytes": 551
+      },
+      {
+        "normalizedLfSha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f",
+        "rawBytesSha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f",
+        "file": "apps/poms-api-rust/src/lifecycle.rs",
+        "bytes": 5654
+      },
+      {
+        "normalizedLfSha256": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8",
+        "rawBytesSha256": "630c7b36a4e8c98d8ff7df6acb8aa55cb193659802f9dc426e0651d62d6726f8",
+        "file": "apps/poms-api-rust/src/logging.rs",
+        "bytes": 683
+      },
+      {
+        "normalizedLfSha256": "57eed170423302511910a0f3a72eef73b65ee69df1f0039b7e250cafefa7a50a",
+        "rawBytesSha256": "57eed170423302511910a0f3a72eef73b65ee69df1f0039b7e250cafefa7a50a",
+        "file": "apps/poms-api-rust/src/main.rs",
+        "bytes": 4444
+      },
+      {
+        "normalizedLfSha256": "3bc78e566a936ee84e177508dd526178cc92d5e2a9491777d278c15172dc40fc",
+        "rawBytesSha256": "3bc78e566a936ee84e177508dd526178cc92d5e2a9491777d278c15172dc40fc",
+        "file": "apps/poms-api-rust/src/navigation/http.rs",
+        "bytes": 3043
+      },
+      {
+        "normalizedLfSha256": "3d89feedd16c544db77597a21cee1cc9453c67db926adb6ab38cd99856dfe57c",
+        "rawBytesSha256": "3d89feedd16c544db77597a21cee1cc9453c67db926adb6ab38cd99856dfe57c",
+        "file": "apps/poms-api-rust/src/navigation/mod.rs",
+        "bytes": 352
+      },
+      {
+        "normalizedLfSha256": "52fdc0da9b01f04fd36c3efc15da8f14af6078b97b36c0c3495bdd54914bd889",
+        "rawBytesSha256": "52fdc0da9b01f04fd36c3efc15da8f14af6078b97b36c0c3495bdd54914bd889",
+        "file": "apps/poms-api-rust/src/navigation/model.rs",
+        "bytes": 1242
+      },
+      {
+        "normalizedLfSha256": "d84bd330ea27a8cb2206e0e597aae16c968efc9bda1798faad707823ac3acf4a",
+        "rawBytesSha256": "d84bd330ea27a8cb2206e0e597aae16c968efc9bda1798faad707823ac3acf4a",
+        "file": "apps/poms-api-rust/src/navigation/service.rs",
+        "bytes": 4233
+      },
+      {
+        "normalizedLfSha256": "0a8f1b7e946603d933c2e44d608067ba64a4274c124f6c72931bf4aa0d6b73fe",
+        "rawBytesSha256": "0a8f1b7e946603d933c2e44d608067ba64a4274c124f6c72931bf4aa0d6b73fe",
+        "file": "apps/poms-api-rust/src/org_units/collation.rs",
+        "bytes": 7854
+      },
+      {
+        "normalizedLfSha256": "b184a46dd9b48b4341e56137718bcc2139ff2f94e900c5c3bd77e26c31f13fe8",
+        "rawBytesSha256": "b184a46dd9b48b4341e56137718bcc2139ff2f94e900c5c3bd77e26c31f13fe8",
+        "file": "apps/poms-api-rust/src/org_units/http.rs",
+        "bytes": 16838
+      },
+      {
+        "normalizedLfSha256": "174835d6e06f3e719b87771e4c1f0adfdffdc48e122b6efb7b4ad5a611599932",
+        "rawBytesSha256": "174835d6e06f3e719b87771e4c1f0adfdffdc48e122b6efb7b4ad5a611599932",
+        "file": "apps/poms-api-rust/src/org_units/mod.rs",
+        "bytes": 233
+      },
+      {
+        "normalizedLfSha256": "f131b5523abfaf45c4af5487fa2d4eefc2c6291261891a81370f297a9bba8155",
+        "rawBytesSha256": "f131b5523abfaf45c4af5487fa2d4eefc2c6291261891a81370f297a9bba8155",
+        "file": "apps/poms-api-rust/src/org_units/model.rs",
+        "bytes": 3387
+      },
+      {
+        "normalizedLfSha256": "7b5a59d8d46b98eb0a71eedfb8b271a96921ce914ee8e4f641c87cb9786612c8",
+        "rawBytesSha256": "7b5a59d8d46b98eb0a71eedfb8b271a96921ce914ee8e4f641c87cb9786612c8",
+        "file": "apps/poms-api-rust/src/org_units/service.rs",
+        "bytes": 35615
+      },
+      {
+        "normalizedLfSha256": "0e9487f6fc19a2ba69fa2a3507dacea6fc15124289fd3e41b642e136f235b017",
+        "rawBytesSha256": "0e9487f6fc19a2ba69fa2a3507dacea6fc15124289fd3e41b642e136f235b017",
+        "file": "apps/poms-api-rust/src/org_units/store.rs",
+        "bytes": 11209
+      },
+      {
+        "normalizedLfSha256": "f49e0367c06a1d045e50fa23d9967ef90c1c077a64f80b740c5eabfb8b179195",
+        "rawBytesSha256": "f49e0367c06a1d045e50fa23d9967ef90c1c077a64f80b740c5eabfb8b179195",
+        "file": "apps/poms-api-rust/src/org_units/validation.rs",
+        "bytes": 19293
+      },
+      {
+        "normalizedLfSha256": "0d8c0c84a25d23fb6d290f973cca77dfd25b528f108a3462b332f6437aef8845",
+        "rawBytesSha256": "0d8c0c84a25d23fb6d290f973cca77dfd25b528f108a3462b332f6437aef8845",
+        "file": "apps/poms-api-rust/src/process_runtime.rs",
+        "bytes": 818
+      },
+      {
+        "normalizedLfSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8",
+        "rawBytesSha256": "7faf566f67577f8aab3251d78ee5681f4ed37e96f9712348c8d288d20b35dcc8",
+        "file": "apps/poms-api-rust/src/provider_support/mod.rs",
+        "bytes": 3225
+      },
+      {
+        "normalizedLfSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+        "rawBytesSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+        "file": "apps/poms-api-rust/src/provider_support/settings.rs",
+        "bytes": 1617
+      },
+      {
+        "normalizedLfSha256": "06919e0cb9269bfb7d9209878199eee58fa29d304b01264523016abfb8a80514",
+        "rawBytesSha256": "06919e0cb9269bfb7d9209878199eee58fa29d304b01264523016abfb8a80514",
+        "file": "apps/poms-api-rust/src/provider_support/state.rs",
+        "bytes": 2171
+      },
+      {
+        "normalizedLfSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+        "rawBytesSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+        "file": "apps/poms-api-rust/src/provider_support/upstream.rs",
+        "bytes": 12748
+      },
+      {
+        "normalizedLfSha256": "f4a02160f4ec501aa5a71282193f4de219ebf799bc0cbf3290090552437183ec",
+        "rawBytesSha256": "f4a02160f4ec501aa5a71282193f4de219ebf799bc0cbf3290090552437183ec",
+        "file": "apps/poms-api-rust/src/roles/collation.rs",
+        "bytes": 5570
+      },
+      {
+        "normalizedLfSha256": "f997f3031a8e5785f6f10b8edb0b11ac09e1d782f475270caea6561b68e7d389",
+        "rawBytesSha256": "f997f3031a8e5785f6f10b8edb0b11ac09e1d782f475270caea6561b68e7d389",
+        "file": "apps/poms-api-rust/src/roles/http.rs",
+        "bytes": 22125
+      },
+      {
+        "normalizedLfSha256": "a35d11bb3d3041a742a9fe0ad58619ccbd3b9ea19f5c524a9f26118b9d8c85e4",
+        "rawBytesSha256": "a35d11bb3d3041a742a9fe0ad58619ccbd3b9ea19f5c524a9f26118b9d8c85e4",
+        "file": "apps/poms-api-rust/src/roles/mod.rs",
+        "bytes": 1301
+      },
+      {
+        "normalizedLfSha256": "b8c3e4872ddaddae1efe343619c456ba7fde612739c7f6d9f6c8371162a3f9e1",
+        "rawBytesSha256": "b8c3e4872ddaddae1efe343619c456ba7fde612739c7f6d9f6c8371162a3f9e1",
+        "file": "apps/poms-api-rust/src/roles/model.rs",
+        "bytes": 3122
+      },
+      {
+        "normalizedLfSha256": "41944f8f62263fbcb61a6d0e4ca5809e53646dbe83ad300f217fc25988656da3",
+        "rawBytesSha256": "41944f8f62263fbcb61a6d0e4ca5809e53646dbe83ad300f217fc25988656da3",
+        "file": "apps/poms-api-rust/src/roles/service.rs",
+        "bytes": 33205
+      },
+      {
+        "normalizedLfSha256": "8c124fe3c93303a5f55c3fbf35fe4019802da507def4ec0abbfd39638b98309c",
+        "rawBytesSha256": "8c124fe3c93303a5f55c3fbf35fe4019802da507def4ec0abbfd39638b98309c",
+        "file": "apps/poms-api-rust/src/roles/store.rs",
+        "bytes": 9212
+      },
+      {
+        "normalizedLfSha256": "68785a01e0c9173c1fc90adcb022ce92c5bab7dfbf1847c1921f19924999bf2d",
+        "rawBytesSha256": "68785a01e0c9173c1fc90adcb022ce92c5bab7dfbf1847c1921f19924999bf2d",
+        "file": "apps/poms-api-rust/src/roles/validation.rs",
+        "bytes": 17550
+      },
+      {
+        "normalizedLfSha256": "4efc9e9a90a7fe55359513425197d906e6893cb60fa885862c42b5e43f6d7fcf",
+        "rawBytesSha256": "4efc9e9a90a7fe55359513425197d906e6893cb60fa885862c42b5e43f6d7fcf",
+        "file": "apps/poms-api-rust/src/runtime_audit/http.rs",
+        "bytes": 17224
+      },
+      {
+        "normalizedLfSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102",
+        "rawBytesSha256": "3f377296046e29d65e6a56ea664bef9c9fa5a39df46a3b670177d21cd5505102",
+        "file": "apps/poms-api-rust/src/runtime_audit/mod.rs",
+        "bytes": 358
+      },
+      {
+        "normalizedLfSha256": "bed5d304f7584672b4d3bc00abe1657b4e2a36681031a945e10306736f39c25b",
+        "rawBytesSha256": "bed5d304f7584672b4d3bc00abe1657b4e2a36681031a945e10306736f39c25b",
+        "file": "apps/poms-api-rust/src/runtime_audit/model.rs",
+        "bytes": 2521
+      },
+      {
+        "normalizedLfSha256": "2721f4491b535456d9bb1036343cf4978fa16cd34a70831db28f7b966a9dbd84",
+        "rawBytesSha256": "2721f4491b535456d9bb1036343cf4978fa16cd34a70831db28f7b966a9dbd84",
+        "file": "apps/poms-api-rust/src/runtime_audit/query.rs",
+        "bytes": 4837
+      },
+      {
+        "normalizedLfSha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9",
+        "rawBytesSha256": "57935cb989a9a40a348d90eeb39dbe0b3ed18785aed83eda15459b9870ac4aa9",
+        "file": "apps/poms-api-rust/src/runtime_audit/service.rs",
+        "bytes": 9300
+      },
+      {
+        "normalizedLfSha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2",
+        "rawBytesSha256": "4a9e76ed7735d4070b431f0c1d0cbde5906dfcd6343f4460624f2d9ee54ae3c2",
+        "file": "apps/poms-api-rust/src/runtime_audit/store.rs",
+        "bytes": 8652
+      },
+      {
+        "normalizedLfSha256": "305cd62adfc55a43057d3410ce23e5f26c7676ef02e3b19aabc021491df09455",
+        "rawBytesSha256": "305cd62adfc55a43057d3410ce23e5f26c7676ef02e3b19aabc021491df09455",
+        "file": "apps/poms-api-rust/src/runtime_audit/validation.rs",
+        "bytes": 19505
+      },
+      {
+        "normalizedLfSha256": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+        "rawBytesSha256": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+        "file": "apps/poms-api-rust/src/shared/generated.rs",
+        "bytes": 315819
+      },
+      {
+        "normalizedLfSha256": "aa696a3406fc0f6c77a641fa4aee8a5eddf324b36b13b458256efe302e16e048",
+        "rawBytesSha256": "aa696a3406fc0f6c77a641fa4aee8a5eddf324b36b13b458256efe302e16e048",
+        "file": "apps/poms-api-rust/src/shared/mod.rs",
+        "bytes": 167
+      },
+      {
+        "normalizedLfSha256": "d31362c552a57ff90362ad5736fca11b15c55c75c6ed7efe9fd4aac52778bcb8",
+        "rawBytesSha256": "d31362c552a57ff90362ad5736fca11b15c55c75c6ed7efe9fd4aac52778bcb8",
+        "file": "apps/poms-api-rust/src/system_settings/http.rs",
+        "bytes": 9732
+      },
+      {
+        "normalizedLfSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858",
+        "rawBytesSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858",
+        "file": "apps/poms-api-rust/src/system_settings/mod.rs",
+        "bytes": 1190
+      },
+      {
+        "normalizedLfSha256": "be9a3b507afbcf11852ad15059e8f5eea57a54640a84566bf1ef7a1d08faf2b9",
+        "rawBytesSha256": "be9a3b507afbcf11852ad15059e8f5eea57a54640a84566bf1ef7a1d08faf2b9",
+        "file": "apps/poms-api-rust/src/system_settings/model.rs",
+        "bytes": 617
+      },
+      {
+        "normalizedLfSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8",
+        "rawBytesSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8",
+        "file": "apps/poms-api-rust/src/system_settings/service.rs",
+        "bytes": 14025
+      },
+      {
+        "normalizedLfSha256": "bb313f71acfd12bcfe03b8a5654e8c51d78a1685af5d392224bd9fc32ac39631",
+        "rawBytesSha256": "bb313f71acfd12bcfe03b8a5654e8c51d78a1685af5d392224bd9fc32ac39631",
+        "file": "apps/poms-api-rust/src/system_settings/store.rs",
+        "bytes": 3779
+      },
+      {
+        "normalizedLfSha256": "6eca45833e7c426670c9c5450ca24c9473cd13a0ad25506349e2d0df722348b6",
+        "rawBytesSha256": "6eca45833e7c426670c9c5450ca24c9473cd13a0ad25506349e2d0df722348b6",
+        "file": "apps/poms-api-rust/src/system_settings/validation.rs",
+        "bytes": 816
+      },
+      {
+        "normalizedLfSha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10",
+        "rawBytesSha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10",
+        "file": "apps/poms-api-rust/src/users/http.rs",
+        "bytes": 20122
+      },
+      {
+        "normalizedLfSha256": "3a7a89e34ac935c7855cb1ac0baafb3d875ca6fdb69f149625d222679adafa34",
+        "rawBytesSha256": "3a7a89e34ac935c7855cb1ac0baafb3d875ca6fdb69f149625d222679adafa34",
+        "file": "apps/poms-api-rust/src/users/mod.rs",
+        "bytes": 81
+      },
+      {
+        "normalizedLfSha256": "4460e658e9f18693fb363ef634bac11a622bb8e47b1a7dd4518a67c13d39ca74",
+        "rawBytesSha256": "4460e658e9f18693fb363ef634bac11a622bb8e47b1a7dd4518a67c13d39ca74",
+        "file": "apps/poms-api-rust/src/users/model.rs",
+        "bytes": 7392
+      },
+      {
+        "normalizedLfSha256": "d8871e921c35d2ab2f190185da23733caaaa8ad25af4095d8f2e3b3c1b2f3f70",
+        "rawBytesSha256": "d8871e921c35d2ab2f190185da23733caaaa8ad25af4095d8f2e3b3c1b2f3f70",
+        "file": "apps/poms-api-rust/src/users/service.rs",
+        "bytes": 39760
+      },
+      {
+        "normalizedLfSha256": "a7e185d2b0eb97cf340ac88ebc652409124083fc769c1c5f22cfcc3d6d1ec606",
+        "rawBytesSha256": "a7e185d2b0eb97cf340ac88ebc652409124083fc769c1c5f22cfcc3d6d1ec606",
+        "file": "apps/poms-api-rust/src/users/store.rs",
+        "bytes": 15028
+      },
+      {
+        "normalizedLfSha256": "af00e5b6511c43ec37489741a9b837ba11e9a785431e947177e72999770315f6",
+        "rawBytesSha256": "af00e5b6511c43ec37489741a9b837ba11e9a785431e947177e72999770315f6",
+        "file": "apps/poms-api-rust/src/users/validation.rs",
+        "bytes": 30367
+      },
+      {
+        "normalizedLfSha256": "bb5445de83a8a8bee682d2272f2933a2b6da85fd546276c633b67846e9c6d696",
+        "rawBytesSha256": "bb5445de83a8a8bee682d2272f2933a2b6da85fd546276c633b67846e9c6d696",
+        "file": "apps/poms-api/src/app/features/approval-summary/approval-summary.service.ts",
+        "bytes": 3782
+      },
+      {
+        "normalizedLfSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+        "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+        "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+        "bytes": 60841
+      },
+      {
+        "normalizedLfSha256": "d7d9cb63e591e5a8b47051ac6ab7b491fad5cb5580c6a76a8d929fe7d163eefc",
+        "rawBytesSha256": "d7d9cb63e591e5a8b47051ac6ab7b491fad5cb5580c6a76a8d929fe7d163eefc",
+        "file": "apps/poms-api/src/app/features/approval/confirmation.service.ts",
+        "bytes": 16313
+      },
+      {
+        "normalizedLfSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+        "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+        "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+        "bytes": 104205
+      },
+      {
+        "normalizedLfSha256": "db909a59bb9f70d8e6637c6097958ae9ad56ed3afd2c3389a0bafb1aa88657df",
+        "rawBytesSha256": "db909a59bb9f70d8e6637c6097958ae9ad56ed3afd2c3389a0bafb1aa88657df",
+        "file": "apps/poms-api/src/app/features/business-number/business-number.service.ts",
+        "bytes": 2963
+      },
+      {
+        "normalizedLfSha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db",
+        "rawBytesSha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db",
+        "file": "apps/poms-api/src/app/features/platform/platform.service.ts",
+        "bytes": 53069
+      },
+      {
+        "normalizedLfSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+        "rawBytesSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+        "file": "apps/poms-api/src/seeders/database.seeder.ts",
+        "bytes": 80434
+      },
+      {
+        "normalizedLfSha256": "f1d5bc1ce081c5297454f2b07cbb69409b4ebbd44c3155c129f932ff6abe1db6",
+        "rawBytesSha256": "f1d5bc1ce081c5297454f2b07cbb69409b4ebbd44c3155c129f932ff6abe1db6",
+        "file": "docs/adr/017-admin-web-cookie-session-auth.md",
+        "bytes": 16665
+      },
+      {
+        "normalizedLfSha256": "ea6c12366acc77f449008aef604d5e4a420c4cc8b52f001e82c215127706414b",
+        "rawBytesSha256": "ea6c12366acc77f449008aef604d5e4a420c4cc8b52f001e82c215127706414b",
+        "file": "docs/adr/018-rust-backend-and-sqlx-persistence.md",
+        "bytes": 7063
+      },
+      {
+        "normalizedLfSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4",
+        "rawBytesSha256": "5fa7ec3e321cec34d9f818c4b943be58798b058ba000957336cee4798393092a",
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "bytes": 172230
+      },
+      {
+        "normalizedLfSha256": "b55691e46870ffc5b2133fc453b879b012e69c6d1887ea210930a7ef90737090",
+        "rawBytesSha256": "b55691e46870ffc5b2133fc453b879b012e69c6d1887ea210930a7ef90737090",
+        "file": "docs/design/archive/slices/rust-r1e-stage-acceptance-baseline.md",
+        "bytes": 21136
+      },
+      {
+        "normalizedLfSha256": "22e0b0a439d25b9bf9d10cf36b8f825f3762d04b5be67e4f0fe3c306345c232c",
+        "rawBytesSha256": "22e0b0a439d25b9bf9d10cf36b8f825f3762d04b5be67e4f0fe3c306345c232c",
+        "file": "docs/design/archive/slices/rust-r2k-closeout.md",
+        "bytes": 2807
+      },
+      {
+        "normalizedLfSha256": "ebf889b9d66269880353c8f8e85a9f5a0f4d5606efcedfd63bd8448fe0c20339",
+        "rawBytesSha256": "ebf889b9d66269880353c8f8e85a9f5a0f4d5606efcedfd63bd8448fe0c20339",
+        "file": "docs/design/archive/slices/rust-r2l-closeout.md",
+        "bytes": 3608
+      },
+      {
+        "normalizedLfSha256": "cb3c629ede42c39fb3c08458861787126714061d6db3fbe7f1260234f1f3c891",
+        "rawBytesSha256": "cb3c629ede42c39fb3c08458861787126714061d6db3fbe7f1260234f1f3c891",
+        "file": "docs/design/backend-rust-migration-plan.md",
+        "bytes": 53476
+      },
+      {
+        "normalizedLfSha256": "223db527e69597c4cc9096bde8b0ff20f3b59ecf0be79f453e2753c30c2775a7",
+        "rawBytesSha256": "223db527e69597c4cc9096bde8b0ff20f3b59ecf0be79f453e2753c30c2775a7",
+        "file": "docs/design/rust-r1e-validation.json",
+        "bytes": 589195
+      },
+      {
+        "normalizedLfSha256": "348212a1dd7a8e33fadbf03a0895c5ebbdc1f7879d2a2bc210c93e5b76a389c0",
+        "rawBytesSha256": "348212a1dd7a8e33fadbf03a0895c5ebbdc1f7879d2a2bc210c93e5b76a389c0",
+        "file": "docs/design/rust-r2-operation-slices.json",
+        "bytes": 522786
+      },
+      {
+        "normalizedLfSha256": "df30421e4817ff612260a16a48f920391ca3d3515a253248822def617ab38cd0",
+        "rawBytesSha256": "df30421e4817ff612260a16a48f920391ca3d3515a253248822def617ab38cd0",
+        "file": "docs/design/rust-r2-scope-and-dependencies.md",
+        "bytes": 64203
+      },
+      {
+        "normalizedLfSha256": "47be6cd185257eac8eb6140d1f9858356b4a94f21055fdf0cf04e9a5a5386d88",
+        "rawBytesSha256": "47be6cd185257eac8eb6140d1f9858356b4a94f21055fdf0cf04e9a5a5386d88",
+        "file": "docs/design/rust-r2a-validation.json",
+        "bytes": 223812
+      },
+      {
+        "normalizedLfSha256": "bf06579034e85a120b6a82bde7ecc41ed3093a8e7ad557a997245ed1bce2227b",
+        "rawBytesSha256": "bf06579034e85a120b6a82bde7ecc41ed3093a8e7ad557a997245ed1bce2227b",
+        "file": "docs/design/rust-r2b-validation.json",
+        "bytes": 288087
+      },
+      {
+        "normalizedLfSha256": "e626c28f028ae661a79816ebd7348ef52404e734ecb1f3b7382b039f824c1b95",
+        "rawBytesSha256": "e626c28f028ae661a79816ebd7348ef52404e734ecb1f3b7382b039f824c1b95",
+        "file": "docs/design/rust-r2c-validation.json",
+        "bytes": 586351
+      },
+      {
+        "normalizedLfSha256": "0054278cba69785786b3dd612df8ffaa3b556a4fb33228b7f7382e9d020453d1",
+        "rawBytesSha256": "0054278cba69785786b3dd612df8ffaa3b556a4fb33228b7f7382e9d020453d1",
+        "file": "docs/design/rust-r2d-validation.json",
+        "bytes": 2567636
+      },
+      {
+        "normalizedLfSha256": "e72173e3916ad4e66c52552a3d5ee2dff90f130efd220a169606a47e8f2011f4",
+        "rawBytesSha256": "e72173e3916ad4e66c52552a3d5ee2dff90f130efd220a169606a47e8f2011f4",
+        "file": "docs/design/rust-r2ef-validation.json",
+        "bytes": 334655
+      },
+      {
+        "normalizedLfSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c",
+        "rawBytesSha256": "4eeb8638f66829d78c57c7b6696e01631f242779884057001fb2fd194d6ebb9c",
+        "file": "docs/design/rust-r2gh-validation.json",
+        "bytes": 28388
+      },
+      {
+        "normalizedLfSha256": "2751c07cdbd71cf4958015b2dccf9923b7a76cb88bbff2b59ec4be2803aee3a4",
+        "rawBytesSha256": "2751c07cdbd71cf4958015b2dccf9923b7a76cb88bbff2b59ec4be2803aee3a4",
+        "file": "docs/design/rust-r2ij-validation.json",
+        "bytes": 175277
+      },
+      {
+        "normalizedLfSha256": "a647bf6e4fe92aea9b204bfa5ddedc33d8136eeeb48389552c8fc3922745af9e",
+        "rawBytesSha256": "a647bf6e4fe92aea9b204bfa5ddedc33d8136eeeb48389552c8fc3922745af9e",
+        "file": "docs/design/rust-r2k-validation.json",
+        "bytes": 271198
+      },
+      {
+        "normalizedLfSha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae",
+        "rawBytesSha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae",
+        "file": "docs/design/rust-r2l-validation.json",
+        "bytes": 215253
+      },
+      {
+        "normalizedLfSha256": "ef2bedbab3eb99edcfb44d209a12f22cd9de80f60558e9073f8d0a16131878b3",
+        "rawBytesSha256": "ef2bedbab3eb99edcfb44d209a12f22cd9de80f60558e9073f8d0a16131878b3",
+        "file": "docs/design/rust-r2l1-validation.json",
+        "bytes": 79038
+      },
+      {
+        "normalizedLfSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661",
+        "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661",
+        "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+        "bytes": 8543
+      },
+      {
+        "normalizedLfSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+        "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+        "file": "libs/shared/api-spec/openapi.json",
+        "bytes": 1129410
+      },
+      {
+        "normalizedLfSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+        "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 435823
+      },
+      {
+        "normalizedLfSha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce",
+        "rawBytesSha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce",
+        "file": "openapitools.json",
+        "bytes": 154
+      },
+      {
+        "normalizedLfSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+        "rawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+        "file": "package.json",
+        "bytes": 4286
+      },
+      {
+        "normalizedLfSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+        "rawBytesSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+        "file": "pnpm-lock.yaml",
+        "bytes": 837627
+      },
+      {
+        "normalizedLfSha256": "649ac781e4276a3a79f3cb787a2ff2cd270922b81b1935c831aec57107270253",
+        "rawBytesSha256": "649ac781e4276a3a79f3cb787a2ff2cd270922b81b1935c831aec57107270253",
+        "file": "tools/e2e/admin-launcher.cjs",
+        "bytes": 12558
+      },
+      {
+        "normalizedLfSha256": "4dc295f4e86a3fa5c393726bb4c6bebe4c9beb3b7abcd922434e225ce5b19962",
+        "rawBytesSha256": "4dc295f4e86a3fa5c393726bb4c6bebe4c9beb3b7abcd922434e225ce5b19962",
+        "file": "tools/e2e/api-server.cjs",
+        "bytes": 5314
+      },
+      {
+        "normalizedLfSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+        "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+        "file": "tools/e2e/runtime.cjs",
+        "bytes": 16694
+      },
+      {
+        "normalizedLfSha256": "eefebcb336462d9adb317885eebd1deb4294a52b38dbf76a075a757274a95f1a",
+        "rawBytesSha256": "eefebcb336462d9adb317885eebd1deb4294a52b38dbf76a075a757274a95f1a",
+        "file": "tools/openapi/shared-api-client-baseline.json",
+        "bytes": 98808
+      },
+      {
+        "normalizedLfSha256": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d",
+        "rawBytesSha256": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d",
+        "file": "tools/openapi/shared-api-client.mjs",
+        "bytes": 20791
+      },
+      {
+        "normalizedLfSha256": "66ab0dcda041e7a04d1adec65827d89269d30bd3336f6a707fdbd99dc5e9512d",
+        "rawBytesSha256": "66ab0dcda041e7a04d1adec65827d89269d30bd3336f6a707fdbd99dc5e9512d",
+        "file": "tools/openapi/typescript-angular.config.json",
+        "bytes": 624
+      },
+      {
+        "normalizedLfSha256": "63ed639af64b2f0422cc955cfda4514758bed1da3841ba5f4a11076886cdb419",
+        "rawBytesSha256": "63ed639af64b2f0422cc955cfda4514758bed1da3841ba5f4a11076886cdb419",
+        "file": "tools/rust-r1b/shared-manifest.json",
+        "bytes": 1228281
+      },
+      {
+        "normalizedLfSha256": "dbf404e181a27f178365478485c6361975da7f1d7d4ff2c747e75f0e389b1cfa",
+        "rawBytesSha256": "dbf404e181a27f178365478485c6361975da7f1d7d4ff2c747e75f0e389b1cfa",
+        "file": "tools/rust-r1c/http-openapi.json",
+        "bytes": 13294
+      },
+      {
+        "normalizedLfSha256": "46f48d7da5e066d0cdf7b12066e332b6a7afe6b6acaee6b6734ee42fa387eca4",
+        "rawBytesSha256": "46f48d7da5e066d0cdf7b12066e332b6a7afe6b6acaee6b6734ee42fa387eca4",
+        "file": "tools/rust-r2a/navigation-openapi.json",
+        "bytes": 7749
+      },
+      {
+        "normalizedLfSha256": "ded8561fb342d5f3413de306eb66f07ee449b129e7ecdb758dfc2a2b2b77c33c",
+        "rawBytesSha256": "ded8561fb342d5f3413de306eb66f07ee449b129e7ecdb758dfc2a2b2b77c33c",
+        "file": "tools/rust-r2b/roles-openapi.json",
+        "bytes": 21674
+      },
+      {
+        "normalizedLfSha256": "cc1990907594d2bc5d56033dbc6689bb8fc6c520d42804a684a55f95eb143d7d",
+        "rawBytesSha256": "cc1990907594d2bc5d56033dbc6689bb8fc6c520d42804a684a55f95eb143d7d",
+        "file": "tools/rust-r2c/org-units-openapi.json",
+        "bytes": 18548
+      },
+      {
+        "normalizedLfSha256": "98803d979138facde4c76ed98df64af71b9ac9f2f7e779fac42c48974e7854d4",
+        "rawBytesSha256": "98803d979138facde4c76ed98df64af71b9ac9f2f7e779fac42c48974e7854d4",
+        "file": "tools/rust-r2d/users-openapi.json",
+        "bytes": 29238
+      },
+      {
+        "normalizedLfSha256": "bf619bf0ec9f9069333c980b3e6ce8b38ad5b65eeb38f6a6a51b1a066737f771",
+        "rawBytesSha256": "bf619bf0ec9f9069333c980b3e6ce8b38ad5b65eeb38f6a6a51b1a066737f771",
+        "file": "tools/rust-r2ef/e-dictionary-openapi.json",
+        "bytes": 9055
+      },
+      {
+        "normalizedLfSha256": "0759bb059d41fd6383b2d60bc53856bb2b765273bcc259c7f1e101a7f9acb3bd",
+        "rawBytesSha256": "0759bb059d41fd6383b2d60bc53856bb2b765273bcc259c7f1e101a7f9acb3bd",
+        "file": "tools/rust-r2ef/e-http-plan.mjs",
+        "bytes": 6264
+      },
+      {
+        "normalizedLfSha256": "f32ef2f6aaa2050c63745c1dfd45738691efd0bb448207159ce46832b6a44bb3",
+        "rawBytesSha256": "f32ef2f6aaa2050c63745c1dfd45738691efd0bb448207159ce46832b6a44bb3",
+        "file": "tools/rust-r2ef/e-settings-openapi.json",
+        "bytes": 6204
+      },
+      {
+        "normalizedLfSha256": "4f2539c9f1c06fda83a9880405e6bc6716fd2159f9d24874a668eb69eb8adaec",
+        "rawBytesSha256": "4f2539c9f1c06fda83a9880405e6bc6716fd2159f9d24874a668eb69eb8adaec",
+        "file": "tools/rust-r2ef/f-openapi.json",
+        "bytes": 19186
+      },
+      {
+        "normalizedLfSha256": "8d678ff2564ac7b6b0eaca5bcd3229ca11962d409f4c5fa80ab873e3211ab0b2",
+        "rawBytesSha256": "8d678ff2564ac7b6b0eaca5bcd3229ca11962d409f4c5fa80ab873e3211ab0b2",
+        "file": "tools/rust-r2gh/controlled-upstream.mjs",
+        "bytes": 8310
+      },
+      {
+        "normalizedLfSha256": "4f6d59051834f87d2170d67af9c1f46fa697a3e6019081f4666ffdb5b1d17d13",
+        "rawBytesSha256": "4f6d59051834f87d2170d67af9c1f46fa697a3e6019081f4666ffdb5b1d17d13",
+        "file": "tools/rust-r2gh/g-http-cases.mjs",
+        "bytes": 28936
+      },
+      {
+        "normalizedLfSha256": "14ae94c347df85bd4c69e625fc81339f5507c459f5eb2956da913bbc3b275322",
+        "rawBytesSha256": "14ae94c347df85bd4c69e625fc81339f5507c459f5eb2956da913bbc3b275322",
+        "file": "tools/rust-r2gh/g-openapi.json",
+        "bytes": 60636
+      },
+      {
+        "normalizedLfSha256": "0c719fe3097c4c617293aaea7362b1e5973b7d962d2898f42f3764b5c959295e",
+        "rawBytesSha256": "0c719fe3097c4c617293aaea7362b1e5973b7d962d2898f42f3764b5c959295e",
+        "file": "tools/rust-r2gh/h-http-cases.mjs",
+        "bytes": 24320
+      },
+      {
+        "normalizedLfSha256": "b0744a6ed6bec3dad9aae69f400de9c30b138da62ae31cf2abee8e5c0ece0461",
+        "rawBytesSha256": "b0744a6ed6bec3dad9aae69f400de9c30b138da62ae31cf2abee8e5c0ece0461",
+        "file": "tools/rust-r2gh/h-openapi.json",
+        "bytes": 52356
+      },
+      {
+        "normalizedLfSha256": "b3206872f6acfea8446329a220dc7a61d1bc8fa25a7f48eb3b62a3d342376c7d",
+        "rawBytesSha256": "b3206872f6acfea8446329a220dc7a61d1bc8fa25a7f48eb3b62a3d342376c7d",
+        "file": "tools/rust-r2ij/i-http-cases.mjs",
+        "bytes": 1909
+      },
+      {
+        "normalizedLfSha256": "e37382a0aa6c43b49e8042e2a89727333fcc6e7464c1fdbbdb5fb14ed4fecdfe",
+        "rawBytesSha256": "e37382a0aa6c43b49e8042e2a89727333fcc6e7464c1fdbbdb5fb14ed4fecdfe",
+        "file": "tools/rust-r2ij/i-openapi.json",
+        "bytes": 16769
+      },
+      {
+        "normalizedLfSha256": "2a58272408e2d82eb72faaa00ce6cc7633165be09b88035af4efbb5548797e57",
+        "rawBytesSha256": "2a58272408e2d82eb72faaa00ce6cc7633165be09b88035af4efbb5548797e57",
+        "file": "tools/rust-r2ij/j-http-cases.mjs",
+        "bytes": 8913
+      },
+      {
+        "normalizedLfSha256": "7d4dd4f14e158d2662a7ce545e504c53b20022dea6b08acc9b9b1e33b1361cd0",
+        "rawBytesSha256": "7d4dd4f14e158d2662a7ce545e504c53b20022dea6b08acc9b9b1e33b1361cd0",
+        "file": "tools/rust-r2ij/j-openapi.json",
+        "bytes": 46914
+      },
+      {
+        "normalizedLfSha256": "aff28d09420ac4e68a4e2d4d32344971ae0fe21b9be6f61037de41d9c9b6b99a",
+        "rawBytesSha256": "aff28d09420ac4e68a4e2d4d32344971ae0fe21b9be6f61037de41d9c9b6b99a",
+        "file": "tools/rust-r2ij/obs-server-v2.mjs",
+        "bytes": 16759
+      },
+      {
+        "normalizedLfSha256": "dfccb931b12d0175eb3323ca007f0c3ee341d8e76046f9bdcbd920fb6e361dda",
+        "rawBytesSha256": "dfccb931b12d0175eb3323ca007f0c3ee341d8e76046f9bdcbd920fb6e361dda",
+        "file": "tools/rust-r2k/k-http-actual.mjs",
+        "bytes": 16213
+      },
+      {
+        "normalizedLfSha256": "5a3537d34c2320d6208b9cd8bff36f9f7d4c7572d9af996b47e85cdc3ee10d4e",
+        "rawBytesSha256": "5a3537d34c2320d6208b9cd8bff36f9f7d4c7572d9af996b47e85cdc3ee10d4e",
+        "file": "tools/rust-r2k/k-http-scenarios.mjs",
+        "bytes": 22572
+      },
+      {
+        "normalizedLfSha256": "2bb5ba5e534b859fde0b1f7d8826ce7867e0f15645b8bf5f84b8938b6bdfc998",
+        "rawBytesSha256": "2bb5ba5e534b859fde0b1f7d8826ce7867e0f15645b8bf5f84b8938b6bdfc998",
+        "file": "tools/rust-r2k/k-openapi.json",
+        "bytes": 20976
+      },
+      {
+        "normalizedLfSha256": "00de8668b2a8a61eb10f91716fd629ff43adff0ce9c55095d590dac45bf3371b",
+        "rawBytesSha256": "00de8668b2a8a61eb10f91716fd629ff43adff0ce9c55095d590dac45bf3371b",
+        "file": "tools/rust-r2k/shared-checks.mjs",
+        "bytes": 10723
+      },
+      {
+        "normalizedLfSha256": "b6cd2948d825793291e4223b408dc02b9b0129bc20b450af3830da131ccfe5dd",
+        "rawBytesSha256": "b6cd2948d825793291e4223b408dc02b9b0129bc20b450af3830da131ccfe5dd",
+        "file": "tools/rust-r2l/catalog-complete.mjs",
+        "bytes": 7489
+      },
+      {
+        "normalizedLfSha256": "f8b8a1b3198b01058f0360aed433d8e34bc6f1c453a4ecf9fa3efd57cd96e0c3",
+        "rawBytesSha256": "f8b8a1b3198b01058f0360aed433d8e34bc6f1c453a4ecf9fa3efd57cd96e0c3",
+        "file": "tools/rust-r2l/environment.sh",
+        "bytes": 5834
+      },
+      {
+        "normalizedLfSha256": "b0a70f0a6fe7dec57397dba62dfa315c8d3d1e13510bf8b62415a029703526a8",
+        "rawBytesSha256": "b0a70f0a6fe7dec57397dba62dfa315c8d3d1e13510bf8b62415a029703526a8",
+        "file": "tools/rust-r2l/fixture-cleanup.mjs",
+        "bytes": 4447
+      },
+      {
+        "normalizedLfSha256": "619d29d52eda68a6bc4ce22549618dc4f1de185d62d1cd36e8633c1000c99bde",
+        "rawBytesSha256": "619d29d52eda68a6bc4ce22549618dc4f1de185d62d1cd36e8633c1000c99bde",
+        "file": "tools/rust-r2l/fixture-core.mjs",
+        "bytes": 10280
+      },
+      {
+        "normalizedLfSha256": "39ea3a1d95171a98e670107f69f3d4eb120cedcab12aff3a5c3c6d42605e34c6",
+        "rawBytesSha256": "39ea3a1d95171a98e670107f69f3d4eb120cedcab12aff3a5c3c6d42605e34c6",
+        "file": "tools/rust-r2l/fixture-guard.mjs",
+        "bytes": 4852
+      },
+      {
+        "normalizedLfSha256": "bd2bb14f9e2815becd77186c9273558ff2000bbbd3108fcec53c0a35d8c84405",
+        "rawBytesSha256": "bd2bb14f9e2815becd77186c9273558ff2000bbbd3108fcec53c0a35d8c84405",
+        "file": "tools/rust-r2l/fixture-journal.mjs",
+        "bytes": 9370
+      },
+      {
+        "normalizedLfSha256": "965f8f74bef3e7e4c84cc482e37c55830d886b0242a5be3c363de81396951da7",
+        "rawBytesSha256": "965f8f74bef3e7e4c84cc482e37c55830d886b0242a5be3c363de81396951da7",
+        "file": "tools/rust-r2l/fixture-references.mjs",
+        "bytes": 10616
+      },
+      {
+        "normalizedLfSha256": "7d0af42efcaa0a32807d6c57b5ad6ab79553f44cceeb4c172d78c53ca60bc461",
+        "rawBytesSha256": "7d0af42efcaa0a32807d6c57b5ad6ab79553f44cceeb4c172d78c53ca60bc461",
+        "file": "tools/rust-r2l/l-commission-http-actual.mjs",
+        "bytes": 55850
+      },
+      {
+        "normalizedLfSha256": "5c8dbc047ef9ca719c6c408c1fdb73b1f19a5ae75200f64401fbfe855c5dc563",
+        "rawBytesSha256": "5c8dbc047ef9ca719c6c408c1fdb73b1f19a5ae75200f64401fbfe855c5dc563",
+        "file": "tools/rust-r2l/l-contract-http-actual.mjs",
+        "bytes": 19305
+      },
+      {
+        "normalizedLfSha256": "e9f96d7c1d85aa6b4077666ae931f73064df2909fe8d5f7c66f575fe2637e130",
+        "rawBytesSha256": "f35578eb7f161793ec9e232ac6193e99fd7b88ca16daf7da0c813613a54e2154",
+        "file": "tools/rust-r2l/l-producer-recipes.mjs",
+        "bytes": 25200
+      },
+      {
+        "normalizedLfSha256": "c4ae6bef1b7aff703fe57d84944334dbb6e598e823b20fe781b6a27efa9a47c7",
+        "rawBytesSha256": "c4ae6bef1b7aff703fe57d84944334dbb6e598e823b20fe781b6a27efa9a47c7",
+        "file": "tools/rust-r2l/l-shared-uow-actual.mjs",
+        "bytes": 23894
+      },
+      {
+        "normalizedLfSha256": "e5d78fbcf820aaf95a3f8a9b3e73e59ef4ba080f130c9047de83c0de1be11203",
+        "rawBytesSha256": "823edb851fa2d88ee423797da3e8ae2792218da7ee1c1f2477b105b946e8d985",
+        "file": "tools/rust-r2l/l-ui-actual.mjs",
+        "bytes": 13353
+      },
+      {
+        "normalizedLfSha256": "31c6f3c811619ce07209a1886282a1583aba09e814190d7df6f97f79c4cb975a",
+        "rawBytesSha256": "31c6f3c811619ce07209a1886282a1583aba09e814190d7df6f97f79c4cb975a",
+        "file": "tools/rust-r2l/l-ui-cleanup-admission.mjs",
+        "bytes": 895
+      },
+      {
+        "normalizedLfSha256": "dbfb3f31ae39c0e0757c59ba9cc2e020d3895065e94184de4e0de7d81716a520",
+        "rawBytesSha256": "dbfb3f31ae39c0e0757c59ba9cc2e020d3895065e94184de4e0de7d81716a520",
+        "file": "tools/rust-r2l/managed-environment.cjs",
+        "bytes": 5918
+      },
+      {
+        "normalizedLfSha256": "2de45b537e6cf8f732cb85ec3349ac87abc1bd3fac501bee722ee6d098642a38",
+        "rawBytesSha256": "2de45b537e6cf8f732cb85ec3349ac87abc1bd3fac501bee722ee6d098642a38",
+        "file": "tools/rust-r2l/node-regression.mjs",
+        "bytes": 12373
+      },
+      {
+        "normalizedLfSha256": "bc425f288f04fb3021a65eaa890f01c9cd7b790badd0523077ebf006bdddfcb4",
+        "rawBytesSha256": "bc425f288f04fb3021a65eaa890f01c9cd7b790badd0523077ebf006bdddfcb4",
+        "file": "tools/rust-r2l/reference-authority.json",
+        "bytes": 581693
+      }
+    ],
+    "currentSurface": [
+      {
+        "method": "GET",
+        "path": "/api",
+        "slice": "RUST-R1",
+        "operationId": "AppController_getData"
+      },
+      {
+        "method": "GET",
+        "path": "/api/approval-records/{id}",
+        "slice": "RUST-R2L",
+        "operationId": "ApprovalController_getApprovalRecord"
+      },
+      {
+        "method": "POST",
+        "path": "/api/approval-records/{id}:approve",
+        "slice": "RUST-R2L",
+        "operationId": "ApprovalController_approveRecord"
+      },
+      {
+        "method": "POST",
+        "path": "/api/approval-records/{id}:reject",
+        "slice": "RUST-R2L",
+        "operationId": "ApprovalController_rejectRecord"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachment-center-records",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentCenterRecordController_list"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachment-download-packages/{id}",
+        "slice": "RUST-R2K",
+        "operationId": "AttachmentHandoverController_getDownloadPackage"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachment-download-packages/{id}/download",
+        "slice": "RUST-R2K",
+        "operationId": "AttachmentHandoverController_downloadPackage"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentUploadSessionController_create"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachment-upload-sessions/{id}",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentUploadSessionController_get"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}:abort",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentUploadSessionController_abort"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}:complete",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentUploadSessionController_complete"
+      },
+      {
+        "method": "PUT",
+        "path": "/api/attachment-upload-sessions/{id}/object",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentUploadSessionController_createUploadTarget"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachments",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_list"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachments/{id}",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_get"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/attachments/{id}",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_update"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachments/{id}:clear-final",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_clearFinal"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachments/{id}:mark-final",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_markFinal"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachments/{id}:void",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_void"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachments/{id}/download",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_download"
+      },
+      {
+        "method": "POST",
+        "path": "/api/attachments/{id}/links",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_link"
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/attachments/{id}/links/{linkId}",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_unlink"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachments/{id}/preview",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_preview"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachments/{id}/thumbnail",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_thumbnail"
+      },
+      {
+        "method": "GET",
+        "path": "/api/attachments/{id}/versions",
+        "slice": "RUST-R2J",
+        "operationId": "AttachmentController_versions"
+      },
+      {
+        "method": "GET",
+        "path": "/api/audit-logs",
+        "slice": "RUST-R2F",
+        "operationId": "RuntimeAuditController_listAuditLogs"
+      },
+      {
+        "method": "GET",
+        "path": "/api/audit-logs/targets/{targetType}/{targetId}",
+        "slice": "RUST-R2F",
+        "operationId": "RuntimeAuditController_listEntityAuditLogs"
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/csrf-token",
+        "slice": "RUST-R1",
+        "operationId": "AuthController_getCsrfToken"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/external-login-sessions",
+        "slice": "RUST-R2G",
+        "operationId": "AuthController_createExternalLoginSession"
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/identity-providers",
+        "slice": "RUST-R2G",
+        "operationId": "AuthController_listEnabledLoginProviders"
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/identity-providers:callback",
+        "slice": "RUST-R2G",
+        "operationId": "AuthController_handleExternalLoginCallback"
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/identity-providers/{id}:authorize",
+        "slice": "RUST-R2G",
+        "operationId": "AuthController_authorizeExternalLogin"
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/profile",
+        "slice": "RUST-R2D",
+        "operationId": "AuthController_getProfile"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/auth/profile",
+        "slice": "RUST-R2D",
+        "operationId": "AuthController_updateProfile"
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/session",
+        "slice": "RUST-R1",
+        "operationId": "AuthController_getCurrentAuthSession"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/session:logout",
+        "slice": "RUST-R1",
+        "operationId": "AuthController_logoutCurrentAuthSession"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/sessions",
+        "slice": "RUST-R1",
+        "operationId": "AuthController_createPasswordAuthSession"
+      },
+      {
+        "method": "GET",
+        "path": "/api/dictionaries",
+        "slice": "RUST-R2E",
+        "operationId": "DictionaryController_list"
+      },
+      {
+        "method": "POST",
+        "path": "/api/dictionaries",
+        "slice": "RUST-R2E",
+        "operationId": "DictionaryController_create"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/dictionaries/{id}",
+        "slice": "RUST-R2E",
+        "operationId": "DictionaryController_update"
+      },
+      {
+        "method": "GET",
+        "path": "/api/health",
+        "slice": "RUST-R1",
+        "operationId": "HealthController_getLiveness"
+      },
+      {
+        "method": "GET",
+        "path": "/api/health/readiness",
+        "slice": "RUST-R1",
+        "operationId": "HealthController_getReadiness"
+      },
+      {
+        "method": "GET",
+        "path": "/api/me/navigation",
+        "slice": "RUST-R2A",
+        "operationId": "NavigationController_getNavigation"
+      },
+      {
+        "method": "GET",
+        "path": "/api/me/todos",
+        "slice": "RUST-R2L",
+        "operationId": "ApprovalController_getMyTodos"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/attachment-storage-providers",
+        "slice": "RUST-R2I",
+        "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/attachment-storage-providers",
+        "slice": "RUST-R2I",
+        "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/attachment-storage-providers/{id}",
+        "slice": "RUST-R2I",
+        "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/attachment-storage-providers/{id}",
+        "slice": "RUST-R2I",
+        "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/attachment-storage-providers/{id}:set-default",
+        "slice": "RUST-R2I",
+        "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/attachment-storage-providers/{id}:testConnection",
+        "slice": "RUST-R2I",
+        "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-department-mappings/{id}:ignore",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_ignoreExternalDepartmentMapping"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-department-mappings/{id}:map",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_mapExternalDepartmentMapping"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-department-mappings/{id}:restore",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_restoreExternalDepartmentMapping"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-department-mappings/{id}:unmap",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_unmapExternalDepartmentMapping"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-identities/{id}:unbind",
+        "slice": "RUST-R2G",
+        "operationId": "ExternalIdentityController_unbindExternalIdentity"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/external-org-sources",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_listExternalOrgSources"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-org-sources",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_createExternalOrgSource"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/external-org-sources/{id}",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_getExternalOrgSource"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/external-org-sources/{id}",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_updateExternalOrgSource"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-org-sources/{id}:activate",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_activateExternalOrgSource"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-org-sources/{id}:archive",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_archiveExternalOrgSource"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-org-sources/{id}:pause",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_pauseExternalOrgSource"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/external-org-sources/{sourceId}/department-mappings",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_listExternalDepartmentMappings"
+      },
+      {
+        "method": "PUT",
+        "path": "/api/platform/external-org-sources/{sourceId}/department-mappings",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_replaceExternalDepartmentMappings"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/external-org-sources/{sourceId}/org-sync-runs",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_listOrgSyncRuns"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/external-org-sources/{sourceId}/org-sync-runs",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_createOrgSyncRun"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/identity-provider-oauth-grants:callback",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderOAuthGrantController_handleCurrentAdminProviderGrantCallback"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/identity-provider-oauth-grants/{identityProviderId}",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderOAuthGrantController_getCurrentAdminProviderGrant"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/identity-provider-oauth-grants/{identityProviderId}:authorize",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderOAuthGrantController_authorizeCurrentAdminProviderGrant"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/identity-providers",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderController_listIdentityProviderConfigs"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/identity-providers",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderController_createIdentityProviderConfig"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/identity-providers/{id}",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderController_getIdentityProviderConfig"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/identity-providers/{id}",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderController_updateIdentityProviderConfig"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/identity-providers/{id}:testConnection",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderController_testIdentityProviderConnection"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/identity-providers/{id}/external-users",
+        "slice": "RUST-R2G",
+        "operationId": "IdentityProviderController_searchExternalUsers"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/navigation",
+        "slice": "RUST-R2A",
+        "operationId": "PlatformController_getAllNavigationItems"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/navigation:sync",
+        "slice": "RUST-R2A",
+        "operationId": "PlatformController_syncNavigation"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/org-sync-runs/{id}",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_getOrgSyncRun"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/org-sync-runs/{id}:apply",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_applyOrgSyncRun"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/org-sync-runs/{id}/diff-items",
+        "slice": "RUST-R2H",
+        "operationId": "ExternalOrgSyncController_listOrgSyncDiffItems"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/org-unit-tree",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_listOrgUnitTree"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/org-units",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_listOrgUnits"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/org-units",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_createOrgUnit"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/org-units/{id}",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_getOrgUnit"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/org-units/{id}",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_updateOrgUnit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/org-units/{id}:activate",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_activateOrgUnit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/org-units/{id}:deactivate",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_deactivateOrgUnit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/org-units/{id}:move",
+        "slice": "RUST-R2C",
+        "operationId": "PlatformController_moveOrgUnit"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/owner-reference",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_listOwnerReferenceData"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/permissions",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_listPermissions"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/roles",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_listRoles"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/roles",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/roles/{id}",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_getRole"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/roles/{id}",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_updateRole"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/roles/{id}:activate",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_activateRole"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/roles/{id}:deactivate",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_deactivateRole"
+      },
+      {
+        "method": "PUT",
+        "path": "/api/platform/roles/{id}/permissions",
+        "slice": "RUST-R2B",
+        "operationId": "PlatformController_assignRolePermissions"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/system-settings",
+        "slice": "RUST-R2E",
+        "operationId": "SystemSettingController_listSystemSettings"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/system-settings/{key}",
+        "slice": "RUST-R2E",
+        "operationId": "SystemSettingController_getSystemSetting"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/system-settings/{key}",
+        "slice": "RUST-R2E",
+        "operationId": "SystemSettingController_updateSystemSetting"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/users",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_listUsers"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/users",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_createUser"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/users/{id}",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_getUser"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/platform/users/{id}",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_updateUser"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/users/{id}:activate",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_activateUser"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/users/{id}:deactivate",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_deactivateUser"
+      },
+      {
+        "method": "GET",
+        "path": "/api/platform/users/{id}/external-identities",
+        "slice": "RUST-R2G",
+        "operationId": "ExternalIdentityController_listUserExternalIdentities"
+      },
+      {
+        "method": "POST",
+        "path": "/api/platform/users/{id}/external-identities",
+        "slice": "RUST-R2G",
+        "operationId": "ExternalIdentityController_bindUserExternalIdentity"
+      },
+      {
+        "method": "PUT",
+        "path": "/api/platform/users/{id}/org-memberships",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_assignUserOrgMemberships"
+      },
+      {
+        "method": "PUT",
+        "path": "/api/platform/users/{id}/roles",
+        "slice": "RUST-R2D",
+        "operationId": "PlatformController_assignUserRoles"
+      },
+      {
+        "method": "GET",
+        "path": "/api/project-handovers/{id}/attachment-checklist",
+        "slice": "RUST-R2K",
+        "operationId": "AttachmentHandoverController_getChecklist"
+      },
+      {
+        "method": "POST",
+        "path": "/api/project-handovers/{id}/attachment-checklist:refresh",
+        "slice": "RUST-R2K",
+        "operationId": "AttachmentHandoverController_refreshChecklist"
+      },
+      {
+        "method": "POST",
+        "path": "/api/project-handovers/{id}/attachment-download-packages",
+        "slice": "RUST-R2K",
+        "operationId": "AttachmentHandoverController_createDownloadPackage"
+      },
+      {
+        "method": "GET",
+        "path": "/api/security-events",
+        "slice": "RUST-R2F",
+        "operationId": "RuntimeAuditController_listSecurityEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/api/security-events:recordRouteDenied",
+        "slice": "RUST-R2F",
+        "operationId": "RuntimeAuditController_recordRouteDeniedEvent"
+      }
+    ],
+    "manifestScope": "Selected formal inputs, complete current Rust product source, TS seam sources, prior immutable validation indexes and reusable tool source. This is not a new build/runtime source-closure certificate; Root freezes complete executable closure before acceptance."
+  },
+  "environmentPlan": {
+    "status": "Root accepted fixed ports/namespace proposal; final marker and G1 pending; no environment created by this input",
+    "linuxCheckout": "/home/wangzishi/projects/poms-rust-r2m",
+    "stateRoot": "/home/wangzishi/.local/share/poms-r2m",
+    "privateRoot": "/home/wangzishi/.local/share/poms-r2m/private",
+    "privateModes": {
+      "directory": "0700",
+      "regularFiles": "0600",
+      "logTokens": false,
+      "symlinksAllowed": false
+    },
+    "output": "tmp/rust-r2m/<candidate>/<runId>",
+    "buildOutput": "/home/wangzishi/.local/share/poms-r2m/target",
+    "container": "poms-r2m-pg15",
+    "volume": "poms-r2m-pg15-data",
+    "label": "org.poms.scope=rust-r2m",
+    "database": {
+      "host": "127.0.0.1",
+      "hostPort": 20432,
+      "serverPort": 15432,
+      "databases": [
+        "poms_r2m_nest",
+        "poms_r2m_rust"
+      ],
+      "appRole": "poms_r2m_app",
+      "owner": "poms_r0e_owner inside this new isolated cluster only",
+      "controlSchema": "r2m_control",
+      "marker": "new random UUID generated and frozen by Root before provisioning; never inherit L marker",
+      "serverVersionNum": "150012",
+      "extensions": {
+        "pgcrypto": "1.3",
+        "btree_gist": "1.7"
+      },
+      "encoding": "UTF8",
+      "collation": "en_US.UTF-8 libc",
+      "sessionTimezone": "Etc/GMT-8",
+      "initialization": "original 92 migration source set and explicit seed in new databases only; compare fresh catalog before fixture writes"
+    },
+    "frozenReusableImages": {
+      "postgresImageId": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+      "buildImageId": "ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273",
+      "condition": "Read-only image metadata/digest/labels must be rechecked; reuse images only, never old containers, volumes or private files"
+    },
+    "ports": {
+      "nest": 10070,
+      "rust": 10071,
+      "ui": 10080,
+      "controlledFeishu": 10090,
+      "controlledObs": 10091,
+      "bind": "127.0.0.1 only"
+    },
+    "metadataOnlyObservation": {
+      "windowsCandidatePortsListening": [],
+      "linuxListenerPortsObserved": [
+        53,
+        8317,
+        8321
+      ],
+      "candidatePortsAbsentFromObservedLists": true,
+      "recordedAtUtc": "2026-10-30T17:37:56.9004442Z",
+      "reservationClaimed": false,
+      "mustRecheckAtBind": true
+    },
+    "preserve": [
+      "Windows PG17 all instances/data/config",
+      "all prior PG15 containers, volumes, data and evidence",
+      "stopped L PG15 and its retained volume",
+      "all prior private directories and dependency lower stores"
+    ],
+    "toolchain": {
+      "rust": "1.99.1 per rust-toolchain.toml/Cargo, recheck installed runtime",
+      "node": "24.19.0 current Native witnesses; declare any pinned browser/build Node24.16 substitution separately",
+      "typescript": "6.0.3 locked",
+      "java": "17 with frozen generator JAR",
+      "policy": "No package/lock/toolchain upgrade; no global settings or resource-limit change"
+    }
+  },
+  "authorizationNeededForRuntime": {
+    "g1IsPrerequisite": true,
+    "alreadyRequestedScopeForRootToFreeze": [
+      "Create and start only the new R2M PG15 cluster/container/volume/secrets",
+      "Initialize only poms_r2m_nest and poms_r2m_rust from frozen migrations/explicit seed",
+      "Create low-privilege app role and owner-only marker; fixture uses owner only for named test preparation/observation/cleanup",
+      "Run candidate Nest/Rust HTTP and explicit Angular browser owners at the fixed loopback ports",
+      "Run synthetic loopback Feishu OAuth/directory and OBS transport servers with new synthetic keys/objects",
+      "Inject bounded faults only into this run's proven rows/objects or owned supplier modes; restore before cleanup",
+      "Stop only identity-matching R2M process trees and the R2M PG15 container, retaining its volume and evidence"
+    ],
+    "notAuthorized": [
+      "Read old private files",
+      "Reuse stopped L/K/IJ/GH database as a new write arena",
+      "Real Feishu/OBS tenant calls or credentials",
+      "Write TEST/development/production external databases",
+      "Deployment, upstream switch, old backend retirement",
+      "Drop/reset/prune old databases, volumes, containers or objects",
+      "Global process kill, broad filesystem cleanup or reboot"
+    ]
+  },
+  "freshAcceptanceMatrix": {
+    "countPolicy": "All numbers below are planned logical cases, never observed test/HTTP assertion counts. Actual requests, skips, ignored, assertions, cleanup actions and successful operations must be exported after execution. Do not sum old A-L case counts into these plans.",
+    "planned": {
+      "surfaceProbeRowsPerBackend": 115,
+      "apiPgLogicalCasesPerBackend": 20,
+      "uiLogicalJourneysPerCombination": 4,
+      "uiCombinations": 4,
+      "actualRunsAtDesign": 0
+    },
+    "surface": {
+      "id": "M0",
+      "backend": [
+        "nest",
+        "rust"
+      ],
+      "checks": [
+        "Emit current built Rust OpenAPI and compare exact 115 method/path/operationId set, 96 paths, recursive schemas/security against current full spec",
+        "One valid-shape route admission/guard probe for each of the 115 operations in the same candidate runtime; public success/validation and protected 401/403 must match Native, with real valid UUID/token shapes",
+        "Do not infer successful business coverage from negative probes; selected real successes are M1-M5",
+        "Unknown method/path, encoded command colon and malformed-body precedence probes for representative auth/platform/L/J/K paths",
+        "No new docs/test production route or fake empty response"
+      ],
+      "uriDecodeAuthOrder": {
+        "afterFix": "affected27 plus impacted M0/M1 regressions; preserve old fixture/guard protection",
+        "kind": "existing-baseline-drift; explicitly transferred R2D knownP3 must be resolved in R2M; newly observed distinct drift is classified separately",
+        "methods": [
+          {
+            "method": "GET",
+            "kind": "registered item read"
+          },
+          {
+            "method": "PATCH",
+            "kind": "registered item write; valid JSON and genuine applicable CSRF"
+          },
+          {
+            "method": "PUT",
+            "kind": "unsupported item method control"
+          }
+        ],
+        "unmeasuredExpectations": "unset until Native real-globals capture; do not infer from known GETs",
+        "owner": "Root only",
+        "sessions": [
+          "absent",
+          "owned-valid",
+          "retained-expired"
+        ],
+        "plannedCellsPerBackend": 27,
+        "known": [
+          {
+            "nativeStatus": 400,
+            "session": "absent",
+            "rustCode": "session_missing",
+            "path": "/api/platform/users/%FF",
+            "method": "GET",
+            "rustStatus": 401
+          },
+          {
+            "nativeStatus": 400,
+            "session": "absent",
+            "rustCode": "session_missing",
+            "path": "/api/platform/users/%",
+            "method": "GET",
+            "rustStatus": 401
+          }
+        ],
+        "segments": [
+          "bare-percent",
+          "invalid-UTF8-%FF",
+          "valid-percent-encoded-owned-UUID-control"
+        ]
+      }
+    },
+    "lanes": [
+      {
+        "id": "M1",
+        "name": "entry, shared auth, live permission projection",
+        "backend": [
+          "nest",
+          "rust"
+        ],
+        "cases": [
+          {
+            "id": "M1.1",
+            "action": "anonymous session200 -> real CSRF/password login -> current session/profile/navigation/todos -> Cookie restore and logout",
+            "assert": "real Set-Cookie; session view and actual R2 200 reads, no catch[] stand-in; requestId preserved"
+          },
+          {
+            "id": "M1.2",
+            "action": "change only owned role permissions / assignment, reuse existing logged-in user",
+            "assert": "next real session/navigation/protected API observes current permissions; no permission cache leakage; default deny and known PERMISSION_KEYS"
+          },
+          {
+            "id": "M1.3",
+            "action": "owned user/org membership projection then deactivate user and re-request session",
+            "assert": "owner-reference/profile agree; existing session is revoked/disabled according to original codes; no unrelated account mutation"
+          },
+          {
+            "id": "M1.4",
+            "action": "missing session, wrong CSRF, viewer permission and expired/revoked session on representative writes",
+            "assert": "correct 401/403/error order, no business write/success audit; no Bearer fallback or credential log"
+          }
+        ]
+      },
+      {
+        "id": "M2",
+        "name": "platform, dictionaries/settings, audit and numbering",
+        "backend": [
+          "nest",
+          "rust"
+        ],
+        "cases": [
+          {
+            "id": "M2.1",
+            "action": "create owned org -> role -> user -> memberships/roles -> owner-reference/tree/list",
+            "assert": "real cross-module foreign keys, primary/secondary memberships, version conflict rollback; original create201/spec200 distinction retained"
+          },
+          {
+            "id": "M2.2",
+            "action": "owned dictionary create/update and owned setting update/noop/stale version",
+            "assert": "original coercion/null/value-before-version behavior and precise persisted values; no canonical definition mutation"
+          },
+          {
+            "id": "M2.3",
+            "action": "perform navigation sync and route-denied event, then global/target audit/security reads",
+            "assert": "same actor/requestId/target/time/value, permission-filtered and redacted output; denied event202 distinct from successful audit"
+          },
+          {
+            "id": "M2.4",
+            "action": "internal numbering probe over nine scopes with UTC boundary and existing sequence; borrowed connection commit/rollback and concurrent allocation",
+            "assert": "exact prefixes/padding/values and real PG visibility/unique allocation; Native independent EM and Rust borrowed primitive are separate labelled contracts, no R3/R4 producer claim"
+          }
+        ]
+      },
+      {
+        "id": "M3",
+        "name": "approval, todos, summary, confirmation and real handlers",
+        "backend": [
+          "nest",
+          "rust"
+        ],
+        "cases": [
+          {
+            "id": "M3.1",
+            "action": "fresh owned Contract source -> actual Native submit -> candidate detail/todo -> reject -> resubmit -> approve",
+            "assert": "correct approver/target/status/version/todo closure and real contract writes; source before-absence/INSERT/COMMIT/visibility proof"
+          },
+          {
+            "id": "M3.2",
+            "action": "fresh Native-produced Payout final and retention candidates -> candidate decisions",
+            "assert": "mid-flow flush, dual final-settlement/rule-explanation snapshots, exact amount/date and semantic relation to Native producer; no whole R5 certification"
+          },
+          {
+            "id": "M3.3",
+            "action": "fresh Native-produced Adjustment candidate -> candidate decision plus stale-version/wrong actor",
+            "assert": "actual adjustment/approval/todo changes or no-write rejection, not approval status alone"
+          },
+          {
+            "id": "M3.4",
+            "action": "summary/confirmation/todo shared UoW success-commit, success-rollback, gate-rollback, gate-continue-commit",
+            "assert": "actual caller/child visibility and original error-continue semantics; exact common rows and parent effects, no guessed rollback-all claim"
+          },
+          {
+            "id": "M3.5",
+            "action": "candidate /me/todos consumes owned approval and non-approval facts with nullable dates",
+            "assert": "all six existing fact projections/actions/status/time text and real nonempty expected data; prepared source remains labelled prepared, 15-domain/five-write L evidence not upgraded"
+          }
+        ]
+      },
+      {
+        "id": "M4",
+        "name": "storage, upload, attachment and handover package",
+        "backend": [
+          "nest",
+          "rust"
+        ],
+        "cases": [
+          {
+            "id": "M4.1",
+            "action": "owned storage config/default -> local upload session/object/complete -> attachment version/final and center",
+            "assert": "same injected storage authority and DB state; exact downloaded bytes/hash, target ownership and audit; version chain correct"
+          },
+          {
+            "id": "M4.2",
+            "action": "owned exact handover facts + final attachment -> checklist refresh -> package create/read/download",
+            "assert": "manifest/selection IDs and versions, sensitive exclusion, ZIP CRC/entries/bytes, stored provider/key and exact audit; no added confirmation gate"
+          },
+          {
+            "id": "M4.3",
+            "action": "viewer/other target/wrong version and bounded stream or audit failure",
+            "assert": "correct denial/failure and rollback/cleanup, no unauthorized bytes or success audit; binary read-audit/prefetch ordering retained"
+          },
+          {
+            "id": "M4.4",
+            "action": "new synthetic loopback OBS config -> presigned PUT -> complete/read/delete, then default switch",
+            "assert": "real network adapter bytes and original encrypted format; old package location remains readable; owned object deletion plus second no-op cleanup; not real cloud authentication"
+          }
+        ]
+      },
+      {
+        "id": "M5",
+        "name": "external adapters and shared platform effects",
+        "backend": [
+          "nest",
+          "rust"
+        ],
+        "cases": [
+          {
+            "id": "M5.1",
+            "action": "owned encrypted provider config + controlled OAuth/state/grant/ticket -> external login -> replay",
+            "assert": "real synthetic supplier calls, single-use ticket/state, resulting session/user projection, version/secret redaction; no real tenant assertion"
+          },
+          {
+            "id": "M5.2",
+            "action": "controlled directory -> external source/mapping -> sync run/diff/apply -> platform org/user/member reads",
+            "assert": "shared transaction, original source IDs versus internal UUIDs, owner/permission effects and idempotent replay; no out-of-run identity adoption"
+          },
+          {
+            "id": "M5.3",
+            "action": "owned supplier timeout/error and stale mapping/apply version",
+            "assert": "finite original failure/retry and no unintended platform DML; controlled adapter modes restored before cleanup"
+          }
+        ]
+      }
+    ],
+    "ui": {
+      "combinations": [
+        "Linux managed Nest",
+        "Linux managed Rust",
+        "Windows managed Nest",
+        "Windows external Rust with independent Linux backend owner"
+      ],
+      "journeys": [
+        {
+          "id": "UI1",
+          "action": "real Angular login/reload/profile/navigation/todos then logout",
+          "assert": "browser-managed Cookies and real candidate 200 responses; expected nonempty menu/todo; anonymous and expired/revoked cases keep original notice/returnUrl"
+        },
+        {
+          "id": "UI2",
+          "action": "real platform/dictionary or settings edit, viewer direct-route denial and fixed wrong-CSRF request",
+          "assert": "real form/button/HttpClient request and success reload; 403 preserves auth; no unrestricted bridge URL"
+        },
+        {
+          "id": "UI3",
+          "action": "real approval todo entry, detail, reject/resubmit/approve on owned contract",
+          "assert": "actual UI plus candidate L4 requests and cross-module todo/profile; remaining Native producer/read-model requests declared explicitly"
+        },
+        {
+          "id": "UI4",
+          "action": "real attachment upload/final and handover package download, with one cancellation/negative target",
+          "assert": "actual controls/request bytes/download hash, no hidden success; all browser/backend/bridge writers proven closed before cleanup"
+        }
+      ],
+      "testProxyBoundary": "If original UI requires unmigrated R3-R5 routes, use a frozen test-only explicit method/path allowlist: all migrated115 go to candidate, named remaining producer/read-model routes go to Native. Never fallback to Native after candidate404/error. Report this split per request; no claim of full Rust UI/business coverage. Pure lookup GETs remain Native and are not extra Rust operations.",
+      "evidence": "Actual UI actions and fixed Angular integration bridge assertions named separately; no page.fetch/APIRequest substitute for interceptor proof; redact cookies/tokens, disable sensitive trace, keep desktop/narrow screenshots"
+    },
+    "requiredSharedChecks": [
+      "Current Rust fmt/clippy/test/build once; ignored/explicit DB entries separately exported",
+      "Current source / generated shared types / navigation / DTO oracle guards once",
+      "Full OpenAPI regeneration/check and full generated-client check under existing protected-input rules; no source authority transfer",
+      "Current touched-project lint/test/build, original Nest full API E2E, same foundation suite on both backends",
+      "Original Nest legacy UI suite once; retain route-mock/helper-cookie labels and export actual current counts",
+      "Read-only schema/catalog/migration alignment on fresh PG15; keep existing CHECK/comment baseline differences classified, never apply suggested SQL",
+      "Fresh fixture negative admission/cancellation/cleanup tests and final twice-zero audit",
+      "Non-author G3 and exact committed-source/G4 review"
+    ]
+  },
+  "reusePolicy": {
+    "mayCarryWithInputHashAndScopeProof": [
+      "A-L frozen G1/actual validation/G3/G4 receipts and archived lifecycle documents",
+      "Deep DTO/Unicode/wire/transport/fault/concurrency vectors not affected by a current delta",
+      "Generator S2/S3 permanent ancestors and protected-input baseline; unchanged full spec/client bytes",
+      "Old R1 four-combination detailed Cookie/interceptor/legacy behavior evidence",
+      "Old K ZIP/OBS and L settlement/UoW/Todo42/source provenance edge cases with their exact boundaries"
+    ],
+    "mustRerunAtCurrentCandidate": [
+      "Unified route/OpenAPI registration and all115 admission probes",
+      "Shared Cargo and changed/shared TS checks",
+      "Fresh PG15 runtime/canonical catalog metadata",
+      "M1-M5 cross-module positive/negative state transitions",
+      "Selected original UI four combinations with real migrated responses",
+      "R2M fixture ownership, wrong-marker/database/namespace rejection, writer cancellation, all cleanup and port release",
+      "Exact candidate binary/source/runtime-input and final non-author review"
+    ],
+    "cannotUpgrade": [
+      "54 historical ignored entries into new passes",
+      "historical failed/stopped/partial/uncertified into passes",
+      "prepared/source-recorded rows into actual Native producer or Rust R3-R5 certification",
+      "L four explicit SQL-wire coverage limitations into full wire observation",
+      "Natural clock/308 or schema baseline differences into fixed product semantics",
+      "controlled Feishu/OBS into real tenant/cloud certification",
+      "lookup route contract switch into Rust project/contract implementation",
+      "R2 stage completion into deployment, R6/R7 or performance savings"
+    ],
+    "largeEvidencePolicy": "Keep old immutable manifests/tars by path+hash reference. Do not copy/re-walk 123837-file L runtime tree or 49605-file K tree. New R2M stores one deduplicated current runtime source closure/artifact set and small per-run receipts; Linux original-byte manifest then one verified transfer. Never create a falsely complete certificate by reusing old runtime outputs."
+  },
+  "fixtureAndCleanup": {
+    "identity": "new namespace + marker + cluster/version/port/database/role + candidate/source hash + random run UUID + frozen case ID",
+    "credentials": "fresh R2M-only synthetic account/key/password; stdin for tokens, hash immediately, no default .env/deploy private/ambient PG/DB/MIKRO_/DATABASE_URL/NODE_OPTIONS overrides",
+    "borrowedReadOnly": "If canonical definition or approver rows are needed, name them before G1 and snapshot all user/credential/roles/membership/permission and definition rows before/after; never modify/adopt them. Prefer fresh equivalent owned principals where original behavior permits.",
+    "creationProof": [
+      "write-ahead intent with exact table immutable identity and allowed case/actor/parent scope",
+      "before-PK absence",
+      "actual INSERT RETURNING identity and row/xmin or actual Native afterCreate proof",
+      "outer COMMIT ACK and independent visibility",
+      "resolve uncertain commit before promotion or cleanup; never infer ownership from response ID, timestamp or name prefix alone"
+    ],
+    "objects": "separate new per-backend/per-run local root and synthetic OBS prefix; strict canonical path containment; registered exact provider/key/version/hash, no broad listing/delete",
+    "referenceCoverage": "Reuse L complete catalog/reference algorithm concept, not old runtime. Fresh catalog must match frozen 107 product tables, physical columns/PK/FK plus all logical UUID/text/JSON references; fail closed on new/unknown/outside reference. Do not widen PG observer write envelope to include newly prepared Todo source tables.",
+    "order": [
+      "freeze new writes and close owned browser/UI proxy/Native/Rust/adapter writers; verify each identity/owned process tree, no unknown writer",
+      "restore owned fault/observer/transport modes after owners drain",
+      "read-only full catalog/reference and borrowed-source preflight; pending intent or unknown COMMIT blocks DML cleanup",
+      "exact-row transaction cleanup in dependency order; reviewed nullable non-identity cycle break only; assert exactly one row per deletion",
+      "exact registered local/OBS objects only; preserve unknown objects/data for investigation",
+      "postcommit independent read-only zero scan and unchanged borrowed definitions",
+      "run cleanup again: matched=0, changed=0, objects=0; publish per-run and whole-R2M totals",
+      "stop matching R2M HTTP/adapter/PG owners, verify ports free, keep new PG volume, evidence and private recovery state; old instances untouched"
+    ],
+    "failureRule": "Record failure/stopped/partial/uncertified and keep required journal/data when any owner, commit, identity or reference is uncertain. No broad recover/reset/delete or silent successful cleanup claim.",
+    "namedReadonlyBorrowing": {
+      "principals": [
+        {
+          "id": "00000000-0000-4000-8000-000000000008",
+          "name": "vp_owner"
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000014",
+          "name": "finance_mgr"
+        }
+      ],
+      "definitionTable": "poms.approval_summary_package_definition",
+      "definitionIds": [
+        "68000000-0000-4000-8000-000000000001",
+        "68000000-0000-4000-8000-000000000002",
+        "69000000-0000-4000-8000-000000000003"
+      ],
+      "unlistedObjects": "No modification/ownership/delete permission; concrete readonly-only admission before use under the same frozen scope"
+    }
+  },
+  "candidateCommands": [
+    {
+      "id": "C0",
+      "state": "plan; not executed",
+      "cwd": "candidate repository",
+      "commands": [
+        "git diff --check",
+        "corepack pnpm run format:md:check"
+      ],
+      "purpose": "docs/whitespace after the input package is integrated"
+    },
+    {
+      "id": "C1",
+      "state": "plan; not executed",
+      "cwd": "apps/poms-api-rust in new R2M Linux checkout",
+      "commands": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --all-targets -- -D warnings",
+        "cargo test --locked --all-targets",
+        "cargo build --locked --release",
+        "<new R2M target>/release/poms-api-rust --openapi"
+      ],
+      "purpose": "one current shared Rust sweep; report ordinary/ignored/explicit PG separately; source/binary hash before use"
+    },
+    {
+      "id": "C2",
+      "state": "plan; not executed",
+      "commands": [
+        "corepack pnpm nx lint poms-api",
+        "corepack pnpm nx lint poms-admin",
+        "corepack pnpm nx test poms-api",
+        "corepack pnpm nx test poms-admin",
+        "corepack pnpm nx build poms-api",
+        "corepack pnpm nx build poms-admin",
+        "corepack pnpm nx run poms-api:openapi",
+        "corepack pnpm nx run shared-api-client:check"
+      ],
+      "purpose": "applicable current shared TS checks once; exact locked installed CLI substitution only if separately evidenced, never inherited scratch S3 pass as current pass"
+    },
+    {
+      "id": "C3",
+      "state": "not runnable until Root adds and freezes new tools/rust-r2m env/fixture/runner",
+      "commands": [
+        "node tools/rust-r2m/run.mjs surface --candidate <commit> --profile <frozen-r2m-profile>",
+        "node tools/rust-r2m/run.mjs api-pg --candidate <commit> --matrix docs/design/rust-r2m/acceptance-input.json",
+        "node tools/rust-r2m/run.mjs ui --candidate <commit> --matrix docs/design/rust-r2m/acceptance-input.json",
+        "node tools/rust-r2m/run.mjs cleanup-audit --candidate <commit> --twice"
+      ],
+      "purpose": "proposed CLI interface only, no existing tool claimed. Both backend/OS/fixture identities selected by sealed profile, never arbitrary database/URL"
+    },
+    {
+      "id": "C4",
+      "state": "plan; shared API adapter needs r2m profile, otherwise use explicit external mode with R2M owner",
+      "commands": [
+        "corepack pnpm nx e2e poms-api-e2e",
+        "node node_modules/@playwright/test/cli.js test --config apps/poms-admin-e2e/playwright.config.ts"
+      ],
+      "purpose": "original Nest full E2E/legacy and explicit foundation/selected R2M suites; env/suite/output must be fixed by new R2M profile before executing"
+    }
+  ],
+  "toolReuseAndGaps": [
+    {
+      "sources": [
+        "tools/rust-r2ef/e-http-plan.mjs",
+        "tools/rust-r2ij/i-http-cases.mjs",
+        "tools/rust-r2ij/j-http-cases.mjs",
+        "tools/rust-r2k/k-http-scenarios.mjs",
+        "tools/rust-r2l/l-producer-recipes.mjs"
+      ],
+      "reuse": "read-only request/case/recipe inputs with explicit new parameter mapping; pure does not mean executed"
+    },
+    {
+      "sources": [
+        "tools/rust-r2gh/g-http-cases.mjs",
+        "tools/rust-r2gh/h-http-cases.mjs",
+        "tools/rust-r2gh/controlled-upstream.mjs",
+        "tools/rust-r2ij/obs-server-v2.mjs"
+      ],
+      "gap": "old fixed ports/fixture assertions; new synthetic adapter namespace and bounded selected cases needed, do not invoke old CLI"
+    },
+    {
+      "sources": [
+        "tools/rust-r2l/environment.sh",
+        "tools/rust-r2l/managed-environment.cjs",
+        "tools/rust-r2l/fixture-guard.mjs",
+        "tools/rust-r2l/l-contract-http-actual.mjs",
+        "tools/rust-r2l/l-commission-http-actual.mjs",
+        "tools/rust-r2l/l-shared-uow-actual.mjs",
+        "tools/rust-r2l/l-ui-actual.mjs",
+        "tools/rust-r2k/k-http-actual.mjs"
+      ],
+      "gap": "hard-coded prior checkout/source/DB/marker/ports/private/output/binary; new R2M owner is mandatory. Keep old guards unchanged"
+    },
+    {
+      "sources": [
+        "tools/e2e/api-server.cjs",
+        "tools/e2e/admin-launcher.cjs",
+        "tools/e2e/runtime.cjs",
+        "tools/rust-r2l/l-ui-cleanup-admission.mjs"
+      ],
+      "gap": "API profile currently only r1d/r1e/r2a/r2b/r2c/r2d/r2ef/r2gh; Root either adds strict r2m profile or uses external lifecycle with a separate proven owner. Preserve external no build/spawn/seed/stop contract"
+    },
+    {
+      "sources": [
+        "tools/rust-r2l/node-regression.mjs",
+        "tools/rust-r2k/shared-checks.mjs"
+      ],
+      "gap": "S3/K old SHA/private/output and dependency-lower assumptions; use underlying current commands, fresh R2M outputs, and read-only lower or temporary upper. No wholesale old scratch replay"
+    }
+  ],
+  "riskAndCloseout": [
+    {
+      "id": "R1",
+      "risk": "OpenAPI set can pass while normalized actual router dispatch/guard order is missing",
+      "control": "all115 actual admission probes plus selected real success and current router/source closure"
+    },
+    {
+      "id": "R2",
+      "risk": "split UI can hide candidate404 or missing todo/provider calls",
+      "control": "frozen migrated route allowlist, no response-based fallback, request-level backend attribution and explicit 200/nonempty assertions"
+    },
+    {
+      "id": "R3",
+      "risk": "Native producer/prepared facts mistaken for migrated Rust business",
+      "control": "label creation source and exact consumer backend; R3-R7 and #57 remain open"
+    },
+    {
+      "id": "R4",
+      "risk": "old environment shortcuts cross ownership boundary",
+      "control": "new namespace/cluster/private/ports/marker/output, admission negatives before writes, no old-private read"
+    },
+    {
+      "id": "R5",
+      "risk": "failed/cancelled writers can outlive cleanup",
+      "control": "all writer ACK/owned-tree closeout admission before restore/cleanup; uncertain state retained"
+    },
+    {
+      "id": "R6",
+      "risk": "historical counts and known schema/wire limitations become exaggerated stage claims",
+      "control": "separate carried evidence/current actual/ignored/failure; exact source epoch and explicit finite scope"
+    },
+    {
+      "id": "R7",
+      "risk": "large repeated provenance copies obscure rather than strengthen evidence",
+      "control": "reference immutable old hashes; one deduplicated new source/runtime closure and incremental receipts"
+    }
+  ],
+  "gates": {
+    "G1": "Root freezes this input with audit-line findings, actual issue state, final namespace/marker/permissions and implementable commands; no runtime before that",
+    "G3": "current required checks/M0-M5/UI/cleanup pass, drift classified, source/binary/raw evidence bound, non-author independent review no unresolved P0/P1/P2",
+    "G4": "exact implementation/metadata commit reviewed, integrated/pushed, archive + issue checklist/comment/state + local index agree, new evidence preserved; only then close80 and67 if their whole checklists are satisfied;57 staysOpen"
+  },
+  "snapshotAtUtc": "2026-10-30T17:47:05.6016324Z"
+}

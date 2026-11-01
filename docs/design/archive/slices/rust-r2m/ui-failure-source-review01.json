@@ -1,0 +1,115 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-Linux-UI-original-failure-retention-incremental-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T21:39:46.840Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-failure-source01.json",
+    "bytes": 4159,
+    "rawBytesSha256": "af4def9a3506575d1edacf068857798c5b126df9a47f78ddcd71551ede8eff7b"
+  },
+  "priorReviews": [
+    "docs/design/rust-r2m/ui1-source-review01.json",
+    "docs/design/rust-r2m/ui-full-source-review01.json"
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "3ab39358d651f024de82bade306db2fbb688e94fc70d6c6bf4e34388d11714fb",
+      "readLevel": "Complete diff against exact preserved e5e public source; original journey assertions and ZIP inspector unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22803,
+      "rawBytesSha256": "a675e5022593dfbf75dabe7417de40402419b962baad190a0ea487e1d1e1db3c",
+      "readLevel": "Complete diff against reviewed b75fc UI1 entry; inherited owner/certificate/cleanup source reused"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28386,
+      "rawBytesSha256": "b3eb3c834778dc163f1b64a39ae8b1e3d267e3231ab8c8734adfb1cff1d63cbf",
+      "readLevel": "Complete diff against reviewed424b full entry; inherited per-HTTP/backend/setting/cohort/object lifecycle reused"
+    },
+    {
+      "file": "tools/rust-r2m/ui-failure-hook.test.mjs",
+      "bytes": 2525,
+      "rawBytesSha256": "ee567fad8da87d9254143187f6610266b057023e04487b0b4b41c81b851b5ed8",
+      "readLevel": "Complete source of synthetic before-step/action/after-step error/private-public separation tests; not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/ui-scope-metadata.test.mjs",
+      "bytes": 1587,
+      "rawBytesSha256": "c9a948af526de8d904eade38bbe5acb384c6b301a56695d819f047e6de55b425",
+      "readLevel": "Complete actual scope-function pure metadata regression source; not actual row/DB/browser verification"
+    }
+  ],
+  "preservedSources": {
+    "file": "tools/rust-r2m/ui-failure-before-source01.json",
+    "bytes": 93015,
+    "rawBytesSha256": "c11bf575a4c62e02f08a7e8960984dc8d7e638a1f72f4ec8f4bc50d602a20d09",
+    "readLevel": "Hash-only preservation check; exact prior versions also independently read from immutable public capsule store"
+  },
+  "findings": [
+    {
+      "id": "original-failure-first",
+      "status": "closed-at-source",
+      "detail": "The helper now requires retainFailure and records original error name/message/stack/code, exact journey/step and before-step/action/after-step/certificate phase plus URL/diagnostics privately before attempting DOM or PNG. A failed later screenshot/DOM capture cannot erase the initial error receipt."
+    },
+    {
+      "id": "bounded-private-diagnostics",
+      "status": "source-ready",
+      "detail": "Console/pageerror/failed-request/response diagnostics are bounded by event count and text length, written only through the existing new-M private recorder. DOM and PNG capture attempts have bounded deadlines, with captured failures retained privately. Public report receives only fixed category/phase and an explicit allowlisted private file/bytes/hash reference, never the returned arbitrary error/evidence object."
+    },
+    {
+      "id": "failure-not-overwritten",
+      "status": "closed-at-source",
+      "detail": "Linux entries supply the private failure hook with current source case/PG/index metadata. They preserve the original failed observation and its receipts instead of throwing a second generic observed!=fail assertion. Only a truly observed result may enter the existing stopped-writers/observer-restore/drain/double-zero success path."
+    },
+    {
+      "id": "assertions-and-guards-unchanged",
+      "status": "source-ready",
+      "detail": "Full diffs leave actual UI business actions/assertions, exact source scopes, real HTTP routing, SDK/PG certification, fixtures and product guards unchanged. Existing complete-source capsule, browser environment and owner protections still apply. Synthetic metadata test confirms the existing auth-only project scope shape and rejection of unproven explicit sales anchors; it is not a loosened sales guard."
+    },
+    {
+      "id": "cleanup-of-listeners",
+      "status": "source-ready",
+      "detail": "Added page diagnostic listeners are removed in finally. Cancellation retains stopped/fail status, original private failures and the existing independently closed owned resources; diagnostics do not certify an actual UI result."
+    }
+  ],
+  "verification": {
+    "sourcePinsExpected": 5,
+    "sourcePinsMatched": 5,
+    "authorReportedPurePassed": 14,
+    "authorReportedPureFailed": 0,
+    "authorReportedPureSkipped": 0,
+    "syntaxChecksReported": 5,
+    "pureSourceRead": true,
+    "pureLogSummaryRead": true,
+    "pureLog": {
+      "file": "tools/rust-r2m/ui-failure-source01-pure.txt",
+      "bytes": 3563,
+      "rawBytesSha256": "364908ea7c421cef733c424bc062e18f78b776adbe84fc3a68eb964360dd814a"
+    },
+    "CExecutedTestsOrDBHTTPOrBrowser": false,
+    "CReadPrivate": false
+  },
+  "originalUI09Boundary": "uin1a/UI09 remains the original partial failure. Its actual onBefore/action cause was lost by the old generic layer and is not recovered by this new source. SourceReady of diagnostics and the synthetic scope test do not retroactively classify or pass that run.",
+  "executionBoundary": {
+    "approved": "A fresh complete source capsule may run the existing finite Linux UI selection with these exact five source pins and the inherited reviewed dependencies. Keep original e5e/b75/424 bytes and UI09 outputs unchanged.",
+    "Windows": "This review covers the Linux consumer delta only. Separate Windows orchestration integration is not a prerequisite for the Linux diagnostic trial and is not certified here.",
+    "notStagePass": "No actual UI pass, API20, G3 or G4 is certified by these pure/source checks.",
+    "notNewGate": true
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

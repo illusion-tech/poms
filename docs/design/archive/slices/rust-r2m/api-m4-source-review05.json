@@ -1,0 +1,350 @@
+{
+  "kind": "R2M-independent-C-M4-Source10-caller-delta-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 07:32:33 UTC",
+  "reviewer": {
+    "agent": "/root/r2m_review",
+    "role": "independent non-author C",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "scope": {
+    "approvedLogicalCases": [
+      "M4.1",
+      "M4.2",
+      "M4.3",
+      "M4.4"
+    ],
+    "approvalType": "Necessary source integration only",
+    "full20Recertified": false,
+    "productChanged": false,
+    "actualRuntimeCertified": false,
+    "continuationVariantCertified": false
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/acceptance-api20-source10.json",
+    "bytes": 51970,
+    "rawBytesSha256": "eeeb1e43daddcceb1978692c31c1b67737e0f8018485ef178d31da8bc63561ae",
+    "sourceSetSha256": "c1536ad12db95ce245055b1461547d63c34ef18e71f99c4b115003271dbd18f0"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 50044,
+      "rawBytesSha256": "036da085290013385da7c36918013461505ea53e7aa885da13fae730b72d5e80"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.mjs",
+      "bytes": 22431,
+      "rawBytesSha256": "7d3b9c21d8729eb6f10c4d8d64d7e803e2f2418eeb684a377a25e2ab03bf84c6"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 16737,
+      "rawBytesSha256": "c441058ec0191652d5b32ac0f61af6d260688e99ab4e6e3d3c7e2b5e3a64ad6c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-expected.mjs",
+      "bytes": 29877,
+      "rawBytesSha256": "fd87825d1bda3d88dcf8caa01785bbbf255be2157adb9961c521a536f9f04304"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 9270,
+      "rawBytesSha256": "33f796a98534676143e33fd06c64c7b9daca37fed5b4f2b6da8f3833c132ff8f"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-preflight.mjs",
+      "bytes": 3065,
+      "rawBytesSha256": "d4dc2772e4b3bfda7822a85f2cc57fbaea0d8ef2a09a241b57fd66278b69664c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.test.mjs",
+      "bytes": 11030,
+      "rawBytesSha256": "906b67101bfde5dfa6c5178d88122f8b893cfd33e20a69a96973cc384eac67ae"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-contract.md",
+      "bytes": 11333,
+      "rawBytesSha256": "66b2a8585266263c462f87ee60f601a21208ab78c4cab52c4dc194fd3aca81e7"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared-result.mjs",
+      "bytes": 7765,
+      "rawBytesSha256": "632c86d9c1f1297ddc9bc99905de0e8b134c1b267a0924e1e5e0614160ba09f6"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.test.mjs",
+      "bytes": 3484,
+      "rawBytesSha256": "189367d44bf5ae02a1603fcbf57e234e34d77154aedf479710e07545553dc61b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+      "bytes": 2669,
+      "rawBytesSha256": "0ff2c368ebb2f555dff9e8a75ebc827ce4d3307c1d2e26da080e2049d0fe7e9d"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-local-objects.mjs",
+      "bytes": 1945,
+      "rawBytesSha256": "209797b9039f15782003b79f4944e7343a90b1c7690368897b74912fa6bc76e9"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-user-compatibility.mjs",
+      "bytes": 8414,
+      "rawBytesSha256": "f9d0adfc6c965f6533ec7f9fc418a83406edbf06e650d89ffbd96ce17ac1827c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-user-compatibility.test.mjs",
+      "bytes": 7076,
+      "rawBytesSha256": "2872362856ce6afe59849ede8261e7a79f5f746a8a2f28711ffb3e837355e581"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-preflight.mjs",
+      "bytes": 9760,
+      "rawBytesSha256": "2d1e48119c7ae74cc0864dab627f13b1d2b56e42b38a202123df23d3bb9ad106"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20.test.mjs",
+      "bytes": 26256,
+      "rawBytesSha256": "cf28ac4964874a06b21b9f14e4e47f7aa753d7859cad4f16515add650babe4bd"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-attachment-recipes.mjs",
+      "bytes": 9593,
+      "rawBytesSha256": "66c64ce1a72f1f87a78ea4c0d7551ed051f2c69d543058bf34949d108f61d408"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-recipes.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "0049f53a48259f64109bab0c9e474e2f17413887def95aeca5e676e8099d7fb7"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.test.mjs",
+      "bytes": 4527,
+      "rawBytesSha256": "d31c44cb0b5c66ecb32a24f8c449de4100afd734563c2924c8b95a294f5d9f9d"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-zip.mjs",
+      "bytes": 7131,
+      "rawBytesSha256": "a50ace3ccbcd46e3c5930ab5d8840edb47cb229fe5928b1cb8c04ed477eb5e74"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-zip.test.mjs",
+      "bytes": 5961,
+      "rawBytesSha256": "1442c24f9224c8fcb9de19caeee0568227f889d382bde8629e27e76611fc471a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-principal-source.mjs",
+      "bytes": 2934,
+      "rawBytesSha256": "0dd3c8d88f7ae98f5965b9c170f619e38245f68abb18a0f68c79c7cc2b5f4b18"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-principal-source.test.mjs",
+      "bytes": 1205,
+      "rawBytesSha256": "f41f8c044efd54b9254a5f276dfdb809864b81e01590aef9a59234630132739b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-producers.mjs",
+      "bytes": 18925,
+      "rawBytesSha256": "0d8f105eea67eafd757ace6d3ab1734dfcff99e6f711caf42ae1ca23e720eb02"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-contract.md",
+      "bytes": 16788,
+      "rawBytesSha256": "fa74da29d9dae82dedd061d54cbc762489258306c0442d2f89ed4e01d589f141"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-prepared-source-check.mjs",
+      "bytes": 6287,
+      "rawBytesSha256": "d2c173ba1bcfd0e068f5967b707e64143c2908c39f0fe047473fbcbae412ca55"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-m4-source-check.mjs",
+      "bytes": 8573,
+      "rawBytesSha256": "3d2995fdac609c5045fda1b551f80e6f0c3613d2507ef5ee63ceae44114ccc27"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-m4-source-check.test.mjs",
+      "bytes": 23252,
+      "rawBytesSha256": "fe32fbafde3c9e8014133ed239b20e96b4b404fe2dc47c7442cc38363a94c024"
+    },
+    {
+      "file": "tools/rust-r2m/run-api-owned.mjs",
+      "bytes": 4054,
+      "rawBytesSha256": "3c0301b14ceb66f16ef3d01d69b95128a4d521b74e450187bdf129e4c04a2014"
+    }
+  ],
+  "priorIndependentEvidence": [
+    {
+      "file": "docs/design/rust-r2m/api-m4-source-review04.json",
+      "rawBytesSha256": "4d9e244ad257503d8827cfc915b96af014a80659517015c5e2f75d6bf6ccdf21",
+      "reuse": "Source09 exact scoped default/version and ordinary typed-parent proof; 24 unchanged source files"
+    },
+    {
+      "file": "docs/design/rust-r2m/package-intent-source-review01.json",
+      "bytes": 9433,
+      "rawBytesSha256": "45dacfc067f5e7d5b9229898feb628193b3fe1fa5e94a43d69fb47a7fc269ab1",
+      "reuse": "Complete independent five-file component proof, unchanged current pins; Root package admission continues to bind this component review"
+    },
+    {
+      "file": "docs/design/rust-r2m/pg-ticket-parent-source-review01.json",
+      "bytes": 4117,
+      "rawBytesSha256": "dd485ac1adbc4cacbc962b77c8d5472a0e0aa52230916d56de50e287996e8d69",
+      "reuse": "Future PG538aa ticket-parent delta is separately SourceReady; no old event or graph certification"
+    },
+    {
+      "file": "docs/design/rust-r2m/m4-default-and-binding-corrective-checkpoint01.md",
+      "bytes": 2888,
+      "rawBytesSha256": "7e285b0770010650b97420e4f00491ee9d5910b11590b25edda7c6724e2feb90",
+      "reuse": "Final factual supersession retained: OBS switch succeeded; original500 was return-to-local, not a claim of natural always500"
+    }
+  ],
+  "necessaryFindings": [
+    {
+      "id": "package-parent-and-child-order",
+      "result": "Pass",
+      "readLevel": "Complete relevant runtime delta/perform/CLI, recipe and preflight changes plus component review reuse",
+      "detail": "Original ordinary package parent remains Max1 with handover_id/project_id/created_by. Only the child ordinary intent is removed from recipe preparation. perform allocates its real monotonic context index first, then reserves the exact M4.2/package child via the reviewed special method, before auto audit/security intents and PG beginCase. Request method/path/body, m4.integration/m.http and Max10 are fixed; no package UUID is guessed."
+    },
+    {
+      "id": "exact-generated-family-authority",
+      "result": "Pass",
+      "detail": "The caller finds exactly one planned package parent in the same case, requires its Max1, and forwards that original intent ID and actual context to the unchanged reviewed component. The component still requires actual SDK/PG birth of that exact parent, context/SDK outer commit, independent immutable/project/actor closure and final child.package_id linkage; ordinary intent/reference/ownership guards are unchanged. No request/query ID grants ownership or retroactive old-run authority."
+    },
+    {
+      "id": "admission-and-capsule-wiring",
+      "result": "Pass",
+      "sourceLines": "runtime 81-115,150,261-271",
+      "detail": "Both CLI before extension factory and direct runtime before Fixture.open reject malformed/mismatched Root package admission, bounded maximum, marker/run/backend/database/cap/step. The run is shared with any setting/audit admissions. Actual component source-review hash and five current pins remain enforced by the component. All five component modules were added to required cap reads. An old environment admission cannot serve the later continuation variant."
+    },
+    {
+      "id": "actual-K-project-binding",
+      "result": "Pass",
+      "detail": "The new handoverProject alias comes only from the actual already-adopted K prepared result, exact original INSERT identity and direct-committed-insert sourcePlanId proof plus independent visibility. It preserves the original complete project binding without granting ownership. Structural preflight supplies only a source-only counterpart. Before M4.3, actual localProject and handoverProject must both exist and differ; failed M4.2 cannot silently fall back to the local project."
+    },
+    {
+      "id": "list-input-relationship-corrected",
+      "result": "Pass",
+      "detail": "Fault upload body and its attachment_link intent now target the certified K project. The original other-target list still queries the distinct local project, must include localVersion and exclude fault, and validates both real active project links. This corrects the original an4c test-input relationship rather than changing metadata visibility. Original normal-list behavior, download403 and sensitive package exclusion remain separate contracts; no product or sensitive-visibility exception is introduced."
+    },
+    {
+      "id": "bounded-owner-forwarding",
+      "result": "Pass",
+      "detail": "Root's owner only accepts/validates the optional eighth public admission path and forwards --package-item-admission. C independently reversed these three literal changes and obtained the entire prior3949-byte wrapper SHA4c2407dbb0be3d9c8bf1600a0f1fcb0dc5d70fe5ea28921dd302477251571768 exactly. The900000ms budget, PATH/HOME/LANG environment, ownership stop and private original-error retention remain byte-identical."
+    }
+  ],
+  "componentPins": [
+    {
+      "file": "tools/rust-r2m/fixture-package-intent.mjs",
+      "bytes": 14617,
+      "rawBytesSha256": "74cbebe2bbbb72fb68e4d49330a86486a2a7299b4a22df3f47b6abcbcbbb8c12"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 45998,
+      "rawBytesSha256": "0dd729d9aa7341e81c27eec25b33c0a9732a6e775e2e5c62f1523e4416ddba16"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10217,
+      "rawBytesSha256": "3ee4238b1187ab7dfd1863a2914275f8fad47a7fd27a76bc9b4cfffd9efb4187"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 13306,
+      "rawBytesSha256": "2ccc59d8e386b97546ecc4c839fcd7bfe480b9c883f9ed275dda18b5ea0e73eb"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12992,
+      "rawBytesSha256": "42a16d2a0522702a3adc5e05b42efbcbdf30e71ecb5a5adb7a0c4fe9377ec434"
+    }
+  ],
+  "verification": {
+    "currentPacketPins": {
+      "checked": 33,
+      "mismatches": 0
+    },
+    "originalSource09Snapshot": {
+      "directory": "tmp/rust-r2m/api20-author-source09/",
+      "sourceFiles": 32,
+      "allRawPinsMatchOriginalManifest": true,
+      "changed": 8,
+      "unchanged": 24,
+      "additionalRootOwnedWrapper": 1
+    },
+    "sourceRead": "Eight listed existing deltas and necessary surrounding integration code; added relevant tests; Root wrapper complete and full inverse; previous mature unchanged proofs reused.",
+    "authorChecks": {
+      "file": "tmp/rust-r2m/api20-source10-pure01.json",
+      "bytes": 12016,
+      "rawBytesSha256": "ebf4e224a46c3999b0e6c6f5042f670d54041dbe0eaee73f4a3b8fa0e03e32b4",
+      "pureTests": 66,
+      "pass": 66,
+      "fail": 0,
+      "skip": 0,
+      "lexicalFiles": 8,
+      "lexicalErrors": 0,
+      "readLevel": "Public original result, necessary tests/source and log summary; not executed by C"
+    },
+    "newTestMeaning": "Real actual-context dispatch and before-PG ordering, wrong run/backend/cap/case/maximum refusal, source-plan identity proof refusal, distinct project request/intent targets and physical link/list assertions, and full wrapper inverse.",
+    "testsByReviewer": 0,
+    "actualByReviewer": false,
+    "privateReadByReviewer": false
+  },
+  "preservedEvidence": {
+    "originalSource09AndAn4c": "Immutable source09, old partial requests/results/false caseClosed flags and exact recovery remain unchanged; no old failed path becomes business Pass.",
+    "originalDefaultFactCorrection": "Source09 historical OBS500 wording is preserved and explicitly superseded by checkpoint7e285; code still uses symmetric prepared transitions.",
+    "originalVersion500": "Earlier unprepared validating-v3/failed_reasonNULL500 and separate exact-K prepared positive path are unchanged."
+  },
+  "runtimeBoundary": {
+    "admittedOriginalEnvironment": {
+      "namespace": "poms-r2m",
+      "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+      "databases": [
+        "poms_r2m_nest",
+        "poms_r2m_rust"
+      ]
+    },
+    "oldRustQuarantined": "This source conclusion does not authorize reopening or using the failed original Rust graph.",
+    "continuation": "Only an independently checked fixed literal continuation sibling may use new marker/database/role/roots. Its inverse/hash-pin impact and actual resource admission remain separate; this does not certify that variant.",
+    "actual": "Root executes only a matching captured source epoch with new same-run audit/package approvals and actual row/transaction/107/outside/cleanup evidence. Observed runs and complete differential findings remain required for final acceptance.",
+    "G3": false,
+    "G4": false
+  },
+  "reviewerActivities": {
+    "sourceAndPublicMetadataOnly": true,
+    "staticHashesAndInverse": true,
+    "reviewJsonWrite": true,
+    "testsExecuted": false,
+    "privateRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "container": false,
+    "signals": false,
+    "productOrFixtureEdit": false,
+    "gitMutation": false
+  },
+  "conclusion": "SourceReady for the bounded M4 Source10 caller integration and Root owner forwarding. This is neither full20 actual acceptance nor continuation execution approval."
+}

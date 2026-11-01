@@ -1,0 +1,95 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-URI-runtime-incremental-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T20:42:29.316Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "approvedMode": "uri",
+  "priorReview": "docs/design/rust-r2m/runtime-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-runtime.mjs",
+      "bytes": 37769,
+      "rawBytesSha256": "fdabf46ca6f4ee7b5dbe88bd2b51b057792fdcc5c21ecaddc229a9893bd70cc0",
+      "readLevel": "Complete diff against exact public epoch05 beb733 source plus current helper, HTTP, perform, prepare, cookie bootstrap, CLI and closeout sections"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance.mjs",
+      "bytes": 20199,
+      "rawBytesSha256": "3d5c5a6f1756e33ee65af1d876bc119d0abc09d6745baccf101a2813fc7d203d",
+      "readLevel": "Complete runProbeMatrix and attempted/actual/transport-completed paths; existing generic certification boundaries reused"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-uri.test.mjs",
+      "bytes": 6137,
+      "rawBytesSha256": "f1cc8fc4951e422a919c09b634fc70b94fa70e8804257b5ef7a4e98bbb4714c0",
+      "readLevel": "Complete source; not executed by C"
+    }
+  ],
+  "inheritedSource": {
+    "file": "tools/rust-r2m/acceptance-runtime.mjs",
+    "bytes": 33391,
+    "rawBytesSha256": "beb733345b760cb445dc35a0a926d1298b0beaab6c8ecad8b75cd75d6eca14eb",
+    "publicStoredFile": "tmp/rust-r2m/public-source-store/beb733345b760cb445dc35a0a926d1298b0beaab6c8ecad8b75cd75d6eca14eb",
+    "diffReadCompletely": true
+  },
+  "findings": [
+    {
+      "id": "canonical-labels",
+      "status": "closed-at-source",
+      "detail": "One constructor lowercases only fixture case labels and enforces the existing case regex. Both preparation and actual perform use it. Surface115 and URI27 constructors and unique labels run before Fixture.open and in --check. Literal URI percent bytes, HTTP methods and bodies remain unchanged."
+    },
+    {
+      "id": "transport-counts",
+      "status": "closed-at-source",
+      "detail": "attempted is per planned cell; actual increments only after an adapter response with a boolean transportComplete; transportCompleted requires true. Later generic facts/certification failures do not discard already-returned response counts. Adapter certification failure can still make this conservative count lower than HTTP receipts; the pre-certification private raw response is authoritative diagnostic evidence, never an automatic matrix Pass."
+    },
+    {
+      "id": "retained-expired-condition",
+      "status": "closed-at-source",
+      "detail": "The exact backend-issued owned auth_session token/cookie snapshot and creation-proof digest are captured once after the explicit owned expiry setup. Every retained-expired URI cell selects that exact owned row, verifies user/token, active-or-expired non-revoked state and a real past expiry, restores only the HTTP cookie jar, and retains the complete preflight privately. The actual HTTP primitive records the token hash from the jar immediately before request construction. perform compares it to the condition. No product DB state is reset between cells; real active-to-expired transitions remain visible."
+    },
+    {
+      "id": "URI-authfailure-anonymous-scope",
+      "status": "closed-at-source",
+      "detail": "Both prepare and perform admit anonymous security events only for purpose uri-order under canonical m0.uri.* cases. Existing owned actors and borrowed-reference limits remain. A cookie subject is not treated as an authenticated actor when Native rejects authentication. Other business API purposes do not gain this special scope."
+    },
+    {
+      "id": "response-before-certification",
+      "status": "closed-at-source",
+      "detail": "Immediately after the HTTP primitive returns, the complete raw response, cookie/body metadata and source context are retained in the new run private evidence directory before JSON assertions and SDK/PG drain/adoption. A later certificate failure therefore preserves the response while keeping the run partial."
+    }
+  ],
+  "evidenceTransfer": {
+    "surface115": "The diff changes URI fixture labels/session preparation/scope admission and response metadata retention. Existing completed surface115 observations remain tied to their exact historical epoch05 source and public receipts; they are not relabeled as execution of this source. Re-execution of surface115 is not required solely for this bounded URI metadata delta.",
+    "previousURI": "urin01 and urin02 remain partial/tool-failure evidence. Neither 27 attempted labels nor the pre-fix one-time expired jar proves all27 wire/session conditions."
+  },
+  "verification": {
+    "CExecutedTests": false,
+    "CExecutedApplicationOrDBOrHTTP": false,
+    "CReadPrivate": false,
+    "authorReportedPureTests": {
+      "passed": 4,
+      "skipped": 0,
+      "sourceRead": true,
+      "independentlyRerun": false
+    },
+    "notRuntimeAcceptance": true
+  },
+  "executionBoundary": {
+    "newFrozenSourceCapsuleRequired": true,
+    "reuseApprovedFixtureEpoch": "old e16 27-file/profile59 fixture plus cfb82 PG observer, exact source pins; a new M4 profile must be a separate admitted epoch",
+    "necessaryActualEvidence": "Each backend must retain all27 completed responses with the actual required session condition, source capsule, genuine write certificates, full107 outside-scope facts, stopped writers/observer restore and owned double cleanup; comparison remains pending until Native/Rust facts and responses are independently compared.",
+    "permissionScope": "Already authorized Root actual URI run only; no source-only statement grants API20/UI/G3/G4 closure."
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

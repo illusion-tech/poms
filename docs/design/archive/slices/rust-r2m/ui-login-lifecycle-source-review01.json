@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-UI-login-navigation-and-private-browser-lifecycle-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:41:20.203Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-login-lifecycle-source01.json",
+    "bytes": 9169,
+    "rawBytesSha256": "beb79c97e0de4259da4d37fce77f44e5f1845b6445b5df6835846c9e4e1ae0a7"
+  },
+  "priorReview": "docs/design/rust-r2m/ui-reload-ready-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 23448,
+      "rawBytesSha256": "991db556dff5c1aaab6e337976c1456d963c8cb515b474040c50590b777f933f",
+      "readLevel": "Complete preserved-old-body delta, actual same-origin/login-path condition, original form flow and bounded private lifecycle events"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22921,
+      "rawBytesSha256": "107b10a95a2321ad2417cb838aaded44718e1f8983d74716419ac923ab321700",
+      "readLevel": "Only Root-owned Node worker DEBUG=pw:browser environment addition; existing private log/child environment/owner protections reused"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28504,
+      "rawBytesSha256": "f1fafa54b867a3df924570746afd722b363ff5a4f6b89d5733b43e9c7af79d43",
+      "readLevel": "Same exact Node worker-only debug addition; prior full source/SDKPG/closeout reused"
+    },
+    {
+      "file": "tools/rust-r2m/ui-failure-hook.test.mjs",
+      "bytes": 4576,
+      "rawBytesSha256": "ae7cb829128aac652cf20ed5e6179b094b1b1017e6ef2f16cbcdebadc6b1485b",
+      "readLevel": "Complete synthetic source for before/action/after private error and actual-form-vs-goto/lifecycle event guards; not executed by C"
+    }
+  ],
+  "assessment": [
+    "Login reuses a page only when its actual origin equals the fixed task origin and pathname is exactly/auth/login. Otherwise it performs the original real goto. Existing login query/returnUrl may remain on the actual form; no authenticated state, credential header or product response is fabricated.",
+    "Technical bridge readiness is awaited before filling the original username/password form. The real submit, POST200, authenticated state, original reload/session/nav/Todo/cookie/layout and real Topbar logout assertions remain.",
+    "Timestamped page.close/crash/context.close/browser.disconnected and current pageClosed/browserConnected values join the bounded private failure diagnostic record. Listeners are removed in finally. Playwright does not supply a close reason in these events; the code records reasonProvidedByPlaywright=false and infers no cause.",
+    "Only the exact Root-owned Node UI worker receives DEBUG=pw:browser; its stdout/stderr was already a new-M private owner log. Explicit Chromium child environment whitelist remains unchanged and excludes DEBUG and Native DB/JWT; no global environment, installed browser policy, port or product code changes.",
+    "Preserved prior source bodies were independently hash/line-compared. The accompanying delivery-validation Markdown difference is whitespace formatting only and does not alter its JSON obligation map."
+  ],
+  "verification": {
+    "sourcePinsExpected": 4,
+    "sourcePinsMatched": 4,
+    "reportedPurePassed": 17,
+    "reportedPureFailed": 0,
+    "pureSourceAndLogSummaryRead": true,
+    "priorSyntheticStubFailurePreserved": true,
+    "CExecutedTestsOrBrowserOrDBHTTP": false,
+    "CReadPrivate": false
+  },
+  "executionBoundary": "Root may stage this bounded Linux UI tool-navigation/diagnostic increment with inherited reviewed sources in a new capsule. Original uir1b target-closed cause stays Unknown and its partial result unchanged; no actual UI1 success, separate Windows consumer integration, G3 or G4 is certified.",
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,210 @@
+{
+  "kind": "POMS-R2M-independent-eight-logical-cases-actual-evidence-review",
+  "reviewedAtUtc": "2026-10-31 01:59:19 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "Pass",
+  "scope": {
+    "selected": [
+      "M1.1",
+      "M1.2",
+      "M1.3",
+      "M1.4",
+      "M2.1",
+      "M2.2",
+      "M2.3",
+      "M2.4"
+    ],
+    "caseCount": 8,
+    "backends": [
+      "nest",
+      "rust"
+    ],
+    "nativeRun": "60072b6a-0f6a-4da4-a0e7-fc37a7085e8c",
+    "rustRun": "5dff0078-f1aa-46b5-a865-9c4e5b2ab7a9",
+    "sourceCapId": "r2m-joint18b",
+    "all20Accepted": false,
+    "UIAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "measurement": {
+    "file": "tmp/rust-r2m/compare-api-eight-measured05.json",
+    "bytes": 13313,
+    "rawBytesSha256": "14c9fa2ae3e6d1c965ca47f925d92d6d7a84fbcfb9d9e2030f227d70090ec8e6",
+    "result": "pass-with-explicit-inherited-diagnostic-header-difference",
+    "remainingDifferences": 0,
+    "acceptedInheritedHeaderDifferences": 49
+  },
+  "inputReports": [
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an8b.json",
+      "bytes": 61951,
+      "rawBytesSha256": "34e58406d7e930ea5c901b580b356b0b4392bd7b9a046b37950b48edfbb021c7"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-rust-ar8b.json",
+      "bytes": 64744,
+      "rawBytesSha256": "c26af82010dab5da28e989f615810b283ed2fab6974e372268a86eee0db51e17"
+    }
+  ],
+  "ownerReceipts": [
+    {
+      "file": "tmp/rust-r2m/acceptance-api-owner-nest-an8b.json",
+      "bytes": 975,
+      "rawBytesSha256": "ea0b5bb5d341f013af5a141d89eac67f1fed9d45a66b27b918d373ebcf0eb10a"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-owner-rust-ar8b.json",
+      "bytes": 975,
+      "rawBytesSha256": "932f964ac2cf88a3f35efb458d91042543b8d4df66d006dda564b191f26ed2ed"
+    }
+  ],
+  "sourceCapsule": {
+    "pin": {
+      "file": "tmp/rust-r2m/source-cap-joint18b.json",
+      "bytes": 1404509,
+      "rawBytesSha256": "1d10dad107b4f03cd7b3e611fd9afae57ae3ae03d3106200f14d0d4271352219"
+    },
+    "id": "r2m-joint18b",
+    "candidate": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "manifestSha256": "5628a856a0172249dd2c237574a86056664427ca6aa2157e04a8a0f044bdec18",
+    "artifacts": [
+      {
+        "kind": "native-main",
+        "file": "dist/apps/poms-api/main.js",
+        "bytes": 2958081,
+        "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+      },
+      {
+        "kind": "rust-release",
+        "file": "/home/wangzishi/.local/share/poms-r2m/target/release/poms-api-rust",
+        "bytes": 34163304,
+        "rawBytesSha256": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd"
+      },
+      {
+        "kind": "rust-internal-probe",
+        "file": "/home/wangzishi/.local/share/poms-r2m/target/release/examples/m_shared_uow_probe",
+        "bytes": 11727584,
+        "rawBytesSha256": "b2325368a2a885a6b40a7fb16410632a7ff59ea1f0eaa4e95b79ff01c8f00294"
+      },
+      {
+        "kind": "rust-internal-probe",
+        "file": "/home/wangzishi/.local/share/poms-r2m/target/release/examples/m_number_probe",
+        "bytes": 7837792,
+        "rawBytesSha256": "aa199d34f724f8e5abae26ddae6bac229a521bff0410ca3916d7391c3fafcc40"
+      },
+      {
+        "kind": "ui-build",
+        "file": "tmp/rust-r2m/ui-build-current.json",
+        "bytes": 99184,
+        "rawBytesSha256": "4da16dc4da1c3cca4f616f8b84d81c24e0a887ebbc93c90aa4850562154a717b"
+      }
+    ]
+  },
+  "reviewedAnalysisSources": [
+    {
+      "file": "tools/rust-r2m/compare-api.mjs",
+      "bytes": 21181,
+      "rawBytesSha256": "60c09334ae4ca34dc24616b07c0e1b269decff6f7a424b835d13f3513f7fd697"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-initial-frame.mjs",
+      "bytes": 1038,
+      "rawBytesSha256": "e190e8d81e992b6752cb335a2e2de0398021a4d1740c3cb5f258a6b5005cbafa"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "analysisSourcesBeforeAfterUnchanged": true,
+  "meaningfulTestSources": [
+    {
+      "file": "tools/rust-r2m/comparison-initial-frame.test.mjs",
+      "bytes": 1262,
+      "rawBytesSha256": "294afd610fced65f38647097f61e9e5d309fe354651b474bedbfffa1e9ae5807"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.test.mjs",
+      "bytes": 4813,
+      "rawBytesSha256": "f02fc1775d196bd5cdf96d6486536f4b177b18008d1c2463b9a309e0383b3c00"
+    }
+  ],
+  "actualCounts": {
+    "perBackend": {
+      "logicalCases": 8,
+      "HTTPRequests": 49,
+      "internalNumberProbe": 1,
+      "recipeCells": 60,
+      "completeFull107Frames": 120,
+      "ownedRowsFirstCleanup": 83,
+      "ownedRowsSecondCleanup": 0,
+      "PGExportedEvents": 34
+    },
+    "comparison": {
+      "HTTPResponsePairs": 49,
+      "full107FramePairs": 120,
+      "rawFrameOccurrences": 240
+    },
+    "clarification": "Measured physicalFramesCompared=120 counts paired before/after fact comparisons across60 cells, not120 raw frame objects. Non-HTTP recipe cells are not counted as HTTP requests."
+  },
+  "findings": [
+    {
+      "item": "requested completeness points",
+      "result": "Pass",
+      "detail": "Each physical frame asserts exactly the frozen107 table-name set before every-column validation. Missing/replaced tables cannot hide behind complete/readOnly flags. Five behavioral source/authority pins are captured before/after offline analysis, unchanged and independently matched to current bytes. Earlier measured results remain preserved."
+    },
+    {
+      "item": "original actual and closure consistency",
+      "result": "Pass",
+      "detail": "Both immutable input report hashes match measured05, same joint18b capsule and8 logical selection,49 HTTP each with8/8 cases observed/closed. Public owners closed successfully. Writers stopped, PG original footprint restored; both mature cleanup sequences83/0 include complete107 reference/catalog zero scans and no closeout failures. Singleton full original row equality and separate18-counter before-absent restoration are explicitly required, with no singleton/counter UUID ownership claim."
+    },
+    {
+      "item": "strict finite comparison",
+      "result": "Pass",
+      "detail": "Across60 corresponding recipe cells, complete before/after107 table rows and physical columns remain in strict comparison after declared source normalization. All49 actual response pairs validate full raw byte hash/length and transport completion, status and complete parsed body/frozen headers. Only additive existing R1A x-request-id presence is accepted, with Rust syntax/uniqueness and original raw presence difference preserved. Empty string, NULL and differing400/500/200 statuses are not folded together."
+    },
+    {
+      "item": "source clock and opaque evidence",
+      "result": "Pass",
+      "detail": "Only named timestamp columns/DTO fields normalize after type/zone/precision and actual owner-window checks. Session expiry equals the minimum of the actual issued-cookie session row. Stored token hashes require actual issued cookie witnesses; bcrypt checks exact synthetic plaintext and rounds4. Unknown row UUIDs/columns are refused. Readonly baseline DTO times equal typed original rows."
+    },
+    {
+      "item": "special rows",
+      "result": "Pass",
+      "detail": "Counter identity aliases require exact18 observed full rows, nine scopes/two years and next_value12/2, before-absent admission, acknowledged commit/restoration and2 distinct integer PID zero checks; aliases explicitly do not grant UUID ownership. Setting audit clocks require actual lease rowVersion/value/time history; a no-op cannot invent a changed time. Original migration clocks require exact original row witnesses."
+    }
+  ],
+  "readLevel": {
+    "analysis": "Complete comparator/special-row helper plus necessary row/clock/certificate paths; new keyset/helper and meaningful tests read",
+    "publicActual": "Comparison, selected report/case/cleanup/owner/source-cap metadata with raw pins",
+    "privateRawFramesReadByC": 0,
+    "comparisonExecutedByC": false,
+    "DBHTTPBrowserProcessIOExecutedByC": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0,
+    "authority": "Root executed products and offline private-frame comparison; C independently reviewed analysis source and public receipt consistency. C did not separately open private raw facts or rerun actuals."
+  },
+  "authorChecks": {
+    "initialFramePure": 2,
+    "specialRowsPure": 4,
+    "meaning": "Author meaningful guard tests; analysis-only fixes did not require a product rerun."
+  },
+  "remaining": "Only these8 logical cases and stated comparison are accepted. M3/M4/M5 actuals, the UI matrix, original validation/closure review and G3/G4 remain separate."
+}

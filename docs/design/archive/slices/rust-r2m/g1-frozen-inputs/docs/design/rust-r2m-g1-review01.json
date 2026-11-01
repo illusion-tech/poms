@@ -1,0 +1,213 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2M-independent-G1-review",
+  "reviewedAt": "2026-10-30T17:58:17.6196401Z",
+  "decision": "Pass",
+  "meaning": "Independent G1 input approval only. Root must perform the recorded online freeze before Doing/G2. This is not a runtime, G3, G4 or parent-completion decision.",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified",
+    "productOrFixtureAuthor": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "branch": "codex/poms-r2m-integration",
+  "reviewedCandidate": {
+    "revision": 2,
+    "baseline": {
+      "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "bytes": 13410,
+      "rawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33",
+      "normalizedLfSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33"
+    },
+    "inputManifest": {
+      "file": "docs/design/rust-r2m/g1-input-manifest.json",
+      "bytes": 6895,
+      "rawBytesSha256": "65b32d7fc1c226fd3ed06615b4e80814d1645b809e29e3f89824fce4d6d15587",
+      "pinnedFiles": 20,
+      "independentlyVerifiedBytesRawAndLf": 20,
+      "mismatches": []
+    },
+    "keyInputPins": [
+      {
+        "file": "docs/design/rust-r2m/g1-environment-plan.json",
+        "bytes": 1421,
+        "rawBytesSha256": "a203d5564b191c04658a74addb6d077de5916672652b353eec3a2b1524308fe2"
+      },
+      {
+        "file": "docs/design/rust-r2m/delivery-audit-input.json",
+        "bytes": 323508,
+        "rawBytesSha256": "05d011f0ad7639f047759953dc251ce9fa5f2cda7421d0198e00e8f7e422ff18"
+      },
+      {
+        "file": "docs/design/rust-r2m/delivery-audit-input.md",
+        "bytes": 4995,
+        "rawBytesSha256": "e88a23bf270073633b9d43c1fbbc468086b0aec51619ef59e1ce4a577aa8c605"
+      },
+      {
+        "file": "docs/design/rust-r2m/acceptance-input.json",
+        "bytes": 125178,
+        "rawBytesSha256": "848967890e370221549ffab3f7f2f888376d373cea7c6ffaf68365c49109492b"
+      },
+      {
+        "file": "docs/design/rust-r2m/acceptance-input.md",
+        "bytes": 13868,
+        "rawBytesSha256": "c586baa8d52f74acf16c62137b338c0650ad764a3e711cbb2bb9f5b24185675f"
+      },
+      {
+        "file": "tmp/rust-r2m/start-dependencies.json",
+        "bytes": 58696,
+        "rawBytesSha256": "5feb9f28d0f8ca824ab30e943f17e03811d6d17bfb1255d0318d45319a5f04bb"
+      },
+      {
+        "file": "tmp/rust-r2m/g0-registration.json",
+        "bytes": 4241,
+        "rawBytesSha256": "91c847507e9988d773fdbf3c7067b40ad22a47852d1b627b27a40397be5925ee"
+      }
+    ],
+    "initialCandidatePreserved": "tmp/rust-r2m/g1-candidate01-originals",
+    "preliminaryPreserved": {
+      "file": "docs/design/rust-r2m/g0-review.json",
+      "rawBytesSha256": "05d1d90121b91c411d596a665dd4c673c1304984c53bb65aa3f6c6c9d866884a",
+      "status": "preliminary-not-a-Gate; original conclusions retain their observation time and are not rewritten"
+    }
+  },
+  "readLevels": {
+    "full": [
+      "Root baseline revision2",
+      "Root environment plan",
+      "20-file input manifest",
+      "A delivery-audit Markdown",
+      "B acceptance Markdown",
+      "applicable POMS implementation/GitHub skills and governance summary",
+      "ADR-018"
+    ],
+    "structuredSelected": [
+      "A JSON operation counts, source applicability, findings, known boundary and ignored inventory metadata",
+      "B JSON runtime composition, planned matrix, URI expectations, fixture/cleanup, environment, command and gate fields",
+      "Root current issue/native-child and G0 registration receipts"
+    ],
+    "targetedFormalSources": [
+      "Migration plan sections 1.1/1.2/6-9",
+      "R2 scope and dependencies",
+      "Current operation inventory slice rows and delivery summary",
+      "R2D closeout and validation.knownP3",
+      "EF numbering and L real-consumption boundary clauses",
+      "A-L closeout boundary excerpts"
+    ],
+    "hashOnly": "All 20 pinned files were independently verified for byte length, raw SHA-256 and UTF-8 CRLF-to-LF SHA-256. Hash-only verification is not a business review of all nested historical records.",
+    "notRead": [
+      "product source during this G1 review",
+      "fixture source during this G1 review",
+      "database contents",
+      "old private payloads",
+      "large historical runtime trees/tars"
+    ],
+    "delegatedAuditBoundary": "A/B source-to-current reports are accepted as scoped G1 inputs with their declared read levels. C does not claim an independent current-product or full historical-payload audit."
+  },
+  "currentDependencyFacts": {
+    "authority": "Root-captured current small GitHub receipts; C independently read the bound local receipts and did not make a new network request",
+    "nativeParent67Children": {
+      "closedCompleted": [
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "open": [
+        80
+      ]
+    },
+    "issue61": "closed/completed",
+    "issue80": "open; G0 registration exists, G1 online freeze not yet recorded in reviewed candidate",
+    "issue67": "open; final stage condition remains unchecked",
+    "issue57": "open; R2 checkbox remains unchecked until actual R2 closure",
+    "g0Comment": "https://github.com/illusion-tech/poms/issues/80#issuecomment-6529466390"
+  },
+  "frozenScopeAccepted": {
+    "sliceType": "cross-layer-high-risk stage acceptance and bounded compatibility repair",
+    "newPublicOperations": 0,
+    "inheritedR2Operations": 108,
+    "currentCombinedStaticOperationSet": 115,
+    "currentCombinedStaticPaths": 96,
+    "actualNewRuntimeAtG1": 0,
+    "plannedSurfaceProbesPerBackend": 115,
+    "plannedUriCellsPerBackend": 27,
+    "plannedApiPgLogicalCasesPerBackend": 20,
+    "plannedUiJourneysPerCombination": 4,
+    "plannedUiCombinations": 4,
+    "countsArePlansNotPasses": true,
+    "fixtureRule": "New R2M namespace/marker/resources and synthetic credentials; exact-source case envelopes and owned-row/object proof; named borrowed principals/definitions are read-only and never owned/deleted.",
+    "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+    "ports": {
+      "postgresHost": 20432,
+      "postgresContainer": 15432,
+      "native": 10070,
+      "rust": 10071,
+      "ui": 10080,
+      "controlledFeishu": 10090,
+      "controlledOBS": 10091
+    }
+  },
+  "resolvedCandidateFindings": [
+    {
+      "id": "C-G1-01",
+      "status": "closed-in-revision2",
+      "finding": "B required borrowed rows to be named before G1 but initial Root baseline did not list identities.",
+      "resolution": "Baseline section5 and B namedReadonlyBorrowing now name vp_owner/finance_mgr and three approval_summary_package_definition IDs; complete rows/credentials/roles/permissions/membership remain read-only and must be invariant. Unlisted objects gain no modification/ownership/delete permission; additional concrete read-only dependencies require same-scope admission, not a new ordinary Gate."
+    },
+    {
+      "id": "C-G1-02",
+      "status": "closed-in-revision2",
+      "finding": "Initial B URI kind incorrectly said new-real-drift for the historical R2D knownP3.",
+      "resolution": "B now classifies the transferred URI issue as existing-baseline-drift. Newly observed distinct drift will be separately classified. The known item remains an implementation and stage-closeout obligation."
+    }
+  ],
+  "requiredImplementationBoundaries": [
+    "A-M-URI-01 is explicitly inherited and unresolved at G1. Capture Native real-globals method/session/segment results before fixing or freezing unknown expectations; do not infer all combinations from the two historical anonymous GETs.",
+    "Root alone owns the minimum matched-dynamic-path decode/auth repair; no global indiscriminate predecode, URI rewriting, new alias or legitimate-URI behavior change. Preserve initial failures and rerun affected cells/shared paths.",
+    "Use the current unified candidate for the selected real HTTP/PG/UI integration. Historical A-L runtime results retain original source epochs and are not added to fresh run totals.",
+    "R2E numbering primitive and K/L necessary consumption boundaries remain explicit; no claim that every R3-R5 producer or consumer is migrated.",
+    "54 ignored entries remain individually labelled. Existing CHECK/comment schema differences remain classified failures, suggested DDL is never applied, and new real drift cannot reuse that classification.",
+    "Controlled Feishu/OBS integration proves the frozen isolated protocol boundary. Real tenant enablement, complete R3-R7, deployment, migration takeover and performance claims stay outside this slice.",
+    "Mixed UI routing uses a fixed method/path allowlist with request-level backend attribution and no candidate-error fallback. Real controls, network responses, bytes and business results must be observed.",
+    "Before fixture writes/cleanup, enforce exact namespace/marker/run/case/table/identity permissions, creation/commit/independent visibility proofs, writer-drain admission, complete reference preflight and precise row/object deletion. Preserve partial/unknown state rather than broad cleanup.",
+    "Preserve old private/environment/PG17/data and immutable historical evidence. New source closure is deduplicated once with per-run bindings and small incremental receipts."
+  ],
+  "reviewDefects": {
+    "openP0": 0,
+    "openP1": 0,
+    "openP2": 0,
+    "openCandidateAmbiguities": 0
+  },
+  "pendingEngineeringItems": [
+    "A-M-URI-01 current reproduction/repair/disposition",
+    "all planned current M0-M5/UI and shared checks",
+    "current fixture admission/cleanup/source/binary/evidence verification",
+    "G3",
+    "fixed-commit and main integration review",
+    "G4/archive/online/local reconciliation"
+  ],
+  "allowedNextAction": "Root may freeze this exact reviewed input set online, record its binding and enter Doing/G2 within the frozen scope.",
+  "completionRule": "#80 and #67 may close only after their own full requirements and actual G4 are met; #57 remains Open. This review closes no issue and approves no G3/G4 result.",
+  "executionByReviewer": {
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "tests": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "businessProcessesStarted": 0,
+    "oldPrivateReads": 0,
+    "gitWriteOperations": 0
+  }
+}

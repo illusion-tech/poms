@@ -1,0 +1,90 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-UI2-real-denial-route-to-original-TopBar-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-31T01:10:54Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-denial-navigation-source01.json",
+    "bytes": 3529,
+    "rawBytesSha256": "7b455c6e4bbeea323260daa97e474b59ece58d44038e0cc332f6e73ddc1286e0"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25431,
+      "rawBytesSha256": "733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032",
+      "readLevel": "Complete two-line helper/call-site delta on preserved3535 and original denial/logout context"
+    },
+    {
+      "file": "apps/poms-admin/src/app.routes.ts",
+      "bytes": 18649,
+      "rawBytesSha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7",
+      "readLevel": "Exact original raw hash plus necessary route/guard/layout/TopBar source context"
+    },
+    {
+      "file": "apps/poms-admin/src/app/core/auth/permission.guard.ts",
+      "bytes": 2397,
+      "rawBytesSha256": "68444575160f340bc70512175b124f21bd55402877dc8b20c7e105b74943c3a5",
+      "readLevel": "Exact original raw hash plus necessary route/guard/layout/TopBar source context"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.layout.ts",
+      "bytes": 2493,
+      "rawBytesSha256": "3b3592c9521f5d30920ab31aae7ce855cf75aae385e613f34f78f5fdeff51775",
+      "readLevel": "Exact original raw hash plus necessary route/guard/layout/TopBar source context"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.authlayout.ts",
+      "bytes": 389,
+      "rawBytesSha256": "f6f190537fece39f456e8565532d50cd6b4e019bae71c45fff3c7da82357ea95",
+      "readLevel": "Exact original raw hash plus necessary route/guard/layout/TopBar source context"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/auth/access.ts",
+      "bytes": 22427,
+      "rawBytesSha256": "1f310375969a572132e59f5fcc6a928c44ef779452e7271d7f109a48cc920dbe",
+      "readLevel": "Exact original raw hash plus necessary route/guard/layout/TopBar source context"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.topbar.ts",
+      "bytes": 11566,
+      "rawBytesSha256": "ac147d1a7bf5c6159dd7bec8f7c267a457d6f865b8f3c83382280e719cb68849",
+      "readLevel": "Exact original raw hash plus necessary route/guard/layout/TopBar source context"
+    }
+  ],
+  "preservedOriginal": {
+    "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+    "bytes": 24992,
+    "rawBytesSha256": "3535d8343e12df1937e1338d3c0894e6938e81ba81994b8d8c6212bf62d99c3a"
+  },
+  "before": {
+    "file": "tools/rust-r2m/ui-denial-navigation-before-source01.json",
+    "bytes": 33616,
+    "rawBytesSha256": "dfc2cfe4412c9c39d10fdff42bce5ac075a7c7994c0c200939ec381fdf14b75b"
+  },
+  "assessment": [
+    "The original permission guard redirects forbidden users access to /auth/access, whose AuthLayout contains only its outlet and has no AppTopbar. The original AppLayout includes the real TopBar and the original dashboard route belongs to it. The old failure waited for a control that was absent from the actual denial layout. Product routes/guards/layouts are unchanged.",
+    "The revised UI2 last step retains the original guarded-route denial, real fixed Angular GET403 and authenticated-true assertions. Only after these succeed it performs actual navigation to /dashboard, waits for its actual URL and original acceptance bridge, then requires the original visible profile control before invoking the unchanged real TopBar logout200. No API logout, mocked response, cookie override, permission bypass, retry or assertion weakening is added.",
+    "All seven current source pins match. Author pure evidence exercises inert original route classification, real-layout source expectations, controlled navigation/visibility order and exact original error propagation; it does not certify a browser run. The original uin2b partial and lease/recovery evidence remain unchanged.",
+    "This source decision does not accept the separate11 UI1 conditional304/200 differences, change cache policy or certify representation equivalence. Any new controlled uncached UI profile remains a separate explicit source/metadata/actual decision."
+  ],
+  "verification": {
+    "currentPins": "7/7 matched",
+    "authorPurePassed": 18,
+    "failed": 0,
+    "executedByC": false
+  },
+  "executionBoundary": "Root may capture exact733e29eb shared browser bytes in a new source epoch after the prior closed run and exact singleton lease are restored. Original owner/SDK/PG/full107/drain/restore/double-zero requirements remain. C performed source/public-file reads and this review write only: no private read, app/test/browser/process execution, DB/HTTP, product/fixture edit or Git mutation.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

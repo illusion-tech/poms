@@ -1,0 +1,69 @@
+{
+  "kind": "POMS-R2M-independent-uir3a-late-observer-source-review",
+  "reviewedAtUtc": "2026-10-31 02:26:58 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "Block",
+  "scope": {
+    "oneOperation": "Late restore of installed observer then cleanup of stopped uir3a",
+    "runId": "42a6e11d-6b6c-4f6b-9e30-3a683b71face",
+    "backend": "rust",
+    "G3": "Pending",
+    "G4": "Pending",
+    "newGateCreated": false
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-late-uir3a.mjs",
+      "bytes": 9821,
+      "rawBytesSha256": "d5ecce218c36babd5c9974b78c8feec37ef770a5a87f86386ea7c302fc1723e1"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m/uir3a-readonly01.json",
+      "bytes": 1957,
+      "rawBytesSha256": "bf51ef45eb3ed5ec866ab2063958315e97c71841906081feadd56e34524b4662"
+    },
+    {
+      "file": "tmp/rust-r2m/uir3a-recovery-precheck01.json",
+      "bytes": 401,
+      "rawBytesSha256": "3e52a7f2ff1349d60c8eaba13771e2f75ab4bb7c094c3ae534d5f1c7441f461e"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 73612,
+      "rawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f",
+      "readVia": "exact staged Linux public UNC source"
+    }
+  ],
+  "acceptedSourceParts": [
+    "Fixed original run/report/cap/ledger/observer pins and exclusive original journal/observer snapshots before Fixture.open",
+    "Original four owners stopped; fresh known PID absence/five ports/app0/prepared0 checks",
+    "Original Native SDK complete,57 proof-owned rows/0 pending/0 mutation/no singleton",
+    "Mature source/owner/OID/SQL/ACL exact-installed reconciliation into new generation; original all17 cases drained means reconcile refuses an active context",
+    "Full107 preflight/late drain/double-zero/initial-baseline equality and preserved original observer-restored=false"
+  ],
+  "finding": {
+    "id": "late-live-event-set",
+    "severity": "necessary-source-guard",
+    "location": "recoverUi3Late before handle.restore()",
+    "detail": "Caller validates only original observer.cases rows against original ledger. Mature22f restore validates that live events are this observer/run/database and committed, then exports and drops the observer; it does not compare the complete live event set to the original drained case.rawEvents/known birth set. Current caller therefore lacks its asserted unknown-live-events stop before restoration DDL.",
+    "minimumResolution": "Before handle.restore, use the fixed marker-validated original owner readonly connection to verify actual NULL control/known used17 cases and exact complete live event rows versus original17 case.rawEvents, each event context/source ID backed by its original case birth certificate. Unknown/missing/mutated event or control must stop. Do not clear/discard/adopt or edit22f.",
+    "projection": "Original drainCase and restore use identical SELECT e.*,top_xid8::text top_xid,xmin::text event_xmin,pg_xact_status(top_xid8) top_status. Match full same-JSON event rows by event_id; no volatile observed_full_xid is embedded in rawEvents, so no arbitrary field dropping is needed."
+  },
+  "readLevel": {
+    "recoveryHelper": "complete",
+    "matureObserver": "Necessary reconcileCaseContext, restore and exact event SELECT only; staged original22f hash verified",
+    "publicMetadata": "complete readonly diagnosis/precheck",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "next": "Root prepares only this narrow caller guard/new immutable candidate for incremental C closure, then executes after SourceReady. This result does not block independent source-ready UI/API work and is not an overall stage/GitHub gate."
+}

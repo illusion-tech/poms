@@ -1,0 +1,171 @@
+{
+  "kind": "R2M-independent-cap11-one-Rust-UI4-extractor-source-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01 15:29:29 UTC",
+  "input": {
+    "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/source-proposal01.json",
+    "bytes": 4796,
+    "rawBytesSha256": "b35384ee151c0652d8e23010c0f5c920c0ba3d511999431acccc3ba94eb77393"
+  },
+  "newTmpOnly": true,
+  "intendedDestination": "docs/design/rust-r2m/generic-cap11-extractor-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/observed-core.mjs",
+      "bytes": 16104,
+      "rawBytesSha256": "0b2f1cecc7b4d8a7b3933656c8d6b7793a9891d7c6ca61ca132536cc9b570914"
+    },
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/root-observed.mjs",
+      "bytes": 9038,
+      "rawBytesSha256": "05f2aa3153b75258b70550e5f9dd5dcddc78e43702044a58daf950ecb1a2ee02"
+    }
+  ],
+  "RootCopyAllFourFiles": [
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/observed-core.mjs",
+      "bytes": 16104,
+      "rawBytesSha256": "0b2f1cecc7b4d8a7b3933656c8d6b7793a9891d7c6ca61ca132536cc9b570914"
+    },
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/root-observed.mjs",
+      "bytes": 9038,
+      "rawBytesSha256": "05f2aa3153b75258b70550e5f9dd5dcddc78e43702044a58daf950ecb1a2ee02"
+    },
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/observation.test.mjs",
+      "bytes": 10215,
+      "rawBytesSha256": "4319f5d5289c503a59b8adc3c061049fbb0ca8b8b9b8fb8fcdabdbdbd2e906a2"
+    },
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/test-cli-receipt.mjs",
+      "bytes": 1784,
+      "rawBytesSha256": "5ee9ee0e991f9b5c6b951cf4052665e68507586f10ac6dd57c7337b91d4031db"
+    }
+  ],
+  "testSources": [
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/observation.test.mjs",
+      "bytes": 10215,
+      "rawBytesSha256": "4319f5d5289c503a59b8adc3c061049fbb0ca8b8b9b8fb8fcdabdbdbd2e906a2"
+    },
+    {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/test-cli-receipt.mjs",
+      "bytes": 1784,
+      "rawBytesSha256": "5ee9ee0e991f9b5c6b951cf4052665e68507586f10ac6dd57c7337b91d4031db"
+    }
+  ],
+  "inheritedCap10C": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/generic-cap10-extractor-source-review01.json",
+    "bytes": 8231,
+    "rawBytesSha256": "af85a38b883350babb93fc6a0951f78c221b3909a9f61d9d5063eb6f69a22d6f"
+  },
+  "inheritedCap10Packet": {
+    "file": "tmp/rust-r2m/windows-cap10-observation-candidate01/source-proposal01.json",
+    "bytes": 4966,
+    "rawBytesSha256": "56660bd20d006dd4a0c8939479936983492f65ab80d8f4f85bd5816f5e55490c"
+  },
+  "literalDelta": {
+    "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/literal-delta01.json",
+    "bytes": 6480,
+    "rawBytesSha256": "1f8b23ba1bd29391699f50b9728008318c6597403d4fb4232c7f1672ce48b558"
+  },
+  "fixedPlan": {
+    "file": "tmp/rust-r2m-continuation01/windows-single-journey-run-plan11.json",
+    "bytes": 819,
+    "rawBytesSha256": "5d4ce35e5d980516d639d093827f689375b864f70330311d06de3f0839b9c1e5"
+  },
+  "fixedRuns": [
+    {
+      "backend": "rust",
+      "runId": "7501e361-1ed2-47ae-ac08-c565e7c7efea",
+      "tag": "wr4c11a",
+      "selection": [
+        "UI4"
+      ]
+    }
+  ],
+  "actualPublicCap": {
+    "file": "tmp/rust-r2m-continuation01/source-cap-c01-win11.json",
+    "bytes": 1885334,
+    "rawBytesSha256": "53079a52722e9bb738cf7c4744acc9798210e139ef25ad9675bdb125828ea708"
+  },
+  "scope": {
+    "onlySourceCapId": "r2m-c01-win11",
+    "onlyManifest": "52395bad70cf6b329e31ff2e8010c3ea2a560b2b035da39a4b65d56dee870d77",
+    "capturedSourceCount": 4166,
+    "onlyLabel": "rust-UI4",
+    "onlyRunId": "7501e361-1ed2-47ae-ac08-c565e7c7efea",
+    "onlyTag": "wr4c11a",
+    "onlySelection": [
+      "UI4"
+    ],
+    "APIBackend": "rust",
+    "APIPlatform": "linux",
+    "browserPlatform": "win32",
+    "noNativeUI2UI3OrArbitraryCapUUIDTagEntry": true,
+    "RootMayReadOnlyAfterCompleteObservedReportDoubleZeroAndAllWriterPGClose": true,
+    "noApplicationHostDBHTTPOrSequenceExecution": true,
+    "noNewAcceptanceGate": true
+  },
+  "literalVerification": {
+    "bothRuntimeWholeFileInverseIndependentlyComparedToAf85Exact": true,
+    "twoTestSourcesWholeRawBytesUnchanged": true,
+    "actualChanges": [
+      "cap11 ID/52395manifest/safe-kind label",
+      "plan11 exactSHA and one-run length/UUID/tag/selection",
+      "only rust-UI4 label/tag pattern",
+      "originalZIP browser hardpinEDF",
+      "safe outputc11 and cap11 failure prefix"
+    ],
+    "fixedPlan819Raw5d4ceExact": true,
+    "actualCap11Complete4166AndManifestMatch": true,
+    "originalBrowserEDFPinMatchesActualCap11": true,
+    "allFourFileRawHashesAndOldReviewPacketDeltaReceiptExact": true
+  },
+  "inheritedFiniteSemantics": {
+    "originalReport": "Reject partial, absent original owner, pending callback, unclosed server/writer/PG or missing doublezero before original private extraction",
+    "privateIO": "Only fixed one-run five-digit JSON raw refs; guarded0700/0600/regular single-link/nofollow/stableFD-leaf-parent/fullbyte/hash checks and final unchanged check",
+    "allOriginalRawExchange": "Raw request/response and every exchange field compare against complete certification, body length/hash retained; original statuses and execution backends never rewritten",
+    "all107": "Each original HTTP and step before/after all107table names/fullphysicalrows, unknowncreates/mutations0; complete initial-to-cleanup physical row equality",
+    "stepRefs": "All6 original UI4 step sequence/network/certificate refs and windows exact started/finished boundaries; no invented fixed HTTP count",
+    "typedUI4": "Original upload checksum/size/project link, same finalattachment, typed includedselection/version, wire package/item/handover/project closure, actual original Windows browser ZIP and payload/manifest, complete cancel business-row no-change proof",
+    "originalStatus": "Known200/400 and every other actual status preserved, counts derived from original run",
+    "owner": "Windows browser proof and externalLinuxRust original runtime owner ref, complete writer/PG cleanup; no browser-independent API-platform verification invented",
+    "privacy": "No account/cookie/token/query value or wholeDTO export; analysis remains post-run, not claimed captured during original execution",
+    "limitations": "Scoped UI4 evidence extraction only, no byte/pixel/cache/performance equivalence claim and no overallG3/G4 decision"
+  },
+  "commands": [
+    "node tmp/rust-r2m/windows-cap11-observation-candidate01/root-observed.mjs --run rust-UI4"
+  ],
+  "outputs": [
+    "tmp/rust-r2m-continuation01/windows-rust-ui4c11-observed-safe01.json"
+  ],
+  "failurePrivatePrefix": "cap11-",
+  "authorVerification": {
+    "pureReceipt": {
+      "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/pure01.json",
+      "bytes": 3397,
+      "rawBytesSha256": "0e55f4fcced30fd71202f98664a038ef80d7b5b3f861c0d768fc127012caa648"
+    },
+    "passedTests": 7,
+    "syntax": 4,
+    "normalImports": 3,
+    "actualExtractCellCalled": false,
+    "privateRead": false,
+    "unchangedInheritedUI2UI3TestFixturesGrantNoRuntimeEntry": true,
+    "CExecutedTestsOrNode": false
+  },
+  "readLevel": "Necessary exact literal mapping plus independent entire runtime inverse; inherited body/wire/107/typed/cleanup/close/privateFS semantics reuse af85/19377 and original successful actual UI2/UI3 proof without re-execution by C",
+  "findings": [],
+  "execution": {
+    "RootOnlyAfterNormalClose": true,
+    "CPrivateOrHostDBHTTPBrowserApplicationActions": 0,
+    "captured4166MembersModified": 0,
+    "newTmpOnly": true
+  },
+  "actualUI4Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

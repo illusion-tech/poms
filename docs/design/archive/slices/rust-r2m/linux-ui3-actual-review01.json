@@ -1,0 +1,697 @@
+{
+  "kind": "R2M-independent-C-Linux-UI3-existing-actual-evidence-review",
+  "result": "Pass",
+  "reviewedAtUtc": "2026-10-31 18:28:45 UTC",
+  "reviewer": {
+    "role": "independent non-product-author C",
+    "declaredModel": "gpt-6.1-sol",
+    "declaredReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "scope": {
+    "journey": "UI3",
+    "arrangements": [
+      "Linux managed Nest",
+      "Linux managed Rust with original named Native producers/read models"
+    ],
+    "sourceCapId": "r2m-joint26",
+    "sourceCapManifest": "a260ce9a7e038a813ae799e5996cd5c2e304c53282a0d8ce77269926a4347775",
+    "nativeRun": "bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a",
+    "rustRun": "6d1369d1-d35b-4757-91ad-38b56a2d35fb",
+    "tags": [
+      "uin3b",
+      "uir3b"
+    ],
+    "existingRunsOnly": true,
+    "newJourneyRun": false,
+    "dedicatedUIWholeFieldComparatorRequired": false,
+    "wholeUIResponseOrDOMByteEqualityCertified": false,
+    "cacheEquivalenceCertified": false,
+    "allUIArrangementsCertified": false,
+    "M4UI4WindowsOrPerformanceCertified": false,
+    "finalFixedCommitCertified": false,
+    "G3": false,
+    "G4": false
+  },
+  "requirementBasis": {
+    "file": "docs/design/rust-r2m/ui-evidence-requirements-review01.json",
+    "bytes": 8993,
+    "rawBytesSha256": "4c65cb79e699fd559843180da539c77aca97ed4f2f0a220110afbd257110c746"
+  },
+  "coverageIndex": {
+    "file": "docs/design/rust-r2m/ui3-observed-coverage01.json",
+    "bytes": 117660,
+    "rawBytesSha256": "e8b06e603523ccf4ad14f3fbf844ea6d3fd53c9edd688282ff0991491079d3d1"
+  },
+  "APICompatibilityClosure": {
+    "file": "docs/design/rust-r2m/m3-five-actual-review01.json",
+    "bytes": 27125,
+    "rawBytesSha256": "598b7c0c042a2955841967f9777f61d1b30607e6da2005b62eaa00cf008bd60e"
+  },
+  "safeOriginalMetadata": {
+    "file": "tmp/rust-r2m/linux-ui3b-observed-metadata02.json",
+    "bytes": 147540,
+    "rawBytesSha256": "d10a07bcdf392229c3d7e2edf7ef8a36a4b1de7e9b40d61e87dba0a9f273a039"
+  },
+  "publicRuntimeInputPins": [
+    {
+      "file": "tmp/rust-r2m/linux-ui3b-observed-metadata02.json",
+      "bytes": 147540,
+      "rawBytesSha256": "d10a07bcdf392229c3d7e2edf7ef8a36a4b1de7e9b40d61e87dba0a9f273a039"
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-joint26.json",
+      "bytes": 1426814,
+      "rawBytesSha256": "4b3d028fac2ea41c1dda3fdf03062f42974443e8e5fc3b009d58b08b133fbab6"
+    },
+    {
+      "file": "tmp/rust-r2m/ui-linux-nest-uin3b.json",
+      "bytes": 90347,
+      "rawBytesSha256": "aee709e8d70a81b6f14b8a8c6513e18881699db63e39d9e73c3b8e8dba02719c"
+    },
+    {
+      "file": "tmp/rust-r2m/ui-linux-rust-uir3b.json",
+      "bytes": 90443,
+      "rawBytesSha256": "0e5e7a4cd84e8fe6b426b8ae6524b4e55b5a351c65b69608db58d9913954701a"
+    }
+  ],
+  "sourceAndCandidateLinkage": {
+    "publicCap": {
+      "file": "tmp/rust-r2m/source-cap-joint26.json",
+      "bytes": 1426814,
+      "rawBytesSha256": "4b3d028fac2ea41c1dda3fdf03062f42974443e8e5fc3b009d58b08b133fbab6"
+    },
+    "candidate": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "members": 3206,
+    "NativeMain": {
+      "bytes": 2958081,
+      "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+    },
+    "RustRelease": {
+      "bytes": 34163304,
+      "rawBytesSha256": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd"
+    },
+    "frontendBuildManifest": {
+      "bytes": 99184,
+      "rawBytesSha256": "4da16dc4da1c3cca4f616f8b84d81c24e0a887ebbc93c90aa4850562154a717b"
+    },
+    "productFilesComparedWithPassedM3Cap25": 1987,
+    "addedRemovedOrChangedProductFiles": 0,
+    "originalUI3SourceBodies": [
+      {
+        "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+        "bytes": 25929,
+        "rawBytesSha256": "82a7d6e2a02bfc2afb95e51ec4fcd40c957892ed2c45b2afd005b36a6efc5dee",
+        "readByCFrom": "E:/projects/poms/tmp/rust-r2m/public-source-store/82a7d6e2a02bfc2afb95e51ec4fcd40c957892ed2c45b2afd005b36a6efc5dee"
+      },
+      {
+        "file": "tools/rust-r2m/ui-runtime-full.mjs",
+        "bytes": 29552,
+        "rawBytesSha256": "b369a8d588982b75bdb6d1e4e470c87f523a438c34df5379dd5adf7077709c18",
+        "readByCFrom": "E:/projects/poms/tmp/rust-r2m/public-source-store/b369a8d588982b75bdb6d1e4e470c87f523a438c34df5379dd5adf7077709c18"
+      },
+      {
+        "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+        "bytes": 18719,
+        "rawBytesSha256": "20245325ba605e8fd1399a8264a3ebae7cebc870fd27954531e3cdbb7bee6197",
+        "readByCFrom": "E:/projects/poms/tmp/rust-r2m/public-source-store/20245325ba605e8fd1399a8264a3ebae7cebc870fd27954531e3cdbb7bee6197"
+      }
+    ],
+    "sourceReadLevel": "Immutable public cap-stored source bytes, not current later UI4/Windows sources. The UI3 controls, source prepare/binding, actual-context HTTP dispatch and closure path reuse the previously signed runtime boundary.",
+    "APIReference": "The passed original M3 pair uses cap25; cap26 changes no apps/libs product member or Native/Rust executable identity. The coverage links the shared contract-review/reject/current-approval semantics to M3.1/M3.5, while original UI-only control and selection assertions remain independently observed."
+  },
+  "actualSummary": {
+    "stepsPerSide": 3,
+    "actualHTTPPerSide": 76,
+    "allHTTPStatus200": true,
+    "allCompleteBodyLengthAndShaVerified": true,
+    "allBeforeAndAfterFull107SchemaVerified": true,
+    "storageSchema": {
+      "tables": 107,
+      "columns": 1778,
+      "incomingForeignKeys": 207
+    },
+    "allHTTPUnknownCreatesAndMutationsZero": true,
+    "full107InitialAndAfterCleanupRowsEqualPerSide": true,
+    "cleanupsPerSide": [
+      65,
+      0
+    ],
+    "localFilesChangedPerSide": 0,
+    "allWriterLifecyclesStoppedAndPGRestored": true,
+    "allOriginalRawEvidenceRetained": true,
+    "RootMetadataNoNewJourneyRun": true,
+    "RootMetadataPrivateValuesOrQueryValuesExported": false
+  },
+  "coverageMap": [
+    {
+      "backend": "nest",
+      "runId": "bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a",
+      "steps": [
+        {
+          "id": "todo-detail-reject",
+          "result": "observed",
+          "sharedAPICases": [
+            "M3.1",
+            "M3.5"
+          ],
+          "originalUIAssertions": [
+            "original Workbench owned Todo button opens original contract detail",
+            "real reject dialog action",
+            "typed current approval rejected"
+          ],
+          "HTTP": 26,
+          "mutationRoutes": [
+            {
+              "index": 6,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 24,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:reject",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 27,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "status": 200,
+              "executionBackend": "nest"
+            }
+          ]
+        },
+        {
+          "id": "original-native-resubmit",
+          "result": "observed",
+          "sharedAPICases": [
+            "M3.1"
+          ],
+          "originalUIAssertions": [
+            "original contract page submit-review control",
+            "original Native producer request in both arrangements",
+            "new current approval selected by actual typed source"
+          ],
+          "HTTP": 23,
+          "mutationRoutes": [
+            {
+              "index": 30,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 47,
+              "method": "POST",
+              "pathTemplate": "/api/contracts/{id}:submitReview",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 50,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "status": 200,
+              "executionBackend": "nest"
+            }
+          ]
+        },
+        {
+          "id": "actual-current-todo-approve",
+          "result": "observed",
+          "sharedAPICases": [
+            "M3.1"
+          ],
+          "originalUIAssertions": [
+            "current original Workbench Todo control",
+            "actual current approval approve action",
+            "typed status approved and real projection/detail response"
+          ],
+          "HTTP": 27,
+          "mutationRoutes": [
+            {
+              "index": 53,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 70,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:approve",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 77,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "status": 200,
+              "executionBackend": "nest"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "runId": "6d1369d1-d35b-4757-91ad-38b56a2d35fb",
+      "steps": [
+        {
+          "id": "todo-detail-reject",
+          "result": "observed",
+          "sharedAPICases": [
+            "M3.1",
+            "M3.5"
+          ],
+          "originalUIAssertions": [
+            "original Workbench owned Todo button opens original contract detail",
+            "real reject dialog action",
+            "typed current approval rejected"
+          ],
+          "HTTP": 26,
+          "mutationRoutes": [
+            {
+              "index": 6,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "status": 200,
+              "executionBackend": "rust"
+            },
+            {
+              "index": 24,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:reject",
+              "status": 200,
+              "executionBackend": "rust"
+            },
+            {
+              "index": 27,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "status": 200,
+              "executionBackend": "rust"
+            }
+          ]
+        },
+        {
+          "id": "original-native-resubmit",
+          "result": "observed",
+          "sharedAPICases": [
+            "M3.1"
+          ],
+          "originalUIAssertions": [
+            "original contract page submit-review control",
+            "original Native producer request in both arrangements",
+            "new current approval selected by actual typed source"
+          ],
+          "HTTP": 23,
+          "mutationRoutes": [
+            {
+              "index": 30,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "status": 200,
+              "executionBackend": "rust"
+            },
+            {
+              "index": 47,
+              "method": "POST",
+              "pathTemplate": "/api/contracts/{id}:submitReview",
+              "status": 200,
+              "executionBackend": "nest"
+            },
+            {
+              "index": 50,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "status": 200,
+              "executionBackend": "rust"
+            }
+          ]
+        },
+        {
+          "id": "actual-current-todo-approve",
+          "result": "observed",
+          "sharedAPICases": [
+            "M3.1"
+          ],
+          "originalUIAssertions": [
+            "current original Workbench Todo control",
+            "actual current approval approve action",
+            "typed status approved and real projection/detail response"
+          ],
+          "HTTP": 27,
+          "mutationRoutes": [
+            {
+              "index": 53,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "status": 200,
+              "executionBackend": "rust"
+            },
+            {
+              "index": 70,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:approve",
+              "status": 200,
+              "executionBackend": "rust"
+            },
+            {
+              "index": 77,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "status": 200,
+              "executionBackend": "rust"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "typedBusinessProofs": [
+    {
+      "backend": "nest",
+      "rejectedTypedOldApproval": true,
+      "resubmitCreatesDistinctTypedPendingCurrentApproval": true,
+      "finalActualApproveTargetsSameNewPendingId": true,
+      "finalNewApprovalApprovedAndOldStillRejected": true,
+      "sameOwnedContractTargetAcrossThree": true,
+      "resubmitExecutionBackend": "nest",
+      "threeActualOriginalCertificates": [
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00053.json",
+          "bytes": 1272722,
+          "rawBytesSha256": "b4cac9f07ae7bd91dd2eac1102f4225806cda9fde1c9fb49c480e7380f713126",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00100.json",
+          "bytes": 1473926,
+          "rawBytesSha256": "7591a839aa3fcb7fbfc0dcbb4ef0c2538bdb9ad387c9142656fc2b8af3b8c489",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00147.json",
+          "bytes": 1644900,
+          "rawBytesSha256": "c0802f2f993e01211a12485f56ff79ec8b0d65c5bc66c7097bf9821a7ec6cd90",
+          "private": true
+        }
+      ],
+      "stepCompleteFacts": [
+        {
+          "id": "todo-detail-reject",
+          "journey": "UI3",
+          "HTTP": 26,
+          "allOriginalNetworkCertificateReferencesExact": true,
+          "full107BeforeAndAfter": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00062.json",
+            "bytes": 1318484,
+            "rawBytesSha256": "ede87d56a7f8ac312289b4559638af643d6e62617908fd339b766a1040274e11",
+            "private": true
+          }
+        },
+        {
+          "id": "original-native-resubmit",
+          "journey": "UI3",
+          "HTTP": 23,
+          "allOriginalNetworkCertificateReferencesExact": true,
+          "full107BeforeAndAfter": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00109.json",
+            "bytes": 1496570,
+            "rawBytesSha256": "e83cfa1ed6f39d152bdf0ae6a55975ed4b1d8ccc803708fefb72d01fa40acc85",
+            "private": true
+          }
+        },
+        {
+          "id": "actual-current-todo-approve",
+          "journey": "UI3",
+          "HTTP": 27,
+          "allOriginalNetworkCertificateReferencesExact": true,
+          "full107BeforeAndAfter": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00165.json",
+            "bytes": 1719582,
+            "rawBytesSha256": "85230056bd57e4f4d12d3cd39968c2a660f6a59b3169994b98e2cd9c7e0cb11f",
+            "private": true
+          }
+        }
+      ],
+      "initialAndAfterDoubleZero107": [
+        {
+          "kind": "UI-global-full107-before-preparation",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00000.json",
+          "bytes": 432858,
+          "rawBytesSha256": "c9008e6c545bb55f5f31b94550dd0463c19ecdcdb1739debe38371faeaa80903",
+          "private": true
+        },
+        {
+          "kind": "UI-full107-after-double-zero",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00168.json",
+          "bytes": 432850,
+          "rawBytesSha256": "1dd093e0225725fd5b7381911509bdfa77208ee34c1e29c4696a527ea4a6bde0",
+          "private": true
+        }
+      ],
+      "certifiedRowObservations": {
+        "SDK": 9,
+        "PG": 9,
+        "meaning": "Per-HTTP certificate row observations; PG shadows and SDK observations are not counted as separate owned creations."
+      },
+      "writers": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false
+      }
+    },
+    {
+      "backend": "rust",
+      "rejectedTypedOldApproval": true,
+      "resubmitCreatesDistinctTypedPendingCurrentApproval": true,
+      "finalActualApproveTargetsSameNewPendingId": true,
+      "finalNewApprovalApprovedAndOldStillRejected": true,
+      "sameOwnedContractTargetAcrossThree": true,
+      "resubmitExecutionBackend": "nest",
+      "threeActualOriginalCertificates": [
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00053.json",
+          "bytes": 1264523,
+          "rawBytesSha256": "77f03574c63a0a8a68ff8533a51464c939a64fc4282bbde87fe6bb571642b23a",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00100.json",
+          "bytes": 1452161,
+          "rawBytesSha256": "01bf37be715bc588ba035ad32a0565ca0c4cb9c41b4c0bfe4b2f4d55074c5dad",
+          "private": true
+        },
+        {
+          "kind": "actual-UI-one-HTTP-producer-certification",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00147.json",
+          "bytes": 1606999,
+          "rawBytesSha256": "c14cb7f8aa86dbb48114e8fdf01e6575ffbd4fd582fcf5d04567bcad83d41ea4",
+          "private": true
+        }
+      ],
+      "stepCompleteFacts": [
+        {
+          "id": "todo-detail-reject",
+          "journey": "UI3",
+          "HTTP": 26,
+          "allOriginalNetworkCertificateReferencesExact": true,
+          "full107BeforeAndAfter": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00062.json",
+            "bytes": 1309276,
+            "rawBytesSha256": "53bced9d2c53f0d788f95278b314c7e1ae7ed2acaad040c714e1b0ebd02787d3",
+            "private": true
+          }
+        },
+        {
+          "id": "original-native-resubmit",
+          "journey": "UI3",
+          "HTTP": 23,
+          "allOriginalNetworkCertificateReferencesExact": true,
+          "full107BeforeAndAfter": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00109.json",
+            "bytes": 1474805,
+            "rawBytesSha256": "171e1bb8f48938798a655cd2775a0078ebe1485a2f8bea45be05d8d39c0cd0b5",
+            "private": true
+          }
+        },
+        {
+          "id": "actual-current-todo-approve",
+          "journey": "UI3",
+          "HTTP": 27,
+          "allOriginalNetworkCertificateReferencesExact": true,
+          "full107BeforeAndAfter": true,
+          "ref": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00165.json",
+            "bytes": 1678500,
+            "rawBytesSha256": "9e16def41e9fc3e359a28668328763e570d66478193688eb367690b7f05c67ca",
+            "private": true
+          }
+        }
+      ],
+      "initialAndAfterDoubleZero107": [
+        {
+          "kind": "UI-global-full107-before-preparation",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00000.json",
+          "bytes": 432990,
+          "rawBytesSha256": "58ac773a6b7cb75c1f2e2901aa2190ac810627785e9598bcab0bad61d9e8786e",
+          "private": true
+        },
+        {
+          "kind": "UI-full107-after-double-zero",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00168.json",
+          "bytes": 432982,
+          "rawBytesSha256": "f6277f2b111e928e598a26621fab75ea15820bf8ba5de4ef7d195397a0feeb13",
+          "private": true
+        }
+      ],
+      "certifiedRowObservations": {
+        "SDK": 6,
+        "PG": 9,
+        "meaning": "Per-HTTP certificate row observations; PG shadows and SDK observations are not counted as separate owned creations."
+      },
+      "writers": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": true
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": true
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false
+      }
+    }
+  ],
+  "browserInput": {
+    "engine": "chromium",
+    "playwrightVersion": "1.63.0",
+    "platform": "linux",
+    "NativeDatabaseOrJwtEnvironmentInherited": false,
+    "ownedContext": true,
+    "cacheDisabled": true,
+    "appliedBeforeFirstNavigation": true,
+    "actualCDPAcknowledged": [
+      "Network.enable",
+      "Network.setCacheDisabled(true)"
+    ],
+    "rawHeaderConditions": "Original per-exchange raw headers remain retained. This receipt does not manufacture a new header-equivalence or cache-performance claim.",
+    "originalSharedJourneyAssertions": "Workbench actual owned Todo control, original contract-detail/dialog controls and actual current-approval bridge read remain distinct recorded actions; no fixed bridge action is relabeled as a UI click."
+  },
+  "independentEvidenceJoins": {
+    "byExactOriginalCertificateFileAndHash": true,
+    "joins": [
+      {
+        "backend": "nest",
+        "count": 76,
+        "refJoinMismatchCount": 0,
+        "stepJoinMismatchCount": 0,
+        "safeOrdinalToContextIndexOffset": [
+          3
+        ]
+      },
+      {
+        "backend": "rust",
+        "count": 76,
+        "refJoinMismatchCount": 0,
+        "stepJoinMismatchCount": 0,
+        "safeOrdinalToContextIndexOffset": [
+          3
+        ]
+      }
+    ],
+    "perStepEvidenceShaMatchesOriginalStepCertificate": true,
+    "noPrivateFileReadByReviewer": true,
+    "metadataIndexMeaning": "The safe metadata index is the zero-based observed-HTTP ordinal; the older coverage index is the actual fixture context index and is ordinal+3 for this fixed run. They were kept distinct and joined by exact retained file/hash.",
+    "pathTemplateMeaning": "The safe exporter spells its UUID placeholder {uuid}, while the earlier coverage spells it {id}. Only that public template-label spelling was aligned for this join; raw private request/response bytes were not rewritten or compared as aliases."
+  },
+  "necessaryFindings": [
+    {
+      "finding": "The coverage index originally left complete M3 API comparison pending.",
+      "resolution": "The independent M3-only actual Pass receipt 598b7c0c... now closes that referenced shared-semantic dependency. The old coverage file is preserved byte-exact; this receipt supplies its new disposition."
+    },
+    {
+      "finding": "The same-source UI3 actual controls include the original Native contract resubmit producer in both arrangements.",
+      "resolution": "That exchange is explicitly executionBackend=nest even for the Rust arrangement. It is not presented as a migrated Rust route or a hidden fallback."
+    },
+    {
+      "finding": "Existing raw references alone did not expose every full107/schema/typed status assertion to this reviewer.",
+      "resolution": "Root extracted only safe verification metadata from the existing original artifacts, without a new journey/DB run/snapshot. C joined all 152 original certificate refs and all six step refs to the original reports and coverage with zero mismatch."
+    },
+    {
+      "finding": "There is no synthetic outsideScope property on these original full107 facts.",
+      "resolution": "The actual checks are unknownCreates=0, unknownMutations=0 and complete initial/after-cleanup physical row equality, exactly as recorded. No extra field is invented."
+    }
+  ],
+  "independentVerification": {
+    "publicInputFiles": 7,
+    "originalPublicSourceBodies": 3,
+    "allDeclaredPublicRawHashesMatched": true,
+    "completePublicCapIdentityChecked": true,
+    "productMembersAgainstPassedM3Cap25": 1987,
+    "productMemberChanges": 0,
+    "exactPerHTTPRefJoins": 152,
+    "exactStepRefJoins": 6,
+    "refOrStepMismatchCount": 0,
+    "RootExtractedBodySchemaUnknownAndBusinessBooleansChecked": true,
+    "sourceOnlyExpectedControlAndProjectionAssertionsChecked": true,
+    "privateEvidenceReplayedByC": false,
+    "newJourneyOrComparatorExecutedByC": false
+  },
+  "readLevels": {
+    "public": "Original public run reports, coverage index, cap, safe verification metadata and requirement/actual-M3 receipts were read and independently hashed.",
+    "source": "Three original cap-stored public source bodies were read at the UI3 control/source/closure sites and hashed. The primary checkout was read only at those explicitly referenced immutable public store files.",
+    "private": "Only private references/hashes in public receipts were read. C did not open private HTTP/SQL/SDK/PG/screenshot/Cookie/env records.",
+    "runtime": "No DB/API/browser, process/PowerShell/kernel action, Node/test or journey execution, product edit or Git mutation was performed."
+  },
+  "limits": [
+    "Pass 仅覆盖这两个现有 Linux UI3 arrangement；Windows 两组合、其他 UI旅程和最终 G3/G4 不由此通过。",
+    "按冻结4c65规则使用原同源实际 UI断言、逐HTTP typed SDK/PG/完整107与清理，以及对应M3完整语义覆盖；不新增 UI3 专用全字段差分或未消费 producerDTO 门槛。",
+    "本收据不声明 UI所有 DOM/JSON/ETag/raw byte 逐字节等价、缓存协商/性能等价，也不将原 cached UI12 304/200差异删除。",
+    "原 observed-comparison-pending 报告、失败/partial 与旧coverage Pending文字全部保留；本收据独立记录现有证据在限定scope下的验收结论。",
+    "原运行时65→0不说明后来旧数据库的当前状态。旧M5未认证图/隔离数据库没有被本复核读取、认领、删除或更改。"
+  ]
+}
+

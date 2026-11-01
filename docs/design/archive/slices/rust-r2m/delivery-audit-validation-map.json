@@ -1,0 +1,631 @@
+{
+  "kind": "R2M-delivery-audit-minimum-original-runner-and-inheritance-map",
+  "result": "SourceReady-input-not-runtime-acceptance",
+  "at": "2026-10-30T21:18:00.216Z",
+  "baseline": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceReads": [
+    {
+      "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "bytes": 13452,
+      "rawBytesSha256": "fb40c7f9761f3ecc7ef84e9a761f053f8e116da5f40fe78387df913cb86b0cba"
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "bytes": 54201,
+      "rawBytesSha256": "2d27539287face93572a9b762d4a8bc85ff88214259b483df8d387abfdcc2627"
+    },
+    {
+      "file": "docs/design/rust-r2-scope-and-dependencies.md",
+      "bytes": 64928,
+      "rawBytesSha256": "1ca6c3c1755bf25ddb9e27a4a8958763297c657849fbb4cf4a7eb0fa15762052"
+    },
+    {
+      "file": "docs/design/rust-r1e-validation.json",
+      "bytes": 589195,
+      "rawBytesSha256": "223db527e69597c4cc9096bde8b0ff20f3b59ecf0be79f453e2753c30c2775a7"
+    },
+    {
+      "file": "docs/design/rust-r2l-validation.json",
+      "bytes": 215253,
+      "rawBytesSha256": "866ef4d8f019b351404f6c34dfdb39d6c479f7ff72263daf838db6184ef26fae"
+    },
+    {
+      "file": "apps/poms-api-e2e/project.json",
+      "bytes": 545,
+      "rawBytesSha256": "6531590f8a39609a8529af97ea9357193d21750675ed4f75d986a1a967a1be41"
+    },
+    {
+      "file": "apps/poms-api-e2e/jest.config.ts",
+      "bytes": 1049,
+      "rawBytesSha256": "f21f51614136f834ea42a52e57e59a6f4c1ac73f4f5435f3a380f292f26737a7"
+    },
+    {
+      "file": "apps/poms-admin-e2e/project.json",
+      "bytes": 523,
+      "rawBytesSha256": "71f535357441ddb62127831fc0c3aab4e612be16461ffc032f01114f3c4f9940"
+    },
+    {
+      "file": "apps/poms-admin-e2e/playwright.config.ts",
+      "bytes": 1717,
+      "rawBytesSha256": "90a9050cad5d8390bdf75fbae540b83df2555257fac91c80eebc24e5a353af45"
+    },
+    {
+      "file": "tools/e2e/api-server.cjs",
+      "bytes": 5414,
+      "rawBytesSha256": "fcc1e6b8507e3809a586852d5d6c58d82113f2a16e96ff11a4963b9bdec5ef95"
+    },
+    {
+      "file": "tools/e2e/admin-launcher.cjs",
+      "bytes": 12558,
+      "rawBytesSha256": "649ac781e4276a3a79f3cb787a2ff2cd270922b81b1935c831aec57107270253"
+    }
+  ],
+  "currentProductS3Protection": {
+    "S3": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+    "scopes": [
+      "apps/poms-api/src",
+      "apps/poms-admin/src",
+      "libs/api/contracts/src",
+      "libs/shared/contracts/src",
+      "libs/shared/api-spec/openapi.json",
+      "libs/shared/api-client",
+      "libs/admin/data-access"
+    ],
+    "checks": [
+      {
+        "kind": "working-tree",
+        "args": [
+          "diff",
+          "--name-only",
+          "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+          "--",
+          "apps/poms-api/src",
+          "apps/poms-admin/src",
+          "libs/api/contracts/src",
+          "libs/shared/contracts/src",
+          "libs/shared/api-spec/openapi.json",
+          "libs/shared/api-client",
+          "libs/admin/data-access"
+        ],
+        "files": [
+          "libs/shared/api-client/api/contract.service.ts",
+          "libs/shared/api-client/api/project.service.ts"
+        ]
+      },
+      {
+        "kind": "index",
+        "args": [
+          "diff",
+          "--cached",
+          "--name-only",
+          "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+          "--",
+          "apps/poms-api/src",
+          "apps/poms-admin/src",
+          "libs/api/contracts/src",
+          "libs/shared/contracts/src",
+          "libs/shared/api-spec/openapi.json",
+          "libs/shared/api-client",
+          "libs/admin/data-access"
+        ],
+        "files": [
+          "libs/shared/api-client/api/contract.service.ts",
+          "libs/shared/api-client/api/project.service.ts"
+        ]
+      },
+      {
+        "kind": "untracked",
+        "args": [
+          "ls-files",
+          "--others",
+          "--exclude-standard",
+          "--",
+          "apps/poms-api/src",
+          "apps/poms-admin/src",
+          "libs/api/contracts/src",
+          "libs/shared/contracts/src",
+          "libs/shared/api-spec/openapi.json",
+          "libs/shared/api-client",
+          "libs/admin/data-access"
+        ],
+        "files": []
+      }
+    ],
+    "allThreeEmpty": false,
+    "meaning": "Original API/admin/contracts/spec/data-access are unchanged since S3. Exactly two generated client lookup method changes occur after S3 and are already covered by the L delivery/lookup acceptance. Do not call the full S3 client tree unchanged.",
+    "knownApprovedPostS3ClientChanges": [
+      "libs/shared/api-client/api/contract.service.ts",
+      "libs/shared/api-client/api/project.service.ts"
+    ]
+  },
+  "R1E35SourceComparison": {
+    "total": 35,
+    "same": 28,
+    "changed": [
+      {
+        "file": "apps/poms-admin-e2e/playwright.config.ts",
+        "expectedNormalizedLfSha256": "6a94aa82890414173087f978d26a5aa10b9f63d6f5c1ac7fab75cf033460ac9e",
+        "currentNormalizedLfSha256": "90a9050cad5d8390bdf75fbae540b83df2555257fac91c80eebc24e5a353af45"
+      },
+      {
+        "file": "tools/e2e/admin-launcher.cjs",
+        "expectedNormalizedLfSha256": "e2c89d5900d12203b93587e3a2a148f2d3b646fe104fa577c98d98a7e1c67945",
+        "currentNormalizedLfSha256": "649ac781e4276a3a79f3cb787a2ff2cd270922b81b1935c831aec57107270253"
+      },
+      {
+        "file": "tools/e2e/admin-launcher.d.cts",
+        "expectedNormalizedLfSha256": "9265dfc6238aa9debf9dc2ae343c8ddafff94ea21e86819bcecc92c3c2470b9c",
+        "currentNormalizedLfSha256": "763380752e71fd02b65e0917fd9ad0e1f6e8cac1051b4774732fbaa2a38f3401"
+      },
+      {
+        "file": "tools/e2e/admin-launcher.test.cjs",
+        "expectedNormalizedLfSha256": "d00be1d9b70edfc9f1ac7b443a3df4ddd1a9538bafc5f61c00b8fc5ed78bacd7",
+        "currentNormalizedLfSha256": "153d3544159b9a9c4b59e07e8b24c36669854d5c9ef9d7e9c2732a93bea64496"
+      },
+      {
+        "file": "tools/e2e/api-server.cjs",
+        "expectedNormalizedLfSha256": "2546bc9334d8a2223bc1abdc2db15adaf8e0ee9b4525d2aee92e55f6d97c6fbe",
+        "currentNormalizedLfSha256": "fcc1e6b8507e3809a586852d5d6c58d82113f2a16e96ff11a4963b9bdec5ef95"
+      },
+      {
+        "file": "tools/e2e/api-server.test.cjs",
+        "expectedNormalizedLfSha256": "5184fc2810aeb71b6735f672b90a7b98e4b13dc952e4332010c3b41461581b42",
+        "currentNormalizedLfSha256": "d1b9c79fd59a0bb0d0caa42ab596ef934b231bea65d1c9867599223bef2dd2fb"
+      },
+      {
+        "file": "tools/e2e/browser-tsconfig.json",
+        "expectedNormalizedLfSha256": "6e44aac64093002e365f71a80487da57a85338a2b101adb98b437b5f89608618",
+        "currentNormalizedLfSha256": "876ae3fcaaa1a0e81f73eb91e1746888119ba2d72b228a2a5e4acef62ac80df7"
+      }
+    ],
+    "legacy8SpecAllExact": true,
+    "readLevel": "bounded 35-file normalized-LF comparison; not old runtime replay",
+    "legacy8PerFileBasis": [
+      {
+        "file": "apps/poms-admin-e2e/src/contract-management.journey.spec.ts",
+        "basis": "R1E final changed-source35 hash",
+        "sourceCommit": null,
+        "expectedNormalizedLfSha256": "9c548580c4af3e855bf66be593a4a082a2f2d19dd4cc1edcd2be6a56087815dd",
+        "currentNormalizedLfSha256": "9c548580c4af3e855bf66be593a4a082a2f2d19dd4cc1edcd2be6a56087815dd",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/external-login.mocked.spec.ts",
+        "basis": "R1E sourceBaseline committed blob; file is outside final changed-source35 list",
+        "sourceCommit": "70482a77091e0288e4708fbdf6a4fec5b5d51427",
+        "expectedNormalizedLfSha256": "3e6e8597f5606da0eed2e6483ff6bd6261e3d33da9a705f906d30ccb58f8a0a8",
+        "currentNormalizedLfSha256": "3e6e8597f5606da0eed2e6483ff6bd6261e3d33da9a705f906d30ccb58f8a0a8",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/frontend-permission-visibility.matrix.spec.ts",
+        "basis": "R1E sourceBaseline committed blob; file is outside final changed-source35 list",
+        "sourceCommit": "70482a77091e0288e4708fbdf6a4fec5b5d51427",
+        "expectedNormalizedLfSha256": "fb47c8249943ce4d8ebe8bb2cd6f528f692c597a029dc687da2995d7a3fe07ce",
+        "currentNormalizedLfSha256": "fb47c8249943ce4d8ebe8bb2cd6f528f692c597a029dc687da2995d7a3fe07ce",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/lead-bootstrap.journey.spec.ts",
+        "basis": "R1E final changed-source35 hash",
+        "sourceCommit": null,
+        "expectedNormalizedLfSha256": "82ba5bbd8b0d4ff517fb832ac6b02f01eb40cc691574190e091a3298a8afcfc7",
+        "currentNormalizedLfSha256": "82ba5bbd8b0d4ff517fb832ac6b02f01eb40cc691574190e091a3298a8afcfc7",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/platform-governance.smoke.spec.ts",
+        "basis": "R1E final changed-source35 hash",
+        "sourceCommit": null,
+        "expectedNormalizedLfSha256": "abb71f986f8c21ec9778eeb36c32377969d8a2691340e51b5f095a3d36be0334",
+        "currentNormalizedLfSha256": "abb71f986f8c21ec9778eeb36c32377969d8a2691340e51b5f095a3d36be0334",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/project-workspace.journey.spec.ts",
+        "basis": "R1E final changed-source35 hash",
+        "sourceCommit": null,
+        "expectedNormalizedLfSha256": "c3f83d7a97035b606239fb0cb227b935c088514b4b6e4a482fbcdd1e74cfe047",
+        "currentNormalizedLfSha256": "c3f83d7a97035b606239fb0cb227b935c088514b4b6e4a482fbcdd1e74cfe047",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/project-workspace.smoke.spec.ts",
+        "basis": "R1E final changed-source35 hash",
+        "sourceCommit": null,
+        "expectedNormalizedLfSha256": "8e636161a18d7a7d0b770f23cb6565a04de32fb2eed62550a66f38166fef31b9",
+        "currentNormalizedLfSha256": "8e636161a18d7a7d0b770f23cb6565a04de32fb2eed62550a66f38166fef31b9",
+        "equal": true
+      },
+      {
+        "file": "apps/poms-admin-e2e/src/workbench-todo-entry.journey.spec.ts",
+        "basis": "R1E sourceBaseline committed blob; file is outside final changed-source35 list",
+        "sourceCommit": "70482a77091e0288e4708fbdf6a4fec5b5d51427",
+        "expectedNormalizedLfSha256": "09cf439904f79a032cbb48c3ecf046b749f857cafb9b7c33cfddde2500e6d56c",
+        "currentNormalizedLfSha256": "09cf439904f79a032cbb48c3ecf046b749f857cafb9b7c33cfddde2500e6d56c",
+        "equal": true
+      }
+    ]
+  },
+  "requiredOriginalRunners": [
+    {
+      "obligation": "original-Nest-API-regression",
+      "freshRequired": true,
+      "originalEntry": "apps/poms-api-e2e/project.json target e2e -> original jest.config.ts suite nest-full",
+      "phase": "nest-full",
+      "QAResource": "poms_r2m_qa_nest_api",
+      "command": "node tools/rust-r2m/audit-qa-run.mjs --run --phase nest-full --tag qapi01 --cap tmp/rust-r2m/source-cap-qa01.json",
+      "expectedCurrentDefinition": {
+        "files": 14,
+        "staticItCalls": 72
+      },
+      "notEquivalentTo": "poms-api:test / current API Jest817 (or L historical863) / current115 entry probes / API20 integration",
+      "scope": "Original Native R3/R4/R5 CRUD regression on its isolated whole QA database only. No Rust291 migration obligation.",
+      "sourceFiles": [
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/actual-cost-workflow.e2e-spec.ts",
+          "bytes": 29329,
+          "rawBytesSha256": "d7c3e417a048929cba289440a44532957e2026338e988b1e3f58598c137f7e8c",
+          "staticItCalls": 8
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/approval-workflow.e2e-spec.ts",
+          "bytes": 6391,
+          "rawBytesSha256": "288330a73effe6de2648a0e08f7d24a02b2ef5c87304a621e3c09258212d5da4",
+          "staticItCalls": 3
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/auth-shell.e2e-spec.ts",
+          "bytes": 1187,
+          "rawBytesSha256": "1ae0af045ce2ed486a564a8b7aac261010cbf89b8d8c6ab4e048a5c60b061339",
+          "staticItCalls": 2
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/authorization.e2e-spec.ts",
+          "bytes": 2468,
+          "rawBytesSha256": "9a7088901462674ade34fc6a4ca41e11d2f8b574061819b83f8d563ba8d02513",
+          "staticItCalls": 3
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/commission-workflow.e2e-spec.ts",
+          "bytes": 42149,
+          "rawBytesSha256": "c3aaba35e4d21141da52e62bc332f9a826dadd4a50d24f41f54b7f4ca86b1529",
+          "staticItCalls": 19
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/contract-finance-workflow.e2e-spec.ts",
+          "bytes": 11078,
+          "rawBytesSha256": "40f34d899ae7c43feb4ba0ed33c52e3260b2c7a6eb904e814d1ce14e0ce75d12",
+          "staticItCalls": 4
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/contract-readiness-workflow.e2e-spec.ts",
+          "bytes": 3283,
+          "rawBytesSha256": "a71e115a3076f04c850be5f14f5afe4b34df98cf2f32d185a76008380a2ca7fe",
+          "staticItCalls": 1
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/contract-workflow.e2e-spec.ts",
+          "bytes": 12813,
+          "rawBytesSha256": "7d0057946005f06b960f041e0696ca779e901396e92e3b7d5d71bcc0d1e9bad5",
+          "staticItCalls": 7
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/customer-alias-deletion.e2e-spec.ts",
+          "bytes": 3752,
+          "rawBytesSha256": "457ca7b61debfb2da60500f0f97b921d2ca674f025ec3862512343b8c263ccef",
+          "staticItCalls": 1
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/health.e2e-spec.ts",
+          "bytes": 1734,
+          "rawBytesSha256": "c80e6fe98664f8714cd915da520287c18ad1220cd7bcb6ff9e1951784e5f015b",
+          "staticItCalls": 1
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/lead-workflow.e2e-spec.ts",
+          "bytes": 12505,
+          "rawBytesSha256": "75df88457d9b8771b122612bf18ae23aa0c8b45dcd759a5490c7304f88aa5c07",
+          "staticItCalls": 2
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/operating-signal-workflow.e2e-spec.ts",
+          "bytes": 9188,
+          "rawBytesSha256": "894f76168cedc996084edd94adbf51734d9349f082ef4f941cdb11a6d95bb42c",
+          "staticItCalls": 2
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/platform-governance.e2e-spec.ts",
+          "bytes": 24204,
+          "rawBytesSha256": "a01a6854a38fcb00a639fa5751b6170464daa3b6e01bc9c79092a0c06429d490",
+          "staticItCalls": 14
+        },
+        {
+          "file": "apps/poms-api-e2e/src/poms-api/project-handover-workflow.e2e-spec.ts",
+          "bytes": 7140,
+          "rawBytesSha256": "dfcac97f5c867721d89afcfff62faa9cbe2574c5909d81bd3f004b3a0a27ef1b",
+          "staticItCalls": 5
+        }
+      ]
+    },
+    {
+      "obligation": "original-both-backend-foundation",
+      "freshRequired": true,
+      "originalEntry": "same original API e2e target with POMS_E2E_SUITE=foundation",
+      "phases": [
+        {
+          "backend": "nest",
+          "QAResource": "poms_r2m_qa_nest_api",
+          "command": "node tools/rust-r2m/audit-qa-run.mjs --run --phase foundation-nest --tag qfn01 --cap tmp/rust-r2m/source-cap-qa01.json"
+        },
+        {
+          "backend": "rust",
+          "QAResource": "poms_r2m_qa_rust_foundation",
+          "command": "node tools/rust-r2m/audit-qa-run.mjs --run --phase foundation-rust --tag qfr01 --cap tmp/rust-r2m/source-cap-qa01.json"
+        }
+      ],
+      "expectedCurrentDefinition": {
+        "files": 1,
+        "tests": 13
+      },
+      "whyFresh": "Shared Rust HTTP/auth/URI order changed this batch; explicit frozen baseline requires both foundation once. M0/20-case coverage does not become an original-runner report.",
+      "oldFixtureGuard": "Original fixtureRunId only r2d/r2ef/r2gh and header shape differs from M. QA uses external mode + copied QA admin with no forged profile/run ID; whole QA ownership permits original r1d request headers.",
+      "source": {
+        "file": "apps/poms-api-e2e/src/poms-api/foundation.e2e-spec.ts",
+        "bytes": 11618,
+        "rawBytesSha256": "b7c92ba63ee9718c34d35a2bb3f0426e4b8739717b60b6b11aa44db90cee97aa"
+      }
+    },
+    {
+      "obligation": "applicable-original-legacy-UI",
+      "freshRequired": true,
+      "originalEntry": "original Playwright CLI + original legacy8 spec selection from tools/e2e/admin-launcher.cjs; new derived QA config only browser/env/private paths",
+      "phase": "legacy",
+      "QAResource": "poms_r2m_qa_nest_legacy",
+      "command": "node tools/rust-r2m/audit-qa-run.mjs --run --phase legacy --tag qleg01 --cap tmp/rust-r2m/source-cap-qa01.json --browser-pin tmp/rust-r2m/ui-browser-pin-deps03.json",
+      "expectedCurrentDefinition": {
+        "files": 8,
+        "historicalCases": 36,
+        "historicalRouteMocked": 11
+      },
+      "whyFresh": "G1 explicitly requires applicable legacy once. Its8 source definitions are unchanged by the qualified35-hash/baseline-blob checks, while7 harness/config inputs changed and the two client lookup changes are explicit L-delivered source. Historical runtime cannot be relabelled as current.",
+      "boundary": "Native legacy regression only. Route-mocked11 and added-cookie helper separately labelled; never transfer them as actual Rust API/PG/UI acceptance. R2M four journeys x four runtime combinations remain distinct.",
+      "sourceFiles": [
+        {
+          "file": "apps/poms-admin-e2e/src/contract-management.journey.spec.ts",
+          "bytes": 6831,
+          "rawBytesSha256": "9c548580c4af3e855bf66be593a4a082a2f2d19dd4cc1edcd2be6a56087815dd"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/external-login.mocked.spec.ts",
+          "bytes": 4498,
+          "rawBytesSha256": "3e6e8597f5606da0eed2e6483ff6bd6261e3d33da9a705f906d30ccb58f8a0a8"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/frontend-permission-visibility.matrix.spec.ts",
+          "bytes": 21783,
+          "rawBytesSha256": "fb47c8249943ce4d8ebe8bb2cd6f528f692c597a029dc687da2995d7a3fe07ce"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/lead-bootstrap.journey.spec.ts",
+          "bytes": 10421,
+          "rawBytesSha256": "82ba5bbd8b0d4ff517fb832ac6b02f01eb40cc691574190e091a3298a8afcfc7"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/platform-governance.smoke.spec.ts",
+          "bytes": 18556,
+          "rawBytesSha256": "abb71f986f8c21ec9778eeb36c32377969d8a2691340e51b5f095a3d36be0334"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/project-workspace.journey.spec.ts",
+          "bytes": 41280,
+          "rawBytesSha256": "c3f83d7a97035b606239fb0cb227b935c088514b4b6e4a482fbcdd1e74cfe047"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/project-workspace.smoke.spec.ts",
+          "bytes": 7201,
+          "rawBytesSha256": "8e636161a18d7a7d0b770f23cb6565a04de32fb2eed62550a66f38166fef31b9"
+        },
+        {
+          "file": "apps/poms-admin-e2e/src/workbench-todo-entry.journey.spec.ts",
+          "bytes": 14679,
+          "rawBytesSha256": "09cf439904f79a032cbb48c3ecf046b749f857cafb9b7c33cfddde2500e6d56c"
+        }
+      ]
+    }
+  ],
+  "historicalArtifacts": [
+    {
+      "file": "tmp/rust-r1e/nest-full-windows-first.json",
+      "rawBytesSha256": "e8dfd115b8c150da951cc774f1e6c3d22904d22afded4fc36e7e5aab501ab59f",
+      "summary": {
+        "suites": 14,
+        "tests": 72,
+        "passed": 72
+      },
+      "readLevel": "historical tracked validation index; original raw report not present at exact checked Windows worktree/primary path",
+      "currentPassClaimed": false
+    },
+    {
+      "file": "tmp/rust-r1e/foundation-windows-nest.json",
+      "rawBytesSha256": "5a3b41c6a4d61da6c5c057e64bdca7b6f312f2f4cd23c075416204167b884a31",
+      "summary": {
+        "suites": 1,
+        "tests": 13,
+        "passed": 13
+      },
+      "readLevel": "historical tracked validation index; original raw report not present at exact checked Windows worktree/primary path",
+      "currentPassClaimed": false
+    },
+    {
+      "file": "tmp/rust-r1e/foundation-linux-nest.json",
+      "rawBytesSha256": "bd338f7b5463cdaf2c7fb4701511786fb545aec63ee4c187fc04111e5b0f7012",
+      "summary": {
+        "suites": 1,
+        "tests": 13,
+        "passed": 13
+      },
+      "readLevel": "historical tracked validation index; original raw report not present at exact checked Windows worktree/primary path",
+      "currentPassClaimed": false
+    },
+    {
+      "file": "tmp/rust-r1e/foundation-linux-rust.json",
+      "rawBytesSha256": "ab55cfba22baebf587b2920514f124b4b251cd22e26357a09259ea65a22d000a",
+      "summary": {
+        "suites": 1,
+        "tests": 13,
+        "passed": 13
+      },
+      "readLevel": "historical tracked validation index; original raw report not present at exact checked Windows worktree/primary path",
+      "currentPassClaimed": false
+    },
+    {
+      "file": "tmp/rust-r1e/foundation-windows-rust.json",
+      "rawBytesSha256": "65d1ffa20370b4efde7e48fb03fb81953486921e1bc69d09a2c52cdd3527159f",
+      "summary": {
+        "suites": 1,
+        "tests": 13,
+        "passed": 13
+      },
+      "readLevel": "historical tracked validation index; original raw report not present at exact checked Windows worktree/primary path",
+      "currentPassClaimed": false
+    },
+    {
+      "file": "tmp/rust-r1e/legacy-windows-nest-cp07-complete.json",
+      "rawBytesSha256": "66800cc7e56f968cffa753d89f9ced379ba88de241fd9909ef56c7b5c7ffbc61",
+      "summary": {
+        "startTime": "2026-10-26T04:54:27.860Z",
+        "duration": 232399.584,
+        "expected": 36,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "readLevel": "historical tracked validation index; original raw report not reopened",
+      "currentPassClaimed": false
+    }
+  ],
+  "canInheritAfterCurrentProtectionAndActual115Plus20": [
+    {
+      "area": "A-L unchanged domain deep matrices/source witnesses",
+      "basis": "Initial delivery audit108 unique ops and L169 source comparison; current domain files unchanged except explicitly enumerated shared URI/router corrective source. Current115+20+UI exercise cross-domain closure. Retain old finite ignored/SQL-wire/Unicode/OBS boundaries.",
+      "mustNotClaim": "Fresh execution of every old deep matrix or every R3-R5 writer; no real vendor certification."
+    },
+    {
+      "area": "unchanged Native source analyses and original8 legacy scenario definitions",
+      "basis": "Final L delivered TS set is unchanged through current. Five legacy files match the indexed final35 hashes; three unchanged baseline blobs are checked separately. Two S3-to-final-L generated client lookup changes remain explicit. New current original-runner receipts supply the once-per-batch runtime obligation.",
+      "mustNotClaim": "Replacing original Nest e2e14 or foundation13 with API unit Jest or UI status probes."
+    },
+    {
+      "area": "shared Node lint/test/build/generator",
+      "basis": "Current common01 passed API/native/lints and retry01 admin368/client/adminDA/prodbuild actual evidence; repeat only if those source inputs change. Preserve failed admin common01 and successful retry provenance.",
+      "mustNotClaim": "API Jest817 as API e2e or static typecheck as real browser."
+    }
+  ],
+  "isolation": {
+    "plan": {
+      "file": "tools/rust-r2m/audit-qa-admission.json",
+      "bytes": 5121,
+      "rawBytesSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1"
+    },
+    "provisionReview": {
+      "file": "docs/design/rust-r2m/qa-provision-source-review01.json",
+      "bytes": 8159,
+      "rawBytesSha256": "49ac97f4cdd71b16d2ab82dcf55f4b283ec47ff9ad310d80232f974aed5aae71"
+    },
+    "resources": [
+      "poms_r2m_qa_nest_api",
+      "poms_r2m_qa_rust_foundation",
+      "poms_r2m_qa_nest_legacy"
+    ],
+    "templates": "Only current new-M cleaned initial-seed-equivalent dual databases; never old private/PG",
+    "proof": "Before-absent DB/role/env/object roots, new owner-only markers, dedicated low roles with zero M table privileges, exact initial107 seed and M ACL before/after, source connections0 for clone. M data/ACL checked again after each phase.",
+    "wholeQAOwnershipNotMRowAdoption": true,
+    "dataRetained": true,
+    "noReseedDropOrSessionTermination": true,
+    "portsSerial": [
+      10070,
+      10071,
+      10080
+    ],
+    "APIAndLegacySeparateClones": true
+  },
+  "notNewGates": [
+    "full291 Rust migration",
+    "allR3-R5 production handlers",
+    "all historical deep matrices repeated with unchanged source",
+    "four-platform foundation52 when frozen requirement is both backend13 once",
+    "real tenant/vendor/performance/deployment certification"
+  ],
+  "actualOriginalRunsPerformedByThisAudit": 0,
+  "G3Certified": false,
+  "G4Certified": false,
+  "currentProductFinalLProtection": {
+    "commit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+    "scopes": [
+      "apps/poms-api/src",
+      "apps/poms-admin/src",
+      "libs/api/contracts/src",
+      "libs/shared/contracts/src",
+      "libs/shared/api-spec/openapi.json",
+      "libs/shared/api-client",
+      "libs/admin/data-access"
+    ],
+    "checks": [
+      {
+        "kind": "working-tree",
+        "args": [
+          "diff",
+          "--name-only",
+          "3b154bf447df9897a934e95cb218fbdb0beaba47",
+          "--",
+          "apps/poms-api/src",
+          "apps/poms-admin/src",
+          "libs/api/contracts/src",
+          "libs/shared/contracts/src",
+          "libs/shared/api-spec/openapi.json",
+          "libs/shared/api-client",
+          "libs/admin/data-access"
+        ],
+        "files": []
+      },
+      {
+        "kind": "index",
+        "args": [
+          "diff",
+          "--cached",
+          "--name-only",
+          "3b154bf447df9897a934e95cb218fbdb0beaba47",
+          "--",
+          "apps/poms-api/src",
+          "apps/poms-admin/src",
+          "libs/api/contracts/src",
+          "libs/shared/contracts/src",
+          "libs/shared/api-spec/openapi.json",
+          "libs/shared/api-client",
+          "libs/admin/data-access"
+        ],
+        "files": []
+      },
+      {
+        "kind": "untracked",
+        "args": [
+          "ls-files",
+          "--others",
+          "--exclude-standard",
+          "--",
+          "apps/poms-api/src",
+          "apps/poms-admin/src",
+          "libs/api/contracts/src",
+          "libs/shared/contracts/src",
+          "libs/shared/api-spec/openapi.json",
+          "libs/shared/api-client",
+          "libs/admin/data-access"
+        ],
+        "files": []
+      }
+    ],
+    "allThreeEmpty": true,
+    "meaning": "Final L delivered original TS/admin/spec/client source set to current; current Rust shared URI/router changes are outside this unchanged TS set."
+  }
+}

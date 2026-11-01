@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-source-and-public-actual-exact-an8a-recovery-review",
+  "result": "Accepted-exact-recovery-public-evidence-not-API-pass",
+  "reviewedAt": "2026-10-31T00:09:08Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceReview": {
+    "file": "docs/design/rust-r2m/an8a-recovery-source-review03.json",
+    "rawBytesSha256": "f109033ce5f5429ce45613f5a27b1f60e02d74303652017da714b6521ed201fb"
+  },
+  "stagedHelper": {
+    "file": "tools/rust-r2m/recover-closed-an8a03.mjs",
+    "rawBytesSha256": "ca5fbc5f6755bf44edd9eb2e2f907c213e87a0b2ae0e3f3170597774395b95af",
+    "CReadLocation": "Exact public Linux source path through UNC, no execution"
+  },
+  "actual": {
+    "file": "tmp/rust-r2m/recovered-api-nest-an8a03.json",
+    "bytes": 11515,
+    "rawBytesSha256": "153709bf7bd44d7ac5cc634b8d4cb6394184d36777a9c37552bc1ed1712d390f",
+    "runId": "f0e74fe8-609d-4605-969d-d4c2680a6e2d",
+    "result": "recovered-exact-owned-and-composite-leases-double-zero-not-API-pass"
+  },
+  "observed": {
+    "originalLedgerOneOpenRevisionBound": true,
+    "actualOwnedDeletes": [
+      71,
+      0
+    ],
+    "objectsChanged": [
+      0,
+      0
+    ],
+    "numberLease": {
+      "result": "restored-before-absent-double-zero",
+      "deleted": 18,
+      "remaining": 0,
+      "secondRemaining": 0,
+      "commitAcknowledged": true,
+      "independentBackendPids": [
+        2072,
+        2074
+      ],
+      "sourceCapId": "r2m-joint17"
+    },
+    "settingLease": {
+      "state": "baseline-restored-not-deleted",
+      "fullRowSha256": "35f30f2adbcbca747c210ae5f9f4f0495dce1f62cc9de3e6567e9488ff308833",
+      "independentFullRowEquality": true,
+      "owned": false
+    },
+    "full107InitialBaselineRestored": true
+  },
+  "assessment": [
+    "Public exact recovery receipt and actual staged helper bytes match the approved03 source. Number18 fullrow/CAS transaction is acknowledged committed, both independently validated PID2072/2074 observations are zero, the migration-owned setting is restored as a full row with independent equality and not deleted, and final full107 initial baseline equality is recorded.",
+    "Original ledger has72 historical certified owned objects, while actual SQL deletion count is71 on the first cleanup and0 on the second. These quantities are kept separate. The public receipt and mature cleanup report zero object changes/remaining passes and exact final full107 baseline restoration; C does not invent an unprovided row-specific explanation from the summary.",
+    "The two initial tool failures, original snapshots and old an8a six-of-eight/partial acceptance remain preserved. This acceptance covers exact restoration only, not correction of the old two API expectations, retrospective eight-of-eight success, new API/UI observations or G3/G4.",
+    "C inspected the approved source, actual staged public source hash and bounded public result metadata only. Original private before/after facts and SQL/commit/session evidence were enforced by that source and retained by Root; C did not independently read private contents or query DB. This read-level limit is explicit."
+  ],
+  "executionBoundary": "No C private read, process/app/test execution, DB/HTTP/browser/container, product/fixture edit or Git mutation. This public actual subreview supplies bounded later G3 evidence and creates no additional Gate.",
+  "G3Certified": false,
+  "G4Certified": false
+}

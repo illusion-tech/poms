@@ -1,0 +1,108 @@
+{
+  "completionClaimed": false,
+  "issue67": "OPEN",
+  "gate": {
+    "G4": "Pending",
+    "G1": "Pass",
+    "G2": "Doing",
+    "G3": "Pending"
+  },
+  "kind": "Root-R2M-progress-evidence-index-not-G3",
+  "issue57": "OPEN must remain",
+  "pins": [
+    {
+      "actualResult": "pass-with-explicit-inherited-diagnostic-header-difference",
+      "rawBytesSha256": "c09ed7f1d426517a71643bf686ee379a38dc3090c64a8f51bbf23fc5aefdf3d4",
+      "file": "tmp/rust-r2m/compare-surface-measured02.json",
+      "bytes": 22170
+    },
+    {
+      "actualResult": "pass-with-explicit-inherited-diagnostic-header-difference",
+      "rawBytesSha256": "60e1240689dde5159008f971af2f65422fdbcf234cecf337aaa5158984c992be",
+      "file": "tmp/rust-r2m/compare-uri-conditions-measured03.json",
+      "bytes": 7580
+    },
+    {
+      "actualResult": "original-runner-observed-pass",
+      "rawBytesSha256": "a36f266350c79a257342d818ac2f5fe6b9d0e60cac50f3624ca36c2f64f48759",
+      "file": "tmp/rust-r2m/qa-foundation-nest-qfn01.json",
+      "bytes": 3045
+    },
+    {
+      "actualResult": "original-runner-observed-pass",
+      "rawBytesSha256": "b6b81299b8a422079d4cf0f1e53f730aa269b499f6b89f4855a4a45c5d8bcee9",
+      "file": "tmp/rust-r2m/qa-nest-full-qapi01.json",
+      "bytes": 3022
+    },
+    {
+      "actualResult": "original-runner-observed-pass",
+      "rawBytesSha256": "64b398a437499e7f51320fe06ae8a7fda50588ebf09c5fa50000a6a38c0937e3",
+      "file": "tmp/rust-r2m/qa-foundation-rust-qfr01.json",
+      "bytes": 3066
+    },
+    {
+      "actualResult": "partial-preserved",
+      "rawBytesSha256": "4a84030a55074da0147eb10c647c113411f3af9b251c9bf398043ef880723f06",
+      "file": "tmp/rust-r2m/qa-legacy-qleg01.json",
+      "bytes": 2832
+    },
+    {
+      "actualResult": "partial-preserved",
+      "rawBytesSha256": "76d2c934591c6f8f43dcd9fbfe9f5d6db375fee618a1d24d11be1964df777a80",
+      "file": "tmp/rust-r2m/qa-legacy-qleg02.json",
+      "bytes": 2422
+    },
+    {
+      "actualResult": "observed-comparison-pending",
+      "rawBytesSha256": "bbb290c122dbd9bd6caa18f3f61589b1df70b0336d3d5faf2ff9b71311ce5715",
+      "file": "tmp/rust-r2m/acceptance-api-nest-an1b.json",
+      "bytes": 19320
+    },
+    {
+      "actualResult": "observed-comparison-pending",
+      "rawBytesSha256": "699658cba7d1a7690c6552d1a51bc17b13c0f93a7b00f979944be508226de262",
+      "file": "tmp/rust-r2m/acceptance-api-rust-ar1b.json",
+      "bytes": 19812
+    },
+    {
+      "actualResult": "fail",
+      "rawBytesSha256": "247c5d28d5d37e3a73fa55a570cd9da26bb4a480ea5769d431eb3ceb1c1ab3aa",
+      "file": "tmp/rust-r2m/compare-api-m1-measured01.json",
+      "bytes": 3789
+    },
+    {
+      "actualResult": "pass-with-explicit-inherited-diagnostic-header-difference",
+      "rawBytesSha256": "adb70a8f0738556447aafb8db7cc5ef648aaa84f53731554e62fbaf2ff013d6b",
+      "file": "tmp/rust-r2m/compare-api-m1-measured02.json",
+      "bytes": 3642
+    },
+    {
+      "actualResult": "recovered-exact-owned-double-zero-not-API-pass",
+      "rawBytesSha256": "46a92980664021438c3d2c75d65c52ca0cf185a073c38b566f1e309bc4beff69",
+      "file": "tmp/rust-r2m/recovered-api-nest-an6a.json",
+      "bytes": 8602
+    },
+    {
+      "actualResult": "recovered-exact-owned-double-zero-not-UI-pass",
+      "rawBytesSha256": "1cc45e39909a45c0bd7d3ff433e97213459409bc7b59afc7bfb8e0ba57b2fcb0",
+      "file": "tmp/rust-r2m/recovered-ui-rust-uir1b.json",
+      "bytes": 7962
+    }
+  ],
+  "issue80": "OPEN",
+  "matrix": {
+    "uiJourneysRequiredPerArrangement": 4,
+    "apiLogicalComparedPerBackend": 1,
+    "uriComparedPerBackend": 27,
+    "apiLogicalRequiredPerBackend": 20,
+    "completeUiJourneys": 0,
+    "surfaceComparedPerBackend": 115
+  },
+  "remaining": [
+    "API M1.2-M5.3 source-bound execution and complete fact parity",
+    "All four UI journeys across frozen Linux and Windows arrangements",
+    "Original legacy36 complete rerun after environment diagnosis",
+    "Controlled OBS and Feishu real protocol acceptance",
+    "Independent G3, fixed commit review, G4/archive/main and conditional issue closure"
+  ]
+}

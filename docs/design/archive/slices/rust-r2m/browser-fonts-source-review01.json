@@ -1,0 +1,79 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-bounded-browser-font-provision-and-child-environment-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:52:00Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInputs": [
+    {
+      "file": "tools/rust-r2m/ui-fontenv-source01.json",
+      "bytes": 2137,
+      "rawBytesSha256": "4460d7668e3016995318e5fc604b8659cb8223c2f99f59694180f8b73ba3deb9",
+      "readLevel": "Complete small source manifest and declared execution boundary"
+    },
+    {
+      "file": "tools/rust-r2m/ui-fontenv-before-source01.json",
+      "bytes": 5809,
+      "rawBytesSha256": "2e68aa9cf755d323a81d077821e90384a14251456baec150769e1d828c45be48",
+      "readLevel": "Preserved previous helper body decoded and raw hash independently verified as 14883f21772ed8f19089270c2fd347061872154636ca435388c303e25016ac76"
+    }
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-browser-fonts.mjs",
+      "bytes": 10974,
+      "rawBytesSha256": "4138066c58beb9a40e895195cb7cbba17a79a0196e45833d20ad9a500f3e164d",
+      "readLevel": "Complete 731f3847 source body followed by necessary final command-error retention delta and exact final raw hash"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-browser-fonts.test.mjs",
+      "bytes": 1694,
+      "rawBytesSha256": "b27777ff37871f7b67ecb5c00f04498e9bdb0bdbae399661eebed6b6682c1172",
+      "readLevel": "Complete three pure tests; not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 7288,
+      "rawBytesSha256": "39257ff20794d0c6210c03ed204b9a31e96c2f7aaaa2ca168f45e6f1e2344572",
+      "readLevel": "Complete current helper, preserved previous helper, font-member/config verifier and actual launch/environment call sites"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.test.mjs",
+      "bytes": 4644,
+      "rawBytesSha256": "9e98720b06369aa1dad1aed4170984511cd37f82fda360e7a1c2fa53f839c773",
+      "readLevel": "Necessary new font environment test and existing browser environment isolation test"
+    }
+  ],
+  "assessment": {
+    "provisionBoundary": "Explicit Root --run fonts04 is admitted only in the fixed new-M Linux workspace/state roots. Import and --check are pure plans. Download staging, extracted root, font cache and config remain under /home/wangzishi/.local/share/poms-r2m/browser-fonts; logs remain in the existing new-M private/browser-deps directory. No system package installation or old private access is introduced.",
+    "authenticatedPackage": "sqv authenticates the existing independent Debian trixie InRelease with the system Debian archive keyring. The uncompressed Packages bytes must match the authenticated Release SHA256 and byte count. Exactly one fonts-noto-cjk stanza must match name, 1:20240730+repack1-1, all architecture, filename, 56674044 bytes and f5dc28a754e17327d99f0a612134d92c8dd6187314ae967cb77f25df60860139. The downloaded archive is checked again before dpkg-deb --extract into the new-M root.",
+    "pinAndConfiguration": "A new wx browser-pin-fonts04.json derives from the exact unchanged deps03 pin; browser executable and original 55 library pins remain inherited. The generated config contains only the exact new-M Noto directory/cache and explicit SC/JP fallbacks. The browser verifier rejects include, DOCTYPE and ENTITY; it verifies the config from the same no-follow descriptor bytes used for its SHA256, checks the exact Noto directory member set, and verifies each font as a regular single-link file through no-follow descriptors with inode/device/hash/stability checks and non-symlink ancestry.",
+    "childEnvironment": "Only the task-owned Linux Chromium child receives explicit FONTCONFIG_FILE and FONTCONFIG_PATH. Ambient fontconfig, DB/JWT, NODE_OPTIONS, LD_PRELOAD and DEBUG are not copied. Existing explicit 10080 port argument and previous executable/library checks are retained. Linux full/minimal UI and the derived original QA Playwright config already call this same verifier and environment helper; original product/spec/harness sources and Windows owner sources are not changed by this delta.",
+    "diagnosticCorrection": "The initial 731f3847 candidate replaced a spawnSync result.error with a fixed assertion without retaining that original Error. C reported this concrete gap; final 4138066c writes its original name/message/stack/code to the existing 0600 private command log before the fixed assertion, without dumping environment/config objects. Public failure output remains fixed category and private receipt metadata.",
+    "causalLimit": "No font provision, browser launch, HTTP, DB or UI/QA run was executed by C. Missing fonts have not been proved to cause any previous page/browser closure or QA failure; prior failed/partial evidence remains unchanged. This source conclusion is not a UI/QA pass or a new Gate."
+  },
+  "verification": {
+    "allFourCurrentSourceRawHashesIndependentlyMatched": true,
+    "preservedPriorHelperRawHashIndependentlyMatched": true,
+    "authorFontTestsReported": { "passed": 3, "failed": 0, "skipped": 0, "executedByC": false },
+    "authorUiPureLog": {
+      "file": "tools/rust-r2m/ui-fontenv-source01-pure.txt",
+      "bytes": 3980,
+      "rawBytesSha256": "6f2f793656b3691ed006de4936c417fe55a091c79610b5b21189c3082fae0fc0",
+      "observedTail": { "tests": 18, "passed": 18, "failed": 0, "skipped": 0 },
+      "executedByC": false
+    }
+  },
+  "executionBoundary": "Root may perform the bounded signed font download/extraction and capture its actual new pin/receipt, then use that exact admitted font pin in a new source epoch for the existing authorized Linux UI/QA lanes. Actual success, owner closure and original-run results still require measured receipts. C performed source/public-file reads and this review-file write only, with no private read, process/test execution, DB/HTTP, product edit or Git mutation.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

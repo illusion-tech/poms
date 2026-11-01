@@ -1,0 +1,73 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-Linux-UI1-current-session-and-project-readmodel-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:12:07.229Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-readmodels-source01.json",
+    "bytes": 3111,
+    "rawBytesSha256": "eb7703123e7e4e1ad478a50b4020f343164ba785953697769fa57c09e9680a25"
+  },
+  "priorReviews": [
+    "docs/design/rust-r2m/ui-failure-source-review01.json",
+    "docs/design/rust-r2m/ui-port-source-review01.json",
+    "docs/design/rust-r2m/ui-full-source-review01.json"
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "c4ed7ef5affac6bf15d59e1bc957d4e23c2d7549bd1f1eaa1377f98504f44b04",
+      "readLevel": "Complete one-path diff from reviewed3ab helper; original snapshot/Todo/cookie/viewport/auth assertions unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 17258,
+      "rawBytesSha256": "c673875651b290fe97cf319b21253b16701bae3acd909393fd9b43891ece28b6",
+      "readLevel": "Complete function delta from reviewed1e3 helper; only common GET/api/projects in finite source-checked readonly list"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.test.mjs",
+      "bytes": 4661,
+      "rawBytesSha256": "ff197cdd344095d37793427e85090753bfd7bd8c800230735a0bc16ec40911a8",
+      "readLevel": "Changed finite read-model membership/missing-spec checks plus prior guard tests; not executed by C"
+    }
+  ],
+  "originalSourceChecks": {
+    "anchorsHashMatched": 5,
+    "anchorsExpected": 5,
+    "readLevel": "Necessary AuthStore initialize/accept(session.user), original Workbench ngOnInit/project store load and Native list permission guard portions; full spec pin checked without full schema/body reread",
+    "authStore": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+    "workbench": "apps/poms-admin/src/app/features/dashboard/workbench.ts",
+    "projectStore": "libs/admin/data-access/src/lib/project/project.store.ts",
+    "projectController": "apps/poms-api/src/app/features/project/project.controller.ts"
+  },
+  "assessment": [
+    "UI login/reload now waits for GET/api/auth/session rather than a profile request not issued by the current original initialize path. It still requires all three actual session/navigation/todos responses200 and all original state/Todo/cookie/layout assertions. No response is fabricated and the original application is unchanged.",
+    "Current original Workbench unconditionally loads projects. The finite proxy declaration therefore adds exactly GET/api/projects for all finite UI selections, after verifying that GET exists in the pinned current full spec and excluding any already migrated115/native-producer method/path.",
+    "Existing eight additional GET read models remain limited to UI3/UI4. Dispatch still chooses the declared backend before transport and has no status-driven Native fallback. Original project:read guard and actual response/status/body remain; no extra viewer permission or fake200 is granted.",
+    "Actual project permission failure, if produced by the original guard, must stay in real network/diagnostic evidence and be assessed with the actual journey outcome. This source change does not certify a clean page or UI success.",
+    "uin1a/UI09 remains its original unknown-cause partial. uin1b private failure/source wait mismatch is retained; this new source is a future fix, not a rewritten old run. C's earlier review did not catch the obsolete profile wait."
+  ],
+  "verification": {
+    "sourcePinsMatched": 3,
+    "sourcePinsExpected": 3,
+    "reportedPurePassed": 15,
+    "reportedPureFailed": 0,
+    "reportedSyntaxFiles": 3,
+    "CExecutedTestsBrowserDBHTTP": false,
+    "CReadPrivate": false
+  },
+  "executionBoundary": "Root may use these exact three sources with the already reviewed1b623 full Linux entry, browser10080 flag, failure hooks, source/fixture/SDKPG/owner guards in a fresh complete capsule. Separate Windows orchestration/shared-input addendum is not certified here and is not a new prerequisite for the Linux trial.",
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

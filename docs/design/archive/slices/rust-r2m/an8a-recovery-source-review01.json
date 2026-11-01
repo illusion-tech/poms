@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-one-exact-closed-an8a-composite-lease-recovery-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T23:40:17Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/an8a-recovery-source01.json",
+    "bytes": 4908,
+    "rawBytesSha256": "391508d0bcab59bba5ff97603707ca2d76de67956f2d88db0f642d7a383b4617"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an8a.mjs",
+      "bytes": 21725,
+      "rawBytesSha256": "d61c01592dda89108ae86d41d07211e5b6d6b3bda7cb1f8da8cc04777fd3a209",
+      "readLevel": "Complete fixed references/private file guards/input validation/main recovery sequence; verbatim number restore and metadata function independently compared to original reviewed sources"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an8a.test.mjs",
+      "bytes": 5393,
+      "rawBytesSha256": "61f687256c7b44000ab6b5a3ad30ba9122125d529bbd0a3fb81ee359c23be54b",
+      "readLevel": "Necessary exact-input/predicate pure assertions and public actual log tail; no tests executed by C"
+    }
+  ],
+  "boundRun": {
+    "runId": "f0e74fe8-609d-4605-969d-d4c2680a6e2d",
+    "backend": "nest",
+    "tag": "an8a",
+    "report": {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an8a.json",
+      "bytes": 43997,
+      "rawBytesSha256": "cc7173bd1d58d50b686887e1b061a8785875a38569d33a9fdd390223ffac1f2c"
+    },
+    "owner": {
+      "file": "tmp/rust-r2m/acceptance-api-owner-nest-an8a.json",
+      "bytes": 729,
+      "rawBytesSha256": "232b09b2a2c3ea420cef96705aa8c7b9a6fbf36fe13aeeb0f538924f906303d5",
+      "CReadLocation": "Public tmp file through exact Linux workspace UNC, not private"
+    },
+    "capsule": {
+      "file": "tmp/rust-r2m/source-cap-joint17.json",
+      "rawBytesSha256": "e3d2269d2ad1c3b348d57328dcfb4c968d8b7fa573515cd3dc563962e5495b8d",
+      "id": "r2m-joint17",
+      "manifestSha256": "d0d1ab4e731ccbe2213748672c66391efd3af4ee51ca4e484cf3001de536323b"
+    },
+    "originalLedger": {
+      "bytes": 837720,
+      "rawBytesSha256": "d2dbef9f61544f71ac3792346bd08fe74e5847371881981d71a7b9af762ccc98",
+      "contentsReadByC": false
+    },
+    "alreadyCertifiedOwnedRows": 72,
+    "separateNumberLeaseRows": 18,
+    "numberUUIDOwnershipGranted": false
+  },
+  "assessment": [
+    "This is only the exact originally closed partial an8a run, not a general retry, query-adoption or fatal-run cleanup path. Public report/owner/capsule hashes independently match. The public report requires its exact Native1841056 writer stopped, extension faults restored/no active request or transaction, exact PG observerfe11afa8 restored and original fa064804 metadata footprint; it retains partial-preserved/failed-preserved and empty cleanup/failures.",
+    "Before any Fixture.open, the helper reads only the exact literal new-M ledger and four known baseline/number receipt frames through parent/type/mode/nlink/realpath/no-follow fd/hash/size/stability guards and wx-saves the original837720-byte ledger. The actual original fixture profile source pins plus number/PG modules must match the old joint17 capsule on the Linux host. Future32bf/04b files must not be copied into this old active epoch before recovery. C did not read any private ledger/frame/credentials.",
+    "The helper requires72 already genuine creation-proof/independent-visible owned rows, no unresolved intent/direct-create/mutation state, the original observing migration-owned nondelete setting lease and exact original full107 baseline. The number admission must be before-absent for the nine frozen scopes and8437/8438, exactly18 unique UUIDs/keys, observed actual original service result, original m2.4 context, full expectedAfter rows/xmins/digest and no UUID row ownership. No current query/response ID supplies admission.",
+    "Actual runtime must independently find the old PID absent, all five fixed app ports free, the new-M marker/database/low-role valid, no other nonidle app DB work/prepared transaction, fresh metadata equal the exact restored footprint, full107 unknownCreates0/unknownMutations0 and reference preflight before drain. These are runtime conditions, not assumed actual Pass by C.",
+    "Number restore is the verbatim already reviewed2747-byte method. It rechecks complete current expected18 full rows+xmin, scans all107 tables for incoming physical/logical references, then deletes only each exact scope/period/fullrow/xmin with rowCount1 in one actual COMMIT. Two fresh independently validated backend PIDs, distinct from the original and each other, must both observe zero before success. Unknown row/reference/commit state preserves recovery evidence and blocks subsequent cleanup.",
+    "Only after that number restore does the existing setting lease perform its original expectedAfter/CAS/actual COMMIT/independent full-row restoration. Mature fixture cleanup runs twice and the second row/object operations must be zero. Every physical row in all107 tables must finally equal the original00000 baseline; normalizedRows sorts complete row objects and does not omit columns or identities. Fresh catalog function is a verbatim3425-byte read-only copy; it runs no DDL.",
+    "Raw recovery/close errors stay in new-M private wx evidence and public output contains fixed results plus metadata. A failed/incomplete operation retains partial state. This source conclusion does not claim actual restoration, turn the old six-of-eight into eight passes, or admit the fatal uir2a run which lacks a real closed/restored proof."
+  ],
+  "verification": {
+    "helperAndTestRawPins": "2/2 matched",
+    "publicReportOwnerCapsuleRawPins": "3/3 independently matched",
+    "verbatimNumberRestore": {
+      "bytes": 2747,
+      "independentlyEqual": true,
+      "originalSource": "tools/rust-r2m/number-lease.mjs",
+      "originalRawBytesSha256": "3e467f1e11b9f3b7f13bb1beeafe9deb438c3620e0542806aaa7bf9fa4cc346d"
+    },
+    "verbatimCatalog": {
+      "bytes": 3425,
+      "independentlyEqual": true,
+      "originalSource": "tools/rust-r2m/pg-create-observer.mjs",
+      "originalRawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f"
+    },
+    "authorPureLog": {
+      "file": "tools/rust-r2m/an8a-recovery-source01-pure.txt",
+      "bytes": 1859,
+      "rawBytesSha256": "7b8365833ef237bbad159bd3d3d5aa2787b401ee83296e4ac96f71b2974ad2af",
+      "observedTests": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "executedByC": false
+    },
+    "authorCheck": "Public check output is a pure exact-run plan with actualExecution:false; C did not execute it"
+  },
+  "executionBoundary": "Root may copy and execute only this exact recovery helper under the original joint17 source/profile after all unchanged runtime conditions pass. C performed source/public-file reads and this review write only: no private read, DB/HTTP/browser/container/process inspection or stop, app/test execution, product/fixture edit or Git mutation. Root actual recovery receipt and independent later actual/G3 review remain outstanding.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

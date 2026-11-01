@@ -1,0 +1,166 @@
+{
+  "kind": "POMS-R2M-independent-M3-minimum-required-semantic-evidence-interpretation",
+  "result": "RequirementsClarified",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 07:19:51 UTC",
+  "gate": false,
+  "decision": {
+    "wholeDifferentlyShapedMemoryDeepEqualityRequired": false,
+    "allNativePreparationDtoCrossBackendFieldsRequired": false,
+    "originalDeclaredCallerRollbackSemanticsStillRequired": true,
+    "noNewOrReducedGate": true,
+    "currentFiveSource01OrPhaseHelperSourceReadyGranted": false
+  },
+  "sources": [
+    {
+      "file": "tmp/rust-r2m/g1-frozen-inputs/docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "rawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33",
+      "anchors": [
+        49,
+        54,
+        56,
+        72,
+        84
+      ]
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r2l-lookup-baseline.md",
+      "rawBytesSha256": "791179b6c768b23afc924b46c799915494f137fd8aaaff641d7a90699ece8a88",
+      "anchors": [
+        49,
+        51,
+        55,
+        84,
+        85
+      ],
+      "readLevel": "Necessary original same-caller/fork/rollback-memory/clock/domain-scalar rules, not a new replay."
+    },
+    {
+      "file": "tools/rust-r2l/l-shared-uow-measurements.mjs",
+      "rawBytesSha256": "519a477977e3e1865650029eb657f80ce1196ad7c3e12f44ee80f5615be19451",
+      "readLevel": "Complete explicit counterpart versus Native-only/Rust-only measurement contract."
+    },
+    {
+      "file": "tools/rust-r2l/l-shared-uow-representation.mjs",
+      "rawBytesSha256": "589d6e90ecb1a1868f8c0d7c1043884ed66a477b9174ca48b27936b90b585ffc",
+      "readLevel": "Necessary metadata/version/participantsJSON/explicitGcOuterUpdatedAt source rules and original source-bound limits."
+    },
+    {
+      "file": "docs/design/rust-r2l-g3-review01.json",
+      "rawBytesSha256": "934e2cae6f2f8106a46d5719269051f52ae2c2cd41651d0fd56b8a465fd5b110",
+      "anchors": [
+        179,
+        180,
+        373
+      ],
+      "readLevel": "Accepted finite caller semantics/representation boundaries; old counts are historical, not new quotas."
+    }
+  ],
+  "requiredFiniteEvidence": [
+    {
+      "id": "R2-public-contract",
+      "required": true,
+      "scope": "Current M3.1–M3.5 target R2 HTTP status/error/complete response values, four migrated public L operations and six-kind Todo facts; request/response raw equality, original schema/headers, versions/current-supersedes/nullable/amount/date semantics.",
+      "adapter": "Keep complete entities and unknown fields strict. Use only typed actual before/after versions, declared actual85 DTO/source sites and sourceDate/Millis or literal rules. No At$ or arbitrary field dropping."
+    },
+    {
+      "id": "four-world-real-effects",
+      "required": true,
+      "scope": "success-commit, success-rollback, gate-rollback and gate-continue-commit actual service result/400 gate message and outer action, same-caller common/domain/auth transaction effects, full107 before/after and both snapshot counts/current chains.",
+      "adapter": "Original5 write tables approval_record/todo_item/commission_payout/final_settlement_snapshot/rule_explanation_snapshot remain full-row strict; other tables/outside scope remain invariant. Source-defined gate and continue behavior must not be replaced by generic rollback assumptions."
+    },
+    {
+      "id": "intermediate-flush-and-transient-result",
+      "required": true,
+      "scope": "Actual same-transaction materialized business snapshot and returned binding when child succeeded, especially success-rollback whose final DB snapshot count returns0.",
+      "adapter": "Bind the already captured source/connection/transaction/materialized row or equivalent original actual flush evidence; compare its finite business fields/amount representation and source clocks. It is transient comparison evidence, never a committed ownership certificate. Do not create a new Rust SQL-wire equality Gate; original four wire gaps remain labelled."
+    },
+    {
+      "id": "declared-caller-state-counterparts",
+      "required": true,
+      "scope": "Original typed held approval/todoA/todoB/payout/returnedSnapshot and the actual mapped bounded managed rows at6 original stages; current membership/queue, explicitly mapped persisted business scalar properties, change-detection original values/key domain, cached reread/clear/ghost relationship.",
+      "adapter": "Use the original probe/entity metadata mappings and compare only declared counterparts. Preserve undefined/null, current values and non-owned returned/transient binding meaning. Real DB rollback or clear must not be assumed to rewind old held values or attach them to a fresh reread. Reuse finite source-bound version-original/participantsJSON representations only where actually encountered and current captured metadata/SDK matches."
+    },
+    {
+      "id": "clock-source-phase",
+      "required": true,
+      "scope": "Named actual create/update/decision/snapshot sampling points and common updated_at child versus outer phase where that cell is mapped as a runtime clock.",
+      "adapter": "Keep physical microseconds/literal dates exact. For the original GC case use the existing source/metadata/first-property/outer-window rule, with no tolerance or broad whole-internal-window relabel. Unchanged literal clock cells need no invented new sampling claim. Unproved required emission remains Pending; mere helper existence or within-side phase proof is not cross-end equivalence."
+    },
+    {
+      "id": "actually-consumed-Native-source-bindings",
+      "required": true,
+      "scope": "Real source-pinned Native producer requests/status/raw body/schema and actual SDK/PG effects; finite returned IDs/types/parent links/versions/statuses/amounts/dates/snapshot or gate references that are used in subsequent R2 requests or asserted business effects.",
+      "adapter": "Map consumed outputs to the actual admitted typed row/version or original source computation. No response-ID ownership, guessed missing fields or fake Native production. Overlapping complete physical/R2 DTO evidence can discharge a consumed field without duplicating a second whole Native DTO comparer."
+    }
+  ],
+  "notAdditionalAcceptanceRequirements": [
+    {
+      "id": "whole-memory-layout",
+      "examples": [
+        "Native helperHasEm/helperEmIsParent/legacy managedByParent decoration",
+        "Rust connectionIdentity/traceDiagnostics/traceIncomplete/control flags",
+        "whole raw object key layout, map/vector storage, native extra rows or accidental array order outside declared counterpart domain"
+      ],
+      "treatment": "Retain original raw/hash/source-specific fields and classify extras. Do not invent Native or Rust placeholders and do not require blanket deep equality."
+    },
+    {
+      "id": "unused-Native-preparation-presentation",
+      "examples": [
+        "Unconsumed derived display-only fields from unmigrated R3-R5 preparation DTOs",
+        "A second cross-end equality claim for every Native-only producer response when its required source inputs/effects are already proven"
+      ],
+      "treatment": "Do not make these a new R2 Gate. Preserve full raw/schema and narrow explicit unclaimed coverage. If an actual field affects a target R2 request, state transition or claimed output, promote only that finite field to the required-source map."
+    },
+    {
+      "id": "historical-check-quotas",
+      "examples": [
+        "Old30026 scalar check count",
+        "Old94 version/6JSON/56GC classifications",
+        "Full unmodified historical large trees or a new standalone giant comparator"
+      ],
+      "treatment": "Reuse unchanged exact source meanings; derive current actual counts. No obligation to recreate historical totals or raw internal shape."
+    }
+  ],
+  "currentMinimalToolObservations": {
+    "files": [
+      "tools/rust-r2m/compare-api-five-core.mjs",
+      "tools/rust-r2m/compare-api-five.mjs",
+      "tools/rust-r2m/compare-api-five-contract.md"
+    ],
+    "readLevel": "Necessary current physical/DTO/memory-result code and explicit contract; not a complete19-source SourceReady review.",
+    "problem": "compareFiveMemory currently records paired equal booleans and raw shape differences, but required mismatches are not asserted or fed into main differences. It also leaves persisted scalar/original pairing Pending. That partial program may truthfully emit diagnostic physical/primaryHTTP coverage, but cannot by itself close required caller semantics.",
+    "narrowNextSteps": [
+      "Promote mismatch/presence/typed-ID failures in required paired measures to actual required-proof or semantic difference result, not a passive equal:false statistic.",
+      "Apply only current actual original metadata/schema persisted counterpart maps and source-proved representations to the5 held/common business row families; reuse existing L meanings rather than compare whole stages as a DTO.",
+      "Wire phase evidence only for applicable changed runtime clock cells and pair matching source sites/phases; keep genuinely unproved required cells Pending.",
+      "Consume the captured original intermediate materialized result and required Native-derived binding fields. Run the smallest reviewed readonly analysis to identify actual remaining paths before adding more adapters.",
+      "Separate required Pending from unclaimed/out-of-scope diagnostic shape. Do not hide required Pending, but do not make an irrelevant generic flag permanent Stage blocker."
+    ]
+  },
+  "acceptableFinalClaim": {
+    "name": "bounded-M3-required-semantics-coverage-complete",
+    "conditions": "All required current five-case public/business/caller-counterpart/effect/source bindings pass with explicit permitted representations, raw evidence/source/binary/whole107/cleanup bound and no unexplained required difference.",
+    "needNotClaim": [
+      "whole arbitrary memory equality",
+      "all Native producer DTO equivalence",
+      "actual Rust SQL wire capture beyond recorded limit",
+      "R3-R5 whole-domain migration"
+    ],
+    "overallG3G4StillSeparate": true
+  },
+  "reviewerActivity": {
+    "privateRead": false,
+    "environmentRead": false,
+    "databaseHttpBrowserExecuted": false,
+    "testsExecuted": false,
+    "productOrFixtureEdited": false,
+    "gitMutated": false
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

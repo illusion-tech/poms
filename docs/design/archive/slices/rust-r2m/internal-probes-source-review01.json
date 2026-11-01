@@ -1,0 +1,118 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-internal-probes-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T19:14:22.862Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/shared-uow-probe.rs",
+      "bytes": 23156,
+      "rawBytesSha256": "d95f68838d0422683cdc7c954fe5b4230f2d1f57e9e6a1105248c76ae6508710",
+      "readLevel": "full old-to-new zero-context diff plus new environment/preflight/trace/commit entry context; old UoW algorithm not deeply re-reviewed"
+    },
+    {
+      "file": "tools/rust-r2m/number-probe.rs",
+      "bytes": 6164,
+      "rawBytesSha256": "a80e370f8a7c6ba80a20d40d989e1fb0c15146108008d6992ff329e39b3e667f",
+      "readLevel": "full"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.toml",
+      "bytes": 3419,
+      "rawBytesSha256": "12048cee8734f9df868d7fe0fa4e9cea007cc1e755168edb56106ffaf7140e3e",
+      "readLevel": "complete diff; only two new M example targets"
+    },
+    {
+      "file": "tools/rust-r2m/native-app.mjs",
+      "bytes": 8117,
+      "rawBytesSha256": "b9a4bed49f55eb2f956deb3c9d2401ec657d5bea6cce0c794b9e3886363d34b7",
+      "readLevel": "numberProvider lookup, context whitelist and SDK callback delta; prior owner boundary retained"
+    },
+    {
+      "file": "tools/rust-r2m/number-lease.mjs",
+      "bytes": 6430,
+      "rawBytesSha256": "1a8cf61e76ed4430fb60f76bc9b6afbd976893dd0bdc400e1c9759bc2edb2335",
+      "readLevel": "full initial implementation and exact pre-I/O guard refinement"
+    },
+    {
+      "file": "tools/rust-r2m/number-lease.test.mjs",
+      "bytes": 1470,
+      "rawBytesSha256": "4bf1b7b9090131ccb3f62ba352fb48f79f9afaa74e22ab9f250f23b8407b4887",
+      "readLevel": "full test definitions only, not executed by C"
+    }
+  ],
+  "matureReference": {
+    "file": "tools/rust-r2l/l-shared-uow-probe.rs",
+    "bytes": 23156,
+    "rawBytesSha256": "128037a435951fb12bf8a3295875650f1917f10afa0f361ffb927480ca67af4c",
+    "boundary": "Raw fingerprint and complete derivation diff only; old target and original source unchanged."
+  },
+  "necessaryFormalSourceReads": [
+    {
+      "file": "apps/poms-api/src/app/features/business-number/business-number.service.ts",
+      "readLevel": "real next(scope,at,em) signature and raw sequence UPSERT only"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "readLevel": "business_number_sequence primary-key metadata only"
+    }
+  ],
+  "sourceConclusions": [
+    "The shared UoW probe preserves the old L algorithm; the complete diff changes only M marker, control schema, database/role/port/private path and trace operation.",
+    "Cargo adds m_shared_uow_probe and m_number_probe without changing the old L example, product routes, dependencies or lock.",
+    "The new number probe calls the actual Rust BusinessNumberService over all nine compiled scopes, bounded stdin and years4000..8998 plus the next synthetic year; before-present scope/year rows reject execution.",
+    "Borrowed-connection rollback is labelled separately from standalone allocation. Eight concurrent allocations, UTC boundary and the independent commit surviving caller rollback are explicit finite observations to be run.",
+    "Native SDK wiring selects the one actual BusinessNumberService provider and only adds m.internal-numbers to the explicit operation whitelist; its real next(scope,at,em) signature matches the call.",
+    "The separate number lease fixes nine scopes/two years, journals before-absence, records18 complete expected rows with xmin, and permits only exact row+xmin deletion after writer drain.",
+    "The physical primary key remains id. The lease uses the(scope,period)unique key and never adopts query-returned UUIDs into fixture ownership.",
+    "The lease requires two fresh validated connections with distinct PIDs and zero rows after acknowledged COMMIT; unknown changes/commit errors retain recovery state."
+  ],
+  "closedSourceFinding": {
+    "initialNumberLeaseSha256": "9974e959d0c776857522afe27802c8ae8554eae2e16c8a5ab7cafd0673a6ef12",
+    "problem": "The first number lease queried before checking the fixture namespace/marker/source/database/backend/run envelope and writerDrain.",
+    "resolution": "The current source checks those fixed journal/envelope fields, run UUID, source and no-writerDrain before SQL; pre-existing unique-key rows remain refused.",
+    "terminology": "Composite PK wording corrected to composite unique key."
+  },
+  "actualUseRequirements": [
+    "Root must bind the final full source capsule and each compiled example binary before invoking probes; a main release build alone is not evidence of either example binary.",
+    "Root's external owner-only marker and complete low-privilege metadata admission must precede probes. The app probe checks the input marker/endpoint/role and cannot read the owner-only marker row itself.",
+    "Use only the frozen current managed environment, before-absent synthetic scopes/years and a source/run-bound number lease. No old private files, ambient database overrides or current real-year allocation.",
+    "Preserve complete Native and Rust number strings for actual comparison, including prefix/year; suffix checks are not a new all-format proof. Native independent-EM and Rust borrowed-connection semantics remain separately labelled.",
+    "Source rows, UoW transaction traces, actual INSERT/COMMIT and independent visibility still need Root's bounded execution and observer certification; source review grants no DTO/query-ID ownership.",
+    "After all writers drain, delete only the exact number-lease rows and preserve recovery state on discrepancy. restoreAfterDrain is a single-use source operation; any later no-op cleanup claim needs an actual empty-key verification.",
+    "Do not run these probes until the shared runtime/observer/caller inputs are also frozen. Raw stdout/stderr and row facts stay in the new private evidence path."
+  ],
+  "reportedChecks": {
+    "authority": "Root report; C did not execute or independently inspect full check logs",
+    "rustProbe03": "five groups exit0 after cargoFmt",
+    "numberLeasePure": "nine negative tests reported exit0; definitions were read",
+    "actualInternalProbeIO": "not yet performed"
+  },
+  "unresolvedSourceBlockers": [],
+  "notCertified": [
+    "Actual probe/service/transaction results",
+    "Actual18-row lease lifecycle and repeat no-op cleanup",
+    "Actual observer/cohort correctness",
+    "Full M0-M5/UI",
+    "G3/G4"
+  ],
+  "executionByReviewer": {
+    "testsRun": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateReads": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

@@ -1,0 +1,141 @@
+{
+  "kind": "RUST-R2M-independent-limited-actual-lifecycle-archive-review",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01T17:34:49.673Z",
+  "reviewedImplementationCommit": "bb25731632bafa7f75be9b77ff40754d51925dbb",
+  "input": {
+    "file": "tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json",
+    "bytes": 185667,
+    "rawBytesSha256": "b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c"
+  },
+  "sourceReview": {
+    "file": "tmp/rust-r2m-g4-derived/c-review01/lifecycle-archive-source-review02.json",
+    "bytes": 8001,
+    "rawBytesSha256": "24fe8bd31af1ccae5d1a1233191f024ab13bd566f7d5e536e6ef7694d3511493"
+  },
+  "exactPlan": {
+    "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-plan02.json",
+    "bytes": 146828,
+    "rawBytesSha256": "40676a65a6b4f5f302a54a0503b72d9df4cb12dfd038861d5a10aff98527293d"
+  },
+  "scope": "Only the completed bounded239 lifecycle archive/compatibility copy operation preserving235exactpublicsources; not tar/membertransport, metadata commit or effective G4.",
+  "actualArchiveCopyVerified": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "actualCounts": {
+    "distinctSources": 235,
+    "destinations": 239,
+    "newlyCreated": 238,
+    "alreadyExact": 1,
+    "lifecycleOriginalSources": 212,
+    "frozenOriginalG1Sources": 22,
+    "onlyExplicitFixedCSource": 1,
+    "threeLegacyFlatAliases": 3,
+    "fixedCArchiveAndCanonicalDestinations": 2
+  },
+  "independentActualChecks": {
+    "actualManifestBytesAndSHAExact": true,
+    "every239DestinationTupleMappedToExactReviewedPlan": true,
+    "uniqueDestinationPaths": 239,
+    "every235OriginalSourceCurrentBytesAndSHAExact": true,
+    "every239DestinationCurrentBytesAndSHAExact": true,
+    "all474NamedSourceDestinationReadsPublicRegularLeafNoReparseOrLinkType": true,
+    "rootRuntimeEveryReadCheckedNlink1SamefdLeafAndParents": "SourceReady exact runtime and actualmanifest afterRegularSingleLinktrue for239, retainedRegularOriginaltrue; C read Root checked nlink evidence, not a new kernel/host query.",
+    "alreadyExactOnePreservedBeforeBytesAndNlink1": true,
+    "noUnknownOverwriteOrRollbackDeletion": true,
+    "noOriginalPendingOrFailureTextRewritten": true,
+    "original209MembershipRetainedExceptOnlyExplicitFixedCCompatibility": true,
+    "activeMachine3AndTopCurrentGovernance2ExactG3ReadyBytes": true
+  },
+  "originalG1Disjoint": {
+    "originalReviewed": {
+      "source": {
+        "file": "tmp/rust-r2m/g1-frozen-inputs/docs/design/rust-r2m-stage-acceptance-baseline.md",
+        "bytes": 13410,
+        "rawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33"
+      },
+      "destination": "docs/design/archive/slices/rust-r2m/g1-frozen-inputs/docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "role": "frozen-G1-original",
+      "originalLogicalPath": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "retainOriginal": true,
+      "regularSingleLinkOnly": true
+    },
+    "laterGateOnlyCopies": [
+      {
+        "source": {
+          "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+          "bytes": 13452,
+          "rawBytesSha256": "fb40c7f9761f3ecc7ef84e9a761f053f8e116da5f40fe78387df913cb86b0cba"
+        },
+        "destination": "docs/design/archive/slices/rust-r2m/rust-r2m-stage-acceptance-baseline.md",
+        "role": "top-lifecycle-regular-compatibility",
+        "originalLogicalPath": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+        "retainOriginal": true,
+        "regularSingleLinkOnly": true
+      },
+      {
+        "source": {
+          "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+          "bytes": 13452,
+          "rawBytesSha256": "fb40c7f9761f3ecc7ef84e9a761f053f8e116da5f40fe78387df913cb86b0cba"
+        },
+        "destination": "docs/design/archive/slices/rust-r2m-stage-acceptance-baseline.md",
+        "role": "legacy-flat-archive-compatibility-alias",
+        "originalLogicalPath": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+        "retainOriginal": true,
+        "regularSingleLinkOnly": true
+      }
+    ],
+    "original13410AndGate13452NotConflated": true,
+    "fixedOriginal22InputSetSeparateFromCurrent212": true
+  },
+  "compatibilityDecision": {
+    "owner": "Root",
+    "currentOldPathsAreRegularSameByteCompatibilityOnly": true,
+    "why": "Original fullSourceReader/sourceCapsules/raw reviews require exact old paths and hashes",
+    "newArchiveRootIsLifecycleAuthority": true,
+    "originalPendingTextMustRemainUnchanged": true,
+    "noSymlinkHardlinkOrRedirect": true,
+    "retirement": "Only a later explicit Root-reviewed retirement after all named old source/path/hash consumers are retired; no automatic deletion"
+  },
+  "archiveAuthorityRoot": "docs/design/archive/slices/rust-r2m/",
+  "oldSourceRetention": {
+    "originalPathsRemainRegularSameBytesNotRedirects": true,
+    "noSymlinkHardlinkOrSourceMove": true,
+    "fixedC": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/fixed-commit-review01.json",
+      "bytes": 14613,
+      "rawBytesSha256": "f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0"
+    },
+    "fixedCCompatibility": "Canonical regular samebytes path retained plus distinct archive regular file; originalTMP source retained.",
+    "laterRetirement": "Only explicit future Root-reviewed retirement after old named consumers are retired; no automatic delete."
+  },
+  "findings": [],
+  "classification": "Actual lifecycle-byte-preservation operation passes, with historical G1/G3Ready artifacts preserved. This is one G4 prerequisite and does not certify finalG4.",
+  "remaining": {
+    "metadataCommitAndRawGitBlobVerification": "Pending bounded followup when Root supplies fixedarchive metadata commit",
+    "finalHeavyDualOriginArchiveAndEveryMemberIndependentVerification": "Pending",
+    "G4CurrentMachineMetadataAndActualOnline80_67TruthSync": "Pending",
+    "issue80And67": "Remain OPEN until full actual respective conditions",
+    "issue57": "Remain OPEN"
+  },
+  "preservationBoundary": {
+    "actualArchiveManifestIsNotATarReceipt": true,
+    "heavyFrozenInputsNotModifiedByThisC": true,
+    "laterSmallDerivedReceipts": "Third-scope bounded delta manifest/rawSHA, not retroactively claimed inside old tar cutoff.",
+    "noSelfContainingTarOrOwnHashCycleRequired": true
+  },
+  "readLevels": {
+    "planAndRuntime": "Prior complete source review pinned in sourceReview; no runtime source edits.",
+    "actualCopy": "Read complete public actualmanifest, all235retained source raw files and239destination raw files; map exacttuple and actual regular-link proof.",
+    "newHostOrDBQuery": "None"
+  },
+  "activity": {
+    "publicSourceMetadataOnly": true,
+    "privateDBHostHTTPBrowserRuntimeActions": 0,
+    "NodePureOrArchiveToolExecutedByC": 0,
+    "existingSourceOrGitMutations": 0,
+    "outputOnlyThirdDerivedScope": true
+  }
+}

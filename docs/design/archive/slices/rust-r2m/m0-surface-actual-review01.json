@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "reviewedAt": "2026-10-30T20:54:26.587Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "G3Certified": false,
+  "G4Certified": false,
+  "kind": "R2M-M0-surface115-actual-evidence-review-not-a-Gate",
+  "result": "Accepted-surface-evidence-with-explicit-inherited-diagnostic-header-difference",
+  "scope": "M0 surface115 only; URI27, API20, UI and full-stage acceptance remain separate",
+  "sourceCap": {
+    "file": "tmp/rust-r2m/source-cap-epoch05.json",
+    "bytes": 1322644,
+    "rawBytesSha256": "aff340072888565328e193e67d7275f838bb47781798edda0ec4da2247f1bc4c",
+    "id": "r2m-epoch05",
+    "manifestSha256": "cd3f32574b29eb922fd549a0be2c75d7d02f8bbd919074c12ae4ac5b6322b797",
+    "readLevel": "Public selected metadata/artifact/runtime pins; no repeated full historical tree walk"
+  },
+  "publicActualReceipts": [
+    {
+      "file": "tmp/rust-r2m/acceptance-nest-m0n03.json",
+      "bytes": 73099,
+      "rawBytesSha256": "e374b9fad642d3ced1fa82c92ffa335121898987940767a8ccc2ac4cea663915",
+      "runId": "bcf23dac-3702-4733-9cb5-5dcb95126586",
+      "actual": 115,
+      "allCellsObserved": true,
+      "privateRawCaptureSha256": "876f5c6ea41fd193b68cf4166d1672fc78d39a4fe4c792e2e78266f033a68341",
+      "writersStopped": true,
+      "pgObserverRestored": true,
+      "cleanupDeleted": [
+        53,
+        0
+      ]
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-rust-m0r01.json",
+      "bytes": 78506,
+      "rawBytesSha256": "08a55e5ba024181b623c0bd0bdae7e3f341bcd62d122290de497320a84424255",
+      "runId": "3fcde5b6-dd33-466a-ac08-e66f4cfad67f",
+      "actual": 115,
+      "allCellsObserved": true,
+      "privateRawCaptureSha256": "4b30ca6a5ed852b9ed0d5144900c561e663df7032796a03b535f345eeeed1c6a",
+      "writersStopped": true,
+      "pgObserverRestored": true,
+      "cleanupDeleted": [
+        53,
+        0
+      ]
+    }
+  ],
+  "comparator": {
+    "file": "tools/rust-r2m/compare-probes.mjs",
+    "bytes": 12912,
+    "rawBytesSha256": "a3ef072b931517c3ec34f7dbde750f493cadd6fdb35792381a170fe70860fb3f",
+    "readLevel": "Complete finite surface comparator source cumulatively read; this version's URI session-condition path is not approved"
+  },
+  "comparison": {
+    "file": "tmp/rust-r2m/compare-surface-measured02.json",
+    "bytes": 22170,
+    "rawBytesSha256": "c09ed7f1d426517a71643bf686ee379a38dc3090c64a8f51bbf23fc5aefdf3d4",
+    "actualCells": 115,
+    "physicalFramesCompared": 230,
+    "remainderDifferences": 0,
+    "acceptedDifferences": 115,
+    "acceptedDifference": "Only response.headers.x-request-id presence; inherited R1A Rust-generated additive diagnostic header, syntax and per-run uniqueness checked. All115 exact paths and uniqueness independently set-checked by C.",
+    "wireBodies": {
+      "native": 115,
+      "rust": 115
+    },
+    "opaqueChecksPerBackend": 1841,
+    "clockCellsPerBackend": 26453,
+    "healthMetricChecksPerBackend": 3
+  },
+  "normalizationAssessment": [
+    "Every selected physical row has exactly the authority's complete column set, and complete107 outside-scope frames must report no unexpected changes. Unknown IDs/columns are not silently discarded; owned ID mappings require actual fixture admissions.",
+    "Only named typed timestamptz fields normalize after zone/precision/run-window and declared session offsets/fixture expiry checks; null/state/value/type outside these cells remains comparable. Only bcrypt(actual run plaintext,rounds4) and actual issued-cookie hash witnesses normalize opaque entropy.",
+    "Actual complete response byte buffers validate their retained length/hash before whole decoded body comparison. Finite frozen comparison headers and content length are validated explicitly; other raw framework/date/connection headers remain private evidence. This is not byte-identical serialization or complete header equality.",
+    "The two health routes alone use finite uptime and DB duration bounded by actual observation windows. No performance equality claim is made.",
+    "The R1A diagnostic header presence is retained as an explicit inherited difference; remainder0 must not be reported as all-bytes-identical."
+  ],
+  "priorComparison": {
+    "file": "tmp/rust-r2m/compare-surface-measured01.json",
+    "bytes": 72949,
+    "rawBytesSha256": "84164b7360bf393883acad5b70e9986e7bb9395b02a8e037ae9cb622a21bc705",
+    "result": "fail",
+    "remainderDifferences": 460,
+    "preserved": true,
+    "independentPathSetCheck": "All460 are exactly two owned platform_user fixture usernames in before/after frames of115 cells. Final comparator validates the exact current run/account-derived username before mapping it to its finite input slot; no product field is dropped."
+  },
+  "verification": {
+    "CReadPrivate": false,
+    "CExecutedApplicationDBHTTPOrComparator": false,
+    "actualComparatorExecutedBy": "Root",
+    "CIndependentWork": "Source review, exact public byte/hash pins and finite public result/path sets only",
+    "sourceReadyTransfer": "Retain this exact comparator source/version and result when the URI comparator adds condition checks; do not overwrite the historical surface evidence."
+  },
+  "remaining": "URI must separately verify every actual absent/owned-valid/retained-expired condition and27 responses per backend; these surface probes prove finite entry/error coverage and do not replace business success scenarios."
+}

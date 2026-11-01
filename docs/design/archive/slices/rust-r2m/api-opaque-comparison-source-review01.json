@@ -1,0 +1,180 @@
+{
+  "kind": "POMS-R2M-independent-finite-AES-OAuth-state-comparison-source-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 04:13:48 UTC",
+  "result": "SourceReady",
+  "gate": false,
+  "productAuthorship": false,
+  "privateRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecutedByReviewer": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "scope": "Pure five encrypted fields and two exact OAuth state slots; no whole API comparison certification.",
+  "candidate": {
+    "file": "tools/rust-r2m/comparison-api-opaque-source01.json",
+    "bytes": 9691,
+    "rawBytesSha256": "4ed94fb8270c95c55a14a2a64b60500389be887ce12f2c9d7e30a06990b6cfbe"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/comparison-api-opaque.mjs",
+      "bytes": 18061,
+      "rawBytesSha256": "6c4923a07373200b88a3048266331753dbaea3a0652a7d85d50c6bdc7cf15013"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-opaque.test.mjs",
+      "bytes": 26255,
+      "rawBytesSha256": "3c8b28e2ca30ebc88f01644f04580750daada218c2b2b7fe9f287a3861c8ac94"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-opaque-contract.md",
+      "bytes": 7718,
+      "rawBytesSha256": "b6c364a43e599169fa3be6b54906ff07615eb2df9dc3ca8d77bca0509b66399f"
+    }
+  ],
+  "originalSourcePins": [
+    {
+      "file": "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+      "bytes": 2539,
+      "rawBytesSha256": "43a50b8181c0fa3773bb3544daaeba5d0639f9c4ec4aa9048e25cd4f1362d84a"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-secret.constants.ts",
+      "bytes": 392,
+      "rawBytesSha256": "b7ee74a61e1d26e5d1d262e75ca763b6011b325db8413c7d81059cdbee117804"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider-secret.constants.ts",
+      "bytes": 352,
+      "rawBytesSha256": "c7b0f6467c3d13f0b82280ff2aa31e507c6c8ca7393ec2fc4258f1a0b44ce6c1"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.ts",
+      "bytes": 16366,
+      "rawBytesSha256": "a0fa9e9837cd4494767f2df3624f787f154d82445eadf8759c80c89367cdc7f7"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+      "bytes": 73332,
+      "rawBytesSha256": "90a76597b44dd9631b62ada6cdb9ccd9eaf40ef86f3e438e92937d33abfbe7dd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/feishu-identity-provider.adapter.ts",
+      "bytes": 20701,
+      "rawBytesSha256": "fd872223b37fb7272bd2935c1180bb7dcaadbc90db5dfb8beff2cc4266b5dab3"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-bindings.mjs",
+      "bytes": 7996,
+      "rawBytesSha256": "d735fa42de822c653a6ecfdf6b95aa4841eac3ee621f7f0eb93a5d2c9aa505e0"
+    },
+    {
+      "file": "tools/rust-r2m/feishu-server.mjs",
+      "bytes": 8685,
+      "rawBytesSha256": "222c487455fb506b5ce94768d7e4b26e0a2001590854c8f3c1741caebf14767c"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    }
+  ],
+  "sourcePins": {
+    "matched": 13,
+    "total": 13
+  },
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/comparison-api-opaque.mjs",
+        "tools/rust-r2m/comparison-api-opaque.test.mjs",
+        "tools/rust-r2m/comparison-api-opaque-contract.md"
+      ],
+      "level": "Complete helper and contract source; original-emitter and adversarial test source reviewed; all current raw hashes verified."
+    },
+    {
+      "files": [
+        "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+        "apps/poms-api/src/app/features/attachment/attachment-storage-provider-secret.constants.ts",
+        "apps/poms-api/src/app/features/identity-provider/identity-provider-secret.constants.ts",
+        "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.ts",
+        "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+        "apps/poms-api/src/app/features/identity-provider/feishu-identity-provider.adapter.ts",
+        "tools/rust-r2m/acceptance-bindings.mjs",
+        "tools/rust-r2m/feishu-server.mjs",
+        "tools/rust-r2m/fixture-policy.mjs",
+        "tools/rust-r2m/fixture-credentials.mjs"
+      ],
+      "level": "Full raw length/SHA checks; necessary original cipher/key options/state emit/sign/verify and controlled peer formula/callback source sections read. Mature surrounding code reused."
+    }
+  ],
+  "findings": [
+    {
+      "id": "cipher-original-protocol",
+      "result": "Pass",
+      "detail": "Canonical v1 segments, base64,12B IV and16B tag with actual AES-256-GCM authentication; exact original key precedence distinguishes cipher truthy selection from state nullish selection. Only five listed table/column slots and exact per-run synthetic or controlled token formulas accepted. Local-provider two literal NULL cells stay NULL."
+    },
+    {
+      "id": "real-typed-prerequisites",
+      "result": "Pass",
+      "detail": "Root must first verify ordinary actual birth, PK absence, COMMIT, independent visibility and full typed physical row. ordinaryBirthVerified and peer flags are explicit caller attestations; this helper does not grant ownership or replace real authority with a query/response ID."
+    },
+    {
+      "id": "state-original-bytes",
+      "result": "Pass",
+      "detail": "Two named purpose/config/operator slots only; canonical16B nonce, HMAC-SHA256 over exact original payload bytes/field order, exp minus600000 inside actual authorize window, expiry ISO and whole same-state/code/callback chain. Actual callback start/window bounds retain crossing-expiry uncertainty; no invented Date.now."
+    },
+    {
+      "id": "peer-truthful-read-level",
+      "result": "Pass",
+      "detail": "Controlled token formula requires bound original normal-mode token request/credentials/code proof and exact peer source-record hash. Optional complete original raw token response is verified only when genuinely supplied; original peer did not record it, so absent raw yields controlledRawResponseVerified=false."
+    },
+    {
+      "id": "response-and-secrets",
+      "result": "Pass",
+      "detail": "Body hash binding supplies no status/body/header equivalence exception. Fixed helper errors exclude supplied key/cipher/token/plaintext. No environment, file, private, SQL, HTTP or browser access in helper."
+    }
+  ],
+  "authorChecks": {
+    "purePassed": 24,
+    "pureFailed": 0,
+    "skipped": 0,
+    "originalEmitters": "Full original SecretCipherService and exact original state emit/verify/key methods in isolated pure VM; actual Node crypto.",
+    "evidence": {
+      "file": "tools/rust-r2m/comparison-api-opaque-source01-pure-complete.txt",
+      "bytes": 2405,
+      "rawBytesSha256": "536cb61f26c20c7f4b38e1189da43bcf21c082b40c802cc8e2bc746ffa16b950"
+    },
+    "lexical": {
+      "command": "ESLint Linter no-undef over helper and test with explicit Node globals",
+      "files": 2,
+      "errors": 0,
+      "log": {
+        "file": "tools/rust-r2m/comparison-api-opaque-source01-no-undef-final.json",
+        "bytes": 436,
+        "rawBytesSha256": "5c8483fc478bf780948d49caaaf23ce94c321171475fa9b052213880af677135"
+      }
+    },
+    "readLevel": "Author public evidence and source only; no reviewer test or actual I/O."
+  },
+  "executionBoundary": {
+    "owner": "Root",
+    "sourceCapsuleAndAllActualRawBindingsRequired": true,
+    "mainApiCallerStillRequiresReview": true,
+    "physicalClockNestedPayloadZipKIntegrationPending": true,
+    "actualComparisonCertified": false,
+    "ownershipGranted": false,
+    "cacheEquivalenceCertified": false
+  },
+  "blockers": []
+}

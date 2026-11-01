@@ -1,0 +1,319 @@
+{
+  "kind": "POMS-R2M-independent-M3-source-input-correction-review",
+  "reviewedAtUtc": "2026-10-31 01:37:28 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "selected": [
+      "M3.1",
+      "M3.2",
+      "M3.3",
+      "M3.4",
+      "M3.5"
+    ],
+    "excluded": [
+      "M4 provider NULL-audit forward caller",
+      "M5 actual admission"
+    ],
+    "productModified": false,
+    "fixtureOwnershipPermissionsChanged": false,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "input": {
+    "file": "tools/rust-r2m/acceptance-api20-source04.json",
+    "bytes": 22676,
+    "rawBytesSha256": "5aaafe6c4d1a082fafe8567cb0f72d68c20bf1ad02b2f3cb06da3e306f3c07bf",
+    "sourceSetSha256": "465f469a021d7bd4d0c440136e921c5c667cac421954343918135590c5dd63b5"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 44805,
+      "rawBytesSha256": "402d1af4b0cf7588381c13dd9594c646b8b40712dc18eca143247e35e7b5f917"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.mjs",
+      "bytes": 22431,
+      "rawBytesSha256": "7d3b9c21d8729eb6f10c4d8d64d7e803e2f2418eeb684a377a25e2ab03bf84c6"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 14393,
+      "rawBytesSha256": "9e69ff23091f6bb3bdb3f70228476543de042c9bee291c6bbcc237d4d123b9bd"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-expected.mjs",
+      "bytes": 25665,
+      "rawBytesSha256": "c2f0d68f1d8aee3777d7820b9a79020c650307642988ab681b0dc646d42137a8"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 8866,
+      "rawBytesSha256": "8a38f03d9927b8adf293cbeff15978f33f9f140e10e57ca9e7a17164e99f1401"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-preflight.mjs",
+      "bytes": 3065,
+      "rawBytesSha256": "d4dc2772e4b3bfda7822a85f2cc57fbaea0d8ef2a09a241b57fd66278b69664c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.test.mjs",
+      "bytes": 11030,
+      "rawBytesSha256": "906b67101bfde5dfa6c5178d88122f8b893cfd33e20a69a96973cc384eac67ae"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-contract.md",
+      "bytes": 11333,
+      "rawBytesSha256": "66b2a8585266263c462f87ee60f601a21208ab78c4cab52c4dc194fd3aca81e7"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared-result.mjs",
+      "bytes": 5323,
+      "rawBytesSha256": "1e14aaed530994e1c84336416a04708d48cce507a7084e0470eeb93bc17526cb"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.test.mjs",
+      "bytes": 3484,
+      "rawBytesSha256": "189367d44bf5ae02a1603fcbf57e234e34d77154aedf479710e07545553dc61b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+      "bytes": 2669,
+      "rawBytesSha256": "0ff2c368ebb2f555dff9e8a75ebc827ce4d3307c1d2e26da080e2049d0fe7e9d"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-local-objects.mjs",
+      "bytes": 1945,
+      "rawBytesSha256": "209797b9039f15782003b79f4944e7343a90b1c7690368897b74912fa6bc76e9"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-user-compatibility.mjs",
+      "bytes": 8414,
+      "rawBytesSha256": "f9d0adfc6c965f6533ec7f9fc418a83406edbf06e650d89ffbd96ce17ac1827c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-user-compatibility.test.mjs",
+      "bytes": 7076,
+      "rawBytesSha256": "2872362856ce6afe59849ede8261e7a79f5f746a8a2f28711ffb3e837355e581"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-preflight.mjs",
+      "bytes": 8879,
+      "rawBytesSha256": "c9d7156fdf5eff14afc54063c998634b398dbbd6a30bb1843ac0f14aa94065b4"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20.test.mjs",
+      "bytes": 17317,
+      "rawBytesSha256": "838233a77c44ba9193a7919ba0c1d7ac4528f09b758fa70153f32c986797b38f"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-attachment-recipes.mjs",
+      "bytes": 5547,
+      "rawBytesSha256": "4dedd20af75b5d2b6506e6f82ef115152f32873296637575977e0b653d08e2a6"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-recipes.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "0049f53a48259f64109bab0c9e474e2f17413887def95aeca5e676e8099d7fb7"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.test.mjs",
+      "bytes": 4527,
+      "rawBytesSha256": "d31c44cb0b5c66ecb32a24f8c449de4100afd734563c2924c8b95a294f5d9f9d"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-zip.mjs",
+      "bytes": 7131,
+      "rawBytesSha256": "a50ace3ccbcd46e3c5930ab5d8840edb47cb229fe5928b1cb8c04ed477eb5e74"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-zip.test.mjs",
+      "bytes": 5961,
+      "rawBytesSha256": "1442c24f9224c8fcb9de19caeee0568227f889d382bde8629e27e76611fc471a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-principal-source.mjs",
+      "bytes": 2934,
+      "rawBytesSha256": "0dd3c8d88f7ae98f5965b9c170f619e38245f68abb18a0f68c79c7cc2b5f4b18"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-principal-source.test.mjs",
+      "bytes": 1205,
+      "rawBytesSha256": "f41f8c044efd54b9254a5f276dfdb809864b81e01590aef9a59234630132739b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-producers.mjs",
+      "bytes": 18360,
+      "rawBytesSha256": "ba7726ed1a1f1b2dc081291075cd95977aa83ff026b29e8917303547b33e9164"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-contract.md",
+      "bytes": 10303,
+      "rawBytesSha256": "d325798665ed00cb77cea7f1d675bd3c98fef8e45102eaccf45dd6fe048b9c31"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-prepared-source-check.mjs",
+      "bytes": 3419,
+      "rawBytesSha256": "e5e45ec6457a258caca26b4abf378c22ebc09fa5138d33eecc72e217ab36e284"
+    }
+  ],
+  "changedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 44805,
+      "rawBytesSha256": "402d1af4b0cf7588381c13dd9594c646b8b40712dc18eca143247e35e7b5f917"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 14393,
+      "rawBytesSha256": "9e69ff23091f6bb3bdb3f70228476543de042c9bee291c6bbcc237d4d123b9bd"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 8866,
+      "rawBytesSha256": "8a38f03d9927b8adf293cbeff15978f33f9f140e10e57ca9e7a17164e99f1401"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-preflight.mjs",
+      "bytes": 8879,
+      "rawBytesSha256": "c9d7156fdf5eff14afc54063c998634b398dbbd6a30bb1843ac0f14aa94065b4"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20.test.mjs",
+      "bytes": 17317,
+      "rawBytesSha256": "838233a77c44ba9193a7919ba0c1d7ac4528f09b758fa70153f32c986797b38f"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-producers.mjs",
+      "bytes": 18360,
+      "rawBytesSha256": "ba7726ed1a1f1b2dc081291075cd95977aa83ff026b29e8917303547b33e9164"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-contract.md",
+      "bytes": 10303,
+      "rawBytesSha256": "d325798665ed00cb77cea7f1d675bd3c98fef8e45102eaccf45dd6fe048b9c31"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-prepared-source-check.mjs",
+      "bytes": 3419,
+      "rawBytesSha256": "e5e45ec6457a258caca26b4abf378c22ebc09fa5138d33eecc72e217ab36e284"
+    }
+  ],
+  "reuse": {
+    "file": "docs/design/rust-r2m/api-nine-source-review01.json",
+    "bytes": 22127,
+    "rawBytesSha256": "d7c1714fddc73d5fe9b8161ba85ea45517b875397a0c6b5771203072064adbbb",
+    "meaning": "Previous necessary complete selected-nine/Root-UoW wiring review remains bounded source review. This new review corrects M3 tool inputs; it does not turn old an9a partial into actual success.",
+    "RootUowSources": "The prior6 Root pins, compiled probes and capture-failure preservation remain required and unchanged except the B producer file explicitly reviewed here.",
+    "fixtureEpoch": "Use a fully matching reviewed fixture source epoch; old approved04 can serve these M3 cases. Proposed new M4/M5 shared fixture changes require their own independent review."
+  },
+  "readLevel": {
+    "manifest": "complete source04/current pin list and delta claims",
+    "delta": "eight new/changed files; complete relevant production deltas and new source-field-map helper; author test additions read",
+    "rawHashCheck": "30/30 current files match manifest",
+    "unchanged22": "Prior review reused",
+    "sourceEvidence": "Original constructor input/NULL relationship and immutable project-parent requirements; no private reads",
+    "CActualIO": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "findings": [
+    {
+      "item": "original NULL relationship",
+      "result": "Pass",
+      "detail": "Commission18 project.customer_id stays NULL in the real original-source constructor. The two wrong commission-customer recipes and unrelated UoW customer constructor/INSERT are removed. No fabricated UUID association, fixture policy expansion or source-row alteration."
+    },
+    {
+      "item": "explicit intent parent",
+      "result": "Pass",
+      "detail": "All M3 request intents whose immutable table identity includes project_id now bind the already-produced project.id before request I/O. Full source preflight checks required project and typed-parent selectors. Existing before-absence, real birth proof and full107 reference rules remain unchanged."
+    },
+    {
+      "item": "constructors used before I/O",
+      "result": "Pass",
+      "detail": "Pure --check now invokes original buildPreparedContractRows/materializePrepared with all6 UUIDs using protected Customer/Project/Contract AST field mappings, explicitly not running ORM metadata. Actual entry still uses actual Native metadata. All4 UoW variants use the same18-row constructor and5-UUID guard as runtime; incorrect NULL input is no longer fed to draft constructor."
+    },
+    {
+      "item": "capture and scope",
+      "result": "Pass",
+      "detail": "Runtime required source list adds source-check helper and3 entity files, so next cap must include them. Producer cancellation before-assert trace retention and Root capture failure preservation remain intact. Planned prepared count9→7 reflects removal of wrong extra sources; planned HTTP164 and logical M3 cases remain unchanged."
+    }
+  ],
+  "authorChecks": {
+    "purePass": 48,
+    "pureFail": 0,
+    "pureSkip": 0,
+    "lexicalFiles": 7,
+    "lexicalErrors": 0,
+    "evidence": {
+      "pureTests": {
+        "command": [
+          "C:\\Users\\ynh2\\AppData\\Local\\fnm_multishells\\51336_1793410120512\\node.exe",
+          "--test",
+          "tools/rust-r2m/acceptance-api.test.mjs",
+          "tools/rust-r2m/acceptance-api20.test.mjs",
+          "tools/rust-r2m/acceptance-facts.test.mjs",
+          "tools/rust-r2m/acceptance-prepared-result.test.mjs",
+          "tools/rust-r2m/acceptance-api-audit-source.test.mjs",
+          "tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+          "tools/rust-r2m/acceptance-api-user-compatibility.test.mjs",
+          "tools/rust-r2m/acceptance-api-external-audit-source.test.mjs",
+          "tools/rust-r2m/acceptance-api-zip.test.mjs",
+          "tools/rust-r2m/acceptance-api-principal-source.test.mjs"
+        ],
+        "passed": 48,
+        "failed": 0,
+        "skipped": 0,
+        "exitCode": 0,
+        "evidence": {
+          "file": "tmp/rust-r2m/api20-source04-pure.json",
+          "bytes": 8072,
+          "rawBytesSha256": "23f8c3435b0cf990a0e23ba3964836dd77a993cd08a934b01fd6b68c40fafad7"
+        }
+      },
+      "lexicalNoUndef": {
+        "files": 7,
+        "errors": 0,
+        "evidence": {
+          "file": "tmp/rust-r2m/api20-source04-lexical.json",
+          "bytes": 805,
+          "rawBytesSha256": "f4e7542a9943f81f3bcb4a3d667e40ffcc903183f9465e069dfd49e369c2bdae"
+        }
+      },
+      "sourceStaticFieldMapUsed": true,
+      "NativeMetadataCertified": false,
+      "originalSixUuidDraftConstructorExecuted": true,
+      "fourRealSharedUowConstructorsExecuted": true,
+      "actualRequests": 0
+    },
+    "meaning": "Author source-only checks, not C execution or actual DB coverage."
+  },
+  "actual": "Root owns matching new capsule and real execution. Original an9a partial, its SDK records and exact recovery remain immutable. No product behavior is changed or certified by this correction."
+}

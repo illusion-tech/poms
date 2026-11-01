@@ -1,0 +1,1003 @@
+{
+  "kind": "R2M-independent-C-three-completed-Windows-UI-cells-actual-review01",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-10-31 20:36:22 UTC",
+  "scope": {
+    "cells": [
+      "Windows-Native-UI1",
+      "Windows-Native-UI2",
+      "Windows-browser-external-Linux-Rust-UI1"
+    ],
+    "matrixCellsAccepted": 3,
+    "matrixCellsTotal": 8,
+    "remainingWindowsCells": [
+      "Windows-Native-UI3",
+      "Windows-Native-UI4",
+      "Windows-browser-external-Linux-Rust-UI2",
+      "Windows-browser-external-Linux-Rust-UI3",
+      "Windows-browser-external-Linux-Rust-UI4"
+    ],
+    "aggregateWindowsPass": false,
+    "wholeStagePass": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "sourceCap": {
+    "file": "tmp/rust-r2m-continuation01/source-cap-c01-win03.json",
+    "bytes": 1847652,
+    "rawBytesSha256": "583e0df49b34d6e03564266610df61c35d67b196c3c2d03e23d5e25d5db605fb"
+  },
+  "sourceCapDetails": {
+    "id": "r2m-c01-win03",
+    "manifestSha256": "c4f00ac0f5c5a7f8e7b40642d111ed95e70e2ff92566619588a5dede8391890a",
+    "members": 4079,
+    "privateCopied": false,
+    "all111QualifiedWindowsSourcePinsPresentExact": true,
+    "threeReport4079SourcePinListsMatchCap": true
+  },
+  "sourceQualification": {
+    "file": "docs/design/rust-r2m/windows-ui-batch-source-review01.json",
+    "bytes": 81122,
+    "rawBytesSha256": "3fd1d7f91f6519ec38eeed0c785696cac11559cb33fa18f029dd0209be2e927e"
+  },
+  "inheritedRequirements": {
+    "file": "docs/design/rust-r2m/ui-evidence-requirements-review01.json",
+    "bytes": 8993,
+    "rawBytesSha256": "4c65cb79e699fd559843180da539c77aca97ed4f2f0a220110afbd257110c746"
+  },
+  "correspondingSemanticEvidence": [
+    {
+      "file": "docs/design/rust-r2m/api-eight-actual-review01.json",
+      "bytes": 9273,
+      "rawBytesSha256": "be5b962fe7ff982c758eff9f2dfa1259342e555d033eb7b7f20501abd0455f58"
+    },
+    {
+      "file": "docs/design/rust-r2m/ui12-actual-review01.json",
+      "bytes": 10810,
+      "rawBytesSha256": "842f566dfb0c005ff282eb84fcda15ea472dc53ffc0a497fa236dc5755bf56e9"
+    }
+  ],
+  "cells": [
+    {
+      "cell": "nest-Windows-UI1",
+      "tag": "wn1c03a",
+      "runId": "630956f4-4135-4726-93c1-3b8f4e236dfb",
+      "result": "Pass",
+      "originalPublicResultPreserved": "observed-comparison-pending",
+      "report": {
+        "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn1c03a.json",
+        "bytes": 3020539,
+        "rawBytesSha256": "2724e9e4f9003f5368008322185b462bb4b23c8aa9f5ba2322defff7bcb0b9bb"
+      },
+      "RootSafeMetadata": {
+        "file": "tmp/rust-r2m-continuation01/windows-native-ui1c03-observed-metadata01.json",
+        "bytes": 32786,
+        "rawBytesSha256": "c08539357e8ac21a36a905ddf6153a084b668b9e16ac9ece7cfd80a39cdfe36c"
+      },
+      "steps": [
+        {
+          "id": "anonymous-deep-link",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 3,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00070.json",
+            "bytes": 1128249,
+            "rawBytesSha256": "d3983efc3e5c2a4faf4f3be1458b95be432296355352cf388814cab9002d4f2a",
+            "private": true
+          }
+        },
+        {
+          "id": "login-restore",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 15,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00256.json",
+            "bytes": 1262355,
+            "rawBytesSha256": "5d5c6dbecf5dd801a4f80640c8cab89ee3af8c07685e8a14f407c88729b46f32",
+            "private": true
+          }
+        },
+        {
+          "id": "expired-session",
+          "kind": "angular-fixed-bridge",
+          "result": "observed",
+          "certifiedHTTP": 2,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00285.json",
+            "bytes": 1293567,
+            "rawBytesSha256": "d501c5baa0737beac02ed48efd44f14720d70e63fe1e439198c4c1c6b16b642c",
+            "private": true
+          }
+        },
+        {
+          "id": "relogin-and-topbar-logout",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 10,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00409.json",
+            "bytes": 1394107,
+            "rawBytesSha256": "a6cf71e7675fdc158b29690a846f70f6773eac35525fdbaf3ace751d34e79145",
+            "private": true
+          }
+        }
+      ],
+      "counts": {
+        "steps": 4,
+        "HTTP": 30,
+        "perHttpBeforeAfter107Validations": 60,
+        "actualHTTPBackendCounts": [
+          {
+            "Name": "nest",
+            "Count": 30
+          }
+        ],
+        "stepRefAndCertificateRefHashJoins": 34,
+        "cleanupFirst": 65,
+        "cleanupSecond": 0,
+        "changedFiles": 0
+      },
+      "platform": {
+        "orchestrator": "linux",
+        "browser": "win32",
+        "API": "win32",
+        "mode": "windows-managed-nest",
+        "runtimeArrangement": {
+          "kind": "Root-R2M-UI-runtime-arrangement",
+          "sourceCapId": "r2m-c01-win03",
+          "browserPlatform": "win32",
+          "mode": "windows-managed-nest",
+          "apiBackend": "nest",
+          "apiPlatform": "win32",
+          "actualNativeOwnerEvidenceSha256": "32a8f0c26fe21bd3804b910d79e85a8e5e03ec9ef415467b54213e106fdeae2d",
+          "runtimePlatformIndependentlyVerifiedByBrowser": false,
+          "RootMustRetainActualRuntimeOwnerProof": true
+        },
+        "browserExecutable": {
+          "file": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tmp\\rust-r2ef\\windows-browser-cache\\chromium-1243\\chrome-win64\\chrome.exe",
+          "rawBytesSha256": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711"
+        },
+        "actualApiRuntimeOwnerRef": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00022.json",
+          "bytes": 10138,
+          "rawBytesSha256": "32a8f0c26fe21bd3804b910d79e85a8e5e03ec9ef415467b54213e106fdeae2d",
+          "private": true
+        },
+        "platformVerifiedByRootOriginalOwner": "Original source/actual runtime owner evidence, not browser self-attestation",
+        "browserIndependentApiPlatformClaim": false
+      },
+      "lifecycle": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false,
+        "windowsTerminal": true,
+        "pendingCallbacks": 0,
+        "registeredRoot": {
+          "pid": 85380,
+          "parentPid": 72676,
+          "startTimeUtcTicks": "639290702491631410",
+          "cimCreationUtcTicks": "639290702491631410",
+          "executablePath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+          "commandLine": "node.exe E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tools\\rust-r2m-continuation01\\windows-ui-driver.mjs --bridge-id 39847c07-ee65-48fa-b47c-4f0c9d428c99",
+          "depth": 0,
+          "executableSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237"
+        },
+        "ownedWindowsStop": {
+          "bridgeId": "39847c07-ee65-48fa-b47c-4f0c9d428c99",
+          "unregisteredProcessesStopped": 0,
+          "foreignPidReuseSkipped": [],
+          "result": "owned-tree-stopped",
+          "terminated": [],
+          "alreadyGone": [
+            81252,
+            58004,
+            51168,
+            69412,
+            28644,
+            78528,
+            43368,
+            61496,
+            71900,
+            22152,
+            85380
+          ]
+        },
+        "actualTerminalCloseFacts": {
+          "kind": "R2M-Windows-actual-terminal-close-facts",
+          "windowsTreeStopped": true,
+          "terminalAndCallbacksClosed": true,
+          "browserClosed": true,
+          "serverClosed": true,
+          "businessObserved": true,
+          "rejected": false
+        },
+        "resources": [
+          {
+            "name": "browser-context-and-process",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "UI-server-owned-sockets-and-evidence",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Native-final-witness",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Native-managed-owner",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "PG-observer-exact-restore",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "fixture-final-drain-and-double-zero",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "fixture-client-close",
+            "result": "stopped-or-restored"
+          }
+        ],
+        "serverCounts": {
+          "sockets": 0,
+          "forwarded": 0,
+          "handlers": 0,
+          "evidence": 0,
+          "ownedWork": 0,
+          "activeExchanges": 0
+        }
+      },
+      "baseline": {
+        "whole107PhysicalRowsEqualRootVerified": true,
+        "refs": [
+          {
+            "kind": "UI-global-full107-before-preparation",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00000.json",
+            "bytes": 432862,
+            "rawBytesSha256": "f9e485461cf8aa890f65547016d77540fe105f5d1d3d3cc270fc43dd8d79ba99",
+            "private": true
+          },
+          {
+            "kind": "UI-full107-after-double-zero",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00440.json",
+            "bytes": 432854,
+            "rawBytesSha256": "37a9de9ec15ecf6dde4386ecf1c235e6fba456af9277535461fea274cea3fcf3",
+            "private": true
+          }
+        ],
+        "unknownCreatesAndMutationsAllHTTP": 0,
+        "schema": {
+          "tables": 107,
+          "columns": 1778,
+          "foreignKeys": 207
+        },
+        "allFirstSecondCleanupZeros": true,
+        "filesChanged": 0
+      },
+      "input": {
+        "actualUncached": {
+          "kind": "R2M-controlled-uncached-browser-input",
+          "sourceCapId": "r2m-c01-win03",
+          "cacheDisabled": true,
+          "appliedBeforeFirstNavigation": true,
+          "actualCDPAcknowledged": [
+            {
+              "method": "Network.enable",
+              "params": {},
+              "ack": {}
+            },
+            {
+              "method": "Network.setCacheDisabled",
+              "params": {
+                "cacheDisabled": true
+              },
+              "ack": {}
+            }
+          ],
+          "privateEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-630956f4-4135-4726-93c1-3b8f4e236dfb/00029.json",
+            "bytes": 614,
+            "rawBytesSha256": "00a50780952556c797912e13cdf36ac75fdf3bd9e824723559cec2bd30b49bc6",
+            "private": true
+          },
+          "sessionCloseOwner": "same-owned-browser-context",
+          "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+        },
+        "actualTransport": {
+          "kind": "R2M-attested-Windows-UI-fixed-75s-transport-input",
+          "sourceCapId": "r2m-c01-win03",
+          "browserPlatform": "win32",
+          "runtimeOwnerEvidenceSha256": "32a8f0c26fe21bd3804b910d79e85a8e5e03ec9ef415467b54213e106fdeae2d",
+          "transportTimeoutMs": 75000,
+          "expectTimeoutMs": 75000
+        },
+        "originalConditionHeaderCountAllExchanges": 0,
+        "headersChanged": false
+      },
+      "independentPublicChecks": {
+        "reportBytesAndRawShaAgainstSafeMeta": true,
+        "all4079WriterSourcePinsAgainstOriginalCap": true,
+        "allHttpCertificateRefsRawShaBytesAgainstReport": true,
+        "allStepRefRawShaAndEvidenceShaJoin": true,
+        "methodPathExecutionBackendStatusAgainstOriginalExchange": true,
+        "wireIndexVsFixtureContextIndex": "Distinct source counters preserved. Public safe index joins server.exchange.index; concurrent allocation may swap fixtureContext.index. Each public context index unique; no index alias inserted into original evidence.",
+        "allBodiesAndTypedSdkPgFramesVerifiedByRoot": true,
+        "CPrivateRawReads": false
+      }
+    },
+    {
+      "cell": "nest-Windows-UI2",
+      "tag": "wn2c03a",
+      "runId": "98071a7b-aed8-49ea-8f47-6b2906079fa2",
+      "result": "Pass",
+      "originalPublicResultPreserved": "observed-comparison-pending",
+      "report": {
+        "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn2c03a.json",
+        "bytes": 3914322,
+        "rawBytesSha256": "1e6e66bc931c7ab601c16656f6c4a151cd92ee48446b75a23feb82780af1b78f"
+      },
+      "RootSafeMetadata": {
+        "file": "tmp/rust-r2m-continuation01/windows-native-ui2c03-observed-metadata01.json",
+        "bytes": 48890,
+        "rawBytesSha256": "9d968b8d20321480add81e1cf5ec704121ada93c873abb93cc6e952859ac460d"
+      },
+      "steps": [
+        {
+          "id": "setting-write",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 18,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00250.json",
+            "bytes": 1181339,
+            "rawBytesSha256": "8f8ee7954ededca37fba20fc23af7e846dffca9af6414cf498b4237615d411bd",
+            "private": true
+          }
+        },
+        {
+          "id": "wrong-csrf-preserves-auth",
+          "kind": "angular-fixed-bridge",
+          "result": "observed",
+          "certifiedHTTP": 1,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00267.json",
+            "bytes": 1201801,
+            "rawBytesSha256": "cebc007c7846b3a1887d36e9dd9abfd52b35f53a028a8437ddec86cdd473909c",
+            "private": true
+          }
+        },
+        {
+          "id": "viewer-route-and-backend-denial",
+          "kind": "actual-ui-and-angular-fixed-bridge",
+          "result": "observed",
+          "certifiedHTTP": 29,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00615.json",
+            "bytes": 1475313,
+            "rawBytesSha256": "e276db2e25410bf73ad8be6fdd602d4c735d55567fb5a3a2b1488c77cb9261ef",
+            "private": true
+          }
+        }
+      ],
+      "counts": {
+        "steps": 3,
+        "HTTP": 48,
+        "perHttpBeforeAfter107Validations": 96,
+        "actualHTTPBackendCounts": [
+          {
+            "Name": "nest",
+            "Count": 48
+          }
+        ],
+        "stepRefAndCertificateRefHashJoins": 51,
+        "cleanupFirst": 58,
+        "cleanupSecond": 0,
+        "changedFiles": 0
+      },
+      "platform": {
+        "orchestrator": "linux",
+        "browser": "win32",
+        "API": "win32",
+        "mode": "windows-managed-nest",
+        "runtimeArrangement": {
+          "kind": "Root-R2M-UI-runtime-arrangement",
+          "sourceCapId": "r2m-c01-win03",
+          "browserPlatform": "win32",
+          "mode": "windows-managed-nest",
+          "apiBackend": "nest",
+          "apiPlatform": "win32",
+          "actualNativeOwnerEvidenceSha256": "46ccba93c088ac585982cac31137689a14055ff16bff4a64fe340bbdfb3270d7",
+          "runtimePlatformIndependentlyVerifiedByBrowser": false,
+          "RootMustRetainActualRuntimeOwnerProof": true
+        },
+        "browserExecutable": {
+          "file": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tmp\\rust-r2ef\\windows-browser-cache\\chromium-1243\\chrome-win64\\chrome.exe",
+          "rawBytesSha256": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711"
+        },
+        "actualApiRuntimeOwnerRef": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00021.json",
+          "bytes": 10138,
+          "rawBytesSha256": "46ccba93c088ac585982cac31137689a14055ff16bff4a64fe340bbdfb3270d7",
+          "private": true
+        },
+        "platformVerifiedByRootOriginalOwner": "Original source/actual runtime owner evidence, not browser self-attestation",
+        "browserIndependentApiPlatformClaim": false
+      },
+      "lifecycle": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": false
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false,
+        "windowsTerminal": true,
+        "pendingCallbacks": 0,
+        "registeredRoot": {
+          "pid": 91576,
+          "parentPid": 48596,
+          "startTimeUtcTicks": "639290712191683104",
+          "cimCreationUtcTicks": "639290712191683100",
+          "executablePath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+          "commandLine": "node.exe E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tools\\rust-r2m-continuation01\\windows-ui-driver.mjs --bridge-id 337074ba-591e-4a91-a848-876549a20c85",
+          "depth": 0,
+          "executableSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237"
+        },
+        "ownedWindowsStop": {
+          "bridgeId": "337074ba-591e-4a91-a848-876549a20c85",
+          "foreignPidReuseSkipped": [],
+          "result": "owned-tree-stopped",
+          "alreadyGone": [
+            29440,
+            87668,
+            56064,
+            70372,
+            59988,
+            89820,
+            51240,
+            86248,
+            60844,
+            35656,
+            29352,
+            91576
+          ],
+          "unregisteredProcessesStopped": 0,
+          "terminated": []
+        },
+        "actualTerminalCloseFacts": {
+          "kind": "R2M-Windows-actual-terminal-close-facts",
+          "windowsTreeStopped": true,
+          "terminalAndCallbacksClosed": true,
+          "browserClosed": true,
+          "serverClosed": true,
+          "businessObserved": true,
+          "rejected": false
+        },
+        "resources": [
+          {
+            "name": "browser-context-and-process",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "UI-server-owned-sockets-and-evidence",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Native-final-witness",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Native-managed-owner",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "PG-observer-exact-restore",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "fixture-final-drain-and-double-zero",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "fixture-client-close",
+            "result": "stopped-or-restored"
+          }
+        ],
+        "serverCounts": {
+          "sockets": 0,
+          "forwarded": 0,
+          "handlers": 0,
+          "evidence": 0,
+          "ownedWork": 0,
+          "activeExchanges": 0
+        }
+      },
+      "baseline": {
+        "whole107PhysicalRowsEqualRootVerified": true,
+        "refs": [
+          {
+            "kind": "UI-global-full107-before-preparation",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00000.json",
+            "bytes": 432862,
+            "rawBytesSha256": "00b682d7ce27872be8e561fcf99944bfe144fbd34ca6b7b28ab1d87efca051e2",
+            "private": true
+          },
+          {
+            "kind": "UI-full107-after-double-zero",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00646.json",
+            "bytes": 433082,
+            "rawBytesSha256": "e2499925726e4e995484987cad6345aca1b551471d382bfd6b1d7075e4ae347e",
+            "private": true
+          }
+        ],
+        "unknownCreatesAndMutationsAllHTTP": 0,
+        "schema": {
+          "tables": 107,
+          "columns": 1778,
+          "foreignKeys": 207
+        },
+        "allFirstSecondCleanupZeros": true,
+        "filesChanged": 0
+      },
+      "input": {
+        "actualUncached": {
+          "kind": "R2M-controlled-uncached-browser-input",
+          "sourceCapId": "r2m-c01-win03",
+          "cacheDisabled": true,
+          "appliedBeforeFirstNavigation": true,
+          "actualCDPAcknowledged": [
+            {
+              "method": "Network.enable",
+              "params": {},
+              "ack": {}
+            },
+            {
+              "method": "Network.setCacheDisabled",
+              "params": {
+                "cacheDisabled": true
+              },
+              "ack": {}
+            }
+          ],
+          "privateEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-98071a7b-aed8-49ea-8f47-6b2906079fa2/00028.json",
+            "bytes": 614,
+            "rawBytesSha256": "479d23c42cb661860d0b9733eb4f1acb83ed6596fa2475eeebb23d49b8dde787",
+            "private": true
+          },
+          "sessionCloseOwner": "same-owned-browser-context",
+          "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+        },
+        "actualTransport": {
+          "kind": "R2M-attested-Windows-UI-fixed-75s-transport-input",
+          "sourceCapId": "r2m-c01-win03",
+          "browserPlatform": "win32",
+          "runtimeOwnerEvidenceSha256": "46ccba93c088ac585982cac31137689a14055ff16bff4a64fe340bbdfb3270d7",
+          "transportTimeoutMs": 75000,
+          "expectTimeoutMs": 75000
+        },
+        "originalConditionHeaderCountAllExchanges": 0,
+        "headersChanged": false
+      },
+      "independentPublicChecks": {
+        "reportBytesAndRawShaAgainstSafeMeta": true,
+        "all4079WriterSourcePinsAgainstOriginalCap": true,
+        "allHttpCertificateRefsRawShaBytesAgainstReport": true,
+        "allStepRefRawShaAndEvidenceShaJoin": true,
+        "methodPathExecutionBackendStatusAgainstOriginalExchange": true,
+        "wireIndexVsFixtureContextIndex": "Distinct source counters preserved. Public safe index joins server.exchange.index; concurrent allocation may swap fixtureContext.index. Each public context index unique; no index alias inserted into original evidence.",
+        "allBodiesAndTypedSdkPgFramesVerifiedByRoot": true,
+        "CPrivateRawReads": false
+      }
+    },
+    {
+      "cell": "rust-Windows-UI1",
+      "tag": "wr1c03a",
+      "runId": "7fc452de-58e3-4551-9069-a2f2a41d1b6c",
+      "result": "Pass",
+      "originalPublicResultPreserved": "observed-comparison-pending",
+      "report": {
+        "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr1c03a.json",
+        "bytes": 2969452,
+        "rawBytesSha256": "162fbd2036622250ed3f72c95d078dc306468c8e30a1d4521d8f73894810c0c2"
+      },
+      "RootSafeMetadata": {
+        "file": "tmp/rust-r2m-continuation01/windows-rust-ui1c03-observed-metadata01.json",
+        "bytes": 32782,
+        "rawBytesSha256": "7320434eec37bc31fa8d2b7ed06244dbc2ad3837e50572c4babe8901041c4993"
+      },
+      "steps": [
+        {
+          "id": "anonymous-deep-link",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 3,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00041.json",
+            "bytes": 1128249,
+            "rawBytesSha256": "b7fec55848a1dbee443fa7a3a758bcb4e63acf50f33577224041c128be448f1d",
+            "private": true
+          }
+        },
+        {
+          "id": "login-restore",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 15,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00167.json",
+            "bytes": 1254878,
+            "rawBytesSha256": "bcd4cc62ff66baf46897499c877f073abddcaf476343a6f9bd58d23be4a7ccb9",
+            "private": true
+          }
+        },
+        {
+          "id": "expired-session",
+          "kind": "angular-fixed-bridge",
+          "result": "observed",
+          "certifiedHTTP": 2,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00188.json",
+            "bytes": 1277782,
+            "rawBytesSha256": "c38461788a1fcb0048bb1f8da449394b7f94946e63e8bd0f96e52c71a3e6135a",
+            "private": true
+          }
+        },
+        {
+          "id": "relogin-and-topbar-logout",
+          "kind": "actual-ui",
+          "result": "observed",
+          "certifiedHTTP": 10,
+          "allCertificatesRetained": true,
+          "originalStepRef": {
+            "kind": "actual-UI-step-complete-facts-and-certificates",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00272.json",
+            "bytes": 1366217,
+            "rawBytesSha256": "4a1db3b2d85b5609ade66bd9eeb0eaf3bbeffb9a9c3d5bbe511c16ff3b88206c",
+            "private": true
+          }
+        }
+      ],
+      "counts": {
+        "steps": 4,
+        "HTTP": 30,
+        "perHttpBeforeAfter107Validations": 60,
+        "actualHTTPBackendCounts": [
+          {
+            "Name": "nest",
+            "Count": 3
+          },
+          {
+            "Name": "rust",
+            "Count": 27
+          }
+        ],
+        "stepRefAndCertificateRefHashJoins": 34,
+        "cleanupFirst": 65,
+        "cleanupSecond": 0,
+        "changedFiles": 0
+      },
+      "platform": {
+        "orchestrator": "linux",
+        "browser": "win32",
+        "API": "linux",
+        "mode": "windows-external-rust",
+        "runtimeArrangement": {
+          "kind": "Root-R2M-UI-runtime-arrangement",
+          "sourceCapId": "r2m-c01-win03",
+          "browserPlatform": "win32",
+          "mode": "windows-external-rust",
+          "apiBackend": "rust",
+          "apiPlatform": "linux",
+          "actualExternalRustOwnerEvidenceSha256": "fce6694e172946e12b8cc5022a21cde2ff0866d3f17dc2696d8c4772775eb885",
+          "runtimePlatformIndependentlyVerifiedByBrowser": false,
+          "RootMustRetainActualRuntimeOwnerProof": true
+        },
+        "browserExecutable": {
+          "file": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tmp\\rust-r2ef\\windows-browser-cache\\chromium-1243\\chrome-win64\\chrome.exe",
+          "rawBytesSha256": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711"
+        },
+        "actualApiRuntimeOwnerRef": {
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00005.json",
+          "bytes": 649,
+          "rawBytesSha256": "fce6694e172946e12b8cc5022a21cde2ff0866d3f17dc2696d8c4772775eb885",
+          "private": true
+        },
+        "platformVerifiedByRootOriginalOwner": "Original source/actual runtime owner evidence, not browser self-attestation",
+        "browserIndependentApiPlatformClaim": false
+      },
+      "lifecycle": {
+        "attempted": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": true
+        },
+        "stopped": {
+          "browser": true,
+          "server": true,
+          "native": true,
+          "rust": true
+        },
+        "writersStopped": true,
+        "observerRestored": true,
+        "activePgCasePreserved": false,
+        "windowsTerminal": true,
+        "pendingCallbacks": 0,
+        "registeredRoot": {
+          "pid": 71876,
+          "parentPid": 88024,
+          "startTimeUtcTicks": "639290719502626688",
+          "cimCreationUtcTicks": "639290719502626680",
+          "executablePath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+          "commandLine": "node.exe E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tools\\rust-r2m-continuation01\\windows-ui-driver.mjs --bridge-id 23cc478e-88e7-46b7-bb06-c6924dda5a95",
+          "depth": 0,
+          "executableSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237"
+        },
+        "ownedWindowsStop": {
+          "unregisteredProcessesStopped": 0,
+          "bridgeId": "23cc478e-88e7-46b7-bb06-c6924dda5a95",
+          "foreignPidReuseSkipped": [],
+          "alreadyGone": [
+            75828,
+            75584,
+            71732,
+            86252,
+            58596,
+            87128,
+            65020,
+            30928,
+            37384,
+            41568,
+            71876
+          ],
+          "result": "owned-tree-stopped",
+          "terminated": []
+        },
+        "actualTerminalCloseFacts": {
+          "kind": "R2M-Windows-actual-terminal-close-facts",
+          "windowsTreeStopped": true,
+          "terminalAndCallbacksClosed": true,
+          "browserClosed": true,
+          "serverClosed": true,
+          "businessObserved": true,
+          "rejected": false
+        },
+        "resources": [
+          {
+            "name": "browser-context-and-process",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "UI-server-owned-sockets-and-evidence",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Native-final-witness",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Rust-managed-owner",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "Native-managed-owner",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "PG-observer-exact-restore",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "fixture-final-drain-and-double-zero",
+            "result": "stopped-or-restored"
+          },
+          {
+            "name": "fixture-client-close",
+            "result": "stopped-or-restored"
+          }
+        ],
+        "serverCounts": {
+          "sockets": 0,
+          "forwarded": 0,
+          "handlers": 0,
+          "evidence": 0,
+          "ownedWork": 0,
+          "activeExchanges": 0
+        }
+      },
+      "baseline": {
+        "whole107PhysicalRowsEqualRootVerified": true,
+        "refs": [
+          {
+            "kind": "UI-global-full107-before-preparation",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00000.json",
+            "bytes": 432862,
+            "rawBytesSha256": "0eb2aa10a7eee87c2e560d25c07a1d3a09288de94d4c203ba6c3a1cbecbcd953",
+            "private": true
+          },
+          {
+            "kind": "UI-full107-after-double-zero",
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00296.json",
+            "bytes": 432854,
+            "rawBytesSha256": "7cf0799d32c86a3bf5321d3ba941e8bc119d469f5f3c38f5774545407adeb3cb",
+            "private": true
+          }
+        ],
+        "unknownCreatesAndMutationsAllHTTP": 0,
+        "schema": {
+          "tables": 107,
+          "columns": 1778,
+          "foreignKeys": 207
+        },
+        "allFirstSecondCleanupZeros": true,
+        "filesChanged": 0
+      },
+      "input": {
+        "actualUncached": {
+          "kind": "R2M-controlled-uncached-browser-input",
+          "sourceCapId": "r2m-c01-win03",
+          "cacheDisabled": true,
+          "appliedBeforeFirstNavigation": true,
+          "actualCDPAcknowledged": [
+            {
+              "method": "Network.enable",
+              "params": {},
+              "ack": {}
+            },
+            {
+              "method": "Network.setCacheDisabled",
+              "params": {
+                "cacheDisabled": true
+              },
+              "ack": {}
+            }
+          ],
+          "privateEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7fc452de-58e3-4551-9069-a2f2a41d1b6c/00012.json",
+            "bytes": 614,
+            "rawBytesSha256": "4e1ad49ad6b3be1432e1c01df40ed25578ec19e80936143dc0a2a60ac2bfc190",
+            "private": true
+          },
+          "sessionCloseOwner": "same-owned-browser-context",
+          "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+        },
+        "actualTransport": {
+          "kind": "R2M-attested-Windows-UI-fixed-75s-transport-input",
+          "sourceCapId": "r2m-c01-win03",
+          "browserPlatform": "win32",
+          "runtimeOwnerEvidenceSha256": "fce6694e172946e12b8cc5022a21cde2ff0866d3f17dc2696d8c4772775eb885",
+          "transportTimeoutMs": 75000,
+          "expectTimeoutMs": 75000
+        },
+        "originalConditionHeaderCountAllExchanges": 0,
+        "headersChanged": false
+      },
+      "independentPublicChecks": {
+        "reportBytesAndRawShaAgainstSafeMeta": true,
+        "all4079WriterSourcePinsAgainstOriginalCap": true,
+        "allHttpCertificateRefsRawShaBytesAgainstReport": true,
+        "allStepRefRawShaAndEvidenceShaJoin": true,
+        "methodPathExecutionBackendStatusAgainstOriginalExchange": true,
+        "wireIndexVsFixtureContextIndex": "Distinct source counters preserved. Public safe index joins server.exchange.index; concurrent allocation may swap fixtureContext.index. Each public context index unique; no index alias inserted into original evidence.",
+        "allBodiesAndTypedSdkPgFramesVerifiedByRoot": true,
+        "CPrivateRawReads": false
+      }
+    }
+  ],
+  "aggregateCounts": {
+    "steps": 11,
+    "HTTP": 108,
+    "perHttpFull107BeforeAfterValidations": 216,
+    "stepAndHttpCertificateRefJoins": 119,
+    "rowsCleaned": [
+      65,
+      58,
+      65
+    ],
+    "secondCleanup": [
+      0,
+      0,
+      0
+    ]
+  },
+  "originalBusinessAssertionCoverage": {
+    "source": {
+      "file": "tools/rust-r2m-continuation01/acceptance-ui-browser.mjs",
+      "bytes": 26341,
+      "rawBytesSha256": "e6b2c2e373304b821f7a1f8719a1cc75927832244a81433448aa5f445cb03699",
+      "readLevel": "Original actual cap hash equals current bytes; necessary UI1/UI2 assertion lines read. Source111 conclusion inherited."
+    },
+    "UI1": [
+      "Real anonymous deep-link redirects to original login with safe returnUrl.",
+      "Actual login and reload require GETsession/navigation/todos200 plus bridge ready, nonempty nav/Todo, actual HttpOnly/Lax/path-api session cookie, narrow layout bound.",
+      "Explicit scoped fixture input expires the owned session; actual fixed Angular logout returns401/session_expired and clears all in-memory auth/nav/todo/CSRF/permissions.",
+      "Natural actual reload GETsession401 must clear both original auth cookies through real Set-Cookie Max-Age0/Pathapi; then real form relogin and Topbar logout."
+    ],
+    "UI2": [
+      "Actual setting form edits the originally leased system setting and requires PATCH200.",
+      "Original fixed Angular wrong-CSRF logout requires403/csrf_failed and complete unchanged authenticated snapshot.",
+      "Actual viewer route denied, actual backend usersGET403, authenticated snapshot retained; real return-to-dashboard and original Topbar logout."
+    ],
+    "underlyingApiSemantics": "Already independently accepted API8 M1/M2 and Linux UI12 complete comparison cover corresponding functional semantics; these fresh cells additionally prove the required actual Windows arrangements."
+  },
+  "artifactIdentity": {
+    "actualCapsuleNative": {
+      "bytes": 2958081,
+      "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+    },
+    "actualCapsuleRust": {
+      "bytes": 34163304,
+      "rawBytesSha256": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd"
+    },
+    "UIBuildArtifact": {
+      "file": "tmp/rust-r2m-continuation01/ui-build-current.json",
+      "bytes": 99184,
+      "rawBytesSha256": "4da16dc4da1c3cca4f616f8b84d81c24e0a887ebbc93c90aa4850562154a717b"
+    },
+    "actualBrowserSha": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711",
+    "actualWindowsNodeSha": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+    "CReadWholeRuntimeBinary": false,
+    "qualifiedBy": "Original cap descriptors plus signed actual runtime platform/owner source and Root safe original reference verification"
+  },
+  "readLevels": {
+    "C": "Read all3 public reports and3 safe metadata structurally, hash each report and metadata; independently joined108 certificates11steps and per-exchange dispatch, complete source-pin lists, lifecycle, platform owner refs, owned cleanup/schema zeros. No private raw read.",
+    "Root": "Executed the real cells and read each original private HTTP/cert/step/body length-SHA/SDKPG/full107/outside-scope/initial-final row set to produce these fixed public metadata. C does not claim to have directly read those private bytes.",
+    "source": "111 previously signed source member pins independently match actual cap; necessary original UI1/UI2 assertion source bytes match actual cap and were read."
+  },
+  "findings": [],
+  "limits": [
+    "Pass is only these three actual matrix cells; original reports remain observed-comparison-pending and are not rewritten. The other five Windows cells and overall G3/G4 remain pending.",
+    "No new dedicated Windows whole-field/DOM/pixel/ETag differential gate is inferred from the UI12 tool. Frozen4c65 minimum functional/source/HTTP/schema/ownership/whole107/cleanup and corresponding API semantics are used.",
+    "No complete cross-implementation raw byte, session-version-number, browser rendering, cache or performance equivalence is claimed. CacheEquivalenceCertified remains false and old cached11 Native304/Rust200 differences remain preserved.",
+    "Rust UI1 has27 actual Rust HTTP requests and3 original Native readmodels. Those3 are not counted as Rust-migrated routes.",
+    "No product/API/browser/DB/process/PS/test/Git mutation or rerun was performed by C; no private env/key/raw file was opened.",
+    "Earlier failed Windows runs and their normal/late exact recoveries are retained with real failure and late-closure labels; these three positive cells do not relabel them."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-QA-legacy-config-shape-incremental-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:18:36.258Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/audit-qa-config-source01.json",
+    "bytes": 1619,
+    "rawBytesSha256": "c81c3f32f7f08332b9260e1f1837aa3a64060a6e39d9d9fa4a8a235f0f420ed5"
+  },
+  "priorReviews": [
+    "docs/design/rust-r2m/qa-runner-source-review01.json",
+    "docs/design/rust-r2m/ui-port-source-review01.json"
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/audit-qa-playwright.config.mjs",
+      "bytes": 1627,
+      "rawBytesSha256": "3d5445006b90b5a15ceaee0281a18eb665f9a480e43fe24fba239bcbc4ccefb0",
+      "readLevel": "Complete current small config; default module unwrap and pre-derivation shape admission only; inherited private report/pinned browser/10080 args preserved"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-config-shape.mjs",
+      "bytes": 1326,
+      "rawBytesSha256": "129a39a04223d0fad3e60b0d427a26eaeded058cce535775f8c85b89757d917f",
+      "readLevel": "Complete exact original legacy selector/setup/use/metadata shape admission"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-config-shape.test.mjs",
+      "bytes": 1257,
+      "rawBytesSha256": "a261ae13b30fb723ddad64828c98ef8d7ab5123cab14b3898a4aa353121b83ec",
+      "readLevel": "Complete pure wrapper-shape and missing/wrong config rejection cases; not executed by C"
+    }
+  ],
+  "assessment": [
+    "The derived config now unwraps originalModule.default??originalModule before spreading. Before selecting any tests it requires exactly the eight original legacy testMatch patterns, original relative testDir/globalSetup, workers1/fullyParallelfalse, and original use.baseURL/channel.",
+    "Actual original metadata must name external/legacy with API10070 and admin10080. Missing shape, wildcard whole-directory selection, wrong suite/origin or absent setup/use fails before test/page execution. This prevents silent selection of the complete test directory when TS/CJS default interop wraps the config.",
+    "Original eight spec files, assertions and server harness are unchanged. Only previously approved exact path resolution, pinned child browser/new-private reporting options and10080 compatibility flag are derived. No case is omitted from the intended legacy suite and no mocked result becomes Rust acceptance.",
+    "All existing QA whole-resource isolation, real original-runner exit/report-count checks, private logs/temporary artifacts, exact API owner stop and protected-M107/ACL final checks still apply."
+  ],
+  "verification": {
+    "sourcePinsExpected": 3,
+    "sourcePinsMatched": 3,
+    "pureSourceAndLogSummaryRead": true,
+    "reportedPurePassed": 9,
+    "reportedPureFailed": 0,
+    "reportedSyntaxFiles": 3,
+    "CExecutedTestsOrApplicationsOrDBHTTPOrBrowser": false,
+    "CReadPrivate": false
+  },
+  "priorActualBoundary": "Root reports qleg01 selected0/67 because the original config fields were lost and relative navigation was invalid. That failed original report remains retained; it is not relabeled as a36-case result or a product HTTP failure. C has not read its private complete errors or independently certified all67 prior execution paths.",
+  "executionBoundary": "Root may retry the unchanged intended eight-file/36-test legacy suite under a new exact source capsule/tag after the existing actual QA admission. Only a new original raw report with the required exact36/no-failure counts and completed owner/protected-M proofs can establish a legacy pass.",
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

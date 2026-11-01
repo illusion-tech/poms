@@ -1,0 +1,180 @@
+{
+  "kind": "RUST-R2M-independent-two-G4Done-metadata-source-delta-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01T17:38:14.719Z",
+  "input": {
+    "file": "tmp/rust-r2m/g4-materializer-candidate03/source03.json",
+    "bytes": 3814,
+    "rawBytesSha256": "5d5bae5cdb7ef1b25656ab1669ba0f0bce6d3f55a3bc9ea84423d75cf1f959e5"
+  },
+  "reviewedSources": [
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/closeout-core.mjs",
+      "bytes": 19112,
+      "rawBytesSha256": "d2fa090a0d35390c83a885494ad390b7e7baf301a15c1a13bf734ddbb6c670af"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/materialize-root.mjs",
+      "bytes": 8793,
+      "rawBytesSha256": "3d79b9fdaa62b6cb6b11bf8006d9a082ed68260df5f31a6cab40ca9770e30339"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/closeout-core.test.mjs",
+      "bytes": 8194,
+      "rawBytesSha256": "1adf8a85d687d1506ef51fe144c06aedff688afb6e039caf7e8d5fe4a4d80f9b"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/exact-delta03.json",
+      "bytes": 816,
+      "rawBytesSha256": "d87e1f4eaff25bb2adf6d97394fa827ecc03e44e49ef831bc87155d37e3cfa18"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/contract03.md",
+      "bytes": 3066,
+      "rawBytesSha256": "9ad02b9a94be57be9f87fd7919ef00294bf6ac078b4fea2cc90e518d432bcd29"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/pure01.txt",
+      "bytes": 1197,
+      "rawBytesSha256": "e90ee1053d0c1df092dae2713adb97006f875e79d383180c7c73c94e60476a64"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/static01.json",
+      "bytes": 1556,
+      "rawBytesSha256": "5f9eb7e7fba3b2d54e9c46284eaab2f3f61ae4cbae9230d9929d8ff8020f429a"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/overall-g3.test.mjs",
+      "bytes": 2009,
+      "rawBytesSha256": "bac386e3c13ac263ba092b93ac4369201cd67f570cb609f9f0fd380ab460e85b"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/dependencies01.json",
+      "bytes": 6710,
+      "rawBytesSha256": "e4c701c53f40a2f6f43bbe7a7a84f43132a507d8c3384c2226a6519728e1bc31"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/Root-G3-context.template.json",
+      "bytes": 5388,
+      "rawBytesSha256": "76f417150513506183f5c6fb34463c6b1cbf8a1bf7846600eecc48547bf9ffe9"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/Root-G4-extension.template.json",
+      "bytes": 1677,
+      "rawBytesSha256": "ff2a8a0d345325d1231b7397d5887d2c9d25f9e88909287719ca1012dff3c1ff"
+    }
+  ],
+  "inheritedReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/g4-materializer-source-review02.json",
+    "bytes": 15450,
+    "rawBytesSha256": "802450d0759940c54d2bde235915e6f5765f4d278cd8d30632cb05ff6e55a12f"
+  },
+  "scope": "Only two conditional active-machine metadata registrations in the already reviewed pure G4 materializer; Root-only execution after actual validated G4Done context.",
+  "G3Certified": false,
+  "G4Certified": false,
+  "actualG4MaterializationCertified": false,
+  "independentDeltaVerification": {
+    "changedRuntimeFile": {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/closeout-core.mjs",
+      "bytes": 19112,
+      "rawBytesSha256": "d2fa090a0d35390c83a885494ad390b7e7baf301a15c1a13bf734ddbb6c670af"
+    },
+    "exactInsertedLines": [
+      "  if (done) d.commonChecks.finalCurrentSourceImpact = { status: 'Root-actual-current-code-binding-reviewed-in-overall-G3', binding: publicRef(c.evidence.finalCodeSet), independentOverallG3: publicRef(c.evidence.overallG3) };\n",
+      "    d.frozenOriginalInputs = d.frozenOriginalInputs.map(input => ({ ...input, status: 'archived-original-bytes-verified-in-actual-manifest', actualVerificationAuthority: publicRef(c.g4.archive.appliedManifest) }));\n"
+    ],
+    "wholeInverseRecoversOriginalCore": true,
+    "inverseBytes": 18672,
+    "inverseSHA256": "b49d72d05e07bdda914e778e072542687c1f6a16c8c6e53a7c36fbdb761d5367",
+    "originalCore": {
+      "file": "tmp/rust-r2m/g4-materializer-candidate02/closeout-core.mjs",
+      "bytes": 18672,
+      "rawBytesSha256": "b49d72d05e07bdda914e778e072542687c1f6a16c8c6e53a7c36fbdb761d5367"
+    },
+    "RootEntryAndParsedOverallPassG3TrueGuardByteIdentical": true,
+    "entry": {
+      "file": "tmp/rust-r2m/g4-materializer-candidate03/materialize-root.mjs",
+      "bytes": 8793,
+      "rawBytesSha256": "3d79b9fdaa62b6cb6b11bf8006d9a082ed68260df5f31a6cab40ca9770e30339"
+    },
+    "allOtherRuntimeAndDependenciesTemplatesSameBytes": true,
+    "noG3ReadyBehaviorChange": true,
+    "noOriginalFrozenArtifactOrG3ReadyOutputRewritten": true
+  },
+  "twoNecessaryRegistrations": {
+    "frozenOriginalInputs": "Only inside G4Done branch, map all22 original input entries adding archived-original-bytes-verified-in-actual-manifest status and exact actualVerificationAuthority. Every other original path,bytecount,SHA/G1 identity field retained.",
+    "finalCurrentSourceImpact": "Only inside G4Done branch, bind existing actual finalCodeSet and independent overallG3 refs; no invented current SourcePass or producer-runtime capture.",
+    "preservation": "Existing reviewed preservation token branches unchanged.",
+    "dualG1": "Original13410/93b248 and Gate-only13452/fb40 remain disjoint; no reinterpretation of frozen G1 authority."
+  },
+  "actualEvidenceMayBeReused": {
+    "appliedArchiveManifest": {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json",
+      "bytes": 185667,
+      "rawBytesSha256": "b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c"
+    },
+    "archiveActualC": {
+      "file": "tmp/rust-r2m-g4-derived/c-review01/lifecycle-archive-actual-review01.json",
+      "bytes": 6934,
+      "rawBytesSha256": "c89d170c4d21e96583256abf34a63373bf910bcab28a467d51d9fb963e463e4c"
+    },
+    "compatibilityDecisionMayReferenceSameActualManifest": true,
+    "reason": "Actual b901 manifest includes complete239source/destination byte-verification rows and Root compatibilityDecision; no extra fake receipt or gate needed.",
+    "finalCodeSet": {
+      "file": "tmp/rust-r2m-continuation01/final-current-code-set01.json",
+      "bytes": 838258,
+      "rawBytesSha256": "0978f1fc9e31eb882e50819101621b34681b8d7dccf5a43476fb52ae9b709929"
+    },
+    "independentOverallG3": {
+      "file": "docs/design/rust-r2m/overall-g3-actual-review01.json",
+      "bytes": 35297,
+      "rawBytesSha256": "85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d"
+    },
+    "actualG3ReadyManifest": {
+      "file": "tmp/rust-r2m/g4-materialized-g3-ready-g3final01/materialization.json",
+      "bytes": 4723,
+      "rawBytesSha256": "2e3d1e4c190fc1f71594dc4f5aeb1629f4f2f59bea8dcf499976af12efc5d0ea"
+    }
+  },
+  "authorValidation": {
+    "pureTests": 8,
+    "failed": 0,
+    "syntax": 4,
+    "lexicalErrors": 0,
+    "newCase": "All22 outputs retain every other original field, G3Ready pending values unchanged, finalimpact refs exact, dualG1 hashes distinct.",
+    "existingCases": "Seven prior guards retained, including actual scopedPass/G3false rejected as overall.",
+    "onlyMemoryFakeOutputs": true,
+    "independentCNodeOrMaterializerRun": 0
+  },
+  "unchangedConditions": {
+    "actualOverallG3PassAndTrueStillRequired": true,
+    "unique8WindowsAndAllOriginalLinuxUIAndBoundedInventoryStillRequired": true,
+    "actualFixedImplementationCMainIntegrationResourcesAndPreservationArchiveRefsStillRequired": true,
+    "G4DoneRequiresActual80Closed67Closed57Open": true,
+    "noProjectedValuesOrOwnCommitSHAGate": true,
+    "previousG3Materialization": "Root must bind actual2e3d to guard six current governance targets before new materialization.",
+    "publicReaderScope": "Existing tmp/rust-r2m or docs only; third-scope derived C refs copied by Root as exact regular public metadata aliases under canonical archive namespace before context use. No source-reader scope widened."
+  },
+  "executionBoundary": {
+    "RootOnlyCommand": "node tmp/rust-r2m/g4-materializer-candidate03/materialize-root.mjs --context tmp/rust-r2m/<new-actual-G4-context>.json --tag <new-tag>",
+    "SourceReadyNotActualDoneOrPermissionToInventOnlineClosure": true,
+    "noCurrentG4ContextOrDoneOutputCreatedByC": true,
+    "noOldCanonicalInputOverwriteByTool": true,
+    "laterGeneratedMetadata": "Separate exact post-heavy-snapshot bounded metadata delta; no assertion that prior heavy tar contains future receipts."
+  },
+  "findings": [],
+  "remaining": {
+    "finalDualOriginTarMemberVerificationAndC": "Pending",
+    "actualValidatedG4Context": "Pending",
+    "actualOnlineLocalG4AndRootMaterialization": "Pending",
+    "finalG4Certification": "Pending"
+  },
+  "activity": {
+    "publicSourceOnly": true,
+    "privateDBHostRuntimeBrowserGitActions": 0,
+    "NodeTestsOrMaterializerExecutedByC": 0,
+    "existingHeavySourceOrCanonicalWritten": 0,
+    "newReviewThirdScopeOnly": true
+  }
+}

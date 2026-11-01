@@ -1,0 +1,141 @@
+{
+  "kind": "RUST-R2M-independent-frozen-public-lifecycle-archive-source-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01T17:29:43.744Z",
+  "input": {
+    "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/source02.json",
+    "bytes": 4343,
+    "rawBytesSha256": "6e0c105ad12c82ddc2d3517aaed69abd96f880adc09e5272eed18c0f8df94ca0"
+  },
+  "reviewedSources": [
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-core.mjs",
+      "bytes": 5112,
+      "rawBytesSha256": "818f5cfedaf1bc1214b1a78ad602a3e317ffb32be70834d8b1224cc91cba097a"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-root.mjs",
+      "bytes": 6277,
+      "rawBytesSha256": "7af0a7af7b65cc484610be6ce8478040b3e7e335b153823d3195a1fd86b6a458"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-core.test.mjs",
+      "bytes": 5390,
+      "rawBytesSha256": "e22220dc1dd9585cd123d6317c961b7c5c882939172a6a83f9b962414223ab47"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-plan02.json",
+      "bytes": 146828,
+      "rawBytesSha256": "40676a65a6b4f5f302a54a0503b72d9df4cb12dfd038861d5a10aff98527293d"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/contract02.md",
+      "bytes": 4120,
+      "rawBytesSha256": "98f15477c838deee82b7494a39b0403678e312d49ea2fdd284c22aa777a2db9c"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/static01.json",
+      "bytes": 1219,
+      "rawBytesSha256": "e78eee96ab7ed44066b748b6898501d29c68428b6888cb2b8f028083d2039766"
+    },
+    {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/pure01.txt",
+      "bytes": 862,
+      "rawBytesSha256": "1c3a0f12a090cf0684f6aeb4d3d2fc9e2b0fbdd1d01e6558316b67b198acab46"
+    }
+  ],
+  "reviewedImplementationCommit": "bb25731632bafa7f75be9b77ff40754d51925dbb",
+  "scope": "Root-only byte-preserving public lifecycle archive copies of the exact frozen209 R2M documents,3 top G1/G2 lifecycle records,22 disjoint originalG1 inputs and sole explicit fixedC; no move/delete/source-rewrite, tar, Git, host, database or acceptance execution.",
+  "G3Certified": false,
+  "G4Certified": false,
+  "actualArchiveCopyCertified": false,
+  "reviewedPlan": {
+    "source": {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-plan02.json",
+      "bytes": 146828,
+      "rawBytesSha256": "40676a65a6b4f5f302a54a0503b72d9df4cb12dfd038861d5a10aff98527293d"
+    },
+    "distinctSourceFiles": 235,
+    "destinationFiles": 239,
+    "lifecycleSources": 212,
+    "frozenOriginalG1Sources": 22,
+    "onlyExplicitFixedCSource": 1,
+    "original209MembershipExactlyMatchesCurrentSourceDirectory": true,
+    "staged1255ListExactlyMatchesFixedCommitChangeSet": true,
+    "every235CurrentSourceRawBytesAndSHACheckedByC": true,
+    "currentExistingExactDestinationCount": 1,
+    "currentExistingExactDestination": "docs/design/rust-r2m/fixed-commit-review01.json",
+    "currentAbsentDestinationCount": 238,
+    "noExistingUnknownContentCollision": true,
+    "originalG1ReviewedVersion": "13410B/93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33",
+    "laterGateOnlyVersion": "13452B/fb40c7f9761f3ecc7ef84e9a761f053f8e116da5f40fe78387df913cb86b0cba",
+    "originalAndGateOnlyUseDistinctArchivePaths": true,
+    "threeFlatAliases": "Separate regular same-byte compatibility copies of top lifecycle documents; no new source identity and no rewrite of reviewed G3Ready links.",
+    "fixedCAppend": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/fixed-commit-review01.json",
+      "bytes": 14613,
+      "rawBytesSha256": "f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0"
+    },
+    "fixedCCopies": "One archive copy plus one exact regular canonical compatibility copy; no arbitrary append authority."
+  },
+  "sourceFindings": [],
+  "independentSourceAssessment": {
+    "exactPlanInputHashAndFiniteFixedCReference": true,
+    "fixedCParsedMustBePassFixedCommitCertifiedAndExactImplementationCommit": true,
+    "allSourcesAndEveryExistingDestinationPreflightBeforeFirstCopy": true,
+    "unknownDestinationContentOrLifecycleMembershipRefusesBeforeCopy": true,
+    "sourceAndDestinationRelativePathsCannotEscapeAllowedRoots": true,
+    "allowedRootSet": "Only actual originalWindows worktree, primary or originalLinux checkout; no arbitrary filesystem root.",
+    "regularSingleLinkAndNoSymlinkParentOrLeafChecks": true,
+    "read": "NOFOLLOW when available, samefd/fstat-leaf stable regular single-link identity, full bytecount/hash.",
+    "write": "Exclusive/no-follow new file only, single-link fd/leaf identity, fsync, then production full readback/hash.",
+    "exactExistingCopiesVerifiedWithoutOverwrite": true,
+    "archiveAndSourceMustBeIndependentRegularFiles": true,
+    "allSourceBytesAndMembershipRecheckedAfterCopies": true,
+    "originalPathsRetainedWithExactHistoricalBytesAndLabels": true,
+    "sourceMutationOrPartialIOCannotBeReportedComplete": true,
+    "failure": "Preserve created paths and error receipt; no rollback deletion.",
+    "newIgnoredOutputDirectory": "Tag-qualified newmkdir occurs before copy; this is not an existing-source mutation or archive completion claim.",
+    "canonicalCompatibility": "Only explicit fixedC copy; active root machines and existing G3checkpoint/closeout untouched.",
+    "noDefaultImportIOAndNoChildProcessDBGitHostRuntime": true
+  },
+  "validationEvidence": {
+    "authorPureTests": 6,
+    "authorPureResult": "6pass0fail, only Fake destination writes; exact public source reads.",
+    "authorSyntax": 3,
+    "authorLexicalErrors": 0,
+    "independentCExecution": "No Node tests/CLI/copy executed. Read all core/root/test/contract and exact plan/source hashes; independently compare1255list,235source,209membership and239target status.",
+    "sourceReadLevel": "Complete necessary source review of finite two-module copy flow and plan, exact raw review of all235named sources, public static/test receipts."
+  },
+  "RootExecution": {
+    "command": "node tmp/rust-r2m/g4-lifecycle-archive-candidate02/archive-root.mjs --run --fixed-c tmp/rust-r2m/c-overall-g3-precheck-candidate01/fixed-commit-review01.json --fixed-c-sha f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0 --tag final01",
+    "expectedOutput": "tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json",
+    "expectedSourceCount": 235,
+    "expectedDestinationCount": 239,
+    "actualRootManifestAndIndependentActualArchiveReviewStillRequired": true,
+    "finalGitBlobReviewOfNewMetadata": "Root separately verifies raw archive/compatibility blobs in metadata commit under scoped -text; implementation fixedbb remains unchanged.",
+    "SourceReadyDoesNotCertifyActualArchiveTarOrEffectiveG4": true
+  },
+  "preservationBoundary": {
+    "heavyPublicTar": "Separate frozen two-origin original-source snapshots; not executed by this tool.",
+    "afterSnapshotDerivedEvidence": "Keep a separately bounded third-scope metadata manifest with exact rawSHA, then canonical g4-derived regular aliases when needed; no recursive self-tar or rewrite of previous cutoff.",
+    "unknownFutureLifecycleMembers": "Explicit separate small review/increment, not silently folded into this235source freeze.",
+    "compatibilityRetirement": "Only future explicit Root-reviewed retirement after named old source/path/hash consumers are retired; no automatic removal."
+  },
+  "remaining": {
+    "RootActualCopy": "Pending",
+    "independentActualArchiveC": "Pending",
+    "metadataGitBlobCommitIntegration": "Pending",
+    "finalDualOriginPreservationAndMemberVerification": "Pending",
+    "onlineLocalG4And80_67Closure": "Pending",
+    "issue57": "Open"
+  },
+  "activity": {
+    "publicSourceOnly": true,
+    "privateDBHostRuntimeBrowserGitActions": 0,
+    "NodePureOrActualCopyRunByC": 0,
+    "existingCanonicalOrCapturedFilesWritten": 0,
+    "newReviewThirdScopeOnly": true
+  }
+}

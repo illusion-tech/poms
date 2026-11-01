@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-urin02-recovery-followup02-source-review-addendum-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T20:46:38.816Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "priorReview": "docs/design/rust-r2m/urin02-recovery-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uri-anonymous02.mjs",
+      "bytes": 10142,
+      "rawBytesSha256": "9219332858c5c573b9f2bf71b31995484a6da8a9c9c9075ae78f9c40bc181bbf",
+      "readLevel": "Complete diff from reviewed 8b2 source; original unchanged guards inherited; actual SDK envelope producer/storage/adoption source shape checked"
+    }
+  ],
+  "priorAttempt": {
+    "sourceRawBytesSha256": "8b2e85f43c45751bb05819e2a0428566e26840ab31c9a087406b4334559e04e0",
+    "publicReceipt": {
+      "file": "tmp/rust-r2m/recovered-nest-urin02.json",
+      "bytes": 1002,
+      "rawBytesSha256": "eed5b96df04120dcfe1c8f1c618d6a7e1896d9cfccacb4a57f9b787e30dd6ab8",
+      "read": true,
+      "result": "recovery-incomplete-preserved",
+      "cleanupCount": 0,
+      "originalLedgerSnapshotBeforeFixtureOpen": true,
+      "preciseRecoveryAdmissionRecorded": false
+    },
+    "cause": "The original source assumed Native SDK envelope.identity. The actual witness stores table/id/proof plus authority/intent; current physical identity is added only by Fixture independent adoption read. Reviewer C missed this source-shape mismatch in review01. Failure occurs before scope correction/adoption/deletion; it is retained as an actual tool failure, never rewritten as a successful recovery."
+  },
+  "exactIntermediateState": {
+    "runId": "efc86f2a-bede-4b98-9b66-de24b61a9416",
+    "originalLedgerBytes": 270978,
+    "originalLedgerRawBytesSha256": "b906fa885d5ee0ac1278cbeaf1e556552c82724d29a8b5deef281af31321cc4f",
+    "intermediateLedgerRawBytesSha256": "62d4d3011a133415a13071d97b7f21be512a9c7f9628d45e79780a577ac3c659",
+    "allowedDifference": "Only revision=original+1, caused by the prior Fixture.open. After restoring that single metadata field in a copy, JSON bytes plus newline must hash exactly to the original b906 snapshot. Both actual original and intermediate raw snapshots remain saved before this second Fixture.open.",
+    "CReadEitherPrivateLedger": false
+  },
+  "deltaAssessment": [
+    "The original d34c public report and 73c epoch06 capsule pins and one run/backend/tag remain unchanged. New output uses followup02 and cannot overwrite the failed first receipt.",
+    "Exact intermediate raw hash, original pre-first-open snapshot hash and revision-only equivalence are checked before any new Fixture.open. A new wx/nofollow/fsynced current raw snapshot preserves the intermediate state before the next revision increment.",
+    "Original unique certificate e1bdd, named table/PK/intent/case and genuine SDK proof context are checked using their real stored API. The independent current query selects only actor_id/principal/method/request_id for that already-SDK-certified PK and validates null/null/GET/exact scope requestId. This query does not establish ownership.",
+    "The same one-case originalScope copy and anonymous-only metadata correction then precede mature adoptIntents, which revalidates the genuine original before-absence/authority/afterCreate/outer-commit chain and current visibility. Actor sets, other cases, allowlists and deletion predicates remain unchanged.",
+    "Fresh stopped-writer/ports/transactions/zero-unknown/full107 preflight/drain/double-cleanup conditions remain. Private failure message/stack now has exclusive new-M evidence retention; only fixed category/path/hash is public."
+  ],
+  "executionBoundary": {
+    "dependencyEpoch": "Keep exact old e16/profile59 fixture and cfb PG bytes for this old journal; no Windows M4 upgrades",
+    "approvedAction": "Root executes this one explicit recovery after the source pin is in its receipt. Result remains recovery evidence, not URI27 or matrix Pass.",
+    "sourceReview01": "Historical review and its actual failed attempt remain immutable; this additive review corrects the mistaken envelope-shape assumption."
+  },
+  "verification": {
+    "CExecutedRecovery": false,
+    "CExecutedTests": false,
+    "CExecutedDBOrHTTP": false,
+    "CReadPrivate": false,
+    "RootReportedSyntaxExitCode": 0
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

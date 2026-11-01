@@ -1,0 +1,76 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-original-UI2-InputNumber-real-Tab-before-save-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T23:41:57Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-setting-input-source01.json",
+    "bytes": 3045,
+    "rawBytesSha256": "51ceac0e2a344ccda583e9ed0d8d433303680387c55cee820d795bcc5f806278"
+  },
+  "priorReview": {
+    "file": "docs/design/rust-r2m/ui-pending-wait-source-review01.json",
+    "bytes": 3912,
+    "rawBytesSha256": "a7c8eed09c61d561cd9b4580b5a0b6bd1c2c9e275907ac8bef47dfd080ebe90f"
+  },
+  "before": {
+    "file": "tools/rust-r2m/ui-setting-input-before-source01.json",
+    "bytes": 33327,
+    "rawBytesSha256": "19d7a58fd3bb207ae6b64842efd856bfaf9f598f5f32a9ba8a77f4775d5f20fd"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 24992,
+      "rawBytesSha256": "3535d8343e12df1937e1338d3c0894e6938e81ba81994b8d8c6212bf62d99c3a",
+      "readLevel": "Necessary exact new helper and UI2 call-site delta on preserved9e pending-observer base"
+    },
+    {
+      "file": "tools/rust-r2m/ui-setting-input.test.mjs",
+      "bytes": 1036,
+      "rawBytesSha256": "e4716899418af8537208c6813935ec849c7983923c6ec2bde0048478c609c9a8",
+      "readLevel": "Complete single controlled input-event pure test, not executed by C"
+    }
+  ],
+  "originalPage": {
+    "file": "apps/poms-admin/src/app/features/platform/system-setting-list.ts",
+    "bytes": 10053,
+    "rawBytesSha256": "3424628b020793fe1e3ee8a2b906b835973edff7ea930128268fce6da3c78d6a"
+  },
+  "dependency": {
+    "file": "/home/wangzishi/projects/poms-rust-r2m/node_modules/primeng/fesm2022/primeng-inputnumber.mjs",
+    "readOnlyResolvedFile": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/primeng@22.1.1_4e16ca62416b83fbae97e4232074b86d/node_modules/primeng/fesm2022/primeng-inputnumber.mjs",
+    "bytes": 81973,
+    "rawBytesSha256": "eabf0980ed84bf81e2018a6f01e48aa901f0a6d2b3af2d6e00998b964b0c4b1d",
+    "CReadLevel": "Exact one already named public dependency file through its resolved Linux UNC path, hash and onUserInput662-670/onInputBlur1220-1240 only. Current symlink path was unavailable via Windows UNC; no directory/old runtime/private discovery or modification."
+  },
+  "assessment": [
+    "The original page binds InputNumber ngModel to the draft and enables Save only for a nonnull valid draft different from the stored value. Exact current PrimeNG public source onUserInput only resets its special-character flag, while onInputBlur parses and updateModel emits the actual value. C independently read these necessary methods and verified the exact81973-byte dependency hash.",
+    "The sole new UI2 helper performs the original fill, a real keyboard Tab to trigger the original control blur, and waits for the original Save locator to be enabled. Only then does the unchanged caller create its protected PATCH response wait, click the actual button and require200. There is no JS model assignment, fake response, retry, weakened assertion or product/dependency change.",
+    "The immediate pending rejection observer from9e remains on all prior held waits and the actual promise/error semantics remain unchanged. This micro delta can enter a new explicitly captured Linux or Windows shared-browser epoch without re-reviewing the unchanged owner framework. It does not certify an actual UI2 run or retroactively supply missing close/PG evidence to fatal uir2a."
+  ],
+  "verification": {
+    "currentSourcePins": "2/2 matched",
+    "prior9eBodyHashMatched": true,
+    "originalPageHashMatched": true,
+    "dependencyHashAndNecessaryMethodsIndependentlyRead": true,
+    "authorPureTests": 21,
+    "failed": 0,
+    "skipped": 0,
+    "executedByC": false,
+    "initialPureTestSyntaxFailureRetained": true
+  },
+  "executionBoundary": "Root may execute this exact new helper only with the already reviewed new-run singleton admission, current complete source capsule and original owner/SDK/PG/full107/drain/restore/double-zero requirements. C performed source/public-file reads and this review write only: no private read, app/test execution, DB/HTTP/browser/container/process inspection or stop, product/fixture edit or Git mutation.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

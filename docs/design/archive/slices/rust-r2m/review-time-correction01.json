@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-review-receipt-time-metadata-correction",
+  "recordedAt": "2026-10-30T23:03:13Z",
+  "reviewer": "/root/r2m_review",
+  "correction": "C mistakenly wrote fixed literal reviewedAt strings in three source-only review receipts rather than sampling the clock. These fields are not verified creation instants and one is in the future relative to the observed clock. All three completed review artifacts already exist with the exact hashes below at recordedAt. Use this observed no-later-than bound instead of their reviewedAt fields. Original bytes remain preserved; no source pins, judgments, execution authority, actual run evidence or Gate state change.",
+  "reviews": [
+    {
+      "file": "docs/design/rust-r2m/browser-fonts-source-review01.json",
+      "bytes": 6222,
+      "rawBytesSha256": "0da141819489e62a0964e3df6d2786c0f3bfe13756602f4197077d7c9f442180",
+      "recordedReviewedAt": "2026-10-30T22:52:00Z",
+      "exactCreationTimeVerified": false,
+      "reviewCompletedNoLaterThan": "2026-10-30T23:03:13Z"
+    },
+    {
+      "file": "docs/design/rust-r2m/supplier-extensions-source-review01.json",
+      "bytes": 6055,
+      "rawBytesSha256": "f923b3a69e048b590ccd7de9169c0f50e595330c45fd2b6fc9ed0c63cac4ed3b",
+      "recordedReviewedAt": "2026-10-30T22:57:00Z",
+      "exactCreationTimeVerified": false,
+      "reviewCompletedNoLaterThan": "2026-10-30T23:03:13Z"
+    },
+    {
+      "file": "docs/design/rust-r2m/ui-session-reload-source-review01.json",
+      "bytes": 4721,
+      "rawBytesSha256": "b4c9538ade21efcd17276d08c97afbec3e433e944a621d2a30ed4dda592e9df1",
+      "recordedReviewedAt": "2026-10-30T23:20:00Z",
+      "exactCreationTimeVerified": false,
+      "reviewCompletedNoLaterThan": "2026-10-30T23:03:13Z"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

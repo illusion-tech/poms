@@ -1,0 +1,185 @@
+{
+  "kind": "POMS-R2M-independent-M5-ticket-observer-and-failed-graph-isolation-design",
+  "result": "DesignAccepted",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 06:11:20 UTC",
+  "gate": false,
+  "scope": {
+    "runId": "561e7b81-4baa-4502-9b80-f5ce2028457a",
+    "caseId": "m5.integration",
+    "index": 15,
+    "op": "m.http",
+    "sourceCapId": "r2m-joint27",
+    "originalPGModuleSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3",
+    "actualAuditBirthCertified": false,
+    "productDifferenceClassified": false
+  },
+  "basis": {
+    "frozenBaseline": {
+      "file": "tmp/rust-r2m/g1-frozen-inputs/docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "rawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33",
+      "anchors": [
+        62,
+        64,
+        72,
+        74,
+        76,
+        84
+      ],
+      "interpretation": "Unknown ownership/commit/reference requires partial preservation and prohibits broad cleanup. Only proven rows/objects can be deleted. Failed-run retention is allowed; no rule authorizes fabrication to force zero or makes a retained partial a product/G4 pass."
+    },
+    "sourceInvestigation": {
+      "file": "tools/rust-r2m/audit-pg-ticket-parent-source01.json",
+      "bytes": 4951,
+      "rawBytesSha256": "5df50cafd2391d7a258799476810d2dff442db7770ff549eef8ef7ed71b5d514"
+    },
+    "originalScopeBooleans": {
+      "file": "tmp/rust-r2m/m5-ticket-scope-booleans01.json",
+      "rawBytesSha256": "d81a83984ccd534c17a7e78204d2025f1232f17e5e8ec9384c53c07122e5f810",
+      "readLevel": "Complete public Boolean/identity metadata and raw hash. Referenced original ledger/observer/full107/wire/PG certificate private bytes were not opened by C."
+    }
+  },
+  "observedMetadata": {
+    "auditId": "2806d15f-6cf0-4e37-98ca-d4e1a1a21bf1",
+    "event": "identity-provider.external-login.ticket-consumed",
+    "targetType": "ExternalLoginTicket",
+    "ownedActorIncluded": true,
+    "existingOwnedTicketKnownId": false,
+    "existingOwnedTicketKnownRow": false,
+    "auditRequestPropertyPresentAndNull": true,
+    "matchingExactFiveKeyIntentCount": 1,
+    "auditAbsentBeforeAndPresentAfter": true,
+    "sameIndexAuthSessionEvent": {
+      "id": "7ab04afc-0d0d-4339-b9de-c4354b5242ad",
+      "topXid": "9303",
+      "topStatus": "committed"
+    },
+    "sameIndexTicketBirth": false,
+    "sameIndexAuditBirth": false
+  },
+  "sourceFindings": [
+    {
+      "id": "precise-observer-omission",
+      "result": "Supported",
+      "detail": "PG6d9 neededParents at319 omits external_login_ticket, and that filter precedes same-case selection/readOwned. Audit170-171 permits a typed target only through knownIds/knownTextTargets or a same-index target event. Actual actor/request override are correct, but old ticket is absent from both known sets and same-index births; auth_session is not that ticket target. IF permitted false emits no audit event."
+    },
+    {
+      "id": "separate-source-transactions",
+      "result": "Important-boundary",
+      "sources": [
+        {
+          "file": "apps/poms-api-rust/src/identity_providers/service.rs",
+          "rawBytesSha256": "8ab76af8711ec11ec83ea75b4db0b68087c0bd6c4ee8bd9f0a57cfd0a50f92d9",
+          "anchor": 971
+        },
+        {
+          "file": "apps/poms-api-rust/src/identity_providers/store.rs",
+          "rawBytesSha256": "d9a0ca9ab6370e192dd6b290bad5f514395437dbfbb17ad8f1b6dc758d1656d9",
+          "anchor": 386
+        },
+        {
+          "file": "apps/poms-api-rust/src/identity_providers/http.rs",
+          "rawBytesSha256": "f06339e5b4c9316c3b520873e25a022b5897c69205012c5ac13583ed232af238",
+          "anchor": 386
+        }
+      ],
+      "detail": "consume_ticket saves consumed ticket, then independently audits; only afterwards HTTP calls auth.create_session. Store audit has its own transaction/COMMIT and uses INSERT.execute without returning audit ID. Same request/index is not evidence of one common transaction. Do not assign authXid9303 or its PG birth to the audit."
+    }
+  ],
+  "futureNarrowFix": {
+    "designAccepted": true,
+    "soleDefaultChange": "Include external_login_ticket in neededParents for already certified explicit owned ticket parents.",
+    "unchanged": [
+      "readOwned requires original creationProof/independent visibility and current immutable identity",
+      "exact original run/case/base/explicit scope filters",
+      "actor and auditStorageRequestId/null semantics",
+      "case index/op/marker/role/database and original intent selector/Max1",
+      "ordinary JS/PG certificate registry and unknown-reference guard"
+    ],
+    "prohibited": [
+      "new observed table or arbitrary query-known ID fallback",
+      "generic unknown target/NULL actor exception",
+      "retroactive edit of6d9 source/journal/control/event or fake after-insert certificate",
+      "replay INSERT/UPDATE solely to generate provenance for the existing row"
+    ],
+    "necessaryFiniteSourceChecks": [
+      "Owned same-scope earlier ticket enters knownRows/knownIds through original readOwned and allows only the exact original audit intent.",
+      "Foreign/unowned/wrong-case or identity-changed ticket still rejects or stays outside scope.",
+      "Wrong actor/request/index/event/target and exceeding existing Max1 retain original rejection.",
+      "Future actual Native/Rust execution binds the new module/cap and preserves complete raw/PG/outer-COMMIT/independent row proofs."
+    ]
+  },
+  "oldRunDecision": {
+    "cleaningAllowedNow": false,
+    "queryAdoptionAllowed": false,
+    "fakePGCertificateAllowed": false,
+    "entireReferenceGraphRetained": true,
+    "reason": "Before/after absence, matching selector, HTTP200, target/operator ownership and even diagnostic xmin/transaction association cannot substitute for the frozen actual birth artifact. Original PG audit birth is absent. Deleting known ancestors could mutate/delete the unproven audit through references; preserve the complete graph.",
+    "authSession": "Its genuine original PG certificate may be retained, and a later exact separate mature adoption can be reviewed if needed. It is not necessary to mutate the journal merely to continue; it does not cover the audit or permit graph cleanup.",
+    "additionalOriginalEvidenceInventory": "Root may check retained original actual INSERT/RETURNING/SDK/PG evidence that directly names the audit row and exact original transaction/context. If such a genuine preexisting artifact exists, submit a distinct bounded recovery input/source review. Later SELECT, guessed correlation or a newly generated event is not that artifact. No new deep forensic exercise is a mandatory Gate.",
+    "oldLabelsPreserved": [
+      "partial/ownership-evidence-incomplete",
+      "audit not owned",
+      "no cleanup/full107 baseline restoration claim",
+      "not product failure merely from observer coverage gap",
+      "not Native parity until actual reference is run"
+    ]
+  },
+  "quarantinePlan": {
+    "implementationStatus": "Design only; exact public plan and source required before Root acts.",
+    "noBusinessDML": true,
+    "noRowDeleteOrAdoption": true,
+    "steps": [
+      "Preserve once the exact original ledger, PG journal, wire, before/after107, genuine certificate and closeout bytes under new immutable private refs; public only lengths/hashes/counts and explicit missing-audit-birth disposition.",
+      "Complete bounded readonly diagnostics if Root chooses, then prove original app/adapter owners stopped, relevant ports quiescent, old RustDB active app work/prepared transactions zero and original observer exact restored.",
+      "Keep original database name/OID/schema/data/volume. A narrowly sourced maintenance-connection quarantine may compare exact current name/OID/owner/marker and0connections, then only disable new connections on poms_r2m_rust (for example exact ALTER DATABASE ... ALLOW_CONNECTIONS false), without terminating unknown clients or changing business tables. Preserve before/after database access metadata; if any live client or mismatch appears, stop and retain incomplete quarantine.",
+      "Append a separate retained-failed-run quarantine receipt with counts of proven rows, pending genuine auth and unproven audit, old database identity and access state. Do not rewrite original journal/report to cleaned/drained/full-baseline-pass.",
+      "Leave credentials/evidence owner-only. No old environment, current old database or reused application secret is silently repointed to an empty replacement."
+    ],
+    "notAllowed": [
+      "rename old RustDB and put a fresh DB under the original name to evade guard/old journal identity",
+      "reset/drop/truncate/reseed original failed database or change current audit/ticket/user rows",
+      "global process kill/terminate-all or copying old private/runtime trees"
+    ]
+  },
+  "freshControlledContinuation": {
+    "allowedInOriginalAuthorizedScope": true,
+    "implementationStatus": "Root must freeze exact before-absent resource names/marker/role/env/source profile; C reviews the concrete isolation/provision/source delta. This is necessary source risk review, not a new StageGate or user-confirmation demand.",
+    "recommendedMinimalShape": {
+      "cluster": "The already-owned fresh R2M PG15 instance may host distinct new controlled databases using the previously reviewed QA-style isolation pattern; no unrelated/PG17 database access.",
+      "resourcesExample": [
+        "poms_r2m_retry01_template",
+        "poms_r2m_retry01_nest",
+        "poms_r2m_retry01_rust",
+        "poms_r2m_retry01_app"
+      ],
+      "freshMarkerAndPrivateRootRequired": true,
+      "source": "Initialize one fresh clean template from exact original92 migrations/explicit seed, capture107/1778/207 and clone consistent initial data to the new pair. Preserve template; never clone dirty failed graph. A single new Rust DB is an alternative only if exact initial-source equality, per-backend guard identity and comparison source mapping are explicitly proven.",
+      "guards": "Explicit finite new profile/literals with exact DB/role/marker/private roots; no ambient DB override, generic profile wildcard or relaxation of original guards. Original profiles and old run caps remain byte-bound.",
+      "products": "Reuse unchanged Native0ef7/Rust957 product artifacts with full source/build pin references; new observer/guard/environment inputs get a new honest source epoch.",
+      "ports": "Use only individually checked current task-owned loopback ports after existing owners stop; do not run recovery and active verification concurrently."
+    },
+    "actualAcceptance": "Re-run the affected M5 logical cases on the new controlled reference/candidate with the fixed ticket parent source and real audit birth+COMMIT certificates. Preserve original failed run separately. Current successful Native09 work may continue on its clean field, but no false same-cap claim: source/parameter/environment impact linkage is required, or re-run only the affected pair in one honest new epoch."
+  },
+  "finalStageUse": {
+    "oldFailedRunNeedNotBeFalselyForcedToZero": true,
+    "oldDataRetentionIsNotAutomaticStagePass": true,
+    "finalRequiredDisposition": "Final G3 must review that observer gap is fixed/actually validated, old failed data are explicitly isolated with no active consumers/writers, preserved artifact identity and retention owner, fresh successful runs meet their real cleanup and whole-stage requirements, and no unresolved P0/P1/P2 is hidden. G4/Issue closure remain separate.",
+    "noExtraR3R7CloudDeploymentPerformanceGate": true
+  },
+  "reviewerActivity": {
+    "privateRead": false,
+    "environmentRead": false,
+    "databaseHttpBrowserExecuted": false,
+    "testsExecuted": false,
+    "productOrFixtureEdited": false,
+    "gitMutated": false
+  },
+  "executableQuarantineOrProvisionSourceReady": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

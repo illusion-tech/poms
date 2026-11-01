@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-frozen-candidate-new-environment-plan-not-provisioned",
+  "clientDate": "2026-10-31",
+  "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "namespace": "poms-r2m",
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "linuxRoot": "/home/wangzishi/projects/poms-rust-r2m",
+  "state": "/home/wangzishi/.local/share/poms-r2m",
+  "private": "/home/wangzishi/.local/share/poms-r2m/private",
+  "container": "poms-r2m-pg15",
+  "volume": "poms-r2m-pg15-data",
+  "databases": [
+    "poms_r2m_nest",
+    "poms_r2m_rust"
+  ],
+  "appRole": "poms_r2m_app",
+  "controlSchema": "r2m_control",
+  "ports": {
+    "postgresHost": 20432,
+    "postgresContainer": 15432,
+    "native": 10070,
+    "rust": 10071,
+    "ui": 10080,
+    "controlledFeishu": 10090,
+    "controlledOBS": 10091
+  },
+  "compatibility": {
+    "postgres": "15.12",
+    "encoding": "UTF8",
+    "locale": "en_US.UTF-8",
+    "collationProvider": "libc",
+    "timezone": "Etc/GMT-8",
+    "migrations": 92,
+    "expectedProductTables": 107,
+    "expectedColumns": 1778,
+    "expectedForeignKeys": 207
+  },
+  "resourceCreationAndRuntime": "Authorized by user complete R2M G0-G4 scope; actual provision/HTTP/PG/UI only after independent G1 freeze",
+  "noOldPrivateOrInstanceReuse": true,
+  "oldPG17Preserved": true,
+  "newSecretsRequired": true,
+  "privateDirMode": "0700",
+  "privateFileMode": "0600",
+  "provisioned": false
+}

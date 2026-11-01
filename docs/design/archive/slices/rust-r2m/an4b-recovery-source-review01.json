@@ -1,0 +1,224 @@
+{
+  "kind": "POMS-R2M-independent-fixed-an4b-normal-recovery-source-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 05:53:11 UTC",
+  "gate": false,
+  "candidate": {
+    "file": "tools/rust-r2m/an4b-recovery-source01.json",
+    "bytes": 8336,
+    "rawBytesSha256": "2dab2a70aa6fcd3d81d18a2787ab782b8493498af9d592d7f2b9b2f093b66d13"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an4b.mjs",
+      "bytes": 18539,
+      "rawBytesSha256": "469a941d69dc209e79c4921d6a005c7f7e363b0e4c6b345349b049b5fd65dd81"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an4b.test.mjs",
+      "bytes": 9646,
+      "rawBytesSha256": "4f13a538fa4b6611febb56de37fb2d3654a1aa03cacb557c1d627c0cee0ef71c"
+    }
+  ],
+  "scope": {
+    "runId": "916497d3-2cfb-43ef-8773-df2d5fe69578",
+    "backend": "nest",
+    "sourceCapId": "r2m-joint27",
+    "sourceManifestSha256": "5a399e728add4ccf1b7677404390cd31dcb0c3e4153490aaae9858e0143439c7",
+    "ownedRows": 115,
+    "localOwnedFiles": 6,
+    "pending": 0,
+    "allowedExistingCommittedMutations": 1,
+    "settingOrNumberLease": false,
+    "onlyThisLiteralRun": true
+  },
+  "reuse": {
+    "template": {
+      "file": "tools/rust-r2m/recover-closed-an4a.mjs",
+      "bytes": 16580,
+      "rawBytesSha256": "03ed9c626cf4b573dc7d667aa08c93f95dc74151f04dce3718f4cf60f213ab4a"
+    },
+    "sourceReview": {
+      "file": "docs/design/rust-r2m/an4a-recovery-source-review01.json",
+      "bytes": 9911,
+      "rawBytesSha256": "f031813fd67061fd89e96230c638aab4d4085ce4f1b726207e91e3d35a25bc39"
+    },
+    "reason": "Exact mature normalclosed/source/private/fs/PG/cleanup/error chain carried. Only fixed run/admission/source-count differences reviewed.",
+    "independentSuffixCheck": {
+      "from": "async function assertWriterAbsent(",
+      "literalSubstitutionsOnly": [
+        "an4b/An4b -> an4a/An4a",
+        "1890942/1891023 ->1879472/1879537",
+        "original snapshot label02e0b818->08d2f5e1",
+        "115rows/6files->66rows/2files"
+      ],
+      "wholeSuffixByteEqual": true,
+      "oldAndNormalizedNewSha256": "faaa1dab42610033d7adc8512555dd981ba087a8a7e45c39bd0c030f7731093d"
+    }
+  },
+  "publicInputs": [
+    {
+      "file": "tmp/rust-r2m/an4b-recovery-metadata02.json",
+      "bytes": 10215,
+      "rawBytesSha256": "7061cbd2ed5cf99b1d8dd9b1b169917cd843a4d03a70ab3b068843ed096de761"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4b.json",
+      "bytes": 45257,
+      "rawBytesSha256": "9616be1b721872f8e4727f596fa12ec8f32d83fdf1daf9c3fda5aa59e0593d2a"
+    }
+  ],
+  "fixedRootReferences": {
+    "report": {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4b.json",
+      "bytes": 45257,
+      "rawBytesSha256": "9616be1b721872f8e4727f596fa12ec8f32d83fdf1daf9c3fda5aa59e0593d2a"
+    },
+    "cap": {
+      "file": "tmp/rust-r2m/source-cap-joint27.json",
+      "bytes": 1430530,
+      "rawBytesSha256": "63a4072b422cd00a1eddc574e5c66031c7643ca761761b989548a6e9acb4ffdb"
+    },
+    "ledger": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578.json",
+      "bytes": 1812309,
+      "rawBytesSha256": "02e0b8186bf4eb61d359bc6b9770725b169c0489d2fbe673ba761ed39e30ab3d"
+    },
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00001.json",
+      "bytes": 432851,
+      "rawBytesSha256": "351b8233ebb73d9e8f82fa88f36ba10137a99e5a82943f742d628ab490ccbcf4"
+    },
+    "sdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00311.json",
+      "bytes": 70137,
+      "rawBytesSha256": "9103fe1262d9e1e0fa9d42f17aa5f826a89c1ceef8cbcdc4b196c63ccb727619"
+    },
+    "latestFacts": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00319.json",
+      "bytes": 566168,
+      "rawBytesSha256": "4553dc566c7e028b8b2c517e6ca3d7a5613b3c311d3ad12f0765aaed9e4fc9cb"
+    }
+  },
+  "sourcePinCheck": {
+    "reviewed2Matched": true,
+    "publicMetadataAndReport2Matched": true,
+    "metadata02Only": true
+  },
+  "findings": [
+    {
+      "id": "fixed-truthful-closure",
+      "result": "Pass",
+      "detail": "All4 original cases closed with observed/fail/fail/fail results retained. Original Native1890942 and OBS1891023 stopped; no close failures, faults restored/active0/pending0, original SDK00311 complete/0open and PGf4f6 footprint already restored. No original or late closure is invented."
+    },
+    {
+      "id": "only-certified-mutation",
+      "result": "Pass",
+      "detail": "Exactly one committed mutation of actual owned attachment84ef1e5d-9a34-4858-8dd5-902f0e975ccc is accepted: original reason, exact10 field shape, only is_latest:false, before latesttrue and after exactly the complete before row with that one change; transaction/xmin modulo equality and ordinary own/visible proof required. No rollback/reversal, new update or adoption occurs before cleanup."
+    },
+    {
+      "id": "exact-file-and-facts-admission",
+      "result": "Pass",
+      "detail": "Exactly6 real local certificates have only table/id/key/file/bytes/sha256/actualRowStorageKeyConfirmed fields, no fabricated state. Every exact key stays under before-absent run prefix and matches an already admitted actual local row storage_key. Exact7 sessions/6 attachments and final2provider states remain pinned to original latest facts."
+    },
+    {
+      "id": "correct-default-history",
+      "result": "Pass",
+      "detail": "Public report independently shows obs-default200 observed and local-default500 fail. Latest metadata02 confirms OBSb452 truev2 and local3821 falsev3. This is preserved state for cleanup, not silently reset or described as OBS failure. Old trigger misreading is explicitly superseded by Root final checkpoint7e285 and C api-m4-source-review04."
+    },
+    {
+      "id": "normal-restore-and-owned-clean",
+      "result": "Pass",
+      "detail": "Exact nofollow/hash/size/private guards and wx original ledger before Fixture.open remain. Fresh oldPID ESRCH/5ports free, lowrole marker validation/only open revision, app0/prepared0, original6d9 reconcile exact original owner footprint/no handle/fa064, current full107==00319/preflight precede truthful normal drain. Mature cleanup only115+6 then0/0 and full107==00001; no custom delete, selector correction, lease restore or unknown reconciliation."
+    },
+    {
+      "id": "no-running-M5-overlap",
+      "result": "Pass-with-execution-condition",
+      "detail": "SourceReady does not bypass current M5 writers owning shared ports. Root must first stop its actual M5 owners and observe all5 ports free, then run original-shape precheck and this exact CLI. A live/unknown PID, busy port or changed current facts must fail closed, not be killed or broadly cleaned."
+    }
+  ],
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/recover-closed-an4b.mjs",
+        "tools/rust-r2m/recover-closed-an4b.test.mjs"
+      ],
+      "level": "Necessary complete current admission function and9 test source cases; full exact diff against accepted an4a and independent suffix byte comparison. Current raw hashes checked; C executes no tests or signals."
+    },
+    {
+      "files": [
+        "tmp/rust-r2m/an4b-recovery-metadata02.json",
+        "tmp/rust-r2m/acceptance-api-nest-an4b.json"
+      ],
+      "level": "Public hashes/metadata/lifecycle/case results/providers/mutation/local-file shapes read; public report two exact default step statuses also independently checked."
+    },
+    {
+      "files": [
+        "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578.json",
+        "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00001.json",
+        "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00311.json",
+        "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00319.json"
+      ],
+      "level": "Exact path/byte/hash metadata only. Private source ledger/SDK/baseline/final rows not opened by C."
+    }
+  ],
+  "authorChecks": {
+    "tests": 9,
+    "pass": 9,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/an4b-recovery-source01-pure-complete.txt",
+      "bytes": 1150,
+      "rawBytesSha256": "c972abfaa7a6e868f983795a5e4a8498d86cf9956ec44fd343abd726fbcef8a0"
+    },
+    "lexical": {
+      "files": 2,
+      "errors": 0,
+      "log": {
+        "file": "tools/rust-r2m/an4b-recovery-source01-no-undef.json",
+        "bytes": 432,
+        "rawBytesSha256": "dbbced1ac6ff5a43cb8d4d81ebafdd33e81ed1ccb39985c7da342e32cf3c3922"
+      }
+    },
+    "cliCheckExitCode": 0,
+    "productionMapAndSafeLabelsExercised": true,
+    "PIDChecksFakeOnly": true,
+    "preservedFactoryFailure": {
+      "file": "tools/rust-r2m/an4b-recovery-source01-pure-initial.txt",
+      "bytes": 8572,
+      "rawBytesSha256": "0d9505a544cdcaa1806769a25ae558b848418324fabf19f6ba0128c489ef1ca4"
+    },
+    "factoryFailureClassification": "Initial test-model7session/6local-file map indexed absent seventh local key; corrected model preserves sixth local proofs and models seventhOBS. Helper acceptance was not relaxed.",
+    "earlier9Pass": {
+      "file": "tools/rust-r2m/an4b-recovery-source01-pure-final.txt",
+      "bytes": 1151,
+      "rawBytesSha256": "343ca7ea4e04bc3ec4221fd99977aa061c2317003eb8e4277cff657eb837c4f4"
+    }
+  },
+  "execution": {
+    "owner": "Root",
+    "command": "node tools/rust-r2m/recover-closed-an4b.mjs --run",
+    "freshShapePrecheckRequired": true,
+    "currentM5MustFirstActuallyStop": true,
+    "oldJoint27FixtureAndPG6d9MustRemainExact": true,
+    "actualRecoveryCertified": false,
+    "businessPassClaimed": false
+  },
+  "reviewerActivity": {
+    "privateRead": false,
+    "environmentRead": false,
+    "databaseHttpBrowserExecuted": false,
+    "testsExecuted": false,
+    "actualOSSignal": false,
+    "productOrFixtureEdited": false,
+    "gitMutated": false
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "blockers": []
+}
