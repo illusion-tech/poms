@@ -1,0 +1,192 @@
+{
+  "kind": "POMS-R2M-fixed-normal-closed-an4b-recovery-source-delta",
+  "result": "source-only-awaiting-independent-source-review",
+  "owner": "/root/r2m_delivery_audit",
+  "runId": "916497d3-2cfb-43ef-8773-df2d5fe69578",
+  "backend": "nest",
+  "sourceCapId": "r2m-joint27",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an4b.mjs",
+      "bytes": 18539,
+      "rawBytesSha256": "469a941d69dc209e79c4921d6a005c7f7e363b0e4c6b345349b049b5fd65dd81"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an4b.test.mjs",
+      "bytes": 9646,
+      "rawBytesSha256": "4f13a538fa4b6611febb56de37fb2d3654a1aa03cacb557c1d627c0cee0ef71c"
+    }
+  ],
+  "reusedSignedTemplate": {
+    "file": "tools/rust-r2m/recover-closed-an4a.mjs",
+    "bytes": 16580,
+    "rawBytesSha256": "03ed9c626cf4b573dc7d667aa08c93f95dc74151f04dce3718f4cf60f213ab4a"
+  },
+  "templateReview": {
+    "file": "docs/design/rust-r2m/an4a-recovery-source-review01.json",
+    "bytes": 9911,
+    "rawBytesSha256": "f031813fd67061fd89e96230c638aab4d4085ce4f1b726207e91e3d35a25bc39"
+  },
+  "completeDiff": {
+    "file": "tools/rust-r2m/an4b-recovery-source01.diff",
+    "bytes": 27596,
+    "rawBytesSha256": "cd84c7be0a1b8b568db2216b6591882ca8572cd1eb0f30d212349d9bcb92aae1"
+  },
+  "publicInputsActuallyRead": [
+    {
+      "file": "tmp/rust-r2m/an4b-recovery-metadata02.json",
+      "bytes": 10215,
+      "rawBytesSha256": "7061cbd2ed5cf99b1d8dd9b1b169917cd843a4d03a70ab3b068843ed096de761"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4b.json",
+      "bytes": 45257,
+      "rawBytesSha256": "9616be1b721872f8e4727f596fa12ec8f32d83fdf1daf9c3fda5aa59e0593d2a"
+    }
+  ],
+  "privateReferencesOpenedByA": false,
+  "exactFixedRootReferences": {
+    "report": {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4b.json",
+      "bytes": 45257,
+      "rawBytesSha256": "9616be1b721872f8e4727f596fa12ec8f32d83fdf1daf9c3fda5aa59e0593d2a"
+    },
+    "cap": {
+      "file": "tmp/rust-r2m/source-cap-joint27.json",
+      "bytes": 1430530,
+      "rawBytesSha256": "63a4072b422cd00a1eddc574e5c66031c7643ca761761b989548a6e9acb4ffdb"
+    },
+    "ledger": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578.json",
+      "bytes": 1812309,
+      "rawBytesSha256": "02e0b8186bf4eb61d359bc6b9770725b169c0489d2fbe673ba761ed39e30ab3d"
+    },
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00001.json",
+      "bytes": 432851,
+      "rawBytesSha256": "351b8233ebb73d9e8f82fa88f36ba10137a99e5a82943f742d628ab490ccbcf4"
+    },
+    "sdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00311.json",
+      "bytes": 70137,
+      "rawBytesSha256": "9103fe1262d9e1e0fa9d42f17aa5f826a89c1ceef8cbcdc4b196c63ccb727619"
+    },
+    "latestFacts": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-916497d3-2cfb-43ef-8773-df2d5fe69578/00319.json",
+      "bytes": 566168,
+      "rawBytesSha256": "4553dc566c7e028b8b2c517e6ca3d7a5613b3c311d3ad12f0765aaed9e4fc9cb"
+    }
+  },
+  "soleDelta": [
+    "Fixed run916497d3/tagan4b/cap27/refs/hash/size and fresh private/outputprefix; metadata02 only, not01",
+    "115 actually certified objects, actual case results observed/fail/fail/fail but4closed; Native1890942 and OBS1891023 original normalstop",
+    "Six actual local-file certificates, exact7 field keys and no invented state. Mature Fixture.cleanup alone deletes original files",
+    "Only the one already committed attachment84ef1e5d old-latest=false controlled mutation admitted: exactvalues/reason/fields/before-after/transaction-xmin/ordinary own proof; no reversal or newDML before cleanup",
+    "Retain exact7upload sessions/6attachment negative+prepared positive physical flags and actual OBStruev2/localfalsev3 provider state",
+    "Same normalclosed restore path; first cleanup115rows/6files then0, source unchanged, full107 equals original baseline"
+  ],
+  "identicalCore": {
+    "normalRecoverySuffixByteEqualAfterOnlyLiteralRenamesAnd115_6Substitution": true,
+    "oldSuffixSha256": "faaa1dab42610033d7adc8512555dd981ba087a8a7e45c39bd0c030f7731093d",
+    "normalizedNewSuffixSha256": "faaa1dab42610033d7adc8512555dd981ba087a8a7e45c39bd0c030f7731093d",
+    "unchanged": [
+      "no-follow wx originalj beforeFixture.open",
+      "fresh original PID ESRCH and5ports free",
+      "Fixture.open revision-only proof; DBapp0/prepared0",
+      "Original6d9 observer exactbefore/nohandle/originalownerSHA",
+      "fresh complete107 equals latest facts and full107 preflight",
+      "truthful original normalclosed drain",
+      "mature cleanup twice and complete107 baseline restoration",
+      "fixed-category public report/original private error+separate close retention"
+    ]
+  },
+  "exactAdmission": {
+    "objects": 115,
+    "files": 6,
+    "pending": 0,
+    "directStates": [
+      "promoted"
+    ],
+    "mutation": {
+      "table": "attachment",
+      "id": "84ef1e5d-9a34-4858-8dd5-902f0e975ccc",
+      "state": "committed",
+      "values": {
+        "is_latest": false
+      },
+      "reverseBeforeCleanup": false
+    },
+    "noSettingOrNumberLease": true,
+    "SDKcomplete": true,
+    "SDKopen": 0,
+    "writers": [
+      "1890942:native-app",
+      "1891023"
+    ],
+    "observerOriginalModuleSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3"
+  },
+  "correctionOfRootEarlierDescription": {
+    "originalFrozenDefaultAuditNotRewritten": "tools/rust-r2m/audit-attachment-default-inheritance01.json",
+    "actualFailedTarget": "3821a8b9-6d72-46ad-bce2-0e70efa894ab",
+    "actualFailedTargetProvider": "local",
+    "meaning": "OBS switch already succeeded. Failure was return to local; current latest facts OBStruev2/localfalsev3. Existing source argument for prepared symmetric defaults remains unchanged."
+  },
+  "commands": {
+    "sourceCheck": "node tools/rust-r2m/recover-closed-an4b.mjs --check",
+    "RootActual": "node tools/rust-r2m/recover-closed-an4b.mjs --run"
+  },
+  "output": "tmp/rust-r2m/recovered-api-nest-an4b01.json",
+  "privatePrefix": "poms-r2m/private/execution-logs/an4b-recovery01-",
+  "RootExecutionCondition": "Root currently has M5 on cleanRustDB/cap27. Do not execute recovery concurrently. Root waits all actualM5 writers stop and original five ports truly free, then performs original-shape precheck and this fixed CLI. Author never touches Linux/DB/private.",
+  "pure": {
+    "tests": 9,
+    "pass": 9,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/an4b-recovery-source01-pure-complete.txt",
+      "bytes": 1150,
+      "rawBytesSha256": "c972abfaa7a6e868f983795a5e4a8498d86cf9956ec44fd343abd726fbcef8a0"
+    },
+    "lexical": {
+      "files": 2,
+      "errors": 0,
+      "log": {
+        "file": "tools/rust-r2m/an4b-recovery-source01-no-undef.json",
+        "bytes": 432,
+        "rawBytesSha256": "dbbced1ac6ff5a43cb8d4d81ebafdd33e81ed1ccb39985c7da342e32cf3c3922"
+      }
+    },
+    "cliCheckExitCode": 0,
+    "productionMapAndSafeLabelsExercised": true,
+    "PIDChecksFakeOnly": true,
+    "preservedFactoryFailure": {
+      "file": "tools/rust-r2m/an4b-recovery-source01-pure-initial.txt",
+      "bytes": 8572,
+      "rawBytesSha256": "0d9505a544cdcaa1806769a25ae558b848418324fabf19f6ba0128c489ef1ca4"
+    },
+    "factoryFailureClassification": "Initial test-model7session/6local-file map indexed absent seventh local key; corrected model preserves sixth local proofs and models seventhOBS. Helper acceptance was not relaxed.",
+    "earlier9Pass": {
+      "file": "tools/rust-r2m/an4b-recovery-source01-pure-final.txt",
+      "bytes": 1151,
+      "rawBytesSha256": "343ca7ea4e04bc3ec4221fd99977aa061c2317003eb8e4277cff657eb837c4f4"
+    }
+  },
+  "boundaries": {
+    "privateRead": false,
+    "envRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "actualOSSignal": false,
+    "actualProductWriter": false,
+    "staticGitDiffOnly": true,
+    "identityAdoption": false,
+    "selectorCorrection": false,
+    "mutationRestore": false,
+    "customFileDelete": false,
+    "productEdited": false,
+    "oldJournalOrReportChanged": false,
+    "B09OrFrozenHelpersEdited": false,
+    "actualOrG3Claim": false
+  }
+}

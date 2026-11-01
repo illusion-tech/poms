@@ -1,0 +1,93 @@
+{
+  "kind": "R2M-UI2-denial-navigation-author-source-candidate",
+  "result": "source-only-candidate-awaiting-non-author-review-and-Root-actual",
+  "owner": "/root/r2m_delivery_audit",
+  "before": {
+    "file": "tools/rust-r2m/ui-denial-navigation-before-source01.json",
+    "bytes": 33616,
+    "rawBytesSha256": "dfc2cfe4412c9c39d10fdff42bce5ac075a7c7994c0c200939ec381fdf14b75b"
+  },
+  "preservedOriginal": {
+    "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+    "bytes": 24992,
+    "rawBytesSha256": "3535d8343e12df1937e1338d3c0894e6938e81ba81994b8d8c6212bf62d99c3a"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25431,
+      "rawBytesSha256": "733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032"
+    },
+    {
+      "file": "apps/poms-admin/src/app.routes.ts",
+      "bytes": 18649,
+      "rawBytesSha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7"
+    },
+    {
+      "file": "apps/poms-admin/src/app/core/auth/permission.guard.ts",
+      "bytes": 2397,
+      "rawBytesSha256": "68444575160f340bc70512175b124f21bd55402877dc8b20c7e105b74943c3a5"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.layout.ts",
+      "bytes": 2493,
+      "rawBytesSha256": "3b3592c9521f5d30920ab31aae7ce855cf75aae385e613f34f78f5fdeff51775"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.authlayout.ts",
+      "bytes": 389,
+      "rawBytesSha256": "f6f190537fece39f456e8565532d50cd6b4e019bae71c45fff3c7da82357ea95"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/auth/access.ts",
+      "bytes": 22427,
+      "rawBytesSha256": "1f310375969a572132e59f5fcc6a928c44ef779452e7271d7f109a48cc920dbe"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.topbar.ts",
+      "bytes": 11566,
+      "rawBytesSha256": "ac147d1a7bf5c6159dd7bec8f7c267a457d6f865b8f3c83382280e719cb68849"
+    }
+  ],
+  "scope": {
+    "journey": "UI2",
+    "step": "viewer-route-and-backend-denial",
+    "originalGuard": "users permission guard redirects to /auth/access under AuthLayout without TopBar",
+    "retainedAssertions": [
+      "original guarded users route denied",
+      "fixed Angular real users GET403",
+      "authenticated remains true",
+      "original real TopBar logout200"
+    ],
+    "delta": "After all denial assertions, navigate the real original /dashboard route, await bridge.version1 and visible original profile control, then call unchanged original TopBar logout",
+    "noMocksOrCookieOverrideOrAPILogout": true,
+    "originalUin2bPartialPreserved": true,
+    "sourceProfileOrPGOrFixtureChanged": false
+  },
+  "pure": {
+    "log": {
+      "file": "tools/rust-r2m/ui-denial-navigation-source01-pure.txt",
+      "bytes": 3062,
+      "rawBytesSha256": "8d0ceebc2d5a3d4564cf8199cb630e668a783b0c42ae48f379887a97f9ae4545"
+    },
+    "tests": 18,
+    "pass": 18,
+    "fail": 0,
+    "testSource": {
+      "file": "tools/rust-r2m/ui-denial-navigation.test.mjs",
+      "bytes": 3585,
+      "rawBytesSha256": "0b1faca0fe96948c38243f51d8a9e906f426773ea9171f7fc72857fde586f466"
+    },
+    "readLevel": "original route configuration transpiled into an inert VM with mocked guard imports; layout/source checked; controlled in-memory page protocol only",
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "privateRead": false
+  },
+  "RootCopyOnlyRuntime": [
+    "tools/rust-r2m/acceptance-ui-browser.mjs"
+  ],
+  "actualAcceptance": false,
+  "G3": false,
+  "G4": false
+}

@@ -1,0 +1,228 @@
+{
+  "kind": "B-M3-five-residual-cause-source-input01",
+  "result": "source-design-input-no-normalization-no-actual-read",
+  "originalFive05": "tools/rust-r2m/compare-api-five-source05.json",
+  "original29Changed": false,
+  "publicActualDiagnostic": {
+    "file": "tmp/rust-r2m/compare-api-five05diag-before-ui-recovery01.json",
+    "bytes": 1834108,
+    "rawBytesSha256": "53be4f75fd5855178e5d3a77281fafeae51738cd65ea0727f8f9a039fb438567"
+  },
+  "RootTimingMetadata": {
+    "file": "tmp/rust-r2m/m3-request-session-version-deltas01.json",
+    "bytes": 66884,
+    "rawBytesSha256": "a62ffbf9fd6a8b9419b3143371f81526c45177f4afc51cb5e1faea0b426b1b7d"
+  },
+  "RootBroadInspectionMetadata": {
+    "file": "tmp/rust-r2m/m3-auth-version-relations01.json",
+    "bytes": 279998,
+    "rawBytesSha256": "e876b70ab99b0eae9ab69b9d96163177e3354d8ae324be428666f0354a34bfe5"
+  },
+  "currentWindowsSdkInspection": {
+    "file": "tmp/rust-r2m/installed-sdk-auth-source-inspection-win01.json",
+    "bytes": 3611,
+    "rawBytesSha256": "2679a4fe029abb92cefd30dec7e8f664a7008ad48752875213c0e7deeec94670"
+  },
+  "currentSourceReadPins": [
+    {
+      "file": "apps/poms-api/src/seeders/database.seeder.ts",
+      "bytes": 80434,
+      "rawBytesSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "bytes": 9907,
+      "rawBytesSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+      "bytes": 10335,
+      "rawBytesSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/service.rs",
+      "bytes": 45646,
+      "rawBytesSha256": "edce898916a1459804fe27afaa7de6d74a1825e60a98bba11b24e2fda745c2a1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval/domain.rs",
+      "bytes": 26954,
+      "rawBytesSha256": "8ff262a4abbb55587f60d61add1a3aa7ef17a862a901ec374d92fb570c037f5d"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+      "bytes": 12139,
+      "rawBytesSha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+      "bytes": 8133,
+      "rawBytesSha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+      "bytes": 4018,
+      "rawBytesSha256": "6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479"
+    },
+    {
+      "file": "apps/poms-api/src/config/environment.schema.ts",
+      "bytes": 1698,
+      "rawBytesSha256": "e525f24e01a2cebed59abdf0c6639978eed408eed7479ce1e3a4580429f71890"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/service.rs",
+      "bytes": 20275,
+      "rawBytesSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "tools/rust-r2m/query-pid-witness.cjs",
+      "bytes": 8229,
+      "rawBytesSha256": "13ddb43c02bd49e8638741d3cdc70b2347ef27f8f71da99d66b7af848bd294f5"
+    }
+  ],
+  "historicalCapsuleSourcesMustBeRevalidatedByRootBeforeUse": true,
+  "privateOrEnvReadByB": false,
+  "actualComparedByB": false,
+  "residuals": [
+    {
+      "physical": "contract_term_snapshot.effective_at",
+      "actualDifferences": 324,
+      "sourceCause": "Original commission18 selected SQL omits both effective_at and created_at; original migration/entity defaults both to now(). Existing helper treated effective_at as a literal.",
+      "finiteProposedRule": {
+        "originalPlanKind": "commission-prepared-original-source-typed-rows",
+        "originalRows": 18,
+        "table": "contract_term_snapshot",
+        "requireExactOriginalPlanSqlColumnOmission": [
+          "effective_at",
+          "created_at"
+        ],
+        "requireActualDirectOuterCommitAndIndependentlyVisibleFullCapturedBirth": true,
+        "requireExactMicrosecondEqualityToSameBirthCreatedAt": true,
+        "inheritOnlyAlreadyProvenCreatedAtOrigin": true,
+        "explicitPreparedDateLiteralsNeverChanged": true
+      },
+      "comparisonImplementationReady": false
+    },
+    {
+      "physical": "auth_session.row_version",
+      "actualDifferences": 128,
+      "sourceCause": "Actual same-cookie Native requests first crossed the60s threshold while the matching Rust-world original Native producer requests had not. Native1->3 requires two real writes, not a version alias.",
+      "firstProvablyDueNativeVsNotDueRust": [
+        {
+          "step": "M3.2.retention-submit",
+          "nativeVersion": [
+            1,
+            3
+          ],
+          "rustVersion": [
+            1,
+            1
+          ],
+          "nativeStartElapsedSeconds": 62.994,
+          "rustEndElapsedSeconds": 58.745
+        },
+        {
+          "step": "M3.2.retention-approve",
+          "nativeVersion": [
+            1,
+            3
+          ],
+          "rustVersion": [
+            1,
+            1
+          ],
+          "nativeStartElapsedSeconds": 61.94,
+          "rustEndElapsedSeconds": 58.598
+        }
+      ],
+      "requiredActualProof": [
+        "Real sent cookie hash -> actual owned typed session; principal remains owned or exact readonly baseline, never role-heuristic authority",
+        "Exact per-request execution backend/context/index and source-specific due/no-due decision from actual before row and actual HTTP interval",
+        "Raw conditional repository touch statement plus affected-row/commit outcome; Native managed coflush needs its separate original SQL shape/query PID/context/result",
+        "Full actual version/timestamp chain and all non-touch session fields preserved; unknown deltas remain differences",
+        "Actual configured throttle/TTL source must be validated, not inferred only from default schema"
+      ],
+      "knownInspectionCorrection": "Original capture.statement is generic command+relations. Structural SQL is capture.sqlShape; numeric literals are redacted as?number. Do not interpret the earlier summary rowVersionIncrementOne=false as absence of+1.",
+      "sdkSourceBoundary": "Six currently installed Windows7.0.11 sources explain dirty state/optimistic current-version lock/integer version+1. They are not original-run Linux source receipts; Root must independently check current Linux raw hashes and original actual SQL/row effects.",
+      "broadMetadataRoleHeuristicGrantsOwnership": false,
+      "normalizationAuthorizedByThisInput": false,
+      "comparisonImplementationReady": false
+    },
+    {
+      "memory": "v1/v2 four source-emitted business Date cells",
+      "actualDifferences": 90,
+      "requiredPendingRecords": 180,
+      "alreadyComparedPairedScalars": 9930,
+      "alreadyComparedSnapshots": 250,
+      "sites": [
+        {
+          "table": "approval_record",
+          "role": "approval",
+          "properties": [
+            "decidedAt",
+            "closedAt"
+          ],
+          "physical": [
+            "decided_at",
+            "closed_at"
+          ],
+          "nativeSourceLines": [
+            500,
+            501
+          ],
+          "rustSource": "apps/poms-api-rust/src/approval_common/service.rs:951"
+        },
+        {
+          "table": "todo_item",
+          "role": "todoA",
+          "properties": [
+            "completedAt"
+          ],
+          "physical": [
+            "completed_at"
+          ],
+          "nativeSourceLines": [
+            507
+          ],
+          "rustSource": "apps/poms-api-rust/src/approval_common/service.rs:969"
+        },
+        {
+          "table": "commission_payout",
+          "role": "payout",
+          "properties": [
+            "approvedAt"
+          ],
+          "physical": [
+            "approved_at"
+          ],
+          "nativeSourceLines": [
+            544
+          ],
+          "rustSource": "apps/poms-api-rust/src/approval/domain.rs:577"
+        }
+      ],
+      "requiredActualProof": [
+        "Only m3.uow.v1/v2 with actual m.internal-uow context, ordinary owned typed held objects and exact same project/source parent relations",
+        "Complete physical before values NULL and source assignments before the later gate branch",
+        "Actual first nonnull held Date at after-original-service-child inside parent-second-Todo-dirty -> child-return interval, with exact source emitter proof",
+        "Every mapped held/current-original/managed/cached occurrence equals that actual same-cell first Date; unrelated fields remain strict",
+        "Actual outer rollback restores complete physical rows, fresh clear/reread counterpart remains the observed original values; never invent a committed mutated row",
+        "Dirty canceled todoB is a different held object and receives no completedAt rule"
+      ],
+      "newRequiredWholeDebugGate": false,
+      "newRequiredUnconsumedProducerDtoGate": false,
+      "comparisonImplementationReady": false
+    }
+  ],
+  "remainingUnknowns": "Root actual raw sqlShape/affected-write pairs and four-Date relation booleans are pending. This input does not resolve any of the542 differences or grant a pass."
+}

@@ -1,0 +1,61 @@
+{
+  "kind": "R2M-original-UI2-InputNumber-Tab-model-commit-before-save",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/ui-setting-input-before-source01.json",
+    "bytes": 33327,
+    "rawBytesSha256": "19d7a58fd3bb207ae6b64842efd856bfaf9f598f5f32a9ba8a77f4775d5f20fd"
+  },
+  "basePendingWaitReview": {
+    "file": "docs/design/rust-r2m/ui-pending-wait-source-review01.json",
+    "bytes": 3912,
+    "rawBytesSha256": "a7c8eed09c61d561cd9b4580b5a0b6bd1c2c9e275907ac8bef47dfd080ebe90f"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 24992,
+      "rawBytesSha256": "3535d8343e12df1937e1338d3c0894e6938e81ba81994b8d8c6212bf62d99c3a"
+    },
+    {
+      "file": "tools/rust-r2m/ui-setting-input.test.mjs",
+      "bytes": 1036,
+      "rawBytesSha256": "e4716899418af8537208c6813935ec849c7983923c6ec2bde0048478c609c9a8"
+    }
+  ],
+  "originalPage": {
+    "file": "apps/poms-admin/src/app/features/platform/system-setting-list.ts",
+    "bytes": 10053,
+    "rawBytesSha256": "3424628b020793fe1e3ee8a2b906b835973edff7ea930128268fce6da3c78d6a"
+  },
+  "currentInstalledDependency": {
+    "file": "/home/wangzishi/projects/poms-rust-r2m/node_modules/primeng/fesm2022/primeng-inputnumber.mjs",
+    "readOnlyResolvedFile": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/primeng@22.1.1_4e16ca62416b83fbae97e4232074b86d/node_modules/primeng/fesm2022/primeng-inputnumber.mjs",
+    "bytes": 81973,
+    "rawBytesSha256": "eabf0980ed84bf81e2018a6f01e48aa901f0a6d2b3af2d6e00998b964b0c4b1d",
+    "readLevel": "Exact one public dependency file and onUserInput662-670/onInputBlur1220-1240 source; no old runtime/private tree read",
+    "oldDependencyModified": false
+  },
+  "finding": "Original InputNumber onUserInput does not update the bound model; onInputBlur parses and updateModel emits it. Original canSave requires draft!=setting.value. Playwright.fill alone leaves Save disabled.",
+  "scope": "UI2 only: original field.fill -> real keyboard press(Tab) -> original save locator toBeEnabled -> create the protected original PATCH wait -> real click and original200 assertion. No JS model assignment, retry, fake response, product change or original assertion removal. Pending-wait immediate observation from the independently reviewed9e80 is retained.",
+  "pure": {
+    "passed": 21,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-setting-input-source01-pure.txt",
+      "bytes": 4322,
+      "rawBytesSha256": "9975b9fa32df7216d8ab718f6b6573d5beeae9646af638fc165dc0aaed1a539a"
+    },
+    "priorControlledTestSyntaxFailure": {
+      "file": "tools/rust-r2m/ui-setting-input-source01-pure-failed01.txt",
+      "bytes": 5860,
+      "rawBytesSha256": "31179f4d2a33a6cd34c2d101b98b3b230f70efd7db890cfd320f4430413c94c0"
+    },
+    "priorFailure": "A missing closing parenthesis in the new pure test, fixed without changing runtime behavior.",
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

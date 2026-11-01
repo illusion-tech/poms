@@ -1,0 +1,30 @@
+✖ fixed preexisting2544 stays rawUnknown1/excluded1/remaining0 only for exact same-handle FILETIME/path/hash and original parent, never its subtree (3746.6269ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4051.7162
+
+✖ failing tests:
+
+test at tools\rust-r2m\recover-late-uwir4c01a.test.mjs:29:1
+✖ fixed preexisting2544 stays rawUnknown1/excluded1/remaining0 only for exact same-handle FILETIME/path/hash and original parent, never its subtree (3746.6269ms)
+  AssertionError [ERR_ASSERTION]: {"kernels":{},"first":{"ProcessId":2544,"Name":"node.exe","ParentProcessId":18060,"CreationDate":"2026-10-29T02:49:10.4200630Z","ExecutablePath":null,"CommandLine":null},"last":{"ProcessId":2544,"Name":"node.exe","ParentProcessId":18061,"CreationDate":"2026-10-29T02:49:10.4200630Z","ExecutablePath":null,"CommandLine":null},"actual":{"kind":"fresh-fixed-source-executable-absence","fixedDriverNodes":0,"fixedBrowserProcesses":0,"rawUnknownIdentityCandidates":1,"rawUnknownIdentityProcessIds":[2544],"excludedPreexisting":[{"pid":2544,"parentPid":18060,"kernelImagePath":"C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe","kernelImageFileSha256":"3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237","kernelCreationFileTimeUtc":"134377157504200637","cimCreationUtc":"2026-10-29T02:49:10.4200630Z","freshCimBirthAndParentStillMatch":true,"birthBeforeOriginalCap":true,"originalDriverPidDifferent":true,"commandLineRead":false,"source":"fixed-preexisting-root-only-no-descendant-exclusion"}],"remainingUnknownIdentityCandidates":0,"remainingUnknownIdentityProcessIds":[],"limitedObserved":[{"pid":2544,"exists":true,"openError":0,"imagePath":"C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe","kernelCreationFileTimeUtc":"134377157504200637","freshCimCount":1}],"priorSnapshot35548":{"pid":35548,"cimBefore":0,"cimAfter":0,"kernelExists":false,"openError":87},"nodeRawBytesSha256":"3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237","browserRawBytesSha256":"9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711","stopPerformed":false}}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/recover-late-uwir4c01a.test.mjs:31:500)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

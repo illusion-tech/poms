@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-source-correction-canonical-setting-baseline",
+  "result": "SourceOnly-awaits-Root-disposition-no-DB-observation",
+  "at": "2026-10-30T18:33:11.017Z",
+  "files": [
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260526100000_ex67a_system_setting.ts",
+      "bytes": 3558,
+      "rawBytesSha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a",
+      "normalizedLfSha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/system-setting/system-setting.registry.ts",
+      "bytes": 1524,
+      "rawBytesSha256": "0fc10c652bf99992536e242e8d67670265249308cec5e48207e8f57d205a1b60",
+      "normalizedLfSha256": "0fc10c652bf99992536e242e8d67670265249308cec5e48207e8f57d205a1b60"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/system-setting/system-setting.service.ts",
+      "bytes": 7028,
+      "rawBytesSha256": "5799136ee767d724bf1269f2b5591ab8fdf33823a131aba2915ed60da9ced0fa",
+      "normalizedLfSha256": "5799136ee767d724bf1269f2b5591ab8fdf33823a131aba2915ed60da9ced0fa"
+    }
+  ],
+  "sourceFinding": {
+    "migrationUp": "Migration20260526100000_ex67a_system_setting.up inserts canonical attachment.max-upload-size-mb integer50 ON CONFLICT DO NOTHING.",
+    "sourceLines": [
+      28,
+      29,
+      30
+    ],
+    "registry": "Only declared AttachmentMaxUploadSizeMb key is accepted; arbitrary r2m keys404.",
+    "countercondition": "Executing the unchanged full92 chain on a fresh R2M DB initializes this row; a seeder-only search cannot establish absence."
+  },
+  "currentToolBoundary": {
+    "existingCanonicalKey": "refused-by-planSettingCreate; no query-match adoption or delete",
+    "UUIDOwnership": "system_setting is excluded from UUID ownership map",
+    "APIInitialCreateClaimed": false
+  },
+  "RootProposedNarrowFollowup": "Named environment-baseline setting lease: exact complete row before, current-source registry/DDL binding, real API PATCH/GET and optimistic-version/invalid-value cases, then exact complete-row restore; no fixture ownership/delete. Root/C must establish the concrete limited admission before execution.",
+  "execution": {
+    "DB": 0,
+    "HTTP": 0,
+    "privateReads": 0
+  },
+  "newGateInvented": false
+}

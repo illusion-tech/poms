@@ -1,0 +1,103 @@
+✔ literal profile and public clean Native tuple match; no template OID is guessed (1.4854ms)
+✔ only two backend names and fresh keys generate the original fixed envPlan; no ambient DB/profile selection (3.6395ms)
+✔ maintenance and business guards use actual r0e=on, never substitute the unrelated null r2m GUC (1.0703ms)
+✔ a fresh clone OID must differ from old/source/the other new clone, preserving encoding and owner (0.6325ms)
+✔ Root admission cannot choose another source/database/root/marker or skip closed/quarantined facts (0.9292ms)
+✖ production flow with Fake PG proves absence/source0conn/two clone OIDs/new marker/lowrole/full107 and complete close before returning (15.0104ms)
+✔ existingRoot safely preserves partial resources without drop/kill/adopt (1.8971ms)
+✔ badCluster safely preserves partial resources without drop/kill/adopt (1.4489ms)
+✔ busyPort safely preserves partial resources without drop/kill/adopt (1.1574ms)
+✔ advisoryLockBusy safely preserves partial resources without drop/kill/adopt (1.3738ms)
+✔ sourceConnectionLive safely preserves partial resources without drop/kill/adopt (1.8215ms)
+✔ preparedTransaction safely preserves partial resources without drop/kill/adopt (1.4228ms)
+✔ existingRole safely preserves partial resources without drop/kill/adopt (0.9984ms)
+✔ unlistedDbIsolationSetting safely preserves partial resources without drop/kill/adopt (1.3287ms)
+✔ sourceMarkerChanged safely preserves partial resources without drop/kill/adopt (1.4104ms)
+✔ sourceObserverStillPresent safely preserves partial resources without drop/kill/adopt (1.2403ms)
+✔ cloneOidEqualsRetained safely preserves partial resources without drop/kill/adopt (2.0118ms)
+✔ clone107Changed safely preserves partial resources without drop/kill/adopt (3.259ms)
+✖ oldRoleStillHasNewProductAccess safely preserves partial resources without drop/kill/adopt (2.5897ms)
+✖ newRoleSuperuser safely preserves partial resources without drop/kill/adopt (2.3456ms)
+✖ newRoleHasOldDatabaseGrant safely preserves partial resources without drop/kill/adopt (2.4815ms)
+✔ sourceReviewPending safely preserves partial resources without drop/kill/adopt (0.6433ms)
+✔ original driver failure and separate maintenance close failure are both retained privately; public Error stays fixed (2.4412ms)
+✔ a successful clone never becomes a successful receipt when advisory unlock fails (3.1127ms)
+✔ actual common normalizedRows preserves every row and unknown field and rejects a missing physical table (0.6135ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 21
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 281.4398
+
+✖ failing tests:
+
+test at tools\rust-r2m\continuation01-provision.test.mjs:78:1
+✖ production flow with Fake PG proves absence/source0conn/two clone OIDs/new marker/lowrole/full107 and complete close before returning (15.0104ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(!f.sql.some(x=>/^alter database|drop|truncate|delete|update/i.test(x.query)))
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/continuation01-provision.test.mjs:79:766)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r2m\continuation01-provision.test.mjs:81:667
+✖ oldRoleStillHasNewProductAccess safely preserves partial resources without drop/kill/adopt (2.5897ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(!f.sql.some(x=>/^drop|truncate|delete|update|alter database/i.test(x.query)))
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/continuation01-provision.test.mjs:81:804)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r2m\continuation01-provision.test.mjs:81:667
+✖ newRoleSuperuser safely preserves partial resources without drop/kill/adopt (2.3456ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(!f.sql.some(x=>/^drop|truncate|delete|update|alter database/i.test(x.query)))
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/continuation01-provision.test.mjs:81:804)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r2m\continuation01-provision.test.mjs:81:667
+✖ newRoleHasOldDatabaseGrant safely preserves partial resources without drop/kill/adopt (2.4815ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(!f.sql.some(x=>/^drop|truncate|delete|update|alter database/i.test(x.query)))
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/continuation01-provision.test.mjs:81:804)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

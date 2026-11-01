@@ -1,0 +1,109 @@
+{
+  "kind": "R2M-narrow-original-handover-draft-cohort-source-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "at": "2026-10-30T20:10:35.772Z",
+  "priorInput": {
+    "file": "tools/rust-r2m/audit-handover-cohort-source01.json",
+    "rawBytesSha256": "9888b21651e80c11291a27aeb42f24d8efca8480a5cab37d7036d740a1dd495d",
+    "preserved": true
+  },
+  "priorAcceptedFixture": {
+    "file": "tools/rust-r2m/audit-fixture-source.json",
+    "rawBytesSha256": "e16bf8a1e44d81c5e97b4779cd0c0e517328ca7406ec565b302351a5d6e792e4",
+    "unchanged": true,
+    "UUIDTablesThen": 59
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.test.mjs",
+      "bytes": 6651,
+      "rawBytesSha256": "37c205cabe742302082326ccc7cde4a2a85291b67a46bea150639ebd3bbb4b8d"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 43059,
+      "rawBytesSha256": "d584991586902896caf8379e2e4a7ccbd636ff8d56f64b56330fbcc71d12d4f3"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12646,
+      "rawBytesSha256": "60f9d48277c88dc8540ae7d8c9c000ab07917e4087462b004b12d0bb6747c982"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15514,
+      "rawBytesSha256": "930133e7c8b5b49b0496cf93758ebf01cfd91277eb14a46545af7c66a689271f"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12324,
+      "rawBytesSha256": "3f5a4e1995c4f23f3d02a1ee8fd3e9b8101d6319c26bdb30e4a97da069db2d5d"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-safety.test.mjs",
+      "bytes": 19655,
+      "rawBytesSha256": "ace53a8c6d56758dd544c94c5d806a0d7b35b29bae3194b75e56c7c48a8fce35"
+    }
+  ],
+  "delta": {
+    "logicalUUIDNotGenericKnown": true,
+    "onlyOccurrence": {
+      "table": "contract_readiness_package",
+      "rowId": "exact original recipe.fixture.readinessPackageId",
+      "column": "initialized_receivable_plan_version_id",
+      "jsonPath": null
+    },
+    "noOtherNativeConfirmConsumerCopyFound": true,
+    "allowedState": "exact executing cohort transaction only; or committed/promoted direct batch with independently verified postcommit capture and ACK or recovered committed status",
+    "forbiddenStates": [
+      "planned-not-executed",
+      "rolled-back",
+      "absent",
+      "outcome-unknown without actual committed recovery"
+    ],
+    "recovery": "pg_xact_status committed and every original xmin/identity before mark committed; original intent/plan state retained as recoveredFromState",
+    "additionalPureNegatives": [
+      "logical UUID moved to other table/column/JSON path",
+      "rolled-back/absent/outcome-unknown plans never authorize",
+      "executing exact plan requires exact actual cohort context"
+    ],
+    "UUIDTablesNow": 62,
+    "genericAddedThreeTableCreationStillForbidden": true
+  },
+  "sourceAnchors": [
+    {
+      "file": "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "rawBytesSha256": "a36a8dce979e5b294015a6839e063927a11377492469f35878e21453d78edcf2",
+      "lines": "437-476",
+      "purpose": "Native query consumer reads initialized_receivable_plan_version_id from original readiness row; no other physical UUID consumer granted"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36",
+      "purpose": "pure original plan reader only; no old private"
+    }
+  ],
+  "pure": {
+    "passed": 33,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "tools/rust-r2m/audit-handover-cohort-source02-pure.txt",
+    "rawBytesSha256": "14beb81642a2558c5d75050e02227d7427dbfd308feb77042c47875e2539db5d",
+    "syntaxFiles": 8,
+    "DB": 0,
+    "HTTP": 0,
+    "privateReads": 0
+  },
+  "actualRuntime": false,
+  "epochRule": "Windows source delta only. Do not alter active Root Linux old27/profile59 capsule or rewrite source01 evidence."
+}

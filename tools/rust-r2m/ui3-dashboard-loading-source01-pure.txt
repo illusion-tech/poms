@@ -1,0 +1,22 @@
+✔ private original before-step error survives the public generic UI failure (2.4167ms)
+✔ private original action error survives the public generic UI failure (1.4281ms)
+✔ private original after-step error survives the public generic UI failure (0.4293ms)
+✔ login reuses the actual existing form without bypassing the real form (2.7956ms)
+✔ login navigates from a different actual page without bypassing the real form (0.4986ms)
+✔ the original UI2 guard redirect completes before a late bridge becomes ready and exactly one real fixed read is attempted (4.9873ms)
+✔ a real bridge readiness failure remains the original failure and cannot issue or fake the backend denial request (2.1869ms)
+✔ UI3 also waits for its newly navigated page bridge before reading the actual approved record (0.1051ms)
+✔ the real snapshot boundary waits for the same late bridge after a full navigation across steps (3.9689ms)
+✔ observing a pending UI wait returns its original promise and preserves the exact later rejection (30.7125ms)
+✔ strict Node does not terminate when HTTP and download waits reject before a slow click is awaited (104.7366ms)
+✔ no original Todo locator is evaluated until the new navigation GET trio200 and its real bridge complete (2.946ms)
+✔ a real unsuccessful Todo response fails before DOM and is never retried or replaced with synthetic data (1.3969ms)
+✔ a real bootstrap bridge failure is preserved before the original locator, and the locator/click/path assertions have no timeout change (0.8412ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 293.9952

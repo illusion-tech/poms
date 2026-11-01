@@ -1,0 +1,11 @@
+# M4 比较03：仅清单刷新生成 link 的独立时钟来源
+
+本增量纠正比较器01/02将所有 attachment_link birth 当作 upload-complete 的错误假设。原 Native measured01 required-proof failure、已签17源完整before及原14pure/reader3pure全部保留，不回填通过。Root公开1194cc3f元数据确认首拒是 M4.2.refresh、index30/m.http、POST原attachment-checklist:refresh/200；父附件出生index24，不是本请求生成。
+
+仅M4.2.refresh这一具名step/window与真实request/createContext相同，且method/path/typed handover严格一致时，允许 source Operation handover-select 的attachment_link新出生走独立newDate来源。原service b536、repo9bfc、contractsfbf31三份actual-cap immutable原字节全部读取并固定SHA；原方法唯一createLink的七字段由AST完整验证，status/target/relation/included取原contracts，repository仅原persist/flush。没有采用当前workspace代替旧cap.storedFile。
+
+还须已认证独立可见的link/handover/project/attachment/Includedselection；handover.project_id一致、selection.version_group_id等该附件组，实际before已有附件及typed原project活动link、source_refs保原sourceType/sourceId/relation；目标handover活动link在before确实不存在。实际after完整link必须与注册版本相同，linked_by/selection.updated_by等原M4.2admin，原SDK时须同outerCOMMIT context。linked_at只在本次refresh真实window验证，unlinked字段保持NULL；不继承附件上传时钟，不假定父附件与refresh同request或sameXID。
+
+原upload-complete link分支完整保留：parent附件须同实际request出生，linked_at等uploaded_at，source window沿真实PUT/session。其他linkAttachment/copyActiveLinksToTarget/未知API或step不自动纳入此分支；PATCH selection不因共用operation获得准入。source规则不授ownership/UUIDalias，不删字段/bytes，不改domain-clock/AES/ZIP/K/reader/Root8/B工具，不读private/env/DB/HTTP。
+
+17纯测=原14加3项：真实原source AST/enum提取、新Date与之前上传时间分离正例、14种target/selection/actor/source/window/context等反例。旧reader3FakeFS日志原样继承。3个变更JS syntax/lexical及原入口--check均0。Root经C必要源审后只做新label offline重跑，原measured01保留；本包不是actual比较通过或G3/G4。

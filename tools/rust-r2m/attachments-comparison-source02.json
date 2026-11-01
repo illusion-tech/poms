@@ -1,0 +1,120 @@
+{
+  "kind": "R2M-M4-comparison-fixed-source02-prefix-read-guard-delta",
+  "result": "SourceCandidate-awaiting-C",
+  "priorPacket": {
+    "file": "tools/rust-r2m/attachments-comparison-source01.json",
+    "bytes": 8355,
+    "rawBytesSha256": "29e3fa507fb274b4363bcdce32c4bd21e891cc0cec04df9aee75eda025e1c1c8"
+  },
+  "priorFullFiveBodies": {
+    "file": "tools/rust-r2m/attachments-comparison-bodies01.json",
+    "bytes": 147860,
+    "rawBytesSha256": "a8e5fc7dde98ea863b6053e4822c4f594bb530ddb40656ee63cece40008f5ec1"
+  },
+  "retainedBeforeReader": {
+    "file": "tools/rust-r2m/attachments-reader-before-source02.mjs",
+    "bytes": 26037,
+    "rawBytesSha256": "ec6c723fb933b78aae042731630e9128d282a8ce9d628255e52a9883731f815d"
+  },
+  "currentBodies": {
+    "file": "tools/rust-r2m/attachments-comparison-bodies02.json",
+    "bytes": 40336,
+    "rawBytesSha256": "56c72f55dbf383edda1706bed8d9894ad30cd096cacc389d61556ca58bab5678"
+  },
+  "completeDiff": {
+    "file": "tools/rust-r2m/attachments-comparison-source02.diff",
+    "bytes": 5327,
+    "rawBytesSha256": "09f96a245709d3ff62340fbfccab75bd394d5d1e73cf45b8b227afe89d94e377"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-attachments.mjs",
+      "bytes": 205,
+      "rawBytesSha256": "85ae8337a48731994e5df300f92f9cb893ea12fdb9428d719cf4638f0740c810"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-reader.mjs",
+      "bytes": 26315,
+      "rawBytesSha256": "3b6cc1b013758f00d37baab59de74d37aab5b4cbd1b1035febcfa9d382752856"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-core.mjs",
+      "bytes": 50212,
+      "rawBytesSha256": "c235e4fa48a043c458a09e064e78155acf2dad74235424835dd9d483df688a1e"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-source.mjs",
+      "bytes": 9807,
+      "rawBytesSha256": "c99c9d542e7906c300d53cf34bf29f5db01f1a6d0d46767c78a835d7b2641e44"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments.test.mjs",
+      "bytes": 23775,
+      "rawBytesSha256": "060f26e460f1ceefad3468aebd9ede1a1f0b84c0ee8b75b9eced31078df2bb8e"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-input01.json",
+      "bytes": 1282,
+      "rawBytesSha256": "abe7cbaef671a724ab6e6d3d0dc7184fd4ff17a30d87227f7f113f081d8796fc"
+    },
+    {
+      "file": "tools/rust-r2m/attachments-K-component-boundary-bridge01.json",
+      "bytes": 17261,
+      "rawBytesSha256": "9e1f673a0f943cecc967e6c9d3e462b7247225c7c08bee8bed8b1e492f4f9419"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract01.md",
+      "bytes": 5950,
+      "rawBytesSha256": "2bcad5ab57f513171df4cd8423f2a3e1cf43115530b97a38bb373eea4ae82cfa"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-reader.test.mjs",
+      "bytes": 3550,
+      "rawBytesSha256": "e2cb17447fa3d0fd5f09e572273aeacb232998ee6d1b1468b3aa03e66c74c36c"
+    }
+  ],
+  "onlyChangedExistingSource": {
+    "file": "tools/rust-r2m/compare-api-attachments-reader.mjs",
+    "bytes": 26315,
+    "rawBytesSha256": "3b6cc1b013758f00d37baab59de74d37aab5b4cbd1b1035febcfa9d382752856"
+  },
+  "newPureTest": {
+    "file": "tools/rust-r2m/compare-api-attachments-reader.test.mjs",
+    "bytes": 3550,
+    "rawBytesSha256": "e2cb17447fa3d0fd5f09e572273aeacb232998ee6d1b1468b3aa03e66c74c36c"
+  },
+  "unchangedCoreAndSourceAndOriginal14Pure": true,
+  "scope": {
+    "guard": "160B prefix reads and whole reads share exact parent/nofollow/FD identity/nlink1/private0600 and post-FD/leaf checks",
+    "additionalFullPrivateReadForKind": false,
+    "readRootsExpanded": false,
+    "ordinaryBirthOrNormalizationChanged": false,
+    "coreLogicChanged": false,
+    "actualCompared": false,
+    "privateRead": false
+  },
+  "pure": {
+    "newTests": 3,
+    "newLog": {
+      "file": "tools/rust-r2m/attachments-reader-source02-pure.txt",
+      "bytes": 461,
+      "rawBytesSha256": "e5652677fe27e869e566304886ffdc36863e6c90a65902346cc52fe22bd92fba"
+    },
+    "originalTests": 14,
+    "originalLog": {
+      "file": "tools/rust-r2m/attachments-source03-pure.txt",
+      "bytes": 1762,
+      "rawBytesSha256": "0db35fd7ba1c051216bfd7246126ba315d5d1064ddcf86e7ff9d6195952effaf"
+    },
+    "syntaxFiles": 2,
+    "lexicalFiles": 2,
+    "static": {
+      "file": "tools/rust-r2m/attachments-reader-source02-static.json",
+      "bytes": 408,
+      "rawBytesSha256": "2fb5f7a9d29163702fe0963f3ab3b243162b05788f29c284218c82276632942d"
+    },
+    "sourceOnlyCLI": true
+  },
+  "G3": false,
+  "G4": false
+}

@@ -1,0 +1,178 @@
+{
+  "kind": "POMS-R2M-one-fixed-normal-closed-an4a-recovery-source-candidate",
+  "result": "source-only-awaiting-independent-source-review",
+  "owner": "/root/r2m_delivery_audit",
+  "runId": "af07f857-026d-4bdd-9828-21b252dcc846",
+  "backend": "nest",
+  "sourceCapId": "r2m-joint25",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an4a.mjs",
+      "bytes": 16580,
+      "rawBytesSha256": "03ed9c626cf4b573dc7d667aa08c93f95dc74151f04dce3718f4cf60f213ab4a"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an4a.test.mjs",
+      "bytes": 8080,
+      "rawBytesSha256": "823928232c0823e62b98f3c0472c503fe00949b5a9f63208b2f84580e579a956"
+    }
+  ],
+  "reusedNormalTemplates": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uin2b.mjs",
+      "bytes": 9049,
+      "rawBytesSha256": "ce6892354cd709d9561e9240086494e85883515f92b75ec5f7933748237f50df"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an9a.mjs",
+      "bytes": 12648,
+      "rawBytesSha256": "3392a3e153a0c148acb82682031efb0f3b10b060757215a6b973e124a98cfe4a"
+    }
+  ],
+  "originalObserver": {
+    "file": "tools/rust-r2m/pg-create-observer.mjs",
+    "bytes": 75059,
+    "rawBytesSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3",
+    "requiredOriginalRawBytesSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3",
+    "semantics": "Only mature reconcile of the exact original journal; require exact-original-footprint-present/restored/nohandle and original owner catalogue SHA. No install/drop/observer restore workaround."
+  },
+  "publicInputsActuallyRead": [
+    {
+      "file": "tmp/rust-r2m/an4a-recovery-metadata01.json",
+      "bytes": 6602,
+      "rawBytesSha256": "f014c13b2c45d2eca8cabb93320189e2d38c09d71ad92970588f301992128411"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4a.json",
+      "bytes": 18055,
+      "rawBytesSha256": "b234936344b04e038d4f21a7ac78014893c7196a2e83d627bcb5adb58c36bfc0"
+    }
+  ],
+  "exactRootOnlyReferences": {
+    "report": {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4a.json",
+      "bytes": 18055,
+      "rawBytesSha256": "b234936344b04e038d4f21a7ac78014893c7196a2e83d627bcb5adb58c36bfc0"
+    },
+    "cap": {
+      "file": "tmp/rust-r2m/source-cap-joint25.json",
+      "bytes": 1425197,
+      "rawBytesSha256": "1d36df369282e9f826379f8e4958693a069e77123e1dfad5371ed410e0e947f2"
+    },
+    "ledger": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-af07f857-026d-4bdd-9828-21b252dcc846.json",
+      "bytes": 403386,
+      "rawBytesSha256": "08d2f5e1118c06c55794065ca1816cfe4c53573ff29c55524fe4b8243021d8e2"
+    },
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-af07f857-026d-4bdd-9828-21b252dcc846/00001.json",
+      "bytes": 432851,
+      "rawBytesSha256": "178d4bf41a987c4985adc92b3be281cf151a0fe2f71ece48b082a9e9b83ad628"
+    },
+    "sdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-af07f857-026d-4bdd-9828-21b252dcc846/00099.json",
+      "bytes": 38884,
+      "rawBytesSha256": "7069f9738b06fb530f5e87d9df5a23986ebd98f3841869791dfc896722aa1269"
+    },
+    "latestFacts": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-af07f857-026d-4bdd-9828-21b252dcc846/00106.json",
+      "bytes": 494356,
+      "rawBytesSha256": "d875c97f5b15901c1817e57555adeb4a8d0b8588c4f7a952a337b519e003a2c8"
+    }
+  },
+  "privateReferencesOpenedByA": false,
+  "capRawOpenedByA": false,
+  "fixedAdmission": {
+    "objects": 66,
+    "localFiles": 2,
+    "pendingIntents": 0,
+    "directState": "promoted",
+    "mutationCount": 0,
+    "baselineOrNumberLease": false,
+    "scopeCorrection": false,
+    "caseIds": [
+      "M4.1",
+      "M4.2",
+      "M4.3",
+      "M4.4"
+    ],
+    "allCaseClosed": true,
+    "caseResultsPreserved": "fail",
+    "originalReportResultPreserved": "partial-preserved",
+    "writers": [
+      {
+        "kind": "native",
+        "pid": 1879472,
+        "identity": "1879472:native-app"
+      },
+      {
+        "kind": "controlled-obs",
+        "pid": 1879537,
+        "identity": "1879537"
+      }
+    ],
+    "sdk": "Actual00099 originalNativeTrace complete/0open/0pending from pinned epoch runtime kind; no report.witness fiction",
+    "objectsShape": "root,prefix,beforePrefixAbsent,files; exact namespace/keys/certified row-key proof; no invented owned/count property",
+    "actualVersionNegative": "Original sole attachment v1 latest active; create-version session validating v3/failedReason null; these are preserved admission facts, not business success"
+  },
+  "productionOrder": [
+    "Read/hash/size/nofollow all exact fixed Root refs and metadata; production decoder keeps ledger/latestFacts keys and is exercised by pure tests",
+    "Validate real public report selection/all4closed/2normal-stopped writer identities/no close failures/extension quiescence; exact cap/source digest,66ordinary proofs/no pending/no mutations/no leases, original SDK and full107/local file shapes",
+    "Verify original fixtureProfile sources and exact6d9 observer against actual source cap before module use",
+    "wx nofollow mode600 immutable original ledger snapshot before Fixture.open",
+    "Require both original PIDs fresh ESRCH and five app ports available",
+    "Open original fixed Nest fixture; require only ordinary open revision+1; actual app connections0 and prepared transactions0",
+    "Mature original observer reconciliation must return exact original owner footprint/no handle with same original catalogue SHA",
+    "Fresh full107 unknown0 equals retained final00106 facts; full107 preflight",
+    "Drain using original truthful normalclosed writers/extension evidence, no fabricated UI/lateclosed receipt",
+    "Mature Fixture.cleanup only: first66 rows and2actual localfiles, its internal object zero; second0rows/objects/secondobjects",
+    "Fresh full107 equals original00001 baseline; save afterfacts private, require source unchanged, close fixture; preserve original failures privately/fixed public category"
+  ],
+  "output": "tmp/rust-r2m/recovered-api-nest-an4a01.json",
+  "privatePrefix": "poms-r2m/private/execution-logs/an4a-recovery01-",
+  "actualRootCommand": "node tools/rust-r2m/recover-closed-an4a.mjs --run",
+  "pureCheckCommand": "node tools/rust-r2m/recover-closed-an4a.mjs --check",
+  "pure": {
+    "command": "node --test tools/rust-r2m/recover-closed-an4a.test.mjs",
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/an4a-recovery-source01-pure-initial.txt",
+      "bytes": 889,
+      "rawBytesSha256": "ba7a5fdb1186b1d7e9801fff09b6455bbd5c3211d7283363a754c19bf0b4267d"
+    },
+    "lexical": {
+      "files": 2,
+      "errors": 0,
+      "log": {
+        "file": "tools/rust-r2m/an4a-recovery-source01-no-undef.json",
+        "bytes": 432,
+        "rawBytesSha256": "81bca189fa40d48a3c80e6f68cf8d71cb7b3d79567b33c98fbddcf0d88c16725"
+      }
+    },
+    "cliCheck": {
+      "exitCode": 0,
+      "sourceOnly": true,
+      "actual": false
+    },
+    "negativeScope": "Foreign run/cap/ref/key map/CaseClosed/normalwriter/PG failure/pending identity/mutation/lease/SDK-open/current-version residue/local-prefix/key/visibility; actual PID function with Fake ESRCH/live/EPERM/foreign identities; actual save labels AST checked."
+  },
+  "boundaries": {
+    "privateReadByA": false,
+    "envReadByA": false,
+    "DBByA": false,
+    "HTTPByA": false,
+    "browserByA": false,
+    "actualOSSignalByA": false,
+    "selectorCorrection": false,
+    "adoption": false,
+    "customFileDeletion": false,
+    "productEdited": false,
+    "oldJournalOrReportEdited": false,
+    "oldBusinessResultsChanged": false,
+    "UIReceiptInvented": false,
+    "actualOrG3Claim": false
+  },
+  "failurePolicy": "Any mismatched ref, live/unknown writer, unknown current row/state, observer handle or changed full107 stops. No retry/relabel. Original Error saved new-M private first; close error separately retained; public fixed category and hash refs only. SourceReady does not authorize any other run/DB/file."
+}

@@ -1,0 +1,93 @@
+{
+  "kind": "R2M-Windows-Native-author-source-candidate",
+  "result": "candidate-awaiting-independent-source-review",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "files": [
+    {
+      "file": "tools/rust-r2m/windows-native-app.mjs",
+      "bytes": 16059,
+      "rawBytesSha256": "dc1df3d78a60f258d3e0e21775cdf03cb2bbfc42b31f9799acf4e5710f56f689"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-driver.mjs",
+      "bytes": 8826,
+      "rawBytesSha256": "bbed90b967286fb0418d4118cc7e91dcef95b86ef7c45af10999ba5dd6450c93"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12049,
+      "rawBytesSha256": "2a932a8b13e4b0bcfc1f951fec186a963305c52f9ae3b1c655d7ed418bf97cb9"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-process.ps1",
+      "bytes": 15470,
+      "rawBytesSha256": "1a9d88764a76674cc189d8e10dbfa4316391299062eb72c379bd15adb3aabd08"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-environment.mjs",
+      "bytes": 2483,
+      "rawBytesSha256": "1a71bd2987a9a964ba5995f562a3f487488d360fab87876757aaf8a7290466c1"
+    },
+    {
+      "file": "tools/rust-r2m/windows-managed-environment.cjs",
+      "bytes": 4458,
+      "rawBytesSha256": "7525a0388f11eba341a49a5202d45a08cd9493fa481f38498f75847109c8fcfd"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native.test.mjs",
+      "bytes": 5344,
+      "rawBytesSha256": "fc0f6323115783bf23f5849e6fcda2bdf3007d5fcd22877b201b5a053601d998"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-contract.md",
+      "bytes": 5120,
+      "rawBytesSha256": "dd142308c89d99d01ac3811df000e7a596b36a7af498d55d5643f1f108048e71"
+    }
+  ],
+  "sourceSetSha256": "44f389a14f3a0cae6a6f4d998af0395c75abd87f78c4385090a7d4af1802f592",
+  "originalNode": {
+    "version": "v24.19.0",
+    "rawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237"
+  },
+  "originalNativeBundle": {
+    "file": "tmp/rust-r2m/windows-native-bundle/0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4/main.cjs",
+    "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+    "RootStagingReceipt": "tmp/rust-r2m/windows-native-bundle-stage01.json"
+  },
+  "derivedFromAProcessHelper": {
+    "file": "tools/rust-r2m/windows-ui-process.ps1",
+    "rawBytesSha256": "7b0f0e80b143cb3583fb0b0fe2fe830b05231bcae5bd6e39654ccf4e746c6be0",
+    "difference": "Fixed driver filename and diagnostic label only; identity/tree/reuse/stop logic unchanged"
+  },
+  "checks": [
+    {
+      "command": "node --test tools/rust-r2m/windows-native.test.mjs",
+      "exitCode": 0,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "actualNativeStarted": false
+    },
+    {
+      "command": "pwsh -NoLogo -NoProfile -NonInteractive -File tools/rust-r2m/windows-native-process.ps1 -Mode SelfTest",
+      "exitCode": 0,
+      "checks": 17,
+      "processQueries": 0,
+      "processStops": 0
+    },
+    {
+      "check": "Node syntax checks for all five JS/CJS entry files",
+      "exitCode": 0
+    }
+  ],
+  "privateEnvironmentReadByAuthor": false,
+  "privateEnvironmentDerivedByAuthor": false,
+  "databaseApiNativeBrowserExecutedForThisSourceWork": false,
+  "activeLinuxM0DependenciesChanged": false,
+  "actualExecutionOwner": "Root after necessary C source review and fresh capsule",
+  "G3Certified": false,
+  "G4Certified": false
+}

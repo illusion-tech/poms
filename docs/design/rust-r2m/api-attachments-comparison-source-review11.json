@@ -1,0 +1,638 @@
+{
+  "kind": "R2M-independent-C-M4-finite-original-version-negative-SQL-terminal-source-review11",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-10-31 20:57:29 UTC",
+  "input": {
+    "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/source10-candidate01.json",
+    "bytes": 46007,
+    "rawBytesSha256": "5579359ec4d6d60eef283a8bd3d687d66a6840dfd03650849a56884df4ed92fe"
+  },
+  "inheritedReview": {
+    "file": "docs/design/rust-r2m/api-attachments-comparison-source-review10.json",
+    "bytes": 27548,
+    "rawBytesSha256": "8d900d1442a4d14197998036e96ace5e8191f900125b8cde8fc09fe02f9a9daa"
+  },
+  "priorInstalledSource": {
+    "file": "tools/rust-r2m/attachments-comparison-source09.json",
+    "bytes": 9147,
+    "rawBytesSha256": "3a656abee3fc81c7b1ba088a3fd9001d2c276a7f8e2a92889ffd79e21a81473f"
+  },
+  "priorActualFailure": {
+    "file": "tmp/rust-r2m-continuation01/compare-api-attachments-measured09.json",
+    "bytes": 7821,
+    "rawBytesSha256": "5a14c4215f889708e209ea027099e4ff7b9c26d996d1403ac5a61c50621643fb"
+  },
+  "sourceSetSha256": "f81b141e13b9c26fbeefddf8e026a2a6fe080a972b0ca59e5406c832631f5446",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-attachments.mjs",
+      "bytes": 205,
+      "rawBytesSha256": "85ae8337a48731994e5df300f92f9cb893ea12fdb9428d719cf4638f0740c810",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-reader.mjs",
+      "bytes": 28325,
+      "rawBytesSha256": "9aed2984b0fe9991ac8cb09355b8bbc2ba06a230c7671685696c72c811b70786",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-reader.mjs",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-core.mjs",
+      "bytes": 72150,
+      "rawBytesSha256": "3d1de16062346d1ac0ef9256f665fe92419839df6a8a5f45bf5c6183b89a35f1",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-source.mjs",
+      "bytes": 27574,
+      "rawBytesSha256": "bcb28535ba0d624b24717c0436c45c00a9b23968c8d22f40be5335219a6010da",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments.test.mjs",
+      "bytes": 56005,
+      "rawBytesSha256": "59c036e18bf5f29447b58d18e3056f3e4a1a7c1e978eaa9a1883a17ca44df51a",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-input01.json",
+      "bytes": 1962,
+      "rawBytesSha256": "68941a07c5dc21da6fe1858e05d8d8b18ba9b39717279a056ead36b4d702a644",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-input01.json",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/attachments-K-component-boundary-bridge01.json",
+      "bytes": 17261,
+      "rawBytesSha256": "9e1f673a0f943cecc967e6c9d3e462b7247225c7c08bee8bed8b1e492f4f9419",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract01.md",
+      "bytes": 5950,
+      "rawBytesSha256": "2bcad5ab57f513171df4cd8423f2a3e1cf43115530b97a38bb373eea4ae82cfa",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-reader.test.mjs",
+      "bytes": 3550,
+      "rawBytesSha256": "e2cb17447fa3d0fd5f09e572273aeacb232998ee6d1b1468b3aa03e66c74c36c",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "868257505f4229fce029c4906503be314b18a9a34384c833f25509814be1746f",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-opaque.mjs",
+      "bytes": 18136,
+      "rawBytesSha256": "0a24d5ef2d641e538fe96ed4d733ebe188cbfa8449533d565bfac0d843408ac0",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-zip-logical.mjs",
+      "bytes": 22604,
+      "rawBytesSha256": "64de4593595b83a42ba6b99cce9dca3af94635dd21fb9f7079f3f4caa37ebf1b",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-zip.mjs",
+      "bytes": 7131,
+      "rawBytesSha256": "a50ace3ccbcd46e3c5930ab5d8840edb47cb229fe5928b1cb8c04ed477eb5e74",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-guard.mjs",
+      "bytes": 4773,
+      "rawBytesSha256": "c33e9024290138b6c1e9eb0992fc982e0baa8d4b9121ffe4257020b4a3725bbe",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-initial-frame.mjs",
+      "bytes": 1038,
+      "rawBytesSha256": "e190e8d81e992b6752cb335a2e2de0398021a4d1740c3cb5f258a6b5005cbafa",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract03.md",
+      "bytes": 2379,
+      "rawBytesSha256": "cd7b5a5a360cf603dd4d314fd4d2e116bf326d111dae1a83b310360d847bcb5b",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract04.md",
+      "bytes": 1821,
+      "rawBytesSha256": "cbe4d85819d80d683d9d9cdc6c7709ce84499e5b8ea31a13b1e89b75c11028fa",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract05.md",
+      "bytes": 1602,
+      "rawBytesSha256": "1b1548bd8c531c522cd41f6ed7cf123de9a3bceb436603099107538d91e077ea",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract06.md",
+      "bytes": 2335,
+      "rawBytesSha256": "fd223137d421bd0e7285b7509b0a13331e8623bd88bd637dde9b44d6b04f137e",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-site.test.mjs",
+      "bytes": 5446,
+      "rawBytesSha256": "9adbe527fbd6d271338384ff11e901bf6a741af4e6a770fb003c90390fcb917f",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract07.md",
+      "bytes": 543,
+      "rawBytesSha256": "81964bb5c22fb0272439e654aea27192f32b3c03a5f10f91176bdb63a976a7a9",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-entry.test.mjs",
+      "bytes": 1805,
+      "rawBytesSha256": "4a7c97f8985c3444bf17e043c5748d4d4d19a86630259cc0b122e5a821c683e5",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/attachments-reader-before-source08.mjs",
+      "bytes": 26679,
+      "rawBytesSha256": "692effd8ad8516963ae713e98cec56136ab22b3da82c2b444993e93fae032975",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-auth-source.mjs",
+      "bytes": 15210,
+      "rawBytesSha256": "c2d10e7541b615941f3782b351ddc4aa61413984dad5492423d02c2622a8dd8a",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth-source.mjs",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-auth-sql.mjs",
+      "bytes": 12179,
+      "rawBytesSha256": "d4d10c810e6bacc5faf848fab60f6b6574f25d483bdeebf7dcfa95b7c8ec19eb",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth-sql.mjs",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-auth.mjs",
+      "bytes": 22358,
+      "rawBytesSha256": "afa5103af0d1e3a9e29c82af34cb02863d5711d786b6f31e1062227672f0ff58",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth.mjs",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-auth-model.mjs",
+      "bytes": 8636,
+      "rawBytesSha256": "db9e0f4054c0538053d62e85cc1d5ce67acd23c84c51a7a62b850512b40f8a15",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth-model.mjs",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-auth.test.mjs",
+      "bytes": 18036,
+      "rawBytesSha256": "8c116b1d861f37999b03a0473a8c13ac6f0fb36efb967f8328b118ff5e3ae6b5",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth.test.mjs",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract09.md",
+      "bytes": 3528,
+      "rawBytesSha256": "e476ecac08a49636fc24cfe12d148e9b2afaaa45e8a64c4d7f9a6370cc2c8093",
+      "readLevel": "previous-C-review-inherited-current-raw-hash-verified"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-attachments-contract10.md",
+      "bytes": 2292,
+      "rawBytesSha256": "094dfb187d9ac8a098f239ec6bcb22aea3b2ccd0596f1cbd4efe8d3fce22b10d",
+      "readFrom": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-contract10.md",
+      "readLevel": "full-necessary-new-source-or-complete-diff-interface-test-read",
+      "installed": false
+    }
+  ],
+  "installPlan": [
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-reader.mjs",
+      "bytes": 28325,
+      "rawBytesSha256": "9aed2984b0fe9991ac8cb09355b8bbc2ba06a230c7671685696c72c811b70786",
+      "target": "tools/rust-r2m/compare-api-attachments-reader.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-input01.json",
+      "bytes": 1962,
+      "rawBytesSha256": "68941a07c5dc21da6fe1858e05d8d8b18ba9b39717279a056ead36b4d702a644",
+      "target": "tools/rust-r2m/compare-api-attachments-input01.json"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth-source.mjs",
+      "bytes": 15210,
+      "rawBytesSha256": "c2d10e7541b615941f3782b351ddc4aa61413984dad5492423d02c2622a8dd8a",
+      "target": "tools/rust-r2m/compare-api-attachments-auth-source.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth-sql.mjs",
+      "bytes": 12179,
+      "rawBytesSha256": "d4d10c810e6bacc5faf848fab60f6b6574f25d483bdeebf7dcfa95b7c8ec19eb",
+      "target": "tools/rust-r2m/compare-api-attachments-auth-sql.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth.mjs",
+      "bytes": 22358,
+      "rawBytesSha256": "afa5103af0d1e3a9e29c82af34cb02863d5711d786b6f31e1062227672f0ff58",
+      "target": "tools/rust-r2m/compare-api-attachments-auth.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth-model.mjs",
+      "bytes": 8636,
+      "rawBytesSha256": "db9e0f4054c0538053d62e85cc1d5ce67acd23c84c51a7a62b850512b40f8a15",
+      "target": "tools/rust-r2m/compare-api-attachments-auth-model.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-auth.test.mjs",
+      "bytes": 18036,
+      "rawBytesSha256": "8c116b1d861f37999b03a0473a8c13ac6f0fb36efb967f8328b118ff5e3ae6b5",
+      "target": "tools/rust-r2m/compare-api-attachments-auth.test.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/compare-api-attachments-contract10.md",
+      "bytes": 2292,
+      "rawBytesSha256": "094dfb187d9ac8a098f239ec6bcb22aea3b2ccd0596f1cbd4efe8d3fce22b10d",
+      "target": "tools/rust-r2m/compare-api-attachments-contract10.md"
+    }
+  ],
+  "originalSourceCapsule": {
+    "file": "tmp/rust-r2m-continuation01/source-cap-c01-joint01.json",
+    "bytes": 1546318,
+    "rawBytesSha256": "ed0d84de8b2b03e5d265612e76f4413dd1a39dfdbfce6d645b7059f70dd5dd2c"
+  },
+  "actualOriginalSourceReadPins": [
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+      "bytes": 12139,
+      "rawBytesSha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+      "bytes": 8133,
+      "rawBytesSha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+      "bytes": 4018,
+      "rawBytesSha256": "6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+      "bytes": 13984,
+      "rawBytesSha256": "503ef7836a9141bf11e50ef22a07d0a26e593466d6ee4edbb9e32c40fc8f46e9",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/503ef7836a9141bf11e50ef22a07d0a26e593466d6ee4edbb9e32c40fc8f46e9",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/config/environment.schema.ts",
+      "bytes": 1698,
+      "rawBytesSha256": "e525f24e01a2cebed59abdf0c6639978eed408eed7479ce1e3a4580429f71890",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/e525f24e01a2cebed59abdf0c6639978eed408eed7479ce1e3a4580429f71890",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/config/load-env.ts",
+      "bytes": 2798,
+      "rawBytesSha256": "20627df84a3f9812f08de541c8add9a8ae5a6ce927155da4c19026846ec5edf0",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/20627df84a3f9812f08de541c8add9a8ae5a6ce927155da4c19026846ec5edf0",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/service.rs",
+      "bytes": 20275,
+      "rawBytesSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/model.rs",
+      "bytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/config.rs",
+      "bytes": 43499,
+      "rawBytesSha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/http.rs",
+      "bytes": 20344,
+      "rawBytesSha256": "bf3104acae5ce0ea4899887036a4328d87a9e6ef173ca830d46c375e179270ce",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/bf3104acae5ce0ea4899887036a4328d87a9e6ef173ca830d46c375e179270ce",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68932,
+      "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 42291,
+      "rawBytesSha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+      "bytes": 31151,
+      "rawBytesSha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/store.rs",
+      "bytes": 13211,
+      "rawBytesSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/native-app.mjs",
+      "bytes": 8132,
+      "rawBytesSha256": "179992550eb15e93b78561c034573b6432a9d7bf826a58c31c7d075018fbf9c0",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/179992550eb15e93b78561c034573b6432a9d7bf826a58c31c7d075018fbf9c0",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/rust-app.mjs",
+      "bytes": 2908,
+      "rawBytesSha256": "9af182dfe7eaecbd6b86afa8d40bb4d42e2656214d264717e706778a7c18c056",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/9af182dfe7eaecbd6b86afa8d40bb4d42e2656214d264717e706778a7c18c056",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/run-api-owned.mjs",
+      "bytes": 4154,
+      "rawBytesSha256": "1c5d7efef514eef9161d0c7730fc71507d8ed70341eec25e65d1a34a6cc44d0a",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/1c5d7efef514eef9161d0c7730fc71507d8ed70341eec25e65d1a34a6cc44d0a",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/command-owner.cjs",
+      "bytes": 20693,
+      "rawBytesSha256": "b9507c52b677efb05a8a1b501c90024b30644dbfa87e0b975705e23bd8958038",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/b9507c52b677efb05a8a1b501c90024b30644dbfa87e0b975705e23bd8958038",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/e2e/runtime-worker.cjs",
+      "bytes": 2182,
+      "rawBytesSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-runtime.mjs",
+      "bytes": 50558,
+      "rawBytesSha256": "1d8b9b37589fb71382ba4a593e7804d501d767fd13a5c73f38072299ce9ffe44",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/1d8b9b37589fb71382ba4a593e7804d501d767fd13a5c73f38072299ce9ffe44",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-user-compatibility.mjs",
+      "bytes": 8414,
+      "rawBytesSha256": "f9d0adfc6c965f6533ec7f9fc418a83406edbf06e650d89ffbd96ce17ac1827c",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/f9d0adfc6c965f6533ec7f9fc418a83406edbf06e650d89ffbd96ce17ac1827c",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-attachment-recipes.mjs",
+      "bytes": 9593,
+      "rawBytesSha256": "66c64ce1a72f1f87a78ea4c0d7551ed051f2c69d543058bf34949d108f61d408",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/66c64ce1a72f1f87a78ea4c0d7551ed051f2c69d543058bf34949d108f61d408",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "bytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+      "bytes": 15693,
+      "rawBytesSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f",
+      "storedFile": "tmp/rust-r2m-continuation01/public-source-store/9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f",
+      "readLevel": "complete-original-public-stored-bytes-hashed-necessary-code-read"
+    }
+  ],
+  "originalSQLMetadata": {
+    "file": "tmp/rust-r2m-continuation01/m4-original-sql-error-transaction-metadata01.json",
+    "bytes": 43709,
+    "rawBytesSha256": "51cdadce95db65a77ada228336873766042e1e9ab3473bdb41f81ef4496dd53e"
+  },
+  "BParserComponent": {
+    "packet": {
+      "file": "tmp/rust-r2m/m4-session-sql-candidate03/source03.json",
+      "bytes": 4052,
+      "rawBytesSha256": "521aa4a50e23982a1153803ee468a8169fcf65ad94ce4824bf7015bcc0342ef4"
+    },
+    "helper": {
+      "file": "tmp/rust-r2m/m4-session-sql-candidate03/m4-session-sql.mjs",
+      "bytes": 12179,
+      "rawBytesSha256": "d4d10c810e6bacc5faf848fab60f6b6574f25d483bdeebf7dcfa95b7c8ec19eb"
+    },
+    "exactRuntimeCopy": true,
+    "contract": {
+      "file": "tmp/rust-r2m/m4-session-sql-candidate03/contract03.md",
+      "bytes": 3835,
+      "rawBytesSha256": "03361e7836cfb6c8973c978c8a943728394b55caf97e0d63a0579862fb561b98"
+    },
+    "pure": {
+      "file": "tmp/rust-r2m/m4-session-sql-candidate03/pure01.json",
+      "bytes": 3230,
+      "rawBytesSha256": "1b15a70b77821977662b91309f50dcb2a8387b47f4a90ffed2328e7c09983739"
+    },
+    "authIdentitySourceVerifiedByParser": false
+  },
+  "scope": {
+    "sourceOnly": true,
+    "logicalCases": [
+      "M4.1",
+      "M4.2",
+      "M4.3",
+      "M4.4"
+    ],
+    "fixedOriginalPair": "r2m-c01-joint01/an7c01a selected four observed-closed M4 cases + ar4c01a M4-only",
+    "finiteChange": "Only Native admin-cookie m4.integration index11/m.http M4.1.version-complete POST complete500 source-bound unrelated attachment INSERT terminal failures",
+    "sameTwoPhysicalVersionSlots": [
+      "m.bootstrap.admin.auth_session.0",
+      "m.bootstrap.viewer.auth_session.0"
+    ],
+    "actualM4Pass": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "findings": [],
+  "readLevel": {
+    "parser": "Complete B12179-byte parser, contract and original safe40-query protocol;16 meaningful pure sources reviewed, never executed",
+    "highLevel": "Complete qualifyM4VersionSqlFailure and actual replay-call integration, complete Reader metadata/Input forwarding, additional original-source bridge, new focused tests",
+    "sourceBodies": "Necessary exact original recipe/service/repository source read; their immutable whole raw hashes and all23 previous auth sources reverified against original cap/stored bytes",
+    "unchanged": "24 current components inherit prior C conclusions and were raw-hash verified",
+    "CPrivateOrEnvOrDBOrHTTPOrBrowserReads": false
+  },
+  "acceptedBoundary": {
+    "failureIsCompleteTerminal": "An original start->error with complete capture is a terminal observation, not an unfinished query or successful INSERT",
+    "exactOriginalRefs": "Root51cd metadata, actual request76/pre74 refs, same run/context/method/path/window/outcome ordinal and all40 original SQL protocol records must match exactly",
+    "typedVersionSession": "Already owned independently visible version session born same run/case/op at index9, operation create-version, created_by current typed cookie user; actual route session ID bound",
+    "physicalNegative": "Before uploadedv2 -> after validatingv3, completed_attachment_id NULL, already owned base latesttrue; complete attachment and link rows unchanged",
+    "sourceNegative": "Original recipe66c64 unique version-complete emptybody expected500/inherited input; original serviceb536 savesValidating before original version creation, catchFailed original same repository flush9bfc",
+    "errorSet": "Exactly INSERT attachment23505 query141/hash95b419 under BEGIN140 -> actual ROLLBACK142, and INSERT144 samehash under BEGIN143 -> ROLLBACK145",
+    "defaultNull": "Without the high-level source admission all error terminals still reject",
+    "transactionSafety": "Paired original context/PID/connection/command/relations/SQLsha and start/end/error identities; actual control resultCommands checked, abort state cannot do more successful work or COMMIT. Exact outer ROLLBACK discharges each admitted failure.",
+    "targetAndUnknown": "Target auth query error, unknown/more/wrong-step error, incomplete query/transaction, wrong PID/rollback/tag and COMMIT returning ROLLBACK all reject",
+    "committedEffects": "Original successful savepoint/transaction replay retained; rolled-back events discarded, earlier independent autocommit touch preserved; the two attachment failures contribute zero auth effects",
+    "unchangedProof": "49 requests,58 steps,116 raw frames, exact two issued Cookie sessions, original default900/28800/60, five-clock exact-ms grid and full physical version histories retained",
+    "numericAndExternal": "All original version numbers retained; DTO/CAS/status/fullresponse/fourheaders/all other physical fields remain strict. No alias or ownership granted.",
+    "parserProofScope": "Parser explicitly does not itself prove external source/typed/physical identity; A high-level actual-source and full-frame checks establish those before call",
+    "unrelatedErrorReceipt": "Original failure query/PID/code/hash/actual recovery preserved separately, never classified as business success"
+  },
+  "independentRawVerification": {
+    "allEightCandidateAnd32Intended": true,
+    "sevenChangedAndOneNewContract": true,
+    "all24UnchangedCurrent": true,
+    "original31CurrentAndCompleteSnapshots": true,
+    "all26OriginalPublicSourcesAndCapStoredMemberPins": true,
+    "BParserByteExactCopy": true,
+    "entryExpectedInputSHA": "68941a07c5dc21da6fe1858e05d8d8b18ba9b39717279a056ead36b4d702a644",
+    "inputBytes": 1962,
+    "allCandidatePriorReviewPriorFailureMetadataDiffPureAdapterHashes": true,
+    "noCapturedCurrentFilesChangedByC": true
+  },
+  "authorVerification": {
+    "testsFull14AndFocusedProductionAPI1": 15,
+    "entryTestsIncluded": 2,
+    "normalRootExpectedAuth13PlusPrior41": 54,
+    "prior41UnchangedReusedNotRerun": true,
+    "BParserTests16Separate": true,
+    "syntax": 6,
+    "noUndef": 6,
+    "receipts": [
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/pure01.txt",
+        "bytes": 2022,
+        "rawBytesSha256": "2068d44c2efef35d0d9b837562ffe643a7735db8496ea9a4f8e2d942f3199409"
+      },
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/pure02-focused.txt",
+        "bytes": 260,
+        "rawBytesSha256": "cb54a6779425437fb85da33b4d173a236414f395e2e01018af4a75aaf3a376ae"
+      }
+    ],
+    "adapters": [
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/auth.pure01.mjs",
+        "bytes": 22433,
+        "rawBytesSha256": "d3949fd4deb95d00346387c739ba0cd94bad9a7f5e9054f48c7a3920d7298d7e"
+      },
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/model.pure01.mjs",
+        "bytes": 8711,
+        "rawBytesSha256": "3d2827264e9a46cdb3e4374236bcc2ac573fa1b3b3e8fa7c58230a60792fd48c"
+      },
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/test.pure01.mjs",
+        "bytes": 16711,
+        "rawBytesSha256": "a3d6f381333b23351ede1daf22b151209252530093892b9feecd6cdbfca84589"
+      },
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/test.pure02.mjs",
+        "bytes": 18276,
+        "rawBytesSha256": "a8c4b61055fc2b8c8af7dc88d233c55bfb33040ce0e767d48f3ad2a185179c36"
+      },
+      {
+        "file": "tmp/rust-r2m/attachments-source10-sql-failure-candidate01/entry.pure01.mjs",
+        "bytes": 1975,
+        "rawBytesSha256": "9277a224b0d42e672cd1a452cadb3ab70d135220bb4fd30a124b3f39a782d930"
+      }
+    ],
+    "actualPrivateEnvDBHTTPBrowserIO": false
+  },
+  "meaningfulNegativeTests": [
+    "Real production Native replay AST call passes the actual high-level admission; removing only nonAuthFailureAdmission actually refuses the two errors.",
+    "Real Reader AST call forwards data and fixed metadata pin; actual Input SHA remains tied to the1962 bytes.",
+    "Wrong step/status/typed creator/context/session status/new attachment or changed request/pre refs/metadata/query/rollback refuse.",
+    "Original source bytes tamper refuses; all40 SQL records match fixed Root metadata before descriptor construction.",
+    "B16 negative/transaction/savepoint/control-tag/autocommit tests remain separate from A15; entry2 is not double counted."
+  ],
+  "preservation": {
+    "originalSource09And31Files": true,
+    "originalMeasured09RequiredProofFailure": true,
+    "originalMixedNativePartial": true,
+    "originalNegative500ValidatingV3AndPrivateErrors": true,
+    "newRuntimeCaptureInstrumentation": false,
+    "oldQuarantinedRust17085Touched": false
+  },
+  "executionConditions": {
+    "onlyRootMayInstallAndRun": true,
+    "exactEightTargetsAnd24InheritedMembers": true,
+    "RootReleasedWindowAndNoWriterSourceChange": true,
+    "normalImportsPureSyntaxCheckBeforeActual": true,
+    "freshAnalysisBeforeAfterPins": true,
+    "offlineOnlySameOriginalC01PairNewOutputLabel": true,
+    "actualRemaining82": "Still require Root exact comparer run and independent public actual review. SourceReady does not accept82 differences or forecast remaining zero."
+  },
+  "limits": [
+    "C source/public-only, no private raw/env/keys/DB/HTTP/browser/PS/process signals/Git mutations or author test execution.",
+    "This is one original known negative SQL protocol, not a generic skip-error permission or a new product behavior. All original error and HTTP500 evidence remains.",
+    "No numeric session parity, whole debug/producer DTO equality, rendering/cache/performance equivalence or final G3/G4 is claimed.",
+    "Candidate remains uninstalled when reviewed; actual installed bytes and Root runtime outcome must be reported with their real epoch and labels."
+  ]
+}

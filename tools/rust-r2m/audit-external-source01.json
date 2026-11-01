@@ -1,0 +1,516 @@
+{
+  "kind": "R2M-finite-external-audit-set-author-source-candidate",
+  "result": "source-only-candidate-awaiting-non-author-review-and-Root-actual",
+  "owner": "/root/r2m_delivery_audit",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "not-independently-verified",
+  "namespace": "poms-r2m",
+  "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "baseline": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "scope": {
+    "sourceCase": "m5.integration",
+    "actualOperation": "m.http",
+    "protectedRequests": 12,
+    "protectedAuditEvents": 13,
+    "previewDistinctMax1Events": [
+      "org-sync-run.preview-started",
+      "org-sync-run.previewed"
+    ],
+    "nullAuditOperatorOnly": {
+      "logicalCase": "M5.1",
+      "stepId": "authorize",
+      "event": "identity-provider.external-login.authorize-started",
+      "typedTarget": "IdentityProviderConfig",
+      "ownedTargetRequired": true,
+      "actualContextRequired": true,
+      "anonymousScopeGrantsNoAuditPermission": true
+    },
+    "auditStorageRequestId": null,
+    "ordinaryOwnershipAndSecurityRequestIdentityUnchanged": true,
+    "ownedUUIDTables": 62,
+    "fullFactsAndReferenceScanTables": 107
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/fixture-external-audit-identity.mjs",
+      "bytes": 13798,
+      "rawBytesSha256": "b2584b70416f5a480bf8dfabce0b7e5da9cbb36a8b1ecc55501e3604fad1682a"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 45709,
+      "rawBytesSha256": "2dc2436613b1ff4b5cb8a80c0c76acc8e6e724cc2d6a51a282f4344fad29860c"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10089,
+      "rawBytesSha256": "adaf8525ad5447d7141cd01cd81122ea0dc3e82ee2d44ba4d228d66da5ace0cd"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12977,
+      "rawBytesSha256": "48786e51f92013c4c50659af68462055f9d96e11c633b48b16a56263f8823a1e"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12903,
+      "rawBytesSha256": "152ec05c3d6125244d9fed02e07913d57077d08e609945c3c9ba521b520fcee4"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75059,
+      "rawBytesSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    }
+  ],
+  "originalSourceBindings": [
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+      "bytes": 73332,
+      "rawBytesSha256": "90a76597b44dd9631b62ada6cdb9ccd9eaf40ef86f3e438e92937d33abfbe7dd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/external-org-sync/external-org-sync.service.ts",
+      "bytes": 86215,
+      "rawBytesSha256": "9b5ad4a2c8f60d98e2ab09e0faa4f483ea739d5caddbaab48f5d5a41238f4e60"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider.controller.ts",
+      "bytes": 4323,
+      "rawBytesSha256": "c98a700e07e39ee1084e04855ae239c997a8342e6330546eca489a9748030da1"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/external-identity.controller.ts",
+      "bytes": 2326,
+      "rawBytesSha256": "38f780e0f6475a410d062cd141e330ada2337d6963510075a10c76c29a82a0f3"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider-oauth-grant.controller.ts",
+      "bytes": 5388,
+      "rawBytesSha256": "05b43c65358b19fe25d17513de52cd873536c33f37dce3e9a29658774b98d159"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/external-org-sync/external-org-sync.controller.ts",
+      "bytes": 11387,
+      "rawBytesSha256": "498855f69142a404cc3a0d113352ed958cf189ecf4eec5661b4092d387ca2632"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+      "bytes": 13984,
+      "rawBytesSha256": "503ef7836a9141bf11e50ef22a07d0a26e593466d6ee4edbb9e32c40fc8f46e9"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "bytes": 8958,
+      "rawBytesSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4"
+    }
+  ],
+  "unchangedExistingChannels": [
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-guard.mjs",
+      "bytes": 4749,
+      "rawBytesSha256": "c570808283f73585720b385a027f4455a2d90e79e8700194470e0980c2b05ce2"
+    },
+    {
+      "file": "tools/rust-r2m/audit-private.mjs",
+      "bytes": 1841,
+      "rawBytesSha256": "c45ee56eaa7128f620515628d38cdc53c57b586dc5de85cb30bcc19a9e4b8a3f"
+    },
+    {
+      "file": "tools/rust-r2m/database-client.mjs",
+      "bytes": 2041,
+      "rawBytesSha256": "67e281cacd0b21ff6c530eb9a07c6d9308d64b61483d0c70e9ec76ce1f1b5cd7"
+    },
+    {
+      "file": "tools/rust-r2m/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "46a904a0c69b60ba100493bc908380d1fdab58ea5d46fb2ad102d5243651353d"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "historicalApproved04": {
+    "originalBytes": {
+      "file": "tools/rust-r2m/audit-external-before-source01.json",
+      "bytes": 225231,
+      "rawBytesSha256": "971e426c2809fed5a842ce9b51810920bd5b895b1508852fa6174c69ea6cc7fe"
+    },
+    "sources": [
+      {
+        "file": "tools/rust-r2m/fixture.mjs",
+        "bytes": 43734,
+        "rawBytesSha256": "3812c4cca78ccc0d9aec7a4412464387c5fddb13d8d190ddd2c6a854664ef883"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-core.mjs",
+        "bytes": 9633,
+        "rawBytesSha256": "38ec2e9d24a190b05adfc9af012e80efee8fae596ee9a4ab56c2e8c77faff02a"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-references.mjs",
+        "bytes": 15530,
+        "rawBytesSha256": "f9a6a775ac4336a7c172add916b6bbd23d89995ae15b0ebbdd7793300e8434b1"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-journal.mjs",
+        "bytes": 12648,
+        "rawBytesSha256": "fb0975ac9b2de2f8b34fd2621678a4a07e45040b0088865c59078d13eaee40f6"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-profile.mjs",
+        "bytes": 12792,
+        "rawBytesSha256": "c4cbf4b90ba33100f281a733ee8ac2693e1e9ed9ce0a99c21c17723e83774e6c"
+      },
+      {
+        "file": "tools/rust-r2m/pg-create-observer.mjs",
+        "bytes": 73612,
+        "rawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f"
+      }
+    ],
+    "completeSharedDelta": {
+      "file": "tools/rust-r2m/audit-external-source01-shared.diff",
+      "bytes": 20959,
+      "rawBytesSha256": "7f53b438114f1eab58d5b4b32095a6f7e0c071d3194352fcc2d1979012243107"
+    },
+    "LinuxApproved04NotModified": true
+  },
+  "interfaces": {
+    "admitExternalAuditSet": {
+      "arguments": "({descriptor,request,context,inputs},RootApproval)",
+      "returns": "{id,caseId,index,sourceKind,items:[{eventType,auditSelector,expectedMax:1}],expectedMaximumCreates,ownershipRequestId,auditStorageRequestId:null}",
+      "before": "exact generated parent intent or independently visible typed owned target; exact Root/C source binding",
+      "createsOwnership": false
+    },
+    "intentWithExternalAuditIdentity": {
+      "arguments": "('audit_log',selector,{caseId,index,admissionId,eventType,expectedMax:1})",
+      "returns": "original beforeObserved immutable intent",
+      "independentBeforeObservation": true
+    },
+    "bindExternalAuditIntentFromCertifiedCreate": {
+      "arguments": "(creationEnvelope({...realSdkCreate,authorityId}),{caseId,index,admissionId})",
+      "returns": "one original intent UUID",
+      "beforeRead": "actual complete saved SDK7.0.11 afterCreate + outerCOMMIT authority; profile/beforeabsence/run/case/index/op all exact",
+      "query": "only that certified PK; physical immutable event selects one original intent",
+      "createsOwnership": false
+    }
+  },
+  "safetyDelta": {
+    "sourceAndOriginalBytesReprojected": true,
+    "independentReviewRequired": true,
+    "globalIndexUnique": true,
+    "allSetEventsRequiredAtPGbegin": true,
+    "eachAuditIntentMax1": true,
+    "PGNullActorGuard": "only exact source-protected full event selector in nullAuditSelectors",
+    "fixtureNullPrincipalGuard": "same actual request context + typed independently visible owned config + exact event",
+    "scopeAnonymousNeverUsedForAudit": true,
+    "generatedParent": "actual committed same run/case/index/op, typed selector, independent visibility; Native outerCOMMIT same context",
+    "queryOrResponseIDAdoption": false,
+    "noNewTableOrImmutableIdentity": true,
+    "writerDrainAndSingletonRestoreAndDoubleZeroUnchanged": true
+  },
+  "pureValidation": {
+    "initial": {
+      "file": "tools/rust-r2m/audit-external-source01-pure-initial.txt",
+      "bytes": 1880,
+      "rawBytesSha256": "6ef95f3f7e31892b79f519f1ff2dad9e71e7b6ccd04025aa5b5fbd2c6950803b"
+    },
+    "initialCounts": {
+      "tests": 14,
+      "pass": 14,
+      "fail": 0
+    },
+    "combined": {
+      "file": "tools/rust-r2m/audit-external-source01-pure-regression.txt",
+      "bytes": 6483,
+      "rawBytesSha256": "761b43950380925df665424bd53056aeafd9e91ce64e72586d023743e09ed0fa"
+    },
+    "combinedCounts": {
+      "tests": 60,
+      "pass": 60,
+      "fail": 0
+    },
+    "combinedTests": [
+      {
+        "file": "tools/rust-r2m/fixture-safety.test.mjs",
+        "bytes": 19655,
+        "rawBytesSha256": "ace53a8c6d56758dd544c94c5d806a0d7b35b29bae3194b75e56c7c48a8fce35"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-handover-prepared.test.mjs",
+        "bytes": 6651,
+        "rawBytesSha256": "37c205cabe742302082326ccc7cde4a2a85291b67a46bea150639ebd3bbb4b8d"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-audit-identity.test.mjs",
+        "bytes": 13871,
+        "rawBytesSha256": "6d4fce1862221b77353de150a35f9bc2c1d8f17f0eda199519e5fbe7be422c7a"
+      },
+      {
+        "file": "tools/rust-r2m/fixture-external-audit-identity.test.mjs",
+        "bytes": 15210,
+        "rawBytesSha256": "596be5b6728529db8016e6e4a10602f3c110a3427c8f0cf6d05420f32b3da1a7"
+      },
+      {
+        "file": "tools/rust-r2m/acceptance-api-external-audit-source.test.mjs",
+        "bytes": 4527,
+        "rawBytesSha256": "d31c44cb0b5c66ecb32a24f8c449de4100afd734563c2924c8b95a294f5d9f9d"
+      },
+      {
+        "file": "tools/rust-r2m/acceptance-api-audit-source.test.mjs",
+        "bytes": 3484,
+        "rawBytesSha256": "189367d44bf5ae02a1603fcbf57e234e34d77154aedf479710e07545553dc61b"
+      },
+      {
+        "file": "tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+        "bytes": 2669,
+        "rawBytesSha256": "0ff2c368ebb2f555dff9e8a75ebc827ce4d3307c1d2e26da080e2049d0fe7e9d"
+      }
+    ],
+    "lexical": {
+      "file": "tools/rust-r2m/audit-external-source01-no-undef.json",
+      "bytes": 1556,
+      "rawBytesSha256": "e3c283e65227f80d67a0c84fd800a9d10afe2b8a31df396ebc5cd7e80cb09509"
+    },
+    "lexicalFiles": 7,
+    "lexicalMessages": 0,
+    "PGTemplate": {
+      "file": "tools/rust-r2m/audit-external-source01-pg-check.txt",
+      "bytes": 231,
+      "rawBytesSha256": "69bb815c829ef3d5fb1ebe33141925dcee37e8e7864dfcee5a5ff72955043d0c"
+    },
+    "PGTemplateObservedTables": 34,
+    "syntheticProofsOnly": true,
+    "actualDatabase": false,
+    "actualHTTP": false,
+    "actualBrowser": false,
+    "actualContainers": false,
+    "privateReads": false,
+    "DDLExecuted": false
+  },
+  "contract": {
+    "file": "tools/rust-r2m/fixture-external-audit-contract.md",
+    "bytes": 5185,
+    "rawBytesSha256": "5e3f23177e608cdda4da020f14b3a8371eed8fa2d09a20cf5dbf2f201bc443ff"
+  },
+  "compatibleCaller": {
+    "file": "tools/rust-r2m/acceptance-api20-source02.json",
+    "bytes": 16582,
+    "rawBytesSha256": "c15357b1b0e767460d3b1308902344ee96c83155943b93a89353b2b14cd260c8"
+  },
+  "fixtureProfileSources": [
+    {
+      "file": "tools/rust-r2m/fixture-external-audit-identity.mjs",
+      "bytes": 13798,
+      "rawBytesSha256": "b2584b70416f5a480bf8dfabce0b7e5da9cbb36a8b1ecc55501e3604fad1682a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-objects.mjs",
+      "bytes": 6291,
+      "rawBytesSha256": "8e9e2aa9ba38ac9f58283b801666e65cc0015e2e8526b794569eb90faf510c47"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-private.mjs",
+      "bytes": 1841,
+      "rawBytesSha256": "c45ee56eaa7128f620515628d38cdc53c57b586dc5de85cb30bcc19a9e4b8a3f"
+    },
+    {
+      "file": "tools/rust-r2m/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f"
+    },
+    {
+      "file": "tools/rust-r2m/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "46a904a0c69b60ba100493bc908380d1fdab58ea5d46fb2ad102d5243651353d"
+    },
+    {
+      "file": "tools/rust-r2m/database-client.mjs",
+      "bytes": 2041,
+      "rawBytesSha256": "67e281cacd0b21ff6c530eb9a07c6d9308d64b61483d0c70e9ec76ce1f1b5cd7"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10089,
+      "rawBytesSha256": "adaf8525ad5447d7141cd01cd81122ea0dc3e82ee2d44ba4d228d66da5ace0cd"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-guard.mjs",
+      "bytes": 4749,
+      "rawBytesSha256": "c570808283f73585720b385a027f4455a2d90e79e8700194470e0980c2b05ce2"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12977,
+      "rawBytesSha256": "48786e51f92013c4c50659af68462055f9d96e11c633b48b16a56263f8823a1e"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12903,
+      "rawBytesSha256": "152ec05c3d6125244d9fed02e07913d57077d08e609945c3c9ba521b520fcee4"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 45709,
+      "rawBytesSha256": "2dc2436613b1ff4b5cb8a80c0c76acc8e6e724cc2d6a51a282f4344fad29860c"
+    },
+    {
+      "file": "tools/rust-r2m/managed-environment.cjs",
+      "bytes": 7098,
+      "rawBytesSha256": "6a5bf390df156d64bc3531c102fafeaefa7d1a4fc8b88a2f8d26d2235101ca26"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "RootNext": {
+    "nonAuthorSourceReviewThenNewCompleteCapsule": true,
+    "RootApprovalAllowedSourceKinds": [
+      "platform-null",
+      "E-setting",
+      "external-provider-null",
+      "external-org-null"
+    ],
+    "sourceReviewUnionRequiredForOneSharedApproval": [
+      "tools/rust-r2m/fixture-external-audit-identity.mjs",
+      "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "tools/rust-r2m/fixture-audit-identity.mjs",
+      "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "tools/rust-r2m/acceptance-api-request-identity.mjs"
+    ],
+    "actualRunMustRetainOriginalSDKPGAndHTTPBeforeCertification": true,
+    "PGActualCalibrationNotClaimedByPureTemplateCheck": true,
+    "oldOriginalsAndFailuresPreserved": true
+  },
+  "acceptance": {
+    "actualAcceptance": false,
+    "G3": false,
+    "G4": false,
+    "RootOwnsActualExecution": true,
+    "nonAuthorSourceReady": false
+  }
+}

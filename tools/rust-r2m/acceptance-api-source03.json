@@ -1,0 +1,233 @@
+{
+  "kind": "R2M-independent-API-named8-author-source-candidate",
+  "result": "candidate-awaiting-combined-C-identity-and-caller-source-review",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "readySelection": [
+    "M1.1",
+    "M1.2",
+    "M1.3",
+    "M1.4",
+    "M2.1",
+    "M2.2",
+    "M2.3",
+    "M2.4"
+  ],
+  "notReadyForActual": [
+    "M3.1",
+    "M3.2",
+    "M3.3",
+    "M3.4",
+    "M3.5",
+    "M4.1",
+    "M4.2",
+    "M4.3",
+    "M4.4",
+    "M5.1",
+    "M5.2",
+    "M5.3"
+  ],
+  "plannedRequestRecipes": 45,
+  "plannedInternalProbeRecipes": 1,
+  "actualExecution": false,
+  "actualRequests": 0,
+  "actualBusinessRowsInserted": 0,
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 38446,
+      "rawBytesSha256": "29b0b0ad39ab9c9c6f3aeb52ab745b5e651d1e43f27e22a57159690fd5a97704"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "8730cbcb0a63158649b7ced2c4b07b6c77ba1eabd7ce0c2b025a0c25a028fb30"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 9354,
+      "rawBytesSha256": "bd5eed210f8ebc74a4e9bc6eb8f67149388c92ad33f549517e0c6f49b8defc04"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-expected.mjs",
+      "bytes": 13212,
+      "rawBytesSha256": "dac0b1a9eef7334d45e8294a6b8f01cb4fda4d4040290ac427daa9a066546b5f"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 8486,
+      "rawBytesSha256": "129939a9cf19b35cbc86ea4382521f94ad4d29d610537239e261f08b43e793fd"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-preflight.mjs",
+      "bytes": 2877,
+      "rawBytesSha256": "7906452adb987a85be46556a93172f30f30fd17100de4d2f514a2c2a4da473cb"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.test.mjs",
+      "bytes": 9476,
+      "rawBytesSha256": "741ba0e837cba52997489da99570b02985e91d3d6155d63fe90ef130e70ee924"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-contract.md",
+      "bytes": 8618,
+      "rawBytesSha256": "a9be71ce4c0f2d9276b0cf10ee57d607547f6123eaf8ef19e164efe3a6b95ba9"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared-result.mjs",
+      "bytes": 5323,
+      "rawBytesSha256": "1e14aaed530994e1c84336416a04708d48cce507a7084e0470eeb93bc17526cb"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 6518,
+      "rawBytesSha256": "3d71dbdb75f34643e324f762072f4891af0ae626a4bf3a41e333a95d8b074ad7"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.test.mjs",
+      "bytes": 2478,
+      "rawBytesSha256": "5400a62a4c7aec1282eb3810d24852684d96e9f97b4554e967f7d7fdfb259f16"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+      "bytes": 2669,
+      "rawBytesSha256": "0ff2c368ebb2f555dff9e8a75ebc827ce4d3307c1d2e26da080e2049d0fe7e9d"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-local-objects.mjs",
+      "bytes": 1945,
+      "rawBytesSha256": "209797b9039f15782003b79f4944e7343a90b1c7690368897b74912fa6bc76e9"
+    }
+  ],
+  "sourceSetSha256": "35e21307c85e650237cc5888a666af842d412d896ab865119259f29a08d88c8b",
+  "derivedFrom": [
+    {
+      "file": "tools/rust-r2m/acceptance-runtime.mjs",
+      "rawBytesSha256": "fdabf46ca6f4ee7b5dbe88bd2b51b057792fdcc5c21ecaddc229a9893bd70cc0",
+      "modified": false
+    },
+    {
+      "file": "tools/rust-r2m/acceptance.mjs",
+      "rawBytesSha256": "3d5c5a6f1756e33ee65af1d876bc119d0abc09d6745baccf101a2813fc7d203d",
+      "modified": false
+    },
+    {
+      "file": "tools/rust-r2m/scenario-input.mjs",
+      "rawBytesSha256": "543627852d74ead5838569e25650e19715c6d83ab6cb85220aab493b997774f7",
+      "modified": false
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc",
+      "modified": false
+    }
+  ],
+  "authorPureChecks": {
+    "command": "node --test tools/rust-r2m/acceptance-api.test.mjs tools/rust-r2m/acceptance-facts.test.mjs tools/rust-r2m/acceptance-prepared-result.test.mjs tools/rust-r2m/acceptance-api-audit-source.test.mjs tools/rust-r2m/acceptance-api-request-identity.test.mjs",
+    "exitCode": 0,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "retainedAuthorCommandFailures": [
+    {
+      "kind": "orchestration-JS-template-syntax-error",
+      "actualFixtureExecuted": false
+    },
+    {
+      "kind": "inline-Node-command-extra-parenthesis",
+      "actualFixtureExecuted": false
+    },
+    {
+      "kind": "top-level-await-in-CommonJS-command",
+      "actualFixtureExecuted": false
+    },
+    {
+      "kind": "optional-globals-package-not-directly-installed",
+      "actualFixtureExecuted": false
+    }
+  ],
+  "privateReadByAuthorForThisSourceWork": false,
+  "databaseHttpBrowserContainerExecutedByAuthorForThisSourceWork": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "previousCandidate": {
+    "file": "tools/rust-r2m/acceptance-api-source02.json",
+    "rawBytesSha256": "386c0adb809dec7e12b432469b4a1513764e3f16b79d6e09daba71994fdd2af8",
+    "LinuxFrozenByRoot": true,
+    "SourceReadyLimitedTo": [
+      "M1.1",
+      "M1.2",
+      "M1.3",
+      "M1.4",
+      "M2.1",
+      "M2.3"
+    ],
+    "actualObservationBoundary": "M1.1 only; an6a M1.2 failed after source-valid null business audit did not match the old generic request-ID intent. Root retained and independently recovered exact known SDK certificates; no retrospective pass."
+  },
+  "additionalPureChecks": [
+    {
+      "kind": "same-constructor-named8-preflight",
+      "selectedLogicalPlans": 8,
+      "plannedRequestRecipes": 45,
+      "plannedInternalProbeRecipes": 1,
+      "actualRequests": 0,
+      "actualBusinessRowsInserted": 0
+    },
+    {
+      "kind": "installed-ESLint-no-undef",
+      "files": 6,
+      "errors": 0,
+      "databaseHttpExecuted": false
+    },
+    {
+      "kind": "API03-lexical-no-undef",
+      "files": 9,
+      "errors": 0,
+      "databaseHttpExecuted": false
+    }
+  ],
+  "callInterface": {
+    "newFlag": "--audit-identity-admission",
+    "factoryArgument": "auditIdentityApproval",
+    "RootApprovalKind": "Root-R2M-source-bound-audit-identity-admission",
+    "requiredFor": [
+      "M1.2",
+      "M1.3",
+      "M2.1",
+      "M2.2",
+      "M2.3"
+    ],
+    "sameRunAsSettingLeaseRequired": true,
+    "settingReviewMustPinCurrentHelper": true
+  },
+  "closedCallerSourceFindings": [
+    "Preserve protected original E headers and separate actual HTTP correlation/wire request ID from unchanged ownership identity",
+    "Platform source omits audit request metadata legitimately; use exact source event/type/operator/null and typed proved target, bound to case/index/actual op",
+    "PlatformUser is not a business EntityAudit enum; use actual supported unified audit query",
+    "Attempt supplier close independently after API/PG failure; no incomplete owner may authorize fixture drain/delete",
+    "Preserve actual m.http operation for the finite8 admission; no silent producer alias"
+  ],
+  "requiredAIdentityCandidate": {
+    "file": "tools/rust-r2m/audit-identity-source02.json",
+    "rawBytesSha256": "02239f097c4c77f3f26fadcd5893af1eb220b785b23d4fcc67668ef415bfbce4",
+    "CReviewStillRequired": true
+  },
+  "futureOnlyChangesNotExecutionClaimed": [
+    "M3 producer/status/snapshot intents and readonly decision actor logins",
+    "M5 actual200 JSON callback complete response/ticket and actual302 grant callback",
+    "beforeCase supplier hook and existing local object-byte certification"
+  ]
+}

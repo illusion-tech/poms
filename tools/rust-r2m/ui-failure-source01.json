@@ -1,0 +1,101 @@
+{
+  "kind": "R2M-original-UI-failure-preservation-source-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "RootDelegatedAUiBrowserFailureHook": true,
+  "priorSourceBytes": {
+    "file": "tools/rust-r2m/ui-failure-before-source01.json",
+    "bytes": 93015,
+    "rawBytesSha256": "c11bf575a4c62e02f08a7e8960984dc8d7e638a1f72f4ec8f4bc50d602a20d09"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "3ab39358d651f024de82bade306db2fbb688e94fc70d6c6bf4e34388d11714fb"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22803,
+      "rawBytesSha256": "a675e5022593dfbf75dabe7417de40402419b962baad190a0ea487e1d1e1db3c"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28386,
+      "rawBytesSha256": "b3eb3c834778dc163f1b64a39ae8b1e3d267e3231ab8c8734adfb1cff1d63cbf"
+    },
+    {
+      "file": "tools/rust-r2m/ui-failure-hook.test.mjs",
+      "bytes": 2525,
+      "rawBytesSha256": "ee567fad8da87d9254143187f6610266b057023e04487b0b4b41c81b851b5ed8"
+    },
+    {
+      "file": "tools/rust-r2m/ui-scope-metadata.test.mjs",
+      "bytes": 1587,
+      "rawBytesSha256": "c9a948af526de8d904eade38bbe5acb384c6b301a56695d819f047e6de55b425"
+    }
+  ],
+  "deltas": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "oldRawBytesSha256": "e5e817e4170154fdf7c41e6d05e1f3cfcb9e0042a685707086eed6d8f64398a5",
+      "current": {
+        "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+        "bytes": 22209,
+        "rawBytesSha256": "3ab39358d651f024de82bade306db2fbb688e94fc70d6c6bf4e34388d11714fb"
+      },
+      "oldSourceRetainedInPriorRecord": true
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "oldRawBytesSha256": "b75fc120069185867fe044bfeedcdb266fcfa810a6c99ba2b6b395e0b6086f1a",
+      "current": {
+        "file": "tools/rust-r2m/ui-runtime.mjs",
+        "bytes": 22803,
+        "rawBytesSha256": "a675e5022593dfbf75dabe7417de40402419b962baad190a0ea487e1d1e1db3c"
+      },
+      "oldSourceRetainedInPriorRecord": true
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "oldRawBytesSha256": "424b4295806d1f9e2dc7a06686f1130aeda522db8e237313f4d4292d51ccd3b9",
+      "current": {
+        "file": "tools/rust-r2m/ui-runtime-full.mjs",
+        "bytes": 28386,
+        "rawBytesSha256": "b3eb3c834778dc163f1b64a39ae8b1e3d267e3231ab8c8734adfb1cff1d63cbf"
+      },
+      "oldSourceRetainedInPriorRecord": true
+    }
+  ],
+  "scope": {
+    "businessAssertionsUnchanged": true,
+    "freezeUI09OriginalNotOverwritten": true,
+    "actualPlaywrightOrDBReexecution": false,
+    "onBeforeAndActionAndOnAfterErrors": "First retain original error/name/message/stack/code, URL and bounded console/pageerror/network diagnostics privately; then bounded DOM/PNG capture. Public only generic category, exact phase and sanitized private references.",
+    "outerAssertionRemoved": true,
+    "UI09CaseMetadata": "integration was persisted, so defineCase already passed; real scope function pure check permits auth-only proved project with no customer/lead write anchors and still rejects unproven explicit sales anchors",
+    "UI09RootCause": "Still unproven. No assertion relaxed or product guard expanded."
+  },
+  "pure": {
+    "passed": 14,
+    "failed": 0,
+    "exitCode": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-failure-source01-pure.txt",
+      "bytes": 3563,
+      "rawBytesSha256": "364908ea7c421cef733c424bc062e18f78b776adbe84fc3a68eb964360dd814a"
+    },
+    "syntaxFiles": 5,
+    "HTTP": 0,
+    "DB": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "retainedPureHarnessFailure": {
+    "file": "tools/rust-r2m/ui-failure-incomplete-metadata-test01.txt",
+    "bytes": 4777,
+    "rawBytesSha256": "e918cc6c58bbb6f314032855698bd32480ed5eaa40d7bab068aad0987068afb6",
+    "classification": "Synthetic test journal omitted mandatory namespace, corrected in test only. Does not classify the actual UI09 failure."
+  },
+  "WindowsConsumers": "Updated in separate Windows orchestration source; not a condition for this Linux delta review.",
+  "G3Certified": false
+}

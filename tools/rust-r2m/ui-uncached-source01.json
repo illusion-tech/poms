@@ -1,0 +1,166 @@
+{
+  "kind": "R2M-controlled-uncached-UI-input-author-source-candidate",
+  "result": "source-only-candidate-awaiting-non-author-review-and-Root-actual",
+  "owner": "/root/r2m_delivery_audit",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-cache.mjs",
+      "bytes": 2813,
+      "rawBytesSha256": "ecbfa2ca38c95953266f8ab63dd8b80eab6b13b83cc4f8411297b65b15f360e8"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28726,
+      "rawBytesSha256": "7c005a757998b9e1d00b66f660fe6c6ceae318517d014149131092833dd0a030"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 23143,
+      "rawBytesSha256": "e46a86b932158630e6b31943760888205dee6c439b0f3e397ecb61f49f6b815d"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 10782,
+      "rawBytesSha256": "6a2053abec075d1919816e2a411c8863cd4cf4511ea279de82e672dbad9d3cae"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 15083,
+      "rawBytesSha256": "819943dbe08f7322fc2a2fadfd74886b8f25c115b7d8b3f073ff57690ffa1be5"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32369,
+      "rawBytesSha256": "f65591cf8b01a1e61d7335b530e4f23bdb7b399114bc1e02a2367317dc6340aa"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25431,
+      "rawBytesSha256": "733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032"
+    }
+  ],
+  "scope": {
+    "platforms": [
+      "Linux-owned-Chromium",
+      "Windows-owned-Chromium"
+    ],
+    "beforeFirstNavigation": "page.url===about:blank before and after real attached CDP ACK; every owner awaits it before runUiJourneys",
+    "commands": [
+      {
+        "method": "Network.enable",
+        "params": {}
+      },
+      {
+        "method": "Network.setCacheDisabled",
+        "params": {
+          "cacheDisabled": true
+        }
+      }
+    ],
+    "actualAcknowledgement": "both exact original empty result objects privately retained with real windows and sourceCap binding",
+    "sessionLifetime": "kept attached; same owned BrowserContext closes the CDP session",
+    "originalHTTPHeaders": "If-None-Match/If-Modified-Since measured on original IncomingMessage.rawHeaders before forwarding; names/count/absence/hash public; raw values only original private HTTP capture",
+    "headersRemovedOrRewritten": false,
+    "mockResponses": false,
+    "originalBusinessAndGuardAssertionsChanged": false,
+    "UI733NavigationCorrectionIncludedUnchanged": true,
+    "old11Cached304vs200DifferencesPreserved": true
+  },
+  "before": {
+    "file": "tools/rust-r2m/ui-uncached-before-source01.json",
+    "bytes": 180723,
+    "rawBytesSha256": "3bb5ee7838998580bf3c114aaebd4452562fc0d3705c3e37890383bd42692f0e"
+  },
+  "beforeSourcePins": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28504,
+      "rawBytesSha256": "f1fafa54b867a3df924570746afd722b363ff5a4f6b89d5733b43e9c7af79d43"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22921,
+      "rawBytesSha256": "107b10a95a2321ad2417cb838aaded44718e1f8983d74716419ac923ab321700"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 10613,
+      "rawBytesSha256": "6edc148b9e290bab437dbb240d0da2607c88e473518f03037d3ad4667a90824f"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 14761,
+      "rawBytesSha256": "87f0c9a99a718594560095d2f7c5335b87bb1fa575f8a928dd9cd0e1466d2e3b"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32331,
+      "rawBytesSha256": "598f886fe6d0fc1b13783a582900f3a023fdbe8bcd736facc499252fa7ff6509"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25431,
+      "rawBytesSha256": "733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032"
+    }
+  ],
+  "completeDelta": {
+    "file": "tools/rust-r2m/ui-uncached-source01.diff",
+    "bytes": 17330,
+    "rawBytesSha256": "ec80e84ddc6aaa896fa27b00731d4ca71ba32b4256bbafa00fc065e42168ad9c"
+  },
+  "originalBrowser733SourceReview": {
+    "file": "docs/design/rust-r2m/ui-denial-navigation-source-review01.json",
+    "bytes": 5298,
+    "rawBytesSha256": "f7e7788d591ac9ba020fa491e427bbe77a58fc3f7e19c0ab95493940a41e99b1"
+  },
+  "protocolPrimarySource": {
+    "file": "tools/rust-r2m/ui-uncached-source01-protocol.json",
+    "bytes": 2486,
+    "rawBytesSha256": "bc1d8472a4384ccc6e2efdd28a711407dc7521e1534c29603e3e423440bb9cf3"
+  },
+  "pure": {
+    "log": {
+      "file": "tools/rust-r2m/ui-uncached-source01-pure.txt",
+      "bytes": 6086,
+      "rawBytesSha256": "ff45731690c6e52160edd173a50ac773c2769f8e70f09be144da200e445dfd37"
+    },
+    "tests": 35,
+    "pass": 35,
+    "fail": 0,
+    "newTestSource": {
+      "file": "tools/rust-r2m/ui-runtime-cache.test.mjs",
+      "bytes": 5158,
+      "rawBytesSha256": "a4c760e86cc16ba9d601faa009139cca1197b1db95842fe01c7dbcc1e360a5df"
+    },
+    "lexical": {
+      "file": "tools/rust-r2m/ui-uncached-source01-no-undef-final.json",
+      "bytes": 1826,
+      "rawBytesSha256": "b9ef49b6e2cdfee29fd0aee6fb5cd8c5f9246096f1de2901f710eee97bf3b8b2"
+    },
+    "lexicalFiles": 7,
+    "lexicalMessages": 0,
+    "initialLexicalHarnessMissingDocumentGlobalPreserved": {
+      "file": "tools/rust-r2m/ui-uncached-source01-no-undef.json",
+      "bytes": 2076,
+      "rawBytesSha256": "a4413effa602a90ea04b633e183c2a8a9e682149971645dc57c3e5f1a3f3f007"
+    },
+    "initialGlobalsDependencyLookup": "globals is not exported at workspace root; final lexical uses the explicit existing Node/browser globals; no product or runtime change",
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "privateRead": false
+  },
+  "RootCopyRuntime": [
+    "tools/rust-r2m/ui-runtime-cache.mjs",
+    "tools/rust-r2m/ui-runtime-full.mjs",
+    "tools/rust-r2m/ui-runtime.mjs",
+    "tools/rust-r2m/ui-runtime-server.mjs",
+    "tools/rust-r2m/windows-ui-driver.mjs",
+    "tools/rust-r2m/windows-ui-runtime.mjs",
+    "tools/rust-r2m/acceptance-ui-browser.mjs"
+  ],
+  "actualAcceptance": false,
+  "G3": false,
+  "G4": false,
+  "RootOwnsActualExecution": true
+}

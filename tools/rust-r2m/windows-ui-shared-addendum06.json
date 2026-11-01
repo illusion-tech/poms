@@ -1,0 +1,40 @@
+{
+  "kind": "R2M-current-Windows-source-union-owned-proxy-close-addendum",
+  "result": "source-only-single-runtime-delta-awaiting-independent-review-not-actual",
+  "base": {
+    "file": "tools/rust-r2m/windows-ui-shared-addendum05.json",
+    "bytes": 23946,
+    "rawBytesSha256": "24ceb8a123232a9b822c30ca317cc44a76cec34437e33ccc7600ed9854764fee"
+  },
+  "sourceCandidate": {
+    "file": "tools/rust-r2m/ui-server-close-source01.json",
+    "bytes": 5404,
+    "rawBytesSha256": "e2bc7604e32cfe5d07268c9e918a07b42a98d0f5cc7682dce3e9d213e18788e2"
+  },
+  "changes": [
+    {
+      "before": {
+        "file": "tools/rust-r2m/ui-runtime-server.mjs",
+        "bytes": 10782,
+        "rawBytesSha256": "6a2053abec075d1919816e2a411c8863cd4cf4511ea279de82e672dbad9d3cae"
+      },
+      "after": {
+        "file": "tools/rust-r2m/ui-runtime-server.mjs",
+        "bytes": 13688,
+        "rawBytesSha256": "3103219a2d7a7ee7f80ba916cb5a6448eb172e5cd63cb365f800cc2af16b1a6d"
+      }
+    }
+  ],
+  "otherDeclaredSourceFilesUnchanged": 79,
+  "currentUniqueDeclaredSources": 80,
+  "boundary": "Prior union05 and future owner sources remain exact. Only shared ui-runtime-server close tracking/error retention changes; no producer/guard/runtime arrangement authorization is added.",
+  "RootNext": "Consume independent close-source review and capture a new complete matching epoch; do not silently rewrite union05 or reuse its old server hash",
+  "actual": {
+    "privateRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false
+  },
+  "G3": false,
+  "G4": false
+}

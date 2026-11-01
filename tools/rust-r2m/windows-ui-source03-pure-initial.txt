@@ -1,0 +1,46 @@
+(node:44792) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/apps/poms-api-e2e/src/support/test-data.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\E:\projects\worktrees\poms-r2ef-foundation-audit\poms\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Windows configuration cannot pass before actual identity ACK and EOF rejects every waiter (6.4738ms)
+✔ after-step certificate is transported as Root receipt, never synthesized by the Windows bridge (2.8998ms)
+✔ Windows browser environment drops Native secrets and Windows browser cannot certify Linux Native as Windows runtime (1.6236ms)
+✔ original Windows startup and close diagnostics are serialized only into the private failure frame (0.1743ms)
+✔ original pre-profile-driver failure is private and never copied into the public Windows lifecycle (2.1439ms)
+✔ original spawn failure is private and never copied into the public Windows lifecycle (1.2565ms)
+✖ original malformed-frame failure is private and never copied into the public Windows lifecycle (1.202ms)
+✔ a waiting next HTTP callback does not block the prior after-HTTP certificate in the identity-gated bridge (1.1865ms)
+(node:39692) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/apps/poms-api-e2e/src/support/test-data.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\E:\projects\worktrees\poms-r2ef-foundation-audit\poms\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Windows browser platform and API runtime platform are separate finite arrangements (0.7844ms)
+✔ the actual Windows driver handoff input gets its fixed origin from the validated plan (3.3526ms)
+✔ Root-held Windows setup HTTP waits for actual context ACK and sends real cookie/CSRF bytes through the low-level owner (1.2021ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 274.2708
+
+✖ failing tests:
+
+test at tools\rust-r2m\windows-ui-bridge.test.mjs:29:67
+✖ original malformed-frame failure is private and never copied into the public Windows lifecycle (1.202ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(JSON.stringify(original).includes(secret))
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/windows-ui-bridge.test.mjs:34:138)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

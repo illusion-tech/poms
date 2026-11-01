@@ -21,6 +21,88 @@ use tower::ServiceExt;
 
 type TestResult<T = ()> = Result<T, Box<dyn Error>>;
 
+#[tokio::test]
+async fn native_path_decode_order_preserves_parser_cors_and_raw_uri() -> TestResult {
+    let app = application(&[]).await?;
+    for method in [
+        Method::GET,
+        Method::PATCH,
+        Method::PUT,
+        Method::POST,
+        Method::DELETE,
+    ] {
+        for path in [
+            "/api/platform/users/%FF",
+            "/api/missing/%FF",
+            "/api/platform/users/%FF/unknown",
+            "/API/PLATFORM/USERS/%FF/",
+        ] {
+            let response = app
+                .clone()
+                .oneshot(
+                    Request::builder()
+                        .method(method.clone())
+                        .uri(path)
+                        .body(Body::empty())?,
+                )
+                .await?;
+            let (status, _, body) = json_response(response).await?;
+            assert_eq!(status, StatusCode::BAD_REQUEST);
+            assert_eq!(
+                body,
+                json!({"statusCode":400,"error":"Bad Request","message":"Failed to decode param '%FF'"})
+            );
+        }
+    }
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method(Method::PATCH)
+                .uri("/api/platform/users/%FF")
+                .header(header::CONTENT_TYPE, "application/json")
+                .header(header::CONTENT_LENGTH, "1")
+                .body(Body::from("{"))?,
+        )
+        .await?;
+    let (status, _, body) = json_response(response).await?;
+    assert_eq!(status, StatusCode::BAD_REQUEST);
+    assert!(
+        body["message"]
+            .as_str()
+            .is_some_and(|message| message.starts_with("Expected property name"))
+    );
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method(Method::OPTIONS)
+                .uri("/api/missing/%FF")
+                .body(Body::empty())?,
+        )
+        .await?;
+    assert_eq!(response.status(), StatusCode::NO_CONTENT);
+    for path in [
+        "/api/missing/%2525",
+        "/api/missing/%2F",
+        "/api/missing?query=%FF",
+    ] {
+        let response = app
+            .clone()
+            .oneshot(Request::builder().uri(path).body(Body::empty())?)
+            .await?;
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
+        assert_eq!(
+            response.headers()[header::CONTENT_TYPE],
+            "text/html; charset=utf-8"
+        );
+        let body = String::from_utf8(to_bytes(response.into_body(), 4096).await?.to_vec())?;
+        let original_path = path.split('?').next().ok_or("missing path")?;
+        assert!(body.contains(&format!("<pre>Cannot GET {original_path}</pre>")));
+    }
+    Ok(())
+}
+
 const GOLDEN: &str =
     include_str!("../../../tools/rust-r0f-auth-compat/fixtures/auth-compat.v1.json");
 const EXISTING_OPENAPI: &str = include_str!("../../../libs/shared/api-spec/openapi.json");

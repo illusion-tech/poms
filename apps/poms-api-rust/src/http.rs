@@ -372,8 +372,25 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         ))
         .layer(middleware::from_fn(crate::attachments::http::normalize_uri))
         .layer(middleware::from_fn(crate::approval::http::normalize_uri))
+        .layer(middleware::from_fn(decode_path_segments))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))
+}
+
+// Express decodes the global wildcard's path segments before dispatch/guards,
+// including unknown paths and methods. CORS and body parsing still run first.
+// Validate once without replacing the raw URI or decoding valid input twice.
+async fn decode_path_segments(request: Request, next: Next) -> Response {
+    for segment in request.uri().path().split('/') {
+        if crate::auth::cookie::decode_uri_component(segment).is_err() {
+            return ApiError::message(
+                StatusCode::BAD_REQUEST,
+                format!("Failed to decode param '{segment}'"),
+            )
+            .into_response();
+        }
+    }
+    next.run(request).await
 }
 
 #[utoipa::path(

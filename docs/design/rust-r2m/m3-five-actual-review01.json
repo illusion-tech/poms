@@ -1,0 +1,627 @@
+{
+  "kind": "R2M-independent-C-M3-five-case-actual-evidence-review",
+  "result": "Pass",
+  "reviewedAtUtc": "2026-10-31 18:16:50 UTC",
+  "reviewer": {
+    "role": "independent non-product-author C",
+    "declaredModel": "gpt-6.1-sol",
+    "declaredReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "scope": {
+    "logicalCases": [
+      "M3.1",
+      "M3.2",
+      "M3.3",
+      "M3.4",
+      "M3.5"
+    ],
+    "acceptance": "M3RequiredSemanticsCoverage",
+    "sourceCapId": "r2m-joint25",
+    "sourceCapManifest": "6d69ae66f7465af0513bbea4178e3d7f0ce162758fe080110bd7d9b77db9851b",
+    "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "nativeRun": "d15ed4a1-192f-4049-9421-b7574220e024",
+    "rustRun": "e2083daf-7841-4bf3-90c9-a58550a36da8",
+    "tags": [
+      "an5d",
+      "ar5d"
+    ],
+    "originalControlledPair": true,
+    "sourceControlledVersionNumericEqualityClaimed": false,
+    "wholeFiveEquivalenceCertified": false,
+    "wholeDebugMemoryEqualityClaimed": false,
+    "nativeProducerHttpDtoComparisonComplete": false,
+    "otherFifteenAPILogicalCasesCertified": false,
+    "M4UIWindowsOrPerformanceCertified": false,
+    "currentQuarantinedOldRustDatabaseStateCertified": false,
+    "finalFixedCommitCertified": false,
+    "G3": false,
+    "G4": false
+  },
+  "measuredComparison": {
+    "file": "tmp/rust-r2m/compare-api-five-measured10.json",
+    "bytes": 2311901,
+    "rawBytesSha256": "3f0dba0078cfd75474f8c91e60e1e63f3a0e5b702ad4b71ecb5509e2b168ae79"
+  },
+  "reviewedVerifier": {
+    "sourcePacket": {
+      "file": "tools/rust-r2m/compare-api-five-source10.json",
+      "bytes": 39669,
+      "rawBytesSha256": "babc0804a9555228c4f381dd0ab141fcea33c30255b441c9e3d4a232567acfe8"
+    },
+    "sourceReview": {
+      "file": "docs/design/rust-r2m/api-five-comparison-source-review07.json",
+      "bytes": 42995,
+      "rawBytesSha256": "bda26a5b43adcb8161a0299b74b98f97613b82795dbd5880a5cb9be2704aa3c7"
+    },
+    "sourceSetSha256": "d56dc7ef056314c0344f2a7618fb279a3615daf8363f052296294d8631038a18",
+    "sourceCount": 46,
+    "installed46EqualReviewedIntendedBytes": true,
+    "exactInstallation": {
+      "file": "tmp/rust-r2m/compare-api-five-source10-install01.json",
+      "bytes": 1920,
+      "rawBytesSha256": "69a5397d84073ca5d750c507841096458c5c986a9bb7c251ee7737ab02f87421"
+    },
+    "originalSource09AndFailedResultsPreserved": true,
+    "analysisSourcesBefore": 80,
+    "analysisSourcesAfter": 80,
+    "analysisSourceObjectsByteEquivalentBeforeAfter": true,
+    "analysisSourcesUnchanged": true
+  },
+  "actualSummary": {
+    "reportedResult": "pass-M3RequiredSemanticsCoverage",
+    "unclassifiedDifferences": 0,
+    "requiredPending": 0,
+    "actualCells": 69,
+    "full107PhysicalFramesPerSide": 146,
+    "physicalFrameArithmetic": "69 before/after pairs plus four extra internal-world before/after pairs = 146 frames per side",
+    "primaryHTTPResponsesPerSide": 52,
+    "allRetainedHTTPWireBodiesVerifiedPerSide": 140,
+    "acceptedDifferences": 147,
+    "acceptedDifferenceClasses": [
+      {
+        "classification": "accepted-existing-R1A-diagnostic-header-addition",
+        "count": 19,
+        "numericEqualityTrue": 0,
+        "nonAuthNonHeaderPaths": []
+      },
+      {
+        "classification": "source-proved-one-declared-v3-auth-session-lifecycle-effect-variance",
+        "count": 27,
+        "numericEqualityTrue": 0,
+        "nonAuthNonHeaderPaths": []
+      },
+      {
+        "classification": "source-proved-two-session-auth-lifecycle-effect-variance",
+        "count": 101,
+        "numericEqualityTrue": 0,
+        "nonAuthNonHeaderPaths": []
+      }
+    ],
+    "rawSourceControlledAuthVersionDifferences": 128,
+    "rawAndClassifiedAuthPathKindMultisetsExactlyEqual": true,
+    "authClassifiedRecordsWithInvalidClaims": 0,
+    "M3RequiredSemanticsCoverage": {
+      "primaryHTTPAndFull107": true,
+      "fourWorldOutcomes": true,
+      "requiredPairedMemory": true,
+      "sourcePhasesComplete": true,
+      "wholeDebugMemoryEqualityClaimed": false,
+      "authLifecycleEffectsIndependentlySourceProved": true,
+      "authSessionVersionNumericEqualityClaimed": false
+    },
+    "actualRowsWithDomainProofPerSide": 298,
+    "domainPhysicalCellsPerSide": 13922,
+    "domainDTOCellsPerSide": 148,
+    "functionalHeadersCompared": [
+      "content-type",
+      "content-length",
+      "content-disposition",
+      "x-request-id"
+    ],
+    "unknownFieldsDropped": false,
+    "rawValuesDisclosed": false
+  },
+  "publicRuntimeInputPins": [
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an5d.json",
+      "bytes": 67009,
+      "rawBytesSha256": "7be87661b631e0151a6258a13e6244179e29533850b58b84821735d0efd24eb1"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-rust-ar5d.json",
+      "bytes": 69045,
+      "rawBytesSha256": "320b92b30cd5db69ccb7f2f4a3787a388691a8009545e338a595644b49777cdc"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-owner-nest-an5d.json",
+      "bytes": 1001,
+      "rawBytesSha256": "66824d24086865b9a6d21266f06e60b3b39f90c018e9ed7f9eae52a1708819d3"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-owner-rust-ar5d.json",
+      "bytes": 1001,
+      "rawBytesSha256": "803e5e4723e4131b974bf5c532f131365bc8ee1094871a314f69f17611b7136e"
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-joint25.json",
+      "bytes": 1425197,
+      "rawBytesSha256": "1d36df369282e9f826379f8e4958693a069e77123e1dfad5371ed410e0e947f2"
+    }
+  ],
+  "originalCapsule": {
+    "rawPublicCapIndependentlyHashed": true,
+    "id": "r2m-joint25",
+    "createdAt": "2026-10-31T03:16:24.885Z",
+    "complete": true,
+    "files": 3202,
+    "manifestSha256": "6d69ae66f7465af0513bbea4178e3d7f0ce162758fe080110bd7d9b77db9851b",
+    "bothOwnerDeclaredRawCapSha256": "1d36df369282e9f826379f8e4958693a069e77123e1dfad5371ed410e0e947f2",
+    "rawCapMemberBodiesRehashedInThisActualMicroReview": false,
+    "memberSourceReviewBasis": "The finite required source bodies/pins were independently reviewed in the preceding source reviews. This actual microreview verifies the complete raw public capsule identity and matching owner/report/analysis references; it does not reread every artifact."
+  },
+  "closeouts": [
+    {
+      "backend": "nest",
+      "runId": "d15ed4a1-192f-4049-9421-b7574220e024",
+      "tag": "an5d",
+      "originalReportResult": "observed-comparison-pending",
+      "allFiveCaseResultsObservedAndClosed": true,
+      "caseRawEvidenceRefs": [
+        {
+          "caseId": "M3.1",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-d15ed4a1-192f-4049-9421-b7574220e024/00097.json",
+            "rawBytesSha256": "98a035a1f9ec877be63297637572d4ed9444388212eee25fbde7d02c1611d6c6"
+          }
+        },
+        {
+          "caseId": "M3.2",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-d15ed4a1-192f-4049-9421-b7574220e024/00248.json",
+            "rawBytesSha256": "2ce82e53d88948dcedb3777474463715c25119e6688aeabd12055d8f7cc63610"
+          }
+        },
+        {
+          "caseId": "M3.3",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-d15ed4a1-192f-4049-9421-b7574220e024/00403.json",
+            "rawBytesSha256": "2ef96442f5d7ac3895230f5c6ea4850c68f320e85f578e423ce1af7273c55ed4"
+          }
+        },
+        {
+          "caseId": "M3.4",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-d15ed4a1-192f-4049-9421-b7574220e024/00874.json",
+            "rawBytesSha256": "a4bb22dffe906d269740122edab8019238964cd6b011c1d180f2d0790c4723ea"
+          }
+        },
+        {
+          "caseId": "M3.5",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-d15ed4a1-192f-4049-9421-b7574220e024/00924.json",
+            "rawBytesSha256": "017af237298fc9341c4360d66f24f720f10ad890937931c7924c48c33bb02b79"
+          }
+        }
+      ],
+      "ownerResult": "observed-owner-closed-comparison-pending",
+      "ownerExitCode": 0,
+      "startedAt": "2026-10-31T03:17:01.86Z",
+      "finishedAt": "2026-10-31T03:28:08.894Z",
+      "writerCount": 1,
+      "allWritersStopped": true,
+      "cleanupDeleted": [
+        292,
+        0
+      ],
+      "bothCleanupZeroObjectsAndLogicalRefsWith107Scan": true,
+      "closeoutFailures": 0,
+      "pgResult": "observer-footprint-restored",
+      "observerFootprintRestored": true,
+      "pgExportedEvents": 71,
+      "extensionFaultsRestored": true,
+      "activeRequests": 0,
+      "pendingTransactions": 0
+    },
+    {
+      "backend": "rust",
+      "runId": "e2083daf-7841-4bf3-90c9-a58550a36da8",
+      "tag": "ar5d",
+      "originalReportResult": "observed-comparison-pending",
+      "allFiveCaseResultsObservedAndClosed": true,
+      "caseRawEvidenceRefs": [
+        {
+          "caseId": "M3.1",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/rust-e2083daf-7841-4bf3-90c9-a58550a36da8/00097.json",
+            "rawBytesSha256": "69bc7764c7bcade59322a637590e7f865df821442df088292e7e04414649e222"
+          }
+        },
+        {
+          "caseId": "M3.2",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/rust-e2083daf-7841-4bf3-90c9-a58550a36da8/00248.json",
+            "rawBytesSha256": "ec03e7b8d536c416fd2bea530a831d19bebf40b39073b386b5cb0484df0d3fa4"
+          }
+        },
+        {
+          "caseId": "M3.3",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/rust-e2083daf-7841-4bf3-90c9-a58550a36da8/00403.json",
+            "rawBytesSha256": "ddbc84accaeb88678e870fbdbe6cbdd14b050dd9b97c142b5c1574f06440c092"
+          }
+        },
+        {
+          "caseId": "M3.4",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/rust-e2083daf-7841-4bf3-90c9-a58550a36da8/00854.json",
+            "rawBytesSha256": "97df95e3db9392f23cd157b84c9804f2b41dc38600b3c5e4ed4edfbd0ae000bd"
+          }
+        },
+        {
+          "caseId": "M3.5",
+          "result": "observed",
+          "caseClosed": true,
+          "rawEvidence": {
+            "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/rust-e2083daf-7841-4bf3-90c9-a58550a36da8/00904.json",
+            "rawBytesSha256": "47d9d7aa6eb03b8f601da71cb58347f90d6a8af4c9ff4cf4e98ca5a10b819eec"
+          }
+        }
+      ],
+      "ownerResult": "observed-owner-closed-comparison-pending",
+      "ownerExitCode": 0,
+      "startedAt": "2026-10-31T03:52:48.243Z",
+      "finishedAt": "2026-10-31T04:02:55.09Z",
+      "writerCount": 6,
+      "allWritersStopped": true,
+      "cleanupDeleted": [
+        292,
+        0
+      ],
+      "bothCleanupZeroObjectsAndLogicalRefsWith107Scan": true,
+      "closeoutFailures": 0,
+      "pgResult": "observer-footprint-restored",
+      "observerFootprintRestored": true,
+      "pgExportedEvents": 71,
+      "extensionFaultsRestored": true,
+      "activeRequests": 0,
+      "pendingTransactions": 0
+    }
+  ],
+  "actualProofSummaries": {
+    "fourWorlds": [
+      {
+        "variant": "success-commit",
+        "full107BeforeAfterCompared": true,
+        "snapshotCounts": {
+          "commission_final_settlement_snapshot": 1,
+          "commission_rule_explanation_snapshot": 1
+        }
+      },
+      {
+        "variant": "success-rollback",
+        "full107BeforeAfterCompared": true,
+        "snapshotCounts": {
+          "commission_final_settlement_snapshot": 0,
+          "commission_rule_explanation_snapshot": 0
+        }
+      },
+      {
+        "variant": "gate-rollback",
+        "full107BeforeAfterCompared": true,
+        "snapshotCounts": {
+          "commission_final_settlement_snapshot": 0,
+          "commission_rule_explanation_snapshot": 0
+        }
+      },
+      {
+        "variant": "gate-continue-commit",
+        "full107BeforeAfterCompared": true,
+        "snapshotCounts": {
+          "commission_final_settlement_snapshot": 0,
+          "commission_rule_explanation_snapshot": 0
+        }
+      }
+    ],
+    "requiredMemory": {
+      "differences": 0,
+      "pending": 0,
+      "requiredPairEquality": true,
+      "worlds": [
+        {
+          "variant": "success-commit",
+          "heldStages": 6,
+          "heldBindings": 5,
+          "materializedReadRequired": true,
+          "requiredPairedMeasuresCompared": true,
+          "wholeDebugMemoryEqualityClaimed": false
+        },
+        {
+          "variant": "success-rollback",
+          "heldStages": 6,
+          "heldBindings": 5,
+          "materializedReadRequired": true,
+          "requiredPairedMeasuresCompared": true,
+          "wholeDebugMemoryEqualityClaimed": false
+        },
+        {
+          "variant": "gate-rollback",
+          "heldStages": 6,
+          "heldBindings": 5,
+          "materializedReadRequired": false,
+          "requiredPairedMeasuresCompared": true,
+          "wholeDebugMemoryEqualityClaimed": false
+        },
+        {
+          "variant": "gate-continue-commit",
+          "heldStages": 6,
+          "heldBindings": 5,
+          "materializedReadRequired": false,
+          "requiredPairedMeasuresCompared": true,
+          "wholeDebugMemoryEqualityClaimed": false
+        }
+      ],
+      "sourceProjectedTables": 22,
+      "sourcePhasesPerSide": 16,
+      "sourcePhasePendingPerSide": 0,
+      "sourcePhaseCompositionPerSide": {
+        "snapshotInsertV1ChildDate": 6,
+        "firstChildUpdatedAt": 6,
+        "firstOuterUpdatedAt": 4
+      },
+      "wholeRawObservationsRetained": true,
+      "wholeDebugMemoryEqualityClaimed": false,
+      "sourceProjection": "Actual cap entity declarations plus compiled Rust persisted-scalar projection and finite Date/source-phase adapters. Source-only representation fields and unconsumed helpers remain separately retained rather than being made an extra equality gate."
+    },
+    "termDefault": {
+      "sourcesPerSide": 6,
+      "table": "contract_term_snapshot",
+      "boundary": "Only the original commission18 omitted effective_at/created_at pair, original complete independently-visible direct birth and exact microsecond equality share the prepared default origin. Explicit source literals remain exact."
+    },
+    "rollbackHeldDates": {
+      "boundary": "Only original v1/v2 held child Date assignments at the four reviewed business source sites can receive their finite first-child source marker; outer physical rollback and NULL preservation stay strict.",
+      "actualSideClassificationCount": 180,
+      "interpretation": "The receipt retains 180 side-specific original-rollback Date classifications (90 paired positions), without inventing committed physical rows or making whole debug-memory equality a requirement."
+    },
+    "consumedPreparationBindings": [
+      {
+        "side": "native",
+        "kind": "R2M-source-consumed-Native-preparation-bindings",
+        "worlds": 4,
+        "completePhysicalInputs": 24,
+        "IDsParentsVersionsStatusAmountsDatesAndReferencesBoundToExactBefore": true,
+        "allUnconsumedProducerDTOFieldsCompared": false,
+        "newOwnershipGranted": false
+      },
+      {
+        "side": "rust",
+        "kind": "R2M-source-consumed-Native-preparation-bindings",
+        "worlds": 4,
+        "completePhysicalInputs": 24,
+        "IDsParentsVersionsStatusAmountsDatesAndReferencesBoundToExactBefore": true,
+        "allUnconsumedProducerDTOFieldsCompared": false,
+        "newOwnershipGranted": false
+      }
+    ],
+    "authLifecycle": {
+      "namedSlots": [
+        "m.bootstrap.admin.auth_session.0",
+        "m.bootstrap.finance.auth_session.0",
+        "m3.uow.v3.auth_session.1"
+      ],
+      "rawVersionDifferencesPreserved": 128,
+      "firstTwoSessionClassifiedDifferences": 101,
+      "thirdSessionClassifiedDifferences": 27,
+      "versionNumbersReplacedWithAliases": false,
+      "numericEqualityClaimed": false,
+      "allNonDeclaredSessionsRemainStrict": true,
+      "DTOCASAndBusinessConsumerVersionsRemainStrict": true,
+      "rawAndClassifiedDifferenceMultisetsEqual": true,
+      "receipts": [
+        {
+          "side": "native",
+          "ordinarySessions": [
+            {
+              "slot": "m.bootstrap.admin.auth_session.0",
+              "actualObservedRows": 146,
+              "sourcePredicateValidated": true,
+              "actualQueryParameterBytesCaptured": false
+            },
+            {
+              "slot": "m.bootstrap.finance.auth_session.0",
+              "actualObservedRows": 146,
+              "sourcePredicateValidated": true,
+              "actualQueryParameterBytesCaptured": false
+            }
+          ],
+          "additionalSession": {
+            "kind": "M3-one-declared-v3-issued-session-source-effects",
+            "slot": "m3.uow.v3.auth_session.1",
+            "derivedInitialVersion": 1,
+            "birthRowVersionCaptured": false,
+            "fullBirthRowCaptured": false,
+            "actualObservedVersions": [
+              1
+            ],
+            "actualObservationCount": 37,
+            "birthContext": {
+              "runId": "d15ed4a1-192f-4049-9421-b7574220e024",
+              "caseId": "m3.uow.v3",
+              "index": 126,
+              "op": "m.http"
+            },
+            "consumerContext": {
+              "runId": "d15ed4a1-192f-4049-9421-b7574220e024",
+              "caseId": "m3.uow.v3",
+              "index": 139,
+              "op": "m.http"
+            },
+            "actualIssuedCookieAndTypedUserBound": true,
+            "actualCSRFCookieStoredHashBound": true,
+            "actualBusinessApprovalCommitted": true,
+            "lastSeenThresholdEvidence": "whole-creation-window-not-due",
+            "effects": [],
+            "RustUpdateSQLTraceCaptured": false,
+            "NativeSQLUsedAsRustEvidence": false,
+            "retentionOrdinalTreatedAsInternalCaptureTime": false,
+            "numericEqualityClaimed": false,
+            "versionsReplacedWithAliases": false,
+            "ownershipGranted": false
+          }
+        },
+        {
+          "side": "rust",
+          "ordinarySessions": [
+            {
+              "slot": "m.bootstrap.admin.auth_session.0",
+              "actualObservedRows": 146,
+              "sourcePredicateValidated": true,
+              "actualQueryParameterBytesCaptured": false
+            },
+            {
+              "slot": "m.bootstrap.finance.auth_session.0",
+              "actualObservedRows": 146,
+              "sourcePredicateValidated": true,
+              "actualQueryParameterBytesCaptured": false
+            }
+          ],
+          "additionalSession": {
+            "kind": "M3-one-declared-v3-issued-session-source-effects",
+            "slot": "m3.uow.v3.auth_session.1",
+            "derivedInitialVersion": 1,
+            "birthRowVersionCaptured": false,
+            "fullBirthRowCaptured": false,
+            "actualObservedVersions": [
+              3
+            ],
+            "actualObservationCount": 31,
+            "birthContext": {
+              "runId": "e2083daf-7841-4bf3-90c9-a58550a36da8",
+              "caseId": "m3.uow.v3",
+              "index": 126,
+              "op": "m.http"
+            },
+            "consumerContext": {
+              "runId": "e2083daf-7841-4bf3-90c9-a58550a36da8",
+              "caseId": "m3.uow.v3",
+              "index": 139,
+              "op": "m.http"
+            },
+            "actualIssuedCookieAndTypedUserBound": true,
+            "actualCSRFCookieStoredHashBound": true,
+            "actualBusinessApprovalCommitted": true,
+            "lastSeenThresholdEvidence": "whole-creation-window-due",
+            "effects": [
+              {
+                "kind": "Rust-original-conditional-store-touch",
+                "count": 1
+              },
+              {
+                "kind": "Rust-original-once-common-participant-flush",
+                "count": 1
+              }
+            ],
+            "RustUpdateSQLTraceCaptured": false,
+            "NativeSQLUsedAsRustEvidence": false,
+            "retentionOrdinalTreatedAsInternalCaptureTime": false,
+            "numericEqualityClaimed": false,
+            "versionsReplacedWithAliases": false,
+            "ownershipGranted": false
+          }
+        }
+      ],
+      "sourceVersusObservation": "The two original issued-cookie sessions require all their actual histories and actual committed-source effects, including a separately paired CSRF rotation. For the third slot, Native version 1 is not due over the entire creation interval; Rust version 3 has the original due touch plus one CommonSession participant flush. Original full rows, issued Cookie/CSRF/user, actual consumer and committed approval/payout bind the source proof.",
+      "notCaptured": {
+        "fullThirdBirthRow": true,
+        "thirdBirthRowVersion1Snapshot": true,
+        "RustThirdSessionUpdateSQL": true,
+        "NativeQueryParameterBytes": true
+      },
+      "notCapturedMeaning": "These fields were not captured and are not claimed as raw runtime originals. Initial 1 is explicitly source-derived; Rust source/actual-row/HTTP/business-commit evidence is not mislabeled as a Rust SQL trace."
+    },
+    "sdkInspection": {
+      "coreVersion": "7.0.11",
+      "sqlVersion": "7.0.11",
+      "currentSourceFiles": 6,
+      "beforeAfterObjectsEqual": true,
+      "capturedDuringOriginalM3Run": false,
+      "historicalRuntimeSourceReceipt": false,
+      "nativeMetadataCaptured": false,
+      "scope": "Current-source inspection is explanatory and independently hash-bound before/after the offline run. It is not upgraded into an original-run SDK metadata capture."
+    }
+  },
+  "necessaryActualFindings": [
+    {
+      "finding": "The original public runtime reports still say observed-comparison-pending.",
+      "resolution": "Those original reports are retained unchanged; this separate receipt records the completed original-pair offline M3RequiredSemanticsCoverage result."
+    },
+    {
+      "finding": "The output carries 147 classified differences, not complete byte equality.",
+      "resolution": "19 are the inherited R1A diagnostic header addition; 101 plus 27 are physical row_version differences of only three declared typed auth sessions. The complete raw 128 path/kind multiset is retained, all classification records explicitly disclaim numeric equality, and no other field is exempted."
+    },
+    {
+      "finding": "The initial third-session version/full row and Rust UPDATE SQL were never captured.",
+      "resolution": "The actual report preserves false capture claims, exact source-derived initial-version provenance and the finite committed-source/actual-full-row evidence. No old runtime evidence is fabricated."
+    },
+    {
+      "finding": "The heterogeneous raw debug-memory observations include representation and helper differences.",
+      "resolution": "The required bounded five-held-binding/six-stage, current/original persisted-scalar, managed/queue/cache/clear/ghost/materialized semantics were actually compared with no mismatch/pending. Whole debug representation and all unconsumed producer DTO fields remain explicitly outside the pass claim."
+    }
+  ],
+  "retainedLimitations": [
+    "Pass 仅覆盖 M3.1–M3.5 的冻结 required semantics、完整选中 HTTP/physical evidence 和四事务 world；不是 wholeFive 数值、全 debug 或全 producer DTO 逐字段相等。",
+    "所有实际 Cookie/私有响应/SDK/PG/SQL原件由 Root 的已审离线工具消费。C 本轮只核源码与公开元数据/文件 hash，没有读取这些私有原件或重跑工具。",
+    "本次不新增未冻结的 whole-debug 或未消费 producerDTO 门槛，也不削减原持久层、业务结果、回滚/提交、typed引用、schema/outside-scope、HTTP/raw bytes 或清理要求。",
+    "原 M3 实际完成时各删除292/第二0的记录不声明后来旧 Rust 数据库仍为空；后续 M5 未认证图及 quarantine OID17085 保留，本轮没有 SQL 连接或数据处置。",
+    "M4 完整比较、Windows旅程、最终固定提交/归档、G3/G4 和 Issue关闭仍待各自独立结论。"
+  ],
+  "independentVerification": {
+    "uniquePublicFilesRawLengthAndSha256Verified": 99,
+    "allMatched": true,
+    "installed46MatchesApprovedIntendedSet": true,
+    "analysisBeforeAfterFullObjectArraysEqual": true,
+    "currentSdkBeforeAfterFullObjectsEqual": true,
+    "bothActualFiveCaseClosureAnd292ThenZeroRecounted": true,
+    "authClassificationMultisetAndAll128FalseNumericClaimsChecked": true,
+    "fourWorldMembershipQueueUnequalMeasurements": 0,
+    "requiredMemoryDifferences": 0,
+    "requiredMemoryPending": 0,
+    "sourcePhasePending": 0,
+    "privateRuntimeReplayedByC": false
+  },
+  "readLevels": {
+    "source": "The existing independent Source07 receipt and exact final Source10 installation/pins are reused; no verifier semantics changed after that necessary source review.",
+    "publicActual": "The measured10 public report was parsed and its finite counts, classifications, source-phase/auth/source-memory receipts, required outcome and limitations independently checked. Both original public reports/owners and the complete public capsule raw bytes were checked.",
+    "private": "No private journal, raw response, SQL trace, Cookie value, managed env/key or current DB was opened by C. Private refs are read as references in the retained public artifacts.",
+    "environment": "No DB, HTTP, browser, process/PowerShell/kernel action, Node/test execution or product/fixture/Git mutation occurred in this review."
+  },
+  "preservation": {
+    "earlierActualAndFailedReportsUnchanged": true,
+    "source09AndEarlierSourceReceiptsUnchanged": true,
+    "originalPublicRuntimePendingLabelsUnchanged": true,
+    "originalAuthVersionNumbersAndAll128DifferencesPreserved": true,
+    "currentSourceOnlySdkFlagsRemainFalseForOriginalCapture": true,
+    "oldQuarantinedGraphUnchangedByReviewer": true,
+    "onlyNewReviewJSONWritten": true
+  },
+  "conclusion": "M3RequiredSemanticsCoverage is independently accepted for the fixed an5d/ar5d pair with the explicitly retained source-controlled auth-version effects and R1A header additions. No remaining required difference or pending source/memory proof is reported or contradicted by the independently checked public evidence; wholeFive/debug equality and broader stage closure are not certified."
+}
+

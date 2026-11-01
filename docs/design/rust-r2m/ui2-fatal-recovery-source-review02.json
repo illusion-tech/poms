@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-UI2-fatal-followup02-production-snapshot-label-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-31T00:34:45Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui2-fatal-recovery-source02.json",
+    "bytes": 3303,
+    "rawBytesSha256": "caa24d507ac33771327701be973a16cba9df798f7b36507c6ef8b639e02caaae"
+  },
+  "priorReview": {
+    "file": "docs/design/rust-r2m/ui2-fatal-recovery-source-review01.json",
+    "bytes": 8786,
+    "rawBytesSha256": "64a195f468c9c8b4056daab7a522b56afc3481f02b39792e55b10fef6d356f92"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-ui2-fatal02.mjs",
+      "bytes": 29465,
+      "rawBytesSha256": "fa6fd1444d559774fa0ce27f6d6afcb6c7c3bed3dfc0df6ead171aaa3e915658",
+      "readLevel": "Complete exact01-to02 label-plan/loop/private-prefix/public-output delta; reversing only those changes reproduces the prior full script byte text"
+    },
+    {
+      "file": "tools/rust-r2m/recover-ui2-fatal02.test.mjs",
+      "bytes": 12284,
+      "rawBytesSha256": "adcbcfe97fa1bd742fdc5166658fdfafd987d96f0bbe29fdeb3bc53d45900e8d",
+      "readLevel": "Necessary shared production-four-key snapshot-plan assertions and exact original buffer shape, not executed by C"
+    }
+  ],
+  "assessment": [
+    "The first01 attempt safely stopped in the original snapshot loop before Fixture.open, reconciliation or DB: caller key ownerLog violated the strict lowercase save label. C also missed that producer/callee contract in prior64a source review. Original01 source/review, any first two wx snapshots, public failure and private error are preserved; original9d399 ledger and3516 installed observer are not claimed changed or restored.",
+    "Followup02 exports one fixed ui2OriginalSnapshotPlan: ledger=>ledger, observer=>observer, ownerLog=>owner-log, baseline=>baseline, each suffixed by its original fixed reference SHA. The real production loop and the meaningful pure test consume that same plan with the four actual raw-buffer keys. All labels satisfy the original lowercase regex; save validation, exact private directory, no-follow, parent/mode and wx rules are not loosened.",
+    "Independent exact text comparison confirms that excluding the new fixed plan, substituting only the new loop/privateprefix/publicoutput reproduces the complete prior01 script. Every genuine event/control/source/late-quiescence/owner/catalogue/restore/full107/lock/CAS/double-cleanup predicate and the original22f module remain unchanged. The distinct02 output and private prefix cannot overwrite first-attempt evidence.",
+    "This source conclusion remains only for the direct dedicated02 --run CLI in oldjoint17, with unchanged raw original references and no future32bf/API04b/UI3535 source mixing before restoration. It creates no original closed receipt, no process kill/adoption/new ownership and no actual recovery/UI/G3/G4 pass."
+  ],
+  "verification": {
+    "currentSourcePins": "2/2 exact",
+    "onlyExactLabelPlanAndPrefixOutputDelta": true,
+    "productionLoopUsesSharedFourKeyPlan": true,
+    "saveRegexUnchanged": true,
+    "authorPureTests": 26,
+    "failed": 0,
+    "skipped": 0,
+    "executedByC": false,
+    "authorLexicalErrors": 0
+  },
+  "executionBoundary": "Root alone may copy recover-ui2-fatal02.mjs and execute its dedicated --run after unchanged exact runtime guards pass. C performed source/public-file reads and this review write only, without private read, app/test/process execution or inspection/kill, DB/HTTP/browser/container, product/fixture edit or Git mutation. Actual late restoration and later independent actual/G3 review remain outstanding.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

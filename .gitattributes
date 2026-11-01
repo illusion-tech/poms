@@ -4,3 +4,21 @@
 # Windows command scripts conventionally use CRLF.
 *.bat text eol=crlf
 *.cmd text eol=crlf
+
+# R2M evidence and pinned source packets retain their certified raw bytes.
+tools/rust-r2m/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+tools/rust-r2m-continuation01/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/rust-r2m/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/archive/slices/rust-r2m/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Certified raw output and patch context retain significant original whitespace.
+tools/rust-r2m/*.diff whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
+tools/rust-r2m/*.txt whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
+docs/design/rust-r2m/*.json whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+docs/design/archive/slices/rust-r2m/**/*.json whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+
+# These recorded generated/fixed-source bytes are pinned by existing receipts.
+tools/rust-r2m/fixture-profile.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+tools/rust-r2m-continuation01/fixture-profile.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+tools/rust-r2m/continuation01-ui33-candidate01/fixture-profile.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+tools/rust-r2m/recover-closed-an4c.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol

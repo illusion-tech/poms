@@ -1,0 +1,173 @@
+{
+  "kind": "R2M-Windows-runtime-qualified-four-journey-source-candidate",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "files": [
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32010,
+      "rawBytesSha256": "78c2b7df969ede66bd96169b474d679670b779ac011fbfd1774fed2a55e5c834"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 13709,
+      "rawBytesSha256": "7ce661489c5aaeaff1922430204fc811e35c650c018cc74916b923a070d2a9bd"
+    },
+    {
+      "file": "tools/rust-r2m/bridge-windows-ui.mjs",
+      "bytes": 17899,
+      "rawBytesSha256": "f17a31c85d518136ba1cf5ed03188764a8696efda136bc4539cbb89414117e43"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-process.ps1",
+      "bytes": 15462,
+      "rawBytesSha256": "7b0f0e80b143cb3583fb0b0fe2fe830b05231bcae5bd6e39654ccf4e746c6be0"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-http-session.mjs",
+      "bytes": 2739,
+      "rawBytesSha256": "eec6c4f97197c2ae382d18cf7d40b63420ba217f3f62fa17a8f78d9bf6cf4575"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-bridge.test.mjs",
+      "bytes": 6111,
+      "rawBytesSha256": "87e0b28049131766aab747f41f92feae36c51fce85c6bcc7174624ebdbb9b544"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.test.mjs",
+      "bytes": 2336,
+      "rawBytesSha256": "8f675f71964427c658e30607fd3f288bd6d5bf59b59591e2c9bb34189007882d"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-contract.md",
+      "bytes": 4300,
+      "rawBytesSha256": "c7ef492f5cdebcdc8b1f8966def7797439861013d60c234e1d4ed54eff3e7dac"
+    }
+  ],
+  "sharedInputs": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 17068,
+      "rawBytesSha256": "1e3ddb97b80c597ff1ff9908597f7d5fbfea78ca28d582fc7092067a9ddc893f"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 10613,
+      "rawBytesSha256": "6edc148b9e290bab437dbb240d0da2607c88e473518f03037d3ad4667a90824f"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 4159,
+      "rawBytesSha256": "14883f21772ed8f19089270c2fd347061872154636ca435388c303e25016ac76"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "3ab39358d651f024de82bade306db2fbb688e94fc70d6c6bf4e34388d11714fb"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-source02.json",
+      "bytes": 3848,
+      "rawBytesSha256": "9c091aea8f616ad32cb231eaa3c50a6472b0c8210ebdf8d56eed3eaa460efe7e"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-app.mjs",
+      "bytes": 16747,
+      "rawBytesSha256": "9884244b3216af9ba01283c01d61c29316d8a29ce272ac96cd7c46485ac6a5bd"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12159,
+      "rawBytesSha256": "566bffbaeedd62b1ff34c7fae568ca36c6a65f6c39928385e7ceda7d8695e3ec"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-driver.mjs",
+      "bytes": 9268,
+      "rawBytesSha256": "bd98278322ef7e45ecc2dda91f4e6e9b9e1a40a33bbb77c77b516dac2a953cfa"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-environment.mjs",
+      "bytes": 2483,
+      "rawBytesSha256": "1a71bd2987a9a964ba5995f562a3f487488d360fab87876757aaf8a7290466c1"
+    },
+    {
+      "file": "tools/rust-r2m/windows-managed-environment.cjs",
+      "bytes": 4458,
+      "rawBytesSha256": "7525a0388f11eba341a49a5202d45a08cd9493fa481f38498f75847109c8fcfd"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-process.ps1",
+      "bytes": 15470,
+      "rawBytesSha256": "1a9d88764a76674cc189d8e10dbfa4316391299062eb72c379bd15adb3aabd08"
+    }
+  ],
+  "derivations": [
+    {
+      "from": {
+        "file": "tools/rust-r2l/l-ui-bridge.mjs",
+        "bytes": 16157,
+        "rawBytesSha256": "f4ff7d798e366345dfa767d417e1f659e3adf74bb9a4032611d19c43f6b9add2"
+      },
+      "to": {
+        "file": "tools/rust-r2m/bridge-windows-ui.mjs",
+        "bytes": 17899,
+        "rawBytesSha256": "f17a31c85d518136ba1cf5ed03188764a8696efda136bc4539cbb89414117e43"
+      },
+      "fullDiff": "diff --git a/tools/rust-r2l/l-ui-bridge.mjs b/tools/rust-r2m/bridge-windows-ui.mjs\nindex 87a47ff7..2a593cc0 100644\n--- a/tools/rust-r2l/l-ui-bridge.mjs\n+++ b/tools/rust-r2m/bridge-windows-ui.mjs\n@@ -7,7 +7,8 @@ import readline from 'node:readline';\n import { createRequire } from 'node:module';\n import { createHash, randomUUID } from 'node:crypto';\n import { promisify } from 'node:util';\n-import { BRIDGE_PREFIX } from './l-ui-windows-driver.mjs';\n+import { BRIDGE_PREFIX } from './windows-ui-driver.mjs';\n+import {SourceReader} from './acceptance-source.mjs';\n \n const require = createRequire(import.meta.url), execFileAsync = promisify(execFile);\n const WINDOWS_ROOT = 'E:\\\\projects\\\\worktrees\\\\poms-r2ef-foundation-audit\\\\poms';\n@@ -15,10 +16,10 @@ const WINDOWS_MOUNT = '/mnt/e/projects/worktrees/poms-r2ef-foundation-audit/poms\n const WINDOWS_NODE = '/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe';\n const WINDOWS_EXE = 'C:\\\\Users\\\\ynh2\\\\AppData\\\\Roaming\\\\fnm\\\\node-versions\\\\v24.19.0\\\\installation\\\\node.exe';\n const WINDOWS_NODE_SHA = '3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237';\n-const WINDOWS_DRIVER = WINDOWS_ROOT + '\\\\tools\\\\rust-r2l\\\\l-ui-windows-driver.mjs';\n+const WINDOWS_DRIVER = WINDOWS_ROOT + '\\\\tools\\\\rust-r2m\\\\windows-ui-driver.mjs';\n // Read-only Get-Command inspection selected this existing PowerShell 7.6.5.\n const WINDOWS_PWSH = '/mnt/c/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe';\n-const WINDOWS_PROCESS = WINDOWS_ROOT + '\\\\tools\\\\rust-r2l\\\\l-ui-process.ps1';\n+const WINDOWS_PROCESS = WINDOWS_ROOT + '\\\\tools\\\\rust-r2m\\\\windows-ui-process.ps1';\n // Read-only own-family probes measured this SystemRoot infrastructure image.\n const WINDOWS_CONHOST = 'C:\\\\Windows\\\\System32\\\\conhost.exe';\n const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');\n@@ -77,7 +78,7 @@ async function windowsProcess(mode, processId, bridgeId, expected) {\n // Injectable transport/identity operations permit pure EOF/deadline tests. Real\n // use passes only the controlled child, native callbacks and Windows PS helper.\n export async function driveWindowsUi({ child, options, bridgeId, driverSha, append, onCallback,\n-    inspect = windowsProcess, signal, totalTimeoutMs = 300000, graceMs = 20000, queueGraceMs = 60000, identityTimeoutMs = 20000 }) {\n+    inspect = windowsProcess, retain,signal, totalTimeoutMs = 300000, graceMs = 20000, queueGraceMs = 60000, identityTimeoutMs = 20000 }) {\n     assert(Number.isInteger(totalTimeoutMs) && totalTimeoutMs >= 1 && totalTimeoutMs <= 360000);\n     let profile, identity, result, rejected, terminal = false, exitedStatus, aborted = false, accepting = true, finished = false;\n     const history = new Map(), inspections = [], lifecycle = { bridgeId, totalTimeoutMs, graceMs, queueGraceMs,\n@@ -110,10 +111,11 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n         assert(profile); const snapshot = await bounded(inspect('Inspect', profile.windowsPid, bridgeId, identity), identityTimeoutMs, 'Windows-identity-deadline');\n         if (snapshot.exists) register(snapshot); return snapshot;\n     }\n-    let queue = Promise.resolve();\n+    let queue = Promise.resolve(),privateEvidence=Promise.resolve(),privateRetentionFailed=false;const callbackTasks=new Set();\n     const reader = readline.createInterface({ input: child.stdout, crlfDelay: Infinity });\n-    const stderrSecrets = [options.username, options.password, options.adminCredentials?.username, options.adminCredentials?.password, options.viewerCredentials?.username, options.viewerCredentials?.password].filter(Boolean);\n-    const publicStderr = (bytes) => append(stderrSecrets.reduce((text, value) => text.replaceAll(value, '[credential]'), bytes.toString()));\n+    const saveStdio=(stream,bytes)=>{if(!retain)return;const raw=Buffer.from(bytes);privateEvidence=privateEvidence.then(()=>retain({kind:'actual-Windows-UI-original-stdio-private',record:{bridgeId,stream,bytes:raw.length,rawBytesSha256:sha(raw),bodyBase64:raw.toString('base64')}})).catch(()=>{privateRetentionFailed=true;abort('private-original-stdio-retention-failed')})};\n+    child.stdout.on('data',bytes=>saveStdio('stdout',bytes));child.stderr.on('data',bytes=>saveStdio('stderr',bytes));\n+    const publicStderr = (bytes) => append(JSON.stringify({kind:'Windows-driver-stderr-hash-only',bytes:bytes.length,rawBytesSha256:sha(bytes),textExported:false}));\n     child.stderr.on('data', publicStderr);\n     child.stdin.on('error', () => abort('stdin-error')); child.stdout.on('error', () => abort('stdout-error'));\n     child.stderr.on('error', () => abort('stderr-error'));\n@@ -123,7 +125,7 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n     reader.on('error', () => abort('reader-error'));\n     reader.on('line', (line) => {\n         if (line.length > 8 * 1024 * 1024) { abort('oversize-frame'); return; }\n-        append(line); if (!line.startsWith(BRIDGE_PREFIX)) return;\n+        append(JSON.stringify({kind:'Windows-driver-frame-hash-only',bytes:Buffer.byteLength(line),rawBytesSha256:sha(Buffer.from(line)),textExported:false})); if (!line.startsWith(BRIDGE_PREFIX)) return;\n         queue = queue.then(async () => {\n             const message = JSON.parse(line.slice(BRIDGE_PREFIX.length));\n             if (message.type === 'profile') {\n@@ -141,6 +143,7 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n             }\n             assert(profile && lifecycle.profileAcknowledged, 'UI activity before Windows identity ACK');\n             if (message.type === 'result' || message.type === 'failure') {\n+                await Promise.all([...callbackTasks]);\n                 result = message.report; terminal = true;\n                 if (message.type === 'failure') rejected ??= new Error('driver-reported-failure');\n                 let snapshot = await inspectCurrent();\n@@ -156,16 +159,18 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n             assert.equal(message.type, 'callback');\n             lifecycle.browserActivityObserved = true;\n             if (!accepting) { send({ type: 'ack', id: message.id, ok: false }); return; }\n-            await inspectCurrent();\n-            if (!accepting) { send({ type: 'ack', id: message.id, ok: false }); return; }\n-            try {\n-                await onCallback(message.phase, message.info);\n-                send({ type: 'ack', id: message.id, ok: !aborted });\n-            } catch { rejected ??= new Error('Root-callback-failed'); send({ type: 'ack', id: message.id, ok: false }); abort('Root-callback-failed'); }\n+            // Actual browser HTTP can overlap. Keep identity admission on every\n+            // callback, but let a prior after-exchange certificate release a\n+            // later before-exchange wait instead of deadlocking this reader.\n+            const task=Promise.resolve().then(async()=>{\n+                await inspectCurrent();if(!accepting){send({type:'ack',id:message.id,ok:false});return}\n+                try{const receipt=await onCallback(message.phase,message.info);send({type:'ack',id:message.id,ok:!aborted,receipt:receipt??null})}\n+                catch{rejected??=new Error('Root-callback-failed');send({type:'ack',id:message.id,ok:false});abort('Root-callback-failed')}\n+            }).catch(()=>{rejected??=new Error('Root-callback-identity-failed');send({type:'ack',id:message.id,ok:false});abort('Root-callback-identity-failed')}).finally(()=>callbackTasks.delete(task));callbackTasks.add(task);\n         }).catch((error) => {\n             const failure = { name: error.name, message: String(error.message).slice(0, 12000), diagnostic: error.diagnostic ?? null };\n             (lifecycle.bridgeFailures ??= []).push(failure); lifecycle.bridgeFailure ??= failure;\n-            append('POMS_L_UI_IDENTITY_FAILURE ' + JSON.stringify(failure));\n+            append('POMS_M_UI_IDENTITY_FAILURE ' + JSON.stringify(failure));\n             abort('bridge-frame-or-identity-failed');\n         });\n     });\n@@ -186,8 +191,9 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n             try { await bounded(exited, graceMs, 'cooperative-abort-deadline'); }\n             catch { await forceKnown(); try { await bounded(exited, 3000, 'interop-exit-deadline'); } catch { lifecycle.interopWaitExpired = true; } }\n         }\n-        try { await bounded(queue, queueGraceMs, 'Root-callback-queue-deadline'); }\n+        try { await bounded(Promise.all([queue,...callbackTasks]), queueGraceMs, 'Root-callback-queue-deadline'); }\n         catch { abort('Root-callback-queue-deadline'); lifecycle.pendingRootCallbackUnsettled = true; }\n+        try{await bounded(privateEvidence,queueGraceMs,'Root-private-original-stdio-deadline')}catch{privateRetentionFailed=true;abort('private-original-stdio-deadline')}\n         // Even a normal exit is followed by exact registered-member verification.\n         if (identity && !lifecycle.windowsStop) {\n             lifecycle.windowsStop = await bounded(inspect('Stop', identity.root.pid, bridgeId, identity), identityTimeoutMs, 'Windows-closeout-deadline');\n@@ -197,7 +203,7 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n     } catch (error) {\n         rejected ??= new Error('owned-Windows-closeout-failed'); lifecycle.closeoutFailed = true;\n         lifecycle.closeoutFailure = { name: error.name, message: String(error.message).slice(0, 12000), diagnostic: error.diagnostic ?? null };\n-        append('POMS_L_UI_WINDOWS_CLOSEOUT_FAILURE ' + JSON.stringify(lifecycle.closeoutFailure));\n+        append('POMS_M_UI_WINDOWS_CLOSEOUT_FAILURE ' + JSON.stringify(lifecycle.closeoutFailure));\n     }\n     finally {\n         clearTimeout(timer); clearTimeout(profileTimer); signal?.removeEventListener('abort', onSignal);\n@@ -206,11 +212,12 @@ export async function driveWindowsUi({ child, options, bridgeId, driverSha, appe\n         else if (!child.stdin.destroyed) child.stdin.end();\n     }\n     return { profile, result, status: exitedStatus ?? { code: null, signal: null }, rejected,\n-        lifecycle: { ...lifecycle, inspections, registeredWindowsIdentity: identity, terminalFrameReceived: terminal, abortRequested: aborted } };\n+        lifecycle: { ...lifecycle, inspections, registeredWindowsIdentity: identity, terminalFrameReceived: terminal, abortRequested: aborted,pendingCallbacks:callbackTasks.size,privateOriginalStdioRetained:!!retain&&!privateRetentionFailed } };\n }\n \n-export async function runWindowsOriginalLUi({options,append,onCallback=async()=>{},signal,totalTimeoutMs=300000}){\n- assert.equal(process.platform,'linux');assert.equal(process.cwd(),'/home/wangzishi/projects/poms-rust-r2l');const bridgeId=randomUUID(),driverSha=sha(fs.readFileSync(WINDOWS_MOUNT+'/tools/rust-r2l/l-ui-windows-driver.mjs'));\n+export async function runWindowsOriginalMUi({options,append,retain,onCallback=async()=>{},signal,totalTimeoutMs=300000}){\n+ assert.equal(typeof retain,'function','Root new-M private retention required');\n+ assert.equal(process.platform,'linux');assert.equal(process.cwd(),'/home/wangzishi/projects/poms-rust-r2m');const reader=new SourceReader({root:WINDOWS_MOUNT,pins:options.sourcePins,sourceEpoch:options.inputs.sourceCapId});for(const row of options.sourcePins)reader.read(row.file);const bridgeId=randomUUID(),driverSha=sha(reader.read('tools/rust-r2m/windows-ui-driver.mjs'));\n  const child=spawn(WINDOWS_NODE,[WINDOWS_DRIVER,'--bridge-id',bridgeId],{cwd:process.cwd(),env:Object.fromEntries(['PATH','HOME','WSLENV','WSL_INTEROP','DISPLAY','WAYLAND_DISPLAY','XDG_RUNTIME_DIR'].filter(key=>process.env[key]!==undefined).map(key=>[key,process.env[key]])),stdio:['pipe','pipe','pipe'],windowsHide:true});\n- return await driveWindowsUi({child,options,bridgeId,driverSha,append,onCallback,signal,totalTimeoutMs});\n+ const result=await driveWindowsUi({child,options,bridgeId,driverSha,append,retain,onCallback,signal,totalTimeoutMs});result.windowsSource=reader.assertUnchanged();return result;\n }\n"
+    },
+    {
+      "from": {
+        "file": "tools/rust-r2l/l-ui-process.ps1",
+        "bytes": 15464,
+        "rawBytesSha256": "c073d836f01c13e5518ac9fd619f03f583a4843e9f1f9281fbb749a1e19147f1"
+      },
+      "to": {
+        "file": "tools/rust-r2m/windows-ui-process.ps1",
+        "bytes": 15462,
+        "rawBytesSha256": "7b0f0e80b143cb3583fb0b0fe2fe830b05231bcae5bd6e39654ccf4e746c6be0"
+      },
+      "fullDiff": "diff --git a/tools/rust-r2l/l-ui-process.ps1 b/tools/rust-r2m/windows-ui-process.ps1\nindex 2720b489..89383d6a 100644\n--- a/tools/rust-r2l/l-ui-process.ps1\n+++ b/tools/rust-r2m/windows-ui-process.ps1\n@@ -7,7 +7,7 @@ param(\n $ErrorActionPreference = 'Stop'\n $nodePath = 'C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe'\n $nodeHash = '3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237'\n-$driverPath = 'E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tools\\rust-r2l\\l-ui-windows-driver.mjs'\n+$driverPath = 'E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tools\\rust-r2m\\windows-ui-driver.mjs'\n $inspectionWatch = [System.Diagnostics.Stopwatch]::StartNew()\n function Check-Budget {\n     if ($inspectionWatch.ElapsedMilliseconds -gt 12000) { throw 'Windows identity/stop total deadline' }\n"
+    }
+  ],
+  "pure": {
+    "passedNode": 10,
+    "failedNode": 0,
+    "log": {
+      "file": "tools/rust-r2m/windows-ui-source01-pure.txt",
+      "bytes": 2197,
+      "rawBytesSha256": "bc75a4c5eb0b45de88460f0ca30cb925001da04642f1841e0beeb31857d46218"
+    },
+    "PSPureChecks": 17,
+    "PSProcessQueries": 0,
+    "PSProcessStops": 0,
+    "PSLog": {
+      "file": "tools/rust-r2m/windows-ui-source01-ps-pure.txt",
+      "bytes": 247,
+      "rawBytesSha256": "ee290586f38680c7e3b67ae51eba7aa5ab40f453e0c767e3cf2097c164d9d270"
+    },
+    "syntaxFiles": 6,
+    "actualBrowser": 0,
+    "HTTP": 0,
+    "DB": 0,
+    "privateReads": 0
+  },
+  "scope": {
+    "windowsManagedNativeAndWindowsBrowser": true,
+    "WindowsBrowserWithExternalLinuxRust": true,
+    "WindowsBrowserDoesNotImplyWindowsNative": true,
+    "NativeMetadataSdkAndQueryPidFromBActualOwner": true,
+    "fixedNamespace": "poms-r2m",
+    "newPrivateOnly": true,
+    "sourcePinsBeforeAfterActualWindowsCheckout": true,
+    "identityACKBeforeCredentials": true,
+    "browserAndNativeOwnersSeparate": true,
+    "perActualHTTPProducerCert": true,
+    "whole107Facts": true,
+    "leaseExactFinalRestore": true,
+    "ownedObjectsAndDoublezero": true,
+    "originalFailureBeforeGeneric": true,
+    "onlyChildAllowedPort10080": true
+  },
+  "actual": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

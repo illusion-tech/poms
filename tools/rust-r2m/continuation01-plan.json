@@ -1,0 +1,182 @@
+{
+  "kind": "R2M-continuation01-literal-isolation-design",
+  "result": "DesignCandidate-no-executable-resource-admission",
+  "namespace": "poms-r2m",
+  "environmentId": "r2m-continuation01",
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "basis": [
+    {
+      "file": "tmp/rust-r2m/m5-retained-graph-inspection01.json",
+      "bytes": 1602,
+      "rawBytesSha256": "c1a753579e2fd544c5f707322c9a269609ba7ebd79c0452d6957fbdd13de8b55"
+    },
+    {
+      "file": "docs/design/rust-r2m/m5-ticket-observation-recovery-design-review01.json",
+      "bytes": 12091,
+      "rawBytesSha256": "fe9c94391c53c23582892cc3aac97a462ffd207ab882eb8c56bca1dc454c52ce"
+    },
+    {
+      "file": "tools/rust-r2m/pg-ticket-parent-source01.json",
+      "bytes": 3224,
+      "rawBytesSha256": "f044457acd081c1e7918d68f6583743880d328f72fd73e8107b38db6058ce004"
+    }
+  ],
+  "oldRetained": {
+    "database": "poms_r2m_rust",
+    "databaseOid": "17085",
+    "owner": "poms_r0e_owner",
+    "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+    "full107Sha256": "173437bc7a1015e66ac626f2278b0a086f6b417ecadabe5e77f61dda69362459",
+    "auditXmin": "9302",
+    "authSessionXmin": "9303",
+    "rowBirthInferred": false,
+    "nameOidSchemaDataVolumeAndOriginalJournalsPreserved": true,
+    "onlyPlannedChange": "ALLOW_CONNECTIONS false after exact fresh identity/row/ACL/0app/0prepared checks; no terminate/drop/rename/DML/cleanup/adoption."
+  },
+  "resources": {
+    "cluster": {
+      "host": "127.0.0.1",
+      "hostPort": 20432,
+      "serverPort": "15432",
+      "version": "150012",
+      "owner": "poms_r0e_owner",
+      "isolatedGuc": "on",
+      "timezone": "Etc/GMT-8"
+    },
+    "sourceTemplate": {
+      "database": "poms_r2m_nest",
+      "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+      "oid": "Root actual admission must supply exact current source OID",
+      "prerequisites": [
+        "an4c/all active writer owners stopped; all five original ports available",
+        "mature exact row cleanup double-zero and full107 equal original initial seed",
+        "source template connections0/prepared0; before/after full107/ACL/OID pin"
+      ],
+      "failedRustNeverSource": true
+    },
+    "databases": [
+      {
+        "backend": "nest",
+        "name": "poms_r2m_c01_nest"
+      },
+      {
+        "backend": "rust",
+        "name": "poms_r2m_c01_rust"
+      }
+    ],
+    "role": {
+      "name": "poms_r2m_c01_app",
+      "login": true,
+      "superuser": false,
+      "createdb": false,
+      "createrole": false,
+      "bypassrls": false,
+      "replication": false,
+      "inherit": false,
+      "memberships": 0,
+      "connectionLimit": 20
+    },
+    "marker": "abd093b8-c584-45b3-9c62-6357ad6dfa5d",
+    "markerSchema": "r2m_c01_control",
+    "stateRoot": "/home/wangzishi/.local/share/poms-r2m-continuation01",
+    "privateRoot": "/home/wangzishi/.local/share/poms-r2m-continuation01/private",
+    "privateDirectoryMode": "0700",
+    "privateFileMode": "0600",
+    "envFiles": {
+      "nest": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/nest.env",
+      "rust": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/rust.env"
+    },
+    "objectRoots": {
+      "nest": "/home/wangzishi/.local/share/poms-r2m-continuation01/objects/nest/server01",
+      "rust": "/home/wangzishi/.local/share/poms-r2m-continuation01/objects/rust/server01"
+    },
+    "newSecrets": [
+      "new lowrole password",
+      "new JWT/identity/provider runtime key; exact original key equality policy preserved"
+    ],
+    "oldPrivateCopied": false
+  },
+  "quarantineSequence": [
+    "Root pins and wx-seals original graph/report/journal/certificate/whole107 private bytes; public hashes only.",
+    "Use exact owned PG15 fixed postgres maintenance connection, original source connection owner guard unchanged.",
+    "Fresh exact old database OID/name/owner/encoding/locale/ACL/marker/whole107 match; close diagnostic old connection; app/prepared/all other old connections must be0.",
+    "Fresh owner/PID/ports admission; only literal ALTER DATABASE poms_r2m_rust WITH ALLOW_CONNECTIONS false.",
+    "Read pg_database by exact OID/name after: only datallowconn may differ, active/prepared remain0. No old-row read after deny requires a reopened connection. Retain full raw before and exact after reference.",
+    "Original failed run stays partial/uncertified/uncleaned. No original journal closed receipt is fabricated."
+  ],
+  "provisionSequence": [
+    "C accepts concrete design; Root freezes bounded G1 extension and per-execution actual OID/seed/owner admission.",
+    "Verify both new database names, new role, new state/private/env/objectroot paths before-absent; no directory symlink/alias, no existing resource adoption.",
+    "Create owner-only new state/private; fresh credential files via no-follow/wx0600 and same-fd read validation.",
+    "Under fixed task maintenance lock, capture cleaned Native template full107/catalog/ACL/OID and close source connection; require template all connections0 immediately before each clone.",
+    "Create literal new role once; create two literal databases TEMPLATE poms_r2m_nest OWNER poms_r0e_owner. Root records actual new OIDs; neither equals old17085/sourceOID/each other.",
+    "Capture clone product107 equality before any business run. Only new DB infra schema/marker/ACL changes are allowed: new marker stores sourceOID/sourceMarker/source107Sha/admissionSha/newOID. Old cloned r2m_control marker remains owner-only provenance, never admitted as the new DB marker.",
+    "In new DBs only revoke PUBLIC/old poms_r2m_app connect/temp and schema/table/sequence privileges; grant new lowrole only original runtime DML/USAGE/sequence/CONNECT policy, never CREATE/owner/marker access.",
+    "Assert new lowrole0memberships/no super/create/bypass/etc; old app cannot connect or access new product tables. Assert newrole has no privileges on original databases/tables; original Nest/Rust ACL values unchanged.",
+    "Generate new exact env from public envPlan literals and new keys, not by reading/copying old env. Same ports/endpoints/product inputs, only new database/role/root/key identity. Root maintenance owner-password is read only by the dedicated provision path on the already-owned original PG15.",
+    "Recheck original clean template full107/ACL/OID unchanged and old Rust quarantined exactOID/ACL/access flag; retain new whole-resource journal including all partial creation/error evidence without auto-drop/reset."
+  ],
+  "harnessVariant": {
+    "directory": "tools/rust-r2m-continuation01",
+    "status": "Not generated or SourceReady; finite entry dependency inventory follows design acceptance.",
+    "entryScope": [
+      "M4/M5 original ordered API acceptance",
+      "source capture and fixture/PG observer/owner/env support required by those entries"
+    ],
+    "profileName": "r2m-stage-continuation01",
+    "businessNamespace": "poms-r2m",
+    "originalsUnchanged": true,
+    "allowedMechanicalMappings": [
+      "exact tools/rust-r2m owned module/source path to sibling tools/rust-r2m-continuation01, preserving external original L/K/product source references",
+      "only environment identity literals: two DB names, lowrole, instance marker, control schema, exact state/private/object paths",
+      "profile name and profile/source hash pins mechanically recomputed from full raw source manifest",
+      "task evidence output directory tmp/rust-r2m-continuation01"
+    ],
+    "forbiddenMappings": [
+      "product source/binary or API/controller/request/SQL semantics",
+      "business row UUIDs, synthetic payload formula, task namespace or immutable selector permission",
+      "old original environment/source caps/journals/reviews/recovery helpers",
+      "any regex/wildcard/mutable environment database/root/profile override"
+    ],
+    "requiredProof": [
+      "finite exact dependency list per entry; no copy of old recovery/QA/private trees",
+      "per-file before raw/hash and exact allowed-literal occurrence-count replacements; inverse map equals complete original body",
+      "source hash-pin changes separately enumerated with referenced new body hashes; no unverified expected pin overwrite",
+      "full fresh matching source capsule binds original product tree, new variant and source impact",
+      "old loader rejects new env/DB/marker, new loader rejects old and every unlisted env/DB/marker",
+      "ambient PG/DB/MIKRO/DATABASE_URL/JWT/NODE_OPTIONS/POMS_ENV_FILE rejected case-insensitively; no user CLI DB/role/root/marker option"
+    ]
+  },
+  "futurePG": {
+    "newSource": {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75083,
+      "rawBytesSha256": "538aa31a86bf59b18b6180577d371be31c7837492f406a763afc0575da72eaee"
+    },
+    "oldSourceSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3",
+    "newBehavior": "only already-certified external_login_ticket neededParent",
+    "original31ProfileReusedBeforeEnvironmentVariant": true,
+    "noRetroactiveEvent": true
+  },
+  "actualAcceptance": {
+    "pending": [
+      "exact quarantine/provision executable source and C finite review",
+      "Root actual quarantine + provision before/after OIDs/rows/ACL/lowrole/env receipts",
+      "variant actual smoke/current product/certification + original source capsule",
+      "affected fresh Native/Rust M4/M5 with genuine new INSERT/outer-COMMIT/independent visibility and cleanup",
+      "Windows/UI environment variant support and exact matching source addendum if used",
+      "independent G3/G4 and final stage disposition"
+    ],
+    "oldPassesKeptWithTheirOriginalEpoch": true,
+    "oldFailedGraphNotStagePass": true,
+    "extra291R3R5Gate": false
+  },
+  "authorActions": {
+    "privateRead": false,
+    "databaseHttpBrowserContainerExecuted": false,
+    "resourceCreated": false,
+    "originalFixtureGuardEdited": false
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

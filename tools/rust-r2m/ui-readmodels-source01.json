@@ -1,0 +1,75 @@
+{
+  "kind": "R2M-uin1b-original-UI-restore-read-path-source-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/ui-readmodels-before-source01.json",
+    "bytes": 58957,
+    "rawBytesSha256": "29ee874b95ca68de0f3457742a542f9138477b4f4e6864cb578893421d4f770c"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 22209,
+      "rawBytesSha256": "c4ed7ef5affac6bf15d59e1bc957d4e23c2d7549bd1f1eaa1377f98504f44b04"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 17258,
+      "rawBytesSha256": "c673875651b290fe97cf319b21253b16701bae3acd909393fd9b43891ece28b6"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.test.mjs",
+      "bytes": 4661,
+      "rawBytesSha256": "ff197cdd344095d37793427e85090753bfd7bd8c800230735a0bc16ec40911a8"
+    }
+  ],
+  "originalSourceAnchors": [
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8543,
+      "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/dashboard/workbench.ts",
+      "bytes": 10214,
+      "rawBytesSha256": "67f207484c9b9b7fadd7a2ce038425f6b50b24225fd7747389f37faf85c749a1"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/project/project.store.ts",
+      "bytes": 8858,
+      "rawBytesSha256": "07eb84f962d8729937f8df0397ba908c2016b403a9129a422579c771e77b1ab3"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "bytes": 27547,
+      "rawBytesSha256": "1db2429199b857486385d2f8afcc38aea85ddd103670cf4bdfde07dcc416af68"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    }
+  ],
+  "scope": {
+    "restore": "Original AuthStore.initialize GET session -> acceptAuthSession(session.user) -> navigation/todos; profile GET only fallback if sessionUser absent. Wait exactly the three actual required200 calls, all existing snapshot/Todo/cookie/layout assertions remain.",
+    "projects": "Original Workbench.ngOnInit unconditionally loadProjects -> original GET/api/projects. Add this one method/path as common Native readonly model before transport, checked in current original spec; do not override migrated115 or fallback after candidate response. Original project:read permission guard/actual status retained, no projectread grant/no fake200.",
+    "RootCauseLabels": "uin1a/UI09 Unknown preserved; uin1b original failure privately retained, no old receipt rewritten.",
+    "WindowsOwnedEightSourcesUnchanged": true
+  },
+  "pure": {
+    "passed": 15,
+    "failed": 0,
+    "exitCode": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-readmodels-source01-pure.txt",
+      "bytes": 3658,
+      "rawBytesSha256": "2434569d2ff2b6c6c2b836f63df6bc7f0d4f51dfbfe4bcfff0636139abd0c799"
+    },
+    "syntaxFiles": 3,
+    "HTTP": 0,
+    "DB": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

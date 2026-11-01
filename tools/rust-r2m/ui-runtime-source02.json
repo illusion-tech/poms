@@ -1,0 +1,119 @@
+{
+  "kind": "R2M-Linux-managed-UI1-source-candidate",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "at": "2026-10-30T20:24:08.687Z",
+  "files": [
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22335,
+      "rawBytesSha256": "b75fc120069185867fe044bfeedcdb266fcfa810a6c99ba2b6b395e0b6086f1a"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 10613,
+      "rawBytesSha256": "6edc148b9e290bab437dbb240d0da2607c88e473518f03037d3ad4667a90824f"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.test.mjs",
+      "bytes": 3500,
+      "rawBytesSha256": "13192479846a93e8809ef8196181ce2eeac2e1462dd81034ed82515cb55940ee"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-contract.md",
+      "bytes": 4003,
+      "rawBytesSha256": "9c9bb20f3e3b8ac148e2c7b4ff497dd437496fb510f18f8faeeda84f1a0d2cee"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 3919,
+      "rawBytesSha256": "7336be6d9d5c514f1196dde48e4cea2e166eaa2d7646fef94b4432c782b247bf"
+    }
+  ],
+  "priorSources": [
+    {
+      "file": "tools/rust-r2l/l-ui-actual.mjs",
+      "bytes": 13353,
+      "rawBytesSha256": "823edb851fa2d88ee423797da3e8ae2792218da7ee1c1f2477b105b946e8d985"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-server.mjs",
+      "bytes": 7650,
+      "rawBytesSha256": "de3db3b6d539eb90a8818f8cb590417e8f5fef7e23df756fe4460163bb04e777"
+    },
+    {
+      "file": "tools/e2e/runtime.cjs",
+      "bytes": 16694,
+      "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a"
+    },
+    {
+      "file": "tools/e2e/runtime-worker.cjs",
+      "bytes": 2182,
+      "rawBytesSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc"
+    }
+  ],
+  "latestBInputs": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 18935,
+      "rawBytesSha256": "e5e817e4170154fdf7c41e6d05e1f3cfcb9e0042a685707086eed6d8f64398a5"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared.mjs",
+      "bytes": 4895,
+      "rawBytesSha256": "57d2c3ffcd3b6799beb53a25e17d2bc528d526d095cd2c053674c09c1f722917"
+    }
+  ],
+  "scope": {
+    "selection": [
+      "UI1"
+    ],
+    "backends": [
+      "Linux managed Nest",
+      "Linux managed Rust with explicit Native owner for source metadata"
+    ],
+    "otherJourneysAndWindowsPending": true,
+    "realViewerPreparedTodoRows": 7,
+    "sourceAnchorRows": 2,
+    "privateNamespace": "poms-r2m",
+    "rawHttpRetained": true,
+    "full107physicalFacts": true,
+    "SDKAndPGProofBeforeAdoption": true,
+    "exactProcessGroupOwner": true,
+    "noProductChanges": true,
+    "notStatusOnly": true
+  },
+  "pure": {
+    "passed": 4,
+    "failed": 0,
+    "exitCode": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-runtime-source02-pure.txt",
+      "bytes": 1029,
+      "rawBytesSha256": "47c88b6208ed3e787fe4926ef9bded544c02aa5168b29af49ae90468cc5b8963"
+    },
+    "syntaxFiles": 4,
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateReads": 0
+  },
+  "notPerformed": [
+    "actual new UI source capsule check on Linux",
+    "browser/runtime launch",
+    "network/DB execution",
+    "cross-backend full comparison",
+    "G3/G4"
+  ],
+  "epochRule": "New UI source epoch only; leave Root active M0/URI old27/profile59 original capsule unchanged.",
+  "priorSource": {
+    "file": "tools/rust-r2m/ui-runtime-source01.json",
+    "bytes": 3157,
+    "rawBytesSha256": "a05e0096294c7d06a0c90641b74d0643786fd329b02d8c3c9eca762f299f2c9e"
+  },
+  "delta": {
+    "browserEnvironment": "Explicit system whitelist only; no Native JWT/DB/MIKRO/POMS/NODE_OPTIONS or ambient loader variables",
+    "extraLibraries": "Exact new-M browser-libs directories and actual resolved member byte/hash pins; library symlinks require literal target pin and contained realpath",
+    "executable": "Exact new-M browser-cache regular file and raw hash, no discovery/download",
+    "otherUI1SourceUnchanged": true
+  }
+}

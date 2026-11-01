@@ -1,0 +1,38 @@
+{
+  "kind": "R2M-readonly-installed-Playwright-cache-primary-source",
+  "playwrightVersion": "1.63.0",
+  "sources": [
+    {
+      "file": "E:\\projects\\poms\\node_modules\\.pnpm\\playwright-core@1.63.0\\node_modules\\playwright-core\\lib\\coreBundle.js",
+      "bytes": 3477183,
+      "rawBytesSha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "matches": [
+        {
+          "line": 36113,
+          "lines": "        const enabled = this._protocolRequestInterceptionEnabled;\n        if (initial && !enabled)\n          return;\n        const cachePromise = info.session.send(\"Network.setCacheDisabled\", { cacheDisabled: enabled });\n        let fetchPromise = Promise.resolve(void 0);\n        if (!info.workerFrame) {"
+        },
+        {
+          "line": 36140,
+          "lines": "      }\n      async clearCache() {\n        await this._forEachSession(async (info) => {\n          await info.session.send(\"Network.setCacheDisabled\", { cacheDisabled: true });\n          if (!this._protocolRequestInterceptionEnabled)\n            await info.session.send(\"Network.setCacheDisabled\", { cacheDisabled: false });"
+        },
+        {
+          "line": 36142,
+          "lines": "        await this._forEachSession(async (info) => {\n          await info.session.send(\"Network.setCacheDisabled\", { cacheDisabled: true });\n          if (!this._protocolRequestInterceptionEnabled)\n            await info.session.send(\"Network.setCacheDisabled\", { cacheDisabled: false });\n          if (!info.workerFrame)\n            await info.session.send(\"Network.clearBrowserCache\");"
+        }
+      ]
+    },
+    {
+      "file": "E:\\projects\\poms\\node_modules\\.pnpm\\playwright-core@1.63.0\\node_modules\\playwright-core\\types\\protocol.d.ts",
+      "bytes": 814210,
+      "rawBytesSha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+      "matches": [
+        {
+          "line": 12973,
+          "lines": "    /**\n     * Toggles ignoring cache for each request. If `true`, cache will not be used.\n     */\n    export type setCacheDisabledParameters = {\n      /**\n       * Cache disabled state.\n       */\n      cacheDisabled: boolean;\n    }\n    export type setCacheDisabledReturnValue = {\n    }\n    /**"
+        }
+      ]
+    }
+  ],
+  "initialRetiredPathLookup": "Read-only old unbundled lib/server/chromium/crNetworkManager.js was absent; no source mutation or execution",
+  "actualExecution": false
+}

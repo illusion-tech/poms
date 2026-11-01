@@ -1,0 +1,43 @@
+{
+  "kind": "R2M-author-reported-pure-check-history-not-runtime-evidence",
+  "owner": "/root/r2m_acceptance",
+  "databaseHttpContainerBrowserExecutedByThisAgent": false,
+  "rawOutputPolicy": "Original tool outputs remain in this agent turn; this additive index is a labelled author recap, not a reconstructed raw log or independent reviewer decision.",
+  "retained": [
+    {
+      "check": "Initial static ordered-request dispatch against the frozen115",
+      "result": "failed",
+      "exitCode": 1,
+      "observedUnregisteredInputs": [
+        "M2.3 POST /api/security-events:route-denied",
+        "M5.1 POST /api/auth/external-sessions ticket",
+        "M5.1 POST /api/auth/external-sessions ticket-replay"
+      ],
+      "resolution": "Corrected only tool recipes to full-spec recordRouteDenied and external-login-sessions; later pure suite validates static route membership.",
+      "runtimeOrProductFailureClaimed": false
+    },
+    {
+      "check": "Initial operating gate source descriptor inspection",
+      "result": "source-gap-observed",
+      "observed": "GateBinding has no summary_package_key/summary_snapshot_id fields.",
+      "resolution": "preparedEvidenceFromPlan selects the exact ApprovalSummarySnapshot whose summary_package_id equals the readonly operating definition; pure source plan confirms all10 descriptor fields.",
+      "runtimeOrProductFailureClaimed": false
+    },
+    {
+      "check": "Initial synthetic provider body against original full schema",
+      "result": "failed",
+      "exitCode": 1,
+      "observed": "searchGrantMode admin-oauth is not in the frozen per-admin/service-account enum.",
+      "resolution": "Changed only the synthetic tool input to per-admin; subsequent exact named-schema check passed.",
+      "runtimeOrProductFailureClaimed": false
+    }
+  ],
+  "laterObservedChecks": [
+    {"command": "node --test tools/rust-r2m/scenario.test.mjs", "result": "passed", "tests": 8, "failed": 0, "skipped": 0, "boundary": "Pure source/dispatch/schema/normalization/ownership rejection tests; no actual fixture or backend."},
+    {"command": "node node_modules/typescript/bin/tsc --project tools/rust-r2m/acceptance-ui-tsconfig.json --noEmit --pretty false", "result": "passed", "boundary": "TypeScript source only; no browser/build/runtime pass."},
+    {"check": "Same actualSurfaceBindings constructor used by pre-I/O and --check", "result": "passed", "canonicalParameters": 7, "surfaceProbesBuilt": 115, "boundary": "Source-only preflight following Root-reported m0n02 failure; Root owns failed-run data/evidence and exact cleanup."},
+    {"check": "Current source-derived commission plan and prepared evidence", "result": "passed", "uuidMappings": 21, "preparedRows": 18, "preparedTables": 15, "descriptorFields": 10, "boundary": "Original source recording and mapping only; actual INSERT/COMMIT/Native production not executed by this agent."}
+  ],
+  "unchangedWarning": "Node24.19 reports MODULE_TYPELESS_PACKAGE_JSON for the original TS support import. Package.json was not changed to hide it.",
+  "stagePassClaimed": false
+}

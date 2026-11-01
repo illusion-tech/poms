@@ -1,0 +1,32 @@
+✔ the pure exact-run model has no execution or UUID-number-ownership authority (1.6195ms)
+✔ the actual CLI reference-key shape maps ledger to the same journal consumed by validation (4.505ms)
+✔ the new recovery connection reacquires only the fixed original singleton lock without changing its old PID proof (0.451ms)
+✔ a foreign or busy singleton lease refuses the recovery lock without changing a row (2.1493ms)
+✔ only the single failed-open revision increment is accepted against the immutable original ledger (1.5727ms)
+✔ fresh catalogue capture uses the original validated owner and an explicit read-only transaction (0.5291ms)
+✔ an original catalogue failure still rolls back and closes the readonly owner without hiding that error (0.1908ms)
+✔ exact recovery rejects run using only the controlled in-memory inputs (0.3863ms)
+✔ exact recovery rejects marker using only the controlled in-memory inputs (0.3379ms)
+✔ exact recovery rejects writer using only the controlled in-memory inputs (0.6586ms)
+✔ exact recovery rejects unrestoredObserver using only the controlled in-memory inputs (0.3637ms)
+✔ exact recovery rejects otherObserver using only the controlled in-memory inputs (0.3614ms)
+✔ exact recovery rejects pending using only the controlled in-memory inputs (0.6153ms)
+✔ exact recovery rejects unknownDirect using only the controlled in-memory inputs (2.3035ms)
+✔ exact recovery rejects unknownMutation using only the controlled in-memory inputs (0.48ms)
+✔ exact recovery rejects wrongSettingScope using only the controlled in-memory inputs (0.586ms)
+✔ exact recovery rejects settingOwnership using only the controlled in-memory inputs (0.4668ms)
+✔ exact recovery rejects missingTable using only the controlled in-memory inputs (0.4099ms)
+✔ exact recovery rejects existingNumber using only the controlled in-memory inputs (0.435ms)
+✔ exact recovery rejects wrongContext using only the controlled in-memory inputs (0.4242ms)
+✔ exact recovery rejects wrongNumberHash using only the controlled in-memory inputs (0.3012ms)
+✔ exact recovery rejects rowCount using only the controlled in-memory inputs (0.2569ms)
+✔ exact recovery rejects ownedCollision using only the controlled in-memory inputs (1.3324ms)
+✔ the mature number restore and PG footprint catalog bodies are copied verbatim from their reviewed public sources (0.4685ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 235.5175

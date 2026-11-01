@@ -1,0 +1,73 @@
+{
+  "kind": "R2M-UI2-fatal-followup02-fixed-original-snapshot-label-plan",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "base": {
+    "file": "tools/rust-r2m/ui2-fatal-recovery-source01.json",
+    "bytes": 6883,
+    "rawBytesSha256": "efc18fd2d63ab00f6d269cc2153eeb4f646120cc7c3eeed6d636e051dadc61e9"
+  },
+  "previousReview": {
+    "file": "docs/design/rust-r2m/ui2-fatal-recovery-source-review01.json",
+    "bytes": 8786,
+    "rawBytesSha256": "64a195f468c9c8b4056daab7a522b56afc3481f02b39792e55b10fef6d356f92"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/recover-ui2-fatal02.mjs",
+      "bytes": 29465,
+      "rawBytesSha256": "fa6fd1444d559774fa0ce27f6d6afcb6c7c3bed3dfc0df6ead171aaa3e915658"
+    },
+    {
+      "file": "tools/rust-r2m/recover-ui2-fatal02.test.mjs",
+      "bytes": 12284,
+      "rawBytesSha256": "adcbcfe97fa1bd742fdc5166658fdfafd987d96f0bbe29fdeb3bc53d45900e8d"
+    }
+  ],
+  "scope": [
+    "Original01 source, first two wx copies, failed public receipt and private error remain immutable. Root confirms original198018B/9d399ledger and854483B/3516observer unchanged before Fixture.open or DB.",
+    "The actual four-key snapshot loop now consumes the same exported fixed plan used by the pure test: ledger->ledger, observer->observer, ownerLog->owner-log, baseline->baseline. Each original rawSHA remains bound. save(label) still enforces the original strict lowercase filename regex, exact new-M directory/private/no-follow/wx boundaries.",
+    "New02 helper, recovered-ui2-fatal-rust-uir2a02.json output and ui2fatal02-* private prefix avoid overwriting any01 artifact. Every late-quiescence, original event/certificate/control, mature reconciliation/restore, original Rust owner catalogue, fixed lock/CAS/unlock, full107 and doubleclean guard is unchanged."
+  ],
+  "firstFailure": {
+    "phase": "Snapshot label construction before Fixture.open/DB",
+    "reason": "ownerLog producer key incorrectly entered the strict lowercase label directly",
+    "originalFailurePreserved": true,
+    "originalLedgerAndObserverChanged": false
+  },
+  "pure": {
+    "passed": 26,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui2-fatal-recovery-source02-pure.txt",
+      "bytes": 2632,
+      "rawBytesSha256": "dd7dfb2c0ba44e66ce59df2dd6156079e8ef72c4d028b71dadf78e3368d6dd37"
+    },
+    "syntax": {
+      "file": "tools/rust-r2m/ui2-fatal-recovery-source02-syntax.txt",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "check": {
+      "file": "tools/rust-r2m/ui2-fatal-recovery-source02-check.txt",
+      "bytes": 283,
+      "rawBytesSha256": "0e2a92ed72e191fef903cc7616cf375c79cc80e2ad264e2a9e5de1f2a2a2dc0e"
+    },
+    "noUndef": {
+      "file": "tools/rust-r2m/ui2-fatal-recovery-source02-no-undef.json",
+      "bytes": 88,
+      "rawBytesSha256": "4bfc696206c2f1ffafdb5b1093c64a48047895ba0e2aede48430e90bd73a0bae"
+    },
+    "actualFourKeySnapshotPlanCovered": true,
+    "actualProductionLoopUsesSamePlan": true,
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0,
+    "processQueries": 0,
+    "processStops": 0
+  },
+  "RootActualCommand": "node tools/rust-r2m/recover-ui2-fatal02.mjs --run",
+  "actual": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

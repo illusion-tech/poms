@@ -1,0 +1,66 @@
+{
+  "kind": "R2M-an8a-followup02-reference-map-and-new-connection-exact-lease-lock",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "base": {
+    "file": "tools/rust-r2m/an8a-recovery-source01.json",
+    "bytes": 4908,
+    "rawBytesSha256": "391508d0bcab59bba5ff97603707ca2d76de67956f2d88db0f642d7a383b4617"
+  },
+  "priorSourceReview": {
+    "file": "docs/design/rust-r2m/an8a-recovery-source-review01.json",
+    "bytes": 7506,
+    "rawBytesSha256": "23e760e09e8ff35474c462d235096687756e3f459df973c2d97b26248152eab8"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an8a02.mjs",
+      "bytes": 23032,
+      "rawBytesSha256": "371e6a10804b64ce6c9a53c2cf50ffe1c893eea6c4255ecf3254ddfd1d2a1877"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an8a02.test.mjs",
+      "bytes": 7759,
+      "rawBytesSha256": "f55a1d7c0a83d267c310114540e9193643ce90081391a5200b8e7b20e98878b2"
+    }
+  ],
+  "scope": [
+    "The original d61 helper and its failed public/private receipts remain unchanged. A distinct02 script,02 public output and02 private evidence prefix avoid overwriting either attempt. Original d2db837720B ledger/run/source/private-frame hashes remain identical.",
+    "The production runner now calls exported mapAn8aRecoveryInputs on its exact original reference keys, explicitly aliasing parsed ledger as the same journal object used by all validation/source-profile/Fixture checks. Pure test exercises the exact report/owner/cap/ledger/baseline/admitted/context/observed byte shape and guards the actual CLI call binding.",
+    "After wx original-ledger snapshot, fresh owner/ports/marker/catalog/full107/preflight guards and before drain/any restore, the new validated fixture connection must acquire exactly pg_try_advisory_lock(hashtext(poms-r2m-singleton-setting),hashtext(poms_r2m_nest:attachment.max-upload-size-mb)). Busy/foreign scope rejects; new actual backend PID is recorded.",
+    "originalFixtureBackendPid and the migration singleton before/expectedAfter/source admission are never rewritten. The existing exact CAS, independent full-row equality and final unlock===true behavior remain unchanged. Mature number restoration and PG catalog bodies remain byte-identical; no ownership/adoption/delete-scope expansion."
+  ],
+  "firstActualFailure": {
+    "result": "recovery-incomplete-preserved",
+    "rootReportedPhase": "TypeError at missing journal alias during input validation, before original snapshot/Fixture.open/DB; original ledger still exact d2db",
+    "privateErrorReadByA": false
+  },
+  "pure": {
+    "passed": 21,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/an8a-recovery-source02-pure.txt",
+      "bytes": 2194,
+      "rawBytesSha256": "a113054be3fd751c441c0df8b94e9f3786cf0e08618618d4e3d68d1ad63653ab"
+    },
+    "syntax": {
+      "file": "tools/rust-r2m/an8a-recovery-source02-syntax.txt",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "check": {
+      "file": "tools/rust-r2m/an8a-recovery-source02-check.txt",
+      "bytes": 315,
+      "rawBytesSha256": "dd7a17e8f7b312a1b9488f039d838cb3b9bea9c568ab063d9156a89f8bbc6a56"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0,
+    "processQueries": 0,
+    "processStops": 0
+  },
+  "RootActualCommand": "node tools/rust-r2m/recover-closed-an8a02.mjs --run",
+  "actual": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

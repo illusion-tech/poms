@@ -1,0 +1,26 @@
+// Build the original Angular application using its test-only entry.
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import{createHash}from'node:crypto';import{createRequire}from'node:module';import{spawn,execFileSync}from'node:child_process';
+const ROOT=path.resolve(import.meta.dirname,'../..'),IMAGE='ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273',MODULES='/home/wangzishi/projects/poms-rust-r2d/node_modules',NODE='/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node',HEAD='9dcfb498b175e9fdaae7584aff1d5d3f93bf814f';
+const sha=b=>createHash('sha256').update(b).digest('hex'),tag=process.argv[3];assert(/^[a-z0-9-]{1,24}$/.test(tag??''));assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:ROOT,encoding:'utf8'}).trim(),HEAD);
+const stem=`tmp/rust-r2m/ui-build-${tag}`;
+async function run(executable,args,log,env){const fd=fs.openSync(log,'wx',0o600);try{return await new Promise((resolve,reject)=>{const c=spawn(executable,args,{cwd:ROOT,env,stdio:['ignore',fd,fd]});c.once('error',reject);c.once('close',resolve)})}finally{fs.fsyncSync(fd);fs.closeSync(fd)}}
+function row(file){const b=fs.readFileSync(file);return{file,bytes:b.length,rawBytesSha256:sha(b)}}
+function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name)).flatMap(e=>{assert(!e.isSymbolicLink());return e.isDirectory()?walk(dir+'/'+e.name):[row(dir+'/'+e.name)]})}
+const output=stem+(process.argv[2]==='--container'?'-container':'')+'.json';assert(!fs.existsSync(output));
+if(process.argv[2]==='--container'){
+ assert.equal(ROOT,'/home/wangzishi/projects/poms-rust-r2m');assert.equal(sha(fs.readFileSync(NODE)),'bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12');
+ const args=['--cgroup-manager=cgroupfs','run','--rm','--pull=never','--network=none','--userns=keep-id','--user','1000:1000','--name','poms-r2m-ui-build-'+tag,'--workdir','/workspace','--mount',`type=bind,source=${ROOT},destination=/workspace`,'--volume',`${MODULES}:${MODULES}:O`,'--mount',`type=bind,source=${NODE},destination=/usr/local/bin/node,readonly`,'--env','CI=true','--entrypoint','/usr/local/bin/node',IMAGE,'tools/rust-r2m/ui-build.mjs','--inside',tag];
+ const code=await run('podman',args,stem+'-container.log',process.env);fs.writeFileSync(output,JSON.stringify({kind:'R2M-UI-pure-build-container',result:code===0?'pass':'failed-preserved',exitCode:code,image:IMAGE,network:'none',privateOrDatabaseMounted:false,pureDependencyOverlay:true,log:row(stem+'-container.log')},null,2)+'\n',{flag:'wx'});process.exitCode=code??1;
+}else{
+ assert.equal(process.argv[2],'--inside');assert.equal(ROOT,'/workspace');
+ const common=JSON.parse(fs.readFileSync('tmp/rust-r2m/node-validation-common01.json')),retry=JSON.parse(fs.readFileSync('tmp/rust-r2m/node-validation-retry01.json'));assert.equal(retry.result,'pass');assert.equal(retry.sourceHead,HEAD);assert.equal(retry.sourceQualification.currentWorkingTreeIndexAndUntrackedMatchFrozenSource,true);
+ const names=['native-build','shared-client-same-TypeScript-CLI','admin-data-access-same-TypeScript-CLI'],dependencies=names.map(name=>{const s=[...common.steps,...retry.steps].find(s=>s.name===name&&s.exitCode===0);assert(s);assert.equal(sha(fs.readFileSync(s.log)),s.logSha256);return{name,log:row(s.log)}});
+ assert(fs.readFileSync(dependencies[0].log.file,'utf8').includes('Done compiling TypeScript files for project "shared-contracts".'));
+ const require=createRequire(import.meta.url),nx=require.resolve('nx/bin/nx.js'),tsc=require.resolve('typescript/bin/tsc'),dir='dist/tools/rust-r2m-ui-'+tag;
+ const inputs=['tools/rust-r2m/acceptance-ui-main.ts','tools/rust-r2m/acceptance-ui-tsconfig.json','apps/poms-admin/src/main.ts','apps/poms-admin/src/app.config.ts','apps/poms-admin/src/app.component.ts','apps/poms-admin/project.json'].map(row);
+ const report={kind:'R2M-original-Angular-app-test-entry',result:'pending',sourceHead:HEAD,inputs,dependencies,privateOrDatabaseMounted:false,productEntryUnchanged:true,steps:[]};
+ const env={...process.env,NX_DAEMON:'false',NX_TUI:'false',NX_SKIP_NX_CACHE:'true',NG_CLI_ANALYTICS:'false',CI:'true'};delete env.NODE_OPTIONS;
+ for(const[name,args]of [['typescript',[tsc,'--project','tools/rust-r2m/acceptance-ui-tsconfig.json','--noEmit','--pretty','false']],['development',[nx,'run','poms-admin:build:development','--browser=tools/rust-r2m/acceptance-ui-main.ts','--tsConfig=tools/rust-r2m/acceptance-ui-tsconfig.json','--outputPath='+dir,'--skip-nx-cache','--output-style=static','--excludeTaskDependencies']]]){
+ const log=stem+'-'+name+'.log',code=await run(process.execPath,args,log,env);report.steps.push({name,args,exitCode:code,log:row(log)});if(code!==0){report.result='failed-preserved';process.exitCode=code??1;break}}
+ assert.deepEqual(inputs.map(r=>row(r.file)),inputs);if(report.steps.length===2&&report.steps.every(s=>s.exitCode===0)){report.result='pass';report.buildDirectory=dir+'/browser';report.outputs=walk(report.buildDirectory);report.outputsManifestSha256=sha(JSON.stringify(report.outputs));}fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({file:output,result:report.result,files:report.outputs?.length}));
+}

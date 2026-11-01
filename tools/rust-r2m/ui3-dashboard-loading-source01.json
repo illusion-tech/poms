@@ -1,0 +1,99 @@
+{
+  "kind": "R2M-UI3-original-dashboard-post-navigation-loading-micro-source-candidate",
+  "result": "source-only-awaiting-non-author-review",
+  "owner": "/root/r2m_delivery_audit",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25929,
+      "rawBytesSha256": "82a7d6e2a02bfc2afb95e51ec4fcd40c957892ed2c45b2afd005b36a6efc5dee"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/dashboard/workbench.ts",
+      "bytes": 10214,
+      "rawBytesSha256": "67f207484c9b9b7fadd7a2ce038425f6b50b24225fd7747389f37faf85c749a1"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8543,
+      "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661"
+    },
+    {
+      "file": "apps/poms-admin/src/app.config.ts",
+      "bytes": 5633,
+      "rawBytesSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-main.ts",
+      "bytes": 4911,
+      "rawBytesSha256": "5ae93a7e2ef410c39e814d394f1c71b8f1b973671d73cbc89c345db51cdd3a50"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    }
+  ],
+  "before": {
+    "file": "tools/rust-r2m/ui3-dashboard-loading-before-source01.json",
+    "bytes": 34508,
+    "rawBytesSha256": "041d676d225722be36e355b3113c11d2aa8f0439a55ca55673bd4b7dc8df6db3"
+  },
+  "originalSourceAudit": {
+    "file": "tools/rust-r2m/ui3-workbench-source-audit01.json",
+    "bytes": 3505,
+    "rawBytesSha256": "1a3c708405dae478eca1705e342016077f866b9d61c21dd856ab47dcb74e261f"
+  },
+  "RootActualEvidence": {
+    "file": "tmp/rust-r2m/uir3a-todo-evidence01.json",
+    "bytes": 8066,
+    "rawBytesSha256": "f4e9d8339647215579d921f33b9b042bba52157f46826d250de35a46ac181007"
+  },
+  "originalActualFacts": {
+    "ownedTodoTargetAndCompleteContractNoPresent": true,
+    "newNavigationSessionNavTodos200Observed": true,
+    "lastTodo200": "01:58:43.764",
+    "failureRetained": "01:58:43.926",
+    "failureDOMHasWorkbench": false,
+    "otherNavTodosRequestsStillInFlightAndNeverClaimed200": true,
+    "PGRestoreFailureAndOriginalCloseDiagnosticsPreserved": true
+  },
+  "exactDelta": "In UI3 todo-detail-reject only: after original successful login, register the new navigation GET /api/auth/session,/api/me/navigation,/api/me/todos waits; keep original full goto /dashboard; await three original200s and bridge.version1; then unchanged original Todo locator/5s visibility/click/reject protocol",
+  "noChange": {
+    "businessPaths": true,
+    "locatorAndDefault5s": true,
+    "actionsAndAPIAssertions": true,
+    "timeLimits": true,
+    "mocksOrSyntheticUIData": true,
+    "fixtureOrProfileOrOwner": true
+  },
+  "claimBoundary": "Fix a concrete missing technical-ready condition, not a product-performance or empty-Todo root-cause verdict. No retry of an unsuccessful HTTP/business result.",
+  "pure": {
+    "test": {
+      "file": "tools/rust-r2m/ui3-dashboard-loading-source01.test.mjs",
+      "bytes": 3931,
+      "rawBytesSha256": "a39b4e787f4bbbebfd6c9648600e1701beb95dddd6d6ed9c77c223d93b1383d4"
+    },
+    "log": {
+      "file": "tools/rust-r2m/ui3-dashboard-loading-source01-pure.txt",
+      "bytes": 1673,
+      "rawBytesSha256": "314528de58098e7b5b2abbc0f47fce4b6ca3e862ce918dd1c7280d5feafcef32"
+    },
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "model": "actual original step arrow from AST waits deferred original HTTP/bridge; original non200/error fails before DOM; no real IO"
+  },
+  "RootCopyRuntime": [
+    "tools/rust-r2m/acceptance-ui-browser.mjs"
+  ],
+  "RootNext": "C micro review; Root only copies this exact new browser file into old28/a8ae source epoch and captures fresh cap; no future UI4/31 or owner files required",
+  "actual": {
+    "privateRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false
+  },
+  "G3": false,
+  "G4": false
+}

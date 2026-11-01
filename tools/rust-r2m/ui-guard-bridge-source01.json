@@ -1,0 +1,85 @@
+{
+  "kind": "R2M-original-UI-navigation-bridge-readiness-micro-source-candidate",
+  "result": "source-only-awaiting-non-author-review",
+  "owner": "/root/r2m_delivery_audit",
+  "before": {
+    "file": "tools/rust-r2m/ui-guard-bridge-before-source01.json",
+    "bytes": 34191,
+    "rawBytesSha256": "edbfdc98b2038fece3083495ee2523a63385f7762a90cc73108c851e52e55e86"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25661,
+      "rawBytesSha256": "228119de57fab433aa7c8ef6acee2f10176ceb0c465c30965d97c6214cf9d7aa"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-main.ts",
+      "bytes": 4911,
+      "rawBytesSha256": "5ae93a7e2ef410c39e814d394f1c71b8f1b973671d73cbc89c345db51cdd3a50"
+    }
+  ],
+  "delta": [
+    "UI2 after original guarded users URL redirect, wait original bridge.version===1 before fixedPlatformUsersRead",
+    "UI3 after its newly loaded contract page/real approve/dialog completion, wait original bridge.version===1 before getApprovalRecord",
+    "Snapshot helper waits the same original version1 before evaluating it, covering the first bridge access after the settings full navigation across steps"
+  ],
+  "staticAdjacentBridgeAudit": {
+    "UI1": "login and explicit reload paths already await version1; no new navigation/API",
+    "UI2": "denial direct read now exact-ready; next-step wrong-CSRF snapshot also exact-ready after settings full navigation",
+    "UI3": "approvalIdForTarget follows already-ready login; post-contract-navigation getApprovalRecord now ready",
+    "UI4": "no direct acceptance-bridge method evaluation after its navigations"
+  },
+  "scope": {
+    "pathsAndGuardsAndAPIAndAssertionsUnchanged": true,
+    "noBusinessRetryOrMock": true,
+    "noNewGoto": true,
+    "noCookieChanges": true,
+    "UI733OriginalDashboardLogoutKept": true,
+    "fixtureOrProfileOrPGChangedByThisDelta": false,
+    "oldNativeUncachedUI12PassAndRustPartialPreserved": true
+  },
+  "pure": {
+    "test": {
+      "file": "tools/rust-r2m/ui-guard-bridge-source01.test.mjs",
+      "bytes": 4539,
+      "rawBytesSha256": "280517765d342475e75ef966d27cfd29035238d4de6a897cbe40b63e0c2b4afe"
+    },
+    "log": {
+      "file": "tools/rust-r2m/ui-guard-bridge-source01-pure-final03.txt",
+      "bytes": 1780,
+      "rawBytesSha256": "cda5508522b9e4f27d043aa55a3a29c51c5ab43f3da5a955f158fd5bac19d4b2"
+    },
+    "tests": 15,
+    "pass": 15,
+    "fail": 0,
+    "model": "execute the actual original UI2 step arrow and actual snapshot arrow from AST over deferred synthetic bridge; the original request cannot execute before ready; same original wait failure propagates",
+    "firstHarnessMissingExpectFailurePreserved": {
+      "file": "tools/rust-r2m/ui-guard-bridge-source01-pure.txt",
+      "bytes": 2293,
+      "rawBytesSha256": "e27765b806a3f09a937c844de66fc898b23ebbb179defbbd8a43ac90854dd35c"
+    },
+    "intermediateLogs": [
+      {
+        "file": "tools/rust-r2m/ui-guard-bridge-source01-pure-final.txt",
+        "bytes": 1667,
+        "rawBytesSha256": "6a5fa46b23564ade1843a28f6bd56ad8156203059c21a01416054ef5b1a2e09d"
+      },
+      {
+        "file": "tools/rust-r2m/ui-guard-bridge-source01-pure-final02.txt",
+        "bytes": 1666,
+        "rawBytesSha256": "4349289b2ab4e9f3f4bd892e00b725836930e574a8973232f458f86357e3f099"
+      }
+    ],
+    "actualBrowser": false,
+    "actualHTTP": false,
+    "actualDB": false,
+    "privateRead": false
+  },
+  "RootCopyRuntime": [
+    "tools/rust-r2m/acceptance-ui-browser.mjs"
+  ],
+  "RootNext": "C micro review, then Root only copies the exact new browser bytes into its old28 uncached source epoch and captures a fresh capsule; no M4/M5 shared copy required",
+  "G3": false,
+  "G4": false
+}

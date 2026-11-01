@@ -1,0 +1,23 @@
+{
+  "kind": "record-of-source-static-tool-configuration-failure",
+  "toolChunk": "8f80bd",
+  "originalProcessStreamFileAvailable": false,
+  "sourceFile": "tools/rust-r2m/acceptance-ui-browser.mjs",
+  "sourceChanged": false,
+  "actualPrivateDatabaseHttpBrowserProcessExecuted": false,
+  "errors": [
+    {
+      "ruleId": "no-undef",
+      "message": "'TextDecoder' is not defined.",
+      "line": 24,
+      "column": 129
+    },
+    {
+      "ruleId": "no-undef",
+      "message": "'TextDecoder' is not defined.",
+      "line": 29,
+      "column": 44
+    }
+  ],
+  "correction": "Use installed Node builtin globals for the Node24 source check; no runtime or product code change."
+}

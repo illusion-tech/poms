@@ -1,0 +1,82 @@
+{
+  "kind": "R2M-UI-pinned-comparison-input",
+  "caseId": "ui1-joint17-original-cache-input",
+  "sourceCap": {
+    "file": "tmp/rust-r2m/source-cap-joint17.json",
+    "bytes": 1395478,
+    "rawBytesSha256": "e3d2269d2ad1c3b348d57328dcfb4c968d8b7fa573515cd3dc563962e5495b8d"
+  },
+  "sourceCapId": "r2m-joint17",
+  "sourceManifestSha256": "d0d1ab4e731ccbe2213748672c66391efd3af4ee51ca4e484cf3001de536323b",
+  "metadata": {
+    "file": "tmp/rust-r2m/ui1-comparison-shapes01.json",
+    "bytes": 18670,
+    "rawBytesSha256": "1cfd068d435e1930473846b9356d0d71c3f0d6a2c9e47da3e9a55cd053e5df2c"
+  },
+  "profile": {
+    "journeys": [
+      "UI1"
+    ],
+    "cacheMode": "original-cache-input",
+    "functionalHeaders": [
+      "content-type",
+      "content-length",
+      "content-disposition",
+      "x-request-id"
+    ],
+    "cacheEquivalenceCertified": false,
+    "expectedHttpCount": {
+      "nest": 30,
+      "rust": 30
+    },
+    "expectedTableCounts": {
+      "role": 2,
+      "org_unit": 2,
+      "platform_user": 2,
+      "local_credential": 2,
+      "user_role_assignment": 2,
+      "user_org_membership": 2,
+      "role_permission_assignment": 38,
+      "customer": 1,
+      "project": 1,
+      "lead": 1,
+      "sales_follow_up_record": 3,
+      "todo_item": 3,
+      "auth_session": 2,
+      "security_event": 4
+    }
+  },
+  "sides": {
+    "nest": {
+      "runId": "a5bcb199-0cf5-4927-9096-b39c32351cb3",
+      "report": {
+        "file": "tmp/rust-r2m/ui-linux-nest-uin1d.json",
+        "bytes": 58237,
+        "rawBytesSha256": "0714824ce20a3d4045023f9cb3824162e3e957a9e3ecb211d56d0dfc6ea0185e"
+      },
+      "finalLedger": {
+        "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-a5bcb199-0cf5-4927-9096-b39c32351cb3.json",
+        "bytes": 403546,
+        "rawBytesSha256": "6b8543bbb778509274f91184042eb8de8658f07e803a467326ecbb8162e878f9",
+        "lateReadOfFinalCompletedLedger": true
+      }
+    },
+    "rust": {
+      "runId": "c0826626-6fd9-45bc-9715-49c31f80d761",
+      "report": {
+        "file": "tmp/rust-r2m/ui-linux-rust-uir1d.json",
+        "bytes": 58332,
+        "rawBytesSha256": "c50a565f131ee0641b5d185befe6437806443c71f29b78c1b22f684754378f0a"
+      },
+      "finalLedger": {
+        "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/rust-c0826626-6fd9-45bc-9715-49c31f80d761.json",
+        "bytes": 379539,
+        "rawBytesSha256": "2ca02cb966d88704a1d0b897e4454d5d289b1f1105aef1f15b9cbdc95d5352e7",
+        "lateReadOfFinalCompletedLedger": true
+      }
+    }
+  },
+  "expectedLegacyDifference": "Eleven actual Native304/Rust200 statuses remain strict non-equivalence. No status/body normalization.",
+  "privateContentsCopied": false,
+  "UI3To4Ready": false
+}

@@ -1,0 +1,120 @@
+{
+  "kind": "R2M-UI-original-login-form-and-owned-browser-lifecycle-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/ui-login-lifecycle-before-source01.json",
+    "bytes": 103340,
+    "rawBytesSha256": "9e32f0d7fe633c9afb27c7c8653582330dd8308779e772142610b3e7f2cfd396"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 23448,
+      "rawBytesSha256": "991db556dff5c1aaab6e337976c1456d963c8cb515b474040c50590b777f933f"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22921,
+      "rawBytesSha256": "107b10a95a2321ad2417cb838aaded44718e1f8983d74716419ac923ab321700"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28504,
+      "rawBytesSha256": "f1fafa54b867a3df924570746afd722b363ff5a4f6b89d5733b43e9c7af79d43"
+    },
+    {
+      "file": "tools/rust-r2m/ui-failure-hook.test.mjs",
+      "bytes": 4576,
+      "rawBytesSha256": "ae7cb829128aac652cf20ed5e6179b094b1b1017e6ef2f16cbcdebadc6b1485b"
+    }
+  ],
+  "delta": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "beforeRawBytesSha256": "b8d58fe49f3a75205f7a7265a3120a40dc67938f71ac7681f01588dc424800dc",
+      "afterRawBytesSha256": "991db556dff5c1aaab6e337976c1456d963c8cb515b474040c50590b777f933f",
+      "beforeChangedLines": [
+        "    const diagnostics={console:[],pageErrors:[],failedRequests:[],responses:[],dropped:0};let failureContext={journeyId:null,stepId:null,phase:'before-first-step'};",
+        "    async function login(role){const credentials=inputs.credentials[role];assert(credentials&&typeof credentials.username==='string'&&typeof credentials.password==='string');await page.goto(inputs.origin+'/auth/login',{waitUntil:'domcontentloaded'});await page.locator('#username').fill(credentials.username);await page.locator('#password').fill(credentials.password);const pending=waitResponse('POST','/api/auth/sessions');await page.locator('button[type=submit]').click();assert.equal((await pending).status(),200);await page.waitForURL(url=>!url.pathname.includes('/auth/login'));await page.waitForFunction(()=>window.__pomsR2MAcceptance?.version===1);assert.equal((await snapshot()).authenticated,true)}",
+        "            const evidence=await retainFailure({stage:'original-error-first',sourceCapId:inputs.sourceCapId,...failureContext,url:page.url(),error:{name:error?.name??typeof error,message:String(error?.message??error),stack:error?.stack??null,code:error?.code??null},diagnostics});",
+        "    }finally{for(const[event,handler]of Object.entries(handlers))page.off(event,handler)}"
+      ],
+      "afterChangedLines": [
+        "    const diagnostics={console:[],pageErrors:[],failedRequests:[],responses:[],lifecycle:[],dropped:0};let failureContext={journeyId:null,stepId:null,phase:'before-first-step'};",
+        "    const browser=typeof context.browser==='function'?context.browser():null;",
+        "    const lifecycleState=()=>({pageClosed:typeof page.isClosed==='function'?page.isClosed():null,browserConnected:typeof browser?.isConnected==='function'?browser.isConnected():null});",
+        "    const lifecycleHandlers=[[page,'close'],[page,'crash'],[context,'close'],[browser,'disconnected']].filter(([owner])=>typeof owner?.on==='function').map(([owner,event])=>{const handler=()=>push('lifecycle',{at:new Date().toISOString(),owner:owner===page?'page':owner===context?'context':'browser',event,...failureContext,...lifecycleState(),reasonProvidedByPlaywright:false});owner.on(event,handler);return{owner,event,handler}});",
+        "    async function login(role){const credentials=inputs.credentials[role];assert(credentials&&typeof credentials.username==='string'&&typeof credentials.password==='string');const currentUrl=new URL(page.url()),reuseOriginalForm=currentUrl.origin===inputs.origin&&currentUrl.pathname==='/auth/login';push('lifecycle',{at:new Date().toISOString(),event:'login-navigation',reuseOriginalForm,...failureContext,...lifecycleState()});if(!reuseOriginalForm)await page.goto(inputs.origin+'/auth/login',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.__pomsR2MAcceptance?.version===1);await page.locator('#username').fill(credentials.username);await page.locator('#password').fill(credentials.password);const pending=waitResponse('POST','/api/auth/sessions');await page.locator('button[type=submit]').click();assert.equal((await pending).status(),200);await page.waitForURL(url=>!url.pathname.includes('/auth/login'));await page.waitForFunction(()=>window.__pomsR2MAcceptance?.version===1);assert.equal((await snapshot()).authenticated,true)}",
+        "            const evidence=await retainFailure({stage:'original-error-first',sourceCapId:inputs.sourceCapId,...failureContext,url:page.url(),error:{name:error?.name??typeof error,message:String(error?.message??error),stack:error?.stack??null,code:error?.code??null},diagnostics,lifecycleState:lifecycleState()});",
+        "    }finally{for(const[event,handler]of Object.entries(handlers))page.off(event,handler);for(const{owner,event,handler}of lifecycleHandlers)owner.off(event,handler)}"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "beforeRawBytesSha256": "296509f40f81ca2d9a3c68e45bc0d0e3078e036dc5afb4f7af76c38a20aa789a",
+      "afterRawBytesSha256": "107b10a95a2321ad2417cb838aaded44718e1f8983d74716419ac923ab321700",
+      "beforeChangedLines": [
+        "    const receipt=await runtime.runOwnedCommand({executable:process.execPath,args:[fileURLToPath(import.meta.url),...forwarded],cwd:ROOT,env:process.env,runId:'r2m-ui-'+options.runId,logPath:log,timeoutMs:300000});"
+      ],
+      "afterChangedLines": [
+        "    const receipt=await runtime.runOwnedCommand({executable:process.execPath,args:[fileURLToPath(import.meta.url),...forwarded],cwd:ROOT,env:{...process.env,DEBUG:'pw:browser'},runId:'r2m-ui-'+options.runId,logPath:log,timeoutMs:300000});"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "beforeRawBytesSha256": "1b623728b3addd4b8c0071ec7926269f8dd2d7fcb06c257acd9b0c31fa6b845f",
+      "afterRawBytesSha256": "f1fafa54b867a3df924570746afd722b363ff5a4f6b89d5733b43e9c7af79d43",
+      "beforeChangedLines": [
+        "    const receipt=await runtime.runOwnedCommand({executable:process.execPath,args:[fileURLToPath(import.meta.url),...forwarded],cwd:ROOT,env:process.env,runId:'r2m-ui-'+options.runId,logPath:log,timeoutMs:300000});"
+      ],
+      "afterChangedLines": [
+        "    const receipt=await runtime.runOwnedCommand({executable:process.execPath,args:[fileURLToPath(import.meta.url),...forwarded],cwd:ROOT,env:{...process.env,DEBUG:'pw:browser'},runId:'r2m-ui-'+options.runId,logPath:log,timeoutMs:300000});"
+      ]
+    }
+  ],
+  "scope": [
+    "Reuse only the already-real same-origin exact /auth/login page; otherwise perform the actual goto. Wait original bridge technical readiness before real username/password form fill, real POST/login200 and Topbar logout assertions unchanged.",
+    "Privately preserve timestamped page.close/crash/context.close/browser.disconnected and current pageClosed/browserConnected on original failure. Playwright event supplies no close cause; no cause inferred.",
+    "Only Root-owned new-M Node UI worker receives DEBUG=pw:browser; its stdout/stderr is already the exact new-M private owner log. Chromium child environment whitelist does not admit DEBUG or Native DB/JWT. No global environment/OS or port change.",
+    "uir1b original cause remains Unknown; this is new diagnostic capture and bounded tool navigation behavior, not a product fix or claim of actual pass."
+  ],
+  "ownedLogSource": {
+    "file": "tools/e2e/runtime.cjs",
+    "bytes": 16694,
+    "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a"
+  },
+  "pure": {
+    "passed": 17,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-login-lifecycle-source01-pure.txt",
+      "bytes": 3875,
+      "rawBytesSha256": "fc1ec9a97123999c700e0d71aea309a783dd5f4ccbe1556532e9f4fbdad50008"
+    },
+    "priorControlledTestFailure": {
+      "file": "tools/rust-r2m/ui-login-lifecycle-source01-pure-failed01.txt",
+      "bytes": 4674,
+      "rawBytesSha256": "a0d8a1d6cce8bda91b535852c4b55fd4ec20fbb68217f5f7862a1acfef429273"
+    },
+    "priorFailureReason": "Synthetic test goto stub changed initial deep-link URL; corrected stub only, not runtime guard. Original failed output retained.",
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "formatOnly": {
+    "file": {
+      "file": "docs/design/rust-r2m/delivery-audit-validation-map.md",
+      "bytes": 3484,
+      "rawBytesSha256": "e29ac120c66ecce16a6ca1684bd052fd515751a9fff06dde37b65bcc5678422d"
+    },
+    "before": "0560c45f92f208dd85f66a1db34242b94b8822bc37453d308834b98197cac52a",
+    "jsonUnchanged": {
+      "file": "docs/design/rust-r2m/delivery-audit-validation-map.json",
+      "bytes": 26859,
+      "rawBytesSha256": "cc23e1755dc5f8103361586bb07366ee94dc6ebf498179aaf5af6280223c9cf4"
+    },
+    "validationScopeChanged": false
+  },
+  "actual": false
+}

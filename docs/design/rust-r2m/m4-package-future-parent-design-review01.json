@@ -1,0 +1,120 @@
+{
+  "kind": "POMS-R2M-independent-generated-package-item-parent-intent-design",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 06:44:37 UTC",
+  "result": "DesignAccepted",
+  "gate": false,
+  "privateRead": false,
+  "environmentRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecuted": false,
+  "productOrFixtureEdited": false,
+  "gitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "scope": {
+    "initialLogicalCase": "M4.2",
+    "initialSourceStep": "package",
+    "actualCase": "m4.integration",
+    "actualOp": "m.http",
+    "method": "POST",
+    "pathTemplate": "/api/project-handovers/{owned-handover}/attachment-download-packages",
+    "futureParentTable": "attachment_download_package",
+    "childTable": "attachment_download_package_item",
+    "parentExpectedMax": 1,
+    "itemsMaxNoLargerThanOriginalStep": 10,
+    "UI4OrOtherCasesAutomaticallyAuthorized": false
+  },
+  "sourceBasis": [
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "anchors": [
+        39,
+        40
+      ],
+      "readLevel": "Existing immutable projectParentEdges requires package_id and handover_id."
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "anchor": 25,
+      "readLevel": "Existing typed owned/additional parent traversal; no query ID or placeholder row."
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "anchors": [
+        151,
+        161,
+        165,
+        203,
+        219,
+        221,
+        232
+      ],
+      "baselineRawSha256": "2dc2436613b1ff4b5cb8a80c0c76acc8e6e724cc2d6a51a282f4344fad29860c",
+      "readLevel": "Necessary original intent validation/before query and complete allCaptured adoption closure read before new wiring."
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "anchors": [
+        93,
+        121
+      ],
+      "readLevel": "Existing known(table,id) already accepts exact same observer/run/case/index parent INSERT event or previously certified knownRows, plus actual package row/handover/project/actor. New reservation does not require a PG predicate weakening."
+    },
+    {
+      "file": "tools/rust-r2m/scenario-input.mjs",
+      "anchor": 108,
+      "readLevel": "Original M4.2 parentMax1/itemMax10 before-intent scope, not a new unbounded family."
+    }
+  ],
+  "decision": {
+    "failureClassification": "Before-HTTP fixture intent/proven-parent mismatch; no package request or new birth may be inferred. Preserve original failed an4c/caseClosedfalse.",
+    "narrowReservationDesignAccepted": true,
+    "ordinaryIntentAndFinalOwnershipRulesUnchanged": true,
+    "executableSourceReady": false
+  },
+  "proposedCallerInterface": {
+    "method": "Fixture.intentForGeneratedPackageItems",
+    "input": {
+      "parentIntentId": "Actual already-declared ordinary parentMax1 intent ID",
+      "context": "Exact runId/caseId/index/op from current request allocator",
+      "logicalCaseId": "M4.2",
+      "sourceStepId": "package",
+      "sourceCapId": "Current actual capsule",
+      "projectId": "Actual typed owned project",
+      "handoverId": "Actual typed owned handover whose immutable project equals projectId",
+      "actorId": "Actual owned case actor",
+      "itemsMax": "Original source step expectedMax, positive and<=10"
+    },
+    "output": "A standard before-observed planned child intent plus a durable exact parent-intent reservation reference; never a generated package UUID or owned row."
+  },
+  "requiredReservationChecks": [
+    "Only the fixed source-bound step/method/path and m4.integration/m.http are eligible; a case prefix, arbitrary producer or public request body cannot open the path.",
+    "Parent intent must be planned/beforeObserved/package table/Max1, its selector exactly consistent with actual owned handover/project/creator, and not reserved for another index or family. Before IDs remain original real observed IDs; existing matched rows must already be owned as in ordinary intent.",
+    "Resolve current handover->project and actor from original admitted rows/immutable identities. The reservation does not pretend that a package row exists yet.",
+    "Child selector stays original immutable handover relation; run original state/preflight/unknown/before-query/max guards. No fake package_id, placeholder row, query identity or generic resolver exception.",
+    "Store exact context/capsule/source-step/parent-intent/maximum relation before HTTP. One family cannot multiply Max10 via duplicate reservations."
+  ],
+  "requiredActualBinding": [
+    "After actual execution, obtain the unique parent creation certificate for exactly that parentIntentId. It must be a new before-absent actual SDK/PG birth under the same run/case/index/op, with genuine outer COMMIT and independently visible immutable package/handover/project/creator.",
+    "Before any child ownership admission, require every reserved child's actual package_id equals that unique certified parent's ID. Generic allCaptured closure alone is insufficient because it could otherwise use an old owned package.",
+    "Validate each child original SDK/PG birth, before absence, immutable selector, own real COMMIT and independent row; preserve ordinary assertRowReferences/assertCaseScope with allCaptured. Nullable original attachment_id remains governed by original source rule; no arbitrary attachment identity.",
+    "Parent/items may have source-observed same or separate transactions; record their real contexts/xids and commit states independently. Do not assume a shared transaction or assign a package/audit certificate to another row.",
+    "No actual parent certificate, too many children, foreign/cross-index parent, mismatching project/handover/actor or an old owned package must reject and preserve partial state. No SELECT/response-ID adoption."
+  ],
+  "requiredPureSourceChecks": [
+    "Ordinary intent with missing package parent still rejects outside this exact channel.",
+    "Foreign/unowned handover/project/actor, non-Max1 parent, wrong index/op/source step or over10/duplicate family rejects.",
+    "Future reservation creates no row/ownership and contains no invented package UUID.",
+    "A real same-context parent/items certificate closure admits only their exact package relation; old owned package and wrong-parent child reject.",
+    "Independent same-transaction and different-transaction proof fixtures are not confused; uncommitted/missing parent or child rejects."
+  ],
+  "oldRunRecoveryBoundary": "Do not retrofit this reservation into an4c. Its original package HTTP was not sent. Any original empty pending intent is resolved only from original before/after/zero-create evidence by mature fixed recovery; old caseClosedfalse/report/source remain unchanged.",
+  "otherM4Boundary": "Metadata listing, direct download authorization and package sensitive exclusion are separate original predicates. Native list inclusion does not prove downloadable access or product defect. B must source-calibrate the original list/body and preserve actual403/hash/ZIP exclusion assertions, not silently remove the negative.",
+  "notNewGateOrProductCapability": true,
+  "finalSourceAndCallerWiringReviewPending": true
+}

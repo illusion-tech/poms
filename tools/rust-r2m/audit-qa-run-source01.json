@@ -1,0 +1,60 @@
+{
+  "kind": "R2M-original-runner-QA-owner-source-candidate",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "files": [
+    {
+      "file": "tools/rust-r2m/audit-qa-run.mjs",
+      "bytes": 13479,
+      "rawBytesSha256": "adcc11a78a81cadd9a5a75085171e9531df535b8a063bdf399cc9ccbd0570bbf"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-environment.mjs",
+      "bytes": 3363,
+      "rawBytesSha256": "a5767945309bd4c0f541c11b759fb97b579d2b540e22893b04f2b99571ac621e"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-playwright.config.mjs",
+      "bytes": 1423,
+      "rawBytesSha256": "7f3876b533a42719e2d3ea81c19bd290e8b11fcfec113bd16828970a1c4ca51d"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-run.test.mjs",
+      "bytes": 1407,
+      "rawBytesSha256": "0346b321afbd15cc62b1648587177c1ee072f21796db79fd986db69f0157287c"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-contract.md",
+      "bytes": 4877,
+      "rawBytesSha256": "89a211ad71530fb1e26fe345c9a079b5ab749b01e1edfe712641c9a4fbef4b6b"
+    }
+  ],
+  "provisionInputs": [
+    {
+      "file": "tools/rust-r2m/audit-qa-source01.json",
+      "bytes": 2168,
+      "rawBytesSha256": "9ea5522ebc2d267a5d928da89b503048e5acc5715ed3eed1d6625269c33041b0"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-source02.json",
+      "bytes": 1147,
+      "rawBytesSha256": "c5a6af03e1da6cab87eb93e0406949b7e7a9a982998fecb695927fd35a3f4c2a"
+    }
+  ],
+  "scope": "Original Native14files/72tests, Native+Rust originalfoundation13 each, originallegacy8files/36tests in separate QA clone. Installed original runners; original test/config/harness sources unchanged. Derived PW config only runtime pins/private artifact paths. No all291 Rust gate/no M row adoption.",
+  "pure": {
+    "passed": 5,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-qa-run-source01-pure.txt",
+      "bytes": 622,
+      "rawBytesSha256": "b2fdece0b0bee68aede9f23b7b9d768c0e70a918dd11d1a4aece08ec54351180"
+    },
+    "syntaxFiles": 4,
+    "privateRead": 0,
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0
+  },
+  "actualRuntime": false,
+  "notG3OrG4": true
+}

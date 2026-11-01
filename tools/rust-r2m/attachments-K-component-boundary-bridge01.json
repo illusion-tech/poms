@@ -1,0 +1,90 @@
+{
+  "kind": "M4-explicit-frozen-K-component-to-actual-c01-profile32-boundary-bridge",
+  "result": "SourceCandidate-not-actual",
+  "historicalBodies": {
+    "file": "tools/rust-r2m/package-intent-before-source01.json",
+    "bytes": 127861,
+    "rawBytesSha256": "b097234aa69f03722ffbbf8c47bfe83eca7054efedebecdca6d09b6b384fd019"
+  },
+  "actualEnvironmentBodies": {
+    "file": "tools/rust-r2m/continuation01-variant-generated01.json",
+    "bytes": 5024493,
+    "rawBytesSha256": "d0ed2195a4c64a9617acb82adfe5e25c0719408b04971eb5b04dd4efa8e7e88d"
+  },
+  "currentVariantCReview": {
+    "file": "docs/design/rust-r2m/continuation01-variant-source-review01.json",
+    "bytes": 37840,
+    "rawBytesSha256": "0a76c3ec5d795c1e7af9ed9c7f75af58db12ece0fe31c65027ea7def8f59719a"
+  },
+  "packageDeltaCReview": {
+    "file": "docs/design/rust-r2m/package-intent-source-review01.json",
+    "bytes": 9433,
+    "rawBytesSha256": "45dacfc067f5e7d5b9229898feb628193b3fe1fa5e94a43d69fb47a7fc269ab1"
+  },
+  "frozenComponentCReview": {
+    "file": "docs/design/rust-r2m/api-zip-logical-comparison-source-review01.json",
+    "bytes": 9949,
+    "rawBytesSha256": "e602d2eb8b8ea5d170a20325e72b36596b81a9d304733dad913da4801cee4a5e"
+  },
+  "proofs": [
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "site": "insertHandoverPreparedBatch",
+      "historicalSha256": "89a1ea588196336e3c97088d3063a5ec4cbe58d575105c64beff9cb119d466ef",
+      "currentOriginalSha256": "89a1ea588196336e3c97088d3063a5ec4cbe58d575105c64beff9cb119d466ef",
+      "actualCapDerivedSha256": "89a1ea588196336e3c97088d3063a5ec4cbe58d575105c64beff9cb119d466ef",
+      "allThreeCompleteBodiesEqual": true,
+      "body": "async insertHandoverPreparedBatch(plan, { caseId }) {\n        assert.equal(this.j.state, 'prepared'); assert(!this.j.writerDrain); assert(caseId !== 'base');\n        const validated = await validateHandoverPreparedPlan(this, plan, caseId), scope = this.scope(caseId);\n        const sourcePlan = { id: randomUUID(), caseId, sourcePlanSha256: validated.sourcePlanSha256, originalPlan: validated.originalPlan,\n            defaultSources: validated.defaultSources, sourceBoundary: validated.sourceBoundary, state: 'planned-not-executed' };\n        assert(!this.j.preparedBatches.some(entry => entry.sourcePlanSha256 === sourcePlan.sourcePlanSha256));\n        this.j.preparedBatches.push(sourcePlan);\n        this.j.logicalReferences ??= [];\n        this.j.logicalReferences.push({ ...validated.originalPlan.logicalReferences[0], rowOwned: false, caseId,\n            projectId: uuid(plan.recipe.fixture.projectId), sourcePlanId: sourcePlan.id, sourcePlanSha256: sourcePlan.sourcePlanSha256 });\n        this.save(); await this.client.query('begin'); let intent;\n        try {\n            await assertSeedUnchanged(this.client, this.j); await scanReferences(this.client, this.j, { lock: true });\n            for (const row of validated.rows) assert.equal(await selectId(this.client, row.table, row.id, true), null, 'Original handover cohort requires every PK absent');\n            const transaction = (await this.client.query('select pg_current_xact_id()::text as xid')).rows[0].xid;\n            intent = { id: randomUUID(), caseId, rows: validated.rows, beforeAbsent: true, transaction, expectedXmin: String(BigInt(transaction) % 4294967296n),\n                captured: [], state: 'executing', sourcePlanId: sourcePlan.id, provenance: 'prepared-original-seeder-source-not-Native-generated' };\n            this.j.directCreates.push(intent); sourcePlan.directCreateIntentId = intent.id; sourcePlan.state = 'executing'; this.save();\n            for (const statement of validated.plan.statements) await this.client.query(statement.sql);\n            for (const row of validated.rows) {\n                const result = await selectId(this.client, row.table, row.id); assert(result && result.xmin === intent.expectedXmin);\n                intent.captured.push({ ...row, row: result.row, identity: rowIdentity(row.table, result.row) });\n            }\n            const additional = intent.captured.map(row => ({ ...row, caseId }));\n            for (const row of additional) { assertRowReferences(this.j, row.table, row.row, scope, additional, { preparedSourcePlanId: sourcePlan.id, transaction: intent.transaction }); assertCaseScope(this.j, row.table, row.row, scope, additional); }\n            assert.equal(intent.captured.find(row => row.table === 'project_handover')?.row.status, 'draft', 'Confirmed prepared handover cannot replace this run actual Native confirm');\n            await assertSeedUnchanged(this.client, this.j);\n            intent.state = 'commit-attempted'; sourcePlan.state = 'commit-attempted'; this.save(); await this.client.query('commit');\n            intent.state = 'committed'; intent.commitAcknowledged = true; sourcePlan.state = 'committed'; this.save();\n        } catch (error) {\n            try { await this.client.query('rollback'); } catch { if (intent) intent.rollbackUnconfirmed = true; }\n            if (intent) { intent.state = ['commit-attempted', 'committed'].includes(intent.state) || intent.rollbackUnconfirmed ? 'outcome-unknown' : 'rolled-back'; sourcePlan.state = intent.state; }\n            else sourcePlan.state = 'rolled-back'; this.save(); throw error;\n        }\n        await this.#promoteDirect(intent, false);\n        return { rows: intent.captured.map(row => row.row), sourcePlanId: sourcePlan.id, receipt: { kind: 'original-handover-draft-cohort-actual-direct-commit',\n            rows: validated.rows.length, statements: validated.plan.statements.length, transaction: intent.transaction, xmin: intent.expectedXmin,\n            beforeAllPkAbsent: true, commitAcknowledged: true, independentVisibilityVerifiedByPromotion: true, NativeProducerClaimed: false, currentActualNativeConfirmationStillRequired: true } };\n    }"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "site": "#insertBatch",
+      "historicalSha256": "6c54d04f2f72b46c3813169aa53b0e887da4b09e9e88dfdb223e05360f43c9da",
+      "currentOriginalSha256": "6c54d04f2f72b46c3813169aa53b0e887da4b09e9e88dfdb223e05360f43c9da",
+      "actualCapDerivedSha256": "6c54d04f2f72b46c3813169aa53b0e887da4b09e9e88dfdb223e05360f43c9da",
+      "allThreeCompleteBodiesEqual": true,
+      "body": "async #insertBatch(rows, caseId, sourcePlan = null) {\n        const scope = this.scope(caseId); rows = rows.map((entry) => ({ ...entry, table: entry.table, values: normalize(entry.table, entry.values) }));\n        const additional = rows.map((entry) => ({ table: entry.table, id: uuid(entry.values.id), caseId, row: { ...entry.values, ...(entry.expectedIdentity ?? {}) } }));\n        assert(new Set(additional.map((entry) => entry.id)).size === additional.length);\n        for (const entry of rows) {\n            assertNotBorrowed(this.j, entry.values.id);\n            if (caseId !== 'base') {\n                const expected = entry.expectedIdentity ?? rowIdentity(entry.table, entry.values);\n                assert.equal(digest(rowIdentity(entry.table, { ...entry.values, ...expected })), digest(expected));\n                assertRowReferences(this.j, entry.table, entry.values, scope, additional); assertCaseScope(this.j, entry.table, { ...entry.values, ...expected }, scope, additional);\n            }\n        }\n        await this.client.query('begin'); let intent;\n        try {\n            await assertSeedUnchanged(this.client, this.j); await scanReferences(this.client, this.j, { lock: true });\n            const defaultEvidence = sourcePlan ? await verifyPreparedPhysicalDefaults(this.client, rows) : [];\n            for (const entry of rows) assert.equal(await selectId(this.client, entry.table, entry.values.id, true), null, 'direct_insert_preexisting_id');\n            const transaction = (await this.client.query('select pg_current_xact_id()::text as xid')).rows[0].xid;\n            intent = { id: randomUUID(), caseId, rows: additional.map(({ table, id }) => ({ table, id })), beforeAbsent: true, transaction, expectedXmin: String(BigInt(transaction) % 4294967296n), captured: [], state: 'executing', ...(sourcePlan ? { sourcePlanId: sourcePlan.id, provenance: 'prepared-original-seeder-source-not-Native-generated', defaultEvidence } : {}) };\n            if (sourcePlan) { sourcePlan.directCreateIntentId = intent.id; sourcePlan.state = 'executing'; }\n            this.j.directCreates.push(intent); this.save();\n            for (const entry of rows) {\n                const { names, params } = insertParameters(entry.table, entry.values);\n                const result = await this.client.query('insert into poms.' + ident(entry.table) + ' (' + names.map(ident).join(',') + ') values (' + names.map((_, index) => '$' + (index + 1)).join(',') + ') returning to_jsonb(' + ident(entry.table) + ') as row,xmin::text as xmin', params);\n                assert.equal(result.rows.length, 1); assert.equal(result.rows[0].xmin, intent.expectedXmin);\n                if (entry.expectedIdentity) assert(sameIdentity(entry.table, result.rows[0].row, entry.expectedIdentity), 'Actual RETURNING identity does not match the reviewed prepared expectation');\n                intent.captured.push({ table: entry.table, id: uuid(entry.values.id), row: result.rows[0].row, identity: rowIdentity(entry.table, result.rows[0].row) }); this.save();\n            }\n            await assertSeedUnchanged(this.client, this.j);\n            intent.state = 'commit-attempted'; if (sourcePlan) sourcePlan.state = 'commit-attempted'; this.save(); await this.client.query('commit'); intent.state = 'committed'; if (sourcePlan) sourcePlan.state = 'committed'; this.save();\n        } catch (error) {\n            try { await this.client.query('rollback'); } catch { if (intent) intent.rollbackUnconfirmed = true; }\n            if (intent) { intent.state = ['commit-attempted', 'committed'].includes(intent.state) || intent.rollbackUnconfirmed ? 'outcome-unknown' : 'rolled-back'; if (sourcePlan) sourcePlan.state = intent.state; this.save(); } throw error;\n        }\n        await this.#promoteDirect(intent, false); return copy(intent.captured.map((entry) => entry.row));\n    }"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "site": "#promoteDirect",
+      "historicalSha256": "2b251b0153802e5b258ce2b67a1b2d44e18448497e1f405747aa6f449f7e2b20",
+      "currentOriginalSha256": "2b251b0153802e5b258ce2b67a1b2d44e18448497e1f405747aa6f449f7e2b20",
+      "actualCapDerivedSha256": "2b251b0153802e5b258ce2b67a1b2d44e18448497e1f405747aa6f449f7e2b20",
+      "allThreeCompleteBodiesEqual": true,
+      "body": "async #promoteDirect(intent, recovery) {\n        assert(intent.beforeAbsent && ['committed', 'commit-attempted', 'outcome-unknown'].includes(intent.state));\n        assert.equal(intent.rows.length, intent.captured.length, 'Incomplete direct create capture');\n        if (recovery) { const result = await this.client.query('select pg_xact_status($1::xid8) as status', [String(intent.transaction)]); assert.equal(result.rows[0]?.status, 'committed', 'Unknown COMMIT not certified'); }\n        const captured = [];\n        for (const item of intent.captured) {\n            const current = await selectId(this.client, item.table, item.id);\n            assert(current && current.xmin === intent.expectedXmin && sameIdentity(item.table, current.row, item.identity), 'Direct create outcome ambiguous');\n            captured.push({ ...item, caseId: intent.caseId, row: current.row, proof: { kind: 'direct-committed-insert', transaction: intent.transaction, xmin: current.xmin, beforeAbsent: true, commitAcknowledged: !recovery, recoveredByXminAndXactStatus: recovery, ...(intent.sourcePlanId ? { sourcePlanId: intent.sourcePlanId, provenance: intent.provenance } : {}) }, postcondition: { independentlyVisible: true, kind: 'new-transaction-post-commit-read', observedXmin: current.xmin } });\n        }\n        if (intent.sourcePlanId && this.j.preparedBatches.find(plan => plan.id === intent.sourcePlanId)?.sourceBoundary.preparedDraftOnly) {\n            intent.independentPostCommitCaptureVerified = true;\n            if (recovery) {\n                const sourcePlan = this.j.preparedBatches.find(plan => plan.id === intent.sourcePlanId);\n                intent.recoveredFromState ??= intent.state; sourcePlan.recoveredFromState ??= sourcePlan.state;\n                intent.recoveredCommittedStatus = true; intent.state = 'committed'; sourcePlan.state = 'committed';\n            }\n            this.save();\n        }\n        for (const item of captured) if (!this.j.objects.some((entry) => entry.table === item.table && entry.id === item.id)) this.#admit(item, captured);\n        await assertSeedUnchanged(this.client, this.j);\n        intent.state = 'promoted'; if (intent.sourcePlanId) this.j.preparedBatches.find((entry) => entry.id === intent.sourcePlanId).state = 'promoted'; this.save();\n    }"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "site": "recoverDirectCreates",
+      "historicalSha256": "ca125d2ecef79e02d1b06ecc3a3a328c0dbb07292c0f8f5540e4937be2e71239",
+      "currentOriginalSha256": "ca125d2ecef79e02d1b06ecc3a3a328c0dbb07292c0f8f5540e4937be2e71239",
+      "actualCapDerivedSha256": "ca125d2ecef79e02d1b06ecc3a3a328c0dbb07292c0f8f5540e4937be2e71239",
+      "allThreeCompleteBodiesEqual": true,
+      "body": "async recoverDirectCreates() {\n        for (const intent of this.j.directCreates) {\n            if (['promoted', 'absent', 'rolled-back'].includes(intent.state)) continue;\n            const current = await Promise.all(intent.rows.map((row) => selectId(this.client, row.table, row.id)));\n            if (current.every((entry) => entry === null)) {\n                const result = await this.client.query('select pg_xact_status($1::xid8) as status', [String(intent.transaction)]);\n                assert.equal(result.rows[0]?.status, 'aborted', 'Invisible PKs alone do not prove an unknown transaction aborted');\n                intent.state = 'absent'; intent.absenceProof = { beforeAbsent: intent.beforeAbsent, observedAllPkAbsent: true, independentTransactionStatus: 'aborted', transaction: String(intent.transaction) };\n                if (intent.sourcePlanId) this.j.preparedBatches.find((entry) => entry.id === intent.sourcePlanId).state = 'absent';\n                this.save(); continue;\n            }\n            assert(current.every(Boolean), 'Partial direct commit outcome'); await this.#promoteDirect(intent, intent.state !== 'committed');\n        }\n    }"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-journal.mjs",
+      "site": "journal.preparedBatches-clause",
+      "historicalSha256": "8cac9dede1f1fcbcdab12fb9f7ca062127ed67499126f1f32f8601b72020d40f",
+      "currentOriginalSha256": "8cac9dede1f1fcbcdab12fb9f7ca062127ed67499126f1f32f8601b72020d40f",
+      "actualCapDerivedSha256": "8cac9dede1f1fcbcdab12fb9f7ca062127ed67499126f1f32f8601b72020d40f",
+      "allThreeCompleteBodiesEqual": true,
+      "body": "for (const plan of journal.preparedBatches ?? []) {\n        assert.equal(plan.id, uuid(plan.id)); assert.equal(plan.sourcePlanSha256, digest(plan.originalPlan));\n        assert(journal.cases.some(({ caseId }) => caseId === plan.caseId));\n        assert(['planned-not-executed', 'executing', 'commit-attempted', 'committed', 'outcome-unknown', 'rolled-back', 'promoted', 'absent'].includes(plan.state));\n    }"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-journal.mjs",
+      "site": "journal.logicalReferences-clause",
+      "historicalSha256": "61e1997112c1daf17e61f78b270e1e0e5cc942d92ac1944e6fc97dff644693de",
+      "currentOriginalSha256": "61e1997112c1daf17e61f78b270e1e0e5cc942d92ac1944e6fc97dff644693de",
+      "actualCapDerivedSha256": "61e1997112c1daf17e61f78b270e1e0e5cc942d92ac1944e6fc97dff644693de",
+      "allThreeCompleteBodiesEqual": true,
+      "body": "if (journal.logicalReferences) {\n        assert(Array.isArray(journal.logicalReferences));\n        for (const entry of journal.logicalReferences) {\n            assert.equal(entry.id, uuid(entry.id)); assert.equal(entry.role, 'receivable-plan-version-no-row'); assert.equal(entry.rowOwned, false);\n            assert.equal(entry.table, 'contract_readiness_package'); assert.equal(entry.column, 'initialized_receivable_plan_version_id'); assert.equal(entry.rowId, uuid(entry.rowId));\n            assert(!journal.objects.some(object => object.id === entry.id) && !SEED_ACTORS.includes(entry.id) && !canonicalDefinitions.some(row => row.id === entry.id));\n            const plan = journal.preparedBatches.find(plan => plan.id === entry.sourcePlanId && plan.sourcePlanSha256 === entry.sourcePlanSha256);\n            assert(plan?.originalPlan.logicalReferences?.some(ref => digest(ref) === digest({id:entry.id,role:entry.role,table:entry.table,rowId:entry.rowId,column:entry.column})));\n        }\n    }"
+    }
+  ],
+  "frozenHelperHistoricalPinsAreNotCurrentCapsulePins": true,
+  "currentOriginalProfileSources": 32,
+  "ordinaryBirthAndWholeDirectCohortRevalidatedByCaller": true,
+  "newOwnershipOrCleanupPermission": false,
+  "privateRead": false
+}

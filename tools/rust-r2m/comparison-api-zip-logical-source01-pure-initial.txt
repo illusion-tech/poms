@@ -1,0 +1,58 @@
+✔ all10 original source pins match current public sources; missing/change/duplicate fail (4.1202ms)
+✔ original TS writer + actual mature reader certify DOS sites only, with exact full layout/payload proof (161.0607ms)
+✔ DOS bucket is half-open and must intersect actual source-create window (175.2638ms)
+✖ local/central DOS mismatch or different member timestamp cannot pass mature reader gap (46.9248ms)
+✔ impossible DOS seconds/calendar and same-but-outside actual window are rejected (86.9112ms)
+✔ writer version/disk/internal/external/EOCD layouts remain exact rather than dropped (130.7886ms)
+✔ complete archive hash/length bind before calling reader, and reader failures preserve original cause privately (59.1169ms)
+✔ injected mature reader mutation or false membership/content receipts are not accepted (103.3608ms)
+✔ package ordinary birth/outer COMMIT/index and manifest physical version are independently bound (112.712ms)
+✔ original K pure plan/direct cohort yields only one exact row/column comparison site (44.7343ms)
+✔ wrong column/table/row, NULL or nested site never receives the logical alias (159.9768ms)
+✔ planned/rolled-back/absent/outcome-unknown or incompletely visible cohort has no logical comparison authority (237.0752ms)
+✔ logical UUID cannot be an owned row, borrowed definition, or run identity (46.2566ms)
+✔ exact sourcePlan digest, boundary and original SQL/token occurrence remain required (106.8939ms)
+✔ a source-shaped logical ref cannot replace actual captured row/direct COMMIT/xmin proofs (95.5464ms)
+✔ the precise existing recovered-committed direct proof is reusable after promotion (30.0902ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 15
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1975.9907
+
+✖ failing tests:
+
+test at tools\rust-r2m\comparison-api-zip-logical.test.mjs:69:1
+✖ local/central DOS mismatch or different member timestamp cannot pass mature reader gap (46.9248ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  Error: R2M ZIP/logical comparison: dos_bucket_outside_writer_window
+      at reject (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.test.mjs:38:37)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.test.mjs:71:199)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: R2M ZIP/logical comparison: dos_bucket_outside_writer_window
+        at fail (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.mjs:26:39)
+        at check (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.mjs:27:46)
+        at verifyStoreZipUtcDos (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.mjs:67:5)
+        at file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.test.mjs:71:210
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at reject (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.test.mjs:38:37)
+        at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/comparison-api-zip-logical.test.mjs:71:199)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25),
+    operator: 'throws',
+    diff: 'simple'
+  }

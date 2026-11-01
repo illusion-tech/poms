@@ -1,0 +1,45 @@
+{
+  "kind": "R2M-immediate-observation-of-held-UI-waits-with-original-later-rejection",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/ui-pending-wait-before-source01.json",
+    "bytes": 32824,
+    "rawBytesSha256": "751ac7c2536800e6d005ebca2b9f8342be74714d53f13ee8636da59e9cd20489"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 24759,
+      "rawBytesSha256": "9e809c92a54f30dd3d16fcc52484ca3aaca8e364dd26eb48762ae896fd4ba343"
+    },
+    {
+      "file": "tools/rust-r2m/ui-pending-wait.test.mjs",
+      "bytes": 1764,
+      "rawBytesSha256": "422bbf47f369378159addf0cc8e2123f45218502f7829d0cc8275481c6aa6ea1"
+    }
+  ],
+  "scope": "Attach an immediate independent rejection observer to every held HTTP wait (helper plus both inline page.waitForResponse) and the UI4 held download event. Return the same original Promise; the required later await still throws the same original Error. Predicates, 25s timeouts, action order, statuses, business assertions and no-retry behavior are unchanged. A failed wait remains a test failure; it cannot cause detached unhandled-rejection Node termination before Root finally/evidence preservation.",
+  "coverage": {
+    "helperHttpWaits": true,
+    "inlineResponseWaits": 2,
+    "heldDownloadWaits": 1,
+    "noBusinessPredicateChange": true,
+    "noProductEdit": true
+  },
+  "pure": {
+    "passed": 20,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-pending-wait-source01-pure.txt",
+      "bytes": 4212,
+      "rawBytesSha256": "b062dc48bb8af95dd5b46f1b99037180ed5daeda60dface8881ce51c5581b3ce"
+    },
+    "strictNodeChild": "--unhandled-rejections=strict; both held waits reject before a synthetic slow click finishes; child exits0 and later asserts exact original Error identity for each await",
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actualFailureDisposition": "uir2a fatal original remains preserved and has no fabricated writerClosed/observerRestored receipt. Its recovery requires a separate actual owner/PG audit; this tool source fix does not certify that run.",
+  "actual": false
+}

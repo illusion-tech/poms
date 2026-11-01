@@ -1,0 +1,167 @@
+{
+  "kind": "R2M-independent-API-named8-author-source-candidate",
+  "result": "candidate-awaiting-independent-source-review",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "readySelection": [
+    "M1.1",
+    "M1.2",
+    "M1.3",
+    "M1.4",
+    "M2.1",
+    "M2.2",
+    "M2.3",
+    "M2.4"
+  ],
+  "notReadyForActual": [
+    "M3.1",
+    "M3.2",
+    "M3.3",
+    "M3.4",
+    "M3.5",
+    "M4.1",
+    "M4.2",
+    "M4.3",
+    "M4.4",
+    "M5.1",
+    "M5.2",
+    "M5.3"
+  ],
+  "plannedRequestRecipes": 45,
+  "plannedInternalProbeRecipes": 1,
+  "actualExecution": false,
+  "actualRequests": 0,
+  "actualBusinessRowsInserted": 0,
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 34148,
+      "rawBytesSha256": "f60f8a9995ff4acc67a4d74aa6aa388e04f97f95feee0b73894e4e47272e4407"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.mjs",
+      "bytes": 22194,
+      "rawBytesSha256": "e9be78a88169e61a17ca8a35da31e8fc3ae17e3185ce2a8bfdf2d26471b06fd4"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 4424,
+      "rawBytesSha256": "c43c4902e828f580befadf5dbb805b5cb5d8093b2fd682d6c3c9e36f28718521"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-expected.mjs",
+      "bytes": 11456,
+      "rawBytesSha256": "480ddc464715475cb9516d0fc788a4e17dc51499347163285f5e3b6add919d0c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 7996,
+      "rawBytesSha256": "d735fa42de822c653a6ecfdf6b95aa4841eac3ee621f7f0eb93a5d2c9aa505e0"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-preflight.mjs",
+      "bytes": 2877,
+      "rawBytesSha256": "7906452adb987a85be46556a93172f30f30fd17100de4d2f514a2c2a4da473cb"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.test.mjs",
+      "bytes": 8594,
+      "rawBytesSha256": "c9ea3b4c6a5af87302fc271360af0c8a2fc65015684eade698e03441bba4b6ae"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-contract.md",
+      "bytes": 6447,
+      "rawBytesSha256": "94c7582424e5ca0523a0e451e60622c22b4eb0d5e749c2ebf2b273633e585810"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared-result.mjs",
+      "bytes": 5323,
+      "rawBytesSha256": "1e14aaed530994e1c84336416a04708d48cce507a7084e0470eeb93bc17526cb"
+    }
+  ],
+  "sourceSetSha256": "b72fa72bc8a88c46870250b8a8db345384f30f39ffeb8228861bd1c2a772423b",
+  "derivedFrom": [
+    {
+      "file": "tools/rust-r2m/acceptance-runtime.mjs",
+      "rawBytesSha256": "fdabf46ca6f4ee7b5dbe88bd2b51b057792fdcc5c21ecaddc229a9893bd70cc0",
+      "modified": false
+    },
+    {
+      "file": "tools/rust-r2m/acceptance.mjs",
+      "rawBytesSha256": "3d5c5a6f1756e33ee65af1d876bc119d0abc09d6745baccf101a2813fc7d203d",
+      "modified": false
+    },
+    {
+      "file": "tools/rust-r2m/scenario-input.mjs",
+      "rawBytesSha256": "543627852d74ead5838569e25650e19715c6d83ab6cb85220aab493b997774f7",
+      "modified": false
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc",
+      "modified": false
+    }
+  ],
+  "authorPureChecks": {
+    "command": "node --test tools/rust-r2m/acceptance-api.test.mjs tools/rust-r2m/acceptance-facts.test.mjs tools/rust-r2m/acceptance-prepared-result.test.mjs",
+    "exitCode": 0,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0
+  },
+  "retainedAuthorCommandFailures": [
+    {
+      "kind": "orchestration-JS-template-syntax-error",
+      "actualFixtureExecuted": false
+    },
+    {
+      "kind": "inline-Node-command-extra-parenthesis",
+      "actualFixtureExecuted": false
+    },
+    {
+      "kind": "top-level-await-in-CommonJS-command",
+      "actualFixtureExecuted": false
+    },
+    {
+      "kind": "optional-globals-package-not-directly-installed",
+      "actualFixtureExecuted": false
+    }
+  ],
+  "privateReadByAuthorForThisSourceWork": false,
+  "databaseHttpBrowserContainerExecutedByAuthorForThisSourceWork": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "previousCandidate": {
+    "file": "tools/rust-r2m/acceptance-api-source01.json",
+    "rawBytesSha256": "7dbdb3504770740dedee5acf2c690c8f78ada7693d5906264371ec69588d3797",
+    "actualExecuted": false,
+    "closedSourceFindings": [
+      "C nullable-ref path now enforces original local-reference and target-existence assertions before allowing null",
+      "C M2.2 metadata now explicitly denies before-absence and requires precise existing-row singleton admission",
+      "Author found and removed stale URI-only helper call before actual execution; six runtime modules pass lexical no-undef"
+    ]
+  },
+  "additionalPureChecks": [
+    {
+      "kind": "same-constructor-named8-preflight",
+      "selectedLogicalPlans": 8,
+      "plannedRequestRecipes": 45,
+      "plannedInternalProbeRecipes": 1,
+      "actualRequests": 0,
+      "actualBusinessRowsInserted": 0
+    },
+    {
+      "kind": "installed-ESLint-no-undef",
+      "files": 6,
+      "errors": 0,
+      "databaseHttpExecuted": false
+    }
+  ]
+}

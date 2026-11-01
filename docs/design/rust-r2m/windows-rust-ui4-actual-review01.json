@@ -1,0 +1,594 @@
+{
+  "kind": "R2M-independent-Windows-external-Rust-UI4-actual-cell-review",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01 15:52:24 UTC",
+  "newTmpOnly": true,
+  "intendedDestination": "docs/design/rust-r2m/windows-rust-ui4-actual-review01.json",
+  "scope": {
+    "arrangement": "Windows browser against externally owned Linux Rust API with original explicitly attributed Native support producers/readmodels",
+    "journey": "UI4",
+    "backend": "rust",
+    "runId": "7501e361-1ed2-47ae-ac08-c565e7c7efea",
+    "tag": "wr4c11a",
+    "sourceCapId": "r2m-c01-win11",
+    "manifest": "52395bad70cf6b329e31ff2e8010c3ea2a560b2b035da39a4b65d56dee870d77",
+    "onlyFreshWholeSixStepRun": true,
+    "noFailedPrefixSplicing": true,
+    "noFullDTOOrDedicatedUIComparerGate": true,
+    "notOverallG3G4": true
+  },
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr4c11a.json",
+      "bytes": 5691245,
+      "rawBytesSha256": "5d351a5a1645f1b7ccbaa24dba50b7caa8da4cbfb04d5fe38ecb0b745bbe319c"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/windows-rust-ui4c11-observed-safe01.json",
+      "bytes": 69877,
+      "rawBytesSha256": "1fdaf40a70bd9c55c4edf1f1b6dcec98f9ca1d210c6e8533575cd00e4314d07c"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win11.json",
+      "bytes": 1885334,
+      "rawBytesSha256": "53079a52722e9bb738cf7c4744acc9798210e139ef25ad9675bdb125828ea708"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/windows-single-journey-run-plan11.json",
+      "bytes": 819,
+      "rawBytesSha256": "5d4ce35e5d980516d639d093827f689375b864f70330311d06de3f0839b9c1e5"
+    }
+  ],
+  "sourceReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui4-view-source-review01.json",
+    "bytes": 83360,
+    "rawBytesSha256": "137dd8fbb8db8272069294d6d533da03c72e6b864fc5e3495da037f265b043bc"
+  },
+  "extractorSourceReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/generic-cap11-extractor-source-review01.json",
+    "bytes": 7864,
+    "rawBytesSha256": "cc6704fb68768dadd53588ab9a119e4e6b821f434845ed5281e15025e8e60d27"
+  },
+  "extractorProposal": {
+    "file": "tmp/rust-r2m/windows-cap11-observation-candidate01/source-proposal01.json",
+    "bytes": 4796,
+    "rawBytesSha256": "b35384ee151c0652d8e23010c0f5c920c0ba3d511999431acccc3ba94eb77393"
+  },
+  "frozenSemanticRoute": {
+    "UIRequirements": {
+      "file": "docs/design/rust-r2m/ui-evidence-requirements-review01.json",
+      "bytes": 8993,
+      "rawBytesSha256": "4c65cb79e699fd559843180da539c77aca97ed4f2f0a220110afbd257110c746"
+    },
+    "M4FullRequiredSemantics": {
+      "file": "docs/design/rust-r2m/m4-four-actual-review01.json",
+      "bytes": 97196,
+      "rawBytesSha256": "c6754955b2a92eb58cfa40f752a5f1d16a20ff32d4139edbbb8962226995c5f9"
+    },
+    "LinuxUI4Pair": {
+      "file": "docs/design/rust-r2m/linux-ui4-actual-review01.json",
+      "bytes": 103129,
+      "rawBytesSha256": "dc4a1c2fe4876e18e93e2478d630cdcb6755b2d78ba0713b531b2be932a4a87d"
+    },
+    "NativeWindowsUI4": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-native-ui4-actual-review01.json",
+      "bytes": 21335,
+      "rawBytesSha256": "39152e17239b353488b3a15f102a3d5cf2d1c055210510616b69a9798fc73435"
+    },
+    "originalValidationAndSchema": {
+      "file": "docs/design/rust-r2m/g1-public-validation-review01.json",
+      "bytes": 35854,
+      "rawBytesSha256": "b498da9d013078e784d182047cc7380426f191e3f07ba1832c2c973e54981f58"
+    },
+    "basis": "Original same journey and assertions, original complete HTTP/schema/typedSDKPG/full107/cleanup, finite UI-specific wire/download/cancel relations and corresponding accepted API M4 semantics; no additional wholeDTO/pixel/cache/performance equivalence claim"
+  },
+  "sourceBinding": {
+    "actualSourceReadFiles": 4166,
+    "capsuleFiles": 4166,
+    "allActualReadPinsJoinActualCap11": true,
+    "previouslyIndependentlyReviewedSubset": 124,
+    "all124ActualPathsBytesAndRawHashesMatch": true,
+    "sourceEpoch": "r2m-c01-win11",
+    "actualReadDigest": "ac572f1a98e80f4adeeb3dcf8e18cf92ada54b0c46a69e1bd9c27aa10b321f09",
+    "profile33": "86c911c4284bb43c83d362f18c08f6c8df84a8e75de8e28d9f9c650fe4c37479",
+    "browserSource": "edf1d3a45aeea6d7c8aea2d656c5ec8bcf66fc7de295b57835a045edcfb3b8a4",
+    "artifacts": [
+      {
+        "kind": "native-main",
+        "file": "dist/apps/poms-api/main.js",
+        "bytes": 2958081,
+        "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+      },
+      {
+        "kind": "rust-release",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/target/release/poms-api-rust",
+        "bytes": 34163304,
+        "rawBytesSha256": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd"
+      },
+      {
+        "kind": "ui-build",
+        "file": "tmp/rust-r2m-continuation01/ui-build-current.json",
+        "bytes": 99184,
+        "rawBytesSha256": "4da16dc4da1c3cca4f616f8b84d81c24e0a887ebbc93c90aa4850562154a717b"
+      }
+    ],
+    "orchestratorPlatform": "linux",
+    "browserPlatform": "win32",
+    "APIPlatform": "linux",
+    "mode": "windows-external-rust",
+    "actualRuntimeOwnerRef": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00015.json",
+      "bytes": 644,
+      "rawBytesSha256": "5ade830cb48de3ec6b6acdb9430509ffc0d617eefecd1d72c016ca550201f2ae",
+      "private": true
+    },
+    "runtimeArrangement": {
+      "kind": "Root-R2M-UI-runtime-arrangement",
+      "sourceCapId": "r2m-c01-win11",
+      "browserPlatform": "win32",
+      "mode": "windows-external-rust",
+      "apiBackend": "rust",
+      "apiPlatform": "linux",
+      "actualExternalRustOwnerEvidenceSha256": "5ade830cb48de3ec6b6acdb9430509ffc0d617eefecd1d72c016ca550201f2ae",
+      "runtimePlatformIndependentlyVerifiedByBrowser": false,
+      "RootMustRetainActualRuntimeOwnerProof": true
+    },
+    "browserExecutable": {
+      "file": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tmp\\rust-r2ef\\windows-browser-cache\\chromium-1243\\chrome-win64\\chrome.exe",
+      "rawBytesSha256": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711"
+    },
+    "APIPlatformIndependentlyVerifiedByBrowser": false,
+    "artifactReadLevel": "Original public capsule artifact pins and original owner evidence ref; no C host/executable inspection"
+  },
+  "journey": {
+    "result": "observed",
+    "startedAt": "2026-11-01T15:08:11.015Z",
+    "finishedAt": "2026-11-01T15:21:59.374Z",
+    "steps": [
+      {
+        "journey": "UI4",
+        "id": "upload",
+        "window": {
+          "startedAt": "2026-11-01T15:12:17.846Z",
+          "finishedAt": "2026-11-01T15:14:43.407Z"
+        },
+        "certifiedHTTP": 34,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00291.json",
+          "bytes": 1643492,
+          "rawBytesSha256": "e6858e51555061f8850988e5d8d1f3b6f9d625849e9297ffedd58954b12f9094",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "mark-final",
+        "window": {
+          "startedAt": "2026-11-01T15:14:44.911Z",
+          "finishedAt": "2026-11-01T15:14:57.07Z"
+        },
+        "certifiedHTTP": 2,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00312.json",
+          "bytes": 1658799,
+          "rawBytesSha256": "d4a8f20e58cd1695059e2690e766b62e39f1d3e514838affaaf16fc4daed33fc",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "checklist-refresh-select",
+        "window": {
+          "startedAt": "2026-11-01T15:14:58.544Z",
+          "finishedAt": "2026-11-01T15:16:00.52Z"
+        },
+        "certifiedHTTP": 14,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00426.json",
+          "bytes": 1784134,
+          "rawBytesSha256": "584a4b26eb6eb9373045e1d8a26d18afd49226385d7e917683d1d16ed4bba6c8",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "package-create",
+        "window": {
+          "startedAt": "2026-11-01T15:16:02.017Z",
+          "finishedAt": "2026-11-01T15:16:09.498Z"
+        },
+        "certifiedHTTP": 1,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00439.json",
+          "bytes": 1827123,
+          "rawBytesSha256": "dd2a4a88c2a3cf3266041c4d3ae857bcf4aec40bed1d46e8f13ffbe04d708869",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "package-download",
+        "window": {
+          "startedAt": "2026-11-01T15:16:11.072Z",
+          "finishedAt": "2026-11-01T15:16:22.2Z"
+        },
+        "certifiedHTTP": 2,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00470.json",
+          "bytes": 1855382,
+          "rawBytesSha256": "3ccf45f1a6772bdda75184065f505034b03c122414767bc9c1240d3ab96d068b",
+          "private": true
+        }
+      },
+      {
+        "journey": "UI4",
+        "id": "cancel-upload-dialog",
+        "window": {
+          "startedAt": "2026-11-01T15:16:23.708Z",
+          "finishedAt": "2026-11-01T15:18:04.266Z"
+        },
+        "certifiedHTTP": 23,
+        "ref": {
+          "kind": "actual-UI-step-complete-facts-and-certificates",
+          "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00654.json",
+          "bytes": 2003829,
+          "rawBytesSha256": "6162f3c9915d5849578107c4e92f12ff590e8e3edb05a443a8a6a3103afbfeff",
+          "private": true
+        }
+      }
+    ],
+    "actualStepHTTP": [
+      34,
+      2,
+      14,
+      1,
+      2,
+      23
+    ],
+    "actualHTTP": 76,
+    "HTTPCountsFixedInAdvance": false,
+    "actualExecutionBackend": {
+      "rust": 53,
+      "nest": 23
+    },
+    "stepAndHTTPPublicCertificateJoins": 82,
+    "statuses": [
+      {
+        "code": 200,
+        "count": 67
+      },
+      {
+        "code": 201,
+        "count": 1
+      },
+      {
+        "code": 400,
+        "count": 8
+      }
+    ],
+    "real201": {
+      "index": 29,
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "executionBackend": "rust",
+      "status": 201
+    },
+    "allCompleteOriginalResponseBytesAndPrivateRawRefJoinsVerifiedByRoot": true,
+    "rawExchangeCertificateEqualityVerified": true,
+    "originalPrivateRecordsVerifiedByRoot": 163,
+    "analysisToolCapturedDuringOriginalRun": false,
+    "each76HTTPAnd6StepsFull107BeforeAfterAndUnknownCreateMutationZero": true,
+    "fakeAPIResponsesNotUsed": true,
+    "responseFallbackNotUsed": true
+  },
+  "typed": {
+    "safeResult": {
+      "journey": "UI4",
+      "rawDTOValuesExported": false,
+      "accountValuesExported": false,
+      "wholeDTOEqualityClaim": false,
+      "uploadWirePhysicalChecksumSizeAndOwnedLinkVerified": true,
+      "markSameAttachmentFinal": true,
+      "selectedPhysicalVersionAndPackageItemClosureVerified": true,
+      "readyPackageWireAndPhysicalIdentityVerified": true,
+      "originalBrowserDownloadEqualsFullHTTPBytes": true,
+      "ZIPManifestOwnedIDsAndOriginalPayloadHashVerified": true,
+      "ZIPEntries": 2,
+      "downloadRef": {
+        "kind": "actual-original-Windows-UI-package-download",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00453.json",
+        "bytes": 2225,
+        "rawBytesSha256": "98a4a3d7946d3da2a24ea33e9800bd1285ba4baecc30ff7afe6a3e035363d672",
+        "private": true
+      },
+      "cancelFullBusinessRowsUnchanged": true,
+      "sensitiveExclusionDeepAPIProofNotReclaimed": true
+    },
+    "originalIdentityClosure": "Actual uploaded wire ID binds typed physical attachment checksum/size and already-owned project link; same attachment marked final; included selection preserves version group and same attachment; ready package wire ID/item/project/handover/selection closure",
+    "downloadProof": "Original Windows browser bytes equal complete original package HTTP body; original parsed ZIP/manifest/CRC/payload-source hash and owned identifiers validated;2entries",
+    "cancelProof": "Complete original before/after owned attachment,link,upload-session,selection,package and item business rowsets unchanged; original cancel/logout assertions observed",
+    "browserDownloadRefJoinsPublicOriginalEvidence": true,
+    "deepSensitiveExclusion": "Previously accepted corresponding M4 API proof reused; UI4 does not claim a new complete sensitive-exclusion differential",
+    "wholeDTOEqualityClaim": false,
+    "noAccountsRawDTOCookieTokenOrQueryValuesExported": true
+  },
+  "background400": {
+    "actual": [
+      {
+        "index": 24,
+        "method": "GET",
+        "path": "/api/opportunity-stakeholders",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 25,
+        "method": "GET",
+        "path": "/api/competitor-intelligence-records",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 26,
+        "method": "GET",
+        "path": "/api/sales-discovery-records",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 27,
+        "method": "GET",
+        "path": "/api/sales-intelligence-gaps",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 69,
+        "method": "GET",
+        "path": "/api/opportunity-stakeholders",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 70,
+        "method": "GET",
+        "path": "/api/competitor-intelligence-records",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 71,
+        "method": "GET",
+        "path": "/api/sales-discovery-records",
+        "executionBackend": "nest",
+        "status": 400
+      },
+      {
+        "index": 72,
+        "method": "GET",
+        "path": "/api/sales-intelligence-gaps",
+        "executionBackend": "nest",
+        "status": 400
+      }
+    ],
+    "allNativeGETAndFourOriginalPathsTwice": true,
+    "originalBoundary": "Original K controlled project customer context is NULL for these four readonly sales-context services; status400 remains visible, unchanged from accepted Linux and Windows Native UI4 evidence",
+    "migrationScope": "Named existing Native readonly supports only; no R3 business-domain migration or response rewrite",
+    "statusNotConvertedTo200OrDropped": true
+  },
+  "readiness": {
+    "actualAttestedInput": {
+      "kind": "R2M-attested-Windows-external-Rust-UI4-original-view-readiness-input",
+      "journey": "UI4",
+      "sourceCapId": "r2m-c01-win11",
+      "origin": "http://127.0.0.1:10080",
+      "apiBackend": "rust",
+      "apiPlatform": "linux",
+      "browserPlatform": "win32",
+      "externalRustOwnerEvidenceSha256": "5ade830cb48de3ec6b6acdb9430509ffc0d617eefecd1d72c016ca550201f2ae",
+      "readinessTimeoutMs": 150000
+    },
+    "finiteSourceBoundary": "Only attested single externalRustWinUI4; existing original project-detail GET before upload/cancel and two original handover GETs before refresh; complete200/finished/body/typed IDs under150s",
+    "original75sActionsAndAllSixBusinessAssertionsPreserved": true,
+    "originalFailedWr4c10aNotReclassified": true,
+    "failed69ResourceActualC": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/wr4c10a-late-recovery-actual-review03.json",
+      "bytes": 25116,
+      "rawBytesSha256": "c907a4c4fa5fc384ab90ab8b07cbc50590530fd5fb4672395767a0c171e6cf12"
+    },
+    "noRetryNewGETFakeResponseBudgetIdentityOrStopChange": true,
+    "noProductLatencyOrPerformanceClaim": true
+  },
+  "cache": {
+    "actualInput": {
+      "kind": "R2M-controlled-uncached-browser-input",
+      "sourceCapId": "r2m-c01-win11",
+      "cacheDisabled": true,
+      "appliedBeforeFirstNavigation": true,
+      "actualCDPAcknowledged": [
+        {
+          "method": "Network.enable",
+          "params": {},
+          "ack": {}
+        },
+        {
+          "method": "Network.setCacheDisabled",
+          "params": {
+            "cacheDisabled": true
+          },
+          "ack": {}
+        }
+      ],
+      "privateEvidence": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00022.json",
+        "bytes": 614,
+        "rawBytesSha256": "680255e6373fee14e41b92231c09ea747a95da20ac3941d38c066d9c8c2a3b5b",
+        "private": true
+      },
+      "sessionCloseOwner": "same-owned-browser-context",
+      "conditionalHeaderEvidence": "per-actual-exchange-original-rawHeaders"
+    },
+    "all76OriginalConditionalHeaderCountsZero": true,
+    "rawHeaderValuesNotChanged": true,
+    "cacheEquivalenceCertified": false,
+    "ETagByteEqualityClaim": false,
+    "oldCached11StrictDifferencesPreserved": true
+  },
+  "lifecycle": {
+    "actualWindowsCloseFacts": {
+      "kind": "R2M-Windows-actual-terminal-close-facts",
+      "windowsTreeStopped": true,
+      "terminalAndCallbacksClosed": true,
+      "browserClosed": true,
+      "serverClosed": true,
+      "businessObserved": true,
+      "rejected": false
+    },
+    "writerLifecycle": {
+      "attempted": {
+        "browser": true,
+        "server": true,
+        "native": true,
+        "rust": true
+      },
+      "stopped": {
+        "browser": true,
+        "server": true,
+        "native": true,
+        "rust": true
+      },
+      "writersStopped": true,
+      "observerRestored": true,
+      "activePgCasePreserved": false
+    },
+    "server": {
+      "closed": true,
+      "transportClosed": true,
+      "ownedWorkSettled": true,
+      "pendingEvidence": 0,
+      "closeCounts": {
+        "sockets": 0,
+        "forwarded": 0,
+        "handlers": 0,
+        "evidence": 0,
+        "ownedWork": 0,
+        "activeExchanges": 0
+      },
+      "failureEvidence": []
+    },
+    "windows": {
+      "terminalFrameReceived": true,
+      "pendingCallbacks": 0,
+      "forcedStop": false,
+      "abortRequested": false,
+      "profileAcknowledged": true,
+      "windowsStopResult": "owned-tree-stopped",
+      "unregisteredProcessesStopped": 0
+    },
+    "originalFinalSDKAndPGRefs": [
+      {
+        "kind": "actual-Native-final-SDK-and-SQL",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00677.json",
+        "bytes": 373652,
+        "rawBytesSha256": "daadebea1aa8d9a1e2593671bc3356f33c12035eb77b499c63725b6591c81e4c",
+        "private": true
+      },
+      {
+        "kind": "actual-PG-observer-restore",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00678.json",
+        "bytes": 2377,
+        "rawBytesSha256": "feab0ba321e28a686ae67dc6ff2285f9a7e679a16c722b7e639ac9a8ac6a74f7",
+        "private": true
+      }
+    ],
+    "freshRunNormalFullClosure": true,
+    "noLateRecoveryUsedForThisPositiveCell": true
+  },
+  "data": {
+    "cleanup": [
+      {
+        "state": "cleaned",
+        "deleted": 83,
+        "changedFiles": 2,
+        "secondChangedFiles": 0,
+        "firstZero": 0,
+        "secondZero": 0,
+        "tablesScanned": 107
+      },
+      {
+        "state": "cleaned",
+        "deleted": 0,
+        "changedFiles": 0,
+        "secondChangedFiles": 0,
+        "firstZero": 0,
+        "secondZero": 0,
+        "tablesScanned": 107
+      }
+    ],
+    "firstRows": 83,
+    "firstFiles": 2,
+    "secondRows": 0,
+    "secondFiles": 0,
+    "full107PhysicalBaselineEqualityVerified": true,
+    "full107BaselineRefs": [
+      {
+        "kind": "UI-global-full107-before-preparation",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00000.json",
+        "bytes": 432862,
+        "rawBytesSha256": "7d78d02f480f5afe35516a02dce0218bbdeca19d3b861556443e00e383dda97d",
+        "private": true
+      },
+      {
+        "kind": "UI-full107-after-double-zero",
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-7501e361-1ed2-47ae-ac08-c565e7c7efea/00679.json",
+        "bytes": 432854,
+        "rawBytesSha256": "a8d66b9dc1b52f42cc99fb33a7266e3e4f62486d783136bc3aa57f0bdc4d01b6",
+        "private": true
+      }
+    ],
+    "all107TableNamesAllColumnsAndPhysicalRowsCompared": true,
+    "allFourZeroScans107Tables1778Columns207FK": true,
+    "noOwnershipOrCleanupByC": true
+  },
+  "verification": {
+    "exact5691245ReportSHA5d351And69877SafeSHA1fda": true,
+    "all4166ActualSourceReadPinsJoinCap11": true,
+    "exactC124SubsetJoinsCap11": true,
+    "all76SafeCertRefsJoinReportEvidence": true,
+    "all76ActualProxyExchangeFieldsTransportStatusBackendAndRawRefPinsMatch": true,
+    "sixStepRefHashesCountsAndNetworkCertificateJoinsExact": true,
+    "actual53Rust23NativeAnd67x200One201EightNative400Preserved": true,
+    "allRequiredTypedBooleansAndOriginalZIPRefTrue": true,
+    "downloadFinalSDKPGAndBaselineRefsJoinOriginalPublicEvidence": true,
+    "originalOwnerProofAndWindowsBrowserPinBound": true,
+    "sourceGuarded107UnknownZeroBaselineAndCleanupOwnerFacts": true,
+    "CPrivateEnvDBHostHTTPBrowserNodeOrTestActions": 0,
+    "capturedSourceDocsModified": 0,
+    "newTmpOnly": true
+  },
+  "readLevels": {
+    "public": "Complete original public run/safe metadata, original source cap and plan, source and scoped independent source/M4/Linux/Native UI4 reviews",
+    "private": "Original ref path/length/hash only; C did not open bodies,full107,journal,key,SDKSQL,PS/owner evidence,ZIP or original error payloads",
+    "RootActual": "Root executed the reviewed readonly extractor after normal closure and verified163 original private records, raw-vs-cert and typed source relations",
+    "analysisTiming": "Post-run extraction;analysisToolCapturedDuringOriginalRun remains false"
+  },
+  "overall": {
+    "WindowsAcceptedNow": 8,
+    "WindowsTotal": 8,
+    "UIAcceptedNow": 16,
+    "UITotal": 16,
+    "allOriginalJourneyCellsScopedCComplete": true,
+    "final66RunInventoryAndIndexPending": true,
+    "censusHistoricalObserverStatesNotLiveAssertions": true,
+    "independentOverallG3AndFixedCommitG4StillPending": true
+  },
+  "findings": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

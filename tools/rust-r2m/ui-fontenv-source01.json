@@ -1,0 +1,46 @@
+{
+  "kind": "R2M-Linux-browser-only-exact-new-M-fontconfig-admission",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/ui-fontenv-before-source01.json",
+    "bytes": 5809,
+    "rawBytesSha256": "2e68aa9cf755d323a81d077821e90384a14251456baec150769e1d828c45be48"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 7288,
+      "rawBytesSha256": "39257ff20794d0c6210c03ed204b9a31e96c2f7aaaa2ca168f45e6f1e2344572"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.test.mjs",
+      "bytes": 4644,
+      "rawBytesSha256": "9e98720b06369aa1dad1aed4170984511cd37f82fda360e7a1c2fa53f839c773"
+    }
+  ],
+  "pinSchema": {
+    "fontconfigFile": "/home/wangzishi/.local/share/poms-r2m/browser-fonts/fonts.conf",
+    "fontconfigSha256": "actual raw SHA256 from B fonts04 provision",
+    "fontFiles": "complete actual regular non-symlink [{file,bytes,rawBytesSha256}] in the exact Noto font directory"
+  },
+  "scope": [
+    "Only the task-owned Linux Chromium child receives exact FONTCONFIG_FILE and FONTCONFIG_PATH; ambient fontconfig/debug/DB/JWT are not inherited. Windows owner files unchanged.",
+    "Actual verifier rejects symlink directories/files, non-regular/hardlinked files, wrong realpath/inode or changing/hash-mismatched bytes, and mismatched complete directory member sets. Config is inspected from the same verified no-follow file descriptor bytes.",
+    "Only the new-M exact Noto font directory and new-M cache appear in config; include/DOCTYPE/ENTITY are refused. Original browser executable and 55 library pins are unchanged.",
+    "B actual provision produces browser-pin-fonts04.json. This source review does not claim fonts installed, earlier failure caused by fonts, or actual UI pass."
+  ],
+  "pure": {
+    "passed": 18,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-fontenv-source01-pure.txt",
+      "bytes": 3980,
+      "rawBytesSha256": "6f2f793656b3691ed006de4936c417fe55a091c79610b5b21189c3082fae0fc0"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

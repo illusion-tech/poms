@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {sha,validateQaPrivateName} from './audit-qa-common.mjs';
+import {emptyFailedQa10Sha256,validateZeroCreatedQaManifest} from './audit-qa-planned-resume.mjs';
+test('actual QA database-containing snapshot filenames admit underscore but cannot escape their one private directory',()=>{for(const name of['template-poms_r2m_nest-before.json','foundation-rust-qfr01-protected-poms_r2m_rust.json'])assert.equal(validateQaPrivateName(name),name);for(const name of['../private/nest.env','a/b.json','a\\b.json','/tmp/a.json','..','C:a.json'])assert.throws(()=>validateQaPrivateName(name))});
+test('QA retry authority is only the exact zero-resource empty-failed QA10 manifest',()=>{const plan=JSON.parse(fs.readFileSync('tools/rust-r2m/audit-qa-admission.json')),journal={kind:'R2M-whole-QA-resource-creation-journal',planSha256:sha(fs.readFileSync('tools/rust-r2m/audit-qa-admission.json')),state:'partial-provisioning-preserved',sourceCapId:'r2m-qa10',resources:[],templates:[]};assert(validateZeroCreatedQaManifest(journal,plan,emptyFailedQa10Sha256,emptyFailedQa10Sha256));for(const changed of[{...journal,resources:[{database:plan.resources[0].database}]},{...journal,state:'before-absence-not-yet-observed'},{...journal,templates:[{database:'poms_r2m_nest'}]}])assert.throws(()=>validateZeroCreatedQaManifest(changed,plan,emptyFailedQa10Sha256,emptyFailedQa10Sha256));assert.throws(()=>validateZeroCreatedQaManifest(journal,plan,'a'.repeat(64),'a'.repeat(64)))});

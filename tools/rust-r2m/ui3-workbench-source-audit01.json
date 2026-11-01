@@ -1,0 +1,80 @@
+{
+  "kind": "R2M-UI3-original-Workbench-locator-and-loading-source-audit",
+  "result": "source-finding-awaiting-Root-actual-DOM-HTTP-metadata",
+  "sources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25661,
+      "rawBytesSha256": "228119de57fab433aa7c8ef6acee2f10176ceb0c465c30965d97c6214cf9d7aa"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-main.ts",
+      "bytes": 4911,
+      "rawBytesSha256": "5ae93a7e2ef410c39e814d394f1c71b8f1b973671d73cbc89c345db51cdd3a50"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/dashboard/workbench.ts",
+      "bytes": 10214,
+      "rawBytesSha256": "67f207484c9b9b7fadd7a2ce038425f6b50b24225fd7747389f37faf85c749a1"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8543,
+      "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661"
+    },
+    {
+      "file": "apps/poms-admin/src/app.config.ts",
+      "bytes": 5633,
+      "rawBytesSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/platform/dev-platform.fixtures.ts",
+      "bytes": 16239,
+      "rawBytesSha256": "ba9531566a79a581b00fd73a7fbb2c61810cfb8881d5b5064ee648e762f3623b"
+    },
+    {
+      "file": "apps/poms-admin/src/app/shared/navigation/todo-navigation.ts",
+      "bytes": 3863,
+      "rawBytesSha256": "6c2dfb4c787ce2396056ae1388a2fa9250d463fb6d52af335d0519061362e67f"
+    }
+  ],
+  "facts": {
+    "buttonText": "Original Workbench renders todo.title and optional todo.targetTitle inside each button",
+    "sourceTitle": "Original Native submitContractReview creates title 合同审核：${contract.contractNo}",
+    "sourceApprover": "CONTRACT_REVIEW_APPROVER_USERNAME=vp_owner and current dev ID08",
+    "loginLoading": "AuthStore.login awaits #acceptAuthSession/#loadUserData; user/navigation/todos are set after Promise.all",
+    "extraFullNavigation": "The UI3 action then performs page.goto(/dashboard) and immediately tests a button with the default5s assertion; it does not wait for that new initialization/GET trio/bridge",
+    "locatorSemantics": "String substring locator is source-consistent if the actual loaded owned contract Todo title matches its Native source; actual absence/cause not inferred"
+  },
+  "boundedProposal": {
+    "keep": [
+      "real full dashboard navigation",
+      "actual Workbench text locator",
+      "exact owned contract target",
+      "original click/reject/dialog/API assertions"
+    ],
+    "loadingOnly": "before goto register actual GET /api/auth/session,/api/me/navigation,/api/me/todos waits; after goto await original200s then bridge.version1 before a single original DOM assertion",
+    "noTimeoutIncrease": true,
+    "noBusinessRetry": true
+  },
+  "pendingRootFacts": [
+    "Whether those new navigation requests completed and their real statuses",
+    "Whether actual Todo data contains the already-owned contract target and source title",
+    "Actual DOM render state and current PG transaction/control/event/owner diagnostics"
+  ],
+  "noActualFailureCauseVerdict": true,
+  "ownersChanged": false,
+  "actual": {
+    "privateRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false
+  },
+  "G3": false,
+  "G4": false
+}

@@ -1,0 +1,1192 @@
+{
+  "kind": "R2M-final-stage-validation-materialized",
+  "result": "G3-Pass-G4-Pending",
+  "createdAt": "2026-11-01T16:55:13.846Z",
+  "task": {
+    "issue": 80,
+    "parent": 67,
+    "root": 57,
+    "mustKeepOpen": [
+      57
+    ],
+    "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "branch": "codex/poms-r2m-integration",
+    "newPublicOperations": 0
+  },
+  "gate": {
+    "G1": "Pass-frozen",
+    "G2": "required-stage-actual-scope-executed",
+    "G3": "Pass",
+    "G4": "Pending",
+    "overallPass": null,
+    "overallPassScope": "G4-effective-closeout"
+  },
+  "frozenG1": {
+    "freeze": {
+      "file": "tmp/rust-r2m/g1-freeze.json",
+      "bytes": 8942,
+      "rawBytesSha256": "1a8a4e2daed7d4dc37e4214b4545ea0aabb94a1c85159d7c311c1f8d08e06fea"
+    },
+    "reviewedOriginal": {
+      "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "snapshot": "tmp/rust-r2m/g1-frozen-inputs/docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "bytes": 13410,
+      "rawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33"
+    },
+    "currentGateOnlyBaseline": {
+      "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "bytes": 13452,
+      "rawBytesSha256": "fb40c7f9761f3ecc7ef84e9a761f053f8e116da5f40fe78387df913cb86b0cba"
+    },
+    "gateOnlyBytesDifference": 42,
+    "review": {
+      "file": "docs/design/rust-r2m-g1-review01.json",
+      "bytes": 10505,
+      "rawBytesSha256": "f6130b2973ec473ffa04d2d103cccfb6eb016f2ee628aac2e73b5add1ae91fd3"
+    },
+    "comment": "https://github.com/illusion-tech/poms/issues/80#issuecomment-6529892491",
+    "continuationExtension": {
+      "file": "docs/design/rust-r2m/continuation01-g1-extension.md",
+      "bytes": 5291,
+      "rawBytesSha256": "54902cd4aed08afcdf2269028d98943eeec4177474ef4a2b7636c4245a441fa0"
+    }
+  },
+  "inputIndexSnapshot": {
+    "file": "tmp/rust-r2m/final-delivery-candidate15/delivery-evidence-index-final-supplement15.json",
+    "bytes": 19923,
+    "rawBytesSha256": "f06cf150d6bdc96ba5fabaa81d036738afb9a824c7efae33a06bd43f26482153"
+  },
+  "knownScopedCResults": {
+    "surface": {
+      "file": "docs/design/rust-r2m/m0-surface-actual-review01.json",
+      "bytes": 5591,
+      "rawBytesSha256": "95ad53a41fa2290ec3b416e18e1e8ee94d472683a1d050ff6bc1bf01adfb1132",
+      "kind": "R2M-M0-surface115-actual-evidence-review-not-a-Gate",
+      "result": "Accepted-surface-evidence-with-explicit-inherited-diagnostic-header-difference",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "uri": {
+      "file": "docs/design/rust-r2m/uri27-actual-review01.json",
+      "bytes": 7466,
+      "rawBytesSha256": "15fd7775608a537a14b28938f0fe168fe5341fcc1a72f8fd498e269ed5e07ae4",
+      "kind": "R2M-URI27-actual-session-facts-response-review-not-a-Gate",
+      "result": "Accepted-URI27-evidence-with-explicit-inherited-diagnostic-header-difference",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "api8": {
+      "file": "docs/design/rust-r2m/api-eight-actual-review01.json",
+      "bytes": 9273,
+      "rawBytesSha256": "be5b962fe7ff982c758eff9f2dfa1259342e555d033eb7b7f20501abd0455f58",
+      "kind": "POMS-R2M-independent-eight-logical-cases-actual-evidence-review",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "m3": {
+      "file": "docs/design/rust-r2m/m3-five-actual-review01.json",
+      "bytes": 27125,
+      "rawBytesSha256": "598b7c0c042a2955841967f9777f61d1b30607e6da2005b62eaa00cf008bd60e",
+      "kind": "R2M-independent-C-M3-five-case-actual-evidence-review",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "m4": {
+      "file": "docs/design/rust-r2m/m4-four-actual-review01.json",
+      "bytes": 97196,
+      "rawBytesSha256": "c6754955b2a92eb58cfa40f752a5f1d16a20ff32d4139edbbb8962226995c5f9",
+      "kind": "R2M-independent-C-M4-four-actual-required-semantics-review01",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "m5": {
+      "file": "docs/design/rust-r2m/m5-three-actual-review01.json",
+      "bytes": 19920,
+      "rawBytesSha256": "b85f5a229100b2f5a4cfc8faca353e7811fc877c80a88ea56c93a7467b5050bf",
+      "kind": "R2M-independent-C-M5-three-case-actual-evidence-review",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "linuxUI12": {
+      "file": "docs/design/rust-r2m/ui12-actual-review01.json",
+      "bytes": 10810,
+      "rawBytesSha256": "842f566dfb0c005ff282eb84fcda15ea472dc53ffc0a497fa236dc5755bf56e9",
+      "kind": "POMS-R2M-independent-Linux-UI12-actual-review",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "linuxUI3": {
+      "file": "docs/design/rust-r2m/linux-ui3-actual-review01.json",
+      "bytes": 27718,
+      "rawBytesSha256": "2c0f81d76cd425ed098f011d6a4e449193060c8cb982e379e41eef44d89a2a28",
+      "kind": "R2M-independent-C-Linux-UI3-existing-actual-evidence-review",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "windowsThree": {
+      "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+      "bytes": 41545,
+      "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda",
+      "kind": "R2M-independent-C-three-completed-Windows-UI-cells-actual-review01",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "windowsNativeUI3": {
+      "file": "docs/design/rust-r2m/windows-native-ui3-actual-review01.json",
+      "bytes": 19753,
+      "rawBytesSha256": "2e2796b934809fbc7f259ce9813afb131d9941049539a104a93aa954ce098cbd",
+      "kind": "R2M-independent-C-Windows-Native-UI3-actual-review01",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "common": {
+      "file": "docs/design/rust-r2m/g1-public-validation-review01.json",
+      "bytes": 35854,
+      "rawBytesSha256": "b498da9d013078e784d182047cc7380426f191e3f07ba1832c2c973e54981f58",
+      "kind": "R2M-independent-C-bounded-public-schema-and-original-validation-evidence-review",
+      "result": "AcceptedBoundedEvidence",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "linuxUI4": {
+      "review": {
+        "file": "docs/design/rust-r2m/linux-ui4-actual-review01.json",
+        "bytes": 103129,
+        "rawBytesSha256": "dc4a1c2fe4876e18e93e2478d630cdcb6755b2d78ba0713b531b2be932a4a87d"
+      },
+      "result": "Pass",
+      "scopedOnly": true
+    },
+    "finalWindowsCells": [
+      {
+        "cell": "WindowsNativeUI1",
+        "runId": "630956f4-4135-4726-93c1-3b8f4e236dfb",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn1c03a.json",
+          "bytes": 3020539,
+          "rawBytesSha256": "2724e9e4f9003f5368008322185b462bb4b23c8aa9f5ba2322defff7bcb0b9bb"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui1c03-observed-metadata01.json",
+          "bytes": 32786,
+          "rawBytesSha256": "c08539357e8ac21a36a905ddf6153a084b668b9e16ac9ece7cfd80a39cdfe36c"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+          "bytes": 41545,
+          "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsNativeUI2",
+        "runId": "98071a7b-aed8-49ea-8f47-6b2906079fa2",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn2c03a.json",
+          "bytes": 3914322,
+          "rawBytesSha256": "1e6e66bc931c7ab601c16656f6c4a151cd92ee48446b75a23feb82780af1b78f"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui2c03-observed-metadata01.json",
+          "bytes": 48890,
+          "rawBytesSha256": "9d968b8d20321480add81e1cf5ec704121ada93c873abb93cc6e952859ac460d"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+          "bytes": 41545,
+          "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsNativeUI3",
+        "runId": "977b13f6-f523-4102-a36f-e070fee9867e",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn3c05a.json",
+          "bytes": 5208021,
+          "rawBytesSha256": "4de39393fae12d6aa925716673f1abc420b9d20b592978bf7c7b9edb2697bb17"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui3c05-observed-metadata01.json",
+          "bytes": 72034,
+          "rawBytesSha256": "cd1dddf6e64e33e19e14404c6192ac2b41d1743052788518a8bf345ddf084222"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-native-ui3-actual-review01.json",
+          "bytes": 19753,
+          "rawBytesSha256": "2e2796b934809fbc7f259ce9813afb131d9941049539a104a93aa954ce098cbd"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsNativeUI4",
+        "runId": "3e3deedd-3900-47b8-9e94-e9a0fbeafa46",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn4c09a.json",
+          "bytes": 5817869,
+          "rawBytesSha256": "467959345d232ed629d1fc7a7505f3b8bf05d551dc2d22ce99948d237c075a34"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui4c09-observed-metadata01.json",
+          "bytes": 76691,
+          "rawBytesSha256": "b2f1eecc7cd36c861780b5bc1bfe4acd05f980e37d13c15938833513e087d5e7"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-native-ui4-actual-review01.json",
+          "bytes": 21335,
+          "rawBytesSha256": "39152e17239b353488b3a15f102a3d5cf2d1c055210510616b69a9798fc73435"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI1",
+        "runId": "7fc452de-58e3-4551-9069-a2f2a41d1b6c",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr1c03a.json",
+          "bytes": 2969452,
+          "rawBytesSha256": "162fbd2036622250ed3f72c95d078dc306468c8e30a1d4521d8f73894810c0c2"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui1c03-observed-metadata01.json",
+          "bytes": 32782,
+          "rawBytesSha256": "7320434eec37bc31fa8d2b7ed06244dbc2ad3837e50572c4babe8901041c4993"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+          "bytes": 41545,
+          "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI2",
+        "runId": "125ea0ab-8c89-44c8-b951-8eef60f86b50",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr2c10a.json",
+          "bytes": 4045014,
+          "rawBytesSha256": "73160045329f5e83102075d28d500b1192b4c4de05a51d40013a2914ce285f22"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui2c10-observed-safe01.json",
+          "bytes": 44692,
+          "rawBytesSha256": "01bd162a7c29ad57e7e2db2629f045b6b8fb38b4688b50e6a5d750dc8fba0c88"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui2-actual-review01.json",
+          "bytes": 23327,
+          "rawBytesSha256": "7899aed31f657fafe9afc664b27c4df487d35a145c06cf7b29a5ee125e8071bb"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI3",
+        "runId": "8fd09214-c6a9-4c59-acee-b0e9539d47bd",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr3c10a.json",
+          "bytes": 5257487,
+          "rawBytesSha256": "93f92c2d33852b8b732faa55a99622a9689a78866505571d35b8c1e88b13bcc0"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui3c10-observed-safe01.json",
+          "bytes": 67625,
+          "rawBytesSha256": "1ab127cc19414ba33abf367aaaa4c71a01ed218b1198de0dfcd6a1129acdae6f"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui3-actual-review01.json",
+          "bytes": 21204,
+          "rawBytesSha256": "1ce8504cf9809b184ba13ebae0d3098e1723ec21e6076d0de5d5c8b39264bfa8"
+        },
+        "result": "Pass"
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI4",
+        "runId": "7501e361-1ed2-47ae-ac08-c565e7c7efea",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr4c11a.json",
+          "bytes": 5691245,
+          "rawBytesSha256": "5d351a5a1645f1b7ccbaa24dba50b7caa8da4cbfb04d5fe38ecb0b745bbe319c"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui4c11-observed-safe01.json",
+          "bytes": 69877,
+          "rawBytesSha256": "1fdaf40a70bd9c55c4edf1f1b6dcec98f9ca1d210c6e8533575cd00e4314d07c"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui4-actual-review01.json",
+          "bytes": 23117,
+          "rawBytesSha256": "9082e67078a62e7f448e1084bdcf53d9c4e10a85bbad1760ff5111ab8cd4de21"
+        },
+        "result": "Pass"
+      }
+    ]
+  },
+  "knownMeasuredM4": {
+    "file": "tmp/rust-r2m-continuation01/compare-api-attachments-measured10.json",
+    "bytes": 317742,
+    "rawBytesSha256": "bbdace564747f57460df6dee993ccec8cb711a1f33deb4268b148974dff3a728",
+    "sourceSeal": {
+      "file": "tools/rust-r2m/attachments-comparison-source10.json",
+      "bytes": 11393,
+      "rawBytesSha256": "e18ba0317dad1ca4236c6d1772dc3eadcdccccad913626ecc0e6540fae53a05d"
+    },
+    "result": "pass-M4-full-facts-and-source-verified-wire",
+    "steps": 58,
+    "complete107Frames": 116,
+    "primaryHTTP": 45,
+    "differences": 0,
+    "classifiedOriginalNumeric": 82,
+    "classifiedR1A": 43,
+    "independentReview": {
+      "file": "docs/design/rust-r2m/m4-four-actual-review01.json",
+      "bytes": 97196,
+      "rawBytesSha256": "c6754955b2a92eb58cfa40f752a5f1d16a20ff32d4139edbbb8962226995c5f9",
+      "kind": "R2M-independent-C-M4-four-actual-required-semantics-review01",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "wholeNativeMixedParentPass": false,
+    "actualQueryParametersCaptured": false,
+    "numericParityClaimed": false
+  },
+  "knownLinuxUI4": {
+    "status": "original-two-side-scoped-actual-C-Pass",
+    "metadata": {
+      "file": "tmp/rust-r2m-continuation01/linux-ui4c-observed-metadata01.json",
+      "bytes": 209963,
+      "rawBytesSha256": "4aa0ea49bb531b5e234558e7a810f5c3f84a1f641994cede8c54fc206120a757"
+    },
+    "stepsPerSide": 6,
+    "HTTPPerSide": 76,
+    "cleanupRowsPerSide": 83,
+    "filesPerSide": 2,
+    "independentCReview": {
+      "file": "docs/design/rust-r2m/linux-ui4-actual-review01.json",
+      "bytes": 103129,
+      "rawBytesSha256": "dc4a1c2fe4876e18e93e2478d630cdcb6755b2d78ba0713b531b2be932a4a87d"
+    },
+    "wholeUIFieldDiffGateAdded": false
+  },
+  "windows": {
+    "requiredCells": 8,
+    "independentAcceptedCells": 8,
+    "accepted": [
+      "WindowsNativeUI1",
+      "WindowsNativeUI2",
+      "WindowsNativeUI3",
+      "WindowsNativeUI4",
+      "WindowsBrowser-LinuxRustUI1",
+      "WindowsBrowser-LinuxRustUI2",
+      "WindowsBrowser-LinuxRustUI3",
+      "WindowsBrowser-LinuxRustUI4"
+    ],
+    "pending": [],
+    "reviewedThree": {
+      "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+      "bytes": 41545,
+      "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda",
+      "kind": "R2M-independent-C-three-completed-Windows-UI-cells-actual-review01",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "reviewedNativeUI3": {
+      "file": "docs/design/rust-r2m/windows-native-ui3-actual-review01.json",
+      "bytes": 19753,
+      "rawBytesSha256": "2e2796b934809fbc7f259ce9813afb131d9941049539a104a93aa954ce098cbd",
+      "kind": "R2M-independent-C-Windows-Native-UI3-actual-review01",
+      "result": "Pass",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "NativeUI3ActualHTTP": 73,
+    "NativeUI3PerStepHTTP": [
+      26,
+      23,
+      24
+    ],
+    "browserPlatform": "win32",
+    "NativeAPIPlatform": "win32",
+    "RustAPIPlatform": "linux",
+    "noWindowsBrowserEqualsWindowsNativeSubstitution": true,
+    "noNewDedicatedWholeUIFieldDiffGate": true,
+    "actualCells": [
+      {
+        "cell": "WindowsNativeUI1",
+        "runId": "630956f4-4135-4726-93c1-3b8f4e236dfb",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn1c03a.json",
+          "bytes": 3020539,
+          "rawBytesSha256": "2724e9e4f9003f5368008322185b462bb4b23c8aa9f5ba2322defff7bcb0b9bb"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui1c03-observed-metadata01.json",
+          "bytes": 32786,
+          "rawBytesSha256": "c08539357e8ac21a36a905ddf6153a084b668b9e16ac9ece7cfd80a39cdfe36c"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+          "bytes": 41545,
+          "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda"
+        },
+        "CResult": "Pass",
+        "steps": 4,
+        "HTTP": 30,
+        "cleanupRows": 65,
+        "cleanupFiles": 0
+      },
+      {
+        "cell": "WindowsNativeUI2",
+        "runId": "98071a7b-aed8-49ea-8f47-6b2906079fa2",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn2c03a.json",
+          "bytes": 3914322,
+          "rawBytesSha256": "1e6e66bc931c7ab601c16656f6c4a151cd92ee48446b75a23feb82780af1b78f"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui2c03-observed-metadata01.json",
+          "bytes": 48890,
+          "rawBytesSha256": "9d968b8d20321480add81e1cf5ec704121ada93c873abb93cc6e952859ac460d"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+          "bytes": 41545,
+          "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda"
+        },
+        "CResult": "Pass",
+        "steps": 3,
+        "HTTP": 48,
+        "cleanupRows": 58,
+        "cleanupFiles": 0
+      },
+      {
+        "cell": "WindowsNativeUI3",
+        "runId": "977b13f6-f523-4102-a36f-e070fee9867e",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn3c05a.json",
+          "bytes": 5208021,
+          "rawBytesSha256": "4de39393fae12d6aa925716673f1abc420b9d20b592978bf7c7b9edb2697bb17"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui3c05-observed-metadata01.json",
+          "bytes": 72034,
+          "rawBytesSha256": "cd1dddf6e64e33e19e14404c6192ac2b41d1743052788518a8bf345ddf084222"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-native-ui3-actual-review01.json",
+          "bytes": 19753,
+          "rawBytesSha256": "2e2796b934809fbc7f259ce9813afb131d9941049539a104a93aa954ce098cbd"
+        },
+        "CResult": "Pass",
+        "steps": 3,
+        "HTTP": 73,
+        "cleanupRows": 65,
+        "cleanupFiles": 0
+      },
+      {
+        "cell": "WindowsNativeUI4",
+        "runId": "3e3deedd-3900-47b8-9e94-e9a0fbeafa46",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn4c09a.json",
+          "bytes": 5817869,
+          "rawBytesSha256": "467959345d232ed629d1fc7a7505f3b8bf05d551dc2d22ce99948d237c075a34"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-native-ui4c09-observed-metadata01.json",
+          "bytes": 76691,
+          "rawBytesSha256": "b2f1eecc7cd36c861780b5bc1bfe4acd05f980e37d13c15938833513e087d5e7"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-native-ui4-actual-review01.json",
+          "bytes": 21335,
+          "rawBytesSha256": "39152e17239b353488b3a15f102a3d5cf2d1c055210510616b69a9798fc73435"
+        },
+        "CResult": "Pass",
+        "steps": 6,
+        "HTTP": 76,
+        "cleanupRows": 83,
+        "cleanupFiles": 2
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI1",
+        "runId": "7fc452de-58e3-4551-9069-a2f2a41d1b6c",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr1c03a.json",
+          "bytes": 2969452,
+          "rawBytesSha256": "162fbd2036622250ed3f72c95d078dc306468c8e30a1d4521d8f73894810c0c2"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui1c03-observed-metadata01.json",
+          "bytes": 32782,
+          "rawBytesSha256": "7320434eec37bc31fa8d2b7ed06244dbc2ad3837e50572c4babe8901041c4993"
+        },
+        "review": {
+          "file": "docs/design/rust-r2m/windows-three-cells-actual-review01.json",
+          "bytes": 41545,
+          "rawBytesSha256": "637fe0d8e125d604773d2f303fa69346d494a65dadf71159888d948683c5bdda"
+        },
+        "CResult": "Pass",
+        "steps": 4,
+        "HTTP": 30,
+        "cleanupRows": 65,
+        "cleanupFiles": 0
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI2",
+        "runId": "125ea0ab-8c89-44c8-b951-8eef60f86b50",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr2c10a.json",
+          "bytes": 4045014,
+          "rawBytesSha256": "73160045329f5e83102075d28d500b1192b4c4de05a51d40013a2914ce285f22"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui2c10-observed-safe01.json",
+          "bytes": 44692,
+          "rawBytesSha256": "01bd162a7c29ad57e7e2db2629f045b6b8fb38b4688b50e6a5d750dc8fba0c88"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui2-actual-review01.json",
+          "bytes": 23327,
+          "rawBytesSha256": "7899aed31f657fafe9afc664b27c4df487d35a145c06cf7b29a5ee125e8071bb"
+        },
+        "CResult": "Pass",
+        "steps": 3,
+        "HTTP": 48,
+        "cleanupRows": 58,
+        "cleanupFiles": 0
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI3",
+        "runId": "8fd09214-c6a9-4c59-acee-b0e9539d47bd",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr3c10a.json",
+          "bytes": 5257487,
+          "rawBytesSha256": "93f92c2d33852b8b732faa55a99622a9689a78866505571d35b8c1e88b13bcc0"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui3c10-observed-safe01.json",
+          "bytes": 67625,
+          "rawBytesSha256": "1ab127cc19414ba33abf367aaaa4c71a01ed218b1198de0dfcd6a1129acdae6f"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui3-actual-review01.json",
+          "bytes": 21204,
+          "rawBytesSha256": "1ce8504cf9809b184ba13ebae0d3098e1723ec21e6076d0de5d5c8b39264bfa8"
+        },
+        "CResult": "Pass",
+        "steps": 3,
+        "HTTP": 76,
+        "cleanupRows": 65,
+        "cleanupFiles": 0
+      },
+      {
+        "cell": "WindowsBrowser-LinuxRustUI4",
+        "runId": "7501e361-1ed2-47ae-ac08-c565e7c7efea",
+        "actual": {
+          "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr4c11a.json",
+          "bytes": 5691245,
+          "rawBytesSha256": "5d351a5a1645f1b7ccbaa24dba50b7caa8da4cbfb04d5fe38ecb0b745bbe319c"
+        },
+        "safe": {
+          "file": "tmp/rust-r2m-continuation01/windows-rust-ui4c11-observed-safe01.json",
+          "bytes": 69877,
+          "rawBytesSha256": "1fdaf40a70bd9c55c4edf1f1b6dcec98f9ca1d210c6e8533575cd00e4314d07c"
+        },
+        "review": {
+          "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui4-actual-review01.json",
+          "bytes": 23117,
+          "rawBytesSha256": "9082e67078a62e7f448e1084bdcf53d9c4e10a85bbad1760ff5111ab8cd4de21"
+        },
+        "CResult": "Pass",
+        "steps": 6,
+        "HTTP": 76,
+        "cleanupRows": 83,
+        "cleanupFiles": 2
+      }
+    ]
+  },
+  "commonChecks": {
+    "review": {
+      "file": "docs/design/rust-r2m/g1-public-validation-review01.json",
+      "bytes": 35854,
+      "rawBytesSha256": "b498da9d013078e784d182047cc7380426f191e3f07ba1832c2c973e54981f58",
+      "kind": "R2M-independent-C-bounded-public-schema-and-original-validation-evidence-review",
+      "result": "AcceptedBoundedEvidence",
+      "status": "Existing-scoped-independent-result-not-overall-G3"
+    },
+    "rust": {
+      "receipt": {
+        "file": "tmp/rust-r2m/rust-probe03.json",
+        "bytes": 2482,
+        "rawBytesSha256": "a7d43199f8659fe44962c40053b95acd03cddaf0e14910f926ec6a0faa95aa6b"
+      },
+      "testLog": {
+        "file": "tmp/rust-r2m/rust-probe03-test.log",
+        "bytes": 41621,
+        "rawBytesSha256": "2c469ed4f30cc6a8f643c85b184b519d8763a3b9b48c2c6922f6e2c063335946"
+      },
+      "actualCommands": [
+        {
+          "operation": "fmt",
+          "args": [
+            "fmt",
+            "--all"
+          ],
+          "exitCode": 0
+        },
+        {
+          "operation": "check",
+          "args": [
+            "check",
+            "--locked",
+            "--offline",
+            "--all-targets"
+          ],
+          "exitCode": 0
+        },
+        {
+          "operation": "test",
+          "args": [
+            "test",
+            "--locked",
+            "--offline",
+            "--all-targets"
+          ],
+          "exitCode": 0
+        },
+        {
+          "operation": "clippy",
+          "args": [
+            "clippy",
+            "--locked",
+            "--offline",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exitCode": 0
+        },
+        {
+          "operation": "release",
+          "args": [
+            "build",
+            "--locked",
+            "--offline",
+            "--release",
+            "--bins",
+            "--examples"
+          ],
+          "exitCode": 0
+        }
+      ],
+      "network": "none",
+      "privateOrDatabaseMounted": false,
+      "independentlySummedActualResults": {
+        "passed": 220,
+        "failed": 0,
+        "ignored": 54
+      },
+      "currentSourceIgnoredMethods": 54,
+      "sourceAndActualIgnoredMethodMultisetsEqual": true,
+      "explicitControlledPGEntries": 53,
+      "processChildFixtureEntries": 1,
+      "defaultStandaloneIgnoredEntries": "54 remain ignored in this top-level --all-targets invocation. The one blocking child-fixture declaration is separate from the53 controlled PG entries; this does not erase the ordinary parent process-runtime tests.",
+      "newControlledPG53ExecutionClaimed": false,
+      "historicalSourceBoundaries": "Original controlled-target validation indexes/methods remain preserved as inherited source evidence. This review does not relabel them as this default run or require rerunning all53 PG entries."
+    },
+    "nodeActualCounts": {
+      "API": {
+        "suites": 74,
+        "passed": 863,
+        "failed": 0
+      },
+      "adminRetry": {
+        "suites": 56,
+        "passed": 368,
+        "failed": 0
+      }
+    },
+    "originalRunners": {
+      "minimumMap": {
+        "file": "docs/design/rust-r2m/delivery-audit-validation-map.json",
+        "bytes": 26859,
+        "rawBytesSha256": "cc23e1755dc5f8103361586bb07366ee94dc6ebf498179aaf5af6280223c9cf4"
+      },
+      "definitionFilesIndependentlyHashed": 23,
+      "definitionMismatches": 0,
+      "actualRuns": [
+        {
+          "phase": "nest-full",
+          "tag": "qapi01",
+          "sourceCapId": "r2m-qa11",
+          "resource": "poms_r2m_qa_nest_api",
+          "databaseOid": "24468",
+          "marker": "23949557-c6d4-4b20-9524-71196b7cf3ce",
+          "result": "original-runner-observed-pass",
+          "wholeQAResource": true,
+          "MScopeRowsAdopted": 0,
+          "originalTestsUnmodified": true,
+          "commandExitCode": 0,
+          "summary": {
+            "success": true,
+            "suites": 14,
+            "tests": 72,
+            "passed": 72,
+            "failed": 0,
+            "pending": 0
+          },
+          "apiOwner": {
+            "kind": "nest",
+            "pid": 1825257,
+            "serverPid": 1825264,
+            "startIdentity": "linux:95bd0451-d756-482e-99ba-cb761a83ac05:15284330",
+            "artifact": {
+              "kind": "native-main",
+              "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+            },
+            "database": "poms_r2m_qa_nest_api",
+            "role": "poms_r2m_qa_nest_api_app",
+            "port": 10070
+          },
+          "resources": [
+            {
+              "kind": "QA-api-owner",
+              "result": "stopped"
+            },
+            {
+              "kind": "port",
+              "port": 10070,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10071,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10080,
+              "result": "released"
+            },
+            {
+              "kind": "QA-marker-owner-connection",
+              "result": "closed"
+            }
+          ],
+          "protectedMRowsAndAclUnchanged": true,
+          "QADatabaseAndDataRetained": true,
+          "noDropOrReseedPerformed": true
+        },
+        {
+          "phase": "foundation-nest",
+          "tag": "qfn01",
+          "sourceCapId": "r2m-qa11",
+          "resource": "poms_r2m_qa_nest_api",
+          "databaseOid": "24468",
+          "marker": "23949557-c6d4-4b20-9524-71196b7cf3ce",
+          "result": "original-runner-observed-pass",
+          "wholeQAResource": true,
+          "MScopeRowsAdopted": 0,
+          "originalTestsUnmodified": true,
+          "commandExitCode": 0,
+          "summary": {
+            "success": true,
+            "suites": 1,
+            "tests": 13,
+            "passed": 13,
+            "failed": 0,
+            "pending": 0
+          },
+          "apiOwner": {
+            "kind": "nest",
+            "pid": 1824594,
+            "serverPid": 1824601,
+            "startIdentity": "linux:95bd0451-d756-482e-99ba-cb761a83ac05:15279899",
+            "artifact": {
+              "kind": "native-main",
+              "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+            },
+            "database": "poms_r2m_qa_nest_api",
+            "role": "poms_r2m_qa_nest_api_app",
+            "port": 10070
+          },
+          "resources": [
+            {
+              "kind": "QA-api-owner",
+              "result": "stopped"
+            },
+            {
+              "kind": "port",
+              "port": 10070,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10071,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10080,
+              "result": "released"
+            },
+            {
+              "kind": "QA-marker-owner-connection",
+              "result": "closed"
+            }
+          ],
+          "protectedMRowsAndAclUnchanged": true,
+          "QADatabaseAndDataRetained": true,
+          "noDropOrReseedPerformed": true
+        },
+        {
+          "phase": "foundation-rust",
+          "tag": "qfr01",
+          "sourceCapId": "r2m-qa11",
+          "resource": "poms_r2m_qa_rust_foundation",
+          "databaseOid": "24479",
+          "marker": "b468f0fb-f38b-48b0-9d28-b36ebffbf2ca",
+          "result": "original-runner-observed-pass",
+          "wholeQAResource": true,
+          "MScopeRowsAdopted": 0,
+          "originalTestsUnmodified": true,
+          "commandExitCode": 0,
+          "summary": {
+            "success": true,
+            "suites": 1,
+            "tests": 13,
+            "passed": 13,
+            "failed": 0,
+            "pending": 0
+          },
+          "apiOwner": {
+            "kind": "rust",
+            "pid": 1825936,
+            "serverPid": 1825943,
+            "startIdentity": "linux:95bd0451-d756-482e-99ba-cb761a83ac05:15291458",
+            "artifact": {
+              "kind": "rust-release",
+              "rawBytesSha256": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd"
+            },
+            "database": "poms_r2m_qa_rust_foundation",
+            "role": "poms_r2m_qa_rust_foundation_app",
+            "port": 10071
+          },
+          "resources": [
+            {
+              "kind": "QA-api-owner",
+              "result": "stopped"
+            },
+            {
+              "kind": "port",
+              "port": 10070,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10071,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10080,
+              "result": "released"
+            },
+            {
+              "kind": "QA-marker-owner-connection",
+              "result": "closed"
+            }
+          ],
+          "protectedMRowsAndAclUnchanged": true,
+          "QADatabaseAndDataRetained": true,
+          "noDropOrReseedPerformed": true
+        },
+        {
+          "phase": "legacy",
+          "tag": "qleg03",
+          "sourceCapId": "r2m-joint19",
+          "resource": "poms_r2m_qa_nest_legacy",
+          "databaseOid": "24490",
+          "marker": "d63b5df0-b7f0-4ebc-a422-9699bc872755",
+          "result": "original-runner-observed-pass",
+          "wholeQAResource": true,
+          "MScopeRowsAdopted": 0,
+          "originalTestsUnmodified": true,
+          "commandExitCode": 0,
+          "summary": {
+            "expected": 36,
+            "unexpected": 0,
+            "skipped": 0,
+            "flaky": 0,
+            "reportErrors": 0,
+            "routeMocksRemainSeparatelyLabelled": true
+          },
+          "apiOwner": {
+            "kind": "nest",
+            "pid": 1847677,
+            "serverPid": 1847684,
+            "startIdentity": "linux:95bd0451-d756-482e-99ba-cb761a83ac05:16318137",
+            "artifact": {
+              "kind": "native-main",
+              "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+            },
+            "database": "poms_r2m_qa_nest_legacy",
+            "role": "poms_r2m_qa_nest_legacy_app",
+            "port": 10070
+          },
+          "resources": [
+            {
+              "kind": "QA-api-owner",
+              "result": "stopped"
+            },
+            {
+              "kind": "port",
+              "port": 10070,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10071,
+              "result": "released"
+            },
+            {
+              "kind": "port",
+              "port": 10080,
+              "result": "released"
+            },
+            {
+              "kind": "QA-marker-owner-connection",
+              "result": "closed"
+            }
+          ],
+          "protectedMRowsAndAclUnchanged": true,
+          "QADatabaseAndDataRetained": true,
+          "noDropOrReseedPerformed": true
+        }
+      ],
+      "requiredActualTotals": {
+        "NativeAPI": {
+          "suites": 14,
+          "passed": 72
+        },
+        "NativeFoundation": {
+          "suites": 1,
+          "passed": 13
+        },
+        "RustFoundation": {
+          "suites": 1,
+          "passed": 13
+        },
+        "NativeLegacy": {
+          "files": 8,
+          "expected": 36,
+          "unexpected": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
+      },
+      "legacyRouteMockedCases": 11,
+      "legacyMockBoundary": "The11 source-labelled mocked cases are part of the Native legacy regression36 only; they do not become real Rust API/PG/UI or real vendor proof.",
+      "isolationBoundary": "Whole dedicated QA resources, not M per-row ownership: actual reports preserve original tests, external API mode, no forged original fixture profile, MSCopeRowsAdopted0, protected M rows/ACL unchanged, stopped owners/released ports, and retained QA DB/data with no drop/reseed.",
+      "rawJestPlaywrightReports": "Private references were retained in the public receipts; C did not reopen those raw private reports."
+    },
+    "schema": {
+      "report": {
+        "file": "tmp/rust-r2m-continuation01/schema-check-c01final01.json",
+        "bytes": 242864,
+        "rawBytesSha256": "3ecad73ff1b8c7d73e2daf21ea3a39497c83aa7701fbd88ac000df29b5fe7aba"
+      },
+      "container": {
+        "file": "tmp/rust-r2m-continuation01/schema-container-c01final01.json",
+        "bytes": 2214,
+        "rawBytesSha256": "38924023efeaa86eb4e2a060c3afc717e82bba59dac8281673cf6b4ddd8698b7"
+      },
+      "sourceReview": {
+        "file": "docs/design/rust-r2m/continuation01-schema-source-review01.json",
+        "bytes": 5898,
+        "rawBytesSha256": "b6ffbae9e225411c1b11b6df4d265ab7e7fe314d8669007f9f21911d50ca6beb"
+      },
+      "disposition": "Actual execution and unchanged read-only catalogue evidence accepted with the original named drift classifications; migration-check did not pass.",
+      "databases": [
+        "poms_r2m_c01_nest",
+        "poms_r2m_c01_rust"
+      ],
+      "perDatabase": {
+        "migrationCheckExitCode": 1,
+        "schemaDumpExitCode": 0,
+        "phase": "complete",
+        "status": "failed-with-classification",
+        "proposedSqlExecuted": false,
+        "catalogBeforeAfterRawEqual": true,
+        "catalogSemanticSha256": "b53c815c60d91c16366fe748388588c9cd620000ead9a03e7c5a975e0d100996",
+        "counts": {
+          "tables": 107,
+          "columns": 1778,
+          "constraints": 515,
+          "indexes": 504,
+          "migrations": 92,
+          "triggers": 0
+        },
+        "proposedCheckNames": 168,
+        "allProposedSameNamedConstraintsExist": true,
+        "matchingArchivedR2BCatalog": true,
+        "allCheckExpressionsCompared": false
+      },
+      "retainedClassifications": [
+        "existing-baseline-drift: low-privilege MikroORM CHECK introspection visibility",
+        "existing-baseline-drift: lead_score_override.status comment mismatch"
+      ],
+      "observedCheckVisibility": {
+        "owner": 541,
+        "app": 0
+      },
+      "installedCli": {
+        "entry": "/home/wangzishi/projects/poms-rust-r2d/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+        "version": "7.0.11",
+        "packageSha256": "059ab1871103196668a0cc90177ceb8a2b3340177cbde91ec46cc13ce53eecf6",
+        "entrySha256": "de8997de977395c2043c9ecf550fe89784eab445237d7f32a1dbb00f720fa246"
+      },
+      "launcherQualification": "Original Nx target content was validated, but the actual invocation used its same installed locked MikroORM7.0.11 CLI directly; Nx/corepack/pnpm launcher execution is not claimed.",
+      "readOnlyConditions": "The previously signed source variant forces owner/app/CLI read-only execution and only schema dump/check operations. The public run reports proposedSqlExecuted=false and both complete catalogue files are byte-identical before/after.",
+      "generatorProtection": {
+        "reportBefore": true,
+        "reportAfter": true,
+        "sourceFilesBeforeAfterEqual": true,
+        "sourceInputFiles": 450,
+        "current450RawHashesMatch": true,
+        "trackedClientFilesCurrently": 579,
+        "OpenAPIFiles": 1,
+        "currentTotalGuardedInputs": 580,
+        "countQualification": "The report stores guard booleans, not a historical numeric input count. Its source protects OpenAPI plus git-tracked client files. The exact current count is579 client+1OpenAPI; no fabricated original579-total counter is introduced."
+      },
+      "dependencyProtection": {
+        "installedCliBeforeAfterObjectsEqual": true,
+        "temporaryOldDependencyOverlay": true,
+        "oldLowerAnchorBeforeAfterObjectsEqual": true,
+        "readonlyPrivateMount": true,
+        "systemInstallClaimed": false
+      },
+      "noDDLOrSchemaRepairPerformed": true,
+      "notClaimed": [
+        "migration-check exit0",
+        "all CHECK expressions independently compared",
+        "schema completely up to date",
+        "a new schema migration"
+      ]
+    },
+    "protected169Impact": {
+      "file": "tmp/rust-r2m/delivery-audit-public04/current-protected169-impact02.json",
+      "bytes": 58563,
+      "rawBytesSha256": "111aec3615bd5b5de979501c0c1033bcdbc6cba95d39794e933ea29ab270fa69"
+    },
+    "finalCurrentSourceImpact": {
+      "status": "Pending",
+      "proof": null
+    },
+    "currentGuardCount": {
+      "client": 579,
+      "OpenAPI": 1,
+      "total": 580
+    }
+  },
+  "histories": {
+    "incrementalIndexNotExhaustive": false,
+    "completeFailureInventory": true,
+    "completeNewRunReconciliation": {
+      "status": "Root-final-actual-set-joined",
+      "proof": {
+        "file": "tmp/rust-r2m-continuation01/new-M-private-run-attempt-census02.json",
+        "bytes": 425919,
+        "rawBytesSha256": "97ffe279a2c8e3bb3ebe7d45e566dd1209c0bdb0864d791cae4d2872a5c61ec3"
+      },
+      "actualRunCount": 66,
+      "originalQuarantineTerminalExceptionRetained": true
+    },
+    "oldUncertifiedTerminalException": "quarantine under frozen G1, noadopt/nodelete; not a missing cleanup to guess away",
+    "originalFailuresAreNotErased": true,
+    "finalInventoryAuthority": {
+      "file": "tmp/rust-r2m/final-inventory-candidate03/failure-inventory-final-candidate03.json",
+      "bytes": 950599,
+      "rawBytesSha256": "b202e2fe540a1076d9e7f8e765b9ac47c28af0aab93af77778cd73ab9aa0ead5"
+    }
+  },
+  "fixedGitWorkflow": {
+    "status": "Pending",
+    "implementationCommit": null,
+    "branchPush": null,
+    "independentFixedCommitC": null,
+    "primaryBefore": null,
+    "primaryFastForward": null,
+    "primaryAfter": null,
+    "mainPush": null,
+    "integrationChecks": null
+  },
+  "finalResources": {
+    "status": "Pending-G4-final-owner-stop",
+    "allFinalTaskWritersStopped": null,
+    "finalPortOwnerProof": null,
+    "newPGOwnerStopReceipt": null,
+    "retainedOldPG17": true,
+    "retainedOldEnvironments": true,
+    "retainedQuarantinedGraph": true,
+    "newQAWholeResourcesRetained": true,
+    "currentRunDispositionAuthority": {
+      "file": "tmp/rust-r2m/final-inventory-candidate03/failure-inventory-final-candidate03.json",
+      "bytes": 950599,
+      "rawBytesSha256": "b202e2fe540a1076d9e7f8e765b9ac47c28af0aab93af77778cd73ab9aa0ead5"
+    }
+  },
+  "preservation": {
+    "status": "Pending",
+    "summary": "docs/design/rust-r2m-preservation.json",
+    "finalPublicOrigins": null,
+    "sourceStoreDelta": null,
+    "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
+    "largeTarOnlyPrimaryIgnored": true,
+    "exactCompatCopiesPendingRootDecision": true
+  },
+  "online": {
+    "status": "Pending",
+    "issue80CurrentLive": "Root-context-G3-Ready-Open",
+    "issue67CurrentLive": "Root-context-G3-Ready-Open",
+    "issue57MustRemain": "Open",
+    "G3Comment": null,
+    "G4Comment80": null,
+    "G4Comment67": null,
+    "comment57": null,
+    "closeOnly80AndConditional67": true
+  },
+  "retainedBoundaries": [
+    "Current Rust dispatch115 includes R1 seven plus R2A-L108; complete Native237paths/291operations/585schemas stays a specification, not all migrated.",
+    "Native M4 original seven-case parent remains partial-preserved; only selected four M4 cases plus its exact143row7file recovery are accepted. Rust M4 auto122row7file/second0 is separate.",
+    "M4 accepted125=82 original two-specific-session numeric variances+43 inherited additiveR1A headers. Numbers remain original, actual SQL parameters not captured, literal all-header/ciphertext/archive byte equality not claimed.",
+    "M3 five-required-semantics closure is scoped Pass.128original auth numeric differences+19R1A retained; wholeFive/debug and full producer DTO equality remainfalse nonGate bounds.",
+    "Original unprepared version-complete500/validatingv3 and two attachmentINSERT23505/real outerROLLBACK stay failures; controlled fresh positive version/latestfalse and symmetric defaultfalse are prepared inputs, not Native product repairs.",
+    "Old RustOID17085 uncertified graph cannot be query-adopted/deleted. Original name/OID/rows/ACL/volume/journal remain with ALLOW_CONNECTIONSfalse under frozen continuation G1 exception; not doublezero or a businessPass.",
+    "Setting canonical migration row is a lease, not owned/deleted; exact before/after/xmin CAS+COMMIT+independent7column restore before owned actor cleanup.",
+    "Borrowed approvers8/14 and three definitions stay readonly; all other ownership comes only from genuine direct or SDK/PG INSERT/outerCOMMIT/independent visibility, never response/queryID.",
+    "Full107/1778columns/207FK cleanup scan is not permission to own/delete107tables. Native/Rust actual failures keep their exact normal/late/quarantine labels.",
+    "Controlled Feishu/OBS protocol evidence is not real tenant acceptance; real enablement remains its phase/R6. No deployment, cutover, backup/restore or performance gate added.",
+    "Rust220pass/54ignored means53 controlledPG declarations+1 childfixture ignored in this default invocation, not all53 newly executed.",
+    "Schema check1/dump0 retained: low-role MikroORM CHECK visibility and lead_score_override.status comment drift; noDDL/no allCHECK-expression equality claim.",
+    "Node API863/74 suites/admin368/56 distinct from original Nest14suites72/foundation13each/legacy36(11mock); original legacy mock is not Rust acceptance.",
+    "GitHub owns current status; immutable old Pending/Doing docs remain exact compatibility history. New README/closeout/archiveauthority supersede status interpretation, never rewrite old bytes.",
+    "#57 must remainOpen; #80/#67 close only after Root verifies their own actual/C/Git/integration/preservation/archive/online conditions. R3-R7 remain separate."
+  ],
+  "RootReplacementPoints": {
+    "allFinalValuesFromRootContext": true,
+    "finalOverallCDecision": {
+      "file": "docs/design/rust-r2m/overall-g3-actual-review01.json",
+      "bytes": 35297,
+      "rawBytesSha256": "85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d"
+    },
+    "finalCurrentCodeSet": {
+      "file": "tmp/rust-r2m-continuation01/final-current-code-set01.json",
+      "bytes": 838258,
+      "rawBytesSha256": "0978f1fc9e31eb882e50819101621b34681b8d7dccf5a43476fb52ae9b709929"
+    },
+    "G4EffectiveAt": null
+  },
+  "G3Certified": true,
+  "G4Certified": false,
+  "materialization": {
+    "stage": "G3-Ready",
+    "canonicalAppliedByThisTool": false,
+    "originalDraftBytesPreserved": true
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "kind": "R2M-independent-C-fixed-first-continuation01-partial-completion-source-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 07:58:30 UTC",
+  "reviewer": {
+    "agent": "/root/r2m_review",
+    "role": "independent non-author C",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/continuation01-complete-source01.json",
+    "bytes": 6697,
+    "rawBytesSha256": "156a234c5c36c0aeafc8bcd6d3a8ffdecafe8cf0046bd3403a2f32e0e5d182b7"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/continuation01-profile.mjs",
+      "bytes": 4995,
+      "rawBytesSha256": "8bcecdf7a7005041e2e72fdec2e8e47fd142f2ab282568777d4b263370e0d725"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-common.mjs",
+      "bytes": 6326,
+      "rawBytesSha256": "a227b5ad7adcc9ad039eb417dd96768f24c02b4c24d44f0ba283885f982e388a"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-provision.mjs",
+      "bytes": 24410,
+      "rawBytesSha256": "954df1b90adadbc92ca77748e0bac087a7928b6100f60971694f4ed746101a45",
+      "executionRole": "Retained original failed provision source/provenance only; not invoked by this entry"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-complete-partial01.mjs",
+      "bytes": 36399,
+      "rawBytesSha256": "6a0310df803a4d13730686dda6514fab517289ff2fe90626fe7941ade8a109f4"
+    }
+  ],
+  "scope": {
+    "environmentId": "r2m-continuation01",
+    "onlyKnownRole": {
+      "name": "poms_r2m_c01_app",
+      "oid": "27136"
+    },
+    "onlyKnownCreatedDatabase": {
+      "name": "poms_r2m_c01_nest",
+      "oid": "27137"
+    },
+    "onlyDatabaseToCreate": "poms_r2m_c01_rust",
+    "generalResume": false,
+    "newEnvironmentId": false,
+    "productOrFixtureChanged": false
+  },
+  "basis": [
+    {
+      "file": "docs/design/rust-r2m/continuation01-partial-design-review01.json",
+      "bytes": 7108,
+      "rawBytesSha256": "4b3d4800c0ea2032cdd59802679c09e135dfff1679ee605db46c6f880b2c8876",
+      "readLevel": "prior independent complete design review reused"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/partial-inspection01.json",
+      "bytes": 108643,
+      "rawBytesSha256": "7dd971825b15d894b7d4c5452b881eaaa4a44c78e4761eedab5593ad581481b2",
+      "readLevel": "necessary public complete identity/marker/role/catalog/digest/quiescence fields and static relevant grant pattern across616 ACL rows; no private full-row evidence opened"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/provision01.json",
+      "bytes": 654,
+      "rawBytesSha256": "ea4f1a793f37368d496bbcac1c2148d7feb8461bf13b54e880b4f3debacd6161",
+      "readLevel": "complete original public failed receipt"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-complete-partial01-contract.md",
+      "bytes": 2866,
+      "rawBytesSha256": "f777d6d0420f64d00f7e6899ca0eb1f131ab125e8f0a8724b390ac3efed19d13",
+      "readLevel": "complete"
+    },
+    {
+      "file": "docs/design/rust-r2m/continuation01-g1-extension.md",
+      "bytes": 5291,
+      "rawBytesSha256": "54902cd4aed08afcdf2269028d98943eeec4177474ef4a2b7636c4245a441fa0",
+      "readLevel": "previous complete current frozen extension reused"
+    }
+  ],
+  "necessaryFindings": [
+    {
+      "id": "truthful-failed-source-correction",
+      "result": "Pass",
+      "detail": "Original Source01, failed public receipt and original creation journal remain unchanged. The original WHERE/type-function evaluation defect and initial C review miss remain recorded in the prior design review. This executable entry uses CASE WHEN namespace and relkind THEN has_table_privilege/has_sequence_privilege ELSE false END in both existing-Nest and new-Rust checks; no ignored42809 or skipped permission check."
+    },
+    {
+      "id": "originals-locked-before-owner-connection",
+      "result": "Pass",
+      "sourceLines": "45-78",
+      "detail": "Exact654-byte failed receipt ea4f and108643-byte public metadata7dd are guarded public reads; exact2618-byte creation journal13a is no-follow/hash read and wx snapshot before owner connection. Original run cap r2m-joint29, phase/state, role/Nest OIDs, source digest/ACL and credential refs must match. Only new immutable resume frames/public output are written; no original journal rewrite or general existing-resource adoption."
+    },
+    {
+      "id": "fixed-secret-and-absence-boundary",
+      "result": "Pass",
+      "sourceLines": "81-84",
+      "detail": "Only the three original newly-generated key files are read from new private and checked against creation refs; owner bytes also equal the one authorized same-cluster original maintenance credential. No key regeneration, rotation, env overwrite or old business-private copy. Both env files and exact two server object roots must still be absent."
+    },
+    {
+      "id": "existing-Nest-readonly-closure",
+      "result": "Pass",
+      "sourceLines": "97-113",
+      "detail": "Fresh five-port/maintenance-lock/old17085 isolation/source16385 complete107+ACL proof precedes work. Existing Nest metadata/OID27137 must match exactly; role27136 attributes and settings, full107/canonical catalog, marker, all616 product ACL, schema/default ACL and original-password-backed lowrole login are freshly read. These new schema/default/settings/absence facts are verified by the entry, not falsely attributed to the narrower public inspection. Nest marker/grants and role creation are not replayed."
+    },
+    {
+      "id": "only-missing-Rust-created",
+      "result": "Pass",
+      "sourceLines": "113-135",
+      "detail": "After all existing-resource read-only checks, Nest env is wx from original keys. Only still-absent Rust is CREATE DATABASE from the exact zero-connection Native template. The original new-marker and finite runtime-grant transaction applies only to this new DB; fresh different OID, full107 seed, safe old-app privilege checks, lowrole limitations and absent env/object root are required. No drop/reset/rename/old graph connection or fixture row adoption."
+    },
+    {
+      "id": "final-independent-product-and-originals-proof",
+      "result": "Pass",
+      "sourceLines": "136-142",
+      "detail": "Two new independent owner read-only connections repeat each new database's full107 catalog/row digest and exact provenance marker, saving fixed wx complete frames. Source after-snapshot preserves original OID/full107/ACL; old quarantined Rust metadata and zero activity/prepared remain fixed. Original journal13a, metadata7dd, failed receipt ea4f and original owner bytes are checked unchanged before success."
+    },
+    {
+      "id": "original-error-and-complete-close",
+      "result": "Pass",
+      "sourceLines": "70-72,139-147",
+      "detail": "Rollback/end causes preserve the first original error in new private evidence and fixed public categories. Both old/source/new resource sessions must be zero; maintenance advisory unlock and connection end must succeed for maintenanceClosed=true. Close failure cannot turn into resource success. Original failed outcome is not rewritten as a successful provision or business test."
+    }
+  ],
+  "staticVerification": {
+    "packetReferencesChecked": 18,
+    "byteOrHashMismatches": 0,
+    "completeMainSourceRead": "Original34113-byte candidate c95f828b85321d74319e2f8d76b99c4aa9adcc7bb92949d71b0262ca774fadf5 read completely; retained base64 decoded and raw-hash verified; final36399-byte diff inspected. Only original-failure constant/before+after guards and final independent two-DB107 loop were added.",
+    "retainedCandidate": {
+      "file": "tools/rust-r2m/continuation01-complete-source01-before.json",
+      "bytes": 45778,
+      "rawBytesSha256": "ca075fa884095f49845ea6b895b6e1e01f82919c66041b7d4c233c4eed3542ec"
+    },
+    "priorSources": "Exact original profile/common/provision pin continuity checked; already reviewed mature complete catalog/SourceReader/QA lifecycle reused.",
+    "authorTest": {
+      "file": "tools/rust-r2m/continuation01-complete-partial01.test.mjs",
+      "bytes": 21378,
+      "rawBytesSha256": "aa41a8ff31828a1bbc86a4f76c74b1512bcd5d0adbe2425e08f83a2591f7e291",
+      "readLevel": "complete necessary production-flow Fake source and negative guards, long source fixture literal not reprinted"
+    },
+    "authorLog": {
+      "file": "tools/rust-r2m/continuation01-complete-source01-pure-final.txt",
+      "bytes": 2217,
+      "rawBytesSha256": "cc79615fb2c91d073dc672a3a91c4fe0bfe689a02fc5c000769e90c973556991",
+      "tests": 21,
+      "pass": 21,
+      "fail": 0,
+      "skip": 0,
+      "readLevel": "complete original public log; C did not run tests"
+    },
+    "meaningfulTests": "Real production function extracted into Fake dependencies; fixed approval/OID/hash/key restrictions, CASE function placement, no role/Nest DDL, exact original journal preservation, role/settings/marker/ACL/cluster/connection/absence violations and no old-Rust connection.",
+    "authorInitialFailure": "Factory-only original-versus-completion approval mapping failure retained at packet hash; no production guard relaxation.",
+    "actualReviewedByC": false
+  },
+  "executionBoundary": {
+    "owner": "Root only",
+    "command": "node tools/rust-r2m/continuation01-complete-partial01.mjs --complete --approval <Root-fixed-public-admission> --cap <fresh-matching-cap>",
+    "approval": "Exact Root fixed partial admission plus this review's four source pins; all live guards are mandatory in the existing executable source.",
+    "output": "tmp/rust-r2m-continuation01/provision-resume01.json",
+    "variantNotCertifiedByThisReview": true,
+    "resourceSuccessNotBusinessAcceptance": true,
+    "originalFailedM5AuditStillUncertified": true,
+    "oldRustGraphRetainedAndNotReopened": true
+  },
+  "activities": {
+    "sourceAndPublicMetadataOnly": true,
+    "staticHashAndDecodedSourceDiff": true,
+    "reviewJsonWrite": true,
+    "privateRead": false,
+    "environmentRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "testsExecuted": false,
+    "processInspectionOrSignals": false,
+    "productOrFixtureEdit": false,
+    "gitMutation": false
+  },
+  "actualVerified": false,
+  "G3": false,
+  "G4": false,
+  "conclusion": "SourceReady only for this fixed first partial completion. No substantive source blocker remains; Root actual complete/close/quiescence receipts are still required."
+}

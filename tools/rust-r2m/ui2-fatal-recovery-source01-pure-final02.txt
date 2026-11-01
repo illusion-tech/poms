@@ -1,0 +1,59 @@
+✔ the actual original reference-key mapping shares ledger/journal and observer/pg while the owner log stays raw (2.7178ms)
+✔ fatal recovery refuses inventedClose before actual resources (4.2672ms)
+✔ fatal recovery refuses inventedAnchor before actual resources (0.6664ms)
+✔ fatal recovery refuses changedRun before actual resources (0.6564ms)
+✔ fatal recovery refuses pending before actual resources (0.7085ms)
+✔ fatal recovery refuses changedLease before actual resources (0.4754ms)
+✔ fatal recovery refuses ownedSetting before actual resources (0.4546ms)
+✔ fatal recovery refuses activeOriginalCase before actual resources (0.6522ms)
+✔ fatal recovery refuses producerErased before actual resources (0.7259ms)
+✔ fatal recovery refuses wrongAdmission before actual resources (0.5499ms)
+✔ fatal recovery refuses missingTable before actual resources (0.8716ms)
+✔ fresh absence accepts only the source-declared applications/infra and exact unreadable comm evidence (1.4714ms)
+✔ task-unique Rust and Chromium remain live candidates after cwd changes, while unrelated shared Node is excluded (0.6792ms)
+✔ one actual original event binds the existing genuine certificate/authority and all17 original request frames (0.681ms)
+✔ unknown activeControl is refused before the observer event objects can be dropped (0.4975ms)
+✔ unknown scopeNotEmpty is refused before the observer event objects can be dropped (0.4126ms)
+✔ unknown extraEvent is refused before the observer event objects can be dropped (1.5026ms)
+✔ unknown wrongBirthXmin is refused before the observer event objects can be dropped (0.4388ms)
+✔ unknown unknownAuthority is refused before the observer event objects can be dropped (0.5406ms)
+✔ unknown preExistingPK is refused before the observer event objects can be dropped (0.483ms)
+✔ unknown fakeNativeCreate is refused before the observer event objects can be dropped (0.4696ms)
+✔ unknown missingOriginalFrame is refused before the observer event objects can be dropped (0.4136ms)
+✔ all107 outside-baseline rows remain exact; an unrelated unknown row is never cleaned (6.7708ms)
+✔ the late recovery lock is exactly Rust/key and preserves the original lease proof (0.9735ms)
+✖ original owner catalogue error stays primary when closing also fails, and RO rollback/end are both attempted (1.2844ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 24
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 248.0378
+
+✖ failing tests:
+
+test at tools\rust-r2m\recover-ui2-fatal01.test.mjs:30:1
+✖ original owner catalogue error stays primary when closing also fails, and RO rollback/end are both attempted (1.2844ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  ReferenceError: observedTables is not defined
+      at async TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/recover-ui2-fatal01.test.mjs:30:1018)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: ReferenceError: observedTables is not defined
+        at catalog (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/recover-ui2-fatal01.mjs:110:169)
+        at captureUi2OwnerState (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/recover-ui2-fatal01.mjs:64:24)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/recover-ui2-fatal01.test.mjs:30:1018)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }

@@ -1,0 +1,83 @@
+{
+  "kind": "POMS-R2M-independent-one-closed-uin13a-recovery-source-review",
+  "reviewedAtUtc": "2026-10-31 01:37:28 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "runId": "5487bb91-9a51-4e10-a8e2-3a5f82053225",
+    "backend": "nest",
+    "tag": "uin13a",
+    "purpose": "Clean one normally closed preparation-only UI1-3 failure; no browser/server/journey was attempted",
+    "productRuntimePass": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uin13a.mjs",
+      "bytes": 9647,
+      "rawBytesSha256": "1a3a39476f2095baa907f4b3d17bebb0025aa35ea637582a41e25911e6783ce0"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m/uin13a-recovery-shapes01.json",
+      "bytes": 2649,
+      "rawBytesSha256": "39bd8016d9518820f85776b82c602ea969efd7e41f1f39ca68408e0aacf9ffbf"
+    },
+    {
+      "file": "tmp/rust-r2m/uin13a-recovery-precheck01.json",
+      "bytes": 397,
+      "rawBytesSha256": "72b283a5b90e92789dcf967a87f7fb0b7c3f0c25e4f8be8641c772be737c1339"
+    },
+    {
+      "file": "tmp/rust-r2m/ui-linux-nest-uin13a.json",
+      "bytes": 5891,
+      "rawBytesSha256": "18db7d16674c9c437aad99f74b61f5466fb6e4c85125982b7c31acb86a6150f5"
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-joint21.json",
+      "bytes": 1412610,
+      "rawBytesSha256": "1fe1b025d8f7944a00473eeacb254b168b92d6564696441a1ded068ac6a4542f",
+      "readLevel": "Root metadata bound; full cap contents not independently reread"
+    }
+  ],
+  "reuse": {
+    "file": "docs/design/rust-r2m/uin2b-recovery-source-review01.json",
+    "rawBytesSha256": "01268bc572d222a4fc5fcacc6f4c9c47b80071fcfb80e950c28f65d0d71650ca",
+    "meaning": "Same mature closed-run owner reconciliation, exact singleton CAS and double cleanup; narrow literal/shape differences plus two genuine no-create intent checks."
+  },
+  "findings": [
+    {
+      "item": "exact original and no browser claim",
+      "result": "Pass",
+      "detail": "Fixed report/cap/journal raw pins and report-bound private baseline/finalSDK/PGrestore references.63 proof-owned rows; setting state admitted with no recorded mutations. Only Native attempted and stopped, all other owners unattempted, no observation object. Original ledger exclusive snapshot precedes Fixture.open."
+    },
+    {
+      "item": "two unexecuted intents",
+      "result": "Pass",
+      "detail": "Exactly2 pending UI3 audit/security intents are beforeObserved with empty beforeIds and no corresponding committed create certificate. Mature resolveNoCreates checks fresh query IDs still equal original beforeIds, then marks absent without adoption. Its actual return shape resolvedWithoutAdoption is verified against the production implementation and required to equal2."
+    },
+    {
+      "item": "fresh original-state recovery",
+      "result": "Pass",
+      "detail": "Original worker/anchor absent and5ports free; fresh validated lowrole excludes other app work and prepared transactions. Mature observer reconciles original exact-before owner catalog/no handle. Full107 unknown0 and preflight precede drain of only the actual Native writer. Original fixed Nest singleton lock/CAS plus two cleanup passes must restore complete full107 rows to the original baseline."
+    }
+  ],
+  "readLevel": {
+    "helper": "complete",
+    "publicMetadata": "complete shapes/precheck and report lifecycle/hash projection",
+    "matureNoCreate": "production implementation lines185-201 read; no execution",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "authorChecks": "Root exact original input shape plus7 adversarial rejections passed; no DB in that precheck.",
+  "actual": "Root executes alone. This source result does not imply an uncached browser run or UI journey pass; UI3 forward selectors remain a separate correction."
+}

@@ -1,0 +1,67 @@
+{
+  "kind": "R2M-continuation01-necessary-literal-source-impact-addendum",
+  "result": "SourceCandidate-not-actual",
+  "originalPlan": {
+    "file": "tools/rust-r2m/continuation01-plan.json",
+    "bytes": 9943,
+    "rawBytesSha256": "1aae7a0653968797e5b21dc9fa9e045e13ccb249d6a582c19c90d3bf8e38c2bb"
+  },
+  "originalDesignReview": {
+    "file": "docs/design/rust-r2m/continuation01-design-review01.json",
+    "bytes": 5847,
+    "rawBytesSha256": "7739d5cf0a1502c2502993357683bc872cf392b90ceb8195dee616466b8cec95"
+  },
+  "RootFrozenExtension": {
+    "file": "docs/design/rust-r2m/continuation01-g1-extension.md",
+    "bytes": 5291,
+    "rawBytesSha256": "54902cd4aed08afcdf2269028d98943eeec4177474ef4a2b7636c4245a441fa0"
+  },
+  "finiteClarifications": [
+    {
+      "id": "single-shared-cluster-owner-credential",
+      "authorization": "Root explicitly authorized the same PG15 poms_r0e_owner maintenance password to be read only from the fixed original new-M owner-password with parent/no-follow/same-fd/mode guard, and written wx0600 once into the new private root. This is one named maintenance credential reuse, not a copied private tree.",
+      "newFiles": [
+        "owner-password"
+      ],
+      "newJwtAndLowrolePasswordRandom": true,
+      "oldEnvOrBusinessPrivateCopied": false,
+      "originalOwnerBytesUnchangedRequired": true
+    },
+    {
+      "id": "actual-original-cluster-GUC",
+      "basis": {
+        "file": "tmp/rust-r2m/continuation01-template-admission01.json",
+        "bytes": 2453,
+        "rawBytesSha256": "7f2a2d9edd6b9783285c82edf748015d8c934fb4b52c6f9d0098485ab5e7fab3"
+      },
+      "maintenanceR0eIsolated": "on",
+      "r2mUnrelatedGuc": null,
+      "businessDatabaseSettings": [],
+      "databaseGucAlterationsByProvision": 0,
+      "meaning": "Root corrected its initial r2m-vs-r0e query; no fabricated on/null substitute or unnecessary database SET."
+    },
+    {
+      "id": "concrete-clean-source-and-old-quarantine",
+      "sourceOid": "16385",
+      "sourceRowsSha256": "951d4d4c5ca3e4faa9a005d093c3714e6181c0068c94cd0bd34a75b6f118a22f",
+      "oldRustOid": "17085",
+      "oldRustAccess": false,
+      "RootQuarantineReceipt": {
+        "file": "tmp/rust-r2m/m5-original-rust-quarantine01.json",
+        "bytes": 1951,
+        "rawBytesSha256": "e722a471ec3062a32e06c0010b4e09d0bbede21e8613da365668bb7f1d07190b"
+      },
+      "oldDataAccessFromProvision": false
+    },
+    {
+      "id": "finite-next-entry-closure",
+      "RootRequest": "Include original SourceReady API, Linux full UI, Windows managed Native and Windows UI→LinuxRust entry closure in literal sibling. Await B Source10 caller final before generating executable variant. Provision may be separately SourceReady and execute first.",
+      "originalUI12UI3ActualNotRepeatedByThisSourceWork": true,
+      "variantGeneratedOrActual": false
+    }
+  ],
+  "privateReadByAuthor": false,
+  "DBOrHTTPByAuthor": false,
+  "G3": false,
+  "G4": false
+}

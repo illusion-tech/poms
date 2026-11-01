@@ -1,0 +1,60 @@
+{
+  "kind": "R2M-final-public-preservation-summary",
+  "result": "Pending",
+  "notAppliedOrTarExecutedByA": true,
+  "previousVerifiedSourceStoreStage03": {
+    "file": "tmp/rust-r2m/source-store-preservation-stage03-verified01.json",
+    "bytes": 900,
+    "rawBytesSha256": "b25297d6c4dce8b883675462c2f2b4627d6609f968d61f80dff2d73c60fd722b"
+  },
+  "stage03IsNotFinal": true,
+  "sourceOnlyPlan": {
+    "file": "tmp/rust-r2m/g4-public-archive-candidate02/source-plan02.json",
+    "bytes": 4639,
+    "rawBytesSha256": "a483eeb5a7bc5a58cb2116c20c49a0f713a5607de035a0aad154e67b24b0e3a7"
+  },
+  "largeArchiveDestination": "E:/projects/poms/tmp/rust-r2m-public-preservation/Pending",
+  "smallDocsOnly": true,
+  "publicOriginRules": {
+    "origins": [
+      "Linux-checkout",
+      "Windows-worktree"
+    ],
+    "relativeScopes": [
+      "tmp/rust-r2m",
+      "tmp/rust-r2m-continuation01"
+    ],
+    "independentArchiveAndManifestPerOrigin": true,
+    "originRelativePathRawShaTuplePreserved": true,
+    "collisionDisposition": "same relativePath different raw remains separate by origin, never overwrite",
+    "store": "exact original public-source-store relative paths, content-addressed add-only after independent hash",
+    "privateEnvSymlinkHardlinkAndExactRevokedDescriptorExcluded": true
+  },
+  "actualExecution": {
+    "status": "Pending",
+    "LinuxSourceManifest": null,
+    "LinuxTar": null,
+    "nativeCopyToMntEAndFsync": null,
+    "WindowsIndependentWholeTarHash": null,
+    "WindowsEveryMemberVerification": null,
+    "WindowsSourceManifest": null,
+    "WindowsTar": null,
+    "sourceStoreDelta": null,
+    "originMap": null,
+    "finalCounts": null
+  },
+  "privacyScope": {
+    "targetedOldSixValueScan": {
+      "file": "tmp/rust-r2m/m5-query-privacy-public-scan01.json",
+      "bytes": 942,
+      "rawBytesSha256": "bf4bca7371890d4d0c7e5b48bed22fcacb27bd2b59aaa1126566d4c4e91dc1c9"
+    },
+    "genericSecretFreeGuarantee": false,
+    "newPrivateContentIncluded": false
+  },
+  "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
+  "finalArchiveReceipt": null,
+  "finalCReview": null,
+  "G4Certified": false,
+  "createdAt": "2026-11-01T16:55:13.846Z"
+}

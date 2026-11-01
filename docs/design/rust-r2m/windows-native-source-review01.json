@@ -1,0 +1,153 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-real-Windows-Native-owner-and-environment-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T21:07:47.507Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/windows-native-source02.json",
+    "bytes": 3848,
+    "rawBytesSha256": "9c091aea8f616ad32cb231eaa3c50a6472b0c8210ebdf8d56eed3eaa460efe7e",
+    "sourceSetSha256": "61003009cd10f5d1c03dcb9ee1e3e54312086894764d65ab9da7310cee3599a6"
+  },
+  "preservedCandidate": {
+    "file": "tools/rust-r2m/windows-native-source01.json",
+    "rawBytesSha256": "83117d5f8ee23597d0876c62e28c2b90b9d8e8c0a475f6df4d4fcdca1756094e",
+    "actualExecuted": false
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/windows-native-app.mjs",
+      "bytes": 16747,
+      "rawBytesSha256": "9884244b3216af9ba01283c01d61c29316d8a29ce272ac96cd7c46485ac6a5bd",
+      "readLevel": "Complete original source plus final private diagnostic/stdio queue and failure-close delta"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-driver.mjs",
+      "bytes": 9268,
+      "rawBytesSha256": "bd98278322ef7e45ecc2dda91f4e6e9b9e1a40a33bbb77c77b516dac2a953cfa",
+      "readLevel": "Complete ACK/configuration/ordered RPC/actual state delta/EOF/deadline/close source and final private failure fields"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12159,
+      "rawBytesSha256": "566bffbaeedd62b1ff34c7fae568ca36c6a65f6c39928385e7ceda7d8695e3ec",
+      "readLevel": "Complete original Native import/provider/SDK/pg-capture/fixed HTTP/close source plus private close causes"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-process.ps1",
+      "bytes": 15470,
+      "rawBytesSha256": "1a9d88764a76674cc189d8e10dbfa4316391299062eb72c379bd15adb3aabd08",
+      "readLevel": "Complete source and exact two-line delta from existing A process helper; no process queries or SelfTest execution by C"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-environment.mjs",
+      "bytes": 2483,
+      "rawBytesSha256": "1a71bd2987a9a964ba5995f562a3f487488d360fab87876757aaf8a7290466c1",
+      "readLevel": "Complete fixed new-M private derivation source only"
+    },
+    {
+      "file": "tools/rust-r2m/windows-managed-environment.cjs",
+      "bytes": 4458,
+      "rawBytesSha256": "7525a0388f11eba341a49a5202d45a08cd9493fa481f38498f75847109c8fcfd",
+      "readLevel": "Complete Windows UNC admission source; original mature guard's explicit win32/source path support checked"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native.test.mjs",
+      "bytes": 6228,
+      "rawBytesSha256": "5cdd56958fe3550526c66afd2c72d8800bcfe19ca5c8d258b8afc4eba82bf596",
+      "readLevel": "Complete pure protocol/identity/environment source plus private diagnostic separation test"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-contract.md",
+      "bytes": 5496,
+      "rawBytesSha256": "59cefff43385e83dc3048d57d39e7274200eb8a29b378fb6c46e2a045a9e982c",
+      "readLevel": "Original complete contract plus source02 diagnostic preservation statement"
+    }
+  ],
+  "approvedScope": {
+    "platform": "Real Windows Node Native owner controlled by Linux Root over private stdio",
+    "runtimeNode": "v24.19.0",
+    "nodeRawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+    "nativeBundleRawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+    "namespace": "poms-r2m",
+    "databaseBackend": "nest",
+    "HTTP": "Actual Windows HTTP client targets 127.0.0.1:10070; current115 plus four exact UI3/4 Native source routes",
+    "notCertified": "No Windows Native launch, Windows browser journey, cross-platform comparison or G3/G4 has run as part of this source review"
+  },
+  "findings": [
+    {
+      "id": "actual-Windows-identity-before-use",
+      "status": "source-ready",
+      "detail": "Source capsule pins are checked on both Linux and the mounted Windows checkout. The fixed Windows Node executable/hash, actual process.pid, exact four argv values, driver path/hash and nonce are published before Windows private/configuration/app work. Root separately inspects real Windows PID/start ticks/CIM birth/executable/hash/fixed command via PowerShell and ACKs before configuration is accepted. The WSL interop wrapper PID is explicitly not the Windows identity."
+    },
+    {
+      "id": "precise-Windows-tree-stop",
+      "status": "source-ready",
+      "detail": "PowerShell uses exact executable/driver/nonce and registered PID/start/command identities. It guards queued-parent and queried-child reuse and birth-time bounds, captures a bounded tree, rechecks before acquired-process stop, skips recycled identities and reports unregisteredProcessesStopped=0. Cooperative anchor remains for final inspection, and Root checks its exact tree stop; no name-wide stop or arbitrary PID adoption."
+    },
+    {
+      "id": "only-new-M-environment",
+      "status": "source-ready",
+      "detail": "Linux Root is intentionally permitted to read only this new M nest.env to derive windows-nest.env before spawn. Both files have fixed names, private directory mode, nofollow/inode/stability checks and exclusive creation; original bytes remain unchanged. Exactly one local object root changes from Linux new-M path to its new-M UNC equivalent. Windows reads only after its identity ACK, independently verifies source/derived hashes and exact derivation, and reuses the unchanged original managed admission for every environment key/role/database/port/controlled supplier value. No old private or global installation is used."
+    },
+    {
+      "id": "original-runtime-and-genuine-SDK",
+      "status": "source-ready",
+      "detail": "The exact Root-staged 0ef7 original Native bundle is required by the capsule and checked as a regular no-symlink file. Existing Windows dist is untouched. Real Windows NestFactory/ORM provider, original MikroORM afterCreate+outer-COMMIT witness and per-query actual pg Client.processID capture are observed. Drain delivers original committed batches and atomically refreshes cached trace/SQL/report; callback delivery failure blocks certification. PG output never substitutes for an original Native SDK certificate."
+    },
+    {
+      "id": "source-bound-HTTP",
+      "status": "source-ready",
+      "detail": "Each actual request first awaits immutable admitted run/case/index/op context. Windows itself sends fixed-host HTTP, with exact body/base64 boundary and retained actual raw response bytes/hash/length. Fixed host/request/correlation headers cannot be caller-overridden. Dispatch is finite and chosen before transport, with no response fallback. Root cookies may travel only through the new private stdio channel."
+    },
+    {
+      "id": "precise-diagnostics",
+      "status": "closed-at-source",
+      "detail": "C found source01 discarded ordinary Native stdout/stderr and original caught error message/stack. Final source02 retains actual stdout/stderr chunks in a separate new-M private evidence queue and adds privateFailure original error/stack/known close causes to private stdio frames. Public append output remains only frame/stderr hash and fixed category. Close waits for both protocol and raw-stdio evidence queues, and any recorded owner failure prevents a complete result; no environment/config object dump was added."
+    },
+    {
+      "id": "close-and-real-status",
+      "status": "source-ready",
+      "detail": "EOF, cancellation, RPC/total deadline and channel errors abort the owner. Cooperative app close checks actual HTTP drain, SDK completion, hook restoration and Windows10070 release; Root additionally stops the registered exact Windows tree. Only both actual Native close receipt and owned-tree result can produce a complete source lifecycle. Failure/forced/incomplete paths preserve partial status and cannot authorize fixture cleanup."
+    },
+    {
+      "id": "listener-wording",
+      "status": "explicit-inherited-limit",
+      "detail": "Original main.ts uses app.listen(port). This source fixes clients/endpoints to loopback and verifies actual port10070; it does not prove a loopback-only listener bind address. No product/listener behavior was silently changed for this source review."
+    }
+  ],
+  "verification": {
+    "pinsMatched": 8,
+    "pinsExpected": 8,
+    "sourceReviewOnly": true,
+    "authorReported": {
+      "NodePurePassed": 6,
+      "NodePureFailed": 0,
+      "NodePureSkipped": 0,
+      "PowerShellPureChecks": 17,
+      "PowerShellProcessQueries": 0,
+      "PowerShellProcessStops": 0,
+      "NodeSyntaxExitCode": 0
+    },
+    "CExecutedTestsOrPowerShell": false,
+    "CReadPrivate": false,
+    "CStartedRuntimeDBHTTPOrBrowser": false
+  },
+  "executionBoundary": {
+    "RootAction": "May freeze this exact source02 in a fresh M source capsule, derive the sole new-M Windows environment and perform the bounded real Windows owner trial under the existing stage authorization.",
+    "necessaryActual": "Live new-M database marker/low-role admission remains Root's validated environment responsibility. Actual Windows PID/Node/app reports, SDK/SQL trace, raw transport, lifecycle and subsequent fixture drain/zero cleanup must be recorded. Staging or a browser-only bridge does not establish a Windows Native pass.",
+    "oldEpochs": "Active fdab Linux URI and historical surface/UI1 source epochs remain immutable. No old environment/private resource is read or replaced.",
+    "notNewGate": true
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

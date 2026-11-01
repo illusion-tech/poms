@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-late-test-source-manifest-independent-impact-review-not-a-Gate",
+  "result": "No-M0-rerun-required-with-explicit-source-addendum",
+  "reviewedAt": "2026-10-30T21:17:56.156Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "input": {
+    "file": "docs/design/rust-r2m/source-cap-test-tree-addendum01.json",
+    "bytes": 21591,
+    "rawBytesSha256": "339df12e3e3d925e89ea03c1fd55a5b5cf3f84f78ce68e2153576247f7d656b7",
+    "readLevel": "Compact metadata, full71 filename/hash-set checks and only actual M0-reachable missing module source; not a full audit of71 business test bodies"
+  },
+  "finding": "Epoch01-07 capture scopes omitted the original apps/poms-api-e2e and apps/poms-admin-e2e trees. Their original complete flag must not be read as a full test-source closure. The omission is retained and corrected explicitly, not backdated.",
+  "independentChecks": {
+    "trackedFiles": 71,
+    "addendumFiles": 71,
+    "filenameSetDifference": 0,
+    "currentNormalizedLfHashMismatch": 0,
+    "currentGitDiffAgainstFixed9dcForBothTrees": 0,
+    "originalTestsEdited": false,
+    "M0ReachableOmittedModule": {
+      "file": "apps/poms-api-e2e/src/support/test-data.ts",
+      "bytes": 6422,
+      "normalizedLfSha256": "5aa1be37523d782ae4015dc25593bd2b850cd81bfa64e4ef79f06c4a146c24c4",
+      "readLevel": "Complete source read in two bounded sections; top-level declarations/import shape checked"
+    }
+  },
+  "impactAnalysis": [
+    "scenario-input imports the already-pinned tools/rust-r2l/l-producer-recipes.mjs, which imports named builder functions from test-data.ts. The missing support module has only node:crypto runtime import, erased type-only imports, one fixed default customer constant and function definitions. It performs no top-level environment/private/HTTP/DB/fixture action.",
+    "Actual M0 surface construction maps the frozen115 operations directly to finite anonymous requests, bound path values and literal empty request bodies. URI construction directly loops the frozen three methods/three session classes/three percent categories with a literal PATCH body. Neither invokes the imported business producer builders or original e2e test runners.",
+    "The real executed M0 harness, input recipes and Native0ef7/Rust957 executable artifacts were already captured in their actual source epochs. The newly supplied missing module/current71 tree LF bytes match the unchanged fixed9dc sources. No new runtime behavior, source route/body input or current test implementation difference is introduced by adding these source roots.",
+    "Consequently the existing115-per-backend/230-frame surface observations and27-per-backend/54-frame URI observations remain usable with their original hashes and this explicit supplemental limitation. Re-running the same product probes solely to make an uninvoked pure recipe file appear contemporaneously captured would not resolve a different behavioral concern."
+  ],
+  "decision": {
+    "retainExistingM0ActualEvidence": true,
+    "requireM0RerunForThisOmission": false,
+    "retroactiveCompleteSnapshotClaim": false,
+    "lateSupplementalEvidenceOnly": true,
+    "originalCapsulesUnchanged": true,
+    "futureEpochRule": "Before any original runner, API producer or UI invocation, freeze a new source capsule containing both complete original test trees. Current capture-source scopes now include both names; do not transfer old omitted-tree complete claims to new actual runs.",
+    "sourceEpochTransition": "Old profile59 run journals remain readonly after their exact prior cleanup/recovery. New reviewed profile62/cohort tools may enter a new epoch; they do not reopen or rewrite old journals."
+  },
+  "verification": {
+    "CExecutedTestsOrApplicationsOrDBOrHTTP": false,
+    "CReadPrivate": false,
+    "readOnlyGitOperationsOnly": true,
+    "noFullHistoricalTreeRehash": true
+  },
+  "stageBoundary": "This resolves the source-manifest omission's M0 reuse decision only. It does not certify unrun original tests, API20, UI/runtime combinations, G3 or G4.",
+  "G3Certified": false,
+  "G4Certified": false
+}

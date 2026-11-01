@@ -1,0 +1,13 @@
+# Fixed wn1c02a qualified Windows closure recovery
+
+Only run d8600b70-19ad-4dff-9a98-15ad54ed248d / Native c01 / capwin02 is admitted. Root public metadata488483 fixes original report/cap/journal/PG/baseline/lastHTTP/sourceReady/NativeSDKfinal/Nativeclose/Windowsbridge-result refs and their actual wrapper kinds/recordKeys. The producer decoder explicitly maps journal to ledger. There are61 certified objects, no pending intents, no mutation/files/singleton lease,13 drained cases and2 original PG events.
+
+Keep original public browser=false/writersStopped=false/observerRestored=false and UI partial. Independently qualify the retained original Windows result's context/browser/server closed, owned-tree-stopped/no unregistered processes/pendingCallbacks0, and actual Native owner close+SDKcomplete0open/150SQL. Root original outer error was owned command1200s deadline; original finally stop applies. Neither absent PID nor Root's later no-signal stop probe proves natural exit. That correction8a2979 is pinned.
+
+Before Fixture.open, verify fixed raw refs, wx original journal+observer, fresh source-scoped Linux apps/original2064652+2064645/group/five ports, and both Windows scripts' original registered PID/member sets/nonces via Inspect/Discover only. No Stop, arbitrary PID or process-tree exception is introduced. Correct function-source reuse is recorded in inheritance01; old actual recovery receipts are not reused.
+
+After ordinary one-revision open, fresh107 must equal last sealed HTTP.after and unknowns0. Owner READ ONLY with Native OID27137/marker/app0/prepared0 verifies real poms observer schema, inactive NULL control/empty scope/13 used cases, full2 raw events and their genuine original SDK+PG births. Then mature exact installed reconcile/newgeneration/restore must return original before footprint and2event export. No active case or new birth is resolved/adopted.
+
+Recheck live processes/windows, record only late drain, use mature cleanup61/0files then0/0, and prove initial107 equality. No singleton mutation is performed. On failure retain raw diagnostics privately/public fixedcategory, try fixture.close, then only failure CLI exits to disconnect this helper's possible transferred handle; success relies on restored owners closed. No original normal receipt/UIpass/G3 is created.
+
+Six pure tests use public metadata and controlled complete models, actual production decoder/Windows command loop/receipt serialization with Fake IO, exact inactive-control and original proof checks. Source-only --check plus syntax/lexical pass. A never reads private, connects DB/HTTP, or runs a real process probe. Root alone executes --run.

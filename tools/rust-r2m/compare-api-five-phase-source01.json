@@ -1,0 +1,97 @@
+{
+  "kind": "R2M-common-updated-at-source-phase-next-input-candidate",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-five-phase.mjs",
+      "bytes": 6661,
+      "rawBytesSha256": "aaea1301970f34a4a87217621775711bd3afbf6a0e8b0ab4f85e9f79ac14fbbc"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-phase.test.mjs",
+      "bytes": 3096,
+      "rawBytesSha256": "8730a4dacd0ede3885b2b1d7258d4490e954114ace4511e88405a4ea814b10b5"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-phase-contract.md",
+      "bytes": 2887,
+      "rawBytesSha256": "ae2a3f46ff804cfdec9ee95c7b05fb04f906e762f97ffdab8deb0d099bcf5ad8"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "9b872e435007b38372d4a1fa16d29b2a0001a81e08a25aba0cd9868232605680"
+    }
+  ],
+  "sourceSetSha256": "8b3e999a7585919943e47a6de2038b831ab1326fdd59c23c57b7a56bd0200f20",
+  "protectedSources": [
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval-record.entity.ts",
+      "bytes": 3554,
+      "rawBytesSha256": "f9e573fca9eae17f2921899312466d64a3da81f5fd7f043ffebff543e82239c5"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/todo-item.entity.ts",
+      "bytes": 3816,
+      "rawBytesSha256": "74e9796a6c21333118eb4be277fa5ec40d087acbddc6c55f4ab6da580bdbc66c"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission-payout.entity.ts",
+      "bytes": 5051,
+      "rawBytesSha256": "b57beb92ed750ed070f185f983fcbca8a7ac4a7c8f03a3061cf518579c6f07f1"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission-final-settlement-snapshot.entity.ts",
+      "bytes": 11025,
+      "rawBytesSha256": "02bc6553c80891668be4fd0622a0374978868140aff277552a684e7c839a0ff3"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission-rule-explanation-snapshot.entity.ts",
+      "bytes": 6052,
+      "rawBytesSha256": "f054cb9789bf15120c13babcd77149b8830d753b593948d9fff2342cf015e13c"
+    }
+  ],
+  "frozenEntry": {
+    "file": "tools/rust-r2m/compare-api-five-source01.json",
+    "bytes": 11269,
+    "rawBytesSha256": "661b7e8a4e7eec6a90336ab2215b8e55fe2353c5abebe3f1e66779e6daa123e8",
+    "nineteenSourcesUnchanged": true,
+    "phaseHelperWired": false,
+    "mainConclusionChanged": false
+  },
+  "scope": {
+    "column": "updated_at",
+    "commonTables": 5,
+    "sourceOnUpdateAstRequired": true,
+    "actualFirstDatePropertyStageRequired": true,
+    "knownPhases": [
+      "child",
+      "outer"
+    ],
+    "exactMicroseconds": true,
+    "precisionToleranceMs": 0,
+    "unprovenPhaseResult": "source-phase-pending",
+    "RootMustFirstVerifyActualTypedPhysicalVersionAndCaptureContext": true,
+    "RustActualIndexNotInventedInOutput": true,
+    "ownershipGranted": false,
+    "crossBackendEquivalenceClaimed": false,
+    "parentMemoryEqualityClaimed": false,
+    "actualComparison": false
+  },
+  "authorChecks": {
+    "purePassed": 3,
+    "pureFailed": 0,
+    "noUndefFiles": 2,
+    "noUndefErrors": 0,
+    "evidence": {
+      "file": "tmp/rust-r2m/compare-api-five-phase-source01-pure.json",
+      "bytes": 913,
+      "rawBytesSha256": "6603c3da1faa107c0e4fe8569b589eb32fecaf99af95f6bc6931a00d1a2b57ea"
+    }
+  },
+  "nextIntegration": "After frozen five01 is retained/adopted, Root/B next independently reviewed entry delta must carry proved phase marker or explicit stagePending and never call unproved physical updated_at equivalent.",
+  "sourceReadyClaimed": false
+}

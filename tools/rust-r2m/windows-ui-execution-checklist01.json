@@ -1,0 +1,169 @@
+{
+  "kind": "R2M-Windows-UI-public-input-execution-checklist-source-only",
+  "result": "preparation-not-executed",
+  "document": {
+    "file": "tools/rust-r2m/windows-ui-execution-checklist.md",
+    "bytes": 8411,
+    "rawBytesSha256": "a6840f5cf9257c9d7f7ff5f7512c82c3974f3eba573a049e1242318afb44f3b6"
+  },
+  "owner": "/root/r2m_delivery_audit",
+  "runtimeSource": {
+    "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+    "bytes": 32369,
+    "rawBytesSha256": "f65591cf8b01a1e61d7335b530e4f23bdb7b399114bc1e02a2367317dc6340aa"
+  },
+  "freshInputs": {
+    "sourceCap": "Root captures new complete matching Linux/Windows epoch after final reviews; old joint17/18 not reused",
+    "input": {
+      "file": "docs/design/rust-r2m/acceptance-input.json",
+      "bytes": 125178,
+      "rawBytesSha256": "848967890e370221549ffab3f7f2f888376d373cea7c6ffaf68365c49109492b"
+    },
+    "browserPin": "Root supplies actual Windows executable path/hash in a new public JSON; A did not inspect or launch it",
+    "settingAdmission": {
+      "kind": "R2M-environment-baseline-setting-precise-admission",
+      "caseId": "m2-ui2.attachment-max-upload-size",
+      "key": "attachment.max-upload-size-mb",
+      "helper": {
+        "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+        "bytes": 12466,
+        "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+      },
+      "runId": "distinct Root-assigned fresh UUID per arrangement",
+      "backendDatabases": {
+        "nest": "poms_r2m_nest",
+        "rust": "poms_r2m_rust"
+      },
+      "originalRowOwnedOrDeleted": false
+    }
+  },
+  "arrangements": [
+    {
+      "backend": "nest",
+      "browserPlatform": "win32",
+      "NativePlatform": "win32",
+      "API10070": "true Windows original Native owner",
+      "database": "poms_r2m_nest"
+    },
+    {
+      "backend": "rust",
+      "browserPlatform": "win32",
+      "RustPlatform": "linux",
+      "API10071": "owned Linux Rust",
+      "Native10070": "explicit Linux original producer/readmodel only",
+      "database": "poms_r2m_rust"
+    }
+  ],
+  "originalPublicBundleStage": {
+    "file": "tmp/rust-r2m/windows-native-bundle-stage01.json",
+    "bytes": 433,
+    "rawBytesSha256": "11f61eb02d10954114c91403e45ad70fa99c53fb71c964ce04f2c39696f5521c"
+  },
+  "environmentDerivation": {
+    "source": "tools/rust-r2m/windows-native-environment.mjs:deriveWindowsNativeEnvironment",
+    "calledAutomaticallyBy": "tools/rust-r2m/windows-native-app.mjs:startWindowsOriginalNative",
+    "onlyChange": "POMS_ATTACHMENT_LOCAL_ROOT POSIX new-M path to exact new-M UNC; before source byte equality and existing target equality required",
+    "sourceUnchanged": true,
+    "actualDerivationExecutedByA": false
+  },
+  "sourceEquality": [
+    "Linux coordinator reads all cap source members against Linux checkout",
+    "bridge SourceReader reads every same-cap member through fixed Windows checkout mount",
+    "actual Windows driver SourceReader checks all same cap members and complete UI build through new-M UNC",
+    "B WindowsNative also hashes exact staged original bundle and true Windows Node before identity ACK/configuration"
+  ],
+  "relevantSources": [
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32369,
+      "rawBytesSha256": "f65591cf8b01a1e61d7335b530e4f23bdb7b399114bc1e02a2367317dc6340aa"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 15083,
+      "rawBytesSha256": "819943dbe08f7322fc2a2fadfd74886b8f25c115b7d8b3f073ff57690ffa1be5"
+    },
+    {
+      "file": "tools/rust-r2m/bridge-windows-ui.mjs",
+      "bytes": 19373,
+      "rawBytesSha256": "7f4527933a9057c6694e1ae7fad61cf4f810cc378d31ce469d84cf129ce2884d"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-app.mjs",
+      "bytes": 16747,
+      "rawBytesSha256": "9884244b3216af9ba01283c01d61c29316d8a29ce272ac96cd7c46485ac6a5bd"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-environment.mjs",
+      "bytes": 2483,
+      "rawBytesSha256": "1a71bd2987a9a964ba5995f562a3f487488d360fab87876757aaf8a7290466c1"
+    },
+    {
+      "file": "tools/rust-r2m/windows-managed-environment.cjs",
+      "bytes": 4458,
+      "rawBytesSha256": "7525a0388f11eba341a49a5202d45a08cd9493fa481f38498f75847109c8fcfd"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    }
+  ],
+  "candidateInputs": [
+    {
+      "file": "tools/rust-r2m/ui-uncached-source01.json",
+      "bytes": 6171,
+      "rawBytesSha256": "7eb67f5a040770c4a90950d716600b9a77964248338b61ef2bcfd43984a90cd9"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-shared-addendum04.json",
+      "bytes": 14941,
+      "rawBytesSha256": "548c087cf177c6800d68fd5c42d49aafa31882d68a2e3d372b6a2fcf232e6c5e"
+    },
+    {
+      "file": "tools/rust-r2m/audit-external-source01.json",
+      "bytes": 19429,
+      "rawBytesSha256": "37793a00b51f5ba0cbaffb7f2d19752c12ec1a98b43b236b7578bf70684de23d"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-source02.json",
+      "bytes": 16582,
+      "rawBytesSha256": "c15357b1b0e767460d3b1308902344ee96c83155943b93a89353b2b14cd260c8"
+    }
+  ],
+  "existingNonAuthorReviews": [
+    {
+      "file": "docs/design/rust-r2m/windows-ui-source-review01.json",
+      "bytes": 14670,
+      "rawBytesSha256": "9dfb7642f48da255f2302fe381556c850ede98ed54547d0753c9a739746cb747"
+    },
+    {
+      "file": "docs/design/rust-r2m/windows-native-source-review01.json",
+      "bytes": 9829,
+      "rawBytesSha256": "d5c8e75c26c9777068c5c6051f907bf29dcf0ad716210e987c4be35678eb84eb"
+    },
+    {
+      "file": "docs/design/rust-r2m/ui-denial-navigation-source-review01.json",
+      "bytes": 5298,
+      "rawBytesSha256": "f7e7788d591ac9ba020fa491e427bbe77a58fc3f7e19c0ab95493940a41e99b1"
+    }
+  ],
+  "RootExecutionOrder": [
+    "finish finite source dispositions",
+    "synchronize full one matching source union and capture fresh immutable cap",
+    "create new exact singleton admissions and Windows executable public pin",
+    "same input --check then --run for nest; real close/restore/double-zero/full107",
+    "different fresh run and admission --check then --run for rust; real close/restore/double-zero/full107",
+    "offline compare actual raw HTTP/facts with CDP ACK and original conditional-cache headers count0; C G3/G4 later"
+  ],
+  "actual": {
+    "privateRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "NativeOwner": false,
+    "WindowsProcessInspection": false
+  },
+  "G3": false,
+  "G4": false
+}

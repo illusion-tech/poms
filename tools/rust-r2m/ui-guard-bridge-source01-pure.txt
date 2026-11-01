@@ -1,0 +1,32 @@
+✔ the original guarded users route denies into the separate auth layout; only the dashboard layout contains TopBar (63.9821ms)
+✔ after denial, a real dashboard navigation completes and its actual profile control becomes visible before logout can continue (0.8062ms)
+✔ navigation failure preserves its original error and cannot fake a visible TopBar or continue logout (0.942ms)
+✔ private original before-step error survives the public generic UI failure (4.1272ms)
+✔ private original action error survives the public generic UI failure (0.891ms)
+✔ private original after-step error survives the public generic UI failure (0.6961ms)
+✔ login reuses the actual existing form without bypassing the real form (2.605ms)
+✔ login navigates from a different actual page without bypassing the real form (0.4424ms)
+✖ the original UI2 guard redirect completes before a late bridge becomes ready and exactly one real fixed read is attempted (5.1841ms)
+✔ a real bridge readiness failure remains the original failure and cannot issue or fake the backend denial request (3.6151ms)
+✔ UI3 also waits for its newly navigated page bridge before reading the actual approved record (0.1282ms)
+✔ observing a pending UI wait returns its original promise and preserves the exact later rejection (33.3696ms)
+✔ strict Node does not terminate when HTTP and download waits reject before a slow click is awaited (102.9451ms)
+✔ typing alone keeps the save action disabled until a real Tab commits the original input model (1.1624ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 13
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 283.263
+
+✖ failing tests:
+
+test at tools\rust-r2m\ui-guard-bridge-source01.test.mjs:8:1
+✖ the original UI2 guard redirect completes before a late bridge becomes ready and exactly one real fixed read is attempted (5.1841ms)
+  ReferenceError: expect is not defined
+      at Object.run (evalmachine.<anonymous>:1:469)
+      at async TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-guard-bridge-source01.test.mjs:8:329)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

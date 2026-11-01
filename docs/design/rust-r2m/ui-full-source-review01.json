@@ -1,0 +1,162 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-Linux-four-journey-owner-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T20:50:42.882Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "approvedScope": {
+    "platform": "Linux real managed Native/Rust runtime and real pinned Chromium",
+    "selection": "Any explicit finite subset of UI1,UI2,UI3,UI4",
+    "backends": [
+      "nest",
+      "rust"
+    ],
+    "Windows": "Pending separate actual Windows runtime/browser owner evidence",
+    "actualExecutionsCertified": 0
+  },
+  "priorReview": "docs/design/rust-r2m/ui1-source-review01.json",
+  "sourceInputs": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-full-source01.json",
+      "bytes": 31399,
+      "rawBytesSha256": "5c8a366dbf74430c9c901af65287ecbd970a3cf10a3a7f5092d7481e9c39152c",
+      "role": "Preserved original candidate with full UI1-to-full delta and exact shared pins"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full-source02.json",
+      "bytes": 1712,
+      "rawBytesSha256": "9f10baad58ac97289707436c9d1cfa54cbe1564e7b327d2636a494a18e46e1ff",
+      "role": "Final single helper/test response-preservation delta"
+    }
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 27911,
+      "rawBytesSha256": "424b4295806d1f9e2dc7a06686f1130aeda522db8e237313f4d4292d51ccd3b9",
+      "readLevel": "Full delta from reviewed b75fc UI1 entry plus actual per-HTTP attribution/queue/scopes/lease/object proof/preparation/closeout/CLI paths; unchanged source02 owner/browser guards reused"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 17068,
+      "rawBytesSha256": "1e3ddb97b80c597ff1ff9908597f7d5fbfea78ca28d582fc7092067a9ddc893f",
+      "readLevel": "Complete source and final immediate-response-retention delta"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.test.mjs",
+      "bytes": 1326,
+      "rawBytesSha256": "567b12c926ec50f80c215e0d92c51934492f0c10170cb0562467892d36c9e3a3",
+      "readLevel": "Complete source, not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.test.mjs",
+      "bytes": 4420,
+      "rawBytesSha256": "d2f06a52ad06aae423e10ae21a648e58ebdd033053b3375f0ef3fcfa99847103",
+      "readLevel": "Complete original tests plus fake late-PG-failure response retention regression source, not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full-contract.md",
+      "bytes": 2943,
+      "rawBytesSha256": "da9e735385a4fa42c869370b40e52ab7861162669853733a0c95f6a261ff2a00",
+      "readLevel": "Complete contract"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 18935,
+      "rawBytesSha256": "e5e817e4170154fdf7c41e6d05e1f3cfcb9e0042a685707086eed6d8f64398a5",
+      "readLevel": "Shared step/login/logout and all four actual journey bodies; original ZIP inspector implementation reused"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared.mjs",
+      "bytes": 4895,
+      "rawBytesSha256": "57d2c3ffcd3b6799beb53a25e17d2bc528d526d095cd2c053674c09c1f722917",
+      "readLevel": "Previously reviewed exact prepared Todo adapter reused"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-runtime.mjs",
+      "bytes": 37769,
+      "rawBytesSha256": "fdabf46ca6f4ee7b5dbe88bd2b51b057792fdcc5c21ecaddc229a9893bd70cc0",
+      "readLevel": "Previously reviewed actual fixed HTTP session primitive reused; no import-time runtime"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 43059,
+      "rawBytesSha256": "d584991586902896caf8379e2e4a7ccbd636ff8d56f64b56330fbcc71d12d4f3",
+      "readLevel": "Previously approved separate handover-cohort source epoch; targeted current API shape checks for base account usernames, immutable scopes, intents, adoption and full facts"
+    }
+  ],
+  "findings": [
+    {
+      "id": "per-HTTP-backend-certification",
+      "status": "source-ready",
+      "detail": "A serialized queue gives every real HTTP request a distinct globally monotonic (caseId,index) and records its actual executionBackend. Dependent forwarding waits for the previous request's genuine certificate/adoption. Rust requests require no Native SDK creates; Native requests require SDK and real PG shadow for observer-covered tables. A DTO ID is never ownership, and a certificate failure halts later writers."
+    },
+    {
+      "id": "UI2-singleton",
+      "status": "source-ready",
+      "detail": "UI2 requires the already reviewed Root/C-admitted new-environment singleton lease for the same run and literal m2-ui2.attachment-max-upload-size scope. Every actual canonical GET/PATCH records full expected-after through the existing helper. Final writer/observer drain precedes exact complete-row restoration and independent committed verification before user cleanup. No setting own/delete or generic mutable borrow."
+    },
+    {
+      "id": "UI3-original-producer",
+      "status": "source-ready",
+      "detail": "Exact original prepared draft contract anchors are followed by real current Native submit with immutable intents, SDK/outer COMMIT and independent row evidence. Browser VP reject, real Native resubmit, and current Todo approve retain original semantics. The one readonly VP principal is explicit; actual owned auth_session and generated approval/Todo rows still need their own genuine certificates. Current base account username/userId fields were checked against their producer."
+    },
+    {
+      "id": "UI4-original-cohort-and-confirm",
+      "status": "source-ready",
+      "detail": "Only the separately reviewed exact original K draft cohort entry is used. Current Native detail must actually show a confirmable draft, then real Native confirmation certifies its project_receipt_judgment_freeze using SDK/outer COMMIT; this table is outside the 34-table PG observer, so no PG proof is claimed for it. All observer-covered SDK tables additionally need real PG shadows. No production R4/new producer gate is invented."
+    },
+    {
+      "id": "UI4-provider-and-objects",
+      "status": "source-ready",
+      "detail": "Actual complete provider table must be empty before creating one run-owned local provider; selector uses existing immutable provider_type/created_by, not an invented key_prefix identity. Actual complete row/command prefix verifies the run key. Response IDs must already be independently owned before upload completion, mark-final, package and download reuse. Exact local object key/byte-hash certificates use the existing guarded object channel; original ZIP CRC/manifest/payload and cancel flow remain."
+    },
+    {
+      "id": "eight-Native-read-models",
+      "status": "source-ready",
+      "detail": "Only eight named current-spec GET read models may extend dispatch for original UI3/4. Existing migrated115 and native producer routes are explicitly excluded from this extension. No fallback after candidate status/transport failure."
+    },
+    {
+      "id": "response-before-source-certification",
+      "status": "closed-at-source",
+      "detail": "C found original full-source01 send retained the response only after SDK/PG/adopt. Final source02 immediately retains the actual Native setup response/context/method/path/body in new M private as soon as HTTP returns. Later proof failure preserves the response and active unresolved case; the failed-proof pure regression models this without any actual I/O."
+    },
+    {
+      "id": "lifecycle-and-protected-epochs",
+      "status": "source-ready",
+      "detail": "Reviewed UI1 source02 browser credential whitelist, exact Linux process owner, nofollow new-private recording, full107 original baseline and independent close attempts are inherited. Queue cancellation and unresolved PG/source-preparer cases remain explicit; observer restore/owned drain/double cleanup require all attempted writers stopped and no active case. Exact full107 logical baseline equality is still required. Active old M0/URI profile59 journals are never upgraded in place."
+    }
+  ],
+  "verification": {
+    "newEntryAndHelperPinsMatched": true,
+    "sharedInputPinsMatched": 12,
+    "privateSourceOrOldEnvironmentRead": false,
+    "testsExecutedByC": false,
+    "applicationsDBHTTPOrBrowserExecutedByC": false,
+    "pureLog": {
+      "file": "tools/rust-r2m/ui-runtime-full-source02-pure.txt",
+      "bytes": 2688,
+      "rawBytesSha256": "9f7cbfdaab082d94938c65346152cde525530e6390748629f67b4cedab58321c",
+      "read": true,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "executionBoundary": {
+    "newFrozenSourceCapsule": true,
+    "RootSourceAndBrowserArtifactAdmission": "Exact final source/helper/shared dependency bytes, original full UI build and actual pinned browser libraries/executable belong to a new M epoch. If UI2 selected, Root's exact singleton admission must bind this run and original approved helper/checkpoint/review hashes.",
+    "actualStatus": "SourceReady only. Actual four-journey observations, complete facts/response/object comparisons, owner closeout and double zero remain required for their real combinations. Linux execution does not certify Windows Native or Windows browser combinations.",
+    "G3AndG4": "Not evaluated here; all historical partials and prior source candidates remain preserved."
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

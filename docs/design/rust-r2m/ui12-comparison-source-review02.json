@@ -1,0 +1,159 @@
+{
+  "kind": "POMS-R2M-independent-UI12-exact-prepared-decimal-source-review",
+  "reviewedAtUtc": "2026-10-31 03:58:23 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "journeys": [
+      "UI1",
+      "UI2"
+    ],
+    "input": "Original joint23 completed pair",
+    "onlyChange": "lead.estimated_amount source decimal-string versus actual PG JSON-number",
+    "UIRerunRequired": false,
+    "UI3Ready": false,
+    "UI4Ready": false,
+    "WindowsAccepted": false,
+    "actualCompared": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "manifest": {
+    "file": "tools/rust-r2m/compare-ui-source04.json",
+    "bytes": 12393,
+    "rawBytesSha256": "05bd7d6d80171574499ac03f86a299580bb493dfb679fa7b8c48683f5490bdb5",
+    "sourceSetSha256": "b67f8bf2250cd08abbb8f022c966c7f5e93eabdbe17a52c0b6b6b506bc6ec0fa"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-ui.mjs",
+      "bytes": 10774,
+      "rawBytesSha256": "6044224c9df15018bd4c8aec7b90e53a639188d0832904beb51eddb6dfc632be"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-core.mjs",
+      "bytes": 59659,
+      "rawBytesSha256": "78887c48c72c5677698256e872a578e6bf97377db77d889132fe15cac95c41a4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-profile.mjs",
+      "bytes": 2789,
+      "rawBytesSha256": "d8897b944099dcead5114a9e3e26a3f36b4767958729e328c4abbbf1349efa9c"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-setting.mjs",
+      "bytes": 6127,
+      "rawBytesSha256": "47349feac3423f089d621a70e8204a68769e3227e4157073125b9cb8d565eaf4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui.test.mjs",
+      "bytes": 22637,
+      "rawBytesSha256": "8d66c495f9089864ccc7e9ff3fef856a62e2d8995168a742e4511513c7609e9e"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-contract.md",
+      "bytes": 6259,
+      "rawBytesSha256": "93586cb60fee1cbffb8832fc01e05d4fbf2a4d83ac506867bbf671aa5bd38770"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui1-joint17-cached.json",
+      "bytes": 2725,
+      "rawBytesSha256": "ea966bbe364c2942c4b2d50253173f8f4d75de315998f8b099894b9b53a24867"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "bytes": 2801,
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "deltaSources": [
+    {
+      "file": "tools/rust-r2m/compare-ui-core.mjs",
+      "bytes": 59659,
+      "rawBytesSha256": "78887c48c72c5677698256e872a578e6bf97377db77d889132fe15cac95c41a4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui.test.mjs",
+      "bytes": 22637,
+      "rawBytesSha256": "8d66c495f9089864ccc7e9ff3fef856a62e2d8995168a742e4511513c7609e9e"
+    }
+  ],
+  "reuse": {
+    "file": "docs/design/rust-r2m/ui12-comparison-source-review01.json",
+    "bytes": 10653,
+    "rawBytesSha256": "45e585383bd972f04aae3b97119a543914797980f8635f1b714e1a2419d765aa",
+    "meaning": "All13 unchanged source paths and previous full raw/cert/birth/clock/opaque/ETag/403/lease/full107 checks reused. Source04 supersedes03 only for actual execution."
+  },
+  "findingResolution": {
+    "oldActual": "joint23-ui12-01 failed-required-proof-preserved, original private failure retained by Root",
+    "publicMetadata": "tmp/rust-r2m/ui12-prepared-scalar-mismatch01.json",
+    "readLevel": "complete public two-side per-column metadata; each has exactly lead.estimated_amount string/number mismatch; private source values not read by C",
+    "resolution": "Prepared source numeric representation corrected; no actual product difference or changed prepared SQL/body is claimed."
+  },
+  "findings": [
+    {
+      "item": "exact finite decimal semantics",
+      "result": "Pass",
+      "detail": "Branch only applies to lead.estimated_amount when original authority is udt numeric/sqlType numeric(18,2), original value string and actual number. Both plain decimal forms are parsed into BigInt cents with ≤2 significant fractional digits,≤16 whole digits and conservative2^52-1cent distinguishable grid. Source is never converted with Number; scientific/unsafe/scale-losing or unequal values reject."
+    },
+    {
+      "item": "no row or comparison weakening",
+      "result": "Pass",
+      "detail": "Helper only validates equality; original actual row retains its original numeric value/type. NULL, other columns/types, all other scalar fields and original fixed timestamps use the same strict checks. Existing unknown-field/full107/ownership/transport/cache/lease conditions remain."
+    },
+    {
+      "item": "meaningful adversarial checks",
+      "result": "Pass",
+      "detail": "Author tests include actual original300000.00/300000 shape, fractional/negative/zero/trailing-zero equivalents; changed cents, nonzero excess scale, unsafe precision, NULL/nonnumber, wrong UDT and unrelated scalar mutation reject. Complete two-source diff inspected; remaining13 source bytes are declared unchanged and final pins checked before Root use."
+    }
+  ],
+  "readLevel": {
+    "production": "Complete core/test diff from exact preservedSource03",
+    "priorSource": "Previous necessary whole finite comparison review reused",
+    "authorChecks": "15pure0fail/2changedJS lexical0; no C execution",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "gitMutations": 0
+  },
+  "RootNext": "Keep ongoing ar5d source freeze intact. After normal close, adopt exact final04 source/manifest/input in a matching analysis epoch and Root alone reruns readonly offline comparison on original completed UI12 pair. Old03/failed actual remain immutable; no UI product rerun or actual/G3/G4 pass follows from this source result."
+}

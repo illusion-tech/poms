@@ -419,15 +419,31 @@
       "taskId": "RUST-R2M",
       "title": "R2 阶段集成验收",
       "issue": 80,
-      "status": "Todo",
-      "g1": "Todo",
+      "status": "Doing",
+      "g1": "Pass",
       "publicOperations": 0,
       "proposedDependencies": [
         "RUST-R2A–L 的已冻结交付条件"
       ],
       "nonHttpAndDomainInputs": [
         "仅在逐项路由、非 HTTP 与外部适配条件满足后关闭父阶段"
-      ]
+      ],
+      "g1Baseline": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "g1FrozenAt": "2026-10-30T18:00:58.355Z",
+      "g1ReviewedBaselineRawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33",
+      "g1InputManifest": "docs/design/rust-r2m/g1-input-manifest.json",
+      "g1Review": "docs/design/rust-r2m-g1-review01.json",
+      "g1ReviewRawBytesSha256": "f6130b2973ec473ffa04d2d103cccfb6eb016f2ee628aac2e73b5add1ae91fd3",
+      "g1Comment": "https://github.com/illusion-tech/poms/issues/80#issuecomment-6529892491",
+      "g3": "Pass",
+      "g4": "Pending",
+      "validation": "docs/design/rust-r2m-validation.json",
+      "closeout": "docs/design/archive/slices/rust-r2m-closeout.md",
+      "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
+      "implementationCommit": "Pending（G3 后固定提交）",
+      "fixedCommitReview": "Pending",
+      "onlineG4": "Pending",
+      "completionCondition": "Only Root resolves actual/C/Git/primaryFF/preservation/archive/online Pending after evidence exists;57 must remain Open"
     }
   ],
   "operations": [
@@ -15955,73 +15971,90 @@
     "historicalSummary": "summary.allSlicesG1 retains its original inventory snapshot; current G1/G4 and delivery status come from slices[]"
   },
   "executionBatch": {
-    "id": "RUST-R2L-LOOKUP",
-    "issues": [
-      79,
-      84
-    ],
-    "status": "Done",
-    "g1": "Pass",
-    "g3": "Pass",
-    "g4": "Pass",
-    "baseline": "docs/design/archive/slices/rust-r2l-lookup-baseline.md",
-    "sourceHead": "02b8956759352b2612bec5980cbe55ae77d0293f",
-    "newDeliveredPublicOperations": 4,
-    "currentR2Delivered": 108,
-    "targetAfterLG4": 108,
-    "g1FrozenAt": "2026-10-29T20:55:31.950Z",
-    "g1Review": "docs/design/rust-r2l-lookup-g1-review01.json",
-    "g1ReviewedBaselineRawBytesSha256": "ebbb6deb8e5684a1bfff5eced892842bfc4b6094d6aeff5f45cda2965d6f6a58",
-    "g3Review": "docs/design/rust-r2l-g3-review01.json",
-    "g3ReviewRawBytesSha256": "934e2cae6f2f8106a46d5719269051f52ae2c2cd41651d0fd56b8a465fd5b110",
-    "g3ReviewedAt": "2026-10-30T11:11:18.983Z",
-    "validation": "docs/design/rust-r2l-validation.json",
-    "preservation": "docs/design/rust-r2l-preservation.json",
-    "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
-    "integrationReview": "docs/design/rust-r2l-integration-review01.json",
-    "mainIntegration": "docs/design/rust-r2l-main-integration01.json",
-    "mainIntegratedAt": "2026-10-30T11:23:36.418Z",
-    "mainCommit": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462",
-    "g4ClosedAtObserved": "2026-10-30T12:03:01.286Z",
-    "archiveReadyCommit": "3f76064319094f1e61207b2f7008f226c30fa869",
-    "g4ReadyReview": "docs/design/rust-r2l-g4-ready-review01.json",
-    "onlineG4": "docs/design/rust-r2l-online-g4.json",
-    "closeout": "docs/design/archive/slices/rust-r2l-closeout.md",
-    "actualOnlineClosure": "docs/design/rust-r2l-online-g4.json",
-    "archiveIntegration": "docs/design/rust-r2l-archive-integration01.json"
-  },
+                      "id": "RUST-R2M",
+                      "issues": [
+                        80
+                      ],
+                      "conditionalParentClose": [
+                        67
+                      ],
+                      "mustKeepOpen": [
+                        57
+                      ],
+                      "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+                      "branch": "codex/poms-r2m-integration",
+                      "newDeliveredPublicOperations": 0,
+                      "currentR2Delivered": 108,
+                      "status": "Doing",
+                      "g1": "Pass",
+                      "g1Baseline": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+                      "g1FrozenAt": "2026-10-30T18:00:58.355Z",
+                      "g1ReviewedBaselineRawBytesSha256": "93b2485e16e0d1b20cfd9b2d70839e62c1edb281fc06f0a64beab30fa568cc33",
+                      "g1InputManifest": "docs/design/rust-r2m/g1-input-manifest.json",
+                      "g1Review": "docs/design/rust-r2m-g1-review01.json",
+                      "g1ReviewRawBytesSha256": "f6130b2973ec473ffa04d2d103cccfb6eb016f2ee628aac2e73b5add1ae91fd3",
+                      "g1Comment": "https://github.com/illusion-tech/poms/issues/80#issuecomment-6529892491",
+                      "g3": "Pass",
+                      "g4": "Pending",
+                      "implementationCommit": "Pending（G3 后固定提交）",
+                      "validation": "docs/design/rust-r2m-validation.json",
+                      "closeout": "docs/design/archive/slices/rust-r2m-closeout.md",
+                      "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
+                      "keepOpen57": true
+                    },
   "currentDeliverySummary": {
-    "deliveredOperations": 108,
-    "totalOperations": 108,
-    "remainingOperations": 0,
-    "deliveredSlices": [
-      "RUST-R2A",
-      "RUST-R2B",
-      "RUST-R2C",
-      "RUST-R2D",
-      "RUST-R2E",
-      "RUST-R2F",
-      "RUST-R2G",
-      "RUST-R2H",
-      "RUST-R2I",
-      "RUST-R2J",
-      "RUST-R2K",
-      "RUST-R2L"
-    ],
-    "parentState": "Doing/Open；R2A–L公开操作108/108已G4，R2M #80阶段集成验收仍Todo/G1待冻结，#67/#57保持Open；#61自身9项路由/参数裁决及原生82/83/84全部G4完成",
-    "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved",
-    "completedMechanismSubSlices": [
-      81
-    ],
-    "completedRouteParameterSubSlices": [
-      82,
-      83
-    ],
-    "latestSubSliceImplementation": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
-    "latestImplementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
-    "latestCloseout": "docs/design/archive/slices/rust-r2l-closeout.md",
-    "latestOnlineG4": "docs/design/rust-r2l-online-g4.json"
-  },
+                              "deliveredOperations": 108,
+                              "totalOperations": 108,
+                              "remainingOperations": 0,
+                              "deliveredSlices": [
+                                "RUST-R2A",
+                                "RUST-R2B",
+                                "RUST-R2C",
+                                "RUST-R2D",
+                                "RUST-R2E",
+                                "RUST-R2F",
+                                "RUST-R2G",
+                                "RUST-R2H",
+                                "RUST-R2I",
+                                "RUST-R2J",
+                                "RUST-R2K",
+                                "RUST-R2L"
+                              ],
+                              "parentState": "R2A–L108/108G4；R2M80=Open；R2父67=Open；总体57Open，R3–R7原边界保留",
+                              "authority": "GitHub slice state and current slices[]; historical G0 operation/summary fields preserved",
+                              "completedMechanismSubSlices": [
+                                81
+                              ],
+                              "completedRouteParameterSubSlices": [
+                                82,
+                                83
+                              ],
+                              "latestSubSliceImplementation": "894fc72c2a90f0c93988ad23bcfe87157bdc322d",
+                              "latestImplementationCommit": "Pending（G3 后固定提交）",
+                              "latestCloseout": "docs/design/archive/slices/rust-r2m-closeout.md",
+                              "latestOnlineG4": "docs/design/rust-r2m-online-g4.json",
+                              "r2mStageAcceptance": {
+                                "status": "Doing",
+                                "g3": "Pass",
+                                "g4": "Pending",
+                                "validation": "docs/design/rust-r2m-validation.json",
+                                "closeout": "docs/design/archive/slices/rust-r2m-closeout.md",
+                                "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
+                                "implementationCommit": "Pending（G3 后固定提交）",
+                                "fixedCommitCReview": "Pending",
+                                "primaryFFAndMainPush": "Pending",
+                                "publicPreservation": "Pending",
+                                "onlineG4": "Pending",
+                                "rootIssue57": "Open",
+                                "newPublicOperations": 0,
+                                "literalNumericAndWholeRawByteParityClaimed": false
+                              },
+                              "previousPublicSlicePointers": {
+                                "latestImplementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+                                "latestCloseout": "docs/design/archive/slices/rust-r2l-closeout.md",
+                                "latestOnlineG4": "docs/design/rust-r2l-online-g4.json"
+                              }
+                            },
   "executionBatchHistory": [
     {
       "id": "RUST-R2EF",
@@ -16141,6 +16174,42 @@
       "metadataReadyCommit": "33882f3f598048f837e4053653271646240f9eda",
       "g4ReadyReview": "docs/design/rust-r2k-g4-ready-review01.json",
       "onlineG4": "docs/design/rust-r2k-online-g4.json"
+    },
+    {
+      "id": "RUST-R2L-LOOKUP",
+      "issues": [
+        79,
+        84
+      ],
+      "status": "Done",
+      "g1": "Pass",
+      "g3": "Pass",
+      "g4": "Pass",
+      "baseline": "docs/design/archive/slices/rust-r2l-lookup-baseline.md",
+      "sourceHead": "02b8956759352b2612bec5980cbe55ae77d0293f",
+      "newDeliveredPublicOperations": 4,
+      "currentR2Delivered": 108,
+      "targetAfterLG4": 108,
+      "g1FrozenAt": "2026-10-29T20:55:31.950Z",
+      "g1Review": "docs/design/rust-r2l-lookup-g1-review01.json",
+      "g1ReviewedBaselineRawBytesSha256": "ebbb6deb8e5684a1bfff5eced892842bfc4b6094d6aeff5f45cda2965d6f6a58",
+      "g3Review": "docs/design/rust-r2l-g3-review01.json",
+      "g3ReviewRawBytesSha256": "934e2cae6f2f8106a46d5719269051f52ae2c2cd41651d0fd56b8a465fd5b110",
+      "g3ReviewedAt": "2026-10-30T11:11:18.983Z",
+      "validation": "docs/design/rust-r2l-validation.json",
+      "preservation": "docs/design/rust-r2l-preservation.json",
+      "implementationCommit": "3b154bf447df9897a934e95cb218fbdb0beaba47",
+      "integrationReview": "docs/design/rust-r2l-integration-review01.json",
+      "mainIntegration": "docs/design/rust-r2l-main-integration01.json",
+      "mainIntegratedAt": "2026-10-30T11:23:36.418Z",
+      "mainCommit": "7b6f5e1ac896b29e2d623533d1a2b5f876e30462",
+      "g4ClosedAtObserved": "2026-10-30T12:03:01.286Z",
+      "archiveReadyCommit": "3f76064319094f1e61207b2f7008f226c30fa869",
+      "g4ReadyReview": "docs/design/rust-r2l-g4-ready-review01.json",
+      "onlineG4": "docs/design/rust-r2l-online-g4.json",
+      "closeout": "docs/design/archive/slices/rust-r2l-closeout.md",
+      "actualOnlineClosure": "docs/design/rust-r2l-online-g4.json",
+      "archiveIntegration": "docs/design/rust-r2l-archive-integration01.json"
     }
   ],
   "subSlices": [

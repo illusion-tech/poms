@@ -1,0 +1,104 @@
+{
+  "kind": "POMS-R2M-independent-an5c-owner-budget-failure-classification",
+  "reviewedAtUtc": "2026-10-31 02:52:19 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "Classified-tool-budget-incomplete",
+  "scope": {
+    "runTag": "an5c",
+    "backend": "nest",
+    "selectedCases": "M3.1-M3.5",
+    "productPass": false,
+    "productFailureConcluded": false,
+    "cleanupAdmitted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "ownerReceipt": {
+    "file": "tmp/rust-r2m/acceptance-api-owner-nest-an5c.json",
+    "readVia": "exact public Linux UNC path",
+    "bytes": 729,
+    "rawBytesSha256": "e9adec67f16927b542ae6c86616c393e45352f4952e3530c9e2cf9f90d150391",
+    "result": "failed-preserved",
+    "startedAt": "2026-10-31T02:34:03.805Z",
+    "finishedAt": "2026-10-31T02:39:03.902Z",
+    "elapsedMilliseconds": 300097,
+    "originalOwnerErrorMessageRetained": false,
+    "publicFailureName": "Error",
+    "topActualReportAvailable": false
+  },
+  "sourceCapsule": {
+    "file": "tmp/rust-r2m/source-cap-joint24.json",
+    "bytes": 1418329,
+    "rawBytesSha256": "fabefd00401ff6adc13aaa9b5929da3862a650597c994573e718f0767b0e0a48",
+    "id": "r2m-joint24",
+    "manifestSha256": "90e2ca405c025fdc633473d7e5cb768330e0a39d775b21075f0e1ba99e4298b8"
+  },
+  "reviewedTimerSources": [
+    {
+      "file": "tools/e2e/runtime-worker.cjs",
+      "bytes": 2182,
+      "rawBytesSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+      "storedFile": "tmp/rust-r2m/public-source-store/0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+      "normalizedLfSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc"
+    },
+    {
+      "file": "tools/e2e/runtime.cjs",
+      "bytes": 16694,
+      "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+      "storedFile": "tmp/rust-r2m/public-source-store/fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+      "normalizedLfSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a"
+    },
+    {
+      "file": "tools/rust-r2m/run-api-owned.mjs",
+      "bytes": 3373,
+      "rawBytesSha256": "3e3701632396f22fbd0fd69cc12513457ff01e3990216fbfd2405a4329eae54d",
+      "storedFile": "tmp/rust-r2m/public-source-store/3e3701632396f22fbd0fd69cc12513457ff01e3990216fbfd2405a4329eae54d",
+      "normalizedLfSha256": "3e3701632396f22fbd0fd69cc12513457ff01e3990216fbfd2405a4329eae54d"
+    }
+  ],
+  "basis": [
+    "Actual wall interval300097ms matches fixed timeoutMs300000 plus polling/stop overhead.",
+    "Original run-api-owned explicitly passes300000 to runtime.runOwnedCommand. Runtime computes a deadline, throws when the owned backend has not exited, and always invokes mature owned stop in finally.",
+    "Public owner receipt records failure and no actual top-level report. Old wrapper only retains error.name and incorrectly relies on child private log for other detail, so C does not claim an independently read original owner stack or exact exception message."
+  ],
+  "classification": "Tool owner budget expiry/incomplete certification is supported by the public owner clock and fixed source timer. It is not a product failure classification, runtime performance comparison, whole-case pass or proof that a pending create did or did not commit.",
+  "RootReportedPartial": {
+    "completeRawCases": [
+      "M3.1",
+      "M3.2",
+      "M3.3"
+    ],
+    "UowVariantsRetained": [
+      "v0",
+      "v1"
+    ],
+    "stoppedDuring": "v2 calculation-one-create input stage",
+    "knownOwnedRows": 236,
+    "pendingIntents": [
+      "calculation",
+      "audit"
+    ],
+    "pendingCreateCertificates": 0,
+    "independentlyReadByC": false,
+    "meaning": "Retained partial facts by Root, not an accepted5-case outcome. Zero certificates is not evidence of row absence. No query-match adoption or speculative delete is permitted."
+  },
+  "futureOwner": {
+    "requestedBoundMilliseconds": 900000,
+    "sourceReadyIssued": false,
+    "necessaryBoundary": "New bounded long owner must retain exact original errors and existing owned identity/stop constraints. Shared bounded() and launchOwned currently cap300000; changing only the numeric call would fail before execution. Preserve general startup/readiness/stop limits and source-review the narrow M-specific long-command implementation."
+  },
+  "readLevel": {
+    "publicOwner": "complete receipt and independent elapsed computation",
+    "timerSource": "Actual cap source pins and necessary runOwnedCommand/deadline/stop code; no private logs",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "next": "Root supplies fresh exact readonly metadata and a separately reviewed recovery helper before cleanup, then a matching new bounded-owner epoch for a normal full selected run. Original300-second evidence is immutable."
+}

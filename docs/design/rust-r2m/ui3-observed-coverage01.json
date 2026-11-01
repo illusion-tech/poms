@@ -1,0 +1,2610 @@
+{
+  "kind": "Root-UI3-observed-journey-to-frozen-API-coverage",
+  "G1RequirementDecision": "docs/design/rust-r2m/ui-evidence-requirements-review01.json",
+  "dedicatedDifferentialNewGate": false,
+  "API5CompleteSemanticComparison": "Pending independent actual result",
+  "G3Certified": false,
+  "G4Certified": false,
+  "sides": [
+    {
+      "backend": "nest",
+      "report": {
+        "file": "tmp/rust-r2m/ui-linux-nest-uin3b.json",
+        "bytes": 90347,
+        "rawBytesSha256": "aee709e8d70a81b6f14b8a8c6513e18881699db63e39d9e73c3b8e8dba02719c"
+      },
+      "runId": "bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a",
+      "sourceCapId": "r2m-joint26",
+      "steps": [
+        {
+          "id": "todo-detail-reject",
+          "result": "observed",
+          "commonCases": [
+            "M3.1",
+            "M3.5"
+          ],
+          "ownAssertions": [
+            "original Workbench owned Todo button opens original contract detail",
+            "real reject dialog action",
+            "typed current approval rejected"
+          ],
+          "http": [
+            {
+              "step": "todo-detail-reject",
+              "index": 3,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00011.json",
+                "bytes": 1127363,
+                "rawBytesSha256": "9bda13d8e9ed230472a4472f25e8f63613802488e7ff588069cec9e22a17bf42",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 4,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00013.json",
+                "bytes": 1132221,
+                "rawBytesSha256": "98a82da3c29ac58c78152ccd43b17fe3cbbab8c144e57a1f323dd84892ce83d1",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 5,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00015.json",
+                "bytes": 1137716,
+                "rawBytesSha256": "8beedec541915b1ede33d12ee73a17c23d4488d46d064a69faded46b39640f38",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 6,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00017.json",
+                "bytes": 1163674,
+                "rawBytesSha256": "af77588bfa5d083436e72cc356c590cd73eea628027361ce1f231029d1875588",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 7,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00019.json",
+                "bytes": 1166587,
+                "rawBytesSha256": "6716ba9f64ab8757b3c0c0f623eefde6f65bc615567624265f77c6d19f10c003",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 8,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00021.json",
+                "bytes": 1174163,
+                "rawBytesSha256": "1c5e14dfa94dba1a56e728debd93291a5c96a6751130d3be36a66dc0ed92d496",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 9,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00023.json",
+                "bytes": 1177182,
+                "rawBytesSha256": "be9b528909d3d07b5b725f14266ef6b9cfbea859b97638a799fbd618110d069a",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 10,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00025.json",
+                "bytes": 1187885,
+                "rawBytesSha256": "6999a05bb7240d01356aad79e39328745891bd4de3bb9c77e2a78561f31b520c",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 11,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00027.json",
+                "bytes": 1187456,
+                "rawBytesSha256": "65ffc8b2db63338f5b869c8ee0533a748830e50a12670d64ddca19d62c9543ba",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 12,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00029.json",
+                "bytes": 1192481,
+                "rawBytesSha256": "5ec3ad8c6a4b2ea3443101aaaefe52885a6c111421f00cae3b633d4079244eab",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 13,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00031.json",
+                "bytes": 1196738,
+                "rawBytesSha256": "afe6155afb8d680ca8cb08093f79113222a4b26958b2fefe7384e21af1f69667",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 14,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00033.json",
+                "bytes": 1201765,
+                "rawBytesSha256": "d413bed5c922fddb1a28b6f2491704f61479ed86e8d096729ea524e8bb102fe0",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 15,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00035.json",
+                "bytes": 1209343,
+                "rawBytesSha256": "31cabe4612710a4dd2e92594a96f94595a72fed56c0dcc39831074b921dbf729",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 16,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00037.json",
+                "bytes": 1212362,
+                "rawBytesSha256": "db850d9e44dc477a5fe5b3ddab16931f7027c2c7868482a284be85fa81c609b9",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 17,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00039.json",
+                "bytes": 1219393,
+                "rawBytesSha256": "e0d3e809a3991188989d2093314f6445d8ca40c4661d5fbab25ac38e0a5aa678",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 18,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00041.json",
+                "bytes": 1222412,
+                "rawBytesSha256": "00a98833507244aec208bab9a0eecd88e61e68f4c29def3754af637baaa0ab19",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 19,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00043.json",
+                "bytes": 1233115,
+                "rawBytesSha256": "1f92f53f7addca5ce98f78cd98d29c97486e0503d477351c379eea9d842d0ca6",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 20,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00045.json",
+                "bytes": 1252592,
+                "rawBytesSha256": "8a92375bc15e5897bd408b7674a429055708760a9411dc76a2caf1f747c1b546",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 21,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00047.json",
+                "bytes": 1257532,
+                "rawBytesSha256": "e6d87eeb67bab197f967aea9c67c83b270d5c3637991331c758c826508269177",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 22,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00049.json",
+                "bytes": 1261608,
+                "rawBytesSha256": "a3b8d7b13d7739aa08988463936ac3fdd149fedc0396deeb40e8d30439a2c123",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 23,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00051.json",
+                "bytes": 1273276,
+                "rawBytesSha256": "b3e88e1d14b396d457b4fa7ff9a28c02cc80a923c235615e4cbfb02787d6dd70",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 24,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:reject",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00053.json",
+                "bytes": 1272722,
+                "rawBytesSha256": "b4cac9f07ae7bd91dd2eac1102f4225806cda9fde1c9fb49c480e7380f713126",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 25,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00055.json",
+                "bytes": 1299317,
+                "rawBytesSha256": "9bb3b29042839117005fba3f28e239b5edbe453b6edab46f61a564ca31064092",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 26,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00057.json",
+                "bytes": 1304380,
+                "rawBytesSha256": "dc98ce158a7e199be839100c9f52f70b4c28e3c07d25e880cc6720e04b767d24",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 27,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00059.json",
+                "bytes": 1309351,
+                "rawBytesSha256": "4324713af947981f617f6a9ab75398f61fd406d267addbe105e4e3d13726a9f2",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 28,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00061.json",
+                "bytes": 1313797,
+                "rawBytesSha256": "f673affc7d2c4252d7a8ad26e96696a057c1a394e03f9876337b2ce42cc52a9f",
+                "private": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "original-native-resubmit",
+          "result": "observed",
+          "commonCases": [
+            "M3.1"
+          ],
+          "ownAssertions": [
+            "original contract page submit-review control",
+            "original Native producer request in both arrangements",
+            "new current approval selected by actual typed source"
+          ],
+          "http": [
+            {
+              "step": "original-native-resubmit",
+              "index": 29,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00064.json",
+                "bytes": 1321461,
+                "rawBytesSha256": "eb6962d101043ed413dd9ded2b71ac0fa92398188212dd270b941c63427970d7",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 30,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00066.json",
+                "bytes": 1353130,
+                "rawBytesSha256": "022adf658721578ce84f309138c31db97a135d57b7b4a12640fa2fc7280c6be4",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 31,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00068.json",
+                "bytes": 1353935,
+                "rawBytesSha256": "1367cfbbe9b619d9da6e16881b75e844c99ddabe0b1f766717d8587be9e22cb0",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 32,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00070.json",
+                "bytes": 1368003,
+                "rawBytesSha256": "a9c3c0912690470b0d399200b9907824d49d05d9767980a4ac21e5d9c06804d6",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 33,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00072.json",
+                "bytes": 1363932,
+                "rawBytesSha256": "be5722487ace92cb4c97e051046f1a6e652c77bac75eca3a8c12389ea117075d",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 34,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00074.json",
+                "bytes": 1375926,
+                "rawBytesSha256": "77c3cc7bbb503261a550741a8525f2df95e4a7eeaad6ae77a593e23858e56853",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 35,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00076.json",
+                "bytes": 1378033,
+                "rawBytesSha256": "b90ca1dea586f400ab2598130437220f684c51c7be72da9834d5c746fd642b81",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 36,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00078.json",
+                "bytes": 1383289,
+                "rawBytesSha256": "caa1c72c53282f586510956cc55ce3f3efc415bdedf0502dd5516f65c44f4a40",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 37,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00080.json",
+                "bytes": 1385543,
+                "rawBytesSha256": "9002afa56ad662567f46a9687437db30c71ef0aad37df1b64f95224b2651406d",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 38,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00082.json",
+                "bytes": 1390799,
+                "rawBytesSha256": "e1852e8b901b27ba911f030568a60f372af1db20029df60b55e870a904182e71",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 39,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00084.json",
+                "bytes": 1404867,
+                "rawBytesSha256": "53fd2a88af86f36f62705f2785c51f2abddd7b50e4481c7e22d373662d154a03",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 40,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00086.json",
+                "bytes": 1400796,
+                "rawBytesSha256": "8627a7bc2eee8ea0a280571af54d4e3c3490e5f5ded35e4d71e152b8d9bd7396",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 41,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00088.json",
+                "bytes": 1415379,
+                "rawBytesSha256": "33d36d04edb3155543754a9c29923da61f8b1ff3f10dd457728acc9952a956b8",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 42,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00090.json",
+                "bytes": 1411308,
+                "rawBytesSha256": "f50bf2d22d845dfd4a6870337cf8f6b1edd2ff840466b5b1215f4da2715950e2",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 43,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00092.json",
+                "bytes": 1417660,
+                "rawBytesSha256": "4cc7a94d0f29f640ecb2d54a1811b6c5c3264a0e8294e2231bc41516e096d524",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 44,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00094.json",
+                "bytes": 1423016,
+                "rawBytesSha256": "ad4e3c61be5032d783d026a25fd946d11c954615358f44187a150350b12e922c",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 45,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00096.json",
+                "bytes": 1427217,
+                "rawBytesSha256": "7690f58c0f1029f163450c8e3bc1ec13b3955163a4ce5e21d898f2e510df06aa",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 46,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00098.json",
+                "bytes": 1439002,
+                "rawBytesSha256": "272e71680d73d137a782d7351ea7c475e3c3195806fadfe11cbf33a705842a69",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 47,
+              "method": "POST",
+              "pathTemplate": "/api/contracts/{id}:submitReview",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00100.json",
+                "bytes": 1473926,
+                "rawBytesSha256": "7591a839aa3fcb7fbfc0dcbb4ef0c2538bdb9ad387c9142656fc2b8af3b8c489",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 48,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00102.json",
+                "bytes": 1477331,
+                "rawBytesSha256": "ba165a8a00c3e3e5b1e6aac8622653d695a7fb3a221aede981de9f55d96e7dde",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 49,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00104.json",
+                "bytes": 1482635,
+                "rawBytesSha256": "56c27d53e90f927e21eef102b198a5efb8dff844f5208d16a3a8fec8b065f355",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 50,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00106.json",
+                "bytes": 1487646,
+                "rawBytesSha256": "43890fbc3a44de7e10a0f5525b6798f61e30f42ab9b5aac98c95d7b70a75d8e7",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 51,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00108.json",
+                "bytes": 1492092,
+                "rawBytesSha256": "0a6f3c656325d5c6a941437eacc70b4780afdc080e5926fbfcd7fe395709e7bd",
+                "private": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "actual-current-todo-approve",
+          "result": "observed",
+          "commonCases": [
+            "M3.1"
+          ],
+          "ownAssertions": [
+            "current original Workbench Todo control",
+            "actual current approval approve action",
+            "typed status approved and real projection/detail response"
+          ],
+          "http": [
+            {
+              "step": "actual-current-todo-approve",
+              "index": 52,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00111.json",
+                "bytes": 1499701,
+                "rawBytesSha256": "b7faede0f5d65c49b1efa123f3874235ce9e9fb5e9567ec3fde91a470dc0d766",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 53,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00113.json",
+                "bytes": 1531453,
+                "rawBytesSha256": "b693c8e262b0e3f6baba56254a64df79bbaf3a4ee4468d6100aa07b8d6f069e8",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 54,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00115.json",
+                "bytes": 1534588,
+                "rawBytesSha256": "a969b676d3d44643aa0ace9656d2467a5e46e1560addda3f03466bc2d9de9578",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 55,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00117.json",
+                "bytes": 1542399,
+                "rawBytesSha256": "4c81e27cc84d84d271af44f0f2c2beb3db9d367d5c6ee66f1c79e40ad62b6cd6",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 56,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00119.json",
+                "bytes": 1545601,
+                "rawBytesSha256": "3551b8168e675cd873c5a5bd7a99f0f34e635a5ddf429ddfef799c1f75c43775",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 57,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00121.json",
+                "bytes": 1556581,
+                "rawBytesSha256": "f63bdc1ca793447022c3a3ae0d09944a6a85129efeef62bf6113ecdf14a4ff8d",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 58,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00123.json",
+                "bytes": 1556457,
+                "rawBytesSha256": "92acb25b2b8c0c686ac90a52ef842821e4618e7b8e41b363a7596eba4efc0457",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 59,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00125.json",
+                "bytes": 1561713,
+                "rawBytesSha256": "be94039d91dd0e094bb0a297e7be0355e10edb7ed36ee4a13ce8684828ccd3b2",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 60,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00127.json",
+                "bytes": 1566198,
+                "rawBytesSha256": "e3c6eb00658c1b5ac121796be1c8c1b2a5e89aba97828d5a8490c80450e3153a",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 61,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00129.json",
+                "bytes": 1571454,
+                "rawBytesSha256": "36e7cc1b56708a0fab47da4086527ad655cac68178efbe64b11549ef2966324b",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 62,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00131.json",
+                "bytes": 1579263,
+                "rawBytesSha256": "d498d9541e17891b712623e75bf34a87b3e29930a6bdd66661a29d01b4ecb567",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 63,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00133.json",
+                "bytes": 1582465,
+                "rawBytesSha256": "e529d807992c1e927944fa2d3bab303ec128704b014fbf7ca047e50d4f0553db",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 64,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00135.json",
+                "bytes": 1589775,
+                "rawBytesSha256": "4661940c28016a312a839bcf70c61da980884659fafb246dc636d1dc0495b780",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 65,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00137.json",
+                "bytes": 1592977,
+                "rawBytesSha256": "74a74cbf82bf1bcd84f39e5d4463a20a90e8c8ff88baf3573003902d48e3c6c5",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 66,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00139.json",
+                "bytes": 1623729,
+                "rawBytesSha256": "ca52554d31336a4af55f3d7c255223e2198c157f00054e37fde2d14050f12b1e",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 67,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00141.json",
+                "bytes": 1628855,
+                "rawBytesSha256": "aa3140037f2717682c4ce5c925aa071d3eb3ecca2a7d2f8abcdd9792307b4e7f",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 68,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00143.json",
+                "bytes": 1633213,
+                "rawBytesSha256": "ca0d0f399208120862e4752bb1c20974485ed69ee2c43c50f297265443128b48",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 69,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00145.json",
+                "bytes": 1645115,
+                "rawBytesSha256": "99b841a223ea89030a8dd7a0b9f53cd238cdee8305aded107ffaa38bef1d2f8a",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 70,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:approve",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00147.json",
+                "bytes": 1644900,
+                "rawBytesSha256": "c0802f2f993e01211a12485f56ff79ec8b0d65c5bc66c7097bf9821a7ec6cd90",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 71,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00149.json",
+                "bytes": 1677221,
+                "rawBytesSha256": "12674c28f183c9398571288b68ca8c1c3b62b227919f5cfa2266a6476622ce5d",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 72,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00151.json",
+                "bytes": 1682516,
+                "rawBytesSha256": "72a1278948c2eb6c0c213e738a10ed2c0db851c2584655f1b8f826b780e7e7f2",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 73,
+              "method": "GET",
+              "pathTemplate": "/api/approval-records/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00154.json",
+                "bytes": 1687979,
+                "rawBytesSha256": "2b4fa61e550ffaa5ee3febe8ed7b69154a5e9f7f12ec70f93be0756432045119",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 74,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00156.json",
+                "bytes": 1692429,
+                "rawBytesSha256": "b425bca1633c38bc8ff1aec8284c5113aa004f057bdf133abfcf99ff4bcecaf6",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 75,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00158.json",
+                "bytes": 1704448,
+                "rawBytesSha256": "21cb8f577f67874c5d7caf69734a3c7b23531eb1767560e9d9b718a336459272",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 76,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00160.json",
+                "bytes": 1703268,
+                "rawBytesSha256": "740a77c1cb56b46533afe7b446569d8f413a14ae13b15fc88c71103391dae9d4",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 77,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00162.json",
+                "bytes": 1709669,
+                "rawBytesSha256": "b92d4048ef0c9d862d2d303977ab87e961983dae63d3d6a0936a4485fac04f81",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 78,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00164.json",
+                "bytes": 1714349,
+                "rawBytesSha256": "1a8252e811a92b90f66b55b9bafd83e3efb6c71620299d46916c9d766bb48a4a",
+                "private": true
+              }
+            }
+          ]
+        }
+      ],
+      "allOriginalRawEvidenceRetained": true,
+      "cleanups": [
+        {
+          "deleted": 65,
+          "localFilesChanged": 0
+        },
+        {
+          "deleted": 0,
+          "localFilesChanged": 0
+        }
+      ],
+      "writersStopped": true,
+      "PGObserverRestored": true,
+      "full107BeforeAfterRefs": [
+        {
+          "kind": "UI-global-full107-before-preparation",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00000.json",
+          "bytes": 432858,
+          "rawBytesSha256": "c9008e6c545bb55f5f31b94550dd0463c19ecdcdb1739debe38371faeaa80903",
+          "private": true
+        },
+        {
+          "kind": "UI-full107-after-double-zero",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/nest-bbfa4e4e-4083-4a9f-9e6c-b320b526fa0a/00168.json",
+          "bytes": 432850,
+          "rawBytesSha256": "1dd093e0225725fd5b7381911509bdfa77208ee34c1e29c4696a527ea4a6bde0",
+          "private": true
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "report": {
+        "file": "tmp/rust-r2m/ui-linux-rust-uir3b.json",
+        "bytes": 90443,
+        "rawBytesSha256": "0e5e7a4cd84e8fe6b426b8ae6524b4e55b5a351c65b69608db58d9913954701a"
+      },
+      "runId": "6d1369d1-d35b-4757-91ad-38b56a2d35fb",
+      "sourceCapId": "r2m-joint26",
+      "steps": [
+        {
+          "id": "todo-detail-reject",
+          "result": "observed",
+          "commonCases": [
+            "M3.1",
+            "M3.5"
+          ],
+          "ownAssertions": [
+            "original Workbench owned Todo button opens original contract detail",
+            "real reject dialog action",
+            "typed current approval rejected"
+          ],
+          "http": [
+            {
+              "step": "todo-detail-reject",
+              "index": 3,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00011.json",
+                "bytes": 1127413,
+                "rawBytesSha256": "2685c094e1e52e0ac0a5b8ac9d289035391e94794752d232f3ddcbd93cd1c8b1",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 4,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00013.json",
+                "bytes": 1132273,
+                "rawBytesSha256": "dc73328ef5fcd6bd5edf366ed0c989453eb8e04875716f2c74d17dffdda89d89",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 5,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00015.json",
+                "bytes": 1137766,
+                "rawBytesSha256": "631d4651d5a829ddbb4acfa50bca81db8a15658ed5f7ea6e94d6d7bc5b2da8b7",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 6,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00017.json",
+                "bytes": 1155859,
+                "rawBytesSha256": "5508e1eafed1e321499adc55c3bcc6b93517d8048d87fec8d2c22c96daf440be",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 7,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00019.json",
+                "bytes": 1159284,
+                "rawBytesSha256": "f20b53c3cc9a87b63874b277cd2c1f304e57fc5577e60f8ac89036fe299e090c",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 8,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00021.json",
+                "bytes": 1166860,
+                "rawBytesSha256": "5af7a2ac032a296ddaabcd1635151ac9533b5522f3e6fed3a3572c328b815c4f",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 9,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00023.json",
+                "bytes": 1169951,
+                "rawBytesSha256": "9542c120dc770f11a30c578a83687cf5e6b6ecbf55b5712bc9d486969efd7680",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 10,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00025.json",
+                "bytes": 1180770,
+                "rawBytesSha256": "75f2ee3e7d1724aa86294e906ea9d26e2bda2ad83e8638594eb40283e18b32bf",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 11,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00027.json",
+                "bytes": 1180153,
+                "rawBytesSha256": "2c8c460c07337649c5a312d62df989c803499d26b865c90a19884f28336e3e0d",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 12,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00029.json",
+                "bytes": 1185180,
+                "rawBytesSha256": "1abb4adb1c7adb5facc56eaf05e2245aed0d543f95e1504cc323217554329478",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 13,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00031.json",
+                "bytes": 1189437,
+                "rawBytesSha256": "6266b6f431dd71b9ecaad0186f016f0110ea0499bdf75d32b1ccd57d4afdf05e",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 14,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00033.json",
+                "bytes": 1194462,
+                "rawBytesSha256": "357b0c55fe2e9930e968b5a3160fa3191eb148378d2802a99f95c6a0f28204b6",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 15,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00035.json",
+                "bytes": 1202038,
+                "rawBytesSha256": "5076d18b6a595ebf1e4b4a6098f4604eeb7ec9c16a0659784a3d282c819f8dcc",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 16,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00037.json",
+                "bytes": 1205129,
+                "rawBytesSha256": "e836940b79ecc6be00074e4733562c077d5f087eb3e839a5ceff91854f5a902f",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 17,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00039.json",
+                "bytes": 1212088,
+                "rawBytesSha256": "08cb51378ecee2947078f0f4e4f97c5b23525441c68c3b8dc91a94139730d8ff",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 18,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00041.json",
+                "bytes": 1215179,
+                "rawBytesSha256": "f18de7efe0ec7b33a5175c9d871520f1d61c6c67487491069d04fa9af6fbfc96",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 19,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00043.json",
+                "bytes": 1225996,
+                "rawBytesSha256": "a35bb88bf2f9e1d98731d71d95e155222da52f6044533e266cc466840b867563",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 20,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00045.json",
+                "bytes": 1244591,
+                "rawBytesSha256": "eae8d81d5cc4ff8765e8c6b9bcdfc8f49acabe2fa7baf2ea9bb592ad5dc93861",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 21,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00047.json",
+                "bytes": 1249519,
+                "rawBytesSha256": "f1f20cf18c50e6ea4f44fc7b0a4a333dcc86a8a54a150f0f894e8b4302a07fc0",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 22,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00049.json",
+                "bytes": 1253413,
+                "rawBytesSha256": "1cc1ee84e56db449e54aaf31d182b55c064068884ec567ddb0ec526ca3de514d",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 23,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00051.json",
+                "bytes": 1266183,
+                "rawBytesSha256": "3ea77d12ee96a68d4fdd13436ddd5ea8d31f46718692d450f08f19735714e8b5",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 24,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:reject",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00053.json",
+                "bytes": 1264523,
+                "rawBytesSha256": "77f03574c63a0a8a68ff8533a51464c939a64fc4282bbde87fe6bb571642b23a",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 25,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00055.json",
+                "bytes": 1290101,
+                "rawBytesSha256": "92e11d502a12603208c55efa0b4e1ab3904d8b1e3ad2fe79dafdbd4f5e97a3cf",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 26,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00057.json",
+                "bytes": 1295152,
+                "rawBytesSha256": "263e58f84564a1585cb42dcbe6f8752bf61ee1ed334cd5ca906b175aead3237f",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 27,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00059.json",
+                "bytes": 1299939,
+                "rawBytesSha256": "c97f89fd2fdb59e072ae7b00390c0c6d831a37f584e3a81073adabd09a40a73e",
+                "private": true
+              }
+            },
+            {
+              "step": "todo-detail-reject",
+              "index": 28,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00061.json",
+                "bytes": 1304387,
+                "rawBytesSha256": "50a2c9429298c5c57822b2b45a451c19ae767d7fd62310583f09083f29081e15",
+                "private": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "original-native-resubmit",
+          "result": "observed",
+          "commonCases": [
+            "M3.1"
+          ],
+          "ownAssertions": [
+            "original contract page submit-review control",
+            "original Native producer request in both arrangements",
+            "new current approval selected by actual typed source"
+          ],
+          "http": [
+            {
+              "step": "original-native-resubmit",
+              "index": 29,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00064.json",
+                "bytes": 1312049,
+                "rawBytesSha256": "a6ab58496e244f402b25bad07fc6f4ab9363e82709534dbeb6c1eb718c923eb1",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 30,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00066.json",
+                "bytes": 1332752,
+                "rawBytesSha256": "43c5753276bad1d1471e4abe4319cf33149cbe2b05e1f6c2bd747928ac83933e",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 31,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00068.json",
+                "bytes": 1334067,
+                "rawBytesSha256": "732797b651a8e175ccca3d3db5ad0fab1256fd3f9278a40fa6c9f655f288a566",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 32,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00070.json",
+                "bytes": 1348129,
+                "rawBytesSha256": "ddb1d63bf1735982c8348e983765811b918dd3021f593fdf61f572a12abf46c3",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 33,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00072.json",
+                "bytes": 1344064,
+                "rawBytesSha256": "ae3cf72e7bd32d681744787e6100004376ee0c2b2ae986a12c58cfd069e12a35",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 34,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00074.json",
+                "bytes": 1356240,
+                "rawBytesSha256": "3ed24ea7a9cd771f1c18340eeab8ac8d78f3a331ba4d76c7a29f4017a743dc40",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 35,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00076.json",
+                "bytes": 1358161,
+                "rawBytesSha256": "363de10e07b8695e5f79ce43c4c538041efff495aad897599444f932b5885354",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 36,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00078.json",
+                "bytes": 1363417,
+                "rawBytesSha256": "69ac8680da8a57d1b03d51502159756bb556d0583d8af0e16204a907f094d50b",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 37,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00080.json",
+                "bytes": 1365673,
+                "rawBytesSha256": "aea9339c2ecacc7a36b89894219e6f6af0342a4e5f6184f3676ce3a782c49f17",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 38,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00082.json",
+                "bytes": 1370929,
+                "rawBytesSha256": "8a4db2b6877059e6eb9272b4f957cc13ca55924b076207e3cdbe59bebfc7e837",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 39,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00084.json",
+                "bytes": 1384993,
+                "rawBytesSha256": "649db3a7a4de17183aa8321e81dac3337b3900ab045ddd453ab34fe620c80cdc",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 40,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00086.json",
+                "bytes": 1380928,
+                "rawBytesSha256": "4bb0ef063a78e3325cbe8da8b51e71f2ca468a7cfa19736ee27ff68d68647217",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 41,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00088.json",
+                "bytes": 1395505,
+                "rawBytesSha256": "12784705d537fb20be7aeaf4c88bdf1a2e14b7f6d8e1a1b242d6ff5b7a8770da",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 42,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00090.json",
+                "bytes": 1391440,
+                "rawBytesSha256": "e7ac84b57dc23f8c8f098ae5c39a81f5e5211ca788729faeb3f5a66e53e0cda7",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 43,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00092.json",
+                "bytes": 1397974,
+                "rawBytesSha256": "bb398b633f9c04061715852e693795d43e2d397da6fd89758b9ca4f27128d8f1",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 44,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00094.json",
+                "bytes": 1403330,
+                "rawBytesSha256": "56a52885566d5ea54f67d0ab488b1472d7abbcb79cd001d87ce992ce766e663b",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 45,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00096.json",
+                "bytes": 1407349,
+                "rawBytesSha256": "9b8878c418360db41cc58d9f9c3710ee88a8a37ce53175d963c9f41968748287",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 46,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00098.json",
+                "bytes": 1420236,
+                "rawBytesSha256": "8c9e32450c0af73bb66794e491e7398e65f833787fe9321ca18d1bc54ab9676e",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 47,
+              "method": "POST",
+              "pathTemplate": "/api/contracts/{id}:submitReview",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00100.json",
+                "bytes": 1452161,
+                "rawBytesSha256": "01bf37be715bc588ba035ad32a0565ca0c4cb9c41b4c0bfe4b2f4d55074c5dad",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 48,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00102.json",
+                "bytes": 1455542,
+                "rawBytesSha256": "7a0e275ed5c52673c45f6ebd1ef76bf3f7086e900af5ecaa908239ba2ff7525b",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 49,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00104.json",
+                "bytes": 1460846,
+                "rawBytesSha256": "5c2455e3f20dd3bc1d499ed72d634685c0239cce3879bfb395ce2ff6e8a6180d",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 50,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00106.json",
+                "bytes": 1465675,
+                "rawBytesSha256": "79214fcab8c96d2d54420a139d2f4900725e244a87541661d70121374f82dd5f",
+                "private": true
+              }
+            },
+            {
+              "step": "original-native-resubmit",
+              "index": 51,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00108.json",
+                "bytes": 1470125,
+                "rawBytesSha256": "5679b0169cc9f2ac785a5c90c2dd81ae634686784370ea03c10c484e9f6d418e",
+                "private": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "actual-current-todo-approve",
+          "result": "observed",
+          "commonCases": [
+            "M3.1"
+          ],
+          "ownAssertions": [
+            "current original Workbench Todo control",
+            "actual current approval approve action",
+            "typed status approved and real projection/detail response"
+          ],
+          "http": [
+            {
+              "step": "actual-current-todo-approve",
+              "index": 52,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00111.json",
+                "bytes": 1477732,
+                "rawBytesSha256": "2b0a5d39a3d92250e08a4146a54ced8511fb229be9b74db855ab637330c8a750",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 53,
+              "method": "POST",
+              "pathTemplate": "/api/auth/sessions",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00113.json",
+                "bytes": 1496087,
+                "rawBytesSha256": "6eff7931d2ae0576a05856101e470d0ef765981e251deee9787ac68ad589b0c6",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 54,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00115.json",
+                "bytes": 1499734,
+                "rawBytesSha256": "e7c1f6e46cbea321e1cd016c4ae4513703eb043bb66ba2481314a7d88d0fb37f",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 55,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00117.json",
+                "bytes": 1507543,
+                "rawBytesSha256": "d9b9685594be1fb9de4a77be757871cc3293aed2a0c2a6ae8bb0eeb2b41a182e",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 56,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00119.json",
+                "bytes": 1510781,
+                "rawBytesSha256": "703b1a2c5955b947aa6d7a0c0c286908b34314b91fba8d0d5bb5427b7a4b844e",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 57,
+              "method": "GET",
+              "pathTemplate": "/api/projects",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00121.json",
+                "bytes": 1521911,
+                "rawBytesSha256": "3b7a162351633a6f203e49b45a91b06d8b426cb8a9e4feaa4ff81e261bbc69b9",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 58,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00123.json",
+                "bytes": 1521601,
+                "rawBytesSha256": "a5fd0028c2df368510a5e3a54de95851e7ee9d64f17ce9db6e3474451c8fe2d9",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 59,
+              "method": "GET",
+              "pathTemplate": "/api/auth/session",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00125.json",
+                "bytes": 1526857,
+                "rawBytesSha256": "1bcce73bf843ab9307ed5b4799758bf818e4f3c9579266ce10d89be046bc6131",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 60,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00127.json",
+                "bytes": 1531344,
+                "rawBytesSha256": "95bfbe3998e3df347a11951c0c508d41a9afd3f42748aa4cb86064fe085b9668",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 61,
+              "method": "GET",
+              "pathTemplate": "/api/auth/csrf-token",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00129.json",
+                "bytes": 1536600,
+                "rawBytesSha256": "e061a0b958b1048063b4cf20dcbe8990cf881b475a1344818eb9110edb15661f",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 62,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00131.json",
+                "bytes": 1544407,
+                "rawBytesSha256": "8594b9f8f619505238519d3f0c95d580af79a87850e6d04d07583560cf639df9",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 63,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00133.json",
+                "bytes": 1547645,
+                "rawBytesSha256": "20b508785ad49ff9267c94a93701d0b5a3e9518b14ad1ad5d6b3fa0fa1375c1a",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 64,
+              "method": "GET",
+              "pathTemplate": "/api/me/navigation",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00135.json",
+                "bytes": 1554919,
+                "rawBytesSha256": "f4817952d739deedd78d55e025279f8fc5c79c44961569cdbc482507edd3c2b8",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 65,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00137.json",
+                "bytes": 1558157,
+                "rawBytesSha256": "36076ac6099d59d61c9a625525e883f9e89f46291fec912cf2ed38c192a7fc39",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 66,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00139.json",
+                "bytes": 1586024,
+                "rawBytesSha256": "7bda2cedc0c4f6f8caf49478389926cbfd492bb1a7a5ed3987afa75003478c19",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 67,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00141.json",
+                "bytes": 1591140,
+                "rawBytesSha256": "f19cf6025afc3d3876b914e38283572dd96933a3a27291b0112eb25964ccce80",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 68,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00143.json",
+                "bytes": 1595316,
+                "rawBytesSha256": "bdbd5292b3c7f7f41f62b9a6997c5e4fafa63c1ba6f32efca5ca4b34afd4f0ab",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 69,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00145.json",
+                "bytes": 1608320,
+                "rawBytesSha256": "54a3022ed1909129c82cf02ca549b03ccdf180afcc41bb93c5b89ed35b945ef6",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 70,
+              "method": "POST",
+              "pathTemplate": "/api/approval-records/{id}:approve",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00147.json",
+                "bytes": 1606999,
+                "rawBytesSha256": "c14cb7f8aa86dbb48114e8fdf01e6575ffbd4fd582fcf5d04567bcad83d41ea4",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 71,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00149.json",
+                "bytes": 1636133,
+                "rawBytesSha256": "79e1fa3fe854841fad43e99612b155597fc00d61eefe18e0c74b4460d67f3a2d",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 72,
+              "method": "GET",
+              "pathTemplate": "/api/contracts/{id}/approval-record",
+              "executionBackend": "nest",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00151.json",
+                "bytes": 1641418,
+                "rawBytesSha256": "e38a893ef22981493f89920901d1edaca83390fbb03461cb6620c95aaf175b17",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 73,
+              "method": "GET",
+              "pathTemplate": "/api/approval-records/{id}",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00154.json",
+                "bytes": 1646739,
+                "rawBytesSha256": "51df5fdb50dc5f04d4c58bad33baff5529a9632f0bf14a0a250106fe74e6d1fd",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 74,
+              "method": "GET",
+              "pathTemplate": "/api/attachments",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00156.json",
+                "bytes": 1651149,
+                "rawBytesSha256": "c87a942f3bdf33928449b6af4a4d6ed76a4daf1492bd11541f7ed0558a538069",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 75,
+              "method": "GET",
+              "pathTemplate": "/api/dictionaries",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00158.json",
+                "bytes": 1664270,
+                "rawBytesSha256": "1c4904907b4dc33896ccba3b71822875caa7fa985970fa1a89b868897d68a67d",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 76,
+              "method": "GET",
+              "pathTemplate": "/api/me/todos",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00160.json",
+                "bytes": 1661988,
+                "rawBytesSha256": "f95e5987352504436247e998dc86ee52cfa94c41b48d252b2ea032383ea79d7c",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 77,
+              "method": "POST",
+              "pathTemplate": "/api/auth/session:logout",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00162.json",
+                "bytes": 1668387,
+                "rawBytesSha256": "10255e5c061756ee40098959b781277aa067f26f2ff1c95f0e3e891f35df3880",
+                "private": true
+              }
+            },
+            {
+              "step": "actual-current-todo-approve",
+              "index": 78,
+              "method": "GET",
+              "pathTemplate": "/api/auth/identity-providers",
+              "executionBackend": "rust",
+              "status": 200,
+              "actualResponseTransportComplete": true,
+              "rawCertificate": {
+                "kind": "actual-UI-one-HTTP-producer-certification",
+                "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00164.json",
+                "bytes": 1673069,
+                "rawBytesSha256": "3df7eeacc2de84844e6ebaf6d7fefd3827df3350d98423cd02dc4e79a4a7cb37",
+                "private": true
+              }
+            }
+          ]
+        }
+      ],
+      "allOriginalRawEvidenceRetained": true,
+      "cleanups": [
+        {
+          "deleted": 65,
+          "localFilesChanged": 0
+        },
+        {
+          "deleted": 0,
+          "localFilesChanged": 0
+        }
+      ],
+      "writersStopped": true,
+      "PGObserverRestored": true,
+      "full107BeforeAfterRefs": [
+        {
+          "kind": "UI-global-full107-before-preparation",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00000.json",
+          "bytes": 432990,
+          "rawBytesSha256": "58ac773a6b7cb75c1f2e2901aa2190ac810627785e9598bcab0bad61d9e8786e",
+          "private": true
+        },
+        {
+          "kind": "UI-full107-after-double-zero",
+          "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-runs/rust-6d1369d1-d35b-4757-91ad-38b56a2d35fb/00168.json",
+          "bytes": 432982,
+          "rawBytesSha256": "f6277f2b111e928e598a26621fab75ea15820bf8ba5de4ef7d195397a0feeb13",
+          "private": true
+        }
+      ]
+    }
+  ]
+}

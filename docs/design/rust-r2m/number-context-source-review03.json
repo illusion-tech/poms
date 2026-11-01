@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-number-probe-run-context-incremental-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:02:55.981Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "priorReview": "docs/design/rust-r2m/number-lease-source-review02.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/number-lease.mjs",
+      "bytes": 7684,
+      "rawBytesSha256": "3e467f1e11b9f3b7f13bb1beeafe9deb438c3620e0542806aaa7bf9fa4cc346d",
+      "readLevel": "Complete current source; new allocated-context validation/private record; prior scope/absence/full107/CAS/zero source reused"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-extensions.mjs",
+      "bytes": 4761,
+      "rawBytesSha256": "1d92f5f2b2bb29c66e89ab3f8c0b5b849d4eea39904875d7d7e8046722072881",
+      "readLevel": "Complete current extension source; new nextContext allocation at Native number call only, existing finite Rust probe/restore owner paths reused"
+    }
+  ],
+  "assessment": [
+    "Native number run no longer invents m2.numbers/index0. Its caller supplies the same actual runtime allocator used for all run contexts, naming the current existing fixture case and m.internal-numbers operation.",
+    "Before entering the original SDK scope, the helper verifies same actual run ID, exact op, nonnegative safe integer index and existing fixture scope, privately records the allocated context, then uses the original Native admission function, which retains its own strict context validation.",
+    "Nine scopes/two before-absent synthetic years, actual Native independent EM behavior,18 full expected rows/xmin, fresh all107 incoming-reference scan, exact CAS delete and two fresh independent-PID zeros are unchanged. Default paired year8437 remains; no UUID ownership or new mutable borrow is granted.",
+    "The existing extension still permits only the two pinned Rust internal examples, seals the exact new-M Rust env before Native bootstrap, retains owned child/exit/private output evidence and requires actual complete output before capture. No M3-5 readiness is conferred by the context adapter."
+  ],
+  "verification": {
+    "CExecutedTestsOrApplicationsOrDBOrHTTP": false,
+    "CReadPrivate": false,
+    "RootReportedExistingPureNegativeChecks": 9,
+    "RootReportedPureExitCode": 0,
+    "priorExactSourceBodiesNotAvailableInPublicStore": "Old hashes were already reviewed; C read the complete current two small modules rather than claiming an unavailable original-store diff."
+  },
+  "executionBoundary": "This narrow context increment may enter the next source capsule. It does not sign the still-pending API8 original E header-precedence/certificate integration, full20 acceptance, UI, G3 or G4.",
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

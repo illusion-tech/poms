@@ -1,0 +1,136 @@
+{
+  "kind": "R2M-original-runner-QA-clone-precise-admission-plan",
+  "status": "SourceReady-candidate-not-executed",
+  "namespace": "poms-r2m",
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "parentMarker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "cluster": {
+    "host": "127.0.0.1",
+    "port": 20432,
+    "serverPort": 15432,
+    "version": "150012",
+    "isolated": "on",
+    "owner": "poms_r0e_owner",
+    "container": "poms-r2m-pg15",
+    "volume": "poms-r2m-pg15-data"
+  },
+  "privateRoot": "/home/wangzishi/.local/share/poms-r2m/private/qa",
+  "markerSchema": "r2m_qa_control",
+  "sourceEvidenceRequirement": "Full107 current M seed equals initial new-M seed after real fixture double-zero; original new-M private full-facts references plus current source capture. All writers/ports stopped before clone; no terminate_backend.",
+  "resources": [
+    {
+      "id": "nest-api",
+      "database": "poms_r2m_qa_nest_api",
+      "template": "poms_r2m_nest",
+      "backend": "nest",
+      "role": "poms_r2m_qa_nest_api_app",
+      "marker": "23949557-c6d4-4b20-9524-71196b7cf3ce",
+      "envFile": "/home/wangzishi/.local/share/poms-r2m/private/qa/nest-api.env",
+      "passwordFile": "/home/wangzishi/.local/share/poms-r2m/private/qa/nest-api-app-password",
+      "objectRoot": "/home/wangzishi/.local/share/poms-r2m/objects/qa/nest-api/server01",
+      "beforeAbsent": {
+        "database": true,
+        "role": true,
+        "envFile": true,
+        "passwordFile": true,
+        "objectRoot": true
+      },
+      "ownership": "whole newly cloned QA database and new named role/env/object namespace only; no M row adoption",
+      "port": 10070,
+      "phases": [
+        "foundation-nest",
+        "nest-full"
+      ],
+      "dataRetention": "retain exact QA database and data with original phase outcome labels; never reseed or drop automatically"
+    },
+    {
+      "id": "rust-foundation",
+      "database": "poms_r2m_qa_rust_foundation",
+      "template": "poms_r2m_rust",
+      "backend": "rust",
+      "role": "poms_r2m_qa_rust_foundation_app",
+      "marker": "b468f0fb-f38b-48b0-9d28-b36ebffbf2ca",
+      "envFile": "/home/wangzishi/.local/share/poms-r2m/private/qa/rust-foundation.env",
+      "passwordFile": "/home/wangzishi/.local/share/poms-r2m/private/qa/rust-foundation-app-password",
+      "objectRoot": "/home/wangzishi/.local/share/poms-r2m/objects/qa/rust-foundation/server01",
+      "beforeAbsent": {
+        "database": true,
+        "role": true,
+        "envFile": true,
+        "passwordFile": true,
+        "objectRoot": true
+      },
+      "ownership": "whole newly cloned QA database and new named role/env/object namespace only; no M row adoption",
+      "port": 10071,
+      "phases": [
+        "foundation-rust"
+      ],
+      "dataRetention": "retain exact QA database and data with original phase outcome labels; never reseed or drop automatically"
+    },
+    {
+      "id": "nest-legacy",
+      "database": "poms_r2m_qa_nest_legacy",
+      "template": "poms_r2m_nest",
+      "backend": "nest",
+      "role": "poms_r2m_qa_nest_legacy_app",
+      "marker": "d63b5df0-b7f0-4ebc-a422-9699bc872755",
+      "envFile": "/home/wangzishi/.local/share/poms-r2m/private/qa/nest-legacy.env",
+      "passwordFile": "/home/wangzishi/.local/share/poms-r2m/private/qa/nest-legacy-app-password",
+      "objectRoot": "/home/wangzishi/.local/share/poms-r2m/objects/qa/nest-legacy/server01",
+      "beforeAbsent": {
+        "database": true,
+        "role": true,
+        "envFile": true,
+        "passwordFile": true,
+        "objectRoot": true
+      },
+      "ownership": "whole newly cloned QA database and new named role/env/object namespace only; no M row adoption",
+      "port": 10070,
+      "phases": [
+        "legacy"
+      ],
+      "dataRetention": "retain exact QA database and data with original phase outcome labels; never reseed or drop automatically"
+    }
+  ],
+  "rolePolicy": {
+    "login": true,
+    "inherit": false,
+    "superuser": false,
+    "createDB": false,
+    "createRole": false,
+    "bypassRls": false,
+    "replication": false,
+    "connectionLimit": 20,
+    "noMarkerAccess": true,
+    "noSourceDatabaseAclChanges": true,
+    "explicitGrantsOnlyQAConnectAndPomsDML": true
+  },
+  "ports": {
+    "pg": 20432,
+    "native": 10070,
+    "rust": 10071,
+    "ui": 10080,
+    "serial": true
+  },
+  "rawReportsPrivate": true,
+  "unchangedOriginalTests": true,
+  "legacy": {
+    "suite": "legacy",
+    "files": 8,
+    "historicalCases": 36,
+    "historicalRouteMocked": 11,
+    "mockedResultsNotActualRustAcceptance": true
+  },
+  "notClaimed": [
+    "all291 Rust migration",
+    "allR3-R5 producers migrated",
+    "M two-database per-row cleanup by QA whole-resource ownership",
+    "old environment reused",
+    "G3/G4/actual results"
+  ],
+  "authority": {
+    "file": "tools/rust-r2m/reference-authority.json",
+    "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+  },
+  "protectedMAccess": "No QA role membership or M table privileges; M ACLs unchanged. PUBLIC CONNECT may exist and is not represented as a QA app grant."
+}

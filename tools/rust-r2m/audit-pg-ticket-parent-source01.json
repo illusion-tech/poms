@@ -1,0 +1,139 @@
+{
+  "kind": "POMS-R2M-original-PG6d9-existing-ticket-audit-parent-source-investigation",
+  "result": "specific-source-omission-awaiting-Root-actual-scope-booleans",
+  "owner": "/root/r2m_delivery_audit",
+  "trigger": {
+    "runId": "561e7b81-4baa-4502-9b80-f5ce2028457a",
+    "RootTag": "ar3exta",
+    "caseId": "m5.integration",
+    "index": 15,
+    "op": "m.http",
+    "RootReported": "POST external-login-sessions200; actual NULL-request ticket-consumed audit matches5-key immutable intent; only newauth_session has actual PG event, existingticket audit has none. No query-only adoption."
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75059,
+      "rawBytesSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3",
+      "readLevel": "Only current public source and exact predicate sections",
+      "anchors": [
+        {
+          "needle": "export const observedTables",
+          "lines": [
+            24
+          ]
+        },
+        {
+          "needle": "const neededParents = new Set",
+          "lines": [
+            319
+          ]
+        },
+        {
+          "needle": "if (!neededParents.has(item.table)) continue",
+          "lines": [
+            321
+          ]
+        },
+        {
+          "needle": "knownRows.push",
+          "lines": [
+            326
+          ]
+        },
+        {
+          "needle": "auditStorageRequestId",
+          "lines": [
+            170,
+            364
+          ]
+        },
+        {
+          "needle": "case_index=c.case_index",
+          "lines": [
+            93,
+            171
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1",
+      "readLevel": "Only current public source and exact predicate sections",
+      "anchors": [
+        {
+          "needle": "step:'ticket'",
+          "lines": [
+            32
+          ]
+        },
+        {
+          "needle": "targetType:'ExternalLoginTicket'",
+          "lines": [
+            31,
+            32
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/fixture-external-audit-identity.mjs",
+      "bytes": 13798,
+      "rawBytesSha256": "b2584b70416f5a480bf8dfabce0b7e5da9cbb36a8b1ecc55501e3604fad1682a",
+      "readLevel": "Only current public source and exact predicate sections",
+      "anchors": [
+        {
+          "needle": "externalAuditForIntent",
+          "lines": [
+            32,
+            33
+          ]
+        },
+        {
+          "needle": "generatedParentMatches",
+          "lines": [
+            34,
+            38
+          ]
+        }
+      ]
+    }
+  ],
+  "staticFindings": {
+    "externalLoginTicketIsObservedGeneratedTable": true,
+    "neededParentsContainsExternalLoginTicket": false,
+    "knownRowsAndKnownIdsLoopFirstFiltersNeededParents": true,
+    "sameCaseAloneCannotBypassEarlyFilter": true,
+    "auditTargetNeeds": "target in knownIds/knownTextTargets OR a same observer/run/case/case_index event source_id equals target",
+    "sameIndexAuthSessionIsNotTicketTarget": true,
+    "issuedAuditDifference": "Earlier ticket-issued creation can match the same-index ticket INSERT event. Later consumed audit targets that already-owned prior-index ticket, requiring the knownIds path.",
+    "conclusion": "If Root actualscope confirms target absent from knownIds and no same-index target event, permitted=false explains missing audit event even when immutable selector matches. This is observer coverage, not evidence of a product failure."
+  },
+  "RootSafeBooleansNeeded": [
+    "actual ticket target is in scope.knownIds",
+    "actual same table/id ticket appears in scope.knownRows",
+    "audit operator is in scope.actors",
+    "scope owns auditStorageRequestId property and value is null",
+    "same index15 exported event has ticket target source_id",
+    "exact immutable matching audit intent count is1/contextIndex15"
+  ],
+  "futureNarrowDirection": {
+    "notImplemented": true,
+    "permissionChangeAuthorized": false,
+    "possibleFix": "Only include existing explicit owned external_login_ticket in neededParents; retain original readOwned/current immutable identity+postcondition, exact same-case/base/explicit-scope filter, before-intent uniqueness/PKabsence/max and index/run/op/role/marker guards.",
+    "doesNotAuthorize": "No arbitrary existing ticket, no query/responseID adoption, no new observer table or general unknown-target exception. Do not rewrite original6d9 journal/capture or retroactively manufacture a PG birth certificate."
+  },
+  "boundaries": {
+    "privateRead": false,
+    "envRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "originalGuardEdited": false,
+    "generationOrCertificationChanged": false,
+    "identityAdoption": false,
+    "actualOrG3Claim": false
+  }
+}

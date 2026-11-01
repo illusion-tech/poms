@@ -1,0 +1,138 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-M0-URI-runtime-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T19:55:34.810Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "approvedModes": [
+    "surface",
+    "uri"
+  ],
+  "approvedSubsets": [
+    "M0",
+    "URI"
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-runtime.mjs",
+      "bytes": 33391,
+      "rawBytesSha256": "beb733345b760cb445dc35a0a926d1298b0beaab6c8ecad8b75cd75d6eca14eb",
+      "readLevel": "runtime preparation/transport/intent/certificate/full107 projection/cleanup/failure/CLI paths; final sourceId and global-before deltas"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance.mjs",
+      "bytes": 19744,
+      "rawBytesSha256": "7cde9417500668a967a5cf242e24c0fbd5dfbacb9077569e76068d9b77ca1f1d",
+      "readLevel": "runProbeMatrix, certification, pending/comparison/closeout boundaries; API20 bodies not certified here"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b",
+      "readLevel": "full source/cap validation"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-input.mjs",
+      "bytes": 46053,
+      "rawBytesSha256": "543627852d74ead5838569e25650e19715c6d83ab6cb85220aab493b997774f7",
+      "readLevel": "surface/URI constructors and parameter binding; other20 recipes outside this approval"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc",
+      "readLevel": "assertResponse, full fact-frame validation, certification/public redaction boundary"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594",
+      "readLevel": "full"
+    }
+  ],
+  "fixtureEpoch": {
+    "input": "tmp/rust-r2m/first-subset-approved-fixture01.json",
+    "bytes": 8869,
+    "rawBytesSha256": "e9eebe3152be92ccd68f3a0cd95a81752c469392b37751bdc5664ba9f6777b6f",
+    "originalReceiptSha256": "e16bf8a1e44d81c5e97b4779cd0c0e517328ca7406ec565b302351a5d6e792e4",
+    "files": 27,
+    "boundary": "Root's exact old approved Linux fixture epoch, not later Windows M4 changes; declaration and small metadata read, no repeated large tree."
+  },
+  "supportingObserver": {
+    "file": "tools/rust-r2m/pg-create-observer.mjs",
+    "rawBytesSha256": "cfb82cebf18e1a04dd5d2205e87af26bb073e90f4453482c0d27a7c837ef7edd",
+    "review": "docs/design/rust-r2m/pg-observer-source-review01.json"
+  },
+  "acceptedSourceConclusions": [
+    "Only explicit Root --run opens the new private/DB/HTTP resources. Import/source checks read no environment or private data; fixed Linux root/backend/tag and public cap inputs are validated.",
+    "SourceReader admits only pinned public source files, rejects path/symlink/private/runtime-tree escape, verifies raw bytes and cap manifest/artifact identities and checks source stability.",
+    "Transport is fixed loopback10070/10071 with per-run cookie jars and fixed routing before dispatch; no candidate-error fallback to Native.",
+    "Each request gets immutable audit/security/session intents, one source-case/index context, actual Native SDK or Rust PG certificates and independent fixture adoption; responses/query IDs do not grant ownership.",
+    "The final seven canonical path bindings, including sourceId, are shared by actual and --check. All115 surface requests are constructible before Fixture.open.",
+    "The complete global107 baseline is now retained privately before fixture.prepare. Per-step complete private facts and full107 outside-scope hashes remain required.",
+    "Failed dependency errors are retained privately before generic public failure categories. Preparation failures independently attempt every owner/observer/client close without replacing the original error.",
+    "Normal close attempts all owners and observer restore. Only confirmed close/restoration permits drain and exact two cleanup attempts; failures retain partial/recovery labels.",
+    "Output is observed/comparisonPending, not test/G3/G4 Pass. M0 planned115 and URI planned27 remain execution counts only after actual output."
+  ],
+  "closedFindings": [
+    {
+      "id": "C-RUNTIME-01",
+      "finding": "A single prepare-failure try could skip later resource closes if the first owner close threw.",
+      "resolution": "Each Rust/Native/PG restore and final fixture client close has an independent attempt and private failure receipt."
+    },
+    {
+      "id": "C-RUNTIME-02",
+      "finding": "The db22 runtime omitted surface.sourceId and failed after bootstrap but before115 construction.",
+      "resolution": "Final runtime uses actualSurfaceBindings with all seven current canonical parameter names and pre-I/O construction in actual and --check.",
+      "reviewerDisclosure": "C's earlier text source-readiness review missed this constructor consistency check; the follow-up static parameter set independently confirmed it.",
+      "historicalRun": "nest/m0n02/2016c675-fdb1-4ec6-908b-9c07fc55821d",
+      "historicalResult": "tool failure; no matrix observation; bootstrap is not115 coverage"
+    },
+    {
+      "id": "C-RUNTIME-03",
+      "finding": "The original full107 global baseline was kept only in memory.",
+      "resolution": "Final runtime privately retains it immediately before prepare. No retroactive raw baseline is claimed for the earlier failed run."
+    }
+  ],
+  "historicalPublicEvidence": {
+    "file": "tmp/rust-r2m/acceptance-nest-m0n02.json",
+    "bytes": 3528,
+    "rawBytesSha256": "2136072c4b2ff918bd80e096a5658ad13e89749375ebf8e9dfbe502a9a9e6869",
+    "readLevel": "C independently read public report via the approved new Linux checkout; private evidence paths were not opened",
+    "result": "partial-preserved",
+    "matrixObservationPresent": false,
+    "observerEvents": 3,
+    "scope": "failed bootstrap/setup epoch only"
+  },
+  "actualUseLimits": [
+    "Use a new source-cap delta binding this exact final runtime; do not relabel a80/8a/db22 or prior failed runs as the final epoch.",
+    "This SourceReady approves surface/URI only. M1/API20, UI and new M3-M5 extensions require their applicable bounded source/actual qualification.",
+    "Run actual --check before the first request. Actual115/27 results require current raw request/response/fact/certificate records and cross-backend complete comparison.",
+    "A failed run with unperformed cleanup remains partial. Preserve its original source/report/ledger input before any recovery and complete exact owned recovery before final G3.",
+    "Only final closeout plus actual double-zero, source stability and retained evidence can support runtime completion; no Pass is inferred from public fixed categories or a source review."
+  ],
+  "reportedPureEvidence": {
+    "authority": "B/Root reports; C read definitions/necessary deltas but did not execute tests",
+    "scenarioTests": "8 passed,0 skipped",
+    "runtimeSyntax": "passed",
+    "constructor": "115 paths/7 parameter names checked before actual I/O"
+  },
+  "unresolvedSourceBlockers": [],
+  "executionByReviewer": {
+    "testsRun": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateReads": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

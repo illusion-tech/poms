@@ -1,0 +1,68 @@
+{
+  "kind": "R2M-owned-browser-fixed-UI10080-compatibility-source-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "priorFailureReview": {
+    "file": "docs/design/rust-r2m/ui-failure-source-review01.json",
+    "bytes": 6384,
+    "rawBytesSha256": "959d94df437472c95df7abdba1ecc713168b6cc9c0cca86744d5a7491b4c0b86"
+  },
+  "beforeSourceBytes": {
+    "file": "tools/rust-r2m/ui-port-before-source01.json",
+    "bytes": 76265,
+    "rawBytesSha256": "0549f5bd1152f365e56564484b63f787eea0d19f885abaf47275351a43a37c12"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 4159,
+      "rawBytesSha256": "14883f21772ed8f19089270c2fd347061872154636ca435388c303e25016ac76"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22897,
+      "rawBytesSha256": "296509f40f81ca2d9a3c68e45bc0d0e3078e036dc5afb4f7af76c38a20aa789a"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28480,
+      "rawBytesSha256": "1b623728b3addd4b8c0071ec7926269f8dd2d7fcb06c257acd9b0c31fa6b845f"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-playwright.config.mjs",
+      "bytes": 1476,
+      "rawBytesSha256": "49f698f19d181b38fea1e3dee05531249e84ae450a990c6d2cdb4b9cd5b220a7"
+    },
+    {
+      "file": "tools/rust-r2m/ui-browser-port.test.mjs",
+      "bytes": 466,
+      "rawBytesSha256": "6ee38ce5e5978456e230e017f5d363ce3cd75e6feb0b218293ef4eff75d23c1c"
+    }
+  ],
+  "scope": "Exactly --explicitly-allowed-ports=10080 in task-owned Chromium launch options. Original fixed G1 UI/API ports, Node/OS profile, business assertions, auth/CSRF/role guards and raw API routing unchanged. Same narrow child flag on QA original legacy.",
+  "sources": [
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/master/net/base/port_util.cc",
+      "finding": "Chromium kRestrictedPorts includes10080 Amanda; source excerpt read only."
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/HEAD/headless/public/switches.h",
+      "finding": "Headless supports explicitly-allowed-ports for a specific port list."
+    }
+  ],
+  "UI09Cause": "Strong source hypothesis, not recovered actualError. Old UI09 remains Unknown/partial; new failure hook and actual Root run determine current result.",
+  "pure": {
+    "passed": 15,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-port-source01-pure.txt",
+      "bytes": 3658,
+      "rawBytesSha256": "f13e4dbc8a2465b95ec2e820107bc042d815a08e4e96e3749bfd497c700a09fe"
+    },
+    "syntaxFiles": 5,
+    "browser": 0,
+    "HTTP": 0,
+    "DB": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

@@ -1,0 +1,82 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-URI-and-launcher-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T18:54:36.046Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "apps/poms-api-rust/src/http.rs",
+      "bytes": 21865,
+      "rawBytesSha256": "a148595721a4eb8d95b6fafe4f2665295fef9082d8f5a13024949de0684dc8b5",
+      "readLevel": "complete change plus wrap_router, not_found and observe/CORS context"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/http.rs",
+      "bytes": 24681,
+      "rawBytesSha256": "1bd1c1d43c8d3b1b108414d1128b73709df8f57570916b10dba19ad87a3bc022",
+      "readLevel": "new test and application/json_response helpers"
+    },
+    {
+      "file": "tools/e2e/api-server.cjs",
+      "bytes": 5414,
+      "rawBytesSha256": "fcc1e6b8507e3809a586852d5d6c58d82113f2a16e96ff11a4963b9bdec5ef95",
+      "readLevel": "complete profile/managed/external branch and exact diff"
+    }
+  ],
+  "representationUpdate": {
+    "priorReviewedTestRawBytesSha256": "14e1e34eecbd9f4ec0410d9027ff028203283c9bbd521ccde296be51c7954912",
+    "reason": "Root's final cargo fmt representation was promoted to Windows; current raw pin independently checked, no semantic re-review required.",
+    "finalTestRawBytesSha256": "1bd1c1d43c8d3b1b108414d1128b73709df8f57570916b10dba19ad87a3bc022"
+  },
+  "supportingSource": {
+    "file": "apps/poms-api-rust/src/auth/cookie.rs",
+    "readLevel": "existing decode_uri_component implementation only; unchanged source"
+  },
+  "correctiveCheckpoint": {
+    "file": "docs/design/rust-r2m-corrective-checkpoint.md",
+    "rawBytesSha256": "98d91ff613385aaf5fbed4bcbdd8c2cdec28b162ed1c5c77cd3cd4a56d84245e",
+    "reason": "Current Native controls, reported by Root, establish the global wildcard decode order. The original matched-route-only hypothesis is superseded explicitly in the corrective checkpoint, not by rewriting G1."
+  },
+  "acceptedSourceConclusions": [
+    "The outer order is observe/CORS, body_parser, decode_path_segments, existing per-module normalizers and dispatch/guards.",
+    "The new middleware validates raw path segments with the existing strict percent/UTF8 decoder. It discards decoded strings, never replaces request URI and does not validate query text.",
+    "Legitimate encoded paths retain their previous dispatch behavior; the validator creates no alias, route, DTO or OpenAPI operation.",
+    "Bad path validation returns the recorded Native-style 400 error through existing ApiError. CORS and malformed body behavior remain ahead of it.",
+    "The API launcher only adds an explicit r2m profile and the new managed-environment branch. External returns before any managed require/load/build/seed/stop.",
+    "The new test separates 400 JSON errors from existing text/html404 and does not include query text in the existing not_found path message."
+  ],
+  "closedSourceFinding": {
+    "id": "C-URI-SOURCE-01",
+    "initialTestSha256": "de7d477d4d23c349e0dcc8e589ba0b6f413b55d60fd4aafcd154afdd478872ad",
+    "finding": "Initial valid-path controls attempted JSON parsing of the unchanged HTML404 and expected query text in a path-only message.",
+    "resolution": "Root changed only the test to read HTML, assert content type and preserve the existing path-only message; product404 behavior was not changed.",
+    "actualFailureClaimedByC": false
+  },
+  "evidenceBoundary": {
+    "native19": "Root-reported current actual controls, with full107 before/after summaries and stopped owners. C has not independently read the original runtime result in this source review.",
+    "newRustTest": "source reviewed; no test execution by C",
+    "fullUri27AuthMatrix": "pending actual acceptance",
+    "currentRustCommonChecks": "Root reports candidate02 five groups exit0 and retains candidate01 HTML404 test failure; original runtime/check receipts are not independently certified in this source review",
+    "runtimeEvidenceForG3": "must bind actual candidate/source/binary and preserve failures/partial labels"
+  },
+  "unresolvedSourceBlockers": [],
+  "nextAction": "Root may build/test the current candidate and run the bounded real URI comparison under the frozen new R2M environment. This source review certifies no actual response, data invariance, G3 or G4.",
+  "executionByReviewer": {
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "testsRun": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateReads": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

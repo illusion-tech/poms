@@ -1,0 +1,101 @@
+{
+  "kind": "R2M-owned-UI-proxy-request-and-evidence-close-source-candidate",
+  "result": "source-only-awaiting-independent-source-review",
+  "owner": "/root/r2m_delivery_audit",
+  "sourceConclusion": {
+    "confirmedOldGap": "Async http.createServer callback was untracked. close waited sockets/forwarded/already-created pendingEvidence but not active or queued request handlers. finish registers its retainer/certificate promise only after the handler resumes. A socket close therefore could precede later HTTP/hook/retainer work.",
+    "oldClosedFlag": "Old close marked closed before waiting and later close calls returned immediately.",
+    "RootReportedOriginalShape": "uir3a raw43 retained after report.finishedAt; original AppQuiet failure and all owner/PG recovery evidence stay with Root",
+    "soleActualCauseVerdict": false,
+    "privateRawReadByA": false
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 13688,
+      "rawBytesSha256": "3103219a2d7a7ee7f80ba916cb5a6448eb172e5cd63cb365f800cc2af16b1a6d"
+    }
+  ],
+  "before": {
+    "file": "tools/rust-r2m/ui-server-close-before-source01.json",
+    "bytes": 14657,
+    "rawBytesSha256": "2395ad2b3538255a6d2fb9aa7435c54bee25d9fa7dcf5a524d2c7f1a764d0991"
+  },
+  "oldSource": {
+    "file": "tools/rust-r2m/ui-runtime-server.mjs",
+    "bytes": 10782,
+    "rawBytesSha256": "6a2053abec075d1919816e2a411c8863cd4cf4511ea279de82e672dbad9d3cae"
+  },
+  "completeDelta": {
+    "file": "tools/rust-r2m/ui-server-close-source01.diff",
+    "bytes": 10569,
+    "rawBytesSha256": "b11d849143fa8cb55da499e6aa65f9483ae718daf938c9f67014e4938cb0161e"
+  },
+  "behavior": {
+    "track": [
+      "whole accepted request handler including queued before-exchange work",
+      "owned upstream close",
+      "raw HTTP retainer plus after-exchange certificate hook",
+      "original-error private retainer"
+    ],
+    "successfulClose": "Stop accepting, await real transport closure and all tracked promises including nested/later registrations; assert actual socket/forward/handler/evidence/active counts0; only then closed=true",
+    "idempotent": "One closePromise is shared while pending, after success and after failure; no early closed shortcut",
+    "deadline": "Reuse existing10000ms close bound. No fixed quiet sleep is added. An expiry records real outstanding counts and rejects; it cannot later mutate to closed success.",
+    "forceScope": "Only already-owned socket/upstream sets are destroyed on the existing bound; no process kill or global stop",
+    "originalErrors": "Original name/message/stack/code retained only through new-M private callback. Close rejects the first actual original error after settled work; public report carries fixed stage/category and private hash references.",
+    "failedReceipt": "closed=false plus closeIncomplete/real closeCounts; timed-out work retains unsettledAtTimeout, no fabricated zero or retrospective success",
+    "unchanged": [
+      "exact original request path/headers/body forwarding",
+      "original dispatch/status/response bytes",
+      "No HTTP or business retry",
+      "No fixture guard/ownership/table/producer authorization change",
+      "Root owns all actual API/DB/PG restoration and late recovery"
+    ]
+  },
+  "pure": {
+    "newDeferredTests": 5,
+    "combinedLog": {
+      "file": "tools/rust-r2m/ui-server-close-source01-pure-final.txt",
+      "bytes": 6103,
+      "rawBytesSha256": "45f69133fcbc0d0a669918a3a55e2efb4d321b00580636f3f9b9513d45341e13"
+    },
+    "combinedTests": 29,
+    "pass": 29,
+    "fail": 0,
+    "initialFourTestLogPreserved": {
+      "file": "tools/rust-r2m/ui-server-close-source01-pure-initial.txt",
+      "bytes": 1184,
+      "rawBytesSha256": "ed88a6499b423615e7c60c1d5db647d3b9b961691f1ff14d9b6f60cbe398e5ef"
+    },
+    "newTestSource": {
+      "file": "tools/rust-r2m/ui-server-close-source01.test.mjs",
+      "bytes": 8844,
+      "rawBytesSha256": "00d9086f96f87408585a8b9c40e3987fd6d9b15b308d6a5396292ca88bd908d6"
+    },
+    "method": "Execute actual production factory function in VM over in-memory EventEmitters and explicitly deferred before/HTTP/raw/after/error-retention promises; fake listen/request never open a port or network",
+    "cases": [
+      "already-closed socket with queued before-hook cannot complete close",
+      "later owned upstream/raw/after work all awaited",
+      "same original before/after errors preserved until their private retention completes",
+      "raw retention failure cannot run false after-certificate",
+      "existing timeout records outstanding handlers and cannot become later success"
+    ],
+    "lexical": {
+      "file": "tools/rust-r2m/ui-server-close-source01-no-undef.json",
+      "bytes": 540,
+      "rawBytesSha256": "19be14ba31501a3c1d5bf9dc3db23f6c0d8a7aa3123c4d9810ea0c6d4597468f"
+    },
+    "lexicalMessages": 0,
+    "actualHTTP": false,
+    "actualBrowser": false,
+    "actualDB": false,
+    "privateRead": false,
+    "container": false
+  },
+  "RootCopyRuntime": [
+    "tools/rust-r2m/ui-runtime-server.mjs"
+  ],
+  "RootNext": "Independent necessary diff review, then Root copies only the new server bytes into its next exact source epoch. It does not retroactively repair an old closed receipt or prove PG AppQuiet. Old future source/union05 remain immutable; new matching Windows union needs additive server pin.",
+  "G3": false,
+  "G4": false
+}

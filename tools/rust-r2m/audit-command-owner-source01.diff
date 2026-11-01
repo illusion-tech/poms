@@ -1,0 +1,97 @@
+--- original/tools/e2e/runtime.cjs
++++ M-only/tools/rust-r2m/command-owner.cjs
+@@ -1,4 +1,5 @@
+-// One owned-process implementation for API Jest and browser Playwright.
++// R2M-only command derivative of the complete original mature E2E owner.
++// Only command execution may reach900s; startup/ownership/stop remain bounded.
+ const { spawn, execFile } = require('node:child_process');
+ const { randomUUID } = require('node:crypto');
+ const fs = require('node:fs');
+@@ -16,6 +17,48 @@
+ function fail(message) {
+     throw new Error(`E2E runtime: ${message}`);
+ }
++
++// R2M-only command admission. No filesystem/process operation occurs on import.
++const M_ROOT = '/home/wangzishi/projects/poms-rust-r2m';
++const M_PRIVATE = '/home/wangzishi/.local/share/poms-r2m/private';
++const M_LOGS = M_PRIVATE + '/execution-logs';
++function commandBudget(value) {
++    const number = value === undefined ? 180000 : Number(value);
++    if (!Number.isSafeInteger(number) || number < 1 || number > 900000) fail('invalid M command timeout');
++    return number;
++}
++function startupBudget(value) {
++    const number = value === undefined ? 60000 : Number(value);
++    if (!Number.isSafeInteger(number) || number < 1 || number > 60000) fail('invalid M startup timeout');
++    return number;
++}
++function mCommandOptions(options) {
++    if (!options || Object.keys(options).some((key) => !['executable', 'args', 'cwd', 'env', 'logPath', 'runId', 'timeoutMs', 'startupTimeoutMs'].includes(key))) fail('invalid M command options');
++    if (process.platform !== 'linux' || process.cwd() !== M_ROOT || options.cwd !== M_ROOT || options.executable !== process.execPath) fail('invalid M command runtime scope');
++    if (!Array.isArray(options.args) || options.args.some((arg) => typeof arg !== 'string' || arg.includes('\0')) || options.args[0] !== 'tools/rust-r2m/acceptance-api-runtime.mjs' || options.args.filter((arg) => arg === '--run').length !== 1) fail('invalid M command entry');
++    const flag = (name) => { const positions = options.args.flatMap((arg, index) => arg === name ? [index] : []); if (positions.length !== 1) fail('invalid M command identity'); return options.args[positions[0] + 1]; };
++    const backend = flag('--backend'), tag = flag('--tag');
++    if (!['nest', 'rust'].includes(backend) || flag('--mode') !== 'api' || !/^[a-z0-9-]{1,24}$/.test(tag ?? '')) fail('invalid M command identity');
++    if (options.logPath !== M_LOGS + '/acceptance-' + backend + '-' + tag + '.log') fail('invalid M owned log namespace');
++    if (!options.env || typeof options.env !== 'object' || Array.isArray(options.env) || Object.entries(options.env).some(([key, value]) => !['PATH', 'HOME', 'LANG'].includes(key) || typeof value !== 'string' || value.includes('\0') || value !== process.env[key])) fail('invalid M command environment');
++    const runId = options.runId === undefined ? 'r2m-api-' + randomUUID() : options.runId;
++    if (typeof runId !== 'string' || !/^r2m-api-[A-Za-z0-9_-]{8,64}$/.test(runId) || runId.length > 80) fail('invalid M ownership run identity');
++    return { ...options, runId };
++}
++function validateMPaths(logPath) {
++    for (const root of [M_ROOT, M_LOGS]) {
++        let current = '/';
++        for (const part of root.split('/').filter(Boolean)) {
++            current = path.join(current, part); const stat = fs.lstatSync(current);
++            if (!stat.isDirectory() || stat.isSymbolicLink()) fail('invalid M owned directory');
++        }
++        if (fs.realpathSync(root) !== root) fail('invalid M owned real directory');
++    }
++    for (const directory of [M_PRIVATE, M_LOGS]) if ((fs.lstatSync(directory).mode & 0o077) !== 0) fail('invalid M private directory mode');
++    const stat = fs.lstatSync(logPath);
++    if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1 || (stat.mode & 0o777) !== 0o600 || fs.realpathSync(logPath) !== logPath || typeof fs.constants.O_NOFOLLOW !== 'number') fail('invalid M precreated private log');
++}
++
+ function bounded(value, fallback, name) {
+     const number = value === undefined ? fallback : Number(value);
+     if (!Number.isSafeInteger(number) || number < 1 || number > 300000) fail(`invalid ${name}`);
+@@ -226,13 +269,17 @@
+         fail('invalid owned launch input');
+     if (!['linux', 'win32'].includes(process.platform)) fail('unsupported process ownership platform');
+     bounded(timeoutMs, 60000, 'startup timeout');
++    if (timeoutMs > 60000) fail('invalid M startup timeout');
+     if (logPath === undefined) logPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'poms-e2e-owned-')), 'server.log');
+     if (!path.isAbsolute(logPath) || !logPath.endsWith('.log') || (fs.existsSync(logPath) && fs.lstatSync(logPath).isSymbolicLink())) fail('invalid owned log path');
+     fs.mkdirSync(path.dirname(logPath), { recursive: true });
+-    const fd = fs.openSync(logPath, 'a', 0o600);
++    const beforeLog = fs.lstatSync(logPath);
++    const fd = fs.openSync(logPath, fs.constants.O_WRONLY | fs.constants.O_APPEND | fs.constants.O_NOFOLLOW, 0o600);
+     let child;
+     try {
+-        child = spawn(process.execPath, [path.join(__dirname, 'runtime-worker.cjs')], { cwd, env: systemEnvironment(), detached: true, windowsHide: true, stdio: ['ignore', fd, fd, 'ipc'] });
++        const openedLog = fs.fstatSync(fd);
++        if (!openedLog.isFile() || openedLog.nlink !== 1 || (openedLog.mode & 0o777) !== 0o600 || ['dev', 'ino', 'size', 'mtimeMs', 'ctimeMs'].some((key) => beforeLog[key] !== openedLog[key])) fail('M owned log changed before open');
++        child = spawn(process.execPath, [path.join(__dirname, '../e2e/runtime-worker.cjs')], { cwd, env: systemEnvironment(), detached: true, windowsHide: true, stdio: ['ignore', fd, fd, 'ipc'] });
+     } finally {
+         fs.closeSync(fd);
+     }
+@@ -301,8 +348,10 @@
+     }
+ }
+ async function runOwnedCommand(options) {
+-    const timeoutMs = bounded(options.timeoutMs, 180000, 'command timeout');
+-    const handle = await launchOwned({ ...options, kind: 'command', timeoutMs });
++    options = mCommandOptions(options);
++    const timeoutMs = commandBudget(options.timeoutMs), startupTimeoutMs = startupBudget(options.startupTimeoutMs);
++    validateMPaths(options.logPath);
++    const handle = await launchOwned({ ...options, kind: 'command', timeoutMs: startupTimeoutMs });
+     const record = owned.get(handle);
+     try {
+         const deadline = Date.now() + timeoutMs;
+@@ -314,4 +363,4 @@
+         await stopOwned(handle, { graceMs: 250, killMs: 3000 });
+     }
+ }
+-module.exports = { resolveTarget, validateApiReady, assertPortAvailable, waitForReadiness, startOwned, stopOwned, runOwnedCommand };
++module.exports = { stopOwned, runOwnedCommand };

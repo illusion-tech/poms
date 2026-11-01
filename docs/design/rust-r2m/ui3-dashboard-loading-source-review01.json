@@ -1,0 +1,105 @@
+{
+  "kind": "POMS-R2M-independent-UI3-dashboard-technical-readiness-source-review",
+  "reviewedAtUtc": "2026-10-31 02:18:29 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "step": "UI3.todo-detail-reject",
+    "old28AndA8aeCompatible": true,
+    "new31NotRequired": true,
+    "productModified": false,
+    "oldFailureCauseUnproven": true,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25929,
+      "rawBytesSha256": "82a7d6e2a02bfc2afb95e51ec4fcd40c957892ed2c45b2afd005b36a6efc5dee"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/dashboard/workbench.ts",
+      "bytes": 10214,
+      "rawBytesSha256": "67f207484c9b9b7fadd7a2ce038425f6b50b24225fd7747389f37faf85c749a1"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8543,
+      "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661"
+    },
+    {
+      "file": "apps/poms-admin/src/app.config.ts",
+      "bytes": 5633,
+      "rawBytesSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-main.ts",
+      "bytes": 4911,
+      "rawBytesSha256": "5ae93a7e2ef410c39e814d394f1c71b8f1b973671d73cbc89c345db51cdd3a50"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    }
+  ],
+  "input": {
+    "file": "tools/rust-r2m/ui3-dashboard-loading-source01.json",
+    "bytes": 4043,
+    "rawBytesSha256": "1eece965218d07031351ce017a09432f6ab96c1630b16a35d188c2f1e552fe02"
+  },
+  "before": {
+    "file": "tools/rust-r2m/ui3-dashboard-loading-before-source01.json",
+    "bytes": 34508,
+    "rawBytesSha256": "041d676d225722be36e355b3113c11d2aa8f0439a55ca55673bd4b7dc8df6db3"
+  },
+  "originalAudit": {
+    "file": "tools/rust-r2m/ui3-workbench-source-audit01.json",
+    "bytes": 3505,
+    "rawBytesSha256": "1a3c708405dae478eca1705e342016077f866b9d61c21dd856ab47dcb74e261f"
+  },
+  "RootActualMetadata": {
+    "file": "tmp/rust-r2m/uir3a-todo-evidence01.json",
+    "bytes": 8066,
+    "rawBytesSha256": "f4e9d8339647215579d921f33b9b042bba52157f46826d250de35a46ac181007"
+  },
+  "findings": [
+    {
+      "item": "one exact source line",
+      "result": "Pass",
+      "detail": "Independent decoded original browser25661B SHA228119de57fab433aa7c8ef6acee2f10176ceb0c465c30965d97c6214cf9d7aa matches preserved before. Complete line comparison gives exactly1 UI3 step-line change: after original login, register original session/navigation/Todo GET waits, keep the same dashboard goto, require3 original200 responses and bridge.version1 before the unchanged Todo DOM check."
+    },
+    {
+      "item": "concrete original loading protocol",
+      "result": "Pass",
+      "detail": "Original AuthStore.login awaits #acceptAuthSession/#loadUserData Promise.all and sets user/navigation/todos afterwards. A subsequent full dashboard navigation has a fresh initializer, and test bridge installs only after bootstrap plus its async import. Source Workbench reads that actual store and renders title/targetTitle. Source wait therefore checks missing technical readiness, not a replacement Todo or business result."
+    },
+    {
+      "item": "strict original assertions retained",
+      "result": "Pass",
+      "detail": "Same owned contract text, Workbench locator, default5s visibility, click/reject/dialog/API200 and paths remain. No extra goto, timeout increase, mock, generated UI data, cookie/fixture/owner/profile change or business retry. Existing wait observer preserves rejection; unsuccessful HTTP or bridge errors propagate before DOM."
+    },
+    {
+      "item": "old actual limits",
+      "result": "Pass",
+      "detail": "Root metadata contains actual owned contract Todo but missing Workbench DOM and still-in-flight requests; it does not prove a product performance/empty-Todo cause. Original PG restoration failure and partial diagnostics remain. Exact old observer recovery/quiescence and a fresh source capsule precede new actual; no old closed receipt or actual UI pass is invented."
+    }
+  ],
+  "readLevel": {
+    "variant": "complete exact one-line delta against decoded before;6 final raw pins matched",
+    "originalSource": "necessary AuthStore load/initialize and Workbench template/store excerpts plus unchanged bridge source reused",
+    "authorTests": "actual step AST deferred model/new meaningful tests read;14pure0fail metadata",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "actual": "Root copies exact new browser only to the old28/a8ae epoch and captures fresh source evidence. All original business and cleanup/PG requirements still apply; SourceReady does not repair or certify the old installed observer."
+}

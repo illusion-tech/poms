@@ -1,0 +1,74 @@
+{
+  "kind": "R2M-UI-source-explicit-project-parent-only-adoption-candidate",
+  "result": "source-only-awaiting-independent-review",
+  "owner": "/root/r2m_delivery_audit",
+  "candidate": {
+    "file": "tools/rust-r2m/ui-runtime-sources-project-parent01.mjs",
+    "bytes": 17409,
+    "rawBytesSha256": "a8ae730ef393647f034c5f1c0ed4a0ee15206e7c1743b79ceb4965a62ea5cc9d"
+  },
+  "adoptExactBytesAs": {
+    "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+    "bytes": 17409,
+    "rawBytesSha256": "a8ae730ef393647f034c5f1c0ed4a0ee15206e7c1743b79ceb4965a62ea5cc9d"
+  },
+  "oldSource": {
+    "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+    "bytes": 17258,
+    "rawBytesSha256": "c673875651b290fe97cf319b21253b16701bae3acd909393fd9b43891ece28b6",
+    "preservedIn": {
+      "file": "tools/rust-r2m/audit-attachment-before-source01.json",
+      "bytes": 59631,
+      "rawBytesSha256": "f50401d4f70b2bf17b9f9b3fc7542a750166551a8c8a66e80186fcdcee2e2b68"
+    }
+  },
+  "exactDelta": [
+    "UI3 resubmit approval_record and todo_item selectors add prepared.contract.project.id",
+    "UI3 prepareContract submit approval_record and todo_item selectors add already-planned/owned projectId",
+    "UI4 package-create attachment_download_package selector adds source.project.id; package items have no project_id immutable field"
+  ],
+  "noOtherSourceOrDependencyChange": true,
+  "compatibleTarget": "Root old28 fixture profile, Linux UI1-3 selected; no future M4/M5 helper/profile required",
+  "unchanged": {
+    "ordinaryFixtureProjectGuard": true,
+    "actorsOrBorrowedOrCaseScope": true,
+    "NativeProducerMethodsAndContext": true,
+    "requestAndResponseAndProofRetention": true,
+    "UIBusinessOrLogoutAssertions": true,
+    "cacheInput": true
+  },
+  "explicitPending": "This variant does not fix the separate UI4 provider NULL audit source channel and does not certify UI4 actual readiness",
+  "pure": {
+    "log": {
+      "file": "tools/rust-r2m/ui-project-parent-source01-pure.txt",
+      "bytes": 1057,
+      "rawBytesSha256": "c55e663dee02ec4aedbc8256fd83d5752605d23b2a7c186ec2bdd052eca77e2a"
+    },
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "test": {
+      "file": "tools/rust-r2m/ui-project-parent-source01.test.mjs",
+      "bytes": 3629,
+      "rawBytesSha256": "08a0bc07bcdb65e878c6fa9b4487a165d36fe649c322c6f4b67645eb017fd253"
+    },
+    "readLevel": "real fixture intent project-parent branch over synthetic already-owned project; old missing-project selectors reject before query; no actual DB"
+  },
+  "RootCopy": [
+    {
+      "from": "tools/rust-r2m/ui-runtime-sources-project-parent01.mjs",
+      "to": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 17409,
+      "rawBytesSha256": "a8ae730ef393647f034c5f1c0ed4a0ee15206e7c1743b79ceb4965a62ea5cc9d"
+    }
+  ],
+  "RootExecution": "C reviewed exact variant then Root copies only these exact target bytes into Linux old28 epoch and captures fresh actual capsule; do not copy current Windows mixed M4 source or profile31",
+  "actual": {
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "privateRead": false
+  },
+  "G3": false,
+  "G4": false
+}

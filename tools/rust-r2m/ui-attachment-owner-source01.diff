@@ -1,0 +1,149 @@
+--- C-reviewed-cache-or-a8ae/tools/rust-r2m/ui-runtime-full.mjs
++++ future-UI4/tools/rust-r2m/ui-runtime-full.mjs
+@@ -18,7 +18,7 @@
+ const PRIVATE='/home/wangzishi/.local/share/poms-r2m/private';
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+-const REQUIRED=['tools/rust-r2m/ui-runtime-full.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-browser.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
++const REQUIRED=['tools/rust-r2m/ui-runtime-full.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-browser.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/audit-attachment-source.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
+ 
+ export function uiRuntimePlan({backend,tag,selection,runId}){
+     assert(['nest','rust'].includes(backend)&&/^[a-z0-9-]{1,24}$/.test(tag??''));
+@@ -60,11 +60,12 @@
+     return{worker,anchor,anchorSource:'tools/e2e/runtime-worker.cjs',kind:'actual-owned-Linux-process-group'};
+ }
+ 
+-export function verifyUiOwnerInputs({sourceCap,input,browser,backend,tag,runId,selection,settingAdmission}){
++export function verifyUiOwnerInputs({sourceCap,input,browser,backend,tag,runId,selection,settingAdmission,auditIdentityApproval}){
+     const plan=uiRuntimePlan({backend,tag,runId,selection});verifySourceCap(sourceCap,{candidate:sourceCap.candidate,files:REQUIRED});
+     const reader=new SourceReader({root:ROOT,pins:sourceCap.files,sourceEpoch:sourceCap.id});for(const pin of sourceCap.files)reader.read(pin.file);
+     assert(input?.sourceProtection?.currentSurface?.length===115);
+     if(selection.includes('UI2'))assert(settingAdmission?.runId===runId&&settingAdmission.caseId===settingLeaseScope,'UI2 requires Root exact new-environment singleton admission for this run');
++    if(selection.includes('UI4'))assert(auditIdentityApproval?.kind==='Root-R2M-source-bound-audit-identity-admission'&&auditIdentityApproval.rootApproved===true&&auditIdentityApproval.runId===runId&&auditIdentityApproval.backend===backend&&auditIdentityApproval.database==='poms_r2m_'+backend&&auditIdentityApproval.sourceCapId===sourceCap.id&&auditIdentityApproval.allowedSourceKinds?.includes('attachment-provider-null'),'UI4 requires the exact fresh Root/C provider audit admission before fixture I/O');
+     const artifact=sourceCap.artifacts.filter(item=>item.kind==='ui-build');assert.equal(artifact.length,1);const ui=artifact[0];
+     assert.equal(sha(Buffer.from(JSON.stringify(ui.members))),ui.rawBytesSha256,'Exact UI artifact manifest must belong to this capsule');
+     const directory=path.resolve(ROOT,ui.buildDirectory);assert(directory.startsWith(ROOT+path.sep));
+@@ -127,7 +128,7 @@
+         if(backend==='rust'){attempted.rust=true;const binary=sourceCap.artifacts.find(item=>item.kind==='rust-release');assert(binary);rust=await startActualRust({tag:'ui-'+tag,expectedBinarySha256:binary.rawBytesSha256})}
+         attempted.native=true;native=await startOriginalNative({tag:'ui-'+tag,backend,admittedContexts:contexts,onCommitted:rows=>committed.push(...rows)});
+         const prepared={};if(checked.plan.selection.includes('UI1'))prepared.todo=await prepareUiTodoSource({fixture:f,native,sourceReader:checked.reader,sourceCapId:sourceCap.id,retain:remember});
+-        sourcePreparer=createUiSourcePreparer({fixture:f,native,pg,contexts,committed,sourceReader:checked.reader,sourceCapId:sourceCap.id,retain:remember,nextIndex:()=>index++,makeHttpSession:args=>new AcceptanceHttpSession(args),marker,databaseFor});Object.assign(prepared,await sourcePreparer.prepare(checked.plan.selection));
++        sourcePreparer=createUiSourcePreparer({fixture:f,native,pg,contexts,committed,sourceReader:checked.reader,sourceCapId:sourceCap.id,retain:remember,nextIndex:()=>index++,makeHttpSession:args=>new AcceptanceHttpSession(args),marker,databaseFor,auditIdentityApproval:options.auditIdentityApproval});Object.assign(prepared,await sourcePreparer.prepare(checked.plan.selection));
+         baseBefore=await f.facts();await remember({kind:'UI-source-ready-full107-before-browser',record:{prepared,fullFacts:baseBefore}});
+         attempted.server=true;server=await startManagedUiServer({backend,input,sourceCapId:sourceCap.id,buildDirectory:checked.buildDirectory,buildFiles:checked.buildFiles,nativeReadModels:uiNativeReadModels({sourceReader:checked.reader,input,selection:checked.plan.selection}),retain:remember,
+             async onBeforeExchange(exchange){
+@@ -188,10 +189,10 @@
+ }
+ 
+ async function cli(){
+-    const args=process.argv.slice(2),value={};for(let at=0;at<args.length;at++){const key=args[at];assert(['--run','--worker','--check','--backend','--tag','--cap','--input','--browser-pin','--run-id','--selection','--setting-admission'].includes(key));if(['--run','--worker','--check'].includes(key))value[key]=true;else{assert(args[at+1]);value[key]=args[++at]}}
++    const args=process.argv.slice(2),value={};for(let at=0;at<args.length;at++){const key=args[at];assert(['--run','--worker','--check','--backend','--tag','--cap','--input','--browser-pin','--run-id','--selection','--setting-admission','--audit-identity-admission'].includes(key));if(['--run','--worker','--check'].includes(key))value[key]=true;else{assert(args[at+1]);value[key]=args[++at]}}
+     assert([value['--run'],value['--worker'],value['--check']].filter(Boolean).length===1);const sourceCap=readUiPublicInput(value['--cap']),input=readUiPublicInput(value['--input']??'docs/design/rust-r2m/acceptance-input.json'),browser=readUiPublicInput(value['--browser-pin']);
+-    const settingAdmission=value['--setting-admission']?readUiPublicInput(value['--setting-admission']):null;
+-    const options={sourceCap,input,browser,backend:value['--backend'],tag:value['--tag'],runId:value['--run-id']??settingAdmission?.runId??randomUUID(),selection:(value['--selection']??'').split(',').filter(Boolean),settingAdmission};
++    const settingAdmission=value['--setting-admission']?readUiPublicInput(value['--setting-admission']):null,auditIdentityApproval=value['--audit-identity-admission']?readUiPublicInput(value['--audit-identity-admission']):null;
++    const options={sourceCap,input,browser,backend:value['--backend'],tag:value['--tag'],runId:value['--run-id']??settingAdmission?.runId??auditIdentityApproval?.runId??randomUUID(),selection:(value['--selection']??'').split(',').filter(Boolean),settingAdmission,auditIdentityApproval};
+     const checked=verifyUiOwnerInputs(options);
+     if(value['--check']){console.log(JSON.stringify({result:'SourceReady-input-check',...checked.plan,sourceCapId:sourceCap.id,sourceFiles:checked.reader.receipt().files.length,buildFiles:checked.buildFiles.length,privateRead:false,actualExecution:false}));return}
+     assert.equal(process.platform,'linux');assert.equal(process.cwd(),LINUX_ROOT);const output='tmp/rust-r2m/ui-linux-'+options.backend+'-'+options.tag+'.json';assert(!fs.existsSync(output));
+--- C-reviewed-cache-or-a8ae/tools/rust-r2m/windows-ui-runtime.mjs
++++ future-UI4/tools/rust-r2m/windows-ui-runtime.mjs
+@@ -18,7 +18,7 @@
+ const PRIVATE='/home/wangzishi/.local/share/poms-r2m/private';
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+-const REQUIRED=['tools/rust-r2m/windows-ui-runtime.mjs','tools/rust-r2m/windows-ui-driver.mjs','tools/rust-r2m/windows-ui-process.ps1','tools/rust-r2m/bridge-windows-ui.mjs','tools/rust-r2m/windows-ui-http-session.mjs','tools/rust-r2m/windows-native-app.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
++const REQUIRED=['tools/rust-r2m/windows-ui-runtime.mjs','tools/rust-r2m/windows-ui-driver.mjs','tools/rust-r2m/windows-ui-process.ps1','tools/rust-r2m/bridge-windows-ui.mjs','tools/rust-r2m/windows-ui-http-session.mjs','tools/rust-r2m/windows-native-app.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/audit-attachment-source.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
+ 
+ export function uiRuntimePlan({backend,tag,selection,runId}){
+     assert(['nest','rust'].includes(backend)&&/^[a-z0-9-]{1,24}$/.test(tag??''));
+@@ -62,11 +62,12 @@
+     return{worker,anchor,anchorSource:'tools/e2e/runtime-worker.cjs',kind:'actual-owned-Linux-process-group'};
+ }
+ 
+-export function verifyUiOwnerInputs({sourceCap,input,browser,backend,tag,runId,selection,settingAdmission}){
++export function verifyUiOwnerInputs({sourceCap,input,browser,backend,tag,runId,selection,settingAdmission,auditIdentityApproval}){
+     const plan=uiRuntimePlan({backend,tag,runId,selection});verifySourceCap(sourceCap,{candidate:sourceCap.candidate,files:REQUIRED});
+     const reader=new SourceReader({root:ROOT,pins:sourceCap.files,sourceEpoch:sourceCap.id});for(const pin of sourceCap.files)reader.read(pin.file);
+     assert(input?.sourceProtection?.currentSurface?.length===115);
+     if(selection.includes('UI2'))assert(settingAdmission?.runId===runId&&settingAdmission.caseId===settingLeaseScope,'UI2 requires Root exact new-environment singleton admission for this run');
++    if(selection.includes('UI4'))assert(auditIdentityApproval?.kind==='Root-R2M-source-bound-audit-identity-admission'&&auditIdentityApproval.rootApproved===true&&auditIdentityApproval.runId===runId&&auditIdentityApproval.backend===backend&&auditIdentityApproval.database==='poms_r2m_'+backend&&auditIdentityApproval.sourceCapId===sourceCap.id&&auditIdentityApproval.allowedSourceKinds?.includes('attachment-provider-null'),'UI4 requires the exact fresh Root/C provider audit admission before fixture I/O');
+     const artifact=sourceCap.artifacts.filter(item=>item.kind==='ui-build');assert.equal(artifact.length,1);const ui=artifact[0];
+     assert.equal(sha(Buffer.from(JSON.stringify(ui.members))),ui.rawBytesSha256,'Exact UI artifact manifest must belong to this capsule');
+     const directory=path.resolve(ROOT,ui.buildDirectory);assert(directory.startsWith(ROOT+path.sep));
+@@ -129,7 +130,7 @@
+         if(backend==='rust'){attempted.rust=true;const binary=sourceCap.artifacts.find(item=>item.kind==='rust-release');assert(binary);rust=await startActualRust({tag:'ui-'+tag,expectedBinarySha256:binary.rawBytesSha256})}
+         attempted.native=true;if(backend==='nest'){const{startWindowsOriginalNative}=await import('./windows-native-app.mjs');native=await startWindowsOriginalNative({tag:'ui-'+tag,runId,sourceCap,admittedContexts:contexts,onCommitted:rows=>committed.push(...rows),retain:remember,signal:controller.signal})}else native=await startOriginalNative({tag:'ui-'+tag,backend,admittedContexts:contexts,onCommitted:rows=>committed.push(...rows)});
+         const prepared={};if(checked.plan.selection.includes('UI1'))prepared.todo=await prepareUiTodoSource({fixture:f,native,sourceReader:checked.reader,sourceCapId:sourceCap.id,retain:remember});
+-        sourcePreparer=createUiSourcePreparer({fixture:f,native,pg,contexts,committed,sourceReader:checked.reader,sourceCapId:sourceCap.id,retain:remember,nextIndex:()=>index++,makeHttpSession:args=>backend==='nest'?new WindowsNativeUiHttpSession({...args,native,contexts}):new AcceptanceHttpSession(args),marker,databaseFor});Object.assign(prepared,await sourcePreparer.prepare(checked.plan.selection));
++        sourcePreparer=createUiSourcePreparer({fixture:f,native,pg,contexts,committed,sourceReader:checked.reader,sourceCapId:sourceCap.id,retain:remember,nextIndex:()=>index++,makeHttpSession:args=>backend==='nest'?new WindowsNativeUiHttpSession({...args,native,contexts}):new AcceptanceHttpSession(args),marker,databaseFor,auditIdentityApproval:options.auditIdentityApproval});Object.assign(prepared,await sourcePreparer.prepare(checked.plan.selection));
+         baseBefore=await f.facts();await remember({kind:'UI-source-ready-full107-before-browser',record:{prepared,fullFacts:baseBefore}});
+         const exchangeHooks={
+             async onBeforeExchange(exchange){
+@@ -203,10 +204,10 @@
+ }
+ 
+ async function cli(){
+-    const args=process.argv.slice(2),value={};for(let at=0;at<args.length;at++){const key=args[at];assert(['--run','--worker','--check','--backend','--tag','--cap','--input','--browser-pin','--run-id','--selection','--setting-admission'].includes(key));if(['--run','--worker','--check'].includes(key))value[key]=true;else{assert(args[at+1]);value[key]=args[++at]}}
++    const args=process.argv.slice(2),value={};for(let at=0;at<args.length;at++){const key=args[at];assert(['--run','--worker','--check','--backend','--tag','--cap','--input','--browser-pin','--run-id','--selection','--setting-admission','--audit-identity-admission'].includes(key));if(['--run','--worker','--check'].includes(key))value[key]=true;else{assert(args[at+1]);value[key]=args[++at]}}
+     assert([value['--run'],value['--worker'],value['--check']].filter(Boolean).length===1);const sourceCap=readUiPublicInput(value['--cap']),input=readUiPublicInput(value['--input']??'docs/design/rust-r2m/acceptance-input.json'),browser=readUiPublicInput(value['--browser-pin']);
+-    const settingAdmission=value['--setting-admission']?readUiPublicInput(value['--setting-admission']):null;
+-    const options={sourceCap,input,browser,backend:value['--backend'],tag:value['--tag'],runId:value['--run-id']??settingAdmission?.runId??randomUUID(),selection:(value['--selection']??'').split(',').filter(Boolean),settingAdmission};
++    const settingAdmission=value['--setting-admission']?readUiPublicInput(value['--setting-admission']):null,auditIdentityApproval=value['--audit-identity-admission']?readUiPublicInput(value['--audit-identity-admission']):null;
++    const options={sourceCap,input,browser,backend:value['--backend'],tag:value['--tag'],runId:value['--run-id']??settingAdmission?.runId??auditIdentityApproval?.runId??randomUUID(),selection:(value['--selection']??'').split(',').filter(Boolean),settingAdmission,auditIdentityApproval};
+     const checked=verifyUiOwnerInputs(options);
+     if(value['--check']){console.log(JSON.stringify({result:'SourceReady-input-check',...checked.plan,sourceCapId:sourceCap.id,sourceFiles:checked.reader.receipt().files.length,buildFiles:checked.buildFiles.length,privateRead:false,actualExecution:false}));return}
+     assert.equal(process.platform,'linux');assert.equal(process.cwd(),LINUX_ROOT);const output='tmp/rust-r2m/ui-windows-'+options.backend+'-'+options.tag+'.json';assert(!fs.existsSync(output));
+--- C-reviewed-cache-or-a8ae/tools/rust-r2m/ui-runtime-sources.mjs
++++ future-UI4/tools/rust-r2m/ui-runtime-sources.mjs
+@@ -9,6 +9,7 @@
+ import {handoverPreparedInput,syntheticInputs,uploadInputs} from './acceptance-bindings.mjs';
+ import {observedTables} from './pg-create-observer.mjs';
+ import {settingLeaseScope,settingKey,nativeProducerRoutes} from './scenario-input.mjs';
++import {attachmentProviderBusinessAuditProfile} from './audit-attachment-source.mjs';
+ const ROOT=path.resolve(import.meta.dirname,'../..'),VP='00000000-0000-4000-8000-000000000008';
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const noSecrets=value=>({method:value.method,path:value.path,status:value.status});
+@@ -70,16 +71,21 @@
+     return intents;
+ }
+ 
+-export function createUiSourcePreparer({fixture:f,native,pg,contexts,committed,sourceReader,sourceCapId,retain,nextIndex,makeHttpSession,marker,databaseFor}){
++export function createUiSourcePreparer({fixture:f,native,pg,contexts,committed,sourceReader,sourceCapId,retain,nextIndex,makeHttpSession,marker,databaseFor,auditIdentityApproval}){
+     for(const fn of[retain,nextIndex,makeHttpSession])assert.equal(typeof fn,'function');
+     const runId=f.runId,backend=f.backend,sessions=new Map(),requests=[];let pgCaseActive=false;
+     const scope=caseId=>{const old=f.j.cases.find(row=>row.caseId===caseId);return old??f.defineCase(caseId,{actors:Object.values(f.actors),projects:[],borrowedActors:caseId==='m.ui3.integration'?[VP]:[],borrowedDefinitions:f.j.borrowed.definitions.map(row=>row.id),anonymous:true})};
+     const session=name=>{if(!sessions.has(name))sessions.set(name,makeHttpSession({runId,userId:f.actors.admin}));return sessions.get(name)};
+-    async function send({caseId,method,path:requestPath,body,intents=[],expectedStatus=200}){
+-        const active=scope(caseId),actualIntents=[];for(const item of[{table:'audit_log',selector:{request_id:active.requestId},expectedMax:256},{table:'security_event',selector:{request_id:active.requestId},expectedMax:256},...intents])actualIntents.push(await f.intent(item.table,item.selector,{caseId,expectedMax:item.expectedMax??8}));
+-        const context={runId,caseId,index:nextIndex(),op:'m.producer'},correlationId='m-ui-source-'+randomUUID();contexts.set(correlationId,context);const from=committed.length;let response,pgRows;
++    async function send({caseId,method,path:requestPath,body,intents=[],expectedStatus=200,auditSourceStep}){
++        const active=scope(caseId),actualIntents=[],context={runId,caseId,index:nextIndex(),op:'m.producer'},correlationId='m-ui-source-'+randomUUID();contexts.set(correlationId,context);
++        for(const item of intents)actualIntents.push(await f.intent(item.table,item.selector,{caseId,expectedMax:item.expectedMax??8}));
++        let auditSource=null,auditAdmission=null;
++        if(auditSourceStep){const request={logicalCase:'UI4',stepId:auditSourceStep,method,path:requestPath,body};auditSource=attachmentProviderBusinessAuditProfile({sourceReader,sourceCapId,context,request,actorId:f.actors.admin});assert(auditSource,'Only two exact UI4 Native provider source steps may use this channel');auditAdmission=f.admitAuditIdentity({sourceKind:'attachment-provider-null',descriptor:auditSource,request,context},auditIdentityApproval);actualIntents.push(await f.intentWithRequestIdentity('audit_log',auditAdmission.auditSelector,{caseId,index:context.index,admissionId:auditAdmission.id,expectedMax:1}));}
++        else actualIntents.push(await f.intent('audit_log',{request_id:active.requestId},{caseId,expectedMax:256}));
++        actualIntents.push(await f.intent('security_event',{request_id:active.requestId},{caseId,expectedMax:256}));
++        const from=committed.length;let response,pgRows;
+         await pg.beginCase(context);pgCaseActive=true;
+-        try{response=await session(caseId).request({executionBackend:'nest',method,path:requestPath,body,requestId:active.requestId,correlationId});await retain({kind:'actual-UI-original-Native-response-before-certification',record:{sourceCapId,context,method,path:requestPath,body,response}})}
++        try{response=await session(caseId).request({executionBackend:'nest',method,path:requestPath,body,requestId:active.requestId,correlationId});await retain({kind:'actual-UI-original-Native-response-before-certification',record:{sourceCapId,context,method,path:requestPath,body,response,auditSource,auditAdmission}})}
+         finally{
+             await native.witness.drain();native.witness.assertComplete();pgRows=await pg.drainCase();pgCaseActive=false;const sdk=committed.slice(from);
+             if(sdk.length){const file='tools/rust-r2m/native-write-witness.mjs',authority=f.registerNativeAuthority(f.creationEnvelope({id:randomUUID(),kind:'mikro-orm-afterCreate-outer-commit',runId,backend,database:databaseFor(backend),marker,source:{file,sha256:sha(fs.readFileSync(path.join(ROOT,file)))},trace:native.witness.snapshot()}));
+@@ -118,12 +124,12 @@
+         assert.equal((await owned('project_handover',handover.id)).status,'confirmed');
+         const before=await f.facts();assert.equal(before.tables.find(row=>row.table==='attachment_storage_provider_config').rows.length,0,'UI4 never mutates or adopts a pre-existing default provider');
+         const input=syntheticInputs({runId,adminId:f.actors.admin,viewerId:f.actors.viewer,orgId});
+-        const provider=await send({caseId,method:'POST',path:'/api/platform/attachment-storage-providers',body:input.localProvider,expectedStatus:201,intents:[{table:'attachment_storage_provider_config',selector:{provider_type:'local',created_by:f.actors.admin},expectedMax:1}]});
++        const provider=await send({caseId,method:'POST',path:'/api/platform/attachment-storage-providers',body:input.localProvider,expectedStatus:201,auditSourceStep:'ui4-local-provider',intents:[{table:'attachment_storage_provider_config',selector:{provider_type:'local',created_by:f.actors.admin},expectedMax:1}]});
+         assert(f.j.objects.some(row=>row.table==='attachment_storage_provider_config'&&row.id===provider.id),'Provider DTO cannot establish ownership');
+         const physical=await owned('attachment_storage_provider_config',provider.id);assert.equal(physical.key_prefix,'poms-r2m/'+runId);
+-        await send({caseId,method:'POST',path:'/api/platform/attachment-storage-providers/'+provider.id+':set-default',body:{expectedVersion:physical.row_version}});
++        await send({caseId,method:'POST',path:'/api/platform/attachment-storage-providers/'+provider.id+':set-default',body:{expectedVersion:physical.row_version},auditSourceStep:'ui4-local-default'});
+         const dictionary=(await f.facts()).tables.find(row=>row.table==='dictionary_item').rows.filter(row=>row.domain==='attachment-category'&&row.code==='demand'&&row.status==='active');assert.equal(dictionary.length,1);
+         const upload=uploadInputs(runId).package;return{project:await owned('project',projectId),handover:{...(await owned('project_handover',handover.id)),pagePath:'/projects/'+projectId+'/workspace/contract-handover'},upload:{...upload,categoryLabel:dictionary[0].name},preparedSource:inserted.receipt};
+     }
+-    return{send,requests,state:()=>({pgCaseActive}),async prepare(selection){const prepared={};if(selection.includes('UI3'))prepared.contract=await prepareContract();if(selection.includes('UI4'))prepared.handover=await prepareHandover();sourceReader.assertUnchanged();return prepared}};
++    return{send,requests,state:()=>({pgCaseActive}),async prepare(selection){if(selection.includes('UI4'))assert(auditIdentityApproval?.rootApproved===true&&auditIdentityApproval.kind==='Root-R2M-source-bound-audit-identity-admission'&&auditIdentityApproval.allowedSourceKinds?.includes('attachment-provider-null'),'UI4 requires its exact Root/C provider audit admission before prepared business rows');const prepared={};if(selection.includes('UI3'))prepared.contract=await prepareContract();if(selection.includes('UI4'))prepared.handover=await prepareHandover();sourceReader.assertUnchanged();return prepared}};
+ }

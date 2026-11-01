@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-exact-m0n02-recovery-source-and-public-evidence-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T19:55:34.810Z",
+  "reviewer": "C /root/r2m_review independent non-author",
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-acceptance.mjs",
+      "bytes": 5395,
+      "rawBytesSha256": "7faa600efef4c68e8c50f0b6ab28975e55fcb9028b82c1aac2aeaaad9fa0141d",
+      "readLevel": "full source plus literal/public-input binding delta"
+    }
+  ],
+  "exactScope": {
+    "backend": "nest",
+    "tag": "m0n02",
+    "runId": "2016c675-fdb1-4ec6-908b-9c07fc55821d",
+    "namespace": "poms-r2m",
+    "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+    "otherRunsPermitted": false
+  },
+  "publicInputs": [
+    {
+      "file": "tmp/rust-r2m/acceptance-nest-m0n02.json",
+      "bytes": 3528,
+      "rawBytesSha256": "2136072c4b2ff918bd80e096a5658ad13e89749375ebf8e9dfbe502a9a9e6869",
+      "independentlyReadByC": true
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-epoch04.json",
+      "bytes": 1322240,
+      "rawBytesSha256": "6740bd440752464aa04cf32eda783a2cd127be8914422565164e9b866935eac6",
+      "manifestSha256": "d4dfa5f5e19fc68e925bdb1bfafb85b03e9953be4a02801ca1caf06ae9cd53d1",
+      "id": "r2m-epoch04",
+      "runtimeSha256": "db22cd191bbdfab886b7a9df01ae52ff5a6bcade8d772b985d7d086ae5e5a1ef",
+      "independentlyReadByC": "metadata only; no full source-tree walk"
+    }
+  ],
+  "originalLedgerReference": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-2016c675-fdb1-4ec6-908b-9c07fc55821d.json",
+    "bytes": 155578,
+    "rawBytesSha256": "e11f4b4b6957e60cdb14c668d8713d4e467121f5ee6b6e1861c1d6f15376726c",
+    "readByC": false,
+    "boundary": "Hash and path were read from the immutable public failed report. The mutable journal is changed by Fixture.open and cleanup; preservation of its exact prior raw input is a separate provenance item."
+  },
+  "acceptedRecoveryPreconditions": [
+    "Literal backend/tag/run and exact public report/cap hashes are checked before private ledger access.",
+    "Public files and private ledger use regular/no-follow/inode checks and the original ledger hash must match.",
+    "Original writer PIDs must be absent, all five new service/supplier ports free and the old observer footprint restored.",
+    "Fresh Fixture.open validates actual new environment owner marker and low-privilege metadata; other active app work and prepared transactions must be zero.",
+    "Fresh full107 facts, no unresolved create/mutation and full reference/borrowed-row preflight precede drain and exact mature cleanup.",
+    "Two cleanup attempts must complete with second deletion/object changes zero; no unknown writer or broader row deletion is allowed."
+  ],
+  "actualPublicRecovery": {
+    "file": "tmp/rust-r2m/recovered-nest-m0n02.json",
+    "bytes": 7782,
+    "rawBytesSha256": "6e0c954c136392c9549f4ec9f2e468162d3d8d5ea647b3dc96e856c6e7c068cd",
+    "independentlyReadByC": true,
+    "result": "recovered-exact-owned-double-zero-not-matrix-pass",
+    "portsFree": true,
+    "pendingTransactions": 0,
+    "tablesScanned": 107,
+    "firstDeleted": 53,
+    "secondDeleted": 0,
+    "firstAndSecondResidualObjects": 0,
+    "logicalReferences": 0,
+    "objectChanges": 0
+  },
+  "evidencePreservationNote": "Root was notified that source7faa does not itself save a prior raw ledger copy before mutable-journal recovery. Do not claim the original e11f input remains directly readable without a backup or an explicitly labelled exact-byte reconstruction verified against the prior published hash. This does not turn safe owned recovery into matrix acceptance.",
+  "notCertified": [
+    "115 surface coverage",
+    "URI27 acceptance",
+    "Original private input physical archival without receipt",
+    "G3/G4"
+  ],
+  "executionByReviewer": {
+    "testsRun": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateReads": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0,
+    "gitWriteOperations": 0
+  },
+  "newGateInvented": false
+}

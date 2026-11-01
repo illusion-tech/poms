@@ -1,0 +1,470 @@
+{
+  "kind": "R2M-independent-C-M5-three-case-actual-evidence-review",
+  "result": "Pass",
+  "reviewedAtUtc": "2026-10-31 12:56:12 UTC",
+  "reviewer": {
+    "agent": "/root/r2m_review",
+    "role": "independent non-author C",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "scope": {
+    "logicalCases": [
+      "M5.1",
+      "M5.2",
+      "M5.3"
+    ],
+    "environment": "new controlled continuation01 pair",
+    "marker": "abd093b8-c584-45b3-9c62-6357ad6dfa5d",
+    "sourceCapId": "r2m-c01-joint02",
+    "sourceCapManifest": "32c05f9bc1d081312995637b3637861f3fc7a4b3bcb6b23356f9b1dc83b898c6",
+    "nativeRun": "ad418474-9f19-42c5-bab0-5502b67cab16",
+    "rustRun": "6fbc265e-ac92-4f16-af52-636adc568e0f",
+    "tags": [
+      "an3c01b",
+      "ar3c01b"
+    ],
+    "otherSeventeenAPILogicalCasesCertified": false,
+    "M4UIWindowsOrPerformanceCertified": false,
+    "finalFixedCommitCertified": false,
+    "G3": false,
+    "G4": false
+  },
+  "measuredComparison": {
+    "file": "tmp/rust-r2m-continuation01/compare-api-m5-measured04.json",
+    "bytes": 79263,
+    "rawBytesSha256": "b593174468731ad2d29eecb6ace707930a60d7f5ea574ac787d62128eda9d9bc"
+  },
+  "reviewedVerifier": {
+    "sourcePacket": {
+      "file": "tools/rust-r2m/compare-api-m5-source04b.json",
+      "bytes": 20557,
+      "rawBytesSha256": "f5ad6d50adbcf305d8eed22e01d780dec8e41945ef5a480834c0d12e66578fe1"
+    },
+    "independentSourceReview": {
+      "file": "docs/design/rust-r2m/api-m5-comparison-source-review02.json",
+      "bytes": 14652,
+      "rawBytesSha256": "0ac05f145b7dc5a6151743461417be15e13a9f2ba1138301858cc985d37e3fa2"
+    },
+    "previousSourceReview": {
+      "file": "docs/design/rust-r2m/api-m5-comparison-source-review01.json",
+      "bytes": 25120,
+      "rawBytesSha256": "c54893c490f7cdb6f9eb4e8c62ae4f6a1d41ae275493a4144963bec5c84d283e"
+    },
+    "analysisSourceCount": 37,
+    "everyExecutedAnalysisPinMatchesPriorIndependentReview": true,
+    "analysisBeforeAfterIndependentlyEqual": true,
+    "currentAnalysisRawPinsAlsoMatch": true
+  },
+  "actualSummary": {
+    "orderedStepsPerSide": 33,
+    "completeBeforeAfter107FramesPerSide": 66,
+    "initial107AllPhysicalRowsAndColumnsCompared": true,
+    "primaryHTTPResponsesPerSide": 24,
+    "allRetainedCompleteHTTPWireBodiesPerSide": 28,
+    "remainingDifferences": 0,
+    "acceptedDifferences": 24,
+    "acceptedClassificationOnly": "accepted-existing-R1A-diagnostic-header-addition",
+    "acceptedKindOnly": "presence",
+    "acceptedSiteOnly": "Each of the24 unique primary response.headers.x-request-id sites",
+    "noUnknownFieldsDropped": true,
+    "noNewOwnershipGranted": true
+  },
+  "publicRuntimeInputPins": [
+    {
+      "file": "tmp/rust-r2m-continuation01/acceptance-api-nest-an3c01b.json",
+      "bytes": 39886,
+      "rawBytesSha256": "186324ea6fb9fa4bb78dfa48ee8a7fe9ec899aeed29c5f47252ab0f1f1fe296c"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/acceptance-api-owner-nest-an3c01b.json",
+      "bytes": 1059,
+      "rawBytesSha256": "26c33b8dbcc16db83ab83e8dac31b7f3433c7b2a5f4decf02b5c791d20213829"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-joint02.json",
+      "bytes": 1550596,
+      "rawBytesSha256": "01f5733417510002620de6bd818fb809fb04c85368dfcab5f6d1a5215b492934"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/acceptance-api-rust-ar3c01b.json",
+      "bytes": 41178,
+      "rawBytesSha256": "0ed1fb451d9844a9b1e5fd61c77fd5a44b52311c21f46f124e996f9e782214a0"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/acceptance-api-owner-rust-ar3c01b.json",
+      "bytes": 1059,
+      "rawBytesSha256": "e3c34ba8eb06edb10bbd38695073c3e006194ef31113540027a1c196af0dce6e"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-joint02.json",
+      "bytes": 1550596,
+      "rawBytesSha256": "01f5733417510002620de6bd818fb809fb04c85368dfcab5f6d1a5215b492934"
+    }
+  ],
+  "privateInputRefsFromMeasuredRecord": [
+    {
+      "backend": "nest",
+      "runId": "ad418474-9f19-42c5-bab0-5502b67cab16",
+      "journal": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/m-runs/nest-ad418474-9f19-42c5-bab0-5502b67cab16.json",
+        "bytes": 805723,
+        "rawBytesSha256": "7183e385acbab66b99975b3006eaaf2a5b83aa132928ffb817db4fab59e56f30"
+      },
+      "inspectionPinOrigin": "Root current sealed-file read after run; not asserted to be an originally published container hash"
+    },
+    {
+      "backend": "rust",
+      "runId": "6fbc265e-ac92-4f16-af52-636adc568e0f",
+      "journal": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/m-runs/rust-6fbc265e-ac92-4f16-af52-636adc568e0f.json",
+        "bytes": 605642,
+        "rawBytesSha256": "96f607f215c4e49ac847a1f531d80dffba8fa585dff6bf10926092a26b5f80c0"
+      },
+      "inspectionPinOrigin": "Root current sealed-file read after run; not asserted to be an originally published container hash"
+    }
+  ],
+  "closeouts": [
+    {
+      "backend": "nest",
+      "runId": "ad418474-9f19-42c5-bab0-5502b67cab16",
+      "result": "observed-comparison-pending",
+      "selection": [
+        "M5.1",
+        "M5.2",
+        "M5.3"
+      ],
+      "notRun": 17,
+      "cases": [
+        {
+          "caseId": "M5.1",
+          "result": "observed",
+          "caseClosed": true
+        },
+        {
+          "caseId": "M5.2",
+          "result": "observed",
+          "caseClosed": true
+        },
+        {
+          "caseId": "M5.3",
+          "result": "observed",
+          "caseClosed": true
+        }
+      ],
+      "closeoutResult": "owned-double-zero-recorded",
+      "failures": 0,
+      "writersStopped": [
+        true,
+        true
+      ],
+      "pgRestored": true,
+      "deleted": [
+        75,
+        0
+      ],
+      "allZero": [
+        true,
+        true
+      ]
+    },
+    {
+      "backend": "rust",
+      "runId": "6fbc265e-ac92-4f16-af52-636adc568e0f",
+      "result": "observed-comparison-pending",
+      "selection": [
+        "M5.1",
+        "M5.2",
+        "M5.3"
+      ],
+      "notRun": 17,
+      "cases": [
+        {
+          "caseId": "M5.1",
+          "result": "observed",
+          "caseClosed": true
+        },
+        {
+          "caseId": "M5.2",
+          "result": "observed",
+          "caseClosed": true
+        },
+        {
+          "caseId": "M5.3",
+          "result": "observed",
+          "caseClosed": true
+        }
+      ],
+      "closeoutResult": "owned-double-zero-recorded",
+      "failures": 0,
+      "writersStopped": [
+        true,
+        true,
+        true
+      ],
+      "pgRestored": true,
+      "deleted": [
+        75,
+        0
+      ],
+      "allZero": [
+        true,
+        true
+      ]
+    }
+  ],
+  "actualProofSummaries": [
+    {
+      "side": "native",
+      "physicalVersions": 15,
+      "physicalRows": 939,
+      "DTOCells": 596,
+      "auditCells": 669,
+      "ciphers": 4,
+      "allCiphersAuthenticated": true,
+      "states": [
+        {
+          "purpose": "identity-provider-admin-grant",
+          "nonceBytes": 16,
+          "signatureBytes": 32,
+          "signatureVerified": true,
+          "ttlMs": 600000,
+          "callbackStateAndCodeIdentical": true,
+          "callbackStatus": 302,
+          "callbackWindowCrossesExpiry": false,
+          "ownershipGranted": false
+        },
+        {
+          "purpose": "identity-provider-login",
+          "nonceBytes": 16,
+          "signatureBytes": 32,
+          "signatureVerified": true,
+          "ttlMs": 600000,
+          "callbackStateAndCodeIdentical": true,
+          "callbackStatus": 200,
+          "callbackWindowCrossesExpiry": false,
+          "ownershipGranted": false
+        }
+      ],
+      "ticket": {
+        "issuedBytes": 32,
+        "TTL": 120000,
+        "actualCallback200": true,
+        "sourceRecipeParameterBound": true,
+        "actualConsumerRequestBodyBytesVerified": false,
+        "physicalIssuedToConsumed": true,
+        "replay401": true,
+        "ownershipGranted": false
+      },
+      "distinctOrgCandidates": 1,
+      "allOtherOrgJSONStrict": true,
+      "peerRawResponseVerified": false,
+      "previewIntermediateRowCaptured": false,
+      "newOwnershipGranted": false
+    },
+    {
+      "side": "rust",
+      "physicalVersions": 15,
+      "physicalRows": 939,
+      "DTOCells": 596,
+      "auditCells": 669,
+      "ciphers": 4,
+      "allCiphersAuthenticated": true,
+      "states": [
+        {
+          "purpose": "identity-provider-admin-grant",
+          "nonceBytes": 16,
+          "signatureBytes": 32,
+          "signatureVerified": true,
+          "ttlMs": 600000,
+          "callbackStateAndCodeIdentical": true,
+          "callbackStatus": 302,
+          "callbackWindowCrossesExpiry": false,
+          "ownershipGranted": false
+        },
+        {
+          "purpose": "identity-provider-login",
+          "nonceBytes": 16,
+          "signatureBytes": 32,
+          "signatureVerified": true,
+          "ttlMs": 600000,
+          "callbackStateAndCodeIdentical": true,
+          "callbackStatus": 200,
+          "callbackWindowCrossesExpiry": false,
+          "ownershipGranted": false
+        }
+      ],
+      "ticket": {
+        "issuedBytes": 32,
+        "TTL": 120000,
+        "actualCallback200": true,
+        "sourceRecipeParameterBound": true,
+        "actualConsumerRequestBodyBytesVerified": false,
+        "physicalIssuedToConsumed": true,
+        "replay401": true,
+        "ownershipGranted": false
+      },
+      "distinctOrgCandidates": 1,
+      "allOtherOrgJSONStrict": true,
+      "peerRawResponseVerified": false,
+      "previewIntermediateRowCaptured": false,
+      "newOwnershipGranted": false
+    }
+  ],
+  "necessaryActualFindings": [
+    {
+      "area": "Original input and observations",
+      "finding": "Both exact same-cap original reports select only M5.1/M5.2/M5.3, retain17 not-run logical cases and show all three selected cases observed/closed. Public report/owner/cap raw pins match the measured input refs and prior fixed input profile. Candidate9dc and original Native0ef/Rust957 artifact identities remain the captured ones."
+    },
+    {
+      "area": "Whole physical state",
+      "finding": "The reviewed main entry compared both initial107 complete raw row/column sets, then all33 ordered steps' before/after complete107 evidence with original baselines, schemas and outside-scope zero. The actual result has no remaining physical/entity/status difference after only reviewed finite source projections."
+    },
+    {
+      "area": "Wire and explicit header boundary",
+      "finding": "All28 retained HTTP response bodies on each side were byte/length/hash/parsed-entity verified by the reviewed reader.24 primary responses per side were compared in full, including status/entity/four frozen functional headers. The only accepted differences are24 unique presence additions at x-request-id; no other header/status/body difference was accepted."
+    },
+    {
+      "area": "Authenticated ciphers and states",
+      "finding": "Each side reports four authenticated cipher instances across three actual identity fields, including the config update version and both controlled grant tokens. Both distinct HMAC state purposes have16-byte nonce,32-byte signature, valid signature,600000ms TTL, exact callback state/code equality and original302/200 statuses. These are finite controlled-peer/source proofs, not arbitrary opaque-string suppression."
+    },
+    {
+      "area": "Issued-ticket effect chain",
+      "finding": "The actual32-byte issued ticket,120000ms source-window TTL, callback200, six captured-source recipe-parameter bridge, actual supplier binding, issued-to-consumed physical transition and replay401 are present on both sides. The source-parameter proof is not described as a captured consumer request body."
+    },
+    {
+      "area": "Org and historical/audit semantics",
+      "finding": "The complete source org candidate constructor and one distinct resulting targetCode source proof are present on each side; all other candidate JSON remains strict. The reviewed preview/apply loop checks each selected version even when its distinct candidate proof is deduplicated. Named physical/DTO/audit projections preserve full actual versions and the original preview-started constructor instead of inventing a missing intermediate row."
+    },
+    {
+      "area": "Original writers and cleanup",
+      "finding": "Both original runs have zero closeout failures, every recorded writer stopped, the observer footprint restored and mature cleanup75 rows then0. All recorded first/second-zero scans report zero objects/logical references across107 tables. Recovery is not substituted for unfinished M5 cases."
+    },
+    {
+      "area": "Execution integrity",
+      "finding": "The actual37 analysis before/after entries are independently equal, all match the reviewed32-source union plus original business-source pins, and their current raw bytes also match. The measured read receipt is offline/new-c01 only and grants no ownership. C did not descend into any referenced private input."
+    }
+  ],
+  "retainedLimitations": {
+    "actualConsumerRequestBodyBytesVerified": false,
+    "controlledPeerTokenRawResponseVerified": false,
+    "capturedIntermediatePreviewPhysicalRow": false,
+    "firstObservedFinalVersionsAreNotRelabelledBirthImages": true,
+    "interpretation": "These honest capture limits were already accepted as finite source/effect proof boundaries in the independent source review. No missing raw bytes or intermediate physical evidence is fabricated by this Pass.",
+    "unsafeEarlierPublicDescriptor01NotReadByC": true,
+    "unsafeDescriptor01NotAnInput": true,
+    "postRunInspectionPinsNotClaimedOriginalWriterPublicationPins": true,
+    "quarantinedOriginalRustGraphReadConnectedAdoptedOrDeleted": false,
+    "realCloudOrTenantCompatibilityClaimed": false
+  },
+  "artifactEvidence": {
+    "candidate": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "native": {
+      "bytes": 2958081,
+      "rawBytesSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+    },
+    "rust": {
+      "bytes": 34163304,
+      "rawBytesSha256": "957fcc17763aaba3fa6d4093d9251d1935fcabe500e6bbfd9c80d90ae8f8e9cd"
+    },
+    "readLevel": "Captured cap's small artifact/source-manifest index and exact public raw hash; no repeated full3373+ source-tree or binary execution audit."
+  },
+  "independentVerification": {
+    "measuredRawHashMatchesRootSupplied": true,
+    "publicInputReferenceChecks": 6,
+    "publicInputMismatches": 0,
+    "executedAnalysisPinsChecked": 37,
+    "unreviewedOrChangedAnalysisPins": 0,
+    "analysisBeforeAfterExact": true,
+    "R1AClassKindAndPathAllVerified": true,
+    "R1ASitesUnique": 24,
+    "measuredSourceWindowAndFiniteProofFlagsRead": true,
+    "originalNormalCleanupAndCaseOutcomesRead": true,
+    "CExecutedProductOrComparer": false,
+    "CReadPrivateEnvironmentSecretOrRawPrivateResponse": false,
+    "databaseHttpBrowserProcessOrSignalActions": false,
+    "productFixtureOrGitMutation": false,
+    "onlyOwnNewReviewArtifactWritten": true
+  },
+  "readLevels": [
+    {
+      "file": "tmp/rust-r2m-continuation01/compare-api-m5-measured04.json",
+      "level": "Public complete outcome, proof/limit fields, source/input/read-receipt pin indexes and explicit accepted differences read"
+    },
+    {
+      "files": [
+        "tmp/rust-r2m-continuation01/acceptance-api-nest-an3c01b.json",
+        "tmp/rust-r2m-continuation01/acceptance-api-owner-nest-an3c01b.json",
+        "tmp/rust-r2m-continuation01/source-cap-c01-joint02.json",
+        "tmp/rust-r2m-continuation01/acceptance-api-rust-ar3c01b.json",
+        "tmp/rust-r2m-continuation01/acceptance-api-owner-rust-ar3c01b.json",
+        "tmp/rust-r2m-continuation01/source-cap-c01-joint02.json"
+      ],
+      "level": "Exact public raw hashes; necessary case/normal-close/cleanup/cap artifact metadata only"
+    },
+    {
+      "files": [
+        "tools/rust-r2m/compare-api-m5.mjs",
+        "tools/rust-r2m/compare-api-m5-core.mjs",
+        "tools/rust-r2m/compare-api-m5-reader.mjs",
+        "tools/rust-r2m/compare-api-m5-domain.mjs",
+        "tools/rust-r2m/compare-api-m5-base.mjs",
+        "tools/rust-r2m/compare-api-m5-ticket-source.mjs",
+        "tools/rust-r2m/compare-api-m5-case-c01-joint02.json",
+        "tools/rust-r2m/reference-authority.json",
+        "tools/rust-r2m/acceptance-compare.mjs",
+        "tools/rust-r2m/comparison-initial-frame.mjs",
+        "tools/rust-r2m/comparison-special-rows.mjs",
+        "tools/rust-r2m/scenario-expected.mjs",
+        "tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs",
+        "tools/rust-r2m-continuation01/comparison-api-opaque.mjs",
+        "tools/rust-r2m-continuation01/acceptance-source.mjs",
+        "tools/rust-r2m-continuation01/managed-environment.cjs",
+        "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+        "apps/poms-api/src/app/features/attachment/attachment-storage-provider-secret.constants.ts",
+        "apps/poms-api/src/app/features/identity-provider/identity-provider-secret.constants.ts",
+        "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.ts",
+        "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+        "apps/poms-api/src/app/features/identity-provider/feishu-identity-provider.adapter.ts",
+        "tools/rust-r2m-continuation01/acceptance-bindings.mjs",
+        "tools/rust-r2m-continuation01/feishu-server.mjs",
+        "tools/rust-r2m-continuation01/fixture-policy.mjs",
+        "tools/rust-r2m-continuation01/fixture-credentials.mjs",
+        "apps/poms-api/src/app/features/external-org-sync/external-org-sync.service.ts",
+        "apps/poms-api/src/app/features/external-org-sync/feishu-external-org-directory.adapter.ts",
+        "apps/poms-api/src/app/core/auth/auth.controller.ts",
+        "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "tools/rust-r2m-continuation01/scenario-input.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api-scenario.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api-external-recipes.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api-runtime.mjs",
+        "tools/rust-r2m-continuation01/acceptance-suppliers.mjs"
+      ],
+      "level": "Current raw bytes hashed and compared with actual before/after pins and prior independent source reviews; reviewed verifier logic reused"
+    },
+    {
+      "privateRefs": [
+        "/home/wangzishi/.local/share/poms-r2m-continuation01/private/m-runs/nest-ad418474-9f19-42c5-bab0-5502b67cab16.json",
+        "/home/wangzishi/.local/share/poms-r2m-continuation01/private/m-runs/rust-6fbc265e-ac92-4f16-af52-636adc568e0f.json"
+      ],
+      "level": "Reference metadata only, never dereferenced by C"
+    },
+    {
+      "rootActualRole": "Root executed the reviewed guarded verifier on sealed original private records; this independent review checks that public measured chain and source identity without repeating those private reads."
+    }
+  ],
+  "preservation": {
+    "firstFailedM5Comparison": {
+      "file": "tmp/rust-r2m-continuation01/compare-api-m5-measured01.json",
+      "bytes": 17167,
+      "rawBytesSha256": "b0e5d9c02e058a2c6df13d1725e76be8720dcba54d4c37c2841a58e725358f45"
+    },
+    "oldSourcePacketsAndFailedIntermediateRunsRemain": true,
+    "oldMixedNativePartialAndOriginalFailedRustGraphRemain": true,
+    "noRetroactivePassIssued": true
+  },
+  "conclusion": "The controlled continuation01 M5 three-case actual acceptance evidence is independently sufficient within the frozen finite source/wire/full107/cleanup boundaries. This closes only M5's measured sub-scope; overall Stage R2M G3/G4 and issue closure remain pending."
+}

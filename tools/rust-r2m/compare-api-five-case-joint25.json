@@ -1,0 +1,732 @@
+{
+  "kind": "R2M-five-same-cap25-finite-comparison-input",
+  "selection": [
+    "M3.1",
+    "M3.2",
+    "M3.3",
+    "M3.4",
+    "M3.5"
+  ],
+  "sourceCapId": "r2m-joint25",
+  "sides": [
+    {
+      "backend": "nest",
+      "tag": "an5d",
+      "runId": "d15ed4a1-192f-4049-9421-b7574220e024",
+      "report": {
+        "file": "tmp/rust-r2m/acceptance-api-nest-an5d.json",
+        "bytes": 67009,
+        "rawBytesSha256": "7be87661b631e0151a6258a13e6244179e29533850b58b84821735d0efd24eb1"
+      },
+      "owner": {
+        "file": "tmp/rust-r2m/acceptance-api-owner-nest-an5d.json",
+        "bytes": 1001,
+        "rawBytesSha256": "66824d24086865b9a6d21266f06e60b3b39f90c018e9ed7f9eae52a1708819d3"
+      }
+    },
+    {
+      "backend": "rust",
+      "tag": "ar5d",
+      "runId": "e2083daf-7841-4bf3-90c9-a58550a36da8",
+      "report": {
+        "file": "tmp/rust-r2m/acceptance-api-rust-ar5d.json",
+        "bytes": 69045,
+        "rawBytesSha256": "320b92b30cd5db69ccb7f2f4a3787a388691a8009545e338a595644b49777cdc"
+      },
+      "owner": {
+        "file": "tmp/rust-r2m/acceptance-api-owner-rust-ar5d.json",
+        "bytes": 1001,
+        "rawBytesSha256": "803e5e4723e4131b974bf5c532f131365bc8ee1094871a314f69f17611b7136e"
+      }
+    }
+  ],
+  "actualShapeInput": {
+    "file": "tmp/rust-r2m/m3-five-actual-shapes01.json",
+    "bytes": 1165122,
+    "rawBytesSha256": "06ed40826e7dec55113e2ad5816934bea95595f7a3db98503b067fa3237caf4c",
+    "privateValuesDisclosed": false
+  },
+  "dtoSites": [
+    {
+      "path": "M3.1.detail.response.createdAt",
+      "table": "approval_record",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.1.detail.response.submittedAt",
+      "table": "approval_record",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.1.detail.response.updatedAt",
+      "table": "approval_record",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.1.reload-contract.response.createdAt",
+      "table": "contract",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.1.reload-contract.response.updatedAt",
+      "table": "contract",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.1.todos-before.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.1.todos-before.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.1",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.assignment-create.response.createdAt",
+      "table": "commission_role_assignment",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.assignment-create.response.updatedAt",
+      "table": "commission_role_assignment",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.calculation-approve.response.approvedAt",
+      "table": "commission_calculation",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.calculation-approve.response.createdAt",
+      "table": "commission_calculation",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.calculation-approve.response.updatedAt",
+      "table": "commission_calculation",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.calculation-create.response.createdAt",
+      "table": "commission_calculation",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.calculation-create.response.updatedAt",
+      "table": "commission_calculation",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.departure.response.createdAt",
+      "table": "commission_departure_exception_decision",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.departure.response.handledAt",
+      "table": "commission_departure_exception_decision",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.departure.response.updatedAt",
+      "table": "commission_departure_exception_decision",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.final-approve-todos.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.final-approve-todos.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.final-create.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.final-create.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.final-submit.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.final-submit.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.register-final.response.approvedAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.register-final.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.register-final.response.handledAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.register-final.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-approve-todos.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-approve-todos.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-confirm.response.confirmedAt",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-confirm.response.createdAt",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-confirm.response.receiptDate",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-confirm.response.updatedAt",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-create.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-create.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-receipt.response.createdAt",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-receipt.response.receiptDate",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-receipt.response.updatedAt",
+      "table": "receipt_record",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-submit.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.retention-submit.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.2",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.rule-active.response.createdAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.2",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.rule-active.response.effectiveFrom",
+      "table": "commission_rule_version",
+      "caseId": "m3.2",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.rule-active.response.updatedAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.2",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.rule-create.response.createdAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.2",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.2.rule-create.response.updatedAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.2",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.adjustment-create.response.createdAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.adjustment-create.response.updatedAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.adjustment-submit.response.createdAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.adjustment-submit.response.updatedAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.adjustment-todos-before.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.adjustment-todos-before.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.assignment-create.response.createdAt",
+      "table": "commission_role_assignment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.assignment-create.response.updatedAt",
+      "table": "commission_role_assignment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.calculation-approve.response.approvedAt",
+      "table": "commission_calculation",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.calculation-approve.response.createdAt",
+      "table": "commission_calculation",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.calculation-approve.response.updatedAt",
+      "table": "commission_calculation",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.calculation-create.response.createdAt",
+      "table": "commission_calculation",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.calculation-create.response.updatedAt",
+      "table": "commission_calculation",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.first-create.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.first-create.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.first-submit.response.createdAt",
+      "table": "commission_payout",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.first-submit.response.updatedAt",
+      "table": "commission_payout",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.first-todos-before.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.first-todos-before.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-create.response.createdAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-create.response.updatedAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-execute.response.createdAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-execute.response.executedAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-execute.response.updatedAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-submit.response.createdAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.fresh-adjustment-submit.response.updatedAt",
+      "table": "commission_adjustment",
+      "caseId": "m3.3",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.rule-active.response.createdAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.3",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.rule-active.response.effectiveFrom",
+      "table": "commission_rule_version",
+      "caseId": "m3.3",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.rule-active.response.updatedAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.3",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.rule-create.response.createdAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.3",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.3.rule-create.response.updatedAt",
+      "table": "commission_rule_version",
+      "caseId": "m3.3",
+      "hasRowVersion": false,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-nullable.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-nullable.response.*.dueAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-nullable.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-open.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-open.response.*.dueAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-open.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-renamed.response.*.createdAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-renamed.response.*.dueAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    },
+    {
+      "path": "M3.5.todo-renamed.response.*.updatedAt",
+      "table": "todo_item",
+      "caseId": "m3.5.todo.reminders",
+      "hasRowVersion": true,
+      "zone": "Z",
+      "maxFractionDigits": 3
+    }
+  ],
+  "privateReadByAuthor": false
+}

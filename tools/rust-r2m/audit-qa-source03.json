@@ -1,0 +1,63 @@
+{
+  "kind": "R2M-QA-private-filename-and-exact-emptyfailed-QA10-archive-source-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "previousProvisionReview": {
+    "file": "docs/design/rust-r2m/qa-provision-source-review01.json",
+    "bytes": 8159,
+    "rawBytesSha256": "49ac97f4cdd71b16d2ab82dcf55f4b283ec47ff9ad310d80232f974aed5aae71"
+  },
+  "beforeCommonSourceBytes": {
+    "file": "tools/rust-r2m/audit-qa-name-before-source01.json",
+    "bytes": 9264,
+    "rawBytesSha256": "690f5a76a7df3ff6f680ff7f61a59115987410eb96a7907765967f775821b884"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/audit-qa-common.mjs",
+      "bytes": 6835,
+      "rawBytesSha256": "b5908dc99332c40b654d72f7bd1c4c7ccd167345c8111a8ce61c3d7a800b5a91"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-planned-resume.mjs",
+      "bytes": 6283,
+      "rawBytesSha256": "703e061c5cc5b4b16e148d71e6a1201582ab149470a54430dc062db7bf9f573d"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-name-resume.test.mjs",
+      "bytes": 1563,
+      "rawBytesSha256": "4af856eb87d0fe332f936bdbbc7b45aefefb913e3aa63b3d6b13994720647916"
+    }
+  ],
+  "unchangedProvisionSources": [
+    {
+      "file": "tools/rust-r2m/audit-qa-admission.json",
+      "bytes": 5121,
+      "rawBytesSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-provision.mjs",
+      "bytes": 15734,
+      "rawBytesSha256": "3ffc07ec3103cc93dae24ac1e2a9f18c86e4f8223504ff6459a0efd99cd2944c"
+    }
+  ],
+  "delta": {
+    "filename": "Only add underscore to one-component alnum/dot/hyphen filenames; no slash/backslash/colon/traversal allowed",
+    "resume": "Only exact884-byte QA10 manifest SHA9c994ad52e19c0857fb04c09ebb77653cbbee981e3c205b06c285e88f85f24cc, state partial-provisioning-preserved, resources[]/templates[]. Independently recheck exact3DB/3roles/env/password/objectroots absent and new-M markers before exclusive-reserve+rename preserve manifest. No DB/role write/drop/adopt; no generic planned retry.",
+    "actualCommand": "node tools/rust-r2m/audit-qa-planned-resume.mjs --archive-zero-created --journal-sha 9c994ad52e19c0857fb04c09ebb77653cbbee981e3c205b06c285e88f85f24cc --tag qa10empty01",
+    "afterArchive": "New Root approval pins current C review including unchanged plan/provision and new common; fresh provision remains full before-absence and original-seed checks. Old failure/metadata unchanged."
+  },
+  "pure": {
+    "passed": 7,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-qa-source03-pure.txt",
+      "bytes": 841,
+      "rawBytesSha256": "87870cec3b54a5f858b9b5079f5209a7cb00d7dfc2d915d726d65dcf34245b7d"
+    },
+    "syntaxFiles": 3,
+    "HTTP": 0,
+    "DB": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

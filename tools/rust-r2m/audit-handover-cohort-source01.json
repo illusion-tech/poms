@@ -1,0 +1,93 @@
+{
+  "kind": "R2M-narrow-original-handover-draft-cohort-source-input",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "at": "2026-10-30T19:48:00.910Z",
+  "entry": "Fixture.insertHandoverPreparedBatch(originalKPlan,{caseId})",
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6456,
+      "rawBytesSha256": "99ed8dbd149792f2d32c5509027ce2855d6e5395aaf3b01c0e7c57af794bc9eb"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.test.mjs",
+      "bytes": 4344,
+      "rawBytesSha256": "ed3262308beb4e0ceb9c5d53d112a448fc06df5a56919002be519b56062a7e7f"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 42353,
+      "rawBytesSha256": "3750e1e245ba8ca3dfc39225fd204645edcc3323dd41bef9f719652c2852b774"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12646,
+      "rawBytesSha256": "60f9d48277c88dc8540ae7d8c9c000ab07917e4087462b004b12d0bb6747c982"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 14585,
+      "rawBytesSha256": "81d7268cdb6826ec18dd3e2ded82aca8d44660c2591d5627fb181f5ccfb6b428"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12076,
+      "rawBytesSha256": "08a08172cda2cd60737bff3e0ea1dce97d8eb29e1ca641cf38323f646514fda5"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-safety.test.mjs",
+      "bytes": 19655,
+      "rawBytesSha256": "ace53a8c6d56758dd544c94c5d806a0d7b35b29bae3194b75e56c7c48a8fce35"
+    }
+  ],
+  "priorFixtureInput": {
+    "file": "tools/rust-r2m/audit-fixture-source.json",
+    "rawBytesSha256": "e16bf8a1e44d81c5e97b4779cd0c0e517328ca7406ec565b302351a5d6e792e4",
+    "unchanged": true,
+    "UUIDTablesThen": 59
+  },
+  "originalReader": {
+    "file": "tools/rust-r2k/r4-prepared-source.mjs",
+    "normalizedLfSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36",
+    "oldPrivateRead": false,
+    "mode": "pure pinned original-source reader only"
+  },
+  "scope": {
+    "UUIDTablesNow": 62,
+    "addedSourceOnlyTables": [
+      "commercial_release_baseline",
+      "commercial_baseline_diff_result",
+      "contract_readiness_package"
+    ],
+    "genericSingleRowAndGeneratedAdoptionForbiddenForAddedTables": true,
+    "oneNoRowLogicalReference": "source-bound receivablePlanVersionId; full107 reference scan, no ownership/delete",
+    "allOtherUnknownRefsRejected": true,
+    "noAll107Own": true,
+    "onlyOriginalFreshBaselineBackPointerUpdate": true,
+    "allPkAbsenceBeforeOneTransaction": true,
+    "actualSQLExactlyRebuiltOriginalStatements": true,
+    "wholeCohortCapturedBeforeCommit": true,
+    "matureDirectCommitXminAndIndependentVisibilityPromotion": true,
+    "preparedDraftRequired": true,
+    "currentActualNativeConfirmationRequired": true,
+    "caseCustomerLeadBorrowedActorGuardsUnchanged": true
+  },
+  "pure": {
+    "passed": 31,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "tools/rust-r2m/audit-handover-cohort-source01-pure.txt",
+    "rawBytesSha256": "8f1de7d5f13a965b15280a4ef019f826cb7b146a9027a549665ae15516c5bdf6",
+    "actualSQLExecutions": 0,
+    "DB": 0,
+    "privateRead": 0
+  },
+  "actualRuntime": false,
+  "sourceProfileEpochChanged": true,
+  "oldActualInputsMustRemainExact": "Root epoch02/04 old27 fixture snapshots remain valid original epoch; do not copy new fields onto their runtime receipts or reopen old journals with an unqualified new profile."
+}

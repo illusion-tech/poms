@@ -1,0 +1,13 @@
+# M5 Source04: exact physical audit snapshot columns
+
+Root's first Source03/c548 offline run is preserved as `tmp/rust-r2m-continuation01/compare-api-m5-measured01.json`. It completed the initial full 107-table baseline comparison with zero differences, then stopped with required proof missing while projecting an audit. The report remains a failed partial comparison, with three explicitly accepted R1A header additions. The original private error was retained; this is not a product or completed M5 parity result.
+
+The defect is in B's comparer: `audit_log` physically stores nullable jsonb columns named **`before_snapshot`** and **`after_snapshot`**. The Source03 domain incorrectly accessed nonexistent `_json` variants. `undefined !== null` then made a create-event before snapshot appear nonempty and attempted to select a preexisting entity row that correctly did not exist.
+
+Source04 changes only that column binding and adds exact schema/whole-row assertions. The authoritative 107-table schema must declare both real names as nullable jsonb. Each projected audit must contain its complete exact physical column set, so a missing, invented or legacy-wrong column now fails directly. A real `before_snapshot:null` remains null and performs no invented pre-birth lookup.
+
+The original historical binding remains strict: an audit's actual ordinary-birth context selects its original actual request and that request's frozen step. A nonnull snapshot still selects the exact typed physical before/after target row and version from that step. Existing named dates, HMAC state expiry and the source-defined preview-started constructor are projected from those proven sources. This correction does not use a later current row, invent an intermediate physical image, ignore snapshot fields or broaden target ownership.
+
+Meaningful pure coverage now includes complete physical audit rows with the real column names: create-before NULL; external binding; ticket issuance and later consumption; the original preview-started constructor; both authorize-state audit sites. Missing/wrong columns, an altered historical date or version, a substituted target and an incorrect HMAC expiry all fail. Unrelated snapshot scalar fields remain present.
+
+All original Source03 bytes and its formal review are preserved. The same 31 sources change only `compare-api-m5-domain.mjs` and its test; this addendum is the only additional source. The actual M5 product cases are not rerun. B still performs no private/env/DB/API/browser I/O. Root may rerun only the offline comparer with a fresh label after C's necessary source review. Consumer request-body bytes and controlled raw peer token response remain explicitly unverified.

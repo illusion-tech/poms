@@ -1,0 +1,253 @@
+{
+  "kind": "R2M-exact-original-source-bound-audit-storage-identity-channel",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/audit-identity-before-source01.json",
+    "bytes": 238588,
+    "rawBytesSha256": "7e7661eb0d00cc0d5fdb153f34ff05f965e23b8d252e96d3ba2044d43927a520"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 43734,
+      "rawBytesSha256": "3812c4cca78ccc0d9aec7a4412464387c5fddb13d8d190ddd2c6a854664ef883"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 9515,
+      "rawBytesSha256": "67926be81e04af0b5096fd2f2eb57859aa4ba3edb464dd2da36a366a3f9ef64b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15530,
+      "rawBytesSha256": "f9a6a775ac4336a7c172add916b6bbd23d89995ae15b0ebbdd7793300e8434b1"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12648,
+      "rawBytesSha256": "fb0975ac9b2de2f8b34fd2621678a4a07e45040b0088865c59078d13eaee40f6"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12792,
+      "rawBytesSha256": "c4cbf4b90ba33100f281a733ee8ac2693e1e9ed9ce0a99c21c17723e83774e6c"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 73612,
+      "rawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 13671,
+      "rawBytesSha256": "083b7c6807b1ae53b07f0a62e515b1f110d7cf0c392e6eeb90b9e97345fc87ad"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.test.mjs",
+      "bytes": 12464,
+      "rawBytesSha256": "8b5239c8c856b2793484e37ecd44ab8e4f43a560c7da9a1445742c122e37d6b3"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity-contract.md",
+      "bytes": 3793,
+      "rawBytesSha256": "8444e0f83cb156f0e111a7d22c76d4a2c1dd8614ae1d48e1927932101ab0d02a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 6518,
+      "rawBytesSha256": "3d71dbdb75f34643e324f762072f4891af0ae626a4bf3a41e333a95d8b074ad7"
+    }
+  ],
+  "delta": [
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "beforeRawBytesSha256": "d584991586902896caf8379e2e4a7ccbd636ff8d56f64b56330fbcc71d12d4f3",
+      "afterRawBytesSha256": "3812c4cca78ccc0d9aec7a4412464387c5fddb13d8d190ddd2c6a854664ef883",
+      "beforeChangedLines": [
+        "    async intent(table, selector, { caseId, expectedMax = 64 }) {",
+        "        else if (['audit_log', 'security_event'].includes(table)) assert.equal(selector.request_id, scope.requestId);",
+        "        const intent = { id: randomUUID(), table, selector, caseId, expectedMax, beforeObserved: true, beforeIds: result.rows.map(({ row }) => uuid(row.id)), state: 'planned' };"
+      ],
+      "afterChangedLines": [
+        "import {admitAuditIdentity,auditIdentityForIntent} from './fixture-audit-identity.mjs';",
+        "    admitAuditIdentity(input,approval) { return admitAuditIdentity(this,input,approval); }",
+        "    async intentWithRequestIdentity(table,selector,{caseId,index,admissionId,expectedMax=1}) { assert.equal(table,'audit_log');return this.intent(table,selector,{caseId,expectedMax,auditIdentityAdmissionId:admissionId,contextIndex:index}); }",
+        "    async intent(table, selector, { caseId, expectedMax = 64, auditIdentityAdmissionId,contextIndex }) {",
+        "        else if (['audit_log', 'security_event'].includes(table)) { if(auditIdentityAdmissionId)auditIdentityForIntent(this.j,{table,selector,caseId,expectedMax,auditIdentityAdmissionId,contextIndex});else assert.equal(selector.request_id, scope.requestId); }",
+        "        const intent = { id: randomUUID(), table, selector, caseId, expectedMax, beforeObserved: true, beforeIds: result.rows.map(({ row }) => uuid(row.id)), state: 'planned',...(auditIdentityAdmissionId?{auditIdentityAdmissionId,contextIndex}:{}) };"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "beforeRawBytesSha256": "4b0a133363fceafc6eb73fb3445f31783db84945e0b577c64941227d4b07f559",
+      "afterRawBytesSha256": "67926be81e04af0b5096fd2f2eb57859aa4ba3edb464dd2da36a366a3f9ef64b",
+      "beforeChangedLines": [],
+      "afterChangedLines": [
+        "import {auditIdentityForIntent} from './fixture-audit-identity.mjs';",
+        "    if(intent.auditIdentityAdmissionId){auditIdentityForIntent(journal,intent,context);if(proof.kind==='mikro-orm-afterCreate-outer-commit')assert.equal(proof.commitContext?.index,context.index,'Admitted audit must commit in the exact actual request context');}"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "beforeRawBytesSha256": "930133e7c8b5b49b0496cf93758ebf01cfd91277eb14a46545af7c66a689271f",
+      "afterRawBytesSha256": "f9a6a775ac4336a7c172add916b6bbd23d89995ae15b0ebbdd7793300e8434b1",
+      "beforeChangedLines": [
+        "        assert.equal(row.request_id, scope.requestId, 'Audit/security must be bound to this actual case request');"
+      ],
+      "afterChangedLines": [
+        "import {assertAuditRowScope} from './fixture-audit-identity.mjs';",
+        "        assertAuditRowScope(journal,table,row,scope,additional);"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "beforeRawBytesSha256": "3f5a4e1995c4f23f3d02a1ee8fd3e9b8101d6319c26bdb30e4a97da069db2d5d",
+      "afterRawBytesSha256": "fb0975ac9b2de2f8b34fd2621678a4a07e45040b0088865c59078d13eaee40f6",
+      "beforeChangedLines": [
+        "    return journal;"
+      ],
+      "afterChangedLines": [
+        "import {validateAuditIdentityJournal} from './fixture-audit-identity.mjs';",
+        "    validateAuditIdentityJournal(journal);return journal;",
+        "    for(const entry of previous.auditIdentityAdmissions??[])assert(next.auditIdentityAdmissions?.some(nextEntry=>digest(nextEntry)===digest(entry)),'Immutable source-bound audit admission changed/disappeared');"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "beforeRawBytesSha256": "60f9d48277c88dc8540ae7d8c9c000ab07917e4087462b004b12d0bb6747c982",
+      "afterRawBytesSha256": "c4cbf4b90ba33100f281a733ee8ac2693e1e9ed9ce0a99c21c17723e83774e6c",
+      "beforeChangedLines": [
+        "export const profileSourceFiles = [\"tools/rust-r2m/fixture-handover-prepared.mjs\",\"tools/rust-r2k/r4-prepared-source.mjs\",\"tools/rust-r2m/fixture-example.mjs\",\"tools/rust-r2m/fixture-setting-baseline.mjs\",\"tools/rust-r2m/fixture-objects.mjs\",\"tools/rust-r2m/fixture-keyed.mjs\",\"tools/rust-r2m/fixture-prepared-source.mjs\",\"tools/rust-r2m/audit-private.mjs\",\"tools/rust-r2m/audit-error.mjs\",\"tools/rust-r2m/audit-schema-source.json\",\"tools/rust-r2m/catalog-complete.mjs\",\"tools/rust-r2m/database-client.mjs\",\"tools/rust-r2m/fixture-cleanup.mjs\",\"tools/rust-r2m/fixture-core.mjs\",\"tools/rust-r2m/fixture-credentials.mjs\",\"tools/rust-r2m/fixture-guard.mjs\",\"tools/rust-r2m/fixture-journal.mjs\",\"tools/rust-r2m/fixture-policy.mjs\",\"tools/rust-r2m/fixture-prepared.mjs\",\"tools/rust-r2m/fixture-profile.mjs\",\"tools/rust-r2m/fixture-references.mjs\",\"tools/rust-r2m/fixture-users.mjs\",\"tools/rust-r2m/fixture.mjs\",\"tools/rust-r2m/managed-environment.cjs\",\"tools/rust-r2m/reference-authority.json\"];"
+      ],
+      "afterChangedLines": [
+        "export const profileSourceFiles = [\"tools/rust-r2m/fixture-audit-identity.mjs\",\"tools/rust-r2m/acceptance-api-request-identity.mjs\",\"tools/rust-r2m/acceptance-api-audit-source.mjs\",\"tools/rust-r2m/fixture-handover-prepared.mjs\",\"tools/rust-r2k/r4-prepared-source.mjs\",\"tools/rust-r2m/fixture-example.mjs\",\"tools/rust-r2m/fixture-setting-baseline.mjs\",\"tools/rust-r2m/fixture-objects.mjs\",\"tools/rust-r2m/fixture-keyed.mjs\",\"tools/rust-r2m/fixture-prepared-source.mjs\",\"tools/rust-r2m/audit-private.mjs\",\"tools/rust-r2m/audit-error.mjs\",\"tools/rust-r2m/audit-schema-source.json\",\"tools/rust-r2m/catalog-complete.mjs\",\"tools/rust-r2m/database-client.mjs\",\"tools/rust-r2m/fixture-cleanup.mjs\",\"tools/rust-r2m/fixture-core.mjs\",\"tools/rust-r2m/fixture-credentials.mjs\",\"tools/rust-r2m/fixture-guard.mjs\",\"tools/rust-r2m/fixture-journal.mjs\",\"tools/rust-r2m/fixture-policy.mjs\",\"tools/rust-r2m/fixture-prepared.mjs\",\"tools/rust-r2m/fixture-profile.mjs\",\"tools/rust-r2m/fixture-references.mjs\",\"tools/rust-r2m/fixture-users.mjs\",\"tools/rust-r2m/fixture.mjs\",\"tools/rust-r2m/managed-environment.cjs\",\"tools/rust-r2m/reference-authority.json\"];"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "beforeRawBytesSha256": "cfb82cebf18e1a04dd5d2205e87af26bb073e90f4453482c0d27a7c837ef7edd",
+      "afterRawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f",
+      "beforeChangedLines": [
+        "    permitted := (c.scope->'actors') ? actor AND r->>'request_id'=c.request_id",
+        "async function scopeFor(f, owner, caseId) {",
+        "    if (['audit_log', 'security_event'].includes(intent.table)) assert.equal(intent.selector.request_id, scope.requestId, 'Exact request intent is required');",
+        "    return { id: uuid(intent.id), table: intent.table, selector: copy(intent.selector), beforeIds: intent.beforeIds.map(uuid), expectedMax: intent.expectedMax };",
+        "  return { actors, projects, principals: [...new Set(principals)], targets, roots, knownRows, readonlyDefinitionIds, knownTextTargets, knownIds: [...new Set(knownIds)], approvalIds, ownedParents, intents, anonymous: !!scope.anonymous, requestId: scope.requestId };",
+        "    const scope = await scopeFor(f, owner, caseId), context = { runId, caseId, index, op };"
+      ],
+      "afterChangedLines": [
+        "import {auditIdentityForIntent} from './fixture-audit-identity.mjs';",
+        "    permitted := (c.scope->'actors') ? actor AND (r->>'request_id' IS NOT DISTINCT FROM CASE WHEN c.scope ? 'auditStorageRequestId' THEN c.scope->>'auditStorageRequestId' ELSE c.request_id END)",
+        "async function scopeFor(f, owner, caseId, caseIndex,caseOp) {",
+        "    if (['audit_log', 'security_event'].includes(intent.table)) {if(intent.auditIdentityAdmissionId)auditIdentityForIntent(f.j,intent,{runId:f.runId,caseId,index:caseIndex,op:caseOp});else assert.equal(intent.selector.request_id, scope.requestId, 'Exact request intent is required');}",
+        "    return { id: uuid(intent.id), caseId:intent.caseId, table: intent.table, selector: copy(intent.selector), beforeIds: intent.beforeIds.map(uuid), expectedMax: intent.expectedMax,...(intent.auditIdentityAdmissionId?{auditIdentityAdmissionId:intent.auditIdentityAdmissionId,contextIndex:intent.contextIndex}:{}) };",
+        "  const auditOverrides=intents.filter(intent=>intent.auditIdentityAdmissionId);assert(auditOverrides.length<=1);const auditOverride=auditOverrides[0]?auditIdentityForIntent(f.j,auditOverrides[0],{runId:f.runId,caseId,index:caseIndex,op:caseOp}):null;",
+        "  return { actors, projects, principals: [...new Set(principals)], targets, roots, knownRows, readonlyDefinitionIds, knownTextTargets, knownIds: [...new Set(knownIds)], approvalIds, ownedParents, intents, anonymous: !!scope.anonymous, requestId: scope.requestId,...(auditOverride?{auditStorageRequestId:auditOverride.auditSelector.request_id,auditIdentityAdmissionId:auditOverride.id}:{}) };",
+        "    const scope = await scopeFor(f, owner, caseId,index,op), context = { runId, caseId, index, op };"
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "beforeRawBytesSha256": "82ca4362e77d029eee5da7a99ea43335e9a6bba26c2a0630dc2d3a9b1b4eef14",
+      "afterRawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143",
+      "beforeChangedLines": [
+        "    for (const [key, expected] of Object.entries({ namespace: 'poms-r2m', marker, runId: fixture.runId, backend: fixture.backend, caseId: lease.caseId, requestId: scope.requestId })) assert.equal(requestReceipt[key], expected);"
+      ],
+      "afterChangedLines": [
+        "import {validateSettingAuditRequestReceipt} from './fixture-audit-identity.mjs';",
+        "    for (const [key, expected] of Object.entries({ namespace: 'poms-r2m', marker, runId: fixture.runId, backend: fixture.backend, caseId: lease.caseId })) assert.equal(requestReceipt[key], expected);",
+        "    validateSettingAuditRequestReceipt(fixture.j,requestReceipt,scope);"
+      ]
+    }
+  ],
+  "scope": [
+    "Only current M1/M2 actual m.http operations. Ordinary canonical request identity/security ID remains strict; no m.producer alias, no retroactive query-ID adoption.",
+    "B original-E exact source/header and platform-null handler AST projectors are protected by raw source hashes and reprojected exactly at admission. Root approval and exact independent C source review required before actual use.",
+    "Only audit_log uses the finite case/index source-bound alternate identity. Null is distinct from empty string. Audit selector includes event/type/operator and known typed target, or requires same-case-index-op actual committed generated typed parent proof and independent visibility.",
+    "Setting singleton remains environment migration-owned/nondelete. E receipts retain actual wire requestId separately from ownershipRequestId; original CAS/restore/drain logic unchanged. Root must use the new exact helper review for new setting lease admission.",
+    "The two named original E cells can each be admitted once per run. SDK outer COMMIT and PG observer retain the exact index/op; immutable admission and journal source profile bind the new files. Old actual epochs and journals are not modified."
+  ],
+  "publicOriginalSourcePins": [
+    {
+      "file": "tools/rust-r2ef/e-http-plan.mjs",
+      "bytes": 6264,
+      "rawBytesSha256": "0759bb059d41fd6383b2d60bc53856bb2b765273bcc259c7f1e101a7f9acb3bd"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts",
+      "bytes": 1480,
+      "rawBytesSha256": "c6db32b268247deb198a0763c2330a8c341f7ec55c40ca271b84e84da13ca3ed"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/system-setting/system-setting.controller.ts",
+      "bytes": 2017,
+      "rawBytesSha256": "70992f07703aa56d1026e701ddbca388a0b11f94550489efc31ba21feac1cb75"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/platform/platform.service.ts",
+      "bytes": 53069,
+      "rawBytesSha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/platform/platform.controller.ts",
+      "bytes": 13006,
+      "rawBytesSha256": "84d2985622098536ddd1c3b4d6fadeacccb84b5b7b460cf8e23d18213afed45b"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "bytes": 8958,
+      "rawBytesSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4"
+    }
+  ],
+  "pure": {
+    "passed": 44,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-identity-source01-pure-final02.txt",
+      "bytes": 4472,
+      "rawBytesSha256": "d8d878555b44cc63962ed8072a8fb0ca7b8c723e376bbd5a5881230feabb9801"
+    },
+    "earlierPassingLogs": [
+      {
+        "file": "tools/rust-r2m/audit-identity-source01-pure-initial.txt",
+        "bytes": 1305,
+        "rawBytesSha256": "3fa6bb03f01e2a84cea025917667036b2e5303377627998b227d27a26b4a6bff"
+      },
+      {
+        "file": "tools/rust-r2m/audit-identity-source01-pure.txt",
+        "bytes": 4378,
+        "rawBytesSha256": "a14fe2b711fb588288ee1d8176f97d19749417101fec3582f21ac13a455566bb"
+      },
+      {
+        "file": "tools/rust-r2m/audit-identity-source01-pure-final.txt",
+        "bytes": 4471,
+        "rawBytesSha256": "1df549071ac86a740b11206690c59cf0014cd66781415ada62dcfed135e392ca"
+      }
+    ],
+    "syntax": {
+      "file": "tools/rust-r2m/audit-identity-source01-syntax.txt",
+      "bytes": 1253,
+      "rawBytesSha256": "dbcc4958f90951e4db2ef19e0a3c8a79f10cbbbe4b6296cafc09a7098784df16"
+    },
+    "pgTemplateCheck": {
+      "file": "tools/rust-r2m/audit-identity-source01-pg-check.txt",
+      "bytes": 231,
+      "rawBytesSha256": "69bb815c829ef3d5fb1ebe33141925dcee37e8e7864dfcee5a5ff72955043d0c"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

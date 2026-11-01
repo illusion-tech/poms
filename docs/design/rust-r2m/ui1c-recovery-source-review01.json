@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-two-exact-closed-UI1c-run-recovery-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T23:02:24Z",
+  "reviewer": { "role": "C-independent-non-author", "agent": "/root/r2m_review", "requestedModel": "gpt-6.1-sol", "requestedReasoningEffort": "max", "fastModeVerified": false },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": { "file": "tools/rust-r2m/ui1c-recovery-source-manifest01.json", "bytes": 1780, "rawBytesSha256": "62aeebc4f1625829868b62128a9e40d7dea57763b245882a5ba6dc91c8341a05" },
+  "reviewedSources": [
+    { "file": "tools/rust-r2m/recover-closed-uin1c.mjs", "bytes": 6364, "rawBytesSha256": "4203e896b83dec27dbab3e5bb374a1bdea07470852e9269c7effb1a88e12194a", "readLevel": "Complete narrow literal diff from independently reviewed 62098b45 Native UI1b helper; reversing declared run/tag/report/capsule/ledger literals reproduces its exact original bytes" },
+    { "file": "tools/rust-r2m/recover-closed-uir1c.mjs", "bytes": 6385, "rawBytesSha256": "5651a493b1e34903a9283d489239dbfccc8a7b23011e396d34946e9ece522c8e", "readLevel": "Complete narrow literal diff from independently reviewed 0ad8259b Rust UI1b helper; reversing declared run/tag/report/capsule/ledger literals reproduces its exact original bytes" }
+  ],
+  "priorReviews": [ "docs/design/rust-r2m/ui1b-recovery-source-review01.json", "docs/design/rust-r2m/uir1b-recovery-source-review01.json" ],
+  "boundPublicEvidence": [
+    { "file": "tmp/rust-r2m/ui-linux-nest-uin1c.json", "bytes": 47581, "rawBytesSha256": "026a132efd60bdce90c28a017388fb1802091c23a751640ca03c48d5c94b3f8c", "runId": "8b70dd14-2abe-4e27-996d-92d95c891d05", "originalLedgerRawBytesSha256": "f3431293c2406d720db8145d6f5f08a16c88962cbe84410f47032ab81fb4c510", "readLevel": "Public run identity, partial result, all resource names and exact writer/observer lifecycle only" },
+    { "file": "tmp/rust-r2m/ui-linux-rust-uir1c.json", "bytes": 47676, "rawBytesSha256": "08cffcd7b7e8a3468eaf9d216294f3e2b690bdea4fc51872ecf3e1acb6dad3ea", "runId": "72b85f0b-c021-40be-8a55-f0068eaaecf6", "originalLedgerRawBytesSha256": "6b354512df4d9f5a783ebd86eb53291df1563e097adb89600228a35fd31bd0d0", "readLevel": "Public run identity, partial result, all resource names and exact writer/observer lifecycle only" }
+  ],
+  "capsule": { "file": "tmp/rust-r2m/source-cap-ui16.json", "rawBytesSha256": "d4d276bced991aa1d93e76fb40ed4df0156c665a9443196f7211e45027ea5927", "id": "r2m-ui16", "manifestSha256": "1786a557bc444f20e59746f9a24acb6b2b8a1b01eaabeb2d661fe22e239d5916", "candidate": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f" },
+  "assessment": [
+    "Both new helpers preserve the already reviewed source/body, no-follow private parent/file/mode/inode guards, wx original-ledger snapshot before Fixture.open, known original complete SDK/PG evidence hash checks, actual stopped worker/anchor identities and free ports, validated new-M fixture/low-role/marker and fresh no-active-work/no-prepared-transaction conditions.",
+    "Recovery still requires original writer lifecycle, fresh full107 unknownCreates0/unknownMutations0/reference preflight, then actual drain and mature two cleanups with second zero. Rust preserves its additional independently stopped Rust owner requirement. There is no new adoption, scope correction, query-ID ownership, wider delete predicate or modification of the failed browser evidence.",
+    "Both public reports independently match their literal raw pins and show writersStopped=true, observerRestored=true, activePgCasePreserved=false and each required resource stopped-or-restored. Their capsule identities/manifest match the exact public ui16 capsule. Private SDK/PG/ledger facts are enforced by the unchanged runtime recovery source, not independently read or presumed by C.",
+    "This admits only these two exact closed runs for cleanup. It does not label either old UI sequence a pass, establish a historical failure cause, alter their capsules, or authorize using the new UI browser helper to reopen/relabel them. Subsequent natural-reload/API runs require their own final source epoch."
+  ],
+  "verification": { "exactOldAndNewHelperRawPins": "4/4 matched", "onlyDeclaredLiteralDelta": "2/2 exact body equality after reversing declared literals", "publicReportRawPins": "2/2 matched", "capsuleRawAndManifestMatched": true, "privateReadByC": false, "actualRecoveryByC": false },
+  "executionBoundary": "Root may execute the two exact recovery helpers on their original final source/profile epochs after the unchanged runtime guards pass. C performed source/public metadata reads and this review write only; no private read, process/test execution, DB/HTTP, product/fixture code edit or Git mutation.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

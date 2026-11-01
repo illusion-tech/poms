@@ -1,0 +1,254 @@
+{
+  "kind": "POMS-R2M-independent-Linux-UI12-actual-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 05:12:30 UTC",
+  "gate": false,
+  "privateRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecutedByReviewer": false,
+  "productOrFixtureEdited": false,
+  "gitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "result": "Pass",
+  "scope": {
+    "journeys": [
+      "UI1",
+      "UI2"
+    ],
+    "arrangements": [
+      "Linux-managed-Nest",
+      "Linux-browser-managed-Rust-with-declared-Native-readmodels"
+    ],
+    "sameSourceCap": "r2m-joint23",
+    "sourceManifestSha256": "ff05a85520b8dbe9de51a87e88ea6c03a71be039d4fa011674be56b9a6119d7c",
+    "UI3UI4WindowsCertified": false,
+    "wholeStageCertified": false
+  },
+  "actualReport": {
+    "file": "tmp/rust-r2m/compare-ui-joint23-ui12-03.json",
+    "bytes": 64571,
+    "rawBytesSha256": "e8fc3c13a851f05d6ffe098e39b9f4041171a350c00dc34b94fef5f121bcc841",
+    "result": "pass-with-explicit-inherited-R1A-header-difference"
+  },
+  "inputs": [
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "bytes": 2801,
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-source06.json",
+      "bytes": 15871,
+      "rawBytesSha256": "84a8e0f741d1535a468066ff34af82a0c6f4ff64d124bc17998d6edd46b87783"
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-joint23.json",
+      "bytes": 1414229,
+      "rawBytesSha256": "a6f776fa070924be5390dc974dcf92a8d7af7ce7551c04bfd208312102f7f92f"
+    },
+    {
+      "file": "tmp/rust-r2m/ui-linux-nest-uin12b.json",
+      "bytes": 91710,
+      "rawBytesSha256": "e8115675aa7a60ae849742d10e15e0e96eec00a8e2f5763680594c55e0930176"
+    },
+    {
+      "file": "tmp/rust-r2m/ui-linux-rust-uir12b.json",
+      "bytes": 91805,
+      "rawBytesSha256": "bdce98a9465eac51b4bac91cccddc7fcf1cc3b93b24af696604a4b02daa4e72f"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    },
+    {
+      "file": "docs/design/rust-r2m/acceptance-input.json",
+      "bytes": 125178,
+      "rawBytesSha256": "848967890e370221549ffab3f7f2f888376d373cea7c6ffaf68365c49109492b"
+    }
+  ],
+  "inputPinCheck": {
+    "all7Available": true,
+    "matched": 7,
+    "total": 7,
+    "currentAnalysisSourcesMatched": 15
+  },
+  "sourceReview": {
+    "file": "docs/design/rust-r2m/ui12-comparison-source-review04.json",
+    "bytes": 7766,
+    "rawBytesSha256": "fb3d2c79988c8a1e11a07b2b1c3e67feec953ce0fcdc12cfa60fb8dd9a7d5373",
+    "candidate": "tools/rust-r2m/compare-ui-source06.json",
+    "candidateRawSha256": "84a8e0f741d1535a468066ff34af82a0c6f4ff64d124bc17998d6edd46b87783"
+  },
+  "counts": {
+    "perSide": {
+      "observedUiSteps": 7,
+      "actualHttpExchanges": 76,
+      "full107SnapshotOccurrences": 167,
+      "physicalCellChecks": 142598,
+      "typedOwnedBirths": 73,
+      "nonOwnedCanonicalSettingLease": 1,
+      "wireBodiesValidated": 152,
+      "issuedCookieChecks": 848,
+      "bcryptChecks": 334,
+      "sourceClockChecks": 20948
+    },
+    "bothSides": {
+      "actualHttpExchanges": 152,
+      "full107SnapshotOccurrences": 334
+    },
+    "distinctNewDatabaseInstantsNotInferredFromRepeatedChecks": true,
+    "remainingDifferences": 0,
+    "explicitInheritedR1AHeaderPresenceDifferences": 70
+  },
+  "proofs": {
+    "native": {
+      "full107Frames": 167,
+      "physicalCells": 142598,
+      "typedBirths": 73,
+      "wireBodies": 152,
+      "cookieValues": 848,
+      "bcryptChecks": 334,
+      "sourceClocks": 20948,
+      "conditionalRequests": 0,
+      "generatedDiagnosticHeaders": 0,
+      "actualCDPAcknowledgements": 2,
+      "originalConditionalHeadersAbsent": 76,
+      "UI2": {
+        "actualWrongCsrf403": true,
+        "actualPermission403": true,
+        "actualOriginalRouteDeniedRecord202": true,
+        "ownedSessionActiveAtEach403": true,
+        "actualCookiesPreservedAtEach403": true,
+        "originalPinnedAngularAuthTrueAssertionReached": true,
+        "rawAngularSnapshotSeparatelyRetained": false
+      },
+      "settingLease": {
+        "migrationOwned": true,
+        "deleted": false,
+        "originalCanonicalRowVerified": true,
+        "fullRowRestored": true,
+        "oneActualCompareAndSwap": true,
+        "expectedVersion": 1,
+        "actualVersion": 2,
+        "exactOriginalRowRestored": true,
+        "ordinaryHttpRequestAndResponseBytesMatched": true
+      }
+    },
+    "rust": {
+      "full107Frames": 167,
+      "physicalCells": 142598,
+      "typedBirths": 73,
+      "wireBodies": 152,
+      "cookieValues": 848,
+      "bcryptChecks": 334,
+      "sourceClocks": 20948,
+      "conditionalRequests": 0,
+      "generatedDiagnosticHeaders": 70,
+      "actualCDPAcknowledgements": 2,
+      "originalConditionalHeadersAbsent": 76,
+      "UI2": {
+        "actualWrongCsrf403": true,
+        "actualPermission403": true,
+        "actualOriginalRouteDeniedRecord202": true,
+        "ownedSessionActiveAtEach403": true,
+        "actualCookiesPreservedAtEach403": true,
+        "originalPinnedAngularAuthTrueAssertionReached": true,
+        "rawAngularSnapshotSeparatelyRetained": false
+      },
+      "settingLease": {
+        "migrationOwned": true,
+        "deleted": false,
+        "originalCanonicalRowVerified": true,
+        "fullRowRestored": true,
+        "oneActualCompareAndSwap": true,
+        "expectedVersion": 1,
+        "actualVersion": 2,
+        "exactOriginalRowRestored": true,
+        "ordinaryHttpRequestAndResponseBytesMatched": true
+      }
+    }
+  },
+  "findings": [
+    {
+      "id": "real-runtime-and-closure",
+      "result": "Pass",
+      "detail": "Both exact public run reports match case-input hashes and joint23. UI1 four plus UI2 three original steps are observed on both sides; owned Linux Chromium pin is identical,55library members are metadata-bound. Every attempted owner stopped, observer restored and no active PG case preserved. Both real cleanup records are73/0 with107-table zeros; no setting row is counted as owned/deleted."
+    },
+    {
+      "id": "complete-functional-comparison",
+      "result": "Pass",
+      "detail": "Previously reviewed exact cmp06 requires complete raw request/response/exchange linkage, original SDK/PG outer commit and typed births, all107 physical rows/all1778 schema columns, source-bound literal/input/clock projections, original cookies/bcrypt and exact same-side final baseline. Actual public result has0 remaining differences. Request and response bodies count separately; repeated snapshot/bcrypt counts are not new unique rows."
+    },
+    {
+      "id": "session-csrf-setting",
+      "result": "Pass",
+      "detail": "Both actual proof receipts show wrong-CSRF403 and permission403 with active owned sessions and original cookies retained, original pinned Angular authenticated assertion, and source-declared route-denial record. Setting row is migration baseline, single actual CAS1->2/value51, complete original row restored and not deleted. No separate raw Angular snapshot is invented."
+    },
+    {
+      "id": "controlled-uncached-and-etag",
+      "result": "Pass-with-exact-functional-boundary",
+      "detail": "Both sides record2 real CDP acknowledgements before first navigation and76 exchanges with original cache condition headers absent. ETag is retained and separately observed on all76 exchanges: Native75 present/verified, Rust6 present/verified for actual dispatch mix. Presence difference is not called cache equivalence; cacheEquivalenceCertified=false remains. Original cached11 Native304/Rust200 differences remain strict failed comparisons."
+    },
+    {
+      "id": "inherited-header-only",
+      "result": "Pass",
+      "detail": "All70 accepted entries are unique $.http.<index>.response.headers.x-request-id presence differences with explicit-inherited-R1A-diagnostic-header-addition classification; no other response status/entity/header difference is accepted."
+    },
+    {
+      "id": "originals-and-source-corrections",
+      "result": "Pass",
+      "detail": "Original cmp03 required-proof failure and cmp05's352 remaining title input differences are preserved. Final cmp06 adds only original complete prepared Todo title/direct-birth typed input slots after full source value validation. It is read-only reanalysis of unchanged actual runs, not a UI rerun or product fix."
+    }
+  ],
+  "readLevels": [
+    {
+      "files": [
+        "tmp/rust-r2m/compare-ui-joint23-ui12-03.json"
+      ],
+      "level": "Complete public JSON parsed; result/inputs/profile/proof counters/session/setting/cache observations and every accepted difference metadata independently checked."
+    },
+    {
+      "files": [
+        "tmp/rust-r2m/ui-linux-nest-uin12b.json",
+        "tmp/rust-r2m/ui-linux-rust-uir12b.json"
+      ],
+      "level": "Full raw hashes; finite journey/step statuses, same source cap, browser/cache metadata, original writer lifecycle and73/0 cleanup sections. No rehash of200MB browser or giant source trees."
+    },
+    {
+      "files": [
+        "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+        "tools/rust-r2m/compare-ui-source06.json",
+        "tmp/rust-r2m/source-cap-joint23.json",
+        "tmp/rust-r2m/ui-linux-nest-uin12b.json",
+        "tmp/rust-r2m/ui-linux-rust-uir12b.json",
+        "tools/rust-r2m/reference-authority.json",
+        "docs/design/rust-r2m/acceptance-input.json"
+      ],
+      "level": "All7 exact raw length/SHA checks including public cap;15 current analysis-source pins match approved manifest. Mature full comparator source review reused."
+    },
+    {
+      "files": [
+        "/home/wangzishi/.local/share/poms-r2m/private/ui-comparisons/joint23-ui12-03/comparison.json"
+      ],
+      "level": "Private full Root comparison artifact51,939,200bytes bound by public SHA metadata only; C did not reopen private bytes. Conclusion is independent source/public-receipt review of Root's complete execution, not a second private replay."
+    }
+  ],
+  "rootPrivateComparisonEvidence": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/private/ui-comparisons/joint23-ui12-03/comparison.json",
+    "bytes": 51939200,
+    "rawBytesSha256": "1eb4a3dcfb9da3003e26b456c12740a2d9deffef544ac493a9a820dfb85dbec7",
+    "private": true
+  },
+  "limitations": [
+    "Limited to the two named Linux arrangements and UI1/UI2; UI3/UI4, Windows and other API logical cases remain separate.",
+    "No caching negotiation or performance compatibility certified.",
+    "Stage G3/G4 and Issue closure remain pending."
+  ],
+  "blockers": []
+}

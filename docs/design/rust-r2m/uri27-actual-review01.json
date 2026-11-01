@@ -1,0 +1,128 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-URI27-actual-session-facts-response-review-not-a-Gate",
+  "result": "Accepted-URI27-evidence-with-explicit-inherited-diagnostic-header-difference",
+  "reviewedAt": "2026-10-30T21:11:42.563Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "scope": "Actual 27 URI-order conditions per backend; no API20/UI/whole-stage G3 or G4",
+  "sourceReview": "docs/design/rust-r2m/runtime-uri-source-review02.json",
+  "sourceCap": {
+    "file": "tmp/rust-r2m/source-cap-epoch07.json",
+    "bytes": 1325054,
+    "rawBytesSha256": "8d09ee05e36407f997c5322d500756fac1c07a66958edc9e14819bf43ad45a38",
+    "id": "r2m-epoch07",
+    "manifestSha256": "907f6d2b95a1584f08848c6b74c46c8ae29159e68c7e250a3ecab5ce43a8998f",
+    "runtimeRawBytesSha256": "fdabf46ca6f4ee7b5dbe88bd2b51b057792fdcc5c21ecaddc229a9893bd70cc0",
+    "readLevel": "Selected public source-cap metadata plus exact file hash; not a repeated full historical tree audit"
+  },
+  "publicActualReceipts": [
+    {
+      "file": "tmp/rust-r2m/acceptance-nest-urin03.json",
+      "bytes": 29235,
+      "rawBytesSha256": "07012d551f12be2e34de477822bda2e22954a5765598484fa1cceb3c2fd9ae4e",
+      "runId": "c26ca9f9-b732-4c22-a9ef-f9c02e47f2a2",
+      "planned": 27,
+      "attempted": 27,
+      "actual": 27,
+      "transportCompleted": 27,
+      "exact27UniqueNamesChecked": true,
+      "allCellsObservedAndComplete": true,
+      "rawEvidenceSha256": "aafba5054c3e0a0fb9306f52aee90660d5d4c3e50b0f8947eebb35a22f4d2ab1",
+      "writersStopped": true,
+      "observerFootprintRestored": true,
+      "cleanupDeleted": [
+        57,
+        0
+      ]
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-rust-urir01.json",
+      "bytes": 30571,
+      "rawBytesSha256": "3a468cd0c886d53096930312cde38cb574ce9fa3798c2f852b7773a20f0c7f72",
+      "runId": "f588da5d-865b-4c3c-a656-bc5e579601c3",
+      "planned": 27,
+      "attempted": 27,
+      "actual": 27,
+      "transportCompleted": 27,
+      "exact27UniqueNamesChecked": true,
+      "allCellsObservedAndComplete": true,
+      "rawEvidenceSha256": "795144f3d8a736226f6f15ee49afe2bfddc661dfb9b58d6bebb901b924974645",
+      "writersStopped": true,
+      "observerFootprintRestored": true,
+      "cleanupDeleted": [
+        57,
+        0
+      ]
+    }
+  ],
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-uri-probes.mjs",
+      "bytes": 17411,
+      "rawBytesSha256": "67edf5f7f9caefb6147cd7fdd78525310544475e22c5d94816c79a78e97843c2",
+      "readLevel": "Complete incremental diff from independently reviewed exact a3ef surface comparator; full new URI condition and path-alias branches"
+    }
+  ],
+  "comparison": {
+    "file": "tmp/rust-r2m/compare-uri-conditions-measured03.json",
+    "bytes": 7580,
+    "rawBytesSha256": "60e1240689dde5159008f971af2f65422fdbcf234cecf337aaa5158984c992be",
+    "sourceCapId": "r2m-epoch07",
+    "actualCells": 27,
+    "physicalFramesCompared": 54,
+    "remainderDifferences": 0,
+    "acceptedHeaderPresenceDifferences": 27,
+    "allAcceptedPathsChecked": true,
+    "proofsPerBackend": {
+      "completeWireBodies": 27,
+      "absentConditions": 9,
+      "ownedValidConditions": 9,
+      "retainedExpiredConditions": 9,
+      "opaqueChecks": 432,
+      "clockCells": 6371
+    },
+    "nativeDiagnosticHeaders": 0,
+    "rustDiagnosticHeaders": 27
+  },
+  "conditionAssessment": [
+    "Only m0.uri.* pre-certification raw HTTP records populate the unique per-cell request-proof map; multiple legitimate bootstrap requests in one bootstrap case are excluded. Every cell is bound to exact run/backend/canonical source case, method and raw percent-encoding path, complete actual transport and the same body hash as the comparison step.",
+    "Absent9 must actually send no session-token hash and carry no fabricated sessionCondition. Owned-valid9 must send a real server-issued poms_session hash for one already-certified owned viewer session in the physical before frame, with active state and both expiry values strictly later than actual HTTP start.",
+    "Expired9 require the actual raw record and its separate replay preflight to carry identical condition records. They must reference one and the same owned session across all9 cells, correct viewer/token/backend/sourceCap/original creation-proof digest, active-or-expired retained state with null revoked_reason, past actual expiry, and databaseStateReset=false.",
+    "The replay preflight's entire select-star session row is checked against every physical before-frame column. Timestamp representations compare real instants; every other column remains exact. Actual sender token hash equals the condition token hash; no cell label or one-time cookie jar stands in for these checks.",
+    "Literal bare-percent and invalid-UTF8 paths stay literal. Valid percent path is asserted to be exactly the declared first-byte encoding of the actual owned viewer UUID and to decode to that UUID. Only this exact path alias may normalize within a returned string body; its percent category is retained.",
+    "Inherited complete-row/unknown-column/issued-cookie/bcrypt/named-clock/window/wire-byte checks remain as in the accepted surface comparator. Every compared response is complete; full body semantics and finite frozen headers participate. All27 additive R1A x-request-id presence differences remain explicit rather than hidden in a claim of byte identity."
+  ],
+  "retainedPriorComparisons": [
+    {
+      "file": "tmp/rust-r2m/compare-uri-conditions-measured01.json",
+      "bytes": 1200,
+      "rawBytesSha256": "bcd49b6b9e4de0415695acf61d881adfc1fa8291dc3e69d939e756d2c23a26dd",
+      "result": "failed-required-proof-preserved"
+    },
+    {
+      "file": "tmp/rust-r2m/compare-uri-conditions-measured02.json",
+      "bytes": 1475,
+      "rawBytesSha256": "5a9613768350da39743728877d3ab15fc1195a94570b1bc800f0505e5cf79376",
+      "result": "failed-required-proof-preserved",
+      "privateFailureSha256": "bcd7d3c73a74cb0843dcac71ecae74eeff9dc350c56bb9ae9587f111298edb6e"
+    }
+  ],
+  "priorFailureClassification": "Root reports these offline comparison attempts incorrectly required unique URI cases for multi-request bootstrap cases. The final source explicitly restricts its map to m0.uri.*, and reuses the exact same immutable actual input pair. C read the public failed receipts and final corrected source; C did not read the private original error or independently verify prior intermediate source bytes. No product run or failed receipt was relabeled.",
+  "verification": {
+    "CReadPrivate": false,
+    "CExecutedComparatorOrDBHTTPOrApplication": false,
+    "actualExecutionAndRawPrivateComparisonOwner": "Root",
+    "CIndependentChecks": "Exact public input/result/source hashes, all27 public names/unique/observed/complete flags and all27 accepted-difference paths, plus the source checks that enforce actual session conditions.",
+    "surfaceEvidenceUnchanged": true
+  },
+  "stageBoundary": "These observations close this finite URI27 comparison evidence requirement under the stated inherited diagnostic difference. They do not certify business success for API20, the complete original regression batches, all four UI/runtime combinations, or final stage closure.",
+  "G3Certified": false,
+  "G4Certified": false
+}

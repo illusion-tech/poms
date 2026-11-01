@@ -1,0 +1,90 @@
+{
+  "formatVersion": 1,
+  "reviewedAt": "2026-10-30T21:51:20.177Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "result": "SourceReady",
+  "G3Certified": false,
+  "G4Certified": false,
+  "kind": "R2M-owned-Chromium-fixed10080-port-incremental-source-review-not-a-Gate",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-port-source01.json",
+    "bytes": 2657,
+    "rawBytesSha256": "ab77114d85029fb17d4220a7e4aed0694b256973bdebe7eabfe2c4db6598be68"
+  },
+  "priorReview": "docs/design/rust-r2m/ui-failure-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 4159,
+      "rawBytesSha256": "14883f21772ed8f19089270c2fd347061872154636ca435388c303e25016ac76",
+      "readLevel": "Complete minimal delta and exact preserved old source comparison"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime.mjs",
+      "bytes": 22897,
+      "rawBytesSha256": "296509f40f81ca2d9a3c68e45bc0d0e3078e036dc5afb4f7af76c38a20aa789a",
+      "readLevel": "Only helper import/actual Chromium args/report argument list delta; prior reviewed lifecycle reused"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 28480,
+      "rawBytesSha256": "1b623728b3addd4b8c0071ec7926269f8dd2d7fcb06c257acd9b0c31fa6b845f",
+      "readLevel": "Only helper import/actual Chromium args/report argument list delta; prior full entry source reused"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-playwright.config.mjs",
+      "bytes": 1476,
+      "rawBytesSha256": "49f698f19d181b38fea1e3dee05531249e84ae450a990c6d2cdb4b9cd5b220a7",
+      "readLevel": "Only helper import and exact Chromium launch args addition; original legacy tests/config behavior unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/ui-browser-port.test.mjs",
+      "bytes": 466,
+      "rawBytesSha256": "6ee38ce5e5978456e230e017f5d363ce3cd75e6feb0b218293ef4eff75d23c1c",
+      "readLevel": "Complete pure argument-list/isolation source; not executed by C"
+    }
+  ],
+  "preservation": {
+    "file": "tools/rust-r2m/ui-port-before-source01.json",
+    "bytes": 76265,
+    "rawBytesSha256": "0549f5bd1152f365e56564484b63f787eea0d19f885abaf47275351a43a37c12",
+    "oldBodyHashesIndependentlyChecked": true
+  },
+  "externalPrimarySourcesRead": [
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/master/net/base/port_util.cc",
+      "sourceBlob": "41cbfcaaccc5594aa464ab847a81719fdfccb4b4",
+      "readLevel": "Restricted-port10080 and explicit allowed-port handling portions only",
+      "finding": "Current Chromium source lists10080 in restricted ports and checks explicit allowed ports before rejecting restricted ports."
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/HEAD/headless/public/switches.h",
+      "readLevel": "Current headless explicitly-allowed-ports declaration/comment only",
+      "finding": "The headless switch accepts a comma-separated explicit restricted-port override list."
+    }
+  ],
+  "findings": [
+    "The sole helper returns a fresh array containing exactly --explicitly-allowed-ports=10080. The actual task-owned Chromium launch in Linux UI1/full and the derived QA legacy config consumes that exact array; public runtime metadata records it.",
+    "No global browser/OS policy, original G1 port, origin, HTTP dispatch, product code, auth/CSRF/role guard, business assertion, private environment or library/executable pin is changed. Existing exact owner/drain/SDK/PG/failure-retention/cleanup paths remain.",
+    "The setting is a bounded compatibility adjustment to the fixed task browser process. Actual navigation and API behavior still require a new source epoch/run. Source validation of the switch does not prove this was the old UI09 failure."
+  ],
+  "verification": {
+    "sourcePinsMatched": 5,
+    "expectedPins": 5,
+    "reportedPurePassed": 15,
+    "reportedPureFailed": 0,
+    "syntaxChecksReported": 5,
+    "pureSourceAndLogSummaryRead": true,
+    "CExecutedTestsOrBrowserOrHTTPOrDB": false,
+    "CReadPrivate": false
+  },
+  "executionBoundary": "May run the next finite Linux/QA legacy browser trial with these exact sources and inherited reviewed dependencies. UI09 remains Unknown/partial; no retrospective cause or UI Pass is assigned. Separate Windows orchestration remains separate.",
+  "blocks": []
+}

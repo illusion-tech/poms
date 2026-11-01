@@ -1,0 +1,473 @@
+{
+  "kind": "R2M-independent-C-fixed-wn1c02a-qualified-Windows-close-late-recovery-source-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 18:37:02 UTC",
+  "reviewer": {
+    "role": "independent non-product-author C",
+    "declaredModel": "gpt-6.1-sol",
+    "declaredReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/wn1c02a-recovery-source01.json",
+    "bytes": 11077,
+    "rawBytesSha256": "81051f11081a7c34b482fc5de484a04140169e252dabd2e888008cebb03ace8c"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-late-wn1c02a.mjs",
+      "bytes": 27148,
+      "rawBytesSha256": "4bf8669a3e87365698b4240721ca747537ce43987372b97cd3e9230251f73cc9"
+    },
+    {
+      "file": "tools/rust-r2m/wn1c02a-recovery-fixed-inputs01.mjs",
+      "bytes": 3140,
+      "rawBytesSha256": "3b9108ba9b0c0f6c4cc76d47a1172085645d1e9a1ec0a95b228e6fb8b8248d40"
+    },
+    {
+      "file": "tools/rust-r2m/recover-late-wn1c02a.test.mjs",
+      "bytes": 11059,
+      "rawBytesSha256": "73ddd6d81208a870072709e10dc4baa9bc12b9e3dd29167993cf9114eb505ac2"
+    },
+    {
+      "file": "tools/rust-r2m/wn1c02a-recovery-contract01.md",
+      "bytes": 2657,
+      "rawBytesSha256": "6533f409c80d3181b7c42ef3f9330c3e72d18acd2686e3e08a171e1b0eb7d210"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+      "bytes": 17896,
+      "rawBytesSha256": "06727c206de74a7a4b26c077a48d3fd9241af9de8383a555fb56a5419ff8ba46"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-package-intent.mjs",
+      "bytes": 14719,
+      "rawBytesSha256": "f1ef6047c6c6b344ba8c5b31b4e21dfad833525c422acfdf6a8a5f922bec7173"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-attachment-source.mjs",
+      "bytes": 6514,
+      "rawBytesSha256": "f24d4c4e42de88cde2459daf6878e634c3f4a61c8c019d5b466630e4151fa6f0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-external-audit-identity.mjs",
+      "bytes": 13832,
+      "rawBytesSha256": "c797d1fb6a44ec2445ce84028c5df5453992e9d34f5777ed93853f3d8a816a7d"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-audit-identity.mjs",
+      "bytes": 15075,
+      "rawBytesSha256": "98e38f0b7ebae1b36861c55ec5e62f474e4fe66c3314047c8967bc3bf0a71300"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "c006319de74f42167c1178fea16397fd0bfd8097e0caa10514cd20357c524848"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-setting-baseline.mjs",
+      "bytes": 12496,
+      "rawBytesSha256": "420e7aa18441b27886f08da48eb96e045c06534ed3987b6ef2ae80b08c1248dc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-objects.mjs",
+      "bytes": 6306,
+      "rawBytesSha256": "3acb41c9f23fd4e82a0bed844f5f0596fb72c788f5bf626faa9718174ed656c0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-private.mjs",
+      "bytes": 1860,
+      "rawBytesSha256": "f9746a7a2219e2b93b838f32b05af54962fc28c25217520f8c2aae1b4e1c72b9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "dc47cbe28403204e691995bd3c33d8e327a17258ff0ea4130becfaa8e58d1b63"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/database-client.mjs",
+      "bytes": 2075,
+      "rawBytesSha256": "07a2953f0551bbb48b9195fa01ec2c981d1083c7c90b2fd52774aed4465c6755"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-core.mjs",
+      "bytes": 10352,
+      "rawBytesSha256": "3705769440b20905a178145ba35611399447bc49247fc6c5a4218fd7089864b2"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-guard.mjs",
+      "bytes": 4773,
+      "rawBytesSha256": "c33e9024290138b6c1e9eb0992fc982e0baa8d4b9121ffe4257020b4a3725bbe"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-journal.mjs",
+      "bytes": 13699,
+      "rawBytesSha256": "007c5ad9a98c5be7630548e02c51fcc08dcd770ae83bf362c7aaa984b7843d8e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-profile.mjs",
+      "bytes": 13579,
+      "rawBytesSha256": "906cd188ed0818b3736b991bcc3a0cb38e2995df226be0ce2bdf7f881c02c987"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "bytes": 46379,
+      "rawBytesSha256": "3d51c75d0433be524ac527d769996a5808cd6893f36dabbd2e6c2bd008819922"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/reference-authority.json",
+      "bytes": 581500,
+      "rawBytesSha256": "5164a71d1a1a3af4e01951815a27b1ebb1a51e6bab22ebdb64a17794e7c6dca9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/pg-create-observer.mjs",
+      "bytes": 75161,
+      "rawBytesSha256": "7988f0a0fb5f7e9fd88a2889dc5faf3fe6381cd16568b94a54926c76c8f74322"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-process.ps1",
+      "bytes": 15477,
+      "rawBytesSha256": "f26c0f0de4231c35cfbc94642917798e4a06e8ae4da0f5393b1f69484c77cd6e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-process.ps1",
+      "bytes": 15485,
+      "rawBytesSha256": "e7ab81247ed402d2404caa8c9982764b4e2793afd60a18c1d3c7e6f27bd8ca2a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-app.mjs",
+      "bytes": 16912,
+      "rawBytesSha256": "95ae4fe689af435b9204f603ffb59fcff8c01f180463e849ed7edd5fdd411aee"
+    }
+  ],
+  "scope": {
+    "onlyRunId": "d8600b70-19ad-4dff-9a98-15ad54ed248d",
+    "backend": "nest",
+    "tag": "wn1c02a",
+    "database": "poms_r2m_c01_nest",
+    "databaseOID": "27137",
+    "marker": "abd093b8-c584-45b3-9c62-6357ad6dfa5d",
+    "sourceCapId": "r2m-c01-win02",
+    "sourceCapManifest": "42490fa4eb40f38627eed74e4646f0781c6349d4158084311456ae900cf37d22",
+    "fixtureProfile": "r2m-stage-continuation01",
+    "fixtureProfileSources": 33,
+    "fixtureProfileSourceSetSha256": "93873b97198857f71e594b6b378c966dd193721f4ea03cb58580b566c61a1119",
+    "certifiedObjects": 61,
+    "pendingIntents": 0,
+    "committedSDKEnvelopes": 2,
+    "originalPGCases": 13,
+    "originalPGEvents": 2,
+    "singletonLease": false,
+    "mutations": 0,
+    "files": 0,
+    "qualification": "retained actual Windows closure plus fresh source-bound late quiescence",
+    "originalPublicNormalClosedReceiptClaimed": false,
+    "originalNaturalWorkerExitClaimed": false,
+    "actualRecoveryExecutedOrCertifiedByC": false,
+    "UIObservedPass": false,
+    "G3": false,
+    "G4": false
+  },
+  "publicInputPins": [
+    {
+      "file": "tmp/rust-r2m-continuation01/wn1c02a-recovery-metadata01.json",
+      "bytes": 21881,
+      "rawBytesSha256": "488483671bb6062783e3a8e71ff7d632ed91939dc1c7131f1749d3d062ded7f6"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wn1c02a-outer-failure-safe01.json",
+      "bytes": 864,
+      "rawBytesSha256": "8a2979d1b095b3d824f79a86244ef6bfb08745dc8d68455cab6f944614290e4b"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn1c02a.json",
+      "bytes": 732506,
+      "rawBytesSha256": "537d1a1de9895a9f41c7202f1a9e2087f824d9e2e7a76c5e989b6bd541f59730"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win02.json",
+      "bytes": 1834362,
+      "rawBytesSha256": "04b17804a7ea90ac20fb70edbd15641e203e5a1ac595c1da3c0969e2f74c1965"
+    }
+  ],
+  "fixedOriginalRuntimeRefs": {
+    "report": {
+      "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn1c02a.json",
+      "bytes": 732506,
+      "rawBytesSha256": "537d1a1de9895a9f41c7202f1a9e2087f824d9e2e7a76c5e989b6bd541f59730"
+    },
+    "journal": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/m-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d.json",
+      "bytes": 238003,
+      "rawBytesSha256": "77318f8b9d1b966647a92a5ee4323f1080a2a5993e4e45950167225d5d6ac1bf",
+      "private": true
+    },
+    "cap": {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win02.json",
+      "bytes": 1834362,
+      "rawBytesSha256": "04b17804a7ea90ac20fb70edbd15641e203e5a1ac595c1da3c0969e2f74c1965"
+    },
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d/00000.json",
+      "bytes": 432862,
+      "rawBytesSha256": "5dc4956372af807082c6c09eb9b365ce419f899695d8cd60016fa3cb4c7752bd",
+      "private": true
+    },
+    "lastSealedHTTP": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d/00197.json",
+      "bytes": 1217854,
+      "rawBytesSha256": "acf4ba5f57210e720a78d7cd007db4133a67850c87ee4126ed598d76a27508a0",
+      "private": true
+    },
+    "sourceReady": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d/00021.json",
+      "bytes": 538998,
+      "rawBytesSha256": "982d7137906022c7117be3379198295e162043bcad4d0d08553a3c1d80fb83ea",
+      "private": true
+    },
+    "nativeFinal": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d/00222.json",
+      "bytes": 109809,
+      "rawBytesSha256": "78648459655ac1781d8e9acb9b6a3a70e6b280e9a222444616ebb479e3041b0c",
+      "private": true
+    },
+    "nativeClose": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d/00227.json",
+      "bytes": 6389,
+      "rawBytesSha256": "fabafda660f0819d27f9616316182358f22f6f82cf617b7455be7f9f08b21e6c",
+      "private": true
+    },
+    "originalWindowsBridgeResult": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d/00218.json",
+      "bytes": 2577833,
+      "rawBytesSha256": "d643da4765487ddf3f7ff5ab690e1f8a8c99c2461a0b36e16c5270a91afd8340",
+      "private": true
+    },
+    "pgJournal": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-d8600b70-19ad-4dff-9a98-15ad54ed248d-c0d218fc-7a01-48ab-ab48-bd14eb4d56ee.json",
+      "bytes": 866423,
+      "rawBytesSha256": "fc553ad4904aea34a2d089de70af495c9163b7c6499884d10ef5628b6a8f8652",
+      "private": true
+    },
+    "currentSnapshot": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn1c02a-current-full107-readonly01.json",
+      "bytes": 234112,
+      "rawBytesSha256": "d65417da30cd09c03b54979dc5244f0c6f12bbeffd77864d116fe17565d53f6e",
+      "private": true
+    }
+  },
+  "originalRefReadLevel": "Private references are literal raw length/SHA pins compared with the Root public descriptor and actual wrapper view declarations. C did not open those private files; Root must read and revalidate them before the first wx/open/reconcile/delete.",
+  "inheritedSourceBoundary": {
+    "source": {
+      "file": "tools/rust-r2m/recover-late-uwir4c01a.mjs",
+      "bytes": 43345,
+      "rawBytesSha256": "022a3f171f322a387e0a44975f6f54e5f1a45374a631fca04e3316c4930bad55"
+    },
+    "priorIndependentReview": {
+      "file": "docs/design/rust-r2m/uwir4c01a-late-recovery-source-review03.json",
+      "bytes": 19108,
+      "rawBytesSha256": "299092d4e16ad6af154e2c659055e447b5bce0f3b756259e753c0589c0188a10"
+    },
+    "bodyArchive": {
+      "file": "tools/rust-r2m/wn1c02a-recovery-inheritance01.json",
+      "bytes": 18633,
+      "rawBytesSha256": "0e5700c5cdfc0c7da88381a49895827749fa49fee3f8718389e2ad85e198f107"
+    },
+    "functionCount": 8,
+    "eachCurrentAndOldCompleteBodyFoundInItsRawSource": true,
+    "eachFiniteInverseRecomputedByC": true,
+    "functionNames": [
+      "parents",
+      "read",
+      "save",
+      "classifyUi4Application",
+      "freshQuiescence",
+      "validateUi4BOpenedBytes",
+      "validateUi4ObserverSchema",
+      "readLiveOwner"
+    ],
+    "onlyInverseDifferences": [
+      "fixed new private snapshot prefix",
+      "the two exact original Windows PS source paths in read whitelist",
+      "fixed original Linux worker/anchor/group PID tuple",
+      "readonly application_name",
+      "Native database OID27137 instead of prior Rust27149",
+      "new exact inactive-two-event validator call"
+    ],
+    "oldActualRecoveryReceiptReusedAsThisRunClosure": false
+  },
+  "necessaryConditions": {
+    "frozenInputs": [
+      "Literal report/cap/journal/observer/baseline/sourceReady/last sealed HTTP/Native final/Native close/original Windows result/current snapshot references must retain their exact raw byte lengths/SHA256.",
+      "The decoder maps journal explicitly to ledger and requires all eleven original keys. Six original wrapper kind/recordKeys projections come from the real Root public descriptor; no wrapper shape is inferred from its filename.",
+      "Original report remains partial-preserved with browser=false, writersStopped=false and observerRestored=false. A retained true Windows closure is qualified separately.",
+      "The original owned-command deadline error and its original finally-stop remain applicable; absence or a later no-signal probe is not called natural worker exit."
+    ],
+    "originalClosure": [
+      "Native final SDK witness is complete with zero active/open/pending transactions, exactly two committed envelopes and 150 original SQL records; those envelopes equal the existing owned creation proofs and committedCreates.",
+      "The actual Native close record is the source-defined R2M-actual-Windows-Native-owner, acknowledged profile/original SDK delivered, exact registered source identity, no close failures and owned-tree stopped.",
+      "The retained original UI Windows result requires closed browser/context/server, all three browser closeout rows closed, pendingCallbacks=0, private original stdio retained, owned-tree-stopped, no unregistered process stop and no skipped foreign PID reuse.",
+      "These original close records qualify a later source-bound recovery; they do not repair the original UI failure or manufacture an original normal public close receipt."
+    ],
+    "beforeOpen": [
+      "All private reads and snapshots retain nofollow, single-link0600 leaf, parent0700/nonsymlink and same-fd/leaf metadata checks. New snapshots are exclusive wx writes; originals are not overwritten.",
+      "Before Fixture.open, save original journal and observer raw bytes, then require fixed source-scoped Linux applications absent, original worker2064652/anchor2064645/group-2064645 ESRCH and all five application ports free.",
+      "Fresh Windows checks use only the actual old UI and Native registered PID/member sets and their two exact bridge nonces through the original cap-pinned scripts in Inspect/Discover modes, before and after restore. Full original outputs are privately saved before absence assertions. There is no Stop or arbitrary process-tree exception.",
+      "SourceReader verifies the original profile33 and actual PG/PS cap member pins; future Windows optimisation/runtime files are not substituted."
+    ],
+    "freshDatabaseAndObserver": [
+      "Ordinary Fixture.open must differ from the exact original journal only by one revision increment.",
+      "Fresh complete107 facts must have unknownCreates=0 and unknownMutations=0 and exactly equal the original last sealed HTTP.after physical row set.",
+      "A separate validated owner connection uses fixed port20432/databaseOID27137/marker and BEGIN READ ONLY; require no other c01 application connection and no prepared transaction.",
+      "Real declared poms trigger/function/relation closure, approved original SQL body/definition/OIDs and 34 tables remain exact. No nonexistent source_schema event column is invented.",
+      "Live control must be inactive with null request/case/index/op, empty scope and exactly the original13 used tokens. The complete two-event set equals the original thirteen drained cases without field drops.",
+      "Each original event must retain observer/run/database/committed state, same actual run/case/index/op, matching PG event/xid/xmin/immutable identity, independent visibility and a genuine existing SDK createContext/commitContext/committed envelope."
+    ],
+    "restoreAndCleanup": [
+      "Only mature exact-installed reconcile/new-generation reopening is allowed; no active case, new certificate, adoption, intent/selector correction or event clearing is added.",
+      "Restore must export exactly the original two events and return the exact original owner before-footprint hash.",
+      "Run complete107 incoming/reference preflight, repeat Linux/Windows quiescence, and record a fresh late drain with no normal-close claim.",
+      "Use the mature cleanup predicate only:61 owned rows/zero files then second0/0. Fresh unknown counts remain zero and all107 physical rows must equal the original baseline.",
+      "No singleton, number lease, mutation rollback, custom delete, database reset/rename/drop or original quarantined-graph operation is authorized."
+    ],
+    "failure": [
+      "Original failures/false lifecycle labels remain intact. Catch saves original diagnostic name/message/stack/code/status/signal and available child stdout/stderr privately, with a fixed public category and refs.",
+      "Fixture close is attempted and independently records a close failure. Receipts are exclusive new outputs.",
+      "Only a failing dedicated helper may exit after synchronous receipts and fixture-close attempt to disconnect its possible transferred observer handle. Success must rely on actually restored/closed resources; no forced success exit is used."
+    ]
+  },
+  "authorValidation": {
+    "tests": 6,
+    "pass": 6,
+    "fail": 0,
+    "skipped": 0,
+    "pureLog": {
+      "file": "tools/rust-r2m/wn1c02a-recovery-source01-pure01.txt",
+      "bytes": 954,
+      "rawBytesSha256": "b89cb5c299a1564e3103c025fbe61a0fc9b85328460a8be7a46e7e72f651934d"
+    },
+    "syntaxAndLexical": {
+      "file": "tools/rust-r2m/wn1c02a-recovery-source01-static.json",
+      "bytes": 718,
+      "rawBytesSha256": "65df9a2f85ee862eb05acdaa581cca86141ed35d5031c0cb3c14421ff6e2d6a8"
+    },
+    "syntaxChecks": 3,
+    "lexicalChecks": 3,
+    "sourceOnlyCheckPassed": true,
+    "reviewerReran": false,
+    "authorPrivateOrDBOrHTTPOrRealProcessProbe": false
+  },
+  "independentVerification": {
+    "publicSourceAndMetadataRefsRawChecked": 51,
+    "allMatched": true,
+    "capMembersAgainstCurrentRequiredPinsMatched": true,
+    "fixedOriginalRefsCompared": 11,
+    "fixedOriginalRefMismatches": 0,
+    "completeInheritedFunctionInverseChecks": 8,
+    "allInverseEqual": true,
+    "newFrozenAndLiveAndWindowsPlanAndMainRecoveryFunctionsRead": true,
+    "noRuntimeOrPrivateExecutionByReviewer": true
+  },
+  "rootExecution": {
+    "onlyRoot": true,
+    "command": "node tools/rust-r2m/recover-late-wn1c02a.mjs --run",
+    "expectedNewPublicOutput": "tmp/rust-r2m-continuation01/recovered-ui-windows-nest-wn1c02a01.json",
+    "expectedSuccessfulLabel": "recovered-fixed-qualified-Windows-close-late61-double-zero-not-UI-pass",
+    "recheckAllActualPinsAndConditions": true,
+    "preserveOriginalPublicFalseAndPartialAndDeadline": true,
+    "anyUnknownOrGuardFailure": "preserve newly written failure and private originals; stop before further recovery mutation",
+    "newWindowsOptimisationAdoption": "only after this exact original graph is recovered and a separately reviewed matching epoch is installed"
+  },
+  "readLevels": {
+    "source": "Complete new helper/refs/tests/contract and necessary original mature source interfaces read;8 complete inherited bodies independently inverse-checked against the original signed public source.",
+    "public": "Root metadata, original public report/cap and outer deadline correction were read as public evidence and independently hashed with the runtime dependency pins.",
+    "private": "No private raw ref, owner password, journal, PG/SDK/SQL/Windows record or current DB was opened by C.",
+    "runtime": "No PS/kernel/process/DB/API/browser action, Node/test execution or Git/product/fixture mutation was performed. Only this new independent review JSON is written."
+  },
+  "limits": [
+    "SourceReady 仅用于这个已失败 run 的条件恢复，不认证61已实际删除、observer已恢复或Windows UI1已通过；实际执行和回执由Root独占。",
+    "原公开 browser/writersStopped/observerRestored false、partial及outer deadline保留；真实Windows关闭与fresh late quiescence分列，normal/natural claims均false。",
+    "本审不新增cleanup/ownership豁免，不放宽原SDK/PG/immutable/reference/schema守卫，不把本恢复作为新Windows旅程或G3/G4证据。"
+  ]
+}
+

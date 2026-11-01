@@ -1,0 +1,94 @@
+{
+  "kind": "POMS-R2M-independent-continuation01-isolation-architecture-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 06:44:37 UTC",
+  "result": "DesignAccepted",
+  "gate": false,
+  "privateRead": false,
+  "environmentRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecuted": false,
+  "productOrFixtureEdited": false,
+  "gitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "candidate": {
+    "file": "tools/rust-r2m/continuation01-plan.json",
+    "bytes": 9943,
+    "rawBytesSha256": "1aae7a0653968797e5b21dc9fa9e045e13ccb249d6a582c19c90d3bf8e38c2bb",
+    "readLevel": "Complete JSON plan and companion MD source read; raw JSON pin checked."
+  },
+  "basis": {
+    "file": "docs/design/rust-r2m/m5-ticket-observation-recovery-design-review01.json",
+    "rawBytesSha256": "fe9c94391c53c23582892cc3aac97a462ffd207ab882eb8c56bca1dc454c52ce"
+  },
+  "resources": {
+    "namespace": "poms-r2m",
+    "environmentId": "r2m-continuation01",
+    "oldRust": {
+      "name": "poms_r2m_rust",
+      "oid": "17085",
+      "identityKept": true
+    },
+    "newDatabases": [
+      "poms_r2m_c01_nest",
+      "poms_r2m_c01_rust"
+    ],
+    "newRole": "poms_r2m_c01_app",
+    "newMarker": "abd093b8-c584-45b3-9c62-6357ad6dfa5d",
+    "newMarkerSchema": "r2m_c01_control",
+    "newStateRoot": "/home/wangzishi/.local/share/poms-r2m-continuation01",
+    "sourceTemplate": "Actually cleaned original poms_r2m_nest only; never failed Rust graph",
+    "toolVariant": "tools/rust-r2m-continuation01"
+  },
+  "architectureFindings": [
+    {
+      "id": "old-retained-database",
+      "result": "Accepted-design",
+      "detail": "Exact old name/OID/owner/ACL/marker/full107 and0other connections/prepared must precede a maintenance-only connection disable. Only datallowconn may change; no old row DML/rename/drop/terminate/adoption. Separate audit9302/auth9303 remain no shared birth evidence. Original failed graph/journals stay uncertified."
+    },
+    {
+      "id": "consistent-clean-clone",
+      "result": "Accepted-design",
+      "detail": "After exact an4c recovery and all current writers stop, bind actual sourceOID/full107/ACL/seed equality and0connections before each clone. Two distinct before-absent DBs/newOIDs use the clean same source. Product107 rows/catalog must match before any new run; only new infra marker/ACL changes occur."
+    },
+    {
+      "id": "new-lowrole-and-marker",
+      "result": "Accepted-design",
+      "detail": "New before-absent role has no super/create/bypass/replication/membership privileges. Revoke cloned old-app/PUBLIC permissions only in new DBs and grant finite original runtime privileges to new role. Old database ACLs remain recorded/unchanged. Actual old Rust ACL has no PUBLIC grant, but sourceNative ACL and exact newrole privilege results must still be measured rather than inferred."
+    },
+    {
+      "id": "literal-sibling-source",
+      "result": "Accepted-design",
+      "detail": "Finite entry dependency closure and explicit environment-identity/path/profile/self-pin mapping only. Per-file raw old/new/exact occurrence diffs plus full inverse-byte equality are required for the proposed mechanical variant; no global regex or mutable environment override. Old guards reject new profile and new guards reject old/unlisted identities."
+    },
+    {
+      "id": "secrets-and-originals",
+      "result": "Accepted-design",
+      "detail": "New private0700/files0600, new keys/lowrole password and env assembled from frozen public literals. No old env/private copy. Only explicit already-owned PG maintenance owner-password may be read by the dedicated Root provision path. Old r2m_control marker clone is owner-only provenance; only new marker/schema is admitted."
+    }
+  ],
+  "sourceImpactClarifications": [
+    "The PG parent baseline for the variant is explicitly approved538aa future module, not a disguised env-only rewrite of old6d9. Keep both semantic24-byte fix and later environment literal diff traceable.",
+    "Recomputed source hash pins must name actual derived raw files and execution closure; do not rewrite original product/seeder/recipe hashes, old events/caps/journals/reviews or normalize historical IDs.",
+    "Only environment identity literals may map. Business namespace, actor/selector/parent/NULL/transaction/cleanup semantics and original producer/read-model split stay exact.",
+    "Initial entry scope is finite API M4/M5 support. UI/Windows variants, if used, require their actual dependency/root/env/process/platform evidence; this design does not certify them.",
+    "A plan phrase 'bounded G1 extension' means an immutable same-scope corrective environment record under existing authorization, not rewriting frozen G1 or creating another ordinary Gate."
+  ],
+  "requiredConcreteNextInputs": [
+    "Exact quarantine/provision CLI sources and read-before/after OID/ACL/marker admission, no-follow credential/error retention and partial resource preservation.",
+    "Per-entry finite dependency inventory and complete raw inverse maps, including explicit transformed self/hash references.",
+    "Source/variant pure guard negatives for old/new/foreign DB/role/marker/env/roots and ambient case-insensitive rejection.",
+    "Root actual quarantine/provision and clean source/clone/lowrole/env receipts before business runs; new honest matching source/product capsule."
+  ],
+  "sourceExecutableReady": false,
+  "resourceCreated": false,
+  "actualContinuationAcceptance": false,
+  "oldPartialNotRelabelled": true,
+  "newStageGate": false,
+  "remainingStageCondition": "Fresh affected Native/Rust cases and real cleanup/compatibility plus old isolation disposition still undergo original independent G3/G4."
+}

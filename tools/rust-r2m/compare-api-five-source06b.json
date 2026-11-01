@@ -1,0 +1,478 @@
+{
+  "kind": "B-M3-five-comparison-source06b-final",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "result": "SourceReviewPending-prefix-guard-correction-only",
+  "selection": [
+    "M3.1",
+    "M3.2",
+    "M3.3",
+    "M3.4",
+    "M3.5"
+  ],
+  "previous": {
+    "file": "tools/rust-r2m/compare-api-five-source06.json",
+    "bytes": 17424,
+    "rawBytesSha256": "6664ec2b45c5d993b490228ac8bac1842147055c74db633666afb111eae04bd3"
+  },
+  "approvedPrevious": {
+    "file": "docs/design/rust-r2m/api-five-comparison-source-review02.json",
+    "bytes": 10746,
+    "rawBytesSha256": "0779adad1456a2ea0b5be9ce6885281df5c5e4650ef2918068c6b0540effa444"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-five.mjs",
+      "bytes": 33601,
+      "rawBytesSha256": "e925e4f7bab7e9e5f18a03ff8d3c9b21963273e22356597f2b736afe1846fb31"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-core.mjs",
+      "bytes": 41308,
+      "rawBytesSha256": "6aae70dd9790b24e4619ced0f47fb8f2cc7ea90e4e9f4c700c56ce9e53613ae9"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-draft.mjs",
+      "bytes": 2489,
+      "rawBytesSha256": "b08862c8ead6585e955cbf87c7bb5510eb4f0f0936ea35ad2797f3555d56f8a0"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five.test.mjs",
+      "bytes": 21456,
+      "rawBytesSha256": "8ada29e56f869721d6a28344abceff93556731c9791b2fbf89064d8421623def"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-case-joint25.json",
+      "bytes": 19402,
+      "rawBytesSha256": "8456de0b590d0c51982fe8255e992f3e8d12ce2bc4f9468d865f8a52d444dce5"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-contract.md",
+      "bytes": 7034,
+      "rawBytesSha256": "2ce67a85ba4a183046bcb6c5b562f48b56af2789ec351b06c46080aa607c027b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "9b872e435007b38372d4a1fa16d29b2a0001a81e08a25aba0cd9868232605680"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-initial-frame.mjs",
+      "bytes": 1038,
+      "rawBytesSha256": "e190e8d81e992b6752cb335a2e2de0398021a4d1740c3cb5f258a6b5005cbafa"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-prepared-source-check.mjs",
+      "bytes": 6287,
+      "rawBytesSha256": "d2c173ba1bcfd0e068f5967b707e64143c2908c39f0fe047473fbcbae412ca55"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2l/prepared-contract-source.mjs",
+      "bytes": 4494,
+      "rawBytesSha256": "80814f12efeca8ca2e617afa085c67f5832eb2fad399b8c6a72c1012a7864e05"
+    },
+    {
+      "file": "tools/rust-r2l/l-shared-uow-measurements.mjs",
+      "bytes": 7606,
+      "rawBytesSha256": "519a477977e3e1865650029eb657f80ce1196ad7c3e12f44ee80f5615be19451"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    },
+    {
+      "file": "tmp/rust-r2m/compare-api-five-origin01/compare-api.mjs",
+      "bytes": 21181,
+      "rawBytesSha256": "60c09334ae4ca34dc24616b07c0e1b269decff6f7a424b835d13f3513f7fd697"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-m3-clock.mjs",
+      "bytes": 25264,
+      "rawBytesSha256": "fcafc8c168991dc7ea4f378160295ea5cc1d5c373dafe06e4004a852a9401ea9"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-m3-clock.test.mjs",
+      "bytes": 7926,
+      "rawBytesSha256": "c905436841f59b093d60f4c2e02fe23db6adfe86dfdc2a86cd8de050a7a07e38"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-memory.mjs",
+      "bytes": 32491,
+      "rawBytesSha256": "18414e3cd67e684acba3d278b5fdb103ffc12ed7def75395427b593731fc41a0"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-memory.test.mjs",
+      "bytes": 20851,
+      "rawBytesSha256": "3679d02ebf9d2d86a31d558ff6ee0e6bb11c3c52e1d3ffe05b94ee99e725b97a"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-phase.mjs",
+      "bytes": 6661,
+      "rawBytesSha256": "aaea1301970f34a4a87217621775711bd3afbf6a0e8b0ab4f85e9f79ac14fbbc"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-phase.test.mjs",
+      "bytes": 3096,
+      "rawBytesSha256": "8730a4dacd0ede3885b2b1d7258d4490e954114ace4511e88405a4ea814b10b5"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-phase-contract.md",
+      "bytes": 2887,
+      "rawBytesSha256": "ae2a3f46ff804cfdec9ee95c7b05fb04f906e762f97ffdab8deb0d099bcf5ad8"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-contract02.md",
+      "bytes": 7100,
+      "rawBytesSha256": "2b0ec75ef16fed271e2796dfc25fbdc179e3fb6ed34669ecb4fd414762165c78"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-source-inspection01.json",
+      "bytes": 6026,
+      "rawBytesSha256": "4ab92268a0b2506dd788f160b8a989a5f9a8194e4f63c5545515386c49d2327f"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-source01/5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6",
+      "bytes": 47827,
+      "rawBytesSha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-cause.mjs",
+      "bytes": 11666,
+      "rawBytesSha256": "6168c3d232c3cf13e22ba50e26efbf5ec532ce3fbc852edaa87604ff9aa76268"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-cause.test.mjs",
+      "bytes": 6590,
+      "rawBytesSha256": "1be09954bc35abf9e20fd64259748b1fd6c682e254492015544048d92cb8685a"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-auth-cause.mjs",
+      "bytes": 15762,
+      "rawBytesSha256": "9c437d8fed19f9a67492fedf139808862ca6ebdb087744c66494c5c1338194bc"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-auth-cause.test.mjs",
+      "bytes": 8847,
+      "rawBytesSha256": "9b150a74eef1caba6788e68ba72f341b007d21c6e7f9e421084f5c3492ea56e3"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-files.mjs",
+      "bytes": 4325,
+      "rawBytesSha256": "f46dcfb82d1083c33347c3670b498626de76759777b6a940b3c98074c06292f6"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-files.test.mjs",
+      "bytes": 3951,
+      "rawBytesSha256": "048a5669a5e24aaea6897bee9db08bfd52eaa2574d97b19345ce4bb9158393fa"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-contract06.md",
+      "bytes": 7234,
+      "rawBytesSha256": "c8729f18c96e3019c358c0bd5707552c5bb1b4964d340bd6f34ab2b65675f41b"
+    }
+  ],
+  "sourceSetSha256": "07a8926ce3f9451b6d33cdb17e85cd1fb574c3b2b3247671d335581515fefae4",
+  "changedSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-five.mjs",
+      "bytes": 33601,
+      "rawBytesSha256": "e925e4f7bab7e9e5f18a03ff8d3c9b21963273e22356597f2b736afe1846fb31"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-files.mjs",
+      "bytes": 4325,
+      "rawBytesSha256": "f46dcfb82d1083c33347c3670b498626de76759777b6a940b3c98074c06292f6"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-files.test.mjs",
+      "bytes": 3951,
+      "rawBytesSha256": "048a5669a5e24aaea6897bee9db08bfd52eaa2574d97b19345ce4bb9158393fa"
+    }
+  ],
+  "unchangedOldSources": 25,
+  "newSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-five-cause.mjs",
+      "bytes": 11666,
+      "rawBytesSha256": "6168c3d232c3cf13e22ba50e26efbf5ec532ce3fbc852edaa87604ff9aa76268"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-cause.test.mjs",
+      "bytes": 6590,
+      "rawBytesSha256": "1be09954bc35abf9e20fd64259748b1fd6c682e254492015544048d92cb8685a"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-auth-cause.mjs",
+      "bytes": 15762,
+      "rawBytesSha256": "9c437d8fed19f9a67492fedf139808862ca6ebdb087744c66494c5c1338194bc"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-auth-cause.test.mjs",
+      "bytes": 8847,
+      "rawBytesSha256": "9b150a74eef1caba6788e68ba72f341b007d21c6e7f9e421084f5c3492ea56e3"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-files.mjs",
+      "bytes": 3943,
+      "rawBytesSha256": "cc33070e7b841a3c46bf85b84d7d4403c25e0c1c35e1c77fd0469498497626d1"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-files.test.mjs",
+      "bytes": 1531,
+      "rawBytesSha256": "8e32822fdcc1e5a4373d3c70b312a20cd65a095ce4c0764b3072034b9dd2ebf3"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-five-contract06.md",
+      "bytes": 7234,
+      "rawBytesSha256": "c8729f18c96e3019c358c0bd5707552c5bb1b4964d340bd6f34ab2b65675f41b"
+    }
+  ],
+  "protectedOriginalCauseSources": [
+    {
+      "file": "apps/poms-api/src/seeders/database.seeder.ts",
+      "bytes": 80434,
+      "rawBytesSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "bytes": 9907,
+      "rawBytesSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+      "bytes": 10335,
+      "rawBytesSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/service.rs",
+      "bytes": 45646,
+      "rawBytesSha256": "edce898916a1459804fe27afaa7de6d74a1825e60a98bba11b24e2fda745c2a1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval/domain.rs",
+      "bytes": 26954,
+      "rawBytesSha256": "8ff262a4abbb55587f60d61add1a3aa7ef17a862a901ec374d92fb570c037f5d"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+      "bytes": 12139,
+      "rawBytesSha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+      "bytes": 8133,
+      "rawBytesSha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+      "bytes": 4018,
+      "rawBytesSha256": "6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479"
+    },
+    {
+      "file": "apps/poms-api/src/config/environment.schema.ts",
+      "bytes": 1698,
+      "rawBytesSha256": "e525f24e01a2cebed59abdf0c6639978eed408eed7479ce1e3a4580429f71890"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/service.rs",
+      "bytes": 20275,
+      "rawBytesSha256": "c4c73dae7e33a5f4299068327b9edcae1d8e9c6daeddda9a0e34da5e614dcf80"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "tools/rust-r2m/query-pid-witness.cjs",
+      "bytes": 8229,
+      "rawBytesSha256": "13ddb43c02bd49e8638741d3cdc70b2347ef27f8f71da99d66b7af848bd294f5"
+    }
+  ],
+  "currentOnlySdkAndRootInspectionEvidence": [
+    {
+      "file": "tmp/rust-r2m/m3-request-session-version-deltas01.json",
+      "bytes": 66884,
+      "rawBytesSha256": "a62ffbf9fd6a8b9419b3143371f81526c45177f4afc51cb5e1faea0b426b1b7d"
+    },
+    {
+      "file": "tmp/rust-r2m/m3-auth-version-relations01.json",
+      "bytes": 279998,
+      "rawBytesSha256": "e876b70ab99b0eae9ab69b9d96163177e3354d8ae324be428666f0354a34bfe5"
+    },
+    {
+      "file": "tmp/rust-r2m/m3-cause-details01.json",
+      "bytes": 127863,
+      "rawBytesSha256": "0642da003839108541c61d1b0d2681ebfdfdcf523d0cff7ed45e22092b0d6f7e"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-source-inspection-win01.json",
+      "bytes": 3611,
+      "rawBytesSha256": "2679a4fe029abb92cefd30dec7e8f664a7008ad48752875213c0e7deeec94670"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-current-win01/5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6",
+      "bytes": 47827,
+      "rawBytesSha256": "5e44680b7868d98f4b866d018e69d8efea1842c109f4dd26c839624827e012d6"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-current-win01/eae2d9ddd5cbd1f286b2e1a907f02e19a98cba5f6b4396e4b2ae14a7130f0f21",
+      "bytes": 8124,
+      "rawBytesSha256": "eae2d9ddd5cbd1f286b2e1a907f02e19a98cba5f6b4396e4b2ae14a7130f0f21"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-current-win01/f50c8ab22d4180c2f49d2b56ecc8ed057fe1134f94415cc3eda5a6be3549a8e2",
+      "bytes": 36903,
+      "rawBytesSha256": "f50c8ab22d4180c2f49d2b56ecc8ed057fe1134f94415cc3eda5a6be3549a8e2"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-current-win01/1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3",
+      "bytes": 20042,
+      "rawBytesSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-current-win01/0dcf4f7d9d8778c66e7fea59db31d98ebcbb72ce7dd7b9a8aec4e89772deb211",
+      "bytes": 43967,
+      "rawBytesSha256": "0dcf4f7d9d8778c66e7fea59db31d98ebcbb72ce7dd7b9a8aec4e89772deb211"
+    },
+    {
+      "file": "tmp/rust-r2m/installed-sdk-auth-current-win01/6e87a95cc881855397f074c77a2c181955c80cd324f8c4ead2c970ae0aae2cff",
+      "bytes": 90427,
+      "rawBytesSha256": "6e87a95cc881855397f074c77a2c181955c80cd324f8c4ead2c970ae0aae2cff"
+    }
+  ],
+  "inspectionPinsNotOriginalPublicationClaims": true,
+  "currentSdkCapturedDuringOriginalM3Run": false,
+  "original05Snapshot": {
+    "directory": "tmp/rust-r2m/compare-api-five-author-source05",
+    "files": 29,
+    "rawHashDifferences": 0
+  },
+  "protectedUnrelatedM5": {
+    "manifest": {
+      "file": "tools/rust-r2m/compare-api-m5-source04b.json",
+      "bytes": 20557,
+      "rawBytesSha256": "f5ad6d50adbcf305d8eed22e01d780dec8e41945ef5a480834c0d12e66578fe1"
+    },
+    "files": 32,
+    "rawHashDifferences": 0
+  },
+  "scope": {
+    "sameOldActualPair": true,
+    "originalPublicFailuresPreserved": true,
+    "newProductOrFixtureOrMatrixChanges": false,
+    "termDefaultOnlyExactTwoOmittedColumnsAndSameDirectBirth": true,
+    "rollbackOnlyFourOriginalBusinessDatesInV1V2": true,
+    "authOnlyTwoIssuedCookieTypedSessionsAndAllActualVersions": true,
+    "authVersionNumbersRemainOriginal": true,
+    "originalAuthDifferencesRemainRetained": true,
+    "unknownWritesOrUnfinishedTransactionsFail": true,
+    "authDTOOrBusinessCasFieldsClassified": false,
+    "wholeDebugMemoryGateAdded": false,
+    "unconsumedProducerDtoGateAdded": false,
+    "originalDomain02ByteUnchanged": true,
+    "wholeFiveNumericEqualityClaimed": false,
+    "sourceClassificationStillRequiresIndependentReview": true
+  },
+  "diff": {
+    "file": "tmp/rust-r2m/compare-api-five-source06b-to-source06.diff",
+    "bytes": 23482,
+    "rawBytesSha256": "d8d34a79be899dcfc83fd9a90163c0b2b888913ed8db19b151c94b702e938c8d"
+  },
+  "contracts": [
+    {
+      "file": "tools/rust-r2m/compare-api-five-contract06.md",
+      "bytes": 7234,
+      "rawBytesSha256": "c8729f18c96e3019c358c0bd5707552c5bb1b4964d340bd6f34ab2b65675f41b"
+    }
+  ],
+  "pure": {
+    "file": "tmp/rust-r2m/compare-api-five-source06b-pure01.json",
+    "bytes": 7864,
+    "rawBytesSha256": "cda2cc14a11c7aad0fcc499a1bbb6b6ebd49f7100a9bc6e78e1097d8062c8bde"
+  },
+  "authorPureFixtureFailureHistory": {
+    "file": "tmp/rust-r2m/compare-api-five-source06-author-pure-history01.json",
+    "bytes": 1095,
+    "rawBytesSha256": "28241fa8455695e3b164f35df3f945335876034df7fa4010c577b8f6746c9489"
+  },
+  "actualInputProfile": {
+    "file": "tools/rust-r2m/compare-api-five-case-joint25.json",
+    "bytes": 19402,
+    "rawBytesSha256": "8456de0b590d0c51982fe8255e992f3e8d12ce2bc4f9468d865f8a52d444dce5"
+  },
+  "rootCommand": "node tools/rust-r2m/compare-api-five.mjs api an5d ar5d <fresh-analysis-tag>",
+  "rootCwd": "/home/wangzishi/projects/poms-rust-r2m",
+  "author": {
+    "privateRead": false,
+    "envRead": false,
+    "DBOrHTTPOrBrowserOpened": false,
+    "LinuxSourceChanged": false,
+    "actualComparisonRuns": 0,
+    "productOrFixtureChanged": false,
+    "RootOtherComparerChanged": false,
+    "G3": false,
+    "G4": false
+  },
+  "unchangedCoreSourcesFrom06": 33,
+  "original36RetainedAt": "tmp/rust-r2m/compare-api-five-author-source06",
+  "prefixCorrection": {
+    "mainPrivatePrefixReads": [
+      100,
+      200,
+      220
+    ],
+    "allUse": "readFivePrefix -> withFiveRead same descriptor as readFiveBytes",
+    "privateModesAndParentsUnchanged": true,
+    "maximumPrefixBytes": 4096,
+    "unknownPrivatePathPermissionsAdded": false,
+    "SDKPublicSourceReadStillDistinct": true,
+    "originalLinuxPathSemantics": "node:path.posix explicit; equal to the actual Linux default",
+    "productionCallerFakeFS": [
+      "bad leaf mode refused before open/read",
+      "bad opened descriptor links refused before read and FD closed",
+      "after-read leaf replacement refused and FD closed"
+    ],
+    "privatePrefixReadsPerformedByB": 0
+  },
+  "threeCauseSemanticsFrom06Unchanged": true,
+  "windowsContextChangeIsSeparateScope": true
+}

@@ -1,0 +1,106 @@
+(node:91084) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/apps/poms-api-e2e/src/support/test-data.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\E:\projects\worktrees\poms-r2ef-foundation-audit\poms\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ five source-pinned original GET models are added only for UI4 and never expand migrated115 (3.9825ms)
+✖ real /api/sales-follow-up-records is restricted to UI4 + current certified project and produces no business intent (0.5343ms)
+✖ real /api/opportunity-stakeholders is restricted to UI4 + current certified project and produces no business intent (0.1822ms)
+✖ real /api/competitor-intelligence-records is restricted to UI4 + current certified project and produces no business intent (0.1246ms)
+✖ real /api/sales-discovery-records is restricted to UI4 + current certified project and produces no business intent (0.1173ms)
+✖ real /api/sales-intelligence-gaps is restricted to UI4 + current certified project and produces no business intent (0.0961ms)
+✔ followup active lifecycle is the original untouched panel default; no implicit history scope is admitted (0.757ms)
+✖ only the failing upload invocation changes; original dynamic panel label and every other browser byte stay exact (0.5947ms)
+✔ original source hashes match and each selected service/repository method contains reads/maps rather than writes (30.7535ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 3
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 257.8927
+
+✖ failing tests:
+
+test at tools\rust-r2m\ui4-project-readonly.test.mjs:14:41
+✖ real /api/sales-follow-up-records is restricted to UI4 + current certified project and produces no business intent (0.5343ms)
+  TypeError: Cannot read properties of undefined (reading 'name')
+      at uiStepScope (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:58:147)
+      at uiExchangeIntents (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:67:18)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui4-project-readonly.test.mjs:15:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tools\rust-r2m\ui4-project-readonly.test.mjs:14:41
+✖ real /api/opportunity-stakeholders is restricted to UI4 + current certified project and produces no business intent (0.1822ms)
+  TypeError: Cannot read properties of undefined (reading 'name')
+      at uiStepScope (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:58:147)
+      at uiExchangeIntents (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:67:18)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui4-project-readonly.test.mjs:15:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tools\rust-r2m\ui4-project-readonly.test.mjs:14:41
+✖ real /api/competitor-intelligence-records is restricted to UI4 + current certified project and produces no business intent (0.1246ms)
+  TypeError: Cannot read properties of undefined (reading 'name')
+      at uiStepScope (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:58:147)
+      at uiExchangeIntents (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:67:18)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui4-project-readonly.test.mjs:15:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tools\rust-r2m\ui4-project-readonly.test.mjs:14:41
+✖ real /api/sales-discovery-records is restricted to UI4 + current certified project and produces no business intent (0.1173ms)
+  TypeError: Cannot read properties of undefined (reading 'name')
+      at uiStepScope (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:58:147)
+      at uiExchangeIntents (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:67:18)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui4-project-readonly.test.mjs:15:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tools\rust-r2m\ui4-project-readonly.test.mjs:14:41
+✖ real /api/sales-intelligence-gaps is restricted to UI4 + current certified project and produces no business intent (0.0961ms)
+  TypeError: Cannot read properties of undefined (reading 'name')
+      at uiStepScope (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:58:147)
+      at uiExchangeIntents (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui-runtime-sources.mjs:67:18)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui4-project-readonly.test.mjs:15:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tools\rust-r2m\ui4-project-readonly.test.mjs:19:1
+✖ only the failing upload invocation changes; original dynamic panel label and every other browser byte stay exact (0.5947ms)
+  SyntaxError: await is only valid in async functions and the top level bodies of modules
+      at new Function (<anonymous>)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/ui4-project-readonly.test.mjs:21:288)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

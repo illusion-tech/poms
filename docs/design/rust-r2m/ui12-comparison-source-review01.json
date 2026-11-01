@@ -1,0 +1,197 @@
+{
+  "kind": "POMS-R2M-independent-finite-UI1-UI2-comparison-source-review",
+  "reviewedAtUtc": "2026-10-31 03:27:22 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "supportedJourneys": [
+      "UI1",
+      "UI2"
+    ],
+    "supportedPlatform": "Original captured Linux managed pair only",
+    "actualInput": "same joint23 Native uin12b/Rust uir12b",
+    "profile": {
+      "steps": 7,
+      "HTTPPerSide": 76,
+      "UUIDOwnedPerSide": 73,
+      "nonOwnedSettingLeases": 1,
+      "physicalTables": 107
+    },
+    "oldCachedUI1": "Separate negative comparison only; original11 Native304/Rust200 remain strict differences",
+    "UI3Ready": false,
+    "UI4Ready": false,
+    "WindowsAccepted": false,
+    "actualCompared": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "manifest": {
+    "file": "tools/rust-r2m/compare-ui-source03.json",
+    "bytes": 10537,
+    "rawBytesSha256": "730c622baaaed1eef3d8e76975744b999e15586042511dcaf688962c1b724dff",
+    "sourceSetSha256": "49a3d451014a57d59b7532582238c9cfc800a64831a79df66cb64b58d0b74af1"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-ui.mjs",
+      "bytes": 10774,
+      "rawBytesSha256": "6044224c9df15018bd4c8aec7b90e53a639188d0832904beb51eddb6dfc632be"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-core.mjs",
+      "bytes": 58364,
+      "rawBytesSha256": "9635974ef88e07e9c97dbf6d81135c89e3b4bb3d06032663fa19e75e4c0c3626"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-profile.mjs",
+      "bytes": 2789,
+      "rawBytesSha256": "d8897b944099dcead5114a9e3e26a3f36b4767958729e328c4abbbf1349efa9c"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-setting.mjs",
+      "bytes": 6127,
+      "rawBytesSha256": "47349feac3423f089d621a70e8204a68769e3227e4157073125b9cb8d565eaf4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui.test.mjs",
+      "bytes": 21107,
+      "rawBytesSha256": "1f2a3b006f52651c5d07e31fc748b1503ddc79e92f591b94cffa84e539a90bf1"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-contract.md",
+      "bytes": 6259,
+      "rawBytesSha256": "93586cb60fee1cbffb8832fc01e05d4fbf2a4d83ac506867bbf671aa5bd38770"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui1-joint17-cached.json",
+      "bytes": 2725,
+      "rawBytesSha256": "ea966bbe364c2942c4b2d50253173f8f4d75de315998f8b099894b9b53a24867"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "bytes": 2801,
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "execution": {
+    "manifest": "tools/rust-r2m/compare-ui-source03.json",
+    "input": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+    "inputRawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468",
+    "actualRunOwner": "Root after C SourceReady",
+    "authorPrivateRead": false
+  },
+  "inputs": [
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "bytes": 2801,
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui1-joint17-cached.json",
+      "bytes": 2725,
+      "rawBytesSha256": "ea966bbe364c2942c4b2d50253173f8f4d75de315998f8b099894b9b53a24867"
+    },
+    {
+      "file": "docs/design/rust-r2m/ui-uncached-source-review01.json",
+      "rawBytesSha256": "b27653ae09d66f2760a4b73a1870aed89510412a9818fd51f1c072cd9879f03e"
+    }
+  ],
+  "correctedCandidateFinding": {
+    "oldManifest": "tools/rust-r2m/compare-ui-source02.json",
+    "rawBytesSha256": "4ae6328c1704ad534dff43abb4e78359058c31a3a6759e63c949c824653e0bda",
+    "finding": "Initial comparator required a numeric independent PID although original lease helper stores pg_backend_pid()::text. Root private data was not executed with this candidate.",
+    "resolution": "Only setting helper/test comparison sources changed; original helper/ledger untouched. Final strictly validates positive decimal PID strings/int4 bound and numerically distinct PID through BigInt; real string shape positive plus invalid/same/number/zero negatives added.",
+    "originals": "Exact16 old source/manifest files preserved under tmp/rust-r2m/compare-ui-author-source02/; other13 source bytes unchanged."
+  },
+  "findings": [
+    {
+      "item": "exact input and evidence chain",
+      "result": "Pass",
+      "detail": "Public --check verifies explicit manifest/input/raw source pins without private evidence. --run accepts only literal runUUIDs and exact named new-M ui-runs numeric JSON refs plus separately named late completed ledger. File bytes/length/hash, regular/no-symlink/single-link and source-before/after checks remain. Every actual raw request/response equals its individual exchange certificate, context, step refs and final original ledger; no invented original ledger reference or Angular snapshot."
+    },
+    {
+      "item": "real births and complete facts",
+      "result": "Pass",
+      "detail": "Aliases require actual direct committed captures or full registered original SDK afterCreate/outer-COMMIT/PG INSERT proofs, same context/profile/source, PG xid epoch/commit/independent visibility and immutable insert identity. Native writes need corresponding PG shadow in this finite graph; response/query IDs never create slots. All107 tables/physical columns, exact outside/unowned baseline and full final within-side107 restoration remain; only UI1/UI2 source-permitted session/CAS changes are allowed."
+    },
+    {
+      "item": "finite source normalization",
+      "result": "Pass",
+      "detail": "bcrypt requires exact synthetic plaintext/rounds4. Tokens, stored hashes, body/header/cookies and session expiries link to preceding actual issued cookies and physical rows. Named runtime clock columns retain source run/frame bounds and correct PG/DTO zone/precision. Seven original Todo fixed dates remain exact. Only two complete short-run customer/project name strings map after original source-plan/full birth equality; no broad short-hex replacement. Unique readonly ProjectList.createdAt maps only after exact initial typed row time and pinned original mapper; other physical/DTO fields remain."
+    },
+    {
+      "item": "uncached functional header boundary",
+      "result": "Pass",
+      "detail": "Strict functional status/entity and content-type/content-length/content-disposition/x-request-id remain. Two real attached CDP ACKs must precede first actual request; every original rawHeaders conditional validator count must be0 and no304 can certify uncached input. Native ETag presence and Rust absence are separately observed per HTTP with raw header SHA and actual body/prior entity weak hash validation. ETag is not silently presented as equal; cacheEquivalenceCertified=false/performance false. Old cached304/200 status/empty/full entity differences are never folded."
+    },
+    {
+      "item": "UI2 authentic negative and lease",
+      "result": "Pass",
+      "detail": "wrong-CSRF403 must send original fixed bad header with its actual owned active admin session, stable physical CSRF hash and no cookie clear/replacement. Actual viewer route-denied202/users403 and subsequent genuine session authenticated200 remain. Exactly one original setting50/v1 CAS to51/v2 is tied to full request/response bytes, observed full row/version/time, outer COMMIT/xmin and independent connection full-row restoration. Row is never UUID-owned/deleted; no UI stale409 claim is invented."
+    },
+    {
+      "item": "scope and result honesty",
+      "result": "Pass",
+      "detail": "Only finite UI1/UI2 profiles/case inputs are admitted; counts are per pinned input, not generic invariants. Final journals are explicit late-read pins. Unknown field/row/birth/transport/proof fails and original diagnostic/normalized data stays private. SourceReady does not certify current actual pair, UI3/4, Windows or an old closed/PG receipt."
+    }
+  ],
+  "readLevel": {
+    "newCore": "Complete161-line/58KB validation/projection implementation read in bounded function chunks; necessary CLI/profile/setting and meaningful tests read",
+    "matureReuse": "Existing pure full107/strictDifference/source/spec helpers reused from accepted API/M0 reviews; original lease PID storage/source excerpts independently checked",
+    "finalHashCheck": "15/15 current raw bytes/length match final03; Source02 preserved and no private comparison executed by B/C",
+    "privateContentsReadByC": 0,
+    "DBHTTPBrowserProcessIOExecutedByC": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "authorChecks": {
+    "purePass": 14,
+    "pureFail": 0,
+    "deltaLexicalModules": 2,
+    "deltaNoUndef": 0,
+    "remainingUnchangedModulesReused": 3,
+    "publicChecks": "New UI12 and old cached UI1 --check passed; privateRead false",
+    "meaning": "Source-only author checks, not actual private Root comparison."
+  },
+  "RootNext": "Preserve running an5d source freeze. After normal completion, use exact final03 source/input pins in a matching analysis epoch, then Root alone performs readonly offline comparison on original completed joint23 pair. Original cached differences and historical source02/old CLI examples remain immutable; use manifest.execution for final03 command."
+}

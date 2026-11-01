@@ -1,0 +1,52 @@
+{
+  "kind": "R2M-exact-audit-and-generated-parent-SDK-outer-COMMIT-context-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "base": {
+    "file": "tools/rust-r2m/audit-identity-source01.json",
+    "bytes": 16840,
+    "rawBytesSha256": "1248fb154e4c75f1287999316724184014e64bc571020e1dbb68df84df9f7609"
+  },
+  "prior": {
+    "file": "tools/rust-r2m/audit-identity-source02.json",
+    "bytes": 1474,
+    "rawBytesSha256": "02239f097c4c77f3f26fadcd5893af1eb220b785b23d4fcc67668ef415bfbce4"
+  },
+  "before": {
+    "file": "tools/rust-r2m/audit-identity-before-source03.json",
+    "bytes": 48356,
+    "rawBytesSha256": "39411d3a8d0afe658ef2b789dbbdf527db1b6f581a24964eb10859802eba836e"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "d1dd041bd719f3a773ae848fc136bf615ed4ca9b86b2cf831d1e6646ac507ac9"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 9633,
+      "rawBytesSha256": "38ec2e9d24a190b05adfc9af012e80efee8fae596ee9a4ab56c2e8c77faff02a"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.test.mjs",
+      "bytes": 13701,
+      "rawBytesSha256": "3cb82571b8882c1054e2a749ac2ae01e232308121441451ce116241ba167e717"
+    }
+  ],
+  "scope": "Only the alternate audit and its named generated typed parent require Native SDK outer commitContext.runId/caseId/index/op to equal the admitted actual m.http context. PG parent retains actual outer-status/visibility proof and exact createContext. Ordinary scope, table permission, and all other source pins unchanged.",
+  "pure": {
+    "passed": 45,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-identity-source03-pure.txt",
+      "bytes": 4584,
+      "rawBytesSha256": "c838508b58248dad9758fe2b5f28c58b8fd2b9e346d64a23b98167a982c68799"
+    },
+    "syntax": 3,
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

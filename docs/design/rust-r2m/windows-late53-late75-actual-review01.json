@@ -1,0 +1,1148 @@
+{
+  "kind": "R2M-independent-C-historical-Windows-late53-late75-actual-recovery-review01",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-10-31 22:28:20 UTC",
+  "scope": {
+    "onlyHistoricalRecoveryChains": [
+      "wn3c04a late53",
+      "wn4c06a late75+1"
+    ],
+    "recoveryEvidenceOnly": true,
+    "businessOrUiPass": false,
+    "normalOriginalCloseClaim": false,
+    "currentDatabaseOrHostCleanClaim": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "approvedSourceReviews": [
+    {
+      "file": "docs/design/rust-r2m/wn3c04a-late-recovery-source-review01.json",
+      "bytes": 23723,
+      "rawBytesSha256": "aaf789a1ee890905c7494e4f05f2733a079ecb28a716edaddb493a3e54bcf149"
+    },
+    {
+      "file": "docs/design/rust-r2m/wn4c06a-late-recovery-source-review01.json",
+      "bytes": 23620,
+      "rawBytesSha256": "181486b4f2534a82415992e1fa0df9602e88ca91d76fdbd986ff3483d334190f"
+    }
+  ],
+  "approvedCandidatePackets": [
+    {
+      "file": "tmp/rust-r2m/wn3c04a-recovery-candidate01/source01.json",
+      "bytes": 19170,
+      "rawBytesSha256": "f359eb47453274df6c8c3909c65c2d7e6659f57c05d63e81bc2965110f81ff65"
+    },
+    {
+      "file": "tmp/rust-r2m/wn4c06a-recovery-candidate01/source01.json",
+      "bytes": 20309,
+      "rawBytesSha256": "42fda1128a0415ad3928796400acaba5b0f3c96f401beac8df8e2ea7bca0874b"
+    }
+  ],
+  "originalPublicReportRefs": [
+    {
+      "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn3c04a.json",
+      "bytes": 12021,
+      "rawBytesSha256": "92463dd491876324543770a7669d878d69d0a0dc6cab3cb4b8c137885aeffe03"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/ui-windows-nest-wn4c06a.json",
+      "bytes": 3870827,
+      "rawBytesSha256": "dbfd28fb5f729fcdafd42c507c880908d03b4a71ee9d0e9ee8f40f5887809417"
+    }
+  ],
+  "originalCapRefs": [
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win04.json",
+      "bytes": 1852492,
+      "rawBytesSha256": "2907982b871b9767ca1fa9cc9907ae0bcef2f7808c92b8e7ba6767e9fc2ad2be"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win06.json",
+      "bytes": 1861151,
+      "rawBytesSha256": "db5f1eb84497483a82e6e775319470ba534ea7582a61c44eb3a5f5761b22ed24"
+    }
+  ],
+  "recoveries": [
+    {
+      "actualReceipt": {
+        "file": "tmp/rust-r2m-continuation01/recovered-ui-windows-nest-wn3c04a01.json",
+        "bytes": 17514,
+        "rawBytesSha256": "fa9a2a955eba5e61911044dac52e2882f7c8a9219cf256809595cadcdfa032ff"
+      },
+      "runId": "dc5bfb95-8fce-4cf9-bdf0-bbce7d79cd18",
+      "sourceCapId": "r2m-c01-win04",
+      "result": "recovered-fixed-pre-browser-Native-failure-late53-double-zero-not-UI-pass",
+      "originalLedgerWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-original-ledger-661aa307.json",
+        "bytes": 115274,
+        "rawBytesSha256": "661aa307f7d52be05d4ec4b0d7c45a6136af40f82af8de23ca44d45d04ab4f1e",
+        "private": true
+      },
+      "originalObserverWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-original-observer-fbfc663b.json",
+        "bytes": 814148,
+        "rawBytesSha256": "fbfc663b3c27f7c474b24052421b2c2347ec58e78d72b2067e07d9c1233cdfc0",
+        "private": true
+      },
+      "originalReadonlySnapshotWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-original-root-readonly-snapshot.json",
+        "bytes": 226542,
+        "rawBytesSha256": "a2d741964211553e53b14a6992031de012891e8aaaa482b8da305e5f0fe5827c",
+        "private": true
+      },
+      "originalOuterFailureWx": null,
+      "savedBeforeFixtureOpen": true,
+      "freshBefore": {
+        "kind": "fresh-source-declared-applications-and-original-PID-group-and-five-ports-quiescent",
+        "liveApplications": 0,
+        "unreadable": [
+          {
+            "pid": 276,
+            "code": "EACCES",
+            "comm": "systemd",
+            "commRawBytesSha256": "12e6ff4feb1b552a431b41d3935d33f08f9d75ddb8a88f645f4cf231bc05e820"
+          },
+          {
+            "pid": 278,
+            "code": "EACCES",
+            "comm": "(sd-pam)",
+            "commRawBytesSha256": "8e2daf3d78d113ebf2447fc82d98ba4d9c26a8e3e4fac8ac2d01ee34cbbc1dbd"
+          }
+        ],
+        "knownAbsent": [
+          2078062,
+          2078055,
+          -2078055
+        ],
+        "fivePortsFree": [
+          10070,
+          10071,
+          10080,
+          10090,
+          10091
+        ],
+        "sourceApplicationScanIndependentOfCwdForUniqueExecutables": true
+      },
+      "freshAfter": {
+        "kind": "fresh-source-declared-applications-and-original-PID-group-and-five-ports-quiescent",
+        "liveApplications": 0,
+        "unreadable": [
+          {
+            "pid": 276,
+            "code": "EACCES",
+            "comm": "systemd",
+            "commRawBytesSha256": "12e6ff4feb1b552a431b41d3935d33f08f9d75ddb8a88f645f4cf231bc05e820"
+          },
+          {
+            "pid": 278,
+            "code": "EACCES",
+            "comm": "(sd-pam)",
+            "commRawBytesSha256": "8e2daf3d78d113ebf2447fc82d98ba4d9c26a8e3e4fac8ac2d01ee34cbbc1dbd"
+          }
+        ],
+        "knownAbsent": [
+          2078062,
+          2078055,
+          -2078055
+        ],
+        "fivePortsFree": [
+          10070,
+          10071,
+          10080,
+          10090,
+          10091
+        ],
+        "sourceApplicationScanIndependentOfCwdForUniqueExecutables": true
+      },
+      "freshWindowsBefore": {
+        "kind": "fresh-original-Windows-Native-root-member-nonce-absence",
+        "noStopInvoked": true,
+        "noWindowsUIOrBrowserOwnerFabricated": true,
+        "evidence": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-before-native-inspect-50856.json",
+            "bytes": 93,
+            "rawBytesSha256": "2463c31de679c3dcd37173742d4a81632cf1af500481b868a687637a6f6b483d",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-before-native-inspect-72584.json",
+            "bytes": 93,
+            "rawBytesSha256": "41f04345a523507c5a822698a1870bd8def6eb7e0897f5e796bf3cea754fbe70",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-before-native-discover-0.json",
+            "bytes": 93,
+            "rawBytesSha256": "95e20df816d7cf216214c44d1c6b800198ba83e71bd05c5879faeae5849997e2",
+            "private": true
+          }
+        ]
+      },
+      "freshWindowsAfter": {
+        "kind": "fresh-original-Windows-Native-root-member-nonce-absence",
+        "noStopInvoked": true,
+        "noWindowsUIOrBrowserOwnerFabricated": true,
+        "evidence": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-after-native-inspect-50856.json",
+            "bytes": 93,
+            "rawBytesSha256": "48b4c54374bffa7cc12182deb4520779f01d245be6303316f68f7aa919901da8",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-after-native-inspect-72584.json",
+            "bytes": 93,
+            "rawBytesSha256": "823dffcd28bb98a2e1b5a6915f2e30ca372ca1bfbc5bc48eb21d0bd6c1519b64",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-after-native-discover-0.json",
+            "bytes": 93,
+            "rawBytesSha256": "dcb7a99a175259d16f52b77813b67bd1f050137b302720ed2fe69cc49b448228",
+            "private": true
+          }
+        ]
+      },
+      "liveOriginalControlEvidence": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-live-original-control-and-events.json",
+        "bytes": 3955,
+        "rawBytesSha256": "1d85757062c566aeaf9f176c831cd08ec6987345eb3f7e144d2089f00ee179a7",
+        "private": true
+      },
+      "newGenerationReconciliation": {
+        "kind": "scoped-pg-observer-reconciliation",
+        "result": "exact-installed-handle-reopened",
+        "observerId": "d3d91b7c-5601-4790-920d-997f41294540",
+        "database": "poms_r2m_c01_nest",
+        "journalFile": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-dc5bfb95-8fce-4cf9-bdf0-bbce7d79cd18-d3d91b7c-5601-4790-920d-997f41294540.recovery-5effd333-674d-4fc9-a71a-9bee72b52237.json",
+        "event": {
+          "kind": "observer-catalog-reconciliation",
+          "recoveryId": "5effd333-674d-4fc9-a71a-9bee72b52237",
+          "at": "2026-10-31T20:29:51.011Z",
+          "attemptedJournal": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-dc5bfb95-8fce-4cf9-bdf0-bbce7d79cd18-d3d91b7c-5601-4790-920d-997f41294540.json",
+          "attemptedJournalSha256": "fbfc663b3c27f7c474b24052421b2c2347ec58e78d72b2067e07d9c1233cdfc0",
+          "priorSnapshot": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-dc5bfb95-8fce-4cf9-bdf0-bbce7d79cd18-d3d91b7c-5601-4790-920d-997f41294540.prior-5effd333-674d-4fc9-a71a-9bee72b52237.json",
+          "attemptedState": "installed",
+          "classification": "installed",
+          "observedCatalogSha256": "1f138b9200a28c0c51509a69037bd5c602ac94b13b6a88c853fb5e9177a3bd6c",
+          "originalAttemptPreserved": true,
+          "PostgreSQLDDLExecuted": false,
+          "controlContextSha256": "d7de5eca220476470b002d8609ab915060941911926db60ca8c041b74fefac56"
+        },
+        "observerFootprintRestored": false,
+        "full107TableCatalogVerified": false
+      },
+      "actualMatureRestore": {
+        "kind": "scoped-pg-after-insert-observer",
+        "result": "observer-footprint-restored",
+        "observerId": "d3d91b7c-5601-4790-920d-997f41294540",
+        "database": "poms_r2m_c01_nest",
+        "journalFile": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-dc5bfb95-8fce-4cf9-bdf0-bbce7d79cd18-d3d91b7c-5601-4790-920d-997f41294540.recovery-5effd333-674d-4fc9-a71a-9bee72b52237.json",
+        "exportedEvents": 0,
+        "eventExportSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "observerFootprintCatalogSha256": "d3c98b371e258137622d257f3f2850611da515f5886dee6e1e1e1cbf95777256",
+        "observerFootprintRestored": true,
+        "catalogScope": {
+          "kind": "observer-footprint-only",
+          "productTables": [
+            "auth_session",
+            "audit_log",
+            "security_event",
+            "approval_record",
+            "todo_item",
+            "commission_final_settlement_snapshot",
+            "commission_rule_explanation_snapshot",
+            "platform_user",
+            "role",
+            "org_unit",
+            "user_role_assignment",
+            "user_org_membership",
+            "role_permission_assignment",
+            "dictionary_item",
+            "business_number_sequence",
+            "identity_provider_config",
+            "identity_provider_oauth_grant",
+            "external_identity",
+            "external_login_ticket",
+            "external_org_source",
+            "external_department_mapping",
+            "org_sync_run",
+            "org_sync_diff_item",
+            "attachment_storage_provider_config",
+            "attachment_upload_session",
+            "attachment",
+            "attachment_link",
+            "project_handover_attachment_selection",
+            "attachment_download_package",
+            "attachment_download_package_item",
+            "confirmation_record",
+            "confirmation_participant",
+            "approval_summary_snapshot",
+            "approval_summary_field_projection"
+          ],
+          "controlNamespace": "r2m_c01_control",
+          "full107TableCatalogVerified": false,
+          "fullCatalogVerificationOwner": "Root before install and after restore"
+        },
+        "observerSqlModifiesBusinessRows": false
+      },
+      "actual107Preflight": {
+        "catalog": {
+          "tables": 107,
+          "columns": 1778,
+          "primaryKeys": 107,
+          "incomingForeignKeys": 207,
+          "allForeignKeys": 207,
+          "implicitPrimaryKeyNames": [
+            {
+              "table": "internal_cost_rate_version",
+              "name": "internal_cost_rate_version_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "poms_migrations",
+              "name": "poms_migrations_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "project_actual_cost_record",
+              "name": "project_actual_cost_record_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            }
+          ],
+          "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+          "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+        },
+        "tablesScanned": 107,
+        "scanDigest": "974e4b32e135ddee9007d4ada060b2da6fa1cff7b904d62891b0889e8bbf00e5"
+      },
+      "cleanup": [
+        {
+          "state": "cleaned",
+          "deleted": 53,
+          "cycleBreaks": 0,
+          "firstZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "secondZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "journalDigest": "9103395c19407571d93cdd296c71b6c483daa529a73e234e2f00ae95beb07d16",
+          "objects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "secondObjects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "cloudPeerCleanupClaimed": false
+        },
+        {
+          "state": "cleaned",
+          "deleted": 0,
+          "cycleBreaks": 0,
+          "firstZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "secondZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "journalDigest": "1154faff50b917fa7f30d195a8c715ce50ca2f76cea5f77fef0b87dd3b90f330",
+          "objects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "secondObjects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "cloudPeerCleanupClaimed": false
+        }
+      ],
+      "afterFull107": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn3c04a-late-recovery01-after-full107.json",
+        "bytes": 432805,
+        "rawBytesSha256": "e903696a19a8330d57af19a7369979f5357f6230b936baecd1716b915b65b470",
+        "private": true
+      },
+      "full107InitialBaselineRestored": true,
+      "fixtureClientClosed": true,
+      "lateDrainOnly": true,
+      "normalClosedReceiptClaimed": false,
+      "identityAdoption": false
+    },
+    {
+      "actualReceipt": {
+        "file": "tmp/rust-r2m-continuation01/recovered-ui-windows-nest-wn4c06a01.json",
+        "bytes": 24507,
+        "rawBytesSha256": "db91f4cfa591f916d1bebf09eab41d2cc9e4adcf58370f8b914b0b1bde13697f"
+      },
+      "runId": "c51779a6-1821-4f66-93f4-41e9cd637966",
+      "sourceCapId": "r2m-c01-win06",
+      "result": "recovered-fixed-server-timeout-Windows-NativeUI4-late75-exact1file-double-zero-not-UI-pass",
+      "originalLedgerWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-original-ledger-2a405b5a.json",
+        "bytes": 768492,
+        "rawBytesSha256": "2a405b5a7c81e457970462b4021c35c5789491af3f0efc8ce589f596f94741e4",
+        "private": true
+      },
+      "originalObserverWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-original-observer-5a1397ba.json",
+        "bytes": 1182248,
+        "rawBytesSha256": "5a1397ba1ad3afcb2334ead18131422abb195bdc0b3adf711593f6fdb9590895",
+        "private": true
+      },
+      "originalReadonlySnapshotWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-original-root-readonly-snapshot.json",
+        "bytes": 242224,
+        "rawBytesSha256": "19d78ebdd87b2f2d10360237dca10b2ea6ee52286d132d35b5c467458381da4a",
+        "private": true
+      },
+      "originalOuterFailureWx": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-original-outer-deadline-d8db7446.json",
+        "bytes": 716,
+        "rawBytesSha256": "d8db744614968bcb4635b73ed7040a6840622452a2e521e10d0afc64219250da",
+        "private": true
+      },
+      "savedBeforeFixtureOpen": true,
+      "freshBefore": {
+        "kind": "fresh-source-declared-applications-and-original-PID-group-and-five-ports-quiescent",
+        "liveApplications": 0,
+        "unreadable": [
+          {
+            "pid": 276,
+            "code": "EACCES",
+            "comm": "systemd",
+            "commRawBytesSha256": "12e6ff4feb1b552a431b41d3935d33f08f9d75ddb8a88f645f4cf231bc05e820"
+          },
+          {
+            "pid": 278,
+            "code": "EACCES",
+            "comm": "(sd-pam)",
+            "commRawBytesSha256": "8e2daf3d78d113ebf2447fc82d98ba4d9c26a8e3e4fac8ac2d01ee34cbbc1dbd"
+          }
+        ],
+        "knownAbsent": [
+          2082234,
+          2082227,
+          -2082227
+        ],
+        "fivePortsFree": [
+          10070,
+          10071,
+          10080,
+          10090,
+          10091
+        ],
+        "sourceApplicationScanIndependentOfCwdForUniqueExecutables": true
+      },
+      "freshAfter": {
+        "kind": "fresh-source-declared-applications-and-original-PID-group-and-five-ports-quiescent",
+        "liveApplications": 0,
+        "unreadable": [
+          {
+            "pid": 276,
+            "code": "EACCES",
+            "comm": "systemd",
+            "commRawBytesSha256": "12e6ff4feb1b552a431b41d3935d33f08f9d75ddb8a88f645f4cf231bc05e820"
+          },
+          {
+            "pid": 278,
+            "code": "EACCES",
+            "comm": "(sd-pam)",
+            "commRawBytesSha256": "8e2daf3d78d113ebf2447fc82d98ba4d9c26a8e3e4fac8ac2d01ee34cbbc1dbd"
+          }
+        ],
+        "knownAbsent": [
+          2082234,
+          2082227,
+          -2082227
+        ],
+        "fivePortsFree": [
+          10070,
+          10071,
+          10080,
+          10090,
+          10091
+        ],
+        "sourceApplicationScanIndependentOfCwdForUniqueExecutables": true
+      },
+      "freshWindowsBefore": {
+        "kind": "fresh-exact-original-Windows-owned-roots-members-and-nonces-gone",
+        "noStopModeInvoked": true,
+        "evidence": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-49364.json",
+            "bytes": 93,
+            "rawBytesSha256": "0fcf66f1a1d71b72b3b291c936c74e744e45797d8fb6ddd6b7acf015da0bd5bd",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-71232.json",
+            "bytes": 93,
+            "rawBytesSha256": "b88b7656d493ffb0d7b960208ebe4f1b7558b981ac16bf1ad12953e694ab8749",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-41504.json",
+            "bytes": 93,
+            "rawBytesSha256": "5cafe2bd692733a42ab8291e6b36ed50dbf6254661f4e81085eeaa8cefc05af9",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-78588.json",
+            "bytes": 93,
+            "rawBytesSha256": "304fbfeb85ace51ff647577542b4efc317b5075d965a8c9460ca5c3f092e66b4",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-71696.json",
+            "bytes": 93,
+            "rawBytesSha256": "62550845d9f2d399accc404eed9ce2a1b076fed3d8f9c7633953b654af280f21",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-91364.json",
+            "bytes": 93,
+            "rawBytesSha256": "1035d27e9ad9f076f79f5ed9509dac1fc9bf4880427726a770669ff2cc599422",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-38768.json",
+            "bytes": 93,
+            "rawBytesSha256": "eb457409a6e9af5effd5ab275b6a79a211b09e4bab952b8eb89fb91deba12e92",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-18100.json",
+            "bytes": 93,
+            "rawBytesSha256": "d97c8d666a7fd7c9c2d88a6d6169ed322c36bffc462a7d71340f0894acb7ad4f",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-67220.json",
+            "bytes": 93,
+            "rawBytesSha256": "be9e5b508b1efc111c055b82dd95199bf8c77f62a9f40235eb5f9de34a1133c8",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-inspect-65836.json",
+            "bytes": 93,
+            "rawBytesSha256": "d97c8d666a7fd7c9c2d88a6d6169ed322c36bffc462a7d71340f0894acb7ad4f",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-ui-discover-0.json",
+            "bytes": 93,
+            "rawBytesSha256": "24c8e066448dda9a69841ce64482b72c2cf29291b81a6331d97242583f3b9cd2",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-native-inspect-30700.json",
+            "bytes": 93,
+            "rawBytesSha256": "9f9d7da909017f8ad2794958af67e358b7b9698efb764efa3a0ae76a790d3ecf",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-native-inspect-53424.json",
+            "bytes": 93,
+            "rawBytesSha256": "60d16ef7f6368f4af074e06412e350c7156ee4562dad091b2a0927b41e6a9a81",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-before-native-discover-0.json",
+            "bytes": 93,
+            "rawBytesSha256": "7b62dcc38dcf1c001eec02d9183abb6848c702e6a53b59286ed57eb02c59d30f",
+            "private": true
+          }
+        ]
+      },
+      "freshWindowsAfter": {
+        "kind": "fresh-exact-original-Windows-owned-roots-members-and-nonces-gone",
+        "noStopModeInvoked": true,
+        "evidence": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-49364.json",
+            "bytes": 93,
+            "rawBytesSha256": "eb457409a6e9af5effd5ab275b6a79a211b09e4bab952b8eb89fb91deba12e92",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-71232.json",
+            "bytes": 93,
+            "rawBytesSha256": "60173e4daa57ddb4eb50cc19cf79c18ca40b57738f1697d8ee2984c93049ef5d",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-41504.json",
+            "bytes": 93,
+            "rawBytesSha256": "0fcf66f1a1d71b72b3b291c936c74e744e45797d8fb6ddd6b7acf015da0bd5bd",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-78588.json",
+            "bytes": 93,
+            "rawBytesSha256": "69a936d41e3397f31e3e4e4d22d04974e801f3f8db6997f7e2eb27b38cec3f4b",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-71696.json",
+            "bytes": 93,
+            "rawBytesSha256": "1bbada8413683768b2e9bd3e58a75414e3612967d4e4624e93025fae8777945d",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-91364.json",
+            "bytes": 93,
+            "rawBytesSha256": "be9e5b508b1efc111c055b82dd95199bf8c77f62a9f40235eb5f9de34a1133c8",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-38768.json",
+            "bytes": 93,
+            "rawBytesSha256": "1035d27e9ad9f076f79f5ed9509dac1fc9bf4880427726a770669ff2cc599422",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-18100.json",
+            "bytes": 93,
+            "rawBytesSha256": "572afff51d6900464b8f8d050da5b792c1027844efb9d2f5c1fea730d389d7dc",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-67220.json",
+            "bytes": 93,
+            "rawBytesSha256": "bf017643102cc0c097d1e4a034349f819fd49c15aa7ac22edc706f4fb87ef5d3",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-inspect-65836.json",
+            "bytes": 93,
+            "rawBytesSha256": "1035d27e9ad9f076f79f5ed9509dac1fc9bf4880427726a770669ff2cc599422",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-ui-discover-0.json",
+            "bytes": 93,
+            "rawBytesSha256": "1bbada8413683768b2e9bd3e58a75414e3612967d4e4624e93025fae8777945d",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-native-inspect-30700.json",
+            "bytes": 93,
+            "rawBytesSha256": "a852c0d71373b171a429d70ac1e298992a2636bf78a55ce7de22316fca80c9f2",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-native-inspect-53424.json",
+            "bytes": 93,
+            "rawBytesSha256": "d55bafe7e41dd6b8154c41306ad9c476b7a6d186c95e476d0f95228c5adaf83a",
+            "private": true
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-native-discover-0.json",
+            "bytes": 93,
+            "rawBytesSha256": "87d0c2efd37fc4275cbabba28555d4680f6a1793ab793988d64252b737f535f7",
+            "private": true
+          }
+        ]
+      },
+      "liveOriginalControlEvidence": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-live-original-control-and-events.json",
+        "bytes": 11524,
+        "rawBytesSha256": "27ab2a85de2c179f6beb217991bc73b18a58ef58ad5545cb587ca805abd2c362",
+        "private": true
+      },
+      "newGenerationReconciliation": {
+        "kind": "scoped-pg-observer-reconciliation",
+        "result": "exact-installed-handle-reopened",
+        "observerId": "3ddb37bd-dc75-4303-9ad0-f25503156950",
+        "database": "poms_r2m_c01_nest",
+        "journalFile": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-c51779a6-1821-4f66-93f4-41e9cd637966-3ddb37bd-dc75-4303-9ad0-f25503156950.recovery-ae2f72d4-ae9d-4e32-b964-a13f4afa7c15.json",
+        "event": {
+          "kind": "observer-catalog-reconciliation",
+          "recoveryId": "ae2f72d4-ae9d-4e32-b964-a13f4afa7c15",
+          "at": "2026-10-31T22:11:22.049Z",
+          "attemptedJournal": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-c51779a6-1821-4f66-93f4-41e9cd637966-3ddb37bd-dc75-4303-9ad0-f25503156950.json",
+          "attemptedJournalSha256": "5a1397ba1ad3afcb2334ead18131422abb195bdc0b3adf711593f6fdb9590895",
+          "priorSnapshot": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-c51779a6-1821-4f66-93f4-41e9cd637966-3ddb37bd-dc75-4303-9ad0-f25503156950.prior-ae2f72d4-ae9d-4e32-b964-a13f4afa7c15.json",
+          "attemptedState": "installed",
+          "classification": "installed",
+          "observedCatalogSha256": "904656befe57b9730d70896c9ad47247b4d1339a23c152c62393594cfafe4d1f",
+          "originalAttemptPreserved": true,
+          "PostgreSQLDDLExecuted": false,
+          "controlContextSha256": "2ba01d8287d3ea2e991dc79569208b5cefc065ad3c7d9cf5811b2e443948b327"
+        },
+        "observerFootprintRestored": false,
+        "full107TableCatalogVerified": false
+      },
+      "actualMatureRestore": {
+        "kind": "scoped-pg-after-insert-observer",
+        "result": "observer-footprint-restored",
+        "observerId": "3ddb37bd-dc75-4303-9ad0-f25503156950",
+        "database": "poms_r2m_c01_nest",
+        "journalFile": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/nest-c51779a6-1821-4f66-93f4-41e9cd637966-3ddb37bd-dc75-4303-9ad0-f25503156950.recovery-ae2f72d4-ae9d-4e32-b964-a13f4afa7c15.json",
+        "exportedEvents": 11,
+        "eventExportSha256": "ca6fd07ce2051b5c7f10c823270609e1a03f368f5e4cfa5aef635b8956d043d3",
+        "observerFootprintCatalogSha256": "d3c98b371e258137622d257f3f2850611da515f5886dee6e1e1e1cbf95777256",
+        "observerFootprintRestored": true,
+        "catalogScope": {
+          "kind": "observer-footprint-only",
+          "productTables": [
+            "auth_session",
+            "audit_log",
+            "security_event",
+            "approval_record",
+            "todo_item",
+            "commission_final_settlement_snapshot",
+            "commission_rule_explanation_snapshot",
+            "platform_user",
+            "role",
+            "org_unit",
+            "user_role_assignment",
+            "user_org_membership",
+            "role_permission_assignment",
+            "dictionary_item",
+            "business_number_sequence",
+            "identity_provider_config",
+            "identity_provider_oauth_grant",
+            "external_identity",
+            "external_login_ticket",
+            "external_org_source",
+            "external_department_mapping",
+            "org_sync_run",
+            "org_sync_diff_item",
+            "attachment_storage_provider_config",
+            "attachment_upload_session",
+            "attachment",
+            "attachment_link",
+            "project_handover_attachment_selection",
+            "attachment_download_package",
+            "attachment_download_package_item",
+            "confirmation_record",
+            "confirmation_participant",
+            "approval_summary_snapshot",
+            "approval_summary_field_projection"
+          ],
+          "controlNamespace": "r2m_c01_control",
+          "full107TableCatalogVerified": false,
+          "fullCatalogVerificationOwner": "Root before install and after restore"
+        },
+        "observerSqlModifiesBusinessRows": false
+      },
+      "actual107Preflight": {
+        "catalog": {
+          "tables": 107,
+          "columns": 1778,
+          "primaryKeys": 107,
+          "incomingForeignKeys": 207,
+          "allForeignKeys": 207,
+          "implicitPrimaryKeyNames": [
+            {
+              "table": "internal_cost_rate_version",
+              "name": "internal_cost_rate_version_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "poms_migrations",
+              "name": "poms_migrations_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            },
+            {
+              "table": "project_actual_cost_record",
+              "name": "project_actual_cost_record_pkey",
+              "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+            }
+          ],
+          "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+          "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+        },
+        "tablesScanned": 107,
+        "scanDigest": "8cdf5e75e3b2f075e11dbf761b7dde11c707bd1d8a5a37e2572a68ebcdf96d45"
+      },
+      "cleanup": [
+        {
+          "state": "cleaned",
+          "deleted": 75,
+          "cycleBreaks": 1,
+          "firstZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "secondZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "journalDigest": "74e2ae471a9cc5ab1f7caa327c10b2c5f909f3aab251c9e79e09c75fad3c836e",
+          "objects": {
+            "matched": 1,
+            "changed": 1,
+            "observed": true,
+            "exactKeys": [
+              "poms-r2m/c51779a6-1821-4f66-93f4-41e9cd637966/attachments/uploads/2026/10/31/ccd74b0a-1be7-460e-bc4a-b36038ad9f11/original.txt"
+            ]
+          },
+          "secondObjects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "cloudPeerCleanupClaimed": false
+        },
+        {
+          "state": "cleaned",
+          "deleted": 0,
+          "cycleBreaks": 0,
+          "firstZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "secondZero": {
+            "objects": 0,
+            "logicalReferences": 0,
+            "tablesScanned": 107,
+            "catalog": {
+              "tables": 107,
+              "columns": 1778,
+              "primaryKeys": 107,
+              "incomingForeignKeys": 207,
+              "allForeignKeys": 207,
+              "implicitPrimaryKeyNames": [
+                {
+                  "table": "internal_cost_rate_version",
+                  "name": "internal_cost_rate_version_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "poms_migrations",
+                  "name": "poms_migrations_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                },
+                {
+                  "table": "project_actual_cost_record",
+                  "name": "project_actual_cost_record_pkey",
+                  "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+                }
+              ],
+              "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+              "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+            }
+          },
+          "journalDigest": "d53c11113baf09a710c6e3b0177508713f54352cbde69de97cc477ac84f629ca",
+          "objects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "secondObjects": {
+            "matched": 0,
+            "changed": 0,
+            "observed": true,
+            "exactKeys": []
+          },
+          "cloudPeerCleanupClaimed": false
+        }
+      ],
+      "afterFull107": {
+        "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wn4c06a-late-recovery01-after-full107.json",
+        "bytes": 432805,
+        "rawBytesSha256": "f065a1b9202302b6db1aac0d6cbcdfc69251d2aeb3780bc187d1e117ad300548",
+        "private": true
+      },
+      "full107InitialBaselineRestored": true,
+      "fixtureClientClosed": true,
+      "lateDrainOnly": true,
+      "normalClosedReceiptClaimed": false,
+      "identityAdoption": false
+    }
+  ],
+  "late53": {
+    "runId": "dc5bfb95-8fce-4cf9-bdf0-bbce7d79cd18",
+    "originalPublicNativeStopFalseAndPgActivePreserved": true,
+    "originalUIHTTP": 0,
+    "originalFinalSdkExists": false,
+    "originalSourceReadyExists": false,
+    "originalWindowsUiBridgeExists": false,
+    "currentComplete107AtRecoveryMatched53DirectBirthsAndAllForeignBaseline": true,
+    "active0ActuallyEndedOnlyByNewLateEmptyDrain": true,
+    "twoBeforeOnlyIntentsResolvedWithoutAdoption": [
+      {
+        "table": "audit_log",
+        "resolvedWithoutAdoption": 1
+      },
+      {
+        "table": "security_event",
+        "resolvedWithoutAdoption": 1
+      }
+    ],
+    "newCertificates": 0,
+    "actualRestoredPgEvents": 0,
+    "actualFirstDeletedRows": 53,
+    "actualFirstDeletedFiles": 0,
+    "actualSecondRowsAndFiles": 0,
+    "originalStop": "Root original exact own inert worker SIGTERM remains original stop evidence, never natural/normal closed; helper fresh probes never signal processes"
+  },
+  "late75": {
+    "runId": "c51779a6-1821-4f66-93f4-41e9cd637966",
+    "originalUIFailurePreserved": true,
+    "originalServerFalsePreserved": true,
+    "originalObserverFalsePreserved": true,
+    "originalTransportClosedButOwnedWorkIncompletePreserved": true,
+    "originalDeadlinePreserved": true,
+    "originalNaturalExitClaimed": false,
+    "RootAdditionalSignalSent": false,
+    "originalCertifiedHTTP": 48,
+    "originalAlreadyDrainedCases": 54,
+    "originalProducerCases": 6,
+    "originalHttpCases": 48,
+    "originalSdkCommitted": 12,
+    "originalGenuinePgShadowSubset": 11,
+    "noRedrainOrNewProof": "Original54 cases remain drained; exact live11 set was restored directly after new generation, with no synthetic12th PG event or fresh drainCase/resolution.",
+    "atRecoveryComplete107MatchedLastOriginalCertifiedAfter": true,
+    "newCertificates": 0,
+    "originalOwnedFile": "Exact original62B attachment object with no invented state field, original path/key/SHA/birth closure; mature filecleanup only",
+    "actualFirstDeletedRows": 75,
+    "actualFirstDeletedFiles": 1,
+    "actualSecondRowsAndFiles": 0
+  },
+  "independentPublicChecks": {
+    "parentPinnedActualHashesFa9aAndDb91": true,
+    "actualRunAndHistoricalCapMatchApprovedSourceScopes": true,
+    "approvedHelperTargetBytesRemainExact": true,
+    "allOriginalWxByteLengthShaMatchFrozenPrivateRefMetadata": true,
+    "allNewGenerationAttemptedJournalHashesMatchOriginalWx": true,
+    "reconcileClassification": "Exact installed handle reopened with original attempt preserved and no DDL in reconciliation itself; footprintRestoredfalse/full107TableCatalogVerifiedfalse at this intermediate step are retained, not misreported as final flags.",
+    "actualFinalRestore": "Mature restore returns observer-footprint-restored, original catalogue SHA d3c98b..., event0/11 as applicable; later full107 preflight and data baseline equality succeed.",
+    "allCleanupFirstSecondZeros1071778And207": true,
+    "freshBeforeAfterTaskPidGroupAndFivePortsAbsentAtRecordedBoundary": true,
+    "fixedWindowsProbeEvidence": "3 readonly Native probes per phase for late53;14 exact UI/Native PID+nonce probes per phase for late75. NoStop and private stdout evidence refs retained.",
+    "originalFalseMissingAndTimeoutFlagsNeverPromoted": true,
+    "noNewOwnershipOrCertificatesOrQueryIdAdoption": true,
+    "fixtureClientClosedBoth": true,
+    "CPrivateReadOrRuntimeExecution": false
+  },
+  "readLevels": {
+    "C": "Read and hash original public receipts and source reviews/candidate references, rehash actual helper targets/public originals, compare exact wx ref hashes, original/late flags, new recovery generations, full107 schema zero scans and counts. Did not follow any private ref.",
+    "Root": "Executed the approved fixed helpers at their recorded recovery boundary, read original private bytes under guarded paths, validated exact live events/source births/catalogue, executed mature restore/cleanup and full baseline row equality.",
+    "source": "C source semantics previously reviewed in aaf789 and181486; their deterministic runtime guards establish the private comparisons without a repeated private read or recovery rerun by C."
+  },
+  "currentEpochBoundary": {
+    "oldFixtureHelperAndProfile": "Both recoveries used original helper067/profile33 sourceSet93873, matching their own source caps.",
+    "laterSource": "New approved helper e12/profile9d3/118 overlay and cap07 were installed only after late75 restored baseline. Different current source/profile bytes do not invalidate historical execution pins.",
+    "activeNewRun": "Root has begun a new independently owned NativeUI4 cap07 run; these receipts do not assert that the database or host remains globally idle now."
+  },
+  "findings": [],
+  "limits": [
+    "Pass means both recorded fixed restoration chains completed and original state was preserved. It is not an actual UI3/UI4 business pass or a fabricated original normal-close receipt.",
+    "No private original, event/raw SDK/cookie/env/key/DB/HTTP/browser/PS/process probe, test or recovery was rerun by C. No new validation gate is introduced.",
+    "No unsupported ownerClosed property is invented; reviewed mature restore awaits its owner lifecycle and fixtureClientClosed is explicitly recorded.",
+    "Original partial reports, original falseflags/timeouts/deadline, original/private wx snapshots and new recovery generations remain unchanged.",
+    "Final Windows matrix, fresh current-run cleanup, final G3/G4/Git/archive/online closure remain separate pending duties."
+  ]
+}

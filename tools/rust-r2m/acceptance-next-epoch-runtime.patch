@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: tools/rust-r2m/acceptance-runtime.mjs
+@@
+-        await pg.beginCase(context);
++        // Native SDK retains the truthful m.producer role. The independent
++        // PG channel records that same transport as its frozen m.http kind.
++        await pg.beginCase({...context,op:context.op==='m.producer'?'m.http':context.op});
+@@
+-            async internal(options){assert.equal(typeof extensions.internal,'function','Root reviewed actual internal probe extension required');return extensions.internal({...options,fixture,native,rust,pg,perform,retain})},
++            async internal(options){
++                assert.equal(typeof extensions.internal,'function','Root reviewed actual internal probe extension required');
++                const nextContext=(caseId,op)=>{assert(['m.internal-uow','m.internal-numbers'].includes(op),'Only the two frozen internal entry kinds');fixture.scope(caseId);return{runId,caseId,index:index++,op}};
++                const nativeCommittedCount=()=>committed.length;
++                const certifyObservedCreates=parameters=>{assert(Number.isSafeInteger(parameters.from)&&parameters.from>=0&&parameters.from<=committed.length,'Actual SDK queue origin required');assert(['nest','rust'].includes(parameters.executionBackend));return certifyActual(parameters)};
++                return extensions.internal({...options,fixture,native,rust,pg,perform,retain,sourceReader:reader,sourceCap,nextContext,nativeCommittedCount,certifyObservedCreates});
++            },
+*** End Patch

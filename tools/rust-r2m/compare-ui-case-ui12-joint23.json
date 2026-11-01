@@ -1,0 +1,86 @@
+{
+  "kind": "R2M-UI-pinned-comparison-input",
+  "caseId": "ui1-ui2-joint23-controlled-uncached-input",
+  "sourceCap": {
+    "file": "tmp/rust-r2m/source-cap-joint23.json",
+    "bytes": 1414229,
+    "rawBytesSha256": "a6f776fa070924be5390dc974dcf92a8d7af7ce7551c04bfd208312102f7f92f"
+  },
+  "sourceCapId": "r2m-joint23",
+  "sourceManifestSha256": "ff05a85520b8dbe9de51a87e88ea6c03a71be039d4fa011674be56b9a6119d7c",
+  "metadata": {
+    "file": "tmp/rust-r2m/ui12-pair-shapes02.json",
+    "bytes": 121779,
+    "rawBytesSha256": "ce8ea4fa465f127468bcb1f2bdfe91d90a144f6860a153b28199a185df7bc46d"
+  },
+  "profile": {
+    "journeys": [
+      "UI1",
+      "UI2"
+    ],
+    "cacheMode": "controlled-uncached",
+    "functionalHeaders": [
+      "content-type",
+      "content-length",
+      "content-disposition",
+      "x-request-id"
+    ],
+    "cacheEquivalenceCertified": false,
+    "expectedHttpCount": {
+      "nest": 76,
+      "rust": 76
+    },
+    "expectedTableCounts": {
+      "role": 2,
+      "org_unit": 2,
+      "platform_user": 2,
+      "local_credential": 2,
+      "user_role_assignment": 2,
+      "user_org_membership": 2,
+      "role_permission_assignment": 38,
+      "customer": 1,
+      "project": 1,
+      "lead": 1,
+      "sales_follow_up_record": 3,
+      "todo_item": 3,
+      "auth_session": 4,
+      "security_event": 9,
+      "audit_log": 1
+    },
+    "settingValue": 51
+  },
+  "sides": {
+    "nest": {
+      "runId": "05e4133c-0536-4b1a-b6ed-3330a0c7e29f",
+      "report": {
+        "file": "tmp/rust-r2m/ui-linux-nest-uin12b.json",
+        "bytes": 91710,
+        "rawBytesSha256": "e8115675aa7a60ae849742d10e15e0e96eec00a8e2f5763680594c55e0930176"
+      },
+      "finalLedger": {
+        "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-05e4133c-0536-4b1a-b6ed-3330a0c7e29f.json",
+        "bytes": 822561,
+        "rawBytesSha256": "c076bf4da1d8da28cab87ae262d80e917f1f13270236fd77ec5bb13988c49d9c",
+        "lateReadOfFinalCompletedLedger": true,
+        "originalMetadataLateReadField": "lateReadAfterCompletedReport"
+      }
+    },
+    "rust": {
+      "runId": "ca846a76-0d75-4827-8d73-fd2fe7fe0862",
+      "report": {
+        "file": "tmp/rust-r2m/ui-linux-rust-uir12b.json",
+        "bytes": 91805,
+        "rawBytesSha256": "bdce98a9465eac51b4bac91cccddc7fcf1cc3b93b24af696604a4b02daa4e72f"
+      },
+      "finalLedger": {
+        "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/rust-ca846a76-0d75-4827-8d73-fd2fe7fe0862.json",
+        "bytes": 707035,
+        "rawBytesSha256": "f735f1e1b1f6b51edd37dee9260ac77ef15b3920b32db581ac805f8303798d1f",
+        "lateReadOfFinalCompletedLedger": true,
+        "originalMetadataLateReadField": "lateReadAfterCompletedReport"
+      }
+    }
+  },
+  "privateContentsCopied": false,
+  "UI3To4Ready": false
+}

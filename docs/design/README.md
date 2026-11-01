@@ -411,3 +411,17 @@ RUST-R2L-LOOKUP 联合 G3 已通过，[非作者决定](rust-r2l-g3-review01.jso
 [#79](https://github.com/illusion-tech/poms/issues/79#issuecomment-6522264089)、[#84](https://github.com/illusion-tech/poms/issues/84#issuecomment-6522269219)与父路由项[#61](https://github.com/illusion-tech/poms/issues/61#issuecomment-6522275148)已完成并关闭；实现3b154bf447df9897a934e95cb218fbdb0beaba47、归档准备3f76064319094f1e61207b2f7008f226c30fa869均已实际集成并推送main，独立G3/固定提交/归档准备复核及[在线回执](rust-r2l-online-g4.json)分列。[归档收口](archive/slices/rust-r2l-closeout.md)、[证据索引](rust-r2l-evidence-index.json)与[生命周期映射](rust-r2l-lifecycle-path-map.json)保留初始包及后续小增量。
 
 当前R2A–L公开操作 **108/108**，剩余 **R2M #80 阶段集成验收**；#80为Todo、G1待冻结，#67/#57继续Doing/Open，整个R3–R7未因此迁移。#61自身六条件和三个原生子项全部完成；原104/99/早期Todo和Pending文句保留当时时点，当前以本条、currentDeliverySummary和GitHub原生状态为准。原失败/partial/54ignored、自然时钟差异、四项Rust SQL wire覆盖边界、首份副本异常及schema既有分类不回写。PG17和旧环境保留，本轮独立PG15已停止且保留数据卷，无部署或性能结论。
+
+
+### 2026-10-31 R2M G1
+
+R2M [#80](https://github.com/illusion-tech/poms/issues/80#issuecomment-6529892491)按[阶段基线](rust-r2m-stage-acceptance-baseline.md)、[输入清单](rust-r2m/g1-input-manifest.json)和[非作者审查](rust-r2m-g1-review01.json)冻结，来源9dcfb498。两线并行交付审计/当前候选集成，明确承接R2D URI decode/auth未决，新增公共操作0；旧证据复用/54ignored/schema/受控外适配与完整R3–R5生产者边界逐项保留。当前108/108，M Doing/G1 Pass；本轮实际验收/补缺/G3G4未完成，#80/#67/#57均Open，只有各自条件满足才关闭#80/#67，#57持续Open。PG17与旧环境保留，使用全新R2M隔离资源，无部署/性能闸口。
+
+
+### Pending（G4 生效日期） R2M 阶段检查（G3 Pass / G4 Pending）
+
+R2A–L 已交付 **108/108** 公开操作，与 R1 合计当前 Rust dispatch **115**；本片新增公开操作 0。R2M [#80](https://github.com/illusion-tech/poms/issues/80) **Open**，父 [#67](https://github.com/illusion-tech/poms/issues/67) **Open**；总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 **Open**，R3–R7 和正式部署/切流仍按各自范围。旧 G1 与各切片 Pending 文句保留当时时点。
+
+最新状态入口：[机器验收](rust-r2m-validation.json)、[G3 checkpoint](archive/slices/rust-r2m-g3-checkpoint.md)、[阶段 closeout](archive/slices/rust-r2m-closeout.md)、[迁移计划](backend-rust-migration-plan.md)、[归档权威](rust-r2m-archive-authority.json)。Linux 八 cell 已有各自限定 C 结果；Windows 八 cell 已完成原完整 journey 及独立限定 C：**8/8 实际及独立限定 C Pass；tmp/rust-r2m/final-delivery-candidate15/delivery-evidence-index-final-supplement15.json (SHA f06cf150d6bdc96ba5fabaa81d036738afb9a824c7efae33a06bd43f26482153)**；原失败恢复与各 partial 仍独立保留。
+
+阶段证据：总体 G3 **Pass；docs/design/rust-r2m/overall-g3-actual-review01.json (SHA 85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d)；线上 G3 comment Pending**；实现提交 **Pending（G3 后固定提交）**；固定提交 C **Pending**；primary 快进/main 推送 **Pending**；最终双 origin 公共保全 **Pending**；归档/regular 同 bytes 兼容例外 **Pending**；在线 G4 **Pending**。条件未到均 Pending，#80/#67 仅各自条件实际齐后关闭。

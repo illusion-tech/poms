@@ -1,0 +1,233 @@
+{
+  "kind": "R2M-original-UI4-independent-package-item-reservation-source",
+  "result": "SourceCandidate-awaiting-C",
+  "owner": "/root/r2m_delivery_audit",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/fixture-ui-package-intent.mjs",
+      "bytes": 17749,
+      "rawBytesSha256": "f4c2de9800f8895c78fb31d2e36e4456d3ab73ac75180308af0044136644704a"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 46300,
+      "rawBytesSha256": "774dc0e4350cbcb3d502492cbe6ea6f2ef1c03e70754970689d518c8ced54940"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10352,
+      "rawBytesSha256": "3705769440b20905a178145ba35611399447bc49247fc6c5a4218fd7089864b2"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 13650,
+      "rawBytesSha256": "4f37a0e4b6f74405a9281856f8d2a6a0dff998d53796f45a365a0fc2b4868876"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 13039,
+      "rawBytesSha256": "090553a20fcdb02a1afae80d14d0acc8b20d4342922230a411e0ecee317b96e8"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-full.mjs",
+      "bytes": 31582,
+      "rawBytesSha256": "d3a403a7c7a633a16cf838b2667237605d7c00e3c0308ce0c421537c39f39fdc"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 35225,
+      "rawBytesSha256": "9b765996b3c264e8d83878266504194c10e45571c769e89010d9862c4f407241"
+    }
+  ],
+  "tests": [
+    {
+      "file": "tools/rust-r2m/fixture-ui-package-intent.test.mjs",
+      "bytes": 16044,
+      "rawBytesSha256": "8af7e12193687010bb5ae69d6b1850c24a4ed383e85ac0b62d7ce8180f72dec8"
+    },
+    {
+      "file": "tools/rust-r2m/ui-package-runtime-source01.test.mjs",
+      "bytes": 6559,
+      "rawBytesSha256": "a6eed6405ab56daf983af51448bdd3c770eaf6d70de887c07162c13664754167"
+    }
+  ],
+  "contract": {
+    "file": "tools/rust-r2m/ui-package-intent-contract01.md",
+    "bytes": 3688,
+    "rawBytesSha256": "fa8c69bde41fef6e2457450d033612ebc02b77959d3884fd5e3d4debac3a551b"
+  },
+  "retainedBefore": {
+    "file": "tools/rust-r2m/ui-package-intent-before-source01.json",
+    "bytes": 218874,
+    "rawBytesSha256": "acf5c8d2e39300196949e8492e29e19a5dbc0c6c0ff970a362c2a8fac71e3ee9"
+  },
+  "fullOldSixFileDiff": {
+    "file": "tools/rust-r2m/ui-package-intent-source01.diff",
+    "bytes": 33880,
+    "rawBytesSha256": "1dce9e610fa871e9c727041e32a0420fd5abb3b1322174a3c8ddea5b4b4ee784"
+  },
+  "oldFourCommonWiringInverse": [
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "rawRollbackSha256": "0dd729d9aa7341e81c27eec25b33c0a9732a6e775e2e5c62f1523e4416ddba16",
+      "originalRawSha256": "0dd729d9aa7341e81c27eec25b33c0a9732a6e775e2e5c62f1523e4416ddba16",
+      "exact": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "rawRollbackSha256": "3ee4238b1187ab7dfd1863a2914275f8fad47a7fd27a76bc9b4cfffd9efb4187",
+      "originalRawSha256": "3ee4238b1187ab7dfd1863a2914275f8fad47a7fd27a76bc9b4cfffd9efb4187",
+      "exact": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "rawRollbackSha256": "2ccc59d8e386b97546ecc4c839fcd7bfe480b9c883f9ed275dda18b5ea0e73eb",
+      "originalRawSha256": "2ccc59d8e386b97546ecc4c839fcd7bfe480b9c883f9ed275dda18b5ea0e73eb",
+      "exact": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "rawRollbackSha256": "42a16d2a0522702a3adc5e05b42efbcbdf30e71ecb5a5adb7a0c4fe9377ec434",
+      "originalRawSha256": "42a16d2a0522702a3adc5e05b42efbcbdf30e71ecb5a5adb7a0c4fe9377ec434",
+      "exact": true
+    }
+  ],
+  "derived96NotChanged": {
+    "file": "tools/rust-r2m/continuation01-variant-generated01.json",
+    "bytes": 5024493,
+    "rawBytesSha256": "d0ed2195a4c64a9617acb82adfe5e25c0719408b04971eb5b04dd4efa8e7e88d"
+  },
+  "existingAPIHelperUnchanged": {
+    "file": "tools/rust-r2m/fixture-package-intent.mjs",
+    "bytes": 14617,
+    "rawBytesSha256": "74cbebe2bbbb72fb68e4d49330a86486a2a7299b4a22df3f47b6abcbcbbb8c12"
+  },
+  "existingAPICallerUnchanged": {
+    "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+    "bytes": 50044,
+    "rawBytesSha256": "036da085290013385da7c36918013461505ea53e7aa885da13fae730b72d5e80"
+  },
+  "unchangedPGReferencesPolicy": [
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75083,
+      "rawBytesSha256": "538aa31a86bf59b18b6180577d371be31c7837492f406a763afc0575da72eaee"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    }
+  ],
+  "protectedUISourcePins": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 18719,
+      "rawBytesSha256": "20245325ba605e8fd1399a8264a3ebae7cebc870fd27954531e3cdbb7bee6197"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25929,
+      "rawBytesSha256": "82a7d6e2a02bfc2afb95e51ec4fcd40c957892ed2c45b2afd005b36a6efc5dee"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "bytes": 38994,
+      "rawBytesSha256": "64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "bytes": 40914,
+      "rawBytesSha256": "a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "bytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+      "bytes": 15693,
+      "rawBytesSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"
+    }
+  ],
+  "scope": {
+    "onlyLogicalCase": "UI4",
+    "onlyStep": "package-create",
+    "onlyCaseId": "m.ui4.integration",
+    "onlyActualOp": "m.http",
+    "onlyMethod": "POST",
+    "maximumItems": 64,
+    "parentMaximum": 1,
+    "body": "Full original four fields: unique owned selection ID + same exact expected version + true confirmed + literal Chinese note.",
+    "sourceOfSelectedIdentity": "Existing real owned creation/independent visibility and typed handover/project, then independent current-row/xmin/immutable identity/version/status/owned attachment checks.",
+    "ownershipGranted": false,
+    "placeholderParent": false,
+    "onlyItemBeforeIntentNewPermit": true,
+    "API10PermissionNotBorrowed": true
+  },
+  "invariants": [
+    "Final child.package_id equals this parentIntent unique actual birth ID; parent+items exact run/case/index/op and SDKouterCOMMIT; each own true authority/tx/commit/independent row; no assumed commonXID.",
+    "Original ordinary intent/PGscope/RowRefs/allCaptured/unknown/full107/ownedtable62/cleanup unchanged.",
+    "Independent UI reservation array/id and immutable original body/selected-before/child-before; journal reopen repeats binding.",
+    "Only exact browser HTTP hooks defer the one item intent until actual index allocation; ordinary Max1 parent unchanged; Windows Native ACK still awaited before PG/HTTP.",
+    "Separate Root UI admission/preflight/CLI flag; provider audit admission remains separate.",
+    "Profile32→33 only adds the one source; no old profile/journal/sourcecap overwritten."
+  ],
+  "pure": {
+    "total": 98,
+    "pass": 98,
+    "fail": 0,
+    "groups": {
+      "APIUnchanged": 40,
+      "newUIComponent": 51,
+      "LinuxWindowsActualCallbackFake": 7
+    },
+    "log": {
+      "file": "tools/rust-r2m/ui-package-intent-source01-pure-wiring.txt",
+      "bytes": 9643,
+      "rawBytesSha256": "d8b5a479c31346f103cc0a80f1b832d45ba06b2050b38275946a376a42c1ee90"
+    },
+    "earlierSelected51": {
+      "file": "tools/rust-r2m/ui-package-intent-source01-pure-selected.txt",
+      "bytes": 4680,
+      "rawBytesSha256": "3d408f4b23ba7ac8927d5f570dc2fee3c7dbc0380a890d9e3d5c2b2b717c33ce"
+    },
+    "earlierComponent40": {
+      "file": "tools/rust-r2m/ui-package-intent-source01-pure-initial.txt",
+      "bytes": 3490,
+      "rawBytesSha256": "6039541df13e0e094b878b420ffbee517563826d871ffb6d130b0fe82cc4eda7"
+    },
+    "syntaxLexicalFiles": 9,
+    "errors": 0,
+    "lexicalLog": {
+      "file": "tools/rust-r2m/ui-package-intent-source01-no-undef.json",
+      "bytes": 1081,
+      "rawBytesSha256": "330a0fc24a17bb0ebd536bcfa945b1e6ce69dd9ce69a1c30d832b3452fefa82a"
+    },
+    "NodeWarning": "Original transitive test-data.ts emits Node MODULE_TYPELESS_PACKAGE_JSON; no product/package edits or test failure."
+  },
+  "pending": [
+    "C necessary review of new original helper + six precise wiring deltas.",
+    "Separate c01 environment-only derived update/new fullpins after current API pair stops; active Linux/derived96 stay frozen.",
+    "Root actual remainingUI4/Windows genuine runtimes and full comparisons; no UI/actual/G3 claim here."
+  ],
+  "authorActivities": {
+    "privateRead": false,
+    "envRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "actualOwner": false,
+    "productEdit": false,
+    "oldDerived96Edit": false,
+    "activeLinuxEdit": false
+  },
+  "G3": false,
+  "G4": false
+}

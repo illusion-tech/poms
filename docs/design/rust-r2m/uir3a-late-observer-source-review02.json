@@ -1,0 +1,95 @@
+{
+  "kind": "POMS-R2M-independent-uir3a-late-observer-source-review",
+  "reviewedAtUtc": "2026-10-31 02:31:53 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "oneOperation": "Recover original stopped uir3a installed observer and57 actually certified owned rows",
+    "runId": "42a6e11d-6b6c-4f6b-9e30-3a683b71face",
+    "backend": "rust",
+    "originalObserverRestoredReceiptAvailable": false,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending",
+    "newGateCreated": false
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-late-uir3a.mjs",
+      "bytes": 12792,
+      "rawBytesSha256": "2978b785a9fb82afcd59b043bd6cabe1a4334549076f559ebcf83a073ba4b3d3"
+    }
+  ],
+  "supersedes": {
+    "file": "docs/design/rust-r2m/uir3a-late-observer-source-review01.json",
+    "bytes": 3878,
+    "rawBytesSha256": "75b3d6a2bdb03a936942d2511dcd8cb85989edd9a2ec922c50b08b8b103f710e",
+    "resolution": "Only old d5ec caller's missing pre-restore live-event reconciliation was blocked. New guard resolves that narrow finding; original source and Block remain preserved."
+  },
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m/uir3a-recovery-precheck02.json",
+      "bytes": 403,
+      "rawBytesSha256": "3aab750c2c862a46845e5288c94e5d622eae97fb2eccf80346a20dbfcf787716"
+    },
+    {
+      "file": "tmp/rust-r2m/recover-late-uir3a-before-live01.mjs",
+      "bytes": 9821,
+      "rawBytesSha256": "d5ecce218c36babd5c9974b78c8feec37ef770a5a87f86386ea7c302fc1723e1"
+    },
+    {
+      "file": "tmp/rust-r2m/uir3a-readonly01.json",
+      "bytes": 1957,
+      "rawBytesSha256": "bf51ef45eb3ed5ec866ab2063958315e97c71841906081feadd56e34524b4662"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 73612,
+      "rawBytesSha256": "22f6b8306391d6b639eaad763679427f8fa2ed63532b8e91166fe2acff3d341f",
+      "meaning": "Unmodified original staged mature module, independent raw hash checked"
+    }
+  ],
+  "findings": [
+    {
+      "item": "exact live set before restore",
+      "result": "Pass",
+      "detail": "New separate original-owner marker-validated BEGIN READ ONLY uses observerStatements for the exact fixed control/events tables. Control must be NULL/empty with exactly all17 original used case tokens. Same full event SELECT as original22f is represented through JSON, sorted by event_id and compared exactly to all original17 case.rawEvents. Duplicate/unknown/missing/changed event, active or substituted control and aborted top transaction fail before restore."
+    },
+    {
+      "item": "original births only",
+      "result": "Pass",
+      "detail": "Every live event must be original observer/run/Rust database, committed, match its original case/index/op and have its table/source ID among the original owned birth certificates with the exact creation context. This guard grants no new certificate, adoption, clear or discard operation. Real original ledger57/0pending remains unchanged before cleanup except ordinary open revision."
+    },
+    {
+      "item": "safe readonly evidence boundary",
+      "result": "Pass",
+      "detail": "Original ledger and observer journal are exclusively saved before Fixture.open. New owner password is guarded regularPrivate under only new M private root, with fixed20432/RustDB/original owner and existing verifyConnection. Full live control/events snapshot is saved privately before readonly rollback/end. Only then does original mature22f reopen a new generation and restore its exact OID/SQL/ACL/catalog footprint."
+    },
+    {
+      "item": "remaining accepted chain",
+      "result": "Pass",
+      "detail": "Original worker/anchor absence/five ports and fresh app0/prepared0 are rechecked. Original four owners stopped, SDK complete and all original17 cases drained remain hard predicates. Full107 unknown0/preflight precede late drain, mature double cleanup and complete initial baseline equality. Original report partial/observerRestored=false remains unchanged; new recovery receipt records the later restoration separately."
+    }
+  ],
+  "authorChecks": {
+    "RootExactOriginalShape": true,
+    "RootKnownOriginalEventSet": true,
+    "negativeRejections": 11,
+    "PostgreSQLExecutedInPrecheck": false,
+    "meaning": "Read-only original data by Root and controlled negative variants; C did not run it."
+  },
+  "readLevel": {
+    "increment": "Complete3-function/insert diff from exact preserved d5ec; original accepted caller chain reused",
+    "mature": "Necessary original event SQL, reconcile/restore/owner client plus regularPrivate implementation read",
+    "privateContentsReadByC": 0,
+    "DBHTTPBrowserProcessIOExecutedByC": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "actual": "Root exclusively executes matching original old28/PG22f plus this fixed helper. SourceReady does not certify expected57/0, new UI behavior or overall G3/G4."
+}

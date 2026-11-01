@@ -1,0 +1,48 @@
+{
+  "kind": "R2M-UI-reload-actual-bridge-readiness-one-line-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "before": {
+    "file": "tools/rust-r2m/ui-reload-ready-before-source01.json",
+    "bytes": 29842,
+    "rawBytesSha256": "dd09b73f6a41a30388e1ef9e46ae25a988fe4ed1b1e25ce67aa6713d931462ee"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 22281,
+      "rawBytesSha256": "b8d58fe49f3a75205f7a7265a3120a40dc67938f71ac7681f01588dc424800dc"
+    }
+  ],
+  "scope": "After actual session/navigation/todos200, wait only the original test entry bridge.version===1 before first snapshot. App initializer awaits actual AuthStore.initialize/session.user/nav/todo completion; entry installs bridge after async import. No business retries/status masking/assertion removal.",
+  "originalSources": [
+    {
+      "file": "apps/poms-admin/src/app.config.ts",
+      "bytes": 5633,
+      "rawBytesSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8543,
+      "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-main.ts",
+      "bytes": 4911,
+      "rawBytesSha256": "5ae93a7e2ef410c39e814d394f1c71b8f1b973671d73cbc89c345db51cdd3a50"
+    }
+  ],
+  "pure": {
+    "passed": 15,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-reload-ready-source01-pure.txt",
+      "bytes": 3659,
+      "rawBytesSha256": "4b04c8a92b615491b3213add9175bc81368792761ad9bf24fd4a485826d47ece"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

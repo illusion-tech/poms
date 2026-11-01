@@ -1,0 +1,67 @@
+{
+  "kind": "R2M-next-API-epoch-original-platform-handler-projector-pin-only-update",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "base": {
+    "file": "tools/rust-r2m/audit-identity-source03.json",
+    "bytes": 1961,
+    "rawBytesSha256": "083075193fb30fc153ff21bd5b2608305b296234b8e1035b7dd654f21d24c68b"
+  },
+  "previousIndependentReview": {
+    "file": "docs/design/rust-r2m/api-eight-source-review02.json",
+    "bytes": 17487,
+    "rawBytesSha256": "792b76f7627b0d402557bd53f73f8c811ef6a881cac28ca72ce5976dbdf95ea7"
+  },
+  "before": {
+    "file": "tools/rust-r2m/audit-identity-before-source04.json",
+    "bytes": 37497,
+    "rawBytesSha256": "231f9bda05695400f6925f3c60cd2e2c91eb24c2ca8b1f88969ac23ecbd771f9"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.test.mjs",
+      "bytes": 13871,
+      "rawBytesSha256": "6d4fce1862221b77353de150a35f9bc2c1d8f17f0eda199519e5fbe7be422c7a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    }
+  ],
+  "sourceDelta": "The admission helper changes only its protected platform projector raw pin 3d71dbdb... to493ddbea... from B source04. Original TS3source pins remain exact. No actor/op/index/typedparent/source-kind/E header/lease/cleanup permission changes. Pure fixtures use the renamed exact source steps and exercise the two newly named original null-audit handlers.",
+  "originalHandlerProfiles": [
+    "m2.1 assign-new-user-roles => assignUserRoles/platform.user.roles.replaced",
+    "m2.1 ignored-request-version => updateUser/platform.user.updated",
+    "Named original-relation rollback create steps preserved as negative source observations; empty-relation create steps supply actual positive user rows. Matching source descriptors never grant creation ownership without real SDK/PG/outerCOMMIT proof."
+  ],
+  "pure": {
+    "passed": 46,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-identity-source04-pure.txt",
+      "bytes": 4716,
+      "rawBytesSha256": "cf9e9c5a63efbf965706d2c16f1ad15de5bbf87f0253fa60baa8989f2317dfc1"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "unchangedEProjector": {
+    "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+    "bytes": 5033,
+    "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+  },
+  "currentHelperSourceReviewMustPin": {
+    "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+    "bytes": 14026,
+    "rawBytesSha256": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205"
+  },
+  "activeOldActualPacketChanged": false,
+  "actual": false
+}

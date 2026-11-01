@@ -1,0 +1,86 @@
+diff --git a/tmp/rust-r2m/package-intent-before-source01/fixture.mjs b/tools/rust-r2m/fixture.mjs
+index cdab7302..dcade8d5 100644
+--- a/tmp/rust-r2m/package-intent-before-source01/fixture.mjs
++++ b/tools/rust-r2m/fixture.mjs
+@@ -1,3 +1,4 @@
++import {intentForGeneratedPackageItems,assertGeneratedPackageItemBinding} from './fixture-package-intent.mjs';
+ import {admitExternalAuditSet,externalAuditForIntent} from './fixture-external-audit-identity.mjs';
+ import { planSettingCreate, adoptSettingCreate, resolveNoSettingCreate } from './fixture-keyed.mjs';
+ import { planObjectPrefix, certifyLocalObject, preflightLocalObjects, cleanupLocalObjects } from './fixture-objects.mjs';
+@@ -146,6 +147,7 @@ export class Fixture {
+         // afterCreate/outer-COMMIT authority before this exact-PK row read.
+         const current=await selectId(this.client,'audit_log',item.id);assert(current);const matches=intents.filter(i=>Object.entries(i.selector).every(([k,v])=>current.row[k]===v));assert.equal(matches.length,1,'Actual certified audit row must match one original immutable event selector');return matches[0].id;
+     }
++    intentForGeneratedPackageItems(options,approval) { return intentForGeneratedPackageItems(this,options,approval); }
+     admitAuditIdentity(input,approval) { return admitAuditIdentity(this,input,approval); }
+     async intentWithRequestIdentity(table,selector,{caseId,index,admissionId,expectedMax=1}) { assert.equal(table,'audit_log');return this.intent(table,selector,{caseId,expectedMax,auditIdentityAdmissionId:admissionId,contextIndex:index}); }
+     async intent(table, selector, { caseId, expectedMax = 64, auditIdentityAdmissionId,contextIndex,externalAuditAdmissionId,externalAuditEventType }) {
+@@ -229,7 +231,7 @@ export class Fixture {
+         if (item.caseId === 'base') {
+             const plan = this.j.base.rows.find((entry) => entry.table === item.table && entry.values.id === item.id);
+             assert(plan && identities[item.table].every((field) => digest(item.row[field] ?? null) === digest(plan.values[field] ?? null)));
+-        } else { assertRowReferences(this.j, item.table, item.row, scope, additional); assertCaseScope(this.j, item.table, item.row, scope, additional); }
++        } else { assertGeneratedPackageItemBinding(this.j,item,additional); assertRowReferences(this.j, item.table, item.row, scope, additional); assertCaseScope(this.j, item.table, item.row, scope, additional); }
+         const previous = this.j.objects.find((entry) => entry.table === item.table && entry.id === item.id);
+         if (previous) { assert.equal(digest(previous.identity), digest(item.identity)); assert.equal(digest(previous.creationProof), digest(item.proof)); return; }
+         const nullableSalesRoot = fixtureProfile.name === 'r2m-stage' && item.row.project_id == null && (item.table === 'sales_follow_up_record' || (item.table === 'todo_item' && item.row.source_type === 'sales-follow-up-record'));
+
+diff --git a/tmp/rust-r2m/package-intent-before-source01/fixture-core.mjs b/tools/rust-r2m/fixture-core.mjs
+index 23c5ffc5..7d4c3bcd 100644
+--- a/tmp/rust-r2m/package-intent-before-source01/fixture-core.mjs
++++ b/tools/rust-r2m/fixture-core.mjs
+@@ -1,3 +1,4 @@
++import {assertGeneratedPackageProof} from './fixture-package-intent.mjs';
+ import {externalAuditForIntent} from './fixture-external-audit-identity.mjs';
+ // L ownership is evidence, never a DTO id or a matching query result.
+ import assert from 'node:assert/strict';
+@@ -65,6 +66,7 @@ export function assertCreationProof(journal, item, intent) {
+     assert(context && context.runId === journal.runId && context.caseId === intent.caseId && Number.isInteger(context.index) && context.index >= 0, 'Create context mismatch');
+     assert.equal(context.op?.startsWith('m.'), true);
+     assert.equal(item.intentId, intent.id);
++    assertGeneratedPackageProof(journal,item,intent);
+     if(intent.externalAuditAdmissionId){externalAuditForIntent(journal,intent,context);if(proof.kind==='mikro-orm-afterCreate-outer-commit'){assert.equal(proof.commitContext?.index,context.index,'External audit outer COMMIT must keep the exact actual index');assert.equal(proof.commitContext?.op,context.op,'External audit outer COMMIT must keep the exact actual operation');}}
+     if(intent.auditIdentityAdmissionId){auditIdentityForIntent(journal,intent,context);if(proof.kind==='mikro-orm-afterCreate-outer-commit'){assert.equal(proof.commitContext?.index,context.index,'Admitted audit must commit in the exact actual request context');assert.equal(proof.commitContext?.op,context.op,'Admitted audit must commit in the exact actual request operation');}}
+     assert.equal(intent.beforeObserved, true);
+
+diff --git a/tmp/rust-r2m/package-intent-before-source01/fixture-journal.mjs b/tools/rust-r2m/fixture-journal.mjs
+index 75a1cb3c..7b0eb713 100644
+--- a/tmp/rust-r2m/package-intent-before-source01/fixture-journal.mjs
++++ b/tools/rust-r2m/fixture-journal.mjs
+@@ -1,3 +1,4 @@
++import {validatePackageReservationJournal} from './fixture-package-intent.mjs';
+ import {validateExternalAuditJournal} from './fixture-external-audit-identity.mjs';
+ import { readPrivateRegular } from './audit-private.mjs';
+ import assert from 'node:assert/strict';
+@@ -89,7 +90,7 @@ export function validateJournal(journal, backend, runId) {
+         }
+     }
+     if (fixtureProfile.name === 'r2m-stage') for (const scope of journal.cases.filter(scope => scope.caseId !== 'base')) validateSalesAnchorScope(journal, scope);
+-    validateAuditIdentityJournal(journal);validateExternalAuditJournal(journal);return journal;
++    validateAuditIdentityJournal(journal);validateExternalAuditJournal(journal);validatePackageReservationJournal(journal);return journal;
+ }
+ function assertStablePlans(previous, next) {
+     if (!previous) return;
+@@ -105,6 +106,7 @@ function assertStablePlans(previous, next) {
+         for (const key of ['namespace', 'key', 'caseId', 'admissionSha256', 'admission', 'sourceBinding', 'currentToolRawBytesSha256', 'before', 'beforeSha256', 'owned', 'deletionPermitted']) assert.equal(digest(previous.baselineSettingLease[key]), digest(next.baselineSettingLease[key]), 'Baseline singleton admission/before snapshot changed');
+     }
+     for (const previousEntry of previous.logicalReferences ?? []) assert(next.logicalReferences?.some(entry => digest(entry) === digest(previousEntry)), 'Source-bound logical reference changed or disappeared');
++    for(const entry of previous.generatedPackageReservations??[])assert(next.generatedPackageReservations?.some(row=>digest(row)===digest(entry)),'Immutable exact package reservation changed/disappeared');
+     for(const entry of previous.externalAuditAdmissions??[])assert(next.externalAuditAdmissions?.some(nextEntry=>digest(nextEntry)===digest(entry)),'Immutable external audit admission changed/disappeared');
+     for(const entry of previous.auditIdentityAdmissions??[])assert(next.auditIdentityAdmissions?.some(nextEntry=>digest(nextEntry)===digest(entry)),'Immutable source-bound audit admission changed/disappeared');
+     for (const plan of previous.preparedBatches ?? []) {
+
+diff --git a/tmp/rust-r2m/package-intent-before-source01/fixture-profile.mjs b/tools/rust-r2m/fixture-profile.mjs
+index 8401c7c5..0b205bb5 100644
+--- a/tmp/rust-r2m/package-intent-before-source01/fixture-profile.mjs
++++ b/tools/rust-r2m/fixture-profile.mjs
+@@ -10,7 +10,7 @@ const sha = value => createHash('sha256').update(value).digest('hex');
+ const equal=(a,b)=>assert.deepEqual(a,b); const copy=value=>structuredClone(value);
+ const uuid=value=>{assert(typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value));return value.toLowerCase();};
+ function freezeTree(value){if(value&&typeof value==='object'){for(const x of Object.values(value))freezeTree(x);Object.freeze(value);}return value;}
+-export const profileSourceFiles = ["tools/rust-r2m/audit-attachment-source.mjs","tools/rust-r2m/fixture-external-audit-identity.mjs","tools/rust-r2m/acceptance-api-external-audit-source.mjs","tools/rust-r2m/fixture-audit-identity.mjs","tools/rust-r2m/acceptance-api-request-identity.mjs","tools/rust-r2m/acceptance-api-audit-source.mjs","tools/rust-r2m/fixture-handover-prepared.mjs","tools/rust-r2k/r4-prepared-source.mjs","tools/rust-r2m/fixture-example.mjs","tools/rust-r2m/fixture-setting-baseline.mjs","tools/rust-r2m/fixture-objects.mjs","tools/rust-r2m/fixture-keyed.mjs","tools/rust-r2m/fixture-prepared-source.mjs","tools/rust-r2m/audit-private.mjs","tools/rust-r2m/audit-error.mjs","tools/rust-r2m/audit-schema-source.json","tools/rust-r2m/catalog-complete.mjs","tools/rust-r2m/database-client.mjs","tools/rust-r2m/fixture-cleanup.mjs","tools/rust-r2m/fixture-core.mjs","tools/rust-r2m/fixture-credentials.mjs","tools/rust-r2m/fixture-guard.mjs","tools/rust-r2m/fixture-journal.mjs","tools/rust-r2m/fixture-policy.mjs","tools/rust-r2m/fixture-prepared.mjs","tools/rust-r2m/fixture-profile.mjs","tools/rust-r2m/fixture-references.mjs","tools/rust-r2m/fixture-users.mjs","tools/rust-r2m/fixture.mjs","tools/rust-r2m/managed-environment.cjs","tools/rust-r2m/reference-authority.json"];
++export const profileSourceFiles = ["tools/rust-r2m/fixture-package-intent.mjs","tools/rust-r2m/audit-attachment-source.mjs","tools/rust-r2m/fixture-external-audit-identity.mjs","tools/rust-r2m/acceptance-api-external-audit-source.mjs","tools/rust-r2m/fixture-audit-identity.mjs","tools/rust-r2m/acceptance-api-request-identity.mjs","tools/rust-r2m/acceptance-api-audit-source.mjs","tools/rust-r2m/fixture-handover-prepared.mjs","tools/rust-r2k/r4-prepared-source.mjs","tools/rust-r2m/fixture-example.mjs","tools/rust-r2m/fixture-setting-baseline.mjs","tools/rust-r2m/fixture-objects.mjs","tools/rust-r2m/fixture-keyed.mjs","tools/rust-r2m/fixture-prepared-source.mjs","tools/rust-r2m/audit-private.mjs","tools/rust-r2m/audit-error.mjs","tools/rust-r2m/audit-schema-source.json","tools/rust-r2m/catalog-complete.mjs","tools/rust-r2m/database-client.mjs","tools/rust-r2m/fixture-cleanup.mjs","tools/rust-r2m/fixture-core.mjs","tools/rust-r2m/fixture-credentials.mjs","tools/rust-r2m/fixture-guard.mjs","tools/rust-r2m/fixture-journal.mjs","tools/rust-r2m/fixture-policy.mjs","tools/rust-r2m/fixture-prepared.mjs","tools/rust-r2m/fixture-profile.mjs","tools/rust-r2m/fixture-references.mjs","tools/rust-r2m/fixture-users.mjs","tools/rust-r2m/fixture.mjs","tools/rust-r2m/managed-environment.cjs","tools/rust-r2m/reference-authority.json"];
+ export function collectProfileSources(){return profileSourceFiles.map(file=>{const before=fs.lstatSync(path.join(root,file),{bigint:true});assert(before.isFile()&&!before.isSymbolicLink()&&before.nlink===1n);const bytes=fs.readFileSync(path.join(root,file));const after=fs.lstatSync(path.join(root,file),{bigint:true});for(const key of ['dev','ino','size','mtimeNs','ctimeNs'])assert.equal(before[key],after[key]);return {file,bytes:bytes.length,rawBytesSha256:sha(bytes)};});}
+ export function profileFromEnvironment(env,readSources=collectProfileSources){assert(!Object.hasOwn(env,'POMS_R2L_FIXTURE_PROFILE')&&!Object.hasOwn(env,'POMS_R2M_FIXTURE_PROFILE'),'No selectable legacy fixture profile');const sources=readSources();equal(sources.map(x=>x.file),profileSourceFiles);return freezeTree({name:'r2m-stage',namespace:'poms-r2m',supportedTableCount:Object.keys(ownershipIdentities).length,journalTag:{name:'r2m-stage',revision:1,sourceSetSha256:sha(JSON.stringify(sources)),sources}});}
+ export function stampProfileJournal(journal,profile){assert.equal(journal.namespace,'poms-r2m');assert(!Object.hasOwn(journal,'fixtureProfile'));return {...journal,fixtureProfile:copy(profile.journalTag)};}
+

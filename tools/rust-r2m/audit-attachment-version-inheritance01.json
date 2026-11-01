@@ -1,0 +1,780 @@
+{
+  "kind": "POMS-R2M-attachment-version-Native-baseline-inheritance-source-investigation",
+  "result": "source-investigation-no-product-or-actual-claim",
+  "owner": "/root/r2m_delivery_audit",
+  "trigger": {
+    "RootReportedTag": "an4a",
+    "RootReportedRunIdPrefix": "af07",
+    "rootActualReportOpenedByA": false,
+    "rootReportedFailure": "Native create-version :complete500 with UniqueConstraintViolation uq_attachment_latest_active",
+    "rootReportedCloseout": "Two writers stopped/observer footprint restored; exact data cleanup remains Root-owned",
+    "M4_4Correction": "Root corrected earlier guess: same key_prefix local+OBS causes bindRows count2, not an inferred extra fault-local provider"
+  },
+  "conclusion": {
+    "classification": "Explicitly documented inherited Native behavior from I/J; current Rust deliberately preserves the original CREATE-before-ordinary-UPDATE schedule",
+    "newProductRegressionEstablished": false,
+    "productRepairRecommended": false,
+    "flushOrderOrIndexRepairAuthorized": false,
+    "currentNativeVersionUpgradeAssumed": false,
+    "sourceHypothesisVersusActual": "Source and old frozen classification explain the reported failure. Root current actual body/SQL/session/version/107 facts remain the authority for this run."
+  },
+  "sourceTrace": [
+    "complete session first persists validating; version creator changes the old managed object in memory and makes a new active/latest entity",
+    "Repository saveAll is a single persist(entities).flush; caller array order is not a guarantee of SQL update-first",
+    "Partial unique active/latest(version_group_id) rejects the CREATE while old active/latest is still in DB",
+    "Rust flush iterates create_groups/insert_group before ordinary update_many and explicitly documents old native01 schedule",
+    "Failure leaves request new entities/dirty state; complete catch may retry the same CREATE before session failed can persist. Historical native01 comment says validating/v3; do not substitute it for current Root measurement"
+  ],
+  "reviewedSources": [
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "bytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "readLevel": "raw hash + complete necessary methods/segments",
+      "anchors": [
+        {
+          "needle": "async completeAttachmentUploadSession",
+          "lines": [
+            276
+          ]
+        },
+        {
+          "needle": "private async createAttachmentVersionFromUploadSession",
+          "lines": [
+            1290
+          ]
+        },
+        {
+          "needle": "latest.isLatest = false;",
+          "lines": [
+            595,
+            1314
+          ]
+        },
+        {
+          "needle": "saveAll([latest, attachment, ...copiedLinks])",
+          "lines": [
+            635,
+            1354
+          ]
+        },
+        {
+          "needle": "async clearAttachmentFinal",
+          "lines": [
+            692
+          ]
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+      "bytes": 15693,
+      "rawBytesSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f",
+      "readLevel": "raw hash + save/find methods",
+      "anchors": [
+        {
+          "needle": "async saveAll",
+          "lines": [
+            100
+          ]
+        },
+        {
+          "needle": "persist(entities).flush()",
+          "lines": [
+            101,
+            105
+          ]
+        },
+        {
+          "needle": "async findLatestAttachmentByVersionGroupId",
+          "lines": [
+            242
+          ]
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.entity.ts",
+      "bytes": 19232,
+      "rawBytesSha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8",
+      "readLevel": "raw hash + partial-index/entity definitions",
+      "anchors": [
+        {
+          "needle": "name: 'uq_attachment_latest_active'",
+          "lines": [
+            50
+          ]
+        },
+        {
+          "needle": "where \"status\"",
+          "lines": [
+            53,
+            59
+          ]
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+      "bytes": 2819,
+      "rawBytesSha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87",
+      "readLevel": "complete small source",
+      "anchors": [
+        {
+          "needle": "uq_attachment_latest_active",
+          "lines": [
+            10,
+            23
+          ]
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 42291,
+      "rawBytesSha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403",
+      "readLevel": "raw hash + complete flush/error publication segments",
+      "anchors": [
+        {
+          "needle": "Native native01",
+          "lines": [
+            893
+          ]
+        },
+        {
+          "needle": "for group in create_groups",
+          "lines": [
+            899
+          ]
+        },
+        {
+          "needle": "for table in tables",
+          "lines": [
+            912
+          ]
+        },
+        {
+          "needle": "complete catch flush retries CREATE",
+          "lines": [
+            923
+          ]
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68932,
+      "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9",
+      "readLevel": "raw hash + complete/create-from-session segments",
+      "anchors": [
+        {
+          "needle": "pub async fn complete",
+          "lines": [
+            738
+          ]
+        },
+        {
+          "needle": "\"is_latest\", json!(false)",
+          "lines": [
+            891,
+            1300
+          ]
+        },
+        {
+          "needle": "self.create_from_session",
+          "lines": [
+            767
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2ij/j-command-cases.mjs",
+      "bytes": 11579,
+      "rawBytesSha256": "ad948b71ba593ea90ef816ec6294919c33d5eaecf8b34515fabf9dfc0dac8084",
+      "readLevel": "raw hash + declaration and generator",
+      "anchors": [
+        {
+          "needle": "two legal active legacy",
+          "lines": [
+            54
+          ]
+        },
+        {
+          "needle": "No API version-success claim",
+          "lines": [
+            56
+          ]
+        },
+        {
+          "needle": "create-version complete500",
+          "lines": [
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2ij/fixture-history.mjs",
+      "bytes": 3263,
+      "rawBytesSha256": "15e8747578022c5fda320b1d1f3d18f84cafbf86a67ce21b9d398aebf4b62363",
+      "readLevel": "complete small source",
+      "anchors": [
+        {
+          "needle": "never an API version-creation claim",
+          "lines": [
+            8
+          ]
+        },
+        {
+          "needle": "version_no:index+1",
+          "lines": [
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2ij/nest-history-witness.mjs",
+      "bytes": 3195,
+      "rawBytesSha256": "50e4830d954f5c1db944306d19527a4aab5ea8dc3bab2140df29dbdcc3ab27db",
+      "readLevel": "complete small source",
+      "anchors": [
+        {
+          "needle": "pre-existing two-version fixture",
+          "lines": [
+            10
+          ]
+        },
+        {
+          "needle": "mark-with-existing-final",
+          "lines": [
+            17
+          ]
+        },
+        {
+          "needle": "void-latest-with-fallback",
+          "lines": [
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2k/k-advanced-cases.mjs",
+      "bytes": 17831,
+      "rawBytesSha256": "cb755b332d6a6e3424f9027005bbe6a57d0f6c560110a4d2b435279aa52e7452",
+      "readLevel": "raw hash + exact advanced version segment; equals K frozen sourceFiles",
+      "anchors": [
+        {
+          "needle": "advanced.version.mark-old-final",
+          "lines": [
+            18
+          ]
+        },
+        {
+          "needle": "unique-latest precondition",
+          "lines": [
+            21
+          ]
+        },
+        {
+          "needle": "result.versionProducerPrecondition",
+          "lines": [
+            23
+          ]
+        },
+        {
+          "needle": "advanced.version.complete",
+          "lines": [
+            24,
+            25
+          ]
+        },
+        {
+          "needle": "advanced.version.latest-preferred",
+          "lines": [
+            28
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2ij-validation.json",
+      "bytes": 175277,
+      "rawBytesSha256": "2751c07cdbd71cf4958015b2dccf9923b7a76cb88bbff2b59ec4be2803aee3a4",
+      "readLevel": "public frozen source metadata/knownBoundaries and four UI summaries; no deep raw replay",
+      "anchors": [
+        {
+          "needle": "Original complete create-version",
+          "lines": [
+            4407
+          ]
+        },
+        {
+          "needle": "\"versionFailure\"",
+          "lines": [
+            1736,
+            1846,
+            1956,
+            2066
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2ij-review01.json",
+      "bytes": 13437,
+      "rawBytesSha256": "4ff88f4098bf67a65566a9ef5b9b1e57fe441bb0558d12e073960910b4b90ac5",
+      "readLevel": "public independent review retainedBoundaries",
+      "anchors": [
+        {
+          "needle": "Original second-default create500",
+          "lines": [
+            219
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2ij-source-manifest.json",
+      "bytes": 3218422,
+      "rawBytesSha256": "f1c5f59b5c4c8d2c915d766937aecf0812bceb25fd7051e5f886e097a2324e97",
+      "readLevel": "small source/preservation index only; exact history/native01 records",
+      "anchors": [
+        {
+          "needle": "\"file\": \"tmp/rust-r2ij/nest-history-history01.json\"",
+          "lines": [
+            11820
+          ]
+        },
+        {
+          "needle": "\"file\": \"tmp/rust-r2ij/nest-critical-native01.json\"",
+          "lines": [
+            11814
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2k-validation.json",
+      "bytes": 271198,
+      "rawBytesSha256": "a647bf6e4fe92aea9b204bfa5ddedc33d8136eeeb48389552c8fc3922745af9e",
+      "readLevel": "public frozen sourceFiles + K actual evidence index; no paired raw HTTP opened",
+      "anchors": [
+        {
+          "needle": "\"file\": \"tools/rust-r2k/k-advanced-cases.mjs\"",
+          "lines": [
+            1495
+          ]
+        },
+        {
+          "needle": "\"strictFiniteComposite\"",
+          "lines": [
+            1944
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2k-g3-review01.json",
+      "bytes": 17303,
+      "rawBytesSha256": "a1687c924e58d2bc0256f5d6a12e4e51aaf34c6c6671307aaed226f7ab5e29f5",
+      "readLevel": "public independent finite G3 metadata/actualEvidence.gamma05",
+      "anchors": [
+        {
+          "needle": "CREATE-before-update schedule",
+          "lines": [
+            105
+          ]
+        },
+        {
+          "needle": "strictProjectionAndIndependentActualZIPComposite",
+          "lines": [
+            113
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2k-closeout.json",
+      "bytes": 5059,
+      "rawBytesSha256": "68356d79a523e87ec73e502e32c0374886b7187ff2c82009c46bea5ed64be776",
+      "readLevel": "public G4 closeout index/limited K count",
+      "anchors": [
+        {
+          "needle": "K-five-operations",
+          "lines": [
+            3
+          ]
+        },
+        {
+          "needle": "KCapturedHttpPerBackend",
+          "lines": [
+            82
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r2k-closeout.md",
+      "bytes": 2807,
+      "rawBytesSha256": "22e0b0a439d25b9bf9d10cf36b8f825f3762d04b5be67e4f0fe3c306345c232c",
+      "readLevel": "complete small closeout",
+      "anchors": [
+        {
+          "needle": "K43 captured HTTP",
+          "lines": [
+            7
+          ]
+        },
+        {
+          "needle": "不能补称",
+          "lines": [
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r2k-r4-route-baseline.md",
+      "bytes": 12421,
+      "rawBytesSha256": "68949c8b6ee0000df6d98eabc230f24dedcd832f73ea65f2805bc90d395ebc21",
+      "readLevel": "bounded G1 SSOT/transaction/facts/source setup scope",
+      "anchors": [
+        {
+          "needle": "原行为不改",
+          "lines": [
+            12
+          ]
+        },
+        {
+          "needle": "同一会话/UoW",
+          "lines": [
+            37
+          ]
+        },
+        {
+          "needle": "不能另建理想化",
+          "lines": [
+            37
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r2m-stage-acceptance-baseline.md",
+      "bytes": 13452,
+      "rawBytesSha256": "fb40c7f9761f3ecc7ef84e9a761f053f8e116da5f40fe78387df913cb86b0cba",
+      "readLevel": "bounded current G1 SSOT/matrix/producer/checkpoint rules",
+      "anchors": [
+        {
+          "needle": "版本/current/supersedes",
+          "lines": [
+            30
+          ]
+        },
+        {
+          "needle": "provider/default→upload/complete",
+          "lines": [
+            50
+          ]
+        },
+        {
+          "needle": "真实新设计差异",
+          "lines": [
+            30
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-attachment-recipes.mjs",
+      "bytes": 5547,
+      "rawBytesSha256": "4dedd20af75b5d2b6506e6f82ef115152f32873296637575977e0b653d08e2a6",
+      "readLevel": "complete small source; current no-precondition success expectation",
+      "anchors": [
+        {
+          "needle": "version-complete",
+          "lines": [
+            11
+          ]
+        },
+        {
+          "needle": "localVersionAttachment",
+          "lines": [
+            11,
+            24,
+            25,
+            26
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r2m/scenario-input.mjs",
+      "bytes": 46053,
+      "rawBytesSha256": "543627852d74ead5838569e25650e19715c6d83ab6cb85220aab493b997774f7",
+      "readLevel": "raw hash + M4 dependency/default setup sections",
+      "anchors": [
+        {
+          "needle": "casePlan('M4.1'",
+          "lines": [
+            107
+          ]
+        },
+        {
+          "needle": "casePlan('M4.4'",
+          "lines": [
+            110
+          ]
+        }
+      ]
+    }
+  ],
+  "knownFrozenClassification": {
+    "IJValidation": {
+      "file": "docs/design/rust-r2ij-validation.json",
+      "line": 4407,
+      "text": "Original complete create-version and second enabled-default create500/segmented flush residues are preserved, not represented as product fixes."
+    },
+    "IJIndependentReview": {
+      "file": "docs/design/rust-r2ij-review01.json",
+      "line": 219,
+      "text": "Original second-default create500, new-version complete500, partial commit/audit failure and object residue behavior are compatibility results, not business fixes."
+    },
+    "fourUiSummaryNote": "versionFailure.httpStatus500/attachmentsUnchanged true are frozen; later aborted session states are not failure-instant states"
+  },
+  "boundedHistoricalRawRead": {
+    "file": "tmp/rust-r2ij/nest-history-history01.json",
+    "bytes": 16661,
+    "rawBytesSha256": "dde3e884d77ac1c3bece1d909020f2f790f495542664e26e488732fe1f40cd02",
+    "readLevel": "complete small public JSON parsed; only safe named cases/attachment flags/audits examined",
+    "anchors": [],
+    "matchesOriginalSourceManifestHash": true,
+    "originalSourceManifestLine": 11820,
+    "result": "pass",
+    "scope": "Original Nest multi-attachment UPDATE behavior over a declared valid pre-existing two-version fixture",
+    "cases": [
+      {
+        "name": "versions",
+        "status": 200,
+        "attachmentFlags": [
+          {
+            "status": "active",
+            "is_latest": false,
+            "is_final": true,
+            "row_version": 1
+          },
+          {
+            "status": "active",
+            "is_latest": true,
+            "is_final": false,
+            "row_version": 1
+          }
+        ],
+        "auditEvents": []
+      },
+      {
+        "name": "mark-with-existing-final",
+        "status": 200,
+        "attachmentFlags": [
+          {
+            "status": "active",
+            "is_latest": false,
+            "is_final": false,
+            "row_version": 2
+          },
+          {
+            "status": "active",
+            "is_latest": true,
+            "is_final": true,
+            "row_version": 2
+          }
+        ],
+        "auditEvents": [
+          "attachment.final_marked"
+        ]
+      },
+      {
+        "name": "clear-final",
+        "status": 200,
+        "attachmentFlags": [
+          {
+            "status": "active",
+            "is_latest": false,
+            "is_final": false,
+            "row_version": 2
+          },
+          {
+            "status": "active",
+            "is_latest": true,
+            "is_final": false,
+            "row_version": 3
+          }
+        ],
+        "auditEvents": [
+          "attachment.final_cleared",
+          "attachment.final_marked"
+        ]
+      },
+      {
+        "name": "mark-single-final",
+        "status": 200,
+        "attachmentFlags": [
+          {
+            "status": "active",
+            "is_latest": false,
+            "is_final": false,
+            "row_version": 2
+          },
+          {
+            "status": "active",
+            "is_latest": true,
+            "is_final": true,
+            "row_version": 4
+          }
+        ],
+        "auditEvents": [
+          "attachment.final_cleared",
+          "attachment.final_marked",
+          "attachment.final_marked"
+        ]
+      },
+      {
+        "name": "void-latest-with-fallback",
+        "status": 500,
+        "attachmentFlags": [
+          {
+            "status": "active",
+            "is_latest": false,
+            "is_final": false,
+            "row_version": 2
+          },
+          {
+            "status": "active",
+            "is_latest": true,
+            "is_final": true,
+            "row_version": 4
+          }
+        ],
+        "auditEvents": [
+          "attachment.final_cleared",
+          "attachment.final_marked",
+          "attachment.final_marked"
+        ]
+      }
+    ],
+    "cleanup": {
+      "matched": 0,
+      "changed": 0,
+      "zero": true
+    }
+  },
+  "indexedButNotOpenedHistoricalRaw": [
+    {
+      "file": "tmp/rust-r2ij/nest-critical-native01.json",
+      "bytes": 280358,
+      "rawBytesSha256": "1118ed0c671da0d0eaab28b493d0f50494f6deda9cfd517fe396cf6f2c22e410",
+      "readLevel": "original source-manifest entry only; raw capture unavailable at checked exact public paths, not read"
+    },
+    {
+      "path": "tmp/rust-r2k/k-http-nest-gamma05.json",
+      "origin": "linux",
+      "bytes": 23713158,
+      "rawBytesSha256": "b99fb3e51a4562d561ae81704b8d7f5782e38aca9381e8fdd2a073016d818fe3",
+      "readLevel": "K frozen actual evidence index only; 23MB request report not reopened"
+    },
+    {
+      "path": "tmp/rust-r2k/k-http-rust-gamma05.json",
+      "origin": "linux",
+      "bytes": 12672724,
+      "rawBytesSha256": "12cb12c621cc0675775eee390ab5f63b3b6bc58c2d8a9f7b613e4ab6ee948280",
+      "readLevel": "K frozen actual evidence index only; 12MB request report not reopened"
+    },
+    {
+      "path": "tmp/rust-r2k/k-zip-gamma05.json",
+      "origin": "linux",
+      "bytes": 13296,
+      "rawBytesSha256": "3bec55d6817f5153d80ca140ee786b9e7c6c964879f8590cb0c98e10f95958d2",
+      "readLevel": "frozen index only; not reopened"
+    },
+    {
+      "path": "tmp/rust-r2k/k-gamma05-composite01.json",
+      "origin": "linux",
+      "bytes": 1768,
+      "rawBytesSha256": "93003d655792122b8d10210026a2f57e8449453599ad8d37ed60249ee0583431",
+      "readLevel": "frozen index + independent G3 metadata only; not re-executed"
+    }
+  ],
+  "positiveOptions": {
+    "legacyHistoryConsumer": {
+      "source": "tools/rust-r2ij/fixture-history.mjs and j-command-cases.mjs",
+      "boundary": "Explicit direct-created two-version prepared history and real files. It is history/latest/final consumption evidence, never successful API version-create evidence.",
+      "currentRunImplemented": false
+    },
+    "existingReviewedKPreparedPrecondition": {
+      "source": "tools/rust-r2k/k-advanced-cases.mjs",
+      "rawBytesSha256": "cb755b332d6a6e3424f9027005bbe6a57d0f6c560110a4d2b435279aa52e7452",
+      "equalsFrozenKSourceFiles": true,
+      "anchors": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "sequence": [
+        "Real mark-old-final200",
+        "Real create-version session201 and PUT200",
+        "Root exact owned old attachment is_latest:false prepared mutation, explicitly labelled not a J bug fix",
+        "One actual complete200 plus SDK outer-COMMIT/independent visibility and copied-link proofs",
+        "K refresh prefers old final; real clear-final200; refresh then prefers actual new latest",
+        "Actual new source payload in Unicode ZIP verified separately"
+      ],
+      "historicalActualEvidenceReadLevel": "Accepted frozen K source+validation index+independent G3 finite composite, not this audit independently reopening raw paired runs",
+      "notNaturalUnpreparedVersionSuccess": true,
+      "currentRunImplemented": false,
+      "RootAndCDecisionRequiredWithinExistingScope": true
+    }
+  },
+  "currentM4Interpretation": {
+    "G1": "Original source/behavior remains SSOT; generic version/final matrix does not authorize repairing Native flush order.",
+    "candidateRecipeMismatch": "Current future recipe hardcodes version-complete200 with no accepted old-latest=false prepared precondition, then requires localVersionAttachment. Preserve actual failed run and correct explicit input expectation under Root checkpoint; do not rewrite G1/old evidence.",
+    "minimumNoProductClosure": [
+      "Keep original request and its500 as a named original compatibility negative",
+      "Verify actual per-side session status/rowVersion and segmented flush/rollback, no committed new Attachment/copied links, old latest and owned upload object/audit boundaries",
+      "Continue first actual attachment final/versions/download chain; single-row history result is not a claim of version2 success",
+      "If two-version consumption is required, Root/C may explicitly select either existing source prepared option with current exact DML/COMMIT/visibility proof and honest prepared label; audit does not add it",
+      "Dependent M4 failures need actual missing setup/binding classification, not automatic extra product defects",
+      "M4.4 read-binding may add provider_type/display_name/created_by/key_prefix to select already-certified own row; binder does not grant ownership or expand immutable intent"
+    ],
+    "ownership": "No rolled-back afterCreate/query/response-ID adoption; all unknown outcomes stay with Root mature reconciliation/cleanup.",
+    "RootRequestedNarrowDefault": "Root prefers500+original first-attachment real chain unless an existing reviewed prepared option is explicitly adopted. This audit does not implement or force that option."
+  },
+  "boundaries": {
+    "privateRead": false,
+    "envRead": false,
+    "database": false,
+    "http": false,
+    "browser": false,
+    "productEdited": false,
+    "oldFixturesEdited": false,
+    "actualRunOrAcceptanceClaim": false,
+    "deepKArchiveRescan": false,
+    "versionSuccessInvented": false,
+    "zipSource01Changed": false
+  },
+  "pausedZipFinding": {
+    "currentPacket": "tools/rust-r2m/comparison-api-zip-logical-source01.json",
+    "state": "frozen at Root priority request",
+    "COpenPrecisionPoint": "physical package TTL needs exact microseconds rather than Date.parse truncation; source02 will address separately after this task. Current01 is not asserted exact-24h SourceReady."
+  }
+}

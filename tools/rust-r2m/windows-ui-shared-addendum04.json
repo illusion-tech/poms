@@ -1,0 +1,405 @@
+{
+  "kind": "R2M-Windows-UI-own-and-shared-source-addendum",
+  "result": "source-only-candidate-awaiting-cache-M5-independent-reviews-and-fresh-matching-capsule",
+  "base": {
+    "file": "tools/rust-r2m/windows-ui-source03.json",
+    "bytes": 27019,
+    "rawBytesSha256": "f857dafc1a24b238959b7f1322bba0ebbfb5cd35b5fe54b6b70e63487a9eb63d"
+  },
+  "baseIndependentReview": {
+    "file": "docs/design/rust-r2m/windows-ui-source-review01.json",
+    "bytes": 14670,
+    "rawBytesSha256": "9dfb7642f48da255f2302fe381556c850ede98ed54547d0753c9a739746cb747"
+  },
+  "sourceChangesApprovedByRoot": "only the cache input requires driver await/ACK and runtime required-dependency; no other Windows orchestration changes",
+  "oldOwn8": [
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32331,
+      "rawBytesSha256": "598f886fe6d0fc1b13783a582900f3a023fdbe8bcd736facc499252fa7ff6509"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 14761,
+      "rawBytesSha256": "87f0c9a99a718594560095d2f7c5335b87bb1fa575f8a928dd9cd0e1466d2e3b"
+    },
+    {
+      "file": "tools/rust-r2m/bridge-windows-ui.mjs",
+      "bytes": 19373,
+      "rawBytesSha256": "7f4527933a9057c6694e1ae7fad61cf4f810cc378d31ce469d84cf129ce2884d"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-process.ps1",
+      "bytes": 15462,
+      "rawBytesSha256": "7b0f0e80b143cb3583fb0b0fe2fe830b05231bcae5bd6e39654ccf4e746c6be0"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-http-session.mjs",
+      "bytes": 2739,
+      "rawBytesSha256": "eec6c4f97197c2ae382d18cf7d40b63420ba217f3f62fa17a8f78d9bf6cf4575"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-bridge.test.mjs",
+      "bytes": 12328,
+      "rawBytesSha256": "1d576bbfa0862cada71d0af89b50741efb32119ba06c0bb0532df82c1adc8276"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.test.mjs",
+      "bytes": 3058,
+      "rawBytesSha256": "b0dfcaac4d52f21994260dc065f5d454208fe23ffa36f246e6e7a7bec80108d5"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-contract.md",
+      "bytes": 4300,
+      "rawBytesSha256": "c7ef492f5cdebcdc8b1f8966def7797439861013d60c234e1d4ed54eff3e7dac"
+    }
+  ],
+  "currentOwn8": [
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32369,
+      "rawBytesSha256": "f65591cf8b01a1e61d7335b530e4f23bdb7b399114bc1e02a2367317dc6340aa"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 15083,
+      "rawBytesSha256": "819943dbe08f7322fc2a2fadfd74886b8f25c115b7d8b3f073ff57690ffa1be5"
+    },
+    {
+      "file": "tools/rust-r2m/bridge-windows-ui.mjs",
+      "bytes": 19373,
+      "rawBytesSha256": "7f4527933a9057c6694e1ae7fad61cf4f810cc378d31ce469d84cf129ce2884d"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-process.ps1",
+      "bytes": 15462,
+      "rawBytesSha256": "7b0f0e80b143cb3583fb0b0fe2fe830b05231bcae5bd6e39654ccf4e746c6be0"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-http-session.mjs",
+      "bytes": 2739,
+      "rawBytesSha256": "eec6c4f97197c2ae382d18cf7d40b63420ba217f3f62fa17a8f78d9bf6cf4575"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-bridge.test.mjs",
+      "bytes": 12328,
+      "rawBytesSha256": "1d576bbfa0862cada71d0af89b50741efb32119ba06c0bb0532df82c1adc8276"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.test.mjs",
+      "bytes": 3058,
+      "rawBytesSha256": "b0dfcaac4d52f21994260dc065f5d454208fe23ffa36f246e6e7a7bec80108d5"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-contract.md",
+      "bytes": 4300,
+      "rawBytesSha256": "c7ef492f5cdebcdc8b1f8966def7797439861013d60c234e1d4ed54eff3e7dac"
+    }
+  ],
+  "changedOwn2": [
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.mjs",
+      "bytes": 32369,
+      "rawBytesSha256": "f65591cf8b01a1e61d7335b530e4f23bdb7b399114bc1e02a2367317dc6340aa"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-driver.mjs",
+      "bytes": 15083,
+      "rawBytesSha256": "819943dbe08f7322fc2a2fadfd74886b8f25c115b7d8b3f073ff57690ffa1be5"
+    }
+  ],
+  "unchangedOwn6": [
+    {
+      "file": "tools/rust-r2m/bridge-windows-ui.mjs",
+      "bytes": 19373,
+      "rawBytesSha256": "7f4527933a9057c6694e1ae7fad61cf4f810cc378d31ce469d84cf129ce2884d"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-process.ps1",
+      "bytes": 15462,
+      "rawBytesSha256": "7b0f0e80b143cb3583fb0b0fe2fe830b05231bcae5bd6e39654ccf4e746c6be0"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-http-session.mjs",
+      "bytes": 2739,
+      "rawBytesSha256": "eec6c4f97197c2ae382d18cf7d40b63420ba217f3f62fa17a8f78d9bf6cf4575"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-bridge.test.mjs",
+      "bytes": 12328,
+      "rawBytesSha256": "1d576bbfa0862cada71d0af89b50741efb32119ba06c0bb0532df82c1adc8276"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-runtime.test.mjs",
+      "bytes": 3058,
+      "rawBytesSha256": "b0dfcaac4d52f21994260dc065f5d454208fe23ffa36f246e6e7a7bec80108d5"
+    },
+    {
+      "file": "tools/rust-r2m/windows-ui-contract.md",
+      "bytes": 4300,
+      "rawBytesSha256": "c7ef492f5cdebcdc8b1f8966def7797439861013d60c234e1d4ed54eff3e7dac"
+    }
+  ],
+  "sharedInputs": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 17258,
+      "rawBytesSha256": "c673875651b290fe97cf319b21253b16701bae3acd909393fd9b43891ece28b6"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-server.mjs",
+      "bytes": 10782,
+      "rawBytesSha256": "6a2053abec075d1919816e2a411c8863cd4cf4511ea279de82e672dbad9d3cae"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-browser.mjs",
+      "bytes": 7288,
+      "rawBytesSha256": "39257ff20794d0c6210c03ed204b9a31e96c2f7aaaa2ca168f45e6f1e2344572"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25431,
+      "rawBytesSha256": "733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-source02.json",
+      "bytes": 3848,
+      "rawBytesSha256": "9c091aea8f616ad32cb231eaa3c50a6472b0c8210ebdf8d56eed3eaa460efe7e"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-app.mjs",
+      "bytes": 16747,
+      "rawBytesSha256": "9884244b3216af9ba01283c01d61c29316d8a29ce272ac96cd7c46485ac6a5bd"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12159,
+      "rawBytesSha256": "566bffbaeedd62b1ff34c7fae568ca36c6a65f6c39928385e7ceda7d8695e3ec"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-driver.mjs",
+      "bytes": 9268,
+      "rawBytesSha256": "bd98278322ef7e45ecc2dda91f4e6e9b9e1a40a33bbb77c77b516dac2a953cfa"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-environment.mjs",
+      "bytes": 2483,
+      "rawBytesSha256": "1a71bd2987a9a964ba5995f562a3f487488d360fab87876757aaf8a7290466c1"
+    },
+    {
+      "file": "tools/rust-r2m/windows-managed-environment.cjs",
+      "bytes": 4458,
+      "rawBytesSha256": "7525a0388f11eba341a49a5202d45a08cd9493fa481f38498f75847109c8fcfd"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native-process.ps1",
+      "bytes": 15470,
+      "rawBytesSha256": "1a9d88764a76674cc189d8e10dbfa4316391299062eb72c379bd15adb3aabd08"
+    },
+    {
+      "file": "tools/rust-r2m/ui-runtime-cache.mjs",
+      "bytes": 2813,
+      "rawBytesSha256": "ecbfa2ca38c95953266f8ab63dd8b80eab6b13b83cc4f8411297b65b15f360e8"
+    }
+  ],
+  "fixtureCurrent30": [
+    {
+      "file": "tools/rust-r2m/fixture-external-audit-identity.mjs",
+      "bytes": 13798,
+      "rawBytesSha256": "b2584b70416f5a480bf8dfabce0b7e5da9cbb36a8b1ecc55501e3604fad1682a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-objects.mjs",
+      "bytes": 6291,
+      "rawBytesSha256": "8e9e2aa9ba38ac9f58283b801666e65cc0015e2e8526b794569eb90faf510c47"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-private.mjs",
+      "bytes": 1841,
+      "rawBytesSha256": "c45ee56eaa7128f620515628d38cdc53c57b586dc5de85cb30bcc19a9e4b8a3f"
+    },
+    {
+      "file": "tools/rust-r2m/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f"
+    },
+    {
+      "file": "tools/rust-r2m/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "46a904a0c69b60ba100493bc908380d1fdab58ea5d46fb2ad102d5243651353d"
+    },
+    {
+      "file": "tools/rust-r2m/database-client.mjs",
+      "bytes": 2041,
+      "rawBytesSha256": "67e281cacd0b21ff6c530eb9a07c6d9308d64b61483d0c70e9ec76ce1f1b5cd7"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10089,
+      "rawBytesSha256": "adaf8525ad5447d7141cd01cd81122ea0dc3e82ee2d44ba4d228d66da5ace0cd"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-guard.mjs",
+      "bytes": 4749,
+      "rawBytesSha256": "c570808283f73585720b385a027f4455a2d90e79e8700194470e0980c2b05ce2"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12977,
+      "rawBytesSha256": "48786e51f92013c4c50659af68462055f9d96e11c633b48b16a56263f8823a1e"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12903,
+      "rawBytesSha256": "152ec05c3d6125244d9fed02e07913d57077d08e609945c3c9ba521b520fcee4"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 45709,
+      "rawBytesSha256": "2dc2436613b1ff4b5cb8a80c0c76acc8e6e724cc2d6a51a282f4344fad29860c"
+    },
+    {
+      "file": "tools/rust-r2m/managed-environment.cjs",
+      "bytes": 7098,
+      "rawBytesSha256": "6a5bf390df156d64bc3531c102fafeaefa7d1a4fc8b88a2f8d26d2235101ca26"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "cacheInputCandidate": {
+    "file": "tools/rust-r2m/ui-uncached-source01.json",
+    "bytes": 6171,
+    "rawBytesSha256": "7eb67f5a040770c4a90950d716600b9a77964248338b61ef2bcfd43984a90cd9"
+  },
+  "finiteM5Candidate": {
+    "file": "tools/rust-r2m/audit-external-source01.json",
+    "bytes": 19429,
+    "rawBytesSha256": "37793a00b51f5ba0cbaffb7f2d19752c12ec1a98b43b236b7578bf70684de23d"
+  },
+  "BFull20FutureCallerCandidate": {
+    "file": "tools/rust-r2m/acceptance-api20-source02.json",
+    "bytes": 16582,
+    "rawBytesSha256": "c15357b1b0e767460d3b1308902344ee96c83155943b93a89353b2b14cd260c8"
+  },
+  "oldPlatformEChannelPins": [
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14026,
+      "rawBytesSha256": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+    }
+  ],
+  "RootRequirements": [
+    "Finish separate C M5/cache source reviews before actual",
+    "Sync the complete new matching Windows and Linux source union; include all 30 fixture profile members, all B full20 caller members and the full UI build membership",
+    "Read each Windows and Linux member using SourceReader against one fresh cap before private inputs/owners; do not reuse old27 shared pins",
+    "Windows Native and browser platform are independently measured; external Rust API remains Linux",
+    "Use exact fresh-run singleton admission and actual ownership ACK/SDK/PG/drain/restore/double-zero"
+  ],
+  "actualExecution": false,
+  "actualAcceptance": false,
+  "G3": false,
+  "G4": false
+}

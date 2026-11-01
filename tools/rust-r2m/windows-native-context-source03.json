@@ -1,0 +1,73 @@
+{
+  "kind": "B-Windows-Native-bounded-source-correlation-prefix-correction",
+  "result": "SourceReviewPending-no-actual-run",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/windows-native-server.mjs",
+      "bytes": 12171,
+      "rawBytesSha256": "1b1e22b15db9fd8b28f71aaa09c9d3e9c3ceb743b2fe1d96833d36a9a6495870"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-server.mjs",
+      "bytes": 12201,
+      "rawBytesSha256": "999000ec09f585574d4abc8215ca6539c2234f13e9f1530900350ce9f94b83ef"
+    },
+    {
+      "file": "tools/rust-r2m/windows-native.test.mjs",
+      "bytes": 7188,
+      "rawBytesSha256": "cba0ec76abd27bf16d11aa69b84d5d95405d6eed8bb6381047a1a13fedb52475"
+    }
+  ],
+  "sourceSetSha256": "a81fe9a2b3e936d589a6bc62a6b058332c00445cae539b07d4da0bce38b6a1e8",
+  "originals": "tmp/rust-r2m/before-prefix-context-delta01",
+  "exactActualSourceProducer": [
+    {
+      "file": "tools/rust-r2m/ui-runtime-sources.mjs",
+      "bytes": 22395,
+      "rawBytesSha256": "dc7fe777e0ac839cc56859bff23c793a5ea8c81446c40c7ff524c7aaf970ddf2"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/ui-runtime-sources.mjs",
+      "bytes": 22455,
+      "rawBytesSha256": "de73fde59ba3256355d2e8e23c414cb09bd4868e102ac2a42deedff705082003"
+    }
+  ],
+  "correlationPrefixes": [
+    "m-",
+    "m-ui-",
+    "m-ui-source-"
+  ],
+  "allMustHaveExactCanonicalUUIDSuffix": true,
+  "contextFourKeysRunCaseIndexOpGuardsByteUnchanged": true,
+  "opWhitelistUnchanged": [
+    "m.http",
+    "m.producer"
+  ],
+  "identityACKAndOwnedCloseUnchanged": true,
+  "sourceFailurePreserved": {
+    "tag": "uwin4c01a",
+    "runId": "4132e690-a38d-4f25-b36a-3dab48d81cc3",
+    "phase": "prepare-login",
+    "browserOrUIServerStarted": false,
+    "cleanup": "Pending Root/A exact original closed-ledger recovery"
+  },
+  "holdChangeAppliedOnlyAfterRootRelease": true,
+  "diff": {
+    "file": "tmp/rust-r2m/windows-native-context-source03.diff",
+    "bytes": 5393,
+    "rawBytesSha256": "10f9e80f527755cf87cbe846f9619aaa9aed9032314bd2c63863954393bddd56"
+  },
+  "pure": {
+    "file": "tmp/rust-r2m/windows-native-context-source03-pure01.json",
+    "bytes": 1131,
+    "rawBytesSha256": "4ba2d2c73817a1f8375c18631c052504b50c8fb990abfbdfbd17f6ac5b21d32d"
+  },
+  "author": {
+    "privateRead": false,
+    "envRead": false,
+    "actualAppsOrDBOrBrowserStarted": false,
+    "LinuxSourcesChanged": false,
+    "G3": false,
+    "G4": false
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "kind": "POMS-R2M-finite-STORE-ZIP-UTC-DOS-and-K-logical-site-comparison-source-candidate",
+  "result": "source-only-awaiting-independent-source-review",
+  "owner": "/root/r2m_delivery_audit",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/comparison-api-zip-logical.mjs",
+      "bytes": 21653,
+      "rawBytesSha256": "b1fd40d3a9f73b5f1274ede5836b3f53660a37e58992336c7110c3bac21c9fb2"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-zip-logical.test.mjs",
+      "bytes": 22920,
+      "rawBytesSha256": "6c547ba9af961301be41bcf1a0a24f6c507e02d1c2627f970dc020008feb8dbf"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-zip-logical-contract.md",
+      "bytes": 7742,
+      "rawBytesSha256": "095bd0b2091d31c6786d951534cb47582c555fe9f4843f10077d21ac03e69cdf"
+    }
+  ],
+  "exports": [
+    "zipLogicalOriginalSourcePins",
+    "assertZipLogicalSourcePins",
+    "verifyStoreZipUtcDos",
+    "verifyKLogicalReferenceSite"
+  ],
+  "sourceConclusions": {
+    "zip": "Original buildZipArchive calls one new Date after collecting manifest/members; all local+central DOS timestamps share that UTC instant. There is no per-entry modifiedAt and package.created_at is an independently earlier source value.",
+    "reader": "Pinned mature reader returns member names/data/length/SHA/CRC and manifest, but no offsets or DOS. It remains the sole STORE/CRC parser. New supplement reconstructs only original30/46/22 fixed headers over those actual mature members and compares complete original bytes.",
+    "logical": "Only the original readiness top-level column carries this source logical UUID. Existing original wrapper/logicalReferences/direct whole-cohort birth and sourceBoundary remain required; no logical row exists."
+  },
+  "originalSourcePins": [
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "bytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "scope": "zip",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2k/k-ui-browser.mjs",
+      "bytes": 34087,
+      "rawBytesSha256": "07338ba55c91c1593c5e1713f007f4e6eef3959ecc7d73772b82d1fdc012e2bf",
+      "scope": "zip",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-zip.mjs",
+      "bytes": 7131,
+      "rawBytesSha256": "a50ace3ccbcd46e3c5930ab5d8840edb47cb229fe5928b1cb8c04ed477eb5e74",
+      "scope": "zip",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "apps/poms-api/src/seeders/database.seeder.ts",
+      "bytes": 80434,
+      "rawBytesSha256": "c2450781dab397c75c15f70a81bcc258967a18ee467df9befdcbe96b1ccd5fcd",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 45709,
+      "rawBytesSha256": "2dc2436613b1ff4b5cb8a80c0c76acc8e6e724cc2d6a51a282f4344fad29860c",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12977,
+      "rawBytesSha256": "48786e51f92013c4c50659af68462055f9d96e11c633b48b16a56263f8823a1e",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97",
+      "scope": "logical",
+      "readLevel": "Full raw hash; necessary writer/reader or original-cohort/direct-birth/logical-site sections source-read"
+    }
+  ],
+  "guidance": [
+    {
+      "file": "tmp/rust-r2m/api9-m5-comparison-input02.json",
+      "bytes": 51336,
+      "rawBytesSha256": "a139b4f73e6a02cb5c0a54259de66ddf926d626a74646ae2b45ed5753766c54a"
+    },
+    {
+      "file": "tmp/rust-r2m/api9-m5-comparison-input03.md",
+      "bytes": 2256,
+      "rawBytesSha256": "d037fb59707a77888b2c713419821bdf413bccb59f12a1d7c948a849c0aa01cd"
+    }
+  ],
+  "exactInterfaces": {
+    "zip": {
+      "slot": "M4.2.package.archive",
+      "input": [
+        "runId",
+        "sourceCapId",
+        "sourcePins",
+        "archiveBytes",
+        "archiveLength",
+        "archiveSha256",
+        "packageRow",
+        "typedPackageProof",
+        "archiveContentProof",
+        "readMatureStoreZip",
+        "writer"
+      ],
+      "reader": "Caller supplies bytes=>readMatureStoreZip({sourceReader,bytes}); fixed pinned reader is invoked once on a copy. Original reader errors retained in non-enumerable cause; fixed public code/message.",
+      "contentProof": "Actual existing assertHandoverArchive receipt for the same raw hash, fully verified real payload/physical manifest/sourceRefs/package-items/sensitive exclusion. Boolean/source metadata must be bound by Root to its actual raw evidence first.",
+      "writer": "{sourceMethod:AttachmentService.buildZipArchive,context:actual package birth run/case/index/op,window:actual CREATE call window}. It is not the later download window or a fabricated header-derived window.",
+      "output": "Only exact local/central four-byte DOS comparisonSites plus full-byte/header/member proof; wholeArchiveOpaqueAliasGranted=false."
+    },
+    "logical": {
+      "input": [
+        "runId",
+        "sourceCapId",
+        "sourcePins",
+        "journal",
+        "row",
+        "site",
+        "ordinaryBirthVerified",
+        "originalSourcePlanVerified"
+      ],
+      "site": {
+        "table": "contract_readiness_package",
+        "rowId": "actual owned readiness PK",
+        "column": "initialized_receivable_plan_version_id"
+      },
+      "preconditions": "Root first verifies ordinary actual birth/authority/complete capsule and rebuilds original source-plan hash. Helper then verifies original wrapper/logical ledger/unique SQL token rowIndex+PK, all original INSERT PKs, promoted whole direct cohort and exact actual captured/current readiness site.",
+      "output": "Frozen exact table+rowId+column comparison site and value SHA. No raw logical UUID mapping/global alias/row ownership/delete or cleanup permission."
+    }
+  },
+  "pure": {
+    "runtime": "v24.19.0",
+    "typescript": "6.0.3",
+    "command": "node --test tools/rust-r2m/comparison-api-zip-logical.test.mjs",
+    "tests": 18,
+    "pass": 18,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/comparison-api-zip-logical-source01-pure-complete.txt",
+      "bytes": 2045,
+      "rawBytesSha256": "cdb17d1cd2314bce033d59f2d86090225af7d35e83f4c1c18126ae9599154cf4"
+    },
+    "originalWriter": "Exact original AttachmentService buildZipArchive/toDosDateTime/crc32 bodies in VM with Fake clock; actual full bytes through existing readMatureStoreZip and assertHandoverArchive.",
+    "originalK": "Original public buildPreparedPlan used and rebuilt from its full original fixture; journal/direct captured rows are synthetic controlled proof fixtures, not actual SQL/acceptance.",
+    "lexical": {
+      "files": 2,
+      "errors": 0,
+      "log": {
+        "file": "tools/rust-r2m/comparison-api-zip-logical-source01-no-undef.json",
+        "bytes": 446,
+        "rawBytesSha256": "3858a973a176addc9747c850ffce5c843e5f7ec73ca9a87c0d97d2227ec46b9e"
+      }
+    },
+    "format": {
+      "command": "deno fmt tools/rust-r2m/comparison-api-zip-logical-contract.md",
+      "exitCode": 0
+    },
+    "adversarial": [
+      "Local/central/member timestamp disagreement, impossible UTC calendar, half-open two-second boundary and out-of-window values",
+      "ZIP version/madeBy/needed/disk/internal/external attrs/trailer and strict full byte reconstruction",
+      "Archive hash/length before reader, actual reader error cause preserved privately, injected reader mutation and false content/member binding",
+      "Typed package ordinary proof/create context/outer COMMIT/index and physical manifest clock mismatch",
+      "Wrong/nested site, null value, moved row/table/column, owned/borrowed logical UUID",
+      "Exact sourcePlan/hash/boundary/SQL and one occurrence; all original INSERT PKs retained",
+      "Unexecuted/committing/unknown/rolled-back/absent source plan, incomplete cohort independent visibility, direct transaction/xmin/source mismatch",
+      "Exact existing recovered-committed promoted cohort accepted without expanding unknown-state permission"
+    ],
+    "preservedEarlierTrials": [
+      {
+        "file": "tools/rust-r2m/comparison-api-zip-logical-source01-pure-initial.txt",
+        "bytes": 4142,
+        "rawBytesSha256": "a0b2fb9eb6fbab5abb7314b979cc1821b1a7d07c4367749268b78fd1a75559fa",
+        "result": "15pass/1test-fail; DOS mismatch case was rejected earlier by the valid narrow writer-window check. Test controlled window widened to isolate header disagreement; no implementation acceptance relaxed."
+      },
+      {
+        "file": "tools/rust-r2m/comparison-api-zip-logical-source01-pure-final.txt",
+        "bytes": 1808,
+        "rawBytesSha256": "8f51a2182470642f40cf4d1b273bc32f019518cb9392cb25ebaafd02d3570c0b",
+        "result": "16pass/0fail before two final cohort/attestation adversarial tests and receipt nested freezing were added"
+      }
+    ]
+  },
+  "boundaries": {
+    "environmentRead": false,
+    "privateRead": false,
+    "database": false,
+    "http": false,
+    "browser": false,
+    "actualChildSpawn": false,
+    "productEdited": false,
+    "sharedReaderOrFixtureEdited": false,
+    "aesStateCoreEdited": false,
+    "retry": false,
+    "wholeArchiveBytesDropped": false,
+    "arbitraryUuidAlias": false,
+    "ownershipGranted": false,
+    "cleanupPermission": false,
+    "actualOrG3Claim": false
+  },
+  "pending": [
+    "C independent necessary source review",
+    "Root binds actual capsule/raw receipt/ordinary source-plan and birth proofs, invokes offline helper on complete actual bytes and physical rows",
+    "Root complete API9/M5 strict HTTP/full107/source payload/clock/opaque comparison and final G3/G4"
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "kind": "POMS-R2M-independent-finite-external-and-attachment-audit-source-review",
+  "reviewedAtUtc": "2026-10-31 01:41:29 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "M5Caller": [
+      "M5.1",
+      "M5.2",
+      "M5.3"
+    ],
+    "M5Requests": 12,
+    "M5BoundedEvents": 13,
+    "attachmentComponent": {
+      "sourceKind": "attachment-provider-null",
+      "APISteps": [
+        [
+          "M4.1",
+          "local-provider"
+        ],
+        [
+          "M4.1",
+          "default"
+        ],
+        [
+          "M4.4",
+          "obs-provider"
+        ],
+        [
+          "M4.4",
+          "obs-default"
+        ],
+        [
+          "M4.4",
+          "local-default"
+        ]
+      ],
+      "UI4SourceCapabilityOnly": [
+        "ui4-local-provider",
+        "ui4-local-default"
+      ],
+      "futureCallerOrOwnerWiringStillRequired": true
+    },
+    "allOtherCasesOrOps": "unchanged and not widened by this source set",
+    "productModified": false,
+    "actualAccepted": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/audit-attachment-source.mjs",
+      "bytes": 6514,
+      "rawBytesSha256": "f24d4c4e42de88cde2459daf6878e634c3f4a61c8c019d5b466630e4151fa6f0"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-external-audit-identity.mjs",
+      "bytes": 13798,
+      "rawBytesSha256": "b2584b70416f5a480bf8dfabce0b7e5da9cbb36a8b1ecc55501e3604fad1682a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 14996,
+      "rawBytesSha256": "edb5d1a290297a88954c5246e71bb86bb58715a6c23eb0d454aa684e35726305"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "5ed61ce1e9587c5f54c231972cecd5990f339f94ee99a556b19d03cd1c27b86c"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12466,
+      "rawBytesSha256": "ebfd70038ba8c3bcc48f44ffe0570655a24a5c50db2109234d659f6d4d845143"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-objects.mjs",
+      "bytes": 6291,
+      "rawBytesSha256": "8e9e2aa9ba38ac9f58283b801666e65cc0015e2e8526b794569eb90faf510c47"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-private.mjs",
+      "bytes": 1841,
+      "rawBytesSha256": "c45ee56eaa7128f620515628d38cdc53c57b586dc5de85cb30bcc19a9e4b8a3f"
+    },
+    {
+      "file": "tools/rust-r2m/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f"
+    },
+    {
+      "file": "tools/rust-r2m/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "46a904a0c69b60ba100493bc908380d1fdab58ea5d46fb2ad102d5243651353d"
+    },
+    {
+      "file": "tools/rust-r2m/database-client.mjs",
+      "bytes": 2041,
+      "rawBytesSha256": "67e281cacd0b21ff6c530eb9a07c6d9308d64b61483d0c70e9ec76ce1f1b5cd7"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 10089,
+      "rawBytesSha256": "adaf8525ad5447d7141cd01cd81122ea0dc3e82ee2d44ba4d228d66da5ace0cd"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-guard.mjs",
+      "bytes": 4749,
+      "rawBytesSha256": "c570808283f73585720b385a027f4455a2d90e79e8700194470e0980c2b05ce2"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 12977,
+      "rawBytesSha256": "48786e51f92013c4c50659af68462055f9d96e11c633b48b16a56263f8823a1e"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12948,
+      "rawBytesSha256": "9ae95ce33413044329d706acb8eaa606638acd61c145c0f1dd6656f84e13a667"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910"
+    },
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 45709,
+      "rawBytesSha256": "2dc2436613b1ff4b5cb8a80c0c76acc8e6e724cc2d6a51a282f4344fad29860c"
+    },
+    {
+      "file": "tools/rust-r2m/managed-environment.cjs",
+      "bytes": 7098,
+      "rawBytesSha256": "6a5bf390df156d64bc3531c102fafeaefa7d1a4fc8b88a2f8d26d2235101ca26"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 75059,
+      "rawBytesSha256": "6d9f8c9dea2c9af7cbbbd4cfa06fd452b41a84bbff8e3146f3b351beb2cdaba3"
+    }
+  ],
+  "inputPins": [
+    {
+      "file": "tools/rust-r2m/audit-external-source01.json",
+      "bytes": 19429,
+      "rawBytesSha256": "37793a00b51f5ba0cbaffb7f2d19752c12ec1a98b43b236b7578bf70684de23d"
+    },
+    {
+      "file": "tools/rust-r2m/audit-attachment-source01.json",
+      "bytes": 13612,
+      "rawBytesSha256": "ce9bd58f6a9fde8022322099228f8362a7d6e85033cd5627ad408d8d5cc523b9"
+    },
+    {
+      "file": "tools/rust-r2m/audit-external-source01-shared.diff",
+      "bytes": 20959,
+      "rawBytesSha256": "7f53b438114f1eab58d5b4b32095a6f7e0c071d3194352fcc2d1979012243107"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api20-source04.json",
+      "bytes": 22676,
+      "rawBytesSha256": "5aaafe6c4d1a082fafe8567cb0f72d68c20bf1ad02b2f3cb06da3e306f3c07bf",
+      "meaning": "Current30 caller sources independently raw-matched during M3 review; unchanged M5 caller path/source declarations examined for this review."
+    }
+  ],
+  "supersededHistoricalPins": [
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "historical": "152ec05c3d6125244d9fed02e07913d57077d08e609945c3c9ba521b520fcee4",
+      "current": "9ae95ce33413044329d706acb8eaa606638acd61c145c0f1dd6656f84e13a667",
+      "reason": "M4 attachment projector is one additional exact source member; no ownership table or immutable identity expansion."
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "historical": "32bf492b9076ea30cf573b0e1b0b212681e986119529ec9eecb28289e853b205",
+      "current": "edb5d1a290297a88954c5246e71bb86bb58715a6c23eb0d454aa684e35726305",
+      "reason": "Explicit finite attachment-provider-null dispatch; original E/platform protections remain. The historical M5 manifest remains unchanged and is not claimed to pin this later M4 overlay."
+    }
+  ],
+  "findings": [
+    {
+      "item": "two independent NULL-operator guards",
+      "result": "Pass",
+      "detail": "Source-protected public authorize is the sole NULL audit operator event: exact logical/step/method/path, IdentityProviderConfig target already independently owned, same actual context and exact selector. JS audit guard verifies this typed parent and saved source-bound birth. PG scope constructs at most one full nullAuditSelector from the same admitted set; SQL requires r @> selector and known target. Neither audit guard consumes security scope.anonymous."
+    },
+    {
+      "item": "finite preview set",
+      "result": "Pass",
+      "detail": "Only original M5.2 preview may declare2 events, preview-started and previewed, each original before-observed intent Max1. PGbegin requires all exact events from one entry and no alternate single admission. Set IDs/context indices remain unique and durable in journal; source and expected-parent selectors are reprojected from protected original code."
+    },
+    {
+      "item": "certification precedes certified-PK lookup",
+      "result": "Pass",
+      "detail": "Native runtime saves raw HTTP and original SDK/PG/SQL first, registers complete actual SDK authority, and checks afterCreate/outer-COMMIT chain plus same run/case/index/op before bindExternalAuditIntentFromCertifiedCreate performs its one exact certified-PK SELECT. That query only chooses between original bounded event intents and grants no ownership. Subsequent mature adoption still independently verifies current row and typed parent. Rust uses real PG birth proof, never Native proof as Rust HTTP evidence."
+    },
+    {
+      "item": "generated and known parent scope",
+      "result": "Pass",
+      "detail": "Generated parents require their own registered SDK or PG actual committed create in the same request context, plus independent visibility and immutable typed selectors. SDK COMMIT must preserve index/op as well as run/case. Existing ticket/config/source parents must be actually typed owned rows; ticket hash/user are exact. DTO/response/query IDs cannot become row authority."
+    },
+    {
+      "item": "ordinary protections",
+      "result": "Pass",
+      "detail": "Original62 UUID tables/immutable fields, complete107 facts/reference scan, singleton/number ownership, drain/CAS/cleanup remain unchanged. Ordinary/security request identity stays canonical. Only selected M5.1 two source markers predeclare m5.integration anonymous before bindings scope creation; that flag grants no audit NULL permission."
+    },
+    {
+      "item": "attachment component overlay",
+      "result": "Pass",
+      "detail": "Original provider service recordConfigAudit omits requestId. New finite projector admits exactly5 named POST API steps and2 named UI4 m.producer source operations, with non-NULL owned operator, exact event/type and typed provider created_by/provider_type. Only the two UI4 names accept m.producer; all other source kinds/ops remain strict. keyPrefix stays exact request input evidence and is not an immutable row ownership key. No generic PATCH, arbitrary NULL actor or generic producer admission. Actual forward caller/owner adapters remain separately pending."
+    }
+  ],
+  "readLevel": {
+    "M5NewHelper": "complete13798B source",
+    "M5Projector": "complete11473B source and necessary original event/NULL requestId source excerpts",
+    "sharedDelta": "complete6-file diff from old approved04; necessary current binder/core/PG snapshots and principal branches examined",
+    "M4": "complete projector6514B and full helper/profile delta from protected before snapshot; existing E/platform source guards reused",
+    "currentRawPins": "32/32 current profile31 plus PG match; protected original TS21 pin checks also matched",
+    "stableProfileMembers": "Prior independent fixture/handover/lease/guard source reviews reused; no full mature-chain rereview",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "authorChecks": {
+    "M5": {
+      "pass": 60,
+      "fail": 0,
+      "skip": 0,
+      "lexicalFiles": 7,
+      "lexicalMessages": 0,
+      "PGTemplateTables": 34,
+      "actualDDL": false
+    },
+    "M4": {
+      "pass": 49,
+      "fail": 0,
+      "lexicalMessages": 0
+    },
+    "meaning": "Read retained author source/pure receipts and meaningful guard tests; these are not actual PG calibration or C test execution."
+  },
+  "RootUse": {
+    "sourceEpoch": "Fresh matching capsule for these current32 pins; original Linux old epochs and failed raw records remain preserved. Do not substitute a new profile into an old journal.",
+    "approval": "A single Root-R2M-source-bound-audit-identity-admission can reference this exact review with allowed finite source kinds. This reviewedSources union includes current admission helper, external/M4 projectors, old493ddb platform and5ed61 E projectors, and exact ebfd singleton helper.",
+    "M4": "No M4 actual readiness claim until the finite new API caller or UI4 owner adapter has its necessary source review.",
+    "actual": "Real peer/owner/SDK/PG/full107 observations and separate paired comparison remain Root work; no actual/G3/G4 pass follows from this source result."
+  }
+}

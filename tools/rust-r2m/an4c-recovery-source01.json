@@ -1,0 +1,143 @@
+{
+  "kind": "R2M-fixed-normal-writer-closed-an4c-owned-only-recovery-source",
+  "result": "SourceCandidate-awaiting-C",
+  "runId": "3cc41db5-c2e0-492a-b90e-262e56b32c90",
+  "backend": "nest",
+  "sourceCapId": "r2m-joint28",
+  "sourceCapManifest": "173feb5285dc0765f212deae45a1471bf6b2eab05b1a5d63bde3a9c6691de2ac",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an4c.mjs",
+      "bytes": 19591,
+      "rawBytesSha256": "f004c25b6410f054884a4e603707fbfc38a65e1145147a041fe1d7fbe375bde8"
+    },
+    {
+      "file": "tools/rust-r2m/recover-closed-an4c.test.mjs",
+      "bytes": 10808,
+      "rawBytesSha256": "f20d1f30686f46947a2f08554a63e2bb36a742c560d2f759f7c6013a7719a4d5"
+    }
+  ],
+  "originalReviewedTemplate": {
+    "file": "tools/rust-r2m/recover-closed-an4b.mjs",
+    "bytes": 18539,
+    "rawBytesSha256": "469a941d69dc209e79c4921d6a005c7f7e363b0e4c6b345349b049b5fd65dd81"
+  },
+  "originalCReview": {
+    "file": "docs/design/rust-r2m/an4b-recovery-source-review02.json",
+    "bytes": 3015,
+    "rawBytesSha256": "ac9c1e3cd216b6ed317ced9e968399bfd43e460aa11830f5f487e2c536aecb34"
+  },
+  "beforeBody": {
+    "file": "tools/rust-r2m/an4c-recovery-before-source01.json",
+    "bytes": 38090,
+    "rawBytesSha256": "05f19ebf70718e6c414e1a824c8c068280862089675cdfb9b05d2911cba6aac3"
+  },
+  "diff": {
+    "file": "tools/rust-r2m/an4c-recovery-source01.diff",
+    "bytes": 29794,
+    "rawBytesSha256": "e09caacd1922fc85bc31f75d61320720049dfdca74ad79763bd6a7374055f2ba"
+  },
+  "publicInputsActuallyRead": [
+    {
+      "file": "tmp/rust-r2m/an4c-recovery-metadata02.json",
+      "bytes": 10667,
+      "rawBytesSha256": "36026cc48bf143ef78f3de9832a147dcac5e34f292682ba17d5d8be501bb56dd"
+    },
+    {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4c.json",
+      "bytes": 48300,
+      "rawBytesSha256": "304a257834e31047413cf0314088a5cbab2c12d19e28df55e34ace332f351622"
+    }
+  ],
+  "exactReferences": {
+    "report": {
+      "file": "tmp/rust-r2m/acceptance-api-nest-an4c.json",
+      "bytes": 48300,
+      "rawBytesSha256": "304a257834e31047413cf0314088a5cbab2c12d19e28df55e34ace332f351622"
+    },
+    "cap": {
+      "file": "tmp/rust-r2m/source-cap-joint28.json",
+      "bytes": 1432594,
+      "rawBytesSha256": "7bab4e01a800b0c887fc2872aa31552f45aeb64ebb458fde4e4c49451740a22a"
+    },
+    "ledger": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90.json",
+      "bytes": 1977818,
+      "rawBytesSha256": "404c888fc6d88d2b505baf62c0c1c6a1b057a75a12f65a763ed201f69dc8f629"
+    },
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00001.json",
+      "bytes": 432851,
+      "rawBytesSha256": "6c2b95dfbd159096e528d1b112a84f8bb0b7dbe834588bbcd31f0333bb9c2a88"
+    },
+    "sdk": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00333.json",
+      "bytes": 74729,
+      "rawBytesSha256": "47ecd4f02689a1b4c7cac9d2817cb984a40812738ed2c673ce1ba3e9e4733608"
+    },
+    "latestFacts": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-3cc41db5-c2e0-492a-b90e-262e56b32c90/00342.json",
+      "bytes": 569482,
+      "rawBytesSha256": "4c4b30761c52014b5ecb0915eb49a1b4b2734e89cc4f3257629777412332363a"
+    }
+  },
+  "delta": [
+    "Fixed an4c run/cap28/ref byte hashes/PIDs/observer and unique new output/private prefix.",
+    "117 existing actual certified objects; 6 local files with original seven fields and no invented file state.",
+    "Only three original committed preparation mutations: one exact attachment f7b01c7b latest=false plus each of the two actual typed already-owned provider defaults=false. Exact original fields/before-after/transaction-xmin/ordinary ownership proof; no reversal.",
+    "Original casesClosed [true,false,true,true] and results [observed,fail,fail,observed] retained. M4.2 earlier caseClosed=false is not rewritten; later same-source-case M4.4 certification resolved the absent package intent. Original final ledger only adopted/absent and unknownCreates/Mutations0 still mandatory.",
+    "Metadata02 has no providers/fileStates synthetic projection; complete current107 is hash-pinned latestFacts and rechecked by mature recovery before cleanup.",
+    "No mutation restore/selector correction/adoption/custom file deletion/product changes."
+  ],
+  "identicalMatureCore": {
+    "from": "async function assertWriterAbsent",
+    "byteEqualAfterOnlyLiteralTagPIDObjectCountSnapshotLabelRenames": true,
+    "oldSuffixSha256": "b4a9a1eebf3a2381991482dad2d22f2cc84039f41a0d150c11a37dcc3ca47111",
+    "normalizedNewSuffixSha256": "b4a9a1eebf3a2381991482dad2d22f2cc84039f41a0d150c11a37dcc3ca47111",
+    "noFlowChange": true
+  },
+  "validation": {
+    "pureTests": 10,
+    "pass": 10,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/an4c-recovery-source01-pure.txt",
+      "bytes": 1267,
+      "rawBytesSha256": "8f0b3d3d73d91b32f259e5f1dd3a4429c34f82f458d65c4b54784e23d601d539"
+    },
+    "lexicalFiles": 2,
+    "lexicalErrors": 0,
+    "lexicalLog": {
+      "file": "tools/rust-r2m/an4c-recovery-source01-no-undef.json",
+      "bytes": 206,
+      "rawBytesSha256": "11cefa589f73f72de573e690469472e9d24bf92c1996fba8ed505008a60c8c9d"
+    },
+    "sourceOnlyCliExit": 0,
+    "sourceOnlyCliLog": {
+      "file": "tools/rust-r2m/an4c-recovery-source01-check.txt",
+      "bytes": 134,
+      "rawBytesSha256": "b0234a8c9011809265c85d14ac6e8d1faca7f9ead2a5a11112789adbf2e61f3b"
+    },
+    "actualSignalUsed": false,
+    "PIDTestsFakeOnly": true
+  },
+  "RootOnlyActual": {
+    "command": "node tools/rust-r2m/recover-closed-an4c.mjs --run",
+    "output": "tmp/rust-r2m/recovered-api-nest-an4c01.json",
+    "privatePrefix": "poms-r2m/private/execution-logs/an4c-recovery01-",
+    "preconditions": "Root original-shape/private raw precheck and exact old cap28/PG6d9 fixture bytes; all original owners stopped and all5ports genuinely free; copy this unique fixed CLI only.",
+    "expected": "mature117 rows/6files then0 and full107 equal original baseline; no business pass implied"
+  },
+  "authorActivities": {
+    "privateRead": false,
+    "envRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "actualSignal": false,
+    "originalRunOrJournalModified": false
+  },
+  "actualVerified": false,
+  "G3": false,
+  "G4": false
+}

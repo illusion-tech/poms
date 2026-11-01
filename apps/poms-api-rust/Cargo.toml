@@ -12,6 +12,14 @@ resolver = "3"
 name = "l_shared_uow_probe"
 path = "../../tools/rust-r2l/l-shared-uow-probe.rs"
 
+[[example]]
+name = "m_shared_uow_probe"
+path = "../../tools/rust-r2m/shared-uow-probe.rs"
+
+[[example]]
+name = "m_number_probe"
+path = "../../tools/rust-r2m/number-probe.rs"
+
 [dependencies]
 icu_casemap = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["compiled_data"] }
 icu_normalizer = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["compiled_data"] }

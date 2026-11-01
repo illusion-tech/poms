@@ -1,0 +1,31 @@
+{
+  "kind": "R2M-QA-provision-original-failure-preservation-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "prior": {
+    "file": "tools/rust-r2m/audit-qa-source01.json",
+    "bytes": 2168,
+    "rawBytesSha256": "9ea5522ebc2d267a5d928da89b503048e5acc5715ed3eed1d6625269c33041b0"
+  },
+  "priorPreserved": true,
+  "files": [
+    {
+      "file": "tools/rust-r2m/audit-qa-provision.mjs",
+      "bytes": 15734,
+      "rawBytesSha256": "3ffc07ec3103cc93dae24ac1e2a9f18c86e4f8223504ff6459a0efd99cd2944c"
+    }
+  ],
+  "delta": "On actual PG/assert failure first retain original name/message/stack/code in unique exact new-M private qa/provision-failure-UUID.json. Journal/public receipt retain only fixed category/code and private evidence path/hash; no env/password object dump. Exact clone/isolation logic unchanged.",
+  "pure": {
+    "passed": 3,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-qa-source02-pure.txt",
+      "bytes": 415,
+      "rawBytesSha256": "379e4516c4e75a21d92f9753e562a98d6bba9b3ea3a793a731b3733447042c99"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  }
+}

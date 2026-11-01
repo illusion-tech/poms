@@ -1,0 +1,32 @@
+file:///E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tools/rust-r2m/recover-late-uin4c01a.test.mjs:15
+test('all real save labels obey the original safe grammar and CLI exit follows receipts/close attempt with no adopt/drop',()=>{const source=fs.readFileSync('tools/rust-r2m/recover-late-uin4c01a.mjs','utf8'),tree=ts.createSourceFile('helper.mjs',source,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),labels=[];function visit(node){if(ts.isCallExpression(node)&&node.expression.getText(tree)==='save'){assert(ts.isStringLiteral(node.arguments[0]));labels.push(node.arguments[0].text)}ts.forEachChild(node,visit)}visit(tree);assert(labels.every(v=>/^[a-z0-9-]+$/.test(v)));assert(source.includes('await recoverUi4Late();process.exit(process.exitCode??0)'));assert(source.includes('helperExitPolicy'));assert(!/\.adoptIntents\(|resolveNoCreates\(|DROP\s|terminate_backend|unlinkSync\(/i.test(source)))});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^
+
+SyntaxError: Unexpected token ')'
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:89:18)
+    at #translate (node:internal/modules/esm/loader:434:20)
+    at afterLoad (node:internal/modules/esm/loader:502:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:507:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:560:36)
+    at afterResolve (node:internal/modules/esm/loader:607:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:613:12)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.19.0
+✖ tools\rust-r2m\recover-late-uin4c01a.test.mjs (51.8173ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56.6895
+
+✖ failing tests:
+
+test at tools\rust-r2m\recover-late-uin4c01a.test.mjs:1:1
+✖ tools\rust-r2m\recover-late-uin4c01a.test.mjs (51.8173ms)
+  'test failed'

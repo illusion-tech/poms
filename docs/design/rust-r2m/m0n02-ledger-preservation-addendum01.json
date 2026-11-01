@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-m0n02-ledger-preservation-public-evidence-addendum",
+  "result": "Verified-late-exact-byte-reconstruction",
+  "reviewedAt": "2026-10-30T20:03:48.534Z",
+  "reviewer": "C /root/r2m_review independent non-author",
+  "supplements": "docs/design/rust-r2m/m0n02-recovery-review01.json",
+  "runId": "2016c675-fdb1-4ec6-908b-9c07fc55821d",
+  "anchor": {
+    "file": "tmp/rust-r2m/acceptance-nest-m0n02.json",
+    "rawBytesSha256": "2136072c4b2ff918bd80e096a5658ad13e89749375ebf8e9dfbe502a9a9e6869",
+    "priorPublishedLedgerBytes": 155578,
+    "priorPublishedLedgerSha256": "e11f4b4b6957e60cdb14c668d8713d4e467121f5ee6b6e1861c1d6f15376726c",
+    "boundary": "C read this public original reference before reconstruction; no private ledger was read by C."
+  },
+  "reviewedSource": {
+    "file": "tools/rust-r2m/reconstruct-failed-ledger.mjs",
+    "bytes": 3247,
+    "rawBytesSha256": "2798515b10de01cd5d4485cd45e2dc56f3b5f74f2850fdd0be714e0e3100d134",
+    "readLevel": "full offline bounded reconstruction source"
+  },
+  "publicReceipt": {
+    "file": "tmp/rust-r2m/reconstructed-m0n02-ledger01.json",
+    "bytes": 1324,
+    "rawBytesSha256": "4e1290c1e920e1a34860e638057c294e2412b7ceecdd8a8c485d2a64d13de07f",
+    "readLevel": "full public receipt via the new Linux checkout",
+    "result": "late-reconstructed-exact-original-bytes",
+    "DBRead": false,
+    "DBWrite": false,
+    "originalLedgerOverwritten": false
+  },
+  "verifiedConsistency": {
+    "postRecoveryBackup": {
+      "bytes": 170558,
+      "rawBytesSha256": "a453603524068c6af4c5844c5efecede2930b597ae4478e93a2cd5061956c48a"
+    },
+    "restoredOriginal": {
+      "bytes": 155578,
+      "rawBytesSha256": "e11f4b4b6957e60cdb14c668d8713d4e467121f5ee6b6e1861c1d6f15376726c"
+    },
+    "onlyAcceptedCandidate": "The source accepts a candidate only when both original byte length and the prior published raw SHA-256 match exactly.",
+    "sourceEffects": "No DB/product/fixture import; saves post-recovery bytes first, writes separate exclusive private files, and rechecks the live cleaned ledger is unchanged."
+  },
+  "evidenceLabel": "Exact bytes were recovered later from preserved append-only state, using the prior public hash as the acceptance anchor. This is not a claim that an immutable private copy existed from the original run time.",
+  "closure": "The prior recovery review's original-ledger availability caveat is addressed by this labelled late reconstruction receipt. The original failed/partial run and zero matrix-observation status remain unchanged.",
+  "notCertified": [
+    "Any115/27 matrix pass",
+    "Original setup full107 baseline not recorded in that epoch",
+    "G3/G4"
+  ],
+  "executionByReviewer": {
+    "privateReads": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "testsRun": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "formatVersion": 1,
+  "reviewedAt": "2026-10-30T20:54:26.587Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "G3Certified": false,
+  "G4Certified": false,
+  "kind": "R2M-urin02-followup02-actual-recovery-public-evidence-review-not-a-Gate",
+  "result": "Accepted-exact-owned-recovery-evidence-not-matrix-pass",
+  "sourceReview": "docs/design/rust-r2m/urin02-recovery-source-review02.json",
+  "sourceRawBytesSha256": "9219332858c5c573b9f2bf71b31995484a6da8a9c9c9075ae78f9c40bc181bbf",
+  "publicReceipt": {
+    "file": "tmp/rust-r2m/recovered-nest-urin02-followup02.json",
+    "bytes": 9565,
+    "rawBytesSha256": "9f4c1aac846c3981dc63a70c98108067fe82d484ff4769de4933e4adc766cd70",
+    "read": true,
+    "result": "recovered-exact-owned-double-zero-not-matrix-pass",
+    "runId": "efc86f2a-bede-4b98-9b66-de24b61a9416",
+    "sourceCapId": "r2m-epoch06"
+  },
+  "observations": {
+    "portsFree": true,
+    "pendingTransactions": 0,
+    "fullReferencePreflightTables": 107,
+    "cleanupDeleted": [
+      55,
+      0
+    ],
+    "objectChanged": [
+      0,
+      0
+    ],
+    "secondObjectChanged": [
+      0,
+      0
+    ],
+    "queryIdentityAdoption": false,
+    "SDKCertificateRevalidatedByFixture": true
+  },
+  "preservedSnapshots": {
+    "original": {
+      "bytes": 270978,
+      "rawBytesSha256": "b906fa885d5ee0ac1278cbeaf1e556552c82724d29a8b5deef281af31321cc4f",
+      "beforeFirstFixtureOpen": true
+    },
+    "intermediate": {
+      "bytes": 270978,
+      "rawBytesSha256": "62d4d3011a133415a13071d97b7f21be512a9c7f9628d45e79780a577ac3c659",
+      "beforeSecondFixtureOpen": true
+    },
+    "privateContentsReadByC": false
+  },
+  "correction": {
+    "caseId": "m0.uri.get.retained-expired.valid-percent-owned-uuid",
+    "intentId": "757937af-ced8-4182-b95d-4f5b81b4f1d5",
+    "rowId": "16e60709-238b-44c3-8b33-c350bc06a506",
+    "certificateSha256": "e1bdd47e614629f9bb51437b3fc3083235c842def089acb6d1aa377f4d09c209",
+    "originalScopeSha256": "5322778a0d7b12367aace0da3a024fef23555061d7f4ca62816729d6b48e3d85",
+    "anonymousDelta": {
+      "before": false,
+      "after": true
+    },
+    "originalScopeFullyPreservedInPrivate": true
+  },
+  "verification": {
+    "CReadPrivate": false,
+    "CExecutedRecoveryOrDBOrHTTP": false,
+    "executionOwner": "Root",
+    "readLevel": "Exact public receipt/hash and public fields; actual private chain enforced by the pinned reviewed recovery/Fixture source, not independently rerun by C"
+  },
+  "classification": "The first recovery source-shape tool failure, original partial URI run and explicit retrospective scope correction remain recorded. Successful cleanup does not certify those27 URI conditions or relabel the original scope as correct."
+}

@@ -1,0 +1,133 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-API-six-case-bounded-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T22:09:20.207Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "approvedSelection": [
+    "M1.1",
+    "M1.2",
+    "M1.3",
+    "M1.4",
+    "M2.1",
+    "M2.3"
+  ],
+  "excludedSelection": {
+    "M2_2": "Original E explicit/empty request-ID header fidelity and its exact per-request certificate admission are pending. Current source-E-case materialization omits those original headers; preserving them requires separate reviewed identity binding.",
+    "M2_4": "Number context/helper delta has its own narrow source review but is excluded from this actual API subset.",
+    "M3_M5": "Twelve later logical cases remain source plans, not actual-ready acceptance."
+  },
+  "sourceInput": {
+    "file": "tools/rust-r2m/acceptance-api-source02.json",
+    "bytes": 5282,
+    "rawBytesSha256": "386c0adb809dec7e12b432469b4a1513764e3f16b79d6e09daba71994fdd2af8",
+    "sourceSetSha256": "b72fa72bc8a88c46870250b8a8db345384f30f39ffeb8228861bd1c2a772423b",
+    "authorEightCaseReadinessClaimNarrowedByThisReview": true
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-runtime.mjs",
+      "bytes": 34148,
+      "rawBytesSha256": "f60f8a9995ff4acc67a4d74aa6aa388e04f97f95feee0b73894e4e47272e4407",
+      "readLevel": "Complete cumulative diff from reviewed fdab, actual request/scope/SDK-PG/facts/prepare/close/failure/CLI paths; final named-API helper replacement checked"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.mjs",
+      "bytes": 22194,
+      "rawBytesSha256": "e9be78a88169e61a17ca8a35da31e8fc3ae17e3185ce2a8bfdf2d26471b06fd4",
+      "readLevel": "Complete API engine/certificate/binding/ordered recipe/full107/finishCase/private failure paths; no M0 matrix re-review"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-scenario.mjs",
+      "bytes": 4424,
+      "rawBytesSha256": "c43c4902e828f580befadf5dbb805b5cb5d8093b2fd682d6c3c9e36f28718521",
+      "readLevel": "Complete finite new scenario overrides; actual scope restricted to six; other source-only bodies not approved for execution"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-expected.mjs",
+      "bytes": 11456,
+      "rawBytesSha256": "480ddc464715475cb9516d0fc788a4e17dc51499347163285f5e3b6add919d0c",
+      "readLevel": "Complete diff from unchanged expected module, final local/existing-ref guard before nullable handling and target-audit semantic assertion"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-bindings.mjs",
+      "bytes": 7996,
+      "rawBytesSha256": "d735fa42de822c653a6ecfdf6b95aa4841eac3ee621f7f0eb93a5d2c9aa505e0",
+      "readLevel": "Synthetic input and complete runtime binding-constructor portions; named six require no hidden business preparation/project plan"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-preflight.mjs",
+      "bytes": 2877,
+      "rawBytesSha256": "7906452adb987a85be46556a93172f30f30fd17100de4d2f514a2c2a4da473cb",
+      "readLevel": "Complete same binding/request constructors and fixed-dispatch preflight"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api.test.mjs",
+      "bytes": 8594,
+      "rawBytesSha256": "c9ea3b4c6a5af87302fc271360af0c8a2fc65015684eade698e03441bba4b6ae",
+      "readLevel": "Finite constructor, full107 negative, nullable ref, nonempty audit and private error tests; not executed by C"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-api-contract.md",
+      "bytes": 6447,
+      "rawBytesSha256": "94c7582424e5ca0523a0e451e60622c22b4eb0d5e749c2ebf2b273633e585810",
+      "readLevel": "Candidate scope/readiness claims; approved actual selection narrowed to six here"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a",
+      "readLevel": "Complete actual full107 projection/identity/column/outside-scope checks"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-prepared-result.mjs",
+      "bytes": 5323,
+      "rawBytesSha256": "1e14aaed530994e1c84336416a04708d48cce507a7084e0470eeb93bc17526cb",
+      "readLevel": "Source-only adapter pin/API shape inspected; no prepared-source execution belongs to these six cases"
+    },
+    {
+      "file": "tools/rust-r2m/run-api-owned.mjs",
+      "bytes": 2851,
+      "rawBytesSha256": "6ef48a3e3e74a6410f01acaef9eefe9a9fda22d1c2812429503bea6f926d8c8b",
+      "readLevel": "Complete literal-only diff from mature run-acceptance-owned: mode api, new entry and new actual/owner receipt filenames; private raw log and300000ms exact owned command protections unchanged"
+    }
+  ],
+  "frozenReadLocation": "Root Linux copied source02 ten files under /home/wangzishi/projects/poms-rust-r2m; C independently matched all10 actual Linux bytes/hashes to the exact source02 manifest before signing. Windows may proceed to source03; do not use its advancing files as if they were this snapshot.",
+  "findings": [
+    "The independent entry uses new module names; old fdab/3d5/5436/c04b and their historical M0/URI capsules remain unchanged. Source caps must contain the new module pins and both complete original e2e source trees. Same finite request/binding constructors run before Fixture.open and in --check; actual execution must explicitly select only the six cases above.",
+    "Every before/after frame projects all107 source-authority tables, with complete physical columns/PKs. Only genuinely admitted run objects, the separately reviewed setting lease or exact number rows may be scoped; complete outside-row changes remain visible. The API engine validates all107, including unrelated owned-module changes, rather than only logical plan table lists.",
+    "HTTP response bytes are privately retained immediately before assertions/certification. Native SDK and PG drain each get an independent attempt and original private failure receipt; original SQL/query-PID/SDK/PG evidence is retained before mature ownership certification. Unknown creates/mutations or proof failures stay partial.",
+    "Only named m1.1/m1.3/m1.4 authentication-negative scopes admit anonymous security events; original actors/borrowed actors/request IDs/intents and genuine SDK/PG chains remain. Cookie subject alone is not authenticated actor proof. Current six requests use the normal source-bound generated headers; unresolved original E custom-header cells are outside this approval.",
+    "M2.3 uses a real current115 platform-user create, then requires a nonempty certified physical platform.user.created/PlatformUser audit event and an HTTP target-audit read consuming that same owned event. Necessary current Native source lines were checked for the exact event/target names; an empty prepared-customer audit is not accepted.",
+    "Schema fixes allow unconstrained empty schemas to contain null and nullable local refs only after the original pinned local-ref/existing-target assertions. Explicit false schemas and typed nonnullable values remain rejected. The earlier nullable shortcut bypass was corrected; no product schema or input guard changed.",
+    "Case restoration/relogin now has its own complete107 before/after and certificate step. Runtime close independently stops exact Rust/Native owners, restores its observer and then permits drain/restore/double cleanup only for an actually observed run; client/source/proof failures prevent a complete closeout.",
+    "The internal extension receives the actual SourceReader, source capsule and same run-wide index allocator plus observed-create hooks. This resolves the earlier missing reader/nextContext interface at source level, but common-UoW/M3 and numbers are not actual-approved by this six-case review."
+  ],
+  "knownPending": "The original finalized M2.2 source plan already expands to lease+source-E-case records; raw unfinalized before-absence metadata was not an actual execution condition. Current omission of original E headers is a fidelity gap, not evidence that an unbound audit was already written. Root has chosen a future exact identity channel; preserve source01/02 and no actual M2.2 claim until it is independently reviewed.",
+  "verification": {
+    "LinuxSource02PinsExpected": 10,
+    "LinuxSource02PinsMatched": 10,
+    "wrapperPinChecked": true,
+    "authorReportedPurePassed": 11,
+    "authorReportedPureSkipped": 0,
+    "authorReportedNoUndefModules": 6,
+    "CExecutedTestsOrApplicationsOrDBHTTPOrBrowser": false,
+    "CReadPrivate": false,
+    "sourceReviewOnly": true
+  },
+  "executionBoundary": {
+    "RootAction": "Freeze these exact source02/Linux bytes and wrapper in a new source capsule; run only explicit M1.1,M1.2,M1.3,M1.4,M2.1,M2.3. Preserve actual outcomes/private facts/certificates and compare both backends before any acceptance claim.",
+    "notFull8Or20": "This is not approval of all author-listed eight cases, original E header semantics, M2.4, common-UoW or M3-5. Actual API results, UI/regression closure, G3 and G4 remain pending.",
+    "notNewGate": true
+  },
+  "blocksWithinApprovedSix": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

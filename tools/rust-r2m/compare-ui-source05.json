@@ -1,0 +1,311 @@
+{
+  "kind": "R2M-UI-offline-comparison-source",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-ui.mjs",
+      "bytes": 10774,
+      "rawBytesSha256": "6044224c9df15018bd4c8aec7b90e53a639188d0832904beb51eddb6dfc632be"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-core.mjs",
+      "bytes": 60469,
+      "rawBytesSha256": "2094e49b022549669bb7aedd622e2c0595f113a8cff2add0f836ec15919edcfb"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-profile.mjs",
+      "bytes": 2789,
+      "rawBytesSha256": "d8897b944099dcead5114a9e3e26a3f36b4767958729e328c4abbbf1349efa9c"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-setting.mjs",
+      "bytes": 6127,
+      "rawBytesSha256": "47349feac3423f089d621a70e8204a68769e3227e4157073125b9cb8d565eaf4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui.test.mjs",
+      "bytes": 23704,
+      "rawBytesSha256": "a7d84d0632ebeb5b269597487c09b973641278f3270aadcc223d029b574cf2c2"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-contract.md",
+      "bytes": 6259,
+      "rawBytesSha256": "93586cb60fee1cbffb8832fc01e05d4fbf2a4d83ac506867bbf671aa5bd38770"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui1-joint17-cached.json",
+      "bytes": 2725,
+      "rawBytesSha256": "ea966bbe364c2942c4b2d50253173f8f4d75de315998f8b099894b9b53a24867"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "bytes": 2801,
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "sourceSetSha256": "b85bd8853de99a6d3f4635779bfeb83a1a5dbb0aa8082e2bc9f4c3eec04e40ba",
+  "scope": {
+    "journeys": [
+      "UI1",
+      "UI2"
+    ],
+    "finiteSteps": 7,
+    "newSameEpoch": "r2m-joint23",
+    "perSideHttp": 76,
+    "perSideUuidOwnedRows": 73,
+    "nonOwnedCanonicalSettingLeases": 1,
+    "fullPhysicalTables": 107,
+    "allPhysicalColumns": true,
+    "UI3To4Ready": false,
+    "WindowsRuntimeReady": false
+  },
+  "caseInputs": [
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468",
+      "mode": "controlled-uncached",
+      "actualPrivateComparisonNotYetRun": true
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui1-joint17-cached.json",
+      "rawBytesSha256": "ea966bbe364c2942c4b2d50253173f8f4d75de315998f8b099894b9b53a24867",
+      "mode": "legacy-original-cache-input",
+      "eleven304vs200NotEquivalent": true
+    }
+  ],
+  "functionalHeaders": [
+    "content-type",
+    "content-length",
+    "content-disposition",
+    "x-request-id"
+  ],
+  "explicitInheritedDifference": "Existing R1A generated response request-ID header; syntax plus per-run uniqueness and actual Rust dispatch are checked. Presence is listed separately.",
+  "etagBoundary": {
+    "headerOriginalBytesRetained": true,
+    "eachActualHttpPresenceObserved": true,
+    "eachPresentEtagRawHeaderSha256Reported": true,
+    "actualFullBodyOrPriorEntityWeakSha1Verified": true,
+    "notSilentlyDropped": true,
+    "NativePresenceAndRustAbsenceNotCalledEqual": true,
+    "cacheEquivalenceCertified": false,
+    "performanceCertified": false,
+    "strict304StatusAndEmptyEntityRemain": true,
+    "controlledInputRequiresBothActualCDPAcksAndOriginalNoConditionalHeaders": true,
+    "approval": "Root explicitly accepted inherited frozen functional header scope; C necessary source review pending for these precise observation fields"
+  },
+  "proofs": [
+    "Every exact public/ref length and raw SHA with regular/no-symlink/hardlink checks",
+    "Root-only reads only named new-M run evidence and explicit late completed journal; --check no private",
+    "Every complete original raw request/response equals its actual exchange certificate",
+    "Fixed115+named projects Native read-model dispatch, no response fallback",
+    "Actual complete original SDK outer COMMIT or PG INSERT/outer-COMMIT epoch/independent visibility + real context/captured source/profile",
+    "All107 rows/columns, current owned typed births and literal per-side outside baseline, restored final baseline/double zero",
+    "Real bcrypt fixture plaintext rounds4 and actual preceding issued-cookie/body/hash/expiry linkage",
+    "Fixed seven-Todo prepared dates remain literal; exact mutation-only expiry; source-verified two short-run anchor-name strings only",
+    "Canonical setting one actual CAS, full before/observed/after/restore and original source Root lease checker",
+    "UI2 real403s on actually active admin/viewer sessions with unchanged CSRF/no cookie clears; viewer actual auth200 after403",
+    "Original pinned Angular assertions completed; no invented separate Angular snapshot",
+    "Readonly projects DTO createdAt exact initial physical/source mapper proof, no unowned physical normalization"
+  ],
+  "authorChecks": {
+    "pure": {
+      "command": "node --test tools/rust-r2m/compare-ui.test.mjs",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": {
+        "file": "tmp/rust-r2m/compare-ui-source05-pure.json",
+        "bytes": 2674,
+        "rawBytesSha256": "5f74c25ae07c03afe4d635286e132ba29b1a76bbe341628318568fdf12fdb966"
+      }
+    },
+    "lexical": {
+      "modules": 2,
+      "noUndefErrors": 0,
+      "evidence": {
+        "file": "tmp/rust-r2m/compare-ui-source05-pure.json",
+        "bytes": 2674,
+        "rawBytesSha256": "5f74c25ae07c03afe4d635286e132ba29b1a76bbe341628318568fdf12fdb966"
+      },
+      "threeUnchangedModulesPreviouslyChecked": true
+    },
+    "fullPrivateInputsExecutedByAuthor": false,
+    "privateChecksRunByAuthor": false
+  },
+  "retainedAuthorDrafts": {
+    "directory": "tmp/rust-r2m/compare-ui-author-draft01/",
+    "unreviewedNeverExecuted": true,
+    "corrections": [
+      "Original Cookie Path is /api, logout route is /api/auth/session:logout",
+      "Real expiry direct input uses Z while actual PG row uses +08; equality is exact instant plus literal mutation proof",
+      "Counts/epoch moved into explicit case-input; new UI2 finite predicates, old cache status differences retained",
+      "Pure raw-link negative initially shared a synthetic object reference; separated the simulated files and verified rewritten-response rejection"
+    ]
+  },
+  "actualPrivateComparisonExecuted": false,
+  "authorPrivateRead": false,
+  "authorDatabaseHttpContainerProductBrowserExecuted": false,
+  "productChanged": false,
+  "fixtureChanged": false,
+  "RootExecutesAfterCReview": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "source02Delta": {
+    "previous": {
+      "file": "tools/rust-r2m/compare-ui-source01.json",
+      "bytes": 7827,
+      "rawBytesSha256": "5688a17139affc8785a19b03a0366ae87eb7cbb26e0694a3c38a14005d02f9bc",
+      "exactOriginals": "tmp/rust-r2m/compare-ui-author-source01/"
+    },
+    "scopeUnchanged": true,
+    "necessaryChecks": [
+      "Private evidence directory creation requires a literal UUID before any private read; no path-shaped run ID",
+      "If a raw PG item ever has a profile, validate it before the raw receipt is structurally wrapped for the same saved actual authority; never overwrite a mismatching profile"
+    ],
+    "Source01PublicChecksBothPassed": true,
+    "Source01PrivateRun": false
+  },
+  "source03Delta": {
+    "previous": {
+      "file": "tools/rust-r2m/compare-ui-source02.json",
+      "bytes": 8585,
+      "rawBytesSha256": "4ae6328c1704ad534dff43abb4e78359058c31a3a6759e63c949c824653e0bda",
+      "exactOriginals": "tmp/rust-r2m/compare-ui-author-source02/"
+    },
+    "changedFiles": [
+      {
+        "file": "tools/rust-r2m/compare-ui-setting.mjs",
+        "bytes": 6127,
+        "rawBytesSha256": "47349feac3423f089d621a70e8204a68769e3227e4157073125b9cb8d565eaf4"
+      },
+      {
+        "file": "tools/rust-r2m/compare-ui.test.mjs",
+        "bytes": 21107,
+        "rawBytesSha256": "1f2a3b006f52651c5d07e31fc748b1503ddc79e92f591b94cffa84e539a90bf1"
+      }
+    ],
+    "other13SourcesExactUnchanged": true,
+    "CNecessaryCorrection": "Original source helper SELECT pg_backend_pid()::text stores both originalFixtureBackendPid and independentBackendPid as digit strings. Validate strict positive decimal text fitting original int4, then compare BigInt numeric PID inequality. Original fixture helper/ledger untouched.",
+    "positiveRealShape": "originalFixtureBackendPid=\"1\", independentBackendPid=\"2\"",
+    "negativeShapes": [
+      "nondigit string",
+      "same numeric PID",
+      "number instead of original text",
+      "zero original PID"
+    ],
+    "pureTests": 14,
+    "privateExecution": false,
+    "supersedesSource02ForExecution": true,
+    "inheritedContractSource02CommandIsHistorical": "Use this source03 final manifest and the Root command from this review; the other13 prior-reviewed files are intentionally byte-identical."
+  },
+  "execution": {
+    "manifest": "tools/rust-r2m/compare-ui-source05.json",
+    "input": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+    "inputRawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468",
+    "actualRunOwner": "Root after C SourceReady",
+    "authorPrivateRead": false
+  },
+  "source04Delta": {
+    "previous": {
+      "file": "tools/rust-r2m/compare-ui-source03.json",
+      "bytes": 10537,
+      "rawBytesSha256": "730c622baaaed1eef3d8e76975744b999e15586042511dcaf688962c1b724dff",
+      "exactOriginals": "tmp/rust-r2m/compare-ui-author-source03/"
+    },
+    "changedFiles": [
+      {
+        "file": "tools/rust-r2m/compare-ui-core.mjs",
+        "bytes": 59659,
+        "rawBytesSha256": "78887c48c72c5677698256e872a578e6bf97377db77d889132fe15cac95c41a4"
+      },
+      {
+        "file": "tools/rust-r2m/compare-ui.test.mjs",
+        "bytes": 22637,
+        "rawBytesSha256": "8d66c495f9089864ccc7e9ff3fef856a62e2d8995168a742e4511513c7609e9e"
+      }
+    ],
+    "other13SourcesExactUnchanged": true,
+    "RootPriorActual": {
+      "tag": "joint23-ui12-01",
+      "result": "failed-required-proof-preserved",
+      "privateErrorPreserved": true,
+      "authorPrivateRead": false
+    },
+    "publicMismatchMetadata": "tmp/rust-r2m/ui12-prepared-scalar-mismatch01.json",
+    "scope": "Only lead.estimated_amount when original source is a decimal string and actual PG JSON is a number, under exact original udt=numeric/sqlType=numeric(18,2).",
+    "rule": "Parse both plain decimals into BigInt cents; require original precision/scale, exact numeric equality, and conservative2^52-1cent grid where JSON doubles cannot conflate adjacent cents. Never Number(source), never change the physical value, never coerce other fields or NULL.",
+    "tests": "Original string/number shape, fractional/negative/zero/trailingzero exact equivalents; changed cents, scale loss, unsafe precision, NULL/non-number/wrong UDT and another scalar change all reject.",
+    "supersedesSource03ForExecution": true,
+    "productDifferenceClaimed": false,
+    "fixturesChanged": false,
+    "UIRerunRequired": false,
+    "authorActualExecution": false
+  },
+  "source05Delta": {
+    "previous": {
+      "file": "tools/rust-r2m/compare-ui-source04.json",
+      "bytes": 12393,
+      "rawBytesSha256": "05bd7d6d80171574499ac03f86a299580bb493dfb679fa7b8c48683f5490bdb5",
+      "exactOriginals": "tmp/rust-r2m/compare-ui-author-source04/"
+    },
+    "changedFiles": [
+      {
+        "file": "tools/rust-r2m/compare-ui-core.mjs",
+        "bytes": 60469,
+        "rawBytesSha256": "2094e49b022549669bb7aedd622e2c0595f113a8cff2add0f836ec15919edcfb"
+      },
+      {
+        "file": "tools/rust-r2m/compare-ui.test.mjs",
+        "bytes": 23704,
+        "rawBytesSha256": "a7d84d0632ebeb5b269597487c09b973641278f3270aadcc223d029b574cf2c2"
+      }
+    ],
+    "other13SourcesExactUnchanged": true,
+    "scope": "Only prepared immutable source timestamptz equality; no dynamic clock, DTO, cookie, status/entity, full107 or ownership rule change.",
+    "rule": "Compare full prepared source and physical instants as exact BigInt microseconds, retain offsets and at most6fraction digits, reject invalid calendar values; never silently truncate sub-millisecond differences through Date.parse.",
+    "tests": "Original UTC source/+08 physical6fraction equivalent passes;1microsecond difference,7fraction digits,invalid date,NULL mismatch reject.",
+    "RootPriorActualPreserved": "joint23-ui12-01 under source03 remains failed-required-proof-preserved; this source-only correction is not a product difference or UI rerun.",
+    "supersedesSource04ForExecution": true,
+    "productDifferenceClaimed": false,
+    "UIRerunRequired": false,
+    "authorActualExecution": false
+  }
+}

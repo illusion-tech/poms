@@ -1,0 +1,66 @@
+diff --git a/tools/rust-r2m/ui4-readonly-before-acceptance-ui-browser.mjs b/tools/rust-r2m/acceptance-ui-browser.mjs
+index 07bc1847..b166d936 100644
+--- a/tools/rust-r2m/ui4-readonly-before-acceptance-ui-browser.mjs
++++ b/tools/rust-r2m/acceptance-ui-browser.mjs
+@@ -80,7 +80,7 @@ export async function runUiJourneys({page,context,expect,inputs,onBeforeStep,onA
+                     await dialog.locator('input[type=file]').setInputFiles({name:inputs.upload.name,mimeType:'text/plain',buffer:inputs.upload.bytes});
+                     await dialog.locator('#createAttachmentCategory').click(); await page.getByRole('option',{name:inputs.upload.categoryLabel,exact:true}).click();
+                     const complete=observeUiPending(page.waitForResponse(response=>new URL(response.url()).pathname.endsWith(':complete')&&new URL(response.url()).pathname.startsWith('/api/attachment-upload-sessions/')&&response.request().method()==='POST'));
+-                    await button(dialog,'上传').click(); const response=await complete; assert.equal(response.status(),200); uploaded=await response.json(); assert(uuid.test(uploaded.id));
++                    await dialog.getByRole('button',{name:'上传',exact:true}).click(); const response=await complete; assert.equal(response.status(),200); uploaded=await response.json(); assert(uuid.test(uploaded.id));
+                     await expect(dialog).not.toBeVisible(); return {actualUpload200:true,attachmentId:uploaded.id};
+                 },{projectId:inputs.project.id,originalName:inputs.upload.name,bytes:inputs.upload.bytes.length,sha256:sha(inputs.upload.bytes)});
+                 // Root afterStep has now drained SDK/PG and independently
+
+diff --git a/tools/rust-r2m/ui4-readonly-before-ui-runtime-sources.mjs b/tools/rust-r2m/ui-runtime-sources.mjs
+index ecacd6ae..c422a319 100644
+--- a/tools/rust-r2m/ui4-readonly-before-ui-runtime-sources.mjs
++++ b/tools/rust-r2m/ui-runtime-sources.mjs
+@@ -19,14 +19,24 @@ const READ_MODELS=Object.freeze([
+     '/api/projects/{projectId}/workspace-guidance','/api/projects/{projectId}/contract-handover','/api/projects/{projectId}/project-handover',
+     '/api/contracts/{id}/approval-record','/api/business-discussions'
+ ]);
++export const ui4ProjectReadModels=Object.freeze(['/api/sales-follow-up-records','/api/opportunity-stakeholders','/api/competitor-intelligence-records','/api/sales-discovery-records','/api/sales-intelligence-gaps']);
++export const ui4ProjectReadSources=Object.freeze([{file:'apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts',rawBytesSha256:'0c510166a1f8002a8d72581948841e85964a62cc832d83f761a176b18496755f'},{file:'apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.service.ts',rawBytesSha256:'f62d1f512bcafac142ba8fafc8e8df4019b8309f87895aa6b9922dabad29ca96'},{file:'apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.repository.ts',rawBytesSha256:'bbf595691256c1363be3120a7bfbf31ffce536c4e126d07b0558a6dc56ccf664'},{file:'apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts',rawBytesSha256:'15200de0708477e334907c592b327ccbcdff9a980f9628942510de2030b643dd'},{file:'apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.ts',rawBytesSha256:'ed6daeec4a727dbb8d81f4c59e4ba078e654c309fc483854112cd050e5c6ad01'},{file:'apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.repository.ts',rawBytesSha256:'b2252506ff96b5202eda2acc84f22d31bd162001c4914b43a92b1d71b0a5de6e'},{file:'apps/poms-admin/src/app/shared/ui/sales-follow-up-panel.ts',rawBytesSha256:'8243a46298ff1e6b53a210fad766bb57eabd28061374e8ea02d9ae4277678784'},{file:'apps/poms-admin/src/app/shared/ui/sales-intelligence-panel.ts',rawBytesSha256:'17cb7484be40693a879fee6eaf2672aea060c1c4889f734d0b0d79231a204502'},{file:'libs/admin/data-access/src/lib/sales-follow-up/sales-follow-up.store.ts',rawBytesSha256:'97a1426c50e38967db4278adbba1243620d2c20a02f57241dac7c2b6c0680487'},{file:'libs/admin/data-access/src/lib/sales-intelligence/sales-intelligence.store.ts',rawBytesSha256:'ac2a8b1dfb59db9e04a033a2428aeb2cdfbfaddfdf79f94b9f336cf679fc1fd9'},{file:'libs/shared/contracts/src/lib/shared-contracts.ts',rawBytesSha256:'fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097'}].map(Object.freeze));
+ export function uiNativeReadModels({sourceReader,input,selection}){
+     const spec=sourceReader.json('libs/shared/api-spec/openapi.json');
+     const existing=new Set([...input.sourceProtection.currentSurface,...nativeProducerRoutes].map(row=>row.method+' '+row.path));
+     // Every original login enters Workbench, whose ngOnInit loads Projects.
+     // This is the original permission-guarded Native GET, never a fake200.
+-    const required=['/api/projects',...(selection.some(id=>id==='UI3'||id==='UI4')?READ_MODELS:[])];
++    if(selection.includes('UI4'))for(const pin of ui4ProjectReadSources)assert.equal(sha(sourceReader.read(pin.file)),pin.rawBytesSha256,'Exact original UI4 project read-only source changed');
++    const required=['/api/projects',...(selection.some(id=>id==='UI3'||id==='UI4')?READ_MODELS:[]),...(selection.includes('UI4')?ui4ProjectReadModels:[])];
+     return required.filter(route=>{assert(spec.paths[route]?.get,'Named original UI read-model must exist in pinned current spec');return!existing.has('GET '+route)}).map(route=>({method:'GET',path:route}));
+ }
++export function assertUi4ProjectRead({descriptor,prepared,request,isOwned}){
++    const pathname=request.path.split('?',1)[0];if(!ui4ProjectReadModels.includes(pathname))return false;
++    assert(request.method==='GET'&&descriptor.journey==='UI4','Only the five original UI4 Native GETs');const project=prepared.handover?.project;assert(project&&/^[0-9a-f-]{36}$/.test(project.id)&&isOwned('project',project.id),'Exact independently certified current UI4 project required');
++    assert(!/[#\r\n\0\\]/.test(request.path));const url=new URL(request.path,'http://127.0.0.1:10080');assert.equal(url.origin,'http://127.0.0.1:10080');assert.equal(url.pathname,pathname);assert.equal(url.searchParams.toString(),url.search.slice(1),'Only canonical original query bytes');
++    const followup=pathname==='/api/sales-follow-up-records',keys=[...url.searchParams.keys()];assert.deepEqual(keys.slice().sort(),followup?['lifecycleScope','projectId']:['projectId']);assert.equal(url.searchParams.getAll('projectId').length,1);assert.equal(url.searchParams.get('projectId'),project.id);if(followup){assert.equal(url.searchParams.getAll('lifecycleScope').length,1);assert.equal(url.searchParams.get('lifecycleScope'),'active','Original panel starts with includeHistory false')}
++    return true;
++}
+ 
+ export function uiStepScope({descriptor,prepared,actors}){
+     const{id,journey}=descriptor;assert(['UI1','UI2','UI3','UI4'].includes(journey));
+@@ -55,6 +65,7 @@ export function uiStepScope({descriptor,prepared,actors}){
+ export function uiExchangeIntents({descriptor,prepared,actors,request,accounts,isOwned}){
+     const pathname=request.path.split('?',1)[0],method=request.method,intents=[];
+     const source=uiStepScope({descriptor,prepared,actors});
++    assertUi4ProjectRead({descriptor,prepared,request,isOwned});
+     const addTable=table=>{const rows=source.intents.filter(row=>row.table===table);assert.equal(rows.length,1,'Actual UI request requires its one declared step producer selector');intents.push(rows[0])};
+     if(method==='POST'&&pathname==='/api/auth/sessions'){
+         const body=JSON.parse(Buffer.from(request.bodyBase64,'base64').toString('utf8')),principal=accounts.find(row=>row.username===body.username);
+
+diff --git a/tools/rust-r2m/ui4-readonly-before-fixture-ui-package-intent.mjs b/tools/rust-r2m/fixture-ui-package-intent.mjs
+index 1ec220fb..43952cd2 100644
+--- a/tools/rust-r2m/ui4-readonly-before-fixture-ui-package-intent.mjs
++++ b/tools/rust-r2m/fixture-ui-package-intent.mjs
+@@ -12,7 +12,7 @@ const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof v
+ const digest=value=>sha(JSON.stringify(canonical(value)));
+ const uuid=value=>{assert(typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(value));return value};
+ const SOURCE='tools/rust-r2m/fixture-ui-package-intent.mjs';
+-export const uiPackageIntentSources=Object.freeze([{"file":"tools/rust-r2m/ui-runtime-sources.mjs","rawBytesSha256":"20245325ba605e8fd1399a8264a3ebae7cebc870fd27954531e3cdbb7bee6197"},{"file":"tools/rust-r2m/acceptance-ui-browser.mjs","rawBytesSha256":"82a7d6e2a02bfc2afb95e51ec4fcd40c957892ed2c45b2afd005b36a6efc5dee"},{"file":"libs/admin/data-access/src/lib/project/project-workspace.store.ts","rawBytesSha256":"64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443"},{"file":"apps/poms-admin/src/app/features/project/project-contract-handover.ts","rawBytesSha256":"a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261"},{"file":"apps/poms-api/src/app/features/attachment/attachment.service.ts","rawBytesSha256":"b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"},{"file":"apps/poms-api/src/app/features/attachment/attachment.repository.ts","rawBytesSha256":"9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"}].map(Object.freeze));
++export const uiPackageIntentSources=Object.freeze([{"file":"tools/rust-r2m/ui-runtime-sources.mjs","rawBytesSha256":"dc7fe777e0ac839cc56859bff23c793a5ea8c81446c40c7ff524c7aaf970ddf2"},{"file":"tools/rust-r2m/acceptance-ui-browser.mjs","rawBytesSha256":"9a9fb2ae1565777ad62e8d7e2a1a5af00171e99a145c0d915c8d6cc3da4f2016"},{"file":"libs/admin/data-access/src/lib/project/project-workspace.store.ts","rawBytesSha256":"64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443"},{"file":"apps/poms-admin/src/app/features/project/project-contract-handover.ts","rawBytesSha256":"a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261"},{"file":"apps/poms-api/src/app/features/attachment/attachment.service.ts","rawBytesSha256":"b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"},{"file":"apps/poms-api/src/app/features/attachment/attachment.repository.ts","rawBytesSha256":"9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"}].map(Object.freeze));
+ const verifiedSource=new Set();
+ function verifySources(sourceCapId){
+  assert(typeof sourceCapId==='string'&&/^r2m-[a-z0-9-]{1,64}$/.test(sourceCapId));

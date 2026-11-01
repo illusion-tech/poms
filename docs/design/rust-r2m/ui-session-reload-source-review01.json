@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-UI1-expired-session-natural-reload-protocol-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T23:20:00Z",
+  "reviewer": { "role": "C-independent-non-author", "agent": "/root/r2m_review", "requestedModel": "gpt-6.1-sol", "requestedReasoningEffort": "max", "fastModeVerified": false },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": { "file": "tools/rust-r2m/ui-session-reload-source02.json", "bytes": 3696, "rawBytesSha256": "b49cb7b8f2f2542faa5c886b6a9e55c6d7e67f301a0b263fa99b4042f1eebeba", "readLevel": "Complete small manifest and all eight exact source member hashes" },
+  "priorReview": "docs/design/rust-r2m/ui-login-lifecycle-source-review01.json",
+  "reviewedSources": [
+    { "file": "tools/rust-r2m/acceptance-ui-browser.mjs", "bytes": 24390, "rawBytesSha256": "66f4278b3b492344502a71be58fe1db3eb8f02e57edef8fc5ad8e55209268361", "readLevel": "Exact preserved actual 991db556 body hash verified; complete sole behavioral changed line and original login/logout/expired-cookie step context read. Other delta is a removed blank line." }
+  ],
+  "preservedActualSource": { "file": "tools/rust-r2m/ui-session-reload-before-source01.json", "bytes": 31562, "rawBytesSha256": "30df1b77ba23db57bcfb2a04f3737dc5ed621dc0ea514f1be666a057e2f93246", "decodedHelperRawBytesSha256": "991db556dff5c1aaab6e337976c1456d963c8cb515b474040c50590b777f933f" },
+  "assessment": {
+    "protocol": "Only the existing UI1 final relogin-and-topbar-logout step changes. It now first performs a real page reload on the expired-session login page, waits for the original AppInitializer GET /api/auth/session401, requires actual response headersArray to contain each empty poms_session/poms_csrf Set-Cookie with Max-Age=0 and Path=/api, verifies both cookies are actually absent, and waits for the original bridge plus full unauthenticated/empty navigation/Todo/permissions/no-CSRF snapshot. It then performs exactly one original form login200 and actual Topbar logout200. The preceding expired401 assertion remains.",
+    "sourceBasis": "All seven protected product source hashes in the input matched. Necessary original AuthStore login first awaits ensureCsrfToken; initialize performs GET current session and accepts an unauthenticated state on error. Original AppInitializer invokes initialize. Both original Native current-session/CSRF controller catch paths clear auth cookies on authentication errors; Rust current_session and csrf_token use clear_or_error, with the original cookie builder emitting Max-Age=0. The protected route guards have different responsibility and do not execute these controller cleanup paths. These source paths do not establish a Rust-only product discrepancy.",
+    "boundary": "This is an explicit finite browser journey protocol correction using actual application navigation and actual backend cookie responses. It does not add clearCookies, CSRF retry, fake HTTP/cookies/DOM, product changes or a scope/ownership bypass. All original real login, navigation, Todo, snapshot and logout assertions remain. Root must run the same corrected final protocol on each applicable combination and preserve the earlier sequence as failed/partial evidence.",
+    "causalLimit": "C did not read private runtime evidence or independently establish the cause of any prior browser closure. Root-reported graceful final browser exit and prior first-CSRF401 are not converted into C actual certification. The older 991 actual capsule and any still-running Native control retain their original bytes; this helper belongs only to a new explicit source epoch. Neither this source review nor the 18 infrastructure pure tests prove an actual relogin/browser pass."
+  },
+  "verification": {
+    "currentHelperAndProtectedOriginalPins": "8/8 independently matched",
+    "preservedOriginalBodyHashIndependentlyMatched": true,
+    "pureLog": { "file": "tools/rust-r2m/ui-session-reload-source02-pure.txt", "bytes": 3978, "rawBytesSha256": "6b4abe5bede300f6754db5cfd5116605ab67666423ee4ad226dd9e9b159cb467", "observedTail": { "tests": 18, "passed": 18, "failed": 0, "skipped": 0 }, "executedByC": false }
+  },
+  "executionBoundary": "Root may capture the exact new helper in a new capsule and execute the already authorized corrected UI1 protocol. Existing owners, genuine SDK/PG evidence, full107 frames, all-owner close/observer restore/drain and exact double cleanup remain mandatory. C performed only source/public reads and this review write, with no private read, app/test/process execution, DB/HTTP, product/fixture edit or Git mutation.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

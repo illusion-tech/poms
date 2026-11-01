@@ -1,0 +1,181 @@
+{
+  "kind": "POMS-R2M-independent-UI12-comparison-source-review",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 04:13:48 UTC",
+  "result": "SourceReady",
+  "gate": false,
+  "productAuthorship": false,
+  "privateRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecutedByReviewer": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "scope": "Final comparison source05 only: same joint23 UI1/UI2 seven steps; original joint17 cached differences remain strict differences.",
+  "candidate": {
+    "file": "tools/rust-r2m/compare-ui-source05.json",
+    "bytes": 13995,
+    "rawBytesSha256": "53bc9ac1880b9a10355c1901fbe32053344ad303d0dbcce890befd657a72605f"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-ui.mjs",
+      "bytes": 10774,
+      "rawBytesSha256": "6044224c9df15018bd4c8aec7b90e53a639188d0832904beb51eddb6dfc632be"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-core.mjs",
+      "bytes": 60469,
+      "rawBytesSha256": "2094e49b022549669bb7aedd622e2c0595f113a8cff2add0f836ec15919edcfb"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-profile.mjs",
+      "bytes": 2789,
+      "rawBytesSha256": "d8897b944099dcead5114a9e3e26a3f36b4767958729e328c4abbbf1349efa9c"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-setting.mjs",
+      "bytes": 6127,
+      "rawBytesSha256": "47349feac3423f089d621a70e8204a68769e3227e4157073125b9cb8d565eaf4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui.test.mjs",
+      "bytes": 23704,
+      "rawBytesSha256": "a7d84d0632ebeb5b269597487c09b973641278f3270aadcc223d029b574cf2c2"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-contract.md",
+      "bytes": 6259,
+      "rawBytesSha256": "93586cb60fee1cbffb8832fc01e05d4fbf2a4d83ac506867bbf671aa5bd38770"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui1-joint17-cached.json",
+      "bytes": 2725,
+      "rawBytesSha256": "ea966bbe364c2942c4b2d50253173f8f4d75de315998f8b099894b9b53a24867"
+    },
+    {
+      "file": "tools/rust-r2m/compare-ui-case-ui12-joint23.json",
+      "bytes": 2801,
+      "rawBytesSha256": "acfb48de3e675676279f3dfcfc9b0d97aa4e81c3b140d40864e46918675c0468"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-facts.mjs",
+      "bytes": 3916,
+      "rawBytesSha256": "3cd40f2862b9c06b275a404ea4685aae17ab2c5a1ec66f9e94f344e075a0ae3a"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-dispatch.mjs",
+      "bytes": 4379,
+      "rawBytesSha256": "70c1698bf7adc9c0d61fe6d12b102d6972acd77aa0cc4d0c1e35e5a8931e4594"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "sourcePins": {
+    "matched": 15,
+    "total": 15,
+    "changedSinceExactPreserved04": [
+      "tools/rust-r2m/compare-ui-core.mjs",
+      "tools/rust-r2m/compare-ui.test.mjs"
+    ],
+    "other13ByteIdentical": true
+  },
+  "reuse": [
+    {
+      "file": "docs/design/rust-r2m/ui12-comparison-source-review01.json",
+      "rawBytesSha256": "45e585383bd972f04aae3b97119a543914797980f8635f1b714e1a2419d765aa",
+      "reason": "Complete original CLI/core/profile/setting and finite proof chain reviewed; source03 PID correction."
+    },
+    {
+      "file": "docs/design/rust-r2m/ui12-comparison-source-review02.json",
+      "bytes": 7053,
+      "rawBytesSha256": "ffb58b4f212d8d353fa0fe2b67ab42b0ffcdd8b7d1beeca2a6419e0aa08c2a50",
+      "reason": "Source04 exact decimal representation comparison and unchanged finite boundaries."
+    }
+  ],
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/compare-ui-core.mjs",
+        "tools/rust-r2m/compare-ui.test.mjs"
+      ],
+      "level": "Complete exact diff against preserved04, necessary current prepared parser/caller and added adversarial test source."
+    },
+    {
+      "files": [
+        "tmp/rust-r2m/compare-ui-author-source04/tools/rust-r2m/compare-ui-source04.json",
+        "tools/rust-r2m/compare-ui-source05.json"
+      ],
+      "level": "Complete manifests and all15 raw length/SHA pins; 13 unchanged sources reused."
+    }
+  ],
+  "findings": [
+    {
+      "id": "prepared-fixed-us",
+      "result": "Pass",
+      "detail": "Only fixed prepared timestamptz literals now use BigInt microseconds. Whole-second Date.parse is combined with all1-6 fractional digits; explicit offset and round-trip calendar validation prevent silent rollover. One-microsecond differences remain unequal across source Z and physical +08 forms."
+    },
+    {
+      "id": "bounded-delta",
+      "result": "Pass",
+      "detail": "Call replacement is confined to validatePreparedValues fixed timestamptz. Dynamic instant, DTO, status/entity, original full107, cookie, ordinary birth and cleanup rules are byte-identical to04. Exact lead numeric(18,2) and original text PID checks remain."
+    },
+    {
+      "id": "negative-proof",
+      "result": "Pass-source-inspection",
+      "detail": "Added original UTC/+08 exact6-digit equality plus1us difference,7fraction digits, invalid date and null mismatch rejections. Reviewer did not run tests."
+    }
+  ],
+  "authorChecks": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "lexicalModules": 2,
+    "noUndefErrors": 0,
+    "evidence": {
+      "file": "tmp/rust-r2m/compare-ui-source05-pure.json",
+      "bytes": 2674,
+      "rawBytesSha256": "5f74c25ae07c03afe4d635286e132ba29b1a76bbe341628318568fdf12fdb966"
+    },
+    "readLevel": "Public evidence raw hash checked; prior source inspection and current diff, not reviewer test execution."
+  },
+  "executionBoundary": {
+    "owner": "Root",
+    "useFinalManifestOnly": true,
+    "waitForActiveRuntimeSourceEpochSettlement": true,
+    "UIRerunRequired": false,
+    "reason": "Read-only reanalysis of existing exact joint23 UI12 evidence.",
+    "actualComparisonCertified": false,
+    "priorFailedRequiredProofPreserved": "joint23-ui12-01 source03",
+    "oldCachedElevenStatusDifferencesNotNormalized": true,
+    "cacheEquivalenceCertified": false,
+    "UI3UI4WindowsComparisonReady": false
+  },
+  "blockers": []
+}

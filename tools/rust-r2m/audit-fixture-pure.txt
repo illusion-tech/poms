@@ -1,0 +1,33 @@
+✔ R2M stage admits59 named UUID tables;48 remain scan-only (2.417ms)
+✔ mutable state, version, current and assignee are never identity (0.9455ms)
+✔ Native SDK trace is accepted without fabricated PG xid/xmin/ACK fields (0.9445ms)
+✔ query result/DTO id, incomplete trace, wrong case and an existing id do not establish creation (5.2929ms)
+✔ PG proof preserves real distinct top/sub xids and rejects uncommitted/ambiguous epochs (1.476ms)
+✔ bootstrap can create a fresh project; contract rejects planned-only projects (3.5754ms)
+✔ fixed principals and borrowed rows never become ownership/deletion ids (0.7795ms)
+✔ case-scoped borrowed principal references require the readonly snapshot and are never ownership (0.4269ms)
+✔ logical UUID scanning finds uppercase, compact and nested text/JSON forms (0.3514ms)
+✔ unknown FK shape and foreign logical references are rejected, never adopted (0.8562ms)
+✔ DELETE identity predicates bind exact PK and immutable values without mutable conditions (0.6209ms)
+✔ actual FK graph deletes referencing owned rows before parents, without cascade (0.7536ms)
+✔ resolveNoCreates requires exact independent before/after ids and never adopts rows (3.4225ms)
+✔ pending proof or unknown mutation outcome blocks cleanup before any fake SQL (1.1141ms)
+✔ case request identities remain within the original request-id column width (0.2925ms)
+✔ R2M exact namespace and marker cannot read old L database evidence (0.1622ms)
+✔ case-insensitive ambient database/process overrides reject before environment IO (0.9132ms)
+✔ legacy profile choice rejects before source collection and certificate use (1.239ms)
+✔ cleanup requires a matching drained writer receipt before any synthetic SQL (3.1373ms)
+✔ pre-existing canonical string-PK setting refuses any new ownership (1.0739ms)
+✔ new canonical setting requires actual same-key INSERT/outer-COMMIT authority (2.3898ms)
+✔ public errors retain only fixed categories and SQLSTATE, never secret values (0.4121ms)
+✔ baseline restore compares every original and expected-after field, never only key/value (0.9092ms)
+✔ baseline singleton is refused before cleanup SQL until exact restore is certified (0.6253ms)
+✔ a queried singleton row or wrong environment is not a precise admission (0.9388ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 197.8489

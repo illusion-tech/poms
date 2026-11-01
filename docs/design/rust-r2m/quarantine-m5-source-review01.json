@@ -1,0 +1,131 @@
+{
+  "kind": "POMS-R2M-independent-fixed-old-M5-database-quarantine-source-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "role": "independent non-author C",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedAtUtc": "2026-10-31 07:06:42 UTC",
+  "gate": false,
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/quarantine-m5-old-rust.mjs",
+      "bytes": 9904,
+      "rawBytesSha256": "a9d33f17007f07e241bbfe3bb34c7d13b493b65dafc520c234e0e996e1a1718f"
+    },
+    {
+      "file": "tools/rust-r2m/quarantine-m5-old-rust.test.mjs",
+      "bytes": 1159,
+      "rawBytesSha256": "b9472fe78cbbfaa76ff9dcdfafd6fab139b71ff1cba72f5dce518ab4bed9d53e"
+    }
+  ],
+  "scope": {
+    "oldRunId": "561e7b81-4baa-4502-9b80-f5ce2028457a",
+    "database": "poms_r2m_rust",
+    "oid": "17085",
+    "owner": "poms_r0e_owner",
+    "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+    "clusterHost": "127.0.0.1",
+    "hostPort": 20432,
+    "serverPort": 15432,
+    "serverVersionNum": "150012",
+    "full107Sha256": "173437bc7a1015e66ac626f2278b0a086f6b417ecadabe5e77f61dda69362459",
+    "soleMaintenanceChange": "ALTER DATABASE \"poms_r2m_rust\" ALLOW_CONNECTIONS false",
+    "businessDML": false,
+    "rowAdoption": false,
+    "rowDeletion": false,
+    "renameDropOrSessionTermination": false
+  },
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m/m5-retained-graph-inspection01.json",
+      "rawBytesSha256": "c1a753579e2fd544c5f707322c9a269609ba7ebd79c0452d6957fbdd13de8b55",
+      "readLevel": "Complete public database/marker/graph hash/connection metadata. Private sealed graph only referenced, not opened."
+    },
+    {
+      "file": "docs/design/rust-r2m/continuation01-g1-extension.md",
+      "rawBytesSha256": "54902cd4aed08afcdf2269028d98943eeec4177474ef4a2b7636c4245a441fa0",
+      "readLevel": "Complete final same-scope additive extension read; requires online freeze before Root execution."
+    }
+  ],
+  "findings": [
+    {
+      "id": "exact-old-graph",
+      "result": "Pass",
+      "detail": "Fixed original inspection must retain uncertified audit and unchanged failed graph. Old database is verified with original owner guard, readonly transaction, marker and full107/catalog; full database tuple including encoding/locale/ACL/connection settings must equal pinned original inspection, not only name/OID. All other connections/prepared0."
+    },
+    {
+      "id": "connection-order-and-sole-action",
+      "result": "Pass",
+      "detail": "Readonly source snapshot is privately retained, transaction rolled back and old connection fully closed before fixed postgres maintenance connection. Maintenance checks cluster identity, exact original database tuple and0connections/prepared again, then only literal ALLOW_CONNECTIONS false. Afterward name/OID/owner/ACL/all other database fields must remain identical, old connections/prepared remain0. No business connection is reopened to claim row cleanup."
+    },
+    {
+      "id": "original-isolation-SSOT",
+      "result": "Pass-after-corrected-key",
+      "detail": "Final code reads only original guard SSOT poms.r0e_isolated in both source and postgres maintenance sessions and requires on. It does not accept NULL/on alternatives or SET a GUC. Prior4cc914/3d0 sources used wrong poms.r2m.isolated name and were never executed; Root readonly actual metadata showed that nameNULL, original r0e on. Exactly two key replacements return final bytes to retained3d0 source; no other final03 logic changed."
+    },
+    {
+      "id": "safe-original-retention",
+      "result": "Pass",
+      "detail": "Public source input uses complete parent lstat/no symlink and nofollow same-fd/leaf inode checks. New private outputs use owner-only parent checks, wx/nofollow0600, opened regular/single-link/mode and fsync/leaf inode validation. Full graph/errors stay private; public only fixed status/category/hash references."
+    },
+    {
+      "id": "failure-and-close",
+      "result": "Pass",
+      "detail": "Original error is retained privately; retention failure preserves only error hashes/name/code metadata, not raw message/stack. Close failures are independent private records and force incomplete. Unknown or failed catalogue acknowledgement is not automatically undone/retried or labelled success."
+    },
+    {
+      "id": "extension-scope",
+      "result": "Pass-source-boundary",
+      "detail": "Extension retains old failed graph under Root to namedR6/R7 disposition and authorizes different-name fresh pair without relaxing original gates. Exactly same-cluster owner-password may be fixed/nofollow-read and wx0600-copied once by the later reviewed provision path; this script does not copy it. All lowrole/JWT/identity/provider keys remain new; old env/business private/session/objects are not copied. Concrete provision/variant source review remains pending."
+    }
+  ],
+  "readLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/quarantine-m5-old-rust.mjs",
+        "tools/rust-r2m/quarantine-m5-old-rust.test.mjs"
+      ],
+      "level": "Complete initial main/test source, all necessary retention/tuple/error diffs and final exact two-key delta. Current raw hashes independently verified; no reviewer test/DB execution."
+    },
+    {
+      "files": [
+        "tools/rust-r2m/fixture-guard.mjs"
+      ],
+      "level": "Necessary original verifyConnection isolation key/owner/marker checks, mature remaining guard reused."
+    },
+    {
+      "files": [
+        "tmp/rust-r2m/continuation01-template-admission01.json"
+      ],
+      "level": "Public Root readonly maintenance r0e on/r2mNULL and clean Native template admission fields read, not a live C query or provision approval."
+    }
+  ],
+  "authorChecks": {
+    "RootReportedSyntaxAndPurePassed": true,
+    "testSource": "One predicate test with8 malformed identity/graph/live-work branches, no actual PG/service.",
+    "reviewerExecuted": false
+  },
+  "executionBoundary": {
+    "owner": "Root",
+    "command": "node tools/rust-r2m/quarantine-m5-old-rust.mjs --run",
+    "mustUseExactFinalA9dSource": true,
+    "onlineExtensionFreezeFirst": true,
+    "originalOwnersMustAlreadyBeActuallyStopped": true,
+    "liveTargetAndFullGraphAndConnectionRechecksMandatory": true,
+    "actualQuarantineCertified": false,
+    "newResourceProvisionSourceReady": false,
+    "oldAuditStillUncertified": true,
+    "oldPartialNotPass": true
+  },
+  "privateRead": false,
+  "environmentRead": false,
+  "databaseHttpBrowserExecuted": false,
+  "testsExecutedByReviewer": false,
+  "productOrFixtureEdited": false,
+  "gitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "blockers": []
+}

@@ -1,0 +1,121 @@
+--- before-uncached/tools/rust-r2m/ui-runtime-full.mjs
++++ new-uncached/tools/rust-r2m/ui-runtime-full.mjs
+@@ -10,6 +10,7 @@
+ import {verifyUiBuild,startManagedUiServer} from './ui-runtime-server.mjs';
+ import {runUiJourneys} from './acceptance-ui-browser.mjs';
+ import {browserChildEnvironment,verifyBrowserPin,browserLaunchArguments} from './ui-runtime-browser.mjs';
++import {installUncachedUiInput} from './ui-runtime-cache.mjs';
+ import {createUiSourcePreparer,uiStepScope,uiNativeReadModels,uiExchangeIntents} from './ui-runtime-sources.mjs';
+ import {settingLeaseScope,settingKey} from './scenario-input.mjs';
+ 
+@@ -17,7 +18,7 @@
+ const PRIVATE='/home/wangzishi/.local/share/poms-r2m/private';
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+-const REQUIRED=['tools/rust-r2m/ui-runtime-full.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-browser.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
++const REQUIRED=['tools/rust-r2m/ui-runtime-full.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-browser.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
+ 
+ export function uiRuntimePlan({backend,tag,selection,runId}){
+     assert(['nest','rust'].includes(backend)&&/^[a-z0-9-]{1,24}$/.test(tag??''));
+@@ -148,6 +149,7 @@
+         browser=await playwright.chromium.launch({executablePath:options.browser.executable,headless:true,env:browserChildEnvironment(process.env,options.browser),args:browserLaunchArguments()});
+         context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});page=await context.newPage();
+         report.browser={engine:'chromium',playwrightVersion:version,platform:process.platform,pin:browserPin,launchArguments:browserLaunchArguments(),environmentKeys:Object.keys(browserChildEnvironment(process.env,options.browser)).sort(),NativeDatabaseOrJwtEnvironmentInherited:false,ownedCommandGroup:processOwner.anchor.pid};
++        report.browser.cacheInput=await installUncachedUiInput({context,page,sourceCapId:sourceCap.id,retain:remember});
+         const inputs={origin:server.origin,sourceCapId:sourceCap.id,credentials:{admin:fixtureCredentials(runId,'admin'),viewer:fixtureCredentials(runId,'viewer'),...(prepared.contract?{approver:prepared.contract.approver}:{})},...(prepared.todo?{authRole:prepared.todo.authRole,minimumTodoCount:prepared.todo.minimumTodoCount}:{}),...(options.settingAdmission?{settingValue:51}:{}),...(prepared.contract?{contract:{id:prepared.contract.contract.id,contractNo:prepared.contract.contract.contract_no}}:{}),...(prepared.handover?{project:prepared.handover.project,handover:prepared.handover.handover,upload:prepared.handover.upload}:{})};
+         report.observation=await runUiJourneys({page,context,expect:playwright.expect,inputs,selection:checked.plan.selection,signal:controller.signal,
+             async onBeforeStep(descriptor){
+--- before-uncached/tools/rust-r2m/ui-runtime.mjs
++++ new-uncached/tools/rust-r2m/ui-runtime.mjs
+@@ -10,12 +10,13 @@
+ import {verifyUiBuild,startManagedUiServer} from './ui-runtime-server.mjs';
+ import {runUiJourneys} from './acceptance-ui-browser.mjs';
+ import {browserChildEnvironment,verifyBrowserPin,browserLaunchArguments} from './ui-runtime-browser.mjs';
++import {installUncachedUiInput} from './ui-runtime-cache.mjs';
+ 
+ const ROOT=path.resolve(import.meta.dirname,'../..'),LINUX_ROOT='/home/wangzishi/projects/poms-rust-r2m';
+ const PRIVATE='/home/wangzishi/.local/share/poms-r2m/private';
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+-const REQUIRED=['tools/rust-r2m/ui-runtime.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-browser.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
++const REQUIRED=['tools/rust-r2m/ui-runtime.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-browser.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
+ 
+ export function uiRuntimePlan({backend,tag,selection=['UI1'],runId}){
+     assert(['nest','rust'].includes(backend)&&/^[a-z0-9-]{1,24}$/.test(tag??''));
+@@ -123,6 +124,7 @@
+         browser=await playwright.chromium.launch({executablePath:options.browser.executable,headless:true,env:browserChildEnvironment(process.env,options.browser),args:browserLaunchArguments()});
+         context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});page=await context.newPage();
+         report.browser={engine:'chromium',playwrightVersion:version,platform:process.platform,pin:browserPin,launchArguments:browserLaunchArguments(),environmentKeys:Object.keys(browserChildEnvironment(process.env,options.browser)).sort(),NativeDatabaseOrJwtEnvironmentInherited:false,ownedCommandGroup:processOwner.anchor.pid};
++        report.browser.cacheInput=await installUncachedUiInput({context,page,sourceCapId:sourceCap.id,retain:remember});
+         const inputs={origin:server.origin,sourceCapId:sourceCap.id,credentials:{admin:fixtureCredentials(runId,'admin'),viewer:fixtureCredentials(runId,'viewer')},authRole:todo.authRole,minimumTodoCount:todo.minimumTodoCount};
+         report.observation=await runUiJourneys({page,context,expect:playwright.expect,inputs,selection:checked.plan.selection,signal:controller.signal,
+             async onBeforeStep(descriptor){
+--- before-uncached/tools/rust-r2m/ui-runtime-server.mjs
++++ new-uncached/tools/rust-r2m/ui-runtime-server.mjs
+@@ -7,6 +7,7 @@
+ import {createHash} from 'node:crypto';
+ import {createDispatch} from './acceptance-dispatch.mjs';
+ import {nativeProducerRoutes} from './scenario-input.mjs';
++import {originalBrowserCacheConditions} from './ui-runtime-cache.mjs';
+ 
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.json':'application/json','.png':'image/png','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2','.ttf':'font/ttf'};
+@@ -53,6 +54,7 @@
+                 const selected=dispatch.resolve({method,path:rawPath,backend,purpose});Object.assign(row,{executionBackend:selected.executionBackend,routeTemplate:selected.routeTemplate});
+                 const chunks=[];let size=0;for await(const chunk of request){size+=chunk.length;assert(size<=MAX_BYTES);chunks.push(chunk)}const body=Buffer.concat(chunks);
+                 requestRecord={method,path:rawPath,headers:request.headers,rawHeaders:request.rawHeaders,bodyBase64:body.toString('base64'),bodyBytes:body.length,bodySha256:sha(body)};
++                row.originalBrowserCacheConditions=originalBrowserCacheConditions(requestRecord);
+                 const context=await onBeforeExchange({...row,request:requestRecord});
+                 for(const key of['requestId','correlationId','userAgent'])assert(typeof context?.[key]==='string'&&!/[\r\n]/.test(context[key]));
+                 row.fixtureContext={caseId:context.caseId,index:context.index,requestId:context.requestId,correlationId:context.correlationId};
+--- before-uncached/tools/rust-r2m/windows-ui-driver.mjs
++++ new-uncached/tools/rust-r2m/windows-ui-driver.mjs
+@@ -11,6 +11,7 @@
+ import {startManagedUiServer} from './ui-runtime-server.mjs';
+ import {SourceReader} from './acceptance-source.mjs';
+ import {browserLaunchArguments} from './ui-runtime-browser.mjs';
++import {installUncachedUiInput} from './ui-runtime-cache.mjs';
+ 
+ export const BRIDGE_PREFIX = 'POMS_M_UI_BRIDGE_V2 ';
+ const NODE = 'C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe';
+@@ -33,17 +34,18 @@
+ async function runWindowsJourneys(options,bridge,signal){
+     assert.equal(options.inputs?.origin,'http://127.0.0.1:10080');assert.equal(typeof options.inputs.sourceCapId,'string');
+     const arrangement=validateRuntimeArrangement(options.runtimeArrangement,options.inputs.sourceCapId);
+-    assert(Array.isArray(options.sourcePins));for(const file of['tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/windows-ui-driver.mjs','tools/rust-r2m/windows-ui-process.ps1','tools/rust-r2m/bridge-windows-ui.mjs','tools/rust-r2m/ui-runtime-server.mjs'])assert(options.sourcePins.some(row=>row.file===file));
++    assert(Array.isArray(options.sourcePins));for(const file of['tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/windows-ui-driver.mjs','tools/rust-r2m/windows-ui-process.ps1','tools/rust-r2m/bridge-windows-ui.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-cache.mjs'])assert(options.sourcePins.some(row=>row.file===file));
+     const reader=new SourceReader({root:ROOT,pins:options.sourcePins,sourceEpoch:options.inputs.sourceCapId});for(const row of options.sourcePins)reader.read(row.file);const sources=reader.receipt(),pin=options.browserPin;assert(pin&&path.isAbsolute(pin.executable)&&/^[0-9a-f]{64}$/.test(pin.rawBytesSha256??''));
+     const cache=path.join(ROOT,'tmp','rust-r2m','windows-browser-cache')+path.sep,oldCache=path.join(ROOT,'tmp','rust-r2ef','windows-browser-cache')+path.sep;
+     const requested=path.resolve(pin.executable);assert(requested.startsWith(cache)||pin.readOnlyReusedExecutable===true&&requested.startsWith(oldCache));let current=path.parse(requested).root;for(const part of requested.slice(current.length).split(path.sep).filter(Boolean)){current=path.join(current,part);assert(!fs.lstatSync(current).isSymbolicLink())}assert(fs.lstatSync(requested).isFile());assert.equal(fs.realpathSync(requested).toLowerCase(),requested.toLowerCase());assert.equal(sha(fs.readFileSync(requested)),pin.rawBytesSha256);
+-    const require=createRequire(import.meta.url),playwright=require('@playwright/test');let browser,context,server,report,primaryFailure;const privateCloseFailures=[];
++    const require=createRequire(import.meta.url),playwright=require('@playwright/test');let browser,context,server,report,primaryFailure,cacheInput;const privateCloseFailures=[];
+     const inputs=structuredClone(options.inputs);if(inputs.upload){assert(typeof inputs.upload.bodyBase64==='string'&&/^[0-9a-f]{64}$/.test(inputs.upload.sha256));inputs.upload.bytes=Buffer.from(inputs.upload.bodyBase64,'base64');assert.equal(sha(inputs.upload.bytes),inputs.upload.sha256);delete inputs.upload.bodyBase64}
+     const cancel=()=>{if(context)void context.close().catch(error=>privateCloseFailures.push({stage:'abort-context-close',...windowsUiPrivateFailure(error)}))};signal.addEventListener('abort',cancel,{once:true});
+     try{
+         assert(options.server?.backend===arrangement.apiBackend);server=await startManagedUiServer({...options.server,sourceCapId:inputs.sourceCapId,
+             onBeforeExchange:info=>bridge.request('callback',{phase:'before-exchange',info}),onAfterExchange:info=>bridge.request('callback',{phase:'after-exchange',info}),retain:info=>bridge.request('callback',{phase:'private-evidence',info})});
+         browser=await playwright.chromium.launch({executablePath:requested,headless:true,env:windowsBrowserEnvironment(process.env),args:browserLaunchArguments()});context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true,locale:'zh-CN'});const page=await context.newPage();
++        cacheInput=await installUncachedUiInput({context,page,sourceCapId:inputs.sourceCapId,retain:info=>bridge.request('callback',{phase:'private-evidence',info})});
+         report=await runUiJourneys({page,context,expect:playwright.expect,inputs,signal,selection:options.selection,
+             onBeforeStep:async info=>{let actualBrowserSession;if(info.details?.fixtureOperation?.operation==='expire-owned-ui-session'){const cookie=(await context.cookies()).find(row=>row.name==='poms_session');assert(cookie?.value);actualBrowserSession={kind:'actual-owned-Windows-browser-current-session-cookie-hash',cookieName:'poms_session',tokenHash:sha(Buffer.from(cookie.value)),httpOnly:cookie.httpOnly,path:cookie.path,role:info.details.fixtureOperation.role}}return bridge.request('callback',{phase:'before',info:{...info,...(actualBrowserSession?{actualBrowserSession}:{})}})},onAfterStep:async info=>{await server.idle();return bridge.request('callback',{phase:'after',info:{...info,serverIdle:true}})},
+             async retainScreenshot({label,bytes,sourceCapId}){return bridge.request('callback',{phase:'screenshot',info:{label,sourceCapId,bytes:bytes.length,rawBytesSha256:sha(bytes),bodyBase64:bytes.toString('base64')}})},
+@@ -54,7 +56,7 @@
+         const closeout=[];for(const[name,item]of[['context',context],['browser',browser]])if(item)try{await item.close();closeout.push({name,result:'closed'})}catch(error){privateCloseFailures.push({stage:name,...windowsUiPrivateFailure(error)});closeout.push({name,result:'incomplete'})}
+         if(server)try{await server.close();closeout.push({name:'server',result:'closed'})}catch(error){privateCloseFailures.push({stage:'server',...windowsUiPrivateFailure(error)});closeout.push({name:'server',result:'incomplete'})}
+         signal.removeEventListener('abort',cancel);report??={result:'fail'};report.browserCloseout=closeout;report.browserClosed=!!browser&&!browser.isConnected();report.browserPlatform='win32';report.runtimeArrangement=arrangement;report.sourcePins=sources;report.browserExecutable={file:requested,rawBytesSha256:pin.rawBytesSha256};report.G3Certified=false;
+-        report.server=server?.report??null;report.browserLaunchArguments=browserLaunchArguments();try{reader.assertUnchanged()}catch(error){privateCloseFailures.push({stage:'source-unchanged',...windowsUiPrivateFailure(error)})}
++        report.server=server?.report??null;report.browserCacheInput=cacheInput??null;report.browserLaunchArguments=browserLaunchArguments();try{reader.assertUnchanged()}catch(error){privateCloseFailures.push({stage:'source-unchanged',...windowsUiPrivateFailure(error)})}
+         if(!report.browserClosed||closeout.some(row=>row.result!=='closed')||primaryFailure||privateCloseFailures.length)report.result='fail';
+     }
+     if(primaryFailure||privateCloseFailures.length){const error=primaryFailure??new Error('Windows UI owner close or source proof failed');error.report=report;error.privateCauses=privateCloseFailures;throw error}
+--- before-uncached/tools/rust-r2m/windows-ui-runtime.mjs
++++ new-uncached/tools/rust-r2m/windows-ui-runtime.mjs
+@@ -18,7 +18,7 @@
+ const PRIVATE='/home/wangzishi/.local/share/poms-r2m/private';
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+-const REQUIRED=['tools/rust-r2m/windows-ui-runtime.mjs','tools/rust-r2m/windows-ui-driver.mjs','tools/rust-r2m/windows-ui-process.ps1','tools/rust-r2m/bridge-windows-ui.mjs','tools/rust-r2m/windows-ui-http-session.mjs','tools/rust-r2m/windows-native-app.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
++const REQUIRED=['tools/rust-r2m/windows-ui-runtime.mjs','tools/rust-r2m/windows-ui-driver.mjs','tools/rust-r2m/windows-ui-process.ps1','tools/rust-r2m/bridge-windows-ui.mjs','tools/rust-r2m/windows-ui-http-session.mjs','tools/rust-r2m/windows-native-app.mjs','tools/rust-r2m/ui-runtime-sources.mjs','tools/rust-r2m/ui-runtime-server.mjs','tools/rust-r2m/ui-runtime-cache.mjs','tools/rust-r2m/acceptance-runtime.mjs','tools/rust-r2m/acceptance-ui-browser.mjs','tools/rust-r2m/acceptance-prepared.mjs','tools/rust-r2m/native-app.mjs','tools/rust-r2m/rust-app.mjs','tools/rust-r2m/fixture.mjs','tools/rust-r2m/pg-create-observer.mjs','tools/e2e/runtime.cjs','tools/e2e/runtime-worker.cjs'];
+ 
+ export function uiRuntimePlan({backend,tag,selection,runId}){
+     assert(['nest','rust'].includes(backend)&&/^[a-z0-9-]{1,24}$/.test(tag??''));

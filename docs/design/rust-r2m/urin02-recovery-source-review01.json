@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-urin02-unique-closed-run-recovery-source-review-not-a-Gate",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T20:42:29.316Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uri-anonymous.mjs",
+      "bytes": 8162,
+      "rawBytesSha256": "8b2e85f43c45751bb05819e2a0428566e26840ab31c9a087406b4334559e04e0",
+      "readLevel": "Complete source and exact known closed-run template delta; old fixture adoption/principal guard reused"
+    }
+  ],
+  "publicInputsRead": [
+    {
+      "file": "tmp/rust-r2m/acceptance-nest-urin02.json",
+      "readLocation": "Linux public tmp via UNC",
+      "bytes": 17993,
+      "rawBytesSha256": "d34c8512e3e08e771ff0fb53b66b01b8a17ddf9116a7ba712bf0da14daaf9c81",
+      "result": "partial-preserved",
+      "runId": "efc86f2a-bede-4b98-9b66-de24b61a9416",
+      "nativeWriter": "1817710:native-app",
+      "nativeStopped": true,
+      "observerFootprintRestored": true
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-epoch06.json",
+      "bytes": 1323843,
+      "rawBytesSha256": "73c87cf8cf52328e802a758de3497cc51301d36bfb02ab7ea614b2c5e3a7c52e",
+      "id": "r2m-epoch06",
+      "manifestSha256": "26773df44c169161e3dd614c805d25873c78014fe25719932a7337e68ab7f309",
+      "readLevel": "Hash and selected metadata only; not a repeated complete source-tree hash audit"
+    }
+  ],
+  "privateLedgerMetadataOnly": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/private/m-runs/nest-efc86f2a-bede-4b98-9b66-de24b61a9416.json",
+    "bytes": 270978,
+    "rawBytesSha256": "b906fa885d5ee0ac1278cbeaf1e556552c82724d29a8b5deef281af31321cc4f",
+    "contentsReadByC": false,
+    "source": "Public original report; recovery must verify exact raw hash before its sole authorized private read"
+  },
+  "exactCorrection": {
+    "backend": "nest",
+    "tag": "urin02",
+    "runId": "efc86f2a-bede-4b98-9b66-de24b61a9416",
+    "caseId": "m0.uri.get.retained-expired.valid-percent-owned-uuid",
+    "intentId": "757937af-ced8-4182-b95d-4f5b81b4f1d5",
+    "table": "security_event",
+    "id": "16e60709-238b-44c3-8b33-c350bc06a506",
+    "certificateRawJsonSha256": "e1bdd47e614629f9bb51437b3fc3083235c842def089acb6d1aa377f4d09c209",
+    "delta": {
+      "anonymous": {
+        "before": false,
+        "after": true
+      }
+    },
+    "classification": "tool-noise / explicit retrospective scope correction",
+    "noQueryIdentityAdoption": true
+  },
+  "findings": [
+    "Literal backend/tag/run, original partial public hash and epoch06 source capsule are verified before private ledger access. Ledger opens nofollow with regular-file, mode and inode checks and must match the public raw hash.",
+    "A wx/nofollow/fsynced original raw ledger snapshot is preserved before Fixture.open. This fixes the earlier m0n02 physical-preservation weakness; no late reconstruction is substituted here.",
+    "The only pending planned intent must be the named security event; its stored genuine SDK afterCreate/outer-commit certificate, case, null actor/principal, GET method and complete raw JSON hash are asserted. Both original owned actors must remain exact.",
+    "The original complete scope is appended as a scopeCorrections record; only this one persisted case changes anonymous false to true. Existing Fixture.adoptIntents revalidates original creation proof/before-absence/outer-commit and independent current row visibility. This is not a query-derived ownership grant or a claim the original scope was correct.",
+    "Old writer PID must be absent without killing/reassigning it; all five M ports must be free. Fresh validated Fixture connection checks active low-privilege work and prepared transactions, zero unknown creates/mutations and complete107 reference preflight. Only then drain and mature owned cleanup twice; no unknown predicate or broader table deletion.",
+    "Recovery result is explicitly recovered-exact-owned-double-zero-not-matrix-pass; failure preserves incomplete status and fixed public category."
+  ],
+  "linuxDependencyPinsChecked": [
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 38053,
+      "rawBytesSha256": "c1dfa679ca05be5731dad35569f83a8f1c223377ad933a803c1786b4cd1820ec"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 12668,
+      "rawBytesSha256": "32bdd9d54ad86c0717bc66bd8aa8cd700047d129f59b76226af5a0170a8ea7cc"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8263,
+      "rawBytesSha256": "b919925086ed2459bcf042060edf10b6b50f3f9e55e92e918fdd447c7adb00d3"
+    },
+    {
+      "file": "tools/rust-r2m/pg-create-observer.mjs",
+      "bytes": 72743,
+      "rawBytesSha256": "cfb82cebf18e1a04dd5d2205e87af26bb073e90f4453482c0d27a7c837ef7edd"
+    }
+  ],
+  "dependencyBoundary": "Linux current fixture/policy/references matched first-subset-approved-fixture01 e16 pins. Keep those exact old-run dependency bytes during this recovery; no Windows M4 profile upgrade on this old journal.",
+  "verification": {
+    "CExecutedRecovery": false,
+    "CExecutedDBOrHTTP": false,
+    "CReadPrivate": false,
+    "sourceSyntaxReportedByRoot": 0,
+    "noMatrixCertification": true
+  },
+  "blocks": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,80 @@
+{
+  "kind": "R2M-UI1-original-expired-session-AppInitializer-natural-reload-and-header-proof",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "prior": {
+    "file": "tools/rust-r2m/ui-session-reload-source01.json",
+    "bytes": 3121,
+    "rawBytesSha256": "e9a2bdae42f9b048ab5ed35adf1ad041951cf3ae876ccc6e5e0cbc3a17c6911d"
+  },
+  "beforeRootActualVersion": {
+    "file": "tools/rust-r2m/ui-session-reload-before-source01.json",
+    "bytes": 31562,
+    "rawBytesSha256": "30df1b77ba23db57bcfb2a04f3737dc5ed621dc0ea514f1be666a057e2f93246"
+  },
+  "beforeLocalCandidateOnly": {
+    "file": "tools/rust-r2m/ui-session-reload-before-source02.json",
+    "bytes": 32167,
+    "rawBytesSha256": "2e30e656f5c09a81d451f9cc358d1720a9f36f9d993395508afe95952b0e264b"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 24390,
+      "rawBytesSha256": "66f4278b3b492344502a71be58fe1db3eb8f02e57edef8fc5ad8e55209268361"
+    }
+  ],
+  "originalSources": [
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+      "bytes": 13984,
+      "rawBytesSha256": "503ef7836a9141bf11e50ef22a07d0a26e593466d6ee4edbb9e32c40fc8f46e9"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "bytes": 3613,
+      "rawBytesSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/http.rs",
+      "bytes": 39425,
+      "rawBytesSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/guards.rs",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/cookie.rs",
+      "bytes": 6742,
+      "rawBytesSha256": "2835ed93bec92dc0f244015bc9f2e59124a85ab248adab2d1bb39551bf2aa71b"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8543,
+      "rawBytesSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661"
+    },
+    {
+      "file": "apps/poms-admin/src/app.config.ts",
+      "bytes": 5633,
+      "rawBytesSha256": "069501ae891da6f7dc7dfddb36ff148c24d4fd05e374c5bbe03439053aea16b9"
+    }
+  ],
+  "sourceFinding": "Protected expired logout guard in both backends records/returns401 without controller clear. Both original GETsession and GETcsrf controllers clear both cookies on authentication error. AuthStore.login first awaits GETcsrf, so that first original401 prevents POSTlogin. No Rust-only product mismatch identified by these source paths.",
+  "scope": "Only UI1 final relogin-and-topbar-logout first performs a real page.reload. Original AppInitializer must issue actual GET/auth/session401. The actual response headersArray must contain each empty auth cookie with Max-Age=0/Path=/api; both real context cookies must be absent. Original bridge must be ready with full unauthenticated/empty navigation/todo/permissions/no in-memory CSRF snapshot. Then exactly one original real form login200 and real Topbar logout200. Existing expired401 assertion remains. No retry, clearCookies, fake response, product edit, or historical cause relabel.",
+  "pure": {
+    "passed": 18,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/ui-session-reload-source02-pure.txt",
+      "bytes": 3978,
+      "rawBytesSha256": "6b4abe5bede300f6754db5cfd5116605ab67666423ee4ad226dd9e9b159cb467"
+    },
+    "scope": "Existing controlled UI infrastructure tests; not an actual browser sequence.",
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

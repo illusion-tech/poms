@@ -1,0 +1,703 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-new-fixture-source-readiness-input",
+  "result": "SourceReady-finite-awaits-C-and-Root-actual",
+  "at": "2026-10-30T18:48:25.307Z",
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "namespace": "poms-r2m",
+  "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "newRunExecutionByA": {
+    "DB": 0,
+    "HTTP": 0,
+    "container": 0,
+    "browser": 0,
+    "privateReads": 0
+  },
+  "entry": "tools/rust-r2m/fixture.mjs#Fixture",
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture.mjs",
+      "bytes": 38053,
+      "rawBytesSha256": "c1dfa679ca05be5731dad35569f83a8f1c223377ad933a803c1786b4cd1820ec",
+      "original": {
+        "file": "tools/rust-r2l/l-fixture.mjs",
+        "bytes": 32082,
+        "rawBytesSha256": "caece1c3534833a5eba9259de7a4aebe0cc6995608425078c4659aadb2d93d3e",
+        "normalizedLfSha256": "caece1c3534833a5eba9259de7a4aebe0cc6995608425078c4659aadb2d93d3e"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/l-fixture.mjs b/tools/rust-r2m/fixture.mjs\nindex e448cc8d..ac95b061 100644\n--- a/tools/rust-r2l/l-fixture.mjs\n+++ b/tools/rust-r2m/fixture.mjs\n@@ -1,3 +1,7 @@\n+import { planSettingCreate, adoptSettingCreate, resolveNoSettingCreate } from './fixture-keyed.mjs';\n+import { planObjectPrefix, certifyLocalObject, preflightLocalObjects, cleanupLocalObjects } from './fixture-objects.mjs';\n+import { admitBaselineSetting, recordBaselineSettingAfter, restoreBaselineSetting, assertBaselineSettingRestored } from './fixture-setting-baseline.mjs';\n+import { stageGlobalTables } from './fixture-policy.mjs';\n // SOURCE-only until C reviews this module and Root explicitly invokes it.\n import assert from 'node:assert/strict';\n import { randomUUID, createHash } from 'node:crypto';\n@@ -13,15 +17,16 @@ import { plannedBase, baseRows, viewerPermissionPlan, readCanonicalDefinitions,\n import { validateCommissionPreparedPlan, verifyPreparedPhysicalDefaults } from './fixture-prepared.mjs';\n import { cleanup } from './fixture-cleanup.mjs';\n import { fixtureProfile } from './fixture-core.mjs';\n-import { creationEnvelope, salesAnchorOptions, bindSalesProjectCustomers, validateSalesAnchorScope, assertProfileCertificateEnvelope, assertTodo42SalesScope, assertTodo42CandidateSalesClosure, assertPreparedSalesOnly } from './l-todo-profile-candidate.mjs';\n+import { creationEnvelope, salesAnchorOptions, bindSalesProjectCustomers, validateSalesAnchorScope, assertProfileCertificateEnvelope, assertTodo42SalesScope, assertTodo42CandidateSalesClosure, assertPreparedSalesOnly } from './fixture-profile.mjs';\n const root = fileURLToPath(new URL('../../', import.meta.url));\n const copy = (value) => structuredClone(value);\n \n-export class LFixture {\n+export class Fixture {\n     static async open(backend, runId) {\n         const { databaseClient, privateRoot } = await import('./database-client.mjs');\n         const client = await databaseClient(backend);\n-        return new LFixture(client, backend, runId, { store: journalStore(backend, runId, privateRoot) });\n+        try { return new Fixture(client, backend, runId, { store: journalStore(backend, runId, privateRoot) }); }\n+        catch (error) { await client.end(); throw error; }\n     }\n     constructor(client, backend, runId, { store }) {\n         assert(client && typeof client.query === 'function' && store);\n@@ -38,7 +43,7 @@ export class LFixture {\n     get unsupportedTables() { return unsupportedTables; }\n     scope(caseId) { const scope = this.j.cases.find((entry) => entry.caseId === caseId); assert(scope, 'Unknown case'); return scope; }\n     defineCase(caseId, { actors = [], projects = [], borrowedActors = [], borrowedDefinitions = [], anonymous = false, ownedCustomerIds = [], ownedLeadIds = [] } = {}) {\n-        assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');\n+        assert(!this.j.writerDrain, 'No writes after writer drain'); assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');\n         const identity = caseIdentity(this.runId, caseId);\n         const has = (table, id) => this.j.objects.some((entry) => entry.table === table && entry.id === uuid(id));\n         assert(actors.every((id) => has('platform_user', id)), 'Case actor must already be owned');\n@@ -46,7 +51,7 @@ export class LFixture {\n         assert(borrowedActors.every((id) => SEED_ACTORS.includes(uuid(id))) && (!borrowedActors.length || this.j.borrowed.principalSnapshot));\n         assert(borrowedDefinitions.every((id) => this.j.borrowed.definitions.some((entry) => entry.id === uuid(id) && entry.readOnly && entry.fullRowSha256 === digest(entry.row))), 'Definition must already have a complete readonly before snapshot');\n         const scope = { ...identity, actors: actors.map(uuid), projects: projects.map(uuid), borrowedActors: borrowedActors.map(uuid), borrowedDefinitions: borrowedDefinitions.map(uuid), anonymous: !!anonymous };\n-        if (fixtureProfile.name === 'todo42') { Object.assign(scope, salesAnchorOptions({ ownedCustomerIds, ownedLeadIds })); scope.salesProjectCustomers = bindSalesProjectCustomers(this.j, scope); validateSalesAnchorScope(this.j, scope); }\n+        if (fixtureProfile.name === 'r2m-stage') { Object.assign(scope, salesAnchorOptions({ ownedCustomerIds, ownedLeadIds })); scope.salesProjectCustomers = bindSalesProjectCustomers(this.j, scope); validateSalesAnchorScope(this.j, scope); }\n         else assert(ownedCustomerIds.length === 0 && ownedLeadIds.length === 0, 'Sales anchor options require explicit todo42 profile');\n         for (const key of ['actors', 'projects', 'borrowedActors', 'borrowedDefinitions']) assert.equal(new Set(scope[key]).size, scope[key].length);\n         assert(scope.actors.length || scope.borrowedActors.length || scope.anonymous);\n@@ -105,9 +110,9 @@ export class LFixture {\n         assert.equal(receipt.runId, this.runId); assert.equal(receipt.backend, this.backend);\n         assert.equal(receipt.database, databaseFor(this.backend)); assert.equal(receipt.marker, marker);\n         assert.equal(receipt.id, uuid(receipt.id));\n-        assert(/^tools\\/rust-r2l\\/[a-z0-9-]+\\.(?:mjs|cjs)$/.test(receipt.source?.file));\n+        assert(/^tools\\/rust-r2m\\/[a-z0-9-]+\\.(?:mjs|cjs)$/.test(receipt.source?.file));\n         const file = path.resolve(root, receipt.source.file);\n-        assert(file.startsWith(path.resolve(root, 'tools/rust-r2l') + path.sep));\n+        assert(file.startsWith(path.resolve(root, 'tools/rust-r2m') + path.sep));\n         const actual = createHash('sha256').update(fs.readFileSync(file)).digest('hex');\n         assert.equal(actual, receipt.source.sha256, 'Creation witness source changed');\n         assert(!this.j.authorities.some((entry) => entry.id === receipt.id));\n@@ -124,18 +129,19 @@ export class LFixture {\n         assert.equal(receipt.observerId, uuid(receipt.observerId)); assert(/^[1-9][0-9]*$/.test(String(receipt.functionOid)));\n         assert(/^[0-9a-f]{64}$/.test(receipt.approvedDefinitionSha256));\n         const { rows } = await this.client.query(\"select n.nspname as schema,p.proname as name,pg_get_functiondef(p.oid) as definition from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid=$1::oid\", [receipt.functionOid]);\n-        assert.equal(rows.length, 1); assert.equal(rows[0].schema, 'r2l_control');\n+        assert.equal(rows.length, 1); assert.equal(rows[0].schema, 'r2m_control');\n         assert.equal(createHash('sha256').update(rows[0].definition).digest('hex'), receipt.approvedDefinitionSha256);\n         this.j.authorities.push({ ...copy(receipt), sourceAuthority: receipt.source.sha256 }); this.save(); return receipt.id;\n     }\n-    async intent(table, selector, { caseId }) {\n-        assert.equal(this.j.state, 'prepared'); const scope = this.scope(caseId); selector = normalize(table, selector);\n+    async intent(table, selector, { caseId, expectedMax = 64 }) {\n+        assert(!this.j.writerDrain, 'No writes after writer drain'); assert.equal(this.j.state, 'prepared'); const scope = this.scope(caseId); selector = normalize(table, selector);\n         assertPreparedSalesOnly(table, selector, fixtureProfile);\n         assert(Object.keys(selector).length && Object.keys(selector).every((key) => identities[table].includes(key)), 'Intent selector must contain only immutable fields');\n         if (['customer', 'project'].includes(table)) assert(scope.actors.includes(uuid(selector.created_by)));\n         else if (table === 'auth_session') assert([...scope.actors, ...scope.borrowedActors].includes(uuid(selector.user_id)));\n         else if (['audit_log', 'security_event'].includes(table)) assert.equal(selector.request_id, scope.requestId);\n         else if (table === 'commission_rule_version') assertCaseScope(this.j, table, selector, scope);\n+        else if (stageGlobalTables.includes(table)) assert(scope.actors.length > 0, 'Stage global creation requires an owned case actor');\n         else {\n             const projectIds = resolveOwnedProjectIds(this.j, table, { ...selector, id: randomUUID() });\n             assert(projectIds.length && projectIds.every((id) => scope.projects.includes(id)), 'Intent requires an explicit proven case project/parent');\n@@ -143,7 +149,8 @@ export class LFixture {\n         await this.preflight();\n         const condition = whereIdentity(table, selector), result = await this.client.query('select to_jsonb(t) as row from poms.' + ident(table) + ' t where ' + condition.sql, condition.args);\n         for (const { row } of result.rows) assert(this.j.objects.some((entry) => entry.table === table && entry.id === row.id && sameIdentity(table, row, entry.identity)), 'Intent already matches unowned rows');\n-        const intent = { id: randomUUID(), table, selector, caseId, beforeObserved: true, beforeIds: result.rows.map(({ row }) => uuid(row.id)), state: 'planned' };\n+        assert(Number.isSafeInteger(expectedMax) && expectedMax > 0 && expectedMax <= 2048);\n+        const intent = { id: randomUUID(), table, selector, caseId, expectedMax, beforeObserved: true, beforeIds: result.rows.map(({ row }) => uuid(row.id)), state: 'planned' };\n         this.j.intents.push(intent); this.save(); return copy(intent);\n     }\n     recordCommittedCreates(rows) {\n@@ -183,7 +190,7 @@ export class LFixture {\n         const allCaptured = [], completed = [];\n         for (const intent of this.j.intents.filter((entry) => entry.state === 'planned')) {\n             const certificates = this.j.committedCreates.filter((entry) => entry.intentId === intent.id);\n-            assert(certificates.length, 'No committed create evidence for intent; do not adopt by query match');\n+            assert(certificates.length && certificates.length <= intent.expectedMax, 'No committed create evidence or exceeded explicit maximum');\n             const captured = [];\n             for (const item of certificates) {\n                 assertCreationProof(this.j, item, intent); const current = await selectId(this.client, item.table, item.id);\n@@ -203,26 +210,26 @@ export class LFixture {\n     }\n     #admit(item, additional = []) {\n         const scope = this.scope(item.caseId); assertNotBorrowed(this.j, item.id);\n-        if (fixtureProfile.name === 'todo42' && item.proof.kind !== 'direct-committed-insert') assertPreparedSalesOnly(item.table, item.row, fixtureProfile);\n+        if (fixtureProfile.name === 'r2m-stage' && item.proof.kind !== 'direct-committed-insert') assertPreparedSalesOnly(item.table, item.row, fixtureProfile);\n         if (item.caseId === 'base') {\n             const plan = this.j.base.rows.find((entry) => entry.table === item.table && entry.values.id === item.id);\n             assert(plan && identities[item.table].every((field) => digest(item.row[field] ?? null) === digest(plan.values[field] ?? null)));\n         } else { assertRowReferences(this.j, item.table, item.row, scope, additional); assertCaseScope(this.j, item.table, item.row, scope, additional); }\n         const previous = this.j.objects.find((entry) => entry.table === item.table && entry.id === item.id);\n         if (previous) { assert.equal(digest(previous.identity), digest(item.identity)); assert.equal(digest(previous.creationProof), digest(item.proof)); return; }\n-        const nullableSalesRoot = fixtureProfile.name === 'todo42' && item.row.project_id == null && (item.table === 'sales_follow_up_record' || (item.table === 'todo_item' && item.row.source_type === 'sales-follow-up-record'));\n-        const projectIds = item.caseId === 'base' || nullableSalesRoot || ['auth_session', 'audit_log', 'security_event', 'customer', 'commission_rule_version'].includes(item.table) ? [] : resolveOwnedProjectIds(this.j, item.table, item.row, { additional });\n+        const nullableSalesRoot = fixtureProfile.name === 'r2m-stage' && item.row.project_id == null && (item.table === 'sales_follow_up_record' || (item.table === 'todo_item' && item.row.source_type === 'sales-follow-up-record'));\n+        const projectIds = item.caseId === 'base' || nullableSalesRoot || ['auth_session', 'audit_log', 'security_event', 'customer', 'commission_rule_version', ...stageGlobalTables].includes(item.table) ? [] : resolveOwnedProjectIds(this.j, item.table, item.row, { additional });\n         const projectId = projectIds.length === 1 ? projectIds[0] : null;\n         this.j.objects.push({ table: item.table, id: item.id, caseId: item.caseId, projectId, projectIds, identity: item.identity, creationProof: copy(item.proof), postcondition: item.postcondition });\n         if (item.table === 'project' && !scope.projects.includes(item.id)) scope.projects.push(item.id);\n         this.save();\n     }\n     async insert(table, values, { caseId }) {\n-        assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');\n+        assert(!this.j.writerDrain, 'No writes after writer drain'); assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');\n         return (await this.#insertBatch([{ table, values }], caseId))[0];\n     }\n     async insertPreparedBatch(plan, { caseId }) {\n-        assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');\n+        assert(!this.j.writerDrain, 'No writes after writer drain'); assert.equal(this.j.state, 'prepared'); assert(caseId !== 'base');\n         const validated = await validateCommissionPreparedPlan(plan), scope = this.scope(caseId);\n         for (const id of Object.values(plan.readonlyBorrowedDefinitions)) assert(scope.borrowedDefinitions.includes(id) && this.j.borrowed.definitions.some((entry) => entry.id === id && entry.readOnly), 'Prepared batch requires all three explicitly borrowed readonly definitions');\n         this.j.preparedBatches ??= [];\n@@ -296,7 +303,7 @@ export class LFixture {\n         }\n     }\n     async updateOwned(table, id, values, reason) {\n-        assert.equal(this.j.state, 'prepared'); assert(typeof reason === 'string' && reason.length > 0);\n+        assert(!this.j.writerDrain, 'No writes after writer drain'); assert.equal(this.j.state, 'prepared'); assert(typeof reason === 'string' && reason.length > 0);\n         const object = this.j.objects.find((entry) => entry.table === table && entry.id === uuid(id)); assert(object);\n         values = normalize(table, values); const names = Object.keys(values);\n         assert(names.length && names.every((name) => name !== 'id' && !identities[table].includes(name)), 'Cannot change immutable identity');\n@@ -334,6 +341,53 @@ export class LFixture {\n             change.state = 'recovered-committed'; this.save();\n         }\n     }\n-    async cleanup() { return cleanup(this); }\n+    planSettingCreate(key, options) { return planSettingCreate(this, key, options); }\n+    adoptSettingCreate(intentId, certificate) { return adoptSettingCreate(this, intentId, certificate); }\n+    resolveNoSettingCreate(intentId) { return resolveNoSettingCreate(this, intentId); }\n+    admitBaselineSetting(admission, options) { return admitBaselineSetting(this, admission, options); }\n+    recordBaselineSettingAfter(requestReceipt) { return recordBaselineSettingAfter(this, requestReceipt); }\n+    restoreBaselineSetting() { return restoreBaselineSetting(this); }\n+    planObjectPrefix() { return planObjectPrefix(this); }\n+    certifyLocalObject(table, id, key) { return certifyLocalObject(this, table, id, key); }\n+    directMutation(table, id, values, reason) { return this.updateOwned(table, id, values, reason); }\n+    assertDrained() {\n+        const receipt = this.j.writerDrain;\n+        assert(receipt && receipt.namespace === 'poms-r2m' && receipt.runId === this.runId && receipt.backend === this.backend && receipt.marker === marker);\n+        assert.equal(receipt.activeRequests, 0); assert.equal(receipt.pendingTransactions, 0); assert.equal(receipt.observersRestored, true);\n+        assert(Array.isArray(receipt.writers) && receipt.writers.length > 0 && receipt.writers.every(w => typeof w.kind === 'string' && typeof w.identity === 'string' && w.stopped === true));\n+        assert(/^[0-9a-f]{64}$/.test(receipt.sourceCapsuleSha256));\n+    }\n+    drain(receipt) {\n+        assert(!this.j.writerDrain, 'Drain receipt is immutable');\n+        this.j.writerDrain = copy(receipt);\n+        try { this.assertDrained(); } catch (error) { delete this.j.writerDrain; throw error; }\n+        this.save(); return { state: 'writers-drained', receiptSha256: digest(receipt), actualIndependentlyCertified: false };\n+    }\n+    async facts({ caseId } = {}) {\n+        if (caseId) this.scope(caseId);\n+        const { frozenTables, verifyFullCatalog } = await import('./catalog-complete.mjs');\n+        await this.client.query('begin read only');\n+        try {\n+            const catalog = await verifyFullCatalog(this.client); await assertSeedUnchanged(this.client, this.j);\n+            const tables = [];\n+            for (const table of frozenTables) {\n+                const result = await this.client.query('select to_jsonb(t) as row from poms.' + ident(table) + ' t');\n+                const all = result.rows.map(item => item.row).sort((a,b) => digest(a).localeCompare(digest(b)));\n+                const owned = all.filter(row => this.j.objects.some(item => item.table === table && row.id === item.id && (!caseId || item.caseId === caseId)) || table === 'system_setting' && (this.j.keyed?.objects ?? []).some(item => item.key === row.key && (!caseId || item.caseId === caseId)));\n+                const outside = all.filter(row => !this.j.objects.some(item => item.table === table && row.id === item.id) && !(table === 'system_setting' && (this.j.keyed?.objects ?? []).some(item => item.key === row.key)));\n+                tables.push({ table, rows: all, rowCount: all.length, fullRowsSha256: digest(all), ownedRows: owned, outsideRowsSha256: digest(outside), outsideRows: outside });\n+            }\n+            await assertSeedUnchanged(this.client, this.j); await this.client.query('rollback');\n+            return { kind: 'R2M-actual-full107-private-row-snapshot', namespace:'poms-r2m', marker, runId:this.runId, backend:this.backend, database:databaseFor(this.backend), catalog, tables, unknownCreates:this.j.intents.filter(x=>!['adopted','absent'].includes(x.state)).length+(this.j.keyed?.intents ?? []).filter(x=>!['adopted','absent'].includes(x.state)).length+this.j.directCreates.filter(x=>!['promoted','absent','rolled-back'].includes(x.state)).length, unknownMutations:this.j.mutations.filter(x=>!['committed','recovered-committed','rolled-back'].includes(x.state)).length+(['commit-attempted','outcome-unknown'].includes(this.j.baselineSettingLease?.restore?.state)?1:0), baselineSetting:this.j.baselineSettingLease?{owned:false,state:this.j.baselineSettingLease.state,beforeSha256:this.j.baselineSettingLease.beforeSha256,expectedAfterSha256:this.j.baselineSettingLease.expectedAfterSha256,restoreState:this.j.baselineSettingLease.restore?.state??null}:null,credentialAndCiphertextRowsPrivate:true };\n+        } catch(error) { await this.client.query('rollback'); throw error; }\n+    }\n+    async cleanup() {\n+        this.assertDrained(); await assertBaselineSettingRestored(this); preflightLocalObjects(this);\n+        const database = await cleanup(this);\n+        const objects = cleanupLocalObjects(this), secondObjects = cleanupLocalObjects(this);\n+        assert.equal(secondObjects.matched, 0); assert.equal(secondObjects.changed, 0);\n+        this.j.objectCleanup = { objects, secondObjects }; this.save();\n+        return { ...database, objects, secondObjects, cloudPeerCleanupClaimed: false };\n+    }\n     async close() { await this.client.end(); }\n }\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-core.mjs",
+      "bytes": 9184,
+      "rawBytesSha256": "4b0a133363fceafc6eb73fb3445f31783db84945e0b577c64941227d4b07f559",
+      "original": {
+        "file": "tools/rust-r2l/fixture-core.mjs",
+        "bytes": 10280,
+        "rawBytesSha256": "619d29d52eda68a6bc4ce22549618dc4f1de185d62d1cd36e8633c1000c99bde",
+        "normalizedLfSha256": "619d29d52eda68a6bc4ce22549618dc4f1de185d62d1cd36e8633c1000c99bde"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-core.mjs b/tools/rust-r2m/fixture-core.mjs\nindex fc7f27c8..f7f70f1d 100644\n--- a/tools/rust-r2l/fixture-core.mjs\n+++ b/tools/rust-r2m/fixture-core.mjs\n@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';\n import { createHash } from 'node:crypto';\n import { authority } from './catalog-complete.mjs';\n import { marker, databaseFor } from './fixture-guard.mjs';\n-import { commissionIdentities } from './fixture-commission-policy.mjs';\n-import { profileFromEnvironment, assertProfileCertificateEnvelope } from './l-todo-profile-candidate.mjs';\n+import { ownershipIdentities } from './fixture-policy.mjs';\n+import { profileFromEnvironment, assertProfileCertificateEnvelope } from './fixture-profile.mjs';\n export const fixtureProfile = profileFromEnvironment(process.env);\n \n export const canonical = (value) => Object.prototype.toString.call(value) === '[object Date]' ? value.toISOString() : Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonical(value[key])])) : value;\n@@ -19,17 +19,7 @@ export const SEED_ACTORS = Object.freeze(['00000000-0000-4000-8000-000000000008'\n \n // Mutable status/current/version/assignee/name/amount fields are deliberately\n // absent. PK id is always added separately. Unsupported tables stay rejected.\n-export const identities = Object.freeze(Object.fromEntries(Object.entries({\n-    platform_user: ['username'], local_credential: ['user_id'], role: ['role_key'], org_unit: ['code'],\n-    user_role_assignment: ['user_id', 'role_id'], user_org_membership: ['user_id', 'org_unit_id', 'membership_type'], role_permission_assignment: ['role_id', 'permission_key'],\n-    auth_session: ['user_id', 'token_hash'],\n-    audit_log: ['event_type', 'target_type', 'target_id', 'operator_id', 'request_id'],\n-    security_event: ['event_type', 'actor_id', 'principal', 'request_id', 'path', 'method'],\n-    approval_record: ['approval_type', 'business_domain', 'target_object_type', 'target_object_id', 'project_id', 'initiator_user_id'],\n-    todo_item: ['source_type', 'source_id', 'todo_type', 'business_domain', 'target_object_type', 'target_object_id', 'project_id'],\n-    contract: ['project_id', 'contract_no', 'created_by'], project: ['project_no', 'created_by'], customer: ['customer_no', 'created_by'],\n-    ...commissionIdentities, ...fixtureProfile.additionalIdentities\n-}).map(([table, fields]) => [table, Object.freeze(fields)])));\n+export const identities = ownershipIdentities;\n export const columns = new Map(authority.tables.map((table) => [table.name, new Map(table.columns.map((column) => [column.name, column]))]));\n export const supportedTables = Object.freeze(Object.keys(identities).sort());\n export const unsupportedTables = Object.freeze(authority.tables.map((table) => table.name).filter((table) => !Object.hasOwn(identities, table)).sort());\n@@ -63,7 +53,7 @@ export const sameIdentity = (table, row, identity) => digest(rowIdentity(table,\n export function caseIdentity(runId, caseId) {\n     assert(uuidKey(runId));\n     assert(typeof caseId === 'string' && /^[a-z][a-z0-9_.-]{0,79}$/.test(caseId));\n-    return { caseId, requestId: 'r2l:' + uuid(runId) + ':' + createHash('sha256').update(caseId).digest('hex').slice(0, 12), userAgent: 'poms-r2l-fixture/' + uuid(runId) };\n+    return { caseId, requestId: 'r2m:' + uuid(runId) + ':' + createHash('sha256').update(caseId).digest('hex').slice(0, 12), userAgent: 'poms-r2m-fixture/' + uuid(runId) };\n }\n export function assertCreationProof(journal, item, intent) {\n     assertProfileCertificateEnvelope(item, fixtureProfile);\n@@ -71,7 +61,7 @@ export function assertCreationProof(journal, item, intent) {\n     assert.equal(item.table, intent.table);\n     const proof = item.proof, context = proof?.createContext;\n     assert(context && context.runId === journal.runId && context.caseId === intent.caseId && Number.isInteger(context.index) && context.index >= 0, 'Create context mismatch');\n-    assert.equal(context.op?.startsWith('l.'), true);\n+    assert.equal(context.op?.startsWith('m.'), true);\n     assert.equal(item.intentId, intent.id);\n     assert.equal(intent.beforeObserved, true);\n     assert(!intent.beforeIds.includes(uuid(item.id)), 'Generated row was present before create');\n@@ -101,7 +91,7 @@ export function assertCreationProof(journal, item, intent) {\n             assert(started); currentTransaction = started.parent;\n         }\n         assert.equal(currentTransaction, proof.outerTransaction, 'Create was not released into this outer transaction');\n-        assert(journal.backend === 'nest' || context.op === 'l.producer', 'Native SDK proof in Rust DB is only an original producer');\n+        assert(journal.backend === 'nest' || context.op === 'm.producer', 'Native SDK proof in Rust DB is only an original producer');\n     } else if (proof.kind === 'pg-after-insert-observed-outer-commit') {\n         assert.equal(proof.database, authority.database);\n         assert.equal(proof.marker, marker);\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-profile.mjs",
+      "bytes": 12496,
+      "rawBytesSha256": "00e8cef3a12bb787e6b7770a8ab7682cb6f99211a0b0691c3b4511dd3f69c83a",
+      "original": {
+        "file": "tools/rust-r2l/l-todo-profile-candidate.mjs",
+        "bytes": 17762,
+        "rawBytesSha256": "e2022252cc68c560202bbe5c63d3f7c982659eaf0477b19e29f1d9bfe61312ce",
+        "normalizedLfSha256": "e2022252cc68c560202bbe5c63d3f7c982659eaf0477b19e29f1d9bfe61312ce"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/l-todo-profile-candidate.mjs b/tools/rust-r2m/fixture-profile.mjs\nindex 7e865f94..7c33fda8 100644\n--- a/tools/rust-r2l/l-todo-profile-candidate.mjs\n+++ b/tools/rust-r2m/fixture-profile.mjs\n@@ -1,71 +1,23 @@\n-// Inactive opt-in SOURCE policy. Merely importing it selects nothing and opens\n-// no DB. Its reviewed integration selects one immutable startup profile in a\n-// separate Node process; the default remains legacy40. Root/C own activation.\n+// Fixed R2M profile; no environment-selectable legacy namespace. No runtime access on import.\n import assert from 'node:assert/strict';\n import fs from 'node:fs';\n import path from 'node:path';\n import { createHash } from 'node:crypto';\n-import { pathToFileURL, fileURLToPath } from 'node:url';\n+import { fileURLToPath } from 'node:url';\n+import { ownershipIdentities } from './fixture-policy.mjs';\n const root=fileURLToPath(new URL('../../',import.meta.url));\n const sha = value => createHash('sha256').update(value).digest('hex');\n-const equal = (left, right) => assert.deepEqual(left, right);\n-const uuid = value => { assert(typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)); return value.toLowerCase(); };\n-const copy = value => structuredClone(value);\n-function freezeTree(value) { if (value && typeof value === 'object') { for (const item of Object.values(value)) freezeTree(item); Object.freeze(value); } return value; }\n-export const todoAdditionalIdentities = Object.freeze({\n-    lead: Object.freeze(['lead_no', 'customer_id', 'created_by']),\n-    sales_follow_up_record: Object.freeze(['customer_id', 'lead_id', 'project_id', 'created_by']),\n-});\n-export const profileSourceFiles = Object.freeze([\n-    'l-fixture.mjs', 'fixture-core.mjs', 'fixture-references.mjs', 'fixture-journal.mjs', 'fixture-users.mjs',\n-    'fixture-cleanup.mjs', 'http-client.mjs', 'fixture-safety.test.mjs', 'fixture-commission-candidate.mjs',\n-    'fixture-commission-candidate.test.mjs', 'fixture-commission-policy.mjs', 'fixture-prepared.mjs', 'fixture-commission-safety.test.mjs',\n-    'l-todo-facts-source.mjs', 'l-todo-profile-candidate.mjs', 'l-todo-consumption.mjs',\n-    'l-todo-profile-patch.mjs', 'l-todo-profile-integration.patch', 'l-todo-profile.test.mjs', 'l-todo-profile-virtual.mjs',\n-].map(file => 'tools/rust-r2l/' + file).sort());\n-\n-export function collectTodoProfileSourceSet() {\n-    return profileSourceFiles.map(file => {\n-        const absolute=path.join(root,file),before = fs.lstatSync(absolute, { bigint: true }); assert(before.isFile() && !before.isSymbolicLink() && before.nlink === 1n);\n-        const bytes = fs.readFileSync(absolute), after = fs.lstatSync(absolute, { bigint: true });\n-        assert.equal(BigInt(bytes.length),before.size);\n-        for (const field of ['dev', 'ino', 'size', 'mtimeNs', 'ctimeNs']) assert.equal(after[field], before[field]);\n-        return { file, bytes: bytes.length, rawBytesSha256: sha(bytes) };\n-    });\n-}\n-export function selectFixtureProfile(name = 'legacy40', readSourceSet = collectTodoProfileSourceSet) {\n-    // Validate the name before touching sources, an environment loader or DB.\n-    assert(['legacy40', 'todo42'].includes(name), 'Unknown L fixture profile');\n-    if (name === 'legacy40') return Object.freeze({ name, supportedTableCount: 40, namespace: 'poms-r2l', additionalIdentities: Object.freeze({}), journalTag: null });\n-    const sources = readSourceSet(); equal(sources.map(item => item.file), profileSourceFiles);\n-    for (const item of sources) assert(Number.isSafeInteger(item.bytes) && item.bytes > 0 && /^[0-9a-f]{64}$/.test(item.rawBytesSha256));\n-    const journalTag = { name, revision: 1, selectedBeforeDatabaseAccess: true, sourceSetSha256: sha(JSON.stringify(sources)), sources: copy(sources) };\n-    return freezeTree({ name, supportedTableCount: 42, namespace: 'poms-r2l-todo42', additionalIdentities: todoAdditionalIdentities, journalTag });\n-}\n-export function profileFromEnvironment(env, readSourceSet = collectTodoProfileSourceSet) {\n-    return selectFixtureProfile(Object.hasOwn(env, 'POMS_R2L_FIXTURE_PROFILE') ? env.POMS_R2L_FIXTURE_PROFILE : 'legacy40', readSourceSet);\n-}\n-export function stampProfileJournal(original, profile) {\n-    assert.equal(original.namespace, 'poms-r2l'); assert(!Object.hasOwn(original, 'fixtureProfile'));\n-    if (profile.name === 'legacy40') return original;\n-    return { ...original, namespace: profile.namespace, fixtureProfile: copy(profile.journalTag) };\n-}\n-export function assertProfileJournal(journal, profile) {\n-    assert.equal(journal.namespace, profile.namespace, 'Fixture profiles cannot read each other journals');\n-    if (profile.name === 'legacy40') assert(!Object.hasOwn(journal, 'fixtureProfile'));\n-    else equal(journal.fixtureProfile, profile.journalTag);\n-}\n-export function assertProfileCertificateEnvelope(envelope, profile) {\n-    assert(envelope && typeof envelope === 'object');\n-    if (profile.name === 'legacy40') assert(!Object.hasOwn(envelope, 'fixtureProfile'), 'A todo42 certificate cannot enter legacy40');\n-    else equal(envelope.fixtureProfile, profile.journalTag);\n-    // This is fixture provenance metadata, never an invented SDK/PG field.\n-    return true;\n-}\n-export function creationEnvelope(envelope, profile) {\n-    assert(envelope && typeof envelope==='object' && !Object.hasOwn(envelope,'fixtureProfile'));\n-    return profile.name==='legacy40' ? envelope : { ...envelope,fixtureProfile:copy(profile.journalTag) };\n-}\n+const equal=(a,b)=>assert.deepEqual(a,b); const copy=value=>structuredClone(value);\n+const uuid=value=>{assert(typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value));return value.toLowerCase();};\n+function freezeTree(value){if(value&&typeof value==='object'){for(const x of Object.values(value))freezeTree(x);Object.freeze(value);}return value;}\n+export const profileSourceFiles = [\"tools/rust-r2m/fixture-example.mjs\",\"tools/rust-r2m/fixture-setting-baseline.mjs\",\"tools/rust-r2m/fixture-objects.mjs\",\"tools/rust-r2m/fixture-keyed.mjs\",\"tools/rust-r2m/fixture-prepared-source.mjs\",\"tools/rust-r2m/audit-private.mjs\",\"tools/rust-r2m/audit-error.mjs\",\"tools/rust-r2m/audit-schema-source.json\",\"tools/rust-r2m/catalog-complete.mjs\",\"tools/rust-r2m/database-client.mjs\",\"tools/rust-r2m/fixture-cleanup.mjs\",\"tools/rust-r2m/fixture-core.mjs\",\"tools/rust-r2m/fixture-credentials.mjs\",\"tools/rust-r2m/fixture-guard.mjs\",\"tools/rust-r2m/fixture-journal.mjs\",\"tools/rust-r2m/fixture-policy.mjs\",\"tools/rust-r2m/fixture-prepared.mjs\",\"tools/rust-r2m/fixture-profile.mjs\",\"tools/rust-r2m/fixture-references.mjs\",\"tools/rust-r2m/fixture-users.mjs\",\"tools/rust-r2m/fixture.mjs\",\"tools/rust-r2m/managed-environment.cjs\",\"tools/rust-r2m/reference-authority.json\"];\n+export function collectProfileSources(){return profileSourceFiles.map(file=>{const before=fs.lstatSync(path.join(root,file),{bigint:true});assert(before.isFile()&&!before.isSymbolicLink()&&before.nlink===1n);const bytes=fs.readFileSync(path.join(root,file));const after=fs.lstatSync(path.join(root,file),{bigint:true});for(const key of ['dev','ino','size','mtimeNs','ctimeNs'])assert.equal(before[key],after[key]);return {file,bytes:bytes.length,rawBytesSha256:sha(bytes)};});}\n+export function profileFromEnvironment(env,readSources=collectProfileSources){assert(!Object.hasOwn(env,'POMS_R2L_FIXTURE_PROFILE')&&!Object.hasOwn(env,'POMS_R2M_FIXTURE_PROFILE'),'No selectable legacy fixture profile');const sources=readSources();equal(sources.map(x=>x.file),profileSourceFiles);return freezeTree({name:'r2m-stage',namespace:'poms-r2m',supportedTableCount:Object.keys(ownershipIdentities).length,journalTag:{name:'r2m-stage',revision:1,sourceSetSha256:sha(JSON.stringify(sources)),sources}});}\n+export function stampProfileJournal(journal,profile){assert.equal(journal.namespace,'poms-r2m');assert(!Object.hasOwn(journal,'fixtureProfile'));return {...journal,fixtureProfile:copy(profile.journalTag)};}\n+export function assertProfileJournal(journal,profile){assert.equal(journal.namespace,'poms-r2m');equal(journal.fixtureProfile,profile.journalTag);}\n+export function assertProfileCertificateEnvelope(receipt,profile){assert(receipt&&typeof receipt==='object');equal(receipt.fixtureProfile,profile.journalTag);}\n+export function creationEnvelope(receipt,profile){assert(receipt&&!Object.hasOwn(receipt,'fixtureProfile'));return {...receipt,fixtureProfile:copy(profile.journalTag)};}\n+export function assertPreparedSalesOnly(table,row,profile){assert.equal(profile.name,'r2m-stage');assert(!['lead','sales_follow_up_record'].includes(table)&&!(table==='todo_item'&&row.source_type==='sales-follow-up-record'),'Selected sales facts are prepared-source direct INSERT only');}\n export function salesAnchorOptions({ ownedCustomerIds=[],ownedLeadIds=[] }={}) {\n     const result={};\n     for(const [key,values] of Object.entries({ownedCustomerIds,ownedLeadIds})) {\n@@ -73,9 +25,7 @@ export function salesAnchorOptions({ ownedCustomerIds=[],ownedLeadIds=[] }={}) {\n     }\n     return result;\n }\n-export function assertPreparedSalesOnly(table,row,profile) {\n-    if(profile.name==='todo42') assert(!['lead','sales_follow_up_record'].includes(table) && !(table==='todo_item' && row.source_type==='sales-follow-up-record'), 'Todo42 sales facts in this slice are source-prepared direct INSERTs only, never generated-ID adoption');\n-}\n+\n function owned(journal, table, id, additional = []) {\n     id = uuid(id);\n     const current = journal.objects.filter(item => item.table === table && uuid(item.id) === id);\n@@ -94,7 +44,7 @@ function owned(journal, table, id, additional = []) {\n     return item.identity;\n }\n export function validateSalesAnchorScope(journal, scope) {\n-    assert.equal(journal.namespace, 'poms-r2l-todo42');\n+    assert.equal(journal.namespace, 'poms-r2m');\n     for (const [field, table] of [['ownedCustomerIds', 'customer'], ['ownedLeadIds', 'lead']]) {\n         assert(Array.isArray(scope[field])); equal(scope[field], [...new Set(scope[field].map(uuid))].sort());\n         for (const id of scope[field]) owned(journal, table, id);\n@@ -119,10 +69,10 @@ export function bindSalesProjectCustomers(journal,scope) {\n // original reference/actor/proof checks; a true result supplies only the new\n // explicitly named sales-root case admission and never a creation certificate.\n export function assertTodo42SalesScope({ profile, journal, table, row, scope, additional = [] }) {\n-    if (profile.name === 'legacy40') return false;\n+    \n     const salesTodo = table === 'todo_item' && row.source_type === 'sales-follow-up-record';\n     if (!['lead', 'sales_follow_up_record'].includes(table) && !salesTodo) return false;\n-    assert.equal(profile.name, 'todo42'); assertProfileJournal(journal, profile); validateSalesAnchorScope(journal, scope);\n+    assert.equal(profile.name, 'r2m-stage'); assertProfileJournal(journal, profile); validateSalesAnchorScope(journal, scope);\n     const freshActors=scope.actors.map(uuid);\n     const customerAnchor = id => {\n         id = uuid(id); assert(scope.ownedCustomerIds.includes(id)); owned(journal, 'customer', id, additional); return id;\n@@ -163,7 +113,7 @@ export function assertTodo42SalesScope({ profile, journal, table, row, scope, ad\n // immutable identity checks. Existing rows are actual SELECT results, never\n // adopted here. This closes mutable Project.customer_id against the snapshot.\n export function assertTodo42CurrentSalesClosure(journal,rows,profile) {\n-    if(profile.name==='legacy40' || rows.size===0) return;\n+    if(rows.size===0) return;\n     assertProfileJournal(journal,profile);\n     const current={...journal,currentSalesRowsRequired:true,objects:journal.objects.map(object=>({...object,row:rows.get(object.table+':'+object.id)}))};\n     for(const scope of journal.cases.filter(scope=>scope.caseId!=='base' && ((scope.ownedCustomerIds?.length??0) || (scope.ownedLeadIds?.length??0)))) {\n@@ -182,34 +132,7 @@ export function assertTodo42CurrentSalesClosure(journal,rows,profile) {\n     }\n }\n export function assertTodo42CandidateSalesClosure(journal,rows,table,candidate,profile) {\n-    if(profile.name==='legacy40')return;\n+    \n     const proposed=new Map(rows);proposed.set(table+':'+uuid(candidate.id),candidate);assertTodo42CurrentSalesClosure(journal,proposed,profile);\n }\n \n-export const integrationProposal = Object.freeze({\n-    enabled: false, defaultBehavior: 'legacy40; existing journal shape and table count stay unchanged',\n-    selection: 'fixture-core imports this pure module and calls profileFromEnvironment once, before LFixture.open can load managed/DB. Unknown name rejects before readSourceSet/DB.',\n-    core: 'Spread only selectedProfile.additionalIdentities; assert supportedTables length equals selectedProfile.supportedTableCount. legacy40 keeps its 40/67 assertion outcome.',\n-    journal: 'Stamp only todo42 planned journals with its namespace/profile/sourceSet; validate selected namespace and exact immutable tag before save/open/recovery. assertStablePlans freezes tag. Legacy journals keep no tag.',\n-    case: 'Only todo42 defineCase gains sorted ownedCustomerIds/ownedLeadIds; validate independently owned anchors before fixing case. Use a customer-only Lead preparation case, then a second immutable reminder case after the Lead COMMIT certificate exists.',\n-    references: 'Retain old UUID/actor/reference checks. Call assertTodo42SalesScope before project-only admission. For admitted nullable sales rows store projectIds=[]; never invent a project. Source_id still resolves to the exact owned followup.',\n-    certificate: 'todo42 authority/certificate envelope must carry the immutable selected fixtureProfile; reject old envelopes, and legacy40 rejects new envelopes. Do not add fabricated SDK/PG proof fields. Existing driver defaults remain legacy40; a separately reviewed Todo owner supplies new envelopes.',\n-    direct: 'Seven SOURCE rows insert sequentially through existing direct INSERT/RETURNING/outer-COMMIT admission. The two extra tables and sales-source Todos reject generated intents/certificates in this slice. No blanket batch/reference waiver or copied 13-file implementation.',\n-    observer: 'Keep PG7 unchanged; prepare sales rows with no active PG7 case. GET observer cases create no sales rows.',\n-    pending: 'Root/C must review a concrete integration delta and actual profile pure/runtime tests before activation.',\n-});\n-\n-if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url && process.argv.includes('--check')) {\n-    let reads = 0; const sourceSet = profileSourceFiles.map(file => ({ file, bytes: 1, rawBytesSha256: '0'.repeat(64) }));\n-    const read = () => { reads++; return sourceSet; };\n-    assert.throws(() => selectFixtureProfile('unknown', read)); assert.equal(reads, 0);\n-    const legacy = selectFixtureProfile('legacy40', read); assert.equal(reads, 0);\n-    const todo = selectFixtureProfile('todo42', read); assert.equal(reads, 1);\n-    const old = { namespace: 'poms-r2l' }, next = stampProfileJournal(old, todo);\n-    assert.equal(stampProfileJournal(old, legacy), old); assertProfileJournal(old, legacy); assertProfileJournal(next, todo);\n-    assert.throws(() => assertProfileJournal(old, todo)); assert.throws(() => assertProfileJournal(next, legacy));\n-    assertProfileCertificateEnvelope({}, legacy); assertProfileCertificateEnvelope({ fixtureProfile: todo.journalTag }, todo);\n-    assert.throws(() => assertProfileCertificateEnvelope({}, todo)); assert.throws(() => assertProfileCertificateEnvelope({ fixtureProfile: todo.journalTag }, legacy));\n-    console.log(JSON.stringify({ kind: 'pure-inactive-profile-isolation-check', profiles: 2, unknownBeforeSourceIO: true,\n-        journalCrossReadRejected: true, certificateCrossAdoptRejected: true, SQLExecuted: false, profileActivated: false }));\n-}\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-policy.mjs",
+      "bytes": 8263,
+      "rawBytesSha256": "b919925086ed2459bcf042060edf10b6b50f3f9e55e92e918fdd447c7adb00d3",
+      "original": {
+        "file": "tools/rust-r2l/fixture-commission-policy.mjs",
+        "bytes": 4049,
+        "rawBytesSha256": "2424145ca69c302a1e221f01bc57b6632a70d5d1cdbc1f05365675e0b6198039",
+        "normalizedLfSha256": "2424145ca69c302a1e221f01bc57b6632a70d5d1cdbc1f05365675e0b6198039"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-commission-policy.mjs b/tools/rust-r2m/fixture-policy.mjs\nindex b8cba9c4..900bb873 100644\n--- a/tools/rust-r2l/fixture-commission-policy.mjs\n+++ b/tools/rust-r2m/fixture-policy.mjs\n@@ -1,5 +1,3 @@\n-// Epoch 02: explicit SOURCE admission only. Review/Root runtime execution is\n-// separate. The archived epoch 01 receipts still describe fifteen tables.\n export const commissionIdentities = Object.freeze(Object.fromEntries(Object.entries({\n     contract_term_snapshot: ['contract_id', 'source_readiness_id', 'source_baseline_id', 'created_by'],\n     payment_record: ['project_id', 'contract_id', 'payable_record_id', 'source_type'],\n@@ -49,3 +47,116 @@ export const summaryTargetTables = Object.freeze({\n     project: 'project',\n     'project-handover': 'project_handover'\n });\n+\n+// R2M explicit M0-M5 ownership union; all other catalog tables remain scan-only.\n+export const additionalIdentities = Object.freeze({\n+  \"lead\": [\n+    \"lead_no\",\n+    \"customer_id\",\n+    \"created_by\"\n+  ],\n+  \"sales_follow_up_record\": [\n+    \"customer_id\",\n+    \"lead_id\",\n+    \"project_id\",\n+    \"created_by\"\n+  ],\n+  \"dictionary_item\": [\n+    \"domain\",\n+    \"code\",\n+    \"created_by\"\n+  ],\n+  \"business_number_sequence\": [\n+    \"scope\",\n+    \"period\"\n+  ],\n+  \"identity_provider_config\": [\n+    \"provider\",\n+    \"tenant_id\",\n+    \"client_id\",\n+    \"created_by\"\n+  ],\n+  \"identity_provider_oauth_grant\": [\n+    \"identity_provider_config_id\",\n+    \"poms_user_id\",\n+    \"created_by\"\n+  ],\n+  \"external_identity\": [\n+    \"identity_provider_config_id\",\n+    \"poms_user_id\",\n+    \"subject_id\",\n+    \"created_by\"\n+  ],\n+  \"external_login_ticket\": [\n+    \"identity_provider_config_id\",\n+    \"external_identity_id\",\n+    \"poms_user_id\",\n+    \"ticket_hash\"\n+  ],\n+  \"external_org_source\": [\n+    \"provider\",\n+    \"provider_config_id\",\n+    \"external_tenant_id\",\n+    \"created_by\"\n+  ],\n+  \"external_department_mapping\": [\n+    \"source_id\",\n+    \"external_department_id\"\n+  ],\n+  \"org_sync_run\": [\n+    \"source_id\"\n+  ],\n+  \"org_sync_diff_item\": [\n+    \"run_id\",\n+    \"external_department_id\",\n+    \"action\"\n+  ],\n+  \"attachment_storage_provider_config\": [\n+    \"provider_type\",\n+    \"created_by\"\n+  ],\n+  \"attachment_upload_session\": [\n+    \"created_by\",\n+    \"operation_type\",\n+    \"original_name\"\n+  ],\n+  \"attachment\": [\n+    \"uploaded_by\",\n+    \"storage_provider\",\n+    \"storage_bucket\",\n+    \"storage_key\"\n+  ],\n+  \"attachment_link\": [\n+    \"attachment_id\",\n+    \"target_type\",\n+    \"target_id\",\n+    \"relation_type\",\n+    \"linked_by\"\n+  ],\n+  \"attachment_download_package\": [\n+    \"handover_id\",\n+    \"project_id\",\n+    \"created_by\"\n+  ],\n+  \"attachment_download_package_item\": [\n+    \"package_id\",\n+    \"handover_id\",\n+    \"attachment_id\",\n+    \"version_group_id\"\n+  ],\n+  \"project_handover_attachment_selection\": [\n+    \"handover_id\",\n+    \"project_id\",\n+    \"version_group_id\"\n+  ]\n+});\n+export const ownershipIdentities = Object.freeze(Object.fromEntries(Object.entries({ ...{\"platform_user\":[\"username\"],\"local_credential\":[\"user_id\"],\"role\":[\"role_key\"],\"org_unit\":[\"code\"],\"user_role_assignment\":[\"user_id\",\"role_id\"],\"user_org_membership\":[\"user_id\",\"org_unit_id\",\"membership_type\"],\"role_permission_assignment\":[\"role_id\",\"permission_key\"],\"auth_session\":[\"user_id\",\"token_hash\"],\"audit_log\":[\"event_type\",\"target_type\",\"target_id\",\"operator_id\",\"request_id\"],\"security_event\":[\"event_type\",\"actor_id\",\"principal\",\"request_id\",\"path\",\"method\"],\"approval_record\":[\"approval_type\",\"business_domain\",\"target_object_type\",\"target_object_id\",\"project_id\",\"initiator_user_id\"],\"todo_item\":[\"source_type\",\"source_id\",\"todo_type\",\"business_domain\",\"target_object_type\",\"target_object_id\",\"project_id\"],\"contract\":[\"project_id\",\"contract_no\",\"created_by\"],\"project\":[\"project_no\",\"created_by\"],\"customer\":[\"customer_no\",\"created_by\"]}, ...commissionIdentities, ...additionalIdentities }).map(([table, fields]) => [table, Object.freeze(fields)])));\n+export const stageGlobalTables = Object.freeze([\"dictionary_item\",\"business_number_sequence\",\"identity_provider_config\",\"identity_provider_oauth_grant\",\"external_identity\",\"external_login_ticket\",\"external_org_source\",\"external_department_mapping\",\"org_sync_run\",\"org_sync_diff_item\",\"attachment_storage_provider_config\",\"attachment_upload_session\",\"attachment\",\"attachment_link\",\"platform_user\",\"local_credential\",\"role\",\"org_unit\",\"user_role_assignment\",\"user_org_membership\",\"role_permission_assignment\"]);\n+export const keyedTables = Object.freeze({ system_setting: Object.freeze({ primaryKey: 'key', immutable: Object.freeze(['key']) }) });\n+\n+export const producerCertification = Object.freeze({\n+  native: 'Actual SDK7.0.11 afterCreate, nested release chain and outer before/after commit; original producer in either DB is labelled m.producer.',\n+  rust: 'Actual PG after-INSERT observer, top/subtransaction committed status and independent visible row; response/query IDs never certify.',\n+  prepared: 'Named original seeder source+mapping/columns, before-PK absence, actual INSERT/RETURNING, xid/xmin, outer COMMIT ACK and independent visibility.',\n+  setting: 'Only canonical attachment.max-upload-size-mb when before-absent; exact-key PG insert/outer-COMMIT certificate. Pre-existing setting refuses ownership.'\n+});\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-guard.mjs",
+      "bytes": 4749,
+      "rawBytesSha256": "c570808283f73585720b385a027f4455a2d90e79e8700194470e0980c2b05ce2",
+      "original": {
+        "file": "tools/rust-r2l/fixture-guard.mjs",
+        "bytes": 4852,
+        "rawBytesSha256": "39ea3a1d95171a98e670107f69f3d4eb120cedcab12aff3a5c3c6d42605e34c6",
+        "normalizedLfSha256": "39ea3a1d95171a98e670107f69f3d4eb120cedcab12aff3a5c3c6d42605e34c6"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-guard.mjs b/tools/rust-r2m/fixture-guard.mjs\nindex 5e8b2d6c..edf23dc8 100644\n--- a/tools/rust-r2l/fixture-guard.mjs\n+++ b/tools/rust-r2m/fixture-guard.mjs\n@@ -1,14 +1,12 @@\n import { execFileSync } from 'node:child_process';\n import { createHash } from 'node:crypto';\n import { readFileSync } from 'node:fs';\n-import { createRequire } from 'node:module';\n import { fileURLToPath } from 'node:url';\n \n-const require = createRequire(import.meta.url);\n-const { FixtureError } = require('./fixture-protocol.cjs');\n+import { FixtureError } from './audit-error.mjs';\n export const root = fileURLToPath(new URL('../../', import.meta.url));\n-export const sourceHead = '1a941e8047c6269b52ef4ae8174e5f450f1db2f6';\n-export const marker = '04aadee8-4ec6-4a3b-9d27-ee8d51721029';\n+export const sourceHead = '9dcfb498b175e9fdaae7584aff1d5d3f93bf814f';\n+export const marker = '1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5';\n const manifestPath = 'tools/rust-r1b/shared-manifest.json';\n const manifestHash = '63ed639af64b2f0422cc955cfda4514758bed1da3841ba5f4a11076886cdb419';\n export function fail(code) {\n@@ -33,11 +31,11 @@ export function validateSource(run = execFileSync, read = readFileSync) {\n }\n export function databaseFor(backend) {\n     if (!['nest', 'rust'].includes(backend)) fail('invalid_backend');\n-    return `poms_r2l_${backend}`;\n+    return `poms_r2m_${backend}`;\n }\n export function validateCluster(row, database, owner) {\n-    if (!['poms_r2l_nest', 'poms_r2l_rust'].includes(database)) fail('invalid_database');\n-    const user = owner ? 'poms_r0e_owner' : 'poms_r2l_app';\n+    if (!['poms_r2m_nest', 'poms_r2m_rust'].includes(database)) fail('invalid_database');\n+    const user = owner ? 'poms_r0e_owner' : 'poms_r2m_app';\n     if (!row || row.database !== database || row.session_user !== user || row.current_user !== user || row.version !== '150012' || row.port !== '15432' || row.isolated !== 'on' || row.database_owner !== 'poms_r0e_owner') fail('database_identity');\n }\n export function validateRuntime(row, database) {\n@@ -57,7 +55,7 @@ export const metadataSql = `select current_database() as database, session_user:\n     has_schema_privilege(current_user,'poms','CREATE') as schema_create,\n     has_schema_privilege(current_user,'public','CREATE') as public_schema_create,\n     has_database_privilege(current_user,current_database(),'CREATE') as database_create,\n-    has_schema_privilege(current_user,'r2l_control','USAGE') as marker_access\n+    has_schema_privilege(current_user,'r2m_control','USAGE') as marker_access\n     from pg_roles r join pg_database d on d.datname=current_database() where r.rolname=current_user`;\n export async function verifyConnection(client, database, owner = false) {\n     await client.query('BEGIN READ ONLY');\n@@ -66,7 +64,7 @@ export async function verifyConnection(client, database, owner = false) {\n         if (result.rows.length !== 1) fail('database_identity');\n         if (owner) {\n             validateCluster(result.rows[0], database, true);\n-            const found = await client.query('select current_database() as database, instance_id::text as marker from r2l_control.marker where database_name=current_database()');\n+            const found = await client.query('select current_database() as database, instance_id::text as marker from r2m_control.marker where database_name=current_database()');\n             validateMarker(found.rows, database);\n         } else validateRuntime(result.rows[0], database);\n     } finally {\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-journal.mjs",
+      "bytes": 11112,
+      "rawBytesSha256": "4b8ce0edde4e2d32f62207796f65c4b29d982a7bef84398b2a84a8ee1c1528e5",
+      "original": {
+        "file": "tools/rust-r2l/fixture-journal.mjs",
+        "bytes": 9370,
+        "rawBytesSha256": "bd2bb14f9e2815becd77186c9273558ff2000bbbd3108fcec53c0a35d8c84405",
+        "normalizedLfSha256": "bd2bb14f9e2815becd77186c9273558ff2000bbbd3108fcec53c0a35d8c84405"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-journal.mjs b/tools/rust-r2m/fixture-journal.mjs\nindex d027b631..fa86cb88 100644\n--- a/tools/rust-r2l/fixture-journal.mjs\n+++ b/tools/rust-r2m/fixture-journal.mjs\n@@ -1,16 +1,17 @@\n+import { readPrivateRegular } from './audit-private.mjs';\n import assert from 'node:assert/strict';\n import { randomUUID } from 'node:crypto';\n import fs from 'node:fs';\n import path from 'node:path';\n import { databaseFor, marker, sourceHead } from './fixture-guard.mjs';\n import { assertCreationProof, digest, identities, uuid, SEED_ACTORS } from './fixture-core.mjs';\n-import { canonicalDefinitions } from './fixture-commission-policy.mjs';\n+import { canonicalDefinitions } from './fixture-policy.mjs';\n import { fixtureProfile } from './fixture-core.mjs';\n-import { stampProfileJournal, assertProfileJournal, validateSalesAnchorScope } from './l-todo-profile-candidate.mjs';\n+import { stampProfileJournal, assertProfileJournal, validateSalesAnchorScope } from './fixture-profile.mjs';\n \n export function plannedJournal(backend, runId) {\n     assert(['nest', 'rust'].includes(backend));\n-    return stampProfileJournal({ formatVersion: 1, fixtureSourceEpoch: 2, namespace: 'poms-r2l', marker, sourceHead, database: databaseFor(backend), backend, runId: uuid(runId), revision: 0,\n+    return stampProfileJournal({ formatVersion: 1, fixtureSourceEpoch: 2, namespace: 'poms-r2m', marker, sourceHead, database: databaseFor(backend), backend, runId: uuid(runId), revision: 0,\n         state: 'planned', cases: [], objects: [], intents: [], directCreates: [], committedCreates: [], authorities: [], mutations: [], borrowed: { definitions: [] }, base: null, basePreparationConfig: null, preparedBatches: [], cleanup: [] }, fixtureProfile);\n }\n export function validateJournal(journal, backend, runId) {\n@@ -39,6 +40,19 @@ export function validateJournal(journal, backend, runId) {\n         assert(journal.cases.some(({ caseId }) => caseId === plan.caseId));\n         assert(['planned-not-executed', 'executing', 'commit-attempted', 'committed', 'outcome-unknown', 'rolled-back', 'promoted', 'absent'].includes(plan.state));\n     }\n+    if (journal.keyed) {\n+        assert(Array.isArray(journal.keyed.intents) && Array.isArray(journal.keyed.objects));\n+        for (const object of journal.keyed.objects) { assert.equal(object.table,'system_setting'); assert.equal(object.key,'attachment.max-upload-size-mb'); assert(object.creationProof && object.independentlyVisible); assert(journal.keyed.intents.some(intent => intent.table==='system_setting' && intent.key===object.key && intent.beforeAbsent && intent.state==='adopted')); }\n+        assert.equal(new Set(journal.keyed.objects.map(x=>x.key)).size,journal.keyed.objects.length);\n+    }\n+    if (journal.baselineSettingLease) {\n+        const lease = journal.baselineSettingLease;\n+        assert.equal(lease.namespace, 'poms-r2m'); assert.equal(lease.key, 'attachment.max-upload-size-mb');\n+        assert.equal(lease.owned, false); assert.equal(lease.deletionPermitted, false);\n+        assert(['admitted', 'observing', 'restored'].includes(lease.state));\n+        assert.equal(digest(lease.before), lease.beforeSha256); assert.equal(digest(lease.expectedAfter), lease.expectedAfterSha256);\n+        assert.equal(digest(lease.admission), lease.admissionSha256); assert(journal.cases.some(scope => scope.caseId === lease.caseId));\n+    }\n     const keys = new Set();\n     for (const object of journal.objects) {\n         assert(Object.hasOwn(identities, object.table)); assert.equal(object.id, uuid(object.id));\n@@ -62,18 +76,22 @@ export function validateJournal(journal, backend, runId) {\n             assert(intent); assertCreationProof(journal, certificate, intent);\n         }\n     }\n-    if (fixtureProfile.name === 'todo42') for (const scope of journal.cases.filter(scope => scope.caseId !== 'base')) validateSalesAnchorScope(journal, scope);\n+    if (fixtureProfile.name === 'r2m-stage') for (const scope of journal.cases.filter(scope => scope.caseId !== 'base')) validateSalesAnchorScope(journal, scope);\n     return journal;\n }\n function assertStablePlans(previous, next) {\n     if (!previous) return;\n     assertProfileJournal(previous, fixtureProfile); assertProfileJournal(next, fixtureProfile);\n-    if (fixtureProfile.name === 'todo42') for (const scope of previous.cases.filter(scope => scope.caseId !== 'base')) {\n+    if (fixtureProfile.name === 'r2m-stage') for (const scope of previous.cases.filter(scope => scope.caseId !== 'base')) {\n         const current = next.cases.find(item => item.caseId === scope.caseId); assert(current);\n         for (const key of ['ownedCustomerIds','ownedLeadIds','salesProjectCustomers']) assert.equal(digest(current[key]), digest(scope[key]), 'Immutable explicit sales anchors changed');\n     }\n     if (previous.basePreparationConfig) assert.equal(digest(previous.basePreparationConfig), digest(next.basePreparationConfig), 'Immutable planned viewer configuration changed');\n     if (previous.borrowed.definitions.length) assert.equal(digest(previous.borrowed.definitions), digest(next.borrowed.definitions), 'Readonly definition before snapshot changed');\n+    if (previous.baselineSettingLease) {\n+        assert(next.baselineSettingLease);\n+        for (const key of ['namespace', 'key', 'caseId', 'admissionSha256', 'admission', 'sourceBinding', 'currentToolRawBytesSha256', 'before', 'beforeSha256', 'owned', 'deletionPermitted']) assert.equal(digest(previous.baselineSettingLease[key]), digest(next.baselineSettingLease[key]), 'Baseline singleton admission/before snapshot changed');\n+    }\n     for (const plan of previous.preparedBatches ?? []) {\n         const current = next.preparedBatches?.find(({ id }) => id === plan.id); assert(current);\n         for (const field of ['caseId', 'sourcePlanSha256', 'originalPlan', 'defaultSources', 'sourceBoundary']) assert.equal(digest(current[field]), digest(plan[field]), 'Immutable prepared source plan changed');\n@@ -87,14 +105,14 @@ export function memoryStore(backend, runId) {\n // the store. No old namespace, environment file or journal is consulted.\n export function journalStore(backend, runId, privateRoot) {\n     assert.equal(process.platform, 'linux');\n-    assert(['/r2l-private', '/home/wangzishi/.local/share/poms-r2l/private'].includes(privateRoot));\n+    assert(['/r2m-private', '/home/wangzishi/.local/share/poms-r2m/private'].includes(privateRoot));\n     const checkDirectory = (directory, create = false) => {\n         if (create && !fs.existsSync(directory)) fs.mkdirSync(directory, { mode: 0o700 });\n         const stat = fs.lstatSync(directory);\n         assert(stat.isDirectory() && !stat.isSymbolicLink() && (stat.mode & 0o077) === 0, 'Unsafe journal directory');\n     };\n     checkDirectory(privateRoot);\n-    const directory = path.join(privateRoot, 'l-runs'); checkDirectory(directory, true);\n+    const directory = path.join(privateRoot, 'm-runs'); checkDirectory(directory, true);\n     const file = path.join(directory, backend + '-' + uuid(runId) + '.json');\n     assert.equal(path.dirname(file), directory);\n     let lastDigest;\n@@ -102,7 +120,7 @@ export function journalStore(backend, runId, privateRoot) {\n         if (!fs.existsSync(file)) { lastDigest = null; return; }\n         const stat = fs.lstatSync(file);\n         assert(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 32 * 1024 * 1024 && (stat.mode & 0o077) === 0, 'Unsafe journal file');\n-        const value = validateJournal(JSON.parse(fs.readFileSync(file, 'utf8')), backend, runId);\n+        const value = validateJournal(JSON.parse(readPrivateRegular(file, {kind: 'journal'})), backend, runId);\n         lastDigest = digest(value); return value;\n     }\n     function write(next) {\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b",
+      "original": {
+        "file": "tools/rust-r2l/fixture-prepared.mjs",
+        "bytes": 6469,
+        "rawBytesSha256": "c837dae45703f79ae9e5f9dce9deb5baa8963d594c2c1de975b78203c53f8f89",
+        "normalizedLfSha256": "c837dae45703f79ae9e5f9dce9deb5baa8963d594c2c1de975b78203c53f8f89"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-prepared.mjs b/tools/rust-r2m/fixture-prepared.mjs\nindex 474bee28..89480e93 100644\n--- a/tools/rust-r2l/fixture-prepared.mjs\n+++ b/tools/rust-r2m/fixture-prepared.mjs\n@@ -4,7 +4,7 @@ import fs from 'node:fs';\n import { createHash } from 'node:crypto';\n import { authority } from './catalog-complete.mjs';\n import { columns, digest, identities, normalize, rowIdentity } from './fixture-core.mjs';\n-import { canonicalDefinitions } from './fixture-commission-policy.mjs';\n+import { canonicalDefinitions } from './fixture-policy.mjs';\n const root = new URL('../../', import.meta.url);\n const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');\n const lf = (file) => fs.readFileSync(new URL(file, root), 'utf8').replace(/\\r\\n/g, '\\n');\n@@ -35,12 +35,7 @@ export function inspectPreparedDefaultSources() {\n     return {\n         migrations: { sourceInput: { ...sourceInput }, verifiedCount: input.migrations.length, sourceHead: input.sourceHead },\n         exactFieldSource: { ...migration }, entity: { file: entity, normalizedLfSha256: sha(lf(entity)) },\n-        actualNoConnectionMetadataObservation: {\n-            file: 'tmp/rust-r2l/metadata-export01/schema-input.json', sha256: '5462742271f209248ad78592b9a2bf4966aa5be6d5dab1d874c6f18e49ba8c64',\n-            reportSha256: 'd459f48999d812aa66833cb336e24db7c287c2fc06edda186cefd2c00c5eba91',\n-            table: 'contract_term_snapshot', properties: ['sourceReadinessId', 'sourceBaselineId'], nullable: true, defaultOrDefaultRawPresent: false,\n-            boundary: 'Recorded SDK connect:false metadata only; not evidence of the current PostgreSQL defaults'\n-        },\n+        sourceOnlyDefaultCandidate: { table: 'contract_term_snapshot', columns: ['source_readiness_id', 'source_baseline_id'], nullable: true, currentActualMetadataClaimed: false },\n         physicalVerificationRequiredBeforeInsert: true\n     };\n }\n@@ -50,7 +45,7 @@ export async function validateCommissionPreparedPlan(plan) {\n     assert.equal(plan.source.file, preparedSource.file);\n     assert.equal(plan.source.normalizedLfSha256, preparedSource.normalizedLfSha256);\n     assert.equal(sha(lf(preparedSource.file)), preparedSource.normalizedLfSha256);\n-    const { buildCommissionPreparedRows } = await import('./commission-prepared-source.mjs');\n+    const { buildCommissionPreparedRows } = await import('./fixture-prepared-source.mjs');\n     const rebuilt = await buildCommissionPreparedRows({\n         uuidMappings: Object.fromEntries(plan.mappings.map(({ from, to }) => [from, to])),\n         names: Object.fromEntries(plan.textMappings.map(({ field, to }) => [field, to])), logicalIds: plan.explicitLogicalIds\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1",
+      "original": {
+        "file": "tools/rust-r2l/commission-prepared-source.mjs",
+        "bytes": 21359,
+        "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1",
+        "normalizedLfSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+      },
+      "completeOriginalToCurrentDiff": "",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-references.mjs",
+      "bytes": 12668,
+      "rawBytesSha256": "32bdd9d54ad86c0717bc66bd8aa8cd700047d129f59b76226af5a0170a8ea7cc",
+      "original": {
+        "file": "tools/rust-r2l/fixture-references.mjs",
+        "bytes": 10616,
+        "rawBytesSha256": "965f8f74bef3e7e4c84cc482e37c55830d886b0242a5be3c363de81396951da7",
+        "normalizedLfSha256": "965f8f74bef3e7e4c84cc482e37c55830d886b0242a5be3c363de81396951da7"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-references.mjs b/tools/rust-r2m/fixture-references.mjs\nindex 706f9005..3b2b83c8 100644\n--- a/tools/rust-r2l/fixture-references.mjs\n+++ b/tools/rust-r2m/fixture-references.mjs\n@@ -1,9 +1,10 @@\n+import { stageGlobalTables } from './fixture-policy.mjs';\n import assert from 'node:assert/strict';\n import { authority, frozenTables, ident, verifyFullCatalog } from './catalog-complete.mjs';\n import { columns, digest, identities, normalize, rowIdentity, rowKey, sameIdentity, uuid, uuidKey, SEED_ACTORS } from './fixture-core.mjs';\n-import { canonicalDefinitions, projectParentEdges, summaryTargetTables } from './fixture-commission-policy.mjs';\n+import { canonicalDefinitions, projectParentEdges, summaryTargetTables } from './fixture-policy.mjs';\n import { fixtureProfile } from './fixture-core.mjs';\n-import { assertTodo42SalesScope, assertTodo42CurrentSalesClosure } from './l-todo-profile-candidate.mjs';\n+import { assertTodo42SalesScope, assertTodo42CurrentSalesClosure } from './fixture-profile.mjs';\n \n export function uuidReferences(value, path = []) {\n     if (typeof value === 'string') {\n@@ -58,6 +59,15 @@ export function assertRowReferences(journal, table, row, scope, additional = [])\n     for (const ref of uuidReferences(row)) {\n         if (known.has(ref.id)) continue;\n         const column = ref.path[0];\n+        // Object-key UUIDs are opaque storage names, never row ownership. Only\n+        // a fresh run-prefixed key is admitted; actual objects need their own\n+        // before-absence/creation/hash ledger and exact cleanup.\n+        if (['storage_key', 'key_prefix'].includes(column) && ['attachment', 'attachment_upload_session', 'attachment_download_package', 'attachment_storage_provider_config'].includes(table)) {\n+            const key = row[column];\n+            assert(typeof key === 'string' && !key.startsWith('/') && !key.includes('\\\\') && !key.split('/').includes('..'));\n+            assert(key.replaceAll('-', '').includes(journal.runId.replaceAll('-', '')), 'Object key is outside this fresh run');\n+            continue;\n+        }\n         if (SEED_ACTORS.includes(ref.id) && scope.borrowedActors.includes(ref.id) && journal.borrowed?.principalSnapshot && (actorColumns.has(column) || (table === 'auth_session' && column === 'user_id') || ['json', 'jsonb'].includes(columns.get(table)?.get(column)?.udt))) continue;\n         if (column === 'summary_package_id' && scope.borrowedDefinitions.includes(ref.id) && journal.borrowed?.definitions.some((entry) => entry.id === ref.id)) continue;\n         assert.fail('unregistered_uuid_reference: ' + table + '.' + ref.path.join('.'));\n@@ -84,6 +94,15 @@ export function assertCaseScope(journal, table, row, scope, additional = []) {\n         assert((table === 'security_event' && actor === null && scope.anonymous) || (actor !== null && actors.has(uuid(actor))), 'Audit/security principal missing');\n         return;\n     }\n+    if (stageGlobalTables.includes(table)) {\n+        assert(scope.actors.length > 0 || scope.anonymous, 'Explicit stage case required');\n+        const refs = uuidReferences(row).filter(ref => ref.path[0] !== 'id');\n+        for (const ref of refs) {\n+            const owned = [...journal.objects, ...additional].find(item => uuidKey(item.id) === uuidKey(ref.id));\n+            if (owned) assert(owned.caseId === scope.caseId || owned.caseId === 'base' || scope.actors.includes(ref.id), 'Stage resource belongs to another case');\n+        }\n+        return;\n+    }\n     const projectIds = resolveOwnedProjectIds(journal, table, row, { additional });\n     assert(projectIds.length > 0, 'Row has no proven project-domain parent');\n     for (const projectId of projectIds) assert(scope.projects.includes(projectId) || additional.some((entry) => entry.table === 'project' && uuid(entry.id) === projectId && entry.caseId === scope.caseId), 'Project parent is outside explicit case scope');\n@@ -102,6 +121,16 @@ export async function selectId(client, table, id, lock = false) {\n export function assertScannedRows(journal, rows) {\n     const found = new Map();\n     for (const { table, row } of rows) {\n+        if (table === 'system_setting') {\n+            const lease = journal.baselineSettingLease;\n+            if (lease && row.key === lease.key) {\n+                assert.equal(lease.owned, false); assert.equal(lease.deletionPermitted, false);\n+                assert.equal(digest(row), lease.expectedAfterSha256, 'Unrecorded baseline singleton change');\n+                continue;\n+            }\n+            const owned = journal.keyed?.objects?.find(item => item.key === row.key && item.creationProof && item.independentlyVisible);\n+            assert(owned, 'Unproven canonical setting reference'); continue;\n+        }\n         const object = journal.objects.find((entry) => entry.table === table && uuidKey(entry.id) === uuidKey(row.id));\n         assert(object && sameIdentity(table, row, object.identity), 'foreign_or_unproven_fixture_reference: ' + table);\n         found.set(rowKey(table, row), row);\n@@ -112,7 +141,7 @@ export async function scanReferences(client, journal, { lock = false } = {}) {\n     const catalog = await verifyFullCatalog(client, { lock });\n     const ids = [...new Set([journal.runId, ...ownedIds(journal), ...(journal.plans ?? []).map((entry) => entry.id)])];\n     assert(ids.every((id) => !SEED_ACTORS.includes(id)), 'Borrowed principals cannot be logical deletion ids');\n-    const needles = ids.map((id) => '%' + uuidKey(id) + '%'), scanned = [];\n+    const needles = [...ids.map((id) => '%' + uuidKey(id) + '%'), ...(journal.keyed?.objects ?? []).map(item => '%' + item.key.replaceAll('-', '') + '%')], scanned = [];\n     for (const table of frozenTables) {\n         const { rows } = await client.query('select to_jsonb(t) as row from poms.' + ident(table) + \" t where lower(replace(to_jsonb(t)::text,'-','')) like any($1::text[])\" + (lock ? ' for update' : ''), [needles]);\n         for (const item of rows) scanned.push({ table, row: item.row });\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910",
+      "original": {
+        "file": "tools/rust-r2l/fixture-users.mjs",
+        "bytes": 6538,
+        "rawBytesSha256": "6bdbf93779a0a5a07461008a42397f1ac2132184b9a59d0c96423ca9639e78fa",
+        "normalizedLfSha256": "6bdbf93779a0a5a07461008a42397f1ac2132184b9a59d0c96423ca9639e78fa"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-users.mjs b/tools/rust-r2m/fixture-users.mjs\nindex 4243e91d..c329ff7d 100644\n--- a/tools/rust-r2l/fixture-users.mjs\n+++ b/tools/rust-r2m/fixture-users.mjs\n@@ -3,13 +3,13 @@ import { randomUUID } from 'node:crypto';\n import { createRequire } from 'node:module';\n import { digest, SEED_ACTORS, uuid } from './fixture-core.mjs';\n import { ident } from './catalog-complete.mjs';\n-import { canonicalDefinitions } from './fixture-commission-policy.mjs';\n+import { canonicalDefinitions } from './fixture-policy.mjs';\n const require = createRequire(import.meta.url);\n-const { fixtureCredentials } = require('./fixture-protocol.cjs');\n+import { fixtureCredentials } from './fixture-credentials.mjs';\n \n export function plannedBase(runId) {\n-    const roles = ['admin', 'viewer'].map((slot) => ({ slot, id: randomUUID(), key: 'r2l_role_' + slot + '_' + runId }));\n-    const orgs = ['admin', 'viewer'].map((slot) => ({ slot, id: randomUUID(), key: 'r2l_org_' + slot + '_' + runId }));\n+    const roles = ['admin', 'viewer'].map((slot) => ({ slot, id: randomUUID(), key: 'r2m_role_' + slot + '_' + runId }));\n+    const orgs = ['admin', 'viewer'].map((slot) => ({ slot, id: randomUUID(), key: 'r2m_org_' + slot + '_' + runId }));\n     return { roles, orgs, accounts: ['admin', 'viewer'].map((account, index) => ({ account, userId: randomUUID(), username: fixtureCredentials(runId, account).username, roleId: roles[index].id, orgId: orgs[index].id })) };\n }\n export function viewerPermissionPlan(permissions, requested = ['nav:dashboard:view']) {\n@@ -25,7 +25,7 @@ export async function baseRows(runId, base, permissions, viewerPermissions = ['n\n     for (const role of base.roles) rows.push({ table: 'role', values: { id: role.id, role_key: role.key, name: role.key, is_active: true, is_system_role: false } });\n     for (const org of base.orgs) rows.push({ table: 'org_unit', values: { id: org.id, code: org.key, name: org.key, is_active: true, parent_id: null } });\n     for (const account of base.accounts) {\n-        rows.push({ table: 'platform_user', values: { id: account.userId, username: account.username, display_name: 'R2L ' + account.account, is_active: true, primary_org_unit_id: account.orgId } });\n+        rows.push({ table: 'platform_user', values: { id: account.userId, username: account.username, display_name: 'R2M ' + account.account, is_active: true, primary_org_unit_id: account.orgId } });\n         rows.push({ table: 'local_credential', values: { id: randomUUID(), user_id: account.userId, password_hash: await bcrypt.hash(fixtureCredentials(runId, account.account).password, 4) } });\n         rows.push({ table: 'user_role_assignment', values: { id: randomUUID(), user_id: account.userId, role_id: account.roleId } });\n         rows.push({ table: 'user_org_membership', values: { id: randomUUID(), user_id: account.userId, org_unit_id: account.orgId, membership_type: 'primary' } });\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44",
+      "original": {
+        "file": "tools/rust-r2l/fixture-cleanup.mjs",
+        "bytes": 4447,
+        "rawBytesSha256": "b0a70f0a6fe7dec57397dba62dfa315c8d3d1e13510bf8b62415a029703526a8",
+        "normalizedLfSha256": "b0a70f0a6fe7dec57397dba62dfa315c8d3d1e13510bf8b62415a029703526a8"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-cleanup.mjs b/tools/rust-r2m/fixture-cleanup.mjs\nindex c930eaac..323b54dc 100644\n--- a/tools/rust-r2l/fixture-cleanup.mjs\n+++ b/tools/rust-r2m/fixture-cleanup.mjs\n@@ -1,3 +1,4 @@\n+import { assertKeyedCurrent, cleanupKeyed } from './fixture-keyed.mjs';\n import assert from 'node:assert/strict';\n import { ident } from './catalog-complete.mjs';\n import { digest, rowKey, sameIdentity } from './fixture-core.mjs';\n@@ -6,11 +7,13 @@ import { assertSeedUnchanged } from './fixture-users.mjs';\n \n export async function zero(client, journal) {\n     const scan = await scanReferences(client, journal);\n+    const keyed = await assertKeyedCurrent({client, j: journal}); assert.equal(keyed.length, 0, 'Owned setting remains');\n     assert.equal(scan.found.size, 0, 'Owned row/reference remains after cleanup');\n     return { objects: 0, logicalReferences: 0, tablesScanned: scan.tablesScanned, catalog: scan.catalog };\n }\n export async function cleanup(fixture) {\n     const { client, j } = fixture;\n+    fixture.assertDrained();\n     assert(['prepared', 'cleanup-committed', 'cleaned'].includes(j.state));\n     assert(!j.intents.some((intent) => intent.state !== 'adopted' && intent.state !== 'absent'), 'Resolve pending creation evidence before cleanup');\n     assert(!j.directCreates.some((intent) => !['promoted', 'absent', 'rolled-back'].includes(intent.state)), 'Resolve unknown direct COMMIT before cleanup');\n@@ -21,6 +24,7 @@ export async function cleanup(fixture) {\n         await assertSeedUnchanged(client, j);\n         const scan = await scanReferences(client, j, { lock: true });\n         attempt.catalog = scan.catalog;\n+        attempt.keyed = await cleanupKeyed(fixture);\n         const remaining = new Map(scan.found);\n         while (remaining.size) {\n             const graph = deletionGraph(j, remaining);\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-safety.test.mjs",
+      "bytes": 18665,
+      "rawBytesSha256": "12f09e5a779bfe7f6d6889f53b169cf614e0ab41ab1b1e8b6589e810b51a9058",
+      "original": {
+        "file": "tools/rust-r2l/fixture-safety.test.mjs",
+        "bytes": 11691,
+        "rawBytesSha256": "763dcab9a8b804be3198d0d2738e8e54622a469592a7b71d5b06249cf1c92d20",
+        "normalizedLfSha256": "763dcab9a8b804be3198d0d2738e8e54622a469592a7b71d5b06249cf1c92d20"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/fixture-safety.test.mjs b/tools/rust-r2m/fixture-safety.test.mjs\nindex 43f8522b..e3c18598 100644\n--- a/tools/rust-r2l/fixture-safety.test.mjs\n+++ b/tools/rust-r2m/fixture-safety.test.mjs\n@@ -1,3 +1,11 @@\n+import { fixtureProfile } from './fixture-core.mjs';\n+import { validateAmbient, validateMarker, databaseFor as currentDatabaseFor } from './fixture-guard.mjs';\n+import { profileFromEnvironment } from './fixture-profile.mjs';\n+import { publicFixtureError } from './audit-error.mjs';\n+import { validateBaselineRestoreCandidate, baselineSettingKey } from './fixture-setting-baseline.mjs';\n+import { createRequire } from 'node:module';\n+const require = createRequire(import.meta.url);\n+const { loadManagedEnvironment } = require('./managed-environment.cjs');\n // Pure assertions/fake clients only. No prepare, DB connection, real DML, env,\n // private journal, borrowed seed query, observer installation or cleanup runs.\n import test from 'node:test';\n@@ -7,7 +15,7 @@ import { marker, databaseFor } from './fixture-guard.mjs';\n import { assertCreationProof, caseIdentity, digest, identities, normalize, rowIdentity, sameIdentity, supportedTables, unsupportedTables, SEED_ACTORS } from './fixture-core.mjs';\n import { assertCaseScope, assertNotBorrowed, assertRowReferences, assertScannedRows, deletionGraph, uuidReferences, whereIdentity } from './fixture-references.mjs';\n import { plannedJournal, memoryStore } from './fixture-journal.mjs';\n-import { LFixture } from './l-fixture.mjs';\n+import { Fixture } from './fixture.mjs';\n \n const run = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', actor = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';\n const project = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc', contract = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';\n@@ -17,24 +25,24 @@ function object(table, row, caseId = 'base') {\n     return { table, id: row.id, caseId, identity: rowIdentity(table, row), creationProof: directProof, postcondition: { independentlyVisible: true } };\n }\n function fixture(query = async () => { throw new Error('Unexpected fake SQL'); }) {\n-    const f = new LFixture({ query }, 'nest', run, { store: memoryStore('nest', run) });\n+    const f = new Fixture({ query }, 'nest', run, { store: memoryStore('nest', run) });\n     f.j.state = 'prepared'; f.j.base = { accounts: [{ account: 'admin', userId: actor }], roles: [], orgs: [] };\n-    f.j.objects.push(object('platform_user', { id: actor, username: 'r2l_actor' })); f.save(); return f;\n+    f.j.objects.push(object('platform_user', { id: actor, username: 'r2m_actor' })); f.save(); return f;\n }\n function native() {\n-    const j = plannedJournal('nest', run), context = { runId: run, caseId: 'contract', index: 1, op: 'l.native' };\n+    const j = plannedJournal('nest', run), context = { runId: run, caseId: 'contract', index: 1, op: 'm.native' };\n     const proof = { kind: 'mikro-orm-afterCreate-outer-commit', sdkVersion: '7.0.11', createEventSeq: 2, createTransaction: 'tx1', createContext: context, releases: [], outerTransaction: 'tx1', outerBeforeCommitEventSeq: 3, outerCommitEventSeq: 4, commitContext: context };\n-    const item = { table: 'contract', id: contract, authorityId, intentId, proof };\n+    const item = { table: 'contract', id: contract, authorityId, intentId, proof, fixtureProfile: fixtureProfile.journalTag };\n     const trace = { complete: true, diagnostics: [], openTransactions: [], pendingStartCount: 0,\n         events: [{ seq: 1, event: 'afterTransactionStart', transaction: 'tx1', parent: null, savepointName: null }, { seq: 2, event: 'afterCreate', table: 'contract' }, { seq: 3, event: 'beforeTransactionCommit', transaction: 'tx1' }, { seq: 4, event: 'afterTransactionCommit', transaction: 'tx1' }],\n         committed: [{ table: 'contract', id: contract, proof: structuredClone(proof) }] };\n-    j.authorities.push({ id: authorityId, kind: proof.kind, database: databaseFor('nest'), marker, trace });\n+    j.authorities.push({ id: authorityId, kind: proof.kind, database: databaseFor('nest'), marker, trace, fixtureProfile: fixtureProfile.journalTag });\n     return { j, item, intent: { id: intentId, table: 'contract', caseId: 'contract', beforeObserved: true, beforeIds: [] } };\n }\n \n-test('epoch02 closure has forty explicit tables; other 67 remain unsupported', () => {\n-    assert.equal(supportedTables.length, 40); assert.equal(unsupportedTables.length, 67);\n-    for (const table of ['approval_summary_package_definition', 'business_number_sequence', 'attachment', 'change_package_baseline', 'contract_amendment', 'commercial_release_baseline']) {\n+test('R2M stage admits59 named UUID tables;48 remain scan-only', () => {\n+    assert.equal(supportedTables.length, 59); assert.equal(unsupportedTables.length, 48);\n+    for (const table of ['approval_summary_package_definition', 'poms_migrations', 'change_package_baseline', 'contract_amendment', 'commercial_release_baseline']) {\n         assert(unsupportedTables.includes(table)); assert.throws(() => normalize(table, { id: project }), /unsupported_fixture_table/);\n     }\n });\n@@ -62,7 +70,7 @@ test('PG proof preserves real distinct top/sub xids and rejects uncommitted/ambi\n     const data = native();\n     const proof = { kind: 'pg-after-insert-observed-outer-commit', createContext: data.item.proof.createContext, database: databaseFor('nest'), marker, sourceAuthority: 'source', observerId: authorityId, functionOid: 123,\n         topXid8: '100', eventXid8: '101', eventXmin: '101', observedFullXid8: '103', outerCommitObserved: true, outerStatus: 'committed', topXidStatus: 'committed', eventXminStatus: 'committed', visibleFromIndependentOwnerConnection: true, eventId: '1' };\n-    data.j.authorities = [{ id: authorityId, kind: proof.kind, database: proof.database, marker, sourceAuthority: 'source', observerId: authorityId, functionOid: 123 }];\n+    data.j.authorities = [{ id: authorityId, kind: proof.kind, database: proof.database, marker, sourceAuthority: 'source', observerId: authorityId, functionOid: 123, fixtureProfile: fixtureProfile.journalTag }];\n     data.item.proof = proof; assertCreationProof(data.j, data.item, data.intent);\n     for (const changes of [{ eventXminStatus: 'in progress' }, { topXidStatus: 'aborted' }, { eventXmin: '100' }, { observedFullXid8: '2147484000' }, { outerCommitObserved: false }]) {\n         assert.throws(() => assertCreationProof(data.j, { ...data.item, proof: { ...proof, ...changes } }, data.intent));\n@@ -104,7 +112,7 @@ test('DELETE identity predicates bind exact PK and immutable values without muta\n     assert(!/status|version/.test(condition.sql));\n });\n test('actual FK graph deletes referencing owned rows before parents, without cascade', () => {\n-    const j = plannedJournal('nest', run), role = { id: project, role_key: 'r2l_role' }, permission = { id: contract, role_id: project, permission_key: 'project:read' };\n+    const j = plannedJournal('nest', run), role = { id: project, role_key: 'r2m_role' }, permission = { id: contract, role_id: project, permission_key: 'project:read' };\n     j.objects = [object('role', role), object('role_permission_assignment', permission)];\n     const graph = deletionGraph(j, new Map([['role:' + project, role], ['role_permission_assignment:' + contract, permission]]));\n     assert.deepEqual(graph.leaves.map((entry) => entry.table), ['role_permission_assignment']); assert(graph.edges.some((edge) => edge.target === 'role:' + project));\n@@ -120,9 +128,87 @@ test('resolveNoCreates requires exact independent before/after ids and never ado\n });\n test('pending proof or unknown mutation outcome blocks cleanup before any fake SQL', async () => {\n     let calls = 0; const f = fixture(async () => { calls++; throw new Error('No fake DML permitted'); });\n+    f.j.writerDrain = { namespace: 'poms-r2m', runId: run, backend: 'nest', marker, activeRequests: 0, pendingTransactions: 0, observersRestored: true, writers: [{kind:'synthetic-pure-test',identity:'mock-only',stopped:true}], sourceCapsuleSha256: '0'.repeat(64) };\n     f.j.intents.push({ state: 'planned' }); await assert.rejects(f.cleanup(), /pending creation/); assert.equal(calls, 0);\n     f.j.intents = []; f.j.mutations.push({ state: 'outcome-unknown' }); await assert.rejects(f.cleanup(), /mutation COMMIT/); assert.equal(calls, 0);\n });\n test('case request identities remain within the original request-id column width', () => {\n     const a = caseIdentity(run, 'a'.repeat(80)), b = caseIdentity(run, 'b'); assert(a.requestId.length <= 64); assert.notEqual(a.requestId, b.requestId); assert.equal(digest(a), digest(caseIdentity(run, 'a'.repeat(80))));\n });\n+\n+test('R2M exact namespace and marker cannot read old L database evidence', () => {\n+    assert.equal(currentDatabaseFor('rust'), 'poms_r2m_rust');\n+    assert.throws(() => validateMarker([{ database: 'poms_r2m_rust', marker: '04aadee8-4ec6-4a3b-9d27-ee8d51721029' }], 'poms_r2m_rust'));\n+    assert.throws(() => currentDatabaseFor('r2l'));\n+});\n+\n+test('case-insensitive ambient database/process overrides reject before environment IO', () => {\n+    for (const key of ['PGHOST', 'pgport', 'dB_User', 'mikro_orm', 'DATABASE_URL', 'node_options', 'JWT_SECRET']) {\n+        assert.throws(() => validateAmbient({ [key]: 'synthetic secret' }));\n+        assert.throws(() => loadManagedEnvironment({ mode: 'managed-nest', env: { POMS_ENV_FILE: '/old-private/nest.env', [key]: 'synthetic secret' } }));\n+    }\n+    assert.throws(() => loadManagedEnvironment({ mode: 'managed-nest', env: { POMS_ENV_FILE: '/old-private/nest.env' } }), /r2m_environment_path/);\n+});\n+\n+test('legacy profile choice rejects before source collection and certificate use', () => {\n+    let reads = 0;\n+    for (const key of ['POMS_R2L_FIXTURE_PROFILE', 'POMS_R2M_FIXTURE_PROFILE']) assert.throws(() => profileFromEnvironment({ [key]: 'todo42' }, () => { reads++; return []; }));\n+    assert.equal(reads, 0);\n+    const data = native(); delete data.item.fixtureProfile; assert.throws(() => assertCreationProof(data.j, data.item, data.intent));\n+});\n+\n+test('cleanup requires a matching drained writer receipt before any synthetic SQL', async () => {\n+    let calls = 0; const f = fixture(async () => { calls++; throw new Error('unexpected mock query'); });\n+    await assert.rejects(f.cleanup()); assert.equal(calls, 0);\n+    const receipt = { namespace: 'poms-r2m', marker, runId: run, backend: 'nest', activeRequests: 1, pendingTransactions: 0, observersRestored: true, writers: [{kind:'mock',identity:'mock-only',stopped:true}], sourceCapsuleSha256: '0'.repeat(64) };\n+    assert.throws(() => f.drain(receipt)); assert.equal(f.j.writerDrain, undefined);\n+    f.drain({...receipt, activeRequests:0}); assert.throws(() => f.defineCase('after-drain', {actors:[actor]})); assert.equal(calls,0);\n+});\n+\n+test('pre-existing canonical string-PK setting refuses any new ownership', async () => {\n+    const f = fixture(async () => ({rows:[{row:{key:'attachment.max-upload-size-mb',value_type:'integer',value_json:50}}]}));\n+    f.defineCase('setting', {actors:[actor]});\n+    await assert.rejects(f.planSettingCreate('attachment.max-upload-size-mb', {caseId:'setting'}), /Existing canonical setting/);\n+    assert.equal(f.j.keyed.objects.length,0);\n+    await assert.rejects(f.planSettingCreate('invented-key', {caseId:'setting'}));\n+});\n+\n+test('new canonical setting requires actual same-key INSERT/outer-COMMIT authority', async () => {\n+    const f = fixture(async () => ({rows:[]})); f.defineCase('setting', {actors:[actor]});\n+    const plan = await f.planSettingCreate('attachment.max-upload-size-mb',{caseId:'setting'});\n+    await assert.rejects(f.adoptSettingCreate(plan.id,{table:'system_setting',key:plan.key,intentId:plan.id,proof:{kind:'http-response-id'}}));\n+    assert.equal(f.j.keyed.objects.length,0); assert.equal(f.j.keyed.intents[0].state,'planned');\n+    await f.resolveNoSettingCreate(plan.id); assert.equal(f.j.keyed.intents[0].state,'absent');\n+});\n+\n+test('public errors retain only fixed categories and SQLSTATE, never secret values', () => {\n+    const secret = 'private-test-not-a-real-secret';\n+    const error = new Error(secret); error.sql = secret; error.config = {password:secret}; error.code='23505';\n+    assert.deepEqual(publicFixtureError(error,'prepare'), {result:'failed',phase:'prepare',category:'database',sqlState:'23505'});\n+    assert(!JSON.stringify(publicFixtureError(Object.assign(new Error(secret),{name:'AssertionError',actual:secret,expected:secret}))).includes(secret));\n+});\n+\n+function baselineRows() {\n+    const before = { key: baselineSettingKey, value_type: 'integer', value_json: 50, row_version: 1, created_at: '2026-10-31T00:00:00+08:00', updated_at: '2026-10-31T00:00:00+08:00', updated_by: null };\n+    const after = { ...before, value_json: 64, row_version: 2, updated_at: '2026-10-31T00:01:00+08:00', updated_by: actor };\n+    return { before, after, lease: { key: baselineSettingKey, before, beforeSha256: digest(before), expectedAfter: after, expectedAfterSha256: digest(after) } };\n+}\n+test('baseline restore compares every original and expected-after field, never only key/value', () => {\n+    const {lease, after} = baselineRows(); assert.equal(validateBaselineRestoreCandidate(lease, after), true);\n+    for (const patch of [{row_version:3},{updated_by:null},{updated_at:'2026-10-31T00:02:00+08:00'},{value_json:50},{extra:'unreviewed'}]) assert.throws(() => validateBaselineRestoreCandidate(lease, {...after,...patch}));\n+    assert.throws(() => validateBaselineRestoreCandidate({...lease,beforeSha256:'0'.repeat(64)},after));\n+});\n+\n+test('baseline singleton is refused before cleanup SQL until exact restore is certified', async () => {\n+    let calls=0;const f=fixture(async()=>{calls++;throw new Error('unexpected mock SQL');});\n+    f.j.writerDrain={namespace:'poms-r2m',runId:run,backend:'nest',marker,activeRequests:0,pendingTransactions:0,observersRestored:true,writers:[{kind:'mock',identity:'mock-only',stopped:true}],sourceCapsuleSha256:'0'.repeat(64)};\n+    f.j.baselineSettingLease={...baselineRows().lease,state:'observing'};\n+    await assert.rejects(f.cleanup(),/Restore singleton/);assert.equal(calls,0);\n+});\n+\n+test('a queried singleton row or wrong environment is not a precise admission', async () => {\n+    let calls=0;const f=fixture(async()=>{calls++;throw new Error('unexpected mock SQL');});f.defineCase('setting-lease',{actors:[actor]});\n+    await assert.rejects(f.admitBaselineSetting({kind:'query-row-owner'}, {caseId:'setting-lease'}));\n+    await assert.rejects(f.admitBaselineSetting({kind:'R2M-environment-baseline-setting-precise-admission',namespace:'poms-r2l'}, {caseId:'setting-lease'}));\n+    assert.equal(calls,0);assert.equal(f.j.baselineSettingLease,undefined);\n+});\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/database-client.mjs",
+      "bytes": 2041,
+      "rawBytesSha256": "67e281cacd0b21ff6c530eb9a07c6d9308d64b61483d0c70e9ec76ce1f1b5cd7",
+      "original": {
+        "file": "tools/rust-r2l/database-client.mjs",
+        "bytes": 2013,
+        "rawBytesSha256": "ecf77a9f86235db03f99bb2a795d7a56294ed03d1805ff617b0c46177cbc710e",
+        "normalizedLfSha256": "ecf77a9f86235db03f99bb2a795d7a56294ed03d1805ff617b0c46177cbc710e"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/database-client.mjs b/tools/rust-r2m/database-client.mjs\nindex aa9d7352..72c69435 100644\n--- a/tools/rust-r2l/database-client.mjs\n+++ b/tools/rust-r2m/database-client.mjs\n@@ -1,30 +1,29 @@\n+import { readPrivateRegular } from './audit-private.mjs';\n import assert from 'node:assert/strict';\n import { createRequire } from 'node:module';\n import { lstatSync, readFileSync } from 'node:fs';\n-import { databaseFor, verifyConnection, validateSource } from './fixture-guard.mjs';\n+import { databaseFor, verifyConnection, validateSource, validateAmbient } from './fixture-guard.mjs';\n const require = createRequire(import.meta.url);\n-const { Client } = createRequire(require.resolve('@mikro-orm/postgresql'))('pg');\n+function clientType() { return createRequire(require.resolve('@mikro-orm/postgresql'))('pg').Client; }\n const { loadManagedEnvironment } = require('./managed-environment.cjs');\n-export const privateRoot = '/home/wangzishi/.local/share/poms-r2l/private';\n-export function regularPrivate(file) {\n-    const stat = lstatSync(file);\n-    assert(stat.isFile() && !stat.isSymbolicLink() && (stat.mode & 0o077) === 0, 'Private file identity/mode');\n-    return readFileSync(file, 'utf8');\n-}\n+export const privateRoot = '/home/wangzishi/.local/share/poms-r2m/private';\n+export function regularPrivate(file) { return readPrivateRegular(file, {kind: 'owner'}); }\n export function managed(backend) {\n     assert(['nest', 'rust'].includes(backend));\n     return loadManagedEnvironment({ mode: 'managed-' + backend, env: { ...process.env, POMS_ENV_FILE: privateRoot + '/' + backend + '.env' } });\n }\n export async function databaseClient(backend) {\n     assert.equal(process.platform, 'linux');\n+    validateAmbient(process.env);\n     validateSource();\n     const database = databaseFor(backend);\n     // This owner connection is only a read-only marker and metadata check.\n-    const owner = new Client({ host: '127.0.0.1', port: 19432, database, user: 'poms_r0e_owner', password: regularPrivate('/home/wangzishi/.local/share/poms-r2l/private/owner-password'), connectionTimeoutMillis: 5000, query_timeout: 15000, application_name: 'poms-r2l-marker-readonly' });\n+    const Client = clientType();\n+    const owner = new Client({ host: '127.0.0.1', port: 20432, database, user: 'poms_r0e_owner', password: regularPrivate('/home/wangzishi/.local/share/poms-r2m/private/owner-password'), connectionTimeoutMillis: 5000, query_timeout: 15000, application_name: 'poms-r2m-marker-readonly' });\n     try { await owner.connect(); await verifyConnection(owner, database, true); }\n     finally { await owner.end(); }\n     const env = managed(backend).childEnv;\n-    const client = new Client({ host: '127.0.0.1', port: 19432, database, user: 'poms_r2l_app', password: env.DB_PASSWORD, connectionTimeoutMillis: 5000, query_timeout: 15000, application_name: 'poms-r2l-owned-fixture' });\n+    const client = new Client({ host: '127.0.0.1', port: 20432, database, user: 'poms_r2m_app', password: env.DB_PASSWORD, connectionTimeoutMillis: 5000, query_timeout: 15000, application_name: 'poms-r2m-owned-fixture' });\n     try { await client.connect(); await verifyConnection(client, database); return client; }\n     catch (error) { await client.end(); throw error; }\n }\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "46a904a0c69b60ba100493bc908380d1fdab58ea5d46fb2ad102d5243651353d",
+      "original": {
+        "file": "tools/rust-r2l/catalog-complete.mjs",
+        "bytes": 7489,
+        "rawBytesSha256": "b6cd2948d825793291e4223b408dc02b9b0129bc20b450af3830da131ccfe5dd",
+        "normalizedLfSha256": "b6cd2948d825793291e4223b408dc02b9b0129bc20b450af3830da131ccfe5dd"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/catalog-complete.mjs b/tools/rust-r2m/catalog-complete.mjs\nindex d0a25b79..c6824e32 100644\n--- a/tools/rust-r2l/catalog-complete.mjs\n+++ b/tools/rust-r2m/catalog-complete.mjs\n@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';\n import {fail} from './fixture-guard.mjs';\n \n const bytes=readFileSync(new URL('./reference-authority.json',import.meta.url));\n-assert.equal(createHash('sha256').update(bytes).digest('hex'),\"bc425f288f04fb3021a65eaa890f01c9cd7b790badd0523077ebf006bdddfcb4\");\n+assert.equal(createHash('sha256').update(bytes).digest('hex'),\"87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e\");\n export const authority=JSON.parse(bytes);\n export const frozenTables=Object.freeze(authority.tables.map(t=>t.name).toSorted());\n assert.equal(frozenTables.length,107);\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/catalog-readonly.mjs",
+      "bytes": 1581,
+      "rawBytesSha256": "ba8606d7b2f0a5b0a2ada83cc7a15518c94d9b0876993f68d39cf82426cd5e17",
+      "original": {
+        "file": "tools/rust-r2l/catalog-readonly.mjs",
+        "bytes": 1283,
+        "rawBytesSha256": "c2ce6b8d954a561aec1574bd286e6f85a33f662788ee2f6002b1d51409676cab",
+        "normalizedLfSha256": "c2ce6b8d954a561aec1574bd286e6f85a33f662788ee2f6002b1d51409676cab"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/catalog-readonly.mjs b/tools/rust-r2m/catalog-readonly.mjs\nindex ab027071..3d447447 100644\n--- a/tools/rust-r2l/catalog-readonly.mjs\n+++ b/tools/rust-r2m/catalog-readonly.mjs\n@@ -1,3 +1,17 @@\n-import assert from'node:assert/strict';import fs from'node:fs';import{createHash}from'node:crypto';import{databaseClient}from'./database-client.mjs';import{verifyFullCatalog}from'./catalog-complete.mjs';\n-assert.equal(process.cwd(),'/home/wangzishi/projects/poms-rust-r2l');const tag=process.argv[2];assert(/^[a-z0-9-]{1,30}$/.test(tag??''));const file=`tmp/rust-r2l/catalog-readonly-${tag}.json`;assert(!fs.existsSync(file));const report={formatVersion:1,result:'pending',kind:'fresh-L-full107-table-1778-column-207-FK-catalog-readonly',startedAt:new Date().toISOString(),databases:[]};\n-try{for(const backend of ['nest','rust']){const client=await databaseClient(backend);try{await client.query('BEGIN READ ONLY');const result=await verifyFullCatalog(client);report.databases.push({backend,result});await client.query('ROLLBACK');}finally{await client.end();}}report.result='pass';}catch(error){report.result='fail';report.failure={name:error.name,message:error.message};process.exitCode=1;}finally{report.finishedAt=new Date().toISOString();report.authorityRawBytesSha256=createHash('sha256').update(fs.readFileSync('tools/rust-r2l/reference-authority.json')).digest('hex');fs.writeFileSync(file,JSON.stringify(report,null,2)+'\\n',{flag:'wx'});console.log(JSON.stringify(report));}\n+import assert from 'node:assert/strict';\n+import fs from 'node:fs';\n+import { createHash } from 'node:crypto';\n+import { pathToFileURL } from 'node:url';\n+import { databaseClient } from './database-client.mjs';\n+import { verifyFullCatalog } from './catalog-complete.mjs';\n+import { publicFixtureError } from './audit-error.mjs';\n+export async function catalogReadonly(tag) {\n+ assert.equal(process.cwd(), '/home/wangzishi/projects/poms-rust-r2m'); assert(/^[a-z0-9-]{1,30}$/.test(tag ?? ''));\n+ const file = 'tmp/rust-r2m/catalog-readonly-'+tag+'.json'; assert(!fs.existsSync(file));\n+ const report={formatVersion:1,result:'pending',kind:'fresh-R2M-full107-catalog-readonly',startedAt:new Date().toISOString(),databases:[]};\n+ try { for(const backend of ['nest','rust']) { const client=await databaseClient(backend); try { await client.query('BEGIN READ ONLY');report.databases.push({backend,result:await verifyFullCatalog(client)});await client.query('ROLLBACK'); } finally { await client.end(); } } report.result='pass'; }\n+ catch(error) { report.result='fail';report.failure=publicFixtureError(error,'catalog'); }\n+ report.finishedAt=new Date().toISOString();report.authorityRawBytesSha256=createHash('sha256').update(fs.readFileSync('tools/rust-r2m/reference-authority.json')).digest('hex');\n+ fs.writeFileSync(file,JSON.stringify(report,null,2)+'\\n',{flag:'wx'});return report;\n+}\n+if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url){const report=await catalogReadonly(process.argv[2]);console.log(JSON.stringify(report));if(report.result!=='pass')process.exitCode=1;}\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e",
+      "original": {
+        "file": "tools/rust-r2l/reference-authority.json",
+        "bytes": 581693,
+        "rawBytesSha256": "bc425f288f04fb3021a65eaa890f01c9cd7b790badd0523077ebf006bdddfcb4",
+        "normalizedLfSha256": "bc425f288f04fb3021a65eaa890f01c9cd7b790badd0523077ebf006bdddfcb4"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/reference-authority.json b/tools/rust-r2m/reference-authority.json\nindex b471002d..35b7be1a 100644\n--- a/tools/rust-r2l/reference-authority.json\n+++ b/tools/rust-r2m/reference-authority.json\n@@ -1,9 +1,9 @@\n {\n   \"formatVersion\": 1,\n-  \"sourceHead\": \"02b8956759352b2612bec5980cbe55ae77d0293f\",\n+  \"sourceHead\": \"9dcfb498b175e9fdaae7584aff1d5d3f93bf814f\",\n   \"sourceInput\": {\n-    \"path\": \"docs/design/rust-r2l/reference-source-input.json\",\n-    \"sha256\": \"061811fc353ee6392fc32e5a2eb4b6cb5ae68e7debba0024d18391fc935ac867\"\n+    \"path\": \"tools/rust-r2m/audit-schema-source.json\",\n+    \"sha256\": \"58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f\"\n   },\n   \"targets\": [\n     \"acceptance_record\",\n@@ -23495,9 +23495,8 @@\n     }\n   ],\n   \"derivation\": {\n-    \"previousSourceHead\": \"ee0f4847cae292fe5cee1d1eec065b7194607683\",\n-    \"previousAuthorityRawBytesSha256\": \"07b662d5df88b2ade90adfa3fb4c00b1f616e2a59ca85cf6c68a0a20a1e7e9f7\",\n-    \"reused\": \"Immutable original92migration expected column/FK descriptors only. Fresh L current-catalog verification remains required.\",\n-    \"incomingScope\": \"All107 product tables and207 incoming FKs. No owned-row adoption is inferred from this descriptor.\"\n+    \"original\": \"tools/rust-r2l/reference-authority.json\",\n+    \"originalRawBytesSha256\": \"bc425f288f04fb3021a65eaa890f01c9cd7b790badd0523077ebf006bdddfcb4\",\n+    \"scope\": \"Current-source107/1778/207 closure; no new actual PG catalog claim\"\n   }\n }\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/managed-environment.cjs",
+      "bytes": 7098,
+      "rawBytesSha256": "6a5bf390df156d64bc3531c102fafeaefa7d1a4fc8b88a2f8d26d2235101ca26",
+      "original": {
+        "file": "tools/rust-r2l/managed-environment.cjs",
+        "bytes": 5918,
+        "rawBytesSha256": "dbfb3f31ae39c0e0757c59ba9cc2e020d3895065e94184de4e0de7d81716a520",
+        "normalizedLfSha256": "dbfb3f31ae39c0e0757c59ba9cc2e020d3895065e94184de4e0de7d81716a520"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/tools/rust-r2l/managed-environment.cjs b/tools/rust-r2m/managed-environment.cjs\nindex 6d436c14..e196fd23 100644\n--- a/tools/rust-r2l/managed-environment.cjs\n+++ b/tools/rust-r2m/managed-environment.cjs\n@@ -1,51 +1,64 @@\n 'use strict';\n \n-const { readFileSync, realpathSync, statSync } = require('node:fs');\n+const { readFileSync, realpathSync, lstatSync, openSync, closeSync, fstatSync, constants } = require('node:fs');\n const { resolve, basename } = require('node:path');\n-const { parse } = require('dotenv');\n \n function admittedPath(filename, backend) {\n     const normalized = filename.replaceAll('\\\\', '/');\n-    const paths = [`/r2l-private/${backend}.env`, `/home/wangzishi/.local/share/poms-r2l/private/${backend}.env`];\n-    if (process.platform === 'win32') return normalized.toLowerCase() === `//wsl.localhost/debian/home/wangzishi/.local/share/poms-r2l/private/${backend}.env`;\n+    const paths = [`/r2m-private/${backend}.env`, `/home/wangzishi/.local/share/poms-r2m/private/${backend}.env`];\n+    if (process.platform === 'win32') return normalized.toLowerCase() === `//wsl.localhost/debian/home/wangzishi/.local/share/poms-r2m/private/${backend}.env`;\n     return paths.includes(normalized);\n }\n // Runtime admission is deliberately narrower than external mode. Database\n // provisioning independently verifies the cluster and owner-only marker.\n function loadManagedEnvironment({ mode, env = process.env, cwd = process.cwd() }) {\n     if (!['managed-nest', 'managed-rust'].includes(mode)) throw new Error('Managed environment requires a managed backend');\n-    if (Object.keys(env).some((key) => /^(?:PG|DB_|MIKRO_)/i.test(key) || /^(?:DATABASE_URL|JWT_SECRET|NODE_OPTIONS)$/i.test(key))) throw new Error('Managed R2L refuses ambient database/process overrides');\n+    if (Object.keys(env).some((key) => /^(?:PG|DB_|MIKRO_)/i.test(key) || /^(?:DATABASE_URL|JWT_SECRET|NODE_OPTIONS)$/i.test(key))) throw new Error('Managed R2M refuses ambient database/process overrides');\n     if (typeof env.POMS_ENV_FILE !== 'string' || !env.POMS_ENV_FILE.trim()) throw new Error('Managed mode requires explicit POMS_ENV_FILE');\n     const backend = mode === 'managed-nest' ? 'nest' : 'rust';\n     const requestedPath = resolve(cwd, env.POMS_ENV_FILE.trim());\n+    if (!admittedPath(requestedPath, backend)) throw new Error('r2m_environment_path');\n+    const requestedStat = lstatSync(requestedPath);\n+    if (!requestedStat.isFile() || requestedStat.isSymbolicLink()) throw new Error('r2m_environment_file_type');\n+    const privateDir = require('node:path').dirname(requestedPath);\n+    const directoryStat = lstatSync(privateDir);\n+    if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink()) throw new Error('r2m_private_directory_type');\n+    if (process.platform !== 'win32' && ((requestedStat.mode & 0o077) !== 0 || (directoryStat.mode & 0o077) !== 0)) throw new Error('r2m_private_mode');\n     const envFile = realpathSync(requestedPath);\n-    if (!statSync(envFile).isFile()) throw new Error('POMS_ENV_FILE must be a regular file');\n     if (basename(envFile).toLowerCase() === '.env' || envFile.replaceAll('\\\\', '/').toLowerCase().includes('/deploy/private/')) throw new Error('Managed E2E refuses default or deployment environment files');\n-    if (!admittedPath(requestedPath, backend) || !admittedPath(envFile, backend)) throw new Error('Managed R2L environment requires its fixed private backend path');\n-    const parsed = parse(readFileSync(envFile));\n+    if (!admittedPath(requestedPath, backend) || !admittedPath(envFile, backend)) throw new Error('Managed R2M environment requires its fixed private backend path');\n+    const realStat = lstatSync(envFile);\n+    if (!realStat.isFile() || realStat.isSymbolicLink() || requestedStat.dev !== realStat.dev || requestedStat.ino !== realStat.ino) throw new Error('r2m_environment_identity');\n+    const fd = openSync(envFile, constants.O_RDONLY | (constants.O_NOFOLLOW || 0));\n+    let parsed;\n+    try {\n+        const opened = fstatSync(fd);\n+        if (!opened.isFile() || opened.dev !== realStat.dev || opened.ino !== realStat.ino || (process.platform !== 'win32' && (opened.mode & 0o077) !== 0)) throw new Error('r2m_environment_identity');\n+        parsed = require('dotenv').parse(readFileSync(fd));\n+    } finally { closeSync(fd); }\n     // A file must use this exact allowlist. Windows folds environment keys,\n     // so a lowercase alias must never bypass the validated uppercase value.\n     const fileKeys = new Set(['NODE_ENV', 'HOST', 'PORT', 'DB_CONNECT', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USER', 'DB_PASSWORD', 'DB_SCHEMA', 'JWT_SECRET', 'CORS_ORIGIN', 'IDENTITY_PROVIDER_SECRET_KEY', 'IDENTITY_PROVIDER_STATE_KEY', 'FEISHU_OPEN_API_BASE_URL', 'FEISHU_OAUTH_AUTHORIZE_URL', 'FEISHU_OAUTH_TOKEN_URL', 'FEISHU_USER_INFO_URL', 'FEISHU_USER_SEARCH_URL', 'FEISHU_USER_BATCH_URL', 'FEISHU_DEPARTMENT_BATCH_URL', 'FEISHU_TENANT_ACCESS_TOKEN_URL', 'FEISHU_DEPARTMENT_CHILDREN_URL_TEMPLATE', 'FEISHU_API_TIMEOUT_MS', 'FEISHU_ORG_DEPARTMENT_PAGE_SIZE', 'ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY', 'POMS_ATTACHMENT_LOCAL_ROOT']);\n     for (const key of Object.keys(parsed)) {\n-        if (!fileKeys.has(key)) throw new Error(`Managed R2L environment contains forbidden override: ${key}`);\n+        if (!fileKeys.has(key)) throw new Error(`Managed R2M environment contains forbidden override: ${key}`);\n     }\n-    const database = mode === 'managed-nest' ? 'poms_r2l_nest' : 'poms_r2l_rust';\n-    for (const [key, value] of Object.entries({ DB_HOST: '127.0.0.1', DB_PORT: '19432', DB_DATABASE: database, DB_USER: 'poms_r2l_app', DB_SCHEMA: 'poms', DB_CONNECT: 'true', NODE_ENV: 'test' })) {\n-        if (parsed[key] !== value) throw new Error(`Managed R2L environment mismatch: ${key}`);\n+    const database = mode === 'managed-nest' ? 'poms_r2m_nest' : 'poms_r2m_rust';\n+    for (const [key, value] of Object.entries({ DB_HOST: '127.0.0.1', DB_PORT: '20432', DB_DATABASE: database, DB_USER: 'poms_r2m_app', DB_SCHEMA: 'poms', DB_CONNECT: 'true', NODE_ENV: 'test' })) {\n+        if (parsed[key] !== value) throw new Error(`Managed R2M environment mismatch: ${key}`);\n     }\n-    if (!/^[0-9a-f]{64}$/.test(parsed.DB_PASSWORD ?? '')) throw new Error('Managed R2L password format mismatch');\n-    if (!/^[0-9a-f]{64}$/.test(parsed.JWT_SECRET ?? '')) throw new Error('Managed R2L JWT_SECRET format mismatch');\n-    if (parsed.HOST !== '127.0.0.1') throw new Error('Managed R2L HOST must be loopback');\n-    if (parsed.PORT !== (backend === 'nest' ? '9700' : '9701')) throw new Error('Managed R2L PORT mismatch');\n-    if (parsed.CORS_ORIGIN !== 'http://127.0.0.1:9800') throw new Error('Managed R2L CORS_ORIGIN mismatch');\n+    if (!/^[0-9a-f]{64}$/.test(parsed.DB_PASSWORD ?? '')) throw new Error('Managed R2M password format mismatch');\n+    if (!/^[0-9a-f]{64}$/.test(parsed.JWT_SECRET ?? '')) throw new Error('Managed R2M JWT_SECRET format mismatch');\n+    if (parsed.HOST !== '127.0.0.1') throw new Error('Managed R2M HOST must be loopback');\n+    if (parsed.PORT !== (backend === 'nest' ? '10070' : '10071')) throw new Error('Managed R2M PORT mismatch');\n+    if (parsed.CORS_ORIGIN !== 'http://127.0.0.1:10080') throw new Error('Managed R2M CORS_ORIGIN mismatch');\n     for (const key of ['IDENTITY_PROVIDER_SECRET_KEY', 'IDENTITY_PROVIDER_STATE_KEY']) {\n-        if (parsed[key] !== parsed.JWT_SECRET) throw new Error('Managed R2L identity key mismatch');\n+        if (parsed[key] !== parsed.JWT_SECRET) throw new Error('Managed R2M identity key mismatch');\n     }\n-    const endpoints = {\"FEISHU_OPEN_API_BASE_URL\":\"http://127.0.0.1:9900\",\"FEISHU_OAUTH_AUTHORIZE_URL\":\"http://127.0.0.1:9900/oauth/authorize\",\"FEISHU_OAUTH_TOKEN_URL\":\"http://127.0.0.1:9900/oauth/token\",\"FEISHU_USER_INFO_URL\":\"http://127.0.0.1:9900/oauth/user-info\",\"FEISHU_USER_SEARCH_URL\":\"http://127.0.0.1:9900/search/users\",\"FEISHU_USER_BATCH_URL\":\"http://127.0.0.1:9900/contact/users/batch\",\"FEISHU_DEPARTMENT_BATCH_URL\":\"http://127.0.0.1:9900/contact/departments/batch\",\"FEISHU_TENANT_ACCESS_TOKEN_URL\":\"http://127.0.0.1:9900/tenant-token\",\"FEISHU_DEPARTMENT_CHILDREN_URL_TEMPLATE\":\"http://127.0.0.1:9900/departments/{departmentId}/children\",\"FEISHU_API_TIMEOUT_MS\":\"1000\",\"FEISHU_ORG_DEPARTMENT_PAGE_SIZE\":\"2\"};\n+    const endpoints = {\"FEISHU_OPEN_API_BASE_URL\":\"http://127.0.0.1:10090\",\"FEISHU_OAUTH_AUTHORIZE_URL\":\"http://127.0.0.1:10090/oauth/authorize\",\"FEISHU_OAUTH_TOKEN_URL\":\"http://127.0.0.1:10090/oauth/token\",\"FEISHU_USER_INFO_URL\":\"http://127.0.0.1:10090/oauth/user-info\",\"FEISHU_USER_SEARCH_URL\":\"http://127.0.0.1:10090/search/users\",\"FEISHU_USER_BATCH_URL\":\"http://127.0.0.1:10090/contact/users/batch\",\"FEISHU_DEPARTMENT_BATCH_URL\":\"http://127.0.0.1:10090/contact/departments/batch\",\"FEISHU_TENANT_ACCESS_TOKEN_URL\":\"http://127.0.0.1:10090/tenant-token\",\"FEISHU_DEPARTMENT_CHILDREN_URL_TEMPLATE\":\"http://127.0.0.1:10090/departments/{departmentId}/children\",\"FEISHU_API_TIMEOUT_MS\":\"1000\",\"FEISHU_ORG_DEPARTMENT_PAGE_SIZE\":\"2\"};\n     for (const [key, value] of Object.entries(endpoints)) {\n-        if (parsed[key] !== value) throw new Error('Managed R2L controlled upstream mismatch: ' + key);\n+        if (parsed[key] !== value) throw new Error('Managed R2M controlled upstream mismatch: ' + key);\n     }\n-    if (parsed.ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY !== parsed.JWT_SECRET || parsed.POMS_ATTACHMENT_LOCAL_ROOT !== `/home/wangzishi/.local/share/poms-r2l/objects/${backend}/server01`) throw new Error('Managed R2L attachment runtime mismatch');\n+    if (parsed.ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY !== parsed.JWT_SECRET || parsed.POMS_ATTACHMENT_LOCAL_ROOT !== `/home/wangzishi/.local/share/poms-r2m/objects/${backend}/server01`) throw new Error('Managed R2M attachment runtime mismatch');\n     const childEnv = {};\n     const systemKeys = new Set(['PATH', 'SYSTEMROOT', 'WINDIR', 'COMSPEC', 'PATHEXT', 'TEMP', 'TMP', 'HOME', 'USERPROFILE', 'HOMEDRIVE', 'HOMEPATH', 'APPDATA', 'LOCALAPPDATA', 'LANG', 'LC_ALL', 'PNPM_HOME']);\n     for (const [key, value] of Object.entries(env)) {\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-setting-baseline.mjs",
+      "bytes": 12341,
+      "rawBytesSha256": "82ca4362e77d029eee5da7a99ea43335e9a6bba26c2a0630dc2d3a9b1b4eef14",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-objects.mjs",
+      "bytes": 6291,
+      "rawBytesSha256": "8e9e2aa9ba38ac9f58283b801666e65cc0015e2e8526b794569eb90faf510c47",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/audit-private.mjs",
+      "bytes": 1841,
+      "rawBytesSha256": "c45ee56eaa7128f620515628d38cdc53c57b586dc5de85cb30bcc19a9e4b8a3f",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/fixture-contract.md",
+      "bytes": 6364,
+      "rawBytesSha256": "baa4f9300730a53783e8627118d0dbc5ed3b029aab8eddb97854670fd4c0291e",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    },
+    {
+      "file": "tools/rust-r2m/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f",
+      "original": {
+        "file": "docs/design/archive/slices/rust-r2l/reference-source-input.json",
+        "bytes": 27952,
+        "rawBytesSha256": "061811fc353ee6392fc32e5a2eb4b6cb5ae68e7debba0024d18391fc935ac867",
+        "normalizedLfSha256": "061811fc353ee6392fc32e5a2eb4b6cb5ae68e7debba0024d18391fc935ac867"
+      },
+      "completeOriginalToCurrentDiff": "diff --git a/docs/design/archive/slices/rust-r2l/reference-source-input.json b/tools/rust-r2m/audit-schema-source.json\nindex edc82555..acc431e9 100644\n--- a/docs/design/archive/slices/rust-r2l/reference-source-input.json\n+++ b/tools/rust-r2m/audit-schema-source.json\n@@ -1,7 +1,7 @@\n {\n   \"formatVersion\": 1,\n   \"kind\": \"immutable-migration-derived-expected-catalog-not-runtime-proof\",\n-  \"sourceHead\": \"02b8956759352b2612bec5980cbe55ae77d0293f\",\n+  \"sourceHead\": \"9dcfb498b175e9fdaae7584aff1d5d3f93bf814f\",\n   \"migrations\": [\n     {\n       \"file\": \"apps/poms-api/src/migrations/Migration20260322193000_init_project.ts\",\n@@ -566,5 +566,13 @@\n     \"columns\": 1778,\n     \"incomingForeignKeys\": 207\n   },\n-  \"requiresFreshFullCatalogComparison\": true\n+  \"requiresFreshFullCatalogComparison\": true,\n+  \"r2mQualification\": {\n+    \"kind\": \"current-source-only-no-live-catalog\",\n+    \"original\": {\n+      \"path\": \"docs/design/archive/slices/rust-r2l/reference-source-input.json\",\n+      \"rawBytesSha256\": \"061811fc353ee6392fc32e5a2eb4b6cb5ae68e7debba0024d18391fc935ac867\"\n+    },\n+    \"productMigrationsChanged\": false\n+  }\n }\n",
+      "newOriginal": false
+    },
+    {
+      "file": "tools/rust-r2m/audit-fixture-source.mjs",
+      "bytes": 6492,
+      "rawBytesSha256": "a0c7f6db1a13e9418a26cbcdf6f8cb5880642ab1b338139400d720ebff3cfa09",
+      "original": null,
+      "completeOriginalToCurrentDiff": null,
+      "newOriginal": true
+    }
+  ],
+  "pure": {
+    "command": "node --test tools/rust-r2m/fixture-safety.test.mjs",
+    "exitCode": 0,
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "Synthetic certificates/fake clients/namespace/guard/drain/keyed/error tests only; no actual DB/process/HTTP",
+    "log": {
+      "file": "tools/rust-r2m/audit-fixture-pure.txt",
+      "bytes": 2420,
+      "sha256": "fa3e1bbedc94e8daf5e9ec584914045234ea57010d207bff5147c9314fc63eb0"
+    }
+  },
+  "syntax": {
+    "files": 24,
+    "exitCode": 0
+  },
+  "ownership": {
+    "UUIDTables": 59,
+    "UUIDTableImmutableFields": {
+      "platform_user": [
+        "username"
+      ],
+      "local_credential": [
+        "user_id"
+      ],
+      "role": [
+        "role_key"
+      ],
+      "org_unit": [
+        "code"
+      ],
+      "user_role_assignment": [
+        "user_id",
+        "role_id"
+      ],
+      "user_org_membership": [
+        "user_id",
+        "org_unit_id",
+        "membership_type"
+      ],
+      "role_permission_assignment": [
+        "role_id",
+        "permission_key"
+      ],
+      "auth_session": [
+        "user_id",
+        "token_hash"
+      ],
+      "audit_log": [
+        "event_type",
+        "target_type",
+        "target_id",
+        "operator_id",
+        "request_id"
+      ],
+      "security_event": [
+        "event_type",
+        "actor_id",
+        "principal",
+        "request_id",
+        "path",
+        "method"
+      ],
+      "approval_record": [
+        "approval_type",
+        "business_domain",
+        "target_object_type",
+        "target_object_id",
+        "project_id",
+        "initiator_user_id"
+      ],
+      "todo_item": [
+        "source_type",
+        "source_id",
+        "todo_type",
+        "business_domain",
+        "target_object_type",
+        "target_object_id",
+        "project_id"
+      ],
+      "contract": [
+        "project_id",
+        "contract_no",
+        "created_by"
+      ],
+      "project": [
+        "project_no",
+        "created_by"
+      ],
+      "customer": [
+        "customer_no",
+        "created_by"
+      ],
+      "contract_term_snapshot": [
+        "contract_id",
+        "source_readiness_id",
+        "source_baseline_id",
+        "created_by"
+      ],
+      "payment_record": [
+        "project_id",
+        "contract_id",
+        "payable_record_id",
+        "source_type"
+      ],
+      "receipt_record": [
+        "project_id",
+        "contract_id",
+        "source_type"
+      ],
+      "confirmation_record": [
+        "confirmation_type",
+        "business_domain",
+        "target_type",
+        "target_id",
+        "project_id",
+        "created_by"
+      ],
+      "confirmation_participant": [
+        "confirmation_record_id",
+        "participant_id",
+        "participant_role_key"
+      ],
+      "approval_summary_snapshot": [
+        "target_type",
+        "target_id",
+        "approval_scenario_key",
+        "summary_package_id",
+        "summary_package_key",
+        "created_by"
+      ],
+      "approval_summary_field_projection": [
+        "summary_snapshot_id",
+        "field_key"
+      ],
+      "project_handover": [
+        "project_id",
+        "created_by"
+      ],
+      "project_receipt_judgment_freeze": [
+        "project_id",
+        "source_type",
+        "source_id",
+        "created_by"
+      ],
+      "operating_baseline_package": [
+        "project_id",
+        "created_by"
+      ],
+      "project_operating_snapshot": [
+        "project_id",
+        "created_by"
+      ],
+      "data_maturity_evaluation_result": [
+        "project_id",
+        "referenced_snapshot_id",
+        "created_by"
+      ],
+      "operating_signal_evaluation_result": [
+        "project_id",
+        "referenced_snapshot_id",
+        "created_by"
+      ],
+      "operating_signal_gate_binding": [
+        "project_id",
+        "signal_evaluation_id",
+        "created_by"
+      ],
+      "operating_signal_review_record": [
+        "signal_evaluation_id",
+        "created_by"
+      ],
+      "commission_gate_review_record": [
+        "binding_id",
+        "created_by"
+      ],
+      "commission_rule_version": [
+        "rule_code",
+        "created_by"
+      ],
+      "commission_role_assignment": [
+        "project_id",
+        "created_by"
+      ],
+      "commission_calculation": [
+        "project_id",
+        "rule_version_id",
+        "created_by"
+      ],
+      "commission_payout": [
+        "project_id",
+        "calculation_id",
+        "stage_type",
+        "payout_kind",
+        "created_by"
+      ],
+      "commission_adjustment": [
+        "project_id",
+        "adjustment_type",
+        "related_payout_id",
+        "related_calculation_id",
+        "created_by"
+      ],
+      "commission_departure_exception_decision": [
+        "project_id",
+        "freeze_version_id",
+        "created_by"
+      ],
+      "commission_freeze_dispute_record": [
+        "project_id",
+        "freeze_version_id",
+        "created_by"
+      ],
+      "commission_final_settlement_snapshot": [
+        "project_id",
+        "created_by"
+      ],
+      "commission_rule_explanation_snapshot": [
+        "project_id",
+        "created_by"
+      ],
+      "lead": [
+        "lead_no",
+        "customer_id",
+        "created_by"
+      ],
+      "sales_follow_up_record": [
+        "customer_id",
+        "lead_id",
+        "project_id",
+        "created_by"
+      ],
+      "dictionary_item": [
+        "domain",
+        "code",
+        "created_by"
+      ],
+      "business_number_sequence": [
+        "scope",
+        "period"
+      ],
+      "identity_provider_config": [
+        "provider",
+        "tenant_id",
+        "client_id",
+        "created_by"
+      ],
+      "identity_provider_oauth_grant": [
+        "identity_provider_config_id",
+        "poms_user_id",
+        "created_by"
+      ],
+      "external_identity": [
+        "identity_provider_config_id",
+        "poms_user_id",
+        "subject_id",
+        "created_by"
+      ],
+      "external_login_ticket": [
+        "identity_provider_config_id",
+        "external_identity_id",
+        "poms_user_id",
+        "ticket_hash"
+      ],
+      "external_org_source": [
+        "provider",
+        "provider_config_id",
+        "external_tenant_id",
+        "created_by"
+      ],
+      "external_department_mapping": [
+        "source_id",
+        "external_department_id"
+      ],
+      "org_sync_run": [
+        "source_id"
+      ],
+      "org_sync_diff_item": [
+        "run_id",
+        "external_department_id",
+        "action"
+      ],
+      "attachment_storage_provider_config": [
+        "provider_type",
+        "created_by"
+      ],
+      "attachment_upload_session": [
+        "created_by",
+        "operation_type",
+        "original_name"
+      ],
+      "attachment": [
+        "uploaded_by",
+        "storage_provider",
+        "storage_bucket",
+        "storage_key"
+      ],
+      "attachment_link": [
+        "attachment_id",
+        "target_type",
+        "target_id",
+        "relation_type",
+        "linked_by"
+      ],
+      "attachment_download_package": [
+        "handover_id",
+        "project_id",
+        "created_by"
+      ],
+      "attachment_download_package_item": [
+        "package_id",
+        "handover_id",
+        "attachment_id",
+        "version_group_id"
+      ],
+      "project_handover_attachment_selection": [
+        "handover_id",
+        "project_id",
+        "version_group_id"
+      ]
+    },
+    "keyed": {
+      "system_setting": {
+        "primaryKey": "key",
+        "immutable": [
+          "key"
+        ]
+      }
+    },
+    "all107IsScanOnlyNotOwnership": true,
+    "salesPreparedOnlyRetained": true,
+    "borrowedPrincipals": [
+      "00000000-0000-4000-8000-000000000008",
+      "00000000-0000-4000-8000-000000000014"
+    ],
+    "borrowedDefinitions": [
+      {
+        "id": "68000000-0000-4000-8000-000000000001",
+        "approval_scenario_key": "handover-confirmation",
+        "summary_package_key": "contract-handover-summary"
+      },
+      {
+        "id": "68000000-0000-4000-8000-000000000002",
+        "approval_scenario_key": "project-handover",
+        "summary_package_key": "project-handover-confirmation"
+      },
+      {
+        "id": "69000000-0000-4000-8000-000000000003",
+        "approval_scenario_key": "commission-gate-review",
+        "summary_package_key": "operating-signal-commission-gate-e2e"
+      }
+    ],
+    "producerCertification": {
+      "native": "Actual SDK7.0.11 afterCreate, nested release chain and outer before/after commit; original producer in either DB is labelled m.producer.",
+      "rust": "Actual PG after-INSERT observer, top/subtransaction committed status and independent visible row; response/query IDs never certify.",
+      "prepared": "Named original seeder source+mapping/columns, before-PK absence, actual INSERT/RETURNING, xid/xmin, outer COMMIT ACK and independent visibility.",
+      "setting": "Only canonical attachment.max-upload-size-mb when before-absent; exact-key PG insert/outer-COMMIT certificate. Pre-existing setting refuses ownership."
+    }
+  },
+  "minimalExplicitAdaptation": [
+    "New namespace/marker/source/env exact pins; no old private or runtime owner read.",
+    "Fixed stage profile;59 named UUID tables plus one canonical string-PK key only when before-absent; no40-table cap or unrestricted catalog ownership.",
+    "Actual SDK/PG INSERT/outer-COMMIT and independent visibility; response/query match never ownership.",
+    "Prepared sales-only seven-row facts and customer/lead/project anchors retained by Root decision; other exact original Native producers use m.producer SDK proof.",
+    "Full107 physical/logical scan with exact ownership and readonly2seed+3definition snapshots; unknown references stop before DML.",
+    "Mandatory source-bound stopped-writer drain, pending work0 and observers restored before cleanup.",
+    "Canonical setting existing row refuses ownership/delete. New environment-baseline singleton needs Root corrective/C exact source admission, full-row record, stopped-writer CAS restore and another validated connection proof.",
+    "Fresh run-prefix local object before-absence/created-row/hash binding; preflight before DB deletion, exact bytes/keys/doublezero; cloud peers separately Root-owned.",
+    "No-follow/inode/mode checks for private reads; public error helper omits message, assertion values, config, SQL and child stderr."
+  ],
+  "notCertified": [
+    "Actual DB/SDK/observer/object lifecycle",
+    "URI fix acceptance or stage/G3/G4",
+    "Real cloud tenant",
+    "Old source/candidate runtime relabelled as R2M"
+  ],
+  "selfHashBoundary": "This input does not hash itself or future reviews; Root/C bind its raw bytes separately."
+}

@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-bounded-environment-source-review-not-a-Gate",
+  "reviewedAt": "2026-10-30T18:18:42.867Z",
+  "decision": "SourceReady",
+  "scope": "Exact frozen R2M provisioning source only; not runtime, catalog completeness, G3 or G4 approval.",
+  "reviewer": "C /root/r2m_review independent non-author",
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "marker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+  "files": [
+    {
+      "file": "tools/rust-r2m/private-files.mjs",
+      "bytes": 3815,
+      "rawBytesSha256": "563fc17260bc27eaaaf40d28bae6e5bb5d03a1a7cb593837844d5a2d2adb6c0f",
+      "readLevel": "full"
+    },
+    {
+      "file": "tools/rust-r2m/environment.sh",
+      "bytes": 5962,
+      "rawBytesSha256": "795cea22d3962a93c344635d151a9be34ae0c2d44926d72508ae64cf5dd62975",
+      "readLevel": "full initial source; exact secret-creation delta re-read"
+    },
+    {
+      "file": "tools/rust-r2m/database-environment.mjs",
+      "bytes": 22836,
+      "rawBytesSha256": "af41dc29b6cb4527828373b1fbcdb0e38a127905b5d608c0dcdf583274e746b9",
+      "readLevel": "full initial source with targeted continuation; all private-file callsite deltas re-read"
+    },
+    {
+      "file": "tools/rust-r2m/run-environment.mjs",
+      "bytes": 2517,
+      "rawBytesSha256": "0fbbfa0a24f175d4fe7952b36aaf78b473389ee50e6115de8031dfc0a2fa7cbd",
+      "readLevel": "full"
+    }
+  ],
+  "priorNecessarySources": [
+    {
+      "file": "tools/rust-r2m/managed-environment.cjs",
+      "rawBytesSha256": "6a5bf390df156d64bc3531c102fafeaefa7d1a4fc8b88a2f8d26d2235101ca26",
+      "readLevel": "full"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-guard.mjs",
+      "rawBytesSha256": "c570808283f73585720b385a027f4455a2d90e79e8700194470e0980c2b05ce2",
+      "readLevel": "full"
+    },
+    {
+      "file": "tools/rust-r2m/audit-error.mjs",
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1",
+      "readLevel": "full"
+    },
+    {
+      "file": "tmp/rust-r2m/environment-source01.json",
+      "readLevel": "full small derivation record; this record identifies the pre-fix source epoch"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-contract.md",
+      "readLevel": "full"
+    }
+  ],
+  "closedSourceFinding": {
+    "status": "closed",
+    "initialEnvironmentSha256": "02f85fedb97ff3a84d5e51d28955f046c63a317970e58e499b4172adb9ff0f34",
+    "initialDatabaseEnvironmentSha256": "2536b39f5f9bed93c81d0d8632a8d9e3873a91824b92da5936681143eb8a8eb9",
+    "problem": "Initial secret creation checked symlink status after a redirection; existing JWT/env reads and seed-log append could follow symlinks.",
+    "resolution": [
+      "Fixed R2M private paths and the two fixed Podman secret paths only; no environment discovery.",
+      "Private parents are checked with lstat; private files require regular single-link files and exact private modes.",
+      "Creation uses exclusive O_NOFOLLOW descriptors, and unavailable no-follow support fails closed.",
+      "Existing reads and opens use no-follow descriptors with identity/stability checks.",
+      "Shell secret creation invokes the helper before secret use and has no secret-output redirection.",
+      "JWT/env, seed logs and receipt updates use the helper; exclusive first receipt creation remains intact."
+    ]
+  },
+  "otherSourceConclusions": [
+    "Frozen image/container/volume/loopback/cluster/database/low-privilege-role/marker/source boundaries remain explicit.",
+    "Public database failure output no longer serializes assertion actual/expected, driver config, SQL, TypeError text or cause.",
+    "The Root wrapper directs child stdout/stderr to newly created 0600 private logs and emits fixed step/result/hash metadata without log contents.",
+    "No old-private read or old-instance reuse is authorized by these paths.",
+    "Inherited catalog() is a named ten-table check; full 107-table/catalog and logical-reference qualification remains pending under the R2M matrix."
+  ],
+  "reportedPureEvidence": {
+    "authority": "Root report; not rerun or promoted to independent execution by C",
+    "privateFileSafetyTests": 11,
+    "finalResult": "passed",
+    "retainedEarlierResult": "Two earlier Windows fake-I/O constant failures remain historical; fake Linux constants and production fail-closed behavior were corrected."
+  },
+  "runtimeStillRequired": [
+    "Root's planned bash syntax and new managed-environment negative checks",
+    "Exact fresh namespace/private-resource and port admission before provisioning",
+    "Actual original92 migrations/seed, low-privilege checks and fresh complete catalog",
+    "Current source/binary binding, M0-M5/UI, ownership and twice-zero cleanup",
+    "Current capsule captured once after final source/build and referenced by each run",
+    "G3 and actual G4"
+  ],
+  "executionByReviewer": {
+    "tests": 0,
+    "applicationsStarted": 0,
+    "databaseConnections": 0,
+    "httpRequests": 0,
+    "privateFilesRead": 0,
+    "productEdits": 0,
+    "fixtureEdits": 0
+  },
+  "noAdditionalGate": true
+}

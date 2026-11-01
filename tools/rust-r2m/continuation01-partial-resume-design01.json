@@ -1,0 +1,68 @@
+{
+  "kind": "R2M-fixed-continuation01-first-partial-completion-design",
+  "result": "DesignCandidate-no-actual",
+  "scope": {
+    "environmentId": "r2m-continuation01",
+    "oldSourcePreserved": {
+      "file": "tools/rust-r2m/continuation01-provision-source01.json",
+      "bytes": 7290,
+      "rawBytesSha256": "4265157ff4dbeb818951352ce925a98fe3bf208b423391c122b3d172e392212b"
+    },
+    "oldReviewPreserved": {
+      "file": "docs/design/rust-r2m/continuation01-provision-source-review01.json",
+      "bytes": 10027,
+      "rawBytesSha256": "d73c90644e1b10e0b1bb22f1fa41bb58bcf7bb0efebda10fa2b34713dbfcee6d"
+    },
+    "oldFailurePreserved": {
+      "file": "tmp/rust-r2m-continuation01/provision01.json",
+      "bytes": 654,
+      "rawBytesSha256": "ea4f1a793f37368d496bbcac1c2148d7feb8461bf13b54e880b4f3debacd6161"
+    },
+    "knownResources": [
+      {
+        "type": "role",
+        "name": "poms_r2m_c01_app",
+        "oid": "27136"
+      },
+      {
+        "type": "database",
+        "name": "poms_r2m_c01_nest",
+        "oid": "27137"
+      }
+    ],
+    "missingDatabase": "poms_r2m_c01_rust",
+    "productsStarted": false,
+    "envFilesNotCreated": true
+  },
+  "sourceFinding": {
+    "site": "continuation01-provision.mjs oldSource01 lowrole-sequence privilege query",
+    "sqlState": "42809",
+    "cause": "WHERE schema/relkind predicates cannot establish function evaluation order. has_sequence_privilege can be evaluated for a pg_toast relation first.",
+    "authorCorrection": "The new source must use CASE WHEN namespace and relkind match THEN has_sequence_privilege(...) ELSE false END. Apply the same explicit type guard to the table privilege branch. No wide catch or skipped privilege check."
+  },
+  "fixedCompletion": [
+    "Root supplies exact public original creation-journal/file refs and raw hashes, new role/nest tuple/marker/ACL/role-settings/credential file refs and env/objects absence, source107/ACL/OID and retained oldRust isolation with all app/owner/prepared counts0. Author does not read private/DB.",
+    "New fixed source/CLI/receipt names only for this exact Source01 partial; no arbitrary resource name/OID/root/cap parameters and no generic resume.",
+    "Before opening any owner connection, no-follow read exact original source/journal/failure refs with length/hash, wx immutable original journal snapshot. Read new keys only through named original creation refs and prove same original owner credential/role/config; no regeneration or overwrite.",
+    "Fresh fixed maintenance/source/createdNest identity checks: postgres/source actual r0e on; sourceOID16385/107seed951d/ACL, oldRustOID17085/datallowconnfalse/ACL/0conn/prepared; all5taskportsfree; same task maintenance lock, no terminate/drop/reset.",
+    "NewNestOID27137 full107==original clone-initial/source seed; marker fields match original sourceOID/newOID/old marker/newmarkerabd093/plan1aae/source107+ACL; new control-only objects unchanged; newroleOID27136 exact original lowpolicy/searchpath/timezone/password-backed login and role membership0; exact newNest DB/schema/table/sequence/default ACL, oldapp access0 using guarded CASE checks.",
+    "Only after all required read-only proofs: wx Nest env from the existing fresh app/JWT keys, create its before-absent objects directory if still absent; never replay already committed Nest marker/grant creation.",
+    "Require Rust name still before-absent and source connections0; create only newRust from the exact same cleanNative source with original Source01 policy/marker/grants; guarded CASE privilege checks, its fresh envwx/objects; preserve partial attempts on any failure.",
+    "Fresh independent all107 source/Nest/Rust equality, original sourceACL/OID and oldRust metadata unchanged; all owned clients/ports stop and maintenance unlock/close. New completion receipt references original failed receipt/journal + new frames and labels resources-ready-not-business/G3/G4. Original journal/failedpublicreceipt remain byte-identical."
+  ],
+  "forbidden": [
+    "drop/reset/rename or adopting any unknown resource",
+    "re-running the original Source01 provision or overwriting original journal/keys/env",
+    "query/response identity adoption into fixture or changing old failed Rust graph",
+    "publishing raw keys/error/rows or pretending any business HTTP/UI succeeded"
+  ],
+  "pending": [
+    "Root exact public metadata",
+    "C bounded DesignAccepted then fixed helper/source review",
+    "Root actual execution only"
+  ],
+  "authorPrivateRead": false,
+  "authorActualDatabaseOrHttp": false,
+  "G3": false,
+  "G4": false
+}

@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "reviewedAt": "2026-10-30T22:32:03.136Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "result": "SourceReady",
+  "G3Certified": false,
+  "G4Certified": false,
+  "kind": "R2M-an6a-two-original-SDK-creates-closed-case-recovery-source-review-not-a-Gate",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-an6a.mjs",
+      "bytes": 9653,
+      "rawBytesSha256": "0221f16890745dec245ef3297547a6f1c9b69bc45f98acfd7316589d1b2b9fed",
+      "readLevel": "Complete original source and final absolute-path/public ancestry plus snapshot target parent/fd guard increment"
+    }
+  ],
+  "publicReportRead": {
+    "file": "tmp/rust-r2m/acceptance-api-nest-an6a.json",
+    "bytes": 16954,
+    "rawBytesSha256": "a04ee5e4b586b80c24ea14339933865ed63b4633a37883d449bc9d898c8185ea",
+    "runId": "58f7ad60-1eb2-4988-b36e-e1c705f4dcc3",
+    "result": "partial-preserved",
+    "observedCases": [
+      "M1.1"
+    ],
+    "failedCases": [
+      "M1.2",
+      "M1.3",
+      "M1.4",
+      "M2.1",
+      "M2.3"
+    ],
+    "onlyWriter": "1833179:native-app",
+    "writerStopped": true,
+    "observerFootprintRestored": true,
+    "closeFailures": 0
+  },
+  "pins": {
+    "capsule": {
+      "file": "tmp/rust-r2m/source-cap-api12.json",
+      "rawBytesSha256": "ae9f6e2b155460a3e29f22e065c0a35e61f23d8057a9264f5dc49fd88a9b6c3c",
+      "id": "r2m-api12"
+    },
+    "originalJournal": {
+      "bytes": 241074,
+      "rawBytesSha256": "ae2fde58c3e2fbea7d20f47037226e943764851977630f6da1ff33b203d8dec1"
+    },
+    "originalFull107Before": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/private/acceptance-runs/nest-58f7ad60-1eb2-4988-b36e-e1c705f4dcc3/00000.json",
+      "rawBytesSha256": "aa19475c49bce13984a4a88e55220c51d24b8df13bad1e0184d31afd50c6019b"
+    },
+    "CReadPrivateContents": false
+  },
+  "exactCertifiedCreates": [
+    {
+      "table": "role_permission_assignment",
+      "id": "0751aeb0-e859-4c01-bceb-484e6ff0a4a9",
+      "intentId": "9ee77ee6-73c3-45be-a9e9-2346393868ba"
+    },
+    {
+      "table": "audit_log",
+      "id": "906c06bf-be20-46b7-86b1-dc66ba0069b2",
+      "intentId": "ecd2ad96-5e01-472b-af43-666a7c4a2bcf"
+    }
+  ],
+  "assessment": [
+    "Final bound() resolves relative public files to the exact absolute repo ancestry; private paths retain read-before-parent/0700/leaf0600/no-follow/inode/hash checks. The original ae2fde raw journal is exclusive/fsynced saved before Fixture.open, with execution-log parent realpath/0700/no-symlink and new fd regular/nlink1/0600 checks before write.",
+    "Only the two fixed already-stored genuine SDK afterCreate/outer-commit certificates for closed m1.2/index13/m.http can proceed. Pending intents must exactly match both fixed table/PK/intent identities. The actual target role/admin actor must already be genuinely owned; a query of the already-certified audit PK validates its current exact event/type/target/actor/null requestId/result, not ownership discovery.",
+    "Necessary original PlatformService source confirms event platform.role.permissions.replaced/PlatformRole and omitted requestId; original RuntimeAuditService persists input.requestId??null. Current source bytes must match the exact raw-pinned old capsule. This is a fixture request-ID assumption correction, not a product change.",
+    "The helper preserves complete originalScope and originalIntent privately, asserts no other m1.2 audit/security owned row or certificate, then changes only that closed scope requestId to null and narrows its audit selector with exact event/type/owned target/admin actor. It grants no future/runtime generic nullable audit channel and does not mutate fixture source.",
+    "The new selector is explicitly a retrospective metadata correction; it is not presented as if that new predicate had been the original before-query. Genuine original SDK birth/authority/outer-commit proofs and mature independent-PK adoption remain mandatory; no query match or response ID is adopted.",
+    "Old writer PID must be absent and five ports free. Fresh marker/low-role/transaction/zero-unknown/full107 reference checks precede mature drain/double cleanup. Afterwards every complete107 logical row must equal this run's actual raw-pinned pre-prepare baseline; the script cannot report a recovery pass if equality fails."
+  ],
+  "verification": {
+    "CExecutedRecoveryDBHTTPOrTests": false,
+    "CReadPrivate": false,
+    "CurrentJournalStableGuardsRead": true,
+    "necessaryOriginalNullAuditSourcesRead": true
+  },
+  "executionBoundary": "Root may execute only this exact closed an6a recovery with its matching reviewed fixture source. Preserve original partial API evidence and source/scope correction. API6/full8/full20 acceptance and future actual audit admission remain pending.",
+  "blocks": []
+}

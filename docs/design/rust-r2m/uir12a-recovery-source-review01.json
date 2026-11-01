@@ -1,0 +1,84 @@
+{
+  "kind": "POMS-R2M-independent-one-closed-uir12a-recovery-source-review",
+  "reviewedAtUtc": "2026-10-31 01:45:12 UTC",
+  "reviewer": {
+    "role": "C independent non-product-author",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "result": "SourceReady",
+  "scope": {
+    "runId": "3b302b22-4c3b-4a16-ac8e-2defc42c3b26",
+    "backend": "rust",
+    "tag": "uir12a",
+    "purpose": "Recover one normally closed UI1/2 run with UI1 complete and UI2 third step tool failure; do not relabel journey or pair acceptance",
+    "productRuntimePass": false,
+    "G3": "Pending",
+    "G4": "Pending"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-closed-uir12a.mjs",
+      "bytes": 9207,
+      "rawBytesSha256": "9e934394270873c1038caafcaea20f3bac1cc8f35f4d3078b25b7772df9d29a0"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tmp/rust-r2m/uir12a-recovery-shapes01.json",
+      "bytes": 2627,
+      "rawBytesSha256": "cf49d29074d1f02fbd654d51b53bf150d38da0e50e15f58c79b0ebfad0def332"
+    },
+    {
+      "file": "tmp/rust-r2m/uir12a-recovery-precheck01.json",
+      "bytes": 397,
+      "rawBytesSha256": "54fceb331ffc654d3a1da91495a7d9d48b77704887a1e07a7a1b240ba941851a"
+    },
+    {
+      "file": "tmp/rust-r2m/ui-linux-rust-uir12a.json",
+      "bytes": 78868,
+      "rawBytesSha256": "8a06c46f5f64c002a08319cdd519e64c64535bc14255ad4de7848eeb49fcb5f2",
+      "readLevel": "Public metadata pin; no complete journey raw evidence read by C"
+    },
+    {
+      "file": "tmp/rust-r2m/source-cap-joint22.json",
+      "bytes": 1413426,
+      "rawBytesSha256": "b6b4ede689489d5f9761a71e2f4817d73509fe8b6be288dada196756464939aa",
+      "readLevel": "Root metadata pin; no full tree rehash"
+    }
+  ],
+  "reuse": {
+    "file": "docs/design/rust-r2m/uin2b-recovery-source-review01.json",
+    "rawBytesSha256": "01268bc572d222a4fc5fcacc6f4c9c47b80071fcfb80e950c28f65d0d71650ca",
+    "meaning": "Mature normally-closed singleton/CAS/owner-reconcile/double-cleanup route; only fixed literals, Rust DB/lock, four actual owner kinds and report shape differ."
+  },
+  "findings": [
+    {
+      "item": "exact closed run",
+      "result": "Pass",
+      "detail": "Original report/cap/ledger raw pins and baseline/finalSDK/PGrestore report references bind this one Rust run. All4 owners attempted and stopped, SDK complete, PG restored,70 proof-owned objects and no pending intents. UI1 observation and UI2 two observed steps plus third partial remain distinct."
+    },
+    {
+      "item": "source and quiescence",
+      "result": "Pass",
+      "detail": "Exclusive no-follow original ledger snapshot precedes Fixture.open. Original fixture profile must match the fixed cap; original worker/anchor must be absent, five ports free, fresh marker/role validation, no other app work or prepared transaction. Original observer owner catalog must be exact-before with no recovered handle."
+    },
+    {
+      "item": "bounded restoration",
+      "result": "Pass",
+      "detail": "No new create/adopt or selector correction. Full107 unknown0/preflight precedes drain of actual4 writers, fixed poms_r2m_rust singleton advisory lock, mature original7-column CAS and two cleanup passes. Complete normalized full107 rows must equal original initial baseline. Failures remain private and partial."
+    }
+  ],
+  "readLevel": {
+    "helper": "complete source",
+    "metadata": "complete shapes and precheck",
+    "priorMatureSources": "reused necessary source reviews; no full-chain repetition",
+    "privateContentsRead": 0,
+    "DBHTTPBrowserProcessIOExecuted": 0,
+    "testsExecutedByC": 0,
+    "gitMutations": 0
+  },
+  "authorChecks": "Root real original shape plus7 adversarial rejections, no DB in precheck.",
+  "actual": "Root exclusively executes after current task writers close and fresh port check succeeds. New uncached UI or API behavior is not tested by this recovery."
+}

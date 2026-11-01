@@ -1,0 +1,79 @@
+{
+  "kind": "R2M-independent-C-M5-org-diff-enum-input-source-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 08:47:11 UTC",
+  "reviewer": {
+    "agent": "/root/r2m_review",
+    "role": "independent non-author C",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/m5-enum-input-source11.json",
+    "bytes": 1126,
+    "rawBytesSha256": "40764ec79bf2f46f4451e853135c93622558fa303aab3d544d96fea4a8fb5043"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-api-external-recipes.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "d8dc13a810119e9079b73ae7ff9f1a06129b2f1a1ab8c81924d0d15f7353d661"
+    }
+  ],
+  "scope": {
+    "onlyLogicalCase": "M5.2",
+    "onlyStep": "diff",
+    "onlyChange": "Already-certified physical org_sync_diff_item binding selector.action follows the existing CreateOrgUnit enum",
+    "originalM5ScopeExpanded": false,
+    "newHTTPRequestAdded": false,
+    "productChanged": false,
+    "actualCertified": false
+  },
+  "before": {
+    "file": "tmp/rust-r2m-continuation01/m5-external-recipe-before-enum01.mjs",
+    "bytes": 3403,
+    "rawBytesSha256": "0049f53a48259f64109bab0c9e474e2f17413887def95aeca5e676e8099d7fb7"
+  },
+  "authoritativeSource": {
+    "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "bytes": 435823,
+    "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+    "line": 824,
+    "definition": "OrgSyncDiffActionValue.CreateOrgUnit: create_org_unit",
+    "readLevel": "Actual source hash and exact enum declaration"
+  },
+  "verification": {
+    "replacementCount": 1,
+    "from": "action:'create-org-unit'",
+    "to": "action:'create_org_unit'",
+    "sameLength": 3403,
+    "independentCompleteInverseExact": true,
+    "inverseRawSha256": "0049f53a48259f64109bab0c9e474e2f17413887def95aeca5e676e8099d7fb7",
+    "sourceRead": "Complete tiny Root input packet plus exact changed recipe statement/retained original/source enum and independent full inverse",
+    "authorPureActualRecipeSelectorVerified": "Root reported; C did not execute",
+    "testsExecutedByC": 0,
+    "privateReadByC": false,
+    "DBOrHTTPByC": false
+  },
+  "findings": [
+    "This fixes a test-input binding spelling; the original GET returned200 and original enum already used underscore. No product, request body, event maximum, actor/NULL, ownership or audit-source permission is changed.",
+    "The exactly-one selector still intersects genuine typed certified rows and its original run_id/external_department_id. It cannot adopt an ID from the GET or query.",
+    "Original Source10 packet, old recipe byte image, old mixed-run overallpartial and M5.2 binding failure remain truthful. Later missing M5.3 dependencies are not retrospectively filled.",
+    "Original derived96/d0ed still contains its original selector and remains the current M4-only run epoch. New M5 comparison needs this correction in a separately reviewed environment-only delta/new capsule and fresh both-end M5 run.",
+    "This one Root overlay must be declared alongside frozen Source10 when generating the next sibling; do not rewrite Source10 or claim all its old33 pins still match the changed current recipe."
+  ],
+  "inheritedAuthorization": {
+    "review": "docs/design/rust-r2m/external-attachment-audit-source-review01.json",
+    "rawBytesSha256": "1bb1256136dda5faa1ce3a60e97cf6bb25e0f16508c21d9b82204e21719be53f",
+    "meaning": "Existing M5.1–M5.3 scope retained; this is no new source-kind/anonymous/actor allowance"
+  },
+  "limits": [
+    "Original namespace source delta only; c01 derived hash/path and new same-run cap/admission must be bound separately.",
+    "No rerun of unaffected qualified M4 or full20 is required merely by this M5.2 selector correction. Actual selected-case evidence and comparison are still required.",
+    "Resource cleanup or a source check is not M5 business/G3/G4 acceptance."
+  ],
+  "actualVerified": false,
+  "G3": false,
+  "G4": false
+}

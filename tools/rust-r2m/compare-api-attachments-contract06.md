@@ -1,0 +1,11 @@
+# M4 Source06 finite original source text closure
+
+The original Source05 and measured05 required-proof failure stay intact. Source06 consumes the same Native/Rust M4 subset under actual cap01 and immutable stored source; it adds no ownership or cleanup authority and never treats required-proof failure with zero differences as Pass.
+
+Replay the actual c87b M4.1 draftInput arrow using original run/admin/org and already-planned project/customer/contract UUIDs, with its two original UUID defaults in order. numberValues must match that source. Complete DEV-seed source plan and all explicit schema cells remain verified. Only customer_no/display_name, project_no/project_name and contract_no of selected typed rows gain whole-value source slots after complete promoted before-absent direct birth, tx/xmin, identity and independent visibility. Excluded contract remains unowned and unaliased.
+
+The already-verified whole K wrapper/direct SQL plan authorizes its original four factory input roots and only the two additional full expressions: project.customer_name=fixture.projectNo+' 客户' and baseline_code=('BL-EX08-'+fixture.key).slice(0,64), pinned to original c245 seeder. Existing K.fixture names remain canonical. All five actual run-bearing SQL/JSON text leaves are covered by these named values. No run substring, compact UUID, SHA/hash, arbitrary field name or logical UUID normalization is introduced. Unknown compact text stays literal for comparison; unknown UUID remains refused by the unchanged typed guard.
+
+Only DTO root generatedAt of M4.2.refresh POST attachment-checklist:refresh adds the original new Date().toISOString/iso source clock, within the actual same-context response window and owned handover. Root GET behavior and every other field stay as before; nested or other endpoint generatedAt is not mapped. Original TS/Rust writer bytes are pinned.
+
+The reader/entry, full107 physical columns, raw request/response/headers/CRC/bytes, AES/ZIP/K helpers and original complete explicit/default clocks stay byte-exact. 28 meaningful pure tests pass with normal imports after installation; candidate import-adapter tests and the corrected compact-text test-model failure remain preserved. No private/env/DB/HTTP/browser was read or run by A. Root alone runs a new actual offline label after independent review.

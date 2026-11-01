@@ -1,0 +1,22 @@
+✔ the original guarded users route denies into the separate auth layout; only the dashboard layout contains TopBar (64.8169ms)
+✔ after denial, a real dashboard navigation completes and its actual profile control becomes visible before logout can continue (0.8413ms)
+✔ navigation failure preserves its original error and cannot fake a visible TopBar or continue logout (0.9048ms)
+✔ private original before-step error survives the public generic UI failure (2.3364ms)
+✔ private original action error survives the public generic UI failure (1.1358ms)
+✔ private original after-step error survives the public generic UI failure (0.4434ms)
+✔ login reuses the actual existing form without bypassing the real form (2.4475ms)
+✔ login navigates from a different actual page without bypassing the real form (0.3935ms)
+✔ the original UI2 guard redirect completes before a late bridge becomes ready and exactly one real fixed read is attempted (6.5943ms)
+✔ a real bridge readiness failure remains the original failure and cannot issue or fake the backend denial request (2.3426ms)
+✔ UI3 also waits for its newly navigated page bridge before reading the actual approved record (0.0881ms)
+✔ observing a pending UI wait returns its original promise and preserves the exact later rejection (21.249ms)
+✔ strict Node does not terminate when HTTP and download waits reject before a slow click is awaited (103.3588ms)
+✔ typing alone keeps the save action disabled until a real Tab commits the original input model (1.03ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 287.6173

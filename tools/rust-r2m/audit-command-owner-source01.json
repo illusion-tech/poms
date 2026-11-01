@@ -1,0 +1,124 @@
+{
+  "kind": "R2M-finite900s-command-owner-author-source-candidate",
+  "result": "source-only-awaiting-independent-source-review",
+  "owner": "/root/r2m_delivery_audit",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/command-owner.cjs",
+      "bytes": 20663,
+      "rawBytesSha256": "c506527120155c2115847d352317eb2dba2b4f4e9c30d6fb75f1fc416dc55b25"
+    }
+  ],
+  "originalMatureSources": [
+    {
+      "file": "tools/e2e/runtime.cjs",
+      "bytes": 16694,
+      "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a",
+      "unchanged": true
+    },
+    {
+      "file": "tools/e2e/runtime-worker.cjs",
+      "bytes": 2182,
+      "rawBytesSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc",
+      "unchanged": true
+    }
+  ],
+  "before": {
+    "file": "tools/rust-r2m/audit-command-owner-before-source01.json",
+    "bytes": 22723,
+    "rawBytesSha256": "fc7b8883a39ab725c55c131113e8fdc758c052e46149fe5ce45db93838df13d7"
+  },
+  "exactDelta": {
+    "file": "tools/rust-r2m/audit-command-owner-source01.diff",
+    "bytes": 6708,
+    "rawBytesSha256": "36f5b7cf6edf3cedd19a4451ca368888e252b42d2654700a72089626e2e34ec8"
+  },
+  "contract": {
+    "file": "tools/rust-r2m/command-owner-contract.md",
+    "bytes": 3449,
+    "rawBytesSha256": "a05059fff65ed9b82f3ab0b983848b300689e7da5c546204456b9e9f4da05459"
+  },
+  "scope": {
+    "platform": "linux",
+    "cwd": "/home/wangzishi/projects/poms-rust-r2m",
+    "executable": "exact current process.execPath only",
+    "entry": "tools/rust-r2m/acceptance-api-runtime.mjs --run",
+    "mode": "api",
+    "backends": [
+      "nest",
+      "rust"
+    ],
+    "log": "/home/wangzishi/.local/share/poms-r2m/private/execution-logs/acceptance-{backend}-{tag}.log",
+    "env": "Only unchanged inherited PATH/HOME/LANG; no other or altered environment key/value",
+    "runId": "r2m-api- prefixed; same original IPC equality check",
+    "fileSafety": "Fixed regular/nonsymlink path components; mode700 directories/mode600 single-link precreated log; no-follow append + same opened inode before spawn"
+  },
+  "budgets": {
+    "commandMaximumMs": 900000,
+    "commandDefaultMs": 180000,
+    "startupMaximumMs": 60000,
+    "startupDefaultMs": 60000,
+    "startupNotDerivedFromCommandBudget": true,
+    "commandDeadlineBeginsAfterOriginalHandshake": true,
+    "totalWallTime900Claimed": false,
+    "genericRuntimeMaximumUnchangedMs": 300000,
+    "normalStartupOrReadinessExtended": false
+  },
+  "matureCore": {
+    "fullOriginalStaticCopy": true,
+    "processIdentityByteEqual": true,
+    "aliveByteEqual": true,
+    "groupMembersByteEqual": true,
+    "stopOwnedByteEqual": true,
+    "stopGraceKillPolicyUnchanged": true,
+    "worker": "../e2e/runtime-worker.cjs",
+    "workerFileUnmodified": true,
+    "arbitraryListenerOrAppLaunchNotExported": true,
+    "noBusinessRetry": true,
+    "noBusinessReportManufactured": true
+  },
+  "interface": {
+    "module": "require('./command-owner.cjs')",
+    "method": "runOwnedCommand({executable,args,cwd,env,logPath,timeoutMs:900000,startupTimeoutMs?:<=60000,runId?:r2m-api-...})",
+    "returns": "original {code:0,logPath}; failure still throws and stops the exact owned tree",
+    "RootWrapperChange": "Only Root adapts run-api-owned.mjs to require this module; its existing900 budget and new-M original-error retention can remain",
+    "RootWrapperEditedByA": false
+  },
+  "pure": {
+    "test": {
+      "file": "tools/rust-r2m/command-owner-source01.test.cjs",
+      "bytes": 11554,
+      "rawBytesSha256": "1f2946ed4255ef143a0e0b16e3b1b5dccf935c4dc3773a33ef8cfd3d94159d2a"
+    },
+    "log": {
+      "file": "tools/rust-r2m/audit-command-owner-source01-pure-initial.txt",
+      "bytes": 1073,
+      "rawBytesSha256": "4365d253ed8bd06d56d1fefc344ebd3b581a0d2cd6eca646fa30b65457c4902d"
+    },
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "lexical": {
+      "file": "tools/rust-r2m/audit-command-owner-source01-no-undef.json",
+      "bytes": 500,
+      "rawBytesSha256": "02a55f13407a9f830a36e3d17ab7e321c9f6efecb3ac7c36d59eec13abc30c60"
+    },
+    "lexicalMessages": 0,
+    "actualSpawn": false,
+    "actualSignal": false,
+    "actualPrivateFS": false,
+    "HTTP": false,
+    "DB": false,
+    "browser": false,
+    "container": false,
+    "method": "Full copied CJS in VM with Fake kernel/IPC/process/filesystem/clock; source functions/worker original hashes independently compared"
+  },
+  "RootNext": [
+    "C necessary exact diff/source review",
+    "Root copies module and its separately adapted wrapper into a fresh source epoch",
+    "Preserve original300s stopped/no-final-report label and retained partial steps; no retroactive overall pass",
+    "After Root completes original data recovery, run the entire authorized five-item selection normally with fresh inputs"
+  ],
+  "G3": false,
+  "G4": false
+}

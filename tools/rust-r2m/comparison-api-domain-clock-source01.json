@@ -1,0 +1,155 @@
+{
+  "kind": "R2M-domain-clock-pure-source-candidate",
+  "owner": "/root/r2m_acceptance",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "Fast": "unverified",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock.mjs",
+      "bytes": 23540,
+      "rawBytesSha256": "636e604a4e59694912a76465c97d395c7455638c854dc86e98fdca1942b42fd6"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock.test.mjs",
+      "bytes": 13323,
+      "rawBytesSha256": "9b179e3e50c64c536390fd41767efe8e7a80badf648e423bd7563fd980de3970"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-domain-clock-contract.md",
+      "bytes": 6751,
+      "rawBytesSha256": "d4a42a53faa7963142ac8c5b6d151ca3f82830a5ce8c09ee2c372e0338599325"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    }
+  ],
+  "sourceSetSha256": "c98ed7727d87f8b60afbac9ecaa8d689a81b04cc73be88088720c5c574a6792d",
+  "originalSourceReferencePins": [
+    {
+      "file": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "bytes": 60841,
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+      "bytes": 134905,
+      "rawBytesSha256": "fc850544456ccafb506bc658c70d4053ace2edb361e646ec500cadb079feac67"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+      "bytes": 154399,
+      "rawBytesSha256": "0f927362f18c05add1bc4d2df0a48a2f5d850b5b93de58e114427b41ad146bc6"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "bytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/identity-provider/identity-provider.service.ts",
+      "bytes": 73332,
+      "rawBytesSha256": "90a76597b44dd9631b62ada6cdb9ccd9eaf40ef86f3e438e92937d33abfbe7dd"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2l/l-todo-facts-source.mjs",
+      "bytes": 21646,
+      "rawBytesSha256": "7e1fdcd5aa3d0e9fab64c983398ed0326d9645b87134b7d0793d2f670b36dd88"
+    }
+  ],
+  "referenceRuleInput": {
+    "file": "tmp/rust-r2m/api9-m5-comparison-input02.json",
+    "rawBytesSha256": "a139b4f73e6a02cb5c0a54259de66ddf926d626a74646ae2b45ed5753766c54a"
+  },
+  "exports": [
+    "domainClockCatalog",
+    "exactDomainTtls",
+    "domainClockNestedRules",
+    "domainClockDigest",
+    "createDomainClockEvidence"
+  ],
+  "methods": [
+    "recordBirth",
+    "recordMutation",
+    "recordLiteralMutation",
+    "projectRow",
+    "projectDtoCell",
+    "receipt"
+  ],
+  "scope": {
+    "physicalCatalogAndSourceOrigins": true,
+    "allEmittedProjectionColumnsPreserved": true,
+    "sourcePreparedExplicitTimestampLiterals": true,
+    "commission18AndSevenTodoExactOriginalRows": true,
+    "KExactPromotedSqlCohortStatementColumnAndCapturedBirthBinding": true,
+    "NullOnlyRuleActivation": true,
+    "paidAtLiteralWhenSupplied": true,
+    "PGZone": "+08:00",
+    "maxPGFractionDigits": 6,
+    "DTOZone": "Z",
+    "maxDTOFractionDigits": 3,
+    "DTORequiresExactObservedTypedPhysicalVersion": true,
+    "sourceTtlsMs": {
+      "upload": 3600000,
+      "package": 86400000,
+      "ticket": 120000,
+      "oauthStateCatalogOnly": 600000,
+      "grantAccess": 7200000,
+      "grantRefresh": 86400000
+    },
+    "ownershipGranted": false
+  },
+  "RootParameterContract": "Root supplies actual journal objects/proofs, genuine birthSlots, original prepared plans, full typed birth/before/after physical rows, actual writer windows and real source/context/peer TTL bindings. No response/query-ID adoption, no guessed underlying params field, no SourceReader/private/DB/HTTP operation in helper.",
+  "limitations": {
+    "mainApiComparatorModified": false,
+    "alreadyVerifiedCreationProofRequired": true,
+    "sourcePinIsCapsuleReferenceNotIndependentExecutionProof": true,
+    "RootMustSelectFiniteSourceOperationFromActualRequest": true,
+    "PeerGrantTtlMustBeSameActualTokenEvidenceAsAesStateCore": true,
+    "nestedJsonAutomaticNormalization": false,
+    "readModelGeneratedAtAutomaticNormalization": false,
+    "RootMustWirePhysicalOriginRegistryBeforeUse": true,
+    "noActualComparisonOrEquivalenceClaim": true
+  },
+  "authorChecks": {
+    "command": "node --test tools/rust-r2m/comparison-api-domain-clock.test.mjs",
+    "purePassed": 10,
+    "pureFailed": 0,
+    "skipped": 0,
+    "noUndefFiles": 2,
+    "noUndefErrors": 0,
+    "evidence": {
+      "file": "tmp/rust-r2m/domain-clock-source01-pure.json",
+      "bytes": 2098,
+      "rawBytesSha256": "187d13e26c4f4bb49d3e448eaf567bbae12a4b7119d56ac9709c7c80721f6ed9"
+    }
+  },
+  "retainedAuthorFindings": [
+    {
+      "kind": "initial-runtime-catalog-phantom-contract-snapshot-updated_at-and-selection-selected_at",
+      "removedAgainstActual107Schema": true,
+      "actualExecution": false
+    },
+    {
+      "kind": "synthetic-test-schema-omitted-grant-typed-columns",
+      "correctedWithExactFiniteCatalog": true,
+      "actualExecution": false
+    }
+  ],
+  "actualPrivateReads": false,
+  "actualDatabaseHttpContainerBrowserExecuted": false,
+  "sharedSourcesModified": false,
+  "sourceReadyClaimed": false
+}

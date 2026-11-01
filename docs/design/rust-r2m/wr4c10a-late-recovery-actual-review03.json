@@ -1,0 +1,593 @@
+{
+  "kind": "R2M-independent-fixed-wr4c10a-late-resource-recovery-actual-review",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01 15:22:30 UTC",
+  "newTmpOnly": true,
+  "intendedDestination": "docs/design/rust-r2m/wr4c10a-late-recovery-actual-review03.json",
+  "input": {
+    "file": "tmp/rust-r2m-continuation01/recovered-ui-windows-rust-wr4c10a03.json",
+    "bytes": 25985,
+    "rawBytesSha256": "48a6e7ad4c452b584fb974c9c07efae490538d66a4c0400d7fcfafe6d5c39c60"
+  },
+  "sourceReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/wr4c10a-recovery-source-review03.json",
+    "bytes": 20532,
+    "rawBytesSha256": "061f50f29ed2d8443a95e3b639043e8099561c429751e834273d16f2be68eb1f"
+  },
+  "sourcePacket": {
+    "file": "tmp/rust-r2m/wr4c10a-recovery-candidate03/source03.json",
+    "bytes": 21361,
+    "rawBytesSha256": "573a2a7a88eefe954e9498fca671b15110c86f8dccea8bab59ef21089bd23336"
+  },
+  "scope": {
+    "runId": "f95f06d4-f903-42e5-89fe-01deebc80e20",
+    "backend": "rust",
+    "database": "poms_r2m_c01_rust",
+    "oid": "27149",
+    "marker": "abd093b8-c584-45b3-9c62-6357ad6dfa5d",
+    "sourceCapId": "r2m-c01-win10",
+    "manifest": "8126dc8e045c16233d0286539091efa792d7587458d0465f55cac3cb190ad049",
+    "originalProfile33": "bcc807b590aa27c7ebf36a50cc92661ef330a8f2df3f9ae5d249039f37c41183",
+    "resourceClosureOnly": true,
+    "UI4Pass": false,
+    "overallG3G4Pass": false,
+    "no17085Access": true
+  },
+  "preservedOriginalFacts": {
+    "originalUIFailurePreserved": true,
+    "originalPublicServerFalsePreserved": true,
+    "originalObserverNotRestoredPreserved": true,
+    "originalWindowsTerminalFrameReceived": true,
+    "originalBrowserClosed": true,
+    "originalServerClosedClaimed": false,
+    "originalPendingRootCallbacks": 0,
+    "originalServerTransportClosedButOwnedWorkIncompletePreserved": true,
+    "originalOrchestratorDeadlinePreserved": false,
+    "RootExactCompletedPartialWorkerSIGTERMPreserved": true,
+    "RootAdditionalSignalSent": false,
+    "originalNaturalWorkerExitClaimed": false,
+    "normalClosedReceiptClaimed": false,
+    "originalCertifiedHTTP": 20,
+    "newCreationCertificatesIssued": 0,
+    "identityAdoption": false
+  },
+  "originalCompletedSteps": 0,
+  "originalFailures": {
+    "firstRef": {
+      "file": "tmp/rust-r2m-continuation01/recovered-ui-windows-rust-wr4c10a01.json",
+      "bytes": 1480,
+      "rawBytesSha256": "3b8be871a69f2027f2d15cb0b833d2424200fdb46b032b8bb93719d7e5b52b06"
+    },
+    "secondRef": {
+      "file": "tmp/rust-r2m-continuation01/recovered-ui-windows-rust-wr4c10a02.json",
+      "bytes": 2767,
+      "rawBytesSha256": "f28195be4bd710c64db1f3b73b00bab03f79d8215a3a76732fd02f3ae1a6b826"
+    },
+    "firstReason": "Incorrect assumed SDK activeRequests field safely refused before snapshots/open/DB",
+    "secondReason": "Fresh scan safely rejected changed infrastructure after four exclusive snapshots but before Fixture.open/revision/DB",
+    "allPriorOutputsErrorsAndSnapshotsPreserved": true
+  },
+  "originalSnapshots": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-late-recovery03-original-ledger-e1149327.json",
+      "bytes": 510164,
+      "rawBytesSha256": "e11493273cd9c28b17976b2a959d08696cbbd14b5432fa66e094189c6f064214",
+      "private": true
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-late-recovery03-original-observer-943fce2a.json",
+      "bytes": 976638,
+      "rawBytesSha256": "943fce2acd297318f4c53b3ae88971767fb5a7f443c42ba7e8c30c3995dbfb50",
+      "private": true
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-late-recovery03-original-root-readonly-snapshot.json",
+      "bytes": 237790,
+      "rawBytesSha256": "17f7166e9b0bcff60b12e5d475046ee8923754f9ed725fcbbe81604790d5ff67",
+      "private": true
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-late-recovery03-original-outer-sigterm-9267b400.json",
+      "bytes": 694,
+      "rawBytesSha256": "9267b40063e0362b890f521725b037d9a388d5112c4aabea1d650841a7e147cb",
+      "private": true
+    }
+  ],
+  "savedBeforeFixtureOpen": true,
+  "originalSnapshotLengthsAndHashesExactlyMatchFixedOriginalInputs": true,
+  "runtimeQuiescence": {
+    "before": {
+      "kind": "fresh-source-declared-applications-and-original-PID-group-and-five-ports-quiescent",
+      "liveApplications": 0,
+      "unreadable": [
+        {
+          "bootId": "429a3dc1-dcfe-4b4c-a73a-d5b40a9c2ace",
+          "pid": 251,
+          "uid": 1000,
+          "parentPid": 1,
+          "startTicks": "7802",
+          "comm": "systemd",
+          "commRawBytesSha256": "12e6ff4feb1b552a431b41d3935d33f08f9d75ddb8a88f645f4cf231bc05e820",
+          "cmdlineBytes": 32,
+          "cmdlineSha256": "3127082f907652bfa48e38fddcaf16c3e73b2da5a2d64602eafe88869c222925",
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/init.scope",
+          "code": "EACCES",
+          "kernelExecutableIdentityWitness": {
+            "file": "tmp/rust-r2m-continuation01/wr4c10a-systemd-kernel-readonly02.json",
+            "bytes": 1583,
+            "rawBytesSha256": "b487550b2dd9c25daccebb6830daf632fd8dfd85e4284b5b5bc6014371d1e93e"
+          }
+        },
+        {
+          "bootId": "429a3dc1-dcfe-4b4c-a73a-d5b40a9c2ace",
+          "pid": 263,
+          "uid": 1000,
+          "parentPid": 251,
+          "startTicks": "7805",
+          "comm": "(sd-pam)",
+          "commRawBytesSha256": "8e2daf3d78d113ebf2447fc82d98ba4d9c26a8e3e4fac8ac2d01ee34cbbc1dbd",
+          "cmdlineBytes": 9,
+          "cmdlineSha256": "971490059d839d27af3ded30a476216b92689d837b0236a700723fb13640e370",
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/init.scope",
+          "code": "EACCES",
+          "kernelExecutableIdentityWitness": {
+            "file": "tmp/rust-r2m-continuation01/wr4c10a-systemd-kernel-readonly02.json",
+            "bytes": 1583,
+            "rawBytesSha256": "b487550b2dd9c25daccebb6830daf632fd8dfd85e4284b5b5bc6014371d1e93e"
+          }
+        }
+      ],
+      "knownAbsent": [
+        2116522,
+        2116515,
+        -2116515,
+        2116574
+      ],
+      "fivePortsFree": [
+        10070,
+        10071,
+        10080,
+        10090,
+        10091
+      ],
+      "sourceApplicationScanIndependentOfCwdForUniqueExecutables": true
+    },
+    "after": {
+      "kind": "fresh-source-declared-applications-and-original-PID-group-and-five-ports-quiescent",
+      "liveApplications": 0,
+      "unreadable": [
+        {
+          "bootId": "429a3dc1-dcfe-4b4c-a73a-d5b40a9c2ace",
+          "pid": 251,
+          "uid": 1000,
+          "parentPid": 1,
+          "startTicks": "7802",
+          "comm": "systemd",
+          "commRawBytesSha256": "12e6ff4feb1b552a431b41d3935d33f08f9d75ddb8a88f645f4cf231bc05e820",
+          "cmdlineBytes": 32,
+          "cmdlineSha256": "3127082f907652bfa48e38fddcaf16c3e73b2da5a2d64602eafe88869c222925",
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/init.scope",
+          "code": "EACCES",
+          "kernelExecutableIdentityWitness": {
+            "file": "tmp/rust-r2m-continuation01/wr4c10a-systemd-kernel-readonly02.json",
+            "bytes": 1583,
+            "rawBytesSha256": "b487550b2dd9c25daccebb6830daf632fd8dfd85e4284b5b5bc6014371d1e93e"
+          }
+        },
+        {
+          "bootId": "429a3dc1-dcfe-4b4c-a73a-d5b40a9c2ace",
+          "pid": 263,
+          "uid": 1000,
+          "parentPid": 251,
+          "startTicks": "7805",
+          "comm": "(sd-pam)",
+          "commRawBytesSha256": "8e2daf3d78d113ebf2447fc82d98ba4d9c26a8e3e4fac8ac2d01ee34cbbc1dbd",
+          "cmdlineBytes": 9,
+          "cmdlineSha256": "971490059d839d27af3ded30a476216b92689d837b0236a700723fb13640e370",
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/init.scope",
+          "code": "EACCES",
+          "kernelExecutableIdentityWitness": {
+            "file": "tmp/rust-r2m-continuation01/wr4c10a-systemd-kernel-readonly02.json",
+            "bytes": 1583,
+            "rawBytesSha256": "b487550b2dd9c25daccebb6830daf632fd8dfd85e4284b5b5bc6014371d1e93e"
+          }
+        }
+      ],
+      "knownAbsent": [
+        2116522,
+        2116515,
+        -2116515,
+        2116574
+      ],
+      "fivePortsFree": [
+        10070,
+        10071,
+        10080,
+        10090,
+        10091
+      ],
+      "sourceApplicationScanIndependentOfCwdForUniqueExecutables": true
+    },
+    "beforeAndAfterExactSameBootTwoInfraTuplesMatchPinnedKernel": true,
+    "noTasksLiveAndExactOldPIDGroupGoneFivePortsFreeAtRecovery": true,
+    "infrastructureIsNotClaimedStopped": true,
+    "WindowsBefore": {
+      "kind": "fresh-exact-original-Windows-owned-roots-members-and-nonces-gone",
+      "noStopModeInvoked": true,
+      "exactPrivateRefCount": 12
+    },
+    "WindowsAfter": {
+      "kind": "fresh-exact-original-Windows-owned-roots-members-and-nonces-gone",
+      "noStopModeInvoked": true,
+      "exactPrivateRefCount": 12
+    },
+    "WindowsBothPhases": "Original11registeredPIDs plus exact nonce Inspect/Discover,12 original raw refs per phase; no Stop or new signal",
+    "proofTimeScope": "Recovery time only. Root now runs new cap11 UI4; no present host-quiescence assertion by C."
+  },
+  "originalIdentityAndPG": {
+    "NativeSDK": 5,
+    "NativeSQL": 232,
+    "PGEvents": 5,
+    "alreadyDrainedPGCases": 26,
+    "PGHttpCases": 16,
+    "PGProducerCases": 10,
+    "terminalIntents": {
+      "absent": 50,
+      "adopted": 6
+    },
+    "noRepeatedIntentResolution": true,
+    "originalNoSingletonLease": true,
+    "currentFull107EqualsOriginalLastCertifiedAfter": true,
+    "freshLiveOriginalEvidence": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-late-recovery03-live-original-control-and-events.json",
+      "bytes": 5230,
+      "rawBytesSha256": "20e7e7c60bbe5762d2d3cee96ba27f3441a4dd7ca63847344eafc57960ed0e2c",
+      "private": true
+    },
+    "basis": "Reviewed runtime enforces idle control/26usedcases/full5events and genuine existing typed SDK-PG COMMIT/independent visibility; C does not read private rows"
+  },
+  "restoration": {
+    "reconciliation": {
+      "kind": "scoped-pg-observer-reconciliation",
+      "result": "exact-installed-handle-reopened",
+      "observerId": "76bccbaa-5a87-428a-9a08-2c06a9727efd",
+      "database": "poms_r2m_c01_rust",
+      "journalFile": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/rust-f95f06d4-f903-42e5-89fe-01deebc80e20-76bccbaa-5a87-428a-9a08-2c06a9727efd.recovery-0fdbe208-7ee1-40e0-a84e-5fd892dc63d3.json",
+      "event": {
+        "kind": "observer-catalog-reconciliation",
+        "recoveryId": "0fdbe208-7ee1-40e0-a84e-5fd892dc63d3",
+        "at": "2026-11-01T14:46:49.467Z",
+        "attemptedJournal": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/rust-f95f06d4-f903-42e5-89fe-01deebc80e20-76bccbaa-5a87-428a-9a08-2c06a9727efd.json",
+        "attemptedJournalSha256": "943fce2acd297318f4c53b3ae88971767fb5a7f443c42ba7e8c30c3995dbfb50",
+        "priorSnapshot": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/rust-f95f06d4-f903-42e5-89fe-01deebc80e20-76bccbaa-5a87-428a-9a08-2c06a9727efd.prior-0fdbe208-7ee1-40e0-a84e-5fd892dc63d3.json",
+        "attemptedState": "installed",
+        "classification": "installed",
+        "observedCatalogSha256": "176a2d80446dde346040085d8919cc94ca781e0291c74432918788ae5efc2435",
+        "originalAttemptPreserved": true,
+        "PostgreSQLDDLExecuted": false,
+        "controlContextSha256": "3f289e42272379444876de2f719d7cf73ec4379522358a8d6534bbc56118f288"
+      },
+      "observerFootprintRestored": false,
+      "full107TableCatalogVerified": false
+    },
+    "pg": {
+      "kind": "scoped-pg-after-insert-observer",
+      "result": "observer-footprint-restored",
+      "observerId": "76bccbaa-5a87-428a-9a08-2c06a9727efd",
+      "database": "poms_r2m_c01_rust",
+      "journalFile": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/rust-f95f06d4-f903-42e5-89fe-01deebc80e20-76bccbaa-5a87-428a-9a08-2c06a9727efd.recovery-0fdbe208-7ee1-40e0-a84e-5fd892dc63d3.json",
+      "exportedEvents": 5,
+      "eventExportSha256": "53af214158f7813f3c8d417428c4c2f7b099161614aab69fa1de8363fda01407",
+      "observerFootprintCatalogSha256": "cf2e938705c832d493fcc8a154cd9de27768dbd83d86b1c14f8810e9925a1a46",
+      "observerFootprintRestored": true,
+      "catalogScope": {
+        "kind": "observer-footprint-only",
+        "productTables": [
+          "auth_session",
+          "audit_log",
+          "security_event",
+          "approval_record",
+          "todo_item",
+          "commission_final_settlement_snapshot",
+          "commission_rule_explanation_snapshot",
+          "platform_user",
+          "role",
+          "org_unit",
+          "user_role_assignment",
+          "user_org_membership",
+          "role_permission_assignment",
+          "dictionary_item",
+          "business_number_sequence",
+          "identity_provider_config",
+          "identity_provider_oauth_grant",
+          "external_identity",
+          "external_login_ticket",
+          "external_org_source",
+          "external_department_mapping",
+          "org_sync_run",
+          "org_sync_diff_item",
+          "attachment_storage_provider_config",
+          "attachment_upload_session",
+          "attachment",
+          "attachment_link",
+          "project_handover_attachment_selection",
+          "attachment_download_package",
+          "attachment_download_package_item",
+          "confirmation_record",
+          "confirmation_participant",
+          "approval_summary_snapshot",
+          "approval_summary_field_projection"
+        ],
+        "controlNamespace": "r2m_c01_control",
+        "full107TableCatalogVerified": false,
+        "fullCatalogVerificationOwner": "Root before install and after restore"
+      },
+      "observerSqlModifiesBusinessRows": false
+    },
+    "correctOriginalRustBeforeCatalogSHA": "cf2e938705c832d493fcc8a154cd9de27768dbd83d86b1c14f8810e9925a1a46",
+    "originalAttemptAndFreshRecoveryGenerationPreserved": true,
+    "reconcileDidNotExecuteDDL": true,
+    "restoreExportedFiveOriginalEvents": true,
+    "exactLiveEventExportHashEquality": "Source03 requires sha(JSON.stringify(live.events)) equality before cleanup; guarded success completed",
+    "observerFootprintIsNotWhole107CatalogClaim": true
+  },
+  "cleanup": {
+    "preflight": {
+      "catalog": {
+        "tables": 107,
+        "columns": 1778,
+        "primaryKeys": 107,
+        "incomingForeignKeys": 207,
+        "allForeignKeys": 207,
+        "implicitPrimaryKeyNames": [
+          {
+            "table": "internal_cost_rate_version",
+            "name": "internal_cost_rate_version_pkey",
+            "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+          },
+          {
+            "table": "poms_migrations",
+            "name": "poms_migrations_pkey",
+            "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+          },
+          {
+            "table": "project_actual_cost_record",
+            "name": "project_actual_cost_record_pkey",
+            "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+          }
+        ],
+        "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+        "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+      },
+      "tablesScanned": 107,
+      "scanDigest": "7c4df1b354c28513cd9787f783e2349afa3b77f840cf5aa6af511ecbddfb1888"
+    },
+    "cycles": [
+      {
+        "state": "cleaned",
+        "deleted": 69,
+        "cycleBreaks": 1,
+        "firstZero": {
+          "objects": 0,
+          "logicalReferences": 0,
+          "tablesScanned": 107,
+          "catalog": {
+            "tables": 107,
+            "columns": 1778,
+            "primaryKeys": 107,
+            "incomingForeignKeys": 207,
+            "allForeignKeys": 207,
+            "implicitPrimaryKeyNames": [
+              {
+                "table": "internal_cost_rate_version",
+                "name": "internal_cost_rate_version_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "poms_migrations",
+                "name": "poms_migrations_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "project_actual_cost_record",
+                "name": "project_actual_cost_record_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              }
+            ],
+            "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+            "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+          }
+        },
+        "secondZero": {
+          "objects": 0,
+          "logicalReferences": 0,
+          "tablesScanned": 107,
+          "catalog": {
+            "tables": 107,
+            "columns": 1778,
+            "primaryKeys": 107,
+            "incomingForeignKeys": 207,
+            "allForeignKeys": 207,
+            "implicitPrimaryKeyNames": [
+              {
+                "table": "internal_cost_rate_version",
+                "name": "internal_cost_rate_version_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "poms_migrations",
+                "name": "poms_migrations_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "project_actual_cost_record",
+                "name": "project_actual_cost_record_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              }
+            ],
+            "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+            "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+          }
+        },
+        "journalDigest": "1bbe2e17a42d07b068879434362bdc0b7b4fb3516cfc1588e0a221c2b6480282",
+        "objects": {
+          "matched": 0,
+          "changed": 0,
+          "observed": true,
+          "exactKeys": []
+        },
+        "secondObjects": {
+          "matched": 0,
+          "changed": 0,
+          "observed": true,
+          "exactKeys": []
+        },
+        "cloudPeerCleanupClaimed": false
+      },
+      {
+        "state": "cleaned",
+        "deleted": 0,
+        "cycleBreaks": 0,
+        "firstZero": {
+          "objects": 0,
+          "logicalReferences": 0,
+          "tablesScanned": 107,
+          "catalog": {
+            "tables": 107,
+            "columns": 1778,
+            "primaryKeys": 107,
+            "incomingForeignKeys": 207,
+            "allForeignKeys": 207,
+            "implicitPrimaryKeyNames": [
+              {
+                "table": "internal_cost_rate_version",
+                "name": "internal_cost_rate_version_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "poms_migrations",
+                "name": "poms_migrations_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "project_actual_cost_record",
+                "name": "project_actual_cost_record_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              }
+            ],
+            "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+            "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+          }
+        },
+        "secondZero": {
+          "objects": 0,
+          "logicalReferences": 0,
+          "tablesScanned": 107,
+          "catalog": {
+            "tables": 107,
+            "columns": 1778,
+            "primaryKeys": 107,
+            "incomingForeignKeys": 207,
+            "allForeignKeys": 207,
+            "implicitPrimaryKeyNames": [
+              {
+                "table": "internal_cost_rate_version",
+                "name": "internal_cost_rate_version_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "poms_migrations",
+                "name": "poms_migrations_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              },
+              {
+                "table": "project_actual_cost_record",
+                "name": "project_actual_cost_record_pkey",
+                "rule": "Fresh PostgreSQL default unnamed-primary-key naming; actual name/ordered columns verified"
+              }
+            ],
+            "columnsSha256": "699115426f1cdbd87a9b0261c2fc254fb6463853a60811a1a472852bfa51941c",
+            "incomingSha256": "edc11a2df709f8a077fa0d3f38909129226cd0278a272c674d50f0aa50b0831f"
+          }
+        },
+        "journalDigest": "81a443cd2cca002efb7cdfa90b980957a4a2c53ccc778db19f30cf85d7c2d14c",
+        "objects": {
+          "matched": 0,
+          "changed": 0,
+          "observed": true,
+          "exactKeys": []
+        },
+        "secondObjects": {
+          "matched": 0,
+          "changed": 0,
+          "observed": true,
+          "exactKeys": []
+        },
+        "cloudPeerCleanupClaimed": false
+      }
+    ],
+    "firstDeleted": 69,
+    "firstOwnedCycleBreaks": 1,
+    "firstFilesChanged": 0,
+    "secondDeleted": 0,
+    "secondFilesChanged": 0,
+    "allFourZeroScans107Tables1778Columns207FK": true,
+    "lateDrainOnly": true,
+    "noSingletonCAS": true,
+    "afterFull107Ref": {
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-late-recovery03-after-full107.json",
+      "bytes": 432805,
+      "rawBytesSha256": "13267dffbde94ae39ce3e2b180c75c0a703333cee105b83811fe2c41d4fa6f2a",
+      "private": true
+    },
+    "fullInitial107PhysicalRowSetRestored": true,
+    "physicalRowsEqualNotRawSnapshotByteEquality": true,
+    "fixtureClientClosed": true
+  },
+  "epochBoundary": {
+    "recoveryUsesOldCap10AndBCCSource": true,
+    "originalSource03CandidateInputsAndPriorCRechecked": true,
+    "reviewedRuntimeSourceReaderUnchangedBeforeSuccess": true,
+    "later124SourceC": {
+      "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/windows-rust-ui4-view-source-review01.json",
+      "bytes": 83360,
+      "rawBytesSha256": "137dd8fbb8db8272069294d6d533da03c72e6b864fc5e3495da037f265b043bc"
+    },
+    "later86c911ProfileAndCap11NotUsedAsOldRecoverySource": true,
+    "laterInstallationAndFreshUI4ActualSeparate": true
+  },
+  "verification": {
+    "exact25985SHA48a6AndSource573aC061f": true,
+    "original01And02FailureRefsUnchanged": true,
+    "fourSnapshotPinsEqualOriginalFixedInputs": true,
+    "recoveryBothPhasesBootPIDUIDPPIDStartCommArgvCgroupExact": true,
+    "originalTaskPIDGroupAndFivePortsZeroAtBothChecks": true,
+    "twentyfourWindowsPrivateRawRefsRetainedNotOpenedByC": true,
+    "exactOriginalPGJournalAndSameNewRecoveryGeneration": true,
+    "RustBeforeFootprintFiveEventsAndSeparate107ProofMatch": true,
+    "fourZeroScansInitialPhysical107AndClientCloseVerified": true,
+    "originalFalseFlagsAndSignalHistoryUnchanged": true,
+    "CPrivateDBHostBrowserHTTPApplicationTestActions": 0,
+    "capturedSourceDocsChanged": 0,
+    "newTmpOnly": true
+  },
+  "readLevels": {
+    "public": "Complete recovery receipt, fixed code/input/review and original public metadata/failures/kernel metadata",
+    "private": "Ref path/length/hash only; no ledger, SDK/SQL, raw full107, key, PS result, event rows or error contents opened",
+    "actual": "Root alone executed ordinaryuid1000 Source03; C independently audited source and public resulting receipt"
+  },
+  "remaining": {
+    "failed69Graph": "Closed by this accepted late resource recovery",
+    "WindowsAccepted": 7,
+    "WindowsTotal": 8,
+    "UIAccepted": 15,
+    "UITotal": 16,
+    "lastFreshRustUI4": "Pending; original failed prefix never becomes UI pass",
+    "finalCensusOverallG3G4": "Pending"
+  },
+  "findings": [],
+  "UI4Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

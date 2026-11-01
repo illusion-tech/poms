@@ -1,0 +1,41 @@
+{
+  "kind": "R2M-exact-audit-identity-same-parent-operation-delta",
+  "result": "SourceReady-candidate-awaits-C-and-Root-actual",
+  "base": {
+    "file": "tools/rust-r2m/audit-identity-source01.json",
+    "bytes": 16840,
+    "rawBytesSha256": "1248fb154e4c75f1287999316724184014e64bc571020e1dbb68df84df9f7609"
+  },
+  "before": {
+    "file": "tools/rust-r2m/audit-identity-before-source02.json",
+    "bytes": 35345,
+    "rawBytesSha256": "79a0eac306226b3555be24772df0becb95a9d1bdc130d2097728c1e6df49e987"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.mjs",
+      "bytes": 13702,
+      "rawBytesSha256": "404e7303e42a2a50fb449b723f69edd2a22063831544ee01763caba436021725"
+    },
+    {
+      "file": "tools/rust-r2m/fixture-audit-identity.test.mjs",
+      "bytes": 12513,
+      "rawBytesSha256": "eac417070ea37cab197354d9ae825639642fd9e65c49df15ca163e703ca71473"
+    }
+  ],
+  "scope": "Only add actual generated parent.createContext.op===admission.context.op, with explicit parent m.producer negative. The current admission remains literal m.http only. No broader producer permission or other source changes.",
+  "pure": {
+    "passed": 44,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-identity-source02-pure.txt",
+      "bytes": 4471,
+      "rawBytesSha256": "ce5d923846dc36c50880dfa443c8f9b4fd3c71bc4f415ff31ef5226198c5333b"
+    },
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "actual": false
+}

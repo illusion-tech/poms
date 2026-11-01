@@ -1,0 +1,26 @@
+diff --git a/tools/rust-r2m/ui4-upload-text-original-before01/acceptance-ui-browser.mjs b/tools/rust-r2m/acceptance-ui-browser.mjs
+index b166d936..81079a38 100644
+--- a/tools/rust-r2m/ui4-upload-text-original-before01/acceptance-ui-browser.mjs
++++ b/tools/rust-r2m/acceptance-ui-browser.mjs
+@@ -80,7 +80,7 @@ export async function runUiJourneys({page,context,expect,inputs,onBeforeStep,onA
+                     await dialog.locator('input[type=file]').setInputFiles({name:inputs.upload.name,mimeType:'text/plain',buffer:inputs.upload.bytes});
+                     await dialog.locator('#createAttachmentCategory').click(); await page.getByRole('option',{name:inputs.upload.categoryLabel,exact:true}).click();
+                     const complete=observeUiPending(page.waitForResponse(response=>new URL(response.url()).pathname.endsWith(':complete')&&new URL(response.url()).pathname.startsWith('/api/attachment-upload-sessions/')&&response.request().method()==='POST'));
+-                    await dialog.getByRole('button',{name:'上传',exact:true}).click(); const response=await complete; assert.equal(response.status(),200); uploaded=await response.json(); assert(uuid.test(uploaded.id));
++                    await dialog.locator('button').filter({hasText:/^上传$/}).click(); const response=await complete; assert.equal(response.status(),200); uploaded=await response.json(); assert(uuid.test(uploaded.id));
+                     await expect(dialog).not.toBeVisible(); return {actualUpload200:true,attachmentId:uploaded.id};
+                 },{projectId:inputs.project.id,originalName:inputs.upload.name,bytes:inputs.upload.bytes.length,sha256:sha(inputs.upload.bytes)});
+                 // Root afterStep has now drained SDK/PG and independently
+diff --git a/tools/rust-r2m/ui4-upload-text-original-before01/fixture-ui-package-intent.mjs b/tools/rust-r2m/fixture-ui-package-intent.mjs
+index 43952cd2..6115fd5b 100644
+--- a/tools/rust-r2m/ui4-upload-text-original-before01/fixture-ui-package-intent.mjs
++++ b/tools/rust-r2m/fixture-ui-package-intent.mjs
+@@ -12,7 +12,7 @@ const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof v
+ const digest=value=>sha(JSON.stringify(canonical(value)));
+ const uuid=value=>{assert(typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(value));return value};
+ const SOURCE='tools/rust-r2m/fixture-ui-package-intent.mjs';
+-export const uiPackageIntentSources=Object.freeze([{"file":"tools/rust-r2m/ui-runtime-sources.mjs","rawBytesSha256":"dc7fe777e0ac839cc56859bff23c793a5ea8c81446c40c7ff524c7aaf970ddf2"},{"file":"tools/rust-r2m/acceptance-ui-browser.mjs","rawBytesSha256":"9a9fb2ae1565777ad62e8d7e2a1a5af00171e99a145c0d915c8d6cc3da4f2016"},{"file":"libs/admin/data-access/src/lib/project/project-workspace.store.ts","rawBytesSha256":"64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443"},{"file":"apps/poms-admin/src/app/features/project/project-contract-handover.ts","rawBytesSha256":"a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261"},{"file":"apps/poms-api/src/app/features/attachment/attachment.service.ts","rawBytesSha256":"b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"},{"file":"apps/poms-api/src/app/features/attachment/attachment.repository.ts","rawBytesSha256":"9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"}].map(Object.freeze));
++export const uiPackageIntentSources=Object.freeze([{"file":"tools/rust-r2m/ui-runtime-sources.mjs","rawBytesSha256":"dc7fe777e0ac839cc56859bff23c793a5ea8c81446c40c7ff524c7aaf970ddf2"},{"file":"tools/rust-r2m/acceptance-ui-browser.mjs","rawBytesSha256":"befb150ec4349e932fee121defe09e67ba12bc03e2dec4c00ab13a14eb5f11ed"},{"file":"libs/admin/data-access/src/lib/project/project-workspace.store.ts","rawBytesSha256":"64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443"},{"file":"apps/poms-admin/src/app/features/project/project-contract-handover.ts","rawBytesSha256":"a396a1a906363c6755089b5104810030063ffb3f72fbcdef727432513ec48261"},{"file":"apps/poms-api/src/app/features/attachment/attachment.service.ts","rawBytesSha256":"b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"},{"file":"apps/poms-api/src/app/features/attachment/attachment.repository.ts","rawBytesSha256":"9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"}].map(Object.freeze));
+ const verifiedSource=new Set();
+ function verifySources(sourceCapId){
+  assert(typeof sourceCapId==='string'&&/^r2m-[a-z0-9-]{1,64}$/.test(sourceCapId));

@@ -1,0 +1,56 @@
+{
+  "kind": "R2M-original-runner-three-QA-clones-source-candidate",
+  "result": "SourceReady-candidate-awaits-necessary-C-isolation-review-and-Root-actual",
+  "at": "2026-10-30T21:05:05.889Z",
+  "files": [
+    {
+      "file": "tools/rust-r2m/audit-qa-admission.json",
+      "bytes": 5121,
+      "rawBytesSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-common.mjs",
+      "bytes": 6749,
+      "rawBytesSha256": "8620f792d2f07011834359ba5de78dfef19c905a1a16814dc1e523ec1ae010d0"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-provision.mjs",
+      "bytes": 15500,
+      "rawBytesSha256": "7cab98efb105262b1737079df19be6b4977151a8b1e9e9d58ec4419870e8214e"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa.test.mjs",
+      "bytes": 1984,
+      "rawBytesSha256": "d4fb45329b13be1ce07d90bce223d4aef1d61b61b6356ef57eee160983aa0155"
+    }
+  ],
+  "sourceOnly": true,
+  "pure": {
+    "passed": 3,
+    "failed": 0,
+    "log": {
+      "file": "tools/rust-r2m/audit-qa-source01-pure.txt",
+      "bytes": 416,
+      "rawBytesSha256": "20c455458d34b38b401873da0038b27f52ca93647e3fe90959bcaa4395981f75"
+    },
+    "syntaxFiles": 3,
+    "DB": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "privateRead": 0
+  },
+  "requiredActualApproval": {
+    "kind": "Root-R2M-QA-clone-execution-admission",
+    "rootAuthorized": true,
+    "planSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1",
+    "parentMarker": "1a6b458a-2e55-4dc9-8b50-0f1947a1a7d5",
+    "writersStopped": true,
+    "sourceMDoubleZeroCompleted": true,
+    "sourceMInitialSeedEqualityRequired": true,
+    "sourceSeedReferences": [
+      "one exact original new-M initial full107 private capture per M template, raw SHA and normalizedRows digest; no old private"
+    ],
+    "nonAuthorSourceReview": "Root public C SourceReady exact pins of plan/common/provision"
+  },
+  "runBoundary": "Only explicit --provision opens new-M private/control PG; --check is public-only. Whole QA resources retained; no row ownership claim/no reseed/drop/terminate-backend. Runner/owner command source remains pending separate candidate."
+}

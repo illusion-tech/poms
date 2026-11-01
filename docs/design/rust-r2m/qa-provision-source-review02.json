@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "reviewedAt": "2026-10-30T21:51:20.177Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "result": "SourceReady",
+  "G3Certified": false,
+  "G4Certified": false,
+  "kind": "R2M-QA-filename-and-exact-QA10-emptyfailed-archive-source-review-not-a-Gate",
+  "sourceInput": {
+    "file": "tools/rust-r2m/audit-qa-source03.json",
+    "bytes": 2797,
+    "rawBytesSha256": "c69437bb099d7e0c4b693a75ff0c4418e5c3d83dadbc12eb5ebb4aeeed5bcb3a"
+  },
+  "priorReview": "docs/design/rust-r2m/qa-provision-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/audit-qa-admission.json",
+      "bytes": 5121,
+      "rawBytesSha256": "5c7970f381fbdd12c89465be022aba8106c006c3858f2a523d06604137592ec1",
+      "readLevel": "Unchanged exact plan pin; prior complete isolation review reused"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-common.mjs",
+      "bytes": 6835,
+      "rawBytesSha256": "b5908dc99332c40b654d72f7bd1c4c7ccd167345c8111a8ce61c3d7a800b5a91",
+      "readLevel": "Complete delta against exact preserved8620 source: single-component name validator permits underscore; private I/O and other guards unchanged"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-provision.mjs",
+      "bytes": 15734,
+      "rawBytesSha256": "3ffc07ec3103cc93dae24ac1e2a9f18c86e4f8223504ff6459a0efd99cd2944c",
+      "readLevel": "Unchanged exact provision pin; prior full seed/absence/low-role/marker/ACL/private failure review reused"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-planned-resume.mjs",
+      "bytes": 6283,
+      "rawBytesSha256": "703e061c5cc5b4b16e148d71e6a1201582ab149470a54430dc062db7bf9f573d",
+      "readLevel": "Complete one-manifest read-only PG/absence/private archive protocol"
+    },
+    {
+      "file": "tools/rust-r2m/audit-qa-name-resume.test.mjs",
+      "bytes": 1563,
+      "rawBytesSha256": "4af856eb87d0fe332f936bdbbc7b45aefefb913e3aa63b3d6b13994720647916",
+      "readLevel": "Complete pure name-boundary/exact emptyfailed guard source; not executed by C"
+    }
+  ],
+  "publicActualMetadataRead": {
+    "file": "tmp/rust-r2m/qa-provision-failed01-metadata.json",
+    "bytes": 1169,
+    "rawBytesSha256": "19949a89ab9fc43dec9bc209f4f55fa6c16e53ebea1e5a6df6bc8a1b27a59ecc",
+    "sourceCapId": "r2m-qa10",
+    "classification": "tool-noise",
+    "phase": "before-resource-create-template-snapshot-filename",
+    "resourceManifest": {
+      "bytes": 884,
+      "rawBytesSha256": "9c994ad52e19c0857fb04c09ebb77653cbbee981e3c205b06c285e88f85f24cc",
+      "state": "partial-provisioning-preserved",
+      "resources": 0,
+      "templates": 0
+    },
+    "actualNamedDatabases": [],
+    "actualNamedRoles": [],
+    "CReadPrivateManifest": false
+  },
+  "findings": [
+    "The common helper's only behavior change is allowing underscore in one directory-component filenames. Slash/backslash/colon, absolute names and traversal remain refused. All prior nofollow/private directory/mode/exclusive/atomic-write and exact QA plan/environment protections remain.",
+    "The archive entry accepts only the exact QA10 raw manifest SHA9c994... and its partial state with empty resources/templates. It is not a generic resume, role/database adoption or cleanup operation.",
+    "Before moving metadata it freshly validates the exact new-M PG15 control identity/isolation and both original M parent markers, then checks each of the three named QA databases/roles, env/password/object roots is absent. Both pre-template snapshot filenames must also be absent.",
+    "The original manifest is re-read by exact hash/inode, a unique new private archive path is reserved wx/nofollow, then the original is renamed and its bytes/hash rechecked unchanged. No SQL DML/DDL, role/database creation/deletion or M row mutation occurs in the archive entry.",
+    "A subsequent fresh provision still must satisfy the complete original initial-seed/full107/ACL/zero-connection/before-absence/low-role/source-review checks. This review supplies the current plan/common/provision pins for Root approval02; it does not carry the failed QA10 result forward as successful provisioning."
+  ],
+  "verification": {
+    "newSourcePinsMatched": 3,
+    "unchangedPlanProvisionPinsReused": true,
+    "preservedCommonOldBodyHashChecked": true,
+    "reportedPurePassed": 7,
+    "reportedPureFailed": 0,
+    "reportedSyntaxFiles": 3,
+    "pureSourceAndLogSummaryRead": true,
+    "CExecutedTestsOrArchiveOrProvisionOrDB": false,
+    "CReadPrivate": false
+  },
+  "executionBoundary": {
+    "approved": "Root may run the one exact emptyfailed metadata archive and then bind this exact current review in a fresh QA provision admission. Keep original884-byte failed manifest/error receipt and actual partial phase label.",
+    "notApproved": "No original-runner test result or QA resource creation is certified here; no old resource/private data is reset or adopted.",
+    "notNewGate": true
+  },
+  "blocks": []
+}

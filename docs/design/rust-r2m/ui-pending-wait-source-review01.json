@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-independent-held-UI-promise-rejection-observation-source-review",
+  "result": "SourceReady",
+  "reviewedAt": "2026-10-30T23:32:33Z",
+  "reviewer": {
+    "role": "C-independent-non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "fastModeVerified": false
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceInput": {
+    "file": "tools/rust-r2m/ui-pending-wait-source01.json",
+    "bytes": 2187,
+    "rawBytesSha256": "74373417047318c7042f05665d13cd049f146dbed2fb601e62352cd07231180c"
+  },
+  "before": {
+    "file": "tools/rust-r2m/ui-pending-wait-before-source01.json",
+    "bytes": 32824,
+    "rawBytesSha256": "751ac7c2536800e6d005ebca2b9f8342be74714d53f13ee8636da59e9cd20489",
+    "decodedHelperRawBytesSha256": "66f4278b3b492344502a71be58fe1db3eb8f02e57edef8fc5ad8e55209268361",
+    "independentlyMatched": true
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 24759,
+      "rawBytesSha256": "9e809c92a54f30dd3d16fcc52484ca3aaca8e364dd26eb48762ae896fd4ba343",
+      "readLevel": "Complete sole helper plus all four narrow pending-wait wrapping changes against exact preserved66f source; all original predicates/actions/assertions retained"
+    },
+    {
+      "file": "tools/rust-r2m/ui-pending-wait.test.mjs",
+      "bytes": 1764,
+      "rawBytesSha256": "422bbf47f369378159addf0cc8e2123f45218502f7829d0cc8275481c6aa6ea1",
+      "readLevel": "Complete two pure tests, not executed by C"
+    }
+  ],
+  "assessment": [
+    "observeUiPending attaches an immediate independent rejection handler and returns the identical original Promise. The later required await retains its original value or exact original Error. It neither returns the catch-derived Promise nor retries, substitutes a response, changes timing/predicates, or turns a failed required await into success.",
+    "The one existing HTTP wait helper, both literal inline HTTP waits and the one held download event receive this observer at construction. Complete preserved66f-to-current delta shows no other behavior change: original25s helper timeout, action order, real status assertions, fixture/owner/source/semantic guards remain.",
+    "Author tests cover exact Promise identity and rejection Error identity and a strict Node child where response/download waits reject before a synthetic slow action finishes. C read these sources and the actual20-pass/0-fail/0-skip public log tail but did not execute them. They are infrastructure scheduling evidence, not an actual browser pass.",
+    "This source correction cannot retroactively supply writerClosed or observerRestored for the fatal uir2a run. That old run needs a separate actual owner, transaction and PG-observer/fixture audit before any recovery; it is not eligible for the closed-run template merely because this new helper is ready.",
+    "Root may bind exact9e809c92 shared browser bytes in a new Linux or Windows UI source capsule while retaining the corresponding previously reviewed owner arrangement. The unmodified Windows eight-source owner logic is not re-reviewed or certified as an actual run by this delta."
+  ],
+  "verification": {
+    "currentSources": "2/2 exact",
+    "old66fBodyHashMatched": true,
+    "authorPureTests": 20,
+    "failed": 0,
+    "skipped": 0,
+    "executedByC": false
+  },
+  "executionBoundary": "Only source/public-file reads and this review write by C; no private read, app/test execution, DB/HTTP/browser/container/process inspection or stop, product/fixture edit or Git mutation. Actual UI results, full107/certificates/owner close and exact restore remain Root work and later independent actual/G3 review.",
+  "blocks": [],
+  "G1Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

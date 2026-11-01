@@ -1,0 +1,369 @@
+{
+  "kind": "R2M-independent-C-M5-exact-physical-audit-column-source-delta-review",
+  "result": "SourceReady",
+  "reviewedAtUtc": "2026-10-31 11:47:25 UTC",
+  "reviewer": {
+    "agent": "/root/r2m_review",
+    "role": "independent non-author C",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fastMode": "unverified"
+  },
+  "sourcePacket": {
+    "file": "tools/rust-r2m/compare-api-m5-source04b.json",
+    "bytes": 20557,
+    "rawBytesSha256": "f5ad6d50adbcf305d8eed22e01d780dec8e41945ef5a480834c0d12e66578fe1",
+    "sourceSetSha256": "df6acea4de304d3fcddaddc87bab718ce089b7dce951c97a8a44173456bb6ab7"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/compare-api-m5.mjs",
+      "bytes": 6939,
+      "rawBytesSha256": "18e2f6a40a66fbbbb87596a93d6187a5518923888731b81a78cb5b1cfb4faa9f"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-core.mjs",
+      "bytes": 15860,
+      "rawBytesSha256": "df52c59b732682c904ca44b1d5651c612dfd38ca04e7cf5d406fdab5d431ecbd"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-reader.mjs",
+      "bytes": 14587,
+      "rawBytesSha256": "aa45a0a064af82480e6958181cd98a12d88761e0190dcf56cc6266f4d9a324fc"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-domain.mjs",
+      "bytes": 22310,
+      "rawBytesSha256": "9e167c723c55907420282621356f0d57c586d0bb59ca9964d34e9fd5e76071aa"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-base.mjs",
+      "bytes": 13302,
+      "rawBytesSha256": "2d52874fa3e69872d44b5cc5982441e2c80964eb808b850e53c80f7bf13ca2af"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5.test.mjs",
+      "bytes": 15407,
+      "rawBytesSha256": "f3a6e436e362f30bfabc7f2d54182d638e5a5606f9ed6d53a61de876013f00d1"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-domain.test.mjs",
+      "bytes": 22516,
+      "rawBytesSha256": "90b854643be082680dc19bfc22e7543b3231bad9e11f9d6873f598bb42aaa4c7"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-reader.test.mjs",
+      "bytes": 7108,
+      "rawBytesSha256": "6d0d9237565ad47117136703dffa3051c73fe6b0308c11a063deb4cb28cc842e"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-base.test.mjs",
+      "bytes": 2320,
+      "rawBytesSha256": "2aeb4401065e3f038952979b55142b9e49f4e84eab925333eab02ab7d3bbf7bb"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-case-c01-joint02.json",
+      "bytes": 275803,
+      "rawBytesSha256": "bd9abd1f588c000d8110cc2477f20b0427b42efc1fff0d6400511f2e6d99f869"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-contract01.md",
+      "bytes": 6446,
+      "rawBytesSha256": "eb4624eafeaea2415d1786ab3cd12ac3cc703af3101b0d2784e5a74fd3305ec4"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-contract02.md",
+      "bytes": 6437,
+      "rawBytesSha256": "3eefa4f61927af5ae7582366dc20766a1070c5a86789ed34bb9b6e591c2cd1d1"
+    },
+    {
+      "file": "tools/rust-r2m/acceptance-compare.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "10e69dd3f285a911a19a2bdc051dddb0efab2d6e9b10c841c8e5fe5344649104"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-initial-frame.mjs",
+      "bytes": 1038,
+      "rawBytesSha256": "e190e8d81e992b6752cb335a2e2de0398021a4d1740c3cb5f258a6b5005cbafa"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-special-rows.mjs",
+      "bytes": 6330,
+      "rawBytesSha256": "bd51b7e64a9573f6490ec013ab898ef34ae4bc7bd4f590ec384dd4167df3ab5b"
+    },
+    {
+      "file": "tools/rust-r2m/scenario-expected.mjs",
+      "bytes": 10674,
+      "rawBytesSha256": "c04b4f9b4edfca0b2dc83aed02953d012494ad3460ba8fcd9a8d3f216f8633cc"
+    },
+    {
+      "file": "tools/rust-r2m/reference-authority.json",
+      "bytes": 581485,
+      "rawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs",
+      "bytes": 24134,
+      "rawBytesSha256": "868257505f4229fce029c4906503be314b18a9a34384c833f25509814be1746f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/comparison-api-opaque.mjs",
+      "bytes": 18136,
+      "rawBytesSha256": "0a24d5ef2d641e538fe96ed4d733ebe188cbfa8449533d565bfac0d843408ac0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08"
+    },
+    {
+      "file": "tmp/rust-r2m/compare-api-five-origin01/compare-api.mjs",
+      "bytes": 21181,
+      "rawBytesSha256": "60c09334ae4ca34dc24616b07c0e1b269decff6f7a424b835d13f3513f7fd697"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-ticket-source.mjs",
+      "bytes": 6040,
+      "rawBytesSha256": "4ee9ce55220fa688cd552d07f521372f16783ac25a068907a3ede08ac909eebd"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-ticket-source.test.mjs",
+      "bytes": 2107,
+      "rawBytesSha256": "52106480b097cd68e6f1a99001f6d4f4340275e7982d68ce07b765fa446cda99"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-contract03.md",
+      "bytes": 4115,
+      "rawBytesSha256": "bf2e586653bbcf709162dcb167d0eb0d188f11fbe3003ec2fee004ad69ebc98f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/scenario-input.mjs",
+      "bytes": 46053,
+      "rawBytesSha256": "dc282cfa6b0a212c1116366fac70130f3ed93b71f6ac3f9401fb9a9731e0a6ed"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-scenario.mjs",
+      "bytes": 16737,
+      "rawBytesSha256": "c441058ec0191652d5b32ac0f61af6d260688e99ab4e6e3d3c7e2b5e3a64ad6c"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-recipes.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "d8dc13a810119e9079b73ae7ff9f1a06129b2f1a1ab8c81924d0d15f7353d661"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api.mjs",
+      "bytes": 22491,
+      "rawBytesSha256": "5d5ad65693f0bcdf0098458df430f7126afab30ff5c7b9208fb5e89ea965adad"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-runtime.mjs",
+      "bytes": 50558,
+      "rawBytesSha256": "1d8b9b37589fb71382ba4a593e7804d501d767fd13a5c73f38072299ce9ffe44"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-suppliers.mjs",
+      "bytes": 12633,
+      "rawBytesSha256": "128ec79673b59a24fcf3fabd4eb030caadea0b6d340b87b59942cf77497651ee"
+    },
+    {
+      "file": "tools/rust-r2m/compare-api-m5-contract04.md",
+      "bytes": 2713,
+      "rawBytesSha256": "777f2743660c0b698bef47899538ec7f8e638c34d1dd21dc978a4a9d31debaad"
+    }
+  ],
+  "inherits": {
+    "file": "docs/design/rust-r2m/api-m5-comparison-source-review01.json",
+    "bytes": 25120,
+    "rawBytesSha256": "c54893c490f7cdb6f9eb4e8c62ae4f6a1d41ae275493a4144963bec5c84d283e"
+  },
+  "scope": {
+    "selection": [
+      "M5.1",
+      "M5.2",
+      "M5.3"
+    ],
+    "sourceCapId": "r2m-c01-joint02",
+    "fixedTags": [
+      "an3c01b",
+      "ar3c01b"
+    ],
+    "orderedStepsPerSide": 33,
+    "full107BeforeAfterFramesPerSide": 66,
+    "offlineOnly": true,
+    "productsOrFixtureChanged": false,
+    "newOwnershipGranted": false,
+    "actualComparisonCertified": false,
+    "G3": false,
+    "G4": false
+  },
+  "actualFailurePreserved": {
+    "receipt": {
+      "file": "tmp/rust-r2m-continuation01/compare-api-m5-measured01.json",
+      "bytes": 17167,
+      "rawBytesSha256": "b0e5d9c02e058a2c6df13d1725e76be8720dcba54d4c37c2841a58e725358f45"
+    },
+    "result": "failed-required-proof-preserved",
+    "initial107AllPhysicalRowsCompared": true,
+    "remainingDifferencesAtPartialStop": 0,
+    "acceptedR1AAtPartialStop": 3,
+    "analysisSourcesUnchanged": true,
+    "originalPrivateErrorRetained": true,
+    "classification": "Comparer source-to-schema binding defect; no product or completed M5 comparison result.",
+    "sourceDefect": "Prior code read nonexistent before_snapshot_json/after_snapshot_json. Undefined was treated as nonnull and triggered an invalid create-before target lookup.",
+    "reviewerDisposition": "C's prior source review missed this binding to the real audit schema. The original review, all original31 sources and measured01 stay preserved."
+  },
+  "necessaryDelta": [
+    "Both physical columns are now before_snapshot/after_snapshot. The authoritative table must declare them nullable jsonb before domain projection.",
+    "Each audit must contain the complete exact physical column set. Its snapshot values must be an explicit object or null; missing/undefined, arrays and scalars do not pass this finite source contract.",
+    "Create-before NULL is preserved and does not look up a nonexistent pre-birth target.",
+    "Nonnull historical snapshots still bind their audit's original birth context, exact actual request/step, typed target before/after row and original row version.",
+    "Existing named date, HMAC expiry and preview-started constructor checks remain; no later current-row substitution, intermediate-row fabrication, JSON field dropping or generic time normalization is added."
+  ],
+  "supportingSchema": {
+    "authority": "tools/rust-r2m/reference-authority.json",
+    "authorityRawBytesSha256": "87fa8bc3e040eae2c19fa09813fdce6b0e783f00084e96a5a2700d877ec6105e",
+    "actualEntity": {
+      "file": "apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts",
+      "bytes": 1559,
+      "rawBytesSha256": "8cf897ef5c9bd365708dbefbb88158b12e29e18b5881cdbe6dd95aff986f7789"
+    },
+    "sourceLines": [
+      26,
+      27
+    ],
+    "columns": [
+      {
+        "name": "before_snapshot",
+        "udt": "jsonb",
+        "nullable": true
+      },
+      {
+        "name": "after_snapshot",
+        "udt": "jsonb",
+        "nullable": true
+      }
+    ],
+    "actualNullableFieldsRead": true
+  },
+  "sourceDelta": {
+    "changed": [
+      "tools/rust-r2m/compare-api-m5-domain.mjs",
+      "tools/rust-r2m/compare-api-m5-domain.test.mjs"
+    ],
+    "added": [
+      "tools/rust-r2m/compare-api-m5-contract04.md"
+    ],
+    "unchangedPriorSources": 29,
+    "current32RawPinsExact": true
+  },
+  "independentReadLevels": [
+    {
+      "files": [
+        "tools/rust-r2m/compare-api-m5-domain.mjs"
+      ],
+      "level": "Complete two-column/schema/value-guard diff against the exact preserved03 source; prior orchestration reused"
+    },
+    {
+      "files": [
+        "tools/rust-r2m/compare-api-m5-domain.test.mjs",
+        "tools/rust-r2m/compare-api-m5-contract04.md"
+      ],
+      "level": "Necessary complete real-column audit examples/negative assertions and contract read"
+    },
+    {
+      "files": [
+        "tools/rust-r2m/reference-authority.json",
+        "apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts"
+      ],
+      "level": "Actual physical nullable-jsonb definitions checked directly, not inferred from the synthetic model"
+    },
+    {
+      "files": [
+        "tmp/rust-r2m-continuation01/compare-api-m5-measured01.json",
+        "tmp/rust-r2m-continuation01/comparison-site-metadata01.json"
+      ],
+      "level": "Public partial outcome and finite actual rejection metadata only; private error/rows were not read"
+    },
+    {
+      "files": [
+        "tools/rust-r2m/compare-api-m5.mjs",
+        "tools/rust-r2m/compare-api-m5-core.mjs",
+        "tools/rust-r2m/compare-api-m5-reader.mjs",
+        "tools/rust-r2m/compare-api-m5-base.mjs",
+        "tools/rust-r2m/compare-api-m5.test.mjs",
+        "tools/rust-r2m/compare-api-m5-reader.test.mjs",
+        "tools/rust-r2m/compare-api-m5-base.test.mjs",
+        "tools/rust-r2m/compare-api-m5-case-c01-joint02.json",
+        "tools/rust-r2m/compare-api-m5-contract01.md",
+        "tools/rust-r2m/compare-api-m5-contract02.md",
+        "tools/rust-r2m/acceptance-compare.mjs",
+        "tools/rust-r2m/comparison-initial-frame.mjs",
+        "tools/rust-r2m/comparison-special-rows.mjs",
+        "tools/rust-r2m/scenario-expected.mjs",
+        "tools/rust-r2m/reference-authority.json",
+        "tools/rust-r2m-continuation01/comparison-api-domain-clock.mjs",
+        "tools/rust-r2m-continuation01/comparison-api-opaque.mjs",
+        "tools/rust-r2m-continuation01/acceptance-source.mjs",
+        "tools/rust-r2m-continuation01/managed-environment.cjs",
+        "tmp/rust-r2m/compare-api-five-origin01/compare-api.mjs",
+        "tools/rust-r2m/compare-api-m5-ticket-source.mjs",
+        "tools/rust-r2m/compare-api-m5-ticket-source.test.mjs",
+        "tools/rust-r2m/compare-api-m5-contract03.md",
+        "tools/rust-r2m-continuation01/scenario-input.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api-scenario.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api-external-recipes.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api.mjs",
+        "tools/rust-r2m-continuation01/acceptance-api-runtime.mjs",
+        "tools/rust-r2m-continuation01/acceptance-suppliers.mjs"
+      ],
+      "level": "Raw hash inheritance checked; no repeat full-body audit"
+    }
+  ],
+  "authorValidation": {
+    "tests": 20,
+    "fail": 0,
+    "skip": 0,
+    "receipt": {
+      "file": "tmp/rust-r2m/compare-api-m5-source04b-pure01.json",
+      "bytes": 3955,
+      "rawBytesSha256": "85a27c89ceee1dd57b6e80e7db7aa18872d77be4aef3910660b605326df5395a"
+    },
+    "coverage": [
+      "Create-before NULL with real physical names",
+      "Bound identity and issued/consumed historical dates",
+      "Original preview-started constructor",
+      "Both HMAC authorize audit sites",
+      "Missing/wrong/undefined/array/scalar snapshot rejection",
+      "Changed date/version/target/state-expiry rejection"
+    ],
+    "CExecutedTests": false
+  },
+  "independentVerification": {
+    "currentSourcePins": 32,
+    "rawMismatches": 0,
+    "changedOnlyTwoCodeTestFiles": true,
+    "addedOnlyContract": true,
+    "privateEnvDatabaseHttpBrowserProcessActions": false,
+    "actualComparisonRun": false,
+    "onlyOwnReviewArtifactWritten": true
+  },
+  "rootExecution": {
+    "command": "node tools/rust-r2m/compare-api-m5.mjs --run <fresh-analysis-label>",
+    "fixedExistingPairOnly": true,
+    "newLabelRequired": true,
+    "doNotAlterActiveRuntimeSourceEpoch": true,
+    "productRerunRequired": false,
+    "oldFailedComparisonMustRemain": true
+  },
+  "limits": [
+    "SourceReady closes this exact comparer binding defect only; Root must still run and preserve the complete actual result.",
+    "Consumer body bytes and controlled peer token response remain explicitly unverified as before.",
+    "No M4/UI/Windows/full20/final-commit/G3/G4 acceptance is inferred."
+  ]
+}

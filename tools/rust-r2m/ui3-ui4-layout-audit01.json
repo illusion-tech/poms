@@ -1,0 +1,85 @@
+{
+  "kind": "R2M-UI3-UI4-final-logout-original-layout-static-audit",
+  "result": "source-reviewed-no-same-known-navigation-defect-found",
+  "scope": "finite static question from Root; not UI actual acceptance",
+  "readLevel": "complete current journey code and named original route/layout/action methods",
+  "sources": [
+    {
+      "file": "tools/rust-r2m/acceptance-ui-browser.mjs",
+      "bytes": 25431,
+      "rawBytesSha256": "733e29eb4182754ac1353446b8da3e5e5b52138c647d69390ea92c8dcf9b1032"
+    },
+    {
+      "file": "apps/poms-admin/src/app.routes.ts",
+      "bytes": 18649,
+      "rawBytesSha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+      "bytes": 41313,
+      "rawBytesSha256": "830d0547a0c627549f26b944dc230bd43952f23a8c0687b840b5bbe709b77279"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-detail.ts",
+      "bytes": 81589,
+      "rawBytesSha256": "ed1941e76752f406f08002230b984ebb7fed3c881428ede39f28dcfb92e8273c"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.layout.ts",
+      "bytes": 2493,
+      "rawBytesSha256": "3b3592c9521f5d30920ab31aae7ce855cf75aae385e613f34f78f5fdeff51775"
+    },
+    {
+      "file": "apps/poms-admin/src/app/layout/components/app.authlayout.ts",
+      "bytes": 389,
+      "rawBytesSha256": "f6f190537fece39f456e8565532d50cd6b4e019bae71c45fff3c7da82357ea95"
+    },
+    {
+      "file": "apps/poms-admin/src/app/core/auth/permission.guard.ts",
+      "bytes": 2397,
+      "rawBytesSha256": "68444575160f340bc70512175b124f21bd55402877dc8b20c7e105b74943c3a5"
+    }
+  ],
+  "findings": [
+    {
+      "journey": "UI3",
+      "routes": [
+        "dashboard",
+        "contracts/:id"
+      ],
+      "originalLayout": "authenticated root AppLayout with app-topbar",
+      "actionMethods": [
+        "submitReview",
+        "approveApproval",
+        "rejectApproval"
+      ],
+      "afterAction": "only close original dialog/add message; no auth/access or any router navigation in these methods",
+      "logout": "same authenticated application layout after the existing actual success/dialog assertions",
+      "newNavigationNeeded": false
+    },
+    {
+      "journey": "UI4",
+      "routes": [
+        "projects/:id/workspace/contract-handover",
+        "projects/:id"
+      ],
+      "originalLayout": "authenticated root AppLayout with app-topbar",
+      "cancelSource": "projects/:id is a real original guarded ProjectDetail route with app-attachment-panel; not a missing-route assumption",
+      "afterCancel": "only closes original attachment dialog before unchanged TopBar logout",
+      "newNavigationNeeded": false
+    }
+  ],
+  "boundaries": [
+    "This does not prove a future real permission/session/API result",
+    "If existing route/action/auth assertions fail, preserve that original failure; do not add generic dashboard navigation or bypass a guard",
+    "Only the independently reviewed UI2 access-layout correction navigates dashboard before its final original logout"
+  ],
+  "actual": {
+    "browser": false,
+    "HTTP": false,
+    "DB": false,
+    "privateRead": false
+  },
+  "productChanged": false,
+  "journeyChanged": false
+}

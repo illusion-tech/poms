@@ -1,0 +1,103 @@
+{
+  "kind": "POMS-R2M-ZIP-physical-TTL-microsecond-precision-only-source-delta",
+  "result": "source-only-awaiting-independent-source-review",
+  "owner": "/root/r2m_delivery_audit",
+  "baseCandidate": {
+    "file": "tools/rust-r2m/comparison-api-zip-logical-source01.json",
+    "bytes": 11453,
+    "rawBytesSha256": "8f212dbe5e6218d8cf0a8e5bde62182bf225530d9dce2eec11028e7d841b35b2"
+  },
+  "preservedOriginalBodies": {
+    "file": "tools/rust-r2m/comparison-api-zip-logical-before-source02.json",
+    "bytes": 70709,
+    "rawBytesSha256": "edb78858b5b98329f9dc2b6a1757e6b34b7ea7200c12ec57c777ecd01af8dc43"
+  },
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/comparison-api-zip-logical.mjs",
+      "bytes": 22510,
+      "rawBytesSha256": "4caaec75e34f728dfed102ed8d18d1e76bc4587ff53b0bbbd4ef117c84dd2d19"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-zip-logical.test.mjs",
+      "bytes": 24432,
+      "rawBytesSha256": "d5c2869bd1fca46a87712345002ce8d036c99e1904a85e846a3305c8fc4e1cec"
+    },
+    {
+      "file": "tools/rust-r2m/comparison-api-zip-logical-contract.md",
+      "bytes": 8253,
+      "rawBytesSha256": "9e697724909c9b192a4ab02df4e50a021a92e30a32c45727817f6c6b2308b788"
+    }
+  ],
+  "finding": "Old Date.parse(created_at/expires_at) truncated legitimate PG4-6 fractional digits before exact24h comparison. +1us/-1us could pass the old ms TTL despite different actual physical instants.",
+  "soleDelta": [
+    "Finite parser only for package.created_at/expires_at: preserve1-6fraction+offset in BigInt microseconds and require exact86400000000us",
+    "Original manifest ISO timestamps separately equal original JavaScript Date millisecond projection; physical TTL is not truncated",
+    "Add three explicit receipt fields distinguishing exact physical microsecond TTL and original manifest ms projection",
+    "Add valid microsecond/Z/+08 cases and adversarial4-6digit1us excess/deficit whose Date.parse differences remain86400000ms"
+  ],
+  "completeMechanicalRollback": {
+    "equal": true,
+    "formula": "Remove exactly the added physicalPackageTime function; replace the one current clock-check line with the preserved original line; remove exactly the3 additive receipt fields. Result is byte-equal source01 helper.",
+    "oldRawBytesSha256": "b1fd40d3a9f73b5f1274ede5836b3f53660a37e58992336c7110c3bac21c9fb2",
+    "rollbackRawBytesSha256": "b1fd40d3a9f73b5f1274ede5836b3f53660a37e58992336c7110c3bac21c9fb2"
+  },
+  "unchanged": {
+    "KFunctionAndHelpersSuffixByteEqual": true,
+    "KFunctionAndHelpersSuffixSha256": "ef392b3d10a25abcdedf642ea6ecb2162a68d2c5bca83575e406e1d66e2807dc",
+    "dosCalendarFunctionByteEqual": true,
+    "dosCalendarFunctionSha256": "ebb2106f1908f8a04148b8e63983451a9c8004ce7a80c9e85202c157bbec2b85",
+    "writerWindowAndHeaderLayout": "Byte-equal after the complete mechanical rollback; no new DOS interval/transport/member rules",
+    "matureReader": "No shared reader/source edits",
+    "originalSourcePins": "All10 pins unchanged; same original source01 candidate directory",
+    "AESSourceReadyCore": {
+      "file": "tools/rust-r2m/comparison-api-opaque.mjs",
+      "bytes": 18061,
+      "rawBytesSha256": "6c4923a07373200b88a3048266331753dbaea3a0652a7d85d50c6bdc7cf15013"
+    }
+  },
+  "pure": {
+    "command": "node --test tools/rust-r2m/comparison-api-zip-logical.test.mjs",
+    "tests": 20,
+    "pass": 20,
+    "fail": 0,
+    "log": {
+      "file": "tools/rust-r2m/comparison-api-zip-logical-source02-pure.txt",
+      "bytes": 2286,
+      "rawBytesSha256": "21cb266d79a2db9b85c65f88f9771bb1386d22c4032b5d9ed87cb2f904a146f9"
+    },
+    "lexical": {
+      "files": 2,
+      "errors": 0,
+      "log": {
+        "file": "tools/rust-r2m/comparison-api-zip-logical-source02-no-undef.json",
+        "bytes": 446,
+        "rawBytesSha256": "635d82e710fab460fd799942e3c028023585db0ff741ebc098b6afbdb53886d8"
+      }
+    },
+    "format": {
+      "command": "deno fmt tools/rust-r2m/comparison-api-zip-logical-contract.md",
+      "exitCode": 0
+    },
+    "original18TestLogPreserved": {
+      "file": "tools/rust-r2m/comparison-api-zip-logical-source01-pure-complete.txt",
+      "bytes": 2045,
+      "rawBytesSha256": "cdb17d1cd2314bce033d59f2d86090225af7d35e83f4c1c18126ae9599154cf4"
+    }
+  },
+  "boundaries": {
+    "privateRead": false,
+    "envRead": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "actualChildSpawn": false,
+    "ownershipGranted": false,
+    "globalUuidAlias": false,
+    "cleanupPermission": false,
+    "productEdited": false,
+    "Source01ManifestOrLogsRewritten": false,
+    "actualOrG3Claim": false
+  },
+  "RootIntegration": "Same existing two helper functions/input interface. C-reviewed offline helper only; Root still binds actual full archive/physical rows/ordinary birth/source plan/writer windows and performs complete comparison."
+}

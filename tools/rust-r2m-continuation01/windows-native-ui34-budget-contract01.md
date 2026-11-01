@@ -1,0 +1,17 @@
+# Native Windows UI3/UI4 单旅程有限执行容量
+
+本候选只调工具容量，不调产品断言、重试次数、HTTP/full107证书、原fixture准入、每callback fresh身份、Stop、source guard或私有证据保全。只在newtmp，安装须C必要源审和Root新窗口；不能写旧已capture源或改旧失败结果。
+
+Root成功原件为wn1c03a（UI1，30HTTP，596601ms）及wn2c03a（UI2，48HTTP，650376ms），均正常全部writer/observer关闭及doublezero。安全时序f77f是Root逐原private ref核验后发布；B没有读private。两次实际prepare分别14038/10845ms；同一Root时钟的首step至末step为228164→383334ms、222150→437307ms；末step留证至bridge结果留证206260/206124ms。UI Inspect计数102/154、Native均3，单次成功Inspect/RPC elapsed未捕获，仍missing。原retained mtime代表文件最终写入时刻，不能冒内部phase边界或独立耗时。
+
+源代码显示runWindowsOriginalMUi在spawn前、返回前对全部4079 member作WINDOWS_MOUNT SourceReader读取/复核。它是两个长固定段的合理解释，未单独计时，故仅标inference；本轮完整保留它，不优化SourceReader，不加新的计时验收门槛。不能将总596601/30乘76当作产品时延或实际预算证明。
+
+原已观察Linux UI3、UI4分别76HTTP仅作为本次容量参考，Windows实际数量可不同，不把76变成通过门槛。UI3三个原步骤含三次登录/退出、真实Todo/合同驳回、原Native提交、当前审批通过；UI4六步含原上传、final、checklist refresh/select、package/create/download与取消退出。首两旅程成功及这些原源步骤共同表明：应该给它们有限余量，不能为已知容量风险先重造超时运行。
+
+唯一新profile由原计划backend=nest且selection恰单一UI3或UI4产生：command1800000、pipeline1500000、bridge最多900000、driver最多840000、Native owner1800000ms（原owner本来允许的最大值）；outer减pipeline仍有300000ms清理，driver早于bridge60000ms。bridge实际值为min(900000,1500000-真实prepare-480000)，driver为min(840000,bridge-60000)；480000是为两个完整source guard分配的容量余量，绝非其已测单独耗时或新硬门槛。不足1000ms即事前拒绝新browser。即使真实guard更慢，原pipeline/outer中止与原证据保全仍保持。
+
+Native UI1/UI2、所有Rust组合、未指定backend的原纯兼容接口仍是原kind-v1及原1200000/900000/840000/780000；旧默认Native owner900000保持。新kind-v2预算必须显式绑定nest，bridge和driver从同一实际runtimeArrangement.apiBackend重新计算，不能仅凭自报较大timeout放行。Runtime的verify/pipeline/CLI owner都传同一既有计划backend；实际Native owner已独立attest后才进入browser配置。
+
+Windows专用command-owner全局数值解析上限为1800000，但在任何FS/spawn前，原exact cwd/entry/run/log/env授权里再核backend/selection：仅nest+UI3/UI4可大于1200000，其余一律拒绝。原startup最大60000、PID出生/group/全部stop实现、异常私有保全逐字保持；共享300s/API900s owner不变。新预算是command执行预算，原startup/stop不冒充包含在该毫秒数内。
+
+48项纯测包含原兼容与身份/closure协议、新budget数学边界、错误backend/额外字段/超上限拒绝、实际Native构造call传900s/1800s、真实bridge Fake ACK后转发840s、只允许Native UI3/UI4的完整Fake owner1300s成功。Driver/bridge/runtime可逐字逆向为旧111；owner从validateMPaths至末尾逐字等旧111。PS、SourceReader、Native driver/server、UI全部行为和75秒逐请求等待没有变化。当前code-only候选不是Windows实际Pass，也不放行G3/G4。

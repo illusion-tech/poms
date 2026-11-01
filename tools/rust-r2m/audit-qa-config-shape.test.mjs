@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {originalLegacyPatterns,unwrapOriginalLegacyConfiguration} from './audit-qa-config-shape.mjs';
+const config=()=>({testDir:'./src',testMatch:[...originalLegacyPatterns],globalSetup:'./src/support/server-setup.ts',fullyParallel:false,workers:1,metadata:{pomsBrowser:{mode:'external',suite:'legacy',apiOrigin:'http://127.0.0.1:10070',adminOrigin:'http://127.0.0.1:10080'}},use:{baseURL:'http://127.0.0.1:10080',channel:'chromium'}});
+test('original TS CJS default wrapper is unwrapped before all eight legacy patterns are inherited',()=>{const original=config();assert.equal(unwrapOriginalLegacyConfiguration({default:original,__esModule:true}),original);assert.equal(unwrapOriginalLegacyConfiguration(original),original)});
+test('missing original match/use/setup or the wrong plan rejects before any legacy page/test runs',()=>{for(const mutate of[value=>delete value.testMatch,value=>value.testMatch=['**/*.spec.ts'],value=>delete value.use,value=>delete value.globalSetup,value=>value.metadata.pomsBrowser.suite='auth',value=>value.use.baseURL='http://127.0.0.1:4800']){const value=config();mutate(value);assert.throws(()=>unwrapOriginalLegacyConfiguration({default:value}))}});

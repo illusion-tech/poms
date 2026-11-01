@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "kind": "R2M-uin1a-closed-UI1-actual-recovery-public-evidence-review-not-a-Gate",
+  "result": "Accepted-exact-owned-UI1-recovery-evidence-not-UI-pass",
+  "reviewedAt": "2026-10-30T21:42:23.512Z",
+  "reviewer": {
+    "role": "C / independent non-author",
+    "agent": "/root/r2m_review",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "Fast": "unverified"
+  },
+  "sourceHead": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+  "sourceReview": "docs/design/rust-r2m/ui1-recovery-source-review01.json",
+  "sourceRawBytesSha256": "a2bc10dce3d591acb76458c0511268f0ce3e5df5c2e71d172e6da17b19cc3389",
+  "publicReceipt": {
+    "file": "tmp/rust-r2m/recovered-ui-nest-uin1a.json",
+    "bytes": 7962,
+    "rawBytesSha256": "79fd62234bb46292d055ba19a7e07cf1a208f4468fa49fd3b373f1c588c9d32f",
+    "read": true,
+    "result": "recovered-exact-owned-double-zero-not-UI-pass",
+    "runId": "d20197cd-3992-4e97-9774-128cf936aa04",
+    "sourceCapId": "r2m-ui09"
+  },
+  "observations": {
+    "fullReferencePreflightTables": 107,
+    "cleanupDeleted": [
+      59,
+      0
+    ],
+    "objectMatched": [
+      0,
+      0
+    ],
+    "objectChanged": [
+      0,
+      0
+    ],
+    "secondObjectMatched": [
+      0,
+      0
+    ],
+    "secondObjectChanged": [
+      0,
+      0
+    ],
+    "privateFailure": null
+  },
+  "preservedOriginalJournal": {
+    "bytes": 136280,
+    "rawBytesSha256": "5a55cd1c2626f5687f6ae8028df0dab213c5c11e871931feae658ee825f901a0",
+    "savedBeforeFixtureOpen": true,
+    "CReadContents": false
+  },
+  "verification": {
+    "actualExecutionOwner": "Root",
+    "CExecutedRecoveryOrDBOrHTTPOrBrowser": false,
+    "CReadPrivate": false,
+    "readLevel": "Exact public original/recovery report metadata/hash plus the previously pinned recovery protocol; private original SDK/PG/hash/row proofs were enforced by Root's reviewed source, not independently read or rerun by C"
+  },
+  "classification": "The real failed UI1 attempt and unknown original inner cause remain unchanged. Only its originally proven59 rows and exact owned object namespace were cleaned; the second pass records zero. Recovery does not create a UI step/journey Pass, original-runner Pass, G3 or G4.",
+  "G3Certified": false,
+  "G4Certified": false
+}

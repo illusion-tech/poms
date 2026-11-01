@@ -1,0 +1,558 @@
+{
+  "kind": "R2M-independent-fixed-wr4c10a-Rust69-late-recovery-source-review",
+  "result": "SourceReady",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01 13:26:22 UTC",
+  "input": {
+    "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/source01.json",
+    "bytes": 18309,
+    "rawBytesSha256": "5ce42cc4d19c769223968d6af0b6ab8c133d8cfb1622ce667de38a118e359c72"
+  },
+  "newTmpOnly": true,
+  "intendedDestination": "docs/design/rust-r2m/wr4c10a-recovery-source-review01.json",
+  "reviewedSources": [
+    {
+      "file": "tools/rust-r2m/recover-late-wr4c10a.mjs",
+      "bytes": 33380,
+      "rawBytesSha256": "b0207b0fdf838f0cd5a82e9ed73518f176cf9d1571ecd206add0e707719cec95",
+      "readFrom": "tmp/rust-r2m/wr4c10a-recovery-candidate01/recover-late-wr4c10a.mjs",
+      "readLevel": "Complete new source read"
+    },
+    {
+      "file": "tools/rust-r2m/wr4c10a-recovery-fixed-inputs01.mjs",
+      "bytes": 3426,
+      "rawBytesSha256": "11f08f6bce10c268bc78f2d4ebb5dfa7f47d19d85abcb7b8528d24558f3596ca",
+      "readFrom": "tmp/rust-r2m/wr4c10a-recovery-candidate01/wr4c10a-recovery-fixed-inputs01.mjs",
+      "readLevel": "Complete new source read"
+    },
+    {
+      "file": "tools/rust-r2m/recover-late-wr4c10a.test.mjs",
+      "bytes": 14775,
+      "rawBytesSha256": "cb0910452c9a30bbc9d12fd94b56c6738f0d1ce7d5746e175b87b3cedda82ed6",
+      "readFrom": "tmp/rust-r2m/wr4c10a-recovery-candidate01/recover-late-wr4c10a.test.mjs",
+      "readLevel": "Complete new source read"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-ui-package-intent.mjs",
+      "bytes": 17896,
+      "rawBytesSha256": "64f8d575c7094623ae080420cfc9ec0946e345ba6e43eabc1631075233df29c2"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-package-intent.mjs",
+      "bytes": 14719,
+      "rawBytesSha256": "f1ef6047c6c6b344ba8c5b31b4e21dfad833525c422acfdf6a8a5f922bec7173"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-attachment-source.mjs",
+      "bytes": 6514,
+      "rawBytesSha256": "f24d4c4e42de88cde2459daf6878e634c3f4a61c8c019d5b466630e4151fa6f0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-external-audit-identity.mjs",
+      "bytes": 13832,
+      "rawBytesSha256": "c797d1fb6a44ec2445ce84028c5df5453992e9d34f5777ed93853f3d8a816a7d"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-external-audit-source.mjs",
+      "bytes": 11473,
+      "rawBytesSha256": "7ac9227986ee444b8b1815273fed70a9a00fd93f7c833936077e6b04d0f96cb1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-audit-identity.mjs",
+      "bytes": 15075,
+      "rawBytesSha256": "98e38f0b7ebae1b36861c55ec5e62f474e4fe66c3314047c8967bc3bf0a71300"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-request-identity.mjs",
+      "bytes": 5033,
+      "rawBytesSha256": "c006319de74f42167c1178fea16397fd0bfd8097e0caa10514cd20357c524848"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-api-audit-source.mjs",
+      "bytes": 7091,
+      "rawBytesSha256": "493ddbeadcbda2f624787e762bf256481a8fe399e2d0c5d75668b7bb1d23ec9b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-handover-prepared.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "cc05a655e20a42ba1dd7454491dea22448b33c4e8f2c3b34b5a1ba851047b10d"
+    },
+    {
+      "file": "tools/rust-r2k/r4-prepared-source.mjs",
+      "bytes": 19894,
+      "rawBytesSha256": "70978ae60f59e1331964894d7ec50abf75060f2b0f1e639667aaac27380b1e36"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-example.mjs",
+      "bytes": 4873,
+      "rawBytesSha256": "c9318ad8ef2bbe44c392c69ee33713c7a4577bb7a13d069ca1d5851f7c3ed519"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-setting-baseline.mjs",
+      "bytes": 12496,
+      "rawBytesSha256": "420e7aa18441b27886f08da48eb96e045c06534ed3987b6ef2ae80b08c1248dc"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-objects.mjs",
+      "bytes": 6306,
+      "rawBytesSha256": "3acb41c9f23fd4e82a0bed844f5f0596fb72c788f5bf626faa9718174ed656c0"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-keyed.mjs",
+      "bytes": 5749,
+      "rawBytesSha256": "848d38440e25b58ed966dea316d09741a35f5969e2b76601d127e6883fcb2cea"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared-source.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "a5e32190da47b0dac569df7855391fb8610ba7a4cb260603603b1d57c3939bc1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-private.mjs",
+      "bytes": 1860,
+      "rawBytesSha256": "f9746a7a2219e2b93b838f32b05af54962fc28c25217520f8c2aae1b4e1c72b9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-error.mjs",
+      "bytes": 769,
+      "rawBytesSha256": "6d4e30b32d19f3f2a88a0ac75f4fd42db1977a37fbf175d48d41d39e0e6b9bd1"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/audit-schema-source.json",
+      "bytes": 28267,
+      "rawBytesSha256": "58ed79ce7d66962dc621bb9ccba4e9ab35410e4511df538b36b1e172838a520f"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/catalog-complete.mjs",
+      "bytes": 7489,
+      "rawBytesSha256": "dc47cbe28403204e691995bd3c33d8e327a17258ff0ea4130becfaa8e58d1b63"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/database-client.mjs",
+      "bytes": 2075,
+      "rawBytesSha256": "07a2953f0551bbb48b9195fa01ec2c981d1083c7c90b2fd52774aed4465c6755"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-cleanup.mjs",
+      "bytes": 4723,
+      "rawBytesSha256": "171a3415fc5427cf10152c26ddbbc350458ae1c0581e3dc490076beaa58a0f44"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-core.mjs",
+      "bytes": 10352,
+      "rawBytesSha256": "3705769440b20905a178145ba35611399447bc49247fc6c5a4218fd7089864b2"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-credentials.mjs",
+      "bytes": 340,
+      "rawBytesSha256": "c95d3a183165de72a4c8e701ac8185d283232b6835131a5f61d704799f0e0aeb"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-guard.mjs",
+      "bytes": 4773,
+      "rawBytesSha256": "c33e9024290138b6c1e9eb0992fc982e0baa8d4b9121ffe4257020b4a3725bbe"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-journal.mjs",
+      "bytes": 13699,
+      "rawBytesSha256": "007c5ad9a98c5be7630548e02c51fcc08dcd770ae83bf362c7aaa984b7843d8e"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-policy.mjs",
+      "bytes": 8789,
+      "rawBytesSha256": "32a0b93e12023a7dc4c82ba16259275b0d902cdd42593f813072fe780be0aa97"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-prepared.mjs",
+      "bytes": 6072,
+      "rawBytesSha256": "91ec2e2dde29637257baa037d10448defce844367f83141a7fc8d533d093227b"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-profile.mjs",
+      "bytes": 13579,
+      "rawBytesSha256": "906cd188ed0818b3736b991bcc3a0cb38e2995df226be0ce2bdf7f881c02c987"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-references.mjs",
+      "bytes": 15838,
+      "rawBytesSha256": "9cc9e69185f956cd8b566d45dc9c4f6979f999405b9a59a747003bd9e0e4c6b6"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture-users.mjs",
+      "bytes": 6525,
+      "rawBytesSha256": "dcb87454256d150a9c4394620d7b176e83af259b840abc1bdf9edbb5d3b72910"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/fixture.mjs",
+      "bytes": 46379,
+      "rawBytesSha256": "3d51c75d0433be524ac527d769996a5808cd6893f36dabbd2e6c2bd008819922"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/managed-environment.cjs",
+      "bytes": 7159,
+      "rawBytesSha256": "55ca2af7ffe89d64ad0d7175d8880888f4e7f885fb5e0c0f608003f19e074d08"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/reference-authority.json",
+      "bytes": 581500,
+      "rawBytesSha256": "5164a71d1a1a3af4e01951815a27b1ebb1a51e6bab22ebdb64a17794e7c6dca9"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/pg-create-observer.mjs",
+      "bytes": 75161,
+      "rawBytesSha256": "7988f0a0fb5f7e9fd88a2889dc5faf3fe6381cd16568b94a54926c76c8f74322"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-ui-process.ps1",
+      "bytes": 20915,
+      "rawBytesSha256": "aac92357384d8b86c1c26dd6fa73f74df9172b5aace2192582a6ba2259c9d273"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/windows-native-process.ps1",
+      "bytes": 20923,
+      "rawBytesSha256": "207a21351872cb82874f78c1ae16e0754caa7a22d8eb09f5185b35661e2e509f"
+    },
+    {
+      "file": "tools/rust-r2m/continuation01-common.mjs",
+      "bytes": 6326,
+      "rawBytesSha256": "a227b5ad7adcc9ad039eb417dd96768f24c02b4c24d44f0ba283885f982e388a"
+    },
+    {
+      "file": "tools/rust-r2m-continuation01/acceptance-source.mjs",
+      "bytes": 7254,
+      "rawBytesSha256": "a88cf1b105d1ab8ddfe6a7d2b6932c32ebabffc4282de8af8ee22d106808ba8b"
+    },
+    {
+      "file": "tools/e2e/runtime.cjs",
+      "bytes": 16694,
+      "rawBytesSha256": "fa05b45bd2e22278d231000927dc99095d30d26d0bc26aeeac69ee83e3c3a93a"
+    },
+    {
+      "file": "tools/e2e/runtime-worker.cjs",
+      "bytes": 2182,
+      "rawBytesSha256": "0ad9af6f070944ed7f3f291af648f49f92ab587279ecb1495dafd9bcb70a7fbc"
+    }
+  ],
+  "candidateSourcesRead": [
+    {
+      "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/recover-late-wr4c10a.mjs",
+      "bytes": 33380,
+      "rawBytesSha256": "b0207b0fdf838f0cd5a82e9ed73518f176cf9d1571ecd206add0e707719cec95",
+      "target": "tools/rust-r2m/recover-late-wr4c10a.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/wr4c10a-recovery-fixed-inputs01.mjs",
+      "bytes": 3426,
+      "rawBytesSha256": "11f08f6bce10c268bc78f2d4ebb5dfa7f47d19d85abcb7b8528d24558f3596ca",
+      "target": "tools/rust-r2m/wr4c10a-recovery-fixed-inputs01.mjs"
+    },
+    {
+      "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/recover-late-wr4c10a.test.mjs",
+      "bytes": 14775,
+      "rawBytesSha256": "cb0910452c9a30bbc9d12fd94b56c6738f0d1ce7d5746e175b87b3cedda82ed6",
+      "target": "tools/rust-r2m/recover-late-wr4c10a.test.mjs"
+    }
+  ],
+  "contract": {
+    "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/contract01.md",
+    "bytes": 5616,
+    "rawBytesSha256": "724ef9fc15c60d1496f9c89408844c14b66605d1a3c00cd6f3d54f3250a5f4d5"
+  },
+  "inheritance": {
+    "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/inheritance01.json",
+    "bytes": 5036,
+    "rawBytesSha256": "eaa087313f220a6d9d603e970b7558c1e5b8915f6ab6c80f8daafac079641c87"
+  },
+  "inheritedMatureSourceReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/wr2c09a-recovery-source-review01.json",
+    "bytes": 19785,
+    "rawBytesSha256": "37332c0dcbe77e0d5d649a05abb2b68ff06c978545e6a28c7db0b2b9aa1da192"
+  },
+  "inheritedMatureActualReview": {
+    "file": "tmp/rust-r2m/c-overall-g3-precheck-candidate01/wr2c09a-late-recovery-actual-review01.json",
+    "bytes": 31184,
+    "rawBytesSha256": "ddb20151e24254624114d93621a7bb9d0fa7baf504d8791857b57f1c547e464c"
+  },
+  "scope": {
+    "onlyRun": "f95f06d4-f903-42e5-89fe-01deebc80e20",
+    "backend": "rust",
+    "database": "poms_r2m_c01_rust",
+    "databaseOID": "27149",
+    "marker": "abd093b8-c584-45b3-9c62-6357ad6dfa5d",
+    "sourceCapId": "r2m-c01-win10",
+    "sourceCapsuleSha256": "8126dc8e045c16233d0286539091efa792d7587458d0465f55cac3cb190ad049",
+    "oldFixtureProfile33": "bcc807b590aa27c7ebf36a50cc92661ef330a8f2df3f9ae5d249039f37c41183",
+    "fixedOwnedRows": 69,
+    "files": 0,
+    "mutations": 0,
+    "singletonLease": false,
+    "onlyResourceRestoration": true,
+    "futureAdmissionOrIdentityPermission": false,
+    "noQuarantinedOriginalRust17085Connection": true
+  },
+  "originalPublicInputs": [
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-recovery-metadata01.json",
+      "bytes": 50101,
+      "rawBytesSha256": "e0e3f19168992d4b7bf82db1a253a780c01233b8f8b2be881eb9b32299f912ce"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-live-control-readonly01.json",
+      "bytes": 1954,
+      "rawBytesSha256": "1f245b0ba2db899668c226378adeb51f13524fd44d0e70d5304b12a3aeb9a457"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-fresh-Windows-absence01.json",
+      "bytes": 531,
+      "rawBytesSha256": "c4fb36a298fd65af5b830b81133d7f8babb8e40204f5062f22c171e831f92fa9"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-fresh-Linux-absence-and-SIGTERM01.json",
+      "bytes": 1559,
+      "rawBytesSha256": "093ec50d1d213f631cb22120a9cd94310c20531557776e2074bd62af88ecb50b"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-completed-orchestrator-stop01.json",
+      "bytes": 820,
+      "rawBytesSha256": "922a24548f938148b3b39083efac0af1b08c731271bf81991aa99f5822b6d430"
+    }
+  ],
+  "rawOriginalRefPins": [
+    {
+      "name": "report",
+      "file": "tmp/rust-r2m-continuation01/ui-windows-rust-wr4c10a.json",
+      "bytes": 2393490,
+      "rawBytesSha256": "ef30df0d31fbed2eec15b38eaf1b9d198b50edd1a1244f4fbb8ca8b75f0a8b44"
+    },
+    {
+      "name": "journal",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/m-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20.json",
+      "bytes": 510164,
+      "rawBytesSha256": "e11493273cd9c28b17976b2a959d08696cbbd14b5432fa66e094189c6f064214",
+      "private": true
+    },
+    {
+      "name": "cap",
+      "file": "tmp/rust-r2m-continuation01/source-cap-c01-win10.json",
+      "bytes": 1877581,
+      "rawBytesSha256": "d2fe88360a4aa70f52fa65fc8e7eefa1fc3c9da0dcb4772ae0e5a6fa467d8d08"
+    },
+    {
+      "name": "baseline",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20/00000.json",
+      "bytes": 432862,
+      "rawBytesSha256": "d329c7eb02276b92351be7a1054dc92c6503a9a1522edb0ebe820807de2f9a19",
+      "private": true
+    },
+    {
+      "name": "sourceReady",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20/00014.json",
+      "bytes": 495570,
+      "rawBytesSha256": "a5ae204c18a868e3732cfe1e1fb3251697e1443cc1101de24028487ff55a6773",
+      "private": true
+    },
+    {
+      "name": "lastSealedHTTP",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20/00209.json",
+      "bytes": 1507342,
+      "rawBytesSha256": "b4d765eb4eeac688b137ee8f3c8d0174a6c85c0f4edc96ace9b1533ad4591f79",
+      "private": true
+    },
+    {
+      "name": "nativeFinal",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20/00213.json",
+      "bytes": 165449,
+      "rawBytesSha256": "11777f4f657384f2a8dcd6c40b041033a74636dba98927f09f12326a3eb50b5a",
+      "private": true
+    },
+    {
+      "name": "originalPlatformOwners",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20/00015.json",
+      "bytes": 649,
+      "rawBytesSha256": "a84d7926e3d7356af64d4e993c2f5d36ec6e3ede8444cb6c934511f3a4d80ae1",
+      "private": true
+    },
+    {
+      "name": "originalWindowsBridgeResult",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-runs/rust-f95f06d4-f903-42e5-89fe-01deebc80e20/00210.json",
+      "bytes": 2953122,
+      "rawBytesSha256": "1ccbc370aa4031278eb7861a2162d52673314c1cbc9be25c7d73713659c72c32",
+      "private": true
+    },
+    {
+      "name": "pgJournal",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/pg-create-observers/rust-f95f06d4-f903-42e5-89fe-01deebc80e20-76bccbaa-5a87-428a-9a08-2c06a9727efd.json",
+      "bytes": 976638,
+      "rawBytesSha256": "943fce2acd297318f4c53b3ae88971767fb5a7f443c42ba7e8c30c3995dbfb50",
+      "private": true
+    },
+    {
+      "name": "currentSnapshot",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/execution-logs/wr4c10a-current-full107-readonly01.json",
+      "bytes": 237790,
+      "rawBytesSha256": "17f7166e9b0bcff60b12e5d475046ee8923754f9ed725fcbbe81604790d5ff67",
+      "private": true
+    },
+    {
+      "name": "outerFailure",
+      "file": "/home/wangzishi/.local/share/poms-r2m-continuation01/private/ui-windows-owner-rust-wr4c10a-f95f06d4-f903-42e5-89fe-01deebc80e20-failure.json",
+      "bytes": 694,
+      "rawBytesSha256": "9267b40063e0362b890f521725b037d9a388d5112c4aabea1d650841a7e147cb",
+      "private": true
+    }
+  ],
+  "originalRefsReadLevel": "Private references were compared as path/bytes/hash against public metadata and original public run; C followed none of them",
+  "laterFreshPublicSupplementaryOnly": [
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-recovery-metadata02.json",
+      "bytes": 50101,
+      "rawBytesSha256": "f4beb8ca8a308d9d02a5c9617791ec3b91024ce1163257506fc27a835d905a2d"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-live-control-readonly02.json",
+      "bytes": 1954,
+      "rawBytesSha256": "37f043cb1f78381e021dbdf953122a1a755a2e422238cb7fe6f834b94868ba67"
+    },
+    {
+      "file": "tmp/rust-r2m-continuation01/wr4c10a-fresh-Linux-absence-and-SIGTERM02.json",
+      "bytes": 1559,
+      "rawBytesSha256": "23c365dba4173517075e6129a1c4a7d268f911f2266b23f1c7400aa42c626987"
+    }
+  ],
+  "laterFreshInterpretation": "Root same-ID/same-volume infrastructure restart is not business cleanup. Original journal, PGjournal and sealed raw refs remain exact, current107 equals last original HTTP, and normalfalse persists. Runtime performs its own fresh checks.",
+  "actualOriginalShape": {
+    "originalResult": "partial-preserved",
+    "UIJourney": "UI4",
+    "completedSteps": 0,
+    "HTTP": 20,
+    "originalBrowserClosed": true,
+    "originalServerClosed": false,
+    "originalObserverRestored": false,
+    "originalServerTransportClosed": true,
+    "originalServerCloseCounts": {
+      "sockets": 0,
+      "forwarded": 0,
+      "handlers": 0,
+      "evidence": 1,
+      "ownedWork": 1,
+      "activeExchanges": 1
+    },
+    "WindowsTerminalFrameReceived": true,
+    "pendingRootCallbacks": 0,
+    "RootExactInertWorkerSignal": "SIGTERM",
+    "originalOuterDeadlineClaimed": false,
+    "originalNaturalWorkerExitClaimed": false,
+    "originalFailureAndLifecycleLabelsRetained": true,
+    "NativeSDKCommitted": 5,
+    "NativeSDKComplete": true,
+    "NativeSDKOpenTransactions": 0,
+    "NativeSDKPendingStarts": 0,
+    "NativeSQLRecords": 232,
+    "PGOriginalEvents": 5,
+    "PGCases": 26,
+    "PGHttpCases": 16,
+    "PGProducerCases": 10,
+    "PGAllAlreadyDrained": true,
+    "activeContext": false,
+    "priorExports": 0,
+    "terminalIntents": {
+      "total": 56,
+      "absent": 50,
+      "adopted": 6,
+      "planned": 0
+    },
+    "sixAdoptedIntentsNotCalledSixSDKBirths": true
+  },
+  "sourceAudit": {
+    "threeNewTargets": "Exact helper, fixed refs and colocated pure test; no existing runtime/fixture file modification",
+    "privateReadSave": "Inherited nofollow/single-link/0600/private-parent/fd-leaf and exclusive snapshot/error preservation; four raw originals saved before Fixture.open",
+    "beforeOpenOriginals": [
+      "ledger e1149327",
+      "PGjournal943fce2a",
+      "Root original readonly full107 snapshot",
+      "original694B outer failure9267b400"
+    ],
+    "freshQuiescence": "Fresh source-scoped Linux application/unique Rust and browser executable scan, exact worker2116522/anchor-group2116515/Rust2116574 absent, five ports free; no process Stop or signal",
+    "freshWindows": "Exact original11registered Windows PIDs and original bridge nonce through pinned Inspect/Discover only; actual raw output saved before validation; no Stop or invented Native-Windows owner",
+    "open": "Exact original Rust fixture; only ordinary revision+1 permitted from retained original bytes",
+    "full107": "Before restoration actual complete107 normalized physical rows equal last sealed HTTP.after and unknownCreates/Mutations0; after owned cleanup complete107 equal original before-preparation baseline",
+    "freshOwner": "Separate validated owner READ ONLY against OID27149; app/prepared0, real observer DDL/catalog/function+trigger closure, idle NULLcontext/empty scope/26usedcases, complete5live rows exact original events and genuine existing SDK/PG birth contexts",
+    "namespace": "Genuine TG_TABLE_SCHEMA poms plus catalog relations/function/trigger identities; no invented event.source_schema",
+    "restore": "Mature exact-installed reconciliation followed directly by handle.restore; export5 exact event hash and exact original Rust pgJournal.before footprint",
+    "noRepeat": "No drainCase,resolveNoCreates,adoptIntents,discardCase,certificate issuance or selector correction; all56 intents already terminal",
+    "noLease": "Entire old singleton advisory-lock/CAS/restore block removed because the original run has no singleton lease",
+    "cleanup": "Mature preflight107, fresh Linux/Windows absence again, truthful late drain, mature owned69/noFiles cleanup and second0/0, original107 equality and fixture close",
+    "errors": "Original errors and close errors retained privately with fixed public categories; unknown state/footprint fails without dropping or force-draining it",
+    "oldAndNew": "Restore old package64f8/profilebcc before any new UI4 browser/package/profile install"
+  },
+  "independentVerification": {
+    "finalPacketAndAllThreeTargetRawHashesExact": true,
+    "all36ConsumedAnd4SupportingCurrentSourceRawHashesMatchActualCap10": true,
+    "allPublicInputSupplementAndPriorReviewRawHashesExact": true,
+    "twelveCompleteInheritedFunctionsIndependentlyInverted": true,
+    "inverseOnlyMaps": [
+      "wr4c10a to wr2c09a",
+      "2116522,2116515,-2116515,2116574 to2106460,2106453,-2106453,2106523"
+    ],
+    "actualPublicMetadataCountsAndObserverOperationDistributionMatchGuard": true,
+    "actualPublicEvidenceKindsAndRawRefsMatchFixedWrappers": true,
+    "originalRuntime139EmitsSourceReadyFullFactsAnd205EmitsNativeFinalReportSql": true,
+    "onlyNewHelpersTargetsNotInstalledAtReview": true,
+    "candidateAndTestReadComplete": true,
+    "allPrivateRefsUnopened": true,
+    "actualRecoveryExecutedByC": false,
+    "testsNodePSHostDbBrowserOrHttpExecutedByC": false,
+    "currentCapturedMembersChangedByC": false
+  },
+  "authorValidation": {
+    "purePassed": 10,
+    "pureFailed": 0,
+    "pureReceipt": {
+      "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/pure02.txt",
+      "bytes": 1280,
+      "rawBytesSha256": "cde3d21ccd9ead60819b7174936e5e04680c42fff5f00cb7c79d4fbad7b72863"
+    },
+    "earlierReceipt": {
+      "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/pure01.txt",
+      "bytes": 1276,
+      "rawBytesSha256": "5d2cb3e3f83374838cdf9fbdeb1f28e1c058e633c6fcf5469498c14c7b4a78bf"
+    },
+    "syntaxPassed": 3,
+    "lexicalPassed": 3,
+    "staticReceipt": {
+      "file": "tmp/rust-r2m/wr4c10a-recovery-candidate01/static01.json",
+      "bytes": 1247,
+      "rawBytesSha256": "fe2d538b8a4451aac790eef452037308be29e0dbe0228174abb95d916aa54499"
+    },
+    "actualProductionAstFunctions": "Real decoder/frozen/public wrappers,56terminal-intent checks, fresh-live SDK-PG relation, exact original Windows plan, reconcile→restore5 sequence, noLease path, snapshot-before-open, ordinary revision and source application classifier",
+    "testPrivateShapesAreSynthetic": true,
+    "explicitPublicMetadataUsed": true,
+    "authorDidNotRunRecoveryRuntimeCLI": true
+  },
+  "RootExecution": {
+    "actualOnlyByRoot": true,
+    "installation": "Copy exactly three candidate targets to intended tools/rust-r2m paths; their relative mature imports then resolve in the existing original layout",
+    "pure": "node --test tools/rust-r2m/recover-late-wr4c10a.test.mjs",
+    "sourceCheck": "node tools/rust-r2m/recover-late-wr4c10a.mjs --check",
+    "actual": "node tools/rust-r2m/recover-late-wr4c10a.mjs --run",
+    "publicOutput": "tmp/rust-r2m-continuation01/recovered-ui-windows-rust-wr4c10a01.json",
+    "freshRuntimeChecksRequiredEvenAfterTheElevenHourGap": true,
+    "expectedResult": "recovered-fixed-Windows-Rust-UI4-server-timeout-late69-no-singleton-double-zero-not-UI-pass",
+    "expectedNormalClosedReceiptClaimed": false,
+    "expectedRootAdditionalSignalSent": false,
+    "expectedPGExportedEvents": 5,
+    "expectedFirstDeleted": 69,
+    "expectedSecondDeleted": 0,
+    "expectedFilesChanged": 0,
+    "expected107InitialRestored": true,
+    "actualReceiptAndIndependentActualReviewStillPending": true
+  },
+  "findings": [],
+  "limits": [
+    "SourceReady only for one fixed late resource restoration; not UI4 or overallG3/G4 Pass",
+    "Original partial,serverfalse,observerfalse,exact RootSIGTERM and nonnatural/nondeadline facts remain immutable",
+    "No new ownership certificate, genericNULL permission, selector rewrite, query-adoption, unowned deletion or old database access"
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}
