@@ -1,0 +1,84 @@
+{
+  "kind": "Root-actual-R2M-public-preservation-summary",
+  "createdAt": "2026-11-01T17:50:49.530Z",
+  "result": "Pass",
+  "tag": "final01",
+  "destination": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01",
+  "origins": [
+    {
+      "origin": "windows",
+      "manifest": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows.manifest.json",
+        "bytes": 3597368,
+        "rawBytesSha256": "601a844f023747ec2b8925f64313015d55d5feb4193f6a3868cd9427c10f2fa4"
+      },
+      "archive": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows-public.tar",
+        "bytes": 238678528,
+        "rawBytesSha256": "0ab8a9a95ac1646d758c57a8aff1a7e29f83584561b516a141111faaa21abc58"
+      },
+      "fileCount": 5372,
+      "contentBytes": 229112470,
+      "receiverVerification": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows.windows-verified.json",
+        "bytes": 794,
+        "rawBytesSha256": "e1c8e3b4280e56d92a6d566a68925966e9ea13bf15e8d61267eaa9b25e67e709"
+      },
+      "sourceStoreVerification": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows.primary-store-verified.json",
+        "bytes": 203,
+        "rawBytesSha256": "95691e29abc490be05491b23bf76f3467f0c430363795d46d10cdfec12a34dc1"
+      },
+      "sourceStoreMembers": 0
+    },
+    {
+      "origin": "linux",
+      "manifest": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux.manifest.json",
+        "bytes": 5823859,
+        "rawBytesSha256": "fc29d32e7d27c65fc5709b5a77b750a8c772017cc96dd937ff05b0633c5bfd0e"
+      },
+      "archive": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux-public.tar",
+        "bytes": 549253120,
+        "rawBytesSha256": "9ce189dbd3d1c39159d9e18d06be34d0bb840fbd92333eb77a1bbfb28261415d"
+      },
+      "fileCount": 8850,
+      "contentBytes": 533408819,
+      "receiverVerification": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux.windows-verified.json",
+        "bytes": 771,
+        "rawBytesSha256": "35c334f226c61f7818f5d8485bf2f8d96b715abc0801f57a3516f73330878005"
+      },
+      "sourceStoreVerification": {
+        "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux.primary-store-verified.json",
+        "bytes": 204,
+        "rawBytesSha256": "e41d76a4e5006198a912e77f07119906c9ce838485cce271d9bcc718429ecce0"
+      },
+      "sourceStoreMembers": 7992
+    }
+  ],
+  "originMap": {
+    "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/origin-map.json",
+    "bytes": 11220197,
+    "rawBytesSha256": "bce4c04214b702334d4f819c20b51fa253afad507eef95c7b1ad8a2b0b381837"
+  },
+  "totalMembers": 14222,
+  "linuxStoreDelta": {
+    "newMembers": 289,
+    "identicalExisting": 7703,
+    "nonStoreLooseFilesCopied": 0
+  },
+  "existingSourceStoreBytesNeverOverwritten": true,
+  "originalLogicalReferencesRewritten": false,
+  "privateJournalsCopied": false,
+  "oldLKRootsTraversed": false,
+  "quarantineOriginalRetained": true,
+  "postSnapshotMetadataPolicy": {
+    "heavyScopesFrozen": true,
+    "heavyTarImmutable": true,
+    "futureDerivedMetadataNotClaimedInTar": true,
+    "boundedFinalizationDeltaPreservedSeparately": true
+  },
+  "G4Certified": false
+}

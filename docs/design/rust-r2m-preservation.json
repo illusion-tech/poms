@@ -1,6 +1,6 @@
 {
   "kind": "R2M-final-public-preservation-summary",
-  "result": "Pending",
+  "result": "Root-actual-final-preservation",
   "notAppliedOrTarExecutedByA": true,
   "previousVerifiedSourceStoreStage03": {
     "file": "tmp/rust-r2m/source-store-preservation-stage03-verified01.json",
@@ -13,7 +13,7 @@
     "bytes": 4639,
     "rawBytesSha256": "a483eeb5a7bc5a58cb2116c20c49a0f713a5607de035a0aad154e67b24b0e3a7"
   },
-  "largeArchiveDestination": "E:/projects/poms/tmp/rust-r2m-public-preservation/Pending",
+  "largeArchiveDestination": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01",
   "smallDocsOnly": true,
   "publicOriginRules": {
     "origins": [
@@ -31,17 +31,12 @@
     "privateEnvSymlinkHardlinkAndExactRevokedDescriptorExcluded": true
   },
   "actualExecution": {
-    "status": "Pending",
-    "LinuxSourceManifest": null,
-    "LinuxTar": null,
-    "nativeCopyToMntEAndFsync": null,
-    "WindowsIndependentWholeTarHash": null,
-    "WindowsEveryMemberVerification": null,
-    "WindowsSourceManifest": null,
-    "WindowsTar": null,
-    "sourceStoreDelta": null,
-    "originMap": null,
-    "finalCounts": null
+    "status": "Root-actual-receipt-reference",
+    "receipt": {
+      "file": "docs/design/archive/slices/rust-r2m/g4-derived/public-preservation-summary01.json",
+      "bytes": 3341,
+      "rawBytesSha256": "02a17c6e575fa4d26b896ae78d2f10e8786730270c226452116beb877b596317"
+    }
   },
   "privacyScope": {
     "targetedOldSixValueScan": {
@@ -53,8 +48,16 @@
     "newPrivateContentIncluded": false
   },
   "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
-  "finalArchiveReceipt": null,
-  "finalCReview": null,
-  "G4Certified": false,
-  "createdAt": "2026-11-01T16:55:13.846Z"
+  "finalArchiveReceipt": {
+    "file": "docs/design/archive/slices/rust-r2m/g4-derived/public-preservation-summary01.json",
+    "bytes": 3341,
+    "rawBytesSha256": "02a17c6e575fa4d26b896ae78d2f10e8786730270c226452116beb877b596317"
+  },
+  "finalCReview": {
+    "file": "docs/design/archive/slices/rust-r2m/g4-derived/independent-preservation-review01.json",
+    "bytes": 8656,
+    "rawBytesSha256": "6640587f5e6e546e6e881fd2c419c87aa5a3ae73e456f189ab1d836555d26aa7"
+  },
+  "G4Certified": true,
+  "createdAt": "2026-11-01T17:58:06.241Z"
 }

@@ -1,9 +1,9 @@
-# RUST-R2M 阶段收口（G3 Pass / G4 Pending）
+# RUST-R2M 阶段收口（G4 Done）
 
-- 总体状态：**G3 Pass / G4 Pending**。实现提交、固定提交复核、main 集成、归档和线上收口未由本阶段输出提前确认。
-- #80：**Open**；#67：**Open**；#57：**Open**。
-- 完成日期：Pending（G4 生效日期）。实现commit：Pending（G3 后固定提交）；main集成/推送：Pending。
-- G3/C固定提交：Pass；docs/design/rust-r2m/overall-g3-actual-review01.json (SHA 85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d)；线上 G3 comment Pending / Pending；G4在线原件：Pending。
+- 总体状态：**G4 Done**。依据 Root 实际集成、保全、归档与线上已生效原件。
+- #80：**Closed**；#67：**Closed**；#57：**Open**。
+- 完成日期：2026-11-01T17:57:36.883Z。实现commit：bb25731632bafa7f75be9b77ff40754d51925dbb；main集成/推送：9dcfb498b175e9fdaae7584aff1d5d3f93bf814f→959f676df241dd4973b64b990f741f9211fe88bf；main 959f676df241dd4973b64b990f741f9211fe88bf；docs/design/archive/slices/rust-r2m/g4-derived/metadata-main-integration01.json (SHA 708aee68125c047453676ef25f6424ae0246f3a4eab3f40f6325d53f58efb100)。
+- G3/C固定提交：Pass；docs/design/rust-r2m/overall-g3-actual-review01.json (SHA 85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d)；https://github.com/illusion-tech/poms/issues/80#issuecomment-6561096335 / docs/design/rust-r2m/fixed-commit-review01.json (SHA f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0)；G4在线原件：https://github.com/illusion-tech/poms/issues/80#issuecomment-6561706097；https://github.com/illusion-tech/poms/issues/67#issuecomment-6561707212；#57 Open；docs/design/archive/slices/rust-r2m/g4-derived/online-g4-actual01.json (SHA 3e8fa6a0d1061b344bbf8d908435fa8a34c32af193f28da9fc069087f4d78fb5)。
 
 R2A–L交付108/108公开操作，与R1合计当前dispatch115；完整Native237paths/291ops/585schemas和R3–R7阶段仍各自原范围。本片新增公开操作0，负责当前候选集成、必要兼容补缺及受审实际消费闭包，不声明真实云租户、部署/切流、灾备或性能结果。
 
@@ -13,12 +13,12 @@ M4四例的真正closure是Root完整比较+非作者C c6754955…：58step/116�
 
 M3-only实际Pass保128原数字+19R1A，wholeFive/debug=false是已裁非Gate边界。M5受控协议/密文/state/ticket/sync验收不等于真实租户启用；旧RustOID17085原缺birth图在continuation G1下仅禁连接，原名/OID/ACL/卷/业务行/原j保留，无query-adopt/delete或伪双零。该终止例外与新c01各run精确清理分列。
 
-setting原迁移行只租约/全7列CAS归还；只读approver8/14与三定义不own/delete。实际writer身份、SDK/PG outerCOMMIT/独立可见、全部107引用扫描、两轮cleanup和精确对象key按各原账本；所有旧失败/partial/stopped/uncertified和首UNC副本异常均保原字节。最终全run汇总/环境停止原件：完整失败/终态 tmp/rust-r2m/final-inventory-candidate03/failure-inventory-final-candidate03.json (SHA b202e2fe540a1076d9e7f8e765b9ac47c28af0aab93af77778cd73ab9aa0ead5)；最终 census tmp/rust-r2m-continuation01/new-M-private-run-attempt-census02.json (SHA 97ffe279a2c8e3bb3ebe7d45e566dd1209c0bdb0864d791cae4d2872a5c61ec3)；最终 G4 环境停止原件 Pending。
+setting原迁移行只租约/全7列CAS归还；只读approver8/14与三定义不own/delete。实际writer身份、SDK/PG outerCOMMIT/独立可见、全部107引用扫描、两轮cleanup和精确对象key按各原账本；所有旧失败/partial/stopped/uncertified和首UNC副本异常均保原字节。最终全run汇总/环境停止原件：完整失败/终态 tmp/rust-r2m/final-inventory-candidate03/failure-inventory-final-candidate03.json (SHA b202e2fe540a1076d9e7f8e765b9ac47c28af0aab93af77778cd73ab9aa0ead5)；最终 census tmp/rust-r2m-continuation01/new-M-private-run-attempt-census02.json (SHA 97ffe279a2c8e3bb3ebe7d45e566dd1209c0bdb0864d791cae4d2872a5c61ec3)；资源归还 tmp/rust-r2m-continuation01/final-resource-close01.json (SHA 42f1a784ece0cc6f154cf554a3a1b6f7d8798b2fbefca862ca105c9fc58a5d9b)。
 
 Rust220/54ignored、schemacheck1/dump0既有分类、Node863/74与368/56、原runner72/13/13/36(mock11)、579client+OpenAPI及169Rust来源见机器验收，计数各归其入口，不互相替代。无DDL或通用guard放宽。
 
 生命周期按本片archiveauthority逐件列名归档。受审G1原13410/93b与Gate-only13452/fb40c7f9761f分列；原路径如仍被固定runner/capsule/publicReview guard引用，只作为regular同bytes/nlink1兼容副本，禁止symlink/hardlink或改写旧Pending。新README/本closeout/validation/GitHub为当前状态，原artifact为当时证据，不互相冒充。
 
-最终大tar/完整manifest只在primary ignored tmp/rust-r2m-public-preservation/Pending，docs/archive仅小summary/ref/receipt；Linux与Windows双origin同relativePath不同raw不得盲覆盖，source-store增量按原路径/内容地址核。最终Root实测/独立验证：Pending；归档/索引C：Pending。
+最终大tar/完整manifest只在primary ignored tmp/rust-r2m-public-preservation/final01，docs/archive仅小summary/ref/receipt；Linux与Windows双origin同relativePath不同raw不得盲覆盖，source-store增量按原路径/内容地址核。最终Root实测/独立验证：docs/design/archive/slices/rust-r2m/g4-derived/public-preservation-summary01.json (SHA 02a17c6e575fa4d26b896ae78d2f10e8786730270c226452116beb877b596317)；C docs/design/archive/slices/rust-r2m/g4-derived/independent-preservation-review01.json (SHA 6640587f5e6e546e6e881fd2c419c87aa5a3ae73e456f189ab1d836555d26aa7)；归档/索引C：tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json (SHA b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c)；regular 兼容决定 tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json (SHA b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c)。
 
 只有以上本片原条件真实满足、代码/固定提交/主区集成/保全/归档/在线状态一致后，此G4才生效并由Root关闭80及满足自身条件的67；57保持Open。不得因本稿预填或部分cell通过提前关闭，不额外加全291/R3–R7/53PG/真实租户门槛。

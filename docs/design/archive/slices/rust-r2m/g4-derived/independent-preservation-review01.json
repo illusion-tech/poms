@@ -1,0 +1,181 @@
+{
+  "kind": "RUST-R2M-independent-dual-origin-public-preservation-actual-review",
+  "result": "Pass",
+  "reviewer": "/root/r2m_review",
+  "reviewedAtUtc": "2026-11-01T17:56:25.185Z",
+  "verificationStartedAtUtc": "2026-11-01T17:56:23.147Z",
+  "preservationCertified": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "scope": "Only actual two-origin public TAR/manifest/origin-map preservation, original content-addressed source-store receipts and frozen-cutoff policy. No new business run, private reading, effective onlineG4 or finalmetadata certification.",
+  "input": {
+    "file": "E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tmp/rust-r2m-g4-derived/root/public-preservation-summary01.json",
+    "bytes": 3341,
+    "rawBytesSha256": "02a17c6e575fa4d26b896ae78d2f10e8786730270c226452116beb877b596317"
+  },
+  "reviewedPureVerifier": {
+    "file": "E:/projects/worktrees/poms-r2ef-foundation-audit/poms/tmp/rust-r2m/g4-public-archive-candidate02/public-archive-core.mjs",
+    "bytes": 8684,
+    "rawBytesSha256": "f85f9d446639a161e1c27e674b6b42630b0ac79a7c19327d6f038dfb702bf914"
+  },
+  "independentVerification": {
+    "method": "C invoked audited pure verifyPublicTar with fresh regular single-link readonly fds; sequential streaming, memberheader/PAX/path/type/size/rawSHA/checksum/padding/end-zero and whole-TAR SHA/length verified; no extraction.",
+    "origins": [
+      {
+        "origin": "windows",
+        "manifest": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows.manifest.json",
+          "bytes": 3597368,
+          "rawBytesSha256": "601a844f023747ec2b8925f64313015d55d5feb4193f6a3868cd9427c10f2fa4"
+        },
+        "archive": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows-public.tar",
+          "bytes": 238678528,
+          "rawBytesSha256": "0ab8a9a95ac1646d758c57a8aff1a7e29f83584561b516a141111faaa21abc58"
+        },
+        "independentStreamingResult": {
+          "kind": "R2M-independent-streaming-public-TAR-all-member-verification",
+          "origin": "windows",
+          "archiveBytes": 238678528,
+          "archiveSha256": "0ab8a9a95ac1646d758c57a8aff1a7e29f83584561b516a141111faaa21abc58",
+          "memberCount": 5372,
+          "contentBytes": 229112470,
+          "allManifestMembersVerified": true,
+          "linksOrPrivateMembersAccepted": false,
+          "paxKeys": [
+            "LIBARCHIVE.creationtime",
+            "atime",
+            "ctime",
+            "mtime"
+          ]
+        },
+        "recordedReceiver": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows.windows-verified.json",
+          "bytes": 794,
+          "rawBytesSha256": "e1c8e3b4280e56d92a6d566a68925966e9ea13bf15e8d61267eaa9b25e67e709"
+        },
+        "sourceStoreVerification": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/windows.primary-store-verified.json",
+          "bytes": 203,
+          "rawBytesSha256": "95691e29abc490be05491b23bf76f3467f0c430363795d46d10cdfec12a34dc1"
+        },
+        "sourceStoreMembers": 0,
+        "storeProofReadLevel": "Root actual independent Windows verification receipt read; C additionally verified every source-store TAR member and its content-address digest while streaming.",
+        "regularSingleLinkAndStableFdLeaf": true
+      },
+      {
+        "origin": "linux",
+        "manifest": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux.manifest.json",
+          "bytes": 5823859,
+          "rawBytesSha256": "fc29d32e7d27c65fc5709b5a77b750a8c772017cc96dd937ff05b0633c5bfd0e"
+        },
+        "archive": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux-public.tar",
+          "bytes": 549253120,
+          "rawBytesSha256": "9ce189dbd3d1c39159d9e18d06be34d0bb840fbd92333eb77a1bbfb28261415d"
+        },
+        "independentStreamingResult": {
+          "kind": "R2M-independent-streaming-public-TAR-all-member-verification",
+          "origin": "linux",
+          "archiveBytes": 549253120,
+          "archiveSha256": "9ce189dbd3d1c39159d9e18d06be34d0bb840fbd92333eb77a1bbfb28261415d",
+          "memberCount": 8850,
+          "contentBytes": 533408819,
+          "allManifestMembersVerified": true,
+          "linksOrPrivateMembersAccepted": false,
+          "paxKeys": [
+            "atime",
+            "ctime",
+            "mtime",
+            "path"
+          ]
+        },
+        "recordedReceiver": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux.windows-verified.json",
+          "bytes": 771,
+          "rawBytesSha256": "35c334f226c61f7818f5d8485bf2f8d96b715abc0801f57a3516f73330878005"
+        },
+        "sourceStoreVerification": {
+          "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/linux.primary-store-verified.json",
+          "bytes": 204,
+          "rawBytesSha256": "e41d76a4e5006198a912e77f07119906c9ce838485cce271d9bcc718429ecce0"
+        },
+        "sourceStoreMembers": 7992,
+        "storeProofReadLevel": "Root actual independent Windows verification receipt read; C additionally verified every source-store TAR member and its content-address digest while streaming.",
+        "regularSingleLinkAndStableFdLeaf": true
+      }
+    ],
+    "totalTARBytes": 787931648,
+    "totalMembers": 14222,
+    "allMembersAndWholeRawArchivesIndependentlyVerified": true,
+    "noPrimaryOutputWrittenOrTARBuiltByC": true
+  },
+  "originMap": {
+    "ref": {
+      "file": "E:/projects/poms/tmp/rust-r2m-public-preservation/final01/origin-map.json",
+      "bytes": 11220197,
+      "rawBytesSha256": "bce4c04214b702334d4f819c20b51fa253afad507eef95c7b1ad8a2b0b381837"
+    },
+    "completeTupleProjectionIndependentlyRecomputed": true,
+    "uniqueRelativePaths": 13641,
+    "commonRelativePaths": 581,
+    "singleOriginRelativePaths": 13060,
+    "rawConflictRelativePaths": 0,
+    "actualConflictsMayBeZero": true,
+    "originalReferencesRewritten": false,
+    "crossOriginOverwriteAllowed": false,
+    "policy": "Preserve every origin/originalAbsolutePath/relativePath/member/bytes/SHA tuple; never equate origin or overwrite loose files by shared relative name."
+  },
+  "sourceStore": {
+    "linuxMembers": 7992,
+    "windowsMembers": 0,
+    "RootActualNewLinuxMembers": 289,
+    "RootActualIdenticalExistingLinuxMembers": 7703,
+    "RootActualLooseFilesCopied": 0,
+    "allRootExpectedBytesVerified": true,
+    "existingMembersNeverOverwritten": true,
+    "CAllSourceStoreArchiveRawDigestsEqualContentAddresses": true,
+    "COriginalPrimaryStore7992FilesReread": false,
+    "readLevel": "Root actual store receipts are explicit; independentC verified those members inside the raw TAR, not a second extraction or store mutation."
+  },
+  "retainedEvidence": {
+    "oldFailedPartialStoppedUncertifiedAndQuarantineLabelsNotRewrittenByPackaging": true,
+    "meaning": "Full raw bytes equal frozen manifests. Earlier independent bounded66/65plusquarantine reviews remain authority for business/resource labels; this packaging review does not promote original failed reports.",
+    "oldRust17085GraphRetentionUnchanged": true,
+    "privateJournalsNotIncludedOrDeleted": true,
+    "oldLKPrivateTreesNotTraversed": true
+  },
+  "privacy": {
+    "acceptedMembersAllWithinTwoPublicScopes": true,
+    "linksEnvPrivateGitPathsAndWithdrawnDescriptorHashRejectedByAuditedVerifier": true,
+    "exactWithdrawnSHA": "af9cabad9cc4ccfa6a45775498132d91dcd45c351164b92c12e4df6f46658210",
+    "genericSecretFreeGuarantee": false,
+    "noRawMemberBodiesPrinted": true
+  },
+  "postSnapshotMetadataPolicy": {
+    "heavyScopesFrozen": true,
+    "heavyTarImmutable": true,
+    "futureDerivedMetadataNotClaimedInTar": true,
+    "boundedFinalizationDeltaPreservedSeparately": true,
+    "reviewLocationOutsideBothHeavyInputScopes": true,
+    "afterCutoffEvidenceMustUseSeparateBoundedRawMetadataDelta": true,
+    "noClaimHeavyTARContainsItsOwnReceiptsOrFutureG4Metadata": true,
+    "heavyArchivesNotRewritten": true
+  },
+  "remaining": {
+    "actualOnline80_67Closed57Open": "Pending",
+    "validatedActualG4DoneContextAnd11TargetMaterialization": "Pending",
+    "finalFixedMetadataCommitAndMainIntegration": "Pending",
+    "postSnapshotDeltaManifestAndIndependentFinalG4Review": "Pending",
+    "issue57": "Remain OPEN"
+  },
+  "findings": [],
+  "activity": {
+    "publicFileReadonlyStreamingAndPureVerifierOnly": true,
+    "privateDBHostRuntimeBrowserOrNetworkActions": 0,
+    "archiveExtractionBuildOrPrimaryWrites": 0,
+    "GitOrExistingSourceMutations": 0,
+    "newOutputThirdDerivedScopeOnly": true
+  }
+}

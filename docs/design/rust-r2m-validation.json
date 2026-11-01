@@ -1,7 +1,7 @@
 {
   "kind": "R2M-final-stage-validation-materialized",
-  "result": "G3-Pass-G4-Pending",
-  "createdAt": "2026-11-01T16:55:13.846Z",
+  "result": "G4-Done",
+  "createdAt": "2026-11-01T17:58:06.241Z",
   "task": {
     "issue": 80,
     "parent": 67,
@@ -17,8 +17,8 @@
     "G1": "Pass-frozen",
     "G2": "required-stage-actual-scope-executed",
     "G3": "Pass",
-    "G4": "Pending",
-    "overallPass": null,
+    "G4": "Pass",
+    "overallPass": true,
     "overallPassScope": "G4-effective-closeout"
   },
   "frozenG1": {
@@ -1075,8 +1075,17 @@
       "rawBytesSha256": "111aec3615bd5b5de979501c0c1033bcdbc6cba95d39794e933ea29ab270fa69"
     },
     "finalCurrentSourceImpact": {
-      "status": "Pending",
-      "proof": null
+      "status": "Root-actual-current-code-binding-reviewed-in-overall-G3",
+      "binding": {
+        "file": "tmp/rust-r2m-continuation01/final-current-code-set01.json",
+        "bytes": 838258,
+        "rawBytesSha256": "0978f1fc9e31eb882e50819101621b34681b8d7dccf5a43476fb52ae9b709929"
+      },
+      "independentOverallG3": {
+        "file": "docs/design/rust-r2m/overall-g3-actual-review01.json",
+        "bytes": 35297,
+        "rawBytesSha256": "85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d"
+      }
     },
     "currentGuardCount": {
       "client": 579,
@@ -1106,49 +1115,79 @@
     }
   },
   "fixedGitWorkflow": {
-    "status": "Pending",
-    "implementationCommit": null,
-    "branchPush": null,
-    "independentFixedCommitC": null,
-    "primaryBefore": null,
-    "primaryFastForward": null,
-    "primaryAfter": null,
-    "mainPush": null,
-    "integrationChecks": null
+    "status": "Root-actual-fixed-commit-and-integration",
+    "implementationCommit": "bb25731632bafa7f75be9b77ff40754d51925dbb",
+    "branchPushReceipt": {
+      "file": "docs/design/archive/slices/rust-r2m/g4-derived/branch-main-push-receipt02.json",
+      "bytes": 1151,
+      "rawBytesSha256": "0c6885ceb9bd56a7c80c49d907c2c0845ffbfb9d699a7820f25a4b54da6ed2d2"
+    },
+    "fixedCommitC": {
+      "file": "docs/design/rust-r2m/fixed-commit-review01.json",
+      "bytes": 14613,
+      "rawBytesSha256": "f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0"
+    },
+    "reviewedImplementationCommit": "bb25731632bafa7f75be9b77ff40754d51925dbb",
+    "primaryBefore": "9dcfb498b175e9fdaae7584aff1d5d3f93bf814f",
+    "primaryAfter": "959f676df241dd4973b64b990f741f9211fe88bf",
+    "mainPushedCommit": "959f676df241dd4973b64b990f741f9211fe88bf",
+    "integrationReceipt": {
+      "file": "docs/design/archive/slices/rust-r2m/g4-derived/metadata-main-integration01.json",
+      "bytes": 1102,
+      "rawBytesSha256": "708aee68125c047453676ef25f6424ae0246f3a4eab3f40f6325d53f58efb100"
+    }
   },
   "finalResources": {
-    "status": "Pending-G4-final-owner-stop",
-    "allFinalTaskWritersStopped": null,
-    "finalPortOwnerProof": null,
-    "newPGOwnerStopReceipt": null,
+    "status": "Root-actual-closed-with-declared-retained-data",
+    "receipt": {
+      "file": "tmp/rust-r2m-continuation01/final-resource-close01.json",
+      "bytes": 1484,
+      "rawBytesSha256": "42f1a784ece0cc6f154cf554a3a1b6f7d8798b2fbefca862ca105c9fc58a5d9b"
+    },
+    "allTaskWritersStopped": true,
+    "taskPortsAndNewPGOwnerClosed": true,
+    "retainedQAAndQuarantineVolumes": true,
     "retainedOldPG17": true,
     "retainedOldEnvironments": true,
     "retainedQuarantinedGraph": true,
-    "newQAWholeResourcesRetained": true,
-    "currentRunDispositionAuthority": {
-      "file": "tmp/rust-r2m/final-inventory-candidate03/failure-inventory-final-candidate03.json",
-      "bytes": 950599,
-      "rawBytesSha256": "b202e2fe540a1076d9e7f8e765b9ac47c28af0aab93af77778cd73ab9aa0ead5"
-    }
+    "newQAWholeResourcesRetained": true
   },
   "preservation": {
-    "status": "Pending",
-    "summary": "docs/design/rust-r2m-preservation.json",
+    "status": "Root-actual",
+    "summary": {
+      "file": "docs/design/archive/slices/rust-r2m/g4-derived/public-preservation-summary01.json",
+      "bytes": 3341,
+      "rawBytesSha256": "02a17c6e575fa4d26b896ae78d2f10e8786730270c226452116beb877b596317"
+    },
     "finalPublicOrigins": null,
     "sourceStoreDelta": null,
-    "archiveAuthority": "docs/design/rust-r2m-archive-authority.json",
+    "archiveAuthority": {
+      "file": "tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json",
+      "bytes": 185667,
+      "rawBytesSha256": "b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c"
+    },
     "largeTarOnlyPrimaryIgnored": true,
-    "exactCompatCopiesPendingRootDecision": true
+    "exactCompatCopiesPendingRootDecision": false,
+    "independentC": {
+      "file": "docs/design/archive/slices/rust-r2m/g4-derived/independent-preservation-review01.json",
+      "bytes": 8656,
+      "rawBytesSha256": "6640587f5e6e546e6e881fd2c419c87aa5a3ae73e456f189ab1d836555d26aa7"
+    }
   },
   "online": {
-    "status": "Pending",
-    "issue80CurrentLive": "Root-context-G3-Ready-Open",
-    "issue67CurrentLive": "Root-context-G3-Ready-Open",
+    "status": "Root-actual-G4-effective",
+    "receipt": {
+      "file": "docs/design/archive/slices/rust-r2m/g4-derived/online-g4-actual01.json",
+      "bytes": 1291,
+      "rawBytesSha256": "3e8fa6a0d1061b344bbf8d908435fa8a34c32af193f28da9fc069087f4d78fb5"
+    },
+    "observedAt": "2026-11-01T17:57:36.883Z",
+    "issue80State": "CLOSED",
+    "issue67State": "CLOSED",
+    "issue57State": "OPEN",
+    "comment80": "https://github.com/illusion-tech/poms/issues/80#issuecomment-6561706097",
+    "comment67": "https://github.com/illusion-tech/poms/issues/67#issuecomment-6561707212",
     "issue57MustRemain": "Open",
-    "G3Comment": null,
-    "G4Comment80": null,
-    "G4Comment67": null,
-    "comment57": null,
     "closeOnly80AndConditional67": true
   },
   "retainedBoundaries": [
@@ -1180,12 +1219,12 @@
       "bytes": 838258,
       "rawBytesSha256": "0978f1fc9e31eb882e50819101621b34681b8d7dccf5a43476fb52ae9b709929"
     },
-    "G4EffectiveAt": null
+    "G4EffectiveAt": "2026-11-01T17:57:36.883Z"
   },
   "G3Certified": true,
-  "G4Certified": false,
+  "G4Certified": true,
   "materialization": {
-    "stage": "G3-Ready",
+    "stage": "G4-Done",
     "canonicalAppliedByThisTool": false,
     "originalDraftBytesPreserved": true
   }
