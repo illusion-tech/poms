@@ -1,0 +1,134 @@
+{
+  "kind": "R3HIJK-concrete-six-Issue-scoped-G4-publication-plan",
+  "createdAt": "2026-11-02T19:46:03.382Z",
+  "implementation": "5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875",
+  "archiveCommit": "a720101037e7cbff06de132909991de1c746e0c2",
+  "mainIntegration": {
+    "file": "docs/design/archive/slices/rust-r3hijk/main-integration-proof01.json",
+    "bytes": 14709,
+    "rawBytesSha256": "345613b0b8eab742965926903cf25a150e71d41809c2b3f6718b8abd6e2834cb"
+  },
+  "G3Review": {
+    "file": "docs/design/archive/slices/rust-r3hijk/C/g3-independent-review02.json",
+    "bytes": 19936,
+    "rawBytesSha256": "6e9b594d2741cf97b64ba7233451726f7b487b79103bdf3ce5ab8380b32a1c62"
+  },
+  "fixedReview": {
+    "file": "docs/design/archive/slices/rust-r3hijk/C/fixed-commit-review01.json",
+    "bytes": 8158,
+    "rawBytesSha256": "759b1d69346e44b6dcdb4bafb4595d7eef9b7701623485561ea7351577641186"
+  },
+  "closeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "keepOpen": [
+    85,
+    57
+  ],
+  "formalBefore": 30,
+  "formalAfter": 58,
+  "fullStageAfter": false,
+  "entries": [
+    {
+      "issue": 93,
+      "original": {
+        "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-93.json",
+        "bytes": 5560,
+        "rawBytesSha256": "aeb47c0ae72fdfde3a11950d80b99a20cc936141ac14101b726ed6ed26264ded"
+      },
+      "beforeBodySha256": "c40620d995f9a5e2ee2831b48a383c42a30c165c17f03750ad25cf7f6c9c92e3",
+      "beforeState": "open",
+      "desiredState": "closed",
+      "body": "父任务：#85；总体#57。状态：**Done / 本片G4已完成**。\n\n本片仅 14 个既有公共操作；不复制Node缺陷，以业务正确性、合理性和正式契约为准。\n\n- POST `/api/lead-score-overrides/{id}:approve` — `LeadScoreOverrideController_approve`\n- POST `/api/lead-score-overrides/{id}:reject` — `LeadScoreOverrideController_reject`\n- POST `/api/lead-score-overrides/{id}:revoke` — `LeadScoreOverrideController_revoke`\n- GET `/api/leads` — `LeadController_list`\n- POST `/api/leads` — `LeadController_create`\n- GET `/api/leads/{id}` — `LeadController_getById`\n- PATCH `/api/leads/{id}` — `LeadController_update`\n- POST `/api/leads/{id}:assignOwner` — `LeadController_assignOwner`\n- POST `/api/leads/{id}:claim` — `LeadController_claimOwner`\n- POST `/api/leads/{id}:close` — `LeadController_close`\n- POST `/api/leads/{id}:convertToProject` — `LeadController_convertToProject`\n- POST `/api/leads/{id}:qualify` — `LeadController_qualify`\n- GET `/api/leads/{id}/score-history` — `LeadController_getScoreHistory`\n- POST `/api/leads/{id}/score-overrides` — `LeadController_submitScoreOverride`\n\n- [x] G0：原生父子Issue、互斥归属及依赖\n- [x] G1：联合冻结与用户业务正确性纠偏\n- [x] 本片操作及必要内部生产链实现\n- [x] 实际HTTP/PG、原UI、故障并发及自有终态\n- [x] 独立G3复审、固定提交复核、main集成及读回\n- [x] 独立G4关闭许可、原字节归档及线上本地同步\n\n实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；原字节归档提交 `a720101037e7cbff06de132909991de1c746e0c2`。独立G3复审02及固定提交均Pass，已快进/push main并读回。最终Rust候选66db94ce，294 passed / 54 ignored；必要写整体回滚、精确金额、UUID身份与唯一提醒流均按业务语义实测。\n\n[收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)、[当前操作清单](https://github.com/illusion-tech/poms/blob/main/docs/design/rust-r3-operation-slices.json)、[原字节映射](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk/archive-origin-map.json)。四UI按精确候选和浏览器平台轴保留；WindowsRust server、完整R3非HTTP/审批/阶段验收及R4–R7未因此完成。旧失败/partial/uncertified/54ignored和quarantine边界保留。\n\nR3公共HTTP累计58/58，Rust总173操作；只完成本批#93–96，父#85/#57继续Open。完整阶段不能由HTTP计数代替。\n",
+      "bodySha256": "7683faa4e86fe3dee67df6686c129031e08653e37be22c9708cce33deeff2275",
+      "comment": "G4 已完成，仅本片既有公共操作。\n\nR3HIJK-G4-5ca4adfa\n\n- 实现：`5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；归档：`a720101037e7cbff06de132909991de1c746e0c2`，已实际集成并推送main。\n- G3复审02、固定提交及独立G4关闭前许可分列；本次只关闭#93–96，#85/#57保持Open。\n- 最终294 passed/54 ignored；实际业务、原字节归档与自有环境终态已核。\n- R3仅公共HTTP58/58；完整非HTTP/审批/阶段验收及后续迁移未完成。\n- [收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)。\n",
+      "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+      "marker": "R3HIJK-G4-5ca4adfa"
+    },
+    {
+      "issue": 94,
+      "original": {
+        "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-94.json",
+        "bytes": 5455,
+        "rawBytesSha256": "0d82262c55e5a71c83e40717bdb63af7e84ff21b4b285a94f5dedb7a0d8bbf24"
+      },
+      "beforeBodySha256": "124befe98027881c5219e5ecf111c37afb4575e11a9b3539f790d21a54a47e5a",
+      "beforeState": "open",
+      "desiredState": "closed",
+      "body": "父任务：#85；总体#57。状态：**Done / 本片G4已完成**。\n\n本片仅 10 个既有公共操作；不复制Node缺陷，以业务正确性、合理性和正式契约为准。\n\n- GET `/api/competitor-intelligence-records` — `CompetitorIntelligenceRecordController_list`\n- POST `/api/competitor-intelligence-records` — `CompetitorIntelligenceRecordController_create`\n- PATCH `/api/competitor-intelligence-records/{id}` — `CompetitorIntelligenceRecordController_update`\n- GET `/api/opportunity-stakeholders` — `OpportunityStakeholderController_list`\n- POST `/api/opportunity-stakeholders` — `OpportunityStakeholderController_create`\n- PATCH `/api/opportunity-stakeholders/{id}` — `OpportunityStakeholderController_update`\n- GET `/api/sales-discovery-records` — `SalesDiscoveryRecordController_list`\n- POST `/api/sales-discovery-records` — `SalesDiscoveryRecordController_create`\n- PATCH `/api/sales-discovery-records/{id}` — `SalesDiscoveryRecordController_update`\n- GET `/api/sales-intelligence-gaps` — `SalesIntelligenceGapController_list`\n\n- [x] G0：原生父子Issue、互斥归属及依赖\n- [x] G1：联合冻结与用户业务正确性纠偏\n- [x] 本片操作及必要内部生产链实现\n- [x] 实际HTTP/PG、原UI、故障并发及自有终态\n- [x] 独立G3复审、固定提交复核、main集成及读回\n- [x] 独立G4关闭许可、原字节归档及线上本地同步\n\n实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；原字节归档提交 `a720101037e7cbff06de132909991de1c746e0c2`。独立G3复审02及固定提交均Pass，已快进/push main并读回。最终Rust候选66db94ce，294 passed / 54 ignored；必要写整体回滚、精确金额、UUID身份与唯一提醒流均按业务语义实测。\n\n[收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)、[当前操作清单](https://github.com/illusion-tech/poms/blob/main/docs/design/rust-r3-operation-slices.json)、[原字节映射](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk/archive-origin-map.json)。四UI按精确候选和浏览器平台轴保留；WindowsRust server、完整R3非HTTP/审批/阶段验收及R4–R7未因此完成。旧失败/partial/uncertified/54ignored和quarantine边界保留。\n\nR3公共HTTP累计58/58，Rust总173操作；只完成本批#93–96，父#85/#57继续Open。完整阶段不能由HTTP计数代替。\n",
+      "bodySha256": "182d7ec01ee3d36aedcacb4542a043a843bfe4b66afdc28e027b562524e5fa21",
+      "comment": "G4 已完成，仅本片既有公共操作。\n\nR3HIJK-G4-5ca4adfa\n\n- 实现：`5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；归档：`a720101037e7cbff06de132909991de1c746e0c2`，已实际集成并推送main。\n- G3复审02、固定提交及独立G4关闭前许可分列；本次只关闭#93–96，#85/#57保持Open。\n- 最终294 passed/54 ignored；实际业务、原字节归档与自有环境终态已核。\n- R3仅公共HTTP58/58；完整非HTTP/审批/阶段验收及后续迁移未完成。\n- [收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)。\n",
+      "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+      "marker": "R3HIJK-G4-5ca4adfa"
+    },
+    {
+      "issue": 95,
+      "original": {
+        "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-95.json",
+        "bytes": 4699,
+        "rawBytesSha256": "5c517d2b47105c8130a2eca0ca3707e7beb98dcef1f4dd862512f699c4b46978"
+      },
+      "beforeBodySha256": "8ef4474596ae966a738b419fb419e7ccc56e08aceb0b64d05c032ba9e9c1d4ce",
+      "beforeState": "open",
+      "desiredState": "closed",
+      "body": "父任务：#85；总体#57。状态：**Done / 本片G4已完成**。\n\n本片仅 2 个既有公共操作；不复制Node缺陷，以业务正确性、合理性和正式契约为准。\n\n- GET `/api/business-discussions` — `BusinessDiscussionController_list`\n- POST `/api/business-discussions` — `BusinessDiscussionController_create`\n\n- [x] G0：原生父子Issue、互斥归属及依赖\n- [x] G1：联合冻结与用户业务正确性纠偏\n- [x] 本片操作及必要内部生产链实现\n- [x] 实际HTTP/PG、原UI、故障并发及自有终态\n- [x] 独立G3复审、固定提交复核、main集成及读回\n- [x] 独立G4关闭许可、原字节归档及线上本地同步\n\n实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；原字节归档提交 `a720101037e7cbff06de132909991de1c746e0c2`。独立G3复审02及固定提交均Pass，已快进/push main并读回。最终Rust候选66db94ce，294 passed / 54 ignored；必要写整体回滚、精确金额、UUID身份与唯一提醒流均按业务语义实测。\n\n[收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)、[当前操作清单](https://github.com/illusion-tech/poms/blob/main/docs/design/rust-r3-operation-slices.json)、[原字节映射](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk/archive-origin-map.json)。四UI按精确候选和浏览器平台轴保留；WindowsRust server、完整R3非HTTP/审批/阶段验收及R4–R7未因此完成。旧失败/partial/uncertified/54ignored和quarantine边界保留。\n\nR3公共HTTP累计58/58，Rust总173操作；只完成本批#93–96，父#85/#57继续Open。完整阶段不能由HTTP计数代替。\n",
+      "bodySha256": "2052cf3c6ded1cd7a4f6ee1765669c5c84b3216af42d1e0ca8a45b10f1d56302",
+      "comment": "G4 已完成，仅本片既有公共操作。\n\nR3HIJK-G4-5ca4adfa\n\n- 实现：`5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；归档：`a720101037e7cbff06de132909991de1c746e0c2`，已实际集成并推送main。\n- G3复审02、固定提交及独立G4关闭前许可分列；本次只关闭#93–96，#85/#57保持Open。\n- 最终294 passed/54 ignored；实际业务、原字节归档与自有环境终态已核。\n- R3仅公共HTTP58/58；完整非HTTP/审批/阶段验收及后续迁移未完成。\n- [收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)。\n",
+      "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+      "marker": "R3HIJK-G4-5ca4adfa"
+    },
+    {
+      "issue": 96,
+      "original": {
+        "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-96.json",
+        "bytes": 4721,
+        "rawBytesSha256": "e420b9f216a3c89e18fb01d2285da79ed2184676fca85a0692922860e23a9ad9"
+      },
+      "beforeBodySha256": "98844d2cd16534405da8c1bd099ddaff179d5e169b269d789b470a05cbad7582",
+      "beforeState": "open",
+      "desiredState": "closed",
+      "body": "父任务：#85；总体#57。状态：**Done / 本片G4已完成**。\n\n本片仅 2 个既有公共操作；不复制Node缺陷，以业务正确性、合理性和正式契约为准。\n\n- GET `/api/projects/{projectId}/timeline` — `ProjectController_getTimeline`\n- GET `/api/projects/{projectId}/workspace-guidance` — `ProjectController_getWorkspaceGuidance`\n\n- [x] G0：原生父子Issue、互斥归属及依赖\n- [x] G1：联合冻结与用户业务正确性纠偏\n- [x] 本片操作及必要内部生产链实现\n- [x] 实际HTTP/PG、原UI、故障并发及自有终态\n- [x] 独立G3复审、固定提交复核、main集成及读回\n- [x] 独立G4关闭许可、原字节归档及线上本地同步\n\n实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；原字节归档提交 `a720101037e7cbff06de132909991de1c746e0c2`。独立G3复审02及固定提交均Pass，已快进/push main并读回。最终Rust候选66db94ce，294 passed / 54 ignored；必要写整体回滚、精确金额、UUID身份与唯一提醒流均按业务语义实测。\n\n[收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)、[当前操作清单](https://github.com/illusion-tech/poms/blob/main/docs/design/rust-r3-operation-slices.json)、[原字节映射](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk/archive-origin-map.json)。四UI按精确候选和浏览器平台轴保留；WindowsRust server、完整R3非HTTP/审批/阶段验收及R4–R7未因此完成。旧失败/partial/uncertified/54ignored和quarantine边界保留。\n\nR3公共HTTP累计58/58，Rust总173操作；只完成本批#93–96，父#85/#57继续Open。完整阶段不能由HTTP计数代替。\n",
+      "bodySha256": "1fad3a23e8cd9d31000702d4bbba9759c9209a8df0e88b97adc96112fea349ff",
+      "comment": "G4 已完成，仅本片既有公共操作。\n\nR3HIJK-G4-5ca4adfa\n\n- 实现：`5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；归档：`a720101037e7cbff06de132909991de1c746e0c2`，已实际集成并推送main。\n- G3复审02、固定提交及独立G4关闭前许可分列；本次只关闭#93–96，#85/#57保持Open。\n- 最终294 passed/54 ignored；实际业务、原字节归档与自有环境终态已核。\n- R3仅公共HTTP58/58；完整非HTTP/审批/阶段验收及后续迁移未完成。\n- [收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)。\n",
+      "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+      "marker": "R3HIJK-G4-5ca4adfa"
+    },
+    {
+      "issue": 85,
+      "original": {
+        "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-85.json",
+        "bytes": 5906,
+        "rawBytesSha256": "69d108dd53abc3e3ed20d2fddda5c1515440fbe1cb2abb68137588c58d8f4721"
+      },
+      "beforeBodySha256": "e2e96283de789360c77c278d07af07a51f5cbb7042de63d6116024567c207069",
+      "beforeState": "open",
+      "desiredState": "open",
+      "body": "状态：**Doing / OPEN**。R3公共HTTP已交付 **58/58**，Rust总173操作；完整非HTTP/审批/阶段集成验收及父项G4尚未完成。\n\n- [x] 58项互斥归属和依赖\n- [x] #86客户/别名8、#87项目基础6\n- [x] #88成本3、#89竞标3、#90联系人3、#91跟进4、#92报价3\n- [x] #93线索14、#94情报10、#95讨论2、#96项目综合读取2\n- [ ] 完整非HTTP/审批/阶段集成独立验收\n- [ ] R3父阶段G4\n\n实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；原字节归档提交 `a720101037e7cbff06de132909991de1c746e0c2`。独立G3复审02及固定提交均Pass，已快进/push main并读回。最终Rust候选66db94ce，294 passed / 54 ignored；必要写整体回滚、精确金额、UUID身份与唯一提醒流均按业务语义实测。\n\n[收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)、[当前操作清单](https://github.com/illusion-tech/poms/blob/main/docs/design/rust-r3-operation-slices.json)、[原字节映射](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk/archive-origin-map.json)。四UI按精确候选和浏览器平台轴保留；WindowsRust server、完整R3非HTTP/审批/阶段验收及R4–R7未因此完成。旧失败/partial/uncertified/54ignored和quarantine边界保留。\n\n#86–96仅按各自子片G4完成，本父项和总体#57保持Open；R4–R7继续按正式依赖等待。#61/#82/#83/#84不重复计Rust交付。E1五机器输入419264B、直接消费者23由本批C明确续准，Root负责、2026-11-09不延长，下个R3 G1须按原期限复核。\n",
+      "bodySha256": "a0ecb8d9fac516203f698c481d1464fdab8321a0c6e890a40226de539f5d34cb",
+      "comment": "本批HTTP子片G4已完成，父阶段继续Open。\n\nR3HIJK-G4-5ca4adfa\n\n- 实现：`5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；归档：`a720101037e7cbff06de132909991de1c746e0c2`，已实际集成并推送main。\n- G3复审02、固定提交及独立G4关闭前许可分列；本次只关闭#93–96，#85/#57保持Open。\n- 最终294 passed/54 ignored；实际业务、原字节归档与自有环境终态已核。\n- R3仅公共HTTP58/58；完整非HTTP/审批/阶段验收及后续迁移未完成。\n- [收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)。\n",
+      "commentSha256": "c08bcef9b739fa8a8b9c6609dda2df9caf94e049d6a2ddc6d754999174904b8b",
+      "marker": "R3HIJK-G4-5ca4adfa"
+    },
+    {
+      "issue": 57,
+      "original": {
+        "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-57.json",
+        "bytes": 9743,
+        "rawBytesSha256": "44cdbf4c6d302e76e43531ec3bb811cbc257f7a38f5d70e87834fd5978638b82"
+      },
+      "beforeBodySha256": "dc8f1766e190aef77b2b241743a26299c5c66ee21972fde455e39a2f0729ea58",
+      "beforeState": "open",
+      "desiredState": "open",
+      "body": "状态：**Doing / OPEN**。R0、R1、R2已完成；R3公共HTTP **58/58**，完整R3阶段尚未完成，R4–R7继续Todo。最后核验2026-11-03（Asia/Tokyo）。\n\n- [x] R0 #58：迁移基线、契约、数据和环境\n- [x] R1 #60：应用、认证、SQLx与跨平台基础\n- [x] R2 #67：108/108操作及R2M阶段验收\n- [ ] R3 #85：#86–96公共HTTP子片已完成58/58；完整非HTTP/审批/阶段集成及父G4待完成\n- [ ] R4：合同、资金、移交、成本与执行；依赖完整R3\n- [ ] R5：提成全链路；依赖R4\n- [ ] R6：迁移/发布接管与回滚演练；依赖R5\n- [ ] R7：统一切换、观察和旧后端退出；依赖R6及正式切换授权\n\n实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；原字节归档提交 `a720101037e7cbff06de132909991de1c746e0c2`。独立G3复审02及固定提交均Pass，已快进/push main并读回。最终Rust候选66db94ce，294 passed / 54 ignored；必要写整体回滚、精确金额、UUID身份与唯一提醒流均按业务语义实测。\n\n[收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)、[当前操作清单](https://github.com/illusion-tech/poms/blob/main/docs/design/rust-r3-operation-slices.json)、[原字节映射](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk/archive-origin-map.json)。四UI按精确候选和浏览器平台轴保留；WindowsRust server、完整R3非HTTP/审批/阶段验收及R4–R7未因此完成。旧失败/partial/uncertified/54ignored和quarantine边界保留。\n\n本轮只完成#93–96的28操作；加此前客户/项目14及成本/竞标/联系人/跟进/报价16，R3公共HTTP累计58。Rust当前173操作/138路径/585schemas，原Native/生成客户端/92migration不变。#85与本总体项继续Open；无部署、切流或真实性能结论。E1清理边界和所有历史正文/候选原件见收口与原字节映射。\n",
+      "bodySha256": "ddd470bb626d01d8b81958fab81df74f53a7a913b456cdcf28bb4c912099c8a6",
+      "comment": "本批HTTP子片G4已完成，父阶段继续Open。\n\nR3HIJK-G4-5ca4adfa\n\n- 实现：`5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875`；归档：`a720101037e7cbff06de132909991de1c746e0c2`，已实际集成并推送main。\n- G3复审02、固定提交及独立G4关闭前许可分列；本次只关闭#93–96，#85/#57保持Open。\n- 最终294 passed/54 ignored；实际业务、原字节归档与自有环境终态已核。\n- R3仅公共HTTP58/58；完整非HTTP/审批/阶段验收及后续迁移未完成。\n- [收口索引](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r3hijk-closeout.md)。\n",
+      "commentSha256": "c08bcef9b739fa8a8b9c6609dda2df9caf94e049d6a2ddc6d754999174904b8b",
+      "marker": "R3HIJK-G4-5ca4adfa"
+    }
+  ],
+  "published": false,
+  "G4Certified": false
+}

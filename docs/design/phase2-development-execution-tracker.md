@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-10-29
-**Rust 迁移补充索引更新**: 2026-11-02；原第二阶段任务状态不变
+**Rust 迁移补充索引更新**: 2026-11-03；原第二阶段任务状态不变
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
 **关联文档**:
 
@@ -727,3 +727,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-03 R3H–K 固定提交／原字节归档就绪
 
 实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875` 已通过独立G3复审02及固定提交复核；[收口索引](archive/slices/rust-r3hijk-closeout.md)与[原字节映射](archive/slices/rust-r3hijk/archive-origin-map.json)保留全部历史标签和七份根生命周期文档。当前G4Ready，正式仍30/58、Rust173；main集成读回、独立关闭许可及线上实际G4另行完成，#93–96尚Open，#85/#57保持Open。
+
+
+### 2026-11-03 R3H–K main已集成，独立G4关闭许可待签
+
+实现5ca4adfa及归档a7201010已快进并push main；[实际主线读回](archive/slices/rust-r3hijk/main-integration-proof01.json)核235产品和1373保护输入，主区15份既有CRLF表示逐个保留，LF比较与Git源一致；首次严格原字节预检在merge前停止的tool-noise也保留。当前仅G4Ready、正式30/58，六Issue的[具体G4正文/评论方案](archive/slices/rust-r3hijk/g4-plan01/plan01.json)尚未发布，关闭许可另审。#93–96与父#85/#57保持Open。

@@ -304,3 +304,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 | R3I 销售情报     | #94   | 10     | Doing / G4Ready |
 | R3J 业务讨论     | #95   | 2      | Doing / G4Ready |
 | R3K 项目综合读取 | #96   | 2      | Doing / G4Ready |
+
+
+### 2026-11-03 R3H–K main已集成，独立G4关闭许可待签
+
+实现5ca4adfa及归档a7201010已快进并push main；[实际主线读回](archive/slices/rust-r3hijk/main-integration-proof01.json)核235产品和1373保护输入，主区15份既有CRLF表示逐个保留，LF比较与Git源一致；首次严格原字节预检在merge前停止的tool-noise也保留。当前仅G4Ready、正式30/58，六Issue的[具体G4正文/评论方案](archive/slices/rust-r3hijk/g4-plan01/plan01.json)尚未发布，关闭许可另审。#93–96与父#85/#57保持Open。
