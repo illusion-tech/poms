@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-G4-closeout-preflight",
+  "createdAtUtc": "2026-11-02T01:37:05.680Z",
+  "result": "Pass",
+  "preCloseReviewPassed": true,
+  "G4Certified": false,
+  "actualG4Status": "Pending Root online G4/only86-87 closeout, final metadata integration/preservation and independent actual-G4 review.",
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "implementation": "df0d99decffbe974c988e85eea97767331044cbe",
+    "metadataCommit": "21d3a14a9520078d92f449d912a0d987c0bdaa26",
+    "metadataTree": "2c47ab19075b841dbe98fe776cae2444a525cbac",
+    "worktree": "E:/projects/worktrees/poms-r3ab-customer-project/poms",
+    "primary": "E:/projects/poms",
+    "issues": {
+      "A": 86,
+      "B": 87,
+      "parent": 85,
+      "overall": 57
+    },
+    "operations": {
+      "A": 8,
+      "B": 6,
+      "joint": 14,
+      "R3": 58,
+      "later": 44
+    }
+  },
+  "decision": {
+    "mayPublishOnlineScopedG4": true,
+    "mayCloseIssues": [
+      86,
+      87
+    ],
+    "mayCloseAnyOtherIssue": false,
+    "mustKeepOpen": [
+      85,
+      57
+    ],
+    "mayRecordScopedDelivered14AfterActualOnlineCloseout": true,
+    "currentFormalDeliveredCount": 0,
+    "wholeR3G1G3G4Certified": false,
+    "mayClaimAllWorkCompleteNow": false,
+    "scope": "Only the customer/alias8 and project foundation6 child slices. No R3 parent/stage, future44, complete non-HTTP write chain, R4-R7, rollout or performance completion.",
+    "reason": "Actual source acceptance, independent G3/fixed-commit reviews, main integration, exact lifecycle archive, saved failure/environment terminal, initial plus incremental public preservation and scoped current metadata are complete. The remaining online closeout is the approved next action; its occurrence and final persisted state still require independent actual-G4 review."
+  },
+  "authorities": {
+    "C_G3": {
+      "file": "docs/design/archive/slices/rust-r3ab/g3-independent-review01.json",
+      "bytes": 18669,
+      "rawBytesSha256": "34218f90438d0ccae6a1513a58f62b47565cc895dca4de8cd4724fddb05f72bb"
+    },
+    "C_fixed": {
+      "file": "docs/design/archive/slices/rust-r3ab/fixed-commit-review01.json",
+      "bytes": 8545,
+      "rawBytesSha256": "9279e614ffad6c93cb97169743e7a98108ad7821c1bc2b698780c621e5cfdc85"
+    },
+    "originMap": {
+      "file": "docs/design/archive/slices/rust-r3ab/archive-origin-map.json",
+      "bytes": 13699,
+      "rawBytesSha256": "b90f8ccb298cf308711fcab7efdb1db4eb4f1bf7e72f42d3d5980ae66485514e"
+    },
+    "closeout": {
+      "file": "docs/design/archive/slices/rust-r3ab-closeout.md",
+      "bytes": 3110,
+      "rawBytesSha256": "648513032c2855c0c84233f11b517287b53edaacd54a5ae42895c68eb9e4d105"
+    },
+    "integration": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json",
+      "bytes": 186364,
+      "rawBytesSha256": "d102882fa5b271a36a263470998da58668c6b8b5d4f413bf8978f5ba6c8ac7ef"
+    },
+    "LFReconciliation": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/governance/primary-checkout-LF-reconciliation01.json",
+      "bytes": 8239,
+      "rawBytesSha256": "be28122035cac3abffc390683c68c06ed5659de81a0ec41d9acb506742ab80cd"
+    },
+    "incrementalPreservation": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/governance/primary-incremental01.json",
+      "bytes": 11800,
+      "rawBytesSha256": "2d3a354b7ea9a28d07cf3338020ce9acf7df8bcddd479a1c4b651e669bff8cc3"
+    },
+    "currentStatus": {
+      "file": "docs/design/rust-r3ab-delivery-status.json",
+      "bytes": 5664,
+      "rawBytesSha256": "53c843d56b65994ad6a544f953a3068a75d7208ba8ae30ee3e12128a71b7f4e9"
+    },
+    "currentInventory": {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 155143,
+      "rawBytesSha256": "03988dbc28478c1f41e1d7b47b1e7a6c42b303f84181abd9e634e15ab1b1ef5c"
+    },
+    "C_publicVerification": {
+      "file": "tmp/rust-r3ab/c-review/g4-preflight-public-verification01.json",
+      "bytes": 9397,
+      "rawBytesSha256": "f201a948bb77c664d070e2d40442b4d826d84eeefc5baf8f3bd74641c3e11897"
+    },
+    "C_verifier": {
+      "file": "tmp/rust-r3ab/c-review/g4-preflight-verifier01.mjs",
+      "bytes": 13135,
+      "rawBytesSha256": "23d41a86a56fef98d77b7d848ab1c97ba5261d9a01c71284ccfa8210434ad449"
+    }
+  },
+  "independentVerification": {
+    "command": "node tmp/rust-r3ab/c-review/g4-preflight-verifier01.mjs",
+    "exitCode": 0,
+    "method": "Saved public-byte hashes, exact current-commit Git blobs, read-only refs/status/diff, explicit archive-path resolution and in-memory Native request/status relations. No acceptance producer or runtime checker is executed.",
+    "publicPathsHashed": 2835,
+    "currentImmutableCommitBlobs": 970,
+    "worktreeBranchHEADAndOriginBranch": "21d3a14a9520078d92f449d912a0d987c0bdaa26",
+    "primaryHEADMainAndOriginMain": "21d3a14a9520078d92f449d912a0d987c0bdaa26",
+    "bothCheckoutsCleanAtStartAndEnd": true,
+    "implementationAncestor": true,
+    "metadataDirectParentIsImplementation": true,
+    "metadataDiffHasNoProductionChange": true,
+    "production15SameAsActualG3": true,
+    "frozenFormal12SameBytes": true,
+    "frozenNative872SameBytes": true,
+    "actualOriginal46SameBytes": true,
+    "originMapSourceDestinationPrimaryAndBlobBytesEqual": true,
+    "currentFormalDeliveredCount": 0,
+    "limitation": "C did not perform a network fetch or direct GitHub/DB/runtime read. Actual historical push, replay, checks and cleanup are assessed through pinned Root originals; local refs and both current checkouts independently agree."
+  },
+  "mainIntegration": {
+    "actualImplementation": "df0d99decffbe974c988e85eea97767331044cbe",
+    "RootReceipt": "Implementation was actually fast-forwarded and pushed to main; Root used actual ls-remote and primary HEAD/clean checks at that point.",
+    "originalSavedSourcePins": 899,
+    "originalSourceSet": "15 production +12 formal +872 Native",
+    "original46ArchivedInputsRawEqual": true,
+    "original732PreservedRawEqual": true,
+    "RootSavedReadOnlyAPIReplay": {
+      "result": "Pass",
+      "HTTP": [
+        263,
+        263
+      ],
+      "observations": [
+        34,
+        34
+      ],
+      "differences": 0,
+      "sourceUnchanged": true,
+      "noNewRuntimeExecution": true
+    },
+    "primaryOriginalDiffAndRepositoryDenoMarkdownCheckExit": 0,
+    "currentMetadataIntegration": "The subsequent archive/readiness commit21d3a14a is present in Root branch/origin branch and primary/main/origin main, with both working trees clean.",
+    "noRebuildRequiredForMetadataOnlyChanges": true
+  },
+  "archive": {
+    "mappedFiles": 36,
+    "originalHumanLifecycleMarkdownMoved": 3,
+    "regularSameByteMachineMirrors": 22,
+    "movedOriginals": [
+      {
+        "source": "docs/design/rust-r3ab-customer-project-baseline.md",
+        "destination": "docs/design/archive/slices/rust-r3ab-customer-project-baseline.md",
+        "rawBytesSha256": "76cd99518de54967098c1c0ac720d18d07887af9a92731a134380a39ca95af85"
+      },
+      {
+        "source": "docs/design/rust-r3ab-numbering-corrective-checkpoint.md",
+        "destination": "docs/design/archive/slices/rust-r3ab-numbering-corrective-checkpoint.md",
+        "rawBytesSha256": "4fda3a1a3f1c71f19b818c013f74cb3f3063f312ca8c0df12eca5a3bcb674783"
+      },
+      {
+        "source": "docs/design/rust-r3ab-g3-checkpoint.md",
+        "destination": "docs/design/archive/slices/rust-r3ab-g3-checkpoint.md",
+        "rawBytesSha256": "4b991f98bbbc8336a904de65ea10de428baf38f6dce0cff03d8c868738df6de8"
+      }
+    ],
+    "originalPathsAbsentForMovedMarkdown": true,
+    "currentPrimaryAndCommitDestinationsMatchOriginalImplementationBlobs": true,
+    "compatibilityExceptionApproval": {
+      "result": "Approved-E1",
+      "approver": "Independent C, this exact preflight receipt",
+      "owner": "Root",
+      "level": "E1",
+      "reviewDue": "2026-12-02",
+      "scope": "Only22 exact machine-input/evidence compatibility mirrors at regular paths; completed human lifecycle Markdown is archived.",
+      "reason": "Original frozen manifests and actual producer paths must remain reproducible while original signed bytes are retained. Mirrors are byte-identical to the archive and are not current Gate/state authorities.",
+      "risk": "Historical Pending wording and relative links remain historical. Resolve old logical paths through the exact origin map or original implementation commit; use the current delivery-status and actual online receipts for live state.",
+      "cleanupOwner": "Root",
+      "cleanupDue": "2026-12-02 review",
+      "retirementCondition": "Review at the next R3 evidence-index migration; remove mirrors only when historical logical paths resolve without editing originals."
+    },
+    "noOldSignedInputOrRejectedCandidateRewritten": true
+  },
+  "primaryLFReconciliation": {
+    "originalPublicCRLFFiles": 15,
+    "oldRawBytesIndependentlyMatchedPreservedCopies": true,
+    "operation": "Only CRLF-to-LF normalization restores exact implementation HEAD bytes; index stat refresh uses the same existing blobs.",
+    "indexTreeBefore": "32c4f621d57044075b0061251b1750080805dfe8",
+    "indexTreeAfter": "32c4f621d57044075b0061251b1750080805dfe8",
+    "allCurrentPrimaryRawFilesEqualExactCommit": true,
+    "GitContentChanged": false,
+    "noUserSourceEditLost": true,
+    "classification": "tool-noise"
+  },
+  "preservation": {
+    "original": {
+      "files": 732,
+      "bytes": 211083968,
+      "directory": "E:/projects/poms/tmp/rust-r3ab/windows-origin01",
+      "allDestinationHashesStillMatch": true
+    },
+    "incremental01": {
+      "files": 46,
+      "directory": "E:/projects/poms/tmp/rust-r3ab/incremental01",
+      "allSourceAndDestinationHashesMatch": true,
+      "containsSavedCRLFAndNewCFixedMainMetadata": true
+    },
+    "noOriginalSnapshotOverwrite": true,
+    "privateJournalsCopied": false,
+    "futureReceipts": "This preflight and all later actual-G4/final metadata receipts require their own append-only incremental preservation, leaving the732 and incremental01 originals unchanged."
+  },
+  "currentMetadata": {
+    "phase": "G4Ready",
+    "closedIssues": [],
+    "mainIntegrated": true,
+    "parent85Open": true,
+    "overall57Open": true,
+    "scopedOperationRows": 14,
+    "eachHasG1G3AndRustImplementedTrue": true,
+    "eachHasG4AndRustDeliveredFalse": true,
+    "actualNativeRequestStatusBindingsIndependentlyChecked": 14,
+    "methodPathOperationIssueAndRequestIdStatusAllMatched": true,
+    "projectReassignNativeStatus": 201,
+    "futureOperationRowsUnchangedFromImplementation": 44,
+    "overallR3G1Certified": false,
+    "overallR3G3Certified": false,
+    "overallR3G4Certified": false,
+    "currentFormalR3Delivered": 0,
+    "inventoryGeneratorAssessment": "Only overlays14 scoped delivery records after checking the exact operation-ID set and fixed implementation. G4Ready gives count0; future Done requires scoped G4/closed child IDs and count14. The immutable G1 inventory remains byte-unchanged. It does not change public dispatch or business code.",
+    "numberingMetadataNowMatchesCorrective": true,
+    "sharedCurrentHeadersNoLongerClaimR2Incomplete": true
+  },
+  "findings": {
+    "openBlocking": [],
+    "newProductDrift": [],
+    "unclassifiedMetadataOrArchiveChanges": [],
+    "prematureDoneOrParentClosure": []
+  },
+  "requiredAfterThisApproval": [
+    "Root publishes same-byte scoped G4/preflight references and closes only86/87;85/57 remainOpen.",
+    "Persist actual four-Issue state, scoped14/58 count and current metadata using new ordinary metadata commits/push.",
+    "Preserve online/final/C receipts through append-only increments; do not overwrite prior signed originals.",
+    "C performs independent actual-G4/final metadata/ref/preservation reconciliation before final all-complete wording."
+  ],
+  "reviewerActions": {
+    "productEdits": false,
+    "acceptanceToolEdits": false,
+    "GitMutations": false,
+    "hostChanges": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "privateAccess": false,
+    "actualBuildOrTests": false,
+    "savedPublicBytesAndReadOnlyGit": true,
+    "ownCOutputsOnly": true
+  }
+}
