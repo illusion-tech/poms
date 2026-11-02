@@ -1,0 +1,306 @@
+{
+  "kind": "R3AB-actual-security-and-alias-audit-observer",
+  "tag": "attempt05",
+  "createdAt": "2026-11-01T23:44:58.260Z",
+  "result": "Pass",
+  "records": [
+    {
+      "backend": "nest",
+      "runId": "98fe7b0f-34ed-426b-bf99-1544bc8d1c5b",
+      "database": "poms_r3ab_nest",
+      "report": {
+        "file": "/home/wangzishi/projects/poms-rust-r3ab/tmp/rust-r3ab/acceptance-attempt05-nest/report01.json",
+        "bytes": 451611,
+        "rawBytesSha256": "45f801414c80b7683f21b8a25cd5f07da7554fdfdffb00e1aafd9e3b3b6b98bb"
+      },
+      "sensitive": [
+        {
+          "label": "B.detail.empty.admin.expected-security",
+          "requestId": "41521ab1-37c5-4a15-a523-4e666952395e",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.detail.empty.viewer.expected-security",
+          "requestId": "8bf64dd7-8386-4795-a543-662e365a0d88",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.prepared.sensitive-audit.expected",
+          "requestId": "ab8009ea-7f76-4de9-8379-2e8b33eee6bb",
+          "expected": 1,
+          "actual": 1,
+          "events": [
+            {
+              "id": "c168abca-bf35-40e8-99be-965512faebc5",
+              "ip": "::ffff:127.0.0.1",
+              "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38?auditProbe=original-url",
+              "method": "GET",
+              "result": "blocked",
+              "details": {
+                "targetId": "77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+                "fieldKeys": [
+                  "field"
+                ],
+                "reasonCode": "missing-sensitive-read-permission",
+                "targetType": "project",
+                "targetCount": 1,
+                "projectionMode": "masked",
+                "fieldPackageKey": "contract-finance",
+                "sampleTargetIds": [
+                  "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+                ],
+                "hiddenFieldCount": 1,
+                "requiredPermission": "contract:finance:sensitive:read",
+                "auditAggregationMode": "sensitive-field-batch"
+              },
+              "actor_id": "68a7e5b8-8f14-44cb-9949-68926ddef94c",
+              "severity": "info",
+              "principal": "r3ab_82365c8a88884af780b32c3df32b2f63_viewer",
+              "event_type": "sensitive_field.masked",
+              "request_id": "ab8009ea-7f76-4de9-8379-2e8b33eee6bb",
+              "user_agent": "POMS-R3AB synthetic validation",
+              "occurred_at": "2026-11-02T07:34:50.096+08:00",
+              "permission_key": "contract:finance:sensitive:read"
+            }
+          ],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.prepared.full-no-sensitive-audit.expected",
+          "requestId": "a3bbf685-9f0f-4a36-805f-ed04d92c6283",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.prepared.lookup-no-sensitive-audit.expected",
+          "requestId": "f254fd4a-e4e8-4c54-9556-ed8d4fdbf752",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        }
+      ],
+      "aliasDeletes": [
+        {
+          "label": "customers.alias.delete-204",
+          "requestId": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096",
+          "actual": 1,
+          "event": {
+            "id": "994bbc44-8db5-4bf0-a494-8c975e49370d",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "53ab72fb-56b7-4422-9a3e-0f3dc6bd4875",
+            "event_type": "customer.alias.deleted",
+            "request_id": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096",
+            "occurred_at": "2026-11-02T07:34:48.122+08:00",
+            "operator_id": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "de417200-4c58-4c3f-8545-0f27abc6404f",
+              "aliasName": "R3AB 82365c8a alias-normalization-a3d330db\t ΟΣ \n İ",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T23:34:47.971Z",
+              "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+              "isPrimary": false,
+              "normalizedName": "r3ab 82365c8a alias-normalization-a3d330db ος i̇"
+            }
+          }
+        },
+        {
+          "label": "customers.inactive.alias-delete",
+          "requestId": "20c0363f-40aa-4c11-95a1-2efec7062dd4",
+          "actual": 1,
+          "event": {
+            "id": "54c57912-fddc-4d20-b2e9-64ccc3dca09b",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "11582c59-ea2d-4cc5-909e-c1875695f0e8",
+            "event_type": "customer.alias.deleted",
+            "request_id": "20c0363f-40aa-4c11-95a1-2efec7062dd4",
+            "occurred_at": "2026-11-02T07:34:48.185+08:00",
+            "operator_id": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "e4270d7c-815d-4754-affd-1b16d1e2db32",
+              "aliasName": "R3AB 82365c8a inactive-alias-ddabbcb1",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T23:34:48.169Z",
+              "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+              "isPrimary": false,
+              "normalizedName": "r3ab 82365c8a inactive-alias-ddabbcb1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "runId": "32866185-bac8-4dbb-8906-a935e7f10d6b",
+      "database": "poms_r3ab_rust",
+      "report": {
+        "file": "/home/wangzishi/projects/poms-rust-r3ab/tmp/rust-r3ab/acceptance-attempt05-rust/report01.json",
+        "bytes": 451608,
+        "rawBytesSha256": "e74c3813197d1f80bbc6f0bc05b11e08c939104a3f208c26e093645e542c0f6f"
+      },
+      "sensitive": [
+        {
+          "label": "B.detail.empty.admin.expected-security",
+          "requestId": "d4052025-5b72-437a-8796-beeb8dc101ec",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.detail.empty.viewer.expected-security",
+          "requestId": "6fa679e3-73c7-444c-ba9c-d6261e089c64",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.prepared.sensitive-audit.expected",
+          "requestId": "b60d1039-7a0d-4fd7-8aad-ccfa2a80c5ca",
+          "expected": 1,
+          "actual": 1,
+          "events": [
+            {
+              "id": "a9e7b7f4-4805-4055-bc1d-5dbb0d968668",
+              "ip": "127.0.0.1",
+              "path": "/api/projects/4feb45eb-9d02-42cd-8a44-2a73860bce4d?auditProbe=original-url",
+              "method": "GET",
+              "result": "blocked",
+              "details": {
+                "targetId": "4feb45eb-9d02-42cd-8a44-2a73860bce4d",
+                "fieldKeys": [
+                  "field"
+                ],
+                "reasonCode": "missing-sensitive-read-permission",
+                "targetType": "project",
+                "targetCount": 1,
+                "projectionMode": "masked",
+                "fieldPackageKey": "contract-finance",
+                "sampleTargetIds": [
+                  "4feb45eb-9d02-42cd-8a44-2a73860bce4d"
+                ],
+                "hiddenFieldCount": 1,
+                "requiredPermission": "contract:finance:sensitive:read",
+                "auditAggregationMode": "sensitive-field-batch"
+              },
+              "actor_id": "73ce65bd-79e3-4d20-a459-f0be698de611",
+              "severity": "info",
+              "principal": "r3ab_82365c8a88884af780b32c3df32b2f63_viewer",
+              "event_type": "sensitive_field.masked",
+              "request_id": "b60d1039-7a0d-4fd7-8aad-ccfa2a80c5ca",
+              "user_agent": "POMS-R3AB synthetic validation",
+              "occurred_at": "2026-11-02T07:34:52.527+08:00",
+              "permission_key": "contract:finance:sensitive:read"
+            }
+          ],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.prepared.full-no-sensitive-audit.expected",
+          "requestId": "a6ca84ed-74e4-42fc-8d22-23dee8a1b7f3",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        },
+        {
+          "label": "B.prepared.lookup-no-sensitive-audit.expected",
+          "requestId": "b32155d4-c4a5-4d9e-84ed-9cc1a7ab672e",
+          "expected": 0,
+          "actual": 0,
+          "events": [],
+          "actualDatabaseRead": true
+        }
+      ],
+      "aliasDeletes": [
+        {
+          "label": "customers.alias.delete-204",
+          "requestId": "259a75d3-c366-4408-87b1-032ac293005f",
+          "actual": 1,
+          "event": {
+            "id": "0bc0ac6b-daf0-4ad0-bb8c-f4a5a8963d3e",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "b8c70ee1-8e4d-4832-9104-e9c456d7bc4e",
+            "event_type": "customer.alias.deleted",
+            "request_id": "259a75d3-c366-4408-87b1-032ac293005f",
+            "occurred_at": "2026-11-02T07:34:51.563+08:00",
+            "operator_id": "3ecdd610-b57a-4ef0-b638-55f47e16cd37",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "0378893a-0a8d-49cc-8a17-34f206ef2ede",
+              "aliasName": "R3AB 82365c8a alias-normalization-a3d330db\t ΟΣ \n İ",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T23:34:51.491Z",
+              "createdBy": "3ecdd610-b57a-4ef0-b638-55f47e16cd37",
+              "isPrimary": false,
+              "normalizedName": "r3ab 82365c8a alias-normalization-a3d330db ος i̇"
+            }
+          }
+        },
+        {
+          "label": "customers.inactive.alias-delete",
+          "requestId": "2d5330c0-7234-4ed6-ad27-538e6cfa1d87",
+          "actual": 1,
+          "event": {
+            "id": "f232d9aa-53e2-4c9b-9a7c-63000d1d42cb",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "d5573bc8-f1b5-4c6b-9916-6ba8e7dcf13c",
+            "event_type": "customer.alias.deleted",
+            "request_id": "2d5330c0-7234-4ed6-ad27-538e6cfa1d87",
+            "occurred_at": "2026-11-02T07:34:51.585+08:00",
+            "operator_id": "3ecdd610-b57a-4ef0-b638-55f47e16cd37",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "14dea671-620d-4809-a828-c8214d54e6f7",
+              "aliasName": "R3AB 82365c8a inactive-alias-ddabbcb1",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T23:34:51.579Z",
+              "createdBy": "3ecdd610-b57a-4ef0-b638-55f47e16cd37",
+              "isPrimary": false,
+              "normalizedName": "r3ab 82365c8a inactive-alias-ddabbcb1"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "source": {
+    "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/observe-audits.mjs",
+    "bytes": 3845,
+    "rawBytesSha256": "f0771b2315448543c2d434be20ce9242eb32716c29a22bd7c70ece4e1a203939"
+  },
+  "expectedDeclarationsNotSubstitutedForActualRows": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

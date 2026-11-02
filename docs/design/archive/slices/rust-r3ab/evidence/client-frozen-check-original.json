@@ -1,0 +1,42 @@
+{
+  "kind": "R3AB-original-six-guard-client-check-on-equivalent-frozen-inputs",
+  "activeGitAttributesAppendedOnlyNewR3Docs": true,
+  "currentClientAndFiveProtectedInputsCopiedRaw": true,
+  "all585InputAndOutputPathAttributesEqual": true,
+  "validationHead": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+  "image": "ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273",
+  "network": "none",
+  "exitCode": 0,
+  "errorName": null,
+  "log": {
+    "file": "/home/wangzishi/projects/poms-rust-r3ab/tmp/rust-r3ab/client-frozen-check03.log",
+    "bytes": 198607,
+    "rawBytesSha256": "8da913c1935be41e681fd8ea98728fbac7161c838a8287c2d863da473307799f"
+  },
+  "args": [
+    "--cgroup-manager=cgroupfs",
+    "run",
+    "--rm",
+    "--pull=never",
+    "--network=none",
+    "--name",
+    "poms-r3ab-client-check01",
+    "--userns=keep-id",
+    "--workdir",
+    "/home/wangzishi/projects/poms-rust-r3ab",
+    "--mount",
+    "type=bind,source=/home/wangzishi/projects/poms-rust-r3ab,destination=/home/wangzishi/projects/poms-rust-r3ab,readonly",
+    "--mount",
+    "type=bind,source=/home/wangzishi/.local/share/poms-r3ab/client-validation01,destination=/home/wangzishi/.local/share/poms-r3ab/client-validation01",
+    "--mount",
+    "type=bind,source=/home/wangzishi/.local/share/poms-r3ab/bootstrap,destination=/home/wangzishi/.local/share/poms-r3ab/bootstrap,readonly",
+    "--mount",
+    "type=bind,source=/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node,destination=/usr/local/bin/node,readonly",
+    "--entrypoint",
+    "/usr/local/bin/node",
+    "ccc653bf370674de7f5d929d818737740f9eb555dcaf20deeb19d4f749cd0273",
+    "tools/rust-r3ab/client-frozen-check.mjs",
+    "--inner"
+  ],
+  "createdAt": "2026-11-02T01:08:51.171Z"
+}

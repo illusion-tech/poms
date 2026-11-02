@@ -1,0 +1,48 @@
+# R3 首批 B 六操作验收矩阵草稿
+
+状态：全部 `Not run / Root owns execution`；不是测试结果。必须经联合 G1 与 C 独审后执行。任何补充 baseline/drift 由 Root 记录，不以本矩阵替代原生产行为。
+
+| ID | 必须覆盖的实际行为与侧效应 | 证据边界 |
+| --- | --- | --- |
+| B-01 | 六条 method/path、唯一原 operationId、schema、permission 元数据；完整 spec/client 未出现额外业务路由或 changed identifiers | source/OpenAPI + Root checks |
+| B-02 | GET隐式HEAD、路径大小写/单尾斜线、错误方法、reassign literal colon、编码UUID/colon、removed code URI和lookalike URI | Native/Rust HTTP，原URL审计保持 |
+| B-03 | 写命令实际201/查询与PATCH200；尤其reassign ApiOkResponse200 vs默认POST201 | Native first witness + explicit drift |
+| B-04 | 六操作的缺session、无效/过期/禁用session；写命令CSRF缺header/cookie/mismatch/invalid；缺permission；guard先于DTO | Native/Rust响应+audit+DB |
+| B-05 | create/update/reassign body：missing/null/array/primitive、重复JSON键、unknown stripping、字段依序多issue、非Zod异常省略errors | 原生产DTO oracle + HTTP |
+| B-06 | projectName/reason/customerProjectNo的JS trim、min/max、Unicode code point边界、surrogate/复杂length对象、非string不coerce | DTO oracle exact body |
+| B-07 | DTO UUID大小写/nil/max/v1-v8/非法variant、null/省略、path原无pipe DB500；不加入新的路径400 | Native/Rust HTTP |
+| B-08 | plannedSignAt省略/null/合法UTC-Z/分数秒/无秒精度，拒date-only/offset/local/空串/非string；DB→JS ISO毫秒，年边界 | DTO+HTTP+DB |
+| B-09 | update strip后空object/unknown-only失败；nullable known null合法；owner/status/projectNo/expectedVersion unknown无业务效应 | DTO+HTTP+DB |
+| B-10 | reassign expectedVersion仅number/int/positive；string/null/0/负数/小数/超safe范围拒绝；未知字段无效 | DTO oracle |
+| B-11 | list四filter独立/组合/unknown；keyword trim与ILIKE大小写/%/_/反斜线，query重复键与bracket | Native/Rust HTTP |
+| B-12 | list owner/user-org缺失或inactive仍显示/可空；最新合同签约日期不按status过滤；closedAt/signedAt择max | 原事实fixture observer + HTTP |
+| B-13 | list milestone有值排前/降序、无milestone createdAt降序、相等stable、空列表；不加分页或id tie | Native/Rust HTTP |
+| B-14 | lookup required/empty/nonstring/repeated标量失败；unknown strip；projectNo=A+bracket保留A；Unicode/空白/65+原样exact透传 | Native/Rust HTTP+SQL trace |
+| B-15 | lookup exact命中/不trim/不模糊/数字文本/大小写；miss含原业务号404；summary无详情/生成时间/敏感审计 | Native/Rust HTTP+audit |
+| B-16 | A Rust真实创建active客户→B创建默认assessment active项目与owner/operator/org；create未知owner/sourceLead不写入 | Rust真实联合producer链 + DB |
+| B-17 | create显式全部合法stage、客户项目号/日期；缺operator优先于invalid customer；缺/非active客户无取号/项目落地 | Native/Rust HTTP+SQL+DB |
+| B-18 | 取号UTC年与连续/并发唯一；事务失败序列/项目/session回滚；不单独占用新连接取号 | Native/Rust受控failpoint+DB |
+| B-19 | update仅active/blocked，其他状态原400；status优先于customer依赖；name/customer/date/custno独立更新和null清空 | Native/Rust HTTP+DB |
+| B-20 | A真实第二客户→B update customerId同步customerName；缺/非active客户，projectName先变更的AUTO flush观察；客户同ID刷新显示名 | Native/Rust wire+DB |
+| B-21 | update同值noop、仅updatedBy变化、毫秒相同日期、raw UUID大小写；rowVersion/updatedAt/CAS与session side effect | Native actual first + Rust |
+| B-22 | update并发相同旧snapshot与异字段冲突，SQL CAS失败status/error及最终DB；不把unknown expectedVersion当校验 | Native/Rust并发wire+DB |
+| B-23 | reassign项目404→显式stale409→状态400→目标用户404/inactive400→组织404/inactive400→同owner400的先后顺序 | Native/Rust HTTP+SQL |
+| B-24 | reassign org省略采用目标primaryOrg、null清空、显式覆盖，目标无primaryOrg；不新加成员关系限制 | Native/Rust HTTP+DB |
+| B-25 | reassign success前后owner/userorg、trim reason、同now时间、operator、返回result；status/stage不变；actual POST状态 | Native/Rust HTTP+DB |
+| B-26 | reassign explicit owner UUID uppercase影响严格no-op和回包大小写；db回读归一后下一请求行为 | Native/Rust HTTP+DB |
+| B-27 | reassign无expectedVersion仍使用ORM managed rowVersion；双请求竞争、insert/update失败、record/project/session原子回滚 | Native/Rust wire+failpoint+DB |
+| B-28 | auth principal与create operator/reassign self owner为同用户时，primaryOrg nonnull→null/nonnull竞争与request identity hydration | Native/Rust受控barrier+DB |
+| B-29 | UUID detail所有summary字段、owner/org缺失、source lead summary，客户项目快照名不跟随后续客户名称 | Native/Rust HTTP；A producer + 旧事实observer |
+| B-30 | detail全部合同排序和null signedAt、active count、latest非active；numeric(18,2)文本与currency不经float | Native/Rust HTTP+DB |
+| B-31 | detail snapshot完整target/scenario/projection/status过滤与日期排序；current effective bid过滤/版本排序；无源空fallback | Native/Rust既有事实observer |
+| B-32 | detailconfirmation固定not_configured/count0，即使有其他事实也不扩行为；generatedAt实际时钟 | Native/Rust HTTP |
+| B-33 | detail stage blocked/closed/closed-stage reasons顺序；actions按write、status、stage、五commission权限；矛盾status/stage保持原细节 | Native/Rust HTTP |
+| B-34 | detail敏感权限有/无、无合同、非null金额、默认key field、原path/requestid/method/IP/UA、masked事件细节；lookup绝无该事件 | Native/Rust HTTP+auditDB |
+| B-35 | 敏感审计失败不返回成功，pending session同flush原子性；full/null读取是否不额外flush | Native/Rust受控故障+DB |
+| B-36 | A客户→B项目真实持久化后重启/跨Native回读；项目更新/主责变更后的A客户workspace当前project列表同步，范围仅A既有8+B既有6 | 联合Rust producer实际链 + Native observer |
+| B-37 | 原service/controller/query/lookup spec适用子集、Rust fmt/check/clippy/test、原schema/client门禁与构建；所有required检查给实际状态 | Root统一执行，B不运行 |
+| B-38 | 原项目列表、创建/编辑/详情/主责入口浏览器路径；只观察本片真实六操作依赖，不以页面访问认证额外routes | Root browser实际证据 |
+| B-39 | 重复旧14操作/新增范围计数核对，R2 108/108与R1七操作不回写；#84 Native0 Rust不重复计数 | Root governance/dispatch manifest |
+| B-40 | source hash、最终候选、运行二进制/配置/输入/输出、失败与partial保留，C非作者G3，无production部署/性能/R3全阶段结论 | Root freeze+preservation+review |
+
+本矩阵要求保留 Native 本来存在的异常/partial/边界；若实际见证与输入草稿不同，按治理先记录 checkpoint/drift，再改实现输入。任何一项 `Not run` 不能写成 Pass。

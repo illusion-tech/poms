@@ -1,0 +1,28 @@
+
+[7m[1m[36m NX [39m[22m[27m  [36mRunning target [1mcheck[22m for project shared-api-client and [1m1[22m task it depends on:[39m
+
+[2m[36m[39m[22m
+[32m✔[39m  [2mnx run[22m poms-api:openapi
+
+[2m> [22m[2mnx run[22m shared-api-client:check
+
+[2m> [22mnode tools/openapi/shared-api-client.mjs --check
+
+{"result":"failed","category":"AssertionError","message":"Frozen generator input differs in the working tree, index or untracked sources\n\u001b[32mactual\u001b[39m \u001b[31mexpected\u001b[39m\n\n\u001b[39m'\u001b[39m\u001b[32m.\u001b[39m\u001b[32mg\u001b[39m\u001b[32mi\u001b[39m\u001b[32mt\u001b[39m\u001b[32ma\u001b[39m\u001b[32mt\u001b[39m\u001b[32mt\u001b[39m\u001b[32mr\u001b[39m\u001b[32mi\u001b[39m\u001b[32mb\u001b[39m\u001b[32mu\u001b[39m\u001b[32mt\u001b[39m\u001b[32me\u001b[39m\u001b[32ms\u001b[39m\u001b[39m'\u001b[39m\n"}
+Warning: command "node tools/openapi/shared-api-client.mjs --check" exited with non-zero status code
+[2m[31m[39m[22m
+
+[7m[1m[31m NX [39m[22m[27m  [31mRunning target [1mcheck[22m for project shared-api-client and [1m1[22m task it depends on failed[39m
+
+[2mFailed tasks:[22m
+
+[2m-[22m shared-api-client:check
+
+
+[2mOutput of 1 successful task was not shown. Run with[22m --verbose [2mor[22m --output-style=static [2mto see it.[22m
+[2mHint: run the command with[22m --verbose [2mfor more details.[22m
+
+  Run duration:      14.6s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     14.6s (2 tasks)
+  Recoverable time:  <1ms

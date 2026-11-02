@@ -22,3 +22,13 @@ tools/rust-r2m/fixture-profile.mjs whitespace=-blank-at-eol,-blank-at-eof,space-
 tools/rust-r2m-continuation01/fixture-profile.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 tools/rust-r2m/continuation01-ui33-candidate01/fixture-profile.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 tools/rust-r2m/recover-closed-an4c.mjs whitespace=-blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+
+# R3AB frozen formal input copies retain original bytes.
+docs/design/rust-r3ab/** -text
+docs/design/archive/slices/rust-r3ab/** -text
+tools/rust-r3ab/** -text
+
+# Certified R3 raw input line endings and original console whitespace.
+docs/design/rust-r3ab/*.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/archive/slices/rust-r3ab/**/*.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/archive/slices/rust-r3ab/**/*.log whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol

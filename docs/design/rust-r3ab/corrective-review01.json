@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-numbering-corrective-review",
+  "createdAtUtc": "2026-11-01T22:14:36Z",
+  "result": "Pass",
+  "correctiveCertified": true,
+  "affectedImplementationMayResume": true,
+  "G1Reopened": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "runtimeCompatibilityCertified": false,
+  "cleanupCertified": false,
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "role": "C-independent-reviewer",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "modelConfiguredByParent": "gpt-6.1-sol",
+    "reasoningEffortConfiguredByParent": "max",
+    "fast": "unverified",
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "scope": "Only the numbering connection/commit boundary of CustomerController_create and ProjectController_create, plus correction of the Native observation predicate/extraction used to establish that boundary.",
+    "issues": {
+      "overall": 57,
+      "parent": 85,
+      "A": 86,
+      "B": 87
+    },
+    "publicOperationsUnchanged": 14,
+    "classification": "existing-baseline-drift",
+    "reason": "Actual original Native failure/PG/SQL evidence disproves the G1 static same-transaction numbering prediction. Preserving the existing independent counter commit is compatibility work; changing Native numbering policy is outside this slice."
+  },
+  "reviewedInputs": {
+    "checkpoint": {
+      "file": "docs/design/rust-r3ab-numbering-corrective-checkpoint.md",
+      "bytes": 5288,
+      "rawBytesSha256": "4fda3a1a3f1c71f19b818c013f74cb3f3063f312ca8c0df12eca5a3bcb674783"
+    },
+    "nativeOracle01": {
+      "file": "docs/design/rust-r3ab/native-oracle01.json",
+      "bytes": 79509,
+      "rawBytesSha256": "7749ebca7057926bed67419aa996053b93e6f49ce5b319a7f914d55c43e04add",
+      "caseCount": 19,
+      "result": "Actual-observations-not-G3-G4"
+    },
+    "nativeOracle02": {
+      "file": "docs/design/rust-r3ab/native-oracle02.json",
+      "bytes": 80228,
+      "rawBytesSha256": "616230dd697330eb6ed0b0cf87ad434526d4a0c253fa3d3031fbd5b40d05825f",
+      "caseCount": 6,
+      "result": "Actual-observations-not-G3-G4"
+    },
+    "nativeNumberingSource": {
+      "file": "apps/poms-api/src/app/features/business-number/business-number.service.ts",
+      "bytes": 2963,
+      "rawBytesSha256": "db909a59bb9f70d8e6637c6097958ae9ad56ed3afd2c3389a0bafb1aa88657df",
+      "observation": "next invokes em.getConnection().execute(query, params) without transaction context; the surrounding service callback does not establish driver-level transaction ownership."
+    },
+    "existingRustNumberingSource": {
+      "file": "apps/poms-api-rust/src/business_numbers/service.rs",
+      "bytes": 5337,
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb",
+      "observation": "next acquires an independent checked-out connection through Database::with_connection and invokes its primitive on that connection; next_with_connection also remains available for other frozen consumers."
+    },
+    "nativeWitnessTool01": {
+      "file": "tools/rust-r3ab/native-witness.mjs",
+      "rawBytesSha256": "31763445744af8a9f9de1151e02ff798a0e2070c1cff0ae3f2e1b9bd31ad4993"
+    },
+    "nativeWitnessTool02": {
+      "file": "tools/rust-r3ab/native-witness02.mjs",
+      "rawBytesSha256": "61b590128b684d879ee6e17fb6b50ce1c97d6355ad7f68b22ad7a381582bf1b4"
+    }
+  },
+  "preservedFrozenInputs": {
+    "masterBaseline": {
+      "file": "docs/design/rust-r3ab-customer-project-baseline.md",
+      "rawBytesSha256": "76cd99518de54967098c1c0ac720d18d07887af9a92731a134380a39ca95af85"
+    },
+    "manifest02": {
+      "file": "docs/design/rust-r3ab/g1-input-manifest02.json",
+      "rawBytesSha256": "c3dd258f06e828e274ce34fea22c54fe1f91efdedc4648084d14b573dd5f6359"
+    },
+    "independentG1Review02": {
+      "file": "docs/design/rust-r3ab/g1-independent-review02.json",
+      "rawBytesSha256": "d01c7db0b92809254bf4f0437c602f04fdff5dd4837a20060162d0cd68383468"
+    },
+    "frozenOriginalsRewritten": false,
+    "unchangedSharedAndNativeSourceDiffChecked": true
+  },
+  "evidenceAssessment": {
+    "method": "C read the public original-byte reports, the corrective document and source only; performed in-memory JSON consistency/redaction checks and file hashes. C did not run the witness tools or connect to any database.",
+    "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+    "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+    "database": "poms_r3ab_nest",
+    "bothReportsSameRunBaseMarkerAndDatabase": true,
+    "uniqueCombinedNativeCases": 25,
+    "completeSqlCaseLabels": 25,
+    "nativeArtifactHashDeclaredByRootAndCheckpoint": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+    "runtimeArtifactOpenedByReviewer": false,
+    "customerFault": {
+      "case": "customer-create-alias-denied",
+      "httpStatus": 500,
+      "customerCountAfter": 0,
+      "counterScope": "customer",
+      "counterBefore": 4,
+      "counterAfter": 5,
+      "sql": {
+        "businessPid": "80",
+        "counterPid": "79",
+        "order": [
+          "BEGIN business pid80",
+          "number upsert pid79",
+          "customer INSERT pid80",
+          "primary alias INSERT attempt pid80",
+          "ROLLBACK business pid80"
+        ]
+      },
+      "conclusion": "The customer entity transaction rolls back while the already submitted independent counter increment remains."
+    },
+    "projectFault": {
+      "case": "project-create-insert-denied",
+      "httpStatus": 500,
+      "projectCountAfter": 0,
+      "counterScope": "project",
+      "counterBefore": 2,
+      "counterAfter": 3,
+      "sql": {
+        "businessPid": "115",
+        "counterPid": "118",
+        "order": [
+          "BEGIN business pid115",
+          "number upsert pid118",
+          "project INSERT attempt pid115",
+          "ROLLBACK business pid115"
+        ]
+      },
+      "conclusion": "The project entity transaction rolls back while the independent project counter increment remains."
+    },
+    "successOrderCorroboration": [
+      {
+        "case": "customer-create",
+        "httpStatus": 201,
+        "businessPid": "80",
+        "counterPid": "79",
+        "order": "BEGIN -> independent number -> customer -> alias -> session flush -> COMMIT"
+      },
+      {
+        "case": "project-create",
+        "httpStatus": 201,
+        "businessPid": "83",
+        "counterPid": "81",
+        "order": "BEGIN -> independent number -> project -> session flush -> COMMIT"
+      }
+    ],
+    "sourceCallerOrderVerified": {
+      "customer": "operator/owner checks and captured now, then transactional callback, then BusinessNumberService.next",
+      "project": "operator lookup, requireActiveCustomer outside transaction, then transactional callback, then BusinessNumberService.next"
+    },
+    "oracle01ExtractionCorrection": {
+      "oldEmptySqlCaseCount": 7,
+      "completeOracle02EmptySqlCases": 0,
+      "original01Preserved": true,
+      "interpretation": "Use original01 as retained history and original02's complete multiline extraction for the transaction/connection conclusions; blank extracted SQL is not proof that a statement did not run."
+    },
+    "auditPredicateCorrection": {
+      "classification": "observation-tool predicate correction; no product behavior change",
+      "oldPredicate": "target_id = aliasId",
+      "correctPredicate": "event_type = customer.alias.deleted AND target_id = customerId AND before_snapshot->>aliasId = aliasId",
+      "correctedResults": [
+        {
+          "ordinaryDeleteAudits": 1,
+          "matchingActualRows": 1
+        },
+        {
+          "coordinatedDoubleDeleteAudits": 2,
+          "matchingActualRows": 2
+        }
+      ],
+      "allRecordedTargetsAliasSnapshotsEventTypesAndCountsMatch": true,
+      "original01ZeroValuesNotUsedAsAbsenceEvidence": true
+    },
+    "publicEvidenceSafety": {
+      "cookieFieldsInspected": 28,
+      "nonemptyCookieFields": 0,
+      "suspiciousCredentialValueFields": 0,
+      "sqlStatementsInspectedAcrossBothReports": 514,
+      "nonRedactedQuotedSqlLiteralViolations": 0,
+      "privateRawTraceReadByReviewer": false,
+      "note": "Counts cover public JSON structures and quoted SQL literals only; private raw journals and credentials remain outside the review."
+    },
+    "faultSafetyBoundary": {
+      "ownedDatabaseAdmissionAndMarkerChecksPresentInTools": true,
+      "transientAclFaultsUseFinallyRestore": true,
+      "productTriggersOrProductSchemaChangesUsedForFaults": false,
+      "rootReportsCompletedBeyondFinally": true,
+      "completeAclCatalogAndRunTerminalReconciliationCertified": false,
+      "remaining": "Both original reports explicitly retain Pending terminal reconciliation. This corrective approval is not cleanup or full environment certification."
+    }
+  },
+  "effectiveCorrectiveRule": {
+    "preflight": "Keep original operator/owner/customer validity checks and their existing timing.",
+    "order": "Open the business entity transaction, then call the existing numbering next entry through another checked-out connection; after the number succeeds, perform the original entity/session flush and commit.",
+    "independentConnectionMeaning": "The number operation must not borrow the already-open business transaction. It may use another connection from the existing shared pool; a second pool is not required by this decision.",
+    "customerBusinessTransaction": "customer + primary alias + pending managed session retain their original atomic business boundary.",
+    "projectBusinessTransaction": "project + pending managed session retain their original atomic business boundary.",
+    "failure": "Entity failure rolls back business rows/session changes in that business transaction but does not compensate or rewind a counter already independently committed.",
+    "numberFailure": "Stop before entity writes and preserve the original error behavior; do not add retry, refill, compensation, stronger locks or isolation.",
+    "preserveDateAndFormatting": "Keep original scope, UTC period, per-caller time capture and formatting; this corrective does not change IDs, payloads or numbering syntax.",
+    "supersededStaticPredictions": [
+      "master sections4/5 same-transaction counter/rollback statements",
+      "A contract section3 duplicated same-connection/rollback expectations",
+      "A07/A08 counter atomicity subexpectations",
+      "B contract section2 and other duplicate counter-transaction prose",
+      "B-18 counter rollback/same-connection subexpectations"
+    ],
+    "authorOriginalBytesCaseIdsAndCoverageCategoriesUnchanged": true,
+    "unrelatedFrozenRequirementsUnchanged": true,
+    "existingR2BorrowedConnectionApiUnchanged": true
+  },
+  "implementationAndAcceptance": {
+    "affectedImplementationMayResume": "A/B may finish exactly the two create implementations under this corrective; the other 12 operations and existing shared foundations are not reauthorized or recertified here.",
+    "mandatoryFinalRustComparison": [
+      "normal customer/project create",
+      "customer primary-alias INSERT fault and business rollback with counter retained",
+      "project INSERT fault and business rollback with counter retained",
+      "number failure preventing entity writes",
+      "original pending-session and entity flush ordering"
+    ],
+    "stillPending": [
+      "complete Rust candidate compatibility and all required checks",
+      "same-run resource/row/file/observer lease and ACL/catalog terminal reconciliation",
+      "formal independent G3",
+      "fixed commits/main integration and evidence preservation/archive",
+      "actual online G4"
+    ],
+    "closeOnlyAfterOwnG4": [
+      86,
+      87
+    ],
+    "keepOpen": [
+      85,
+      57
+    ],
+    "noNewDeliveredOperationsByThisReport": true
+  },
+  "unresolvedFindings": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "reviewerActions": {
+    "productEdits": false,
+    "acceptanceToolEdits": false,
+    "DBAccess": false,
+    "privateAccess": false,
+    "PG17Access": false,
+    "hostChanges": false,
+    "buildTestBrowserRuns": false
+  }
+}

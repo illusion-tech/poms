@@ -1,0 +1,17 @@
+// Root-only pure execution of original shared Zod schemas; no server or DB access.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import Module,{createRequire} from 'node:module';
+import {createHash} from 'node:crypto';
+const require=createRequire(import.meta.url),ts=require('typescript'),file='libs/shared/contracts/src/lib/shared-contracts.ts',full=path.resolve(file),source=fs.readFileSync(full,'utf8');
+const compiled=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,m=new Module(full);m.filename=full;m.paths=Module._nodeModulePaths(path.dirname(full));m._compile(compiled,full);const schemas=m.exports;
+const sha=b=>createHash('sha256').update(b).digest('hex'),pin=file=>{const b=fs.readFileSync(file);return{file,bytes:b.length,rawBytesSha256:sha(b)}};
+const cases=[];const uuid='12345678-1234-4234-8234-123456789abc';
+function test(schema,key,value,expected,extra={}){const result=schemas[schema].safeParse({...extra,[key]:value});assert.equal(result.success,expected,schema+' '+key+' utf16='+value.length);cases.push({schema,key,utf16CodeUnits:value.length,unicodeCodePoints:[...value].length,success:result.success,issuePaths:result.success?[]:result.error.issues.map(x=>x.path.join('.'))})}
+for(const[schema,key,extra]of[['CreateCustomerRequestSchema','displayName',{}],['UpdateCustomerRequestSchema','displayName',{}],['CreateCustomerAliasRequestSchema','aliasName',{}],['CreateProjectRequestSchema','projectName',{customerId:uuid}],['UpdateProjectBasicInfoRequestSchema','projectName',{}]]){test(schema,key,'😀'.repeat(128),true,extra);test(schema,key,'😀'.repeat(255),true,extra);test(schema,key,'😀'.repeat(256),false,extra)}
+for(const schema of['CustomerListQuerySchema','ProjectListQuerySchema']){test(schema,'keyword','😀'.repeat(65),true);test(schema,'keyword','😀'.repeat(128),true);test(schema,'keyword','😀'.repeat(129),false)}
+test('ProjectLookupQuerySchema','projectNo','😀'.repeat(500),true);const lookup=schemas.ProjectLookupQuerySchema.parse({projectNo:' x '});assert.equal(lookup.projectNo,' x ');
+const zodEntry=require.resolve('zod'),zodPkg=path.join(path.dirname(zodEntry),'package.json'),checks=path.join(path.dirname(zodEntry),'v4/core/checks.cjs');
+const result={kind:'R3AB-joint-string-length-source-and-pure-original-Zod-decision',createdAt:new Date().toISOString(),result:'Pass',runtime:'original-shared-schema-pure-Node-execution-not-HTTP-or-DB',base:'a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d',source:pin(file),zod:{version:JSON.parse(fs.readFileSync(zodPkg)).version,entry:pin(zodEntry),checks:pin(checks),sourceLines:{maximum:[291,313],minimum:[314,338]}},typescript:ts.version,decision:'Current Zod4.6.1 tested customer/project string .min/.max checks count Unicode code points after original trim, not UTF-16 code units. Original schema+actual oracle govern; conflicting author prose is non-authoritative. Preserve JS string semantics elsewhere without substituting this length decision for casing/normalization rules.',cases,caseCount:cases.length,lookupNoTrimOrExtraMaximum:true,authorInputFilesRewritten:false,DBServerOrProductImplementationExecuted:false,G1Certified:false};
+assert.equal(cases.length,22);const out='docs/design/rust-r3ab/joint-string-length-decision.json';fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({output:pin(out),cases:cases.length,result:'Pass'}));

@@ -222,3 +222,23 @@ R2A–L 既有公开操作为 **108/108**，与 R1 合计当前 Rust dispatch **
 阶段证据：剩余 Windows cells **8/8 实际及独立限定 C Pass；tmp/rust-r2m/final-delivery-candidate15/delivery-evidence-index-final-supplement15.json (SHA f06cf150d6bdc96ba5fabaa81d036738afb9a824c7efae33a06bd43f26482153)**；总体 G3 **Pass；docs/design/rust-r2m/overall-g3-actual-review01.json (SHA 85f27235f0f13e5a968fd026c52394ce87245b73adf1791a1b7ec63ce795c78d)；https://github.com/illusion-tech/poms/issues/80#issuecomment-6561096335**；实现提交 **bb25731632bafa7f75be9b77ff40754d51925dbb**；固定提交 C 复核 **docs/design/rust-r2m/fixed-commit-review01.json (SHA f1c3e04316b1e5c443c2cc1814cf495d2b0bb07b6e423f282ab391d0f1152fc0)**；primary 快进/main 推送 **9dcfb498b175e9fdaae7584aff1d5d3f93bf814f→959f676df241dd4973b64b990f741f9211fe88bf；main 959f676df241dd4973b64b990f741f9211fe88bf；docs/design/archive/slices/rust-r2m/g4-derived/metadata-main-integration01.json (SHA 708aee68125c047453676ef25f6424ae0246f3a4eab3f40f6325d53f58efb100)**；最终双 origin 公共保全 **docs/design/archive/slices/rust-r2m/g4-derived/public-preservation-summary01.json (SHA 02a17c6e575fa4d26b896ae78d2f10e8786730270c226452116beb877b596317)；C docs/design/archive/slices/rust-r2m/g4-derived/independent-preservation-review01.json (SHA 6640587f5e6e546e6e881fd2c419c87aa5a3ae73e456f189ab1d836555d26aa7)**；归档及 regular 同 bytes 兼容例外 **tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json (SHA b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c)；regular 兼容决定 tmp/rust-r2m/g4-lifecycle-archive-applied-final01/manifest.json (SHA b901e487f1865d2a8a0b8f2f24aecb9c1801631045f823cdf3583a3730539a0c)**；在线 G4 **https://github.com/illusion-tech/poms/issues/80#issuecomment-6561706097；https://github.com/illusion-tech/poms/issues/67#issuecomment-6561707212；#57 Open；docs/design/archive/slices/rust-r2m/g4-derived/online-g4-actual01.json (SHA 3e8fa6a0d1061b344bbf8d908435fa8a34c32af193f28da9fc069087f4d78fb5)**。这些 Pending 不以本草稿或先前 SourceReady 代替。
 
 参见[本片机器验收](rust-r2m-validation.json)、[归档收口](archive/slices/rust-r2m-closeout.md)、[归档/兼容路径权威](rust-r2m-archive-authority.json)和[保全入口](rust-r2m-preservation.json)。原 G1 冻结候选 13410B/93b248… 与 Gate-only 13452B 版本分列；旧路径含 Pending 的文档是 immutable 历史兼容副本，当前状态取本节、新收口记录和 GitHub，不从历史 Pending 推翻当前决定。
+
+
+### 2026-11-02 R3A/B G0 登记
+
+R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 原生子项；首批 A [#86](https://github.com/illusion-tech/poms/issues/86) 客户/别名8项、B [#87](https://github.com/illusion-tech/poms/issues/87) 项目基础6项已建立原生子项。当前[操作归属](rust-r3-operation-slices.json)按本次 controller/spec/canonical 复核58项，首批14/后续44互斥；Rust R3当前交付0。
+
+用户授权先按[联合基线](rust-r3ab-customer-project-baseline.md)冻结G1，再两线并行实现；项目完整集成验收依赖客户真实Rust交付。当前G1待独立审查/线上冻结，无产品实现或运行验收通过。独立Windows worktree+Linux checkout，A/B独占模块，Root统一共享接线和实际环境/验收，C非作者审查；子代理显式Sol6.1/max，Fast未核实。
+
+本批只在自身独立G3/固定提交/主线集成、真实验收、保全归档和G4后关闭#86/#87；父#85和总体#57保持Open，R3其余44及非HTTP/阶段验收不提前完成。PG17与旧环境/数据、全部历史失败/partial/ignored和隔离例外保留，无部署或性能结论。
+
+
+### 2026-11-02 R3A/B 联合 G1 已冻结
+
+首批A #86 / B #87 已按同一[联合基线](rust-r3ab-customer-project-baseline.md)原件76cd9951、有效输入manifest02 c3dd258f和[非作者G1 Pass](rust-r3ab/g1-independent-review02.json)冻结，P0–P3未闭0。两线进入Doing，Rust R3仍0/58；[A线上冻结](https://github.com/illusion-tech/poms/issues/86#issuecomment-6564302820)、[B线上冻结](https://github.com/illusion-tech/poms/issues/87#issuecomment-6564303631)。
+
+原Native25项实际边界与[编号纠偏](rust-r3ab-numbering-corrective-checkpoint.md)已独立增量通过：失败时保留独立提交编号，业务记录仍回滚；原候选/六输入/旧预期保留原字节。当前完整Rust候选已写入，统一编译、真实双端/PG/四组合UI验收、G3/固定提交集成及G4仍待完成。仅#86/#87自身G4后关闭，#85/#57继续Open；旧环境/PG17与隔离证据保留，无部署/性能结论。
+
+### 2026-11-02 R3A/B 联合 G3 Pass
+
+客户/别名8项及项目基础6项已完成真实双端验收：[联合证据](rust-r3ab/acceptance-evidence01.json)、[G3 checkpoint](rust-r3ab-g3-checkpoint.md)、[独立 C Pass](rust-r3ab/g3-independent-review01.json) 34218f90。每端263次 HTTP/34项观察、每端10项外部故障/并发和原 UI 四组合通过，Rust232通过/54 ignored 保留；共同检查、schema/TZ既有分类及全10个运行终态见原件。当前允许提交/推送实现分支，固定提交复核、主线集成及 G4 仍待完成；R3暂0/58，#86/#87尚不关闭，#85/#57保持Open。

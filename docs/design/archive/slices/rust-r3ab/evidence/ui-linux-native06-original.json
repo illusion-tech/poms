@@ -1,0 +1,3495 @@
+{
+  "kind": "R3AB-original-UI-actual-cell",
+  "backend": "nest",
+  "label": "linux-native06",
+  "platform": "linux",
+  "apiRunId": "98fe7b0f-34ed-426b-bf99-1544bc8d1c5b",
+  "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+  "createdAt": "2026-11-02T00:19:42.164Z",
+  "producerSources": [
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/ui-run.mjs",
+      "bytes": 7075,
+      "rawBytesSha256": "e263904afa4430d6cd2821fd73fb98e7010531cf023718f8a989ce9a37cbc1f8"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "d73eb7130723f8ef8614e604b694e7e744f2b896863859b5539a879d70ea977c"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/a-cases.mjs",
+      "bytes": 42203,
+      "rawBytesSha256": "17c61763ce06b94b3b41b7a95e78ce0e5f06c717ddee61d487b3eb47556fe848"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/b-cases.mjs",
+      "bytes": 40375,
+      "rawBytesSha256": "fa008da4ed0fea8dbd37ef818c9e389f33f261fcb140314683fc01a3717a382b"
+    }
+  ],
+  "browser": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "bytes": 197422408,
+    "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+  },
+  "result": "Pass",
+  "completed": true,
+  "errorName": null,
+  "failedStage": null,
+  "observations": [
+    {
+      "label": "customers.ui.create-response",
+      "value": {
+        "id": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+        "customerNo": "CUST-2026-000023",
+        "displayName": "R3AB UI linux 82365c8a 6a72a4514399",
+        "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+        "shortName": null,
+        "status": "active",
+        "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+        "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+        "sourceChannel": null,
+        "remark": null,
+        "mergedIntoCustomerId": null,
+        "rowVersion": 1,
+        "createdAt": "2026-11-02T00:19:46.419Z",
+        "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+        "updatedAt": "2026-11-02T00:19:46.419Z",
+        "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6"
+      }
+    },
+    {
+      "label": "customers.ui.workspace-response",
+      "value": {
+        "customerId": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+        "summary": {
+          "leadCount": 0,
+          "activeLeadCount": 0,
+          "convertedLeadCount": 0,
+          "projectCount": 0,
+          "activeProjectCount": 0,
+          "contractCount": 0,
+          "recentFollowUpCount": 0,
+          "recentDiscussionCount": 0,
+          "latestFollowUpAt": null,
+          "latestDiscussionAt": null
+        },
+        "activeLeads": [],
+        "activeProjects": [],
+        "recentContracts": [],
+        "recentFollowUps": [],
+        "recentDiscussions": [],
+        "recommendedActions": [
+          {
+            "key": "record-follow-up",
+            "intent": "record-follow-up",
+            "title": "补充客户跟进",
+            "description": "当前还没有客户级跟进记录，先补齐第一条互动事实。",
+            "targetObjectType": "customer",
+            "targetObjectId": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+            "targetTitle": "R3AB UI linux 82365c8a 6a72a4514399",
+            "priority": 40
+          },
+          {
+            "key": "capture-discussion",
+            "intent": "capture-discussion",
+            "title": "补充客户讨论",
+            "description": "当前还没有客户级讨论记录，先补齐关键背景和共识。",
+            "targetObjectType": "customer",
+            "targetObjectId": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+            "targetTitle": "R3AB UI linux 82365c8a 6a72a4514399",
+            "priority": 50
+          }
+        ],
+        "timeline": [],
+        "generatedAt": "2026-11-02T00:19:46.680Z"
+      }
+    },
+    {
+      "label": "customers.ui.alias-response",
+      "value": {
+        "id": "f582748a-0b13-4658-8059-e3bd67e7e308",
+        "customerId": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+        "aliasName": "R3AB UI linux 82365c8a 3f1ceb084492",
+        "aliasType": "alias",
+        "normalizedName": "r3ab ui linux 82365c8a 3f1ceb084492",
+        "isPrimary": false,
+        "createdAt": "2026-11-02T00:19:46.960Z",
+        "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6"
+      }
+    },
+    {
+      "label": "customers.ui.alias-deletion",
+      "value": {
+        "aliasId": "f582748a-0b13-4658-8059-e3bd67e7e308",
+        "status": 204,
+        "responseText": ""
+      }
+    },
+    {
+      "label": "customers.ui.edit-response",
+      "value": {
+        "id": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+        "customerNo": "CUST-2026-000023",
+        "displayName": "R3AB UI linux 82365c8a 7f76d9b80b80",
+        "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+        "shortName": null,
+        "status": "active",
+        "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+        "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+        "sourceChannel": null,
+        "remark": null,
+        "mergedIntoCustomerId": null,
+        "rowVersion": 2,
+        "createdAt": "2026-11-02T00:19:46.419Z",
+        "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+        "updatedAt": "2026-11-02T00:19:48.294Z",
+        "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+        "ownerName": "R3AB admin",
+        "ownerOrgName": "R3AB admin",
+        "leadCount": 0,
+        "projectCount": 0,
+        "contractCount": 0,
+        "aliases": [
+          {
+            "id": "e8532021-f22c-4eae-b03e-77a93f5156ed",
+            "customerId": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+            "aliasName": "R3AB UI linux 82365c8a 6a72a4514399",
+            "aliasType": "alias",
+            "normalizedName": "r3ab ui linux 82365c8a 6a72a4514399",
+            "isPrimary": true,
+            "createdAt": "2026-11-02T00:19:46.419Z",
+            "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6"
+          }
+        ]
+      }
+    },
+    {
+      "label": "customers.ui.list-after-edit",
+      "value": [
+        {
+          "id": "f14738cf-1b0e-4d50-815d-4104a7db276a",
+          "customerNo": "CUST-2026-000023",
+          "displayName": "R3AB UI linux 82365c8a 7f76d9b80b80",
+          "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T00:19:46.419Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-02T00:19:48.294Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "dcf3b25a-d904-40a3-b7db-15526397b2e1",
+          "customerNo": "CUST-2026-000022",
+          "displayName": "R3AB UI linux 82365c8a 7f76d9b80b80",
+          "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T00:19:08.983Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-02T00:19:11.262Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "093c5ee3-c8e1-49e4-a55f-4de7a74ad3cd",
+          "customerNo": "CUST-2026-000021",
+          "displayName": "R3AB UI linux 82365c8a 7f76d9b80b80",
+          "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T00:17:50.594Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-02T00:17:53.072Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "d849f7d2-965b-4802-8104-249c7ca28a4a",
+          "customerNo": "CUST-2026-000020",
+          "displayName": "R3AB UI linux 82365c8a 6a72a4514399",
+          "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T00:13:00.553Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-02T00:13:00.553Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "bf8030d9-8464-4eaf-a3d4-e5e2af618fd4",
+          "customerNo": "CUST-2026-000019",
+          "displayName": "R3AB UI linux 82365c8a 6a72a4514399",
+          "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T00:09:41.981Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-02T00:09:41.981Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "e9088dc3-21a9-4537-b7f5-098e18ec284d",
+          "customerNo": "CUST-2026-000018",
+          "displayName": "R3AB UI linux 82365c8a 6a72a4514399",
+          "legalName": "R3AB UI linux 82365c8a caf57ade5941",
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T00:03:45.432Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-02T00:03:45.432Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "a0d076dd-390d-4945-88d5-a7c03784ecf3",
+          "customerNo": "CUST-2026-000017",
+          "displayName": "R3AB external 82365c8a left",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-01T23:54:13.370Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:54:13.534Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 1,
+          "contractCount": 0
+        },
+        {
+          "id": "9e606f94-6d20-429a-b33d-a45dc4c6bf49",
+          "customerNo": "CUST-2026-000015",
+          "displayName": "R3AB 82365c8a workspace-isolation-cont-90fdae07",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:49.889Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:49.889Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 1,
+          "projectCount": 1,
+          "contractCount": 1
+        },
+        {
+          "id": "5fe87b18-b9eb-4997-b6b7-f04a6ee365dd",
+          "customerNo": "CUST-2026-000014",
+          "displayName": "R3AB 82365c8a workspace-real-multidoma-59418e9b",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:49.866Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:49.866Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 8,
+          "projectCount": 7,
+          "contractCount": 7
+        },
+        {
+          "id": "0b99c355-a1bd-4364-adbb-f55bd0162836",
+          "customerNo": "CUST-2026-000013",
+          "displayName": "R3AB 82365c8a no-primary-fallback-c494d458",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "f2622698-1d17-4f17-8593-5db3f5c66d67",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-01T23:34:49.830Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:49.848Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3A prepared no-primary 07f7defd0dad01de",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "1dd11b3d-676f-481c-a0b2-6ee3f13ba8f7",
+          "customerNo": "CUST-2026-000012",
+          "displayName": "R3AB 82365c8a inactive-owner-allowed-d4ce4f83",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "7ee8f540-368b-415a-969b-4292e7632997",
+          "ownerUserId": "d1cfdef4-3cc1-4b52-9b81-13d31aac20ae",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:49.812Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:49.812Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3A prepared inactive 07f7defd0dad01de",
+          "ownerOrgName": "R3A prepared inactive org 07f7defd0dad01de",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "3d3b70bb-0dc9-4474-b750-0a2bb74da0f9",
+          "customerNo": "CUST-2026-000011",
+          "displayName": "R3AB 82365c8a customer-wildcard-19957e94 B",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:48.406Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:48.406Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "cb9a33a0-55e7-42c0-b385-42b0ccb64d3a",
+          "customerNo": "CUST-2026-000010",
+          "displayName": "R3AB 82365c8a customer-wildcard-19957e94 A",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:48.384Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:48.384Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "7288e1d8-c1b9-49fa-9335-c72a95d5a72e",
+          "customerNo": "CUST-2026-000009",
+          "displayName": "R3AB 82365c8a customer-merged-protecti-486cd23f",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:48.274Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:48.274Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "74ac89ba-b84c-4728-9f2a-c0f163c251fe",
+          "customerNo": "CUST-2026-000008",
+          "displayName": "�",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": null,
+          "ownerUserId": null,
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:48.219Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:48.219Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": null,
+          "ownerOrgName": null,
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "11582c59-ea2d-4cc5-909e-c1875695f0e8",
+          "customerNo": "CUST-2026-000005",
+          "displayName": "R3AB 82365c8a customer-inactive-664f5722",
+          "legalName": null,
+          "shortName": null,
+          "status": "inactive",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": "R3AB 82365c8a inactive-edit-allowed-129f4216",
+          "mergedIntoCustomerId": null,
+          "rowVersion": 3,
+          "createdAt": "2026-11-01T23:34:46.803Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:48.201Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "303aabd9-c6cd-4a25-bcfd-65b0aa1d4a81",
+          "customerNo": "CUST-2026-000007",
+          "displayName": "R3AB 82365c8a customer-owner-renamed-911fec34",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "68a7e5b8-8f14-44cb-9949-68926ddef94c",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 7,
+          "createdAt": "2026-11-01T23:34:47.758Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:47.954Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB viewer",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "8336475d-0177-4a35-96ec-c3095572052d",
+          "customerNo": "CUST-2026-000006",
+          "displayName": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+          "legalName": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+          "shortName": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+          "status": "active",
+          "ownerOrgId": null,
+          "ownerUserId": null,
+          "sourceChannel": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+          "remark": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:47.566Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:47.566Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": null,
+          "ownerOrgName": null,
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "90a38cf8-e145-46a8-8814-35680f07a216",
+          "customerNo": "CUST-2026-000004",
+          "displayName": "R3AB 82365c8a customer-secondary-9e6c52b9",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": null,
+          "ownerUserId": null,
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:46.780Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:46.780Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": null,
+          "ownerOrgName": null,
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        },
+        {
+          "id": "53ab72fb-56b7-4422-9a3e-0f3dc6bd4875",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3AB 82365c8a customer-active-052ed427",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "6f50467b-3a2b-45ad-b02c-fec63d35b5e3",
+          "ownerUserId": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T23:34:46.747Z",
+          "createdBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "updatedAt": "2026-11-01T23:34:46.747Z",
+          "updatedBy": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "ownerName": "R3AB admin",
+          "ownerOrgName": "R3AB admin",
+          "leadCount": 1,
+          "projectCount": 18,
+          "contractCount": 2
+        },
+        {
+          "id": "11000000-0000-4000-8000-000000000002",
+          "customerNo": "CUST-2026-000002",
+          "displayName": "北城建设集团",
+          "legalName": "北城建设集团有限公司",
+          "shortName": "北城建设",
+          "status": "active",
+          "ownerOrgId": null,
+          "ownerUserId": null,
+          "sourceChannel": "seed",
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T21:51:51.539Z",
+          "createdBy": "00000000-0000-4000-8000-000000000004",
+          "updatedAt": "2026-11-01T21:51:51.539Z",
+          "updatedBy": "00000000-0000-4000-8000-000000000004",
+          "ownerName": null,
+          "ownerOrgName": null,
+          "leadCount": 0,
+          "projectCount": 1,
+          "contractCount": 1
+        },
+        {
+          "id": "11000000-0000-4000-8000-000000000001",
+          "customerNo": "CUST-2026-000001",
+          "displayName": "华南地铁集团",
+          "legalName": "华南地铁集团有限公司",
+          "shortName": "华南地铁",
+          "status": "active",
+          "ownerOrgId": null,
+          "ownerUserId": null,
+          "sourceChannel": "seed",
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T21:51:51.533Z",
+          "createdBy": "00000000-0000-4000-8000-000000000003",
+          "updatedAt": "2026-11-01T21:51:51.533Z",
+          "updatedBy": "00000000-0000-4000-8000-000000000003",
+          "ownerName": null,
+          "ownerOrgName": null,
+          "leadCount": 0,
+          "projectCount": 1,
+          "contractCount": 1
+        }
+      ]
+    },
+    {
+      "label": "B.ui.actual-list-detail-customer-edit-save",
+      "value": {
+        "projectId": "77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+        "customerId": "90a38cf8-e145-46a8-8814-35680f07a216",
+        "projectName": "R3AB UI linux 82365c8a f357365cfab3",
+        "actualProjectPatch": true,
+        "UIcreate": "not exposed by unchanged original template; separately certified by actual A->B HTTP chain",
+        "after": {
+          "id": "77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+          "status": "active",
+          "closed_at": null,
+          "created_at": "2026-11-02T07:34:48.463+08:00",
+          "created_by": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "project_no": "PRJ-2026-000001",
+          "updated_at": "2026-11-02T08:19:51.31+08:00",
+          "updated_by": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "customer_id": "90a38cf8-e145-46a8-8814-35680f07a216",
+          "row_version": 13,
+          "owner_org_id": "011aded2-1439-459c-8794-446b867b0f88",
+          "project_name": "R3AB UI linux 82365c8a f357365cfab3",
+          "closed_reason": null,
+          "current_stage": "assessment",
+          "customer_name": "R3AB 82365c8a customer-secondary-9e6c52b9",
+          "owner_user_id": "205e643d-1297-4690-95a7-d50cb0ce1df6",
+          "source_lead_id": null,
+          "planned_sign_at": null,
+          "customer_project_no": "R3AB UI linux 82365c8a e257d4e08484"
+        }
+      }
+    },
+    {
+      "label": "B.ui.actual-out-of-scope-requests",
+      "value": {
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38/timeline",
+            "phase": "started",
+            "classification": "actual out-of-scope request; no B6 success claim"
+          },
+          {
+            "method": "GET",
+            "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38/archive-records",
+            "phase": "started",
+            "classification": "actual out-of-scope request; no B6 success claim"
+          },
+          {
+            "method": "GET",
+            "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38/archive-records",
+            "phase": "response",
+            "status": 200,
+            "classification": "actual out-of-scope request; no B6 success claim"
+          },
+          {
+            "method": "GET",
+            "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38/timeline",
+            "phase": "response",
+            "status": 200,
+            "classification": "actual out-of-scope request; no B6 success claim"
+          }
+        ],
+        "stillPendingAtDefinitionExit": [],
+        "classification": "not B6 delivery; pending remains pending for Root terminal reconciliation; no mock, proxy fallback, component.evaluate or silent bypass"
+      }
+    }
+  ],
+  "identifiers": [
+    [
+      "seed.customer.CUST-2026-000001",
+      "11000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.customer.CUST-2026-000002",
+      "11000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.project.PRJ-2026-001",
+      "20000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.project.PRJ-2026-002",
+      "20000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.project.E2E-HO-SUMMARY-MISSING",
+      "21000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.project.E2E-HO-MAIN",
+      "21000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.project.E2E-HO-STALE-VERSION",
+      "21000000-0000-4000-8000-000000000003"
+    ],
+    [
+      "seed.project.E2E-HO-MISSING-PARTICIPANT",
+      "21000000-0000-4000-8000-000000000004"
+    ],
+    [
+      "seed.project.E2E-HO-PROCESSING-REBASELINE",
+      "21000000-0000-4000-8000-000000000005"
+    ],
+    [
+      "seed.project.E2E-CMS-FXT-MAIN",
+      "21000000-0000-4000-8000-000000000101"
+    ],
+    [
+      "seed.project.E2E-CMS-FXT-NO-ACTIVE-CONTRACT",
+      "21000000-0000-4000-8000-000000000102"
+    ],
+    [
+      "seed.project.E2E-OSG-FXT-MAIN",
+      "21000000-0000-4000-8000-000000000201"
+    ],
+    [
+      "seed.project.E2E-OSG-FXT-BLOCK_MISSING_REASON",
+      "21000000-0000-4000-8000-000000000202"
+    ],
+    [
+      "seed.platform_user.admin",
+      "00000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.platform_user.viewer",
+      "00000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.platform_user.sales_rep",
+      "00000000-0000-4000-8000-000000000003"
+    ],
+    [
+      "seed.platform_user.sales_lead",
+      "00000000-0000-4000-8000-000000000004"
+    ],
+    [
+      "seed.platform_user.presales",
+      "00000000-0000-4000-8000-000000000005"
+    ],
+    [
+      "seed.platform_user.biz_admin",
+      "00000000-0000-4000-8000-000000000006"
+    ],
+    [
+      "seed.platform_user.biz_lead",
+      "00000000-0000-4000-8000-000000000007"
+    ],
+    [
+      "seed.platform_user.vp_owner",
+      "00000000-0000-4000-8000-000000000008"
+    ],
+    [
+      "seed.platform_user.executive",
+      "00000000-0000-4000-8000-000000000009"
+    ],
+    [
+      "seed.platform_user.project_mgr",
+      "00000000-0000-4000-8000-000000000010"
+    ],
+    [
+      "seed.platform_user.sales_assistant",
+      "00000000-0000-4000-8000-000000000011"
+    ],
+    [
+      "seed.platform_user.commission_policy",
+      "00000000-0000-4000-8000-000000000012"
+    ],
+    [
+      "seed.platform_user.finance_ops",
+      "00000000-0000-4000-8000-000000000013"
+    ],
+    [
+      "seed.platform_user.finance_mgr",
+      "00000000-0000-4000-8000-000000000014"
+    ],
+    [
+      "seed.platform_user.auditor",
+      "00000000-0000-4000-8000-000000000015"
+    ],
+    [
+      "seed.org_unit.SALES-HQ",
+      "10000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.org_unit.SALES-SOUTH-1",
+      "10000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.org_unit.PLATFORM-GOV",
+      "10000000-0000-4000-8000-000000000003"
+    ],
+    [
+      "seed.org_unit.PRESALES-CENTER",
+      "10000000-0000-4000-8000-000000000004"
+    ],
+    [
+      "seed.org_unit.BIZ-OPS",
+      "10000000-0000-4000-8000-000000000005"
+    ],
+    [
+      "seed.org_unit.DELIVERY",
+      "10000000-0000-4000-8000-000000000006"
+    ],
+    [
+      "seed.org_unit.FINANCE",
+      "10000000-0000-4000-8000-000000000007"
+    ],
+    [
+      "seed.org_unit.MANAGEMENT",
+      "10000000-0000-4000-8000-000000000008"
+    ],
+    [
+      "seed.org_unit.AUDIT",
+      "10000000-0000-4000-8000-000000000009"
+    ],
+    [
+      "seed.role.platform-admin",
+      "30000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.role.project-viewer",
+      "30000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.role.sales-rep",
+      "30000000-0000-4000-8000-000000000003"
+    ],
+    [
+      "seed.role.sales-lead",
+      "30000000-0000-4000-8000-000000000004"
+    ],
+    [
+      "seed.role.presales",
+      "30000000-0000-4000-8000-000000000005"
+    ],
+    [
+      "seed.role.business-admin",
+      "30000000-0000-4000-8000-000000000006"
+    ],
+    [
+      "seed.role.business-lead",
+      "30000000-0000-4000-8000-000000000007"
+    ],
+    [
+      "seed.role.vp-owner",
+      "30000000-0000-4000-8000-000000000008"
+    ],
+    [
+      "seed.role.executive",
+      "30000000-0000-4000-8000-000000000009"
+    ],
+    [
+      "seed.role.project-manager",
+      "30000000-0000-4000-8000-000000000010"
+    ],
+    [
+      "seed.role.sales-assistant",
+      "30000000-0000-4000-8000-000000000011"
+    ],
+    [
+      "seed.role.commission-policy",
+      "30000000-0000-4000-8000-000000000012"
+    ],
+    [
+      "seed.role.finance-ops",
+      "30000000-0000-4000-8000-000000000013"
+    ],
+    [
+      "seed.role.finance-manager",
+      "30000000-0000-4000-8000-000000000014"
+    ],
+    [
+      "seed.role.auditor",
+      "30000000-0000-4000-8000-000000000015"
+    ],
+    [
+      "seed.contract.E2E-HO-HT-SUMMARY-MISSING",
+      "31000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "seed.contract.E2E-HO-HT-MAIN",
+      "31000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "seed.contract.E2E-HO-HT-STALE-VERSION",
+      "31000000-0000-4000-8000-000000000003"
+    ],
+    [
+      "seed.contract.E2E-HO-HT-MISSING-PARTICIPANT",
+      "31000000-0000-4000-8000-000000000004"
+    ],
+    [
+      "seed.contract.E2E-HO-HT-PROCESSING-REBASELINE",
+      "31000000-0000-4000-8000-000000000005"
+    ],
+    [
+      "seed.contract.E2E-CMS-HT-MAIN",
+      "31000000-0000-4000-8000-000000000101"
+    ],
+    [
+      "seed.contract.E2E-CMS-HT-NO-ACTIVE-CONTRACT",
+      "31000000-0000-4000-8000-000000000102"
+    ],
+    [
+      "seed.alias.seed.customer.CUST-2026-000001.alias.华南地铁集团",
+      "14ec7e20-9108-49bd-ab7d-a07c7513936f"
+    ],
+    [
+      "seed.alias.seed.customer.CUST-2026-000002.alias.北城建设集团",
+      "e04fc672-0ed0-4dff-8ef0-f7181f8bf733"
+    ],
+    [
+      "actor.admin.user",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "actor.admin.role",
+      "61fc4ed1-0218-49dc-b2d1-8081ae76a147"
+    ],
+    [
+      "actor.admin.org",
+      "6f50467b-3a2b-45ad-b02c-fec63d35b5e3"
+    ],
+    [
+      "actor.other.user",
+      "a7946220-3345-4c7c-ba4d-b48a848cd281"
+    ],
+    [
+      "actor.other.role",
+      "2ba1f338-2656-47bc-9868-c952a16054e8"
+    ],
+    [
+      "actor.other.org",
+      "011aded2-1439-459c-8794-446b867b0f88"
+    ],
+    [
+      "actor.noorg.user",
+      "e1b453ec-d77d-472b-bd1e-7f352ede8f7b"
+    ],
+    [
+      "actor.noorg.role",
+      "1b0345df-d5f0-4346-b6bc-ad7e2e03bd3b"
+    ],
+    [
+      "actor.viewer.user",
+      "68a7e5b8-8f14-44cb-9949-68926ddef94c"
+    ],
+    [
+      "actor.viewer.role",
+      "7fde2099-a4fd-4710-9674-50c99149cfaf"
+    ],
+    [
+      "actor.viewer.org",
+      "4339f7cc-2783-4033-813a-3764dfa7b3d3"
+    ],
+    [
+      "response.customers.customer.active.create.id",
+      "53ab72fb-56b7-4422-9a3e-0f3dc6bd4875"
+    ],
+    [
+      "customer.active",
+      "53ab72fb-56b7-4422-9a3e-0f3dc6bd4875"
+    ],
+    [
+      "response.customers.customer.secondary.create.id",
+      "90a38cf8-e145-46a8-8814-35680f07a216"
+    ],
+    [
+      "customer.secondary",
+      "90a38cf8-e145-46a8-8814-35680f07a216"
+    ],
+    [
+      "response.customers.customer.inactive.create.id",
+      "11582c59-ea2d-4cc5-909e-c1875695f0e8"
+    ],
+    [
+      "customer.inactive",
+      "11582c59-ea2d-4cc5-909e-c1875695f0e8"
+    ],
+    [
+      "customer.active.primary",
+      "370842de-a06c-4a21-bcd8-283066344feb"
+    ],
+    [
+      "response.customers.customer.unicode-boundary.create.id",
+      "8336475d-0177-4a35-96ec-c3095572052d"
+    ],
+    [
+      "customer.unicode-boundary",
+      "8336475d-0177-4a35-96ec-c3095572052d"
+    ],
+    [
+      "response.customers.customer.owner-cases.create.id",
+      "303aabd9-c6cd-4a25-bcfd-65b0aa1d4a81"
+    ],
+    [
+      "customer.owner-cases",
+      "303aabd9-c6cd-4a25-bcfd-65b0aa1d4a81"
+    ],
+    [
+      "response.customers.customer.alias.normalized.create.id",
+      "de417200-4c58-4c3f-8545-0f27abc6404f"
+    ],
+    [
+      "customer.alias.normalized",
+      "de417200-4c58-4c3f-8545-0f27abc6404f"
+    ],
+    [
+      "response.customers.customer.alias.legal-name.create.id",
+      "dc7051f9-9668-465e-b9da-dc4be8225c28"
+    ],
+    [
+      "customer.alias.legal-name",
+      "dc7051f9-9668-465e-b9da-dc4be8225c28"
+    ],
+    [
+      "response.customers.customer.alias.short-name.create.id",
+      "e9550ed8-c031-4f18-974d-2b9e2896cfb9"
+    ],
+    [
+      "customer.alias.short-name",
+      "e9550ed8-c031-4f18-974d-2b9e2896cfb9"
+    ],
+    [
+      "response.customers.customer.alias.legacy-input.create.id",
+      "17248b6e-a054-41bb-8922-e450ba4ada4c"
+    ],
+    [
+      "customer.alias.legacy-input",
+      "17248b6e-a054-41bb-8922-e450ba4ada4c"
+    ],
+    [
+      "response.customers.customer.alias.import-name.create.id",
+      "81d3ebb8-c23b-400f-a67f-017bebda6ada"
+    ],
+    [
+      "customer.alias.import-name",
+      "81d3ebb8-c23b-400f-a67f-017bebda6ada"
+    ],
+    [
+      "response.customers.customer.alias.other-customer.create.id",
+      "5a6ff2bc-b3a6-4f35-a8f2-3653d1b6496e"
+    ],
+    [
+      "customer.alias.other-customer",
+      "5a6ff2bc-b3a6-4f35-a8f2-3653d1b6496e"
+    ],
+    [
+      "response.customers.customer.alias.unicode-boundary.create.id",
+      "8a0a600f-ac88-4957-bf2f-95eb48fb5101"
+    ],
+    [
+      "customer.alias.unicode-boundary",
+      "8a0a600f-ac88-4957-bf2f-95eb48fb5101"
+    ],
+    [
+      "response.customers.customer.alias.only-keyword.create.id",
+      "a0888070-aec6-4623-b4e0-cf5a89ea7e72"
+    ],
+    [
+      "customer.alias.only-keyword",
+      "a0888070-aec6-4623-b4e0-cf5a89ea7e72"
+    ],
+    [
+      "response.customers.customer.inactive.alias.create.id",
+      "e4270d7c-815d-4754-affd-1b16d1e2db32"
+    ],
+    [
+      "customer.inactive.alias",
+      "e4270d7c-815d-4754-affd-1b16d1e2db32"
+    ],
+    [
+      "response.customers.customer.surrogate.create.id",
+      "74ac89ba-b84c-4728-9f2a-c0f163c251fe"
+    ],
+    [
+      "customer.surrogate",
+      "74ac89ba-b84c-4728-9f2a-c0f163c251fe"
+    ],
+    [
+      "response.customers.customer.alias.surrogate.create.id",
+      "f72556f1-ba68-46dd-86ce-6ab3a72ee05c"
+    ],
+    [
+      "customer.alias.surrogate",
+      "f72556f1-ba68-46dd-86ce-6ab3a72ee05c"
+    ],
+    [
+      "response.customers.customer.merged-preparation.create.id",
+      "7288e1d8-c1b9-49fa-9335-c72a95d5a72e"
+    ],
+    [
+      "customer.merged-preparation",
+      "7288e1d8-c1b9-49fa-9335-c72a95d5a72e"
+    ],
+    [
+      "response.customers.customer.merged-preparation.alias.create.id",
+      "50ff4ea1-7e2e-47c9-8aa7-9680d8d835eb"
+    ],
+    [
+      "customer.merged-preparation.alias",
+      "50ff4ea1-7e2e-47c9-8aa7-9680d8d835eb"
+    ],
+    [
+      "customer.merged-preparation.primary",
+      "78410fc3-212f-4233-ad74-fbe0fb7206e2"
+    ],
+    [
+      "response.customers.customer.wildcard.a.create.id",
+      "cb9a33a0-55e7-42c0-b385-42b0ccb64d3a"
+    ],
+    [
+      "customer.wildcard.a",
+      "cb9a33a0-55e7-42c0-b385-42b0ccb64d3a"
+    ],
+    [
+      "response.customers.customer.wildcard.b.create.id",
+      "3d3b70bb-0dc9-4474-b750-0a2bb74da0f9"
+    ],
+    [
+      "customer.wildcard.b",
+      "3d3b70bb-0dc9-4474-b750-0a2bb74da0f9"
+    ],
+    [
+      "response.B.project.active.create.id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "project.active",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "project.active.no",
+      "PRJ-2026-000001"
+    ],
+    [
+      "B.reassign.other-primary.history",
+      "21143305-c2f5-46fe-900d-01e1fb936ed0"
+    ],
+    [
+      "B.reassign.no-primary.history",
+      "a8b7d4f2-6fb0-4e60-9e4c-02b6d38a8c4c"
+    ],
+    [
+      "B.reassign.explicit-cross-membership-org.history",
+      "d8663bc2-25f6-41f3-9c43-e2e606998a88"
+    ],
+    [
+      "B.reassign.explicit-null-org.history",
+      "8fddc8ab-8446-46c5-a978-310bc6fc4d60"
+    ],
+    [
+      "B.reassign.self-lower.history",
+      "b3db892d-2d1e-4114-84c6-27e0d09df70a"
+    ],
+    [
+      "B.reassign.self-uppercase.history",
+      "9c99c0cd-aa51-4de1-a69f-e775fc99f551"
+    ],
+    [
+      "B.reassign.org-uppercase.history",
+      "390951fb-9744-4ac9-b143-ebaa8481b0b9"
+    ],
+    [
+      "response.B.project.uppercase-customer.create.id",
+      "266bc4b7-2ced-40c0-bdb3-ac928c27be61"
+    ],
+    [
+      "project.uppercase-customer",
+      "266bc4b7-2ced-40c0-bdb3-ac928c27be61"
+    ],
+    [
+      "project.uppercase-customer.no",
+      "PRJ-2026-000002"
+    ],
+    [
+      "response.B.project.lone-surrogate.create.id",
+      "7b059a8e-f1fa-4510-9496-d7027168f169"
+    ],
+    [
+      "project.lone-surrogate",
+      "7b059a8e-f1fa-4510-9496-d7027168f169"
+    ],
+    [
+      "project.lone-surrogate.no",
+      "PRJ-2026-000003"
+    ],
+    [
+      "response.B.project.astral-boundary.create.id",
+      "788370e1-e8ae-4242-9abb-12402c01f9ae"
+    ],
+    [
+      "project.astral-boundary",
+      "788370e1-e8ae-4242-9abb-12402c01f9ae"
+    ],
+    [
+      "project.astral-boundary.no",
+      "PRJ-2026-000004"
+    ],
+    [
+      "response.B.project.stage.assessment.create.id",
+      "7982de5d-5173-4997-b3a2-6fc9524dfbda"
+    ],
+    [
+      "project.stage.assessment",
+      "7982de5d-5173-4997-b3a2-6fc9524dfbda"
+    ],
+    [
+      "project.stage.assessment.no",
+      "PRJ-2026-000005"
+    ],
+    [
+      "response.B.project.stage.scope-confirmation.create.id",
+      "e66a4723-47d8-4077-86f9-1fa4284ac089"
+    ],
+    [
+      "project.stage.scope-confirmation",
+      "e66a4723-47d8-4077-86f9-1fa4284ac089"
+    ],
+    [
+      "project.stage.scope-confirmation.no",
+      "PRJ-2026-000006"
+    ],
+    [
+      "response.B.project.stage.commercial-closure.create.id",
+      "ce6e2d7a-3ca2-4c51-b759-695c325fdc32"
+    ],
+    [
+      "project.stage.commercial-closure",
+      "ce6e2d7a-3ca2-4c51-b759-695c325fdc32"
+    ],
+    [
+      "project.stage.commercial-closure.no",
+      "PRJ-2026-000007"
+    ],
+    [
+      "response.B.project.stage.contracting.create.id",
+      "81619f44-a369-45bd-a23c-45475cc68cf8"
+    ],
+    [
+      "project.stage.contracting",
+      "81619f44-a369-45bd-a23c-45475cc68cf8"
+    ],
+    [
+      "project.stage.contracting.no",
+      "PRJ-2026-000008"
+    ],
+    [
+      "response.B.project.stage.handover.create.id",
+      "96067746-dc6e-4d1a-9412-d721e5e2ac81"
+    ],
+    [
+      "project.stage.handover",
+      "96067746-dc6e-4d1a-9412-d721e5e2ac81"
+    ],
+    [
+      "project.stage.handover.no",
+      "PRJ-2026-000009"
+    ],
+    [
+      "response.B.project.stage.execution.create.id",
+      "439da308-d83d-478b-a28e-503d2f8e16ac"
+    ],
+    [
+      "project.stage.execution",
+      "439da308-d83d-478b-a28e-503d2f8e16ac"
+    ],
+    [
+      "project.stage.execution.no",
+      "PRJ-2026-000010"
+    ],
+    [
+      "response.B.project.stage.acceptance.create.id",
+      "7ffdefe3-690f-4454-abf3-328a178d4cf0"
+    ],
+    [
+      "project.stage.acceptance",
+      "7ffdefe3-690f-4454-abf3-328a178d4cf0"
+    ],
+    [
+      "project.stage.acceptance.no",
+      "PRJ-2026-000011"
+    ],
+    [
+      "response.B.project.stage.completed.create.id",
+      "e1e27e26-6db8-499e-9fca-3ec860bd0f0c"
+    ],
+    [
+      "project.stage.completed",
+      "e1e27e26-6db8-499e-9fca-3ec860bd0f0c"
+    ],
+    [
+      "project.stage.completed.no",
+      "PRJ-2026-000012"
+    ],
+    [
+      "response.B.project.stage.closed-lost.create.id",
+      "d46ba07c-0d04-4f88-86f4-8d731993c44a"
+    ],
+    [
+      "project.stage.closed-lost",
+      "d46ba07c-0d04-4f88-86f4-8d731993c44a"
+    ],
+    [
+      "project.stage.closed-lost.no",
+      "PRJ-2026-000013"
+    ],
+    [
+      "response.B.project.stage.closed-terminated.create.id",
+      "153bddbd-edb8-4934-8442-8cfa571e2440"
+    ],
+    [
+      "project.stage.closed-terminated",
+      "153bddbd-edb8-4934-8442-8cfa571e2440"
+    ],
+    [
+      "project.stage.closed-terminated.no",
+      "PRJ-2026-000014"
+    ],
+    [
+      "response.B.project.pattern.create.id",
+      "3e0859c6-a5ec-41ce-93a4-2b9bfd8a9ada"
+    ],
+    [
+      "project.pattern",
+      "3e0859c6-a5ec-41ce-93a4-2b9bfd8a9ada"
+    ],
+    [
+      "project.pattern.no",
+      "PRJ-2026-000015"
+    ],
+    [
+      "prepared.1.org_unit.11.id",
+      "7ee8f540-368b-415a-969b-4292e7632997"
+    ],
+    [
+      "customer.prepared.owner.inactive-org",
+      "7ee8f540-368b-415a-969b-4292e7632997"
+    ],
+    [
+      "prepared.1.platform_user.12.id",
+      "d1cfdef4-3cc1-4b52-9b81-13d31aac20ae"
+    ],
+    [
+      "customer.prepared.owner.inactive-user",
+      "d1cfdef4-3cc1-4b52-9b81-13d31aac20ae"
+    ],
+    [
+      "prepared.1.platform_user.13.id",
+      "f2622698-1d17-4f17-8593-5db3f5c66d67"
+    ],
+    [
+      "customer.prepared.owner.no-primary-user",
+      "f2622698-1d17-4f17-8593-5db3f5c66d67"
+    ],
+    [
+      "prepared-return.1.customer-owner-reference-set.inactiveUser.userId",
+      "d1cfdef4-3cc1-4b52-9b81-13d31aac20ae"
+    ],
+    [
+      "prepared-return.1.customer-owner-reference-set.inactiveUser.orgId",
+      "7ee8f540-368b-415a-969b-4292e7632997"
+    ],
+    [
+      "prepared-return.1.customer-owner-reference-set.inactiveOrgId",
+      "7ee8f540-368b-415a-969b-4292e7632997"
+    ],
+    [
+      "prepared-return.1.customer-owner-reference-set.noPrimaryUser.userId",
+      "f2622698-1d17-4f17-8593-5db3f5c66d67"
+    ],
+    [
+      "response.customers.customer.prepared.inactive-owner.create.id",
+      "1dd11b3d-676f-481c-a0b2-6ee3f13ba8f7"
+    ],
+    [
+      "customer.prepared.inactive-owner",
+      "1dd11b3d-676f-481c-a0b2-6ee3f13ba8f7"
+    ],
+    [
+      "response.customers.customer.prepared.no-primary-fallback.create.id",
+      "0b99c355-a1bd-4364-adbb-f55bd0162836"
+    ],
+    [
+      "customer.prepared.no-primary-fallback",
+      "0b99c355-a1bd-4364-adbb-f55bd0162836"
+    ],
+    [
+      "response.customers.customer.prepared.workspace.create.id",
+      "5fe87b18-b9eb-4997-b6b7-f04a6ee365dd"
+    ],
+    [
+      "customer.prepared.workspace",
+      "5fe87b18-b9eb-4997-b6b7-f04a6ee365dd"
+    ],
+    [
+      "response.customers.customer.prepared.outside.create.id",
+      "9e606f94-6d20-429a-b33d-a45dc4c6bf49"
+    ],
+    [
+      "customer.prepared.outside",
+      "9e606f94-6d20-429a-b33d-a45dc4c6bf49"
+    ],
+    [
+      "prepared.2.project.14.id",
+      "4c793725-93d7-4dd1-b6dd-646b8021dfea"
+    ],
+    [
+      "customer.prepared.project.0",
+      "4c793725-93d7-4dd1-b6dd-646b8021dfea"
+    ],
+    [
+      "prepared.2.project.15.id",
+      "5fd796e3-6621-4bcf-8856-c8bf899a43c8"
+    ],
+    [
+      "customer.prepared.project.1",
+      "5fd796e3-6621-4bcf-8856-c8bf899a43c8"
+    ],
+    [
+      "prepared.2.project.16.id",
+      "c8408b62-1a9c-4bd8-924d-a3b303550f33"
+    ],
+    [
+      "customer.prepared.project.2",
+      "c8408b62-1a9c-4bd8-924d-a3b303550f33"
+    ],
+    [
+      "prepared.2.project.17.id",
+      "f68fc8be-7e47-4121-a68f-8c690a957060"
+    ],
+    [
+      "customer.prepared.project.3",
+      "f68fc8be-7e47-4121-a68f-8c690a957060"
+    ],
+    [
+      "prepared.2.project.18.id",
+      "a034b23b-2807-4f3c-9c57-23b7734e2a3b"
+    ],
+    [
+      "customer.prepared.project.4",
+      "a034b23b-2807-4f3c-9c57-23b7734e2a3b"
+    ],
+    [
+      "prepared.2.project.19.id",
+      "f140a360-bdc3-48b9-a980-4d4308ae65cd"
+    ],
+    [
+      "customer.prepared.project.5",
+      "f140a360-bdc3-48b9-a980-4d4308ae65cd"
+    ],
+    [
+      "prepared.2.project.20.id",
+      "a7b6449a-d2bb-4441-8a80-eb25189214d7"
+    ],
+    [
+      "customer.prepared.project.6",
+      "a7b6449a-d2bb-4441-8a80-eb25189214d7"
+    ],
+    [
+      "prepared.2.project.21.id",
+      "381e9749-f9d7-4761-962a-693cd46e01bc"
+    ],
+    [
+      "customer.prepared.project.outside",
+      "381e9749-f9d7-4761-962a-693cd46e01bc"
+    ],
+    [
+      "prepared.2.lead.22.id",
+      "04d7c342-eae0-468f-9c70-7b9b80b65e4c"
+    ],
+    [
+      "customer.prepared.lead.0",
+      "04d7c342-eae0-468f-9c70-7b9b80b65e4c"
+    ],
+    [
+      "prepared.2.lead.23.id",
+      "146a21a1-e84a-486a-81da-fd4340f0c50a"
+    ],
+    [
+      "customer.prepared.lead.1",
+      "146a21a1-e84a-486a-81da-fd4340f0c50a"
+    ],
+    [
+      "prepared.2.lead.24.id",
+      "b1a7257e-799d-428b-86fb-95b4bd7079fc"
+    ],
+    [
+      "customer.prepared.lead.2",
+      "b1a7257e-799d-428b-86fb-95b4bd7079fc"
+    ],
+    [
+      "prepared.2.lead.25.id",
+      "b86d2d27-e9fc-4ada-a667-eece4ebca199"
+    ],
+    [
+      "customer.prepared.lead.3",
+      "b86d2d27-e9fc-4ada-a667-eece4ebca199"
+    ],
+    [
+      "prepared.2.lead.26.id",
+      "252d4150-641e-480b-8c9b-6912671f7394"
+    ],
+    [
+      "customer.prepared.lead.4",
+      "252d4150-641e-480b-8c9b-6912671f7394"
+    ],
+    [
+      "prepared.2.lead.27.id",
+      "2ebc973b-0431-4e63-b34e-1c3eb57cdeb4"
+    ],
+    [
+      "customer.prepared.lead.5",
+      "2ebc973b-0431-4e63-b34e-1c3eb57cdeb4"
+    ],
+    [
+      "prepared.2.lead.28.id",
+      "94a92eca-9c4b-4361-a50d-d0261f787211"
+    ],
+    [
+      "customer.prepared.lead.6",
+      "94a92eca-9c4b-4361-a50d-d0261f787211"
+    ],
+    [
+      "prepared.2.lead.29.id",
+      "0953a72b-b373-4fb5-a177-46e0c62bbb28"
+    ],
+    [
+      "customer.prepared.lead.7",
+      "0953a72b-b373-4fb5-a177-46e0c62bbb28"
+    ],
+    [
+      "prepared.2.lead.30.id",
+      "ea1f1f25-9fdb-4ec4-be7b-fde24009fb42"
+    ],
+    [
+      "customer.prepared.lead.outside",
+      "ea1f1f25-9fdb-4ec4-be7b-fde24009fb42"
+    ],
+    [
+      "prepared.2.contract.31.id",
+      "ef8e743e-ed58-47df-ad50-a1a44c6e1f56"
+    ],
+    [
+      "customer.prepared.contract.0",
+      "ef8e743e-ed58-47df-ad50-a1a44c6e1f56"
+    ],
+    [
+      "prepared.2.contract.32.id",
+      "efcaf43f-3cd5-451d-ab99-2830d1eb9e2c"
+    ],
+    [
+      "customer.prepared.contract.1",
+      "efcaf43f-3cd5-451d-ab99-2830d1eb9e2c"
+    ],
+    [
+      "prepared.2.contract.33.id",
+      "f8d958e7-9cec-4dc1-a660-f309b3939c28"
+    ],
+    [
+      "customer.prepared.contract.2",
+      "f8d958e7-9cec-4dc1-a660-f309b3939c28"
+    ],
+    [
+      "prepared.2.contract.34.id",
+      "82f3afbc-d888-4207-9006-71359e5378af"
+    ],
+    [
+      "customer.prepared.contract.3",
+      "82f3afbc-d888-4207-9006-71359e5378af"
+    ],
+    [
+      "prepared.2.contract.35.id",
+      "570c6e59-b7f9-4895-9180-624356fc8cb4"
+    ],
+    [
+      "customer.prepared.contract.4",
+      "570c6e59-b7f9-4895-9180-624356fc8cb4"
+    ],
+    [
+      "prepared.2.contract.36.id",
+      "dcbad50d-155b-4aa2-bb25-21b6e16714de"
+    ],
+    [
+      "customer.prepared.contract.5",
+      "dcbad50d-155b-4aa2-bb25-21b6e16714de"
+    ],
+    [
+      "prepared.2.contract.37.id",
+      "acad6cea-8e4e-4ec7-ab47-4bd20a621579"
+    ],
+    [
+      "customer.prepared.contract.6",
+      "acad6cea-8e4e-4ec7-ab47-4bd20a621579"
+    ],
+    [
+      "prepared.2.contract.38.id",
+      "228146cc-3be4-4fcc-87c2-1d0d3580d8d8"
+    ],
+    [
+      "customer.prepared.contract.outside",
+      "228146cc-3be4-4fcc-87c2-1d0d3580d8d8"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.39.id",
+      "d145a0db-e02b-468c-87eb-cff906cc0ef1"
+    ],
+    [
+      "customer.prepared.follow-up.0",
+      "d145a0db-e02b-468c-87eb-cff906cc0ef1"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.40.id",
+      "02e421c1-484a-4544-accc-38847d123294"
+    ],
+    [
+      "customer.prepared.follow-up.1",
+      "02e421c1-484a-4544-accc-38847d123294"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.41.id",
+      "2d25828e-f9b5-4424-aabb-665c93631e27"
+    ],
+    [
+      "customer.prepared.follow-up.2",
+      "2d25828e-f9b5-4424-aabb-665c93631e27"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.42.id",
+      "c5aa81c4-d9e6-4b72-8d76-f1c0691d846b"
+    ],
+    [
+      "customer.prepared.follow-up.3",
+      "c5aa81c4-d9e6-4b72-8d76-f1c0691d846b"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.43.id",
+      "935128cf-dbfa-4a23-8269-ff5e7f19ae03"
+    ],
+    [
+      "customer.prepared.follow-up.4",
+      "935128cf-dbfa-4a23-8269-ff5e7f19ae03"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.44.id",
+      "e6e90b55-e342-49b1-ad7f-b2e21d280578"
+    ],
+    [
+      "customer.prepared.follow-up.5",
+      "e6e90b55-e342-49b1-ad7f-b2e21d280578"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.45.id",
+      "1dc4a27d-8b2a-49b6-9753-9a6136f6e544"
+    ],
+    [
+      "customer.prepared.follow-up.6",
+      "1dc4a27d-8b2a-49b6-9753-9a6136f6e544"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.46.id",
+      "5ccfd2c4-5837-468e-bd71-275e8e04ef4a"
+    ],
+    [
+      "customer.prepared.follow-up.7",
+      "5ccfd2c4-5837-468e-bd71-275e8e04ef4a"
+    ],
+    [
+      "prepared.2.sales_follow_up_record.47.id",
+      "8e9f5516-b04e-4b3e-9594-ce8ce14651f0"
+    ],
+    [
+      "customer.prepared.follow-up.outside",
+      "8e9f5516-b04e-4b3e-9594-ce8ce14651f0"
+    ],
+    [
+      "prepared.2.business_discussion_thread.48.id",
+      "e5d32542-ff99-44bf-a591-a73a8bfa6739"
+    ],
+    [
+      "customer.prepared.thread.customer.main",
+      "e5d32542-ff99-44bf-a591-a73a8bfa6739"
+    ],
+    [
+      "prepared.2.business_discussion_comment.49.id",
+      "e6c3a8a7-5efe-4d9f-850f-28d22f3e7446"
+    ],
+    [
+      "customer.prepared.discussion.0",
+      "e6c3a8a7-5efe-4d9f-850f-28d22f3e7446"
+    ],
+    [
+      "prepared.2.business_discussion_comment.50.id",
+      "84325fbd-865d-4b05-bb67-2d570d7c090c"
+    ],
+    [
+      "customer.prepared.discussion.1",
+      "84325fbd-865d-4b05-bb67-2d570d7c090c"
+    ],
+    [
+      "prepared.2.business_discussion_comment.51.id",
+      "9242b90d-f0dd-4da0-b139-069683547e72"
+    ],
+    [
+      "customer.prepared.discussion.2",
+      "9242b90d-f0dd-4da0-b139-069683547e72"
+    ],
+    [
+      "prepared.2.business_discussion_comment.52.id",
+      "442fbc89-99a2-4d9b-858a-d15586bb830d"
+    ],
+    [
+      "customer.prepared.discussion.3",
+      "442fbc89-99a2-4d9b-858a-d15586bb830d"
+    ],
+    [
+      "prepared.2.business_discussion_comment.53.id",
+      "acaaa86b-5853-488b-9d1a-6be947c74387"
+    ],
+    [
+      "customer.prepared.discussion.4",
+      "acaaa86b-5853-488b-9d1a-6be947c74387"
+    ],
+    [
+      "prepared.2.business_discussion_comment.54.id",
+      "15c92327-b228-408d-a921-8a488cc3a348"
+    ],
+    [
+      "customer.prepared.discussion.5",
+      "15c92327-b228-408d-a921-8a488cc3a348"
+    ],
+    [
+      "prepared.2.business_discussion_comment.55.id",
+      "6193bfc1-3d2f-4ddc-85a5-4bcf6bc94f13"
+    ],
+    [
+      "customer.prepared.discussion.6",
+      "6193bfc1-3d2f-4ddc-85a5-4bcf6bc94f13"
+    ],
+    [
+      "prepared.2.business_discussion_thread.56.id",
+      "ebc347d7-8144-457c-b4ce-1f698d24876a"
+    ],
+    [
+      "customer.prepared.thread.customer.outside",
+      "ebc347d7-8144-457c-b4ce-1f698d24876a"
+    ],
+    [
+      "prepared.2.business_discussion_comment.57.id",
+      "e28dfd87-4b33-434b-a37c-4f066be8d8c6"
+    ],
+    [
+      "customer.prepared.discussion.outside",
+      "e28dfd87-4b33-434b-a37c-4f066be8d8c6"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.0",
+      "4c793725-93d7-4dd1-b6dd-646b8021dfea"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.1",
+      "5fd796e3-6621-4bcf-8856-c8bf899a43c8"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.2",
+      "c8408b62-1a9c-4bd8-924d-a3b303550f33"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.3",
+      "f68fc8be-7e47-4121-a68f-8c690a957060"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.4",
+      "a034b23b-2807-4f3c-9c57-23b7734e2a3b"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.5",
+      "f140a360-bdc3-48b9-a980-4d4308ae65cd"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.6",
+      "a7b6449a-d2bb-4441-8a80-eb25189214d7"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.project.outside",
+      "381e9749-f9d7-4761-962a-693cd46e01bc"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.0",
+      "04d7c342-eae0-468f-9c70-7b9b80b65e4c"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.1",
+      "146a21a1-e84a-486a-81da-fd4340f0c50a"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.2",
+      "b1a7257e-799d-428b-86fb-95b4bd7079fc"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.3",
+      "b86d2d27-e9fc-4ada-a667-eece4ebca199"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.4",
+      "252d4150-641e-480b-8c9b-6912671f7394"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.5",
+      "2ebc973b-0431-4e63-b34e-1c3eb57cdeb4"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.6",
+      "94a92eca-9c4b-4361-a50d-d0261f787211"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.7",
+      "0953a72b-b373-4fb5-a177-46e0c62bbb28"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.lead.outside",
+      "ea1f1f25-9fdb-4ec4-be7b-fde24009fb42"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.0",
+      "ef8e743e-ed58-47df-ad50-a1a44c6e1f56"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.1",
+      "efcaf43f-3cd5-451d-ab99-2830d1eb9e2c"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.2",
+      "f8d958e7-9cec-4dc1-a660-f309b3939c28"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.3",
+      "82f3afbc-d888-4207-9006-71359e5378af"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.4",
+      "570c6e59-b7f9-4895-9180-624356fc8cb4"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.5",
+      "dcbad50d-155b-4aa2-bb25-21b6e16714de"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.6",
+      "acad6cea-8e4e-4ec7-ab47-4bd20a621579"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.contract.outside",
+      "228146cc-3be4-4fcc-87c2-1d0d3580d8d8"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.0",
+      "d145a0db-e02b-468c-87eb-cff906cc0ef1"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.1",
+      "02e421c1-484a-4544-accc-38847d123294"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.2",
+      "2d25828e-f9b5-4424-aabb-665c93631e27"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.3",
+      "c5aa81c4-d9e6-4b72-8d76-f1c0691d846b"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.4",
+      "935128cf-dbfa-4a23-8269-ff5e7f19ae03"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.5",
+      "e6e90b55-e342-49b1-ad7f-b2e21d280578"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.6",
+      "1dc4a27d-8b2a-49b6-9753-9a6136f6e544"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.7",
+      "5ccfd2c4-5837-468e-bd71-275e8e04ef4a"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.follow-up.outside",
+      "8e9f5516-b04e-4b3e-9594-ce8ce14651f0"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.0",
+      "e6c3a8a7-5efe-4d9f-850f-28d22f3e7446"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.1",
+      "84325fbd-865d-4b05-bb67-2d570d7c090c"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.2",
+      "9242b90d-f0dd-4da0-b139-069683547e72"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.3",
+      "442fbc89-99a2-4d9b-858a-d15586bb830d"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.4",
+      "acaaa86b-5853-488b-9d1a-6be947c74387"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.5",
+      "15c92327-b228-408d-a921-8a488cc3a348"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.6",
+      "6193bfc1-3d2f-4ddc-85a5-4bcf6bc94f13"
+    ],
+    [
+      "prepared-return.2.customer-workspace-facts.ids.discussion.outside",
+      "e28dfd87-4b33-434b-a37c-4f066be8d8c6"
+    ],
+    [
+      "prepared.3.contract.58.id",
+      "9d22404f-526e-469c-8e40-caf780705f44"
+    ],
+    [
+      "prepared-return.3.project.contract.id",
+      "9d22404f-526e-469c-8e40-caf780705f44"
+    ],
+    [
+      "prepared-return.3.project.contract.row.id",
+      "9d22404f-526e-469c-8e40-caf780705f44"
+    ],
+    [
+      "prepared-return.3.project.contract.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.3.project.contract.row.project_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "prepared-return.3.project.contract.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "project.prepared.signed-contract",
+      "9d22404f-526e-469c-8e40-caf780705f44"
+    ],
+    [
+      "prepared.4.contract.59.id",
+      "fb485dde-4beb-4902-b029-296d74725630"
+    ],
+    [
+      "prepared-return.4.project.contract.id",
+      "fb485dde-4beb-4902-b029-296d74725630"
+    ],
+    [
+      "prepared-return.4.project.contract.row.id",
+      "fb485dde-4beb-4902-b029-296d74725630"
+    ],
+    [
+      "prepared-return.4.project.contract.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.4.project.contract.row.project_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "prepared-return.4.project.contract.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "project.prepared.latest-null-signed-contract",
+      "fb485dde-4beb-4902-b029-296d74725630"
+    ],
+    [
+      "prepared.5.lead.60.id",
+      "d4a1a48b-fa4b-42b8-a289-4794262b1313"
+    ],
+    [
+      "prepared-return.5.project.source-lead.id",
+      "d4a1a48b-fa4b-42b8-a289-4794262b1313"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.id",
+      "d4a1a48b-fa4b-42b8-a289-4794262b1313"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.customer_id",
+      "53ab72fb-56b7-4422-9a3e-0f3dc6bd4875"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.converted_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.owner_org_id",
+      "6f50467b-3a2b-45ad-b02c-fec63d35b5e3"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.qualified_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.owner_user_id",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.5.project.source-lead.row.converted_project_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "project.prepared.source-lead",
+      "d4a1a48b-fa4b-42b8-a289-4794262b1313"
+    ],
+    [
+      "prepared.6.project_bid_commercial_process.61.id",
+      "ff7de2a5-da69-461c-b72a-ee5c021f20cf"
+    ],
+    [
+      "prepared-return.6.project.bid.id",
+      "ff7de2a5-da69-461c-b72a-ee5c021f20cf"
+    ],
+    [
+      "prepared-return.6.project.bid.row.id",
+      "ff7de2a5-da69-461c-b72a-ee5c021f20cf"
+    ],
+    [
+      "prepared-return.6.project.bid.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.6.project.bid.row.project_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "prepared-return.6.project.bid.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "project.prepared.current-bid",
+      "ff7de2a5-da69-461c-b72a-ee5c021f20cf"
+    ],
+    [
+      "prepared.7.project_bid_commercial_process.62.id",
+      "5bc9e46d-967f-41c4-9a6f-a6cf9eedf831"
+    ],
+    [
+      "prepared-return.7.project.bid.id",
+      "5bc9e46d-967f-41c4-9a6f-a6cf9eedf831"
+    ],
+    [
+      "prepared-return.7.project.bid.row.id",
+      "5bc9e46d-967f-41c4-9a6f-a6cf9eedf831"
+    ],
+    [
+      "prepared-return.7.project.bid.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.7.project.bid.row.project_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "prepared-return.7.project.bid.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "project.prepared.ignored-bid",
+      "5bc9e46d-967f-41c4-9a6f-a6cf9eedf831"
+    ],
+    [
+      "prepared.8.approval_summary_package_definition.63.id",
+      "2f8a10e0-6ee3-4757-b67a-43287fcee653"
+    ],
+    [
+      "project.prepared.package.project-detail.project-detail",
+      "2f8a10e0-6ee3-4757-b67a-43287fcee653"
+    ],
+    [
+      "prepared.8.approval_summary_snapshot.64.id",
+      "aa2d5f5b-bd88-46c7-a894-3582575364a8"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.id",
+      "aa2d5f5b-bd88-46c7-a894-3582575364a8"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.row.id",
+      "aa2d5f5b-bd88-46c7-a894-3582575364a8"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.row.target_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.row.summary_package_id",
+      "2f8a10e0-6ee3-4757-b67a-43287fcee653"
+    ],
+    [
+      "prepared-return.8.project.approval-snapshot.summaryPackageId",
+      "2f8a10e0-6ee3-4757-b67a-43287fcee653"
+    ],
+    [
+      "project.prepared.snapshot",
+      "aa2d5f5b-bd88-46c7-a894-3582575364a8"
+    ],
+    [
+      "prepared.9.approval_summary_package_definition.65.id",
+      "42cd11de-52c6-4d91-8645-aeb03aa0ec1b"
+    ],
+    [
+      "project.prepared.package.R3AB-other-scenario.project-detail",
+      "42cd11de-52c6-4d91-8645-aeb03aa0ec1b"
+    ],
+    [
+      "prepared.9.approval_summary_snapshot.66.id",
+      "13260ab0-81a0-4e4f-b65b-61eea92cc076"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.id",
+      "13260ab0-81a0-4e4f-b65b-61eea92cc076"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.row.id",
+      "13260ab0-81a0-4e4f-b65b-61eea92cc076"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.row.target_id",
+      "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.row.summary_package_id",
+      "42cd11de-52c6-4d91-8645-aeb03aa0ec1b"
+    ],
+    [
+      "prepared-return.9.project.approval-snapshot.summaryPackageId",
+      "42cd11de-52c6-4d91-8645-aeb03aa0ec1b"
+    ],
+    [
+      "project.prepared.ignored-snapshot-scenario",
+      "13260ab0-81a0-4e4f-b65b-61eea92cc076"
+    ],
+    [
+      "prepared.10.platform_user.69.id",
+      "6a482508-2f6a-4014-bc5c-048b851153c0"
+    ],
+    [
+      "prepared-return.10.project.owner-user.id",
+      "6a482508-2f6a-4014-bc5c-048b851153c0"
+    ],
+    [
+      "prepared-return.10.project.owner-user.row.id",
+      "6a482508-2f6a-4014-bc5c-048b851153c0"
+    ],
+    [
+      "prepared-return.10.project.owner-user.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.10.project.owner-user.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "project.prepared.inactive-owner",
+      "6a482508-2f6a-4014-bc5c-048b851153c0"
+    ],
+    [
+      "prepared.11.org_unit.70.id",
+      "fb507ed2-9b6c-4730-9e63-9427183f6459"
+    ],
+    [
+      "prepared-return.11.project.owner-org.id",
+      "fb507ed2-9b6c-4730-9e63-9427183f6459"
+    ],
+    [
+      "prepared-return.11.project.owner-org.row.id",
+      "fb507ed2-9b6c-4730-9e63-9427183f6459"
+    ],
+    [
+      "prepared-return.11.project.owner-org.row.created_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "prepared-return.11.project.owner-org.row.updated_by",
+      "205e643d-1297-4690-95a7-d50cb0ce1df6"
+    ],
+    [
+      "project.prepared.inactive-org",
+      "fb507ed2-9b6c-4730-9e63-9427183f6459"
+    ],
+    [
+      "response.B.project.sort.A.create.id",
+      "031cb924-c888-4e33-8250-6da8593796b8"
+    ],
+    [
+      "project.sort.A",
+      "031cb924-c888-4e33-8250-6da8593796b8"
+    ],
+    [
+      "project.sort.A.no",
+      "PRJ-2026-000016"
+    ],
+    [
+      "response.B.project.sort.B.create.id",
+      "1415d61f-fd21-41e6-a97a-5bd3108662e9"
+    ],
+    [
+      "project.sort.B",
+      "1415d61f-fd21-41e6-a97a-5bd3108662e9"
+    ],
+    [
+      "project.sort.B.no",
+      "PRJ-2026-000017"
+    ],
+    [
+      "response.B.project.sort.C.create.id",
+      "f03eb4e8-c6e8-4e2f-a2ef-368dc1408027"
+    ],
+    [
+      "project.sort.C",
+      "f03eb4e8-c6e8-4e2f-a2ef-368dc1408027"
+    ],
+    [
+      "project.sort.C.no",
+      "PRJ-2026-000018"
+    ],
+    [
+      "customer.ui",
+      "f14738cf-1b0e-4d50-815d-4104a7db276a"
+    ],
+    [
+      "customer.ui.alias",
+      "f582748a-0b13-4658-8059-e3bd67e7e308"
+    ]
+  ],
+  "network": [
+    {
+      "index": 0,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.007Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0000.json",
+        "bytes": 2353,
+        "rawBytesSha256": "ddb36a68dcfd8d50c0ff90b33ce91239b3da55e3553d4a21b4ae7fd597b0bf4c"
+      },
+      "completedAt": "2026-11-02T00:19:45.014Z"
+    },
+    {
+      "index": 1,
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.094Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0001.json",
+        "bytes": 2167,
+        "rawBytesSha256": "408b9d96cee31781ff0111d6fd8c370b7e2739f412fe54d345628da3b6842894"
+      },
+      "completedAt": "2026-11-02T00:19:45.109Z"
+    },
+    {
+      "index": 2,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.367Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0002.json",
+        "bytes": 2528,
+        "rawBytesSha256": "a7f5b4a70e0bfc3560f83b6cfb00c5fefa6d9ad1911ebb619340f04ab1bed222"
+      },
+      "completedAt": "2026-11-02T00:19:45.370Z"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.428Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0003.json",
+        "bytes": 6585,
+        "rawBytesSha256": "e727885a62527a681376e50c84bbd1fd8f3d73974197c49cafacb5c5c636ae2e"
+      },
+      "completedAt": "2026-11-02T00:19:45.474Z"
+    },
+    {
+      "index": 4,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.478Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0004.json",
+        "bytes": 2928,
+        "rawBytesSha256": "b435285df44bd66cc18147b9759e0edf5c933e1ccb3abbd42184f2433f84e81d"
+      },
+      "completedAt": "2026-11-02T00:19:45.505Z"
+    },
+    {
+      "index": 5,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.533Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0005.json",
+        "bytes": 5946,
+        "rawBytesSha256": "ca0e7c3d351f2ccba7dbcfaae31920852bf17d3ddf57e2b55da63182deaa2308"
+      },
+      "completedAt": "2026-11-02T00:19:45.559Z"
+    },
+    {
+      "index": 6,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:45.561Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0006.json",
+        "bytes": 2468,
+        "rawBytesSha256": "f3f3d70f0c6f2c216d2aaa87674839da72de29e21cb6e4476e360f4d57cfaf3e"
+      },
+      "completedAt": "2026-11-02T00:19:45.612Z"
+    },
+    {
+      "index": 7,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.565Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0007.json",
+        "bytes": 2794,
+        "rawBytesSha256": "b744774d38d86d23f9a63764276ffaf8f02ea401fa21c605661b4cf8bffbf00b"
+      },
+      "completedAt": "2026-11-02T00:19:45.603Z"
+    },
+    {
+      "index": 8,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.608Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0008.json",
+        "bytes": 11728,
+        "rawBytesSha256": "e99968100069e87a4f61ff0cab6f0c437d77047d9c7761a42d44e3aabd62a601"
+      },
+      "completedAt": "2026-11-02T00:19:45.660Z"
+    },
+    {
+      "index": 9,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.609Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0009.json",
+        "bytes": 2418,
+        "rawBytesSha256": "10b2d40d93473888f3b7db4e0af5c08e32ce534afbfbd66f4f56a0845677d508"
+      },
+      "completedAt": "2026-11-02T00:19:45.652Z"
+    },
+    {
+      "index": 10,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.617Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0010.json",
+        "bytes": 2926,
+        "rawBytesSha256": "81e6b59c96751f162955bdc0200cbfb50c90b6410affb3375ec605b6c928e2c0"
+      },
+      "completedAt": "2026-11-02T00:19:45.671Z"
+    },
+    {
+      "index": 11,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:45.676Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0011.json",
+        "bytes": 2472,
+        "rawBytesSha256": "77c214ef360ea9f1b95310da470250bba426450a8ce3163ea24699f8fc0d9df6"
+      },
+      "completedAt": "2026-11-02T00:19:45.691Z"
+    },
+    {
+      "index": 12,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:45.676Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0012.json",
+        "bytes": 2458,
+        "rawBytesSha256": "f65b23cbb009744c90426789e9b595c1c4c8adc330131ec9b4393b7b86d24ff1"
+      },
+      "completedAt": "2026-11-02T00:19:45.698Z"
+    },
+    {
+      "index": 13,
+      "method": "GET",
+      "path": "/api/customers",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:45.803Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0013.json",
+        "bytes": 34870,
+        "rawBytesSha256": "bdb1912c5b7d820e0fc1301064c42188103efd2c71ecb588c4128f75f09c8c18"
+      },
+      "completedAt": "2026-11-02T00:19:45.826Z"
+    },
+    {
+      "index": 14,
+      "method": "POST",
+      "path": "/api/customers",
+      "backendPort": 11100,
+      "status": 201,
+      "startedAt": "2026-11-02T00:19:46.396Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0014.json",
+        "bytes": 3794,
+        "rawBytesSha256": "9c19d621142ab88c47ebe2dbf4d7caf4c3b13d4c9d020871f17158cdb4aa00c5"
+      },
+      "completedAt": "2026-11-02T00:19:46.434Z"
+    },
+    {
+      "index": 15,
+      "method": "GET",
+      "path": "/api/customers",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.438Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0015.json",
+        "bytes": 35774,
+        "rawBytesSha256": "c8a6b340546ae7e1949930dcb218cb1d1e12c7b9369707da9556115068bf9071"
+      },
+      "completedAt": "2026-11-02T00:19:46.463Z"
+    },
+    {
+      "index": 16,
+      "method": "GET",
+      "path": "/api/customers/f14738cf-1b0e-4d50-815d-4104a7db276a/workspace-overview",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.628Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0016.json",
+        "bytes": 4041,
+        "rawBytesSha256": "3f403653fa390df890f6ff86f333e0514cc9dac2f3b0ec8f7c1534e642e21cfd"
+      },
+      "completedAt": "2026-11-02T00:19:46.681Z"
+    },
+    {
+      "index": 17,
+      "method": "GET",
+      "path": "/api/customers/f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.629Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0017.json",
+        "bytes": 3898,
+        "rawBytesSha256": "771f46f9e6fac3e3bb887b7db7bca6f6c6c5c67882fddb8bce1ae9966276166c"
+      },
+      "completedAt": "2026-11-02T00:19:46.682Z"
+    },
+    {
+      "index": 18,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.715Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0018.json",
+        "bytes": 2549,
+        "rawBytesSha256": "9c073bbf7331fab61651a041de05a2a4bc18bf172aec5b414775503be8e8b049"
+      },
+      "completedAt": "2026-11-02T00:19:46.795Z"
+    },
+    {
+      "index": 19,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.716Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0019.json",
+        "bytes": 2552,
+        "rawBytesSha256": "cd8c50e72a4e18c0571c177c3a55ff7a8202d10230c7bac5cf04a52a94c67040"
+      },
+      "completedAt": "2026-11-02T00:19:46.765Z"
+    },
+    {
+      "index": 20,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a&lifecycleScope=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.717Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0020.json",
+        "bytes": 2577,
+        "rawBytesSha256": "410ced045d6baf2d66fdf28e27e5d1a2c2f65fd91613b912ef7dbbcae332f06f"
+      },
+      "completedAt": "2026-11-02T00:19:46.750Z"
+    },
+    {
+      "index": 21,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.718Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0021.json",
+        "bytes": 5246,
+        "rawBytesSha256": "b47934dc19d674634b30ed6091c02542374eb18ac62b5bb07f2eb6a76ce1274d"
+      },
+      "completedAt": "2026-11-02T00:19:46.782Z"
+    },
+    {
+      "index": 22,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.719Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0022.json",
+        "bytes": 2561,
+        "rawBytesSha256": "b43b88fb0a8618b15b8ec8116cc1244e8cc214e065320aa00022a2b35ec3ced6"
+      },
+      "completedAt": "2026-11-02T00:19:46.810Z"
+    },
+    {
+      "index": 23,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.720Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0023.json",
+        "bytes": 9106,
+        "rawBytesSha256": "711e92e950a44fc21920098ea6b86764b42bc0b218c1911394abd1d42849f951"
+      },
+      "completedAt": "2026-11-02T00:19:46.808Z"
+    },
+    {
+      "index": 24,
+      "method": "POST",
+      "path": "/api/customers/f14738cf-1b0e-4d50-815d-4104a7db276a/aliases",
+      "backendPort": 11100,
+      "status": 201,
+      "startedAt": "2026-11-02T00:19:46.944Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0024.json",
+        "bytes": 3467,
+        "rawBytesSha256": "eedfbaca4fd317d07a86f9bd8fefe110968ff4b61e3ff626fae4b7fa5992fc30"
+      },
+      "completedAt": "2026-11-02T00:19:46.979Z"
+    },
+    {
+      "index": 25,
+      "method": "GET",
+      "path": "/api/customers/f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:46.983Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0025.json",
+        "bytes": 4472,
+        "rawBytesSha256": "2265a197e3c60d50f70b0f6f049583a02d66992e695e449ca85614fb4dc45ed9"
+      },
+      "completedAt": "2026-11-02T00:19:47.004Z"
+    },
+    {
+      "index": 26,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.018Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0026.json",
+        "bytes": 2589,
+        "rawBytesSha256": "5ab2757dfe01c00ca62f8999c3897b052b71177c98d80885962e912241c11955"
+      },
+      "completedAt": "2026-11-02T00:19:47.057Z"
+    },
+    {
+      "index": 27,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.019Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0027.json",
+        "bytes": 2592,
+        "rawBytesSha256": "864baa6708187a6eb83dbcab09f7a275d83d465794aa5e4dd14a1b7500183918"
+      },
+      "completedAt": "2026-11-02T00:19:47.058Z"
+    },
+    {
+      "index": 28,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a&lifecycleScope=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.020Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0028.json",
+        "bytes": 2617,
+        "rawBytesSha256": "4192f5da591d0f177adeeffe06724f506a354050c0c3b44ebf623031487b6e60"
+      },
+      "completedAt": "2026-11-02T00:19:47.086Z"
+    },
+    {
+      "index": 29,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.020Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0029.json",
+        "bytes": 2584,
+        "rawBytesSha256": "acc50e34d396e605f6ac2c9849d55a721a334157348ccd1c838565e7a72c1a62"
+      },
+      "completedAt": "2026-11-02T00:19:47.082Z"
+    },
+    {
+      "index": 30,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.020Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0030.json",
+        "bytes": 2601,
+        "rawBytesSha256": "bff8d5464e5a844774ec9f2c0ab3240eb659144d57256a20452d30a553f328b9"
+      },
+      "completedAt": "2026-11-02T00:19:47.088Z"
+    },
+    {
+      "index": 31,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.021Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0031.json",
+        "bytes": 2586,
+        "rawBytesSha256": "1c2c6bd4f77551e8ba43e9ecd6f2fb7824615535109cce8d16e0b8d5ebc4b40b"
+      },
+      "completedAt": "2026-11-02T00:19:47.088Z"
+    },
+    {
+      "index": 32,
+      "method": "DELETE",
+      "path": "/api/customer-aliases/f582748a-0b13-4658-8059-e3bd67e7e308",
+      "backendPort": 11100,
+      "status": 204,
+      "startedAt": "2026-11-02T00:19:47.626Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0032.json",
+        "bytes": 2665,
+        "rawBytesSha256": "5d96d5ee14d365e7758977619e82613fbde60973c1e77245cfefdef5dba57733"
+      },
+      "completedAt": "2026-11-02T00:19:47.665Z"
+    },
+    {
+      "index": 33,
+      "method": "GET",
+      "path": "/api/customers/f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:47.670Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0033.json",
+        "bytes": 4032,
+        "rawBytesSha256": "8410bb8df0bb63e986fa750499e73c1b75eb653471996a82fc68f33f1d0a110a"
+      },
+      "completedAt": "2026-11-02T00:19:47.689Z"
+    },
+    {
+      "index": 34,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.704Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0034.json",
+        "bytes": 2589,
+        "rawBytesSha256": "5ab2757dfe01c00ca62f8999c3897b052b71177c98d80885962e912241c11955"
+      },
+      "completedAt": "2026-11-02T00:19:47.750Z"
+    },
+    {
+      "index": 35,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.705Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0035.json",
+        "bytes": 2592,
+        "rawBytesSha256": "864baa6708187a6eb83dbcab09f7a275d83d465794aa5e4dd14a1b7500183918"
+      },
+      "completedAt": "2026-11-02T00:19:47.751Z"
+    },
+    {
+      "index": 36,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=f14738cf-1b0e-4d50-815d-4104a7db276a&lifecycleScope=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.706Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0036.json",
+        "bytes": 2617,
+        "rawBytesSha256": "4192f5da591d0f177adeeffe06724f506a354050c0c3b44ebf623031487b6e60"
+      },
+      "completedAt": "2026-11-02T00:19:47.767Z"
+    },
+    {
+      "index": 37,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.706Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0037.json",
+        "bytes": 2584,
+        "rawBytesSha256": "acc50e34d396e605f6ac2c9849d55a721a334157348ccd1c838565e7a72c1a62"
+      },
+      "completedAt": "2026-11-02T00:19:47.755Z"
+    },
+    {
+      "index": 38,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.706Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0038.json",
+        "bytes": 2601,
+        "rawBytesSha256": "bff8d5464e5a844774ec9f2c0ab3240eb659144d57256a20452d30a553f328b9"
+      },
+      "completedAt": "2026-11-02T00:19:47.754Z"
+    },
+    {
+      "index": 39,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:47.707Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0039.json",
+        "bytes": 2586,
+        "rawBytesSha256": "1c2c6bd4f77551e8ba43e9ecd6f2fb7824615535109cce8d16e0b8d5ebc4b40b"
+      },
+      "completedAt": "2026-11-02T00:19:47.768Z"
+    },
+    {
+      "index": 40,
+      "method": "PATCH",
+      "path": "/api/customers/f14738cf-1b0e-4d50-815d-4104a7db276a",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:48.276Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0040.json",
+        "bytes": 4524,
+        "rawBytesSha256": "f68a051b8955e517a7d3f9063e16fef218140886228df7dc5988ebec0110ea05"
+      },
+      "completedAt": "2026-11-02T00:19:48.317Z"
+    },
+    {
+      "index": 41,
+      "method": "GET",
+      "path": "/api/customers",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:48.719Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0041.json",
+        "bytes": 35910,
+        "rawBytesSha256": "79f9fcd16f49f929825bccf49c6fea7c83482116957074b4b278761c9b770eec"
+      },
+      "completedAt": "2026-11-02T00:19:48.739Z"
+    },
+    {
+      "index": 42,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:48.919Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0042.json",
+        "bytes": 2466,
+        "rawBytesSha256": "1c788f4e5c48ae3c04acad01375c29c28d1d64afbec57417ceb00da9d2354510"
+      },
+      "completedAt": "2026-11-02T00:19:48.940Z"
+    },
+    {
+      "index": 43,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:48.941Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0043.json",
+        "bytes": 2466,
+        "rawBytesSha256": "1c788f4e5c48ae3c04acad01375c29c28d1d64afbec57417ceb00da9d2354510"
+      },
+      "completedAt": "2026-11-02T00:19:48.966Z"
+    },
+    {
+      "index": 44,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:48.945Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0044.json",
+        "bytes": 2924,
+        "rawBytesSha256": "649c7b1e7fbec62d0304d66f4834b0d0bdf51e6f61f71981c13eb305c2712790"
+      },
+      "completedAt": "2026-11-02T00:19:48.982Z"
+    },
+    {
+      "index": 45,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:48.984Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0045.json",
+        "bytes": 2924,
+        "rawBytesSha256": "6b93ee19222100b6265270cd9415abee1c5d53f6b19eccc170bd5e5f23ac6727"
+      },
+      "completedAt": "2026-11-02T00:19:49.014Z"
+    },
+    {
+      "index": 46,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:48.986Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0046.json",
+        "bytes": 2470,
+        "rawBytesSha256": "39f75abbdbce3950dfb639e1016ce7e7bf8e1f651ba6f281e7f8546198141fa4"
+      },
+      "completedAt": "2026-11-02T00:19:49.014Z"
+    },
+    {
+      "index": 47,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:48.987Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0047.json",
+        "bytes": 2456,
+        "rawBytesSha256": "29b2a918d147d68c64547bf8d96663f5573fbe74c98b64894dd307aa2a1f703e"
+      },
+      "completedAt": "2026-11-02T00:19:49.014Z"
+    },
+    {
+      "index": 48,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:49.020Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0048.json",
+        "bytes": 2470,
+        "rawBytesSha256": "3c638526e8731fda79418805030c60d89f8c3948b510e8c583089c2ef94ba731"
+      },
+      "completedAt": "2026-11-02T00:19:49.033Z"
+    },
+    {
+      "index": 49,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:49.021Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0049.json",
+        "bytes": 2456,
+        "rawBytesSha256": "88fc9a1d258b0613ad7d074834b7fa61ae3f764a5c11b05bfec4cc70b42bd6c5"
+      },
+      "completedAt": "2026-11-02T00:19:49.039Z"
+    },
+    {
+      "index": 50,
+      "method": "GET",
+      "path": "/api/customers?status=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.199Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0050.json",
+        "bytes": 34858,
+        "rawBytesSha256": "f717c9c8ce57e03c63b841dfe6a93f0d0793a2e75f41398ab6a92d8c6d6cd9f7"
+      },
+      "completedAt": "2026-11-02T00:19:49.227Z"
+    },
+    {
+      "index": 51,
+      "method": "GET",
+      "path": "/api/projects",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.199Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0051.json",
+        "bytes": 25815,
+        "rawBytesSha256": "daead44bb92b24f5768a80adf3677ce16dc17a59aabda100b71e9b078ce3ac5a"
+      },
+      "completedAt": "2026-11-02T00:19:49.228Z"
+    },
+    {
+      "index": 52,
+      "method": "GET",
+      "path": "/api/platform/owner-reference",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.709Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0052.json",
+        "bytes": 10283,
+        "rawBytesSha256": "89ea347a1a31493b816805cfd09ae31d1573b4858b7096a8522162b9de0767ff"
+      },
+      "completedAt": "2026-11-02T00:19:49.767Z"
+    },
+    {
+      "index": 53,
+      "method": "GET",
+      "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.710Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0053.json",
+        "bytes": 5587,
+        "rawBytesSha256": "f73d8815101c4e7d01f36c1ec164ad7729bad72d763ec1e36fcf87ba2a2927d0"
+      },
+      "completedAt": "2026-11-02T00:19:49.773Z"
+    },
+    {
+      "index": 54,
+      "method": "GET",
+      "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38/timeline",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.711Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0054.json",
+        "bytes": 3806,
+        "rawBytesSha256": "56208359d7a835964793f62cf2225f00c5f4c1e05fba04f08389b5206c40c734"
+      },
+      "completedAt": "2026-11-02T00:19:49.780Z"
+    },
+    {
+      "index": 55,
+      "method": "GET",
+      "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38/archive-records",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.712Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0055.json",
+        "bytes": 2543,
+        "rawBytesSha256": "4f02832c5e957fd3c58ad62d9799ff7f8172c2df20a0d643c7d76e0d356e5c0d"
+      },
+      "completedAt": "2026-11-02T00:19:49.777Z"
+    },
+    {
+      "index": 56,
+      "method": "GET",
+      "path": "/api/attachments?targetType=project&targetId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.802Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0056.json",
+        "bytes": 2558,
+        "rawBytesSha256": "7ca934fe52ae4e681c2858e4eb54367a2292dd298f689011ff91b03a3af916fa"
+      },
+      "completedAt": "2026-11-02T00:19:49.873Z"
+    },
+    {
+      "index": 57,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=53ab72fb-56b7-4422-9a3e-0f3dc6bd4875&projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38&lifecycleScope=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.803Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0057.json",
+        "bytes": 2622,
+        "rawBytesSha256": "b82ad09fa0dac2f92526c2ce10dd03592a7b42158ea74400f0683a5fa454175d"
+      },
+      "completedAt": "2026-11-02T00:19:49.868Z"
+    },
+    {
+      "index": 58,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:49.803Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0058.json",
+        "bytes": 2584,
+        "rawBytesSha256": "67221bbed1d85f12c8b4c02b3ea10de3330cc62c657aaba20a62d59a06a9e902"
+      },
+      "completedAt": "2026-11-02T00:19:49.840Z"
+    },
+    {
+      "index": 59,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=53ab72fb-56b7-4422-9a3e-0f3dc6bd4875",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.803Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0059.json",
+        "bytes": 2547,
+        "rawBytesSha256": "ce7aa2fcded2a88094382027639a0dcedf7270fdfb212289ae99ec6062e94851"
+      },
+      "completedAt": "2026-11-02T00:19:49.841Z"
+    },
+    {
+      "index": 60,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:49.804Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0060.json",
+        "bytes": 2582,
+        "rawBytesSha256": "d5630ea3d53e3ea506d2a6a88082032320cfe07f3e0ba89492d077bb78cbeb2b"
+      },
+      "completedAt": "2026-11-02T00:19:49.876Z"
+    },
+    {
+      "index": 61,
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.804Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0061.json",
+        "bytes": 2553,
+        "rawBytesSha256": "ab2e03e1c6b6212b93c3d7fff8b5a5ac2651200c790ade906c1645f19d2966f9"
+      },
+      "completedAt": "2026-11-02T00:19:49.875Z"
+    },
+    {
+      "index": 62,
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.842Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0062.json",
+        "bytes": 2560,
+        "rawBytesSha256": "c75d2b1bf939cc85a4c4c9ac88bbd8d6e06805669796b8b1d7373041ad1e5fd6"
+      },
+      "completedAt": "2026-11-02T00:19:49.929Z"
+    },
+    {
+      "index": 63,
+      "method": "GET",
+      "path": "/api/sales-discovery-records?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.843Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0063.json",
+        "bytes": 2552,
+        "rawBytesSha256": "59c9f02471dc7d865fc6c34a6334026e3ca060736921752af92c46799bc2abf2"
+      },
+      "completedAt": "2026-11-02T00:19:49.923Z"
+    },
+    {
+      "index": 64,
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.869Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0064.json",
+        "bytes": 3838,
+        "rawBytesSha256": "ecb0abc52f5201821ee629aaa8bcb8eed7b457541c5c652fb31351716a9fa924"
+      },
+      "completedAt": "2026-11-02T00:19:49.930Z"
+    },
+    {
+      "index": 65,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=53ab72fb-56b7-4422-9a3e-0f3dc6bd4875&projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:49.874Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0065.json",
+        "bytes": 2597,
+        "rawBytesSha256": "9632ce3a540b6b967be2d9245f2c1e867e7c1d703a1b5ab51bdd64d8a95ea1d9"
+      },
+      "completedAt": "2026-11-02T00:19:49.927Z"
+    },
+    {
+      "index": 66,
+      "method": "GET",
+      "path": "/api/customers?status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:50.043Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0066.json",
+        "bytes": 2554,
+        "rawBytesSha256": "7c45b78784472d0fb9ae769243533ab4d9fb7cacf6b281a1c2a03ee7cf5bf807"
+      },
+      "completedAt": "2026-11-02T00:19:50.063Z"
+    },
+    {
+      "index": 67,
+      "method": "PATCH",
+      "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.294Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0067.json",
+        "bytes": 4103,
+        "rawBytesSha256": "33544f117e230400299774cdd80511126fc0cf79184586ac9054061f6f530228"
+      },
+      "completedAt": "2026-11-02T00:19:51.319Z"
+    },
+    {
+      "index": 68,
+      "method": "GET",
+      "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.323Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0068.json",
+        "bytes": 5591,
+        "rawBytesSha256": "d45de96dafa608ebba5575be8017a195347b3794832d64091221e91d70a196f9"
+      },
+      "completedAt": "2026-11-02T00:19:51.343Z"
+    },
+    {
+      "index": 69,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=90a38cf8-e145-46a8-8814-35680f07a216&projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38&lifecycleScope=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.354Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0069.json",
+        "bytes": 2622,
+        "rawBytesSha256": "280cb20eaf3cb54eeabe2ae1525e586da56c1e173a565e0bb448156be932dc29"
+      },
+      "completedAt": "2026-11-02T00:19:51.399Z"
+    },
+    {
+      "index": 70,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=90a38cf8-e145-46a8-8814-35680f07a216",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.355Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0070.json",
+        "bytes": 2547,
+        "rawBytesSha256": "2fd76a574a0ef7b7928ad9537595d5f3af78f7745fcb5dfcf37a32cad7d09b68"
+      },
+      "completedAt": "2026-11-02T00:19:51.416Z"
+    },
+    {
+      "index": 71,
+      "method": "GET",
+      "path": "/api/attachments?targetType=project&targetId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.355Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0071.json",
+        "bytes": 2598,
+        "rawBytesSha256": "b48ef192e4295b3959ff39c01f6230247154945c5a5c627c99e63c3fe73ecfd1"
+      },
+      "completedAt": "2026-11-02T00:19:51.395Z"
+    },
+    {
+      "index": 72,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.355Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0072.json",
+        "bytes": 2584,
+        "rawBytesSha256": "46825b5ee6ef370ecdf500c3d511412efd52b87c5e55f476c6d4f2e20935e6af"
+      },
+      "completedAt": "2026-11-02T00:19:51.397Z"
+    },
+    {
+      "index": 73,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.356Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0073.json",
+        "bytes": 2582,
+        "rawBytesSha256": "19f0c8d4bd46d103c16f407e7e3318f25948e0f0feff91f0e481d066b369bbf7"
+      },
+      "completedAt": "2026-11-02T00:19:51.424Z"
+    },
+    {
+      "index": 74,
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.356Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0074.json",
+        "bytes": 2593,
+        "rawBytesSha256": "a386f78ffdb058905d6b30a0d530f977001439500c63ce3fefd1dc258b244912"
+      },
+      "completedAt": "2026-11-02T00:19:51.422Z"
+    },
+    {
+      "index": 75,
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.396Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0075.json",
+        "bytes": 2600,
+        "rawBytesSha256": "d98f4c642e53ee4aa153b0854e0a8d154adb8600e2bae4b681e7bac1da226532"
+      },
+      "completedAt": "2026-11-02T00:19:51.436Z"
+    },
+    {
+      "index": 76,
+      "method": "GET",
+      "path": "/api/sales-discovery-records?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.399Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0076.json",
+        "bytes": 2592,
+        "rawBytesSha256": "0a1579262e805413cde2dfd8c6d5e7c4665d080b3b742f3fc7ae05aebd0c5bd3"
+      },
+      "completedAt": "2026-11-02T00:19:51.458Z"
+    },
+    {
+      "index": 77,
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps?projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 304,
+      "startedAt": "2026-11-02T00:19:51.400Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0077.json",
+        "bytes": 2598,
+        "rawBytesSha256": "9a94d3a40d5e6369d341698c158392003d2965a85ac18017035c89126c76d97e"
+      },
+      "completedAt": "2026-11-02T00:19:51.456Z"
+    },
+    {
+      "index": 78,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=90a38cf8-e145-46a8-8814-35680f07a216&projectId=77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.417Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0078.json",
+        "bytes": 2597,
+        "rawBytesSha256": "92ffd575fe3b1f75e22d834f9f586ac4ab029f1f2395899289e33f71ea208bf4"
+      },
+      "completedAt": "2026-11-02T00:19:51.456Z"
+    },
+    {
+      "index": 79,
+      "method": "GET",
+      "path": "/api/customers?status=active",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.554Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0079.json",
+        "bytes": 34994,
+        "rawBytesSha256": "23034d998d40a1a2ffeb8590ac23df1916bd29e8df3e7d52ddc8658a0204708e"
+      },
+      "completedAt": "2026-11-02T00:19:51.590Z"
+    },
+    {
+      "index": 80,
+      "method": "GET",
+      "path": "/api/projects",
+      "backendPort": 11100,
+      "status": 200,
+      "startedAt": "2026-11-02T00:19:51.555Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3ab/private/ui-linux-native06/proxy/http-0080.json",
+        "bytes": 25955,
+        "rawBytesSha256": "f4e4ff94cd20b2f1c91db8a936e8933d6490e152db9fd801d7e9b7e739664954"
+      },
+      "completedAt": "2026-11-02T00:19:51.591Z"
+    }
+  ],
+  "staticBuild": {
+    "memberCount": 422,
+    "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+  },
+  "closure": {
+    "browserClosed": true,
+    "serverClosed": true,
+    "pending": 0,
+    "allRawExchangesRetained": true
+  },
+  "credentialOrRawAuthPublished": false,
+  "outOfScopeBackendRequestsNotClaimedAsMigrated": true,
+  "cohortCleanup": "Pending-shared-API-and-UI-terminal",
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,394 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-source-and-external-write-scoped-review",
+  "createdAtUtc": "2026-11-02T00:28:24Z",
+  "result": "Scoped-checks-completed",
+  "notANewGate": true,
+  "overallG3": "Pending",
+  "G3Certified": false,
+  "G4Certified": false,
+  "cleanupCertified": false,
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "issues": {
+      "overall": 57,
+      "parent": 85,
+      "A": 86,
+      "B": 87
+    },
+    "scope": "Current15 production files, preserved API05 case inputs versus UI-only changes, and the seven external fault/concurrency observations per backend."
+  },
+  "carriedForward": [
+    {
+      "file": "tmp/rust-r3ab/c-review/api-pg-scoped-review01.json",
+      "rawBytesSha256": "d857cb17365e9a5438dbb933fbe82d7efd1d6e104b7afec46780191625dc2243",
+      "claims": "production source/read/API review and read-only263+34 comparison replay"
+    },
+    {
+      "file": "tmp/rust-r3ab/c-review/api-pg-scoped-review02.json",
+      "rawBytesSha256": "3a1e254b2116d321c2951bf29b166779a431927fdbc715e48e20843c529a1216",
+      "claims": "API-PG-C-003 closed with limited existing socket-representation classification"
+    }
+  ],
+  "productSourceAssessment": {
+    "previouslyPinnedFiles": 15,
+    "rawHashAndLengthRechecked": true,
+    "changedFiles": [],
+    "existingSourceReviewApplicable": true,
+    "newConfirmedProductDefects": [],
+    "noBuildOrActualProductTestRunByC": true
+  },
+  "api05InputPreservation": {
+    "method": "Pure TypeScript6.0.3 AST parsing identifies the named UI function's raw byte range. Prefix, suffix and all bytes outside the UI function were compared; the modules were not executed. Read-only git diff independently showed every hunk inside the UI functions.",
+    "modules": [
+      {
+        "module": "A",
+        "uiFunction": "customerUi",
+        "executedAPI05Origin": {
+          "recordedFile": "tools/rust-r3ab/a-cases.mjs",
+          "preservedFile": "tmp/rust-r3ab/root/a-cases-api05-original.mjs",
+          "bytes": 42013,
+          "rawBytesSha256": "abc385480b65e272f5097b16bb18c8baef357a21ffc2f24ab9e7376696dba1f9"
+        },
+        "currentUIFile": {
+          "file": "tools/rust-r3ab/a-cases.mjs",
+          "bytes": 42203,
+          "rawBytesSha256": "17c61763ce06b94b3b41b7a95e78ce0e5f06c717ddee61d487b3eb47556fe848"
+        },
+        "apiPrefix": {
+          "bytes": 36735,
+          "equal": true,
+          "rawBytesSha256": "e9009ae1474a66a1dc62ee2ae944e6e73c9c597aba86698bd1ecb21dffe79259"
+        },
+        "suffix": {
+          "bytes": 1,
+          "equal": true
+        },
+        "allNonUIBytes": {
+          "bytes": 36736,
+          "equal": true,
+          "rawBytesSha256": "8471bf897fd432342209277cd78d5dfde24b3969f0422f7aac4a6d25276ad058"
+        },
+        "changes": "Only real PrimeNG button selection and customerNo-based visible-row disambiguation inside customerUi."
+      },
+      {
+        "module": "B",
+        "uiFunction": "projectUi",
+        "executedAPI05Origin": {
+          "recordedFile": "tools/rust-r3ab/b-cases.mjs",
+          "preservedFile": "tmp/rust-r3ab/root/b-cases-api05-original.mjs",
+          "bytes": 40398,
+          "rawBytesSha256": "0eb6bde75d55f0d521b49663f27d7981be3201060adfddcd7e9615cce22dce9d"
+        },
+        "currentUIFile": {
+          "file": "tools/rust-r3ab/b-cases.mjs",
+          "bytes": 40375,
+          "rawBytesSha256": "fa008da4ed0fea8dbd37ef818c9e389f33f261fcb140314683fc01a3717a382b"
+        },
+        "apiPrefix": {
+          "bytes": 34664,
+          "equal": true,
+          "rawBytesSha256": "29507dc44a2caef7ae596dddef67269d05f3716d84ba26904e628fd26169d7b0"
+        },
+        "suffix": {
+          "bytes": 1,
+          "equal": true
+        },
+        "allNonUIBytes": {
+          "bytes": 34665,
+          "equal": true,
+          "rawBytesSha256": "bb4f340669746aa6dec9eea22164496799c722d2ea499d1df5832dc528b80270"
+        },
+        "changes": "Only original-page button/link locators and resolving /projects against the provided base URL inside projectUi."
+      }
+    ],
+    "originalWholeModuleHashesMatchActualAPI05ExecutionSources": true,
+    "currentWholeModuleHashesNotMisrepresentedAsAPI05Originals": true,
+    "noAPIBehaviorOrExpectationWeakened": true,
+    "existingAPI05ReuseSupportedForTheseUIOnlyChanges": true,
+    "preservationRequirement": "Keep both API05-original module files, their exact hashes and the origin mapping with the raw API reports; do not rewrite historical executionSources to the current UI-edited module hashes."
+  },
+  "externalEvidence": {
+    "report": {
+      "file": "tmp/rust-r3ab/external-writes-attempt0501.json",
+      "bytes": 29093,
+      "rawBytesSha256": "27e6e3e2b63198ced27e2008121043ba9b3f14a3ab6e18ed1aae632a435932b4"
+    },
+    "tool": {
+      "file": "tools/rust-r3ab/external-writes.mjs",
+      "bytes": 8873,
+      "rawBytesSha256": "30fc63a55a7a969ab44fa480ac11b13f1e17666028826832db697336d147638d"
+    },
+    "resultForTheIncludedSevenChecks": "Pass",
+    "rootSourceAndPublicReportHashMatched": true,
+    "linkedOriginalAPI05RunAndReportHashChecked": true,
+    "backendChecks": {
+      "sourceHashMatches": true,
+      "initialCountersExactlyEqual": true,
+      "finalCountersExactlyEqual": true,
+      "records": [
+        {
+          "backend": "nest",
+          "runMatches": true,
+          "reportHashMatches": true,
+          "checks": [
+            {
+              "name": "customer-alias-insert-fault-counter-retained",
+              "passed": true,
+              "detail": {
+                "before": 16,
+                "entityRows": 0,
+                "after": 17,
+                "scope": "customer"
+              }
+            },
+            {
+              "name": "project-insert-fault-counter-retained",
+              "passed": true,
+              "detail": {
+                "before": 19,
+                "entityRows": 0,
+                "after": 20,
+                "scope": "project"
+              }
+            },
+            {
+              "name": "audit-insert-fault-atomic",
+              "passed": true,
+              "detail": {
+                "aliasRetained": true,
+                "audits": 0
+              }
+            },
+            {
+              "name": "alias-delete-fault-atomic",
+              "passed": true,
+              "detail": {
+                "aliasRetained": true,
+                "audits": 0
+              }
+            },
+            {
+              "name": "customer-two-readers-CAS",
+              "passed": true,
+              "detail": {
+                "waiters": 2,
+                "statuses": [
+                  200,
+                  500
+                ],
+                "versionAfter": 2,
+                "versionBefore": 1,
+                "winnerPersisted": true,
+                "winnerIndex": 0
+              }
+            },
+            {
+              "name": "project-two-readers-CAS",
+              "passed": true,
+              "detail": {
+                "waiters": 2,
+                "statuses": [
+                  200,
+                  500
+                ],
+                "versionAfter": 2,
+                "versionBefore": 1,
+                "winnerPersisted": true,
+                "winnerIndex": 0
+              }
+            },
+            {
+              "name": "alias-two-readers-double-204",
+              "passed": true,
+              "detail": {
+                "actualAuditsMatchActorsAndRequests": true,
+                "statuses": [
+                  204,
+                  204
+                ],
+                "auditCount": 2,
+                "waiters": 2
+              }
+            }
+          ],
+          "mismatches": [],
+          "ACLRestoredReported": true
+        },
+        {
+          "backend": "rust",
+          "runMatches": true,
+          "reportHashMatches": true,
+          "checks": [
+            {
+              "name": "customer-alias-insert-fault-counter-retained",
+              "passed": true,
+              "detail": {
+                "before": 16,
+                "entityRows": 0,
+                "after": 17,
+                "scope": "customer"
+              }
+            },
+            {
+              "name": "project-insert-fault-counter-retained",
+              "passed": true,
+              "detail": {
+                "before": 19,
+                "entityRows": 0,
+                "after": 20,
+                "scope": "project"
+              }
+            },
+            {
+              "name": "audit-insert-fault-atomic",
+              "passed": true,
+              "detail": {
+                "aliasRetained": true,
+                "audits": 0
+              }
+            },
+            {
+              "name": "alias-delete-fault-atomic",
+              "passed": true,
+              "detail": {
+                "aliasRetained": true,
+                "audits": 0
+              }
+            },
+            {
+              "name": "customer-two-readers-CAS",
+              "passed": true,
+              "detail": {
+                "waiters": 2,
+                "statuses": [
+                  500,
+                  200
+                ],
+                "versionAfter": 2,
+                "versionBefore": 1,
+                "winnerPersisted": true,
+                "winnerIndex": 1
+              }
+            },
+            {
+              "name": "project-two-readers-CAS",
+              "passed": true,
+              "detail": {
+                "waiters": 2,
+                "statuses": [
+                  200,
+                  500
+                ],
+                "versionAfter": 2,
+                "versionBefore": 1,
+                "winnerPersisted": true,
+                "winnerIndex": 0
+              }
+            },
+            {
+              "name": "alias-two-readers-double-204",
+              "passed": true,
+              "detail": {
+                "actualAuditsMatchActorsAndRequests": true,
+                "statuses": [
+                  204,
+                  204
+                ],
+                "auditCount": 2,
+                "waiters": 2
+              }
+            }
+          ],
+          "mismatches": [],
+          "ACLRestoredReported": true
+        }
+      ]
+    },
+    "counters": {
+      "initialExactlyEqualAcrossBackends": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 16
+        },
+        {
+          "scope": "project",
+          "period": "2026",
+          "next_value": 19
+        }
+      ],
+      "finalExactlyEqualAcrossBackends": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 18
+        },
+        {
+          "scope": "project",
+          "period": "2026",
+          "next_value": 21
+        }
+      ],
+      "notClaimedUnchangedWithinEachRun": true
+    },
+    "faultAssessment": "Customer primary-alias INSERT fault and project INSERT fault return500, leave zero tested business entities, and retain one independently consumed number. Audit-INSERT and alias-DELETE faults return500, retain the alias and leave zero matching customer.alias.deleted audit rows.",
+    "concurrencyAssessment": "Both actual requests wait before release. Each customer/project schedule yields one200 and one generic500, increments the row version exactly once, and persists the successful response's payload and actor. Winners are allowed to differ across backends; the Rust customer case's right-hand winner was independently checked.",
+    "doubleDeleteAssessment": "Both responses204; two actual audit rows match the two requestIds, their respective actors, the owned customer and alias snapshot. The source asserts the alias is absent; no affected-row conflict is invented.",
+    "transientSafety": "Every temporary ACL fault has a finally restoration path and the completed source report records ACLRestored=true. This receipt does not replace final catalog/ACL/owned-run terminal reconciliation.",
+    "independentReviewLimit": "C inspected public saved rows, responses and the Root runner source, not live PG/private traces. This does not add new runtime executions or inflate the seven-case counts."
+  },
+  "coverageStillRequiredBeforeOverallG3": [
+    {
+      "id": "COUNTER-ENTRY-FAILURE",
+      "sourceRequirement": "corrective-review01 implementationAndAcceptance.mandatoryFinalRustComparison: number failure preventing entity writes",
+      "notCoveredByThisSevenCaseReport": "The two counter-retained cases fail later entity inserts after successful numbering; they do not fail the numbering entry itself.",
+      "needed": "Actual bound evidence for numbering failure before entity writes, or an explicit acceptable source-bound reuse/disposition in the final package."
+    },
+    {
+      "id": "B-35",
+      "sourceRequirement": "Frozen input-b-acceptance B-35: sensitive audit failure must not return success and pending-session atomicity",
+      "notCoveredByThisSevenCaseReport": "The audit fault here targets alias audit_log, not the masked security_event write.",
+      "needed": "Actual bound evidence for the masked-detail security audit failure path and its pending-session boundary, or an explicit acceptable source-bound reuse/disposition."
+    }
+  ],
+  "remainingOverallWork": [
+    "the two named still-uncovered required failure boundaries",
+    "four real browser/backend UI combinations",
+    "same-owned-run row/resource/ACL/catalog terminal reconciliation",
+    "complete build/source/protection and formal overall joint G3",
+    "fixed commits/main integration, evidence preservation/archive and actual online G4"
+  ],
+  "scopeAccounting": {
+    "existingAPIPerBackend": 263,
+    "existingObservationsPerBackend": 34,
+    "newExternalCasesPerBackend": 7,
+    "noWholeR3CompletionClaim": true,
+    "newDeliveredOperationsCertified": 0
+  },
+  "keepOpen": [
+    85,
+    57
+  ],
+  "closeOnlyAfterOwnG4": [
+    86,
+    87
+  ],
+  "reviewerActions": {
+    "productEdits": false,
+    "acceptanceToolEdits": false,
+    "DBAccess": false,
+    "HTTPAccess": false,
+    "browserRun": false,
+    "privateAccess": false,
+    "hostChanges": false,
+    "buildOrProductTestRun": false,
+    "publicDataAndASTOnly": true
+  }
+}

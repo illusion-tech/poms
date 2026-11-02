@@ -188,6 +188,8 @@ pub fn openapi() -> serde_json::Value {
         crate::attachment_storage::http::openapi(),
         crate::attachments::http::openapi(),
         crate::approval::http::openapi(),
+        crate::customers::http::openapi(),
+        crate::projects::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -290,6 +292,14 @@ pub fn router_with_runtime_settings(
     let runtime_audit = std::sync::Arc::new(crate::runtime_audit::RuntimeAuditService::new(
         state.database.clone(),
     ));
+    let customers = std::sync::Arc::new(crate::customers::service::CustomersService::new(
+        state.database.clone(),
+    ));
+    let projects = std::sync::Arc::new(crate::projects::ProjectsService::new(
+        state.database.clone(),
+        customers.clone(),
+        auth.service.clone(),
+    ));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
@@ -322,6 +332,8 @@ pub fn router_with_runtime_settings(
                 attachment_storage,
             ))
             .merge(crate::attachments::http::router(auth.clone(), attachments))
+            .merge(crate::customers::http::router(auth.clone(), customers))
+            .merge(crate::projects::http::router(auth.clone(), projects))
             .merge(crate::approval::http::router(auth, approval)),
         cors_origins,
     )
@@ -372,6 +384,8 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         ))
         .layer(middleware::from_fn(crate::attachments::http::normalize_uri))
         .layer(middleware::from_fn(crate::approval::http::normalize_uri))
+        .layer(middleware::from_fn(crate::customers::http::normalize_uri))
+        .layer(middleware::from_fn(crate::projects::http::normalize_uri))
         .layer(middleware::from_fn(decode_path_segments))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))

@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-API-PG-scoped-evidence-review",
+  "createdAtUtc": "2026-11-01T23:55:11Z",
+  "result": "Scoped-review-completed",
+  "notANewGate": true,
+  "overallG3": "Pending",
+  "G3Certified": false,
+  "G4Certified": false,
+  "cleanupCertified": false,
+  "scopeFullyCertified": false,
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "modelConfiguredByParent": "gpt-6.1-sol",
+    "reasoningEffortConfiguredByParent": "max",
+    "fast": "unverified",
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "scope": {
+    "included": [
+      "current customer/project production source and Root lib/http/test wiring",
+      "A8/B6 original OpenAPI authority and defined real-HTTP comparison",
+      "portable comparison provenance/replay",
+      "actual masked-security-event and successful alias-delete audit rows tied to attempt05 requests"
+    ],
+    "excluded": [
+      "external fault and coordinated CAS/delete completion evidence",
+      "four browser/backend UI combinations",
+      "full resource/row/catalog/ACL terminal reconciliation",
+      "complete build-to-candidate and fixed-commit/main integration closeout",
+      "whole R3 or overall #57 completion"
+    ],
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "issues": {
+      "overall": 57,
+      "parent": 85,
+      "A": 86,
+      "B": 87
+    },
+    "newOperationsCertifiedDelivered": 0
+  },
+  "inputs": {
+    "nativeReport": {
+      "file": "tmp/rust-r3ab/acceptance-attempt05-nest/report01.json",
+      "bytes": 451611,
+      "rawBytesSha256": "45f801414c80b7683f21b8a25cd5f07da7554fdfdffb00e1aafd9e3b3b6b98bb",
+      "runId": "98fe7b0f-34ed-426b-bf99-1544bc8d1c5b"
+    },
+    "rustReport": {
+      "file": "tmp/rust-r3ab/acceptance-attempt05-rust/report01.json",
+      "bytes": 451608,
+      "rawBytesSha256": "e74c3813197d1f80bbc6f0bc05b11e08c939104a3f208c26e093645e542c0f6f",
+      "runId": "32866185-bac8-4dbb-8906-a935e7f10d6b"
+    },
+    "comparison": {
+      "file": "tmp/rust-r3ab/comparison-attempt0504.json",
+      "bytes": 227867,
+      "rawBytesSha256": "1f3d1df0fadd0fa92d76341a8e5a390577dae0ef5b04d3a30a8ccda8ca0295a3"
+    },
+    "actualAudit": {
+      "file": "tmp/rust-r3ab/actual-audit-attempt0501.json",
+      "bytes": 11963,
+      "rawBytesSha256": "956bf4706f610fb6e9ddab571d52b08b7cdad0a0eda0e92891cdd28025e4bf43"
+    },
+    "normalizer": {
+      "file": "tools/rust-r3ab/compare.mjs",
+      "bytes": 7869,
+      "rawBytesSha256": "4f91f3880b48c62a4d7c151c140621ccf9c87cb2016452e5ab46d52566cbd72e"
+    },
+    "auditObserver": {
+      "file": "tools/rust-r3ab/observe-audits.mjs",
+      "bytes": 3845,
+      "rawBytesSha256": "f0771b2315448543c2d434be20ce9242eb32716c29a22bd7c70ece4e1a203939"
+    },
+    "immutableMasterSha256": "76cd99518de54967098c1c0ac720d18d07887af9a92731a134380a39ca95af85",
+    "immutableManifest02Sha256": "c3dd258f06e828e274ce34fea22c54fe1f91efdedc4648084d14b573dd5f6359",
+    "effectiveCorrectiveCheckpointSha256": "4fda3a1a3f1c71f19b818c013f74cb3f3063f312ca8c0df12eca5a3bcb674783"
+  },
+  "replay": {
+    "result": "Pass",
+    "exitCode": 0,
+    "command": "node tools/rust-r3ab/compare.mjs attempt05 05 tmp/rust-r3ab/comparison-attempt0504.json --verify-only",
+    "executedByC": true,
+    "pureReadOnly": true,
+    "privateRead": false,
+    "DBOrHTTPAccess": false,
+    "outputFileWritten": false,
+    "unusedComputedOutputPath": "tmp/rust-r3ab/comparison-attempt0505.json",
+    "computedOutputFileAbsentAfterReplay": true,
+    "HTTPPerBackend": [
+      263,
+      263
+    ],
+    "observationsPerBackend": [
+      34,
+      34
+    ],
+    "differences": [],
+    "authority": {
+      "fixedLiteralWindows": true,
+      "normalizerAndReportHashesChecked": true,
+      "normalizerUnchangedAtReplayEnd": true,
+      "privateBaselinePinsRetained": true,
+      "onlyUsedPublicSeedTimeBindingsUsed": true,
+      "replayDoesNotConsultPrivateBaselineOrFileMtime": true
+    },
+    "windows": [
+      {
+        "start": 1793576083195,
+        "end": 1793576093262.237
+      },
+      {
+        "start": 1793576087526,
+        "end": 1793576095610.2363
+      }
+    ],
+    "usedSeedBindingsPerBackend": [
+      4,
+      4
+    ],
+    "identitySubstitutionLocationsPerBackend": [
+      1587,
+      1587
+    ],
+    "timestampSubstitutionLocationsPerBackend": [
+      285,
+      285
+    ],
+    "limitation": "The defined identity/time equivalence is part of this result. It is not literal equality of dynamic IDs/times, audit rows or data outside the compared events/observations."
+  },
+  "sourceAndScopeAssessment": {
+    "productionReadReview": "No new confirmed business-code defect in the current reviewed source. Both create paths implement the accepted independent-numbering corrective, preserving business transaction rollback and session order.",
+    "uppercaseOwnerOrganizationFix": "String-key Map behavior matches the original managed uppercase ownerOrgId response miss; the subsequent GET reload assertion is present.",
+    "OpenApi": {
+      "operationsA": 8,
+      "operationsB": 6,
+      "operationSubtreesEqualOriginal": true,
+      "componentsEqualOriginal": true,
+      "infoEqualOriginal": true,
+      "originalFullSpecSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+      "newPaths": 9,
+      "totalRustPaths": 105,
+      "totalRustOperations": 129
+    },
+    "producerAndPreparationBoundary": "B's positive project chain consumes A's actual HTTP-created customer. Preparation helpers identify untouched future-domain read facts as prepared-source and do not certify those producers.",
+    "executionSourcePins": {
+      "perBackend": 8,
+      "currentPublicSourceMismatches": [],
+      "sameSourceListBothBackends": true,
+      "frozenNativeSourceCountDeclaredAndCheckedByRoot": 872,
+      "RootRunnerChecksBeforeSourceAndRuntime": true,
+      "RootRunnerAssertsProducerSourceEqualityAtEnd": true
+    },
+    "runtimeBindingsReviewed": [
+      {
+        "backend": "nest",
+        "pid": 61189,
+        "tag": "parity05",
+        "artifactBytes": 2958081,
+        "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+      },
+      {
+        "backend": "rust",
+        "pid": 61208,
+        "tag": "parity05",
+        "artifactBytes": 38519896,
+        "artifactSha256": "d8f28d08a17d78e6d784e2f6eb24b204e110146189af7b7d9624969d9bd596c4"
+      }
+    ],
+    "runtimeBindingsCaveat": "C reviewed the public report plus runner admission/source code; C did not access Linux /proc, executable files, databases or private runtime journals. Final overall G3 still needs the complete source/build/protection and candidate evidence.",
+    "productSourcePins": [
+      {
+        "file": "apps/poms-api-rust/src/customers/http.rs",
+        "bytes": 10470,
+        "rawBytesSha256": "35d393ec5bcd5d612dc7ceb0198f3a82dfdeb6c825c0466fa972bdfe4316c0e9"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/mod.rs",
+        "bytes": 165,
+        "rawBytesSha256": "bb1712d81e6151bdfbf9a9a25f41fe4afe9d2bd9d10588da3eecb76e29f1d68b"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/model.rs",
+        "bytes": 6025,
+        "rawBytesSha256": "1378c80cfcc649c077aba6b7f547d6433381925653a371ad386e823eaabb2f03"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/service.rs",
+        "bytes": 42427,
+        "rawBytesSha256": "26f481beae001269c9344e5e7b6a5d4c9cf0e90de61014a0e6d93864190e4596"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/store.rs",
+        "bytes": 22461,
+        "rawBytesSha256": "cc6ed0a14e5d514bfb6dc8fe5e98cc16398922df9cf07d4ce7fe936f56949495"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/validation.rs",
+        "bytes": 15150,
+        "rawBytesSha256": "154d838d4d65b87325351dfe8db91ba4fcadd7374f1c6abdc2d72f3a23694824"
+      },
+      {
+        "file": "apps/poms-api-rust/src/http.rs",
+        "bytes": 22554,
+        "rawBytesSha256": "92aaf2414da5b18fd4f1c674bf6fbeaa57c2fcbe3daa4ee2024e992a50818efb"
+      },
+      {
+        "file": "apps/poms-api-rust/src/lib.rs",
+        "bytes": 588,
+        "rawBytesSha256": "61063b1935b0e85120ef419dbf34295ee2a1113539089589cf18817b3972b144"
+      },
+      {
+        "file": "apps/poms-api-rust/src/projects/http.rs",
+        "bytes": 10219,
+        "rawBytesSha256": "f860b8486fa80f565895ec3458192d31d67aeba2294ea7a3f40040d9f4763989"
+      },
+      {
+        "file": "apps/poms-api-rust/src/projects/mod.rs",
+        "bytes": 270,
+        "rawBytesSha256": "1a0abd2ea079daf3fd79c9308845dc99e45dac9ea635c40aed676244aa5f4408"
+      },
+      {
+        "file": "apps/poms-api-rust/src/projects/model.rs",
+        "bytes": 2674,
+        "rawBytesSha256": "e33a1ef1c78b83b109fd72ae90a750167e2848aef968c5a8bae6bb2b800680e4"
+      },
+      {
+        "file": "apps/poms-api-rust/src/projects/service.rs",
+        "bytes": 32780,
+        "rawBytesSha256": "06ee76e45d684df23de9fb7f1d3fcc4d6743bf5c7df7a3d827580e3837b16101"
+      },
+      {
+        "file": "apps/poms-api-rust/src/projects/store.rs",
+        "bytes": 15141,
+        "rawBytesSha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef"
+      },
+      {
+        "file": "apps/poms-api-rust/src/projects/validation.rs",
+        "bytes": 14130,
+        "rawBytesSha256": "8f4d3e02d30e24601aad8750a541340831309c11220629ce2eab82d2b3da1358"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/http.rs",
+        "bytes": 25607,
+        "rawBytesSha256": "c96bacc4a852fcef18cfade07dbd429cd1d69ec103b5d493d207879d256b35e6"
+      }
+    ]
+  },
+  "closedPreReviewEvidenceItems": [
+    {
+      "id": "API-PG-C-001",
+      "status": "Closed",
+      "subject": "Replayable time/normalizer authority",
+      "evidence": "Comparison04 pins the exact normalizer and raw input reports, records literal windows, pins private baselines and exports only actually used seed timestamp bindings. C's verify-only replay returned Pass without reading private/mtime or writing an output."
+    },
+    {
+      "id": "API-PG-C-002",
+      "status": "Closed-for-the-explicit-audit-selector-scope",
+      "subject": "Expected declarations versus actual audit rows",
+      "evidence": "Root's separate observer performs actual read-only DB queries. C tied every receipt requestId to its raw HTTP event/declaration and checked the included actual row fields/snapshots; expected declarations alone remain uncounted as actual audits."
+    }
+  ],
+  "actualAuditAssessment": {
+    "specifiedChecksResult": "Pass",
+    "perBackend": [
+      {
+        "backend": "nest",
+        "sensitiveChecks": 5,
+        "actualMaskedEvents": 1,
+        "zeroMaskedChecks": 4,
+        "successfulAliasDeleteAuditRows": 2,
+        "reportRunAndHashMatch": true,
+        "requestOrCheckedFieldMismatches": []
+      },
+      {
+        "backend": "rust",
+        "sensitiveChecks": 5,
+        "actualMaskedEvents": 1,
+        "zeroMaskedChecks": 4,
+        "successfulAliasDeleteAuditRows": 2,
+        "reportRunAndHashMatch": true,
+        "requestOrCheckedFieldMismatches": []
+      }
+    ],
+    "checkedSensitiveFields": [
+      "request_id and corresponding actual event",
+      "actor_id/principal against that run's named actor",
+      "original path with query",
+      "method and user_agent",
+      "permission_key",
+      "details.targetId/fieldPackageKey/fieldKeys/hiddenFieldCount/projectionMode"
+    ],
+    "checkedAliasFields": [
+      "request_id and actual 204 DELETE",
+      "operator_id and corresponding actor",
+      "target_type/customer target_id",
+      "event_type/result/reason/after_snapshot/metadata",
+      "before_snapshot aliasId/name/type/normalizedName/isPrimary/createdAt/createdBy against the actual POST response"
+    ],
+    "selectorLimit": "The current observer counts event_type=sensitive_field.masked for the five sensitive checks, and customer.alias.deleted for successful deletes. It does not certify absence of every unrelated security event type or all failure-path effects.",
+    "fullAuditByteEqualityCertified": false
+  },
+  "observedDifferenceNeedingDisposition": {
+    "id": "API-PG-C-003",
+    "status": "Pending-Root-classification",
+    "category": "transport-address-representation",
+    "observation": "The masked security event has Native ip=::ffff:127.0.0.1 and Rust ip=127.0.0.1.",
+    "semanticNote": "These represent the same IPv4 peer, but the stored strings are different. They have not been silently normalized or described as byte-equal.",
+    "sourceBoundary": "The frozen B input preserves request IP metadata; the Root observer does not compare the ip field. Current common guard/server source predates R3, so this review does not assert that the difference is newly introduced by the R3 modules.",
+    "neededBeforeAFullAllFieldEqualityClaim": "Root should cite an applicable existing transport/baseline classification or explicitly dispose of this observed representation difference, or provide an affected correction and evidence. Do not change shared behavior solely to erase the observation without a compatibility decision.",
+    "productDefectConcludedByThisReceipt": false
+  },
+  "remainingOverallAcceptance": [
+    "external controlled faults and coordinated concurrency on final Rust candidate",
+    "four original UI/browser/backend combinations",
+    "full same-owned-run terminal/resource/ACL/catalog reconciliation",
+    "complete source/build/protection binding and formal joint G3",
+    "fixed commits/main integration, preservation/archive and actual G4"
+  ],
+  "reviewerActions": {
+    "productEdits": false,
+    "acceptanceToolEdits": false,
+    "DBAccess": false,
+    "privateAccess": false,
+    "hostChanges": false,
+    "actualBuildTestBrowserRuns": false,
+    "pureVerifyOnlyReplay": true
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "kind": "R3AB-actual-existing-peer-representation-and-explicit-IP-context-classification",
+  "tag": "attempt05",
+  "createdAt": "2026-11-01T23:58:40.691Z",
+  "result": "Pass-with-explicit-existing-baseline-classification",
+  "finding": "API-PG-C-003",
+  "classification": "existing-baseline-drift",
+  "boundary": "For no forwarded header, unchanged Native app.listen(port) reports IPv4-mapped IPv6 loopback while unchanged Rust HOST127.0.0.1 reports IPv4 loopback. Both raw strings retained. R3 domain handlers preserve their actual request context. No global IP rewrite and no arbitrary IP normalization.",
+  "sameExplicitHeaderContextExact": true,
+  "records": [
+    {
+      "backend": "nest",
+      "runId": "98fe7b0f-34ed-426b-bf99-1544bc8d1c5b",
+      "oldUnchangedR2Endpoint": {
+        "method": "GET",
+        "path": "/api/platform/roles",
+        "status": 403,
+        "requestId": "08fd6e99-ece8-42c5-98c1-177462030cc7",
+        "event": {
+          "id": "80e29754-bd36-4691-b0f5-26d1cebdb6d8",
+          "ip": "::ffff:127.0.0.1",
+          "path": "/api/platform/roles",
+          "method": "GET",
+          "result": "blocked",
+          "details": {
+            "userPermissions": [
+              "customer:read",
+              "project:read"
+            ],
+            "requiredPermissions": [
+              "platform:roles:manage"
+            ]
+          },
+          "actor_id": "68a7e5b8-8f14-44cb-9949-68926ddef94c",
+          "severity": "warning",
+          "principal": "r3ab_82365c8a88884af780b32c3df32b2f63_viewer",
+          "event_type": "authz.permission.denied",
+          "request_id": "08fd6e99-ece8-42c5-98c1-177462030cc7",
+          "user_agent": "POMS-R3AB synthetic validation",
+          "occurred_at": "2026-11-02T07:58:40.496+08:00",
+          "permission_key": "platform:roles:manage"
+        }
+      },
+      "sameExplicitForwardedContext": {
+        "method": "GET",
+        "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38?auditProbe=fixed-forwarded-context",
+        "status": 200,
+        "requestId": "00071f78-27ed-443b-8248-54ed80a0a815",
+        "supplied": "192.0.2.97, 198.51.100.31",
+        "event": {
+          "id": "950f7dfe-70dc-4ae5-a32b-35a281f61351",
+          "ip": "192.0.2.97",
+          "path": "/api/projects/77d804ed-a29d-4b8d-b779-17bdf4ffec38?auditProbe=fixed-forwarded-context",
+          "method": "GET",
+          "result": "blocked",
+          "details": {
+            "targetId": "77d804ed-a29d-4b8d-b779-17bdf4ffec38",
+            "fieldKeys": [
+              "field"
+            ],
+            "reasonCode": "missing-sensitive-read-permission",
+            "targetType": "project",
+            "targetCount": 1,
+            "projectionMode": "masked",
+            "fieldPackageKey": "contract-finance",
+            "sampleTargetIds": [
+              "77d804ed-a29d-4b8d-b779-17bdf4ffec38"
+            ],
+            "hiddenFieldCount": 1,
+            "requiredPermission": "contract:finance:sensitive:read",
+            "auditAggregationMode": "sensitive-field-batch"
+          },
+          "actor_id": "68a7e5b8-8f14-44cb-9949-68926ddef94c",
+          "severity": "info",
+          "principal": "r3ab_82365c8a88884af780b32c3df32b2f63_viewer",
+          "event_type": "sensitive_field.masked",
+          "request_id": "00071f78-27ed-443b-8248-54ed80a0a815",
+          "user_agent": "POMS-R3AB synthetic validation",
+          "occurred_at": "2026-11-02T07:58:40.536+08:00",
+          "permission_key": "contract:finance:sensitive:read"
+        }
+      }
+    },
+    {
+      "backend": "rust",
+      "runId": "32866185-bac8-4dbb-8906-a935e7f10d6b",
+      "oldUnchangedR2Endpoint": {
+        "method": "GET",
+        "path": "/api/platform/roles",
+        "status": 403,
+        "requestId": "49ffd472-3648-42bb-beba-5d26c344fe2e",
+        "event": {
+          "id": "eea6d03f-afb0-48d1-b9aa-70cee85f98f4",
+          "ip": "127.0.0.1",
+          "path": "/api/platform/roles",
+          "method": "GET",
+          "result": "blocked",
+          "details": {
+            "userPermissions": [
+              "customer:read",
+              "project:read"
+            ],
+            "requiredPermissions": [
+              "platform:roles:manage"
+            ]
+          },
+          "actor_id": "73ce65bd-79e3-4d20-a459-f0be698de611",
+          "severity": "warning",
+          "principal": "r3ab_82365c8a88884af780b32c3df32b2f63_viewer",
+          "event_type": "authz.permission.denied",
+          "request_id": "49ffd472-3648-42bb-beba-5d26c344fe2e",
+          "user_agent": "POMS-R3AB synthetic validation",
+          "occurred_at": "2026-11-02T07:58:40.638+08:00",
+          "permission_key": "platform:roles:manage"
+        }
+      },
+      "sameExplicitForwardedContext": {
+        "method": "GET",
+        "path": "/api/projects/4feb45eb-9d02-42cd-8a44-2a73860bce4d?auditProbe=fixed-forwarded-context",
+        "status": 200,
+        "requestId": "835614b7-edba-4ac3-b1e7-b1831b7b4784",
+        "supplied": "192.0.2.97, 198.51.100.31",
+        "event": {
+          "id": "64906614-57e7-4550-9e9c-437ac683c4e0",
+          "ip": "192.0.2.97",
+          "path": "/api/projects/4feb45eb-9d02-42cd-8a44-2a73860bce4d?auditProbe=fixed-forwarded-context",
+          "method": "GET",
+          "result": "blocked",
+          "details": {
+            "targetId": "4feb45eb-9d02-42cd-8a44-2a73860bce4d",
+            "fieldKeys": [
+              "field"
+            ],
+            "reasonCode": "missing-sensitive-read-permission",
+            "targetType": "project",
+            "targetCount": 1,
+            "projectionMode": "masked",
+            "fieldPackageKey": "contract-finance",
+            "sampleTargetIds": [
+              "4feb45eb-9d02-42cd-8a44-2a73860bce4d"
+            ],
+            "hiddenFieldCount": 1,
+            "requiredPermission": "contract:finance:sensitive:read",
+            "auditAggregationMode": "sensitive-field-batch"
+          },
+          "actor_id": "73ce65bd-79e3-4d20-a459-f0be698de611",
+          "severity": "info",
+          "principal": "r3ab_82365c8a88884af780b32c3df32b2f63_viewer",
+          "event_type": "sensitive_field.masked",
+          "request_id": "835614b7-edba-4ac3-b1e7-b1831b7b4784",
+          "user_agent": "POMS-R3AB synthetic validation",
+          "occurred_at": "2026-11-02T07:58:40.667+08:00",
+          "permission_key": "contract:finance:sensitive:read"
+        }
+      }
+    }
+  ],
+  "sourcePins": [
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/observe-ip-context.mjs",
+      "bytes": 4282,
+      "rawBytesSha256": "b6aa23e504869f03614ce3306855996a4d0965020b6b2d97c45aeb2493b7f571"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/apps/poms-api/src/main.ts",
+      "bytes": 1789,
+      "rawBytesSha256": "396fb58af4558de82089bd842149a5040e29088314f6e6cd7921f771b5a0a8a0"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts",
+      "bytes": 1480,
+      "rawBytesSha256": "c6db32b268247deb198a0763c2330a8c341f7ec55c40ca271b84e84da13ca3ed"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/apps/poms-api-rust/src/auth/guards.rs",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3ab/apps/poms-api-rust/src/roles/http.rs",
+      "bytes": 22125,
+      "rawBytesSha256": "f997f3031a8e5785f6f10b8edb0b11ac09e1d782f475270caea6561b68e7d389"
+    }
+  ],
+  "allAuditFieldByteEqualityClaimed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

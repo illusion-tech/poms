@@ -1,0 +1,234 @@
+{
+  "kind": "R3AB-joint-string-length-source-and-pure-original-Zod-decision",
+  "createdAt": "2026-11-01T21:38:55.273Z",
+  "result": "Pass",
+  "runtime": "original-shared-schema-pure-Node-execution-not-HTTP-or-DB",
+  "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+  "source": {
+    "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "bytes": 435823,
+    "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+  },
+  "zod": {
+    "version": "4.6.1",
+    "entry": {
+      "file": "E:\\projects\\worktrees\\poms-r3ab-customer-project\\poms\\node_modules\\.pnpm\\zod@4.6.1\\node_modules\\zod\\index.cjs",
+      "bytes": 2132,
+      "rawBytesSha256": "d93a8730d52c0fedab13619c8bc971cc99934c13d8dce7c97ee4d03a98d4096e"
+    },
+    "checks": {
+      "file": "E:\\projects\\worktrees\\poms-r3ab-customer-project\\poms\\node_modules\\.pnpm\\zod@4.6.1\\node_modules\\zod\\v4\\core\\checks.cjs",
+      "bytes": 20164,
+      "rawBytesSha256": "c715bc2237695d0e72bfeb01e0d0ea38e51b67bb4e1cf273ca0a41fa8b7fa65d"
+    },
+    "sourceLines": {
+      "maximum": [
+        291,
+        313
+      ],
+      "minimum": [
+        314,
+        338
+      ]
+    }
+  },
+  "typescript": "6.0.3",
+  "decision": "Current Zod4.6.1 tested customer/project string .min/.max checks count Unicode code points after original trim, not UTF-16 code units. Original schema+actual oracle govern; conflicting author prose is non-authoritative. Preserve JS string semantics elsewhere without substituting this length decision for casing/normalization rules.",
+  "cases": [
+    {
+      "schema": "CreateCustomerRequestSchema",
+      "key": "displayName",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CreateCustomerRequestSchema",
+      "key": "displayName",
+      "utf16CodeUnits": 510,
+      "unicodeCodePoints": 255,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CreateCustomerRequestSchema",
+      "key": "displayName",
+      "utf16CodeUnits": 512,
+      "unicodeCodePoints": 256,
+      "success": false,
+      "issuePaths": [
+        "displayName"
+      ]
+    },
+    {
+      "schema": "UpdateCustomerRequestSchema",
+      "key": "displayName",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "UpdateCustomerRequestSchema",
+      "key": "displayName",
+      "utf16CodeUnits": 510,
+      "unicodeCodePoints": 255,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "UpdateCustomerRequestSchema",
+      "key": "displayName",
+      "utf16CodeUnits": 512,
+      "unicodeCodePoints": 256,
+      "success": false,
+      "issuePaths": [
+        "displayName"
+      ]
+    },
+    {
+      "schema": "CreateCustomerAliasRequestSchema",
+      "key": "aliasName",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CreateCustomerAliasRequestSchema",
+      "key": "aliasName",
+      "utf16CodeUnits": 510,
+      "unicodeCodePoints": 255,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CreateCustomerAliasRequestSchema",
+      "key": "aliasName",
+      "utf16CodeUnits": 512,
+      "unicodeCodePoints": 256,
+      "success": false,
+      "issuePaths": [
+        "aliasName"
+      ]
+    },
+    {
+      "schema": "CreateProjectRequestSchema",
+      "key": "projectName",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CreateProjectRequestSchema",
+      "key": "projectName",
+      "utf16CodeUnits": 510,
+      "unicodeCodePoints": 255,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CreateProjectRequestSchema",
+      "key": "projectName",
+      "utf16CodeUnits": 512,
+      "unicodeCodePoints": 256,
+      "success": false,
+      "issuePaths": [
+        "projectName"
+      ]
+    },
+    {
+      "schema": "UpdateProjectBasicInfoRequestSchema",
+      "key": "projectName",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "UpdateProjectBasicInfoRequestSchema",
+      "key": "projectName",
+      "utf16CodeUnits": 510,
+      "unicodeCodePoints": 255,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "UpdateProjectBasicInfoRequestSchema",
+      "key": "projectName",
+      "utf16CodeUnits": 512,
+      "unicodeCodePoints": 256,
+      "success": false,
+      "issuePaths": [
+        "projectName"
+      ]
+    },
+    {
+      "schema": "CustomerListQuerySchema",
+      "key": "keyword",
+      "utf16CodeUnits": 130,
+      "unicodeCodePoints": 65,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CustomerListQuerySchema",
+      "key": "keyword",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "CustomerListQuerySchema",
+      "key": "keyword",
+      "utf16CodeUnits": 258,
+      "unicodeCodePoints": 129,
+      "success": false,
+      "issuePaths": [
+        "keyword"
+      ]
+    },
+    {
+      "schema": "ProjectListQuerySchema",
+      "key": "keyword",
+      "utf16CodeUnits": 130,
+      "unicodeCodePoints": 65,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "ProjectListQuerySchema",
+      "key": "keyword",
+      "utf16CodeUnits": 256,
+      "unicodeCodePoints": 128,
+      "success": true,
+      "issuePaths": []
+    },
+    {
+      "schema": "ProjectListQuerySchema",
+      "key": "keyword",
+      "utf16CodeUnits": 258,
+      "unicodeCodePoints": 129,
+      "success": false,
+      "issuePaths": [
+        "keyword"
+      ]
+    },
+    {
+      "schema": "ProjectLookupQuerySchema",
+      "key": "projectNo",
+      "utf16CodeUnits": 1000,
+      "unicodeCodePoints": 500,
+      "success": true,
+      "issuePaths": []
+    }
+  ],
+  "caseCount": 22,
+  "lookupNoTrimOrExtraMaximum": true,
+  "authorInputFilesRewritten": false,
+  "DBServerOrProductImplementationExecuted": false,
+  "G1Certified": false
+}

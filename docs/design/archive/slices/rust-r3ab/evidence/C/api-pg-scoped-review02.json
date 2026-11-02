@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-API-PG-scoped-delta-review",
+  "createdAtUtc": "2026-11-02T00:00:03Z",
+  "result": "Scoped-review-completed-with-explicit-existing-baseline-classification",
+  "notANewGate": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "cleanupCertified": false,
+  "overallG3": "Pending",
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "role": "C-independent-reviewer",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "issues": {
+      "overall": 57,
+      "parent": 85,
+      "A": 86,
+      "B": 87
+    },
+    "scope": "Only the disposition of API-PG-C-003 using the additional unchanged-R2 and explicit-forwarded-context evidence."
+  },
+  "carriedForward": {
+    "review": {
+      "file": "tmp/rust-r3ab/c-review/api-pg-scoped-review01.json",
+      "bytes": 13854,
+      "rawBytesSha256": "d857cb17365e9a5438dbb933fbe82d7efd1d6e104b7afec46780191625dc2243"
+    },
+    "originalReviewPreserved": true,
+    "definedHttpReplayResult": "Pass;263 HTTP and34 observations per backend;zero differences",
+    "comparison": {
+      "file": "tmp/rust-r3ab/comparison-attempt0504.json",
+      "rawBytesSha256": "1f3d1df0fadd0fa92d76341a8e5a390577dae0ef5b04d3a30a8ccda8ca0295a3"
+    },
+    "actualAudit": {
+      "file": "tmp/rust-r3ab/actual-audit-attempt0501.json",
+      "rawBytesSha256": "956bf4706f610fb6e9ddab571d52b08b7cdad0a0eda0e92891cdd28025e4bf43"
+    },
+    "oldInputsOrObservationsRewritten": false,
+    "previousClosedItems": [
+      "API-PG-C-001",
+      "API-PG-C-002"
+    ]
+  },
+  "newEvidence": {
+    "report": {
+      "file": "tmp/rust-r3ab/ip-context-attempt0501.json",
+      "bytes": 7670,
+      "rawBytesSha256": "35cd5410f5bc4b67eacb04790088c39865328684ce5863c28a4311a4833e8745",
+      "result": "Pass-with-explicit-existing-baseline-classification"
+    },
+    "observer": {
+      "file": "tools/rust-r3ab/observe-ip-context.mjs",
+      "bytes": 4282,
+      "rawBytesSha256": "b6aa23e504869f03614ce3306855996a4d0965020b6b2d97c45aeb2493b7f571"
+    },
+    "originalSourcePinsReviewed": 5,
+    "sourceHashOrLengthMismatches": [],
+    "scopedActualCalls": "Two additional calls per backend, recorded separately from the original263-call acceptance pair. They do not change that pair's counts.",
+    "records": [
+      {
+        "backend": "nest",
+        "runId": "98fe7b0f-34ed-426b-bf99-1544bc8d1c5b",
+        "unchangedR2": {
+          "method": "GET",
+          "path": "/api/platform/roles",
+          "status": 403,
+          "requestId": "08fd6e99-ece8-42c5-98c1-177462030cc7",
+          "eventType": "authz.permission.denied",
+          "actualEventCountAssertedByObserver": 1,
+          "ip": "::ffff:127.0.0.1"
+        },
+        "R3Forwarded": {
+          "method": "GET",
+          "status": 200,
+          "requestId": "00071f78-27ed-443b-8248-54ed80a0a815",
+          "supplied": "192.0.2.97, 198.51.100.31",
+          "actualMaskedEventCountAssertedByObserver": 1,
+          "ip": "192.0.2.97"
+        },
+        "runActorRequestAndPathBindingsChecked": true
+      },
+      {
+        "backend": "rust",
+        "runId": "32866185-bac8-4dbb-8906-a935e7f10d6b",
+        "unchangedR2": {
+          "method": "GET",
+          "path": "/api/platform/roles",
+          "status": 403,
+          "requestId": "49ffd472-3648-42bb-beba-5d26c344fe2e",
+          "eventType": "authz.permission.denied",
+          "actualEventCountAssertedByObserver": 1,
+          "ip": "127.0.0.1"
+        },
+        "R3Forwarded": {
+          "method": "GET",
+          "status": 200,
+          "requestId": "835614b7-edba-4ac3-b1e7-b1831b7b4784",
+          "supplied": "192.0.2.97, 198.51.100.31",
+          "actualMaskedEventCountAssertedByObserver": 1,
+          "ip": "192.0.2.97"
+        },
+        "runActorRequestAndPathBindingsChecked": true
+      }
+    ],
+    "sourceAssessment": {
+      "NativeMain": "Original app.listen(port) does not pass HOST; unchanged default listener supplies its actual mapped IPv4 peer representation.",
+      "NativeRequestContext": "Original request helper selects the first trimmed x-forwarded-for element when present; otherwise it preserves request.ip.",
+      "RustRequestContext": "Unchanged RequestMetadata selects first trimmed x-forwarded-for element, otherwise ConnectInfo SocketAddr IP; listener uses configured host.",
+      "unchangedR2Reproduction": "The same two no-header strings occur in a preexisting R2 role-permission-denial route using the same shared request context.",
+      "sharedGuardOrNativeMainProductDiff": false,
+      "noR3SpecificIPRewriteIntroduced": true
+    }
+  },
+  "findingDisposition": {
+    "id": "API-PG-C-003",
+    "status": "Closed-with-explicit-existing-baseline-classification",
+    "classification": "existing-baseline-drift",
+    "approvedByIndependentReviewer": true,
+    "acceptedBoundary": "The direct no-forwarded-header localhost sockets expose different existing address representations under the two actual listeners. Both original strings are preserved. This evidence establishes that it is not newly caused by the R3 domain handler.",
+    "positiveControl": "With the same explicit x-forwarded-for string both actual R3 masked events preserve exactly192.0.2.97, with the correct run actor, requestId and original path.",
+    "limits": [
+      "No claim of raw byte equality for all audit fields.",
+      "No arbitrary IP normalization or silent rewrite.",
+      "No waiver for different explicitly supplied forwarded IP values or wrong actors/paths.",
+      "No change to shared guards, listener configuration or the frozen R3 contract.",
+      "No certification of absent security-event types outside the observer's explicit selectors."
+    ],
+    "originalObservationRemovedOrRetrofitted": false
+  },
+  "openFindingsFromThisScopedReview": [],
+  "overallAcceptanceStillPending": [
+    "read and independently review final external fault/CAS/double-delete evidence after public delivery",
+    "four real browser/backend UI combinations",
+    "same-owned-run row/resource/ACL/catalog terminal reconciliation",
+    "complete source/build/protection binding and formal overall joint G3",
+    "fixed commits/main integration, preservation/archive and actual G4"
+  ],
+  "newDeliveredOperationsCertified": 0,
+  "closeOnlyAfterOwnG4": [
+    86,
+    87
+  ],
+  "keepOpen": [
+    85,
+    57
+  ],
+  "reviewerActions": {
+    "publicSourceAndEvidenceReadOnly": true,
+    "DBAccess": false,
+    "privateAccess": false,
+    "hostChanges": false,
+    "productEdits": false,
+    "acceptanceToolEdits": false,
+    "buildOrBrowserRuns": false,
+    "additionalActualRequestsByC": false
+  }
+}

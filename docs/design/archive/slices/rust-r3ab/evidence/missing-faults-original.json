@@ -1,0 +1,869 @@
+{
+  "kind": "R3AB-number-entry-and-sensitive-audit-fault-completion",
+  "createdAt": "2026-11-02T00:33:04.120Z",
+  "source": {
+    "file": "/home/wangzishi/projects/poms-rust-r3ab/tools/rust-r3ab/missing-faults.mjs",
+    "bytes": 8530,
+    "rawBytesSha256": "304325eba78c5845d73acdf46f0fa3cb14244b94e3d4f0b29b61878db3c3d280"
+  },
+  "result": "Pass",
+  "records": [
+    {
+      "backend": "nest",
+      "runId": "651c3581-9b6a-4455-8693-8c47dae18b8f",
+      "report": {
+        "file": "/home/wangzishi/projects/poms-rust-r3ab/tmp/rust-r3ab/acceptance-attempt06-nest/report01.json",
+        "bytes": 451609,
+        "rawBytesSha256": "eb05876b678132900e7e65754eb960624276fbe39c113e2f85c8568c5640fdb9"
+      },
+      "runtime": {
+        "backend": "nest",
+        "tag": "parity06",
+        "pid": 79245,
+        "artifactBytes": 2958081,
+        "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+      },
+      "cases": [
+        {
+          "name": "customer-number-allocation-failure-prevents-entity-write",
+          "HTTP": {
+            "status": 500,
+            "body": {
+              "statusCode": 500,
+              "message": "Internal server error"
+            },
+            "requestId": "addd7132-aa3d-4ea6-8475-061fee5cc0a6"
+          },
+          "beforeCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "afterCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "entityRows": 0,
+          "beforeSession": [
+            {
+              "id": "0cb918c9-562b-48cc-bced-015e69716fb3",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.693Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.622Z",
+              "updated_at": "2026-11-02T00:33:03.622Z"
+            },
+            {
+              "id": "cd26e15b-c75a-4bc5-9910-6ffdcd3cfcb9",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.693Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.727Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "afterSession": [
+            {
+              "id": "0cb918c9-562b-48cc-bced-015e69716fb3",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:33:03.703Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.703Z",
+              "updated_at": "2026-11-02T00:33:03.703Z"
+            },
+            {
+              "id": "cd26e15b-c75a-4bc5-9910-6ffdcd3cfcb9",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.693Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.727Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "versionDeltas": [
+            {
+              "id": "0cb918c9-562b-48cc-bced-015e69716fb3",
+              "delta": 1
+            },
+            {
+              "id": "cd26e15b-c75a-4bc5-9910-6ffdcd3cfcb9",
+              "delta": 0
+            }
+          ],
+          "immediateGuardTouchSurvives": true,
+          "pendingBusinessFlushAbsent": true
+        },
+        {
+          "name": "project-number-allocation-failure-prevents-entity-write",
+          "HTTP": {
+            "status": 500,
+            "body": {
+              "statusCode": 500,
+              "message": "Internal server error"
+            },
+            "requestId": "28985bde-3d2b-423f-bc92-4a13970a9cb6"
+          },
+          "beforeCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "afterCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "entityRows": 0,
+          "beforeSession": [
+            {
+              "id": "0cb918c9-562b-48cc-bced-015e69716fb3",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:32:02.740Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.703Z",
+              "updated_at": "2026-11-02T00:33:03.703Z"
+            },
+            {
+              "id": "cd26e15b-c75a-4bc5-9910-6ffdcd3cfcb9",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.740Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.727Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "afterSession": [
+            {
+              "id": "0cb918c9-562b-48cc-bced-015e69716fb3",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 3,
+              "last_seen_at": "2026-11-02T00:33:03.752Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.752Z",
+              "updated_at": "2026-11-02T00:33:03.752Z"
+            },
+            {
+              "id": "cd26e15b-c75a-4bc5-9910-6ffdcd3cfcb9",
+              "user_id": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.740Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.727Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "versionDeltas": [
+            {
+              "id": "0cb918c9-562b-48cc-bced-015e69716fb3",
+              "delta": 1
+            },
+            {
+              "id": "cd26e15b-c75a-4bc5-9910-6ffdcd3cfcb9",
+              "delta": 0
+            }
+          ],
+          "immediateGuardTouchSurvives": true,
+          "pendingBusinessFlushAbsent": true
+        },
+        {
+          "name": "B35-masked-security-insert-failure-and-managed-session-rollback",
+          "HTTP": {
+            "status": 500,
+            "body": {
+              "statusCode": 500,
+              "message": "Internal server error"
+            },
+            "requestId": "6273ae26-0d52-4a29-a3ab-24384c412031"
+          },
+          "targetId": "e988eb39-4581-4af6-a11d-488450dd422e",
+          "beforeSession": [
+            {
+              "id": "4ae984e4-57f8-458d-a51f-46ff2990eb93",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.785Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.671Z",
+              "updated_at": "2026-11-02T00:33:03.672Z"
+            },
+            {
+              "id": "f8eaefd7-4056-4801-b649-0a29317c678d",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.785Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.156Z",
+              "updated_at": "2026-11-02T00:31:12.156Z"
+            }
+          ],
+          "afterSession": [
+            {
+              "id": "4ae984e4-57f8-458d-a51f-46ff2990eb93",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:33:03.791Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.791Z",
+              "updated_at": "2026-11-02T00:33:03.791Z"
+            },
+            {
+              "id": "f8eaefd7-4056-4801-b649-0a29317c678d",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.785Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.156Z",
+              "updated_at": "2026-11-02T00:31:12.156Z"
+            }
+          ],
+          "versionDeltas": [
+            {
+              "id": "4ae984e4-57f8-458d-a51f-46ff2990eb93",
+              "delta": 1
+            },
+            {
+              "id": "f8eaefd7-4056-4801-b649-0a29317c678d",
+              "delta": 0
+            }
+          ],
+          "actualEvents": 0,
+          "immediateGuardTouchSurvives": true,
+          "pendingManagedSessionFlushRolledBack": true,
+          "businessUnchanged": true,
+          "recovery": {
+            "status": 200,
+            "body": {
+              "id": "e988eb39-4581-4af6-a11d-488450dd422e",
+              "projectNo": "PRJ-2026-000001",
+              "projectName": "R3AB 74963981 project.updated-dddd7e50",
+              "sourceLeadId": null,
+              "customerId": "0b99a482-f3bb-44cf-8904-97f045bee3bc",
+              "customerName": "R3AB 74963981 customer-secondary-9e6c52b9",
+              "customerProjectNo": null,
+              "status": "active",
+              "currentStage": "assessment",
+              "ownerOrgId": "5adfe828-0ebc-4c45-bd49-ecb928af612d",
+              "ownerUserId": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "plannedSignAt": null,
+              "closedAt": null,
+              "closedReason": null,
+              "rowVersion": 11,
+              "createdAt": "2026-11-02T00:31:14.574Z",
+              "createdBy": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "updatedAt": "2026-11-02T00:31:16.062Z",
+              "updatedBy": "ebf9345e-68b6-45bd-b302-fc6a91096bbf",
+              "ownerName": "R3AB admin",
+              "ownerOrgName": "R3AB other",
+              "sourceLeadSummary": null,
+              "stageSummary": {
+                "currentStage": "assessment",
+                "status": "active",
+                "plannedSignAt": null,
+                "closedAt": null,
+                "closedReason": null,
+                "blockingReasons": []
+              },
+              "currentBidSummary": {
+                "bidProcessId": "43cbdf4f-09ac-49c4-ba48-733a65887519",
+                "bidStatus": "submitted",
+                "resultStatus": "pending",
+                "tenderNo": "R3AB 74963981 prepared.tender.no-7e1ef079",
+                "bidPackageNo": "R3AB 74963981 prepared.bid.package-01ada5e6",
+                "summary": "R3AB 74963981 prepared.bid.summary-73009bd5"
+              },
+              "currentContractSummary": {
+                "activeContractCount": 1,
+                "latestContractId": "5bc8d674-d522-4158-92c1-b4786c9237c3",
+                "latestContractNo": "R3AB 74963981 prepared.contract.draft-a467bbcf",
+                "latestContractStatus": "draft",
+                "signedAmountProjection": {
+                  "fieldPackageKey": "contract-finance",
+                  "mode": "masked",
+                  "value": null,
+                  "displayText": "敏感字段已隐藏",
+                  "reasonCode": "missing-sensitive-read-permission"
+                },
+                "currencyCode": "JPY",
+                "signedAt": null,
+                "currentSnapshotId": null
+              },
+              "currentApprovalSummary": {
+                "summarySnapshotId": "f861f18e-66d4-440f-80ea-1cfae1855fd5",
+                "summaryPackageKey": "project-detail",
+                "projectionLevel": "project-detail",
+                "exportPolicy": "controlled",
+                "generatedAt": "2026-04-06T10:00:00.000Z"
+              },
+              "currentConfirmationSummary": {
+                "confirmationRecordId": null,
+                "status": "not_configured",
+                "requiredCount": 0,
+                "confirmedCount": 0,
+                "pendingCount": 0,
+                "confirmedAt": null
+              },
+              "summarySnapshotId": "f861f18e-66d4-440f-80ea-1cfae1855fd5",
+              "projectionLevel": "project-detail",
+              "exportPolicy": "controlled",
+              "allowedActions": [
+                "view-project-workspace"
+              ],
+              "generatedAt": "2026-11-02T00:33:03.868Z"
+            },
+            "requestId": "03aff70e-3fb1-4193-8b79-846bfe64fadd"
+          },
+          "recoveryBefore": [
+            {
+              "id": "4ae984e4-57f8-458d-a51f-46ff2990eb93",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:32:02.831Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.791Z",
+              "updated_at": "2026-11-02T00:33:03.791Z"
+            },
+            {
+              "id": "f8eaefd7-4056-4801-b649-0a29317c678d",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.831Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.156Z",
+              "updated_at": "2026-11-02T00:31:12.156Z"
+            }
+          ],
+          "recoveryAfter": [
+            {
+              "id": "4ae984e4-57f8-458d-a51f-46ff2990eb93",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 4,
+              "last_seen_at": "2026-11-02T00:33:03.836Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.836Z",
+              "updated_at": "2026-11-02T00:33:03.858Z"
+            },
+            {
+              "id": "f8eaefd7-4056-4801-b649-0a29317c678d",
+              "user_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.831Z",
+              "last_ip": "::ffff:127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.156Z",
+              "updated_at": "2026-11-02T00:31:12.156Z"
+            }
+          ],
+          "recoveryDeltas": [
+            {
+              "id": "4ae984e4-57f8-458d-a51f-46ff2990eb93",
+              "delta": 2
+            },
+            {
+              "id": "f8eaefd7-4056-4801-b649-0a29317c678d",
+              "delta": 0
+            }
+          ],
+          "actualRecoveryEvents": [
+            {
+              "event_type": "sensitive_field.masked",
+              "actor_id": "48ba7586-c08a-4ecf-a99b-12c0aa71116f",
+              "request_id": "03aff70e-3fb1-4193-8b79-846bfe64fadd",
+              "details": {
+                "targetId": "e988eb39-4581-4af6-a11d-488450dd422e",
+                "fieldKeys": [
+                  "field"
+                ],
+                "reasonCode": "missing-sensitive-read-permission",
+                "targetType": "project",
+                "targetCount": 1,
+                "projectionMode": "masked",
+                "fieldPackageKey": "contract-finance",
+                "sampleTargetIds": [
+                  "e988eb39-4581-4af6-a11d-488450dd422e"
+                ],
+                "hiddenFieldCount": 1,
+                "requiredPermission": "contract:finance:sensitive:read",
+                "auditAggregationMode": "sensitive-field-batch"
+              }
+            }
+          ]
+        }
+      ],
+      "result": "Pass",
+      "initialPrivileges": {
+        "number_insert": true,
+        "security_insert": true
+      },
+      "finalPrivileges": {
+        "number_insert": true,
+        "security_insert": true
+      },
+      "ACLRestored": true
+    },
+    {
+      "backend": "rust",
+      "runId": "9cefb3e7-e985-47da-9199-98e11b38205f",
+      "report": {
+        "file": "/home/wangzishi/projects/poms-rust-r3ab/tmp/rust-r3ab/acceptance-attempt06-rust/report01.json",
+        "bytes": 451612,
+        "rawBytesSha256": "27c289a8de7cd306766e57f5fdf9a8cbbd0281af0fe2f970f8605ba59b21ef28"
+      },
+      "runtime": {
+        "backend": "rust",
+        "tag": "parity06",
+        "pid": 79202,
+        "artifactBytes": 38519896,
+        "artifactSha256": "d8f28d08a17d78e6d784e2f6eb24b204e110146189af7b7d9624969d9bd596c4"
+      },
+      "cases": [
+        {
+          "name": "customer-number-allocation-failure-prevents-entity-write",
+          "HTTP": {
+            "status": 500,
+            "body": {
+              "message": "Internal server error",
+              "statusCode": 500
+            },
+            "requestId": "ea5243cb-aa0a-48ad-aa5d-55add3274396"
+          },
+          "beforeCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "afterCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "entityRows": 0,
+          "beforeSession": [
+            {
+              "id": "3febe90f-c796-404f-b924-84776a3dc13a",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.963Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.934Z",
+              "updated_at": "2026-11-02T00:33:03.935Z"
+            },
+            {
+              "id": "d513cd31-7739-4961-8e20-1a9938cecc67",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.963Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.728Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "afterSession": [
+            {
+              "id": "3febe90f-c796-404f-b924-84776a3dc13a",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:33:03.971Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.971Z",
+              "updated_at": "2026-11-02T00:33:03.971Z"
+            },
+            {
+              "id": "d513cd31-7739-4961-8e20-1a9938cecc67",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.963Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.728Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "versionDeltas": [
+            {
+              "id": "3febe90f-c796-404f-b924-84776a3dc13a",
+              "delta": 1
+            },
+            {
+              "id": "d513cd31-7739-4961-8e20-1a9938cecc67",
+              "delta": 0
+            }
+          ],
+          "immediateGuardTouchSurvives": true,
+          "pendingBusinessFlushAbsent": true
+        },
+        {
+          "name": "project-number-allocation-failure-prevents-entity-write",
+          "HTTP": {
+            "status": 500,
+            "body": {
+              "message": "Internal server error",
+              "statusCode": 500
+            },
+            "requestId": "551de73a-a3a0-42cc-9ed7-7d9fd4dabdc1"
+          },
+          "beforeCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "afterCounters": [
+            {
+              "scope": "customer",
+              "period": "2026",
+              "next_value": 16
+            },
+            {
+              "scope": "project",
+              "period": "2026",
+              "next_value": 19
+            }
+          ],
+          "entityRows": 0,
+          "beforeSession": [
+            {
+              "id": "3febe90f-c796-404f-b924-84776a3dc13a",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:32:02.996Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.971Z",
+              "updated_at": "2026-11-02T00:33:03.971Z"
+            },
+            {
+              "id": "d513cd31-7739-4961-8e20-1a9938cecc67",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.996Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.728Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "afterSession": [
+            {
+              "id": "3febe90f-c796-404f-b924-84776a3dc13a",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 3,
+              "last_seen_at": "2026-11-02T00:33:04.005Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:04.005Z",
+              "updated_at": "2026-11-02T00:33:04.005Z"
+            },
+            {
+              "id": "d513cd31-7739-4961-8e20-1a9938cecc67",
+              "user_id": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:02.996Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:11.728Z",
+              "updated_at": "2026-11-02T00:31:11.728Z"
+            }
+          ],
+          "versionDeltas": [
+            {
+              "id": "3febe90f-c796-404f-b924-84776a3dc13a",
+              "delta": 1
+            },
+            {
+              "id": "d513cd31-7739-4961-8e20-1a9938cecc67",
+              "delta": 0
+            }
+          ],
+          "immediateGuardTouchSurvives": true,
+          "pendingBusinessFlushAbsent": true
+        },
+        {
+          "name": "B35-masked-security-insert-failure-and-managed-session-rollback",
+          "HTTP": {
+            "status": 500,
+            "body": {
+              "message": "Internal server error",
+              "statusCode": 500
+            },
+            "requestId": "f90dac56-043e-497d-b2c3-44242cf9a0f0"
+          },
+          "targetId": "69da3de6-f232-406c-b5dc-a8c3af678aab",
+          "beforeSession": [
+            {
+              "id": "7b33e430-5420-4d54-b399-2b1345028c9a",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:03.030Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.087Z",
+              "updated_at": "2026-11-02T00:31:12.088Z"
+            },
+            {
+              "id": "9d7bb098-6cff-4d32-b7cb-053cb010e5de",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:03.030Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:03.953Z",
+              "updated_at": "2026-11-02T00:33:03.953Z"
+            }
+          ],
+          "afterSession": [
+            {
+              "id": "7b33e430-5420-4d54-b399-2b1345028c9a",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:03.030Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.087Z",
+              "updated_at": "2026-11-02T00:31:12.088Z"
+            },
+            {
+              "id": "9d7bb098-6cff-4d32-b7cb-053cb010e5de",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:33:04.038Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:04.038Z",
+              "updated_at": "2026-11-02T00:33:04.038Z"
+            }
+          ],
+          "versionDeltas": [
+            {
+              "id": "7b33e430-5420-4d54-b399-2b1345028c9a",
+              "delta": 0
+            },
+            {
+              "id": "9d7bb098-6cff-4d32-b7cb-053cb010e5de",
+              "delta": 1
+            }
+          ],
+          "actualEvents": 0,
+          "immediateGuardTouchSurvives": true,
+          "pendingManagedSessionFlushRolledBack": true,
+          "businessUnchanged": true,
+          "recovery": {
+            "status": 200,
+            "body": {
+              "allowedActions": [
+                "view-project-workspace"
+              ],
+              "closedAt": null,
+              "closedReason": null,
+              "createdAt": "2026-11-02T00:31:13.486Z",
+              "createdBy": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "currentApprovalSummary": {
+                "exportPolicy": "controlled",
+                "generatedAt": "2026-04-06T10:00:00.000Z",
+                "projectionLevel": "project-detail",
+                "summaryPackageKey": "project-detail",
+                "summarySnapshotId": "0a4bbdd9-8e82-47e5-9807-00df62471f04"
+              },
+              "currentBidSummary": {
+                "bidPackageNo": "R3AB 74963981 prepared.bid.package-01ada5e6",
+                "bidProcessId": "dc14d730-4a6b-478c-9e18-63c2336d2a0d",
+                "bidStatus": "submitted",
+                "resultStatus": "pending",
+                "summary": "R3AB 74963981 prepared.bid.summary-73009bd5",
+                "tenderNo": "R3AB 74963981 prepared.tender.no-7e1ef079"
+              },
+              "currentConfirmationSummary": {
+                "confirmationRecordId": null,
+                "confirmedAt": null,
+                "confirmedCount": 0,
+                "pendingCount": 0,
+                "requiredCount": 0,
+                "status": "not_configured"
+              },
+              "currentContractSummary": {
+                "activeContractCount": 1,
+                "currencyCode": "JPY",
+                "currentSnapshotId": null,
+                "latestContractId": "eaf434a1-79d9-4bc2-8797-5a36a9495a0e",
+                "latestContractNo": "R3AB 74963981 prepared.contract.draft-a467bbcf",
+                "latestContractStatus": "draft",
+                "signedAmountProjection": {
+                  "displayText": "敏感字段已隐藏",
+                  "fieldPackageKey": "contract-finance",
+                  "mode": "masked",
+                  "reasonCode": "missing-sensitive-read-permission",
+                  "value": null
+                },
+                "signedAt": null
+              },
+              "currentStage": "assessment",
+              "customerId": "d8d69399-1a44-47a9-beb7-1660f41d5508",
+              "customerName": "R3AB 74963981 customer-secondary-9e6c52b9",
+              "customerProjectNo": null,
+              "exportPolicy": "controlled",
+              "generatedAt": "2026-11-02T00:33:04.114Z",
+              "id": "69da3de6-f232-406c-b5dc-a8c3af678aab",
+              "ownerName": "R3AB admin",
+              "ownerOrgId": "cfa2f1b6-c95a-47e4-9926-9c56b4c47d7a",
+              "ownerOrgName": "R3AB other",
+              "ownerUserId": "4992e614-cfe2-4f7f-908a-113672959b51",
+              "plannedSignAt": null,
+              "projectName": "R3AB 74963981 project.updated-dddd7e50",
+              "projectNo": "PRJ-2026-000001",
+              "projectionLevel": "project-detail",
+              "rowVersion": 11,
+              "sourceLeadId": null,
+              "sourceLeadSummary": null,
+              "stageSummary": {
+                "blockingReasons": [],
+                "closedAt": null,
+                "closedReason": null,
+                "currentStage": "assessment",
+                "plannedSignAt": null,
+                "status": "active"
+              },
+              "status": "active",
+              "summarySnapshotId": "0a4bbdd9-8e82-47e5-9807-00df62471f04",
+              "updatedAt": "2026-11-02T00:31:14.404Z",
+              "updatedBy": "4992e614-cfe2-4f7f-908a-113672959b51"
+            },
+            "requestId": "a3a3c3af-d731-447f-8873-f00c8f1a0e13"
+          },
+          "recoveryBefore": [
+            {
+              "id": "7b33e430-5420-4d54-b399-2b1345028c9a",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:03.076Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.087Z",
+              "updated_at": "2026-11-02T00:31:12.088Z"
+            },
+            {
+              "id": "9d7bb098-6cff-4d32-b7cb-053cb010e5de",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 2,
+              "last_seen_at": "2026-11-02T00:32:03.076Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:04.038Z",
+              "updated_at": "2026-11-02T00:33:04.038Z"
+            }
+          ],
+          "recoveryAfter": [
+            {
+              "id": "7b33e430-5420-4d54-b399-2b1345028c9a",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 1,
+              "last_seen_at": "2026-11-02T00:32:03.076Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:46:12.087Z",
+              "updated_at": "2026-11-02T00:31:12.088Z"
+            },
+            {
+              "id": "9d7bb098-6cff-4d32-b7cb-053cb010e5de",
+              "user_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "row_version": 4,
+              "last_seen_at": "2026-11-02T00:33:04.080Z",
+              "last_ip": "127.0.0.1",
+              "idle_expires_at": "2026-11-02T00:48:04.080Z",
+              "updated_at": "2026-11-02T00:33:04.109Z"
+            }
+          ],
+          "recoveryDeltas": [
+            {
+              "id": "7b33e430-5420-4d54-b399-2b1345028c9a",
+              "delta": 0
+            },
+            {
+              "id": "9d7bb098-6cff-4d32-b7cb-053cb010e5de",
+              "delta": 2
+            }
+          ],
+          "actualRecoveryEvents": [
+            {
+              "event_type": "sensitive_field.masked",
+              "actor_id": "4c7b6c53-1414-4aee-93f6-4f1a2cf4ba53",
+              "request_id": "a3a3c3af-d731-447f-8873-f00c8f1a0e13",
+              "details": {
+                "targetId": "69da3de6-f232-406c-b5dc-a8c3af678aab",
+                "fieldKeys": [
+                  "field"
+                ],
+                "reasonCode": "missing-sensitive-read-permission",
+                "targetType": "project",
+                "targetCount": 1,
+                "projectionMode": "masked",
+                "fieldPackageKey": "contract-finance",
+                "sampleTargetIds": [
+                  "69da3de6-f232-406c-b5dc-a8c3af678aab"
+                ],
+                "hiddenFieldCount": 1,
+                "requiredPermission": "contract:finance:sensitive:read",
+                "auditAggregationMode": "sensitive-field-batch"
+              }
+            }
+          ]
+        }
+      ],
+      "result": "Pass",
+      "initialPrivileges": {
+        "number_insert": true,
+        "security_insert": true
+      },
+      "finalPrivileges": {
+        "number_insert": true,
+        "security_insert": true
+      },
+      "ACLRestored": true
+    }
+  ],
+  "checksPerBackend": 3,
+  "onlyNewOwnedCohorts": true,
+  "cleanupPending": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

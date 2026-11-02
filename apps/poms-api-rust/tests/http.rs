@@ -552,12 +552,12 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_has_one_hundred_fifteen_operations_and_preserves_existing_health_schemas() -> TestResult
-{
+fn openapi_has_one_hundred_twenty_nine_operations_and_preserves_existing_health_schemas()
+-> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 96);
+    assert_eq!(paths.len(), 105);
     assert_eq!(
         paths
             .values()
@@ -569,8 +569,31 @@ fn openapi_has_one_hundred_fifteen_operations_and_preserves_existing_health_sche
                 .contains(&method.as_str()))
                 .count()))
             .sum::<usize>(),
-        115
+        129
     );
+    // R3AB adds exactly the source-frozen customer8/project6 operations. The
+    // original complete Native spec remains the independent contract oracle.
+    for (path, method) in [
+        ("/api/customers", "get"),
+        ("/api/customers", "post"),
+        ("/api/customers/{id}", "get"),
+        ("/api/customers/{id}", "patch"),
+        ("/api/customers/{id}/aliases", "get"),
+        ("/api/customers/{id}/aliases", "post"),
+        ("/api/customer-aliases/{id}", "delete"),
+        ("/api/customers/{id}/workspace-overview", "get"),
+        ("/api/projects", "get"),
+        ("/api/projects", "post"),
+        ("/api/projects/{id}", "get"),
+        ("/api/projects/{id}", "patch"),
+        ("/api/projects/{id}:reassignOwner", "post"),
+        ("/api/projects:lookup", "get"),
+    ] {
+        assert_eq!(
+            document["paths"][path][method],
+            existing["paths"][path][method]
+        );
+    }
     assert!(public_security_matches(&document, &existing));
     for path in ["/api", "/api/health", "/api/health/readiness"] {
         let operation = &document["paths"][path]["get"];

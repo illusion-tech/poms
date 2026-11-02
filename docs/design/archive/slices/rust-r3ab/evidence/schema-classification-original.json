@@ -1,0 +1,1541 @@
+{
+  "kind": "R3AB-original-schema-check-dump-classification",
+  "result": "Classified-existing-baseline-drift-and-tool-noise",
+  "migrationCheckExit": 1,
+  "dumpExit": 0,
+  "DDLExecuted": false,
+  "source": {
+    "file": "/home/wangzishi/.local/share/poms-r3ab/private/shared-checks01/original-schema-dump.log",
+    "bytes": 29724,
+    "rawBytesSha256": "a1d6ca6765dad50ba6c27fdac914ae47d125a844f9171b13a7317c4110716ed0"
+  },
+  "existingValidatedChecks": [
+    {
+      "table": "approval_record",
+      "constraint": "chk_approval_record_approval_type",
+      "SQL": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_approval_type\" check (\"approval_type\" in ('contract-review', 'commission-payout-approval', 'commission-adjustment-approval'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (approval_type::text = ANY (ARRAY['contract-review'::character varying, 'commission-payout-approval'::character varying, 'commission-adjustment-approval'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "approval_record",
+      "constraint": "chk_approval_record_business_domain",
+      "SQL": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_business_domain\" check (\"business_domain\" in ('contract-finance', 'commission', 'sales', 'project-handover'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (business_domain::text = ANY (ARRAY['contract-finance'::character varying, 'commission'::character varying, 'sales'::character varying, 'project-handover'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "approval_record",
+      "constraint": "chk_approval_record_target_object_type",
+      "SQL": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_target_object_type\" check (\"target_object_type\" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (target_object_type::text = ANY (ARRAY['contract'::character varying, 'commission-payout'::character varying, 'commission-adjustment'::character varying, 'project'::character varying, 'lead'::character varying, 'customer'::character varying, 'project-handover'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "approval_record",
+      "constraint": "chk_approval_record_current_status",
+      "SQL": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_current_status\" check (\"current_status\" in ('pending', 'approved', 'rejected'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_status::text = ANY (ARRAY['pending'::character varying, 'approved'::character varying, 'rejected'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "approval_record",
+      "constraint": "chk_approval_record_decision",
+      "SQL": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_decision\" check (\"decision\" in ('approved', 'rejected'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (decision::text = ANY (ARRAY['approved'::character varying, 'rejected'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment",
+      "constraint": "chk_attachment_security_level",
+      "SQL": "alter table \"poms\".\"attachment\" add constraint \"chk_attachment_security_level\" check (\"security_level\" in ('normal', 'internal', 'sensitive', 'confidential', 'restricted'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (security_level::text = ANY (ARRAY['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment",
+      "constraint": "chk_attachment_status",
+      "SQL": "alter table \"poms\".\"attachment\" add constraint \"chk_attachment_status\" check (\"status\" in ('active', 'voided', 'deleted', 'failed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'voided'::character varying, 'deleted'::character varying, 'failed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_link",
+      "constraint": "chk_attachment_link_target_type",
+      "SQL": "alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_target_type\" check (\"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up', 'project-handover'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (target_type::text = ANY (ARRAY['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_link",
+      "constraint": "chk_attachment_link_relation_type",
+      "SQL": "alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_relation_type\" check (\"relation_type\" in ('normal', 'source', 'evidence', 'final', 'handover'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (relation_type::text = ANY (ARRAY['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_link",
+      "constraint": "chk_attachment_link_status",
+      "SQL": "alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_status\" check (\"status\" in ('active', 'unlinked'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'unlinked'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_storage_provider_config",
+      "constraint": "chk_attachment_storage_provider_type",
+      "SQL": "alter table \"poms\".\"attachment_storage_provider_config\" add constraint \"chk_attachment_storage_provider_type\" check (\"provider_type\" in ('local', 'huawei-obs-s3'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider_type::text = ANY (ARRAY['local'::character varying, 'huawei-obs-s3'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_storage_provider_config",
+      "constraint": "chk_attachment_storage_provider_status",
+      "SQL": "alter table \"poms\".\"attachment_storage_provider_config\" add constraint \"chk_attachment_storage_provider_status\" check (\"status\" in ('draft', 'active', 'disabled', 'misconfigured'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'active'::character varying, 'disabled'::character varying, 'misconfigured'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_operation_type",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_operation_type\" check (\"operation_type\" in ('create-attachment', 'create-version'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (operation_type::text = ANY (ARRAY['create-attachment'::character varying, 'create-version'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_status",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_status\" check (\"status\" in ('pending', 'uploading', 'uploaded', 'validating', 'completed', 'failed', 'expired', 'aborted'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'uploading'::character varying, 'uploaded'::character varying, 'validating'::character varying, 'completed'::character varying, 'failed'::character varying, 'expired'::character varying, 'aborted'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_upload_mode",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_upload_mode\" check (\"upload_mode\" in ('proxy', 'presigned-put', 'multipart'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (upload_mode::text = ANY (ARRAY['proxy'::character varying, 'presigned-put'::character varying, 'multipart'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_provider_type",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_provider_type\" check (\"provider_type\" in ('local', 'huawei-obs-s3'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider_type::text = ANY (ARRAY['local'::character varying, 'huawei-obs-s3'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_max_size_bytes",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_max_size_bytes\" check (\"max_size_bytes\" > 0);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (max_size_bytes > 0)"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_target_type",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_target_type\" check (\"target_type\" is null or \"target_type\" = any (array['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (target_type IS NULL OR (target_type::text = ANY (ARRAY['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying]::text[])))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_security_level",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_security_level\" check (\"security_level\" is null or \"security_level\" = any (array['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (security_level IS NULL OR (security_level::text = ANY (ARRAY['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying]::text[])))"
+      }
+    },
+    {
+      "table": "attachment_upload_session",
+      "constraint": "chk_attachment_upload_session_relation_type",
+      "SQL": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_relation_type\" check (\"relation_type\" is null or \"relation_type\" = any (array['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (relation_type IS NULL OR (relation_type::text = ANY (ARRAY['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying]::text[])))"
+      }
+    },
+    {
+      "table": "commission_rule_version",
+      "constraint": "chk_commission_rule_version_status",
+      "SQL": "alter table \"poms\".\"commission_rule_version\" add constraint \"chk_commission_rule_version_status\" check (\"status\" in ('draft', 'active', 'stopped'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'active'::character varying, 'stopped'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "dictionary_item",
+      "constraint": "chk_dictionary_item_domain",
+      "SQL": "alter table \"poms\".\"dictionary_item\" add constraint \"chk_dictionary_item_domain\" check (\"domain\" in ('attachment-category', 'sales-follow-up-type', 'expense-category', 'lead-source'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (domain::text = ANY (ARRAY['attachment-category'::character varying, 'sales-follow-up-type'::character varying, 'expense-category'::character varying, 'lead-source'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "dictionary_item",
+      "constraint": "chk_dictionary_item_status",
+      "SQL": "alter table \"poms\".\"dictionary_item\" add constraint \"chk_dictionary_item_status\" check (\"status\" in ('active', 'inactive'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'inactive'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "dictionary_item",
+      "constraint": "chk_dictionary_item_code_format",
+      "SQL": "alter table \"poms\".\"dictionary_item\" add constraint \"chk_dictionary_item_code_format\" check (\"code\" ~ '^[a-z][a-z0-9-]*$');",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (code::text ~ '^[a-z][a-z0-9-]*$'::text)"
+      }
+    },
+    {
+      "table": "identity_provider_config",
+      "constraint": "chk_identity_provider_config_provider",
+      "SQL": "alter table \"poms\".\"identity_provider_config\" add constraint \"chk_identity_provider_config_provider\" check (\"provider\" in ('feishu'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider::text = 'feishu'::text)"
+      }
+    },
+    {
+      "table": "identity_provider_config",
+      "constraint": "chk_identity_provider_config_status",
+      "SQL": "alter table \"poms\".\"identity_provider_config\" add constraint \"chk_identity_provider_config_status\" check (\"status\" in ('draft', 'active', 'disabled', 'misconfigured'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'active'::character varying, 'disabled'::character varying, 'misconfigured'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "identity_provider_config",
+      "constraint": "chk_identity_provider_config_search_grant_mode",
+      "SQL": "alter table \"poms\".\"identity_provider_config\" add constraint \"chk_identity_provider_config_search_grant_mode\" check (\"search_grant_mode\" in ('per-admin', 'service-account'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (search_grant_mode::text = ANY (ARRAY['per-admin'::character varying, 'service-account'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "internal_cost_rate_version",
+      "constraint": "chk_internal_cost_rate_version_status",
+      "SQL": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_status\" check (\"status\" in ('active', 'superseded', 'retired'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'retired'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "internal_cost_rate_version",
+      "constraint": "chk_internal_cost_rate_version_scope_type",
+      "SQL": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_scope_type\" check (\"rate_scope_type\" in ('person', 'role'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (rate_scope_type::text = ANY (ARRAY['person'::character varying, 'role'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "internal_cost_rate_version",
+      "constraint": "chk_internal_cost_rate_version_rate_unit",
+      "SQL": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_rate_unit\" check (\"rate_unit\" in ('hour', 'day'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (rate_unit::text = ANY (ARRAY['hour'::character varying, 'day'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "org_unit",
+      "constraint": "chk_org_unit_parent_not_self",
+      "SQL": "alter table \"poms\".\"org_unit\" add constraint \"chk_org_unit_parent_not_self\" check ((\"parent_id\" is null or \"parent_id\" <> \"id\"));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (parent_id IS NULL OR parent_id <> id)"
+      }
+    },
+    {
+      "table": "external_org_source",
+      "constraint": "chk_external_org_source_provider",
+      "SQL": "alter table \"poms\".\"external_org_source\" add constraint \"chk_external_org_source_provider\" check (\"provider\" in ('feishu', 'dingtalk', 'wecom'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider::text = ANY (ARRAY['feishu'::character varying, 'dingtalk'::character varying, 'wecom'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "external_org_source",
+      "constraint": "chk_external_org_source_status",
+      "SQL": "alter table \"poms\".\"external_org_source\" add constraint \"chk_external_org_source_status\" check (\"status\" in ('draft', 'active', 'paused', 'archived'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'active'::character varying, 'paused'::character varying, 'archived'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "external_department_mapping",
+      "constraint": "chk_external_department_mapping_status",
+      "SQL": "alter table \"poms\".\"external_department_mapping\" add constraint \"chk_external_department_mapping_status\" check (\"status\" in ('unmapped', 'mapped', 'conflict', 'ignored'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['unmapped'::character varying, 'mapped'::character varying, 'conflict'::character varying, 'ignored'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "org_sync_run",
+      "constraint": "chk_org_sync_run_status",
+      "SQL": "alter table \"poms\".\"org_sync_run\" add constraint \"chk_org_sync_run_status\" check (\"status\" in ('previewing', 'previewed', 'applying', 'applied', 'failed', 'cancelled'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['previewing'::character varying, 'previewed'::character varying, 'applying'::character varying, 'applied'::character varying, 'failed'::character varying, 'cancelled'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "org_sync_diff_item",
+      "constraint": "chk_org_sync_diff_item_action",
+      "SQL": "alter table \"poms\".\"org_sync_diff_item\" add constraint \"chk_org_sync_diff_item_action\" check (\"action\" in ('create_org_unit', 'update_org_unit', 'move_org_unit', 'disable_org_unit', 'map_existing_org_unit', 'ignore', 'conflict'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (action::text = ANY (ARRAY['create_org_unit'::character varying, 'update_org_unit'::character varying, 'move_org_unit'::character varying, 'disable_org_unit'::character varying, 'map_existing_org_unit'::character varying, 'ignore'::character varying, 'conflict'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "org_sync_diff_item",
+      "constraint": "chk_org_sync_diff_item_status",
+      "SQL": "alter table \"poms\".\"org_sync_diff_item\" add constraint \"chk_org_sync_diff_item_status\" check (\"status\" in ('pending', 'approved', 'skipped', 'applied', 'failed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'approved'::character varying, 'skipped'::character varying, 'applied'::character varying, 'failed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "identity_provider_oauth_grant",
+      "constraint": "chk_identity_provider_oauth_grant_provider",
+      "SQL": "alter table \"poms\".\"identity_provider_oauth_grant\" add constraint \"chk_identity_provider_oauth_grant_provider\" check (\"provider\" in ('feishu'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider::text = 'feishu'::text)"
+      }
+    },
+    {
+      "table": "identity_provider_oauth_grant",
+      "constraint": "chk_identity_provider_oauth_grant_status",
+      "SQL": "alter table \"poms\".\"identity_provider_oauth_grant\" add constraint \"chk_identity_provider_oauth_grant_status\" check (\"status\" in ('missing', 'active', 'expired', 'revoked'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['missing'::character varying, 'active'::character varying, 'expired'::character varying, 'revoked'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "external_identity",
+      "constraint": "chk_external_identity_provider",
+      "SQL": "alter table \"poms\".\"external_identity\" add constraint \"chk_external_identity_provider\" check (\"provider\" in ('feishu'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider::text = 'feishu'::text)"
+      }
+    },
+    {
+      "table": "external_identity",
+      "constraint": "chk_external_identity_status",
+      "SQL": "alter table \"poms\".\"external_identity\" add constraint \"chk_external_identity_status\" check (\"status\" in ('active', 'revoked'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'revoked'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "external_login_ticket",
+      "constraint": "chk_external_login_ticket_provider",
+      "SQL": "alter table \"poms\".\"external_login_ticket\" add constraint \"chk_external_login_ticket_provider\" check (\"provider\" in ('feishu'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (provider::text = 'feishu'::text)"
+      }
+    },
+    {
+      "table": "external_login_ticket",
+      "constraint": "chk_external_login_ticket_status",
+      "SQL": "alter table \"poms\".\"external_login_ticket\" add constraint \"chk_external_login_ticket_status\" check (\"status\" in ('issued', 'consumed', 'expired'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['issued'::character varying, 'consumed'::character varying, 'expired'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "customer",
+      "constraint": "chk_customer_status",
+      "SQL": "alter table \"poms\".\"customer\" add constraint \"chk_customer_status\" check (\"status\" in ('active', 'inactive', 'merged'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'inactive'::character varying, 'merged'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead",
+      "constraint": "chk_lead_status",
+      "SQL": "alter table \"poms\".\"lead\" add constraint \"chk_lead_status\" check (\"status\" in ('registered', 'qualified', 'converted', 'closed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['registered'::character varying, 'qualified'::character varying, 'converted'::character varying, 'closed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead",
+      "constraint": "chk_lead_budget_status",
+      "SQL": "alter table \"poms\".\"lead\" add constraint \"chk_lead_budget_status\" check (\"budget_status\" in ('unknown', 'no-budget', 'rough-budget', 'budget-confirmed', 'budget-approved'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (budget_status::text = ANY (ARRAY['unknown'::character varying, 'no-budget'::character varying, 'rough-budget'::character varying, 'budget-confirmed'::character varying, 'budget-approved'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead",
+      "constraint": "chk_lead_urgency",
+      "SQL": "alter table \"poms\".\"lead\" add constraint \"chk_lead_urgency\" check (\"urgency\" in ('low', 'normal', 'high', 'critical'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (urgency::text = ANY (ARRAY['low'::character varying, 'normal'::character varying, 'high'::character varying, 'critical'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead",
+      "constraint": "chk_lead_estimated_amount_non_negative",
+      "SQL": "alter table \"poms\".\"lead\" add constraint \"chk_lead_estimated_amount_non_negative\" check (\"estimated_amount\" is null or \"estimated_amount\" >= 0);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (estimated_amount IS NULL OR estimated_amount >= 0::numeric)"
+      }
+    },
+    {
+      "table": "lead",
+      "constraint": "chk_lead_score_range",
+      "SQL": "alter table \"poms\".\"lead\" add constraint \"chk_lead_score_range\" check (\"score\" >= 0 and \"score\" <= 100);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (score >= 0 AND score <= 100)"
+      }
+    },
+    {
+      "table": "lead",
+      "constraint": "chk_lead_rating",
+      "SQL": "alter table \"poms\".\"lead\" add constraint \"chk_lead_rating\" check (\"rating\" in ('A', 'B', 'C', 'D'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (rating::text = ANY (ARRAY['A'::character varying, 'B'::character varying, 'C'::character varying, 'D'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_snapshot",
+      "constraint": "chk_lss_snapshot_kind",
+      "SQL": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_snapshot_kind\" check (\"snapshot_kind\" in ('system', 'manual-override', 'override-revoked'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (snapshot_kind::text = ANY (ARRAY['system'::character varying, 'manual-override'::character varying, 'override-revoked'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_snapshot",
+      "constraint": "chk_lss_system_score_range",
+      "SQL": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_system_score_range\" check (\"system_score\" >= 0 and \"system_score\" <= 100);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (system_score >= 0 AND system_score <= 100)"
+      }
+    },
+    {
+      "table": "lead_score_snapshot",
+      "constraint": "chk_lss_effective_score_range",
+      "SQL": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_effective_score_range\" check (\"effective_score\" >= 0 and \"effective_score\" <= 100);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (effective_score >= 0 AND effective_score <= 100)"
+      }
+    },
+    {
+      "table": "lead_score_snapshot",
+      "constraint": "chk_lss_system_rating",
+      "SQL": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_system_rating\" check (\"system_rating\" in ('A', 'B', 'C', 'D'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (system_rating::text = ANY (ARRAY['A'::character varying, 'B'::character varying, 'C'::character varying, 'D'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_snapshot",
+      "constraint": "chk_lss_effective_rating",
+      "SQL": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_effective_rating\" check (\"effective_rating\" in ('A', 'B', 'C', 'D'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (effective_rating::text = ANY (ARRAY['A'::character varying, 'B'::character varying, 'C'::character varying, 'D'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_snapshot",
+      "constraint": "chk_lss_effective_score_source",
+      "SQL": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_effective_score_source\" check (\"effective_score_source\" in ('system', 'manual-override'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (effective_score_source::text = ANY (ARRAY['system'::character varying, 'manual-override'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_override",
+      "constraint": "chk_lso_status",
+      "SQL": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_status\" check (\"status\" in ('pending', 'approved', 'rejected', 'revoked', 'superseded'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'approved'::character varying, 'rejected'::character varying, 'revoked'::character varying, 'superseded'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_override",
+      "constraint": "chk_lso_requested_score_range",
+      "SQL": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_requested_score_range\" check (\"requested_score\" >= 0 and \"requested_score\" <= 100);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (requested_score >= 0 AND requested_score <= 100)"
+      }
+    },
+    {
+      "table": "lead_score_override",
+      "constraint": "chk_lso_requested_rating",
+      "SQL": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_requested_rating\" check (\"requested_rating\" in ('A', 'B', 'C', 'D'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (requested_rating::text = ANY (ARRAY['A'::character varying, 'B'::character varying, 'C'::character varying, 'D'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_score_override",
+      "constraint": "chk_lso_system_score_at_request_range",
+      "SQL": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_system_score_at_request_range\" check (\"system_score_at_request\" >= 0 and \"system_score_at_request\" <= 100);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (system_score_at_request >= 0 AND system_score_at_request <= 100)"
+      }
+    },
+    {
+      "table": "lead_score_override",
+      "constraint": "chk_lso_system_rating_at_request",
+      "SQL": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_system_rating_at_request\" check (\"system_rating_at_request\" in ('A', 'B', 'C', 'D'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (system_rating_at_request::text = ANY (ARRAY['A'::character varying, 'B'::character varying, 'C'::character varying, 'D'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "lead_owner_assignment_record",
+      "constraint": "chk_lead_owner_assignment_type",
+      "SQL": "alter table \"poms\".\"lead_owner_assignment_record\" add constraint \"chk_lead_owner_assignment_type\" check (\"assignment_type\" in ('claimed', 'assigned', 'reassigned'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (assignment_type::text = ANY (ARRAY['claimed'::character varying, 'assigned'::character varying, 'reassigned'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "customer_contact",
+      "constraint": "chk_customer_contact_status",
+      "SQL": "alter table \"poms\".\"customer_contact\" add constraint \"chk_customer_contact_status\" check (\"status\" in ('active', 'inactive'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'inactive'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "customer_contact",
+      "constraint": "chk_customer_contact_gender",
+      "SQL": "alter table \"poms\".\"customer_contact\" add constraint \"chk_customer_contact_gender\" check (\"gender\" in ('unknown', 'male', 'female'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (gender::text = ANY (ARRAY['unknown'::character varying, 'male'::character varying, 'female'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "customer_alias",
+      "constraint": "chk_customer_alias_type",
+      "SQL": "alter table \"poms\".\"customer_alias\" add constraint \"chk_customer_alias_type\" check (\"alias_type\" in ('legal-name', 'short-name', 'legacy-input', 'import-name', 'alias'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (alias_type::text = ANY (ARRAY['legal-name'::character varying, 'short-name'::character varying, 'legacy-input'::character varying, 'import-name'::character varying, 'alias'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "auth_session",
+      "constraint": "chk_auth_session_status",
+      "SQL": "alter table \"poms\".\"auth_session\" add constraint \"chk_auth_session_status\" check (\"status\" in ('active', 'revoked', 'expired'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'revoked'::character varying, 'expired'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "auth_session",
+      "constraint": "chk_auth_session_revoked_reason",
+      "SQL": "alter table \"poms\".\"auth_session\" add constraint \"chk_auth_session_revoked_reason\" check ((\"revoked_reason\" is null or (\"revoked_reason\")::text = any ((array['logout'::character varying, 'admin-revoked'::character varying, 'password-reset'::character varying, 'account-disabled'::character varying, 'session-rotated'::character varying])::text[])));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (revoked_reason IS NULL OR (revoked_reason::text = ANY (ARRAY['logout'::character varying::text, 'admin-revoked'::character varying::text, 'password-reset'::character varying::text, 'account-disabled'::character varying::text, 'session-rotated'::character varying::text])))"
+      }
+    },
+    {
+      "table": "project",
+      "constraint": "chk_project_status",
+      "SQL": "alter table \"poms\".\"project\" add constraint \"chk_project_status\" check (\"status\" in ('active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'pending-approval'::character varying, 'blocked'::character varying, 'on-hold'::character varying, 'completed'::character varying, 'closed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project",
+      "constraint": "chk_project_current_stage",
+      "SQL": "alter table \"poms\".\"project\" add constraint \"chk_project_current_stage\" check (\"current_stage\" in ('assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_stage::text = ANY (ARRAY['assessment'::character varying, 'scope-confirmation'::character varying, 'commercial-closure'::character varying, 'contracting'::character varying, 'handover'::character varying, 'execution'::character varying, 'acceptance'::character varying, 'completed'::character varying, 'closed-lost'::character varying, 'closed-terminated'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "constraint": "chk_opportunity_stakeholder_anchor",
+      "SQL": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (lead_id IS NOT NULL OR project_id IS NOT NULL)"
+      }
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "constraint": "chk_opportunity_stakeholder_role",
+      "SQL": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_role\" check (\"role\" in ('decision-maker', 'influencer', 'end-user', 'technical-evaluator', 'procurement-contact', 'finance-legal', 'sponsor', 'blocker', 'unknown', 'other'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (role::text = ANY (ARRAY['decision-maker'::character varying, 'influencer'::character varying, 'end-user'::character varying, 'technical-evaluator'::character varying, 'procurement-contact'::character varying, 'finance-legal'::character varying, 'sponsor'::character varying, 'blocker'::character varying, 'unknown'::character varying, 'other'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "constraint": "chk_opportunity_stakeholder_attitude",
+      "SQL": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_attitude\" check (\"attitude\" in ('supportive', 'neutral', 'resistant', 'unknown'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (attitude::text = ANY (ARRAY['supportive'::character varying, 'neutral'::character varying, 'resistant'::character varying, 'unknown'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "constraint": "chk_opportunity_stakeholder_influence",
+      "SQL": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_influence\" check (\"influence_level\" in ('high', 'medium', 'low', 'unknown'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (influence_level::text = ANY (ARRAY['high'::character varying, 'medium'::character varying, 'low'::character varying, 'unknown'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "constraint": "chk_opportunity_stakeholder_access",
+      "SQL": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_access\" check (\"access_level\" in ('direct', 'indirect', 'unknown', 'blocked'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (access_level::text = ANY (ARRAY['direct'::character varying, 'indirect'::character varying, 'unknown'::character varying, 'blocked'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_baseline_package",
+      "constraint": "chk_operating_baseline_package_baseline_selection_source",
+      "SQL": "alter table \"poms\".\"operating_baseline_package\" add constraint \"chk_operating_baseline_package_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (baseline_selection_source::text = ANY (ARRAY['original'::character varying, 'handover-rebaseline'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_baseline_package",
+      "constraint": "chk_operating_baseline_package_status",
+      "SQL": "alter table \"poms\".\"operating_baseline_package\" add constraint \"chk_operating_baseline_package_status\" check (\"status\" in ('draft', 'active', 'superseded'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'active'::character varying, 'superseded'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "change_package_baseline",
+      "constraint": "chk_change_package_baseline_status",
+      "SQL": "alter table \"poms\".\"change_package_baseline\" add constraint \"chk_change_package_baseline_status\" check (\"status\" in ('active', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "contract",
+      "constraint": "chk_contract_status",
+      "SQL": "alter table \"poms\".\"contract\" add constraint \"chk_contract_status\" check (\"status\" in ('draft', 'pending-review', 'active', 'terminated', 'completed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'pending-review'::character varying, 'active'::character varying, 'terminated'::character varying, 'completed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "payable_record",
+      "constraint": "chk_payable_record_status",
+      "SQL": "alter table \"poms\".\"payable_record\" add constraint \"chk_payable_record_status\" check (\"status\" in ('draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'recorded'::character varying, 'partially-paid'::character varying, 'completed'::character varying, 'closed'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "payment_record",
+      "constraint": "chk_payment_record_status",
+      "SQL": "alter table \"poms\".\"payment_record\" add constraint \"chk_payment_record_status\" check (\"status\" in ('draft', 'recorded', 'confirmed', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'recorded'::character varying, 'confirmed'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "invoice_record",
+      "constraint": "chk_invoice_record_invoice_type",
+      "SQL": "alter table \"poms\".\"invoice_record\" add constraint \"chk_invoice_record_invoice_type\" check (\"invoice_type\" in ('input', 'output'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (invoice_type::text = ANY (ARRAY['input'::character varying, 'output'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "invoice_record",
+      "constraint": "chk_invoice_record_status",
+      "SQL": "alter table \"poms\".\"invoice_record\" add constraint \"chk_invoice_record_status\" check (\"status\" in ('draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'pending-issue'::character varying, 'issued'::character varying, 'received'::character varying, 'verified'::character varying, 'exception'::character varying, 'closed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "invoice_record",
+      "constraint": "chk_invoice_record_exception_status",
+      "SQL": "alter table \"poms\".\"invoice_record\" add constraint \"chk_invoice_record_exception_status\" check (\"exception_status\" in ('none', 'open', 'resolved'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (exception_status::text = ANY (ARRAY['none'::character varying, 'open'::character varying, 'resolved'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "expense_record",
+      "constraint": "chk_expense_record_source_type",
+      "SQL": "alter table \"poms\".\"expense_record\" add constraint \"chk_expense_record_source_type\" check (\"source_type\" in ('manual', 'reimbursement', 'import'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (source_type::text = ANY (ARRAY['manual'::character varying, 'reimbursement'::character varying, 'import'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "expense_record",
+      "constraint": "chk_expense_record_status",
+      "SQL": "alter table \"poms\".\"expense_record\" add constraint \"chk_expense_record_status\" check (\"status\" in ('draft', 'recorded', 'confirmed', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'recorded'::character varying, 'confirmed'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "constraint": "chk_competitor_intelligence_anchor",
+      "SQL": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_intelligence_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (lead_id IS NOT NULL OR project_id IS NOT NULL)"
+      }
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "constraint": "chk_competitor_position",
+      "SQL": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_position\" check (\"position\" in ('incumbent', 'active-competitor', 'potential-competitor', 'unknown'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (\"position\"::text = ANY (ARRAY['incumbent'::character varying, 'active-competitor'::character varying, 'potential-competitor'::character varying, 'unknown'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "constraint": "chk_competitor_customer_preference",
+      "SQL": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_customer_preference\" check (\"customer_preference\" in ('toward-us', 'neutral', 'toward-competitor', 'unknown'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (customer_preference::text = ANY (ARRAY['toward-us'::character varying, 'neutral'::character varying, 'toward-competitor'::character varying, 'unknown'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "constraint": "chk_competitor_win_probability",
+      "SQL": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_win_probability\" check (\"win_probability\" in ('high', 'medium', 'low', 'unknown'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (win_probability::text = ANY (ARRAY['high'::character varying, 'medium'::character varying, 'low'::character varying, 'unknown'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_calculation",
+      "constraint": "chk_commission_calculation_status",
+      "SQL": "alter table \"poms\".\"commission_calculation\" add constraint \"chk_commission_calculation_status\" check (\"status\" in ('pending', 'calculated', 'effective', 'superseded'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'calculated'::character varying, 'effective'::character varying, 'superseded'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_payout",
+      "constraint": "chk_commission_payout_stage_type",
+      "SQL": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_stage_type\" check (\"stage_type\" in ('first', 'second', 'final', 'retention'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (stage_type::text = ANY (ARRAY['first'::character varying, 'second'::character varying, 'final'::character varying, 'retention'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_payout",
+      "constraint": "chk_commission_payout_payout_kind",
+      "SQL": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_payout_kind\" check (\"payout_kind\" in ('primary', 'supplement'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (payout_kind::text = ANY (ARRAY['primary'::character varying, 'supplement'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_payout",
+      "constraint": "chk_commission_payout_selected_tier",
+      "SQL": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_selected_tier\" check (\"selected_tier\" in ('basic', 'mid', 'premium'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (selected_tier::text = ANY (ARRAY['basic'::character varying, 'mid'::character varying, 'premium'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_payout",
+      "constraint": "chk_commission_payout_status",
+      "SQL": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_status\" check (\"status\" in ('draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'pending-approval'::character varying, 'approved'::character varying, 'paid'::character varying, 'suspended'::character varying, 'reversed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_adjustment",
+      "constraint": "chk_commission_adjustment_adjustment_type",
+      "SQL": "alter table \"poms\".\"commission_adjustment\" add constraint \"chk_commission_adjustment_adjustment_type\" check (\"adjustment_type\" in ('suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (adjustment_type::text = ANY (ARRAY['suspend-payout'::character varying, 'reverse-payout'::character varying, 'clawback'::character varying, 'supplement'::character varying, 'recalculate'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_adjustment",
+      "constraint": "chk_commission_adjustment_status",
+      "SQL": "alter table \"poms\".\"commission_adjustment\" add constraint \"chk_commission_adjustment_status\" check (\"status\" in ('draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'pending-approval'::character varying, 'approved'::character varying, 'executed'::character varying, 'rejected'::character varying, 'closed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "contract_term_snapshot",
+      "constraint": "chk_contract_term_snapshot_status",
+      "SQL": "alter table \"poms\".\"contract_term_snapshot\" add constraint \"chk_contract_term_snapshot_status\" check (\"snapshot_status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (snapshot_status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "period_closing_snapshot",
+      "constraint": "chk_period_closing_snapshot_snapshot_mode",
+      "SQL": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_snapshot_mode\" check (\"snapshot_mode\" in ('period-end'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (snapshot_mode::text = 'period-end'::text)"
+      }
+    },
+    {
+      "table": "period_closing_snapshot",
+      "constraint": "chk_period_closing_snapshot_current_action_level",
+      "SQL": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_action_level::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "period_closing_snapshot",
+      "constraint": "chk_period_closing_snapshot_baseline_selection_source",
+      "SQL": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (baseline_selection_source::text = ANY (ARRAY['original'::character varying, 'handover-rebaseline'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "period_closing_snapshot",
+      "constraint": "chk_period_closing_snapshot_status",
+      "SQL": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "business_discussion_thread",
+      "constraint": "chk_business_discussion_thread_target",
+      "SQL": "alter table \"poms\".\"business_discussion_thread\" add constraint \"chk_business_discussion_thread_target\" check (\"target_object_type\" in ('customer', 'lead', 'project'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (target_object_type::text = ANY (ARRAY['customer'::character varying, 'lead'::character varying, 'project'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "constraint": "chk_accounting_tax_treatment_snapshot_deductibility_status",
+      "SQL": "alter table \"poms\".\"accounting_tax_treatment_snapshot\" add constraint \"chk_accounting_tax_treatment_snapshot_deductibility_status\" check (\"deductibility_status\" in ('pending', 'deductible', 'non-deductible'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (deductibility_status::text = ANY (ARRAY['pending'::character varying, 'deductible'::character varying, 'non-deductible'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "constraint": "chk_accounting_tax_treatment_snapshot_status",
+      "SQL": "alter table \"poms\".\"accounting_tax_treatment_snapshot\" add constraint \"chk_accounting_tax_treatment_snapshot_status\" check (\"status\" in ('pending', 'active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_role_assignment",
+      "constraint": "chk_commission_role_assignment_status",
+      "SQL": "alter table \"poms\".\"commission_role_assignment\" add constraint \"chk_commission_role_assignment_status\" check (\"status\" in ('draft', 'frozen', 'superseded'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'frozen'::character varying, 'superseded'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_freeze_dispute_record",
+      "constraint": "chk_cfdr_arbitration_status",
+      "SQL": "alter table \"poms\".\"commission_freeze_dispute_record\" add constraint \"chk_cfdr_arbitration_status\" check (\"arbitration_status\" in ('pending', 'arbitrated'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (arbitration_status::text = ANY (ARRAY['pending'::character varying, 'arbitrated'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_freeze_dispute_record",
+      "constraint": "chk_cfdr_status",
+      "SQL": "alter table \"poms\".\"commission_freeze_dispute_record\" add constraint \"chk_cfdr_status\" check (\"status\" in ('submitted', 'closed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['submitted'::character varying, 'closed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_freeze_change_request",
+      "constraint": "chk_cfcr_status",
+      "SQL": "alter table \"poms\".\"commission_freeze_change_request\" add constraint \"chk_cfcr_status\" check (\"status\" in ('effective', 'closed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['effective'::character varying, 'closed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_departure_exception_decision",
+      "constraint": "chk_cded_status",
+      "SQL": "alter table \"poms\".\"commission_departure_exception_decision\" add constraint \"chk_cded_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_download_package",
+      "constraint": "chk_adp_status",
+      "SQL": "alter table \"poms\".\"attachment_download_package\" add constraint \"chk_adp_status\" check (\"status\" in ('pending', 'running', 'ready', 'failed', 'expired', 'cancelled'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'running'::character varying, 'ready'::character varying, 'failed'::character varying, 'expired'::character varying, 'cancelled'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "attachment_download_package_item",
+      "constraint": "chk_adpi_status",
+      "SQL": "alter table \"poms\".\"attachment_download_package_item\" add constraint \"chk_adpi_status\" check (\"status\" in ('included', 'excluded'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['included'::character varying, 'excluded'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_actual_cost_record",
+      "constraint": "chk_project_actual_cost_record_cost_type",
+      "SQL": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_cost_type\" check (\"cost_type\" in ('procurement', 'invoice', 'expense', 'payment-fact', 'labor'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (cost_type::text = ANY (ARRAY['procurement'::character varying, 'invoice'::character varying, 'expense'::character varying, 'payment-fact'::character varying, 'labor'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_actual_cost_record",
+      "constraint": "chk_project_actual_cost_record_record_status",
+      "SQL": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_record_status\" check (\"record_status\" in ('draft', 'registered', 'confirmed', 'included', 'voided', 'replaced'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (record_status::text = ANY (ARRAY['draft'::character varying, 'registered'::character varying, 'confirmed'::character varying, 'included'::character varying, 'voided'::character varying, 'replaced'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_actual_cost_record",
+      "constraint": "chk_project_actual_cost_record_labor_period_type",
+      "SQL": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_labor_period_type\" check (\"labor_period_type\" is null or (\"labor_period_type\")::text = ANY ((ARRAY['week'::character varying, 'month'::character varying])::text[]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (labor_period_type IS NULL OR (labor_period_type::text = ANY (ARRAY['week'::character varying::text, 'month'::character varying::text])))"
+      }
+    },
+    {
+      "table": "project_actual_cost_record",
+      "constraint": "chk_project_actual_cost_record_source_type",
+      "SQL": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_source_type\" check (\"source_type\" is null or (\"source_type\")::text = ANY ((ARRAY['payment-record'::character varying, 'invoice-record'::character varying, 'expense-record'::character varying, 'payable-record'::character varying, 'labor'::character varying])::text[]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (source_type IS NULL OR (source_type::text = ANY (ARRAY['payment-record'::character varying::text, 'invoice-record'::character varying::text, 'expense-record'::character varying::text, 'payable-record'::character varying::text, 'labor'::character varying::text])))"
+      }
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "constraint": "chk_cost_stage_attribution_snapshot_attribution_mode",
+      "SQL": "alter table \"poms\".\"cost_stage_attribution_snapshot\" add constraint \"chk_cost_stage_attribution_snapshot_attribution_mode\" check (\"attribution_mode\" in ('auto', 'manual', 'reclassified'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (attribution_mode::text = ANY (ARRAY['auto'::character varying, 'manual'::character varying, 'reclassified'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "constraint": "chk_cost_stage_attribution_snapshot_status",
+      "SQL": "alter table \"poms\".\"cost_stage_attribution_snapshot\" add constraint \"chk_cost_stage_attribution_snapshot_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_archive_record",
+      "constraint": "chk_project_archive_record_status",
+      "SQL": "alter table \"poms\".\"project_archive_record\" add constraint \"chk_project_archive_record_status\" check (\"status\" in ('recorded', 'voided', 'superseded'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['recorded'::character varying, 'voided'::character varying, 'superseded'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_handover_attachment_selection",
+      "constraint": "chk_phas_status",
+      "SQL": "alter table \"poms\".\"project_handover_attachment_selection\" add constraint \"chk_phas_status\" check (\"status\" in ('included', 'missing', 'excluded', 'sensitive-excluded', 'stale-version'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['included'::character varying, 'missing'::character varying, 'excluded'::character varying, 'sensitive-excluded'::character varying, 'stale-version'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_operating_snapshot",
+      "constraint": "chk_project_operating_snapshot_snapshot_mode",
+      "SQL": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_snapshot_mode\" check (\"snapshot_mode\" in ('realtime', 'period-end', 'restated'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (snapshot_mode::text = ANY (ARRAY['realtime'::character varying, 'period-end'::character varying, 'restated'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_operating_snapshot",
+      "constraint": "chk_project_operating_snapshot_current_action_level",
+      "SQL": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_action_level::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_operating_snapshot",
+      "constraint": "chk_project_operating_snapshot_baseline_selection_source",
+      "SQL": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (baseline_selection_source::text = ANY (ARRAY['original'::character varying, 'handover-rebaseline'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "project_operating_snapshot",
+      "constraint": "chk_project_operating_snapshot_status",
+      "SQL": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_restatement_record",
+      "constraint": "chk_operating_restatement_record_status",
+      "SQL": "alter table \"poms\".\"operating_restatement_record\" add constraint \"chk_operating_restatement_record_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "data_maturity_evaluation_result",
+      "constraint": "chk_data_maturity_evaluation_result_data_maturity_level",
+      "SQL": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"chk_data_maturity_evaluation_result_data_maturity_level\" check (\"data_maturity_level\" in ('insufficient', 'preliminary', 'mature'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (data_maturity_level::text = ANY (ARRAY['insufficient'::character varying, 'preliminary'::character varying, 'mature'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "data_maturity_evaluation_result",
+      "constraint": "chk_data_maturity_evaluation_result_cost_action_recommendation",
+      "SQL": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"chk_data_maturity_evaluation_result_cost_action_recommendation\" check (\"cost_action_recommendation\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (cost_action_recommendation::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "data_maturity_evaluation_result",
+      "constraint": "chk_data_maturity_evaluation_result_status",
+      "SQL": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"chk_data_maturity_evaluation_result_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_evaluation_result",
+      "constraint": "chk_operating_signal_evaluation_result_signal_level",
+      "SQL": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_signal_level\" check (\"signal_level\" in ('attention', 'alert'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (signal_level::text = ANY (ARRAY['attention'::character varying, 'alert'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_evaluation_result",
+      "constraint": "chk_operating_signal_evaluation_result_risk_level",
+      "SQL": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_risk_level\" check (\"risk_level\" in ('attention', 'risk'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (risk_level::text = ANY (ARRAY['attention'::character varying, 'risk'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_evaluation_result",
+      "constraint": "chk_operating_signal_evaluation_result_formula_boundary_action",
+      "SQL": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_formula_boundary_action\" check (\"formula_boundary_action\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (formula_boundary_action::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_evaluation_result",
+      "constraint": "chk_operating_signal_evaluation_result_current_action_level",
+      "SQL": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_action_level::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_evaluation_result",
+      "constraint": "chk_operating_signal_evaluation_result_status",
+      "SQL": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "constraint": "chk_operating_signal_gate_binding_binding_action",
+      "SQL": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_binding_action\" check (\"binding_action\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (binding_action::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "constraint": "chk_operating_signal_gate_binding_baseline_selection_source",
+      "SQL": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (baseline_selection_source::text = ANY (ARRAY['original'::character varying, 'handover-rebaseline'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "constraint": "chk_operating_signal_gate_binding_data_maturity_level",
+      "SQL": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_data_maturity_level\" check (\"data_maturity_level\" in ('insufficient', 'preliminary', 'mature'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (data_maturity_level::text = ANY (ARRAY['insufficient'::character varying, 'preliminary'::character varying, 'mature'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "constraint": "chk_operating_signal_gate_binding_cost_action_recommendation",
+      "SQL": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_cost_action_recommendation\" check (\"cost_action_recommendation\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (cost_action_recommendation::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "constraint": "chk_operating_signal_gate_binding_current_action_level",
+      "SQL": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_action_level::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "constraint": "chk_operating_signal_gate_binding_status",
+      "SQL": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_review_record",
+      "constraint": "chk_os_review_review_decision",
+      "SQL": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_review_decision\" check (\"review_decision\" in ('approve', 'manual-confirmed'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (review_decision::text = ANY (ARRAY['approve'::character varying, 'manual-confirmed'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_review_record",
+      "constraint": "chk_os_review_resolved_cost_action",
+      "SQL": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_resolved_cost_action\" check (\"resolved_cost_action_recommendation\" is null or (\"resolved_cost_action_recommendation\")::text = ANY ((ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying])::text[]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (resolved_cost_action_recommendation IS NULL OR (resolved_cost_action_recommendation::text = ANY (ARRAY['prompt'::character varying::text, 'review'::character varying::text, 'block'::character varying::text])))"
+      }
+    },
+    {
+      "table": "operating_signal_review_record",
+      "constraint": "chk_os_review_resolved_current_action",
+      "SQL": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_resolved_current_action\" check (\"resolved_current_action_level\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (resolved_current_action_level::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "operating_signal_review_record",
+      "constraint": "chk_os_review_resolved_data_maturity",
+      "SQL": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_resolved_data_maturity\" check (\"resolved_data_maturity_level\" is null or (\"resolved_data_maturity_level\")::text = ANY ((ARRAY['insufficient'::character varying, 'preliminary'::character varying, 'mature'::character varying])::text[]));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (resolved_data_maturity_level IS NULL OR (resolved_data_maturity_level::text = ANY (ARRAY['insufficient'::character varying::text, 'preliminary'::character varying::text, 'mature'::character varying::text])))"
+      }
+    },
+    {
+      "table": "operating_signal_review_record",
+      "constraint": "chk_os_review_status",
+      "SQL": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "receipt_record",
+      "constraint": "chk_receipt_record_status",
+      "SQL": "alter table \"poms\".\"receipt_record\" add constraint \"chk_receipt_record_status\" check (\"status\" in ('draft', 'pending-confirmation', 'confirmed', 'reversed', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['draft'::character varying, 'pending-confirmation'::character varying, 'confirmed'::character varying, 'reversed'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_data_maturity_level",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_data_maturity_level\" check (\"data_maturity_level\" in ('insufficient', 'preliminary', 'mature'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (data_maturity_level::text = ANY (ARRAY['insufficient'::character varying, 'preliminary'::character varying, 'mature'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_final_settlement_status",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_final_settlement_status\" check (\"final_settlement_status\" in ('pending-final-settlement', 'pending-retention-settlement', 'settled-all'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (final_settlement_status::text = ANY (ARRAY['pending-final-settlement'::character varying, 'pending-retention-settlement'::character varying, 'settled-all'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_non_retention_settlement_status",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_non_retention_settlement_status\" check (\"non_retention_settlement_status\" in ('pending-non-retention', 'settled-non-retention'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (non_retention_settlement_status::text = ANY (ARRAY['pending-non-retention'::character varying, 'settled-non-retention'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_retention_settlement_status",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_retention_settlement_status\" check (\"retention_settlement_status\" in ('waiting-retention', 'ready-retention', 'settled-retention'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (retention_settlement_status::text = ANY (ARRAY['waiting-retention'::character varying, 'ready-retention'::character varying, 'settled-retention'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_baseline_selection_source",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (baseline_selection_source::text = ANY (ARRAY['original'::character varying, 'handover-rebaseline'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_cost_action_recommendation",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_cost_action_recommendation\" check (\"cost_action_recommendation\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (cost_action_recommendation::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_current_action_level",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_action_level::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "chk_cfss_status",
+      "SQL": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_rule_explanation_snapshot",
+      "constraint": "chk_cres_current_stage_status",
+      "SQL": "alter table \"poms\".\"commission_rule_explanation_snapshot\" add constraint \"chk_cres_current_stage_status\" check (\"current_stage_status\" in ('pending-final-settlement', 'blocked-retention', 'ready-retention', 'settled-retention'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (current_stage_status::text = ANY (ARRAY['pending-final-settlement'::character varying, 'blocked-retention'::character varying, 'ready-retention'::character varying, 'settled-retention'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_rule_explanation_snapshot",
+      "constraint": "chk_cres_gate_decision_code",
+      "SQL": "alter table \"poms\".\"commission_rule_explanation_snapshot\" add constraint \"chk_cres_gate_decision_code\" check (\"gate_decision_code\" in ('allow-final-settlement', 'settled-retention', 'block-retention', 'review-retention', 'allow-retention'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (gate_decision_code::text = ANY (ARRAY['allow-final-settlement'::character varying, 'settled-retention'::character varying, 'block-retention'::character varying, 'review-retention'::character varying, 'allow-retention'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "commission_rule_explanation_snapshot",
+      "constraint": "chk_cres_status",
+      "SQL": "alter table \"poms\".\"commission_rule_explanation_snapshot\" add constraint \"chk_cres_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "sales_discovery_record",
+      "constraint": "chk_sales_discovery_anchor",
+      "SQL": "alter table \"poms\".\"sales_discovery_record\" add constraint \"chk_sales_discovery_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (lead_id IS NOT NULL OR project_id IS NOT NULL)"
+      }
+    },
+    {
+      "table": "sales_follow_up_record",
+      "constraint": "chk_sales_follow_up_outcome",
+      "SQL": "alter table \"poms\".\"sales_follow_up_record\" add constraint \"chk_sales_follow_up_outcome\" check (\"outcome\" in ('progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (outcome::text = ANY (ARRAY['progress'::character varying, 'waiting-customer'::character varying, 'risk-discovered'::character varying, 'deferred'::character varying, 'close-recommended'::character varying, 'no-response'::character varying, 'other'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "sales_follow_up_record",
+      "constraint": "chk_sales_follow_up_record_status",
+      "SQL": "alter table \"poms\".\"sales_follow_up_record\" add constraint \"chk_sales_follow_up_record_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "business_discussion_comment",
+      "constraint": "chk_business_discussion_type",
+      "SQL": "alter table \"poms\".\"business_discussion_comment\" add constraint \"chk_business_discussion_type\" check (\"discussion_type\" in ('intelligence-supplement', 'decision-chain', 'competition', 'strategy', 'risk', 'general'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (discussion_type::text = ANY (ARRAY['intelligence-supplement'::character varying, 'decision-chain'::character varying, 'competition'::character varying, 'strategy'::character varying, 'risk'::character varying, 'general'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "constraint": "chk_shared_cost_allocation_basis_status",
+      "SQL": "alter table \"poms\".\"shared_cost_allocation_basis\" add constraint \"chk_shared_cost_allocation_basis_status\" check (\"status\" in ('pending', 'active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "constraint": "chk_shared_cost_allocation_result_status",
+      "SQL": "alter table \"poms\".\"shared_cost_allocation_result\" add constraint \"chk_shared_cost_allocation_result_status\" check (\"status\" in ('pending', 'active', 'superseded', 'voided'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['pending'::character varying, 'active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "system_setting",
+      "constraint": "chk_system_setting_value_type",
+      "SQL": "alter table \"poms\".\"system_setting\" add constraint \"chk_system_setting_value_type\" check (\"value_type\" in ('integer'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (value_type::text = 'integer'::text)"
+      }
+    },
+    {
+      "table": "todo_item",
+      "constraint": "chk_todo_item_source_type",
+      "SQL": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_source_type\" check (\"source_type\" in ('approval-record', 'confirmation-record', 'sales-follow-up-record'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (source_type::text = ANY (ARRAY['approval-record'::character varying, 'confirmation-record'::character varying, 'sales-follow-up-record'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "todo_item",
+      "constraint": "chk_todo_item_todo_type",
+      "SQL": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_todo_type\" check (\"todo_type\" in ('approval', 'confirmation', 'sales-follow-up-reminder'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (todo_type::text = ANY (ARRAY['approval'::character varying, 'confirmation'::character varying, 'sales-follow-up-reminder'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "todo_item",
+      "constraint": "chk_todo_item_business_domain",
+      "SQL": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_business_domain\" check (\"business_domain\" in ('contract-finance', 'commission', 'sales', 'project-handover'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (business_domain::text = ANY (ARRAY['contract-finance'::character varying, 'commission'::character varying, 'sales'::character varying, 'project-handover'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "todo_item",
+      "constraint": "chk_todo_item_target_object_type",
+      "SQL": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_target_object_type\" check (\"target_object_type\" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (target_object_type::text = ANY (ARRAY['contract'::character varying, 'commission-payout'::character varying, 'commission-adjustment'::character varying, 'project'::character varying, 'lead'::character varying, 'customer'::character varying, 'project-handover'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "todo_item",
+      "constraint": "chk_todo_item_status",
+      "SQL": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_status\" check (\"status\" in ('open', 'processing', 'completed', 'canceled'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (status::text = ANY (ARRAY['open'::character varying, 'processing'::character varying, 'completed'::character varying, 'canceled'::character varying]::text[]))"
+      }
+    },
+    {
+      "table": "todo_item",
+      "constraint": "chk_todo_item_priority",
+      "SQL": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_priority\" check (\"priority\" in ('low', 'normal', 'high', 'urgent'));",
+      "actual": {
+        "convalidated": true,
+        "definition": "CHECK (priority::text = ANY (ARRAY['low'::character varying, 'normal'::character varying, 'high'::character varying, 'urgent'::character varying]::text[]))"
+      }
+    }
+  ],
+  "existingBaselineComment": {
+    "SQL": "comment on column \"poms\".\"lead_score_override\".\"status\" is '覆盖状态';",
+    "actual": {
+      "comment": "覆盖审批状态"
+    },
+    "classification": "existing-baseline-drift"
+  },
+  "markerDropStatements": {
+    "classification": "tool-noise",
+    "reason": "New QA-only r3ab_control marker is outside original product ORM metadata; no DROP executed"
+  },
+  "newUnclassifiedStatements": 0,
+  "original92MigrationsAndAllNativeSourceUnchanged": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

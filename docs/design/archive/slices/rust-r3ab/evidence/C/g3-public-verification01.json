@@ -1,0 +1,283 @@
+{
+  "kind": "R3AB-independent-C-public-G3-byte-and-relation-verification",
+  "createdAt": "2026-11-02T01:19:52.924Z",
+  "result": "Pass",
+  "reviewerScript": {
+    "file": "tmp/rust-r3ab/c-review/g3-public-verifier01.mjs",
+    "bytes": 20321,
+    "rawBytesSha256": "3109008c97c18f2e5d548b9de611e9df455d36ad9057593ababdaf7d70788616"
+  },
+  "evidence": {
+    "file": "docs/design/rust-r3ab/acceptance-evidence01.json",
+    "bytes": 37171,
+    "rawBytesSha256": "2ab9e448ed8c40389e2672b0db0de34c9ff29fb61433bc6bf1cafdd828d07d14"
+  },
+  "sourceAndFormatProof": {
+    "file": "docs/design/rust-r3ab/source-and-format-proof01.json",
+    "bytes": 16415,
+    "rawBytesSha256": "ad05f840450e0730494f105ef2c65a3a0c4fa9a74094ae3bbd6dd6a1ba6d7504"
+  },
+  "publicFilesHashed": 2508,
+  "formalInputs": 12,
+  "frozenNativeInputs": 872,
+  "unchangedPreviouslyReviewedProductionSources": 15,
+  "stagedRawSourceFiles": 63,
+  "client": {
+    "originalSixGuardsRetained": true,
+    "currentRawMembersEqualOriginalActualRun": 584,
+    "currentWorkingIndexFrozenAttributesEqual": 585,
+    "generatedMembers": 579,
+    "activeAttributesOnlyR3Appends": true,
+    "originalActiveCLIFailureRetained": true
+  },
+  "API05": {
+    "reusedIndependentPureReplayReceipt": "tmp/rust-r3ab/c-review/api-pg-scoped-review01.json",
+    "replayInputAndSourceHashesUnchanged": true,
+    "HTTPPerBackend": 263,
+    "observationsPerBackend": 34
+  },
+  "additionalFaults": [
+    {
+      "backend": "nest",
+      "runId": "651c3581-9b6a-4455-8693-8c47dae18b8f",
+      "cases": [
+        {
+          "name": "customer-number-allocation-failure-prevents-entity-write",
+          "HTTP": 500,
+          "countersUnchanged": true,
+          "entityRows": 0,
+          "sessionVersionDeltas": [
+            1,
+            0
+          ]
+        },
+        {
+          "name": "project-number-allocation-failure-prevents-entity-write",
+          "HTTP": 500,
+          "countersUnchanged": true,
+          "entityRows": 0,
+          "sessionVersionDeltas": [
+            1,
+            0
+          ]
+        },
+        {
+          "name": "B35-masked-security-insert-failure-and-managed-session-rollback",
+          "HTTP": 500,
+          "eventCount": 0,
+          "sessionVersionDeltas": [
+            1,
+            0
+          ],
+          "recoveryHTTP": 200,
+          "recoveryEvents": 1,
+          "recoveryDeltas": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "runId": "9cefb3e7-e985-47da-9199-98e11b38205f",
+      "cases": [
+        {
+          "name": "customer-number-allocation-failure-prevents-entity-write",
+          "HTTP": 500,
+          "countersUnchanged": true,
+          "entityRows": 0,
+          "sessionVersionDeltas": [
+            1,
+            0
+          ]
+        },
+        {
+          "name": "project-number-allocation-failure-prevents-entity-write",
+          "HTTP": 500,
+          "countersUnchanged": true,
+          "entityRows": 0,
+          "sessionVersionDeltas": [
+            1,
+            0
+          ]
+        },
+        {
+          "name": "B35-masked-security-insert-failure-and-managed-session-rollback",
+          "HTTP": 500,
+          "eventCount": 0,
+          "sessionVersionDeltas": [
+            0,
+            1
+          ],
+          "recoveryHTTP": 200,
+          "recoveryEvents": 1,
+          "recoveryDeltas": [
+            0,
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "UI": [
+    {
+      "label": "linux-native06",
+      "backend": "nest",
+      "platform": "linux",
+      "observations": 8,
+      "HTTP": 81,
+      "outOfScope404Retained": 0,
+      "allExpectedReachableOperationsObserved": true,
+      "projectPGRowMatchesSavedResponse": true,
+      "browserServerClosedPending0": true
+    },
+    {
+      "label": "linux-rust01",
+      "backend": "rust",
+      "platform": "linux",
+      "observations": 8,
+      "HTTP": 81,
+      "outOfScope404Retained": 25,
+      "allExpectedReachableOperationsObserved": true,
+      "projectPGRowMatchesSavedResponse": true,
+      "browserServerClosedPending0": true
+    },
+    {
+      "label": "windows-native01",
+      "backend": "nest",
+      "platform": "win32",
+      "observations": 8,
+      "HTTP": 81,
+      "outOfScope404Retained": 0,
+      "allExpectedReachableOperationsObserved": true,
+      "projectPGRowMatchesSavedResponse": true,
+      "browserServerClosedPending0": true
+    },
+    {
+      "label": "windows-rust01",
+      "backend": "rust",
+      "platform": "win32",
+      "observations": 8,
+      "HTTP": 83,
+      "outOfScope404Retained": 25,
+      "allExpectedReachableOperationsObserved": true,
+      "projectPGRowMatchesSavedResponse": true,
+      "browserServerClosedPending0": true
+    }
+  ],
+  "AngularRawMembers": 422,
+  "terminal": {
+    "cohorts": [
+      {
+        "runId": "132b8b5e-e665-413e-8228-ff3e28d55839",
+        "tag": "attempt03",
+        "backend": "rust",
+        "rows": 275,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      },
+      {
+        "runId": "32866185-bac8-4dbb-8906-a935e7f10d6b",
+        "tag": "attempt05",
+        "backend": "rust",
+        "rows": 293,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      },
+      {
+        "runId": "3b97e279-e41b-4551-b3e0-bbe081764445",
+        "tag": "attempt01",
+        "backend": "nest",
+        "rows": 178,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      },
+      {
+        "runId": "3dcca6cb-64ed-494d-bdc5-974f90db63a9",
+        "tag": "attempt02",
+        "backend": "nest",
+        "rows": 265,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      },
+      {
+        "runId": "5fac251a-f147-4e5b-b31c-6a3fd62b8a6d",
+        "tag": "attempt03",
+        "backend": "nest",
+        "rows": 275,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      },
+      {
+        "runId": "651c3581-9b6a-4455-8693-8c47dae18b8f",
+        "tag": "attempt06",
+        "backend": "nest",
+        "rows": 278,
+        "externalBootTermination": true,
+        "signalSentNow": false
+      },
+      {
+        "runId": "98fe7b0f-34ed-426b-bf99-1544bc8d1c5b",
+        "tag": "attempt05",
+        "backend": "nest",
+        "rows": 311,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      },
+      {
+        "runId": "9cefb3e7-e985-47da-9199-98e11b38205f",
+        "tag": "attempt06",
+        "backend": "rust",
+        "rows": 278,
+        "externalBootTermination": true,
+        "signalSentNow": false
+      },
+      {
+        "runId": "ed4b26a7-39b9-4f4d-9c53-941e4713426e",
+        "tag": "attempt04",
+        "backend": "nest",
+        "rows": 275,
+        "externalBootTermination": false,
+        "signalSentNow": true
+      }
+    ],
+    "witnessRows": 148,
+    "all107TablesExactPerRootActualRows": true,
+    "bootChangeExplicitlySeparated": true,
+    "noCrossBootPIDKill": true,
+    "ACLRestored": true,
+    "onlyNewPG15StoppedVolumeRetained": true
+  },
+  "schema": {
+    "existingValidatedPredicatesIndependentlyCompared": 168,
+    "finitePostgreSQLFormattingCanonicalizationEqual": true,
+    "remainingOriginalDumpStatements": 0,
+    "DDLExecutedByRoot": false
+  },
+  "common": {
+    "RustPassed": 232,
+    "RustIgnored": 54,
+    "NativePassed": 863,
+    "AdminUTCPassed": 368,
+    "AdminJSTOriginalFailureRetained": true
+  },
+  "primaryPreservation": {
+    "receipt": {
+      "file": "tmp/rust-r3ab/root/primary-preservation01.json",
+      "bytes": 139516,
+      "rawBytesSha256": "415f25d9614390b097903b513660260de2b21a59ceec5762134fbf4372fcbe6a"
+    },
+    "memberCount": 732,
+    "bytes": 211083968,
+    "sourceAndDestinationHashesIndependentlyMatched": true,
+    "privateRead": false
+  },
+  "limits": {
+    "noLiveRuntimeOrPrivateAccess": true,
+    "noBuildProductTestsOrBrowserExecution": true,
+    "actualRuntimeAssertionsComeFromRootSavedOriginals": true
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

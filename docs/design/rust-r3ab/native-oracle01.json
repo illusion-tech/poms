@@ -1,0 +1,2027 @@
+{
+  "kind": "R3AB-original-Native-actual-write-and-concurrency-witness",
+  "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+  "createdAt": "2026-11-01T22:01:10.990Z",
+  "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+  "database": "poms_r3ab_nest",
+  "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+  "actors": [
+    {
+      "label": "actor",
+      "userId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+      "roleId": "0f638f00-9a6b-4db9-95d2-224304f70317",
+      "orgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+      "username": "r3ab_1f90e9b9a5354b7199093d03afc4b478_actor"
+    },
+    {
+      "label": "other",
+      "userId": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+      "roleId": "81daeb4c-ecfb-439f-b713-6f414065fef9",
+      "orgId": "085968de-ab61-48b0-a47a-18d450176211",
+      "username": "r3ab_1f90e9b9a5354b7199093d03afc4b478_other"
+    },
+    {
+      "label": "noorg",
+      "userId": "89a341af-a198-46d2-9155-36a24b3bf865",
+      "roleId": "3b1290b3-4802-4081-8da9-a114e9dae26c",
+      "orgId": null,
+      "username": "r3ab_1f90e9b9a5354b7199093d03afc4b478_noorg"
+    }
+  ],
+  "created": {
+    "customers": [
+      "2cac8a97-f9c4-4384-9038-35404a71a6b7"
+    ],
+    "aliases": [
+      "0bf9208b-97c2-4832-b0bf-15dd979dc976",
+      "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8"
+    ],
+    "projects": [
+      "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6"
+    ]
+  },
+  "cases": [
+    {
+      "name": "customer-create",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T22:01:08.947Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:01:08.947Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        },
+        "setCookie": [],
+        "requestId": "47a74ae2-7972-4e07-9515-58bb18726c22"
+      },
+      "after": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "counterBefore": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 3
+        }
+      ],
+      "counterAfter": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 4
+        }
+      ],
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "alias-create",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "0bf9208b-97c2-4832-b0bf-15dd979dc976",
+          "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "aliasName": "R3AB ordinary 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "aliasType": "alias",
+          "normalizedName": "r3ab ordinary 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "isPrimary": false,
+          "createdAt": "2026-11-01T22:01:09.004Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        },
+        "setCookie": [],
+        "requestId": "74e0dc91-f5ab-4d0e-9ee6-e98fe1fa594f"
+      },
+      "customerBefore": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "customerAfter": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "alias": {
+        "id": "0bf9208b-97c2-4832-b0bf-15dd979dc976",
+        "alias_name": "R3AB ordinary 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "alias_type": "alias",
+        "created_at": "2026-11-02T06:01:09.004+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "is_primary": false,
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "normalized_name": "r3ab ordinary 1f90e9b9-a535-4b71-9909-3d03afc4b478"
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "alias-delete",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 204,
+        "body": null,
+        "setCookie": [],
+        "requestId": "2af9a3c5-b054-4ae4-bc55-74647136abcc"
+      },
+      "aliasAfter": null,
+      "audit": [],
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "alias-delete-audit-denied",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "setCookie": [],
+        "requestId": "35867160-6305-4757-a80d-05bc539c2a69"
+      },
+      "aliasAfter": {
+        "id": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+        "alias_name": "R3AB fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "alias_type": "alias",
+        "created_at": "2026-11-02T06:01:09.094+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "is_primary": false,
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "normalized_name": "r3ab fault 1f90e9b9-a535-4b71-9909-3d03afc4b478"
+      },
+      "auditCount": 0,
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "alias-delete-delete-denied",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "setCookie": [],
+        "requestId": "88d3b15a-ab5b-4655-8334-7439019874c0"
+      },
+      "aliasAfter": {
+        "id": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+        "alias_name": "R3AB fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "alias_type": "alias",
+        "created_at": "2026-11-02T06:01:09.094+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "is_primary": false,
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "normalized_name": "r3ab fault 1f90e9b9-a535-4b71-9909-3d03afc4b478"
+      },
+      "auditCount": 0,
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "customer-create-alias-denied",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "setCookie": [],
+        "requestId": "4f292f62-7693-4b21-9fca-8486d14c5a9f"
+      },
+      "customerCount": 0,
+      "counterBefore": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 4
+        }
+      ],
+      "counterAfter": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 5
+        }
+      ],
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "customer-noop",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T22:01:08.947Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:01:08.947Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "ownerName": "R3AB actor",
+          "ownerOrgName": "R3AB actor",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0,
+          "aliases": [
+            {
+              "id": "2baa7c22-0bf3-4196-9d8c-bd3586a9c444",
+              "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+              "aliasName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "normalizedName": "r3ab 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "isPrimary": true,
+              "createdAt": "2026-11-01T22:01:08.947Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+            },
+            {
+              "id": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+              "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+              "aliasName": "R3AB fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "normalizedName": "r3ab fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "isPrimary": false,
+              "createdAt": "2026-11-01T22:01:09.094Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+            }
+          ]
+        },
+        "setCookie": [],
+        "requestId": "85416882-3182-484c-ba86-023bca124337"
+      },
+      "before": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "after": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "customer-owner-missing-after-name",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 404,
+        "body": {
+          "message": "Platform user f5fdeff7-5a6a-417d-92b8-df9fe85e277a not found",
+          "error": "Not Found",
+          "statusCode": 404
+        },
+        "setCookie": [],
+        "requestId": "602a0ae9-9b4d-446e-93f0-cd85f159ba3f"
+      },
+      "before": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "after": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "customer-alias-duplicate",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "setCookie": [],
+        "requestId": "db5c3003-376d-4a8c-8f33-800a1ac10e76"
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-create",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "projectNo": "PRJ-2026-000001",
+          "projectName": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "sourceLeadId": null,
+          "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T22:01:09.393Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:01:09.393Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        },
+        "setCookie": [],
+        "requestId": "b94154f6-3b76-4575-a46f-42d5536dbe95"
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.393+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 1,
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "counterBefore": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 5
+        }
+      ],
+      "counterAfter": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 5
+        },
+        {
+          "scope": "project",
+          "period": "2026",
+          "next_value": 2
+        }
+      ],
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-noop",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "projectNo": "PRJ-2026-000001",
+          "projectName": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "sourceLeadId": null,
+          "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-01T22:01:09.393Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:01:09.393Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        },
+        "setCookie": [],
+        "requestId": "1e8d618d-f30c-4c9a-9d43-52f93cef821f"
+      },
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.393+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 1,
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.393+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 1,
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-name-missing-customer",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 404,
+        "body": {
+          "message": "Customer 2df76a8d-d00d-442c-bc00-2e2349e0a81e not found",
+          "error": "Not Found",
+          "statusCode": 404
+        },
+        "setCookie": [],
+        "requestId": "e2372c6b-989e-4a2b-92a4-ee57e8fdd8b5"
+      },
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.393+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 1,
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.393+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 1,
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-reassign-owner",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "targetId": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "projectOwnerReassignmentRecordId": "bbea98e6-9eba-4e6d-9c91-8a48b0c016b9",
+          "previousOwnerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "previousOwnerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "newOwnerUserId": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+          "newOwnerOrgId": "085968de-ab61-48b0-a47a-18d450176211",
+          "businessStatusAfter": "active"
+        },
+        "setCookie": [],
+        "requestId": "0a500a0b-ef7e-4731-8c1a-d71bbb7d4673"
+      },
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.393+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 1,
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.516+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 2,
+        "owner_org_id": "085968de-ab61-48b0-a47a-18d450176211",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "history": [
+        {
+          "id": "bbea98e6-9eba-4e6d-9c91-8a48b0c016b9",
+          "reason": "R3AB original Native witness",
+          "created_at": "2026-11-02T06:01:09.514+08:00",
+          "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "project_id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "reassigned_at": "2026-11-02T06:01:09.514+08:00",
+          "reassigned_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "new_owner_org_id": "085968de-ab61-48b0-a47a-18d450176211",
+          "new_owner_user_id": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+          "previous_owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "previous_owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        }
+      ],
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-reassign-same-owner",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "Project 1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6 already has the requested owner",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "setCookie": [],
+        "requestId": "42a911a7-6372-4b2d-8ba0-8e9edc70d34a"
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-reassign-stale-version",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        },
+        "setCookie": [],
+        "requestId": "56c2eb0b-930c-4dd0-95d4-6496ad2799db"
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-reassign-noorg",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "targetId": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "projectOwnerReassignmentRecordId": "586ed52d-b6b3-4774-9d27-744678b7ac5c",
+          "previousOwnerUserId": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+          "previousOwnerOrgId": "085968de-ab61-48b0-a47a-18d450176211",
+          "newOwnerUserId": "89a341af-a198-46d2-9155-36a24b3bf865",
+          "newOwnerOrgId": null,
+          "businessStatusAfter": "active"
+        },
+        "setCookie": [],
+        "requestId": "93362e24-4335-4765-84eb-c3f8bf9a4307"
+      },
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.516+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 2,
+        "owner_org_id": "085968de-ab61-48b0-a47a-18d450176211",
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.631+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 3,
+        "owner_org_id": null,
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "customer-concurrent-update",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "waiting": 2,
+      "released": true,
+      "results": [
+        {
+          "status": 200,
+          "body": {
+            "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+            "customerNo": "CUST-2026-000003",
+            "displayName": "R3AB concurrent left 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+            "legalName": null,
+            "shortName": null,
+            "status": "active",
+            "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+            "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+            "sourceChannel": null,
+            "remark": null,
+            "mergedIntoCustomerId": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-01T22:01:08.947Z",
+            "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+            "updatedAt": "2026-11-01T22:01:09.718Z",
+            "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+            "ownerName": "R3AB actor",
+            "ownerOrgName": "R3AB actor",
+            "leadCount": 0,
+            "projectCount": 1,
+            "contractCount": 0,
+            "aliases": [
+              {
+                "id": "2baa7c22-0bf3-4196-9d8c-bd3586a9c444",
+                "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+                "aliasName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+                "aliasType": "alias",
+                "normalizedName": "r3ab 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+                "isPrimary": true,
+                "createdAt": "2026-11-01T22:01:08.947Z",
+                "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+              },
+              {
+                "id": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+                "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+                "aliasName": "R3AB fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+                "aliasType": "alias",
+                "normalizedName": "r3ab fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+                "isPrimary": false,
+                "createdAt": "2026-11-01T22:01:09.094Z",
+                "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+              }
+            ]
+          },
+          "setCookie": [],
+          "requestId": "6ded7aa1-1a8a-4ee7-87e7-eb0d10f5c03f"
+        },
+        {
+          "status": 500,
+          "body": {
+            "statusCode": 500,
+            "message": "Internal server error"
+          },
+          "setCookie": [],
+          "requestId": "7be1fc5c-2f80-4b18-b9d4-0bd0b17e045a"
+        }
+      ],
+      "before": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:08.947+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 1,
+        "display_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "after": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:09.718+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 2,
+        "display_name": "R3AB concurrent left 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "project-concurrent-update",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "waiting": 2,
+      "released": true,
+      "results": [
+        {
+          "status": 200,
+          "body": {
+            "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+            "projectNo": "PRJ-2026-000001",
+            "projectName": "R3AB concurrent left 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+            "sourceLeadId": null,
+            "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+            "customerName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+            "customerProjectNo": null,
+            "status": "active",
+            "currentStage": "assessment",
+            "ownerOrgId": null,
+            "ownerUserId": "89a341af-a198-46d2-9155-36a24b3bf865",
+            "plannedSignAt": null,
+            "closedAt": null,
+            "closedReason": null,
+            "rowVersion": 4,
+            "createdAt": "2026-11-01T22:01:09.393Z",
+            "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+            "updatedAt": "2026-11-01T22:01:09.820Z",
+            "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+          },
+          "setCookie": [],
+          "requestId": "88978923-a875-4b9a-96f4-a7f4efbfdec7"
+        },
+        {
+          "status": 500,
+          "body": {
+            "statusCode": 500,
+            "message": "Internal server error"
+          },
+          "setCookie": [],
+          "requestId": "199cde59-17cc-4f8f-979a-98c6f15178b0"
+        }
+      ],
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.631+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 3,
+        "owner_org_id": null,
+        "project_name": "R3AB project 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.82+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 4,
+        "owner_org_id": null,
+        "project_name": "R3AB concurrent left 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "SQLTracePendingFinalExtraction": true
+    },
+    {
+      "name": "alias-concurrent-delete",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "sourceBase": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+      "backend": "original-Native-Linux",
+      "database": "poms_r3ab_nest",
+      "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+      "waiting": 2,
+      "released": true,
+      "results": [
+        {
+          "status": 204,
+          "body": null,
+          "setCookie": [],
+          "requestId": "458d2041-a05e-4492-984c-34614fcc0f6a"
+        },
+        {
+          "status": 204,
+          "body": null,
+          "setCookie": [],
+          "requestId": "1ebf7018-b938-4f61-96c7-ee3bbabdf57b"
+        }
+      ],
+      "aliasAfter": null,
+      "auditCount": 0,
+      "SQLTracePendingFinalExtraction": true
+    }
+  ],
+  "caseCount": 19,
+  "sqlCases": {
+    "customer-create": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": ""
+      },
+      {
+        "pid": "80",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "79",
+        "sql": ""
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer\" (\"id\", \"customer_no\", \"display_name\", \"legal_name\", \"short_name\", \"status\", \"owner_org_id\", \"owner_user_id\", \"source_channel\", \"remark\", \"merged_into_customer_id\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', '<literal>', null, null, '<literal>', '<literal>', '<literal>', null, null, null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', true, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 2 returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "commit"
+      }
+    ],
+    "alias-create": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', false, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "commit"
+      }
+    ],
+    "alias-delete": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": ""
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 4 returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "commit"
+      }
+    ],
+    "alias-delete-audit-denied": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "rollback"
+      }
+    ],
+    "alias-delete-delete-denied": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "rollback"
+      }
+    ],
+    "customer-create-alias-denied": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "79",
+        "sql": ""
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer\" (\"id\", \"customer_no\", \"display_name\", \"legal_name\", \"short_name\", \"status\", \"owner_org_id\", \"owner_user_id\", \"source_channel\", \"remark\", \"merged_into_customer_id\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', '<literal>', null, null, '<literal>', '<literal>', '<literal>', null, null, null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', true, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "rollback"
+      }
+    ],
+    "customer-noop": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"lead\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "79",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"project\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "78",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"customer_id\" = '<literal>' order by \"c0\".\"is_primary\" desc, \"c0\".\"created_at\" asc"
+      },
+      {
+        "pid": "82",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "81",
+        "sql": ""
+      },
+      {
+        "pid": "83",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" in ('<literal>')"
+      }
+    ],
+    "customer-owner-missing-after-name": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "customer-alias-duplicate": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', false, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "83",
+        "sql": "rollback"
+      }
+    ],
+    "project-create": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": ""
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "81",
+        "sql": ""
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"project\" (\"project_no\", \"project_name\", \"source_lead_id\", \"customer_id\", \"customer_name\", \"customer_project_no\", \"status\", \"current_stage\", \"owner_org_id\", \"owner_user_id\", \"planned_sign_at\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', null, '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"id\", \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 6 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      }
+    ],
+    "project-noop": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "project-name-missing-customer": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "project-reassign-owner": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": ""
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"project_owner_reassignment_record\" (\"id\", \"project_id\", \"previous_owner_org_id\", \"previous_owner_user_id\", \"new_owner_org_id\", \"new_owner_user_id\", \"reason\", \"reassigned_at\", \"reassigned_by\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 8 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"project\" set \"owner_org_id\" = '<literal>', \"owner_user_id\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 1 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      }
+    ],
+    "project-reassign-same-owner": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "project-reassign-stale-version": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      }
+    ],
+    "project-reassign-noorg": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"project_owner_reassignment_record\" (\"id\", \"project_id\", \"previous_owner_org_id\", \"previous_owner_user_id\", \"new_owner_org_id\", \"new_owner_user_id\", \"reason\", \"reassigned_at\", \"reassigned_by\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"project\" set \"owner_org_id\" = null, \"owner_user_id\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 2 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      }
+    ],
+    "customer-concurrent-update": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "81",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"customer\" set \"display_name\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 1 returning \"row_version\""
+      },
+      {
+        "pid": "81",
+        "sql": "update \"poms\".\"customer\" set \"display_name\" = '<literal>', \"updated_by\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 1 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"lead\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "79",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"project\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "82",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "78",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"customer_id\" = '<literal>' order by \"c0\".\"is_primary\" desc, \"c0\".\"created_at\" asc"
+      },
+      {
+        "pid": "80",
+        "sql": ""
+      },
+      {
+        "pid": "81",
+        "sql": "rollback"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" in ('<literal>')"
+      }
+    ],
+    "project-concurrent-update": [
+      {
+        "pid": "85",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "85",
+        "sql": "update \"poms\".\"project\" set \"project_name\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 3 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"project\" set \"project_name\" = '<literal>', \"updated_by\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 3 returning \"row_version\""
+      },
+      {
+        "pid": "85",
+        "sql": "commit"
+      },
+      {
+        "pid": "83",
+        "sql": "rollback"
+      }
+    ],
+    "alias-concurrent-delete": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "85",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "85",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "83",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "85",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      },
+      {
+        "pid": "85",
+        "sql": "commit"
+      }
+    ]
+  },
+  "privateRawTrace": {
+    "bytes": 96018,
+    "rawBytesSha256": "b18145ef60c21a216c522cc95d72707081eb5f2196138458b6c52f9409003d1f",
+    "rootVerifiedOriginal": true,
+    "parametersNotPublished": true
+  },
+  "privateBaselineRetained": true,
+  "cleanup": "Pending-owned-run-terminal-reconciliation",
+  "result": "Actual-observations-not-G3-G4",
+  "G3Certified": false,
+  "G4Certified": false
+}
