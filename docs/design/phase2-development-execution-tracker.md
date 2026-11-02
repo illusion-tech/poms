@@ -669,12 +669,19 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 
 ### 2026-11-02 R3C–G 联合批次 G0
 
-用户已授权下一批16操作：[范围/依赖与归属](rust-r3cdefg-scope-and-dependencies.md)。原生子项为成本#88、竞标#89、联系人#90、跟进#91、报价#92，父#85/总体#57保持Open。首波13项、报价3项接续；G2阶段三个作者并行，独审按Gate占用空闲席位。当前仅G0/G1准备，产品尚未实施，R3已交付仍14/58；未完成44中本批16，后续28及完整非HTTP/阶段验收不完成。联系人3从原13拆出，其余10不重复计数。
+用户已授权下一批16操作：[范围/依赖与归属](archive/slices/rust-r3cdefg/lifecycle/rust-r3cdefg-scope-and-dependencies.md)。原生子项为成本#88、竞标#89、联系人#90、跟进#91、报价#92，父#85/总体#57保持Open。首波13项、报价3项接续；G2阶段三个作者并行，独审按Gate占用空闲席位。当前仅G0/G1准备，产品尚未实施，R3已交付仍14/58；未完成44中本批16，后续28及完整非HTTP/阶段验收不完成。联系人3从原13拆出，其余10不重复计数。
 ### 2026-11-02 R3C–G 联合 G1 冻结并进入 G2
 
-[同源线上冻结回执](rust-r3cdefg/g1-online-freeze-receipt01.json)绑定未改主基线、active manifest02及[非作者C02独审Pass](rust-r3cdefg/C/g1-independent-review02.json)。#88/#89/#90/#91/#92已读回G1，三作者恢复实现首波13项及接续报价3项；Root集中HTTP/公共桥与实际验收。review01 Needs-correction原件及修订前输入保持原字节。当前交付仍14/58，G3/G4未认证；父#85/#57保持Open，其余28和完整阶段验收未完成。
+[同源线上冻结回执](archive/slices/rust-r3cdefg/g1-online-freeze-receipt01.json)绑定未改主基线、active manifest02及[非作者C02独审Pass](archive/slices/rust-r3cdefg/C/g1-independent-review02.json)。#88/#89/#90/#91/#92已读回G1，三作者恢复实现首波13项及接续报价3项；Root集中HTTP/公共桥与实际验收。review01 Needs-correction原件及修订前输入保持原字节。当前交付仍14/58，G3/G4未认证；父#85/#57保持Open，其余28和完整阶段验收未完成。
 
 
 ### 2026-11-02 R3C–G 独立 G3 Pass，待固定提交与主线集成
 
-[非作者G3复审02](rust-r3cdefg/C/g3-independent-review02.json)对修复候选03签署Pass，只允许本批16操作提交；首审Needs-correction与六项纠偏均保留。当前产物c042513，145操作/116路径/585schemas，Rust235 passed/54 ignored；45组语义、1691固定事件、14字符探针及精确PG/SQL/终态已核，898条UI仍归原ec产物并按两文件因果边界引用。详见[当前checkpoint02](rust-r3cdefg-g3-checkpoint02.md)和[Gate授权](rust-r3cdefg/g3-gate-authority01.json)。尚待固定提交复核、main集成和归档关闭前许可；#88–92仍Open，正式交付仍14/58，#85/#57保持Open，后续28及完整阶段验收未完成。
+[非作者G3复审02](archive/slices/rust-r3cdefg/C/g3-independent-review02.json)对修复候选03签署Pass，只允许本批16操作提交；首审Needs-correction与六项纠偏均保留。当前产物c042513，145操作/116路径/585schemas，Rust235 passed/54 ignored；45组语义、1691固定事件、14字符探针及精确PG/SQL/终态已核，898条UI仍归原ec产物并按两文件因果边界引用。详见[当前checkpoint02](archive/slices/rust-r3cdefg/lifecycle/rust-r3cdefg-g3-checkpoint02.md)和[Gate授权](archive/slices/rust-r3cdefg/g3-gate-authority01.json)。尚待固定提交复核、main集成和归档关闭前许可；#88–92仍Open，正式交付仍14/58，#85/#57保持Open，后续28及完整阶段验收未完成。
+
+
+### 2026-11-02 R3C–G 主线集成与 G4 Ready
+
+实现 `fbc5ca10bb232519034437f8ef7406f145cfe34a` 已通过[固定提交独审](archive/slices/rust-r3cdefg/C/fixed-commit-review01.json)，FF并推送main；[主线证据](archive/slices/rust-r3cdefg/main-integration-proof01.json)核740原字节相同。[668份生命周期/原件归档](archive/slices/rust-r3cdefg/archive-origin-map.json)保持历史逻辑路径与标签；仅保留5个机器输入兼容副本共419264B，新只读解析器核G1formal44/Native872/G3inputs740均精确。E1须独立关闭前许可，不能继承旧批批准。
+
+当前代码已实现R3合计30操作、Rust dispatch145，但正式交付仍14/58；本批16须各自实际G4后才计30/58。#88–92仍Open，#85/#57保持Open，后续28及完整非HTTP/阶段验收未完成。当前[收口索引](archive/slices/rust-r3cdefg-closeout.md)与[状态](rust-r3cdefg-delivery-status.json)为G4Ready，尚无关闭许可或G4认证。

@@ -1,0 +1,50 @@
+{
+  "kind": "R3CDEFG-actual-fixed-implementation-main-integration",
+  "createdAt": "2026-11-02T06:59:12.269Z",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "commit": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+  "remoteBefore": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "remoteAfter": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+  "independentFixedReview": {
+    "file": "tmp/rust-r3cdefg/c-review/fixed-commit-review01.json",
+    "bytes": 38052,
+    "rawBytesSha256": "46b1bfd9b4defc07348d74fe7489ded1eb4bb31874315e2dc86a8a0c6929596c"
+  },
+  "commands": [
+    {
+      "name": "main-ff",
+      "args": [
+        "merge",
+        "--ff-only",
+        "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3cdefg/root/main-ff01.log",
+        "bytes": 111216,
+        "rawBytesSha256": "dcfb1266f69d70028f9023d243224dd25d0a5c1a9bc69a151d5de9c669995945"
+      }
+    },
+    {
+      "name": "main-push",
+      "args": [
+        "push",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3cdefg/root/main-push01.log",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "primaryManifestFilesRawByteEqual": 740,
+  "primaryRawLineEndingReconciliation": [],
+  "primaryClean": true,
+  "mainIntegrated": true,
+  "sourceChecksAreReadOnly": "Actual full runtime results are the current c042513 evidence; this integration check verifies exact source and raw inputs, not a new runtime run.",
+  "G3Certified": true,
+  "G4Certified": false
+}

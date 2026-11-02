@@ -1,0 +1,5 @@
+// Root read-only verification of current frozen input closure and exact aliases.
+import fs from'node:fs';import assert from'node:assert/strict';import{archiveMap,verifyOriginalPins}from'./archive-paths.mjs';
+const map=archiveMap(),dir='docs/design/archive/slices/rust-r3cdefg',g1=JSON.parse(fs.readFileSync(dir+'/g1-input-manifest02.json')),g3=JSON.parse(fs.readFileSync(dir+'/g3-candidate-manifest03.json'));
+const moved=verifyOriginalPins(map.records.map(r=>r.source),map),g1Formal=verifyOriginalPins(g1.formalFiles,map),native=verifyOriginalPins(g1.nativeFiles,map),current=verifyOriginalPins(g3.files,map),aliases=verifyOriginalPins(map.compatibility.files.map(p=>({file:p.file,bytes:p.bytes,rawBytesSha256:p.rawBytesSha256})),{...map,records:[],immutableInputSnapshots:[]});assert.equal(aliases.length,5);assert.equal(aliases.reduce((n,p)=>n+p.bytes,0),419264);
+console.log(JSON.stringify({kind:'R3CDEFG-readonly-archive-closure-check',movedOriginals:moved.length,G1Formal:g1Formal.length,Native:native.length,G3Inputs:current.length,aliases:aliases.length,aliasBytes:419264,allRawBytesEqual:true,fullR3Certified:false}));

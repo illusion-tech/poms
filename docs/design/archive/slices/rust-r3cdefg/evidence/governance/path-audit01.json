@@ -1,0 +1,1545 @@
+{
+  "kind": "R3CDEFG-static-G4-archive-path-audit",
+  "scope": "Path/input audit only. No product review, execution, file move, source edit or Gate signature.",
+  "workspace": "E:/projects/worktrees/poms-r3cdefg-next16/poms",
+  "plannedRawPrefixMove": {
+    "from": "docs/design/rust-r3cdefg/",
+    "to": "docs/design/archive/slices/rust-r3cdefg/",
+    "rule": "Preserve every original raw byte; logical path metadata stays unchanged."
+  },
+  "snapshot": {
+    "scannedMjsFiles": 73,
+    "toolsWithActiveDocReferences": 33,
+    "rawTreeFiles": 507,
+    "rawTreeBytes": 52468502,
+    "topMarkdownFiles": 7,
+    "note": "Current read snapshot; not a current-state or source-acceptance certification."
+  },
+  "scanMethod": {
+    "rg": "rg -n --hidden -o active R3CDEFG documentation path literals under tools/rust-r3cdefg/*.mjs",
+    "supplement": "Read known dir/dest concatenation, frozen formalFiles/files loops, static ESM imports and .gitattributes guards; literal hits include generation templates and output paths and are classified below.",
+    "executedScripts": false
+  },
+  "recommendation": {
+    "preferred": "Archive all raw evidence and completed lifecycle Markdown. For unchanged normal replay entrypoints retain only the five exact regular same-byte machine inputs below; resolve historical manifest closures through a new archive-aware read-only entry and origin map.",
+    "minimumRegularFileCount": 5,
+    "minimumRegularBytes": 419264,
+    "excluded": [
+      "Completed lifecycle Markdown regular-path mirrors",
+      "Bulk actual evidence regular-path mirrors",
+      "input-a/b/d prose, matrices and snapshot copies needed only by historical formal pins",
+      "Old G1 manifest01/G3 candidate manifests and independent reviews as regular compatibility duplicates"
+    ],
+    "qualification": "Five files are the direct machine-input minimum for the identified existing replay/attestation families. They do not make every historical assembly/publication/source-check recipe rerunnable unchanged.",
+    "currentBatchCompatibilityApproval": "Not granted or assessed by this audit. The R3AB exception cannot supply approval for R3CDEFG."
+  },
+  "minimumRegularCompatibilityFiles": [
+    {
+      "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+      "bytes": 190930,
+      "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json",
+      "proposedRegularCompatibilityPath": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+      "consumers": [
+        {
+          "file": "tools/rust-r3cdefg/boundaries.mjs",
+          "line": 3,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/business-run.mjs",
+          "line": 3,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/coverage.mjs",
+          "line": 5,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "line": 33,
+          "classification": "source-preparation-or-template"
+        },
+        {
+          "file": "tools/rust-r3cdefg/edge-run.mjs",
+          "line": 3,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+          "line": 6,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/shared-checks.mjs",
+          "line": 6,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+          "line": 4,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/ui-run.mjs",
+          "line": 4,
+          "classification": "replay-or-validation-entry"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+      "bytes": 180482,
+      "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json",
+      "proposedRegularCompatibilityPath": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+      "consumers": [
+        {
+          "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+          "line": 5,
+          "classification": "source-preparation-or-template"
+        },
+        {
+          "file": "tools/rust-r3cdefg/environment.mjs",
+          "line": 18,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/native-witness.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+      "bytes": 38863,
+      "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json",
+      "proposedRegularCompatibilityPath": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+      "consumers": [
+        {
+          "file": "tools/rust-r3cdefg/attest-rust.mjs",
+          "line": 4,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+          "line": 36,
+          "classification": "original-generation-recipe"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+      "bytes": 4774,
+      "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+      "proposedRegularCompatibilityPath": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+      "consumers": [
+        {
+          "file": "tools/rust-r3cdefg/boundaries.mjs",
+          "line": 2,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/business-branches01.mjs",
+          "line": 54,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/coverage.mjs",
+          "line": 3,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "line": 10,
+          "classification": "source-preparation-or-template"
+        },
+        {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "line": 22,
+          "classification": "source-preparation-or-template"
+        },
+        {
+          "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+          "line": 2,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/project-edges01.mjs",
+          "line": 12,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/raw-errors.mjs",
+          "line": 7,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "line": 4,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "line": 4,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/temporal.mjs",
+          "line": 2,
+          "classification": "replay-or-validation-entry"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+      "bytes": 4215,
+      "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+      "proposedRegularCompatibilityPath": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+      "consumers": [
+        {
+          "file": "tools/rust-r3cdefg/boundaries.mjs",
+          "line": 2,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/business-branches01.mjs",
+          "line": 57,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/coverage.mjs",
+          "line": 3,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "line": 11,
+          "classification": "source-preparation-or-template"
+        },
+        {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "line": 23,
+          "classification": "source-preparation-or-template"
+        },
+        {
+          "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+          "line": 2,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/project-edges01.mjs",
+          "line": 15,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "line": 5,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "line": 5,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "line": 9,
+          "classification": "replay-or-validation-entry"
+        },
+        {
+          "file": "tools/rust-r3cdefg/temporal.mjs",
+          "line": 2,
+          "classification": "replay-or-validation-entry"
+        }
+      ]
+    }
+  ],
+  "activeMetadataOutsideMovedRawRoot": [
+    {
+      "file": "docs/design/rust-r3cdefg-delivery-status.json",
+      "role": "Current mutable delivery/Gate index outside the proposed raw-prefix move; publish-g1.mjs:25 and wire-http-modules.mjs:3 read it. Keep as current metadata, not an old signed raw compatibility mirror.",
+      "observedRawBytesSha256": "4cd82aa0f64ed3bf804b96a84bec1ce52391238044a85cb29c43415969cd1fbd"
+    }
+  ],
+  "topLifecycleMarkdownMap": [
+    {
+      "file": "docs/design/rust-r3cdefg-corrective-checkpoint01.md",
+      "bytes": 4208,
+      "rawBytesSha256": "14cc86d6c3fe3c1d044f566cf918d700174020a9d1672999698f3e988c937352",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-corrective-checkpoint01.md",
+      "keepRegularCompatibilityCopy": false
+    },
+    {
+      "file": "docs/design/rust-r3cdefg-corrective-checkpoint02.md",
+      "bytes": 3147,
+      "rawBytesSha256": "a8d7c417d4e02c66dc798714fc94d50549aec4af83e5e62ae187e2cbb434e8bc",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-corrective-checkpoint02.md",
+      "keepRegularCompatibilityCopy": false
+    },
+    {
+      "file": "docs/design/rust-r3cdefg-g3-checkpoint.md",
+      "bytes": 4341,
+      "rawBytesSha256": "d364bf58ff2ffc288a70b98790f97d1d1372f2e389d3c96fc599d4fcb4608729",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-g3-checkpoint.md",
+      "keepRegularCompatibilityCopy": false
+    },
+    {
+      "file": "docs/design/rust-r3cdefg-g3-checkpoint02.md",
+      "bytes": 2363,
+      "rawBytesSha256": "65b60a2ccb0c765bc9e42202ceea4894be9a2f233de055be3437514f043b7058",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-g3-checkpoint02.md",
+      "keepRegularCompatibilityCopy": false
+    },
+    {
+      "file": "docs/design/rust-r3cdefg-next16-baseline.md",
+      "bytes": 14198,
+      "rawBytesSha256": "154effdddc740b567725c1a05c85fd8d53f4067b0662762d6ed06963d161c381",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-next16-baseline.md",
+      "keepRegularCompatibilityCopy": false
+    },
+    {
+      "file": "docs/design/rust-r3cdefg-scope-and-dependencies.md",
+      "bytes": 3268,
+      "rawBytesSha256": "d688259acceb6641ca6050ce493a4d187c0c1c429b00b2199708404104a9d32e",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-scope-and-dependencies.md",
+      "keepRegularCompatibilityCopy": false
+    },
+    {
+      "file": "docs/design/rust-r3cdefg-validation-boundaries.md",
+      "bytes": 3299,
+      "rawBytesSha256": "651f796e1f5b2447fd156fc9423f2885c8a3e227c8a428d6d7e3bd16d24f7b31",
+      "archiveDestination": "docs/design/archive/slices/rust-r3cdefg/rust-r3cdefg-validation-boundaries.md",
+      "keepRegularCompatibilityCopy": false
+    }
+  ],
+  "manifestClosure": [
+    {
+      "file": "docs/design/rust-r3cdefg/g1-input-manifest01.json",
+      "bytes": 189278,
+      "rawBytesSha256": "fd7937d7f41535b0aa453a4bd6d250a98ef2c78f5271e0f96db732bca97152d0",
+      "nativeCount": 872,
+      "directPinnedActiveDocs": 40,
+      "directPinnedActiveBytes": 2752355,
+      "topMarkdown": [
+        {
+          "file": "docs/design/rust-r3cdefg-next16-baseline.md",
+          "bytes": 14198,
+          "rawBytesSha256": "154effdddc740b567725c1a05c85fd8d53f4067b0662762d6ed06963d161c381"
+        }
+      ],
+      "evidencePins": 0,
+      "inputPins": 19
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+      "bytes": 190930,
+      "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+      "nativeCount": 872,
+      "directPinnedActiveDocs": 44,
+      "directPinnedActiveBytes": 3190670,
+      "topMarkdown": [
+        {
+          "file": "docs/design/rust-r3cdefg-next16-baseline.md",
+          "bytes": 14198,
+          "rawBytesSha256": "154effdddc740b567725c1a05c85fd8d53f4067b0662762d6ed06963d161c381"
+        }
+      ],
+      "evidencePins": 0,
+      "inputPins": 19
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/g3-candidate-manifest01.json",
+      "bytes": 103263,
+      "rawBytesSha256": "8ef14a5c34cc6715ef1e19fc369195235c97a83562612019a67dd13a10f4b9a5",
+      "nativeCount": 0,
+      "directPinnedActiveDocs": 282,
+      "directPinnedActiveBytes": 34925044,
+      "topMarkdown": [
+        {
+          "file": "docs/design/rust-r3cdefg-corrective-checkpoint01.md",
+          "bytes": 4208,
+          "rawBytesSha256": "14cc86d6c3fe3c1d044f566cf918d700174020a9d1672999698f3e988c937352"
+        }
+      ],
+      "evidencePins": 279,
+      "inputPins": 0
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/g3-candidate-manifest02.json",
+      "bytes": 117019,
+      "rawBytesSha256": "0edc75c5b825f496668e7db99276a827b9fece64c060ed8d8a9a34cc9f9e37d9",
+      "nativeCount": 0,
+      "directPinnedActiveDocs": 288,
+      "directPinnedActiveBytes": 35150912,
+      "topMarkdown": [
+        {
+          "file": "docs/design/rust-r3cdefg-corrective-checkpoint01.md",
+          "bytes": 4208,
+          "rawBytesSha256": "14cc86d6c3fe3c1d044f566cf918d700174020a9d1672999698f3e988c937352"
+        },
+        {
+          "file": "docs/design/rust-r3cdefg-g3-checkpoint.md",
+          "bytes": 4341,
+          "rawBytesSha256": "d364bf58ff2ffc288a70b98790f97d1d1372f2e389d3c96fc599d4fcb4608729"
+        },
+        {
+          "file": "docs/design/rust-r3cdefg-validation-boundaries.md",
+          "bytes": 3299,
+          "rawBytesSha256": "651f796e1f5b2447fd156fc9423f2885c8a3e227c8a428d6d7e3bd16d24f7b31"
+        }
+      ],
+      "evidencePins": 281,
+      "inputPins": 0
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/g3-candidate-manifest03.json",
+      "bytes": 162231,
+      "rawBytesSha256": "50ec4b8ec0b31fa86921ade5ebc5dd585357eb01e7b1c788da459d5da329669f",
+      "nativeCount": 0,
+      "directPinnedActiveDocs": 461,
+      "directPinnedActiveBytes": 48680747,
+      "topMarkdown": [
+        {
+          "file": "docs/design/rust-r3cdefg-corrective-checkpoint01.md",
+          "bytes": 4208,
+          "rawBytesSha256": "14cc86d6c3fe3c1d044f566cf918d700174020a9d1672999698f3e988c937352"
+        },
+        {
+          "file": "docs/design/rust-r3cdefg-g3-checkpoint.md",
+          "bytes": 4341,
+          "rawBytesSha256": "d364bf58ff2ffc288a70b98790f97d1d1372f2e389d3c96fc599d4fcb4608729"
+        },
+        {
+          "file": "docs/design/rust-r3cdefg-validation-boundaries.md",
+          "bytes": 3299,
+          "rawBytesSha256": "651f796e1f5b2447fd156fc9423f2885c8a3e227c8a428d6d7e3bd16d24f7b31"
+        },
+        {
+          "file": "docs/design/rust-r3cdefg-corrective-checkpoint02.md",
+          "bytes": 3147,
+          "rawBytesSha256": "a8d7c417d4e02c66dc798714fc94d50549aec4af83e5e62ae187e2cbb434e8bc"
+        },
+        {
+          "file": "docs/design/rust-r3cdefg-g3-checkpoint02.md",
+          "bytes": 2363,
+          "rawBytesSha256": "65b60a2ccb0c765bc9e42202ceea4894be9a2f233de055be3437514f043b7058"
+        }
+      ],
+      "evidencePins": 448,
+      "inputPins": 0
+    }
+  ],
+  "closureImplication": {
+    "G1": "manifest02 formalFiles has 44 active-document pins, including the original top baseline. Normal replay guards iterate nativeFiles (872), while historical assemblers can iterate formalFiles too.",
+    "G3": "manifest03 directly pins 461 active documents (448 evidence) totaling48680747B. Keeping only the small machine subset cannot satisfy arbitrary old pin(file) loops after the prefix move.",
+    "requiredResolution": [
+      "All logical paths starting docs/design/rust-r3cdefg/ map to the same suffix under docs/design/archive/slices/rust-r3cdefg/",
+      "The seven top lifecycle Markdown paths require explicit entries to their new physical paths.",
+      "Current Native/product paths are unchanged and are not part of this archive audit."
+    ],
+    "metadataRule": "Resolve only I/O paths. Keep original pin.file strings, raw byte lengths, SHA256 and historical Pending/Failed/partial semantics intact."
+  },
+  "thinEntry": {
+    "plainJsonMapAloneSufficientForUnchangedLegacyScripts": false,
+    "reason": "node:fs.readFileSync/readDir/cp calls and static ESM imports do not consult an origin-map JSON automatically.",
+    "frozenOriginalsNeedEditing": false,
+    "newReadOnlyVerifierPossible": true,
+    "newReadOnlyVerifierDesign": [
+      "Use a new non-frozen entry to read an origin map with the raw prefix move plus exact top-Markdown entries.",
+      "Preserve a pin's original logical file identity; resolve its physical input, then compare original bytes and SHA256.",
+      "A sidecar may record logical-to-physical resolution; never rewrite frozen manifests to new paths or current Gate wording.",
+      "If zero active compatibility files is required while launching old scripts, an explicitly used scoped filesystem+ESM resolver/preload is also needed; a plain data map cannot cover static import.",
+      "Such a resolver must cover absolute Windows/Linux workspace prefixes, file URLs, readFileSync/exists/stat/readdir/copy read sides and child-launch propagation as applicable. It has not been implemented or verified here."
+    ],
+    "portableDefault": "Five exact regular input mirrors plus the new archive-aware read-only verification entry. This avoids changing frozen replay sources or duplicating48MB of evidence.",
+    "filesystemLinks": "A directory link plus per-Markdown links is a different compatibility mechanism, not a thin JSON map or regular same-byte file set. Cross-platform Git/Windows link materialization, lstat and recursive-walk behavior would need a separately scoped decision and verification; not recommended as an unverified default."
+  },
+  "historicalRecipeLimits": [
+    {
+      "files": [
+        "assemble-g1-inputs.mjs",
+        "freeze-g1-candidate.mjs",
+        "publish-g1.mjs"
+      ],
+      "reason": "G0/G1 producers read/write active formal packages and top lifecycle paths; publication has fixed initial-HEAD/Gate preconditions. They are historical recipes, not harmless G4 verification commands."
+    },
+    {
+      "files": [
+        "assemble-g3.mjs",
+        "augment-g3.mjs",
+        "assemble-g3-correction03.mjs"
+      ],
+      "reason": "Read/verify old candidates and formal pins, walk evidence trees and create original outputs with wx/nonexistence assertions. Archive resolution of old inputs is needed for verification; rerunning writers after G4 would require separately chosen new outputs and must not regenerate originals."
+    },
+    {
+      "files": [
+        "client-frozen-check.mjs",
+        "client-frozen-check04.mjs",
+        "client-frozen-check05.mjs"
+      ],
+      "reason": "The .gitattributes content is compared to an exact original suffix. Adding archive attributes is a metadata change not solved by path mapping; do not claim that original checker reexecution remains applicable unchanged."
+    },
+    {
+      "files": [
+        "bootstrap-linux.mjs",
+        "sync-and-check.mjs"
+      ],
+      "reason": "Whole active-doc-tree cpSync calls require an archive-aware source plan if those old preparation commands are reused. The five-file set supports direct replay inputs, not reconstruction of the original whole active tree."
+    },
+    {
+      "files": [
+        "native-witness.mjs",
+        "native-witness-extra02.mjs"
+      ],
+      "reason": "Original pre-G1 witness scripts also import the retained tmp/a-input and tmp/b-input builders. Those ignored originals remain an independent preservation dependency, not a reason to duplicate archived actual evidence into active docs."
+    }
+  ],
+  "sourceReferences": [
+    {
+      "file": "tools/rust-r3cdefg/assemble-g1-inputs.mjs",
+      "classification": "historical-lifecycle-producer-not-current-replay",
+      "bytes": 6109,
+      "rawBytesSha256": "6627480a26346c39323645364535fdefc84ee321430674212f23c07ac4fd942a",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg"
+          ]
+        },
+        {
+          "line": 7,
+          "paths": [
+            "docs/design/rust-r3cdefg-scope-and-dependencies.md",
+            "docs/design/rust-r3cdefg-delivery-status.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/assemble-g3-correction03.mjs",
+      "classification": "historical-lifecycle-producer-not-current-replay",
+      "bytes": 6638,
+      "rawBytesSha256": "b2f000f21f1b55c82f4f0d94cf7f1ca4e6b257eca10dc2374a0fceaaca9d2b92",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg"
+          ]
+        },
+        {
+          "line": 14,
+          "paths": [
+            "docs/design/rust-r3cdefg-corrective-checkpoint02.md",
+            "docs/design/rust-r3cdefg-g3-checkpoint02.md"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/assemble-g3.mjs",
+      "classification": "historical-lifecycle-producer-not-current-replay",
+      "bytes": 9828,
+      "rawBytesSha256": "cf1b21b2d5d9565dd0f839ffba86fd7bca1560f60243026cbf98975af852ff0a",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg"
+          ]
+        },
+        {
+          "line": 15,
+          "paths": [
+            "docs/design/rust-r3cdefg-corrective-checkpoint01.md"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/attest-rust.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 3611,
+      "rawBytesSha256": "3b23bec6e39c5fc5fe1657c035c5465ada74841f6549507ce76d93fc1eacb880",
+      "references": [
+        {
+          "line": 4,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-operation-slices-original.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/augment-g3.mjs",
+      "classification": "historical-lifecycle-producer-not-current-replay",
+      "bytes": 4845,
+      "rawBytesSha256": "e11f2a55f8a60e74c3dcfa203f0a38f6d6dbd836f86e76e1c38c3d81c1ad54d8",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg"
+          ]
+        },
+        {
+          "line": 8,
+          "paths": [
+            "docs/design/rust-r3cdefg-g3-checkpoint.md",
+            "docs/design/rust-r3cdefg-validation-boundaries.md"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+      "classification": "source-preparation-or-template",
+      "bytes": 2515,
+      "rawBytesSha256": "ab6b7652adc286db8e43bedcb7e53d1508ac94e87954481b096a70db24fa5594",
+      "references": [
+        {
+          "line": 5,
+          "paths": [
+            "docs/design/rust-r3cdefg",
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/boundaries.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 24363,
+      "rawBytesSha256": "5457405b48964d177c09b9eb8f9c9e59004835b6c4ce014384e89ea6a0aaa1b3",
+      "references": [
+        {
+          "line": 2,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/business-branches01.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 40691,
+      "rawBytesSha256": "80713d60314972cf611038c124805dc6fbbe0b87049a245ca15b02765b08d1e3",
+      "references": [
+        {
+          "line": 54,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 57,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/business-run.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 12262,
+      "rawBytesSha256": "263707c70d4de1b28c039b082f75fb19011f7fa7cb0c4e4a5cb8451853d8b8c6",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/client-frozen-check.mjs",
+      "classification": "historical-source-and-attribute-guard",
+      "bytes": 5956,
+      "rawBytesSha256": "b1ae57b683e09550104f7612deb82e568efba60f92df88076331185a8187fc14",
+      "references": [
+        {
+          "line": 8,
+          "paths": [
+            "docs/design/rust-r3cdefg/**"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/client-frozen-check04.mjs",
+      "classification": "historical-source-and-attribute-guard",
+      "bytes": 6069,
+      "rawBytesSha256": "f1c1116813be6a0b602a52e1747e5a44f9d25cdef4fd5d7e84b3daac70633db7",
+      "references": [
+        {
+          "line": 8,
+          "paths": [
+            "docs/design/rust-r3cdefg/**",
+            "docs/design/rust-r3cdefg/evidence/**/*.log"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/client-frozen-check05.mjs",
+      "classification": "historical-source-and-attribute-guard",
+      "bytes": 6617,
+      "rawBytesSha256": "65ae5dbeb6dc55c1d66b0d3592a3483fc653d19aae7064f1d6dacb9fb60f4f8c",
+      "references": [
+        {
+          "line": 8,
+          "paths": [
+            "docs/design/rust-r3cdefg/**",
+            "docs/design/rust-r3cdefg/evidence/**/*.log",
+            "docs/design/rust-r3cdefg/input-a/snapshots/native-source-excerpts.txt",
+            "docs/design/rust-r3cdefg/input-d/acceptance-matrix.txt"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/coverage.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 15589,
+      "rawBytesSha256": "3f326de2dc0b3f87904a3fe7c31aa8cb79eceb7b8249ab6d1d8c76a579850daf",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 5,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+      "classification": "source-preparation-or-template",
+      "bytes": 5174,
+      "rawBytesSha256": "6fdcdca0943d8cd16ae9b4662a8ad7b4c9c1132e635f99357d61cfc152345989",
+      "references": [
+        {
+          "line": 10,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 11,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 22,
+          "paths": [
+            "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 23,
+          "paths": [
+            "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 33,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/edge-run.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 7444,
+      "rawBytesSha256": "a09a15f8fd235556b7e0956d344c28a1960a2bd0d58e7beaa131b332cefaa39a",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/environment.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 12044,
+      "rawBytesSha256": "3ee7cb95d54a0a660524a407968889c0f18c7826b991f07315e7e1b474eeb33b",
+      "references": [
+        {
+          "line": 18,
+          "paths": [
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/freeze-g1-candidate.mjs",
+      "classification": "historical-lifecycle-producer-not-current-replay",
+      "bytes": 7187,
+      "rawBytesSha256": "aa3bc037cc714604e9543b32a2da5acc5c83dbaa94bbd4a7ba7f98280dd137ff",
+      "references": [
+        {
+          "line": 2,
+          "paths": [
+            "docs/design/rust-r3cdefg"
+          ]
+        },
+        {
+          "line": 14,
+          "paths": [
+            "docs/design/rust-r3cdefg-next16-baseline.md"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 20627,
+      "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055",
+      "references": [
+        {
+          "line": 9,
+          "paths": [
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-witness.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 23714,
+      "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6",
+      "references": [
+        {
+          "line": 9,
+          "paths": [
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/prepare-common-tools.mjs",
+      "classification": "source-preparation-or-template",
+      "bytes": 2217,
+      "rawBytesSha256": "53f2a9d6f21f5d988f795ee3c4f63eabec4d71154246b42825e248fdce59cca0",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg/"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 4117,
+      "rawBytesSha256": "0e3f7a7bec7a375737f6161be69fb378952637bef653db7fae662943ac8c0b34",
+      "references": [
+        {
+          "line": 2,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-edges01.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 23434,
+      "rawBytesSha256": "e31a97c7270798b4ae99144d2354b4153495336c25ea63097a74be2960b67e46",
+      "references": [
+        {
+          "line": 12,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 15,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/publish-g1.mjs",
+      "classification": "historical-lifecycle-producer-not-current-replay",
+      "bytes": 7808,
+      "rawBytesSha256": "a27856d936c2b14f1eb272d5d81be4712e173e27f3d5df295e9317ef17c179ce",
+      "references": [
+        {
+          "line": 6,
+          "paths": [
+            "docs/design/rust-r3cdefg"
+          ]
+        },
+        {
+          "line": 11,
+          "paths": [
+            "docs/design/rust-r3cdefg-next16-baseline.md"
+          ]
+        },
+        {
+          "line": 25,
+          "paths": [
+            "docs/design/rust-r3cdefg-delivery-status.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/raw-errors.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 5518,
+      "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8",
+      "references": [
+        {
+          "line": 7,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 21311,
+      "rawBytesSha256": "24bfe129acccb685b87150234ddbad7fa74307237ad4fd38ae30e894d4d6f760",
+      "references": [
+        {
+          "line": 4,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 5,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 9,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/semantics01.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 24753,
+      "rawBytesSha256": "f645a5b221ad70f3369f9ee566f59c393592abe8ccde0384b4d2858890082f25",
+      "references": [
+        {
+          "line": 4,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 5,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        },
+        {
+          "line": 9,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 3162,
+      "rawBytesSha256": "63d6260367301406944b1a84ac708d8fa5114643715f78d7d17c0b50793195ce",
+      "references": [
+        {
+          "line": 6,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/shared-checks.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 3382,
+      "rawBytesSha256": "d00fac17e7223baa0a77e2ff2b6c35ae1f3f6f0feae901f0dc2d2da3c69b686e",
+      "references": [
+        {
+          "line": 6,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/sync-and-check.mjs",
+      "classification": "source-preparation-or-template",
+      "bytes": 3304,
+      "rawBytesSha256": "962f358ae77cffc1c5cd54d873d3e1cd42ea3fbc85977f7f5ea04dc4f881ad0f",
+      "references": [
+        {
+          "line": 4,
+          "paths": [
+            "docs/design/rust-r3cdefg",
+            "docs/design/rust-r3cdefg"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/temporal.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 6292,
+      "rawBytesSha256": "7d9e685a4bf9c7146c23061d3bd062e0a59f98069ab2ea50d49deff13e44804b",
+      "references": [
+        {
+          "line": 2,
+          "paths": [
+            "../../docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "../../docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 10312,
+      "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a",
+      "references": [
+        {
+          "line": 4,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-run.mjs",
+      "classification": "replay-or-validation-entry",
+      "bytes": 9095,
+      "rawBytesSha256": "fd67881ead6df4c431250d642901e53af5e0181ffe8dac1ecd484f2e8e3ce30d",
+      "references": [
+        {
+          "line": 4,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+      "classification": "original-generation-recipe",
+      "bytes": 12858,
+      "rawBytesSha256": "6a5e589c599fdba955e4a53236917b03d27aae5688ddba07663e529490cc3903",
+      "references": [
+        {
+          "line": 3,
+          "paths": [
+            "docs/design/rust-r3cdefg-delivery-status.json"
+          ]
+        },
+        {
+          "line": 36,
+          "paths": [
+            "docs/design/rust-r3cdefg/g1-operation-slices-original.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "scannedToolPins": [
+    {
+      "file": "tools/rust-r3cdefg/acceptance-correction-resume03.mjs",
+      "bytes": 2641,
+      "rawBytesSha256": "514d959f71e2aaab4b365d59aed4b74fea15f6f6a7fcdc80b4f589a74ea9f192"
+    },
+    {
+      "file": "tools/rust-r3cdefg/acceptance-correction02.mjs",
+      "bytes": 2784,
+      "rawBytesSha256": "5043a0e2e9df89fa6a58a39128b0c2b940f6e121ed6f8cd765c9d70e7a9a453c"
+    },
+    {
+      "file": "tools/rust-r3cdefg/assemble-g1-inputs.mjs",
+      "bytes": 6109,
+      "rawBytesSha256": "6627480a26346c39323645364535fdefc84ee321430674212f23c07ac4fd942a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/assemble-g3-correction03.mjs",
+      "bytes": 6638,
+      "rawBytesSha256": "b2f000f21f1b55c82f4f0d94cf7f1ca4e6b257eca10dc2374a0fceaaca9d2b92"
+    },
+    {
+      "file": "tools/rust-r3cdefg/assemble-g3.mjs",
+      "bytes": 9828,
+      "rawBytesSha256": "cf1b21b2d5d9565dd0f839ffba86fd7bca1560f60243026cbf98975af852ff0a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/attest-rust.mjs",
+      "bytes": 3611,
+      "rawBytesSha256": "3b23bec6e39c5fc5fe1657c035c5465ada74841f6549507ce76d93fc1eacb880"
+    },
+    {
+      "file": "tools/rust-r3cdefg/augment-g3.mjs",
+      "bytes": 4845,
+      "rawBytesSha256": "e11f2a55f8a60e74c3dcfa203f0a38f6d6dbd836f86e76e1c38c3d81c1ad54d8"
+    },
+    {
+      "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+      "bytes": 2515,
+      "rawBytesSha256": "ab6b7652adc286db8e43bedcb7e53d1508ac94e87954481b096a70db24fa5594"
+    },
+    {
+      "file": "tools/rust-r3cdefg/boundaries.mjs",
+      "bytes": 24363,
+      "rawBytesSha256": "5457405b48964d177c09b9eb8f9c9e59004835b6c4ce014384e89ea6a0aaa1b3"
+    },
+    {
+      "file": "tools/rust-r3cdefg/business-branches01.mjs",
+      "bytes": 40691,
+      "rawBytesSha256": "80713d60314972cf611038c124805dc6fbbe0b87049a245ca15b02765b08d1e3"
+    },
+    {
+      "file": "tools/rust-r3cdefg/business-run.mjs",
+      "bytes": 12262,
+      "rawBytesSha256": "263707c70d4de1b28c039b082f75fb19011f7fa7cb0c4e4a5cb8451853d8b8c6"
+    },
+    {
+      "file": "tools/rust-r3cdefg/catalog.mjs",
+      "bytes": 1917,
+      "rawBytesSha256": "5ada8a1221ae8bf811ffe6567a10508aecd074e54379f0d055fdf1ff182aebaf"
+    },
+    {
+      "file": "tools/rust-r3cdefg/classify-native-errors.mjs",
+      "bytes": 3730,
+      "rawBytesSha256": "517e63e1184c577cfdfdd1f6a574b7a178477c755aec0f24f8ed33c93342fce0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/classify-native-extra-errors05.mjs",
+      "bytes": 3736,
+      "rawBytesSha256": "cc0fdbb62a952d04f95c285de2f78b397e40981653df161b879ad8cb37c0b793"
+    },
+    {
+      "file": "tools/rust-r3cdefg/cleanup-cohort.mjs",
+      "bytes": 7603,
+      "rawBytesSha256": "ee6032bcb2b96b12d6a0f20a20fc2ec3765f54f1e1d8579cdda353378e1b0880"
+    },
+    {
+      "file": "tools/rust-r3cdefg/cleanup-final-cohort.mjs",
+      "bytes": 9915,
+      "rawBytesSha256": "f42f7db4e136dfd63bbe77b69ed12f8453b80c7c65affdb804393b487d2b2157"
+    },
+    {
+      "file": "tools/rust-r3cdefg/cleanup-native-witness.mjs",
+      "bytes": 7283,
+      "rawBytesSha256": "b44de4b7d4ebb440fb6765affa893777931949cbcb399e4b3287b37306cee0c1"
+    },
+    {
+      "file": "tools/rust-r3cdefg/client-frozen-check.mjs",
+      "bytes": 5956,
+      "rawBytesSha256": "b1ae57b683e09550104f7612deb82e568efba60f92df88076331185a8187fc14"
+    },
+    {
+      "file": "tools/rust-r3cdefg/client-frozen-check04.mjs",
+      "bytes": 6069,
+      "rawBytesSha256": "f1c1116813be6a0b602a52e1747e5a44f9d25cdef4fd5d7e84b3daac70633db7"
+    },
+    {
+      "file": "tools/rust-r3cdefg/client-frozen-check05.mjs",
+      "bytes": 6617,
+      "rawBytesSha256": "65ae5dbeb6dc55c1d66b0d3592a3483fc653d19aae7064f1d6dacb9fb60f4f8c"
+    },
+    {
+      "file": "tools/rust-r3cdefg/compare-coverage.mjs",
+      "bytes": 6223,
+      "rawBytesSha256": "8564ef2b9546bf8468157c635b113f07677c9b692dca2ebd36fc4b58bc008339"
+    },
+    {
+      "file": "tools/rust-r3cdefg/compare-events.mjs",
+      "bytes": 5444,
+      "rawBytesSha256": "5e4687c10cfd7628f0357ae75f794eff012463c42923bb0f8e0952c47212d8a1"
+    },
+    {
+      "file": "tools/rust-r3cdefg/compare-raw-errors.mjs",
+      "bytes": 2089,
+      "rawBytesSha256": "1d7bcc637eced4851074204b6958225e67489b27a94698f80e5d391718f21ac8"
+    },
+    {
+      "file": "tools/rust-r3cdefg/consume-targets.mjs",
+      "bytes": 3631,
+      "rawBytesSha256": "6a4ab18cac24cb1e53a979858412a0e2db6f14368b074a43bbe1e21991f79da4"
+    },
+    {
+      "file": "tools/rust-r3cdefg/coverage.mjs",
+      "bytes": 15589,
+      "rawBytesSha256": "3f326de2dc0b3f87904a3fe7c31aa8cb79eceb7b8249ab6d1d8c76a579850daf"
+    },
+    {
+      "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "bytes": 26295,
+      "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+      "bytes": 5174,
+      "rawBytesSha256": "6fdcdca0943d8cd16ae9b4662a8ad7b4c9c1132e635f99357d61cfc152345989"
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-business-run.mjs",
+      "bytes": 6471,
+      "rawBytesSha256": "04b389885e498c57d3f2d7a2e7bb35e6f3fc56b22e2b9580deaab13e8b358d3a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-final-terminal.mjs",
+      "bytes": 3526,
+      "rawBytesSha256": "264c73ced1418105f147ee62016327af45c4f75d5fbc428910c08a7057c644f9"
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-terminal.mjs",
+      "bytes": 1870,
+      "rawBytesSha256": "ed7690ffe1967e66d4c5dc5ff5604aad5b350ed9f24efcfbea8a6f8b7eaad671"
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-ui-extra.mjs",
+      "bytes": 4153,
+      "rawBytesSha256": "0a58b2394025ca24a88559c74bd7a3a22b119233b73fbc422f458d6b1aadc3fb"
+    },
+    {
+      "file": "tools/rust-r3cdefg/edge-run.mjs",
+      "bytes": 7444,
+      "rawBytesSha256": "a09a15f8fd235556b7e0956d344c28a1960a2bd0d58e7beaa131b332cefaa39a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/environment-terminal.mjs",
+      "bytes": 3010,
+      "rawBytesSha256": "990bba4f8a586b112b6c2b55531ebff5f3a90b079961a3df87b9a2ceabefaa86"
+    },
+    {
+      "file": "tools/rust-r3cdefg/environment-terminal02.mjs",
+      "bytes": 3010,
+      "rawBytesSha256": "ee0e8745b98fa1b1f8241fb18f6272e4dfaac1fb312baa4b26bab6b4b6e0dcae"
+    },
+    {
+      "file": "tools/rust-r3cdefg/environment.mjs",
+      "bytes": 12044,
+      "rawBytesSha256": "3ee7cb95d54a0a660524a407968889c0f18c7826b991f07315e7e1b474eeb33b"
+    },
+    {
+      "file": "tools/rust-r3cdefg/export-common-logs.mjs",
+      "bytes": 2295,
+      "rawBytesSha256": "3d96256689ab87d7ac7d6661da2263b96b60766b1d0cd1bcbd7639c5b9e48908"
+    },
+    {
+      "file": "tools/rust-r3cdefg/extract-additional-sql.mjs",
+      "bytes": 3461,
+      "rawBytesSha256": "96f41257b4e79c7ecaf8469e27d6f088a11cb169700940294edaa0744537ba26"
+    },
+    {
+      "file": "tools/rust-r3cdefg/extract-native-extra-sql.mjs",
+      "bytes": 3873,
+      "rawBytesSha256": "9f33047c26f598f18f1f75029ea66ea8c7cccb71b9c5fa4af893d7ab18df45b3"
+    },
+    {
+      "file": "tools/rust-r3cdefg/extract-native-extra-sql04.mjs",
+      "bytes": 3805,
+      "rawBytesSha256": "024764581bd6ad9b91c24a972844f6b65fca89aefaca143de16390b106da94b5"
+    },
+    {
+      "file": "tools/rust-r3cdefg/extract-native-sql.mjs",
+      "bytes": 3714,
+      "rawBytesSha256": "8db519249c91284da4cbe4952d1bc925d81583a7af87b661253ba8f10e7aa8a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/freeze-g1-candidate.mjs",
+      "bytes": 7187,
+      "rawBytesSha256": "aa3bc037cc714604e9543b32a2da5acc5c83dbaa94bbd4a7ba7f98280dd137ff"
+    },
+    {
+      "file": "tools/rust-r3cdefg/http-client.mjs",
+      "bytes": 2369,
+      "rawBytesSha256": "89f0ba94f7bfacd1ccdb8b6ddafe6f9e9147c496b74568d60cc13df2ef40ef2e"
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-text-observer.mjs",
+      "bytes": 3875,
+      "rawBytesSha256": "2047c879f67e81a4586f083c87db7f06ec215860a41966525cd67e1fcdf238e4"
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+      "bytes": 20627,
+      "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055"
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-witness.mjs",
+      "bytes": 23714,
+      "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6"
+    },
+    {
+      "file": "tools/rust-r3cdefg/observe-actual.mjs",
+      "bytes": 6644,
+      "rawBytesSha256": "d63464fbfeac7b1b101026f033e8bbdc566bb1a0fa214069588e5716107fd6ed"
+    },
+    {
+      "file": "tools/rust-r3cdefg/prepare-common-tools.mjs",
+      "bytes": 2217,
+      "rawBytesSha256": "53f2a9d6f21f5d988f795ee3c4f63eabec4d71154246b42825e248fdce59cca0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+      "bytes": 4117,
+      "rawBytesSha256": "0e3f7a7bec7a375737f6161be69fb378952637bef653db7fae662943ac8c0b34"
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-edges01.mjs",
+      "bytes": 23434,
+      "rawBytesSha256": "e31a97c7270798b4ae99144d2354b4153495336c25ea63097a74be2960b67e46"
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-journey01.mjs",
+      "bytes": 23214,
+      "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+    },
+    {
+      "file": "tools/rust-r3cdefg/publish-g1.mjs",
+      "bytes": 7808,
+      "rawBytesSha256": "a27856d936c2b14f1eb272d5d81be4712e173e27f3d5df295e9317ef17c179ce"
+    },
+    {
+      "file": "tools/rust-r3cdefg/raw-errors.mjs",
+      "bytes": 5518,
+      "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8"
+    },
+    {
+      "file": "tools/rust-r3cdefg/register-g0.mjs",
+      "bytes": 7849,
+      "rawBytesSha256": "e66974bafa0e907fb42abc3e70c7de5d3882abb2953131a18164f835fee73c41"
+    },
+    {
+      "file": "tools/rust-r3cdefg/routing-probe.mjs",
+      "bytes": 1889,
+      "rawBytesSha256": "94159ea853022ef504042fdf9cb870c844f41ff04b74dd73256a9694e7c351cd"
+    },
+    {
+      "file": "tools/rust-r3cdefg/runtime.mjs",
+      "bytes": 3016,
+      "rawBytesSha256": "0a643ce6dc1fe605f18fca5370525c90f6b1fafd4757164c25075b567f929d11"
+    },
+    {
+      "file": "tools/rust-r3cdefg/schema-classify.mjs",
+      "bytes": 3403,
+      "rawBytesSha256": "66082d30d79760c2682325372903a13669c7b1123a6e78037b24eda712bb157a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+      "bytes": 21311,
+      "rawBytesSha256": "24bfe129acccb685b87150234ddbad7fa74307237ad4fd38ae30e894d4d6f760"
+    },
+    {
+      "file": "tools/rust-r3cdefg/semantics01.mjs",
+      "bytes": 24753,
+      "rawBytesSha256": "f645a5b221ad70f3369f9ee566f59c393592abe8ccde0384b4d2858890082f25"
+    },
+    {
+      "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+      "bytes": 3162,
+      "rawBytesSha256": "63d6260367301406944b1a84ac708d8fa5114643715f78d7d17c0b50793195ce"
+    },
+    {
+      "file": "tools/rust-r3cdefg/shared-checks.mjs",
+      "bytes": 3382,
+      "rawBytesSha256": "d00fac17e7223baa0a77e2ff2b6c35ae1f3f6f0feae901f0dc2d2da3c69b686e"
+    },
+    {
+      "file": "tools/rust-r3cdefg/supplement-journey01.mjs",
+      "bytes": 19525,
+      "rawBytesSha256": "887851c135ff9c375f646c8d3f9f5f8e13e6a578a45306193e5018007726fc97"
+    },
+    {
+      "file": "tools/rust-r3cdefg/sync-and-check.mjs",
+      "bytes": 3304,
+      "rawBytesSha256": "962f358ae77cffc1c5cd54d873d3e1cd42ea3fbc85977f7f5ea04dc4f881ad0f"
+    },
+    {
+      "file": "tools/rust-r3cdefg/sync-public-originals.mjs",
+      "bytes": 1413,
+      "rawBytesSha256": "59f0c15c33ac87db383410447803877a65b67f19525f664c8eac98b022d76463"
+    },
+    {
+      "file": "tools/rust-r3cdefg/sync-public-originals02.mjs",
+      "bytes": 1477,
+      "rawBytesSha256": "244d47ca48e01aa208069e3f22e3fa45a6b2bce1ef607eaa2bde6ba0e189f6f2"
+    },
+    {
+      "file": "tools/rust-r3cdefg/temporal.mjs",
+      "bytes": 6292,
+      "rawBytesSha256": "7d9e685a4bf9c7146c23061d3bd062e0a59f98069ab2ea50d49deff13e44804b"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "bytes": 10312,
+      "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-run.mjs",
+      "bytes": 9095,
+      "rawBytesSha256": "fd67881ead6df4c431250d642901e53af5e0181ffe8dac1ecd484f2e8e3ce30d"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "b20250e430554fe5f3225e150f5016cc8a502bf4934f68bd7b00927e9ba403a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-wire-client.mjs",
+      "bytes": 4227,
+      "rawBytesSha256": "ee4756c501570e8a036897107143343284f9157a2ff45f4690c78f51a8dcb612"
+    },
+    {
+      "file": "tools/rust-r3cdefg/windows-runtime.mjs",
+      "bytes": 4488,
+      "rawBytesSha256": "30e9b5cb2d8bc53c9417384ef774c071c5ee537d1d4679531345001682e4e4a8"
+    },
+    {
+      "file": "tools/rust-r3cdefg/windows-runtime02.mjs",
+      "bytes": 4488,
+      "rawBytesSha256": "e69b81be431cc8b21bb182ff708f17fd260664a431b91c6a22e1678eddd379e7"
+    },
+    {
+      "file": "tools/rust-r3cdefg/wire-client.mjs",
+      "bytes": 4063,
+      "rawBytesSha256": "1416d3bb8149c93042aa9910aa547cff2ffa7dfce234f72c32407e140780afa2"
+    },
+    {
+      "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+      "bytes": 12858,
+      "rawBytesSha256": "6a5e589c599fdba955e4a53236917b03d27aae5688ddba07663e529490cc3903"
+    }
+  ],
+  "oldR3ABReference": {
+    "map": {
+      "file": "docs/design/archive/slices/rust-r3ab/archive-origin-map.json",
+      "rawBytesSha256": "b90f8ccb298cf308711fcab7efdb1db4eb4f1bf7e72f42d3d5980ae66485514e",
+      "lines": "297-306"
+    },
+    "closeout": {
+      "file": "docs/design/archive/slices/rust-r3ab-closeout.md",
+      "rawBytesSha256": "a0568bfaa6592feee63b83a774d8adf1e1812db1f474fdd374e7c9500508bae0",
+      "lines": "12 and26"
+    },
+    "approval": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/C/g4-closeout-preflight01.json",
+      "rawBytesSha256": "22bfbdbba5af6bd6efee9c144dabb344b1a7b2d62fc9cca43db696621ea82786",
+      "result": "Approved-E1",
+      "scope": "Only22 exact R3AB machine-input/evidence compatibility mirrors at regular paths; human lifecycle Markdown archived.",
+      "approver": "Independent C for that exact R3AB preflight",
+      "owner": "Root",
+      "reviewDue": "2026-12-02"
+    },
+    "applicationHere": "Pattern reference only. No automatic inheritance of scope, approver, date or permission. R3CDEFG must record its own concrete copy set, owner, approver/review arrangement and retirement condition if adopting regular mirrors."
+  },
+  "workPerformed": [
+    "Static file/path reads and raw hashing only",
+    "Only this audit's JSON/text artifacts written under tmp/rust-r3cdefg/b-archive-audit"
+  ],
+  "notPerformed": [
+    "No archival move/copy/link applied",
+    "No frozen file changed",
+    "No tool, product, host, DB, browser, environment, GitHub or Gate execution/review"
+  ]
+}

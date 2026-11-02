@@ -13,7 +13,8 @@
     "currentRustR3Delivered": 14,
     "firstBatchImplemented": 14,
     "authorizedNextBatch": 16,
-    "laterUnstarted": 28
+    "laterUnstarted": 28,
+    "currentRemaining": 44
   },
   "nonHttpScope": {
     "businessNumbers": "A/B open the business transaction, then allocate through the independent shared pool next entry; committed counter gaps survive failed entity writes, per corrective4fda3a1a",
@@ -930,12 +931,21 @@
         "implementedPath": "/api/customer-contacts",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.9",
+        "requestId": "a358e181-ac8f-4fcc-b6eb-13823210aa6c",
+        "method": "GET",
+        "route": "/api/customer-contacts?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "CustomerContactController_create",
@@ -1007,12 +1017,21 @@
         "implementedPath": "/api/customer-contacts",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 201,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.contact",
+        "requestId": "afd439e2-61e0-45d3-a4a4-c4ec71d16b58",
+        "method": "POST",
+        "route": "/api/customer-contacts",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "CustomerContactController_update",
@@ -1100,12 +1119,21 @@
         "implementedPath": "/api/customer-contacts/{id}",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "contact.update.gender-null",
+        "requestId": "ecd42442-bb54-4e5c-9c00-d830a6315254",
+        "method": "PATCH",
+        "route": "/api/customer-contacts/2728adb8-ca46-4ffe-af45-45c8ff9eaa1f",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "CustomerController_list",
@@ -3829,12 +3857,21 @@
         "implementedPath": "/api/projects/{projectId}/bid-commercial-processes",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.3",
+        "requestId": "71df22e3-5883-4266-850a-b861514ea666",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/bid-commercial-processes",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_createProjectBidCommercialProcess",
@@ -3922,12 +3959,21 @@
         "implementedPath": "/api/projects/{projectId}/bid-commercial-processes",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 201,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.path.publicTender",
+        "requestId": "9a159db9-4419-4f3e-af82-fe4556e10422",
+        "method": "POST",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-processes",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_getProjectBidCommercialWorkspace",
@@ -3999,12 +4045,21 @@
         "implementedPath": "/api/projects/{projectId}/bid-commercial-workspace",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.workspace.publicTender",
+        "requestId": "a393865e-07c5-43ec-84a4-4eac79c1028c",
+        "method": "GET",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-workspace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_listProjectPricingMarginReviews",
@@ -4069,12 +4124,21 @@
         "implementedPath": "/api/projects/{projectId}/pricing-margin-reviews",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.6",
+        "requestId": "9bb811e7-a805-4ea1-8ff6-b492c6be1ed2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/pricing-margin-reviews",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_createProjectPricingMarginReview",
@@ -4162,12 +4226,21 @@
         "implementedPath": "/api/projects/{projectId}/pricing-margin-reviews",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 201,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.create.direct-commercial",
+        "requestId": "19bb94fc-1ddf-4908-8046-03a6f2d2da55",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-reviews",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_getProjectPricingMarginWorkspace",
@@ -4239,12 +4312,21 @@
         "implementedPath": "/api/projects/{projectId}/pricing-margin-workspace",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.workspace.direct-commercial",
+        "requestId": "658415fb-b24c-4253-b817-9dbc41c12845",
+        "method": "GET",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-workspace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_listProjectTechnicalCostPackages",
@@ -4309,12 +4391,21 @@
         "implementedPath": "/api/projects/{projectId}/technical-cost-packages",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.0",
+        "requestId": "b1ed3582-e4f5-42c0-9e81-edb8a97e678f",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-packages",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_createProjectTechnicalCostPackage",
@@ -4402,12 +4493,21 @@
         "implementedPath": "/api/projects/{projectId}/technical-cost-packages",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 201,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.cost.direct-commercial",
+        "requestId": "8062026b-c858-45b8-a9c6-235a241af49b",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/technical-cost-packages",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
@@ -4479,12 +4579,21 @@
         "implementedPath": "/api/projects/{projectId}/technical-cost-workspace",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.2",
+        "requestId": "c9d50a2c-0411-4c88-a94e-0cbaf1f396b2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-workspace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "ProjectController_getTimeline",
@@ -4963,12 +5072,21 @@
         "implementedPath": "/api/sales-follow-up-records",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.12",
+        "requestId": "abe2335c-2551-4858-baee-37f0dadcdf6b",
+        "method": "GET",
+        "route": "/api/sales-follow-up-records?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "SalesFollowUpController_create",
@@ -5042,12 +5160,21 @@
         "implementedPath": "/api/sales-follow-up-records",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 201,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.followup",
+        "requestId": "29031c63-3d36-4f4d-9366-ae1381ba34ed",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "SalesFollowUpController_replace",
@@ -5137,12 +5264,21 @@
         "implementedPath": "/api/sales-follow-up-records/{id}:replace",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.live-replace",
+        "requestId": "632dd3ef-9114-4ee2-aa2d-cdef0fbacd35",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/cbfb78a1-18ea-40c4-980a-ebb77f4643d8:replace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "SalesFollowUpController_void",
@@ -5232,12 +5368,21 @@
         "implementedPath": "/api/sales-follow-up-records/{id}:void",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "nativeStatusActual": 200,
       "rustDelivered": false,
       "G1Certified": true,
-      "G3Certified": false,
+      "G3Certified": true,
       "G4Certified": false,
-      "rustImplemented": false
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.active-void",
+        "requestId": "4f0b52b6-4f1b-4c63-b729-a72089370267",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/1c698858-7568-4d9d-ac7c-37a5159d9843:void",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
     },
     {
       "operationId": "SalesIntelligenceGapController_list",
@@ -5319,7 +5464,7 @@
       "rustDelivered": false
     }
   ],
-  "dispatchCounting": "R3A/B G4 completed14/58; current Rust dispatch129. Remaining44 and complete non-HTTP/stage acceptance stay pending; #84/#61 are not counted twice.",
+  "dispatchCounting": "R3A/B scoped G4 delivered14/58; C-G implemented16 operations and current Rust dispatch145, not counted delivered until actual scoped G4. Remaining28 and full stage stay pending.",
   "G1Certified": false,
   "G3Certified": false,
   "G4Certified": false,
@@ -5339,15 +5484,15 @@
   },
   "certificationScope": "Only explicit scoped rows are certified; full58-operation R3 and parent85/57 remain incomplete. Contacts3 are split from original intelligence13; remaining10 are not duplicated.",
   "nextBatchDelivery": {
-    "phase": "G2",
+    "phase": "G4Ready",
     "operations": 16,
     "source": {
       "file": "docs/design/rust-r3cdefg-delivery-status.json",
-      "bytes": 3105,
-      "rawBytesSha256": "4cd82aa0f64ed3bf804b96a84bec1ce52391238044a85cb29c43415969cd1fbd"
+      "bytes": 21382,
+      "rawBytesSha256": "9635f896d785d988af30c918b09679da1ac673da2df56e33cf3ff60192565e75"
     },
     "G1Certified": true,
-    "G3Certified": false,
+    "G3Certified": true,
     "G4Certified": false,
     "parent85Open": true,
     "overall57Open": true

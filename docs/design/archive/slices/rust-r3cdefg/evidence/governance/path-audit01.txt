@@ -1,0 +1,32 @@
+R3CDEFG G4 归档路径静态审计（仅建议，不签 Gate）
+
+推荐：全部 raw 和已完成生命周期 MD 按原字节归档；regular active 路径仅保留 5 个同字节机器输入，共 419264B。历史 manifest 的完整闭包由新只读入口 + origin map 解析，不在 regular 路径复制大证据或生命周期 MD。
+
+最小同字节兼容文件（都在 docs/design/rust-r3cdefg/）：
+1. g1-input-manifest02.json：190930B；1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94
+   正常 semantics/coverage/boundaries/business/edge/UI/common-check 入口只读取其 nativeFiles 防漂移；不把 formalFiles 的旧状态当当前 Gate。
+2. preflight-native-source-manifest01.json：180482B；998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661
+   environment/native-witness 直接读取；semantics 还把该文件本身作为来源 pin。
+3. g1-operation-slices-original.json：38863B；5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c
+   attest-rust.mjs:4 读取用于16项原OpenAPI比对；wire-http-modules.mjs:36 也读取，但后者是原生成配方，不能因本建议而重跑覆盖原件。
+4. input-a/native-fixture-draft01.mjs：4774B；041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83
+5. input-b/native-fixture-draft01.mjs：4215B；7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946
+   两个 pure builder 是静态 ESM import，供 semantics/coverage/boundaries/edges/business/temporal/UI upstream 等入口实际加载；本身没有新的相对 import 闭包。
+
+其余“必须解析”的输入不能因此丢弃：
+- 原 docs/design/rust-r3cdefg/ 整个 prefix 逐后缀映射到 docs/design/archive/slices/rust-r3cdefg/。
+- 7 个 top 生命周期 MD 逐项显式映射到 archive/slices/rust-r3cdefg/<原basename>，清单及原字节 SHA 见 JSON。
+- g1 manifest02 formalFiles 直接包含44个 active文档pin；g3 manifest03 直接包含461个active文档pin，其中448个evidence，合计48680747B。augment/assemble 的逐pin循环不能仅凭上述5文件继续在原路径读取全部输入。
+- 这些大证据和MD在archive里保留一次，不作为regular镜像；只读解析器应保留 pin.file 原逻辑值，仅将实际读取位置改为解析后的物理路径，再比原bytes/SHA。
+- docs/design/rust-r3cdefg-delivery-status.json 在raw子目录之外，是原脚本也读取的当前可变状态索引；它不属于这5个冻结兼容镜像，不从归档旧Pending推断当前Gate。
+
+thin 入口的限度：
+- 仅增加一份 JSON 映射，不会使旧 fs.readFileSync 或静态 ESM import 自动重定向。
+- 可以不修改任何冻结原字节：新增只读历史核验入口，明确使用origin map解析全部旧pin；配合上述5个regular同字节文件，原正常回放的固定直接入口仍可读取。
+- 若连5个regular文件也不要，同时仍要原脚本不改命令地运行，就还需要实际启用、单独验证的fs/ESM resolver或preload；绝非只有一个未被代码读取的thin JSON。必须考虑Windows/Linux绝对workspace前缀、file URL、fs读/exists/stat/readdir/cp读侧及子进程传递。本审计未实现或验证这种机制。
+- 目录/文件链接是另一种机制；Git/Windows落地、lstat和walk行为未验证，不能当作跨平台默认替代。
+- 完成阶段的assemble/publish/freeze原工具是历史生产配方，有wx/非存在/初始HEAD等约束；client-frozen-check*还精确检查旧.gitattributes suffix。归档后的新属性规则不是单靠路径映射解决的，不能声称5文件让全部旧工具无条件重跑。
+
+R3AB 只作参考：archive-origin-map.json:297–306 的 E1 及其独立C关闭前收据，仅批准该批22个精确machine/evidence镜像、owner Root、2026-12-02复核。它不自动批准R3CDEFG。若Root采用本次5文件方案，应为当前具体集合另行记录owner、approver/复核安排及退出条件；本审计不授予该批准。
+
+审计快照：73个mjs工具，33个含active文档字面量；raw树507文件/52468502B；7个top MD。静态rg、拼接路径、pin闭包与原E1已检查；未读private原始日志、未执行产品/环境或任何原回放脚本，未移动/复制/改写原件。
