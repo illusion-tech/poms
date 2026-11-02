@@ -1,6 +1,6 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0/R1/R2 已完成；R3首批客户8项/项目6项独立实际G4已Pass、交付14/58；#85/#57与R3余44及R4–R7保持开放
+**文档状态**: Active — R0/R1/R2已完成；R3 A–G共30/58已完成各自G4，余28和完整阶段验收未完成；#85/#57及R4–R7保持开放
 **最后更新**: 2026-11-02
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
@@ -474,3 +474,10 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 实现 `fbc5ca10bb232519034437f8ef7406f145cfe34a` 已通过[固定提交独审](archive/slices/rust-r3cdefg/C/fixed-commit-review01.json)，FF并推送main；[主线证据](archive/slices/rust-r3cdefg/main-integration-proof01.json)核740原字节相同。[668份生命周期/原件归档](archive/slices/rust-r3cdefg/archive-origin-map.json)保持历史逻辑路径与标签；仅保留5个机器输入兼容副本共419264B，新只读解析器核G1formal44/Native872/G3inputs740均精确。E1须独立关闭前许可，不能继承旧批批准。
 
 当前代码已实现R3合计30操作、Rust dispatch145，但正式交付仍14/58；本批16须各自实际G4后才计30/58。#88–92仍Open，#85/#57保持Open，后续28及完整非HTTP/阶段验收未完成。当前[收口索引](archive/slices/rust-r3cdefg-closeout.md)与[状态](rust-r3cdefg-delivery-status.json)为G4Ready，尚无关闭许可或G4认证。
+
+
+### 2026-11-02 R3C–G 实际线上 G4 收口
+
+[#88 G4](https://github.com/illusion-tech/poms/issues/88#issuecomment-6571762609)、[#89 G4](https://github.com/illusion-tech/poms/issues/89#issuecomment-6571762962)、[#90 G4](https://github.com/illusion-tech/poms/issues/90#issuecomment-6571763276)、[#91 G4](https://github.com/illusion-tech/poms/issues/91#issuecomment-6571763587)、[#92 G4](https://github.com/illusion-tech/poms/issues/92#issuecomment-6571763887) 已按[独立关闭许可](archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json)完成并Closed；[完整线上原件](archive/slices/rust-r3cdefg/evidence/online/g4-online-receipt01.json)核五子项6/6及父85/57均Open。R3累计 **30/58**，当前Rust dispatch **145**，余 **28**（线索14/情报其余10/讨论2/项目综合工作区2）及完整非HTTP/审批/阶段验收仍未完成。
+
+[收口索引](archive/slices/rust-r3cdefg-closeout.md)、[当前状态](rust-r3cdefg-delivery-status.json)及[58项互斥清单](rust-r3-operation-slices.json)已同步；235 passed/54 ignored、898原ec UI因果引用及全部历史边界保持。五机器输入E1由本批独立C明确批准，不继承旧批许可。非作者最终实际G4读回与最后增量保全另附，不覆盖旧原件。

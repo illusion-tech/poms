@@ -1,0 +1,84 @@
+Updating 4947c1a4..688b57cc
+Fast-forward
+ .../design/archive/slices/rust-r3cdefg-closeout.md |     5 +
+ .../C/g4-closeout-byte-plan-audit01.json           | 12537 +++++++++++++++++++
+ .../C/g4-closeout-byte-plan-audit01.mjs            |    39 +
+ .../rust-r3cdefg/C/g4-closeout-preflight01.json    |   322 +
+ .../rust-r3cdefg/C/g4-preflight-live-issues01.json |   321 +
+ .../C/write-g4-closeout-preflight01.mjs            |    80 +
+ .../governance/archive-ready-copy-map01.json       |   117 +
+ .../archive-ready01/archive-check-stderr.log       |     0
+ .../archive-ready01/archive-check-stdout.log       |     1 +
+ .../archive-ready01/branch-push-stderr.log         |     2 +
+ .../archive-ready01/branch-push-stdout.log         |     0
+ .../governance/archive-ready01/commit-stderr.log   |     0
+ .../governance/archive-ready01/commit-stdout.log   |   675 +
+ .../archive-ready01/diff-check-stderr.log          |     0
+ .../archive-ready01/diff-check-stdout.log          |     0
+ .../archive-ready01/inventory-check-stderr.log     |     0
+ .../archive-ready01/inventory-check-stdout.log     |     1 +
+ .../archive-ready01/main-push-stderr.log           |     2 +
+ .../archive-ready01/main-push-stdout.log           |     0
+ .../archive-ready01/markdown-check-stderr.log      |     1 +
+ .../archive-ready01/markdown-check-stdout.log      |     0
+ .../governance/archive-ready01/message.txt         |     6 +
+ .../primary-archive-check-stderr.log               |     0
+ .../primary-archive-check-stdout.log               |     1 +
+ .../archive-ready01/primary-ff-stderr.log          |     0
+ .../archive-ready01/primary-ff-stdout.log          |  1357 ++
+ .../governance/archive-ready01/proof01.json        |   230 +
+ .../governance/archive-ready01/stage-stderr.log    |     0
+ .../governance/archive-ready01/stage-stdout.log    |     0
+ .../evidence/governance/g4-closeout-plan01.json    |   149 +
+ .../g4-preflight-original-copy-map01.json          |    66 +
+ .../evidence/governance/metadata-action-source.mjs |    14 +
+ .../precloseout-delivery-status-original01.json    |   529 +
+ .../precloseout-live-status-origin-map01.json      |    19 +
+ ...precloseout-operation-inventory-original01.json |  5500 ++++++++
+ .../governance/public-credential-scan03.json       |  3894 ++++++
+ .../same-path-builder-import01-stderr.log          |     0
+ .../same-path-builder-import01-stdout.log          |     1 +
+ .../governance/same-path-builder-import01.json     |    17 +
+ .../evidence/online/g4-plan-before-original.json   |     1 +
+ docs/design/rust-r3-operation-slices.json          |     4 +-
+ docs/design/rust-r3cdefg-delivery-status.json      |    14 +-
+ 42 files changed, 25901 insertions(+), 4 deletions(-)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-byte-plan-audit01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-byte-plan-audit01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/g4-preflight-live-issues01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/write-g4-closeout-preflight01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready-copy-map01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/archive-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/archive-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/branch-push-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/branch-push-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/commit-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/commit-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/diff-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/diff-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/inventory-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/inventory-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/main-push-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/main-push-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/markdown-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/markdown-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/message.txt
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/primary-archive-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/primary-archive-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/primary-ff-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/primary-ff-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/proof01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/stage-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-ready01/stage-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/g4-closeout-plan01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/g4-preflight-original-copy-map01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/metadata-action-source.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/precloseout-delivery-status-original01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/precloseout-live-status-origin-map01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/precloseout-operation-inventory-original01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/public-credential-scan03.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/same-path-builder-import01-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/same-path-builder-import01-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/same-path-builder-import01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-plan-before-original.json

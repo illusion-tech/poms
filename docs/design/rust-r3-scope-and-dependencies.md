@@ -1,18 +1,18 @@
 # RUST-R3 范围、依赖与本批边界
 
-- 状态：首批A/B的14项已G4并Closed；当前C–G的16项已实现、独立G3及main集成，G4Ready。正式交付仍14/58；父#85/#57保持Open。
+- 状态：A/B首批14项和C–G本批16项已完成各自G4，#86–#92 Closed；当前累计30/58，余28与完整阶段验收未完成，父#85/#57保持Open。
 - 父项：[R3 #85](https://github.com/illusion-tech/poms/issues/85)；总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。
 - 来源：main `a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d`；R2 #67/#80 和路由 #61/#84 已 Closed。
 - 当前清单：[58 个操作的当前 controller/spec/canonical 复核](rust-r3-operation-slices.json)。旧 R0 只作历史映射，不照抄其中已切换的 lookup 路径。
 
-## 本批切片
+## 首批 A/B 切片及后续互斥归属
 
 1. RUST-R3A [#86](https://github.com/illusion-tech/poms/issues/86)：客户/别名 8 操作；包括客户工作区原有完整只读返回，不含联系人命令。
 2. RUST-R3B [#87](https://github.com/illusion-tech/poms/issues/87)：项目基础 6 操作；列表、直接创建、UUID 详情、基础修改、主责调整、业务号 lookup。
 
-58项互斥分配：首批A8+B6已交付14；当前C成本3+D竞标3+E联系人3+F跟进4+G报价3，共16已联合G1、独立G3及main集成，待各自G4。其余28为线索14、情报其余10、讨论2、项目综合工作区2，后续逐片冻结，不遗漏或重复计数。联系人3从原情报13拆分。
+58项互斥分配：首批A8+B6已交付14；C成本3+D竞标3+E联系人3+F跟进4+G报价3，共16已完成联合G1、独立G3、main集成与各自G4。其余28为线索14、情报其余10、讨论2、项目综合工作区2，后续逐片冻结，不遗漏或重复计数。联系人3从原情报13拆分。
 
-本批当前 Rust R3 交付为 **14/58**；A/B 已完成联合G1、独立G3、固定提交/主线集成与独立关闭前复核后的实际线上G4。其余44及完整阶段验收仍未完成。#84/#61 只完成 Native 路径与参数治理，新增 Rust R3/R4 操作为0；本批 lookup 因而是首次 Rust 交付。
+首批A/B的14项与后续C–G的16项均已完成各自独立G3/G4，当前Rust R3累计 **30/58**。其余28及完整阶段验收仍未完成。#84/#61 只完成 Native 路径与参数治理，新增 Rust R3/R4 操作为0；本批 lookup 因而是首次 Rust 交付。
 
 ## 依赖与并行
 
@@ -33,7 +33,10 @@
 
 独立 Windows worktree 与 Linux checkout；新建 PG15 容器、独立 `poms_r3ab_nest/poms_r3ab_rust`、marker/fixture namespace。PG17 与全部旧环境、private journals、QA volumes、失败和隔离图保留。客户/项目端口、构建输出与运行 ID 独立；Root 执行真实双端 HTTP/PG、受控并发、原 UI 四组合及适用公共回归。精确门槛见[联合基线](archive/slices/rust-r3ab-customer-project-baseline.md)。本批不执行产品 DDL、正式部署/切流、真实云租户接管或性能认证。
 
-非作者实际G4已[独立终审Pass](archive/slices/rust-r3ab/evidence/C/g4-independent-actual-review01.json)，仅本批14条；全R3和父项仍未完成。
+首批A/B的非作者实际G4已[独立终审Pass](archive/slices/rust-r3ab/evidence/C/g4-independent-actual-review01.json)，仅本批14条；全R3和父项仍未完成。
 
 
-当前新增16的[收口索引](archive/slices/rust-r3cdefg-closeout.md)、[原件映射](archive/slices/rust-r3cdefg/archive-origin-map.json)与[独立当前状态](rust-r3cdefg-delivery-status.json)为G4Ready；不改变首批历史环境与G4事实，不提前认领完整R3阶段。
+当前新增16的[收口索引](archive/slices/rust-r3cdefg-closeout.md)、[原件映射](archive/slices/rust-r3cdefg/archive-origin-map.json)与[独立当前状态](rust-r3cdefg-delivery-status.json)已完成本批G4；首批历史环境与G4事实保留，不认领完整R3阶段。
+
+
+最新本批16已按独立许可实际G4关闭，当前累计30/58、余28；上方首批环境与历史G4只代表原14项，当前以[本批收口](archive/slices/rust-r3cdefg-closeout.md)和[交付状态](rust-r3cdefg-delivery-status.json)为准，父阶段不完成。

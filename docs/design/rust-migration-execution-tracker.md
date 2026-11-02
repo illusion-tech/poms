@@ -2,7 +2,7 @@
 
 **最后更新**: 2026-11-02
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: R0/R1/R2已交付，R2为108/108且#67/#80 Closed；R3正式交付14/58，C–G新增16已main集成/G4Ready，当前Rust dispatch145；#85/#57与未交付44保持Open
+**当前状态**: R0/R1/R2已交付；R3 A–G已交付30/58，Rust dispatch145；#85/#57与余28及阶段验收保持Open
 **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
@@ -29,7 +29,7 @@
 | ---- | ----- | ------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | R1   | Done  | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A–E 七操作、认证与基础已交付；G4 随本归档提交及 Issue 同步生效，不代表 R2–R7 完成 |
 | R2   | Done  | R1与R2A–M冻结输入和阶段验收                      | #67/#80 Closed；108/108公共操作及冻结阶段集成验收完成                               |
-| R3   | Doing | R2已完成；当前58项归属/依赖与各片G1              | #85 Open；首批14/58已G4收口，#86/#87 Closed；余44及阶段验收待完成                   |
+| R3   | Doing | R2已完成；58项当前归属与逐片Gate                 | #86–#92各自G4 Closed，30/58；余28/完整阶段验收未完成，#85/#57 Open                  |
 | R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                              |
 | R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                                      |
 | R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                                         |
@@ -280,3 +280,10 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 实现 `fbc5ca10bb232519034437f8ef7406f145cfe34a` 已通过[固定提交独审](archive/slices/rust-r3cdefg/C/fixed-commit-review01.json)，FF并推送main；[主线证据](archive/slices/rust-r3cdefg/main-integration-proof01.json)核740原字节相同。[668份生命周期/原件归档](archive/slices/rust-r3cdefg/archive-origin-map.json)保持历史逻辑路径与标签；仅保留5个机器输入兼容副本共419264B，新只读解析器核G1formal44/Native872/G3inputs740均精确。E1须独立关闭前许可，不能继承旧批批准。
 
 当前代码已实现R3合计30操作、Rust dispatch145，但正式交付仍14/58；本批16须各自实际G4后才计30/58。#88–92仍Open，#85/#57保持Open，后续28及完整非HTTP/阶段验收未完成。当前[收口索引](archive/slices/rust-r3cdefg-closeout.md)与[状态](rust-r3cdefg-delivery-status.json)为G4Ready，尚无关闭许可或G4认证。
+
+
+### 2026-11-02 R3C–G 实际线上 G4 收口
+
+[#88 G4](https://github.com/illusion-tech/poms/issues/88#issuecomment-6571762609)、[#89 G4](https://github.com/illusion-tech/poms/issues/89#issuecomment-6571762962)、[#90 G4](https://github.com/illusion-tech/poms/issues/90#issuecomment-6571763276)、[#91 G4](https://github.com/illusion-tech/poms/issues/91#issuecomment-6571763587)、[#92 G4](https://github.com/illusion-tech/poms/issues/92#issuecomment-6571763887) 已按[独立关闭许可](archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json)完成并Closed；[完整线上原件](archive/slices/rust-r3cdefg/evidence/online/g4-online-receipt01.json)核五子项6/6及父85/57均Open。R3累计 **30/58**，当前Rust dispatch **145**，余 **28**（线索14/情报其余10/讨论2/项目综合工作区2）及完整非HTTP/审批/阶段验收仍未完成。
+
+[收口索引](archive/slices/rust-r3cdefg-closeout.md)、[当前状态](rust-r3cdefg-delivery-status.json)及[58项互斥清单](rust-r3-operation-slices.json)已同步；235 passed/54 ignored、898原ec UI因果引用及全部历史边界保持。五机器输入E1由本批独立C明确批准，不继承旧批许可。非作者最终实际G4读回与最后增量保全另附，不覆盖旧原件。
