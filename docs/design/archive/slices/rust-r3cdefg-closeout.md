@@ -11,3 +11,8 @@
 九个Linux runtime停止，全部当前cohort107表原JSON/428权限精确恢复，browser0/端口释放，PG停止且卷/private保留。旧PG17/旧批private、历史失败/partial/stopped/uncertified、原quarantine、schema/时区/IP分类与54ignored保持原标签。最早未认证46二进制字节缺口按原验证例外保留，不由新产物替代。
 
 后续须推送本归档元数据、独立关闭前许可、线上5子项实际G4及父状态读回、非作者实际G4终审与增量保全；本文件当前不冒充上述步骤已完成。
+
+
+## 独立关闭前许可
+
+[非作者C预核](rust-r3cdefg/C/g4-closeout-preflight01.json)已Pass，明确只允许#88–92在[批准的七项方案](rust-r3cdefg/evidence/governance/g4-closeout-plan01.json)按原字节发布后关闭，#85/#57保持Open。新E1五件419264B兼容输入已独立批准；不是旧批授权继承。此时仍为G4Ready/正式14of58，实际线上关闭与本地当前状态同步后才能计30of58；最后独立实际G4终审另附。

@@ -1,0 +1,17 @@
+{
+  "kind": "R3CDEFG-actual-same-path-pure-builder-import-proof",
+  "createdAt": "2026-11-02T07:29:39.729Z",
+  "code": "import assert from \"node:assert/strict\"; import{buildCostRequest}from \"./docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs\"; import{minimalBidCommercialRequest}from \"./docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs\"; assert.equal(buildCostRequest().currencyCode,\"CNY\"); assert.equal(typeof minimalBidCommercialRequest(\"archive-alias-smoke\"),\"object\"); console.log(JSON.stringify({samePathPureBuilderImports:2,passed:true,productRuntimeOrNetwork:false}));",
+  "exitCode": 0,
+  "stdout": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/same-path-builder-import01-stdout.log",
+    "bytes": 79,
+    "rawBytesSha256": "6bc78252345e4a1931e4c2bdb24193b0aa572a10e206a085e698d3ad2b74cfef"
+  },
+  "stderr": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/same-path-builder-import01-stderr.log",
+    "bytes": 0,
+    "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "productRuntimeNetworkDBBrowser": false
+}

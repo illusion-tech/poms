@@ -1,0 +1,529 @@
+{
+  "kind": "R3CDEFG-current-scoped-delivery-status",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "phase": "G4Ready",
+  "G1Certified": true,
+  "G3Certified": true,
+  "G4Certified": false,
+  "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+  "parent85Open": true,
+  "overall57Open": true,
+  "operations": [
+    {
+      "operationId": "ProjectController_listProjectTechnicalCostPackages",
+      "issue": 88,
+      "slice": "RUST-R3C",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.0",
+        "requestId": "b1ed3582-e4f5-42c0-9e81-edb8a97e678f",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-packages",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.0",
+        "requestId": "f18956f6-b313-4307-a81d-c6e9904839ad",
+        "method": "GET",
+        "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/technical-cost-packages",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_createProjectTechnicalCostPackage",
+      "issue": 88,
+      "slice": "RUST-R3C",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.cost.direct-commercial",
+        "requestId": "8062026b-c858-45b8-a9c6-235a241af49b",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/technical-cost-packages",
+        "status": 201
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "pricing.cost.direct-commercial",
+        "requestId": "44cd09e7-2349-4f35-aa7b-c08983c81982",
+        "method": "POST",
+        "route": "/api/projects/a58c27c1-67fa-4d3f-966c-9b544ccd9e6e/technical-cost-packages",
+        "status": 201
+      },
+      "nativeStatus": 201,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+      "issue": 88,
+      "slice": "RUST-R3C",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.2",
+        "requestId": "c9d50a2c-0411-4c88-a94e-0cbaf1f396b2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-workspace",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.2",
+        "requestId": "f5a5e107-9615-4e06-aa7d-7487b7eb3183",
+        "method": "GET",
+        "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/technical-cost-workspace",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_listProjectBidCommercialProcesses",
+      "issue": 89,
+      "slice": "RUST-R3D",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.3",
+        "requestId": "71df22e3-5883-4266-850a-b861514ea666",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/bid-commercial-processes",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.3",
+        "requestId": "d63278b1-e4de-439d-85d1-f91cd20298ed",
+        "method": "GET",
+        "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/bid-commercial-processes",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_createProjectBidCommercialProcess",
+      "issue": 89,
+      "slice": "RUST-R3D",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.path.publicTender",
+        "requestId": "9a159db9-4419-4f3e-af82-fe4556e10422",
+        "method": "POST",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-processes",
+        "status": 201
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "bid.path.publicTender",
+        "requestId": "9f8e8048-5b87-401c-b782-1d78f85c99e8",
+        "method": "POST",
+        "route": "/api/projects/6215649a-1e6c-42db-b5e3-58667c5bf7c5/bid-commercial-processes",
+        "status": 201
+      },
+      "nativeStatus": 201,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+      "issue": 89,
+      "slice": "RUST-R3D",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.workspace.publicTender",
+        "requestId": "a393865e-07c5-43ec-84a4-4eac79c1028c",
+        "method": "GET",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-workspace",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "bid.workspace.publicTender",
+        "requestId": "4e85b287-1e1b-40c5-99ed-cc141bd9e97a",
+        "method": "GET",
+        "route": "/api/projects/6215649a-1e6c-42db-b5e3-58667c5bf7c5/bid-commercial-workspace",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "CustomerContactController_list",
+      "issue": 90,
+      "slice": "RUST-R3E",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.9",
+        "requestId": "a358e181-ac8f-4fcc-b6eb-13823210aa6c",
+        "method": "GET",
+        "route": "/api/customer-contacts?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.9",
+        "requestId": "f872b48d-d203-40c0-9244-0c67232a7a83",
+        "method": "GET",
+        "route": "/api/customer-contacts?customerId=45e31307-32e1-4f96-b505-1a016d712d89",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "CustomerContactController_create",
+      "issue": 90,
+      "slice": "RUST-R3E",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.contact",
+        "requestId": "afd439e2-61e0-45d3-a4a4-c4ec71d16b58",
+        "method": "POST",
+        "route": "/api/customer-contacts",
+        "status": 201
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "producer.contact",
+        "requestId": "afdfaa78-1af2-40f1-8e6f-405025dc9f55",
+        "method": "POST",
+        "route": "/api/customer-contacts",
+        "status": 201
+      },
+      "nativeStatus": 201,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "CustomerContactController_update",
+      "issue": 90,
+      "slice": "RUST-R3E",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "contact.update.gender-null",
+        "requestId": "ecd42442-bb54-4e5c-9c00-d830a6315254",
+        "method": "PATCH",
+        "route": "/api/customer-contacts/2728adb8-ca46-4ffe-af45-45c8ff9eaa1f",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "contact.update.gender-null",
+        "requestId": "58bd8cad-5665-4a7b-a025-8220d4d84696",
+        "method": "PATCH",
+        "route": "/api/customer-contacts/e3c17e59-c103-4c7c-94c7-2bd5b5cbde1a",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "SalesFollowUpController_list",
+      "issue": 91,
+      "slice": "RUST-R3F",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.12",
+        "requestId": "abe2335c-2551-4858-baee-37f0dadcdf6b",
+        "method": "GET",
+        "route": "/api/sales-follow-up-records?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.12",
+        "requestId": "90da6acb-4570-4333-85da-7014de1ad5d7",
+        "method": "GET",
+        "route": "/api/sales-follow-up-records?customerId=45e31307-32e1-4f96-b505-1a016d712d89",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "SalesFollowUpController_create",
+      "issue": 91,
+      "slice": "RUST-R3F",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.followup",
+        "requestId": "29031c63-3d36-4f4d-9366-ae1381ba34ed",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 201
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "producer.followup",
+        "requestId": "8d6337b2-a427-4615-bcaf-89db066b16d1",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 201
+      },
+      "nativeStatus": 201,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "SalesFollowUpController_replace",
+      "issue": 91,
+      "slice": "RUST-R3F",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.live-replace",
+        "requestId": "632dd3ef-9114-4ee2-aa2d-cdef0fbacd35",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/cbfb78a1-18ea-40c4-980a-ebb77f4643d8:replace",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "followup.live-replace",
+        "requestId": "a461f5ca-c5c6-420e-8480-d18d27da3b52",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/54ccbfdf-1c00-4b44-894e-2dbac9bbcdb4:replace",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "SalesFollowUpController_void",
+      "issue": 91,
+      "slice": "RUST-R3F",
+      "wave": "first",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.active-void",
+        "requestId": "4f0b52b6-4f1b-4c63-b729-a72089370267",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/1c698858-7568-4d9d-ac7c-37a5159d9843:void",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "followup.active-void",
+        "requestId": "3efda7fe-1468-4cfd-a21a-c1d4983fb0a2",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/fe9d7e08-f70b-43f6-9a26-1d5b48c44287:void",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_listProjectPricingMarginReviews",
+      "issue": 92,
+      "slice": "RUST-R3G",
+      "wave": "second",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.6",
+        "requestId": "9bb811e7-a805-4ea1-8ff6-b492c6be1ed2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/pricing-margin-reviews",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.6",
+        "requestId": "475c81cc-d4ca-4fdb-8144-94737facfbdf",
+        "method": "GET",
+        "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/pricing-margin-reviews",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_createProjectPricingMarginReview",
+      "issue": 92,
+      "slice": "RUST-R3G",
+      "wave": "second",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.create.direct-commercial",
+        "requestId": "19bb94fc-1ddf-4908-8046-03a6f2d2da55",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-reviews",
+        "status": 201
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "pricing.create.direct-commercial",
+        "requestId": "99c4d9bb-72ef-460e-83ee-2219d97bd281",
+        "method": "POST",
+        "route": "/api/projects/a58c27c1-67fa-4d3f-966c-9b544ccd9e6e/pricing-margin-reviews",
+        "status": 201
+      },
+      "nativeStatus": 201,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+      "issue": 92,
+      "slice": "RUST-R3G",
+      "wave": "second",
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.workspace.direct-commercial",
+        "requestId": "658415fb-b24c-4253-b817-9dbc41c12845",
+        "method": "GET",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-workspace",
+        "status": 200
+      },
+      "RustEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "label": "pricing.workspace.direct-commercial",
+        "requestId": "4ea49bd1-4d8c-4964-aaee-689df6d5b7e4",
+        "method": "GET",
+        "route": "/api/projects/a58c27c1-67fa-4d3f-966c-9b544ccd9e6e/pricing-margin-workspace",
+        "status": 200
+      },
+      "nativeStatus": 200,
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "rustDelivered": false
+    }
+  ],
+  "createdAt": "2026-11-02T02:41:43.4421212Z",
+  "G1Authority": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/g1-gate-authority01.json",
+    "bytes": 1158,
+    "rawBytesSha256": "0fbe5d0e04b692bcc611ff43e81ea5ea10baf18abf1740bfa6b17a4ed353cb88"
+  },
+  "onlineFreeze": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/g1-online-freeze-receipt01.json",
+    "bytes": 3613,
+    "rawBytesSha256": "f49f303732d7dac308c6314926e0ee020bf030216cea9222a8195b21a8489458"
+  },
+  "mainIntegrated": true,
+  "updatedAt": "2026-11-02T07:02:03.009Z",
+  "G3Authority": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/g3-gate-authority01.json",
+    "bytes": 1706,
+    "rawBytesSha256": "69027cdd9737d319972d6e5e19b1ad56a3c96e2152faf6b5611b0a1df1e4e230"
+  },
+  "currentCandidate": {
+    "release": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/release-proof01.json",
+      "bytes": 42097,
+      "rawBytesSha256": "a025cbefa21cfeecc0d9783e9c8f5d5d95ed6fce78ff16f86cf1caf57c88948d"
+    },
+    "artifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/target/release/poms-api-rust",
+      "bytes": 40997296,
+      "rawBytesSha256": "c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128"
+    },
+    "retainedArtifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/artifacts/c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128",
+      "bytes": 40997296,
+      "rawBytesSha256": "c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128"
+    },
+    "paths": 116,
+    "operations": 145,
+    "schemas": 585,
+    "tests": {
+      "passed": 235,
+      "failed": 0,
+      "ignored": 54
+    }
+  },
+  "mainIntegration": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/main-integration-proof01.json",
+    "bytes": 1642,
+    "rawBytesSha256": "b3052c3789f25cc7af437dd315f666e76b9826cb4fdc9edb945e73709af3e9a5"
+  },
+  "archiveOriginMap": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+    "bytes": 355382,
+    "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+  },
+  "compatibilityException": "E1 pending independent closeout preflight; five byte-equal machine files only",
+  "trueFollowUpTodoProducer": {
+    "implemented": true,
+    "targets": [
+      "customer",
+      "lead",
+      "project"
+    ],
+    "currentEvidence": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/consume-targets-raw-errors02-rust-01.json",
+      "bytes": 29187,
+      "rawBytesSha256": "1cb01502b16acd5618859fb24c0960715523603330f89357dd0e80d3061c80a9"
+    },
+    "completeLeadDetailUI": false
+  }
+}

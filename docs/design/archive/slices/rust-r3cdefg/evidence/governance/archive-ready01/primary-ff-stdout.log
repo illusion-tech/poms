@@ -1,0 +1,1357 @@
+Updating fbc5ca10..4947c1a4
+Fast-forward
+ docs/design/README.md                              |   13 +-
+ .../design/archive/slices/rust-r3cdefg-closeout.md |   13 +
+ .../C/ad-prereview-static-receipt01.json           |    0
+ .../C/ad-prereview-static-receipt02.json           |    0
+ .../C/b-prereview-static-receipt01.json            |    0
+ .../C/b-prereview-static-receipt02.json            |    0
+ .../C/check-coverage-winner-scope01.mjs            |    0
+ .../rust-r3cdefg/C/check-semantic-observer01.mjs   |    0
+ .../rust-r3cdefg/C/check-semantic-observer02.mjs   |    0
+ .../C/compare-semantic-originals01.mjs             |    0
+ .../C/compare-semantic-originals02.mjs             |    0
+ .../rust-r3cdefg/C/fixed-commit-review01.json      |  960 +++
+ .../rust-r3cdefg/C/g1-independent-review01.json    |    0
+ .../rust-r3cdefg/C/g1-independent-review02.json    |    0
+ .../C/g2-coverage-gap01-addendum01.json            |    0
+ .../slices}/rust-r3cdefg/C/g2-coverage-gap01.json  |    0
+ .../rust-r3cdefg/C/g2-coverage-winner-scope01.json |    0
+ .../C/g2-semantic-observer-review01.json           |    0
+ .../C/g2-semantic-observer-review02.json           |    0
+ .../C/g2-semantic-parity-analysis01.json           |    0
+ .../C/g2-semantic-parity-analysis02.json           |    0
+ .../C/g2-semantic-parity-review01.json             |    0
+ .../rust-r3cdefg/C/g2-static-prereview01.json      |    0
+ .../rust-r3cdefg/C/g3-additional-bodies01.json     |    0
+ .../rust-r3cdefg/C/g3-additional-bodies01.mjs      |    0
+ .../rust-r3cdefg/C/g3-additional-bodies02.json     |    0
+ .../rust-r3cdefg/C/g3-additional-bodies02.mjs      |    0
+ .../rust-r3cdefg/C/g3-c042-additional01.json       |    0
+ .../rust-r3cdefg/C/g3-c042-additional01.mjs        |    0
+ .../rust-r3cdefg/C/g3-c042-additional02.mjs        |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-coverage01.json |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-coverage01.mjs  |    0
+ .../C/g3-c042-input-raw-terminal01.json            |    0
+ .../C/g3-c042-input-raw-terminal01.mjs             |    0
+ .../C/g3-c042-input-raw-terminal02.mjs             |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-numeric01.json  |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-numeric01.mjs   |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-observer01.json |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-observer01.mjs  |    0
+ .../rust-r3cdefg/C/g3-c042-parent-online01.json    |    0
+ .../rust-r3cdefg/C/g3-c042-parent-online02.json    |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-semantic01.json |    0
+ .../slices}/rust-r3cdefg/C/g3-c042-semantic01.mjs  |    0
+ .../C/g3-correction-static-prereview01.json        |    0
+ .../C/g3-correction-static-prereview01.mjs         |    0
+ .../rust-r3cdefg/C/g3-coverage-winner-scope01.json |    0
+ .../rust-r3cdefg/C/g3-coverage-winner-scope01.mjs  |    0
+ .../rust-r3cdefg/C/g3-coverage-winner-scope02.mjs  |    0
+ .../C/g3-dynamic-error-family-audit01.json         |    0
+ .../C/g3-dynamic-error-family-audit01.mjs          |    0
+ .../rust-r3cdefg/C/g3-independent-review01.json    |    0
+ .../rust-r3cdefg/C/g3-independent-review02.json    |    0
+ .../C/g3-numeric-parent-identity01.json            |    0
+ .../C/g3-numeric-parent-identity01.mjs             |    0
+ .../rust-r3cdefg/C/g3-online-comments01.json       |    0
+ .../slices}/rust-r3cdefg/C/g3-online-issues01.json |    0
+ .../rust-r3cdefg/C/g3-semantic-deep-compare01.json |    0
+ .../rust-r3cdefg/C/g3-semantic-deep-compare01.mjs  |    0
+ .../C/g3-semantic-observer-review01.json           |    0
+ .../C/g3-semantic-observer-review01.mjs            |    0
+ .../rust-r3cdefg/C/g3-static-input-check01.json    |    0
+ .../rust-r3cdefg/C/g3-static-input-check01.mjs     |    0
+ .../rust-r3cdefg/C/g3-static-input-check02.mjs     |    0
+ .../C/g3-ui-terminal-and-exceptions01.json         |    0
+ .../C/g3-ui-terminal-and-exceptions01.mjs          |    0
+ .../native-witness-prereview-static-receipt01.json |    0
+ .../C/record-fixed-commit-review01.mjs             |   26 +
+ .../rust-r3cdefg/C/write-g2-semantic-review01.mjs  |    0
+ .../C/write-g3-independent-review01.mjs            |    0
+ .../C/write-g3-independent-review02.mjs            |    0
+ .../slices/rust-r3cdefg/archive-origin-map.json    | 8110 ++++++++++++++++++++
+ .../base-operation-inventory-original.json         |    0
+ .../docs/design/backend-rust-migration-plan.md     |    0
+ .../docs/design/rust-r3-operation-slices.json      |    0
+ .../candidate02-correction-origin-map01.json       |    0
+ ...correction06-source-and-provenance-proof01.json |    0
+ .../current-peer-representation01.json             |    0
+ .../C-prereview/ad-prereview-static-receipt01.json |    0
+ .../C-prereview/ad-prereview-static-receipt02.json |    0
+ .../evidence/C-prereview/ad-prereview01.txt        |    0
+ .../C-prereview/b-prereview-static-receipt01.json  |    0
+ .../C-prereview/b-prereview-static-receipt02.json  |    0
+ .../evidence/C-prereview/b-prereview01.txt         |    0
+ .../C-prereview/g1-independent-review01.json       |    0
+ .../C-prereview/g1-independent-review02.json       |    0
+ .../C-prereview/g2-coverage-gap01-addendum01.json  |    0
+ .../evidence/C-prereview/g2-coverage-gap01.json    |    0
+ .../C-prereview/g2-coverage-winner-scope01.json    |    0
+ .../C-prereview/g2-semantic-observer-review01.json |    0
+ .../C-prereview/g2-semantic-observer-review02.json |    0
+ .../C-prereview/g2-semantic-parity-analysis01.json |    0
+ .../C-prereview/g2-semantic-parity-analysis02.json |    0
+ .../C-prereview/g2-semantic-parity-review01.json   |    0
+ .../C-prereview/g2-static-prereview01.json         |    0
+ .../native-witness-prereview-static-receipt01.json |    0
+ .../C-prereview/native-witness-prereview01.txt     |    0
+ .../native/boundaries171/SQL-authority01.json      |    0
+ .../actual/native/boundaries171/report01.json      |    0
+ .../actual/native/business183/SQL-authority01.json |    0
+ .../actual/native/business183/report01.json        |    0
+ .../actual/native/core24/01-cost-first.json        |    0
+ .../native/core24/02-cost-second-version.json      |    0
+ .../actual/native/core24/03-bid-first.json         |    0
+ .../native/core24/04-bid-second-version.json       |    0
+ .../05-pricing-first-direct-no-reference.json      |    0
+ .../native/core24/06-pricing-second-version.json   |    0
+ ...ee-workspaces-read-permission-no-sensitive.json |    0
+ .../core24/08-cost-money-number-and-post-get.json  |    0
+ .../actual/native/core24/09-cost-large-9007.json   |    0
+ .../actual/native/core24/10-cost-large-9999.json   |    0
+ .../core24/11-cost-child-insert-failure.json       |    0
+ .../native/core24/12-bid-child-insert-failure.json |    0
+ ...ct_technical_cost_package-concurrent-first.json |    0
+ ...ct_bid_commercial_process-concurrent-first.json |    0
+ .../core24/15-contact-gender-controller-drop.json  |    0
+ .../core24/16-contact-email-dto-db-length.json     |    0
+ .../core24/17-contact-audit-failure-atomicity.json |    0
+ .../native/core24/18-followup-create-reminder.json |    0
+ .../19-followup-no-next-completes-old-stream.json  |    0
+ .../native/core24/20-followup-second-reminder.json |    0
+ .../core24/21-followup-replace-two-way-fk.json     |    0
+ .../core24/22-followup-postsave-audit-failure.json |    0
+ .../23-followup-todo-insert-failure-boundary.json  |    0
+ .../24-contacts-inactive-vs-followup-active.json   |    0
+ .../evidence/actual/native/core24/report01.json    |    0
+ .../actual/native/core24/sql-order-safe01.json     |    0
+ .../actual/native/coverage1124/report01.json       |    0
+ .../actual/native/edges129/SQL-authority01.json    |    0
+ .../evidence/actual/native/edges129/report01.json  |    0
+ .../01-extra-cost-list-pending-session.json        |    0
+ .../02-extra-cost-workspace-pending-session.json   |    0
+ .../extra21/03-extra-bid-list-pending-session.json |    0
+ .../04-extra-bid-workspace-pending-session.json    |    0
+ .../05-extra-pricing-list-pending-session.json     |    0
+ ...06-extra-pricing-workspace-pending-session.json |    0
+ .../07-extra-contact-list-pending-session.json     |    0
+ .../08-extra-followup-list-pending-session.json    |    0
+ .../09-extra-pricing-cost-uppercase-reference.json |    0
+ .../10-extra-pricing-bid-uppercase-reference.json  |    0
+ ...ect-pricing-bypasses-lost-bid-no-reference.json |    0
+ ...ntact-update-denial-rolls-back-prior-audit.json |    0
+ ...llowup-insert-denial-rolls-back-prior-todo.json |    0
+ ...-extra-followup-replace-same-owner-no-next.json |    0
+ .../15-extra-followup-replace-different-owner.json |    0
+ .../16-extra-followup-replace-null-owner.json      |    0
+ ...a-null-owner-create-leaves-old-stream-open.json |    0
+ ...ra-followup-replace-postsave-audit-failure.json |    0
+ .../19-extra-followup-dictionary33-varchar32.json  |    0
+ .../extra21/20-extra-contact-two-readers-CAS.json  |    0
+ .../21-extra-followup-replace-two-readers-CAS.json |    0
+ .../evidence/actual/native/extra21/report01.json   |    0
+ .../actual/native/observer45/SQL-authority01.json  |    0
+ .../exact-numeric-and-side-effects01.json          |    0
+ .../actual/native/temporal84/report01.json         |    0
+ .../actual/rust/boundaries171/SQL-authority01.json |    0
+ .../actual/rust/boundaries171/report01.json        |    0
+ .../actual/rust/business183/SQL-authority01.json   |    0
+ .../evidence/actual/rust/business183/report01.json |    0
+ .../evidence/actual/rust/core24/01-cost-first.json |    0
+ .../actual/rust/core24/02-cost-second-version.json |    0
+ .../evidence/actual/rust/core24/03-bid-first.json  |    0
+ .../actual/rust/core24/04-bid-second-version.json  |    0
+ .../05-pricing-first-direct-no-reference.json      |    0
+ .../rust/core24/06-pricing-second-version.json     |    0
+ ...ee-workspaces-read-permission-no-sensitive.json |    0
+ .../core24/08-cost-money-number-and-post-get.json  |    0
+ .../actual/rust/core24/09-cost-large-9007.json     |    0
+ .../actual/rust/core24/10-cost-large-9999.json     |    0
+ .../rust/core24/11-cost-child-insert-failure.json  |    0
+ .../rust/core24/12-bid-child-insert-failure.json   |    0
+ ...ct_technical_cost_package-concurrent-first.json |    0
+ ...ct_bid_commercial_process-concurrent-first.json |    0
+ .../core24/15-contact-gender-controller-drop.json  |    0
+ .../core24/16-contact-email-dto-db-length.json     |    0
+ .../core24/17-contact-audit-failure-atomicity.json |    0
+ .../rust/core24/18-followup-create-reminder.json   |    0
+ .../19-followup-no-next-completes-old-stream.json  |    0
+ .../rust/core24/20-followup-second-reminder.json   |    0
+ .../core24/21-followup-replace-two-way-fk.json     |    0
+ .../core24/22-followup-postsave-audit-failure.json |    0
+ .../23-followup-todo-insert-failure-boundary.json  |    0
+ .../24-contacts-inactive-vs-followup-active.json   |    0
+ .../evidence/actual/rust/core24/report01.json      |    0
+ .../actual/rust/core24/sql-order-safe01.json       |    0
+ .../actual/rust/coverage1124/report01.json         |    0
+ .../actual/rust/edges129/SQL-authority01.json      |    0
+ .../evidence/actual/rust/edges129/report01.json    |    0
+ .../01-extra-cost-list-pending-session.json        |    0
+ .../02-extra-cost-workspace-pending-session.json   |    0
+ .../extra21/03-extra-bid-list-pending-session.json |    0
+ .../04-extra-bid-workspace-pending-session.json    |    0
+ .../05-extra-pricing-list-pending-session.json     |    0
+ ...06-extra-pricing-workspace-pending-session.json |    0
+ .../07-extra-contact-list-pending-session.json     |    0
+ .../08-extra-followup-list-pending-session.json    |    0
+ .../09-extra-pricing-cost-uppercase-reference.json |    0
+ .../10-extra-pricing-bid-uppercase-reference.json  |    0
+ ...ect-pricing-bypasses-lost-bid-no-reference.json |    0
+ ...ntact-update-denial-rolls-back-prior-audit.json |    0
+ ...llowup-insert-denial-rolls-back-prior-todo.json |    0
+ ...-extra-followup-replace-same-owner-no-next.json |    0
+ .../15-extra-followup-replace-different-owner.json |    0
+ .../16-extra-followup-replace-null-owner.json      |    0
+ ...a-null-owner-create-leaves-old-stream-open.json |    0
+ ...ra-followup-replace-postsave-audit-failure.json |    0
+ .../19-extra-followup-dictionary33-varchar32.json  |    0
+ .../extra21/20-extra-contact-two-readers-CAS.json  |    0
+ .../21-extra-followup-replace-two-readers-CAS.json |    0
+ .../evidence/actual/rust/extra21/report01.json     |    0
+ .../actual/rust/observer45/SQL-authority01.json    |    0
+ .../exact-numeric-and-side-effects01.json          |    0
+ .../evidence/actual/rust/temporal84/report01.json  |    0
+ .../rust-r3cdefg/evidence/candidate/openapi.json   |    0
+ .../evidence/candidate/release-proof01.json        |    0
+ .../checks/native-initial/admin-build.json         |    0
+ .../checks/native-initial/admin-unit-tests.json    |    0
+ .../native-initial/native-and-admin-lint.json      |    0
+ .../checks/native-initial/native-unit-tests.json   |    0
+ .../checks/native-resume/admin-unit-tests-utc.json |    0
+ .../native-resume/original-migration-check.json    |    0
+ .../checks/native-resume/original-schema-dump.json |    0
+ .../evidence/checks/native-resume/report01.json    |    0
+ .../checks/original-stdout/manifest01.json         |    0
+ ...shared-checks-resume02-admin-unit-tests-utc.log |    0
+ ...ed-checks-resume02-original-migration-check.log |    0
+ ...shared-checks-resume02-original-schema-dump.log |    0
+ .../shared-checks01-admin-build.log                |    0
+ .../shared-checks01-admin-unit-tests.log           |    0
+ .../shared-checks01-native-and-admin-lint.log      |    0
+ .../shared-checks01-native-unit-tests.log          |    0
+ .../evidence/checks/rust07/cargo-check.log         |    0
+ .../evidence/checks/rust07/cargo-clippy.log        |    0
+ .../evidence/checks/rust07/cargo-fmt.log           |    0
+ .../evidence/checks/rust07/cargo-release.log       |    0
+ .../evidence/checks/rust07/cargo-test.log          |    0
+ .../evidence/checks/rust07/report01.json           |    0
+ ...oundaries-compare-parity01-raw-errors02-01.json |    0
+ .../SQL-authority01.json                           |    0
+ .../boundaries-raw-errors02-rust-05/report01.json  |    0
+ .../business-compare-parity01-raw-errors02-01.json |    0
+ .../SQL-authority01.json                           |    0
+ .../business-raw-errors02-rust-01/report01.json    |    0
+ .../cohort-terminal-raw-errors01-nest.json         |    0
+ .../cohort-terminal-raw-errors01-rust.json         |    0
+ .../cohort-terminal-raw-errors02-rust.json         |    0
+ .../consume-targets-raw-errors02-rust-01.json      |    0
+ .../correction06/coverage-compare-parity01-07.json |    0
+ .../coverage-raw-errors02-rust/report01.json       |    0
+ .../boundaries.log                                 |    0
+ .../business-run.log                               |    0
+ .../consume-targets.log                            |    0
+ .../current-reacceptance-raw-errors02/coverage.log |    0
+ .../current-reacceptance-raw-errors02/edge-run.log |    0
+ .../extract-additional-sql.log                     |    0
+ .../observe-actual.log                             |    0
+ .../raw-errors.log                                 |    0
+ .../report01.json                                  |    0
+ .../routing-probe.log                              |    0
+ .../semantics-extra02.log                          |    0
+ .../semantics01.log                                |    0
+ .../current-reacceptance-raw-errors02/temporal.log |    0
+ .../01-extract-additional-sql.log                  |    0
+ .../02-extract-additional-sql.log                  |    0
+ .../03-compare-coverage.log                        |    0
+ .../04-compare-events.log                          |    0
+ .../05-compare-events.log                          |    0
+ .../06-compare-events.log                          |    0
+ .../07-compare-events.log                          |    0
+ .../08-compare-raw-errors.log                      |    0
+ .../report01.json                                  |    0
+ .../edges-compare-parity01-raw-errors02-01.json    |    0
+ .../SQL-authority01.json                           |    0
+ .../edges-raw-errors02-rust-01/report01.json       |    0
+ .../correction06/environment-terminal02.json       |    0
+ .../SQL-authority01.json                           |    0
+ .../exact-numeric-and-side-effects01.json          |    0
+ ...ervation-before-terminal-raw-errors01-nest.json |    0
+ ...ervation-before-terminal-raw-errors01-rust.json |    0
+ ...ervation-before-terminal-raw-errors02-rust.json |    0
+ .../correction06/raw-errors-compare-01.json        |    0
+ .../correction06/raw-errors-compare-02.json        |    0
+ .../raw-errors-raw-errors01-nest-01/report01.json  |    0
+ .../raw-errors-raw-errors01-rust-01/report01.json  |    0
+ .../raw-errors-raw-errors02-rust-01/report01.json  |    0
+ .../routing-probe-raw-errors02-rust-01.json        |    0
+ .../correction06/runtime/nest-raw-errors01.json    |    0
+ .../correction06/runtime/rust-raw-errors01.json    |    0
+ .../correction06/runtime/rust-raw-errors02.json    |    0
+ .../rust-candidate-raw-errors02/openapi.json       |    0
+ .../release-proof01.json                           |    0
+ .../correction06/rust-check08/cargo-check.log      |    0
+ .../correction06/rust-check08/cargo-fmt.log        |    0
+ .../correction06/rust-check08/report01.json        |    0
+ .../correction06/rust-check09/cargo-check.log      |    0
+ .../correction06/rust-check09/cargo-clippy.log     |    0
+ .../correction06/rust-check09/cargo-fmt.log        |    0
+ .../correction06/rust-check09/cargo-release.log    |    0
+ .../correction06/rust-check09/cargo-test.log       |    0
+ .../correction06/rust-check09/report01.json        |    0
+ .../01-extra-cost-list-pending-session.json        |    0
+ .../02-extra-cost-workspace-pending-session.json   |    0
+ .../03-extra-bid-list-pending-session.json         |    0
+ .../04-extra-bid-workspace-pending-session.json    |    0
+ .../05-extra-pricing-list-pending-session.json     |    0
+ ...06-extra-pricing-workspace-pending-session.json |    0
+ .../07-extra-contact-list-pending-session.json     |    0
+ .../08-extra-followup-list-pending-session.json    |    0
+ .../09-extra-pricing-cost-uppercase-reference.json |    0
+ .../10-extra-pricing-bid-uppercase-reference.json  |    0
+ ...ect-pricing-bypasses-lost-bid-no-reference.json |    0
+ ...ntact-update-denial-rolls-back-prior-audit.json |    0
+ ...llowup-insert-denial-rolls-back-prior-todo.json |    0
+ ...-extra-followup-replace-same-owner-no-next.json |    0
+ .../15-extra-followup-replace-different-owner.json |    0
+ .../16-extra-followup-replace-null-owner.json      |    0
+ ...a-null-owner-create-leaves-old-stream-open.json |    0
+ ...ra-followup-replace-postsave-audit-failure.json |    0
+ .../19-extra-followup-dictionary33-varchar32.json  |    0
+ .../20-extra-contact-two-readers-CAS.json          |    0
+ .../21-extra-followup-replace-two-readers-CAS.json |    0
+ .../report01.json                                  |    0
+ .../semantics-raw-errors01-nest/01-cost-first.json |    0
+ .../02-cost-second-version.json                    |    0
+ .../semantics-raw-errors01-nest/03-bid-first.json  |    0
+ .../04-bid-second-version.json                     |    0
+ .../05-pricing-first-direct-no-reference.json      |    0
+ .../06-pricing-second-version.json                 |    0
+ ...ee-workspaces-read-permission-no-sensitive.json |    0
+ .../08-cost-money-number-and-post-get.json         |    0
+ .../09-cost-large-9007.json                        |    0
+ .../10-cost-large-9999.json                        |    0
+ .../11-cost-child-insert-failure.json              |    0
+ .../12-bid-child-insert-failure.json               |    0
+ ...ct_technical_cost_package-concurrent-first.json |    0
+ ...ct_bid_commercial_process-concurrent-first.json |    0
+ .../15-contact-gender-controller-drop.json         |    0
+ .../16-contact-email-dto-db-length.json            |    0
+ .../17-contact-audit-failure-atomicity.json        |    0
+ .../18-followup-create-reminder.json               |    0
+ .../19-followup-no-next-completes-old-stream.json  |    0
+ .../20-followup-second-reminder.json               |    0
+ .../21-followup-replace-two-way-fk.json            |    0
+ .../22-followup-postsave-audit-failure.json        |    0
+ .../23-followup-todo-insert-failure-boundary.json  |    0
+ .../24-contacts-inactive-vs-followup-active.json   |    0
+ .../semantics-raw-errors01-nest/report01.json      |    0
+ .../sql-order-safe01.json                          |    0
+ .../semantics-raw-errors01-rust/01-cost-first.json |    0
+ .../02-cost-second-version.json                    |    0
+ .../semantics-raw-errors01-rust/03-bid-first.json  |    0
+ .../04-bid-second-version.json                     |    0
+ .../05-pricing-first-direct-no-reference.json      |    0
+ .../06-pricing-second-version.json                 |    0
+ ...ee-workspaces-read-permission-no-sensitive.json |    0
+ .../08-cost-money-number-and-post-get.json         |    0
+ .../09-cost-large-9007.json                        |    0
+ .../10-cost-large-9999.json                        |    0
+ .../11-cost-child-insert-failure.json              |    0
+ .../12-bid-child-insert-failure.json               |    0
+ ...ct_technical_cost_package-concurrent-first.json |    0
+ ...ct_bid_commercial_process-concurrent-first.json |    0
+ .../15-contact-gender-controller-drop.json         |    0
+ .../16-contact-email-dto-db-length.json            |    0
+ .../17-contact-audit-failure-atomicity.json        |    0
+ .../18-followup-create-reminder.json               |    0
+ .../19-followup-no-next-completes-old-stream.json  |    0
+ .../20-followup-second-reminder.json               |    0
+ .../21-followup-replace-two-way-fk.json            |    0
+ .../22-followup-postsave-audit-failure.json        |    0
+ .../23-followup-todo-insert-failure-boundary.json  |    0
+ .../24-contacts-inactive-vs-followup-active.json   |    0
+ .../semantics-raw-errors01-rust/report01.json      |    0
+ .../sql-order-safe01.json                          |    0
+ .../semantics-raw-errors02-rust/01-cost-first.json |    0
+ .../02-cost-second-version.json                    |    0
+ .../semantics-raw-errors02-rust/03-bid-first.json  |    0
+ .../04-bid-second-version.json                     |    0
+ .../05-pricing-first-direct-no-reference.json      |    0
+ .../06-pricing-second-version.json                 |    0
+ ...ee-workspaces-read-permission-no-sensitive.json |    0
+ .../08-cost-money-number-and-post-get.json         |    0
+ .../09-cost-large-9007.json                        |    0
+ .../10-cost-large-9999.json                        |    0
+ .../11-cost-child-insert-failure.json              |    0
+ .../12-bid-child-insert-failure.json               |    0
+ ...ct_technical_cost_package-concurrent-first.json |    0
+ ...ct_bid_commercial_process-concurrent-first.json |    0
+ .../15-contact-gender-controller-drop.json         |    0
+ .../16-contact-email-dto-db-length.json            |    0
+ .../17-contact-audit-failure-atomicity.json        |    0
+ .../18-followup-create-reminder.json               |    0
+ .../19-followup-no-next-completes-old-stream.json  |    0
+ .../20-followup-second-reminder.json               |    0
+ .../21-followup-replace-two-way-fk.json            |    0
+ .../22-followup-postsave-audit-failure.json        |    0
+ .../23-followup-todo-insert-failure-boundary.json  |    0
+ .../24-contacts-inactive-vs-followup-active.json   |    0
+ .../semantics-raw-errors02-rust/report01.json      |    0
+ .../sql-order-safe01.json                          |    0
+ .../temporal-compare-parity01-raw-errors02-01.json |    0
+ .../temporal-raw-errors02-rust-01/report01.json    |    0
+ .../evidence/governance/archive-action-source.mjs  |   18 +
+ .../evidence/governance/g3-original-inventory.mjs  |   57 +
+ .../evidence/governance/g4-metadata-delta01.json   |   20 +
+ .../evidence/governance/path-audit01.json          | 1545 ++++
+ .../evidence/governance/path-audit01.txt           |   32 +
+ .../governance/public-credential-scan02.json       | 2914 +++++++
+ .../boundaries-compare-parity01-parity02-01.json   |    0
+ .../boundaries-parity01-nest-01/report01.json      |    0
+ .../boundaries-parity01-nest-02/report01.json      |    0
+ .../boundaries-parity01-nest-03/report01.json      |    0
+ .../boundaries-parity01-nest-04/report01.json      |    0
+ .../src/project_technical_cost/http.rs             |    0
+ .../src/project_technical_cost/service.rs          |    0
+ .../historical/coverage-compare-parity01-01.json   |    0
+ .../historical/coverage-compare-parity01-02.json   |    0
+ .../historical/coverage-compare-parity01-03.json   |    0
+ .../historical/coverage-compare-parity01-04.json   |    0
+ .../historical/rust-check01/cargo-check.log        |    0
+ .../evidence/historical/rust-check01/cargo-fmt.log |    0
+ .../evidence/historical/rust-check01/report01.json |    0
+ .../historical/rust-check02/cargo-check.log        |    0
+ .../historical/rust-check02/cargo-clippy.log       |    0
+ .../evidence/historical/rust-check02/cargo-fmt.log |    0
+ .../historical/rust-check02/cargo-release.log      |    0
+ .../historical/rust-check02/cargo-test.log         |    0
+ .../evidence/historical/rust-check02/report01.json |    0
+ .../historical/rust-check03/cargo-check.log        |    0
+ .../historical/rust-check03/cargo-clippy.log       |    0
+ .../evidence/historical/rust-check03/cargo-fmt.log |    0
+ .../historical/rust-check03/cargo-release.log      |    0
+ .../historical/rust-check03/cargo-test.log         |    0
+ .../evidence/historical/rust-check03/report01.json |    0
+ .../historical/rust-check04/cargo-check.log        |    0
+ .../historical/rust-check04/cargo-clippy.log       |    0
+ .../evidence/historical/rust-check04/cargo-fmt.log |    0
+ .../historical/rust-check04/cargo-release.log      |    0
+ .../historical/rust-check04/cargo-test.log         |    0
+ .../evidence/historical/rust-check04/report01.json |    0
+ .../historical/rust-check05/cargo-check.log        |    0
+ .../historical/rust-check05/cargo-clippy.log       |    0
+ .../evidence/historical/rust-check05/cargo-fmt.log |    0
+ .../historical/rust-check05/cargo-release.log      |    0
+ .../historical/rust-check05/cargo-test.log         |    0
+ .../evidence/historical/rust-check05/report01.json |    0
+ .../historical/rust-check06/cargo-check.log        |    0
+ .../historical/rust-check06/cargo-clippy.log       |    0
+ .../evidence/historical/rust-check06/cargo-fmt.log |    0
+ .../historical/rust-check06/cargo-release.log      |    0
+ .../historical/rust-check06/cargo-test.log         |    0
+ .../evidence/historical/rust-check06/report01.json |    0
+ .../temporal-compare-parity01-parity03-01.json     |    0
+ .../historical/ui-linux-native02/intent.json       |    0
+ .../historical/ui-linux-native02/report01.json     |    0
+ .../historical/ui-linux-native03/intent.json       |    0
+ .../historical/ui-linux-native03/report01.json     |    0
+ .../ui-linux-native04/customer-followup.png        |  Bin
+ .../historical/ui-linux-native04/intent.json       |    0
+ .../historical/ui-linux-native04/report01.json     |    0
+ .../ui-prep-linux-native01-failed01.json           |    0
+ .../historical/ui-windows-rust02/intent.json       |    0
+ .../historical/ui-windows-rust02/report01.json     |    0
+ .../current-online-snapshot.json                   |  177 +
+ .../issue-57-after.json                            |  187 +
+ .../issue-57-before.json                           |  187 +
+ .../issue-57-input.json                            |    3 +
+ .../issue-85-after.json                            |   77 +
+ .../issue-85-before.json                           |   77 +
+ .../issue-85-input.json                            |    3 +
+ .../issue-92-after.json                            |   77 +
+ .../issue-92-before.json                           |   77 +
+ .../issue-92-input.json                            |    3 +
+ .../read-input.json                                |    3 +
+ .../candidate03-online-ready-resume02/receipt.json |   42 +
+ .../candidate03-online-ready/issue-88-after.json   |   77 +
+ .../candidate03-online-ready/issue-88-before.json  |   77 +
+ .../issue-88-comment-input.json                    |    3 +
+ .../candidate03-online-ready/issue-88-comment.json |   47 +
+ .../candidate03-online-ready/issue-88-input.json   |    3 +
+ .../candidate03-online-ready/issue-89-after.json   |   77 +
+ .../candidate03-online-ready/issue-89-before.json  |   77 +
+ .../issue-89-comment-input.json                    |    3 +
+ .../candidate03-online-ready/issue-89-comment.json |   47 +
+ .../candidate03-online-ready/issue-89-input.json   |    3 +
+ .../candidate03-online-ready/issue-90-after.json   |   77 +
+ .../candidate03-online-ready/issue-90-before.json  |   77 +
+ .../issue-90-comment-input.json                    |    3 +
+ .../candidate03-online-ready/issue-90-comment.json |   47 +
+ .../candidate03-online-ready/issue-90-input.json   |    3 +
+ .../candidate03-online-ready/issue-91-after.json   |   77 +
+ .../candidate03-online-ready/issue-91-before.json  |   77 +
+ .../issue-91-comment-input.json                    |    3 +
+ .../candidate03-online-ready/issue-91-comment.json |   47 +
+ .../candidate03-online-ready/issue-91-input.json   |    3 +
+ .../candidate03-online-ready/issue-92-before.json  |   77 +
+ .../issue-92-comment-input.json                    |    3 +
+ .../candidate03-online-ready/issue-92-comment.json |   47 +
+ .../candidate03-online-ready/issue-92-input.json   |    3 +
+ .../online/g3-pass-online01/after-input.json       |    3 +
+ .../g3-pass-online01/after-stderr-original.log     |    0
+ .../g3-pass-online01/after-stdout-original.json    |    1 +
+ .../online/g3-pass-online01/before-input.json      |    3 +
+ .../g3-pass-online01/before-stderr-original.log    |    0
+ .../g3-pass-online01/before-stdout-original.json   |    1 +
+ .../online/g3-pass-online01/mutation-input.json    |   20 +
+ .../g3-pass-online01/mutation-stderr-original.log  |    0
+ .../g3-pass-online01/mutation-stdout-original.json |    1 +
+ .../evidence/online/g3-pass-online01/receipt.json  |   39 +
+ .../online/g3-ready-resume02/issue-88-after.json   |   77 +
+ .../online/g3-ready-resume02/issue-88-before.json  |   77 +
+ .../online/g3-ready-resume02/issue-88-comment.json |   47 +
+ .../online/g3-ready-resume02/issue-89-after.json   |   77 +
+ .../online/g3-ready-resume02/issue-89-before.json  |   77 +
+ .../online/g3-ready-resume02/issue-89-comment.json |   47 +
+ .../online/g3-ready-resume02/issue-90-after.json   |   77 +
+ .../online/g3-ready-resume02/issue-90-before.json  |   77 +
+ .../g3-ready-resume02/issue-90-body-input.json     |    3 +
+ .../g3-ready-resume02/issue-90-comment-input.json  |    3 +
+ .../online/g3-ready-resume02/issue-90-comment.json |   47 +
+ .../online/g3-ready-resume02/issue-91-after.json   |   77 +
+ .../online/g3-ready-resume02/issue-91-before.json  |   77 +
+ .../g3-ready-resume02/issue-91-body-input.json     |    3 +
+ .../g3-ready-resume02/issue-91-comment-input.json  |    3 +
+ .../online/g3-ready-resume02/issue-91-comment.json |   47 +
+ .../online/g3-ready-resume02/issue-92-after.json   |   77 +
+ .../online/g3-ready-resume02/issue-92-before.json  |   77 +
+ .../g3-ready-resume02/issue-92-body-input.json     |    3 +
+ .../g3-ready-resume02/issue-92-comment-input.json  |    3 +
+ .../online/g3-ready-resume02/issue-92-comment.json |   47 +
+ .../online/g3-ready-resume02/parent-57-after.json  |  187 +
+ .../online/g3-ready-resume02/parent-57-before.json |  187 +
+ .../online/g3-ready-resume02/parent-57-input.json  |    3 +
+ .../online/g3-ready-resume02/parent-85-after.json  |   77 +
+ .../online/g3-ready-resume02/parent-85-before.json |   77 +
+ .../online/g3-ready-resume02/parent-85-input.json  |    3 +
+ .../evidence/online/g3-ready-resume02/receipt.json |   47 +
+ .../parent-progress-current01/issue-57-after.json  |  187 +
+ .../parent-progress-current01/issue-57-before.json |  187 +
+ .../parent-progress-current01/issue-57-input.json  |    3 +
+ .../parent-progress-current01/issue-85-after.json  |   77 +
+ .../parent-progress-current01/issue-85-before.json |   77 +
+ .../parent-progress-current01/issue-85-input.json  |    3 +
+ .../online/parent-progress-current01/receipt.json  |   15 +
+ .../boundaries-compare-parity01-parity04-01.json   |    0
+ .../business-compare-parity01-parity04-01.json     |    0
+ .../evidence/original/client-active-check01.json   |    0
+ .../evidence/original/client-active-check01.log    |    0
+ .../evidence/original/client-frozen-check03.json   |    0
+ .../evidence/original/client-frozen-check03.log    |    0
+ .../evidence/original/client-frozen-check05.json   |    0
+ .../evidence/original/client-frozen-check05.log    |    0
+ .../original/cohort-terminal-parity01-nest.json    |    0
+ .../original/cohort-terminal-parity01-rust.json    |    0
+ .../original/cohort-terminal-parity02-rust.json    |    0
+ .../original/cohort-terminal-parity03-rust.json    |    0
+ .../original/cohort-terminal-parity04-rust.json    |    0
+ .../original/consume-targets-parity01-nest-01.json |    0
+ .../original/consume-targets-parity04-rust-01.json |    0
+ .../original/coverage-compare-parity01-06.json     |    0
+ .../edges-compare-parity01-parity04-01.json        |    0
+ .../evidence/original/environment-terminal01.json  |    0
+ .../original/native-witness-terminal01.json        |    0
+ ...-observation-before-terminal-parity01-nest.json |    0
+ ...-observation-before-terminal-parity04-rust.json |    0
+ .../evidence/original/root/final-md-check01.log    |    0
+ .../original/routing-probe-parity01-nest-01.json   |    0
+ .../original/routing-probe-parity04-rust-01.json   |    0
+ .../runtime/windows-native-terminal01.json         |    0
+ .../windows-native-terminal02-reconciliation.json  |    0
+ .../evidence/original/schema-classification01.json |    0
+ .../temporal-compare-parity01-parity04-01.json     |    0
+ .../original/windows-lease-terminal01.json         |    0
+ .../ui/ui-extra-linux-native05-admin/intent.json   |    0
+ .../ui/ui-extra-linux-native05-admin/report01.json |    0
+ .../ui-extra-linux-native05-admin/supplement.png   |  Bin
+ .../ui-extra-linux-native05-readonly/intent.json   |    0
+ .../ui-extra-linux-native05-readonly/report01.json |    0
+ .../supplement.png                                 |  Bin
+ .../ui/ui-extra-linux-rust03-admin/intent.json     |    0
+ .../ui/ui-extra-linux-rust03-admin/report01.json   |    0
+ .../ui/ui-extra-linux-rust03-admin/supplement.png  |  Bin
+ .../ui/ui-extra-linux-rust03-readonly/intent.json  |    0
+ .../ui-extra-linux-rust03-readonly/report01.json   |    0
+ .../ui-extra-linux-rust03-readonly/supplement.png  |  Bin
+ .../ui/ui-extra-windows-native01-admin/intent.json |    0
+ .../ui-extra-windows-native01-admin/report01.json  |    0
+ .../ui-extra-windows-native01-admin/supplement.png |  Bin
+ .../ui-extra-windows-native01-readonly/intent.json |    0
+ .../report01.json                                  |    0
+ .../supplement.png                                 |  Bin
+ .../ui/ui-extra-windows-rust03-admin/intent.json   |    0
+ .../ui/ui-extra-windows-rust03-admin/report01.json |    0
+ .../ui-extra-windows-rust03-admin/supplement.png   |  Bin
+ .../ui-extra-windows-rust03-readonly/intent.json   |    0
+ .../ui-extra-windows-rust03-readonly/report01.json |    0
+ .../supplement.png                                 |  Bin
+ .../ui/ui-linux-native05/customer-followup.png     |  Bin
+ .../evidence/ui/ui-linux-native05/intent.json      |    0
+ .../ui/ui-linux-native05/project-workspaces.png    |  Bin
+ .../evidence/ui/ui-linux-native05/report01.json    |    0
+ .../ui/ui-linux-rust03/customer-followup.png       |  Bin
+ .../evidence/ui/ui-linux-rust03/intent.json        |    0
+ .../ui/ui-linux-rust03/project-workspaces.png      |  Bin
+ .../evidence/ui/ui-linux-rust03/report01.json      |    0
+ .../ui/ui-windows-native01/customer-followup.png   |  Bin
+ .../evidence/ui/ui-windows-native01/intent.json    |    0
+ .../ui/ui-windows-native01/project-workspaces.png  |  Bin
+ .../evidence/ui/ui-windows-native01/report01.json  |    0
+ .../ui/ui-windows-rust03/customer-followup.png     |  Bin
+ .../evidence/ui/ui-windows-rust03/intent.json      |    0
+ .../ui/ui-windows-rust03/project-workspaces.png    |  Bin
+ .../evidence/ui/ui-windows-rust03/report01.json    |    0
+ .../final-source-and-validation-proof01.json       |    0
+ .../rust-r3cdefg/fixed-commit-origin-map01.json    |   18 +
+ .../rust-r3cdefg/g0-delivery-status-original.json  |    0
+ .../g0-issue-registration-original.json            |    0
+ .../slices}/rust-r3cdefg/g0-scope-original.txt     |    0
+ .../slices}/rust-r3cdefg/g1-gate-authority01.json  |    0
+ .../slices}/rust-r3cdefg/g1-input-manifest01.json  |    0
+ .../slices/rust-r3cdefg/g1-input-manifest02.json   | 4634 +++++++++++
+ .../slices}/rust-r3cdefg/g1-input-origin-map.json  |    0
+ .../g1-native-concurrency-addendum01.json          |    0
+ .../rust-r3cdefg/g1-online-freeze-receipt01.json   |    0
+ .../rust-r3cdefg/g1-operation-slices-original.json | 1348 ++++
+ .../rust-r3cdefg/g3-candidate-manifest01.json      |    0
+ .../rust-r3cdefg/g3-candidate-manifest02.json      |    0
+ .../rust-r3cdefg/g3-candidate-manifest03.json      |    0
+ .../slices}/rust-r3cdefg/g3-delivery-audit01.json  |    0
+ .../rust-r3cdefg/g3-evidence-origin-map01.json     |    0
+ .../slices}/rust-r3cdefg/g3-gate-authority01.json  |    0
+ .../rust-r3cdefg/g3-independent-origin-map02.json  |    0
+ .../rust-r3cdefg/input-a/acceptance-matrix.json    |    0
+ .../rust-r3cdefg/input-a/artifact-receipt.json     |    0
+ .../slices}/rust-r3cdefg/input-a/input-review.txt  |    0
+ .../rust-r3cdefg/input-a/interfaces-proposal.txt   |    0
+ .../input-a/native-fixture-draft01.mjs             |  132 +
+ .../rust-r3cdefg/input-a/prepare-source-input.ps1  |    0
+ .../input-a/snapshots/native-source-excerpts.txt   |    0
+ .../input-a/snapshots/openapi-six-operations.json  |    0
+ .../rust-r3cdefg/input-a/source-manifest.json      |    0
+ .../rust-r3cdefg/input-b/acceptance-matrix.json    |    0
+ .../slices}/rust-r3cdefg/input-b/input-review.txt  |    0
+ .../input-b/native-fixture-draft01.mjs             |  109 +
+ .../rust-r3cdefg/input-b/source-manifest.json      |    0
+ .../rust-r3cdefg/input-d/acceptance-matrix.json    |    0
+ .../rust-r3cdefg/input-d/acceptance-matrix.txt     |    0
+ .../rust-r3cdefg/input-d/build-source-manifest.ps1 |    0
+ .../rust-r3cdefg/input-d/delivery-hashes.json      |    0
+ .../slices}/rust-r3cdefg/input-d/input-review.txt  |    0
+ .../rust-r3cdefg/input-d/source-manifest.json      |    0
+ .../rust-r3cdefg/joint-native-decisions01.json     |    0
+ .../rust-r3cdefg-corrective-checkpoint01.md        |    0
+ .../rust-r3cdefg-corrective-checkpoint02.md        |    0
+ .../lifecycle}/rust-r3cdefg-g3-checkpoint.md       |    0
+ .../lifecycle}/rust-r3cdefg-g3-checkpoint02.md     |    0
+ .../lifecycle}/rust-r3cdefg-next16-baseline.md     |    0
+ .../rust-r3cdefg-scope-and-dependencies.md         |    0
+ .../rust-r3cdefg-validation-boundaries.md          |    0
+ .../rust-r3cdefg/main-integration-proof01.json     |   50 +
+ .../rust-r3cdefg/native/SQL-order-authority02.json |    0
+ .../native/additional-SQL-authority03.json         |    0
+ .../native/additional-SQL-authority04.json         |    0
+ .../native/additional-SQL-original02.json          |    0
+ .../native/additional-error-classification05.json  |    0
+ .../native/additional-observations02.json          |    0
+ .../native/exact-numeric-text-and-audit03.json     |    0
+ .../initial-incomplete-SQL-extraction01.json       |    0
+ .../native/original-error-classification03.json    |    0
+ .../native/original-observations01.json            |    0
+ .../native/schema-catalog-original.json            |    0
+ .../rust-r3cdefg/native/witness-terminal01.json    |    0
+ .../preflight-native-source-manifest01.json        | 4373 +++++++++++
+ docs/design/backend-rust-migration-plan.md         |   13 +-
+ .../design/phase2-development-execution-tracker.md |   13 +-
+ docs/design/rust-migration-execution-tracker.md    |   15 +-
+ docs/design/rust-r3-operation-slices.json          |  253 +-
+ docs/design/rust-r3-scope-and-dependencies.md      |    7 +-
+ docs/design/rust-r3cdefg-delivery-status.json      |  425 +-
+ tools/rust-r3ab/inventory.mjs                      |    4 +-
+ tools/rust-r3cdefg/archive-paths.mjs               |   12 +
+ tools/rust-r3cdefg/verify-archive.mjs              |    5 +
+ 681 files changed, 29117 insertions(+), 94 deletions(-)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg-closeout.md
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/ad-prereview-static-receipt01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/ad-prereview-static-receipt02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/b-prereview-static-receipt01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/b-prereview-static-receipt02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/check-coverage-winner-scope01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/check-semantic-observer01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/check-semantic-observer02.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/compare-semantic-originals01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/compare-semantic-originals02.mjs (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/fixed-commit-review01.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g1-independent-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g1-independent-review02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-coverage-gap01-addendum01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-coverage-gap01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-coverage-winner-scope01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-semantic-observer-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-semantic-observer-review02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-semantic-parity-analysis01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-semantic-parity-analysis02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-semantic-parity-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g2-static-prereview01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-additional-bodies01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-additional-bodies01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-additional-bodies02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-additional-bodies02.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-additional01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-additional01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-additional02.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-coverage01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-coverage01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-input-raw-terminal01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-input-raw-terminal01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-input-raw-terminal02.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-numeric01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-numeric01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-observer01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-observer01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-parent-online01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-parent-online02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-semantic01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-c042-semantic01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-correction-static-prereview01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-correction-static-prereview01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-coverage-winner-scope01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-coverage-winner-scope01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-coverage-winner-scope02.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-dynamic-error-family-audit01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-dynamic-error-family-audit01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-independent-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-independent-review02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-numeric-parent-identity01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-numeric-parent-identity01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-online-comments01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-online-issues01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-semantic-deep-compare01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-semantic-deep-compare01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-semantic-observer-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-semantic-observer-review01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-static-input-check01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-static-input-check01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-static-input-check02.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-ui-terminal-and-exceptions01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/g3-ui-terminal-and-exceptions01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/native-witness-prereview-static-receipt01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/C/record-fixed-commit-review01.mjs
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/write-g2-semantic-review01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/write-g3-independent-review01.mjs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/C/write-g3-independent-review02.mjs (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/base-operation-inventory-original.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/base-source/docs/design/backend-rust-migration-plan.md (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/base-source/docs/design/rust-r3-operation-slices.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/candidate02-correction-origin-map01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/correction06-source-and-provenance-proof01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/current-peer-representation01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/ad-prereview-static-receipt01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/ad-prereview-static-receipt02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/ad-prereview01.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/b-prereview-static-receipt01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/b-prereview-static-receipt02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/b-prereview01.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g1-independent-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g1-independent-review02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-coverage-gap01-addendum01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-coverage-gap01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-coverage-winner-scope01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-semantic-observer-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-semantic-observer-review02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-semantic-parity-analysis01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-semantic-parity-analysis02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-semantic-parity-review01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/g2-static-prereview01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/native-witness-prereview-static-receipt01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/C-prereview/native-witness-prereview01.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/boundaries171/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/business183/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/business183/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/01-cost-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/02-cost-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/03-bid-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/04-bid-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/05-pricing-first-direct-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/06-pricing-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/07-three-workspaces-read-permission-no-sensitive.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/08-cost-money-number-and-post-get.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/09-cost-large-9007.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/10-cost-large-9999.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/11-cost-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/12-bid-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/13-project_technical_cost_package-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/14-project_bid_commercial_process-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/15-contact-gender-controller-drop.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/16-contact-email-dto-db-length.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/17-contact-audit-failure-atomicity.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/18-followup-create-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/19-followup-no-next-completes-old-stream.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/20-followup-second-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/21-followup-replace-two-way-fk.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/22-followup-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/23-followup-todo-insert-failure-boundary.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/24-contacts-inactive-vs-followup-active.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/core24/sql-order-safe01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/edges129/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/edges129/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/01-extra-cost-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/02-extra-cost-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/03-extra-bid-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/04-extra-bid-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/05-extra-pricing-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/06-extra-pricing-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/07-extra-contact-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/08-extra-followup-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/09-extra-pricing-cost-uppercase-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/10-extra-pricing-bid-uppercase-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/11-extra-direct-pricing-bypasses-lost-bid-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/12-extra-contact-update-denial-rolls-back-prior-audit.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/13-extra-followup-insert-denial-rolls-back-prior-todo.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/14-extra-followup-replace-same-owner-no-next.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/15-extra-followup-replace-different-owner.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/16-extra-followup-replace-null-owner.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/17-extra-null-owner-create-leaves-old-stream-open.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/18-extra-followup-replace-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/19-extra-followup-dictionary33-varchar32.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/20-extra-contact-two-readers-CAS.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/21-extra-followup-replace-two-readers-CAS.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/extra21/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/observer45/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/observer45/exact-numeric-and-side-effects01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/native/temporal84/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/boundaries171/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/boundaries171/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/business183/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/business183/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/01-cost-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/02-cost-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/03-bid-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/04-bid-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/05-pricing-first-direct-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/06-pricing-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/07-three-workspaces-read-permission-no-sensitive.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/08-cost-money-number-and-post-get.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/09-cost-large-9007.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/10-cost-large-9999.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/11-cost-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/12-bid-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/13-project_technical_cost_package-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/14-project_bid_commercial_process-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/15-contact-gender-controller-drop.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/16-contact-email-dto-db-length.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/17-contact-audit-failure-atomicity.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/18-followup-create-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/19-followup-no-next-completes-old-stream.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/20-followup-second-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/21-followup-replace-two-way-fk.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/22-followup-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/23-followup-todo-insert-failure-boundary.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/24-contacts-inactive-vs-followup-active.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/core24/sql-order-safe01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/coverage1124/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/edges129/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/edges129/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/01-extra-cost-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/02-extra-cost-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/03-extra-bid-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/04-extra-bid-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/05-extra-pricing-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/06-extra-pricing-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/07-extra-contact-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/08-extra-followup-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/09-extra-pricing-cost-uppercase-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/10-extra-pricing-bid-uppercase-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/11-extra-direct-pricing-bypasses-lost-bid-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/12-extra-contact-update-denial-rolls-back-prior-audit.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/13-extra-followup-insert-denial-rolls-back-prior-todo.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/14-extra-followup-replace-same-owner-no-next.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/15-extra-followup-replace-different-owner.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/16-extra-followup-replace-null-owner.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/17-extra-null-owner-create-leaves-old-stream-open.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/18-extra-followup-replace-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/19-extra-followup-dictionary33-varchar32.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/20-extra-contact-two-readers-CAS.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/21-extra-followup-replace-two-readers-CAS.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/extra21/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/observer45/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/observer45/exact-numeric-and-side-effects01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/actual/rust/temporal84/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/candidate/openapi.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/candidate/release-proof01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-initial/admin-build.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-initial/admin-unit-tests.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-initial/native-and-admin-lint.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-initial/native-unit-tests.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-resume/admin-unit-tests-utc.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-resume/original-migration-check.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-resume/original-schema-dump.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/native-resume/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/manifest01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks-resume02-admin-unit-tests-utc.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks-resume02-original-migration-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks-resume02-original-schema-dump.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks01-admin-build.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks01-admin-unit-tests.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks01-native-and-admin-lint.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/original-stdout/shared-checks01-native-unit-tests.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/rust07/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/rust07/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/rust07/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/rust07/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/rust07/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/checks/rust07/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/boundaries-compare-parity01-raw-errors02-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/business-compare-parity01-raw-errors02-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/business-raw-errors02-rust-01/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/business-raw-errors02-rust-01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/cohort-terminal-raw-errors01-nest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/cohort-terminal-raw-errors01-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/cohort-terminal-raw-errors02-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/consume-targets-raw-errors02-rust-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/coverage-compare-parity01-07.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/boundaries.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/business-run.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/consume-targets.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/coverage.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/edge-run.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/extract-additional-sql.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/observe-actual.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/raw-errors.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/routing-probe.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/semantics-extra02.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/semantics01.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/temporal.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/01-extract-additional-sql.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/02-extract-additional-sql.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/03-compare-coverage.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/04-compare-events.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/05-compare-events.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/06-compare-events.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/07-compare-events.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/08-compare-raw-errors.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/edges-compare-parity01-raw-errors02-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/edges-raw-errors02-rust-01/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/edges-raw-errors02-rust-01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/environment-terminal02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/observer-raw-errors02-rust-02/SQL-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/observer-raw-errors02-rust-02/exact-numeric-and-side-effects01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/owned-observation-before-terminal-raw-errors01-nest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/owned-observation-before-terminal-raw-errors01-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/owned-observation-before-terminal-raw-errors02-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/raw-errors-compare-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/raw-errors-compare-02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/raw-errors-raw-errors01-nest-01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/raw-errors-raw-errors01-rust-01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/raw-errors-raw-errors02-rust-01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/routing-probe-raw-errors02-rust-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/runtime/nest-raw-errors01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/runtime/rust-raw-errors01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/runtime/rust-raw-errors02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/openapi.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/release-proof01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check08/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check08/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check08/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check09/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check09/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check09/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check09/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check09/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/rust-check09/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/01-extra-cost-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/02-extra-cost-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/03-extra-bid-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/04-extra-bid-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/05-extra-pricing-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/06-extra-pricing-workspace-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/07-extra-contact-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/08-extra-followup-list-pending-session.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/09-extra-pricing-cost-uppercase-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/10-extra-pricing-bid-uppercase-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/11-extra-direct-pricing-bypasses-lost-bid-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/12-extra-contact-update-denial-rolls-back-prior-audit.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/13-extra-followup-insert-denial-rolls-back-prior-todo.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/14-extra-followup-replace-same-owner-no-next.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/15-extra-followup-replace-different-owner.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/16-extra-followup-replace-null-owner.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/17-extra-null-owner-create-leaves-old-stream-open.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/18-extra-followup-replace-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/19-extra-followup-dictionary33-varchar32.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/20-extra-contact-two-readers-CAS.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/21-extra-followup-replace-two-readers-CAS.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/01-cost-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/02-cost-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/03-bid-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/04-bid-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/05-pricing-first-direct-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/06-pricing-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/07-three-workspaces-read-permission-no-sensitive.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/08-cost-money-number-and-post-get.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/09-cost-large-9007.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/10-cost-large-9999.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/11-cost-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/12-bid-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/13-project_technical_cost_package-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/14-project_bid_commercial_process-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/15-contact-gender-controller-drop.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/16-contact-email-dto-db-length.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/17-contact-audit-failure-atomicity.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/18-followup-create-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/19-followup-no-next-completes-old-stream.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/20-followup-second-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/21-followup-replace-two-way-fk.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/22-followup-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/23-followup-todo-insert-failure-boundary.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/24-contacts-inactive-vs-followup-active.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/sql-order-safe01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/01-cost-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/02-cost-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/03-bid-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/04-bid-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/05-pricing-first-direct-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/06-pricing-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/07-three-workspaces-read-permission-no-sensitive.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/08-cost-money-number-and-post-get.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/09-cost-large-9007.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/10-cost-large-9999.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/11-cost-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/12-bid-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/13-project_technical_cost_package-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/14-project_bid_commercial_process-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/15-contact-gender-controller-drop.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/16-contact-email-dto-db-length.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/17-contact-audit-failure-atomicity.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/18-followup-create-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/19-followup-no-next-completes-old-stream.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/20-followup-second-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/21-followup-replace-two-way-fk.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/22-followup-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/23-followup-todo-insert-failure-boundary.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/24-contacts-inactive-vs-followup-active.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/sql-order-safe01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/01-cost-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/02-cost-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/03-bid-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/04-bid-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/05-pricing-first-direct-no-reference.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/06-pricing-second-version.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/07-three-workspaces-read-permission-no-sensitive.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/08-cost-money-number-and-post-get.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/09-cost-large-9007.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/10-cost-large-9999.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/11-cost-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/12-bid-child-insert-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/13-project_technical_cost_package-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/14-project_bid_commercial_process-concurrent-first.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/15-contact-gender-controller-drop.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/16-contact-email-dto-db-length.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/17-contact-audit-failure-atomicity.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/18-followup-create-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/19-followup-no-next-completes-old-stream.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/20-followup-second-reminder.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/21-followup-replace-two-way-fk.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/22-followup-postsave-audit-failure.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/23-followup-todo-insert-failure-boundary.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/24-contacts-inactive-vs-followup-active.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/sql-order-safe01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/temporal-compare-parity01-raw-errors02-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/correction06/temporal-raw-errors02-rust-01/report01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/archive-action-source.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/g3-original-inventory.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/g4-metadata-delta01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/path-audit01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/path-audit01.txt
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/public-credential-scan02.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/boundaries-compare-parity01-parity02-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/boundaries-parity01-nest-01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/boundaries-parity01-nest-02/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/boundaries-parity01-nest-03/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/boundaries-parity01-nest-04/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/http.rs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/service.rs (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/coverage-compare-parity01-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/coverage-compare-parity01-02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/coverage-compare-parity01-03.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/coverage-compare-parity01-04.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check01/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check01/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check02/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check02/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check02/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check02/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check02/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check02/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check03/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check03/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check03/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check03/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check03/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check03/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check04/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check04/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check04/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check04/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check04/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check04/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check05/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check05/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check05/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check05/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check05/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check05/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check06/cargo-check.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check06/cargo-clippy.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check06/cargo-fmt.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check06/cargo-release.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check06/cargo-test.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/rust-check06/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/temporal-compare-parity01-parity03-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native02/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native02/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native03/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native03/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native04/customer-followup.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native04/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-linux-native04/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-prep-linux-native01-failed01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-windows-rust02/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/historical/ui-windows-rust02/report01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/current-online-snapshot.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-57-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-57-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-57-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-85-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-85-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-85-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-92-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-92-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/issue-92-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/read-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready-resume02/receipt.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-88-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-88-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-88-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-88-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-88-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-89-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-89-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-89-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-89-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-89-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-90-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-90-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-90-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-90-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-90-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-91-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-91-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-91-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-91-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-91-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-92-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-92-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-92-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/candidate03-online-ready/issue-92-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/after-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/after-stderr-original.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/after-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/before-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/before-stderr-original.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/before-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/mutation-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/mutation-stderr-original.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/mutation-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-pass-online01/receipt.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-88-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-88-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-88-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-89-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-89-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-89-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-90-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-90-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-90-body-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-90-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-90-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-91-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-91-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-91-body-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-91-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-91-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-92-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-92-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-92-body-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-92-comment-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/issue-92-comment.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/parent-57-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/parent-57-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/parent-57-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/parent-85-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/parent-85-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/parent-85-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g3-ready-resume02/receipt.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/issue-57-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/issue-57-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/issue-57-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/issue-85-after.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/issue-85-before.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/issue-85-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/parent-progress-current01/receipt.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/boundaries-compare-parity01-parity04-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/business-compare-parity01-parity04-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/client-active-check01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/client-active-check01.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/client-frozen-check03.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/client-frozen-check03.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/client-frozen-check05.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/client-frozen-check05.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/cohort-terminal-parity01-nest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/cohort-terminal-parity01-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/cohort-terminal-parity02-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/cohort-terminal-parity03-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/cohort-terminal-parity04-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/consume-targets-parity01-nest-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/consume-targets-parity04-rust-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/coverage-compare-parity01-06.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/edges-compare-parity01-parity04-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/environment-terminal01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/native-witness-terminal01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/owned-observation-before-terminal-parity01-nest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/owned-observation-before-terminal-parity04-rust.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/root/final-md-check01.log (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/routing-probe-parity01-nest-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/routing-probe-parity04-rust-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/runtime/windows-native-terminal01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/runtime/windows-native-terminal02-reconciliation.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/schema-classification01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/temporal-compare-parity01-parity04-01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/original/windows-lease-terminal01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-native05-admin/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-native05-admin/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-native05-admin/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-native05-readonly/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-native05-readonly/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-native05-readonly/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-rust03-admin/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-rust03-admin/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-rust03-admin/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-rust03-readonly/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-rust03-readonly/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-linux-rust03-readonly/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-native01-admin/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-native01-admin/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-native01-admin/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-native01-readonly/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-native01-readonly/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-native01-readonly/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-rust03-admin/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-rust03-admin/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-rust03-admin/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-rust03-readonly/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-rust03-readonly/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-extra-windows-rust03-readonly/supplement.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-native05/customer-followup.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-native05/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-native05/project-workspaces.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-native05/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-rust03/customer-followup.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-rust03/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-rust03/project-workspaces.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-linux-rust03/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-native01/customer-followup.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-native01/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-native01/project-workspaces.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-native01/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-rust03/customer-followup.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-rust03/intent.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-rust03/project-workspaces.png (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/evidence/ui/ui-windows-rust03/report01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/final-source-and-validation-proof01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/fixed-commit-origin-map01.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g0-delivery-status-original.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g0-issue-registration-original.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g0-scope-original.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g1-gate-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g1-input-manifest01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g1-input-origin-map.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g1-native-concurrency-addendum01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g1-online-freeze-receipt01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-candidate-manifest01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-candidate-manifest02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-candidate-manifest03.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-delivery-audit01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-evidence-origin-map01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-gate-authority01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/g3-independent-origin-map02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/acceptance-matrix.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/artifact-receipt.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/input-review.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/interfaces-proposal.txt (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/prepare-source-input.ps1 (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/snapshots/native-source-excerpts.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/snapshots/openapi-six-operations.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-a/source-manifest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-b/acceptance-matrix.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-b/input-review.txt (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-b/source-manifest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-d/acceptance-matrix.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-d/acceptance-matrix.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-d/build-source-manifest.ps1 (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-d/delivery-hashes.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-d/input-review.txt (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/input-d/source-manifest.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/joint-native-decisions01.json (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-corrective-checkpoint01.md (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-corrective-checkpoint02.md (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-g3-checkpoint.md (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-g3-checkpoint02.md (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-next16-baseline.md (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-scope-and-dependencies.md (100%)
+ rename docs/design/{ => archive/slices/rust-r3cdefg/lifecycle}/rust-r3cdefg-validation-boundaries.md (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/main-integration-proof01.json
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/SQL-order-authority02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/additional-SQL-authority03.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/additional-SQL-authority04.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/additional-SQL-original02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/additional-error-classification05.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/additional-observations02.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/exact-numeric-text-and-audit03.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/initial-incomplete-SQL-extraction01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/original-error-classification03.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/original-observations01.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/schema-catalog-original.json (100%)
+ rename docs/design/{ => archive/slices}/rust-r3cdefg/native/witness-terminal01.json (100%)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json
+ create mode 100644 tools/rust-r3cdefg/archive-paths.mjs
+ create mode 100644 tools/rust-r3cdefg/verify-archive.mjs
